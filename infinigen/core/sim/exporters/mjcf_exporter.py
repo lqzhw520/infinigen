@@ -379,6 +379,24 @@ class MJCFBuilder(SimBuilder):
             joint.set("axis", exputils.array_to_string(R @ axis))
 
             # set the min and max range for the joint values
+            # Fix: if range is zero, set reasonable defaults based on joint type
+            if np.isclose(range_max, 0.0) and np.isclose(range_min, 0.0):
+                joint_type = joint.get("type")
+                if joint_type == "hinge":
+                    # Default hinge range: 0 to π (180 degrees)
+                    range_min = 0.0
+                    range_max = np.pi
+                    print(
+                        f"Warning: Joint {joint_name} has zero range, setting default [0, π] for hinge"
+                    )
+                elif joint_type == "slide":
+                    # Default slide range: -0.5 to 0.5 meters
+                    range_min = -0.5
+                    range_max = 0.5
+                    print(
+                        f"Warning: Joint {joint_name} has zero range, setting default [-0.5, 0.5] for slide"
+                    )
+
             if not (np.isclose(range_max, 0.0) and np.isclose(range_min, 0.0)):
                 joint.set("limited", "true")
                 joint.set("range", f"{range_min} {range_max}")

@@ -192,9 +192,9 @@ def get_coord_frame(obj: bpy.types.Object, prefix: str, idx: int, offset: np.nda
 
     coord_frame = vertices - offset
     coord_frame = coord_frame.T
-    assert np.allclose(coord_frame @ coord_frame.T, np.eye(3), atol=1e-2), (
-        f"Coordinate frame not orthonormal:\n {coord_frame}"
-    )
+    assert np.allclose(
+        coord_frame @ coord_frame.T, np.eye(3), atol=1e-2
+    ), f"Coordinate frame not orthonormal:\n {coord_frame}"
 
     return coord_frame
 

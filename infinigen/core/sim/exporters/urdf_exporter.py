@@ -30,6 +30,7 @@ from infinigen.core.sim.kinematic_node import (
 )
 from infinigen.core.sim.physics import joint_dynamics as jointdyna
 from infinigen.core.sim.physics import material_physics as mtlphysics
+from infinigen.core.sim.physics import thin_shell_inertia as thinshell
 from infinigen.tools.export import export_sim_ready
 
 
@@ -158,19 +159,23 @@ class URDFBuilder(SimBuilder):
             vol = bm.calc_volume(signed=False)
             bm.free()
 
-            inertial = create_element("inertial")
-            mass = create_element("mass", value=str(mat_physics["density"] * vol))
-
-            t = trimesh.Trimesh(
-                vertices=[list(vertex.co) for vertex in mesh.data.vertices],
-                faces=[
-                    list(triangle.vertices) for triangle in mesh.data.loop_triangles
-                ],
+            # R-Deep-1 修复: 使用稳健惯性计算 (薄壳修正)
+            vertices = np.array([list(vertex.co) for vertex in mesh.data.vertices])
+            faces = np.array([
+                list(triangle.vertices) for triangle in mesh.data.loop_triangles
+            ])
+            
+            robust_mass, I_tensor, com = thinshell.calculate_robust_inertia(
+                vertices=vertices,
+                faces=faces,
+                density=mat_physics["density"],
+                volume=vol,
             )
-            t.mass_properties["density"] = mass / t.volume
-            I_tensor = t.moment_inertia
-            I_tensor = np.clip(I_tensor, a_min=0, a_max=None)
-            inertial.append(mass)
+            
+            inertial = create_element("inertial")
+            mass_element = create_element("mass", value=str(robust_mass))
+            inertial.append(mass_element)
+            
             ixx, ixy, ixz = I_tensor[0]
             _, iyy, iyz = I_tensor[1]
             _, _, izz = I_tensor[2]
@@ -186,7 +191,6 @@ class URDFBuilder(SimBuilder):
             )
             inertial.append(inertia)
 
-            com = t.center_mass
             origin = create_element("origin", xyz=exputils.array_to_string(com))
             inertial.append(origin)
 
@@ -217,44 +221,75 @@ class URDFBuilder(SimBuilder):
         aabb_center = exputils.get_aabb_center(assets)
 
         # calculate the absolute joint position
-        if len(joint_nodes) > 1:
-            raise NotImplementedError(
-                "Multi jointed bodies not supported yet in URDF exporter."
-            )
-
+        # R6 修复: 支持多关节连接 (创建中间 link)
         if len(joint_nodes) > 0:
-            # add any joint connecting the current link to its parent link
-            joint_node = joint_nodes[0]
+            current_parent_link = parent_link
+            current_pos_offset = pos_offset
+            
+            for joint_idx, joint_node in enumerate(joint_nodes):
+                # 确定当前关节的子 link
+                is_last_joint = (joint_idx == len(joint_nodes) - 1)
+                
+                if is_last_joint:
+                    # 最后一个关节连接到实际的 child link
+                    current_child_link = link_name
+                else:
+                    # 中间关节连接到一个无质量的中间 link
+                    intermediate_link_name = f"link_{self.link_count}_intermediate_{joint_idx}"
+                    self.link_count += 1
+                    
+                    # 创建无质量中间 link
+                    intermediate_link = create_element("link", name=intermediate_link_name)
+                    # 添加最小惯性以保持 URDF 有效性
+                    inertial = create_element("inertial")
+                    inertial.append(create_element("mass", value="0.001"))  # 1g 虚拟质量
+                    inertial.append(create_element(
+                        "inertia",
+                        ixx="1e-9", ixy="0", ixz="0",
+                        iyy="1e-9", iyz="0", izz="1e-9"
+                    ))
+                    inertial.append(create_element("origin", xyz="0 0 0"))
+                    intermediate_link.append(inertial)
+                    self.urdf.append(intermediate_link)
+                    
+                    current_child_link = intermediate_link_name
+                    self.exclude_links.add((current_parent_link, current_child_link))
+                
+                # 获取关节属性
+                joint_name = self.metadata[joint_node.idn]["joint label"]
+                unique_joint_idx = self.joint_freq[joint_name]
+                unique_joint_name = f"{joint_name}_{self.joint_freq[joint_name]}"
+                self.joint_freq[joint_name] += 1
 
-            joint_name = self.metadata[joint_node.idn]["joint label"]
-            unique_joint_idx = self.joint_freq[joint_name]
-            unique_joint_name = f"{joint_name}_{self.joint_freq[joint_name]}"
-            self.joint_freq[joint_name] += 1
+                coord_frame = R = exputils.get_coord_frame(
+                    self.blend_obj, joint_node.idn, unique_joint_idx, aabb_center
+                )
 
-            coord_frame = R = exputils.get_coord_frame(
-                self.blend_obj, joint_node.idn, unique_joint_idx, aabb_center
-            )
+                poschild, axis, range_min, range_max = exputils.get_joint_properties(
+                    self.blend_obj, joint_node.idn
+                )
+                abs_joint_pos = aabb_center + R @ poschild
 
-            poschild, axis, range_min, range_max = exputils.get_joint_properties(
-                self.blend_obj, joint_node.idn
-            )
-            abs_joint_pos = aabb_center + R @ poschild
+                joint_properties = jointdyna.get_joint_properties(joint_name, joint_params)
 
-            joint_properties = jointdyna.get_joint_properties(joint_name, joint_params)
-
-            self._create_joint(
-                name=unique_joint_name,
-                joint_type=joint_node.joint_type,
-                origin=abs_joint_pos - pos_offset,
-                parent_link=parent_link,
-                child_link=link_name,
-                min_range=range_min,
-                max_range=range_max,
-                axis=coord_frame @ axis,
-                damping=joint_properties["damping"],
-                friction=joint_properties["friction"],
-            )
-            pos_offset = abs_joint_pos
+                self._create_joint(
+                    name=unique_joint_name,
+                    joint_type=joint_node.joint_type,
+                    origin=abs_joint_pos - current_pos_offset,
+                    parent_link=current_parent_link,
+                    child_link=current_child_link,
+                    min_range=range_min,
+                    max_range=range_max,
+                    axis=coord_frame @ axis,
+                    damping=joint_properties["damping"],
+                    friction=joint_properties["friction"],
+                )
+                
+                # 更新下一个关节的 parent 和 offset
+                current_parent_link = current_child_link
+                current_pos_offset = abs_joint_pos
+            
+            pos_offset = current_pos_offset
 
         # set the position of the links geometries relative to the joint
         # TODO (ajoshi): Clean this up.

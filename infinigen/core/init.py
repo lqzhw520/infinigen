@@ -26,6 +26,35 @@ from infinigen.core.util.organization import Task
 
 logger = logging.getLogger(__name__)
 
+# Blender 版本要求 (R5: 版本兼容性)
+REQUIRED_BLENDER_VERSION = (4, 0, 0)
+
+
+def verify_blender_version() -> bool:
+    """
+    验证 Blender 版本是否满足最低要求 (R5)
+    
+    Returns:
+        True 如果版本满足要求
+        
+    Raises:
+        RuntimeError 如果版本不满足要求
+    """
+    current_version = bpy.app.version
+    
+    if current_version < REQUIRED_BLENDER_VERSION:
+        required_str = ".".join(map(str, REQUIRED_BLENDER_VERSION))
+        current_str = ".".join(map(str, current_version))
+        raise RuntimeError(
+            f"Blender 版本过低: 当前 {current_str}, 需要 >= {required_str}。\n"
+            f"Box URDF 生成功能需要 Blender 4.0+ 的几何节点特性。\n"
+            f"请从 https://www.blender.org/download/ 下载更新版本。"
+        )
+    
+    logger.debug(f"Blender 版本检查通过: {'.'.join(map(str, current_version))}")
+    return True
+
+
 CYCLES_GPUTYPES_PREFERENCE = [
     # key must be a valid cycles device_type
     # ordering indicate preference - earlier device types will be used over later if both are available
@@ -338,7 +367,12 @@ def configure_blender(
     render_engine="CYCLES",
     motion_blur=False,
     motion_blur_shutter=0.5,
+    check_version=True,
 ):
+    # R5: Blender 版本检查
+    if check_version:
+        verify_blender_version()
+    
     bpy.context.preferences.system.scrollback = 0
     bpy.context.preferences.edit.undo_steps = 0
 

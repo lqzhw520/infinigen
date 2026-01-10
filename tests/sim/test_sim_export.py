@@ -43,12 +43,12 @@ def verify_mjcf_output(mjcf):
         if joint.get("name").startswith("joint"):
             joints_missing.append(f"{ET.tostring(joint, encoding='unicode')}")
 
-    assert (
-        len(geom_missing) == 0
-    ), f"{len(geom_missing)} geoms are missing names: {geom_missing}"
-    assert (
-        len(joints_missing) == 0
-    ), f"{len(joints_missing)} joints are missing names: {joints_missing}"
+    assert len(geom_missing) == 0, (
+        f"{len(geom_missing)} geoms are missing names: {geom_missing}"
+    )
+    assert len(joints_missing) == 0, (
+        f"{len(joints_missing)} joints are missing names: {joints_missing}"
+    )
 
 
 def verify_urdf_output(urdf):

@@ -55,9 +55,9 @@ class TestBlenderAssets:
         butil.apply_modifiers(obj)
         mesh = obj.to_mesh()
 
-        assert (
-            len(mesh.vertices) < 2500
-        ), f"Mean Vertex Count: {len(mesh.vertices)} > 2500."
+        assert len(mesh.vertices) < 2500, (
+            f"Mean Vertex Count: {len(mesh.vertices)} > 2500."
+        )
 
     def test_asset_xyposition(self, asset_name, seed, cached_assets):
         """Test description: Ensures the asset lies on the XY plane. When spawning the asset, the lowest point of the asset should be at z=0, i.e. the asset should be resting on the ground plane."""
@@ -72,18 +72,18 @@ class TestBlenderAssets:
 
         z_coo = min([v.co.z for v in mesh.vertices])
 
-        assert (
-            -1e-5 < z_coo < 1e-5
-        ), f"{asset_name} not on xy-plane (1e-5 margin). Seed {seed}"
+        assert -1e-5 < z_coo < 1e-5, (
+            f"{asset_name} not on xy-plane (1e-5 margin). Seed {seed}"
+        )
 
     def test_single_modifier(self, asset_name, seed, cached_assets):
         obj = butil.deep_clone_obj(
             cached_assets[(asset_name, seed)], keep_modifiers=True
         )
         """Test description: Ensures that asset only has a single modifier."""
-        assert (
-            len(obj.modifiers) == 1
-        ), f"{asset_name} must only use a single modifier (seed {seed})."
+        assert len(obj.modifiers) == 1, (
+            f"{asset_name} must only use a single modifier (seed {seed})."
+        )
 
     def test_same_face_normals(self, asset_name, seed, cached_assets):
         """Test description: Ensures that all face normals are pointing in the same direction."""
@@ -107,9 +107,9 @@ class TestBlenderAssets:
         consistent = mesh.is_winding_consistent
         bm.free()
 
-        assert (
-            consistent
-        ), "Mesh is not consistent. This indicates that some face normals are flipped."
+        assert consistent, (
+            "Mesh is not consistent. This indicates that some face normals are flipped."
+        )
 
     def test_latest_node(self, asset_name, seed, cached_assets):
         """Test description: Ensures that assets are using the latest nodes."""
@@ -132,13 +132,13 @@ class TestBlenderAssets:
         for node in nodes:
             if is_joint(node):
                 inputs = node.inputs
-                assert len(inputs) == len(
-                    expected_joint_inputs
-                ), f"{asset_name} is not using the latest nodes."
+                assert len(inputs) == len(expected_joint_inputs), (
+                    f"{asset_name} is not using the latest nodes."
+                )
                 for i in range(len(inputs)):
-                    assert (
-                        inputs[i].name == expected_joint_inputs[i]
-                    ), f"{asset_name} is not using the latest nodes."
+                    assert inputs[i].name == expected_joint_inputs[i], (
+                        f"{asset_name} is not using the latest nodes."
+                    )
 
     def test_no_instances(self, asset_name, seed, cached_assets):
         """Test description: Ensures that the asset does not having any instances."""
@@ -289,5 +289,9 @@ class TestBlenderAssets:
             parent_to_non_duplicate,
             child_to_non_duplicate,
         ) in joint_duplicate_info:
-            assert not parent_to_non_duplicate, f"Asset {asset_name}, joint '{joint_name}': Parent input for joint '{joint_name}' is used for node that is not 1) duplicate. 2) another joint."
-            assert not child_to_non_duplicate, f"Asset {asset_name}, joint '{joint_name}': Child input for joint '{joint_name}' is used for node that is not 1) duplicate. 2) another joint."
+            assert not parent_to_non_duplicate, (
+                f"Asset {asset_name}, joint '{joint_name}': Parent input for joint '{joint_name}' is used for node that is not 1) duplicate. 2) another joint."
+            )
+            assert not child_to_non_duplicate, (
+                f"Asset {asset_name}, joint '{joint_name}': Child input for joint '{joint_name}' is used for node that is not 1) duplicate. 2) another joint."
+            )

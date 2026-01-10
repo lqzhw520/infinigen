@@ -56,7 +56,8 @@ if __name__ == "__main__":
         cmd_args += ["--python", str(path)]
 
     elif args.script is not None:
-        cmd_args += HEADLESS_ARGS + ["--python", args.script]
+        # 先运行 path_append 脚本来设置 PYTHONPATH，然后运行用户脚本
+        cmd_args += HEADLESS_ARGS + ["--python", str(APPEND_SYSPATH_SCRIPT), "--python", args.script]
     else:
         cmd_args += ["--python", str(IMPORT_INFINIGEN_SCRIPT)]
 

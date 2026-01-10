@@ -22,6 +22,11 @@ def sample_mat_physics(mat_name: str) -> Dict[str, float] | None:
         mat_key = "plastic"
     elif "wood" in mat_name_lower:
         mat_key = "wood"
+    # P2.1-T2: 添加盒子材质支持
+    elif "cardboard" in mat_name_lower:
+        mat_key = "cardboard"
+    elif "corrugated" in mat_name_lower:
+        mat_key = "corrugated"
     else:
         # Use MATERIAL_DEFAULTS for unknown materials
         material_instance = MATERIALS.get(mat_name_lower, BaseMaterial)()

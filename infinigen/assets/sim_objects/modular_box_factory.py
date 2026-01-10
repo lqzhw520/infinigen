@@ -98,9 +98,14 @@ class BoxJointConfig:
 
 @dataclass
 class BoxMaterialConfig:
-    """盒子材质配置"""
+    """盒子材质配置
+    
+    密度参考 material_definitions.py:
+    - Cardboard: 200-400 kg/m³
+    - Corrugated: 100-300 kg/m³
+    """
     material_type: str = "cardboard"  # cardboard, corrugated, plastic, wood
-    density: float = 700.0  # kg/m³
+    density: float = 300.0  # kg/m³ (P2.1-T2: 修正为 cardboard 中值)
     color: Tuple[float, float, float] = (0.6, 0.5, 0.4)  # RGB
 
 
@@ -197,20 +202,28 @@ class ModularBoxFactory(AssetFactory, ABC):
         )
     
     def sample_material(self) -> BoxMaterialConfig:
-        """采样材质配置 (可覆盖以自定义)"""
+        """采样材质配置 (可覆盖以自定义)
+        
+        密度参考 material_definitions.py 中的定义:
+        - Cardboard: 200-400 kg/m³
+        - Corrugated: 100-300 kg/m³
+        - Plastic: 900-1400 kg/m³
+        - Wood: 500-900 kg/m³
+        """
         material_types = ["cardboard", "corrugated"]
         selected = material_types[randint(0, len(material_types))]
         
+        # P2.1-T2 修复: 密度值对齐 material_definitions.py
         density_map = {
-            "cardboard": uniform(650, 800),
-            "corrugated": uniform(150, 300),
-            "plastic": uniform(900, 1200),
-            "wood": uniform(400, 800),
+            "cardboard": uniform(200, 400),    # 卡纸: 200-400 kg/m³
+            "corrugated": uniform(100, 300),   # 瓦楞纸: 100-300 kg/m³
+            "plastic": uniform(900, 1400),     # 塑料: 900-1400 kg/m³
+            "wood": uniform(500, 900),         # 木材: 500-900 kg/m³
         }
         
         return BoxMaterialConfig(
             material_type=selected,
-            density=density_map.get(selected, 700.0),
+            density=density_map.get(selected, 300.0),  # 默认使用 cardboard 中值
         )
     
     def sample_parameters(self) -> BoxParameters:
@@ -286,7 +299,35 @@ class ModularBoxFactory(AssetFactory, ABC):
             ng_inputs=ng_inputs,
         )
         
+        # P2.1-T2 修复: 为对象添加命名材质以便 URDF 导出器识别
+        self._apply_box_material(obj, params.material)
+        
         return obj
+    
+    def _apply_box_material(self, obj, material_config: BoxMaterialConfig):
+        """为对象应用正确命名的材质，以便 URDF 导出器使用正确的物理属性"""
+        # 创建或获取材质
+        mat_name = f"shader_{material_config.material_type}"
+        
+        if mat_name in bpy.data.materials:
+            mat = bpy.data.materials[mat_name]
+        else:
+            mat = bpy.data.materials.new(name=mat_name)
+            mat.use_nodes = True
+            
+            # 设置基础颜色
+            if mat.node_tree:
+                bsdf = mat.node_tree.nodes.get("Principled BSDF")
+                if bsdf:
+                    bsdf.inputs["Base Color"].default_value = (*material_config.color, 1.0)
+        
+        # 确保对象有 mesh 数据后再应用材质
+        # 注意: 在几何节点应用前，对象可能只是顶点
+        # 材质会在 URDF 导出时传递给生成的 mesh
+        if obj.data.materials:
+            obj.data.materials[0] = mat
+        else:
+            obj.data.materials.append(mat)
     
     def _get_or_create_nodegroup(self, params: BoxParameters):
         """获取或创建几何节点组"""
@@ -465,7 +506,7 @@ class TuckEndBoxFactory(ModularBoxFactory):
         )
         
         translated = nw.new_node(
-            Nodes.TransformGeometry,
+            Nodes.Transform,
             input_kwargs={
                 "Geometry": lid,
                 "Translation": nw.new_node(

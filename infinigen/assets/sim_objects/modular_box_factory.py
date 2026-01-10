@@ -328,6 +328,12 @@ class ModularBoxFactory(AssetFactory, ABC):
             obj.data.materials[0] = mat
         else:
             obj.data.materials.append(mat)
+
+        # 将物理密度写入对象自定义属性，URDF 导出器可作为回退使用
+        try:
+            obj["physics_density"] = float(material_config.density)
+        except Exception:
+            pass
     
     def _get_or_create_nodegroup(self, params: BoxParameters):
         """获取或创建几何节点组"""
@@ -383,8 +389,9 @@ class TuckEndBoxFactory(ModularBoxFactory):
                 label="top_lid",
                 position=(0, dims.depth / 2, dims.height / 2),
                 axis=(1, 0, 0),
-                min_angle=0,
-                max_angle=np.pi * 0.9,  # 最大 162°
+                # 顶盖向外打开：负角度
+                min_angle=-np.pi * 0.9,
+                max_angle=0.0,
                 damping=0.5,
             ),
             BoxJointConfig(
@@ -392,14 +399,46 @@ class TuckEndBoxFactory(ModularBoxFactory):
                 label="bottom_lid",
                 position=(0, -dims.depth / 2, -dims.height / 2),
                 axis=(1, 0, 0),
-                min_angle=-np.pi * 0.9,
-                max_angle=0,
+                # 底盖向外打开：正角度
+                min_angle=0.0,
+                max_angle=np.pi * 0.9,
                 damping=0.5,
             ),
         ]
+
+    def sample_dimensions(self) -> BoxDimensions:
+        """
+        双插盒（纸盒直筒）更接近 boxes-style.jpg #1：
+        - 高度通常明显大于宽/深
+        - 厚度更薄（卡纸）
+        """
+        return BoxDimensions(
+            width=uniform(0.06, 0.18),
+            depth=uniform(0.05, 0.14),
+            height=uniform(0.18, 0.45),
+            thickness=uniform(0.0008, 0.002),
+        )
     
+    def _params_to_ng_inputs(self, params: BoxParameters) -> Dict:
+        """转换参数为节点组输入"""
+        dims = params.dimensions
+        # 计算铰链位置 (本地坐标)
+        # 顶盖铰链: (0, D/2, H/2)
+        top_pos = (0.0, dims.depth / 2, dims.height / 2)
+        # 底盖铰链: (0, -D/2, -H/2)
+        bottom_pos = (0.0, -dims.depth / 2, -dims.height / 2)
+        
+        return {
+            "Width": dims.width,
+            "Depth": dims.depth,
+            "Height": dims.height,
+            "Thickness": dims.thickness,
+            "TopHingePos": top_pos,
+            "BottomHingePos": bottom_pos,
+        }
+
     def create_geometry_nodegroup(self, nw: NodeWrangler, params: BoxParameters):
-        """创建双插盒的几何节点组"""
+        """创建双插盒的几何节点组 (直筒 + 上下翻盖)"""
         dims = params.dimensions
         
         # 创建输入节点
@@ -410,41 +449,138 @@ class TuckEndBoxFactory(ModularBoxFactory):
                 ("NodeSocketFloat", "Depth", dims.depth),
                 ("NodeSocketFloat", "Height", dims.height),
                 ("NodeSocketFloat", "Thickness", dims.thickness),
+                ("NodeSocketVector", "TopHingePos", (0.0, 0.0, 0.0)),
+                ("NodeSocketVector", "BottomHingePos", (0.0, 0.0, 0.0)),
             ],
         )
         
-        # 创建主体盒子 (使用 Cube 作为基础)
-        cube = nw.new_node(
+        # ========= 盒体：四面薄壁直筒（无上下盖） =========
+        half_width = nw.new_node(
+            Nodes.Math,
+            input_kwargs={0: group_input.outputs["Width"], 1: 2.0},
+            attrs={"operation": "DIVIDE"},
+        )
+        half_depth = nw.new_node(
+            Nodes.Math,
+            input_kwargs={0: group_input.outputs["Depth"], 1: 2.0},
+            attrs={"operation": "DIVIDE"},
+        )
+        half_thickness = nw.new_node(
+            Nodes.Math,
+            input_kwargs={0: group_input.outputs["Thickness"], 1: 2.0},
+            attrs={"operation": "DIVIDE"},
+        )
+
+        # 外轮廓对齐：墙体中心 = half_dim - half_thickness
+        y_back = nw.new_node(
+            Nodes.Math,
+            input_kwargs={0: half_depth, 1: half_thickness},
+            attrs={"operation": "SUBTRACT"},
+        )
+        y_front = nw.new_node(
+            Nodes.Math,
+            input_kwargs={0: y_back, 1: -1.0},
+            attrs={"operation": "MULTIPLY"},
+        )
+        x_right = nw.new_node(
+            Nodes.Math,
+            input_kwargs={0: half_width, 1: half_thickness},
+            attrs={"operation": "SUBTRACT"},
+        )
+        x_left = nw.new_node(
+            Nodes.Math,
+            input_kwargs={0: x_right, 1: -1.0},
+            attrs={"operation": "MULTIPLY"},
+        )
+
+        # 前后墙：宽 x 厚 x 高
+        wall_fb = nw.new_node(
             Nodes.MeshCube,
             input_kwargs={
                 "Size": nw.new_node(
                     Nodes.CombineXYZ,
                     input_kwargs={
                         "X": group_input.outputs["Width"],
+                        "Y": group_input.outputs["Thickness"],
+                        "Z": group_input.outputs["Height"],
+                    },
+                ),
+            },
+        )
+        front_wall = nw.new_node(
+            Nodes.Transform,
+            input_kwargs={
+                "Geometry": wall_fb,
+                "Translation": nw.new_node(Nodes.CombineXYZ, input_kwargs={"Y": y_front}),
+            },
+        )
+        back_wall = nw.new_node(
+            Nodes.Transform,
+            input_kwargs={
+                "Geometry": wall_fb,
+                "Translation": nw.new_node(Nodes.CombineXYZ, input_kwargs={"Y": y_back}),
+            },
+        )
+
+        # 左右墙：厚 x 深 x 高
+        wall_lr = nw.new_node(
+            Nodes.MeshCube,
+            input_kwargs={
+                "Size": nw.new_node(
+                    Nodes.CombineXYZ,
+                    input_kwargs={
+                        "X": group_input.outputs["Thickness"],
                         "Y": group_input.outputs["Depth"],
                         "Z": group_input.outputs["Height"],
                     },
                 ),
             },
         )
+        left_wall = nw.new_node(
+            Nodes.Transform,
+            input_kwargs={
+                "Geometry": wall_lr,
+                "Translation": nw.new_node(Nodes.CombineXYZ, input_kwargs={"X": x_left}),
+            },
+        )
+        right_wall = nw.new_node(
+            Nodes.Transform,
+            input_kwargs={
+                "Geometry": wall_lr,
+                "Translation": nw.new_node(Nodes.CombineXYZ, input_kwargs={"X": x_right}),
+            },
+        )
+
+        body = nw.new_node(
+            Nodes.JoinGeometry,
+            input_kwargs={"Geometry": [front_wall, back_wall, left_wall, right_wall]},
+        )
         
         # 创建顶盖
-        top_lid = self._create_lid(nw, group_input, is_top=True)
+        top_lid = self._create_lid(nw, group_input, is_top=True, y_offset=0.0)
         
         # 创建底盖
-        bottom_lid = self._create_lid(nw, group_input, is_top=False)
+        # 底盖需要向外侧（-Y）偏移一个 Depth，使其不穿进盒体内部
+        bottom_y_offset = nw.new_node(
+            Nodes.Math,
+            input_kwargs={0: group_input.outputs["Depth"], 1: -1.0},
+            attrs={"operation": "MULTIPLY"},
+        )
+        bottom_lid = self._create_lid(
+            nw, group_input, is_top=False, y_offset=bottom_y_offset
+        )
         
         # 创建铰链关节 (顶盖)
         top_hinge = nw.new_node(
             nodegroup_hinge_joint().name,
             input_kwargs={
                 "Joint Label": "top_lid",
-                "Parent": cube,
+                "Parent": body,
                 "Child": top_lid,
-                "Position": (0, dims.depth / 2, dims.height / 2),
+                "Position": group_input.outputs["TopHingePos"],
                 "Axis": (1, 0, 0),
-                "Min": 0,
-                "Max": np.pi * 0.9,
+                "Min": -np.pi * 0.9,
+                "Max": 0.0,
             },
         )
         
@@ -453,23 +589,28 @@ class TuckEndBoxFactory(ModularBoxFactory):
             nodegroup_hinge_joint().name,
             input_kwargs={
                 "Joint Label": "bottom_lid",
-                "Parent": top_hinge,  # 链接到上一个关节输出
+                "Parent": body,
                 "Child": bottom_lid,
-                "Position": (0, -dims.depth / 2, -dims.height / 2),
+                "Position": group_input.outputs["BottomHingePos"],
                 "Axis": (1, 0, 0),
-                "Min": -np.pi * 0.9,
-                "Max": 0,
+                "Min": 0.0,
+                "Max": np.pi * 0.9,
             },
         )
-        
+
+        joined = nw.new_node(
+            Nodes.JoinGeometry,
+            input_kwargs={"Geometry": [body, top_hinge, bottom_hinge]},
+        )
+
         # 输出
         nw.new_node(
             Nodes.GroupOutput,
-            input_kwargs={"Geometry": bottom_hinge},
+            input_kwargs={"Geometry": joined},
             attrs={"is_active_output": True},
         )
     
-    def _create_lid(self, nw: NodeWrangler, group_input, is_top: bool):
+    def _create_lid(self, nw: NodeWrangler, group_input, is_top: bool, y_offset=0.0):
         """创建盖子几何体"""
         # 盖子是一个薄板
         multiply_thickness = nw.new_node(
@@ -495,15 +636,53 @@ class TuckEndBoxFactory(ModularBoxFactory):
             },
         )
         
-        # 移动到正确位置
+        # 移动到正确位置:
+        # - Z: 顶盖放到上表面之上 (center 在 height/2 + thickness/2)
+        #      底盖放到下表面之下 (center 在 -height/2 - thickness/2)
+        # - Y: 仍以中心对齐，铰链轴在 y=depth/2 处
         offset_z = nw.new_node(
             Nodes.Math,
             input_kwargs={
                 0: group_input.outputs["Height"],
-                1: 2.0 if is_top else -2.0,
+                1: 2.0,
             },
             attrs={"operation": "DIVIDE"},
         )
+        half_height = offset_z  # height / 2
+
+        half_thickness = nw.new_node(
+            Nodes.Math,
+            input_kwargs={
+                0: group_input.outputs["Thickness"],
+                1: 2.0,
+            },
+            attrs={"operation": "DIVIDE"},
+        )
+        
+        # 计算 Z 平移
+        # 顶盖: z = height/2 + thickness/2
+        # 底盖: z = -(height/2 + thickness/2)
+        z_base = nw.new_node(
+            Nodes.Math,
+            input_kwargs={
+                0: half_height,
+                1: half_thickness,
+            },
+            attrs={"operation": "ADD"},
+        )
+        
+        if is_top:
+            z_translation = z_base
+        else:
+            # 底盖需要取负: z = -z_base
+            z_translation = nw.new_node(
+                Nodes.Math,
+                input_kwargs={
+                    0: z_base,
+                    1: -1.0,
+                },
+                attrs={"operation": "MULTIPLY"},
+            )
         
         translated = nw.new_node(
             Nodes.Transform,
@@ -511,7 +690,7 @@ class TuckEndBoxFactory(ModularBoxFactory):
                 "Geometry": lid,
                 "Translation": nw.new_node(
                     Nodes.CombineXYZ,
-                    input_kwargs={"Z": offset_z},
+                    input_kwargs={"Y": y_offset, "Z": z_translation},
                 ),
             },
         )

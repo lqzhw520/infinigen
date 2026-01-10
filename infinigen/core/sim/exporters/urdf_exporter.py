@@ -149,6 +149,18 @@ class URDFBuilder(SimBuilder):
             link.append(visual)
 
             mat_physics = mtlphysics.get_material_properties(mesh)
+            # 回退: 如果未识别材质或密度异常，尝试从对象自定义属性读取
+            if (
+                ("density" not in mat_physics)
+                or mat_physics.get("density", 0) <= 0
+                or mat_physics.get("density", 0) >= 2000  # 卡纸/瓦楞/木/塑料常用范围
+            ):
+                try:
+                    override_density = float(self.blend_obj.get("physics_density", 0))
+                    if override_density > 0:
+                        mat_physics["density"] = override_density
+                except Exception:
+                    pass
 
             # Estimate the mass of the object given the density
             mesh_temp = mesh.to_mesh()

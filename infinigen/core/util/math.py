@@ -9,7 +9,13 @@ import math
 import random
 import warnings
 
-import cv2
+try:
+    import cv2  # type: ignore
+except Exception as e:
+    # Blender Python 环境中经常出现 numpy / opencv 二进制不兼容（尤其是 numpy>=2）
+    # 这里让 cv2 成为可选依赖：对渲染/导出流程不阻断。
+    cv2 = None  # type: ignore
+    warnings.warn(f"[Infinigen] OpenCV (cv2) unavailable: {e}")
 import gin
 import numpy as np
 
@@ -372,4 +378,9 @@ def affine_from_new_domain(old_domain, new_domain):
 
 
 def resize(arr, shape):
+    if cv2 is None:
+        raise RuntimeError(
+            "cv2 is not available (likely numpy/opencv binary incompatibility). "
+            "Please install a compatible opencv build or avoid calling util.math.resize()."
+        )
     return cv2.resize(arr, shape)  # , interpolation=cv2.INTER_LANCZOS4)

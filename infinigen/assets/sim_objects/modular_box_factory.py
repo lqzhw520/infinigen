@@ -383,26 +383,90 @@ class TuckEndBoxFactory(ModularBoxFactory):
         """双插盒的默认关节配置"""
         dims = params.dimensions
         
+        # 目标：boxes-style.jpg #1 双插盒
+        # 默认动作：向内折入（closing），即 joint value 从 0 -> max
+        max_fold = np.pi / 2  # 90° 作为第一版闭合动作（后续用碰撞验证收缩）
         return [
+            # 顶部主翻盖（背面顶边，轴=X）
             BoxJointConfig(
                 joint_type="hinge",
-                label="top_lid",
+                label="top_back_flap",
                 position=(0, dims.depth / 2, dims.height / 2),
                 axis=(1, 0, 0),
-                # 顶盖向外打开：负角度
-                min_angle=-np.pi * 0.9,
-                max_angle=0.0,
-                damping=0.5,
+                min_angle=0.0,
+                max_angle=max_fold,
+                damping=0.4,
             ),
+            # 顶部插舌二段折（插入盒口）：位于前侧盒口边缘，轴=X
             BoxJointConfig(
                 joint_type="hinge",
-                label="bottom_lid",
+                label="top_tuck_tab",
+                position=(0, -dims.depth / 2, dims.height / 2),
+                axis=(1, 0, 0),
+                min_angle=0.0,
+                max_angle=max_fold,
+                damping=0.25,
+            ),
+            # 顶部左 dust flap（左侧顶边，轴=Y，向内为 +X）
+            BoxJointConfig(
+                joint_type="hinge",
+                label="top_dust_left",
+                position=(-dims.width / 2, 0.0, dims.height / 2),
+                axis=(0, 1, 0),
+                min_angle=0.0,
+                max_angle=max_fold,
+                damping=0.35,
+            ),
+            # 顶部右 dust flap（右侧顶边，轴=-Y，向内为 -X）
+            BoxJointConfig(
+                joint_type="hinge",
+                label="top_dust_right",
+                position=(dims.width / 2, 0.0, dims.height / 2),
+                axis=(0, -1, 0),
+                min_angle=0.0,
+                max_angle=max_fold,
+                damping=0.35,
+            ),
+            # 底部主翻盖（正面底边，轴=X）
+            BoxJointConfig(
+                joint_type="hinge",
+                label="bottom_front_flap",
                 position=(0, -dims.depth / 2, -dims.height / 2),
                 axis=(1, 0, 0),
-                # 底盖向外打开：正角度
                 min_angle=0.0,
-                max_angle=np.pi * 0.9,
-                damping=0.5,
+                max_angle=max_fold,
+                damping=0.4,
+            ),
+            # 底部插舌二段折：位于后侧盒口边缘，轴=X
+            BoxJointConfig(
+                joint_type="hinge",
+                label="bottom_tuck_tab",
+                position=(0, dims.depth / 2, -dims.height / 2),
+                axis=(1, 0, 0),
+                min_angle=0.0,
+                max_angle=max_fold,
+                damping=0.25,
+            ),
+            # 底部左 dust flap（左侧底边，轴=Y，向内为 +X）
+            BoxJointConfig(
+                joint_type="hinge",
+                label="bottom_dust_left",
+                position=(-dims.width / 2, 0.0, -dims.height / 2),
+                # 注意：底部 dust flap 初始朝下（Z<0），要“向内”折入需要反转轴方向
+                axis=(0, -1, 0),
+                min_angle=0.0,
+                max_angle=max_fold,
+                damping=0.35,
+            ),
+            # 底部右 dust flap（右侧底边，向内为 -X）
+            BoxJointConfig(
+                joint_type="hinge",
+                label="bottom_dust_right",
+                position=(dims.width / 2, 0.0, -dims.height / 2),
+                axis=(0, 1, 0),
+                min_angle=0.0,
+                max_angle=max_fold,
+                damping=0.35,
             ),
         ]
 
@@ -419,29 +483,11 @@ class TuckEndBoxFactory(ModularBoxFactory):
             thickness=uniform(0.0008, 0.002),
         )
     
-    def _params_to_ng_inputs(self, params: BoxParameters) -> Dict:
-        """转换参数为节点组输入"""
-        dims = params.dimensions
-        # 计算铰链位置 (本地坐标)
-        # 顶盖铰链: (0, D/2, H/2)
-        top_pos = (0.0, dims.depth / 2, dims.height / 2)
-        # 底盖铰链: (0, -D/2, -H/2)
-        bottom_pos = (0.0, -dims.depth / 2, -dims.height / 2)
-        
-        return {
-            "Width": dims.width,
-            "Depth": dims.depth,
-            "Height": dims.height,
-            "Thickness": dims.thickness,
-            "TopHingePos": top_pos,
-            "BottomHingePos": bottom_pos,
-        }
-
     def create_geometry_nodegroup(self, nw: NodeWrangler, params: BoxParameters):
-        """创建双插盒的几何节点组 (直筒 + 上下翻盖)"""
+        """创建双插盒的几何节点组 (直筒薄壁 + 上下折页 + 插舌/锁扣占位)"""
         dims = params.dimensions
         
-        # 创建输入节点
+        # 创建输入节点（仅暴露尺寸；折页比例后续可做成可配置参数）
         group_input = nw.new_node(
             Nodes.GroupInput,
             expose_input=[
@@ -449,12 +495,10 @@ class TuckEndBoxFactory(ModularBoxFactory):
                 ("NodeSocketFloat", "Depth", dims.depth),
                 ("NodeSocketFloat", "Height", dims.height),
                 ("NodeSocketFloat", "Thickness", dims.thickness),
-                ("NodeSocketVector", "TopHingePos", (0.0, 0.0, 0.0)),
-                ("NodeSocketVector", "BottomHingePos", (0.0, 0.0, 0.0)),
             ],
         )
         
-        # ========= 盒体：四面薄壁直筒（无上下盖） =========
+        # ========== 通用量 ==========
         half_width = nw.new_node(
             Nodes.Math,
             input_kwargs={0: group_input.outputs["Width"], 1: 2.0},
@@ -465,12 +509,39 @@ class TuckEndBoxFactory(ModularBoxFactory):
             input_kwargs={0: group_input.outputs["Depth"], 1: 2.0},
             attrs={"operation": "DIVIDE"},
         )
+        half_height = nw.new_node(
+            Nodes.Math,
+            input_kwargs={0: group_input.outputs["Height"], 1: 2.0},
+            attrs={"operation": "DIVIDE"},
+        )
         half_thickness = nw.new_node(
             Nodes.Math,
             input_kwargs={0: group_input.outputs["Thickness"], 1: 2.0},
             attrs={"operation": "DIVIDE"},
         )
+        neg_half_thickness = nw.new_node(
+            Nodes.Math,
+            input_kwargs={0: half_thickness, 1: -1.0},
+            attrs={"operation": "MULTIPLY"},
+        )
 
+        neg_half_width = nw.new_node(
+            Nodes.Math,
+            input_kwargs={0: half_width, 1: -1.0},
+            attrs={"operation": "MULTIPLY"},
+        )
+        neg_half_depth = nw.new_node(
+            Nodes.Math,
+            input_kwargs={0: half_depth, 1: -1.0},
+            attrs={"operation": "MULTIPLY"},
+        )
+        neg_half_height = nw.new_node(
+            Nodes.Math,
+            input_kwargs={0: half_height, 1: -1.0},
+            attrs={"operation": "MULTIPLY"},
+        )
+
+        # ========= 盒体：四面薄壁直筒（无上下盖） =========
         # 外轮廓对齐：墙体中心 = half_dim - half_thickness
         y_back = nw.new_node(
             Nodes.Math,
@@ -555,58 +626,414 @@ class TuckEndBoxFactory(ModularBoxFactory):
             Nodes.JoinGeometry,
             input_kwargs={"Geometry": [front_wall, back_wall, left_wall, right_wall]},
         )
-        
-        # 创建顶盖
-        top_lid = self._create_lid(nw, group_input, is_top=True, y_offset=0.0)
-        
-        # 创建底盖
-        # 底盖需要向外侧（-Y）偏移一个 Depth，使其不穿进盒体内部
-        bottom_y_offset = nw.new_node(
+
+        # ========== 折页尺寸（对齐双插盒插舌插入逻辑） ==========
+        # 主翻盖“面板”长度：需要基本覆盖整个盒口（从一侧折痕到另一侧盒口边缘）
+        # 经验值：Depth - Thickness（留出少量厚度余量，避免穿墙）
+        major_flap_len = nw.new_node(
             Nodes.Math,
-            input_kwargs={0: group_input.outputs["Depth"], 1: -1.0},
+            input_kwargs={
+                0: group_input.outputs["Depth"],
+                1: group_input.outputs["Thickness"],
+            },
+            attrs={"operation": "SUBTRACT"},
+        )
+        major_flap_half = nw.new_node(
+            Nodes.Math,
+            input_kwargs={0: major_flap_len, 1: 2.0},
+            attrs={"operation": "DIVIDE"},
+        )
+
+        # dust flap 长度（沿 Z）：取 width 的 35%
+        # 说明：dust flaps 折入后会占据盒口两侧空间；过长会阻挡插舌下插并产生穿插。
+        dust_flap_len = nw.new_node(
+            Nodes.Math,
+            input_kwargs={0: group_input.outputs["Width"], 1: 0.35},
             attrs={"operation": "MULTIPLY"},
         )
-        bottom_lid = self._create_lid(
-            nw, group_input, is_top=False, y_offset=bottom_y_offset
+        dust_flap_half = nw.new_node(
+            Nodes.Math,
+            input_kwargs={0: dust_flap_len, 1: 2.0},
+            attrs={"operation": "DIVIDE"},
         )
-        
-        # 创建铰链关节 (顶盖)
-        top_hinge = nw.new_node(
-            nodegroup_hinge_joint().name,
+
+        # 插舌长度：与 Depth 挂钩（而非随面板长度线性放大）
+        # 经验值：约为 Depth 的 20%（插入够深但不至于太长造成干涉）
+        tab_len = nw.new_node(
+            Nodes.Math,
+            input_kwargs={0: group_input.outputs["Depth"], 1: 0.20},
+            attrs={"operation": "MULTIPLY"},
+        )
+        tab_half = nw.new_node(
+            Nodes.Math,
+            input_kwargs={0: tab_len, 1: 2.0},
+            attrs={"operation": "DIVIDE"},
+        )
+        tab_width = nw.new_node(
+            Nodes.Math,
+            input_kwargs={0: group_input.outputs["Width"], 1: 0.28},
+            attrs={"operation": "MULTIPLY"},
+        )
+
+        # ========== 顶部主翻盖（背面顶边，初始为竖直“展开态”） ==========
+        # 注意：nodegroup_hinge_joint 会以输入的 Position 作为枢轴原点（并把 Child 放到该位置）
+        # 因此 Child 的几何应在“关节局部坐标系”下建模（相对 hinge 位置），避免重复平移导致折页悬浮
+        top_back_panel = nw.new_node(
+            Nodes.MeshCube,
             input_kwargs={
-                "Joint Label": "top_lid",
-                "Parent": body,
-                "Child": top_lid,
-                "Position": group_input.outputs["TopHingePos"],
-                "Axis": (1, 0, 0),
-                "Min": -np.pi * 0.9,
-                "Max": 0.0,
+                "Size": nw.new_node(
+                    Nodes.CombineXYZ,
+                    input_kwargs={
+                        "X": group_input.outputs["Width"],
+                        "Y": group_input.outputs["Thickness"],
+                        "Z": major_flap_len,
+                    },
+                ),
             },
         )
-        
-        # 创建铰链关节 (底盖)
-        bottom_hinge = nw.new_node(
-            nodegroup_hinge_joint().name,
+        top_back_panel = nw.new_node(
+            Nodes.Transform,
             input_kwargs={
-                "Joint Label": "bottom_lid",
-                "Parent": body,
-                "Child": bottom_lid,
-                "Position": group_input.outputs["BottomHingePos"],
-                "Axis": (1, 0, 0),
-                "Min": 0.0,
-                "Max": np.pi * 0.9,
+                "Geometry": top_back_panel,
+                "Translation": nw.new_node(
+                    # 关节位于 (Y=+half_depth, Z=+half_height)
+                    # flap 中心应位于 (Y=y_back, Z=half_height+major_flap_half)
+                    # => 局部偏移:
+                    #   - Y: 选择 +half_thickness 让“主翻盖”在闭合时位于 dust flaps 之上（减少穿插）
+                    #   - Z: major_flap_half
+                    Nodes.CombineXYZ,
+                    input_kwargs={"Y": half_thickness, "Z": major_flap_half},
+                ),
             },
         )
 
-        joined = nw.new_node(
-            Nodes.JoinGeometry,
-            input_kwargs={"Geometry": [body, top_hinge, bottom_hinge]},
+        # ---------- 顶部插舌：作为独立刚体 + 独立铰链（模拟“插入盒口”需要的二段折叠） ----------
+        # tab 关节位于面板末端。
+        # 经验：由于 hinge_joint 元数据的坐标系以 body transform / bbox 为基准，
+        # 这里使用 major_flap_half 来让导出的 URDF 关节落在面板末端（避免额外 +major_flap_half 的偏移）。
+        top_tab_hinge_pos = nw.new_node(
+            Nodes.CombineXYZ,
+            input_kwargs={"Y": half_thickness, "Z": major_flap_half},
         )
+
+        top_tuck_tab = nw.new_node(
+            Nodes.MeshCube,
+            input_kwargs={
+                "Size": nw.new_node(
+                    Nodes.CombineXYZ,
+                    input_kwargs={
+                        "X": tab_width,
+                        "Y": group_input.outputs["Thickness"],
+                        "Z": tab_len,
+                    },
+                )
+            },
+        )
+        top_tuck_tab = nw.new_node(
+            Nodes.Transform,
+            input_kwargs={
+                "Geometry": top_tuck_tab,
+                "Translation": nw.new_node(
+                    Nodes.CombineXYZ,
+                    # tab 自身的局部：以 tab hinge 为原点，向 +Z 伸出 tab_len
+                    # 同时将厚度整体偏向“盒内侧”，让插舌落在盒壁内侧（而不是穿过盒壁厚度）
+                    input_kwargs={
+                        # 注意：在最终闭合态 tab 的 local +Y 指向 world -Y（盒外侧），
+                        # 因此这里用 -half_thickness 将厚度推向盒内侧（world +Y）
+                        "Y": neg_half_thickness,
+                        "Z": tab_half,
+                    },
+                ),
+            },
+        )
+
+        # tab 先与面板通过铰链连接，形成 flap 子结构：panel -> tab
+        j_top_tab = nw.new_node(
+            nodegroup_hinge_joint().name,
+            input_kwargs={
+                "Joint Label": "top_tuck_tab",
+                "Parent": top_back_panel,
+                "Child": top_tuck_tab,
+                "Position": top_tab_hinge_pos,
+                "Axis": (1, 0, 0),
+                "Min": 0.0,
+                "Max": np.pi / 2,
+            },
+        )
+        top_back_flap = j_top_tab.outputs["Geometry"]
+
+        # ========== 底部主翻盖（正面底边，初始为竖直“展开态”） ==========
+        bottom_front_panel = nw.new_node(
+            Nodes.MeshCube,
+            input_kwargs={
+                "Size": nw.new_node(
+                    Nodes.CombineXYZ,
+                    input_kwargs={
+                        "X": group_input.outputs["Width"],
+                        "Y": group_input.outputs["Thickness"],
+                        "Z": major_flap_len,
+                    },
+                ),
+            },
+        )
+        neg_major_flap_half = nw.new_node(
+            Nodes.Math,
+            input_kwargs={0: major_flap_half, 1: -1.0},
+            attrs={"operation": "MULTIPLY"},
+        )
+        bottom_front_panel = nw.new_node(
+            Nodes.Transform,
+            input_kwargs={
+                "Geometry": bottom_front_panel,
+                "Translation": nw.new_node(
+                    # 关节位于 (Y=-half_depth, Z=-half_height)
+                    # flap 中心应位于 (Y=y_front, Z=-half_height-major_flap_half)
+                    # => 局部偏移:
+                    #   - Y: 选择 -half_thickness 让“底部主翻盖”在闭合时位于 dust flaps 之下（减少穿插）
+                    #   - Z: -major_flap_half
+                    Nodes.CombineXYZ,
+                    input_kwargs={"Y": neg_half_thickness, "Z": neg_major_flap_half},
+                ),
+            },
+        )
+
+        # ---------- 底部插舌（独立刚体+铰链） ----------
+        bottom_tab_hinge_pos = nw.new_node(
+            Nodes.CombineXYZ,
+            input_kwargs={"Y": neg_half_thickness, "Z": neg_major_flap_half},
+        )
+
+        bottom_tuck_tab = nw.new_node(
+            Nodes.MeshCube,
+            input_kwargs={
+                "Size": nw.new_node(
+                    Nodes.CombineXYZ,
+                    input_kwargs={
+                        "X": tab_width,
+                        "Y": group_input.outputs["Thickness"],
+                        "Z": tab_len,
+                    },
+                )
+            },
+        )
+        bottom_tuck_tab = nw.new_node(
+            Nodes.Transform,
+            input_kwargs={
+                "Geometry": bottom_tuck_tab,
+                "Translation": nw.new_node(
+                    Nodes.CombineXYZ,
+                    # 底部插舌同理：偏向盒内侧（背面内侧方向为 -Y）
+                    input_kwargs={
+                        # 底部插舌最终闭合态 local +Y 同样指向 world -Y（盒内侧），
+                        # 因此使用 +half_thickness 将厚度推向盒内侧
+                        "Y": half_thickness,
+                        "Z": nw.new_node(
+                            Nodes.Math,
+                            input_kwargs={0: tab_half, 1: -1.0},
+                            attrs={"operation": "MULTIPLY"},
+                        ),
+                    },
+                ),
+            },
+        )
+
+        j_bottom_tab = nw.new_node(
+            nodegroup_hinge_joint().name,
+            input_kwargs={
+                "Joint Label": "bottom_tuck_tab",
+                "Parent": bottom_front_panel,
+                "Child": bottom_tuck_tab,
+                "Position": bottom_tab_hinge_pos,
+                "Axis": (1, 0, 0),
+                "Min": 0.0,
+                "Max": np.pi / 2,
+            },
+        )
+        bottom_front_flap = j_bottom_tab.outputs["Geometry"]
+
+        # ========== dust flaps（左右侧壁，上/下各一片） ==========
+        dust_flap_geom = nw.new_node(
+            Nodes.MeshCube,
+            input_kwargs={
+                "Size": nw.new_node(
+                    Nodes.CombineXYZ,
+                    input_kwargs={
+                        "X": group_input.outputs["Thickness"],
+                        "Y": group_input.outputs["Depth"],
+                        "Z": dust_flap_len,
+                    },
+                )
+            },
+        )
+
+        neg_dust_flap_half = nw.new_node(
+            Nodes.Math,
+            input_kwargs={0: dust_flap_half, 1: -1.0},
+            attrs={"operation": "MULTIPLY"},
+        )
+        top_dust_left = nw.new_node(
+            Nodes.Transform,
+            input_kwargs={
+                "Geometry": dust_flap_geom,
+                "Translation": nw.new_node(
+                    # hinge: (X=-half_width, Z=+half_height)
+                    # dust center: (X=x_left, Z=half_height+dust_flap_half)
+                    # => 局部偏移: (X=+half_thickness, Z=+dust_flap_half)
+                    Nodes.CombineXYZ,
+                    input_kwargs={"X": half_thickness, "Z": dust_flap_half},
+                ),
+            },
+        )
+        top_dust_right = nw.new_node(
+            Nodes.Transform,
+            input_kwargs={
+                "Geometry": dust_flap_geom,
+                "Translation": nw.new_node(
+                    # hinge: (X=+half_width, Z=+half_height)
+                    # => 局部偏移: (X=-half_thickness, Z=+dust_flap_half)
+                    Nodes.CombineXYZ,
+                    input_kwargs={"X": neg_half_thickness, "Z": dust_flap_half},
+                ),
+            },
+        )
+
+        bottom_dust_left = nw.new_node(
+            Nodes.Transform,
+            input_kwargs={
+                "Geometry": dust_flap_geom,
+                "Translation": nw.new_node(
+                    # hinge: (X=-half_width, Z=-half_height)
+                    # => 局部偏移: (X=+half_thickness, Z=-dust_flap_half)
+                    Nodes.CombineXYZ,
+                    input_kwargs={"X": half_thickness, "Z": neg_dust_flap_half},
+                ),
+            },
+        )
+        bottom_dust_right = nw.new_node(
+            Nodes.Transform,
+            input_kwargs={
+                "Geometry": dust_flap_geom,
+                "Translation": nw.new_node(
+                    # hinge: (X=+half_width, Z=-half_height)
+                    # => 局部偏移: (X=-half_thickness, Z=-dust_flap_half)
+                    Nodes.CombineXYZ,
+                    input_kwargs={"X": neg_half_thickness, "Z": neg_dust_flap_half},
+                ),
+            },
+        )
+
+        # ========== 铰链位置（折痕） ==========
+        hinge_top_back_pos = nw.new_node(
+            Nodes.CombineXYZ, input_kwargs={"Y": half_depth, "Z": half_height}
+        )
+        hinge_bottom_front_pos = nw.new_node(
+            Nodes.CombineXYZ, input_kwargs={"Y": neg_half_depth, "Z": neg_half_height}
+        )
+        hinge_top_left_pos = nw.new_node(
+            Nodes.CombineXYZ, input_kwargs={"X": neg_half_width, "Z": half_height}
+        )
+        hinge_top_right_pos = nw.new_node(
+            Nodes.CombineXYZ, input_kwargs={"X": half_width, "Z": half_height}
+        )
+        hinge_bottom_left_pos = nw.new_node(
+            Nodes.CombineXYZ, input_kwargs={"X": neg_half_width, "Z": neg_half_height}
+        )
+        hinge_bottom_right_pos = nw.new_node(
+            Nodes.CombineXYZ, input_kwargs={"X": half_width, "Z": neg_half_height}
+        )
+
+        # ========== 关节（默认 closing: 0 -> π/2） ==========
+        geo = body
+
+        j_top_back = nw.new_node(
+            nodegroup_hinge_joint().name,
+            input_kwargs={
+                "Joint Label": "top_back_flap",
+                "Parent": geo,
+                "Child": top_back_flap,
+                "Position": hinge_top_back_pos,
+                "Axis": (1, 0, 0),
+                "Min": 0.0,
+                "Max": np.pi / 2,
+            },
+        )
+        geo = j_top_back.outputs["Geometry"]
+
+        j_top_left = nw.new_node(
+            nodegroup_hinge_joint().name,
+            input_kwargs={
+                "Joint Label": "top_dust_left",
+                "Parent": geo,
+                "Child": top_dust_left,
+                "Position": hinge_top_left_pos,
+                "Axis": (0, 1, 0),
+                "Min": 0.0,
+                "Max": np.pi / 2,
+            },
+        )
+        geo = j_top_left.outputs["Geometry"]
+
+        j_top_right = nw.new_node(
+            nodegroup_hinge_joint().name,
+            input_kwargs={
+                "Joint Label": "top_dust_right",
+                "Parent": geo,
+                "Child": top_dust_right,
+                "Position": hinge_top_right_pos,
+                "Axis": (0, -1, 0),
+                "Min": 0.0,
+                "Max": np.pi / 2,
+            },
+        )
+        geo = j_top_right.outputs["Geometry"]
+
+        j_bottom_front = nw.new_node(
+            nodegroup_hinge_joint().name,
+            input_kwargs={
+                "Joint Label": "bottom_front_flap",
+                "Parent": geo,
+                "Child": bottom_front_flap,
+                "Position": hinge_bottom_front_pos,
+                "Axis": (1, 0, 0),
+                "Min": 0.0,
+                "Max": np.pi / 2,
+            },
+        )
+        geo = j_bottom_front.outputs["Geometry"]
+
+        j_bottom_left = nw.new_node(
+            nodegroup_hinge_joint().name,
+            input_kwargs={
+                "Joint Label": "bottom_dust_left",
+                "Parent": geo,
+                "Child": bottom_dust_left,
+                "Position": hinge_bottom_left_pos,
+                # 底部 dust flap 初始朝下，轴方向与顶部相反才能向内折入
+                "Axis": (0, -1, 0),
+                "Min": 0.0,
+                "Max": np.pi / 2,
+            },
+        )
+        geo = j_bottom_left.outputs["Geometry"]
+
+        j_bottom_right = nw.new_node(
+            nodegroup_hinge_joint().name,
+            input_kwargs={
+                "Joint Label": "bottom_dust_right",
+                "Parent": geo,
+                "Child": bottom_dust_right,
+                "Position": hinge_bottom_right_pos,
+                "Axis": (0, 1, 0),
+                "Min": 0.0,
+                "Max": np.pi / 2,
+            },
+        )
+        geo = j_bottom_right.outputs["Geometry"]
 
         # 输出
         nw.new_node(
             Nodes.GroupOutput,
-            input_kwargs={"Geometry": joined},
+            input_kwargs={"Geometry": geo},
             attrs={"is_active_output": True},
         )
     

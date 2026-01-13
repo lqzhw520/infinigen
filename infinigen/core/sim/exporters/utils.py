@@ -176,11 +176,33 @@ def get_coord_frame(obj: bpy.types.Object, prefix: str, idx: int, offset: np.nda
     """
     Gets the coordinate frame of a child body.
     """
-    xverts = get_geometry_given_attribs(obj, [(prefix + "_xaxis", 1)]).data.vertices
+    # NOTE: joints.py historically stored attributes as either:
+    # - "{joint_id}_xaxis"  (exporters expectation)
+    # - "xaxis_{joint_id}"  (nodegroup_hinge_joint/sliding_joint codegen)
+    # To be robust across versions, support both naming conventions.
+    def _resolve_attr(suffix: str) -> str:
+        cand1 = f"{prefix}_{suffix}"
+        cand2 = f"{suffix}_{prefix}"
+        if cand1 in obj.data.attributes:
+            return cand1
+        if cand2 in obj.data.attributes:
+            return cand2
+        return cand1
 
-    yverts = get_geometry_given_attribs(obj, [(prefix + "_yaxis", 1)]).data.vertices
+    x_attr = _resolve_attr("xaxis")
+    y_attr = _resolve_attr("yaxis")
+    z_attr = _resolve_attr("zaxis")
 
-    zverts = get_geometry_given_attribs(obj, [(prefix + "_zaxis", 1)]).data.vertices
+    xverts = get_geometry_given_attribs(obj, [(x_attr, 1)]).data.vertices
+    yverts = get_geometry_given_attribs(obj, [(y_attr, 1)]).data.vertices
+    zverts = get_geometry_given_attribs(obj, [(z_attr, 1)]).data.vertices
+
+    if len(xverts) <= idx or len(yverts) <= idx or len(zverts) <= idx:
+        logging.warning(
+            f"Joint coord frame markers missing for {prefix=} ({x_attr=}, {y_attr=}, {z_attr=}); "
+            f"falling back to identity."
+        )
+        return np.eye(3)
 
     vertices = np.vstack(
         [
@@ -192,9 +214,9 @@ def get_coord_frame(obj: bpy.types.Object, prefix: str, idx: int, offset: np.nda
 
     coord_frame = vertices - offset
     coord_frame = coord_frame.T
-    assert np.allclose(
-        coord_frame @ coord_frame.T, np.eye(3), atol=1e-2
-    ), f"Coordinate frame not orthonormal:\n {coord_frame}"
+    assert np.allclose(coord_frame @ coord_frame.T, np.eye(3), atol=1e-2), (
+        f"Coordinate frame not orthonormal:\n {coord_frame}"
+    )
 
     return coord_frame
 
@@ -204,28 +226,42 @@ def get_joint_properties(obj: bpy.types.Object, prefix: str):
     Returns properties of the joint as specified in the blend file to be
     used by exporters.
     """
-    pos_vals = surface.read_attr_data(obj, prefix + "_poschild")
+    def _resolve_attr(suffix: str) -> str:
+        cand1 = f"{prefix}_{suffix}"
+        cand2 = f"{suffix}_{prefix}"
+        if cand1 in obj.data.attributes:
+            return cand1
+        if cand2 in obj.data.attributes:
+            return cand2
+        return cand1
+
+    pos_attr = _resolve_attr("poschild")
+    axis_attr = _resolve_attr("axis")
+    min_attr = _resolve_attr("min")
+    max_attr = _resolve_attr("max")
+
+    pos_vals = surface.read_attr_data(obj, pos_attr)
     pos_mask = np.any(pos_vals != 0.0, axis=1)
     if all(~pos_mask):
         position = np.zeros(3)
     else:
         position = pos_vals[pos_mask].mean(axis=0)
 
-    axis_vals = surface.read_attr_data(obj, prefix + "_axis")
+    axis_vals = surface.read_attr_data(obj, axis_attr)
     axis_mask = np.any(axis_vals != 0.0, axis=1)
     if all(~axis_mask):
         axis = np.zeros(3)
     else:
         axis = axis_vals[axis_mask].mean(axis=0)
 
-    min_vals = surface.read_attr_data(obj, prefix + "_min")
+    min_vals = surface.read_attr_data(obj, min_attr)
     min_mask = min_vals != 0.0
     if all(~min_mask):
         range_min = 0.0
     else:
         range_min = min_vals[min_mask].mean()
 
-    max_vals = surface.read_attr_data(obj, prefix + "_max")
+    max_vals = surface.read_attr_data(obj, max_attr)
     max_mask = max_vals != 0.0
     if all(~max_mask):
         range_max = 0.0

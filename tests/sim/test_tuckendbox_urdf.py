@@ -93,8 +93,8 @@ def test_kinematic_compiler():
     print(f"\n  铰链节点数: {len(hinge_nodes)}")
     print(f"  其他关节数: {len(joint_nodes)}")
     
-    if len(hinge_nodes) < 2:
-        print("  ⚠️ 预期至少 2 个铰链节点 (top_lid, bottom_lid)")
+    if len(hinge_nodes) < 6:
+        print("  ⚠️ 预期至少 6 个铰链节点 (主翻盖 + 左右 dust flaps，上下各一套)")
         # 继续测试，看看 kinematic_compiler 能否工作
     
     # === 测试 3: 运行 kinematic_compiler ===
@@ -171,10 +171,31 @@ def test_kinematic_compiler():
                 print(f"  Links: {link_count}")
                 print(f"  Joints: {joint_count}")
                 
-                if joint_count >= 2:
-                    print("  ✅ 关节数量符合预期")
+                # world_joint 会额外多 1 个
+                if joint_count >= 7:
+                    print("  ✅ 关节数量符合预期 (>=6 hinges + world_joint)")
                 else:
-                    print(f"  ⚠️ 关节数量不足 (预期 >= 2)")
+                    print(f"  ⚠️ 关节数量不足 (预期 >= 7)")
+
+                # Debug: 打印 URDF 中每个关节的 origin/axis/limit（便于定位“漂浮/交叉”的根因）
+                try:
+                    import xml.etree.ElementTree as ET
+                    tree = ET.parse(str(urdf_path))
+                    root = tree.getroot()
+                    print("\n  === URDF Joint Debug ===")
+                    for j in root.findall("joint"):
+                        jname = j.attrib.get("name", "")
+                        jtype = j.attrib.get("type", "")
+                        origin = j.find("origin")
+                        axis = j.find("axis")
+                        limit = j.find("limit")
+                        oxyz = origin.attrib.get("xyz") if origin is not None else None
+                        axyz = axis.attrib.get("xyz") if axis is not None else None
+                        lower = limit.attrib.get("lower") if limit is not None else None
+                        upper = limit.attrib.get("upper") if limit is not None else None
+                        print(f"    - {jname} ({jtype}) origin={oxyz} axis={axyz} limit=[{lower}, {upper}]")
+                except Exception as e:
+                    print(f"  ⚠️ URDF joint debug 解析失败: {e}")
                 
                 # === 测试 5: PyBullet 验证 ===
                 print("\n=== 测试 5: PyBullet 验证 ===")

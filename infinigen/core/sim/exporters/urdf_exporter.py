@@ -6,6 +6,7 @@
 # - Abhishek Joshi: primary author
 
 import json
+import os
 import xml.dom.minidom
 import xml.etree.ElementTree as ET
 from collections import defaultdict
@@ -43,6 +44,7 @@ class URDFBuilder(SimBuilder):
         super().__init__(assets_dir)
 
         self.urdf = self._initialize_urdf()
+        self.debug = os.getenv("INFINIGEN_URDF_DEBUG", "").strip() not in ("", "0", "false", "False")
 
         # create a joint that links the top most link to the world
         self._create_joint(
@@ -120,6 +122,16 @@ class URDFBuilder(SimBuilder):
         link_name = f"link_{self.link_count}"
         link = create_element("link", name=link_name)
         self.link_count += 1
+
+        if self.debug:
+            try:
+                joint_ids = [getattr(jn, "idn", str(jn)) for jn in (joint_nodes or [])]
+            except Exception:
+                joint_ids = ["<unprintable>"]
+            print(
+                f"[URDF_DEBUG] begin link={link_name} parent={parent_link} "
+                f"pos_offset_in={pos_offset} joint_nodes={joint_ids}"
+            )
 
         self.exclude_links.add((parent_link, link_name))
 
@@ -296,12 +308,22 @@ class URDFBuilder(SimBuilder):
                     damping=joint_properties["damping"],
                     friction=joint_properties["friction"],
                 )
+
+                if self.debug:
+                    print(
+                        f"[URDF_DEBUG] joint name={unique_joint_name} parent={current_parent_link} "
+                        f"child={current_child_link} abs_joint_pos={abs_joint_pos} "
+                        f"origin={abs_joint_pos - current_pos_offset}"
+                    )
                 
                 # 更新下一个关节的 parent 和 offset
                 current_parent_link = current_child_link
                 current_pos_offset = abs_joint_pos
             
             pos_offset = current_pos_offset
+
+        if self.debug:
+            print(f"[URDF_DEBUG] link={link_name} pos_offset_link={pos_offset} aabb_center={aabb_center}")
 
         # set the position of the links geometries relative to the joint
         # TODO (ajoshi): Clean this up.
@@ -310,6 +332,11 @@ class URDFBuilder(SimBuilder):
         ):
             geom_center = exputils.get_aabb_center(asset)
             offset = geom_center - pos_offset
+            if self.debug:
+                print(
+                    f"[URDF_DEBUG]   asset={getattr(asset, 'name', '<unnamed>')} "
+                    f"geom_center={geom_center} offset={offset}"
+                )
             vis_origin.set("xyz", exputils.array_to_string(offset))
             for col_origin, path in zip(col_origins, cpaths):
                 col_origin.set("xyz", exputils.array_to_string(offset))

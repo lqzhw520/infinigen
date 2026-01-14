@@ -1,0 +1,211 @@
+{
+  "meta_seed": 20260113,
+  "n_total": 1000,
+  "chunk_start": 25,
+  "chunk_count": 25,
+  "steps": 120,
+  "explosion_threshold": 100.0,
+  "penetration_eps": 0.005,
+  "results": [
+    {
+      "idx": 25,
+      "seed": 876422108,
+      "inertia_pd": true,
+      "initial_collision": false,
+      "explosion": false,
+      "valid": true
+    },
+    {
+      "idx": 26,
+      "seed": 885532934,
+      "inertia_pd": true,
+      "initial_collision": false,
+      "explosion": false,
+      "valid": true
+    },
+    {
+      "idx": 27,
+      "seed": 534647711,
+      "inertia_pd": true,
+      "initial_collision": false,
+      "explosion": false,
+      "valid": true
+    },
+    {
+      "idx": 28,
+      "seed": 1295887322,
+      "inertia_pd": true,
+      "initial_collision": false,
+      "explosion": false,
+      "valid": true
+    },
+    {
+      "idx": 29,
+      "seed": 1539386318,
+      "inertia_pd": true,
+      "initial_collision": false,
+      "explosion": false,
+      "valid": true
+    },
+    {
+      "idx": 30,
+      "seed": 886011709,
+      "inertia_pd": true,
+      "initial_collision": false,
+      "explosion": false,
+      "valid": true
+    },
+    {
+      "idx": 31,
+      "seed": 503144817,
+      "inertia_pd": true,
+      "initial_collision": false,
+      "explosion": false,
+      "valid": true
+    },
+    {
+      "idx": 32,
+      "seed": 154536182,
+      "inertia_pd": true,
+      "initial_collision": false,
+      "explosion": false,
+      "valid": true
+    },
+    {
+      "idx": 33,
+      "seed": 657724530,
+      "inertia_pd": true,
+      "initial_collision": false,
+      "explosion": false,
+      "valid": true
+    },
+    {
+      "idx": 34,
+      "seed": 1532190632,
+      "inertia_pd": true,
+      "initial_collision": false,
+      "explosion": false,
+      "valid": true
+    },
+    {
+      "idx": 35,
+      "seed": 1579515236,
+      "inertia_pd": true,
+      "initial_collision": false,
+      "explosion": false,
+      "valid": true
+    },
+    {
+      "idx": 36,
+      "seed": 187226904,
+      "inertia_pd": true,
+      "initial_collision": false,
+      "explosion": false,
+      "valid": true
+    },
+    {
+      "idx": 37,
+      "seed": 1354098951,
+      "inertia_pd": true,
+      "initial_collision": false,
+      "explosion": false,
+      "valid": true
+    },
+    {
+      "idx": 38,
+      "seed": 1900225769,
+      "inertia_pd": true,
+      "initial_collision": false,
+      "explosion": false,
+      "valid": true
+    },
+    {
+      "idx": 39,
+      "seed": 1082372459,
+      "inertia_pd": true,
+      "initial_collision": false,
+      "explosion": false,
+      "valid": true
+    },
+    {
+      "idx": 40,
+      "seed": 1840586586,
+      "inertia_pd": true,
+      "initial_collision": false,
+      "explosion": false,
+      "valid": true
+    },
+    {
+      "idx": 41,
+      "seed": 1708967562,
+      "inertia_pd": true,
+      "initial_collision": false,
+      "explosion": false,
+      "valid": true
+    },
+    {
+      "idx": 42,
+      "seed": 840262843,
+      "inertia_pd": true,
+      "initial_collision": false,
+      "explosion": false,
+      "valid": true
+    },
+    {
+      "idx": 43,
+      "seed": 2055009737,
+      "inertia_pd": true,
+      "initial_collision": false,
+      "explosion": false,
+      "valid": true
+    },
+    {
+      "idx": 44,
+      "seed": 1519952201,
+      "inertia_pd": true,
+      "initial_collision": false,
+      "explosion": false,
+      "valid": true
+    },
+    {
+      "idx": 45,
+      "seed": 2137024713,
+      "inertia_pd": true,
+      "initial_collision": false,
+      "explosion": false,
+      "valid": true
+    },
+    {
+      "idx": 46,
+      "seed": 1956831096,
+      "inertia_pd": true,
+      "initial_collision": false,
+      "explosion": false,
+      "valid": true
+    },
+    {
+      "idx": 47,
+      "seed": 1965380166,
+      "inertia_pd": true,
+      "initial_collision": false,
+      "explosion": false,
+      "valid": true
+    },
+    {
+      "idx": 48,
+      "seed": 1195913412,
+      "inertia_pd": true,
+      "initial_collision": false,
+      "explosion": false,
+      "valid": true
+    },
+    {
+      "idx": 49,
+      "seed": 208670927,
+      "inertia_pd": true,
+      "initial_collision": false,
+      "explosion": false,
+      "valid": true
+    }
+  ]
+}

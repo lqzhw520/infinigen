@@ -1,0 +1,211 @@
+{
+  "meta_seed": 20260113,
+  "n_total": 1000,
+  "chunk_start": 850,
+  "chunk_count": 25,
+  "steps": 120,
+  "explosion_threshold": 100.0,
+  "penetration_eps": 0.005,
+  "results": [
+    {
+      "idx": 850,
+      "seed": 1936854082,
+      "inertia_pd": true,
+      "initial_collision": false,
+      "explosion": false,
+      "valid": true
+    },
+    {
+      "idx": 851,
+      "seed": 667197083,
+      "inertia_pd": true,
+      "initial_collision": false,
+      "explosion": false,
+      "valid": true
+    },
+    {
+      "idx": 852,
+      "seed": 210827115,
+      "inertia_pd": true,
+      "initial_collision": false,
+      "explosion": false,
+      "valid": true
+    },
+    {
+      "idx": 853,
+      "seed": 2067897277,
+      "inertia_pd": true,
+      "initial_collision": false,
+      "explosion": false,
+      "valid": true
+    },
+    {
+      "idx": 854,
+      "seed": 1903053060,
+      "inertia_pd": true,
+      "initial_collision": false,
+      "explosion": false,
+      "valid": true
+    },
+    {
+      "idx": 855,
+      "seed": 687652794,
+      "inertia_pd": true,
+      "initial_collision": false,
+      "explosion": false,
+      "valid": true
+    },
+    {
+      "idx": 856,
+      "seed": 344610415,
+      "inertia_pd": true,
+      "initial_collision": false,
+      "explosion": false,
+      "valid": true
+    },
+    {
+      "idx": 857,
+      "seed": 1329826101,
+      "inertia_pd": true,
+      "initial_collision": false,
+      "explosion": false,
+      "valid": true
+    },
+    {
+      "idx": 858,
+      "seed": 910768115,
+      "inertia_pd": true,
+      "initial_collision": false,
+      "explosion": false,
+      "valid": true
+    },
+    {
+      "idx": 859,
+      "seed": 1609131869,
+      "inertia_pd": true,
+      "initial_collision": false,
+      "explosion": false,
+      "valid": true
+    },
+    {
+      "idx": 860,
+      "seed": 1483994292,
+      "inertia_pd": true,
+      "initial_collision": false,
+      "explosion": false,
+      "valid": true
+    },
+    {
+      "idx": 861,
+      "seed": 863534238,
+      "inertia_pd": true,
+      "initial_collision": false,
+      "explosion": false,
+      "valid": true
+    },
+    {
+      "idx": 862,
+      "seed": 104524169,
+      "inertia_pd": true,
+      "initial_collision": false,
+      "explosion": false,
+      "valid": true
+    },
+    {
+      "idx": 863,
+      "seed": 1479492495,
+      "inertia_pd": true,
+      "initial_collision": false,
+      "explosion": false,
+      "valid": true
+    },
+    {
+      "idx": 864,
+      "seed": 1102267296,
+      "inertia_pd": true,
+      "initial_collision": false,
+      "explosion": false,
+      "valid": true
+    },
+    {
+      "idx": 865,
+      "seed": 1429777519,
+      "inertia_pd": true,
+      "initial_collision": false,
+      "explosion": false,
+      "valid": true
+    },
+    {
+      "idx": 866,
+      "seed": 556948481,
+      "inertia_pd": true,
+      "initial_collision": false,
+      "explosion": false,
+      "valid": true
+    },
+    {
+      "idx": 867,
+      "seed": 907412003,
+      "inertia_pd": true,
+      "initial_collision": false,
+      "explosion": false,
+      "valid": true
+    },
+    {
+      "idx": 868,
+      "seed": 743080399,
+      "inertia_pd": true,
+      "initial_collision": false,
+      "explosion": false,
+      "valid": true
+    },
+    {
+      "idx": 869,
+      "seed": 1838507510,
+      "inertia_pd": true,
+      "initial_collision": false,
+      "explosion": false,
+      "valid": true
+    },
+    {
+      "idx": 870,
+      "seed": 1466941447,
+      "inertia_pd": true,
+      "initial_collision": false,
+      "explosion": false,
+      "valid": true
+    },
+    {
+      "idx": 871,
+      "seed": 4347754,
+      "inertia_pd": true,
+      "initial_collision": false,
+      "explosion": false,
+      "valid": true
+    },
+    {
+      "idx": 872,
+      "seed": 754000506,
+      "inertia_pd": true,
+      "initial_collision": false,
+      "explosion": false,
+      "valid": true
+    },
+    {
+      "idx": 873,
+      "seed": 123757027,
+      "inertia_pd": true,
+      "initial_collision": false,
+      "explosion": false,
+      "valid": true
+    },
+    {
+      "idx": 874,
+      "seed": 272695401,
+      "inertia_pd": true,
+      "initial_collision": false,
+      "explosion": false,
+      "valid": true
+    }
+  ]
+}

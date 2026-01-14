@@ -1,0 +1,84 @@
+{
+  "meta_seed": 20260113,
+  "N": 1000,
+  "steps": 120,
+  "explosion_threshold": 100.0,
+  "counts": {
+    "valid": 1000,
+    "initial_collision": 0,
+    "inertia_pd": 1000,
+    "explosion": 0
+  },
+  "scaling": [
+    {
+      "N": 10,
+      "gap": 0.0
+    },
+    {
+      "N": 20,
+      "gap": 0.0
+    },
+    {
+      "N": 50,
+      "gap": 0.0
+    },
+    {
+      "N": 100,
+      "gap": 0.0
+    },
+    {
+      "N": 200,
+      "gap": 0.0
+    },
+    {
+      "N": 500,
+      "gap": 0.0
+    },
+    {
+      "N": 1000,
+      "gap": 0.0
+    }
+  ],
+  "worker_files": [
+    "worker_0.json",
+    "worker_1.json",
+    "worker_10.json",
+    "worker_11.json",
+    "worker_12.json",
+    "worker_13.json",
+    "worker_14.json",
+    "worker_15.json",
+    "worker_16.json",
+    "worker_17.json",
+    "worker_18.json",
+    "worker_19.json",
+    "worker_2.json",
+    "worker_20.json",
+    "worker_21.json",
+    "worker_22.json",
+    "worker_23.json",
+    "worker_24.json",
+    "worker_25.json",
+    "worker_26.json",
+    "worker_27.json",
+    "worker_28.json",
+    "worker_29.json",
+    "worker_3.json",
+    "worker_30.json",
+    "worker_31.json",
+    "worker_32.json",
+    "worker_33.json",
+    "worker_34.json",
+    "worker_35.json",
+    "worker_36.json",
+    "worker_37.json",
+    "worker_38.json",
+    "worker_39.json",
+    "worker_4.json",
+    "worker_5.json",
+    "worker_6.json",
+    "worker_7.json",
+    "worker_8.json",
+    "worker_9.json"
+  ]
+}

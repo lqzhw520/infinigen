@@ -1149,6 +1149,16 @@ class MailerBoxFactory(ModularBoxFactory):
     def get_box_type(self) -> BoxType:
         return BoxType.MAILER
 
+    def __init__(self, factory_seed=None, coarse=False, randomize_front_flap_len: bool = False):
+        """
+        Args:
+            randomize_front_flap_len:
+                True: 第二折页（front flap）的长度（沿 Z）按 Height 比例随机，不保证与盒体高度完全对齐（用于需求 5）
+                False: front flap 长度固定等于 Height（用于需求 4）
+        """
+        super().__init__(factory_seed=factory_seed, coarse=coarse)
+        self.randomize_front_flap_len = randomize_front_flap_len
+
     def sample_dimensions(self) -> BoxDimensions:
         """
         飞机盒通常更“矮胖”，高度显著小于宽/深；厚度仍为薄纸板量级。
@@ -1159,6 +1169,29 @@ class MailerBoxFactory(ModularBoxFactory):
             height=uniform(0.04, 0.14),
             thickness=uniform(0.0008, 0.0025),
         )
+
+    def sample_parameters(self) -> BoxParameters:
+        """
+        采样完整参数，并注入本盒型的额外几何参数：
+        - EdgeExtension: 盒体底部三侧凸出长度，同时用于 lid/front_flap 的横向（X）凸出，对齐且同步随机
+        - FrontFlapLen: 第二折页（front flap）长度（沿 Z），可选随机
+        """
+        params = super().sample_parameters()
+        dims = params.dimensions
+
+        # 凸出长度：按整体尺寸比例采样，避免绝对值过小/过大
+        # 经验范围：min(W,D) 的 5%~15%
+        edge_ext = float(uniform(0.05, 0.15) * min(dims.width, dims.depth))
+
+        if self.randomize_front_flap_len:
+            # 第二折页长度：默认不超过 Height（允许“不到底”），范围 60%~100%
+            front_flap_len = float(uniform(0.60, 1.00) * dims.height)
+        else:
+            front_flap_len = float(dims.height)
+
+        params.extra_params["EdgeExtension"] = edge_ext
+        params.extra_params["FrontFlapLen"] = front_flap_len
+        return params
 
     def get_default_joints(self, params: BoxParameters) -> List[BoxJointConfig]:
         """简化飞机盒的默认关节配置（2 个铰链）"""
@@ -1204,6 +1237,9 @@ class MailerBoxFactory(ModularBoxFactory):
         """
         dims = params.dimensions
 
+        default_edge_ext = float(params.extra_params.get("EdgeExtension", 0.10 * min(dims.width, dims.depth)))
+        default_front_flap_len = float(params.extra_params.get("FrontFlapLen", dims.height))
+
         group_input = nw.new_node(
             Nodes.GroupInput,
             expose_input=[
@@ -1211,6 +1247,8 @@ class MailerBoxFactory(ModularBoxFactory):
                 ("NodeSocketFloat", "Depth", dims.depth),
                 ("NodeSocketFloat", "Height", dims.height),
                 ("NodeSocketFloat", "Thickness", dims.thickness),
+                ("NodeSocketFloat", "EdgeExtension", default_edge_ext),
+                ("NodeSocketFloat", "FrontFlapLen", default_front_flap_len),
             ],
         )
 
@@ -1252,9 +1290,26 @@ class MailerBoxFactory(ModularBoxFactory):
             attrs={"operation": "MULTIPLY"},
         )
 
+        # --- EdgeExtension 相关量 ---
+        edge_ext_x2 = nw.new_node(
+            Nodes.Math,
+            input_kwargs={0: group_input.outputs["EdgeExtension"], 1: 2.0},
+            attrs={"operation": "MULTIPLY"},
+        )
+        half_edge_ext = nw.new_node(
+            Nodes.Math,
+            input_kwargs={0: group_input.outputs["EdgeExtension"], 1: 2.0},
+            attrs={"operation": "DIVIDE"},
+        )
+        neg_half_edge_ext = nw.new_node(
+            Nodes.Math,
+            input_kwargs={0: half_edge_ext, 1: -1.0},
+            attrs={"operation": "MULTIPLY"},
+        )
+
         # --- 盒体（固定） ---
-        # 前后墙：宽 x 厚 x 高
-        wall_fb = nw.new_node(
+        # 前墙：宽 x 厚 x 高
+        wall_front = nw.new_node(
             Nodes.MeshCube,
             input_kwargs={
                 "Size": nw.new_node(
@@ -1267,18 +1322,57 @@ class MailerBoxFactory(ModularBoxFactory):
                 ),
             },
         )
+        # 背墙（与 lid 铰接的固定页）：(宽 + 2E) x 厚 x 高
+        # 目的：与 “底板凸出 + 两折页凸出” 在侧边形成连续外轮廓，避免出现“盖子变宽但背墙不变宽”的侧向缝隙。
+        wall_back = nw.new_node(
+            Nodes.MeshCube,
+            input_kwargs={
+                "Size": nw.new_node(
+                    Nodes.CombineXYZ,
+                    input_kwargs={
+                        "X": nw.new_node(
+                            Nodes.Math,
+                            input_kwargs={0: group_input.outputs["Width"], 1: edge_ext_x2},
+                            attrs={"operation": "ADD"},
+                        ),
+                        "Y": group_input.outputs["Thickness"],
+                        "Z": group_input.outputs["Height"],
+                    },
+                ),
+            },
+        )
+
         front_wall = nw.new_node(
             Nodes.Transform,
             input_kwargs={
-                "Geometry": wall_fb,
-                "Translation": nw.new_node(Nodes.CombineXYZ, input_kwargs={"Y": neg_half_depth}),
+                "Geometry": wall_front,
+                # 将盒体整体向 +Y 平移 E/2，使得底板在 -Y 方向形成“前侧凸出”
+                "Translation": nw.new_node(
+                    Nodes.CombineXYZ,
+                    input_kwargs={
+                        "Y": nw.new_node(
+                            Nodes.Math,
+                            input_kwargs={0: neg_half_depth, 1: half_edge_ext},
+                            attrs={"operation": "ADD"},
+                        )
+                    },
+                ),
             },
         )
         back_wall = nw.new_node(
             Nodes.Transform,
             input_kwargs={
-                "Geometry": wall_fb,
-                "Translation": nw.new_node(Nodes.CombineXYZ, input_kwargs={"Y": half_depth}),
+                "Geometry": wall_back,
+                "Translation": nw.new_node(
+                    Nodes.CombineXYZ,
+                    input_kwargs={
+                        "Y": nw.new_node(
+                            Nodes.Math,
+                            input_kwargs={0: half_depth, 1: half_edge_ext},
+                            attrs={"operation": "ADD"},
+                        )
+                    },
+                ),
             },
         )
 
@@ -1300,14 +1394,20 @@ class MailerBoxFactory(ModularBoxFactory):
             Nodes.Transform,
             input_kwargs={
                 "Geometry": wall_lr,
-                "Translation": nw.new_node(Nodes.CombineXYZ, input_kwargs={"X": neg_half_width}),
+                "Translation": nw.new_node(
+                    Nodes.CombineXYZ,
+                    input_kwargs={"X": neg_half_width, "Y": half_edge_ext},
+                ),
             },
         )
         right_wall = nw.new_node(
             Nodes.Transform,
             input_kwargs={
                 "Geometry": wall_lr,
-                "Translation": nw.new_node(Nodes.CombineXYZ, input_kwargs={"X": half_width}),
+                "Translation": nw.new_node(
+                    Nodes.CombineXYZ,
+                    input_kwargs={"X": half_width, "Y": half_edge_ext},
+                ),
             },
         )
 
@@ -1318,8 +1418,19 @@ class MailerBoxFactory(ModularBoxFactory):
                 "Size": nw.new_node(
                     Nodes.CombineXYZ,
                     input_kwargs={
-                        "X": group_input.outputs["Width"],
-                        "Y": group_input.outputs["Depth"],
+                        # 底板三侧凸出：
+                        # - X 左右各 +EdgeExtension（总宽 W + 2E）
+                        # - Y 仅“前侧” +EdgeExtension（总深 D + E，并整体向 -Y 平移 E/2，使背面边缘仍对齐 y=+D/2）
+                        "X": nw.new_node(
+                            Nodes.Math,
+                            input_kwargs={0: group_input.outputs["Width"], 1: edge_ext_x2},
+                            attrs={"operation": "ADD"},
+                        ),
+                        "Y": nw.new_node(
+                            Nodes.Math,
+                            input_kwargs={0: group_input.outputs["Depth"], 1: group_input.outputs["EdgeExtension"]},
+                            attrs={"operation": "ADD"},
+                        ),
                         "Z": group_input.outputs["Thickness"],
                     },
                 )
@@ -1334,7 +1445,13 @@ class MailerBoxFactory(ModularBoxFactory):
             Nodes.Transform,
             input_kwargs={
                 "Geometry": bottom,
-                "Translation": nw.new_node(Nodes.CombineXYZ, input_kwargs={"Z": bottom_z}),
+                "Translation": nw.new_node(
+                    Nodes.CombineXYZ,
+                    input_kwargs={
+                        # 底板保持居中（不平移），配合墙体整体 +E/2 形成“前侧凸出”
+                        "Z": bottom_z,
+                    },
+                ),
             },
         )
 
@@ -1351,7 +1468,12 @@ class MailerBoxFactory(ModularBoxFactory):
                 "Size": nw.new_node(
                     Nodes.CombineXYZ,
                     input_kwargs={
-                        "X": group_input.outputs["Width"],
+                        # lid 左右凸出，与底板凸出长度同步：W + 2E
+                        "X": nw.new_node(
+                            Nodes.Math,
+                            input_kwargs={0: group_input.outputs["Width"], 1: edge_ext_x2},
+                            attrs={"operation": "ADD"},
+                        ),
                         "Y": group_input.outputs["Thickness"],
                         "Z": group_input.outputs["Depth"],
                     },
@@ -1378,22 +1500,33 @@ class MailerBoxFactory(ModularBoxFactory):
                 "Size": nw.new_node(
                     Nodes.CombineXYZ,
                     input_kwargs={
-                        "X": group_input.outputs["Width"],
+                        # 第二折页与 lid 在 X 向完全对齐（同样的左右凸出）
+                        "X": nw.new_node(
+                            Nodes.Math,
+                            input_kwargs={0: group_input.outputs["Width"], 1: edge_ext_x2},
+                            attrs={"operation": "ADD"},
+                        ),
                         "Y": group_input.outputs["Thickness"],
-                        "Z": group_input.outputs["Height"],
+                        # 第二折页长度（沿 Z）：默认等于 Height；需求 5 可随机缩短
+                        "Z": group_input.outputs["FrontFlapLen"],
                     },
                 )
             },
+        )
+        front_flap_half = nw.new_node(
+            Nodes.Math,
+            input_kwargs={0: group_input.outputs["FrontFlapLen"], 1: 2.0},
+            attrs={"operation": "DIVIDE"},
         )
         front_flap = nw.new_node(
             Nodes.Transform,
             input_kwargs={
                 "Geometry": front_flap,
                 # Y=+half_thickness: 闭合态尽量落在盒体外侧（覆盖前壁而非穿入）
-                # Z=+half_height: flap 从 hinge (Z=0) 延伸到 Z=Height
+                # Z=+front_flap_half: flap 从 hinge (Z=0) 延伸到 Z=FrontFlapLen
                 "Translation": nw.new_node(
                     Nodes.CombineXYZ,
-                    input_kwargs={"Y": half_thickness, "Z": half_height},
+                    input_kwargs={"Y": half_thickness, "Z": front_flap_half},
                 ),
             },
         )
@@ -1421,7 +1554,31 @@ class MailerBoxFactory(ModularBoxFactory):
 
         # 再把 lid 结构铰接到 body（body -> lid）
         hinge_lid_pos = nw.new_node(
-            Nodes.CombineXYZ, input_kwargs={"Y": half_depth, "Z": half_height}
+            Nodes.CombineXYZ,
+            input_kwargs={
+                # hinge 放在“背面外侧折痕”位置，确保盖子与盒体无缝连接、不出现可见缝隙
+                # 说明：`nodegroup_hinge_joint` / exporter 的 joint-origin 计算会对 Position 存在一个
+                # 约 ~T/4 的有效偏移（与 child AABB center/poschild 的定义有关）。
+                # 为使最终 joint origin 落在 back wall 的外侧面（center + T/2），这里使用：
+                #   back wall center + (T/4)
+                "Y": nw.new_node(
+                    Nodes.Math,
+                    input_kwargs={
+                        0: nw.new_node(
+                            Nodes.Math,
+                            input_kwargs={0: half_depth, 1: half_edge_ext},
+                            attrs={"operation": "ADD"},
+                        ),
+                        1: nw.new_node(
+                            Nodes.Math,
+                            input_kwargs={0: half_thickness, 1: 2.0},
+                            attrs={"operation": "DIVIDE"},
+                        ),
+                    },
+                    attrs={"operation": "ADD"},
+                ),
+                "Z": half_height,
+            },
         )
         j_lid = nw.new_node(
             nodegroup_hinge_joint().name,

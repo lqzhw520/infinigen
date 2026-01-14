@@ -43,13 +43,45 @@
 **关节定义（只允许 2 个 hinge）**
 
 - `mailer_lid`：`body -> lid`
-  - hinge 位置：\((0,\ +D/2,\ +H/2)\)
+  - hinge 位置：背面上沿折痕处（实现中会随 `EdgeExtension` 对盒体墙整体做 \(+E/2\) 的 Y 平移；并对厚度做一个小的校准偏移以消除“盖子与盒体之间的可见缝隙”）
   - axis：\((1,0,0)\)
-  - 运动范围：\(0 \rightarrow \pi/2\)
+  - 运动范围：\(-\pi \rightarrow +\pi\)（支持向内/向外折叠）
 - `mailer_front_flap`：`lid -> front_flap`
   - hinge 位置：位于 lid 前沿（在“展开态” lid 竖直上翻时，前沿位于 \((0,\ +D/2,\ +H/2 + D)\)）
   - axis：\((1,0,0)\)
-  - 运动范围：\(0 \rightarrow \pi/2\)
+  - 运动范围：\(-\pi \rightarrow +\pi\)（支持向内/向外折叠）
+
+**新增可随机参数：边缘凸出（EdgeExtension，同步随机）**
+
+为满足 `MailerBox-simple-1` 样式中“底部三侧凸出 + 折页侧边凸出便于抓取”的需求，引入一个同步随机参数：
+
+- `EdgeExtension = E`：凸出长度（米）
+  - 采样：\(E \sim \mathcal{U}(0.05, 0.15) \cdot \min(W, D)\)
+  - 同步作用于：
+    - 盒体底板（bottom plate）：左右 +E（总宽 \(W+2E\)），前侧形成 +E 的“相对凸出”
+      - 实现方式：底板深度取 \(D+E\) 且保持中心对齐；四周墙整体向 \(+Y\) 平移 \(E/2\)，使得凸出只发生在 \(-Y\)（前侧）方向，同时保持背面边缘与折痕/盖子对齐
+    - 盒体背墙（与 lid 铰接的固定页）：左右 +E（总宽 \(W+2E\)），保证与 lid/底板在侧边外轮廓连续（避免“盖子变宽但背墙不变宽”造成的视觉缝隙）
+    - 第一折页 lid：左右 +E（总宽 \(W+2E\)）
+    - 第二折页 front flap：左右 +E（与 lid 宽度完全对齐）
+
+**新增可随机参数：第二折页长度（FrontFlapLen，仅在需求 5 启用）**
+
+- `FrontFlapLen = Lf`：第二折页（front flap）长度（沿 Z）
+  - 默认：\(Lf = H\)（与盒体高度对齐，折下到达底部）
+  - 随机（需求 5）：\(Lf = s \cdot H,\ s \sim \mathcal{U}(0.6, 1.0)\)（允许“不到底”）
+
+对应实现位置：
+- `infinigen/assets/sim_objects/modular_box_factory.py::MailerBoxFactory.sample_parameters()` 负责采样 `EdgeExtension/FrontFlapLen`
+- `MailerBoxFactory.create_geometry_nodegroup()` 使用上述输入生成凸出几何，并保持原有 2-DOF 铰链结构不变
+
+**对比导出（10 个 URDF，用于在线查看）**
+
+- 脚本：`scripts/export_mailerbox_simple_variants.py`
+- 设计目的：避免把“盒体尺寸随机”混入对比，脚本会 **固定 W/D/H/T**，然后：
+  - 前 5 个：仅改变 `EdgeExtension`（`FrontFlapLen = H`）
+  - 后 5 个：改变 `EdgeExtension` + 改变 `FrontFlapLen`（第二折页可不到底）
+
+> 备注：为了让在线查看对比更直观，脚本当前把 `EdgeExtension` 设置为一组“固定但差异很大”的数值（例如 1cm~15cm），避免“随机值太接近看不出来”。
 
 **推荐闭合态（用于在线查看器验证）**
 

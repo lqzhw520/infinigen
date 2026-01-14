@@ -21,6 +21,50 @@
   - 插舌为独立铰链，可在“合口后”下插（更贴近 `boxes-style.jpg` #1）
   - “推荐折叠顺序 + 最终闭合态”无穿插（允许接触级别贴合）
 
+### 新增需求（当前任务）：#7 飞机盒简化版（MailerBox-simple，2-DOF）
+
+> 目标样式参考：`docs/images/MailerBox-simple.jpg` / `docs/images/MailerBox-simple-1.jpg`
+>
+> 与 `boxes-style.jpg` 中“飞机盒”概念一致（属于 **1-2 DOF** 的低复杂度盒型），但本需求明确要求：
+> - **只做 2 个折页铰链自由度** 的可动盒子（不扩展到其它 16 种盒型）
+> - 结构极简：**一个大折页（盖） + 一个与盖相连的小折页（前片）**
+
+**几何/拓扑定义（按本需求口径）**
+
+- **盒体（固定 link）**：
+  - 底板 + 四周墙（薄壁）
+- **大折页（lid，可动 link）**：
+  - 与盒体背面上沿铰接
+  - 折下后应覆盖盒体开口（基本覆盖与盒体主体同等的开口尺寸）
+- **小折页（front flap，可动 link）**：
+  - 与大折页前沿铰接
+  - 折下后覆盖盒体高度，底边与盒体底部对齐（即 flap 长度 ≈ Height）
+
+**关节定义（只允许 2 个 hinge）**
+
+- `mailer_lid`：`body -> lid`
+  - hinge 位置：\((0,\ +D/2,\ +H/2)\)
+  - axis：\((1,0,0)\)
+  - 运动范围：\(0 \rightarrow \pi/2\)
+- `mailer_front_flap`：`lid -> front_flap`
+  - hinge 位置：位于 lid 前沿（在“展开态” lid 竖直上翻时，前沿位于 \((0,\ +D/2,\ +H/2 + D)\)）
+  - axis：\((1,0,0)\)
+  - 运动范围：\(0 \rightarrow \pi/2\)
+
+**推荐闭合态（用于在线查看器验证）**
+
+- `mailer_lid = π/2`（大折页折下）
+- `mailer_front_flap = π/2`（小折页折下覆盖前壁）
+
+**实现文件（本需求只新增这些，不触碰其它盒型）**
+
+- `infinigen/assets/sim_objects/modular_box_factory.py`
+  - 新增 `MailerBoxFactory`（注册为 `BoxType.MAILER`）
+  - 采用与 `TuckEndBoxFactory` 相同的 `nodegroup_hinge_joint` 元数据注入方式，确保 URDF 导出稳定
+- `scripts/export_mailerbox_simple_urdf.py`
+  - 一键导出用于在线 URDF viewer 的资产（默认 seed=42）
+  - 输出路径：`sim_exports/urdf/mailerbox_simple/<seed>/`
+
 ### 关键实现文件（已实装）
 
 - `infinigen/assets/sim_objects/modular_box_factory.py`: `TuckEndBoxFactory` 几何 + 关节（含 `top_tuck_tab`/`bottom_tuck_tab` 二段铰链、尺寸/层叠策略）

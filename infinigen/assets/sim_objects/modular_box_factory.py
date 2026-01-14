@@ -1126,6 +1126,324 @@ class TuckEndBoxFactory(ModularBoxFactory):
 
 
 # ============================================================
+# 基础盒型实现: MailerBox-simple（飞机盒简化版，2-DOF）
+# ============================================================
+
+@ModularBoxFactory.register(BoxType.MAILER)
+class MailerBoxFactory(ModularBoxFactory):
+    """
+    飞机盒 / MailerBox（简化版）
+
+    目标样式: docs/images/MailerBox-simple.jpg / MailerBox-simple-1.jpg
+
+    结构（仅做论文/演示所需的最小“2 折页铰链”版本，不包含复杂插舌/侧翼）:
+    - 固定盒体: 底板 + 四周墙
+    - 可动大折页（Lid）: 通过背面上沿铰链连接盒体
+    - 可动小折页（Front flap）: 通过大折页前沿铰链连接大折页
+
+    关节:
+    - mailer_lid: body -> lid (hinge, axis=X)
+    - mailer_front_flap: lid -> front_flap (hinge, axis=X)
+    """
+
+    def get_box_type(self) -> BoxType:
+        return BoxType.MAILER
+
+    def sample_dimensions(self) -> BoxDimensions:
+        """
+        飞机盒通常更“矮胖”，高度显著小于宽/深；厚度仍为薄纸板量级。
+        """
+        return BoxDimensions(
+            width=uniform(0.10, 0.30),
+            depth=uniform(0.10, 0.30),
+            height=uniform(0.04, 0.14),
+            thickness=uniform(0.0008, 0.0025),
+        )
+
+    def get_default_joints(self, params: BoxParameters) -> List[BoxJointConfig]:
+        """简化飞机盒的默认关节配置（2 个铰链）"""
+        dims = params.dimensions
+        # 需求：支持“向内 + 向外”折页，因此 range 需要包含负角度。
+        # 这里给两个铰链都开放到 [-π, +π]（±180°），在线查看器可自由调节。
+        min_fold = -np.pi
+        max_fold = np.pi
+
+        # 说明：
+        # - `mailer_lid` 的铰链位于背面上沿 (Y=+D/2, Z=+H/2)
+        # - `mailer_front_flap` 的铰链位于 lid 的前沿；在“展开态”(joint=0) 时 lid 竖直上翻，
+        #   因此前沿位于 (Y=+D/2, Z=+H/2 + D)
+        return [
+            BoxJointConfig(
+                joint_type="hinge",
+                label="mailer_lid",
+                position=(0.0, dims.depth / 2, dims.height / 2),
+                axis=(1, 0, 0),
+                min_angle=min_fold,
+                max_angle=max_fold,
+                damping=0.45,
+                friction=0.12,
+            ),
+            BoxJointConfig(
+                joint_type="hinge",
+                label="mailer_front_flap",
+                position=(0.0, dims.depth / 2, dims.height / 2 + dims.depth),
+                axis=(1, 0, 0),
+                min_angle=min_fold,
+                max_angle=max_fold,
+                damping=0.30,
+                friction=0.10,
+            ),
+        ]
+
+    def create_geometry_nodegroup(self, nw: NodeWrangler, params: BoxParameters):
+        """
+        创建简化飞机盒几何节点组：
+        - body: 底板 + 4 面墙（固定）
+        - lid: 大折页（竖直展开态）
+        - front_flap: 小折页（竖直展开态，连接在 lid 前沿）
+        """
+        dims = params.dimensions
+
+        group_input = nw.new_node(
+            Nodes.GroupInput,
+            expose_input=[
+                ("NodeSocketFloat", "Width", dims.width),
+                ("NodeSocketFloat", "Depth", dims.depth),
+                ("NodeSocketFloat", "Height", dims.height),
+                ("NodeSocketFloat", "Thickness", dims.thickness),
+            ],
+        )
+
+        # --- 常用量 ---
+        half_width = nw.new_node(
+            Nodes.Math,
+            input_kwargs={0: group_input.outputs["Width"], 1: 2.0},
+            attrs={"operation": "DIVIDE"},
+        )
+        half_depth = nw.new_node(
+            Nodes.Math,
+            input_kwargs={0: group_input.outputs["Depth"], 1: 2.0},
+            attrs={"operation": "DIVIDE"},
+        )
+        half_height = nw.new_node(
+            Nodes.Math,
+            input_kwargs={0: group_input.outputs["Height"], 1: 2.0},
+            attrs={"operation": "DIVIDE"},
+        )
+        half_thickness = nw.new_node(
+            Nodes.Math,
+            input_kwargs={0: group_input.outputs["Thickness"], 1: 2.0},
+            attrs={"operation": "DIVIDE"},
+        )
+
+        neg_half_width = nw.new_node(
+            Nodes.Math,
+            input_kwargs={0: half_width, 1: -1.0},
+            attrs={"operation": "MULTIPLY"},
+        )
+        neg_half_depth = nw.new_node(
+            Nodes.Math,
+            input_kwargs={0: half_depth, 1: -1.0},
+            attrs={"operation": "MULTIPLY"},
+        )
+        neg_half_height = nw.new_node(
+            Nodes.Math,
+            input_kwargs={0: half_height, 1: -1.0},
+            attrs={"operation": "MULTIPLY"},
+        )
+
+        # --- 盒体（固定） ---
+        # 前后墙：宽 x 厚 x 高
+        wall_fb = nw.new_node(
+            Nodes.MeshCube,
+            input_kwargs={
+                "Size": nw.new_node(
+                    Nodes.CombineXYZ,
+                    input_kwargs={
+                        "X": group_input.outputs["Width"],
+                        "Y": group_input.outputs["Thickness"],
+                        "Z": group_input.outputs["Height"],
+                    },
+                ),
+            },
+        )
+        front_wall = nw.new_node(
+            Nodes.Transform,
+            input_kwargs={
+                "Geometry": wall_fb,
+                "Translation": nw.new_node(Nodes.CombineXYZ, input_kwargs={"Y": neg_half_depth}),
+            },
+        )
+        back_wall = nw.new_node(
+            Nodes.Transform,
+            input_kwargs={
+                "Geometry": wall_fb,
+                "Translation": nw.new_node(Nodes.CombineXYZ, input_kwargs={"Y": half_depth}),
+            },
+        )
+
+        # 左右墙：厚 x 深 x 高
+        wall_lr = nw.new_node(
+            Nodes.MeshCube,
+            input_kwargs={
+                "Size": nw.new_node(
+                    Nodes.CombineXYZ,
+                    input_kwargs={
+                        "X": group_input.outputs["Thickness"],
+                        "Y": group_input.outputs["Depth"],
+                        "Z": group_input.outputs["Height"],
+                    },
+                ),
+            },
+        )
+        left_wall = nw.new_node(
+            Nodes.Transform,
+            input_kwargs={
+                "Geometry": wall_lr,
+                "Translation": nw.new_node(Nodes.CombineXYZ, input_kwargs={"X": neg_half_width}),
+            },
+        )
+        right_wall = nw.new_node(
+            Nodes.Transform,
+            input_kwargs={
+                "Geometry": wall_lr,
+                "Translation": nw.new_node(Nodes.CombineXYZ, input_kwargs={"X": half_width}),
+            },
+        )
+
+        # 底板：宽 x 深 x 厚（放在盒体内部底面，保持 bbox center 仍为 0，便于关节位置对齐）
+        bottom = nw.new_node(
+            Nodes.MeshCube,
+            input_kwargs={
+                "Size": nw.new_node(
+                    Nodes.CombineXYZ,
+                    input_kwargs={
+                        "X": group_input.outputs["Width"],
+                        "Y": group_input.outputs["Depth"],
+                        "Z": group_input.outputs["Thickness"],
+                    },
+                )
+            },
+        )
+        bottom_z = nw.new_node(
+            Nodes.Math,
+            input_kwargs={0: neg_half_height, 1: half_thickness},
+            attrs={"operation": "ADD"},
+        )
+        bottom = nw.new_node(
+            Nodes.Transform,
+            input_kwargs={
+                "Geometry": bottom,
+                "Translation": nw.new_node(Nodes.CombineXYZ, input_kwargs={"Z": bottom_z}),
+            },
+        )
+
+        body = nw.new_node(
+            Nodes.JoinGeometry,
+            input_kwargs={"Geometry": [front_wall, back_wall, left_wall, right_wall, bottom]},
+        )
+
+        # --- 大折页 lid（竖直展开态；绕背面上沿铰链折下盖住盒口） ---
+        # lid 的建模规则：将 hinge 放在局部原点，面板沿 +Z 伸出
+        lid_panel = nw.new_node(
+            Nodes.MeshCube,
+            input_kwargs={
+                "Size": nw.new_node(
+                    Nodes.CombineXYZ,
+                    input_kwargs={
+                        "X": group_input.outputs["Width"],
+                        "Y": group_input.outputs["Thickness"],
+                        "Z": group_input.outputs["Depth"],
+                    },
+                )
+            },
+        )
+        lid_panel = nw.new_node(
+            Nodes.Transform,
+            input_kwargs={
+                "Geometry": lid_panel,
+                # Y=+half_thickness: 让闭合态 lid 稍微抬起，减少与盒口穿插
+                # Z=+half_depth: 让 lid 从 hinge (Z=0) 延伸到 Z=Depth
+                "Translation": nw.new_node(
+                    Nodes.CombineXYZ,
+                    input_kwargs={"Y": half_thickness, "Z": half_depth},
+                ),
+            },
+        )
+
+        # --- 小折页 front_flap（连接在 lid 前沿；折下后覆盖盒体高度） ---
+        front_flap = nw.new_node(
+            Nodes.MeshCube,
+            input_kwargs={
+                "Size": nw.new_node(
+                    Nodes.CombineXYZ,
+                    input_kwargs={
+                        "X": group_input.outputs["Width"],
+                        "Y": group_input.outputs["Thickness"],
+                        "Z": group_input.outputs["Height"],
+                    },
+                )
+            },
+        )
+        front_flap = nw.new_node(
+            Nodes.Transform,
+            input_kwargs={
+                "Geometry": front_flap,
+                # Y=+half_thickness: 闭合态尽量落在盒体外侧（覆盖前壁而非穿入）
+                # Z=+half_height: flap 从 hinge (Z=0) 延伸到 Z=Height
+                "Translation": nw.new_node(
+                    Nodes.CombineXYZ,
+                    input_kwargs={"Y": half_thickness, "Z": half_height},
+                ),
+            },
+        )
+
+        # 先把 front_flap 铰接到 lid（形成 lid 子结构：lid -> front_flap）
+        # NOTE: 参考 TuckEndBox 的 “二段折叠”写法，这里用 half_depth 作为局部位置输入，
+        # 让 hinge 落在 lid 前沿（Depth 末端）并保持稳定的导出坐标系。
+        front_hinge_pos = nw.new_node(
+            Nodes.CombineXYZ,
+            input_kwargs={"Y": half_thickness, "Z": half_depth},
+        )
+        j_front = nw.new_node(
+            nodegroup_hinge_joint().name,
+            input_kwargs={
+                "Joint Label": "mailer_front_flap",
+                "Parent": lid_panel,
+                "Child": front_flap,
+                "Position": front_hinge_pos,
+                "Axis": (1, 0, 0),
+                "Min": -np.pi,
+                "Max": np.pi,
+            },
+        )
+        lid_with_flap = j_front.outputs["Geometry"]
+
+        # 再把 lid 结构铰接到 body（body -> lid）
+        hinge_lid_pos = nw.new_node(
+            Nodes.CombineXYZ, input_kwargs={"Y": half_depth, "Z": half_height}
+        )
+        j_lid = nw.new_node(
+            nodegroup_hinge_joint().name,
+            input_kwargs={
+                "Joint Label": "mailer_lid",
+                "Parent": body,
+                "Child": lid_with_flap,
+                "Position": hinge_lid_pos,
+                "Axis": (1, 0, 0),
+                "Min": -np.pi,
+                "Max": np.pi,
+            },
+        )
+
+        nw.new_node(
+            Nodes.GroupOutput,
+            input_kwargs={"Geometry": j_lid.outputs["Geometry"]},
+            attrs={"is_active_output": True},
+        )
+
+
+# ============================================================
 # 工具函数
 # ============================================================
 

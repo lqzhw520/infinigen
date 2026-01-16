@@ -92,7 +92,7 @@ def export_mailerbox_simple(seed: int = 42, output_dir: str = "./sim_exports/urd
         sample_joint_params_fn=factory.sample_joint_parameters,
         export_dir=export_path,
         image_res=256,
-        visual_only=True,  # 在线 viewer 通常只需要 visual mesh
+        visual_only=False,
     )
 
     # 打印结果

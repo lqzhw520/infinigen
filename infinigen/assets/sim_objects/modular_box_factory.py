@@ -519,6 +519,13 @@ class TuckEndBoxFactory(ModularBoxFactory):
             input_kwargs={0: group_input.outputs["Thickness"], 1: 2.0},
             attrs={"operation": "DIVIDE"},
         )
+        # NOTE: 这里保持与导出器/关节定义一致的“厚度外偏”策略：
+        # - lid/front_flap 在其局部坐标系沿 +Y 偏移 half_thickness，使得在常用闭合方向上更贴近盒体外侧
+        neg_half_thickness = nw.new_node(
+            Nodes.Math,
+            input_kwargs={0: half_thickness, 1: -1.0},
+            attrs={"operation": "MULTIPLY"},
+        )
         neg_half_thickness = nw.new_node(
             Nodes.Math,
             input_kwargs={0: half_thickness, 1: -1.0},
@@ -1179,9 +1186,12 @@ class MailerBoxFactory(ModularBoxFactory):
         params = super().sample_parameters()
         dims = params.dimensions
 
-        # 凸出长度：按整体尺寸比例采样，避免绝对值过小/过大
-        # 经验范围：min(W,D) 的 5%~15%
-        edge_ext = float(uniform(0.05, 0.15) * min(dims.width, dims.depth))
+        # 凸出长度（EdgeExtension）：
+        # 需求口径：0.5cm~4cm（0.005~0.04m），并且不应超过 min(W,D) 的 15%（避免小盒子被夸张外扩）。
+        min_wd = float(min(dims.width, dims.depth))
+        max_ext = float(min(0.04, 0.15 * min_wd))
+        min_ext = float(min(0.005, max_ext))
+        edge_ext = float(uniform(min_ext, max_ext))
 
         if self.randomize_front_flap_len:
             # 第二折页长度：默认不超过 Height（允许“不到底”），范围 60%~100%
@@ -1272,6 +1282,16 @@ class MailerBoxFactory(ModularBoxFactory):
             Nodes.Math,
             input_kwargs={0: group_input.outputs["Thickness"], 1: 2.0},
             attrs={"operation": "DIVIDE"},
+        )
+        quarter_thickness = nw.new_node(
+            Nodes.Math,
+            input_kwargs={0: half_thickness, 1: 2.0},
+            attrs={"operation": "DIVIDE"},
+        )
+        neg_half_thickness = nw.new_node(
+            Nodes.Math,
+            input_kwargs={0: half_thickness, 1: -1.0},
+            attrs={"operation": "MULTIPLY"},
         )
 
         neg_half_width = nw.new_node(
@@ -1484,7 +1504,7 @@ class MailerBoxFactory(ModularBoxFactory):
             Nodes.Transform,
             input_kwargs={
                 "Geometry": lid_panel,
-                # Y=+half_thickness: 让闭合态 lid 稍微抬起，减少与盒口穿插
+                # Y=+half_thickness: 厚度向盒体外侧偏置，减少闭合态穿插（并保持打开态的视觉连续性）
                 # Z=+half_depth: 让 lid 从 hinge (Z=0) 延伸到 Z=Depth
                 "Translation": nw.new_node(
                     Nodes.CombineXYZ,
@@ -1522,7 +1542,7 @@ class MailerBoxFactory(ModularBoxFactory):
             Nodes.Transform,
             input_kwargs={
                 "Geometry": front_flap,
-                # Y=+half_thickness: 闭合态尽量落在盒体外侧（覆盖前壁而非穿入）
+                # Y=+half_thickness: 厚度向盒体外侧偏置，减少闭合态穿插
                 # Z=+front_flap_half: flap 从 hinge (Z=0) 延伸到 Z=FrontFlapLen
                 "Translation": nw.new_node(
                     Nodes.CombineXYZ,

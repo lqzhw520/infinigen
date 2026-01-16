@@ -21,6 +21,7 @@
 from __future__ import annotations
 
 import json
+import random
 from pathlib import Path
 
 import bpy
@@ -89,7 +90,8 @@ def _export_one(
         sample_joint_params_fn=factory.sample_joint_parameters,
         export_dir=export_dir,
         image_res=image_res,
-        visual_only=True,
+        # 需要 collision meshes 才能用于 self-collision / motion planner（依赖 coacd 生成凸分解碰撞体）
+        visual_only=False,
     )
 
     out_dir = export_dir / "mailerbox_simple" / str(seed)
@@ -146,9 +148,10 @@ def main():
     print("Exporting MailerBox-simple variants")
     print("=" * 80)
 
-    # 需求：凸出长度要“明显有大有小”，用户示例为 1cm~15cm。
-    # 这里直接用 5 个固定值（米），便于在线对比、可复现：
-    edge_ext_values_a = [0.01, 0.04, 0.07, 0.11, 0.15]  # 1cm, 4cm, 7cm, 11cm, 15cm
+    # 需求：EdgeExtension 范围控制在 0.5cm~4cm
+    # 为保证“随机但可复现”，这里用固定种子采样 5 个值（并排序以确保差异可见）。
+    rng = random.Random(20260115)
+    edge_ext_values_a = sorted(rng.uniform(0.005, 0.04) for _ in range(5))
 
     for s, edge_ext in zip(seeds_a, edge_ext_values_a):
         front_len = float(base_dims.height)
@@ -156,8 +159,8 @@ def main():
         manifest["variants"].append(rec)
         print(f"[A] seed={s} edge_ext={rec['edge_extension']:.6f} front_flap_len={rec['front_flap_len']:.6f}")
 
-    # 第二组：E 仍取 5 个不同值；Lf 取 60%~100% 的 5 个比例点（第二折页可不到底）
-    edge_ext_values_b = [0.02, 0.05, 0.08, 0.12, 0.15]  # 2cm, 5cm, 8cm, 12cm, 15cm
+    # 第二组：E 同样在 0.5cm~4cm；Lf 取 60%~100% 的 5 个比例点（第二折页可不到底）
+    edge_ext_values_b = sorted(rng.uniform(0.005, 0.04) for _ in range(5))
     flap_ratios = [0.60, 0.70, 0.80, 0.90, 1.00]
 
     for s, edge_ext, fr in zip(seeds_b, edge_ext_values_b, flap_ratios):

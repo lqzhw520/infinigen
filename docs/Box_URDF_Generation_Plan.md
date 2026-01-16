@@ -56,7 +56,7 @@
 为满足 `MailerBox-simple-1` 样式中“底部三侧凸出 + 折页侧边凸出便于抓取”的需求，引入一个同步随机参数：
 
 - `EdgeExtension = E`：凸出长度（米）
-  - 采样：\(E \sim \mathcal{U}(0.05, 0.15) \cdot \min(W, D)\)
+  - 采样：\(E \sim \mathcal{U}(0.005, 0.04)\)（即 0.5cm~4cm），并额外约束 \(E \le 0.15\cdot\min(W,D)\) 避免小盒子被夸张外扩
   - 同步作用于：
     - 盒体底板（bottom plate）：左右 +E（总宽 \(W+2E\)），前侧形成 +E 的“相对凸出”
       - 实现方式：底板深度取 \(D+E\) 且保持中心对齐；四周墙整体向 \(+Y\) 平移 \(E/2\)，使得凸出只发生在 \(-Y\)（前侧）方向，同时保持背面边缘与折痕/盖子对齐
@@ -81,7 +81,15 @@
   - 前 5 个：仅改变 `EdgeExtension`（`FrontFlapLen = H`）
   - 后 5 个：改变 `EdgeExtension` + 改变 `FrontFlapLen`（第二折页可不到底）
 
-> 备注：为了让在线查看对比更直观，脚本当前把 `EdgeExtension` 设置为一组“固定但差异很大”的数值（例如 1cm~15cm），避免“随机值太接近看不出来”。
+> 备注：脚本当前用固定随机种子在 0.5cm~4cm 内采样 5 个 `EdgeExtension`（并排序），保证“随机但可复现、差异可见”。
+
+**碰撞（self-collision / motion planner）**
+- 本项目标准做法：导出时 `visual_only=False`，并使用 `coacd` 对网格做凸分解，生成专用 collision meshes。
+  - 代码路径：`infinigen/tools/export.py::export_sim_ready()` 内部调用 `coacd.run_coacd(...)` 写出 `*_col*.obj`
+  - URDF 写入：`infinigen/core/sim/exporters/urdf_exporter.py` 在每个 `<link>` 下写入 `<collision><geometry><mesh filename="assets/*_col*.obj" /></geometry>...`
+  - 运行时使用：仿真/规划器读取 `<collision>`；`<visual>` 仅用于渲染
+
+> Troubleshooting：如果环境里确实没有安装 `coacd`（但它在本仓库 `requirements.txt` 中有 pin），导出碰撞会失败；可临时用“复制 `<visual>` 为 `<collision>`”作为降级方案，但不推荐（更慢、且不利于稳定接触求解）。
 
 **推荐闭合态（用于在线查看器验证）**
 

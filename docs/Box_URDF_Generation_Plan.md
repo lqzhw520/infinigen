@@ -35,10 +35,10 @@
   - 底板 + 四周墙（薄壁）
 - **大折页（lid，可动 link）**：
   - 与盒体背面上沿铰接
-  - 折下后应覆盖盒体开口（基本覆盖与盒体主体同等的开口尺寸）
+  - 折下后应覆盖盒体开口，同时考虑到盒体底板增加边缘凸起的随机需求，且凸起长度随机默认在 0.5cm~4cm 之间，那么对应大折页的长度对齐盒体底板的长度
 - **小折页（front flap，可动 link）**：
   - 与大折页前沿铰接
-  - 折下后覆盖盒体高度，底边与盒体底部对齐（即 flap 长度 ≈ Height）
+  - 折下后小折页长度（沿 Z）在覆盖盒体高度对齐～允许不到底的随机长度之间
 
 **关节定义（只允许 2 个 hinge）**
 
@@ -89,7 +89,6 @@
   - URDF 写入：`infinigen/core/sim/exporters/urdf_exporter.py` 在每个 `<link>` 下写入 `<collision><geometry><mesh filename="assets/*_col*.obj" /></geometry>...`
   - 运行时使用：仿真/规划器读取 `<collision>`；`<visual>` 仅用于渲染
 
-> Troubleshooting：如果环境里确实没有安装 `coacd`（但它在本仓库 `requirements.txt` 中有 pin），导出碰撞会失败；可临时用“复制 `<visual>` 为 `<collision>`”作为降级方案，但不推荐（更慢、且不利于稳定接触求解）。
 
 **推荐闭合态（用于在线查看器验证）**
 

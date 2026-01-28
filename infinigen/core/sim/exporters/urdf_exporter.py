@@ -116,7 +116,16 @@ class URDFBuilder(SimBuilder):
         visual_only: bool = False,
         image_res: int = 512,
     ):
-        """Populates the urdf with links and joints."""
+        """Populates the urdf with links and joints.
+        
+        重要修复 (URDF 规范合规):
+        ========================
+        URDF 规范规定一个 <link> 只能有一个 <inertial> 元素。
+        当一个 link 包含多个几何体 (assets) 时，必须使用平行轴定理
+        将所有几何体的惯性合并为一个。
+        
+        参考: http://wiki.ros.org/urdf/XML/link
+        """
 
         # create a link for the body
         link_name = f"link_{self.link_count}"
@@ -139,6 +148,16 @@ class URDFBuilder(SimBuilder):
         col_origin_refs = []
         col_paths = []
         assets = []
+        
+        # ============================================================
+        # 惯性数据收集器 (用于后续合并)
+        # URDF 规范要求: 一个 link 只能有一个 <inertial> 元素
+        # 因此必须使用平行轴定理将多个几何体的惯性合并
+        # ============================================================
+        inertia_masses = []        # 各几何体的质量
+        inertia_coms = []          # 各几何体的质心位置
+        inertia_tensors = []       # 各几何体的惯性张量
+        
         for asset in root.assets:
             # export the mesh and set the filename
             visasset_path, colasset_paths, mesh = self._get_mesh(
@@ -196,29 +215,13 @@ class URDFBuilder(SimBuilder):
                 volume=vol,
             )
             
-            inertial = create_element("inertial")
-            mass_element = create_element("mass", value=str(robust_mass))
-            inertial.append(mass_element)
-            
-            ixx, ixy, ixz = I_tensor[0]
-            _, iyy, iyz = I_tensor[1]
-            _, _, izz = I_tensor[2]
-
-            inertia = create_element(
-                "inertia",
-                ixx=str(ixx),
-                ixy=str(ixy),
-                ixz=str(ixz),
-                iyy=str(iyy),
-                iyz=str(iyz),
-                izz=str(izz),
-            )
-            inertial.append(inertia)
-
-            origin = create_element("origin", xyz=exputils.array_to_string(com))
-            inertial.append(origin)
-
-            link.append(inertial)
+            # ============================================================
+            # 收集惯性数据，稍后使用平行轴定理合并
+            # (不再在循环中创建 inertial 元素)
+            # ============================================================
+            inertia_masses.append(robust_mass)
+            inertia_coms.append(com)
+            inertia_tensors.append(I_tensor)
 
             collision_refs = []
             collision_paths = []
@@ -241,6 +244,56 @@ class URDFBuilder(SimBuilder):
             col_origin_refs.append(collision_refs)
             col_paths.append(collision_paths)
             assets.append(mesh)
+        
+        # ============================================================
+        # 使用平行轴定理合并所有几何体的惯性
+        # 创建单个 <inertial> 元素 (符合 URDF 规范)
+        # ============================================================
+        if len(inertia_masses) > 0:
+            # 使用 thin_shell_inertia.combine_multiple_inertias 函数
+            # 该函数实现了严格的平行轴定理:
+            #   I_new = I_old + m × [(r·r)×E - r⊗r]
+            combined_mass, combined_com, combined_inertia = thinshell.combine_multiple_inertias(
+                masses=inertia_masses,
+                centers_of_mass=inertia_coms,
+                inertia_tensors=inertia_tensors,
+            )
+            
+            if self.debug:
+                print(
+                    f"[URDF_DEBUG] link={link_name} 惯性合并: "
+                    f"n_assets={len(inertia_masses)}, "
+                    f"individual_masses={inertia_masses}, "
+                    f"combined_mass={combined_mass:.6f} kg, "
+                    f"combined_com={combined_com}"
+                )
+            
+            # 创建单个 inertial 元素
+            inertial = create_element("inertial")
+            mass_element = create_element("mass", value=str(combined_mass))
+            inertial.append(mass_element)
+            
+            # 提取惯性张量分量
+            ixx, ixy, ixz = combined_inertia[0]
+            _, iyy, iyz = combined_inertia[1]
+            _, _, izz = combined_inertia[2]
+
+            inertia = create_element(
+                "inertia",
+                ixx=str(ixx),
+                ixy=str(ixy),
+                ixz=str(ixz),
+                iyy=str(iyy),
+                iyz=str(iyz),
+                izz=str(izz),
+            )
+            inertial.append(inertia)
+
+            origin = create_element("origin", xyz=exputils.array_to_string(combined_com))
+            inertial.append(origin)
+
+            # 只添加一个 inertial 元素 (符合 URDF 规范)
+            link.append(inertial)
 
         aabb_center = exputils.get_aabb_center(assets)
 

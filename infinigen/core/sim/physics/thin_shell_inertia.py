@@ -252,3 +252,207 @@ def calculate_robust_inertia_from_bpy_mesh(
     faces = np.array([list(f.vertices) for f in bpy_mesh.data.loop_triangles])
     
     return calculate_robust_inertia(vertices, faces, density, volume)
+
+
+def combine_multiple_inertias(
+    masses: list,
+    centers_of_mass: list,
+    inertia_tensors: list,
+) -> Tuple[float, np.ndarray, np.ndarray]:
+    """
+    使用平行轴定理 (Parallel Axis Theorem) 合并多个刚体的惯性属性。
+    
+    这是解决 URDF 中一个 link 只能有一个 <inertial> 元素的标准方法。
+    
+    数学原理:
+    =========
+    
+    1. 总质量:
+       M = Σ m_i
+    
+    2. 合并质心 (质量加权平均):
+       C = (1/M) × Σ (m_i × c_i)
+    
+    3. 平行轴定理 (Parallel Axis Theorem):
+       当惯性张量的参考点从质心 c_i 移动到合并质心 C 时:
+       
+       I_new = I_old + m × [(r·r)×E - r⊗r]
+       
+       其中:
+       - r = c_i - C (质心偏移向量)
+       - E 是 3×3 单位矩阵
+       - ⊗ 表示外积 (outer product)
+       - (r·r) 是 r 与自身的点积
+    
+    展开为分量形式:
+       I_xx^(new) = I_xx^(old) + m × (r_y² + r_z²)
+       I_yy^(new) = I_yy^(old) + m × (r_x² + r_z²)
+       I_zz^(new) = I_zz^(old) + m × (r_x² + r_y²)
+       I_xy^(new) = I_xy^(old) - m × r_x × r_y
+       I_xz^(new) = I_xz^(old) - m × r_x × r_z
+       I_yz^(new) = I_yz^(old) - m × r_y × r_z
+    
+    Args:
+        masses: 各刚体的质量列表 (长度为 n)
+        centers_of_mass: 各刚体的质心位置列表 (每个为 3D 向量, shape=(n,3))
+        inertia_tensors: 各刚体的惯性张量列表 (每个为 3x3 矩阵)
+        
+    Returns:
+        total_mass: 合并后的总质量 (kg)
+        combined_com: 合并后的质心位置 (3D 向量)
+        combined_inertia: 合并后的惯性张量 (3x3 矩阵, kg·m²)
+        
+    References:
+        [1] Goldstein, H. (1980). Classical Mechanics (2nd ed.). Addison-Wesley.
+            Chapter 5: The Rigid Body Equations of Motion.
+        [2] https://en.wikipedia.org/wiki/Parallel_axis_theorem
+    """
+    n = len(masses)
+    
+    # 边界检查
+    if n == 0:
+        logging.warning("combine_multiple_inertias: 空输入，返回最小惯性")
+        return 0.001, np.zeros(3), np.eye(3) * MIN_INERTIA_VALUE
+    
+    if n == 1:
+        # 单个刚体，无需合并
+        return masses[0], np.asarray(centers_of_mass[0]), np.asarray(inertia_tensors[0])
+    
+    assert len(centers_of_mass) == n, f"质心数量不匹配: {len(centers_of_mass)} != {n}"
+    assert len(inertia_tensors) == n, f"惯性张量数量不匹配: {len(inertia_tensors)} != {n}"
+    
+    # 转换为 numpy 数组
+    masses_arr = np.array(masses, dtype=np.float64)
+    coms_arr = np.array(centers_of_mass, dtype=np.float64)  # shape: (n, 3)
+    
+    # ============================================================
+    # Step 1: 计算总质量
+    # ============================================================
+    total_mass = np.sum(masses_arr)
+    
+    if total_mass <= 0:
+        logging.warning("combine_multiple_inertias: 总质量 <= 0，返回最小惯性")
+        return 0.001, np.zeros(3), np.eye(3) * MIN_INERTIA_VALUE
+    
+    # ============================================================
+    # Step 2: 计算合并后的质心 (质量加权平均)
+    #         C = (1/M) × Σ (m_i × c_i)
+    # ============================================================
+    combined_com = np.sum(masses_arr[:, np.newaxis] * coms_arr, axis=0) / total_mass
+    
+    # ============================================================
+    # Step 3: 使用平行轴定理合并惯性张量
+    # ============================================================
+    combined_inertia = np.zeros((3, 3), dtype=np.float64)
+    
+    for i in range(n):
+        m_i = masses_arr[i]
+        I_i = np.asarray(inertia_tensors[i], dtype=np.float64)
+        c_i = coms_arr[i]
+        
+        # 计算质心偏移向量: r = c_i - C
+        r = c_i - combined_com
+        
+        # 平行轴定理: I_new = I_old + m × [(r·r)×E - r⊗r]
+        # 其中:
+        #   (r·r) = r_x² + r_y² + r_z² (标量)
+        #   E = 3×3 单位矩阵
+        #   r⊗r = 外积矩阵 (3×3)
+        
+        r_dot_r = np.dot(r, r)  # 标量: r_x² + r_y² + r_z²
+        r_outer_r = np.outer(r, r)  # 3×3 矩阵: r ⊗ r
+        
+        # 平行轴偏移贡献: m × [(r·r)×E - r⊗r]
+        parallel_axis_term = m_i * (r_dot_r * np.eye(3) - r_outer_r)
+        
+        # 累加: I_total = Σ (I_i + parallel_axis_term_i)
+        combined_inertia += I_i + parallel_axis_term
+    
+    # ============================================================
+    # Step 4: 确保惯性张量正定 (数值稳定性)
+    # ============================================================
+    combined_inertia = _ensure_positive_definite(combined_inertia)
+    
+    # 确保最小质量
+    total_mass = max(total_mass, 0.001)
+    
+    logging.debug(
+        f"combine_multiple_inertias: n={n}, total_mass={total_mass:.4f} kg, "
+        f"combined_com={combined_com}, I_diag={np.diag(combined_inertia)}"
+    )
+    
+    return total_mass, combined_com, combined_inertia
+
+
+def verify_combined_inertia(
+    masses: list,
+    centers_of_mass: list,
+    inertia_tensors: list,
+    combined_mass: float,
+    combined_com: np.ndarray,
+    combined_inertia: np.ndarray,
+    tolerance: float = 1e-6,
+) -> Tuple[bool, str]:
+    """
+    验证惯性合并的正确性。
+    
+    检查项:
+    1. 总质量应等于各部分质量之和
+    2. 合并质心应等于质量加权平均
+    3. 惯性张量应正定
+    4. 惯性张量的迹应满足物理约束
+    
+    Args:
+        masses: 原始质量列表
+        centers_of_mass: 原始质心列表
+        inertia_tensors: 原始惯性张量列表
+        combined_mass: 合并后的质量
+        combined_com: 合并后的质心
+        combined_inertia: 合并后的惯性张量
+        tolerance: 数值容差
+        
+    Returns:
+        (is_valid, message): 验证结果和消息
+    """
+    issues = []
+    
+    # 1. 验证总质量
+    expected_mass = sum(masses)
+    if abs(combined_mass - expected_mass) > tolerance and expected_mass > tolerance:
+        issues.append(f"质量不匹配: {combined_mass:.6f} vs expected {expected_mass:.6f}")
+    
+    # 2. 验证质心
+    if expected_mass > tolerance:
+        expected_com = np.sum(
+            [m * np.array(c) for m, c in zip(masses, centers_of_mass)], axis=0
+        ) / expected_mass
+        com_error = np.linalg.norm(combined_com - expected_com)
+        if com_error > tolerance:
+            issues.append(f"质心不匹配: 误差={com_error:.6e}")
+    
+    # 3. 验证惯性张量正定性
+    try:
+        eigenvalues = np.linalg.eigvalsh(combined_inertia)
+        if np.any(eigenvalues <= 0):
+            issues.append(f"惯性张量非正定: eigenvalues={eigenvalues}")
+    except np.linalg.LinAlgError:
+        issues.append("无法计算惯性张量特征值")
+    
+    # 4. 验证惯性张量对角元素为正
+    diag = np.diag(combined_inertia)
+    if np.any(diag <= 0):
+        issues.append(f"惯性张量对角元素非正: {diag}")
+    
+    # 5. 验证惯性张量满足三角不等式 (物理约束)
+    # 对于任意刚体: I_xx + I_yy >= I_zz (及其循环)
+    if len(diag) == 3:
+        if diag[0] + diag[1] < diag[2] - tolerance:
+            issues.append(f"惯性张量违反三角不等式: I_xx+I_yy < I_zz")
+        if diag[0] + diag[2] < diag[1] - tolerance:
+            issues.append(f"惯性张量违反三角不等式: I_xx+I_zz < I_yy")
+        if diag[1] + diag[2] < diag[0] - tolerance:
+            issues.append(f"惯性张量违反三角不等式: I_yy+I_zz < I_xx")
+    
+    if issues:
+        return False, "; ".join(issues)
+    return True, "惯性合并验证通过"

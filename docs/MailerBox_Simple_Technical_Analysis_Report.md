@@ -27,6 +27,16 @@
    - 4.5 修复方案
 5. [结论与建议](#5-结论与建议)
 6. [附录](#6-附录)
+7. [URDF 结构规范详解](#7-urdf-结构规范详解-annotated-urdf-reference)
+   - 7.1 URDF 文件整体结构
+   - 7.2 标签完整释义
+   - 7.3 MailerBox-Simple 实例标注
+   - 7.4 PyBullet 加载配置说明
+8. [P0 修复完成记录](#8-p0-修复完成记录-2026-01-27)
+   - 8.1 修复内容
+   - 8.2 验证结果
+   - 8.3 修复前后对比
+   - 8.4 关键数学验证
 
 ---
 
@@ -762,9 +772,384 @@ def combine_multiple_inertias(
 
 ---
 
-## 7. P0 修复完成记录 (2026-01-27)
+## 7. URDF 结构规范详解 (Annotated URDF Reference)
 
-### 7.1 修复内容
+本节为下游仿真团队提供 URDF 格式的**完整标签释义**，确保交付对齐和学术严谨性。
+
+### 7.1 URDF 文件整体结构
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│  <?xml version="1.0" ?>                                             │
+│  <robot name="object">                                              │
+│    ├── <link name="world"/>            ← 虚拟世界锚点 (无质量)       │
+│    ├── <joint name="world_joint"/>     ← 固定到世界                 │
+│    ├── <joint name="mailer_lid_0"/>    ← lid 旋转关节               │
+│    ├── <joint name="mailer_front_flap_0"/> ← front_flap 旋转关节    │
+│    ├── <link name="link_0">            ← box_base (5 个面板合并)    │
+│    │     ├── <visual> × 5                                           │
+│    │     ├── <collision> × 5                                        │
+│    │     └── <inertial> × 1  ← 平行轴定理合并后的惯性               │
+│    ├── <link name="link_1">            ← lid                        │
+│    │     ├── <visual> × 1                                           │
+│    │     ├── <collision> × 1                                        │
+│    │     └── <inertial> × 1                                         │
+│    └── <link name="link_2">            ← front_flap                 │
+│          ├── <visual> × 1                                           │
+│          ├── <collision> × 1                                        │
+│          └── <inertial> × 1                                         │
+│  </robot>                                                           │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+**关键计数**：
+- 一个 URDF 文件有 **3 个物理 link**（`link_0/link_1/link_2`）
+- 因此文件中有 **3 个 `<inertial>` block**（每个 link 一个）
+- 搜索 `inertial` 字符串会命中 **6 次**（3 个开标签 + 3 个闭标签）
+
+### 7.2 标签完整释义
+
+#### 7.2.1 `<robot>` — 根节点
+
+```xml
+<robot name="object">
+  ...
+</robot>
+```
+
+| 属性 | 类型 | 说明 |
+|------|------|------|
+| `name` | string | 机器人/物体的标识符，对物理仿真无影响 |
+
+#### 7.2.2 `<link>` — 刚体定义
+
+```xml
+<link name="link_0">
+  <visual>...</visual>      <!-- 可有多个 -->
+  <collision>...</collision> <!-- 可有多个 -->
+  <inertial>...</inertial>  <!-- 最多一个！URDF 规范硬约束 -->
+</link>
+```
+
+| 子元素 | 数量限制 | 说明 |
+|--------|---------|------|
+| `<visual>` | 0..∞ | 渲染用几何体，不参与碰撞检测 |
+| `<collision>` | 0..∞ | 碰撞检测用几何体（凸分解后） |
+| `<inertial>` | **0..1** | 动力学属性：质量、质心、惯性张量 |
+
+**URDF 规范引用**（[ROS Wiki](http://wiki.ros.org/urdf/XML/link)）：
+> The `<inertial>` element describes the inertial properties of the link. **Only one `<inertial>` element is allowed per link.**
+
+#### 7.2.3 `<joint>` — 关节定义
+
+```xml
+<joint name="mailer_lid_0" type="revolute">
+  <origin xyz="0.0 0.097 0.045"/>       <!-- 关节在父 link 中的位姿 -->
+  <parent link="link_0"/>               <!-- 父 link -->
+  <child link="link_1"/>                <!-- 子 link -->
+  <axis xyz="1.0 0.0 0.0"/>             <!-- 旋转轴方向 -->
+  <limit lower="-3.14" upper="3.14"/>   <!-- 关节角度范围 [rad] -->
+  <dynamics damping="0.45" friction="0.12"/>
+</joint>
+```
+
+| 属性/子元素 | 说明 |
+|------------|------|
+| `type` | 关节类型：`fixed`（刚性连接）、`revolute`（旋转）、`prismatic`（滑动）等 |
+| `<origin>` | 关节坐标系相对于父 link 坐标系的变换 |
+| `<parent>` / `<child>` | 定义运动链拓扑结构 |
+| `<axis>` | 可动关节的运动轴方向（在关节坐标系中表达） |
+| `<limit>` | 关节位置范围（`lower`/`upper`），**这是运动学约束，非 self-collision** |
+| `<dynamics>` | 关节阻尼和摩擦（物理引擎支持程度不同） |
+
+**重要辨析**：
+- `<limit>` 是**运动学约束**（kinematic constraint），定义关节可达范围
+- **Self-collision** 是通过 `<collision>` 几何体在运行时检测的**动力学约束**
+- 两者是完全不同的机制，不能互相替代
+
+#### 7.2.4 `<visual>` — 渲染几何体
+
+```xml
+<visual>
+  <geometry>
+    <mesh filename="assets/geom_0.obj"/>  <!-- 高精度网格 -->
+  </geometry>
+  <origin xyz="0.0 -0.085 0.0"/>          <!-- 几何体在 link 中的位姿 -->
+</visual>
+```
+
+| 子元素 | 说明 |
+|--------|------|
+| `<geometry>` | 几何形状（`mesh`/`box`/`sphere`/`cylinder`） |
+| `<origin>` | 几何体相对 link 坐标系原点的摆放位姿 |
+| `<material>` | 渲染材质（可选） |
+
+#### 7.2.5 `<collision>` — 碰撞检测几何体
+
+```xml
+<collision>
+  <geometry>
+    <mesh filename="assets/geom_0_col0.obj"/>  <!-- 凸分解后的简化网格 -->
+  </geometry>
+  <origin xyz="0.0 -0.085 0.0"/>
+</collision>
+```
+
+**本项目实践**：
+- 使用 **CoACD（Collision-Aware Approximate Convex Decomposition）** 算法对原始网格进行凸分解
+- 凸形状对物理引擎的碰撞检测效率最高
+- `*_col0.obj`、`*_col1.obj` 等文件是凸分解后的各个凸包
+
+#### 7.2.6 `<inertial>` — 动力学属性（核心）
+
+```xml
+<inertial>
+  <mass value="0.5185"/>                                      <!-- 质量 [kg] -->
+  <inertia ixx="0.00292" ixy="0" ixz="0"                     <!-- 惯性张量 [kg·m²] -->
+           iyy="0.00448" iyz="0"
+           izz="0.00649"/>
+  <origin xyz="3e-19 0.0045 -0.0172"/>                        <!-- 质心位置 -->
+</inertial>
+```
+
+| 子元素 | 物理意义 | 数学表达 |
+|--------|---------|---------|
+| `<mass>` | 刚体总质量 | $m$ [kg] |
+| `<origin>` | 质心（COM）相对 link 原点的位置 | $\vec{c}$ [m] |
+| `<inertia>` | 关于质心的惯性张量（6 个独立分量） | 见下方 |
+
+**惯性张量数学定义**：
+
+对于质量分布 $\rho(\vec{r})$，关于质心的惯性张量为：
+
+$$
+\mathbf{I} = \begin{bmatrix}
+I_{xx} & I_{xy} & I_{xz} \\
+I_{xy} & I_{yy} & I_{yz} \\
+I_{xz} & I_{yz} & I_{zz}
+\end{bmatrix}
+$$
+
+其中：
+$$
+I_{xx} = \int (y^2 + z^2) \, dm, \quad
+I_{xy} = -\int xy \, dm, \quad \ldots
+$$
+
+**URDF 中的约定**：
+- `<inertia>` 的 6 个属性 (`ixx`, `ixy`, `ixz`, `iyy`, `iyz`, `izz`) 是**相对于 `<origin>` 定义的惯性坐标系**表达的
+- 惯性张量必须是**正定矩阵**（所有特征值 > 0）
+- 对于薄壳物体，本项目使用 `thin_shell_inertia.py` 的稳健计算方法
+
+#### 7.2.7 `<origin>` — 位姿变换（上下文敏感）
+
+`<origin>` 在不同上下文中含义不同：
+
+| 上下文 | 物理意义 |
+|--------|---------|
+| 在 `<joint>` 中 | 关节坐标系相对父 link 的变换（定义关节锚点） |
+| 在 `<visual>`/`<collision>` 中 | 几何体相对 link 原点的摆放位姿 |
+| 在 `<inertial>` 中 | **质心位置**相对 link 原点的偏移 |
+
+```xml
+<origin xyz="x y z" rpy="roll pitch yaw"/>
+```
+
+- `xyz`: 平移 [m]
+- `rpy`: 欧拉角（Roll-Pitch-Yaw）[rad]，默认 "0 0 0"
+
+### 7.3 MailerBox-Simple 实例标注
+
+以 `seed 101` 的 `mailerbox_simple.urdf` 为例，完整标注：
+
+```xml
+<?xml version="1.0" ?>
+<robot name="object">
+  <!-- ============================================================
+       世界锚点（虚拟 link，无物理属性）
+       ============================================================ -->
+  <link name="world"/>
+  
+  <!-- ============================================================
+       world_joint: 将 box_base (link_0) 固定到世界坐标系
+       type="fixed" 表示刚性连接，无自由度
+       ============================================================ -->
+  <joint name="world_joint" type="fixed">
+    <origin xyz="0.0 0.0 0.0"/>
+    <parent link="world"/>
+    <child link="link_0"/>
+    <dynamics damping="0.0" friction="0.0"/>
+  </joint>
+  
+  <!-- ============================================================
+       mailer_lid_0: lid 的旋转关节
+       type="revolute" 表示绕轴旋转
+       axis="1 0 0" 表示绕 X 轴旋转
+       limit: 关节角度范围 [-π, +π] rad
+       ============================================================ -->
+  <joint name="mailer_lid_0" type="revolute">
+    <origin xyz="0.0 0.096 0.045"/>   <!-- 关节位置：后边缘中点 -->
+    <parent link="link_0"/>
+    <child link="link_1"/>
+    <dynamics damping="0.45" friction="0.12"/>
+    <axis xyz="1.0 0.0 0.0"/>
+    <limit lower="-3.141593" upper="3.141593"/>
+  </joint>
+  
+  <!-- ============================================================
+       mailer_front_flap_0: front_flap 的旋转关节
+       连接在 lid (link_1) 的前边缘
+       ============================================================ -->
+  <joint name="mailer_front_flap_0" type="revolute">
+    <origin xyz="0.0 0.0015 0.18"/>   <!-- 相对于 lid 的关节位置 -->
+    <parent link="link_1"/>
+    <child link="link_2"/>
+    <dynamics damping="0.3" friction="0.1"/>
+    <axis xyz="1.0 0.0 0.0"/>
+    <limit lower="-3.1415927" upper="3.1415927"/>
+  </joint>
+  
+  <!-- ============================================================
+       link_2: front_flap
+       只有 1 个资产，因此 visual/collision/inertial 各 1 个
+       ============================================================ -->
+  <link name="link_2">
+    <visual>
+      <geometry><mesh filename="assets/geom_6.obj"/></geometry>
+      <origin xyz="0.0 0.00075 0.045"/>
+    </visual>
+    <collision>
+      <geometry><mesh filename="assets/geom_6_col0.obj"/></geometry>
+      <origin xyz="0.0 0.00075 0.045"/>
+    </collision>
+    <inertial>
+      <mass value="0.096"/>
+      <inertia ixx="6.48e-05" ixy="0" ixz="0" iyy="6.09e-04" iyz="0" izz="5.44e-04"/>
+      <origin xyz="0.0 0.098 0.27"/>  <!-- front_flap 的质心 -->
+    </inertial>
+  </link>
+  
+  <!-- ============================================================
+       link_1: lid
+       只有 1 个资产
+       ============================================================ -->
+  <link name="link_1">
+    <visual>
+      <geometry><mesh filename="assets/geom_5.obj"/></geometry>
+      <origin xyz="0.0 0.00075 0.09"/>
+    </visual>
+    <collision>
+      <geometry><mesh filename="assets/geom_5_col0.obj"/></geometry>
+      <origin xyz="0.0 0.00075 0.09"/>
+    </collision>
+    <inertial>
+      <mass value="0.190"/>
+      <inertia ixx="5.14e-04" ixy="0" ixz="0" iyy="1.59e-03" iyz="0" izz="1.08e-03"/>
+      <origin xyz="0.0 0.097 0.135"/>  <!-- lid 的质心 -->
+    </inertial>
+  </link>
+  
+  <!-- ============================================================
+       link_0: box_base
+       包含 5 个面板资产（底板 + 前/后/左/右侧板）
+       - visual × 5: 每个面板一个渲染网格
+       - collision × 5: 每个面板一个碰撞网格
+       - inertial × 1: 【关键】使用平行轴定理合并 5 个面板的惯性
+       ============================================================ -->
+  <link name="link_0">
+    <!-- 后侧板 -->
+    <visual>
+      <geometry><mesh filename="assets/geom_0.obj"/></geometry>
+      <origin xyz="0.0 -0.085 0.0"/>
+    </visual>
+    <collision>
+      <geometry><mesh filename="assets/geom_0_col0.obj"/></geometry>
+      <origin xyz="0.0 -0.085 0.0"/>
+    </collision>
+    
+    <!-- 前侧板 -->
+    <visual>
+      <geometry><mesh filename="assets/geom_1.obj"/></geometry>
+      <origin xyz="0.0 0.095 0.0"/>
+    </visual>
+    <collision>
+      <geometry><mesh filename="assets/geom_1_col0.obj"/></geometry>
+      <origin xyz="0.0 0.095 0.0"/>
+    </collision>
+    
+    <!-- 左侧板 -->
+    <visual>
+      <geometry><mesh filename="assets/geom_2.obj"/></geometry>
+      <origin xyz="-0.12 0.005 0.0"/>
+    </visual>
+    <collision>
+      <geometry><mesh filename="assets/geom_2_col0.obj"/></geometry>
+      <origin xyz="-0.12 0.005 0.0"/>
+    </collision>
+    
+    <!-- 右侧板 -->
+    <visual>
+      <geometry><mesh filename="assets/geom_3.obj"/></geometry>
+      <origin xyz="0.12 0.005 0.0"/>
+    </visual>
+    <collision>
+      <geometry><mesh filename="assets/geom_3_col0.obj"/></geometry>
+      <origin xyz="0.12 0.005 0.0"/>
+    </collision>
+    
+    <!-- 底板 -->
+    <visual>
+      <geometry><mesh filename="assets/geom_4.obj"/></geometry>
+      <origin xyz="0.0 0.0 -0.044"/>
+    </visual>
+    <collision>
+      <geometry><mesh filename="assets/geom_4_col0.obj"/></geometry>
+      <origin xyz="0.0 0.0 -0.044"/>
+    </collision>
+    
+    <!-- ======================================================
+         合并后的惯性（5 个面板通过平行轴定理计算）
+         
+         数学原理：
+         M = Σ m_i                        (总质量)
+         C = (1/M) × Σ (m_i × c_i)        (合并质心)
+         I = Σ [I_i + m_i×((r·r)E - r⊗r)] (平行轴定理)
+         
+         其中 r_i = c_i - C
+         ====================================================== -->
+    <inertial>
+      <mass value="0.5185"/>   <!-- 5 个面板质量之和 -->
+      <inertia ixx="0.00292" ixy="0" ixz="0"
+               iyy="0.00448" iyz="0"
+               izz="0.00649"/>
+      <origin xyz="0.0 0.0045 -0.0172"/>  <!-- 合并后的质心 -->
+    </inertial>
+  </link>
+</robot>
+```
+
+### 7.4 PyBullet 加载配置说明
+
+为确保物理引擎**严格使用 URDF 中的惯性参数**，加载时需设置：
+
+```python
+import pybullet as p
+
+# 关键 flags:
+# - URDF_USE_SELF_COLLISION: 启用 link 间的自碰撞检测
+# - URDF_USE_INERTIA_FROM_FILE: 使用 URDF 文件中的惯性，而非重新估计
+flags = p.URDF_USE_SELF_COLLISION | p.URDF_USE_INERTIA_FROM_FILE
+
+body_id = p.loadURDF("mailerbox_simple.urdf", useFixedBase=True, flags=flags)
+```
+
+**注意**：若不设置 `URDF_USE_INERTIA_FROM_FILE`，PyBullet 可能根据 collision geometry 重新估计惯性，导致 `getDynamicsInfo()` 返回的值与 URDF 中不一致。
+
+---
+
+## 8. P0 修复完成记录 (2026-01-27)
+
+### 8.1 修复内容
 
 | 修复项 | 文件 | 状态 |
 |--------|------|------|
@@ -774,7 +1159,7 @@ def combine_multiple_inertias(
 | 重新导出 10 个 seed | `sim_exports/urdf/mailerbox_simple/` | ✅ 完成 |
 | 验证所有 URDF | 所有 10 个 seed | ✅ 通过 |
 
-### 7.2 验证结果
+### 8.2 验证结果
 
 ```
 ######################################################################
@@ -793,7 +1178,7 @@ def combine_multiple_inertias(
 - 若不设置 `URDF_USE_INERTIA_FROM_FILE`，PyBullet 可能会根据 collision geometry 重新估计惯性，从而导致
   `getDynamicsInfo()` 返回的惯性与 URDF 文件中的惯性不一致（这不是 URDF 写出错误，而是加载策略不同）。
 
-### 7.3 修复前后对比
+### 8.3 修复前后对比
 
 **修复前 (错误)**:
 ```xml
@@ -836,7 +1221,7 @@ def combine_multiple_inertias(
 - 若在编辑器里直接搜索字符串 `inertial`，通常会命中 **6 次**：3 个 `<inertial>` + 3 个 `</inertial>`（开闭标签都会被匹配）。
 - 本次修复的目标是：把 **`link_0` 内部的“多个 `<inertial>`”合并为 1 个**；`link_1/link_2` 本来就各只有 1 个资产，因此各自天然只有 1 个 `<inertial>`。
 
-### 7.4 关键数学验证
+### 8.4 关键数学验证
 
 以 seed 101 的 `link_0` 为例：
 

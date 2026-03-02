@@ -368,7 +368,7 @@ def _render_gt_depth_and_seg(
         depth: float32 HxW
         seg: int64 HxW (object pass_index)
     """
-    import imageio.v2 as imageio
+    from PIL import Image
 
     scene = bpy.context.scene
     scene.camera = cam
@@ -434,7 +434,7 @@ def _render_gt_depth_and_seg(
     # Save outputs
     np.save(out_dir / "depth.npy", depth)
     np.save(out_dir / "segmentation.npy", seg)
-    imageio.imwrite(out_dir / "segmentation.png", _colorize_labels(seg))
+    Image.fromarray(_colorize_labels(seg)).save(str(out_dir / "segmentation.png"))
 
     return depth, seg
 

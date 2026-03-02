@@ -443,6 +443,46 @@ def _write_json(path: Path, data: dict):
     path.write_text(json.dumps(data, indent=2, ensure_ascii=False))
 
 
+def _inject_material_color_into_urdf(urdf_path: Path, color_rgb: Tuple[float, float, float]):
+    """Inject <material> tags with DR color into every <visual> element of a URDF file.
+
+    This makes the URDF render with correct colors in online/offline viewers
+    (e.g., https://gkjohnson.github.io/urdf-loaders/).
+    """
+    tree = ET.parse(str(urdf_path))
+    root = tree.getroot()
+    r, g, b = [float(c) for c in color_rgb]
+    rgba_str = f"{r:.4f} {g:.4f} {b:.4f} 1.0"
+
+    for visual in root.iter("visual"):
+        existing = visual.find("material")
+        if existing is not None:
+            visual.remove(existing)
+        mat_el = ET.SubElement(visual, "material", name="dr_material")
+        ET.SubElement(mat_el, "color", rgba=rgba_str)
+
+    tree.write(str(urdf_path), xml_declaration=True)
+
+
+def _copy_urdf_gt_with_assets(
+    urdf_src: Path,
+    assets_src_dir: Path,
+    sample_dir: Path,
+    color_rgb: Tuple[float, float, float],
+):
+    """Copy URDF and its mesh assets into a self-contained sample folder, then inject material color."""
+    dst_urdf = sample_dir / "urdf_gt.urdf"
+    shutil.copy2(urdf_src, dst_urdf)
+
+    dst_assets = sample_dir / "assets"
+    dst_assets.mkdir(parents=True, exist_ok=True)
+    for f in assets_src_dir.iterdir():
+        if f.is_file() and f.suffix == ".obj":
+            shutil.copy2(f, dst_assets / f.name)
+
+    _inject_material_color_into_urdf(dst_urdf, color_rgb)
+
+
 # -----------------------------
 # Main pipeline
 # -----------------------------
@@ -569,7 +609,7 @@ def main():
             sample_joint_params_fn=factory.sample_joint_parameters,
             export_dir=urdf_export_root,
             image_res=256,
-            visual_only=True,  # phase1 dataset export: collisions not required
+            visual_only=False,
         )
 
         urdf_dir = urdf_export_root / asset_name / str(seed)
@@ -692,8 +732,13 @@ def main():
                 cam.location = mathutils.Vector(tuple(float(x) for x in cam_loc.tolist()))
                 _set_camera_look_at(cam, center)
 
-                # Save URDF GT (one per sample for self-contained dataset)
-                shutil.copy2(urdf_path, sample_dir / "urdf_gt.urdf")
+                # Save URDF GT with collision meshes + material color (self-contained)
+                _copy_urdf_gt_with_assets(
+                    urdf_src=urdf_path,
+                    assets_src_dir=assets_dir,
+                    sample_dir=sample_dir,
+                    color_rgb=mat_cfg.color,
+                )
 
                 # IMPORTANT: camview intrinsics depend on render resolution.
                 # Set resolution before saving camera parameters / projecting keypoints.

@@ -1,7 +1,7 @@
 # MailerBox-Simple URDF 技术分析报告
 
-**日期**: 2026-01-27  
-**版本**: v1.0  
+**日期**: 2026-02-03  
+**版本**: v1.1  
 **作者**: 技术分析团队  
 **目的**: 解答下游仿真团队关于 self-collision、joint limit 和 inertial 计算的技术疑问
 
@@ -48,12 +48,12 @@
 |------|---------|---------|
 | Self-collision 实现方式 | 使用 CoACD 凸分解生成 collision meshes，**做法正确** | ✅ 正确 |
 | Joint limit ≠ Self-collision | 两者是完全不同的物理约束机制，**需要澄清概念** | ⚠️ 需澄清 |
-| Inertial 标签多个 | **严重违反 URDF 规范**，一个 link 只能有一个 inertial | ❌ 严重错误 |
+| Inertial 标签多个（单 link 多 inertial） | ✅ 已修复：对每个 link 合并多个子 mesh 惯性为 **单个 `<inertial>`**（平行轴定理）并通过 PyBullet 验证 | ✅ 已修复 |
 
-**最关键发现**：当前导出的 URDF 中，`link_0` 包含 **5 个 `<inertial>` 标签**，这违反了 URDF 规范。URDF 规范明确规定：**一个 `<link>` 只能有一个 `<inertial>` 元素**。这导致：
-1. PyBullet/MuJoCo 可能只读取第一个 inertial，导致物理行为不正确
-2. 某些解析器可能直接报错拒绝加载
-3. 总质量和惯性张量未经过平行轴定理正确合并
+**关键结论（更新）**：
+1. **URDF 规范约束仍然成立**：一个 `<link>` **至多一个** `<inertial>`。
+2. **当前实现已满足规范**：`infinigen/core/sim/exporters/urdf_exporter.py` 会收集同一 link 内多个几何体的 \((m_i,c_i,I_i)\)，并使用平行轴定理合并为 **单个 `<inertial>`**。
+3. **严格验证已通过**：`scripts/verify_urdf_inertia_fix.py` 已对 `mailerbox_simple`（10 个 seeds）以及 `drawerbox/sliplidbox/tuckendbox`（seed=42）完成结构与 PyBullet 载入验证。
 
 ---
 
@@ -366,6 +366,19 @@ Joint Limit:                          Self-Collision:
    - 弹簧力可能非常大（取决于 PyBullet 的拖拽参数）
    - 当拖拽力 > joint limit 恢复力时，limit 被突破
 
+#### 3.2.1 影响“软/硬程度”的关键参数（数值求解视角）
+
+无论是 joint limit 还是 contact（self-collision），在 Bullet/PyBullet 中其“严格性”本质上受 **离散时间步进 + 迭代求解器**控制，关键参数包括：
+
+- `fixedTimeStep` / `numSubSteps`
+  - 时间步越大，单步误差越大；substep 越多，约束更接近满足
+- `numSolverIterations`
+  - 迭代次数越多，约束违反量（penetration / limit violation）通常越小，但更耗时
+- `contactERP` / `frictionERP` / `globalCFM`
+  - ERP/CFM 控制约束“弹簧-阻尼”特性，影响允许的穿透量与回弹速度
+
+因此，“joint limit 可被突破”与“self-collision 可能出现小穿透”在数值上是同一类现象：**迭代求解有限步近似**，并非概念混淆。
+
 ### 3.3 当前实现的严格性分析
 
 **问题**：我们的 self-collision 是"严格"还是"宽松"的？
@@ -405,10 +418,12 @@ Joint Limit:                          Self-Collision:
 
 ### 4.1 问题发现
 
-**关键发现**：当前导出的 `mailerbox_simple.urdf` 中，`link_0` 包含 **5 个 `<inertial>` 标签**！
+**历史问题（修复前）**：曾经在旧版本导出的 `mailerbox_simple.urdf` 中观察到 `link_0` 内部包含 **多个 `<inertial>` 元素**（例如 5 个），这**违反 URDF 规范**（每个 link 最多 1 个 inertial）。
+
+> ✅ **当前状态**：该问题已修复。最新导出满足：每个物理 link（`link_0/link_1/link_2`）各自 **最多一个** `<inertial>`，并已通过 `scripts/verify_urdf_inertia_fix.py` 的结构 + PyBullet 校验（见 Section 8）。
 
 ```xml
-<!-- 从 sim_exports/urdf/mailerbox_simple/101/mailerbox_simple.urdf 摘录 -->
+<!-- 修复前示例（历史版本摘录，用于说明“单 link 多 inertial”的问题形态） -->
 <link name="link_0">
     <visual>...</visual>
     <inertial>  <!-- #1: 背板 -->
@@ -611,20 +626,21 @@ def combine_inertias(masses, coms, inertias):
 | 问题 | 严重程度 | 状态 | 建议优先级 |
 |------|---------|------|-----------|
 | Self-collision 实现 | - | ✅ 正确 | - |
-| Joint limit ≠ Self-collision 概念混淆 | 低 | 需澄清 | 低 |
-| Inertial 标签重复 | **高** | ❌ 严重错误 | **P0 - 立即修复** |
+| Joint limit ≠ Self-collision 概念混淆 | 低 | ✅ 已在本文 Section 7.2.3 澄清 | 低 |
+| Inertial 标签重复（单 link 多 inertial） | **高** | ✅ 已修复（`urdf_exporter.py` 合并惯性） | **P0 - 已完成** |
 
 ### 5.2 修复优先级
 
-**P0（阻塞性问题，必须立即修复）**：
-1. 修改 `urdf_exporter.py`，实现惯性合并
-2. 重新导出所有 10 个 seed 的 URDF
-3. 验证 PyBullet 加载后的物理属性正确
+**P0（阻塞性问题）**：✅ 已完成（本仓库环境已验证）
+1. ✅ 修改 `infinigen/core/sim/exporters/urdf_exporter.py`：对每个 `<link>` 收集各子 mesh 的 `(m_i, c_i, I_i)`，并使用 `thin_shell_inertia.combine_multiple_inertias(...)` 基于平行轴定理合并为 **单个 `<inertial>`**。
+2. ✅ 重新导出所有 10 个 seed 的 URDF：`sim_exports/urdf/mailerbox_simple/{101..105,201..205}/mailerbox_simple.urdf`
+3. ✅ 验证通过：
+   - `sim_exports/urdf/mailerbox_simple/inertia_verification_report.json`（10/10 seeds passed）
 
 **P1（重要但不阻塞）**：
-1. 添加 URDF 规范验证工具
-2. 添加惯性计算单元测试
-3. 文档更新
+1. ✅ 添加 URDF 规范/惯性校验脚本：`scripts/verify_urdf_inertia_fix.py`（输出 `sim_exports/urdf/mailerbox_simple/inertia_verification_report.json`）
+2. ✅ 添加惯性合并单元测试：`tests/sim/test_combine_multiple_inertias.py`
+3. ✅ 文档更新（本文件 Section 7 + Section 8）
 
 ### 5.3 对下游仿真的影响
 
@@ -637,7 +653,7 @@ def combine_inertias(masses, coms, inertias):
 
 ### 5.4 建议的验证步骤
 
-修复后，建议进行以下验证：
+修复后，建议进行以下验证（**务必开启 `URDF_USE_INERTIA_FROM_FILE`**，确保读取 URDF 内的惯性而非引擎近似）：
 
 ```python
 import pybullet as p
@@ -646,14 +662,18 @@ import pybullet_data
 # 加载修复后的 URDF
 p.connect(p.DIRECT)
 p.setAdditionalSearchPath(pybullet_data.getDataPath())
-robot_id = p.loadURDF("mailerbox_simple.urdf")
+flags = p.URDF_USE_SELF_COLLISION | p.URDF_USE_INERTIA_FROM_FILE
+robot_id = p.loadURDF("mailerbox_simple.urdf", useFixedBase=True, flags=flags)
 
-# 验证 link 惯性
-for link_idx in range(p.getNumJoints(robot_id) + 1):
-    dynamics_info = p.getDynamicsInfo(robot_id, link_idx - 1)
-    mass = dynamics_info[0]
-    local_inertia_diagonal = dynamics_info[2]
-    print(f"Link {link_idx}: mass={mass:.4f} kg, I_diag={local_inertia_diagonal}")
+# 验证 link 惯性（base link 使用 linkIndex=-1，其余 linkIndex==jointIndex）
+base_mass, _, base_I_diag, base_com, _ = p.getDynamicsInfo(robot_id, -1)[:5]
+print(f"Base(link_0): mass={base_mass:.6f} kg, I_diag={base_I_diag}, com={base_com}")
+
+for j in range(p.getNumJoints(robot_id)):
+    info = p.getJointInfo(robot_id, j)
+    link_name = info[12].decode("utf-8")
+    mass, _, I_diag, com, _ = p.getDynamicsInfo(robot_id, j)[:5]
+    print(f"{link_name}: mass={mass:.6f} kg, I_diag={I_diag}, com={com}")
 
 # 期望输出（修复后）：
 # Link 0: mass=0.52xx kg, I_diag=(合理的合并值)
@@ -957,6 +977,65 @@ $$
 
 - `xyz`: 平移 [m]
 - `rpy`: 欧拉角（Roll-Pitch-Yaw）[rad]，默认 "0 0 0"
+
+#### 7.2.8 `<parent>` / `<child>` — 运动链拓扑（link 连接关系）
+
+```xml
+<parent link="link_0"/>
+<child link="link_1"/>
+```
+
+- **作用**：在 `<joint>` 中定义“父 link → 子 link”的拓扑边。
+- **属性**
+  - `link`：link 名称（必须与 URDF 中 `<link name="...">` 一致）
+- **物理含义**：该 joint 的广义坐标 \(q\) 作用于 parent 与 child 之间的相对变换。
+
+#### 7.2.9 `<axis>` — 运动轴（在 joint frame 表达）
+
+```xml
+<axis xyz="1 0 0"/>
+```
+
+- revolute/continuous：绕该轴旋转（右手定则）
+- prismatic：沿该轴平移
+- 工程注意：
+  - URDF 允许 axis 非单位向量，但多数引擎会在内部归一化；为了避免歧义，建议始终输出单位向量
+  - axis 的坐标系是 **joint frame**（由 `<joint><origin .../>` 决定），不是 world frame
+
+#### 7.2.10 `<limit>` — 关节范围（单位随 joint type 变化）
+
+```xml
+<limit lower="..." upper="..."/>
+```
+
+- revolute：`lower/upper` 单位为 **rad**
+- prismatic：`lower/upper` 单位为 **m**
+- continuous：通常不需要 `<limit>`（可视需求加入软限制）
+- 重要：`<limit>` 是**运动学可达范围**，不是 self-collision；self-collision 由 `<collision>` 几何 + 仿真器接触求解决定。
+
+#### 7.2.11 `<geometry>` / `<mesh>` — 几何资源与路径解析
+
+```xml
+<geometry>
+  <mesh filename="assets/geom_0.obj"/>
+</geometry>
+```
+
+- `<geometry>`：几何描述容器（mesh/box/sphere/cylinder）
+- `<mesh filename="...">`：
+  - `filename` 通常是 **相对 URDF 文件目录** 的相对路径（例如 `assets/geom_0.obj`）
+  - 不同引擎对相对路径的搜索策略不同：
+    - PyBullet 常需要设置 search path（例如 `p.setAdditionalSearchPath(urdf_dir)`）或使用绝对路径
+  - 本项目导出目录结构为：`<urdf_dir>/assets/*.obj`，与 `filename="assets/..."` 对齐
+
+#### 7.2.12 `<dynamics>` — 阻尼/摩擦（引擎依赖）
+
+```xml
+<dynamics damping="0.45" friction="0.12"/>
+```
+
+- **用途**：为关节提供阻尼/摩擦参数，提升仿真稳定性或拟合材料阻尼行为
+- **注意**：不同仿真器对该标签支持程度不同（可能忽略或采用不同解释），因此不应把它当作“硬约束”。
 
 ### 7.3 MailerBox-Simple 实例标注
 

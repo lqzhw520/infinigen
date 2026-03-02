@@ -3,13 +3,22 @@
 
 # Authors: Vineet Bansal
 
-import bpy
-import gin
+try:
+    import bpy  # type: ignore
+except ModuleNotFoundError:  # Running outside Blender
+    bpy = None  # type: ignore
+
+try:
+    import gin  # type: ignore
+except ModuleNotFoundError:
+    gin = None  # type: ignore
 import pytest
 
 
 @pytest.fixture(scope="function", autouse=True)
 def cleanup():
     yield
-    gin.clear_config()
-    bpy.ops.wm.read_factory_settings(use_empty=True)
+    if gin is not None:
+        gin.clear_config()
+    if bpy is not None:
+        bpy.ops.wm.read_factory_settings(use_empty=True)

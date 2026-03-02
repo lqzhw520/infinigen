@@ -37,12 +37,21 @@ load_flow = load_exr
 
 def load_single_channel(p):
     file = OpenEXR.InputFile(str(p))
-    channel, channel_type = next(iter(file.header()["channels"].items()))
+
+    # Prefer an explicit R channel if present; otherwise fall back to the first channel.
+    channels = file.header()["channels"]
+    if "R" in channels:
+        channel = "R"
+        channel_type = channels["R"]
+    else:
+        channel, channel_type = next(iter(channels.items()))
+
     match str(channel_type.type):
         case "FLOAT":
             np_type = np.float32
         case _:
             np_type = np.uint8
+
     data = np.frombuffer(file.channel(channel, channel_type.type), np_type)
     dw = file.header()["dataWindow"]
     sz = (dw.max.y - dw.min.y + 1, dw.max.x - dw.min.x + 1)

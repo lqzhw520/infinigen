@@ -40,7 +40,7 @@ import json
 import sys
 import xml.etree.ElementTree as ET
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, Tuple
 
 import numpy as np
 
@@ -379,16 +379,24 @@ def verify_all_seeds(urdf_dir: Path, verbose: bool = True) -> Dict:
         return results
     
     print(f"\n{'#'*70}")
-    print(f"# URDF Inertial 修复验证")
+    print("# URDF Inertial 修复验证")
     print(f"# 目录: {urdf_dir}")
     print(f"# Seeds: {[d.name for d in seed_dirs]}")
     print(f"{'#'*70}")
     
     for seed_dir in seed_dirs:
         seed = seed_dir.name
-        urdf_path = seed_dir / "mailerbox_simple.urdf"
+        # Prefer "<asset_name>.urdf" where asset_name == urdf_dir.name (common export convention),
+        # otherwise fall back to the first non-viewer-safe URDF in the seed folder.
+        expected = seed_dir / f"{urdf_dir.name}.urdf"
+        if expected.exists():
+            urdf_path = expected
+        else:
+            urdfs = sorted(seed_dir.glob("*.urdf"))
+            candidates = [p for p in urdfs if "viewer_safe" not in p.name]
+            urdf_path = candidates[0] if candidates else (urdfs[0] if urdfs else None)
         
-        if not urdf_path.exists():
+        if urdf_path is None or not urdf_path.exists():
             print(f"\n[SKIP] seed {seed}: URDF 文件不存在")
             continue
         

@@ -22,26 +22,28 @@ Fix two critical issues found by user when validating Phase-1 dataset URDFs in o
 
 ## Phases
 
-### Phase 1: Fix URDF export — collision meshes + material tags [status: in_progress]
-- [ ] 1a. Change `visual_only=False` in Phase-1 pipeline 
-- [ ] 1b. Add `<material>` tag with DR color to each `<visual>` element
-- [ ] 1c. Verify fixed URDF matches original structure (collision + material)
+### Phase 1: Fix URDF export — collision meshes + material tags [status: complete]
+- [x] 1a. Changed `visual_only=False` in Phase-1 pipeline (line 572)
+- [x] 1b. Added `_inject_material_color_into_urdf()` for `<material><color rgba>` injection
+- [x] 1c. Added `_copy_urdf_gt_with_assets()` for self-contained sample folders
 
-### Phase 2: Validate fix against original [status: pending]
-- [ ] 2a. Export single seed MAILER with fix, diff against `sim_exports/urdf/mailerbox_simple/102`
-- [ ] 2b. Verify in PyBullet with self-collision + joint limits
-- [ ] 2c. Verify `urdf_gt.urdf` structure matches
+### Phase 2: Validate fix against original [status: complete]
+- [x] 2a. Exported single seed MAILER (102), confirmed collision + material present
+- [x] 2b. PyBullet loaded with `URDF_USE_INERTIA_FROM_FILE | URDF_USE_SELF_COLLISION` — OK
+- [x] 2c. Joint limits identical to original (`[-3.1416, 3.1416]`)
 
-### Phase 3: Re-generate 1K dataset with fix [status: pending]
-- [ ] 3a. Re-run all 4 box types
-- [ ] 3b. Full verification (1000/1000)
-- [ ] 3c. Spot-check structure of urdf_gt.urdf
+### Phase 3: Re-generate 1K dataset with fix [status: complete]
+- [x] 3a. Re-ran all 4 box types (25 seeds × 2 joint states × 5 views = 250 each)
+- [x] 3b. Full verification: **1000/1000 PASS**
+- [x] 3c. Spot-checked: MAILER=7 collision/material, DRAWER=9, TUCKEND=12
 
-### Phase 4: Commit + Checkpoint [status: pending]
-- [ ] 4a. Commit fix
-- [ ] 4b. Update .session/checkpoint.md
+### Phase 4: Commit + Checkpoint [status: complete]
+- [x] 4a. Committed: `35b99593 Fix Phase-1 URDF: add collision meshes + material color tags`
+- [x] 4b. Checkpoint updated below
 
 ## Errors Encountered
 | Error | Attempt | Resolution |
 |-------|---------|------------|
-| (none yet) | | |
+| imageio SystemError at 1024x768 | 1 | Replaced with PIL.Image.fromarray().save() |
+| visual_only=True → no collision | 1 | Changed to False |
+| No material in URDF | 1 | Post-process inject `<material><color>` tags |

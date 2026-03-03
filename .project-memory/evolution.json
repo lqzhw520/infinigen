@@ -1,7 +1,7 @@
 {
   "project": "infinigen-anybox",
   "architecture_version": 3,
-  "last_updated": "2026-03-03T18:01:55+08:00",
+  "last_updated": "2026-03-03T18:02:18+08:00",
   "iterations": [
     {
       "id": 1,
@@ -268,6 +268,13 @@
       "message": "Add infinigen-project-memory system: STATUS.md + evolution.json + history archive",
       "author": "zhuhaowu",
       "files_changed": 12
+    },
+    {
+      "hash": "317f3af0",
+      "date": "2026-03-03T18:02:18+08:00",
+      "message": "Auto-update evolution.json via post-commit hook",
+      "author": "zhuhaowu",
+      "files_changed": 1
     }
   ]
 }

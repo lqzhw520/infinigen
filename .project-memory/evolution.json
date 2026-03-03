@@ -1,7 +1,7 @@
 {
   "project": "infinigen-anybox",
   "architecture_version": 3,
-  "last_updated": "2026-03-03T18:02:26+08:00",
+  "last_updated": "2026-03-03T18:46:37+08:00",
   "iterations": [
     {
       "id": 1,
@@ -280,6 +280,13 @@
       "hash": "cec33e01",
       "date": "2026-03-03T18:02:26+08:00",
       "message": "Auto-update evolution.json (hook cascade)",
+      "author": "zhuhaowu",
+      "files_changed": 1
+    },
+    {
+      "hash": "a1085cbb",
+      "date": "2026-03-03T18:46:37+08:00",
+      "message": "Add self-evolution engine to project-memory: rules.json + evolve_skill.py",
       "author": "zhuhaowu",
       "files_changed": 1
     }

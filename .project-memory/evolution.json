@@ -1,7 +1,7 @@
 {
   "project": "infinigen-anybox",
   "architecture_version": 3,
-  "last_updated": "2026-03-03T18:02:18+08:00",
+  "last_updated": "2026-03-03T18:02:26+08:00",
   "iterations": [
     {
       "id": 1,
@@ -273,6 +273,13 @@
       "hash": "317f3af0",
       "date": "2026-03-03T18:02:18+08:00",
       "message": "Auto-update evolution.json via post-commit hook",
+      "author": "zhuhaowu",
+      "files_changed": 1
+    },
+    {
+      "hash": "cec33e01",
+      "date": "2026-03-03T18:02:26+08:00",
+      "message": "Auto-update evolution.json (hook cascade)",
       "author": "zhuhaowu",
       "files_changed": 1
     }

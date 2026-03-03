@@ -1,0 +1,266 @@
+{
+  "project": "infinigen-anybox",
+  "architecture_version": 3,
+  "last_updated": "2026-03-03T16:39:34+08:00",
+  "iterations": [
+    {
+      "id": 1,
+      "date": "2026-01-10",
+      "branch": "feature/3d-assets",
+      "commit": "8f22ba48",
+      "summary": "Phase-0/1 initial implementation: MailerBox geometry + URDF export + modular factory",
+      "completed": [
+        "Phase 0: Blender geometry generation foundation",
+        "Phase 1.1: MailerBox-Simple URDF export (2-DOF hinge)"
+      ],
+      "bugs_fixed": [],
+      "lessons": [
+        "Blender coordinate system differs from URDF -- transform required"
+      ],
+      "artifacts": {
+        "mailerbox_urdf": "sim_exports/urdf/mailerbox_simple/"
+      },
+      "architecture_changes": [
+        "Created modular_box_factory.py with MailerBox support"
+      ],
+      "next": [
+        "Phase 2.1: Topo-Box-Net architecture",
+        "Phase 1.1: More box types"
+      ]
+    },
+    {
+      "id": 2,
+      "date": "2026-01-13",
+      "branch": "feature/3d-assets",
+      "commit": "550c721c",
+      "summary": "TuckEndBox first successful generation (8-DOF)",
+      "completed": [
+        "Phase 1.1: TuckEndBox geometry + URDF (8-DOF hinge)"
+      ],
+      "bugs_fixed": [],
+      "lessons": [
+        "TuckEndBox has 8 DOF -- joint_states parameter must exactly match DOF count"
+      ],
+      "artifacts": {
+        "tuckendbox_urdf": "sim_exports/urdf/tuckendbox/"
+      },
+      "architecture_changes": [],
+      "next": [
+        "Self-collision testing",
+        "DrawerBox + SlipLidBox"
+      ]
+    },
+    {
+      "id": 3,
+      "date": "2026-01-30",
+      "branch": "feature/3d-assets",
+      "commit": "96cd1016",
+      "summary": "MailerBox self-collision fix + PyBullet verification",
+      "completed": [
+        "Phase 1.2: MailerBox-Simple inertia merging (Parallel Axis Theorem)",
+        "Self-collision configuration + PyBullet verification for MailerBox"
+      ],
+      "bugs_fixed": [
+        {
+          "bug": "Multiple <inertial> tags per link in URDF",
+          "root_cause": "urdf_exporter wrote one <inertial> per Blender object instead of merging per link",
+          "fix": "Implemented Parallel Axis Theorem merging in urdf_exporter.py"
+        },
+        {
+          "bug": "Self-collision not properly configured",
+          "root_cause": "URDF lacked self-collision flags; PyBullet soft joint limits allow penetration under external force",
+          "fix": "Added URDF_USE_SELF_COLLISION flag + verified joint limits"
+        }
+      ],
+      "lessons": [
+        "PyBullet joint limits are 'soft' -- external forces can exceed them",
+        "Each URDF link must have exactly one <inertial> tag with merged properties",
+        "Always verify with PyBullet URDF_USE_INERTIA_FROM_FILE | URDF_USE_SELF_COLLISION"
+      ],
+      "artifacts": {
+        "verified_urdfs": "sim_exports/urdf/mailerbox_simple/ (11 seeds verified)"
+      },
+      "architecture_changes": [
+        "urdf_exporter.py: inertia merging via Parallel Axis Theorem"
+      ],
+      "next": [
+        "Phase 1.3: Domain-randomized materials",
+        "Phase 1.4: Annotation pipeline"
+      ]
+    },
+    {
+      "id": 4,
+      "date": "2026-03-02",
+      "branch": "feature/3d-assets",
+      "commit": "56bc0e43",
+      "summary": "Phase-1 Data Engine complete + Phase-2/3 scaffolding for all 4 box types",
+      "completed": [
+        "Phase 1.1: 4 box types (MAILER/DRAWER/SLIP_LID/TUCK_END)",
+        "Phase 1.2: Inertia fix generalized to all box types",
+        "Phase 1.3: Domain-randomized materials (4 families: corrugated/kraft/glossy/plastic)",
+        "Phase 1.4: Annotation pipeline (RGB-D + seg + keypoints + URDF GT + metadata + label_map)",
+        "Phase 2.1-2.2: Code skeletons (Topo-Box-Net + Kinematic Consistency Loss)",
+        "Phase 3.1-3.2: Design docs + run matrix stubs"
+      ],
+      "bugs_fixed": [],
+      "lessons": [
+        "Use local RNG (not global np.random) for deterministic DR material sampling",
+        "planning-with-files skill keeps task-level context across iterations"
+      ],
+      "artifacts": {
+        "phase1_pipeline": "scripts/export_mailerbox_simple_phase1_data_engine.py",
+        "dr_materials": "infinigen/assets/sim_objects/box_material_domain_randomization.py",
+        "factory": "infinigen/assets/sim_objects/modular_box_factory.py",
+        "phase2_skeleton": "infinigen/perception/topo_box_net/",
+        "phase3_skeleton": "scripts/run_sim2real_ablation_matrix.py"
+      },
+      "architecture_changes": [
+        "Modular Box Factory supports 4 box types via class registry",
+        "Phase 1.4 single-script pipeline: export_mailerbox_simple_phase1_data_engine.py",
+        "Phase 2/3 scaffolding added"
+      ],
+      "next": [
+        "Batch dataset generation (1K+ samples)",
+        "Phase 2.1 training script"
+      ]
+    },
+    {
+      "id": 5,
+      "date": "2026-03-02",
+      "branch": "feature/3d-assets",
+      "commit": "35b99593",
+      "summary": "Phase-1 URDF fix: collision meshes + material color tags + 1K dataset (v2)",
+      "completed": [
+        "Fix: URDF collision meshes (visual_only=False)",
+        "Fix: Material color injection into urdf_gt.urdf <material><color> tags",
+        "Fix: imageio crash replaced with PIL for segmentation PNG",
+        "1K batch dataset v2: 1000/1000 PASS (250 per box type) with collision + material"
+      ],
+      "bugs_fixed": [
+        {
+          "bug": "URDF missing collision meshes -- joints spin infinitely in online viewers",
+          "root_cause": "visual_only=True in urdf_exporter.export() call",
+          "fix": "Changed to visual_only=False to include <collision> tags and *_col0.obj assets"
+        },
+        {
+          "bug": "No material/color in urdf_gt.urdf -- shows white in URDF viewers",
+          "root_cause": "urdf_exporter had no <material> tag injection",
+          "fix": "Post-processing: _inject_material_color_into_urdf() adds <material><color rgba> from DR config"
+        },
+        {
+          "bug": "imageio SystemError: tile cannot extend outside image at 1024x768",
+          "root_cause": "imageio.imwrite bug with high-res segmentation PNGs",
+          "fix": "Replaced with PIL.Image.fromarray().save()"
+        },
+        {
+          "bug": "Parallel batch processes overwrite samples (counter collision)",
+          "root_cause": "Multiple box types sharing same out_root with overlapping sample_counter",
+          "fix": "Separate output directories per box type (phase1_1k_mailer, etc.)"
+        }
+      ],
+      "lessons": [
+        "visual_only=True causes URDF to lack collision meshes -- downstream planner cannot use",
+        "URDF needs <material><color rgba> tags for color display in online viewers",
+        "imageio crashes on high-res segmentation PNGs -- use PIL instead",
+        "Never share out_root between parallel batch processes -- sample counter collides",
+        "Always verify with both online URDF viewer AND PyBullet"
+      ],
+      "artifacts": {
+        "1k_dataset_mailer": "sim_exports/data_engine/phase1_1k_mailer/",
+        "1k_dataset_drawer": "sim_exports/data_engine/phase1_1k_drawer/",
+        "1k_dataset_sliplid": "sim_exports/data_engine/phase1_1k_sliplid/",
+        "1k_dataset_tuckend": "sim_exports/data_engine/phase1_1k_tuckend/",
+        "downstream_urdfs": "sim_exports/urdf/mailerbox_simple/ (11 seeds, untouched)",
+        "material_proof": "sim_exports/data_engine/material_diversity_proof.png"
+      },
+      "architecture_changes": [
+        "Phase-1 pipeline now includes collision mesh export and material color injection"
+      ],
+      "next": [
+        "[P0] Verify 1K dataset usable by downstream Planner (collision check, Topo-Box-Net load)",
+        "[P1] Scale to 10K+ samples: more seeds + random joint states + more viewpoints",
+        "[P1] Phase 2.1: Topo-Box-Net training script + baseline training",
+        "[P2] Joint state diversity: random sampling instead of 2 fixed values"
+      ]
+    }
+  ],
+  "commits": [
+    {
+      "hash": "8f22ba48",
+      "date": "2026-01-10T20:02:40+08:00",
+      "message": "opus4.5 finish phase1 111111",
+      "author": "infinigen",
+      "files_changed": 0
+    },
+    {
+      "hash": "cc2887c3",
+      "date": "2026-01-10T18:33:21+08:00",
+      "message": "opus4.5 finish phase0 1111",
+      "author": "infinigen",
+      "files_changed": 0
+    },
+    {
+      "hash": "550c721c",
+      "date": "2026-01-13T12:30:59+08:00",
+      "message": "tuckendbox generate sucessed first verion 1111111",
+      "author": "infinigen",
+      "files_changed": 0
+    },
+    {
+      "hash": "7d07fc18",
+      "date": "2026-01-16T15:38:30+08:00",
+      "message": "add self-collision mailerbox-simple for test  444444",
+      "author": "infinigen",
+      "files_changed": 0
+    },
+    {
+      "hash": "acddda01",
+      "date": "2026-01-28T17:10:06+08:00",
+      "message": "just fix self-collision mailerbox-simple bug 555555",
+      "author": "infinigen",
+      "files_changed": 0
+    },
+    {
+      "hash": "96cd1016",
+      "date": "2026-01-30T16:54:15+08:00",
+      "message": "just fix self-collision mailerbox-simple bug 555555 then just update md",
+      "author": "infinigen",
+      "files_changed": 0
+    },
+    {
+      "hash": "56bc0e43",
+      "date": "2026-03-02T15:06:29+08:00",
+      "message": "Phase-1 Data Engine + Phase-2/3 scaffolding for Infinigen-AnyBox",
+      "author": "infinigen",
+      "files_changed": 0
+    },
+    {
+      "hash": "31984c59",
+      "date": "2026-03-02T15:46:35+08:00",
+      "message": "Fix imageio crash in segmentation PNG save + add Phase Architecture Overview",
+      "author": "infinigen",
+      "files_changed": 0
+    },
+    {
+      "hash": "35b99593",
+      "date": "2026-03-02T20:34:35+08:00",
+      "message": "Fix Phase-1 URDF: add collision meshes + material color tags",
+      "author": "infinigen",
+      "files_changed": 0
+    },
+    {
+      "hash": "d7c06f72",
+      "date": "2026-03-02T20:35:33+08:00",
+      "message": "Update checkpoint and task plan after URDF fix + 1K re-gen",
+      "author": "infinigen",
+      "files_changed": 0
+    },
+    {
+      "hash": "42ce8dff",
+      "date": "2026-03-03T16:39:34+08:00",
+      "message": "Update planning files with iteration protocol",
+      "author": "infinigen",
+      "files_changed": 0
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "version": 2,
+  "analysis_dimensions": [
+    "bugs",
+    "architecture",
+    "artifacts",
+    "lessons",
+    "performance",
+    "urdf_fidelity",
+    "verification"
+  ],
+  "bug_categories": [
+    "URDF_structure",
+    "rendering_pipeline",
+    "physics_simulation",
+    "data_generation",
+    "dependency_compatibility"
+  ],
+  "artifact_types": [
+    "urdf",
+    "dataset",
+    "model_checkpoint",
+    "documentation",
+    "proof_image",
+    "script",
+    "skeleton"
+  ],
+  "status_sections": [
+    "Architecture",
+    "Current State",
+    "Completed Milestones",
+    "Bug Fixes & Lessons",
+    "Verified Artifacts",
+    "Next Steps",
+    "Key Files",
+    "Lessons Learned"
+  ],
+  "evolve_every_n_iterations": 3,
+  "auto_detect_new_categories": true,
+  "evolution_history": [
+    {
+      "date": "2026-03-03",
+      "version": 1,
+      "changes": "Initial rules created from 5 historical iterations",
+      "trigger": "manual_setup"
+    },
+    {
+      "date": "2026-03-03",
+      "version": 2,
+      "changes": "Added artifact type: script; Added artifact type: skeleton; NOTICE: Architecture changes span 4 iterations with 3 consecutive pairs. Consider updating docs/Phase_Architecture_Overview.md; Added analysis dimension: urdf_fidelity (appeared 6 times in lessons); Added analysis dimension: verification (appeared 3 times in lessons)",
+      "trigger": "evolve_skill.py",
+      "iterations_analyzed": 5,
+      "stats": {
+        "total_bugs": 6,
+        "total_lessons": 12,
+        "total_arch_changes": 6,
+        "lesson_themes": {
+          "urdf_fidelity": 6,
+          "verification": 3,
+          "other": 1,
+          "compatibility": 1,
+          "pipeline_robustness": 1
+        }
+      }
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "analysis_dimensions": [
     "bugs",
     "architecture",
@@ -59,6 +59,25 @@
           "verification": 3,
           "other": 1,
           "compatibility": 1,
+          "pipeline_robustness": 1
+        }
+      }
+    },
+    {
+      "date": "2026-03-04",
+      "version": 3,
+      "changes": "NOTICE: Architecture changes span 5 iterations with 4 consecutive pairs. Consider updating docs/Phase_Architecture_Overview.md",
+      "trigger": "evolve_skill.py",
+      "iterations_analyzed": 6,
+      "stats": {
+        "total_bugs": 8,
+        "total_lessons": 18,
+        "total_arch_changes": 9,
+        "lesson_themes": {
+          "urdf_fidelity": 7,
+          "verification": 5,
+          "other": 3,
+          "compatibility": 2,
           "pipeline_robustness": 1
         }
       }

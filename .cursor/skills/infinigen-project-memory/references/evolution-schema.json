@@ -1,0 +1,80 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Infinigen Project Evolution",
+  "type": "object",
+  "required": ["project", "iterations", "commits", "architecture_version", "last_updated"],
+  "properties": {
+    "project": {
+      "type": "string",
+      "const": "infinigen-anybox"
+    },
+    "architecture_version": {
+      "type": "integer",
+      "description": "Bumped when architecture diagram or phase structure changes"
+    },
+    "last_updated": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "iterations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "date", "branch", "commit", "summary"],
+        "properties": {
+          "id": { "type": "integer" },
+          "date": { "type": "string", "format": "date" },
+          "branch": { "type": "string" },
+          "commit": { "type": "string" },
+          "summary": { "type": "string" },
+          "completed": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "bugs_fixed": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "bug": { "type": "string" },
+                "root_cause": { "type": "string" },
+                "fix": { "type": "string" }
+              }
+            }
+          },
+          "lessons": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "artifacts": {
+            "type": "object",
+            "additionalProperties": { "type": "string" }
+          },
+          "architecture_changes": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "next": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+    "commits": {
+      "type": "array",
+      "description": "Auto-appended by post-commit hook",
+      "items": {
+        "type": "object",
+        "required": ["hash", "date", "message"],
+        "properties": {
+          "hash": { "type": "string" },
+          "date": { "type": "string", "format": "date-time" },
+          "message": { "type": "string" },
+          "author": { "type": "string" },
+          "files_changed": { "type": "integer" }
+        }
+      }
+    }
+  }
+}

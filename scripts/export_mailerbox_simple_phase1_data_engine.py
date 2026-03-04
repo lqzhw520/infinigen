@@ -917,6 +917,71 @@ def main():
     print(f"✅ Done. Wrote manifest: {out_root / 'manifest.json'}")
     print("=" * 80)
 
+    # Post-export auto-validation (Level 1-3: file presence, arrays, URDF structure)
+    _run_post_export_validation(out_root, box_type)
+
+
+def _run_post_export_validation(out_root: Path, box_type: "BoxType") -> None:
+    """Run comprehensive 6-level validation on all exported samples."""
+    import time as _time
+    validate_script = PROJECT_ROOT / "scripts" / "validate_dataset.py"
+    if not validate_script.exists():
+        print("[post-export] validate_dataset.py not found, skipping auto-validation")
+        return
+
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("validate_dataset", str(validate_script))
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+
+    train_dir = out_root / "dataset" / "train"
+    if not train_dir.exists():
+        print("[post-export] no dataset/train directory, skipping validation")
+        return
+
+    sample_dirs = sorted(d for d in train_dir.iterdir() if d.is_dir() and d.name.isdigit())
+    t0 = _time.time()
+    all_results = []
+    n_fail = 0
+    for i, sd in enumerate(sample_dirs):
+        r = mod.validate_sample(sd, max_level=5)
+        all_results.append(r)
+        if not r["overall_passed"]:
+            n_fail += 1
+            lvl = r["levels"][-1] if r["levels"] else {}
+            print(f"[post-export FAIL] {sd.name}: {lvl.get('errors', [])}")
+        elif (i + 1) % 100 == 0:
+            print(f"[post-export] validated {i+1}/{len(sample_dirs)} ...")
+
+    batch_stats = mod.compute_batch_stats(all_results, out_root)
+
+    report = {
+        "dataset": str(out_root),
+        "total_samples": len(all_results),
+        "max_level": 6,
+        "elapsed_seconds": round(_time.time() - t0, 1),
+        "batch_statistics": batch_stats,
+        "failed_samples": [
+            {"sample": r["sample"],
+             "failed_at_level": r["levels"][-1]["level"] if r["levels"] else 0,
+             "errors": r["levels"][-1].get("errors", []) if r["levels"] else []}
+            for r in all_results if not r["overall_passed"]
+        ],
+    }
+    report_path = out_root / "verification_report.json"
+    report_path.write_text(json.dumps(report, indent=2, ensure_ascii=False))
+
+    total = len(sample_dirs)
+    elapsed = round(_time.time() - t0, 1)
+    print(f"[post-export] Full validation (L1-L5 per sample + L6 batch): "
+          f"{total - n_fail}/{total} pass, {n_fail} fail ({elapsed}s)")
+    if batch_stats.get("anomalies"):
+        for a in batch_stats["anomalies"]:
+            print(f"[post-export anomaly] {a}")
+    print(f"[post-export] Report: {report_path}")
+    if n_fail > 0:
+        print(f"[post-export] WARNING: {n_fail} samples failed validation!")
+
 
 if __name__ == "__main__":
     main()

@@ -1,7 +1,7 @@
 {
   "project": "infinigen-anybox",
-  "architecture_version": 3,
-  "last_updated": "2026-03-03T18:46:37+08:00",
+  "architecture_version": 4,
+  "last_updated": "2026-03-04T19:12:03.295710",
   "iterations": [
     {
       "id": 1,
@@ -181,6 +181,64 @@
         "[P1] Scale to 10K+ samples: more seeds + random joint states + more viewpoints",
         "[P1] Phase 2.1: Topo-Box-Net training script + baseline training",
         "[P2] Joint state diversity: random sampling instead of 2 fixed values"
+      ]
+    },
+    {
+      "id": 6,
+      "date": "2026-03-04",
+      "branch": "feature/3d-assets",
+      "commit": "pending",
+      "summary": "Phase-1 validation framework (6-level) + CAPNet academic alignment bridge",
+      "completed": [
+        "Comprehensive 6-level validation framework (validate_dataset.py)",
+        "7 regression tests encoding all 6 historical bugs (test_validation_regression.py)",
+        "Full 6-level validation: 1000/1000 samples PASS across 4 box types",
+        "Export pipeline upgraded to auto-run full 6-level validation post-export",
+        "CAPNet data bridge: per-link 6D pose, 3D size, AABB, NPCS from URDF+FK",
+        "CAPNet metrics evaluator: Re/Te/Se/A5/A10/mIoU + self-consistency verified",
+        "CAPNet annotations generated for all 1K samples (4000 part annotations)",
+        "Academic alignment analysis: innovation space + CAPNet gap closure"
+      ],
+      "bugs_fixed": [
+        {
+          "bug": "joint_positions stored as dict but accessed as list in validator",
+          "root_cause": "export pipeline writes {name: val} dict, validator assumed list",
+          "fix": "handle both dict and list formats in validate_dataset.py and capnet_data_bridge.py"
+        },
+        {
+          "bug": "depth background pixels (1e10) flagged as error",
+          "root_cause": "Blender Z-pass uses large values for sky/background",
+          "fix": "filter foreground pixels (< 100m) before range check, allow bg ratio"
+        }
+      ],
+      "lessons": [
+        "URDF viewers (online) cannot render OBJ textures -- material colors visible only as URDF <material><color> tags",
+        "PyBullet loadURDF resolves mesh paths relative to URDF file location",
+        "joint_positions format varies by export version (dict vs list) -- always handle both",
+        "Blender depth Z-pass uses ~1e10 for background -- not an error, just far-plane value",
+        "Self-consistency check (GT vs GT) is the best first test for any metrics pipeline",
+        "CAPNet NPCS normalization: center at AABB center, divide by max extent"
+      ],
+      "artifacts": {
+        "validate_dataset": "scripts/validate_dataset.py",
+        "regression_tests": "tests/sim/test_validation_regression.py",
+        "capnet_bridge": "scripts/capnet_data_bridge.py",
+        "capnet_metrics": "scripts/eval_capnet_metrics.py",
+        "academic_analysis": "docs/CAPNet_Academic_Alignment_Analysis.md",
+        "verification_reports": "sim_exports/data_engine/phase1_1k_*/verification_report.json",
+        "capnet_annotations": "sim_exports/data_engine/phase1_1k_*/capnet_annotations/"
+      },
+      "architecture_changes": [
+        "Added 6-level validation framework integrated into Phase-1 export pipeline",
+        "Added CAPNet data bridge layer converting Phase-1 output to 6D pose + size + NPCS format",
+        "Added CAPNet-style evaluation metrics (Re/Te/Se/A5/A10)"
+      ],
+      "next": [
+        "[P0] Scale to 10K+ samples per box type for robust CAPNet training",
+        "[P0] Train CAPNet on Infinigen-AnyBox data, compare Se with PartNet-Mobility baseline",
+        "[P1] Full NPCS map rendering (per-pixel normalized coords in camera frame)",
+        "[P1] Depth noise simulation (Gaussian + dropout) for Sim2Real gap reduction",
+        "[P2] Phase 2.1: Topo-Box-Net training with CAPNet pre-training"
       ]
     }
   ],

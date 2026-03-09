@@ -1,8 +1,6 @@
-# Iteration Archive: Phase-1 Data Engine Validation CAPNet
+# Archived Task Plan: Upgrade project-memory skill v2: full auto-pipeline hook + self-evolution + archive cleanup
 
-**Archived**: 2026-03-04 19:26
-
-## Task Plan
+**Archived**: 2026-03-04 20:55 (auto by post-commit hook)
 
 # Task Plan: Phase-1 Data Engine Completion
 
@@ -54,7 +52,7 @@ Fix Phase-1 URDF quality: collision meshes + material color tags
 | No URDF material | Inject material color tags |
 | URDF viewer white | Expected: viewers dont support PBR, check rgb.png |
 
-
+---
 ## Findings
 
 # Findings
@@ -83,37 +81,3 @@ Fix Phase-1 URDF quality: collision meshes + material color tags
 5. `.obj` files are plain geometry
 
 **Fix**: Post-process urdf_gt.urdf to inject `<material>` with RGBA from DR config
-
-
-## Checkpoint Snapshot
-
-# Session Checkpoint
-<!-- Auto-synced from .project-memory/STATUS.md by infinigen-project-memory skill -->
-
-**Date**: 2026-03-03
-**Branch**: feature/3d-assets
-**Last Commit**: 42ce8dff Update planning files with iteration protocol
-
-## Status
-
-See `.project-memory/STATUS.md` for the full project status.
-
-## Completed
-- Fix: URDF collision meshes (visual_only=False)
-- Fix: Material color injection into urdf_gt.urdf <material><color> tags
-- Fix: imageio crash replaced with PIL for segmentation PNG
-- 1K batch dataset v2: 1000/1000 PASS (250 per box type) with collision + material
-
-## Next
-- [P0] Verify 1K dataset usable by downstream Planner (collision check, Topo-Box-Net load)
-- [P1] Scale to 10K+ samples: more seeds + random joint states + more viewpoints
-- [P1] Phase 2.1: Topo-Box-Net training script + baseline training
-- [P2] Joint state diversity: random sampling instead of 2 fixed values
-
-## Lessons
-- visual_only=True causes URDF to lack collision meshes -- downstream planner cannot use
-- URDF needs <material><color rgba> tags for color display in online viewers
-- imageio crashes on high-res segmentation PNGs -- use PIL instead
-- Never share out_root between parallel batch processes -- sample counter collides
-- Always verify with both online URDF viewer AND PyBullet
-

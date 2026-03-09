@@ -1,5 +1,5 @@
 # Infinigen-AnyBox Project Status
-<!-- Auto-maintained by infinigen-project-memory skill. Last updated: 2026-03-04 -->
+<!-- Auto-maintained by infinigen-project-memory skill. Last updated: 2026-03-09 -->
 
 ## Architecture
 
@@ -11,7 +11,6 @@ Phase 1: Data Engine          Phase 2: Perception           Phase 3: Planning
 │ 1.3 DR Materials ✅ │      │                      │      │                      │
 │ 1.4 Annotation   ✅ │      └──────────────────────┘      └──────────────────────┘
 │ 1.5 Validation   ✅ │
-│ 1.6 CAPNet Bridge✅ │
 └─────────────────────┘
          │
     ┌────┴────────────────────────────────────────────┐
@@ -22,20 +21,21 @@ Phase 1: Data Engine          Phase 2: Perception           Phase 3: Planning
     └──────────────────────────────────────────────────┘
          │
     ┌────┴────────────────────────────────────────────┐
-    │         CAPNet Data Bridge                       │
-    │ FK → 6D pose (R,t) per link                      │
-    │ Mesh AABB → 3D size per link                     │
-    │ NPCS normalization params per link                │
-    │ Metrics: Re/Te/Se/A5/A10/mIoU                    │
+    │       PhysNAP Integration Pipeline               │
+    │ infinigen_to_nap.py: URDF+OBJ → NAP graph       │
+    │ 750 samples (3 types) converted, verified        │
+    │ physnap conda env: PyTorch 2.0 + CUDA on A800    │
+    │ Training scripts ready (pending data download)   │
     └──────────────────────────────────────────────────┘
 ```
 
 ## Current State
 
 - **Branch**: feature/3d-assets
-- **Phase**: Phase 1 COMPLETE -- 6-level validated + CAPNet-aligned
-- **Dataset**: 1000 samples (4 box types × 250), all 6-level validated, CAPNet annotations generated
-- **Active Work**: [P0] Scale to 10K + CAPNet training
+- **Phase**: Phase 1 COMPLETE + PhysNAP integration in progress
+- **Dataset**: 1000 samples (4 box types x 250), all 6-level validated
+- **PhysNAP**: Env ready, 750/1000 samples converted to NAP format, awaiting Google Drive data download
+- **Active Work**: [P0] PhysNAP reproduction + retraining with Infinigen data
 
 ## Completed Milestones
 
@@ -46,72 +46,78 @@ Phase 1: Data Engine          Phase 2: Perception           Phase 3: Planning
 | 3 | 2026-01-30 | MailerBox self-collision fix + PyBullet verification | 11 seeds verified |
 | 4 | 2026-03-02 | Phase-1 Data Engine + Phase-2/3 scaffolding | 4 box type pipelines |
 | 5 | 2026-03-02 | URDF fix: collision + material + 1K dataset | 1000/1000 PASS |
-| 6 | 2026-03-04 | 6-level validation framework + CAPNet bridge | validate_dataset.py, capnet_data_bridge.py, eval_capnet_metrics.py |
+| 6 | 2026-03-04 | 6-level validation framework | validate_dataset.py, test_validation_regression.py |
+| 7 | 2026-03-09 | PhysNAP integration: CAPNet rollback + env + data bridge | external/physnap/, scripts/infinigen_to_nap.py |
+
+## PhysNAP Integration Status
+
+| Component | Status | Details |
+|-----------|--------|---------|
+| CAPNet rollback | ✅ DONE | 9 files deleted, STATUS/evolution cleaned |
+| Academic review | ✅ DONE | docs/PhysNAP_Academic_Review_and_Integration.md |
+| PhysNAP clone | ✅ DONE | external/physnap/ (MIT license) |
+| Conda env | ✅ DONE | physnap: Python 3.9, PyTorch 2.0+cu118, PyG 2.5.2 |
+| NAP data download | ⏳ BLOCKED | Google Drive unreachable from server |
+| Data bridge | ✅ DONE | 750 samples → NAP graph format (verified compact_pack) |
+| PhysNAP training | ⏳ BLOCKED | Waiting for NAP pretrained AE + PartNet-Mobility |
+| Infinigen retraining | ⏳ BLOCKED | Waiting for baseline training |
 
 ## Validation Results (6-Level)
 
-| Dataset | Samples | L1-L5 Pass | L6 Anomalies | Seeds | Materials | JS Std |
-|---------|---------|-----------|-------------|-------|-----------|--------|
-| phase1_1k_mailer | 250 | 250/250 ✅ | 0 | 25 | 9 | 0.5196 |
-| phase1_1k_drawer | 250 | 250/250 ✅ | 0 | 25 | 8 | 0.0250 |
-| phase1_1k_sliplid | 250 | 250/250 ✅ | 0 | 25 | 7 | 0.0150 |
-| phase1_1k_tuckend | 250 | 250/250 ✅ | 0 | 25 | 9 | 0.2915 |
-| **TOTAL** | **1000** | **1000/1000** | **0** | - | - | - |
+| Dataset | Samples | L1-L5 Pass | L6 Anomalies |
+|---------|---------|-----------|-------------|
+| phase1_1k_mailer | 250 | 250/250 | 0 |
+| phase1_1k_drawer | 250 | 250/250 | 0 |
+| phase1_1k_sliplid | 250 | 250/250 | 0 |
+| phase1_1k_tuckend | 250 | 250/250 | 0 |
+| **TOTAL** | **1000** | **1000/1000** | **0** |
 
-## CAPNet Alignment Status
+## NAP Conversion Results
 
-| Output | Samples | Part Annotations | Self-Consistency |
-|--------|---------|-----------------|-----------------|
-| link_pos_quat_aabb.json | 1000 | 4000 | Re=0, Te=0, Se=0, IoU=1.0 ✅ |
-| obj_pos_quat_aabb.json | 1000 | 1000 | A5=1.0, A10=1.0 ✅ |
+| Box Type | Samples | Parts/sample | Joints/sample | NAP K | Status |
+|----------|---------|-------------|---------------|-------|--------|
+| MAILER | 250 | 3 | 2 | ≤8 | ✅ converted |
+| DRAWER | 250 | 2 | 1 | ≤8 | ✅ converted |
+| SLIP_LID | 250 | 2 | 1 | ≤8 | ✅ converted |
+| TUCK_END | 250 | 9 | 8 | >8 | ⚠ converted (K=10, excluded from combined) |
 
 ## Bug Fixes & Lessons (8 total)
 
-| # | Date | Bug | Fix |
-|---|------|-----|-----|
-| 1 | 01-30 | Multiple <inertial> per link | Parallel Axis Theorem merge |
-| 2 | 01-30 | Self-collision not configured | URDF_USE_SELF_COLLISION flag |
-| 3 | 03-02 | Missing collision meshes | visual_only=False |
-| 4 | 03-02 | No material color | _inject_material_color_into_urdf() |
-| 5 | 03-02 | imageio crash | PIL replacement |
-| 6 | 03-02 | Parallel counter collision | Separate output dirs |
-| 7 | 03-04 | joint_positions dict/list ambiguity | Handle both formats |
-| 8 | 03-04 | Depth background flagged as error | Foreground-only range check |
-
-## Verified Artifacts
-
-| Artifact | Path | Verification | Result |
-|----------|------|-------------|--------|
-| 1k_mailer | sim_exports/data_engine/phase1_1k_mailer/ | validate_dataset.py --level 6 | 250/250 PASS |
-| 1k_drawer | sim_exports/data_engine/phase1_1k_drawer/ | validate_dataset.py --level 6 | 250/250 PASS |
-| 1k_sliplid | sim_exports/data_engine/phase1_1k_sliplid/ | validate_dataset.py --level 6 | 250/250 PASS |
-| 1k_tuckend | sim_exports/data_engine/phase1_1k_tuckend/ | validate_dataset.py --level 6 | 250/250 PASS |
-| CAPNet annotations | sim_exports/data_engine/phase1_1k_*/capnet_annotations/ | eval_capnet_metrics.py (self-consistency) | 4/4 perfect |
-| Regression tests | tests/sim/test_validation_regression.py | pytest | 7/7 PASS |
-| Downstream URDFs | sim_exports/urdf/mailerbox_simple/ | verify_urdf_inertia_fix.py | 11 seeds OK |
+| # | Bug | Fix |
+|---|-----|-----|
+| 1 | Multiple <inertial> per link | Parallel Axis Theorem merge |
+| 2 | Self-collision not configured | URDF_USE_SELF_COLLISION flag |
+| 3 | Missing collision meshes | visual_only=False |
+| 4 | No material color | _inject_material_color_into_urdf() |
+| 5 | imageio crash | PIL replacement |
+| 6 | Parallel counter collision | Separate output dirs |
+| 7 | joint_positions dict/list ambiguity | Handle both formats |
+| 8 | Depth background flagged as error | Foreground-only range check |
 
 ## Next Steps
 
-- [P0] Scale to 10K+ samples per box type for CAPNet training
-- [P0] Train CAPNet on Infinigen-AnyBox, compare Se with PartNet-Mobility baseline
-- [P1] Full NPCS map rendering (per-pixel normalized coords)
-- [P1] Depth noise simulation for Sim2Real
+- [P0-BLOCKED] Download NAP data from Google Drive (scripts/download_nap_data.sh)
+- [P0-BLOCKED] Train PhysNAP on PartNet-Mobility baseline (Part 2.3)
+- [P0-BLOCKED] Retrain PhysNAP with Infinigen data (Part 4)
+- [P1] Scale to 10K+ samples per box type
+- [P1] Encode Infinigen part shapes via NAP's pretrained AE
 - [P2] Phase 2.1: Topo-Box-Net training
 
 ## Key Files
 
 | Category | File | Purpose |
 |----------|------|---------|
-| Export | scripts/export_mailerbox_simple_phase1_data_engine.py | Phase-1 pipeline (generates + validates) |
-| Validation | scripts/validate_dataset.py | 6-level comprehensive validator |
-| CAPNet | scripts/capnet_data_bridge.py | Convert to CAPNet format (6D pose, size, NPCS) |
-| CAPNet | scripts/eval_capnet_metrics.py | Re/Te/Se/A5/A10/mIoU evaluation |
-| Academic | docs/CAPNet_Academic_Alignment_Analysis.md | Innovation space + gap closure |
-| Tests | tests/sim/test_validation_regression.py | 6 historical bug regression tests |
-| Architecture | docs/Phase_Architecture_Overview.md | Phase 1-3 architecture diagram |
-| Research | docs/Physics_Aligned_Data_Engine_Research_Plan.md | Original research proposal |
+| Export | scripts/export_mailerbox_simple_phase1_data_engine.py | Phase-1 pipeline |
+| Validation | scripts/validate_dataset.py | 6-level validator |
+| Tests | tests/sim/test_validation_regression.py | Regression tests |
+| NAP Bridge | scripts/infinigen_to_nap.py | URDF+OBJ → NAP graph |
+| NAP Merge | scripts/merge_infinigen_nap_datasets.py | Multi-type dataset merge |
+| Training | scripts/train_physnap_infinigen.sh | PhysNAP training launcher |
+| Download | scripts/download_nap_data.sh | NAP data download helper |
+| Review | docs/PhysNAP_Academic_Review_and_Integration.md | Academic analysis |
+| PhysNAP | external/physnap/ | PhysNAP codebase (ICCV 2025) |
 
-## Lessons Learned (cumulative, 14 total)
+## Lessons Learned (cumulative, 17 total)
 
 1. Blender coordinate system differs from URDF -- transform required
 2. TuckEndBox has 8 DOF -- joint_states must exactly match DOF count
@@ -126,4 +132,7 @@ Phase 1: Data Engine          Phase 2: Perception           Phase 3: Planning
 11. Always verify with both online URDF viewer AND PyBullet
 12. joint_positions varies between dict and list formats -- handle both
 13. Blender depth Z-pass uses ~1e10 for background -- not an error
-14. Self-consistency check (GT vs GT) is the best first test for metrics
+14. URDF viewers cannot render OBJ textures -- only <material><color> tags
+15. PyBullet loadURDF resolves mesh paths relative to URDF file location
+16. NAP uses max K=8 nodes -- TuckEndBox (9 parts) exceeds this and needs K=10 or exclusion
+17. Google Drive is unreachable from AFS cluster -- need manual download or proxy

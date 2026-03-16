@@ -1,7 +1,7 @@
 {
   "project": "infinigen-anybox",
   "architecture_version": 4,
-  "last_updated": "2026-03-10T17:30:00+08:00",
+  "last_updated": "2026-03-16T18:26:05+08:00",
   "iterations": [
     {
       "id": 1,
@@ -448,6 +448,13 @@
       "message": "PhysNAP integration: CAPNet rollback + academic review + data bridge pipeline",
       "author": "zhuhaowu",
       "files_changed": 15
+    },
+    {
+      "hash": "d5a4c961",
+      "date": "2026-03-16T18:26:05+08:00",
+      "message": "Add physnap as submodule, update project files",
+      "author": "zhuhaowu",
+      "files_changed": 16
     }
   ]
 }

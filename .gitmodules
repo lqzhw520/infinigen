@@ -25,3 +25,6 @@
 [submodule "infinigen/OcMesher"]
 	path = infinigen/OcMesher
 	url = https://github.com/princeton-vl/OcMesher.git
+[submodule "external/physnap"]
+	path = external/physnap
+	url = https://github.com/JiahuiLei/NAP.git

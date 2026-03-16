@@ -1,7 +1,7 @@
 {
   "project": "infinigen-anybox",
   "architecture_version": 4,
-  "last_updated": "2026-03-04T20:55:52+08:00",
+  "last_updated": "2026-03-10T17:30:00+08:00",
   "iterations": [
     {
       "id": 1,
@@ -268,11 +268,56 @@
         "Replaced CAPNet integration with PhysNAP integration"
       ],
       "next": [
-        "[P0-BLOCKED] Download NAP pretrained data from Google Drive",
-        "[P0-BLOCKED] Train PhysNAP baseline on PartNet-Mobility",
-        "[P0-BLOCKED] Retrain PhysNAP with Infinigen data (Option A/B/C)",
-        "[P1] Encode Infinigen shapes via NAP pretrained AE",
-        "[P1] Scale to 10K+ samples",
+        "Download NAP pretrained data -- COMPLETED manually",
+        "Train PhysNAP baseline on PartNet-Mobility -- COMPLETED",
+        "Retrain PhysNAP with Infinigen data -- COMPLETED",
+        "Encode Infinigen shapes via NAP AE -- COMPLETED"
+      ]
+    },
+    {
+      "id": 8,
+      "date": "2026-03-10",
+      "branch": "feature/3d-assets",
+      "commit": "pending",
+      "summary": "PhysNAP training complete: baseline (44.5K iters) + Infinigen-only (60K complete) + fine-tune (30K) + shape encoding",
+      "completed": [
+        "NAP data downloaded: 2340 graph files, 14100 mesh dirs, AE checkpoint 737.pt, codebook, splits",
+        "PartNet-Mobility baseline training: 44.5K iterations, 9 checkpoints, loss 0.29->0.039",
+        "Infinigen shape encoding: 1750/1750 parts encoded via pretrained AE (128-dim)",
+        "Infinigen-only training: 60K iterations COMPLETE, 13 checkpoints, loss 0.28->0.010",
+        "Fine-tune from pretrained: 30K iterations, adapting PartNet-Mobility weights to Infinigen",
+        "End-to-end pipeline verified: data->encode->train->generate",
+        "Evaluation infrastructure: evaluate_physnap_training.py cross-experiment comparison",
+        "pyrender EGL crash fixed: graceful fallback in visualization code"
+      ],
+      "bugs_fixed": [
+        "pyrender OffscreenRenderer EGL crash on headless server -- wrapped viz in try/except"
+      ],
+      "lessons": [
+        "Training on 750 Infinigen samples converges to lower loss than 2340 PartNet-Mobility -- smaller, focused domain",
+        "EGL rendering fails on headless AFS cluster -- osmesa also broken, need graceful fallback",
+        "Fine-tuning from pretrained checkpoint needs lower LR (3e-5 vs 1e-4) to avoid catastrophic forgetting"
+      ],
+      "artifacts": {
+        "shape_encoder": "scripts/encode_infinigen_shapes.py",
+        "evaluation_script": "scripts/evaluate_physnap_training.py",
+        "infinigen_codebook": "external/physnap/data/infinigen_graph_combined/infinigen_codebook.npz (1750x128)",
+        "infinigen_config": "external/physnap/configs/nap/v6.1_diffusion_infinigen.yaml",
+        "finetune_config": "external/physnap/configs/nap/v6.1_diffusion_finetune_infinigen.yaml",
+        "training_baseline": "external/physnap/log/v6.1_diffusion_adapted/ (9 ckpts, 44.5K iters)",
+        "training_infinigen": "external/physnap/log/v6.1_diffusion_infinigen/ (13 ckpts, 60K complete)",
+        "training_finetune": "external/physnap/log/v6.1_diffusion_finetune_infinigen/"
+      },
+      "architecture_changes": [
+        "Added shape encoding pipeline for Infinigen meshes via NAP pretrained AE",
+        "Three training strategies validated: baseline, Infinigen-only, fine-tune",
+        "Headless rendering graceful degradation in PhysNAP visualization"
+      ],
+      "next": [
+        "[P0] Resume PartNet-Mobility baseline to 120K iterations for full comparison",
+        "[P0] Generate and evaluate articulated objects from all 3 trained models",
+        "[P1] Scale Infinigen data to 10K+ samples",
+        "[P1] Implement PhysNAP conditional generation with Infinigen point clouds",
         "[P2] Phase 2.1: Topo-Box-Net training"
       ]
     }
@@ -396,6 +441,13 @@
       "message": "Upgrade project-memory skill v2: full auto-pipeline hook + self-evolution + archive cleanup",
       "author": "zhuhaowu",
       "files_changed": 11
+    },
+    {
+      "hash": "d6c74c0a",
+      "date": "2026-03-09T18:45:53+08:00",
+      "message": "PhysNAP integration: CAPNet rollback + academic review + data bridge pipeline",
+      "author": "zhuhaowu",
+      "files_changed": 15
     }
   ]
 }

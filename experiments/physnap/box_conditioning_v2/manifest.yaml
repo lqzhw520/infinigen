@@ -1,0 +1,102 @@
+campaign:
+  id: box_conditioning_v2
+  title: Infinigen x PhysNAP Phase 2 Conditioning Redesign
+  main_claim: Multi-state, multi-view procedural articulated observations can outperform
+    PhysNAP's original zero-articulation single-observation conditioning regime.
+  phase: phase2_conditioning_design
+  phase_gate: await_phase2_execution
+runtime:
+  single_active_train_job: true
+  launcher: scripts/train_physnap_infinigen.sh
+  evaluator: scripts/evaluate_conditioning_v2.py
+  evaluator_python: infinigen
+  loop: scripts/physnap_auto_review_loop.py
+conditioning:
+  source_campaign: box_prior_v1
+  plan_path: experiments/physnap/box_conditioning_v2/runtime/conditioning_plan.json
+  output_root: experiments/physnap/box_conditioning_v2/conditioning
+  samples_per_box: 8
+  points_per_cloud: 1000
+  render_width: 256
+  render_height: 256
+  guide:
+    cond_fac: 45
+    pen_fac: 2
+    mob_fac: 2
+    cond_temp: 1000
+    cond_model: squared
+    n_per_condition: 3
+    batch_size: 24
+    num_workers: 4
+    metrics_for: sdf
+    skip_visualization: false
+    skip_retrieval_exports: false
+    guide_fromto:
+    - 500
+    - 1000
+    dps_weight: 0.333
+  reference:
+    ref_name: infinigen_box_k10_val_eval32
+    ref_path: external/physnap/log/infinigen_box_k10_val_eval32
+  groups:
+    zero_singleview:
+      label: zero-state single-view
+      state_mode: zero
+      view_mode: single
+      cond_dir: experiments/physnap/box_conditioning_v2/conditioning/zero_singleview
+      output_name: box_conditioning_v2__zero_singleview
+      guide_overrides:
+        batch_size: 36
+        num_workers: 12
+        metrics_for: sdf
+        skip_visualization: true
+        skip_retrieval_exports: true
+    zero_multiview:
+      label: zero-state multi-view
+      state_mode: zero
+      view_mode: multi
+      cond_dir: experiments/physnap/box_conditioning_v2/conditioning/zero_multiview
+      output_name: box_conditioning_v2__zero_multiview
+      guide_overrides:
+        batch_size: 36
+        num_workers: 12
+        metrics_for: sdf
+        skip_visualization: true
+        skip_retrieval_exports: true
+    multistate_singleview:
+      label: multi-state single-view
+      state_mode: multi
+      view_mode: single
+      cond_dir: experiments/physnap/box_conditioning_v2/conditioning/multistate_singleview
+      output_name: box_conditioning_v2__multistate_singleview
+      guide_overrides:
+        batch_size: 36
+        num_workers: 12
+        metrics_for: sdf
+        skip_visualization: true
+        skip_retrieval_exports: true
+    multistate_multiview:
+      label: multi-state multi-view
+      state_mode: multi
+      view_mode: multi
+      cond_dir: experiments/physnap/box_conditioning_v2/conditioning/multistate_multiview
+      output_name: box_conditioning_v2__multistate_multiview
+      guide_overrides:
+        batch_size: 36
+        num_workers: 12
+        metrics_for: sdf
+        skip_visualization: true
+        skip_retrieval_exports: true
+queue:
+- id: prepare_conditioning_v2
+- id: export_cond_zero_singleview
+- id: export_cond_zero_multiview
+- id: export_cond_multistate_singleview
+- id: export_cond_multistate_multiview
+- id: run_guided_zero_singleview
+- id: run_guided_zero_multiview
+- id: run_guided_multistate_singleview
+- id: run_guided_multistate_multiview
+- id: evaluate_conditioning_v2
+- id: write_phase2_claim_memo
+experiments: {}

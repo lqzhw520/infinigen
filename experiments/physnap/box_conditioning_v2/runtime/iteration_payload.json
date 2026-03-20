@@ -1,0 +1,22 @@
+{
+  "summary": "box_conditioning_v2 phase2_conditioning_design verdict=claim_not_supported decision=revise_claim",
+  "completed": [
+    "Queue status: ['prepare_conditioning_v2=completed', 'export_cond_zero_singleview=completed', 'export_cond_zero_multiview=completed', 'export_cond_multistate_singleview=completed', 'export_cond_multistate_multiview=completed', 'run_guided_zero_singleview=completed', 'run_guided_zero_multiview=completed', 'run_guided_multistate_singleview=completed', 'run_guided_multistate_multiview=completed', 'evaluate_conditioning_v2=completed', 'write_phase2_claim_memo=completed']"
+  ],
+  "bugs_fixed": [],
+  "lessons": [
+    "All bounded Phase 2 conditioning recipes completed, but none produced a consistent gain over the zero-state single-view anchor."
+  ],
+  "artifacts": {
+    "campaign_manifest": "experiments/physnap/box_conditioning_v2/manifest.yaml",
+    "campaign_status": "experiments/physnap/box_conditioning_v2/campaign_status.md",
+    "decision_memo": "experiments/physnap/box_conditioning_v2/decision_memo.md"
+  },
+  "architecture_changes": [
+    "Phase gate is now ready_for_writeup"
+  ],
+  "next": [
+    "Write the strongest true claim memo for Phase 2 instead of the original strong claim.",
+    "Record which conditioning groups failed to improve the anchor and why."
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "campaign": "box_conditioning_v2",
+  "phase": "phase2_conditioning_design",
+  "phase_gate": "ready_for_writeup",
+  "verdict": "claim_not_supported",
+  "decision": "revise_claim",
+  "queue_signature": "prepare_conditioning_v2=completed|export_cond_zero_singleview=completed|export_cond_zero_multiview=completed|export_cond_multistate_singleview=completed|export_cond_multistate_multiview=completed|run_guided_zero_singleview=completed|run_guided_zero_multiview=completed|run_guided_multistate_singleview=completed|run_guided_multistate_multiview=completed|evaluate_conditioning_v2=completed|write_phase2_claim_memo=completed|completed|write_phase2_claim_memo|2026-03-20T19:36:21+08:00|None|None|1774006524:1592",
+  "watch_status": "completed",
+  "watcher_pid": 2642735,
+  "supervisor_pid": 2515830,
+  "inner_loop_pid": 2642735,
+  "cpu_worker_pid": null,
+  "active_cpu_step": null,
+  "last_error": null,
+  "stagnant_cycles": 0,
+  "next_campaign": null,
+  "updated_at": "2026-03-20T19:36:36+0800"
+}

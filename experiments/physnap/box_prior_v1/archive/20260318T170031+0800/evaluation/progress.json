@@ -1,0 +1,110 @@
+{
+  "campaign_id": "box_prior_v1",
+  "updated_at": "2026-03-18T16:02:54+08:00",
+  "status": "completed",
+  "distance_backend": "torch_fallback",
+  "current_stage": "write_report",
+  "latest_artifact": "/mnt/afs2/zhuhaowu/infinigen/experiments/physnap/box_prior_v1/evaluation/comparison_report.md",
+  "message": "Evaluation summary and report are ready",
+  "stages": {
+    "export_box_ref": {
+      "status": "completed",
+      "started_at": "2026-03-18T15:15:33+08:00",
+      "updated_at": "2026-03-18T15:16:13+08:00",
+      "artifacts": [
+        "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/infinigen_box_k10_val_eval32"
+      ],
+      "message": "Reference `infinigen_box_k10_val_eval32` ready for box metrics"
+    },
+    "export_partnet_ref": {
+      "status": "completed",
+      "started_at": "2026-03-18T15:16:13+08:00",
+      "updated_at": "2026-03-18T15:20:41+08:00",
+      "artifacts": [
+        "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/GTval_eval64"
+      ],
+      "message": "Reference `GTval_eval64` ready"
+    },
+    "generate_baseline": {
+      "status": "completed",
+      "started_at": "2026-03-18T15:20:41+08:00",
+      "updated_at": "2026-03-18T15:23:04+08:00",
+      "artifacts": [
+        "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/box_prior_v1__baseline"
+      ],
+      "message": "Generation ready for `baseline`"
+    },
+    "generate_scratch": {
+      "status": "completed",
+      "started_at": "2026-03-18T15:23:04+08:00",
+      "updated_at": "2026-03-18T15:25:18+08:00",
+      "artifacts": [
+        "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/box_prior_v1__infinigen_k10"
+      ],
+      "message": "Generation ready for `infinigen_k10`"
+    },
+    "generate_finetune": {
+      "status": "completed",
+      "started_at": "2026-03-18T15:25:18+08:00",
+      "updated_at": "2026-03-18T15:27:18+08:00",
+      "artifacts": [
+        "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/box_prior_v1__finetune_k10"
+      ],
+      "message": "Generation ready for `finetune_k10`"
+    },
+    "generate_mixed_finetune": {
+      "status": "pending",
+      "started_at": null,
+      "updated_at": null,
+      "artifacts": [],
+      "message": ""
+    },
+    "generate_partial_finetune": {
+      "status": "pending",
+      "started_at": null,
+      "updated_at": null,
+      "artifacts": [],
+      "message": ""
+    },
+    "compute_box_metrics": {
+      "status": "completed",
+      "started_at": "2026-03-18T15:27:18+08:00",
+      "updated_at": "2026-03-18T15:40:53+08:00",
+      "artifacts": [
+        "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/box_prior_v1__baseline/ID_D_matrix__infinigen_box_k10_val_eval32",
+        "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/box_prior_v1__infinigen_k10/ID_D_matrix__infinigen_box_k10_val_eval32",
+        "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/box_prior_v1__finetune_k10/ID_D_matrix__infinigen_box_k10_val_eval32"
+      ],
+      "message": "Box-domain metrics complete"
+    },
+    "compute_partnet_metrics": {
+      "status": "completed",
+      "started_at": "2026-03-18T15:40:53+08:00",
+      "updated_at": "2026-03-18T16:02:31+08:00",
+      "artifacts": [
+        "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/box_prior_v1__baseline/ID_D_matrix__GTval_eval64",
+        "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/box_prior_v1__infinigen_k10/ID_D_matrix__GTval_eval64",
+        "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/box_prior_v1__finetune_k10/ID_D_matrix__GTval_eval64"
+      ],
+      "message": "PartNet sanity metrics complete"
+    },
+    "audit_conversion": {
+      "status": "completed",
+      "started_at": "2026-03-18T16:02:31+08:00",
+      "updated_at": "2026-03-18T16:02:54+08:00",
+      "artifacts": [
+        "/mnt/afs2/zhuhaowu/infinigen/experiments/physnap/box_prior_v1/diagnostics/conversion_audit.json"
+      ],
+      "message": "Conversion audit complete"
+    },
+    "write_report": {
+      "status": "completed",
+      "started_at": "2026-03-18T16:02:54+08:00",
+      "updated_at": "2026-03-18T16:02:54+08:00",
+      "artifacts": [
+        "/mnt/afs2/zhuhaowu/infinigen/experiments/physnap/box_prior_v1/evaluation/comparison_report.md"
+      ],
+      "message": "Evaluation summary and report are ready"
+    }
+  }
+}

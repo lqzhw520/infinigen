@@ -1,0 +1,8 @@
+{
+  "group_id": "multistate_multiview",
+  "cond_dir": "/mnt/afs2/zhuhaowu/infinigen/experiments/physnap/box_conditioning_v2/conditioning/multistate_multiview",
+  "n_objects": 32,
+  "points_per_cloud": 1000,
+  "state_mode": "multi",
+  "view_mode": "multi"
+}

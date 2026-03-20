@@ -1,0 +1,27 @@
+{
+  "generated_at": "2026-03-20T19:36:21+08:00",
+  "phase": "phase2_conditioning_design",
+  "phase_gate": "ready_for_writeup",
+  "verdict": "claim_not_supported",
+  "decision": "revise_claim",
+  "blocker_type": "transfer",
+  "score": 5,
+  "workflow_score": 10,
+  "evidence_score": 5,
+  "strengths": [],
+  "weaknesses": [
+    "Baseline, scratch, and fine-tune comparison arms are incomplete.",
+    "`zero_multiview` does not consistently beat the zero-state single-view anchor.",
+    "`multistate_singleview` does not consistently beat the zero-state single-view anchor.",
+    "`multistate_multiview` does not consistently beat the zero-state single-view anchor.",
+    "Claim ladder `multi-state + multi-view beats zero-state single-view` via `multistate_multiview` => not supported.",
+    "Claim ladder `multi-view only beats zero-state single-view` via `zero_multiview` => not supported.",
+    "Claim ladder `multi-state only beats zero-state single-view` via `multistate_singleview` => not supported."
+  ],
+  "next_actions": [
+    "Write the strongest true claim memo for Phase 2 instead of the original strong claim.",
+    "Record which conditioning groups failed to improve the anchor and why."
+  ],
+  "claim_assessment": "All bounded Phase 2 conditioning recipes completed, but none produced a consistent gain over the zero-state single-view anchor.",
+  "strongest_true_claim": "Mixed replay is the strongest validated transfer improvement, but richer conditioning under the current PhysNAP parameterization does not consistently beat the zero-state single-view anchor."
+}

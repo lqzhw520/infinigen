@@ -1,0 +1,6 @@
+[
+  "Run `mixed_finetune_k10` to test whether pure fine-tuning is causing catastrophic forgetting.",
+  "Run `partial_finetune_k10` to test whether full fine-tuning is destroying the pretrained prior.",
+  "Inspect comparison_report.md and conversion_audit.md together to separate data fidelity issues from transfer-recipe issues.",
+  "Only lower the claim after mixed and partial fine-tune diagnostics also fail without any implementation blocker."
+]

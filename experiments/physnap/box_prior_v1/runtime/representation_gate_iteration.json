@@ -1,0 +1,45 @@
+{
+  "summary": "Cleared the Infinigen->PhysNAP representation-fidelity blocker, regenerated repaired box data, and launched repaired scratch retraining.",
+  "completed": [
+    "Regenerated all four box graph datasets with visual-origin-aware conversion.",
+    "Rebuilt combined_k10 and regenerated the Infinigen box codebook.",
+    "Re-ran conversion audit and established a healthy box GT self-eval gate.",
+    "Launched infinigen_k10_fixed on the repaired dataset."
+  ],
+  "bugs_fixed": [
+    {
+      "bug": "Per-box and combined K=10 datasets were still derived from the pre-fix converter that ignored URDF visual origins.",
+      "root_cause": "prepare_k10 only merged existing .npz files and never re-converted raw Phase-1 data after the converter changed.",
+      "fix": "prepare_k10 now rebuilds per-box datasets from raw exports and invalidates stale box reference caches when forced."
+    },
+    {
+      "bug": "Conversion audit treated visual-origin sensitivity itself as a blocker instead of checking whether the saved dataset matched the fixed converter.",
+      "root_cause": "The audit compared fixed vs buggy conversion variants but did not measure saved-vs-fixed fidelity.",
+      "fix": "Audit now reports saved-vs-fixed errors, saved alignment, and PartNet GT control metrics."
+    },
+    {
+      "bug": "PhysNAP audit scripts could crash on libstdc++/PIL binary mismatch before GT evaluation started.",
+      "root_cause": "The physnap environment sometimes loaded the system libstdc++ instead of the conda copy required by Pillow/libLerc.",
+      "fix": "Added an auto re-exec preload guard so audit/evaluator processes start with the conda libstdc++.so.6 preloaded."
+    }
+  ],
+  "lessons": [
+    "A converter bug that changes local frames invalidates all downstream training and evaluation artifacts; those artifacts must be treated as archival after regeneration.",
+    "Box GT physics can be healthy even when PartNet GT exceeds an absolute E_pen/E_mob threshold, so those thresholds are not domain-universal."
+  ],
+  "artifacts": {
+    "conversion_audit": "experiments/physnap/box_prior_v1/diagnostics/conversion_audit.md",
+    "prepare_summary": "experiments/physnap/box_prior_v1/runtime/prepare_k10_summary.json",
+    "repaired_scratch_meta": "experiments/physnap/box_prior_v1/runtime/v6.1_diffusion_infinigen_k10_fixed/run_meta.json"
+  },
+  "architecture_changes": [
+    "prepare_k10 now has a raw-data reconversion stage before merge/codebook generation.",
+    "Added repaired training branch configs and launcher modes: infinigen_k10_fixed / finetune_k10_fixed.",
+    "Audit and evaluator now surface saved-dataset fidelity and PartNet GT self-eval controls."
+  ],
+  "next": [
+    "Let infinigen_k10_fixed finish and then launch finetune_k10_fixed.",
+    "Re-run evaluation on baseline / infinigen_k10_fixed / finetune_k10_fixed.",
+    "Decide whether the repaired branch supports the prior claim or only a weaker representation/benchmark result."
+  ]
+}

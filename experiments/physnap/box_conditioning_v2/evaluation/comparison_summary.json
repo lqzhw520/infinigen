@@ -1,0 +1,116 @@
+{
+  "campaign_id": "box_conditioning_v2",
+  "phase": "phase2_conditioning_design",
+  "updated_at": "2026-03-20T19:35:24+08:00",
+  "phase2_base_experiment": "mixed_finetune_k10",
+  "phase2_base_checkpoint": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/v6.1_diffusion_mixed_finetune_infinigen_k10/checkpoint/425_latest.pt",
+  "anchor_group": "zero_singleview",
+  "winning_group": null,
+  "supported_claim_level": null,
+  "strongest_true_claim": "Richer conditioning did not consistently beat the zero-state single-view anchor under the bounded Phase 2 recipes.",
+  "claim_verdict": "claim_not_supported",
+  "conditioning_groups": {
+    "zero_singleview": {
+      "output_name": "box_conditioning_v2__zero_singleview",
+      "run_dir": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/box_conditioning_v2__zero_singleview",
+      "gallery": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/box_conditioning_v2__zero_singleview/res_chnk03.png",
+      "cond_error_mean": 0.0022055536246625707,
+      "cond_dist_mean": 0.1069529079602912,
+      "pen_error_mean": 0.0007139240296964999,
+      "mob_error_mean": 0.0005797943085781299,
+      "genfull_per_mmd_mean": 0.5589997228235006,
+      "genfull_per_cov_mean": 0.0908203125,
+      "genfull_per_1NN-acc_mean": 0.9250000044703484,
+      "n_per_condition": 3
+    },
+    "zero_multiview": {
+      "output_name": "box_conditioning_v2__zero_multiview",
+      "run_dir": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/box_conditioning_v2__zero_multiview",
+      "gallery": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/box_conditioning_v2__zero_multiview/res_chnk03.png",
+      "cond_error_mean": 0.0014058477245271206,
+      "cond_dist_mean": 0.11012757955395841,
+      "pen_error_mean": 0.0007759372820146382,
+      "mob_error_mean": 0.0005648964070132934,
+      "genfull_per_mmd_mean": 0.5496429605409503,
+      "genfull_per_cov_mean": 0.08984375,
+      "genfull_per_1NN-acc_mean": 0.9241071473807096,
+      "n_per_condition": 3
+    },
+    "multistate_singleview": {
+      "output_name": "box_conditioning_v2__multistate_singleview",
+      "run_dir": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/box_conditioning_v2__multistate_singleview",
+      "gallery": null,
+      "cond_error_mean": 0.0013572014092157285,
+      "cond_dist_mean": 0.11615024814732157,
+      "pen_error_mean": 0.0022372949169948697,
+      "mob_error_mean": 0.0006206683465279639,
+      "genfull_per_mmd_mean": 0.5471300091594458,
+      "genfull_per_cov_mean": 0.0908203125,
+      "genfull_per_1NN-acc_mean": 0.9250000044703484,
+      "n_per_condition": 3
+    },
+    "multistate_multiview": {
+      "output_name": "box_conditioning_v2__multistate_multiview",
+      "run_dir": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/box_conditioning_v2__multistate_multiview",
+      "gallery": null,
+      "cond_error_mean": 0.0014382785884663463,
+      "cond_dist_mean": 0.11734763459549602,
+      "pen_error_mean": 0.0091311283952867,
+      "mob_error_mean": 0.010760995797075642,
+      "genfull_per_mmd_mean": 0.5368264261633158,
+      "genfull_per_cov_mean": 0.0888671875,
+      "genfull_per_1NN-acc_mean": 0.9214285761117935,
+      "n_per_condition": 3
+    }
+  },
+  "claim_ladder": [
+    {
+      "claim_level": "multi-state + multi-view beats zero-state single-view",
+      "group_id": "multistate_multiview"
+    },
+    {
+      "claim_level": "multi-view only beats zero-state single-view",
+      "group_id": "zero_multiview"
+    },
+    {
+      "claim_level": "multi-state only beats zero-state single-view",
+      "group_id": "multistate_singleview"
+    }
+  ],
+  "group_outcomes": {
+    "multistate_multiview": {
+      "supported": false,
+      "structural_gain": false,
+      "physics_preserved": false,
+      "conditioning_preserved": true,
+      "candidate_mmd_delta": -0.02217329666018486,
+      "candidate_cov_delta": -0.001953125,
+      "candidate_pen_delta": 0.0084172043655902,
+      "candidate_mob_delta": 0.010181201488497512,
+      "candidate_cond_delta": -0.0007672750361962244
+    },
+    "zero_multiview": {
+      "supported": false,
+      "structural_gain": false,
+      "physics_preserved": false,
+      "conditioning_preserved": true,
+      "candidate_mmd_delta": -0.009356762282550335,
+      "candidate_cov_delta": -0.0009765625,
+      "candidate_pen_delta": 6.201325231813826e-05,
+      "candidate_mob_delta": -1.4897901564836502e-05,
+      "candidate_cond_delta": -0.0007997059001354501
+    },
+    "multistate_singleview": {
+      "supported": false,
+      "structural_gain": true,
+      "physics_preserved": false,
+      "conditioning_preserved": true,
+      "candidate_mmd_delta": -0.01186971366405487,
+      "candidate_cov_delta": 0.0,
+      "candidate_pen_delta": 0.0015233708872983698,
+      "candidate_mob_delta": 4.087403794983402e-05,
+      "candidate_cond_delta": -0.0008483522154468421
+    }
+  },
+  "phase1_diagnosis": "forgetting-dominant"
+}

@@ -1,0 +1,133 @@
+{
+  "campaign_id": "box_prior_v1",
+  "phase": "phase1_diagnostics",
+  "phase_gate": "auto_handoff_ready",
+  "updated_at": "2026-03-19T16:04:12+08:00",
+  "queue": [
+    {
+      "id": "prepare_k10",
+      "status": "completed",
+      "updated_at": "2026-03-18T17:00:31+08:00"
+    },
+    {
+      "id": "train_infinigen_k10",
+      "status": "completed",
+      "updated_at": "2026-03-19T16:04:12+08:00"
+    },
+    {
+      "id": "train_finetune_k10",
+      "status": "completed",
+      "updated_at": "2026-03-19T16:04:12+08:00"
+    },
+    {
+      "id": "prepare_mixed_replay",
+      "status": "completed",
+      "updated_at": "2026-03-18T17:10:00+08:00"
+    },
+    {
+      "id": "train_mixed_finetune_k10",
+      "status": "completed",
+      "updated_at": "2026-03-19T16:04:12+08:00"
+    },
+    {
+      "id": "train_partial_finetune_k10",
+      "status": "completed",
+      "updated_at": "2026-03-19T16:04:12+08:00"
+    },
+    {
+      "id": "evaluate_all",
+      "status": "completed",
+      "updated_at": "2026-03-19T16:04:12+08:00"
+    }
+  ],
+  "active_job": null,
+  "history": [
+    {
+      "at": "2026-03-17T21:10:30+08:00",
+      "event": "representation_gate_passed",
+      "details": "Regenerated box data with fixed converter; GT self-eval healthy; launched infinigen_k10_fixed."
+    },
+    {
+      "at": "2026-03-18T17:00:31+08:00",
+      "event": "phase1_bootstrap",
+      "details": "Archived prior repaired-branch report and reset queue for mixed/partial diagnostics."
+    },
+    {
+      "at": "2026-03-18T17:10:01+08:00",
+      "event": "prepare_mixed_replay",
+      "details": "Completed prepare_mixed_replay."
+    },
+    {
+      "at": "2026-03-18T17:10:17+08:00",
+      "event": "train_mixed_finetune_k10",
+      "details": "Launched mixed_finetune_k10 in background."
+    },
+    {
+      "at": "2026-03-18T18:33:01+08:00",
+      "event": "train_partial_finetune_k10",
+      "details": "Launched partial_finetune_k10 in background."
+    },
+    {
+      "at": "2026-03-18T19:33:16+08:00",
+      "event": "auto_repair",
+      "details": "Queued retry for train_partial_finetune_k10 after detected failure `optimizer_key_mismatch`."
+    },
+    {
+      "at": "2026-03-18T19:34:52+08:00",
+      "event": "manual_retry_reset",
+      "details": "Reset partial fine-tune and evaluate queue items after patching initialization semantics and auto-repair recovery."
+    },
+    {
+      "at": "2026-03-18T19:35:03+08:00",
+      "event": "train_partial_finetune_k10",
+      "details": "Launched partial_finetune_k10 in background."
+    },
+    {
+      "at": "2026-03-18T21:27:03+08:00",
+      "event": "evaluate_all",
+      "details": "Evaluation completed."
+    }
+  ],
+  "last_review": {
+    "generated_at": "2026-03-19T16:04:12+08:00",
+    "phase": "phase1_diagnostics",
+    "phase_gate": "auto_handoff_ready",
+    "verdict": "phase1_diagnosis_ready",
+    "decision": "advance_phase",
+    "blocker_type": "none",
+    "score": 6,
+    "workflow_score": 10,
+    "evidence_score": 6,
+    "strengths": [
+      "Diagnostics decision: `healthy`.",
+      "Baseline, scratch, and fine-tune arms are present.",
+      "Fine-tune maintains or improves box-domain coverage relative to scratch.",
+      "Fine-tune improves or matches baseline penetration error.",
+      "Fine-tune improves or matches baseline mobility error.",
+      "Mixed replay diagnostic arm is present.",
+      "Partial fine-tune diagnostic arm is present.",
+      "Dominant Phase 1 diagnosis: `forgetting-dominant`.",
+      "Selected Phase 2 base checkpoint: `mixed_finetune_k10`."
+    ],
+    "weaknesses": [
+      "Fine-tune box-domain MMD is worse than baseline.",
+      "PartNet sanity shows a notable MMD regression after fine-tuning."
+    ],
+    "next_actions": [
+      "Write the Phase 1 decision memo and selected Phase 2 base checkpoint.",
+      "Auto-bootstrap `box_conditioning_v2` immediately after Phase 1 completes."
+    ],
+    "claim_assessment": "The repaired bridge is healthy, and the dominant remaining failure signal is catastrophic forgetting during pure fine-tune.",
+    "diagnosis": "forgetting-dominant",
+    "selected_phase2_base_experiment": "mixed_finetune_k10",
+    "selected_phase2_base_checkpoint": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/v6.1_diffusion_mixed_finetune_infinigen_k10/checkpoint/425_latest.pt",
+    "selected_phase2_base_config": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/configs/nap/v6.1_diffusion_mixed_finetune_infinigen_k10.yaml"
+  },
+  "retries": {},
+  "auto_handoff_status": "ready",
+  "phase2_base_checkpoint": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/v6.1_diffusion_mixed_finetune_infinigen_k10/checkpoint/425_latest.pt",
+  "phase2_base_config": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/configs/nap/v6.1_diffusion_mixed_finetune_infinigen_k10.yaml",
+  "phase2_base_experiment": "mixed_finetune_k10",
+  "force_steps": {},
+  "active_runtime": null
+}

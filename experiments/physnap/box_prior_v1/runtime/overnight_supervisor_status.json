@@ -1,0 +1,18 @@
+{
+  "campaign": "box_prior_v1",
+  "phase": "phase1_diagnostics",
+  "phase_gate": "await_phase1_diagnostics",
+  "verdict": "phase1_diagnostics_incomplete",
+  "decision": "run_experiments",
+  "queue_signature": "prepare_k10=completed|train_infinigen_k10=completed|train_finetune_k10=completed|prepare_mixed_replay=completed|train_mixed_finetune_k10=completed|train_partial_finetune_k10=completed|evaluate_all=running",
+  "watch_status": "running",
+  "watcher_pid": 2501843,
+  "supervisor_pid": 2501842,
+  "inner_loop_pid": 2501843,
+  "cpu_worker_pid": null,
+  "active_cpu_step": null,
+  "last_error": null,
+  "stagnant_cycles": 56,
+  "next_campaign": "box_conditioning_v2",
+  "updated_at": "2026-03-18T21:27:02+0800"
+}

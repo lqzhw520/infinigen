@@ -1,0 +1,567 @@
+{
+  "campaign_id": "box_prior_v1",
+  "generated_at": "2026-03-18T20:58:35+08:00",
+  "box_reference": "infinigen_box_k10_val",
+  "box_metric_reference": "infinigen_box_k10_val_eval32",
+  "box_metric_reference_size": 32,
+  "partnet_reference": "GTval",
+  "partnet_metric_reference": "GTval_eval64",
+  "partnet_metric_reference_size": 64,
+  "experiments": {
+    "baseline": {
+      "label": "PartNet baseline",
+      "run_dir": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/box_prior_v1__baseline",
+      "config_path": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/configs/nap/v6.1_diffusion_adapted.yaml",
+      "checkpoint_path": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/v6.1_diffusion_adapted/checkpoint/5455.pt",
+      "training_metrics": {},
+      "physics_stats": {
+        "pen_error_mean": 0.44212023355066776,
+        "mob_error_mean": 0.4545806972309947,
+        "cond_error_mean": -1.0
+      },
+      "box_metrics": {
+        "multi_state": {
+          "mmd": 0.36308541893959045,
+          "cov": 0.53125,
+          "mmd_smp": 0.4969958961009979,
+          "nap-mmd": 0.50254225730896,
+          "nap-cov": 0.1875,
+          "nap-mmd_smp": 0.36958348751068115,
+          "1NN-acc_t": 0.96875,
+          "1NN-acc_f": 1.0,
+          "1NN-acc": 0.9791666865348816,
+          "nap-1NN-acc_t": 1.0,
+          "nap-1NN-acc_f": 0.6875,
+          "nap-1NN-acc": 0.84375
+        },
+        "zero_state": {
+          "mmd": 0.35310113430023193,
+          "cov": 0.125,
+          "mmd_smp": 0.5359836220741272,
+          "nap-mmd": 0.5357885360717773,
+          "nap-cov": 0.125,
+          "nap-mmd_smp": 0.3688821792602539,
+          "1NN-acc_t": 0.96875,
+          "1NN-acc_f": 1.0,
+          "1NN-acc": 0.9791666865348816,
+          "nap-1NN-acc_t": 1.0,
+          "nap-1NN-acc_f": 0.59375,
+          "nap-1NN-acc": 0.796875
+        }
+      },
+      "gallery": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/box_prior_v1__baseline/res_chnk01.png",
+      "partnet_sanity": {
+        "multi_state": {
+          "mmd": 0.31708770990371704,
+          "cov": 0.484375,
+          "mmd_smp": 0.3102976679801941,
+          "nap-mmd": 0.3102976679801941,
+          "nap-cov": 0.5,
+          "nap-mmd_smp": 0.31708770990371704,
+          "1NN-acc_t": 0.625,
+          "1NN-acc_f": 0.484375,
+          "1NN-acc": 0.5546875,
+          "nap-1NN-acc_t": 0.53125,
+          "nap-1NN-acc_f": 0.5625,
+          "nap-1NN-acc": 0.546875
+        },
+        "zero_state": {
+          "mmd": 0.302569717168808,
+          "cov": 0.515625,
+          "mmd_smp": 0.29672861099243164,
+          "nap-mmd": 0.29672861099243164,
+          "nap-cov": 0.515625,
+          "nap-mmd_smp": 0.302569717168808,
+          "1NN-acc_t": 0.65625,
+          "1NN-acc_f": 0.53125,
+          "1NN-acc": 0.59375,
+          "nap-1NN-acc_t": 0.5625,
+          "nap-1NN-acc_f": 0.59375,
+          "nap-1NN-acc": 0.578125
+        }
+      }
+    },
+    "infinigen_k10": {
+      "label": "Infinigen scratch K=10 (repaired)",
+      "run_dir": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/box_prior_v1__infinigen_k10",
+      "config_path": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/configs/nap/v6.1_diffusion_infinigen_k10_fixed.yaml",
+      "checkpoint_path": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/v6.1_diffusion_infinigen_k10_fixed/checkpoint/2400_latest.pt",
+      "training_metrics": {},
+      "physics_stats": {
+        "pen_error_mean": 0.005582073703408241,
+        "mob_error_mean": 0.009745195508003235,
+        "cond_error_mean": -1.0
+      },
+      "box_metrics": {
+        "multi_state": {
+          "mmd": 0.4774954915046692,
+          "cov": 0.28125,
+          "mmd_smp": 0.8450821042060852,
+          "nap-mmd": 0.8341308236122131,
+          "nap-cov": 0.09375,
+          "nap-mmd_smp": 0.5347110033035278,
+          "1NN-acc_t": 1.0,
+          "1NN-acc_f": 1.0,
+          "1NN-acc": 1.0,
+          "nap-1NN-acc_t": 1.0,
+          "nap-1NN-acc_f": 1.0,
+          "nap-1NN-acc": 1.0
+        },
+        "zero_state": {
+          "mmd": 0.5564031600952148,
+          "cov": 0.09375,
+          "mmd_smp": 1.1527800559997559,
+          "nap-mmd": 1.109609842300415,
+          "nap-cov": 0.09375,
+          "nap-mmd_smp": 0.6071850657463074,
+          "1NN-acc_t": 1.0,
+          "1NN-acc_f": 1.0,
+          "1NN-acc": 1.0,
+          "nap-1NN-acc_t": 1.0,
+          "nap-1NN-acc_f": 1.0,
+          "nap-1NN-acc": 1.0
+        }
+      },
+      "gallery": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/box_prior_v1__infinigen_k10/res_chnk01.png",
+      "partnet_sanity": {
+        "multi_state": {
+          "mmd": 0.5305744409561157,
+          "cov": 0.15625,
+          "mmd_smp": 0.4652599096298218,
+          "nap-mmd": 0.4652599096298218,
+          "nap-cov": 0.171875,
+          "nap-mmd_smp": 0.5305744409561157,
+          "1NN-acc_t": 1.0,
+          "1NN-acc_f": 1.0,
+          "1NN-acc": 1.0,
+          "nap-1NN-acc_t": 0.828125,
+          "nap-1NN-acc_f": 0.984375,
+          "nap-1NN-acc": 0.90625
+        },
+        "zero_state": {
+          "mmd": 0.5707283616065979,
+          "cov": 0.140625,
+          "mmd_smp": 0.5032718181610107,
+          "nap-mmd": 0.5032718181610107,
+          "nap-cov": 0.25,
+          "nap-mmd_smp": 0.5707283616065979,
+          "1NN-acc_t": 0.96875,
+          "1NN-acc_f": 0.953125,
+          "1NN-acc": 0.9609375,
+          "nap-1NN-acc_t": 0.859375,
+          "nap-1NN-acc_f": 1.0,
+          "nap-1NN-acc": 0.9296875
+        }
+      }
+    },
+    "finetune_k10": {
+      "label": "PartNet to Infinigen fine-tune K=10 (repaired)",
+      "run_dir": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/box_prior_v1__finetune_k10",
+      "config_path": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/configs/nap/v6.1_diffusion_finetune_infinigen_k10_fixed.yaml",
+      "checkpoint_path": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/v6.1_diffusion_finetune_infinigen_k10_fixed/checkpoint/1200_latest.pt",
+      "training_metrics": {},
+      "physics_stats": {
+        "pen_error_mean": 0.014981623739004135,
+        "mob_error_mean": 0.004752624940010719,
+        "cond_error_mean": -1.0
+      },
+      "box_metrics": {
+        "multi_state": {
+          "mmd": 0.4406281113624573,
+          "cov": 0.375,
+          "mmd_smp": 0.8544532060623169,
+          "nap-mmd": 0.8503813147544861,
+          "nap-cov": 0.125,
+          "nap-mmd_smp": 0.45190000534057617,
+          "1NN-acc_t": 1.0,
+          "1NN-acc_f": 1.0,
+          "1NN-acc": 1.0,
+          "nap-1NN-acc_t": 1.0,
+          "nap-1NN-acc_f": 0.84375,
+          "nap-1NN-acc": 0.921875
+        },
+        "zero_state": {
+          "mmd": 0.5215192437171936,
+          "cov": 0.09375,
+          "mmd_smp": 1.2032893896102905,
+          "nap-mmd": 1.160860300064087,
+          "nap-cov": 0.0625,
+          "nap-mmd_smp": 0.5215192437171936,
+          "1NN-acc_t": 0.96875,
+          "1NN-acc_f": 1.0,
+          "1NN-acc": 0.9791666865348816,
+          "nap-1NN-acc_t": 1.0,
+          "nap-1NN-acc_f": 0.90625,
+          "nap-1NN-acc": 0.953125
+        }
+      },
+      "gallery": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/box_prior_v1__finetune_k10/res_chnk01.png",
+      "partnet_sanity": {
+        "multi_state": {
+          "mmd": 0.49445924162864685,
+          "cov": 0.203125,
+          "mmd_smp": 0.47293388843536377,
+          "nap-mmd": 0.47293388843536377,
+          "nap-cov": 0.234375,
+          "nap-mmd_smp": 0.49445924162864685,
+          "1NN-acc_t": 0.9375,
+          "1NN-acc_f": 0.9375,
+          "1NN-acc": 0.9375,
+          "nap-1NN-acc_t": 0.796875,
+          "nap-1NN-acc_f": 0.9375,
+          "nap-1NN-acc": 0.8671875
+        },
+        "zero_state": {
+          "mmd": 0.5633680820465088,
+          "cov": 0.203125,
+          "mmd_smp": 0.5402323007583618,
+          "nap-mmd": 0.5402323007583618,
+          "nap-cov": 0.203125,
+          "nap-mmd_smp": 0.5633680820465088,
+          "1NN-acc_t": 0.953125,
+          "1NN-acc_f": 0.96875,
+          "1NN-acc": 0.9609375,
+          "nap-1NN-acc_t": 0.875,
+          "nap-1NN-acc_f": 0.9375,
+          "nap-1NN-acc": 0.90625
+        }
+      }
+    },
+    "mixed_finetune_k10": {
+      "label": "PartNet + Infinigen mixed replay fine-tune K=10",
+      "run_dir": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/box_prior_v1__mixed_finetune_k10",
+      "config_path": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/configs/nap/v6.1_diffusion_mixed_finetune_infinigen_k10.yaml",
+      "checkpoint_path": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/v6.1_diffusion_mixed_finetune_infinigen_k10/checkpoint/425_latest.pt",
+      "training_metrics": {},
+      "physics_stats": {
+        "pen_error_mean": 0.13090578466653824,
+        "mob_error_mean": 0.10306754242628813,
+        "cond_error_mean": -1.0
+      },
+      "box_metrics": {
+        "multi_state": {
+          "mmd": 0.32110756635665894,
+          "cov": 0.5625,
+          "mmd_smp": 0.45024925470352173,
+          "nap-mmd": 0.44868335127830505,
+          "nap-cov": 0.15625,
+          "nap-mmd_smp": 0.3246138393878937,
+          "1NN-acc_t": 0.9375,
+          "1NN-acc_f": 1.0,
+          "1NN-acc": 0.9583333134651184,
+          "nap-1NN-acc_t": 1.0,
+          "nap-1NN-acc_f": 0.4375,
+          "nap-1NN-acc": 0.71875
+        },
+        "zero_state": {
+          "mmd": 0.27803629636764526,
+          "cov": 0.125,
+          "mmd_smp": 0.4770117402076721,
+          "nap-mmd": 0.48148950934410095,
+          "nap-cov": 0.125,
+          "nap-mmd_smp": 0.28442126512527466,
+          "1NN-acc_t": 0.921875,
+          "1NN-acc_f": 1.0,
+          "1NN-acc": 0.9479166865348816,
+          "nap-1NN-acc_t": 1.0,
+          "nap-1NN-acc_f": 0.3125,
+          "nap-1NN-acc": 0.65625
+        }
+      },
+      "gallery": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/box_prior_v1__mixed_finetune_k10/res_chnk01.png",
+      "partnet_sanity": {
+        "multi_state": {
+          "mmd": 0.33940160274505615,
+          "cov": 0.40625,
+          "mmd_smp": 0.3558368980884552,
+          "nap-mmd": 0.3558368980884552,
+          "nap-cov": 0.453125,
+          "nap-mmd_smp": 0.33940160274505615,
+          "1NN-acc_t": 0.796875,
+          "1NN-acc_f": 0.640625,
+          "1NN-acc": 0.71875,
+          "nap-1NN-acc_t": 0.609375,
+          "nap-1NN-acc_f": 0.65625,
+          "nap-1NN-acc": 0.6328125
+        },
+        "zero_state": {
+          "mmd": 0.3252094089984894,
+          "cov": 0.390625,
+          "mmd_smp": 0.33783358335494995,
+          "nap-mmd": 0.33783358335494995,
+          "nap-cov": 0.5,
+          "nap-mmd_smp": 0.3252094089984894,
+          "1NN-acc_t": 0.828125,
+          "1NN-acc_f": 0.640625,
+          "1NN-acc": 0.734375,
+          "nap-1NN-acc_t": 0.671875,
+          "nap-1NN-acc_f": 0.734375,
+          "nap-1NN-acc": 0.703125
+        }
+      }
+    },
+    "partial_finetune_k10": {
+      "label": "PartNet to Infinigen partial fine-tune K=10",
+      "run_dir": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/box_prior_v1__partial_finetune_k10",
+      "config_path": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/configs/nap/v6.1_diffusion_partial_finetune_infinigen_k10.yaml",
+      "checkpoint_path": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/v6.1_diffusion_partial_finetune_infinigen_k10/checkpoint/1200_latest.pt",
+      "training_metrics": {},
+      "physics_stats": {
+        "pen_error_mean": 0.007567312642350998,
+        "mob_error_mean": 0.004471115302294493,
+        "cond_error_mean": -1.0
+      },
+      "box_metrics": {
+        "multi_state": {
+          "mmd": 0.48090338706970215,
+          "cov": 0.3125,
+          "mmd_smp": 0.9045063853263855,
+          "nap-mmd": 0.9247060418128967,
+          "nap-cov": 0.0625,
+          "nap-mmd_smp": 0.5108988881111145,
+          "1NN-acc_t": 0.984375,
+          "1NN-acc_f": 1.0,
+          "1NN-acc": 0.9895833134651184,
+          "nap-1NN-acc_t": 1.0,
+          "nap-1NN-acc_f": 0.9375,
+          "nap-1NN-acc": 0.96875
+        },
+        "zero_state": {
+          "mmd": 0.5645580291748047,
+          "cov": 0.09375,
+          "mmd_smp": 1.2596697807312012,
+          "nap-mmd": 1.248966932296753,
+          "nap-cov": 0.0625,
+          "nap-mmd_smp": 0.6305705904960632,
+          "1NN-acc_t": 1.0,
+          "1NN-acc_f": 1.0,
+          "1NN-acc": 1.0,
+          "nap-1NN-acc_t": 1.0,
+          "nap-1NN-acc_f": 0.96875,
+          "nap-1NN-acc": 0.984375
+        }
+      },
+      "gallery": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/box_prior_v1__partial_finetune_k10/res_chnk01.png",
+      "partnet_sanity": {
+        "multi_state": {
+          "mmd": 0.5246963500976562,
+          "cov": 0.21875,
+          "mmd_smp": 0.4801168441772461,
+          "nap-mmd": 0.4801168441772461,
+          "nap-cov": 0.203125,
+          "nap-mmd_smp": 0.5246963500976562,
+          "1NN-acc_t": 0.96875,
+          "1NN-acc_f": 0.984375,
+          "1NN-acc": 0.9765625,
+          "nap-1NN-acc_t": 0.84375,
+          "nap-1NN-acc_f": 0.984375,
+          "nap-1NN-acc": 0.9140625
+        },
+        "zero_state": {
+          "mmd": 0.5999391674995422,
+          "cov": 0.171875,
+          "mmd_smp": 0.5271221399307251,
+          "nap-mmd": 0.5271221399307251,
+          "nap-cov": 0.140625,
+          "nap-mmd_smp": 0.5999391674995422,
+          "1NN-acc_t": 0.96875,
+          "1NN-acc_f": 0.96875,
+          "1NN-acc": 0.96875,
+          "nap-1NN-acc_t": 0.859375,
+          "nap-1NN-acc_f": 0.984375,
+          "nap-1NN-acc": 0.921875
+        }
+      }
+    }
+  },
+  "diagnostics": {
+    "generated_at": "2026-03-18T21:26:40+08:00",
+    "decision": "healthy",
+    "gt_self_eval": {
+      "split": "val",
+      "num_samples": 32,
+      "pen_error_mean": 0.0,
+      "mob_error_mean": 4.3893143768514165e-06,
+      "pen_error_p95": 0.0,
+      "mob_error_p95": 2.2020906726538666e-05,
+      "num_intersect_mean": 2.0,
+      "query_points_mean": 301.71979331970215
+    },
+    "partnet_gt_self_eval": {
+      "split": "val",
+      "num_samples": 32,
+      "pen_error_mean": 3.8836544102287576,
+      "mob_error_mean": 3.9299919274159834,
+      "pen_error_p95": 10.201666021347037,
+      "mob_error_p95": 11.868769025802607,
+      "num_intersect_mean": 3.9375,
+      "query_points_mean": 651.2944869995117
+    },
+    "urdf_graph_consistency": {
+      "samples_audited": 8,
+      "sample_results": [
+        {
+          "category": "mailer",
+          "sample_id": "000001",
+          "saved_object_id": "infinigen_mailer_000001",
+          "part_count_saved": 3,
+          "part_count_urdf": 3,
+          "joint_count_saved": 2,
+          "joint_count_urdf": 2,
+          "links_with_nonzero_visual_origin": 3,
+          "max_axis_cos_error": 0.0,
+          "max_limit_error": 0.0,
+          "max_saved_center_vs_buggy_converter_error": 0.0009503732435405254,
+          "max_saved_center_vs_fixed_converter_error": 2.9802322387695312e-08,
+          "max_saved_bbox_vs_buggy_converter_error": 0.0019005537033081055,
+          "max_saved_bbox_vs_fixed_converter_error": 2.9802322387695312e-08,
+          "max_bbox_delta_due_to_visual_origin": 0.0019005537033081055,
+          "saved_alignment": "fixed"
+        },
+        {
+          "category": "mailer",
+          "sample_id": "000002",
+          "saved_object_id": "infinigen_mailer_000002",
+          "part_count_saved": 3,
+          "part_count_urdf": 3,
+          "joint_count_saved": 2,
+          "joint_count_urdf": 2,
+          "links_with_nonzero_visual_origin": 3,
+          "max_axis_cos_error": 0.0,
+          "max_limit_error": 0.0,
+          "max_saved_center_vs_buggy_converter_error": 0.0009503732435405254,
+          "max_saved_center_vs_fixed_converter_error": 2.9802322387695312e-08,
+          "max_saved_bbox_vs_buggy_converter_error": 0.0019005537033081055,
+          "max_saved_bbox_vs_fixed_converter_error": 2.9802322387695312e-08,
+          "max_bbox_delta_due_to_visual_origin": 0.0019005537033081055,
+          "saved_alignment": "fixed"
+        },
+        {
+          "category": "drawer",
+          "sample_id": "000001",
+          "saved_object_id": "infinigen_drawer_000001",
+          "part_count_saved": 2,
+          "part_count_urdf": 2,
+          "joint_count_saved": 1,
+          "joint_count_urdf": 1,
+          "links_with_nonzero_visual_origin": 2,
+          "max_axis_cos_error": 0.0,
+          "max_limit_error": 0.0,
+          "max_saved_center_vs_buggy_converter_error": 0.0,
+          "max_saved_center_vs_fixed_converter_error": 0.0,
+          "max_saved_bbox_vs_buggy_converter_error": 6.258487701416016e-07,
+          "max_saved_bbox_vs_fixed_converter_error": 1.4901161193847656e-08,
+          "max_bbox_delta_due_to_visual_origin": 6.258487701416016e-07,
+          "saved_alignment": "fixed"
+        },
+        {
+          "category": "drawer",
+          "sample_id": "000002",
+          "saved_object_id": "infinigen_drawer_000002",
+          "part_count_saved": 2,
+          "part_count_urdf": 2,
+          "joint_count_saved": 1,
+          "joint_count_urdf": 1,
+          "links_with_nonzero_visual_origin": 2,
+          "max_axis_cos_error": 0.0,
+          "max_limit_error": 0.0,
+          "max_saved_center_vs_buggy_converter_error": 0.0,
+          "max_saved_center_vs_fixed_converter_error": 0.0,
+          "max_saved_bbox_vs_buggy_converter_error": 6.258487701416016e-07,
+          "max_saved_bbox_vs_fixed_converter_error": 1.4901161193847656e-08,
+          "max_bbox_delta_due_to_visual_origin": 6.258487701416016e-07,
+          "saved_alignment": "fixed"
+        },
+        {
+          "category": "slip_lid",
+          "sample_id": "000001",
+          "saved_object_id": "infinigen_slip_lid_000001",
+          "part_count_saved": 2,
+          "part_count_urdf": 2,
+          "joint_count_saved": 1,
+          "joint_count_urdf": 1,
+          "links_with_nonzero_visual_origin": 2,
+          "max_axis_cos_error": 0.0,
+          "max_limit_error": 0.002115011215209961,
+          "max_saved_center_vs_buggy_converter_error": 7.330556400120258e-06,
+          "max_saved_center_vs_fixed_converter_error": 1.1641532182693481e-10,
+          "max_saved_bbox_vs_buggy_converter_error": 0.0017612278461456299,
+          "max_saved_bbox_vs_fixed_converter_error": 2.9802322387695312e-08,
+          "max_bbox_delta_due_to_visual_origin": 0.0017612278461456299,
+          "saved_alignment": "fixed"
+        },
+        {
+          "category": "slip_lid",
+          "sample_id": "000002",
+          "saved_object_id": "infinigen_slip_lid_000002",
+          "part_count_saved": 2,
+          "part_count_urdf": 2,
+          "joint_count_saved": 1,
+          "joint_count_urdf": 1,
+          "links_with_nonzero_visual_origin": 2,
+          "max_axis_cos_error": 0.0,
+          "max_limit_error": 0.002115011215209961,
+          "max_saved_center_vs_buggy_converter_error": 7.330556400120258e-06,
+          "max_saved_center_vs_fixed_converter_error": 1.1641532182693481e-10,
+          "max_saved_bbox_vs_buggy_converter_error": 0.0017612278461456299,
+          "max_saved_bbox_vs_fixed_converter_error": 2.9802322387695312e-08,
+          "max_bbox_delta_due_to_visual_origin": 0.0017612278461456299,
+          "saved_alignment": "fixed"
+        },
+        {
+          "category": "tuck_end",
+          "sample_id": "000001",
+          "saved_object_id": "infinigen_tuck_end_000001",
+          "part_count_saved": 9,
+          "part_count_urdf": 9,
+          "joint_count_saved": 8,
+          "joint_count_urdf": 8,
+          "links_with_nonzero_visual_origin": 9,
+          "max_axis_cos_error": 0.0,
+          "max_limit_error": 0.0,
+          "max_saved_center_vs_buggy_converter_error": 2.9802322387695312e-08,
+          "max_saved_center_vs_fixed_converter_error": 2.9802322387695312e-08,
+          "max_saved_bbox_vs_buggy_converter_error": 2.346932888031006e-06,
+          "max_saved_bbox_vs_fixed_converter_error": 2.9802322387695312e-08,
+          "max_bbox_delta_due_to_visual_origin": 2.346932888031006e-06,
+          "saved_alignment": "fixed"
+        },
+        {
+          "category": "tuck_end",
+          "sample_id": "000002",
+          "saved_object_id": "infinigen_tuck_end_000002",
+          "part_count_saved": 9,
+          "part_count_urdf": 9,
+          "joint_count_saved": 8,
+          "joint_count_urdf": 8,
+          "links_with_nonzero_visual_origin": 9,
+          "max_axis_cos_error": 0.0,
+          "max_limit_error": 0.0,
+          "max_saved_center_vs_buggy_converter_error": 2.9802322387695312e-08,
+          "max_saved_center_vs_fixed_converter_error": 2.9802322387695312e-08,
+          "max_saved_bbox_vs_buggy_converter_error": 2.346932888031006e-06,
+          "max_saved_bbox_vs_fixed_converter_error": 2.9802322387695312e-08,
+          "max_bbox_delta_due_to_visual_origin": 2.346932888031006e-06,
+          "saved_alignment": "fixed"
+        }
+      ]
+    },
+    "saved_dataset_fidelity": {
+      "max_saved_bbox_vs_fixed_converter_error": 2.9802322387695312e-08,
+      "max_bbox_delta_due_to_visual_origin": 0.0019005537033081055,
+      "alignment_counts": {
+        "fixed": 8,
+        "buggy_or_stale": 0
+      }
+    },
+    "shape_code_reproducibility": {
+      "codebook_path": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/data/infinigen_graph_combined_k10/infinigen_codebook.npz",
+      "valid_true": 4000,
+      "valid_total": 4000,
+      "embedding_abs_sum": 177920.046875,
+      "generator_script": "/mnt/afs2/zhuhaowu/infinigen/scripts/encode_infinigen_shapes.py",
+      "deprecated_placeholder_path": "/mnt/afs2/zhuhaowu/infinigen/scripts/infinigen_to_nap.py"
+    },
+    "blocker_reasons": []
+  }
+}

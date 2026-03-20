@@ -29,6 +29,7 @@ import argparse
 import json
 import os
 import sys
+from datetime import datetime
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
@@ -39,6 +40,10 @@ try:
 except ImportError:
     print("trimesh not available. Install with: pip install trimesh")
     sys.exit(1)
+
+
+def now_iso() -> str:
+    return datetime.now().astimezone().isoformat(timespec="seconds")
 
 
 def parse_urdf(urdf_path):
@@ -111,7 +116,7 @@ def parse_urdf(urdf_path):
 
 
 def load_and_merge_link_meshes(sample_dir, link_name, link_info):
-    """Load all OBJ meshes for a link and merge into a single trimesh."""
+    """Load all OBJ meshes for a link, apply URDF visual offsets, and merge."""
     meshes = []
     for vis in link_info["visuals"]:
         mesh_path = os.path.join(sample_dir, vis["mesh_file"])
@@ -122,8 +127,12 @@ def load_and_merge_link_meshes(sample_dir, link_name, link_info):
             if isinstance(m, trimesh.Scene):
                 for geom in m.geometry.values():
                     if isinstance(geom, trimesh.Trimesh) and len(geom.vertices) > 0:
+                        geom = geom.copy()
+                        geom.apply_translation(vis["origin_xyz"])
                         meshes.append(geom)
             elif isinstance(m, trimesh.Trimesh) and len(m.vertices) > 0:
+                m = m.copy()
+                m.apply_translation(vis["origin_xyz"])
                 meshes.append(m)
         except Exception:
             pass
@@ -212,7 +221,7 @@ def normalize_to_unit(translations, bboxes):
     return scale, center
 
 
-def convert_sample(sample_dir, object_id, max_K=8):
+def convert_sample(sample_dir, object_id, max_K=10):
     """Convert a single Infinigen Phase-1 sample to NAP graph format.
 
     Returns: dict with 'V' (list of node dicts), 'E' (list of edge dicts), or None on failure
@@ -315,7 +324,7 @@ def convert_sample(sample_dir, object_id, max_K=8):
     return {"V": V, "E": E, "scale": scale, "center": center}
 
 
-def convert_dataset(input_dir, output_dir, box_type, max_K=8):
+def convert_dataset(input_dir, output_dir, box_type, max_K=10):
     """Convert all Infinigen Phase-1 samples in input_dir to NAP format."""
     os.makedirs(output_dir, exist_ok=True)
 
@@ -368,10 +377,13 @@ def convert_dataset(input_dir, output_dir, box_type, max_K=8):
     meta = {
         "source": "infinigen_phase1_data_engine",
         "box_type": box_type,
+        "generated_at": now_iso(),
         "input_dir": str(input_dir),
         "num_samples": converted,
         "num_skipped": skipped,
         "max_K": max_K,
+        "visual_origins_applied": True,
+        "converter_script": str(Path(__file__).resolve()),
         "stats": {
             "num_parts": {
                 "min": int(min(stats["num_parts"])) if stats["num_parts"] else 0,
@@ -437,49 +449,19 @@ def generate_split_and_partkeys(output_dir, box_type):
 
 
 def encode_shapes_with_nap_ae(output_dir, ae_checkpoint_dir, physnap_root):
-    """Encode all part meshes using NAP's pretrained shape autoencoder.
-
-    Produces a codebook .npz file compatible with NAP's training pipeline.
-    Requires the physnap environment with pretrained s1.5_partshape_ae weights.
-    """
-    sys.path.insert(0, physnap_root)
-    try:
-        import importlib.util
-
-        if importlib.util.find_spec("torch") is None:
-            raise ImportError("torch not found")
-    except ImportError:
-        print("Cannot import PhysNAP modules. Run with physnap conda env activated.")
-        return None
-
-    partkeys_path = os.path.join(output_dir, "infinigen_partkeys.json")
-    with open(partkeys_path) as f:
-        partkeys = json.load(f)
-    all_keys = partkeys["train"] + partkeys["val"] + partkeys["test"]
-
-    print(f"Encoding {len(all_keys)} part shapes...")
-
-    embeddings = np.zeros((len(all_keys), 128), dtype=np.float32)
-    valid_mask = np.zeros(len(all_keys), dtype=bool)
-
-    ae_config = os.path.join(ae_checkpoint_dir, "config.yaml")
-    if not os.path.exists(ae_config):
-        print(f"Shape AE config not found at {ae_config}")
-        print("Skipping shape encoding. Codebook will contain zero vectors.")
-        std = np.ones(128, dtype=np.float32)
-        codebook_path = os.path.join(output_dir, "infinigen_codebook.npz")
-        np.savez(codebook_path, embedding=embeddings, valid_mask=valid_mask, std=std)
-        print(f"Empty codebook saved to {codebook_path}")
-        return codebook_path
-
-    print(
-        "Shape AE encoding requires pretrained weights. Placeholder codebook created."
+    """Refuse to create placeholder codebooks; delegate to the real encoder pipeline."""
+    checkpoint_path = Path(ae_checkpoint_dir)
+    if checkpoint_path.is_dir():
+        checkpoint_path = checkpoint_path / "737.pt"
+    if not checkpoint_path.exists():
+        raise FileNotFoundError(
+            f"Shape AE checkpoint not found at {checkpoint_path}. "
+            "Use scripts/encode_infinigen_shapes.py with the PhysNAP environment."
+        )
+    raise RuntimeError(
+        "Deprecated path: use scripts/encode_infinigen_shapes.py to build a real codebook. "
+        "This converter no longer creates placeholder embeddings."
     )
-    std = np.ones(128, dtype=np.float32)
-    codebook_path = os.path.join(output_dir, "infinigen_codebook.npz")
-    np.savez(codebook_path, embedding=embeddings, valid_mask=valid_mask, std=std)
-    print(f"Placeholder codebook saved to {codebook_path}")
-    return codebook_path
 
 
 def main():
@@ -499,7 +481,7 @@ def main():
         help="Box type for category labeling",
     )
     parser.add_argument(
-        "--max-K", type=int, default=8, help="Max nodes per graph (NAP default: 8)"
+        "--max-K", type=int, default=10, help="Max nodes per graph for the box campaign"
     )
     parser.add_argument(
         "--encode-shapes",

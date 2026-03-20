@@ -1,0 +1,18 @@
+{
+  "supervisor_pid": 2515830,
+  "inner_watcher_pid": 2642735,
+  "watcher_pid": 2642735,
+  "worker_pid": null,
+  "cpu_worker_pid": null,
+  "mode": "prepare",
+  "queue_step": "write_phase2_claim_memo",
+  "stage": "write_phase2_claim_memo",
+  "status": "completed",
+  "started_at": "2026-03-18T21:27:32+08:00",
+  "last_heartbeat": "2026-03-20T19:36:21+08:00",
+  "latest_artifact": "/mnt/afs2/zhuhaowu/infinigen/experiments/physnap/box_conditioning_v2/evaluation/comparison_report.md",
+  "active_gpu_step": "evaluate_conditioning_v2",
+  "active_cpu_step": null,
+  "last_repair_action": "evaluate_conditioning_v2:invalid_phase2_summary",
+  "last_error": null
+}

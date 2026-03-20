@@ -1,0 +1,10 @@
+{
+  "step_id": "export_cond_multistate_multiview",
+  "pid": 2502375,
+  "status": "completed",
+  "log_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/physnap/box_conditioning_v2/runtime/export_cond_multistate_multiview.prestage.log",
+  "started_at": "2026-03-18T20:53:28+0800",
+  "retries": 0,
+  "finished_at": "2026-03-18T20:53:59+0800",
+  "return_code": 0
+}

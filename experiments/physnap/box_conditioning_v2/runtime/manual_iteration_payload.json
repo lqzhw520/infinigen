@@ -1,0 +1,34 @@
+{
+  "summary": "box_conditioning_v2 phase2 progress 2/4 groups completed; multistate_singleview rerun active after invalid summary repair",
+  "completed": [
+    "Phase 2 conditioning exports completed for zero-state and multi-state groups",
+    "Guided runs completed for zero_singleview and zero_multiview",
+    "Phase 2 current progress: 2/4 guided groups completed while multistate_singleview reruns"
+  ],
+  "bugs_fixed": [
+    {
+      "bug": "Phase 2 guided runs for multistate groups completed without required genfull_per_* metrics, which caused evaluate_conditioning_v2 to fail with invalid_phase2_summary.",
+      "root_cause": "The accelerated run_guided.py path skipped writing genfull metrics for multistate groups due to a misplaced code block, and the loop treated those runs as completed too early.",
+      "fix": "Patched run_guided.py to emit the full Phase 2 metric set again and tightened physnap_auto_review_loop.py so guided steps are only marked completed when stats.json contains the required conditioning metrics."
+    }
+  ],
+  "lessons": [
+    "Phase 2 claim review must be artifact-first: guided stats must be validated before the queue can advance to evaluate_conditioning_v2.",
+    "The current strongest true claim is still pending because only 2 of 4 conditioning groups have finished with valid metrics."
+  ],
+  "artifacts": {
+    "phase2_state": "experiments/physnap/box_conditioning_v2/state.json",
+    "phase2_review": "experiments/physnap/box_conditioning_v2/review.json",
+    "phase2_dashboard": "experiments/physnap/box_conditioning_v2/campaign_status.md",
+    "phase2_history_snapshot": ".project-memory/history/2026-03-20_box-conditioning-v2-phase2-multistate-rerun-progress.md"
+  },
+  "architecture_changes": [
+    "Project memory STATUS now reflects the live Phase 2 campaign instead of only the last recorded iteration.",
+    "Project memory history now captures campaign milestones and repair snapshots outside experiments/physnap/."
+  ],
+  "next": [
+    "Wait for run_guided_multistate_singleview to finish and verify it auto-advances to run_guided_multistate_multiview.",
+    "Complete evaluate_conditioning_v2 and write the strongest-true-claim memo once all four conditioning groups have valid metrics.",
+    "Keep project-memory STATUS/history in sync with future Phase 2 milestones."
+  ]
+}

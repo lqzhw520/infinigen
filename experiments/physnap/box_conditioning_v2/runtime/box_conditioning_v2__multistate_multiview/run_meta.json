@@ -1,0 +1,16 @@
+{
+  "group_id": "multistate_multiview",
+  "output_name": "box_conditioning_v2__multistate_multiview",
+  "cond_dir": "/mnt/afs2/zhuhaowu/infinigen/experiments/physnap/box_conditioning_v2/conditioning/multistate_multiview",
+  "checkpoint_path": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/v6.1_diffusion_mixed_finetune_infinigen_k10/checkpoint/425_latest.pt",
+  "config_path": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/configs/nap/v6.1_diffusion_mixed_finetune_infinigen_k10.yaml",
+  "status": "completed",
+  "launched_at": "2026-03-20T14:51:29+08:00",
+  "finished_at": "2026-03-20T19:35:00+08:00",
+  "log_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/physnap/box_conditioning_v2/runtime/box_conditioning_v2__multistate_multiview/launcher.log",
+  "run_dir": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/box_conditioning_v2__multistate_multiview",
+  "exit_code": 0,
+  "gallery": null,
+  "stats_path": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/box_conditioning_v2__multistate_multiview/stats.json",
+  "config_json_path": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/box_conditioning_v2__multistate_multiview/config.json"
+}

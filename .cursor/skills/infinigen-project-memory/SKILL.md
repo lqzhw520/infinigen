@@ -3,7 +3,7 @@ name: infinigen-project-memory
 description: Maintain a single source of truth for the Infinigen-AnyBox project state, architecture, iteration history, and memory. Auto-triggers on git commit. Use when the user says "update project status", "archive this iteration", "project briefing", "what is the current state", "show project history", "evolve skill", starts a new session, or after completing a significant task. Also use proactively at session start if .project-memory/STATUS.md exists.
 metadata:
   author: infinigen-team
-  version: 2.0.0
+  version: 2.1.0
   project: infinigen-anybox
 ---
 
@@ -24,6 +24,8 @@ Unified project memory system with a single source of truth (`.project-memory/`)
 
 .session/checkpoint.md           <-- DEPRECATED VIEW (auto-synced from STATUS.md)
 task_plan.md / findings.md       <-- PER-TASK SCRATCH (auto-archived on completion)
+progress.md                      <-- Short session log for multi-step execution
+experiments/physnap/*            <-- Campaign manifests, summaries, reviews, next actions
 ```
 
 ### Storage Hierarchy
@@ -37,6 +39,9 @@ task_plan.md / findings.md       <-- PER-TASK SCRATCH (auto-archived on completi
 | `.session/checkpoint.md` | **Deprecated**. Legacy view, auto-synced from STATUS.md. Do not read directly; use STATUS.md. | Auto-synced |
 | `task_plan.md` | Current task scratch (planning-with-files) | Created per task, auto-archived + reset when task_plan contains "COMPLETE" |
 | `findings.md` | Current task discoveries | Same lifecycle as task_plan.md |
+| `progress.md` | Session progress log | Updated during long multi-step execution |
+| `experiments/physnap/*/manifest.yaml` | Campaign contract: claim, matrix, refs, queue | Versioned with code |
+| `experiments/physnap/*/{summary,next_actions,state}.json` | Loop state + review outputs | Mutable campaign working state |
 
 ## Automatic Pipeline (git commit triggers everything)
 
@@ -89,6 +94,7 @@ chmod +x .git/hooks/post-commit
 | "show project history" | Reads evolution.json, lists all iterations with summaries |
 | "evolve skill" | Runs `evolve_skill.py --force` to analyze trends and update rules |
 | "load checkpoint" | Runs `load_checkpoint.py` to show latest iteration record |
+| "record iteration" | Runs `record_iteration.py` with a campaign payload to append a new structured iteration |
 
 ## After Completing Significant Work
 
@@ -97,6 +103,14 @@ The agent should proactively:
 2. Commit the code changes (this triggers the auto-pipeline above)
 3. If a milestone is reached, also explicitly run `archive_iteration.py --title "..." --clean`
 4. Verify STATUS.md was updated by reading it
+
+For manifest-driven experiment campaigns:
+1. Keep `manifest.yaml` as the decision contract for the current campaign
+2. Update `state.json`, `summary.json`, and `next_actions.json` as the loop advances
+3. When a milestone is reached, emit a payload JSON and append it via `record_iteration.py`
+4. Also write a human-readable campaign snapshot into `.project-memory/history/` so Phase reviews, repairs, and handoffs remain auditable outside the campaign folder
+5. Refresh `.project-memory/STATUS.md` from live campaign truth so project-level state never lags behind `experiments/physnap/*`
+6. Use `.project-memory/STATUS.md` to reflect campaign-level truth, not ad-hoc shell notes
 
 ## Self-Evolution: How the Skill Evolves Itself
 
@@ -142,6 +156,7 @@ evolution.json iterations
 | `scripts/archive_iteration.py` | Snapshot to history/, optionally clean task_plan/findings | Auto (via hook) + Explicit |
 | `scripts/evolve_skill.py` | Analyze trends, update rules.json, write evolution snapshot | Auto (via hook, conditional) + Explicit |
 | `scripts/load_checkpoint.py` | Programmatic access to latest iteration record | Explicit only |
+| `scripts/record_iteration.py` | Append a campaign payload to evolution.json and optionally refresh STATUS.md | Explicit only |
 
 ## evolution.json Schema
 
@@ -185,3 +200,4 @@ The only infinigen-specific content is in `evolution.json` data (iterations, bug
 - Always include verification commands for artifacts.
 - rules.json is the only mutable config -- updated by evolve_skill.py or manually.
 - `.session/checkpoint.md` is deprecated -- kept only for backward compatibility with session-resumption skill. Do not rely on it for any new logic.
+- Manifest-driven loops must keep `state.json`, `summary.json`, and `next_actions.json` in sync with `task_plan.md` and `findings.md`.

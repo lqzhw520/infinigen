@@ -1,0 +1,24 @@
+{
+  "required_artifacts": [
+    "comparison_summary",
+    "comparison_report",
+    "conversion_audit",
+    "sample_gallery",
+    "stats_json"
+  ],
+  "phase": "phase1_diagnostics",
+  "phase_gate": "await_phase1_diagnostics",
+  "primary_claim": "Mixed and partial diagnostics identify the dominant failure mode in repaired Infinigen-to-PhysNAP transfer.",
+  "diagnosis_labels": [
+    "forgetting-dominant",
+    "over-update-dominant",
+    "parameterization-limited"
+  ],
+  "scoring": {
+    "workflow_max_score": 10,
+    "evidence_max_score": 10,
+    "partnet_mmd_regression_factor_max": 1.15,
+    "candidate_box_mmd_tolerance_factor": 1.05,
+    "candidate_box_cov_tolerance_drop": 0.05
+  }
+}

@@ -1,0 +1,213 @@
+{
+  "campaign_id": "box_conditioning_v2",
+  "phase": "phase2_conditioning_design",
+  "phase_gate": "ready_for_writeup",
+  "auto_handoff_status": "bootstrapped",
+  "phase2_base_checkpoint": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/v6.1_diffusion_mixed_finetune_infinigen_k10/checkpoint/425_latest.pt",
+  "phase2_base_config": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/configs/nap/v6.1_diffusion_mixed_finetune_infinigen_k10.yaml",
+  "phase2_base_experiment": "mixed_finetune_k10",
+  "updated_at": "2026-03-20T19:36:21+08:00",
+  "queue": [
+    {
+      "id": "prepare_conditioning_v2",
+      "status": "completed",
+      "updated_at": "2026-03-18T20:52:28+0800"
+    },
+    {
+      "id": "export_cond_zero_singleview",
+      "status": "completed",
+      "updated_at": "2026-03-18T20:52:28+0800"
+    },
+    {
+      "id": "export_cond_zero_multiview",
+      "status": "completed",
+      "updated_at": "2026-03-18T20:52:58+0800"
+    },
+    {
+      "id": "export_cond_multistate_singleview",
+      "status": "completed",
+      "updated_at": "2026-03-18T20:53:28+0800"
+    },
+    {
+      "id": "export_cond_multistate_multiview",
+      "status": "completed",
+      "updated_at": "2026-03-18T20:53:59+0800"
+    },
+    {
+      "id": "run_guided_zero_singleview",
+      "status": "completed",
+      "updated_at": "2026-03-20T19:36:05+08:00"
+    },
+    {
+      "id": "run_guided_zero_multiview",
+      "status": "completed",
+      "updated_at": "2026-03-20T19:36:05+08:00"
+    },
+    {
+      "id": "run_guided_multistate_singleview",
+      "status": "completed",
+      "updated_at": "2026-03-20T19:36:05+08:00"
+    },
+    {
+      "id": "run_guided_multistate_multiview",
+      "status": "completed",
+      "updated_at": "2026-03-20T19:36:05+08:00"
+    },
+    {
+      "id": "evaluate_conditioning_v2",
+      "status": "completed",
+      "updated_at": "2026-03-20T19:36:21+08:00"
+    },
+    {
+      "id": "write_phase2_claim_memo",
+      "status": "completed",
+      "updated_at": "2026-03-20T19:36:05+08:00"
+    }
+  ],
+  "active_job": null,
+  "history": [
+    {
+      "at": "2026-03-18T17:00:31+08:00",
+      "event": "phase2_scaffold_created",
+      "details": "Created Phase 2 conditioning campaign scaffold."
+    },
+    {
+      "at": "2026-03-18T20:52:58+0800",
+      "event": "phase2_prestage_completed",
+      "details": "export_cond_zero_multiview finished with exit code 0."
+    },
+    {
+      "at": "2026-03-18T20:53:28+0800",
+      "event": "phase2_prestage_completed",
+      "details": "export_cond_multistate_singleview finished with exit code 0."
+    },
+    {
+      "at": "2026-03-18T20:53:59+0800",
+      "event": "phase2_prestage_completed",
+      "details": "export_cond_multistate_multiview finished with exit code 0."
+    },
+    {
+      "at": "2026-03-18T21:27:32+0800",
+      "event": "auto_handoff_from_phase1",
+      "details": "Handoff from box_prior_v1 using base mixed_finetune_k10."
+    },
+    {
+      "at": "2026-03-19T10:17:24+08:00",
+      "event": "phase2_auto_repair",
+      "details": "Repaired Phase 2 base checkpoint/config for `mixed_finetune_k10` and reset `run_guided_zero_singleview`."
+    },
+    {
+      "at": "2026-03-19T15:17:37+0800",
+      "event": "supervisor_inner_restart",
+      "details": "Restarted inner loop after stagnant dead watcher; restart 1/6."
+    },
+    {
+      "at": "2026-03-19T16:03:10+0800",
+      "event": "supervisor_inner_restart",
+      "details": "Restarted inner loop after stagnant dead watcher; restart 2/6."
+    },
+    {
+      "at": "2026-03-20T01:26:16+08:00",
+      "event": "run_guided_multistate_singleview",
+      "details": "Completed run_guided_multistate_singleview."
+    },
+    {
+      "at": "2026-03-20T06:00:41+08:00",
+      "event": "run_guided_multistate_multiview",
+      "details": "Completed run_guided_multistate_multiview."
+    },
+    {
+      "at": "2026-03-20T06:01:22+08:00",
+      "event": "evaluate_conditioning_v2",
+      "details": "Evaluation failed with exit code 1."
+    },
+    {
+      "at": "2026-03-20T06:02:03+08:00",
+      "event": "evaluate_conditioning_v2",
+      "details": "Evaluation failed with exit code 1."
+    },
+    {
+      "at": "2026-03-20T06:02:22+08:00",
+      "event": "auto_repair",
+      "details": "Queued retry for evaluate_conditioning_v2 after detected failure `invalid_phase2_summary`."
+    },
+    {
+      "at": "2026-03-20T06:02:53+08:00",
+      "event": "evaluate_conditioning_v2",
+      "details": "Evaluation failed with exit code 1."
+    },
+    {
+      "at": "2026-03-20T10:12:37+08:00",
+      "event": "phase2_auto_repair",
+      "details": "Reset `run_guided_multistate_singleview` because guided outputs for `multistate_singleview` were incomplete."
+    },
+    {
+      "at": "2026-03-20T14:50:51+08:00",
+      "event": "run_guided_multistate_singleview",
+      "details": "Completed run_guided_multistate_singleview with --force."
+    },
+    {
+      "at": "2026-03-20T14:51:17+08:00",
+      "event": "run_guided_multistate_multiview",
+      "details": "Completed run_guided_multistate_multiview."
+    },
+    {
+      "at": "2026-03-20T14:51:28+08:00",
+      "event": "phase2_auto_repair",
+      "details": "Reset `run_guided_multistate_multiview` because guided outputs for `multistate_multiview` were incomplete."
+    },
+    {
+      "at": "2026-03-20T19:35:13+08:00",
+      "event": "run_guided_multistate_multiview",
+      "details": "Completed run_guided_multistate_multiview with --force."
+    },
+    {
+      "at": "2026-03-20T19:35:54+08:00",
+      "event": "evaluate_conditioning_v2",
+      "details": "Evaluation completed."
+    },
+    {
+      "at": "2026-03-20T19:36:20+08:00",
+      "event": "write_phase2_claim_memo",
+      "details": "Completed write_phase2_claim_memo."
+    }
+  ],
+  "last_review": {
+    "generated_at": "2026-03-20T19:36:21+08:00",
+    "phase": "phase2_conditioning_design",
+    "phase_gate": "ready_for_writeup",
+    "verdict": "claim_not_supported",
+    "decision": "revise_claim",
+    "blocker_type": "transfer",
+    "score": 5,
+    "workflow_score": 10,
+    "evidence_score": 5,
+    "strengths": [],
+    "weaknesses": [
+      "Baseline, scratch, and fine-tune comparison arms are incomplete.",
+      "`zero_multiview` does not consistently beat the zero-state single-view anchor.",
+      "`multistate_singleview` does not consistently beat the zero-state single-view anchor.",
+      "`multistate_multiview` does not consistently beat the zero-state single-view anchor.",
+      "Claim ladder `multi-state + multi-view beats zero-state single-view` via `multistate_multiview` => not supported.",
+      "Claim ladder `multi-view only beats zero-state single-view` via `zero_multiview` => not supported.",
+      "Claim ladder `multi-state only beats zero-state single-view` via `multistate_singleview` => not supported."
+    ],
+    "next_actions": [
+      "Write the strongest true claim memo for Phase 2 instead of the original strong claim.",
+      "Record which conditioning groups failed to improve the anchor and why."
+    ],
+    "claim_assessment": "All bounded Phase 2 conditioning recipes completed, but none produced a consistent gain over the zero-state single-view anchor.",
+    "strongest_true_claim": "Mixed replay is the strongest validated transfer improvement, but richer conditioning under the current PhysNAP parameterization does not consistently beat the zero-state single-view anchor."
+  },
+  "retries": {
+    "evaluate_conditioning_v2": 3,
+    "auto_repair::evaluate_conditioning_v2::invalid_phase2_summary": 1
+  },
+  "handoff_from_campaign": "box_prior_v1",
+  "phase1_diagnosis": "forgetting-dominant",
+  "force_steps": {
+    "run_guided_zero_singleview": true,
+    "evaluate_conditioning_v2": true
+  },
+  "active_runtime": null
+}

@@ -1,7 +1,7 @@
 {
   "project": "infinigen-anybox",
   "architecture_version": 4,
-  "last_updated": "2026-03-16T18:26:05+08:00",
+  "last_updated": "2026-03-20T19:36:21+08:00",
   "iterations": [
     {
       "id": 1,
@@ -320,6 +320,375 @@
         "[P1] Implement PhysNAP conditional generation with Infinigen point clouds",
         "[P2] Phase 2.1: Topo-Box-Net training"
       ]
+    },
+    {
+      "summary": "Implemented the box_prior_v1 K=10 workflow scaffold and launched the scratch Infinigen training job on the A800 host.",
+      "completed": [
+        "Added K=10 launcher/evaluator/auto-review workflow for the box_prior_v1 campaign.",
+        "Prepared the combined Infinigen box dataset with TuckEnd included and encoded the shape codebook.",
+        "Validated true fine-tune initialization from the PartNet 5455.pt checkpoint after ignoring p_pe for the K=10 adaptation.",
+        "Started the background infinigen_k10 scratch training job through the manifest-driven loop."
+      ],
+      "bugs_fixed": [
+        {
+          "bug": "Fine-tune initialization failed for K=10 because the checkpoint positional embedding shape still assumed K=8.",
+          "root_cause": "network_dict.denoiser.p_pe depends on max_K and cannot be loaded verbatim from the K=8 checkpoint.",
+          "fix": "Added p_pe to logging.ignore_loading_key in the K=10 fine-tune config so the pretrained backbone still loads cleanly."
+        },
+        {
+          "bug": "Launcher metadata vanished after training started, making the loop think experiment status was missing.",
+          "root_cause": "PhysNAP recreates log/<exp> at startup and deleted run_meta.json/resolved_config.yaml written there ahead of launch.",
+          "fix": "Moved authoritative run metadata and resolved configs into campaign runtime sidecars and added lock-based status recovery."
+        }
+      ],
+      "lessons": [
+        "For box-domain K upgrades, checkpoint loading should explicitly ignore K-shaped tensors instead of pretending the run is a true full-parameter resume.",
+        "Experiment status for long PhysNAP jobs must live outside the training log directory because the framework mutates that directory during startup."
+      ],
+      "artifacts": {
+        "campaign_manifest": "experiments/physnap/box_prior_v1/manifest.yaml",
+        "campaign_spec": "experiments/physnap/box_prior_v1/campaign_spec.md",
+        "launcher": "scripts/physnap_experiment_launcher.py",
+        "loop": "scripts/physnap_auto_review_loop.py",
+        "evaluator": "scripts/evaluate_physnap_training.py"
+      },
+      "architecture_changes": [
+        "Introduced a manifest-driven box_prior_v1 campaign with persistent state, summary, review, and next-action files.",
+        "Split experiment runtime bookkeeping into campaign sidecars instead of relying on PhysNAP log directories.",
+        "Standardized the training/evaluation entrypoints around explicit K=10 box-domain experiment modes."
+      ],
+      "next": [
+        "Wait for infinigen_k10 to produce stable checkpoints, then launch finetune_k10 through the same queue.",
+        "Run the unified evaluator to generate box-domain and PartNet sanity comparison reports.",
+        "Commit the workflow/code changes once the active training job is safely running and the campaign state is consistent."
+      ],
+      "date": "2026-03-17",
+      "branch": "feature/3d-assets",
+      "commit": "b240e09c",
+      "id": 9
+    },
+    {
+      "summary": "Reconciled the completed K=10 scratch run, launched the true fine-tune run, and enabled run-to-completion polling for the box_prior_v1 campaign.",
+      "completed": [
+        "Verified the K=10 scratch training reached a full-duration 2400_latest.pt checkpoint and promoted it to completed.",
+        "Launched the true finetune_k10 run from the PartNet 5455.pt baseline checkpoint with exit-code sidecar tracking.",
+        "Added a campaign dashboard and run-to-completion polling so the loop can continue through evaluation without manual retriggering."
+      ],
+      "bugs_fixed": [
+        {
+          "bug": "The first scratch run finished under the legacy launcher path and was left in a conservative stopped state.",
+          "root_cause": "That run predated exit-code sidecars, so completion had to be inferred from checkpoints and log evidence.",
+          "fix": "Added checkpoint/log-based completion reconciliation and promoted the scratch run to completed when it matched the expected full-duration trace."
+        },
+        {
+          "bug": "The loop still required manual retriggering after each long training stage.",
+          "root_cause": "The original run-until-blocked mode exited as soon as a background job started.",
+          "fix": "Added run-to-completion polling and launched it as a background watcher for the active campaign."
+        }
+      ],
+      "lessons": [
+        "For unattended research loops, training orchestration needs both per-job exit tracking and a higher-level poller that advances the queue when GPUs go idle.",
+        "A reviewable campaign dashboard is essential; otherwise the queue can be technically correct but still opaque to the human researcher."
+      ],
+      "artifacts": {
+        "campaign_dashboard": "experiments/physnap/box_prior_v1/campaign_status.md",
+        "campaign_state": "experiments/physnap/box_prior_v1/state.json",
+        "loop_watcher_log": "experiments/physnap/box_prior_v1/runtime/auto_loop_watch.log",
+        "finetune_meta": "experiments/physnap/box_prior_v1/runtime/v6.1_diffusion_finetune_infinigen_k10/run_meta.json"
+      },
+      "architecture_changes": [
+        "Added a dashboard writer to the auto-review loop for persistent experiment-stage visibility.",
+        "Added run-to-completion polling to the auto-review loop so a single launched process can drive training through evaluation.",
+        "Added checkpoint/log-based completion reconciliation for legacy stopped jobs."
+      ],
+      "next": [
+        "Let finetune_k10 reach its terminal checkpoint and confirm the exit code sidecar marks it completed.",
+        "Allow the watcher to trigger evaluate_all and generate comparison_summary.json plus comparison_report.md.",
+        "Review the resulting box-domain and PartNet sanity metrics before deciding on any additional sample-count or schedule changes."
+      ],
+      "date": "2026-03-17",
+      "branch": "feature/3d-assets",
+      "commit": "b240e09c",
+      "id": 10
+    },
+    {
+      "summary": "Box-prior v1 evaluation pipeline completed with K=10 training/eval/loop wiring",
+      "completed": [
+        "Campaign manifest + review artifacts in experiments/physnap/box_prior_v1",
+        "K=10 training launcher, configs, and evaluation pipeline wired",
+        "Auto-review-loop v0 writes summary and next actions"
+      ],
+      "bugs_fixed": [
+        {
+          "bug": "Old fine-tune path did not initialize from the PartNet baseline checkpoint",
+          "root_cause": "The prior train script left option_c unimplemented and wrote only scratch configs",
+          "fix": "Added explicit K=10 fine-tune config + launcher metadata flow"
+        }
+      ],
+      "lessons": [
+        "Box-domain evaluation needs custom GT export; PartNet save_gt.py does not cover Infinigen meshes",
+        "K=10 can remain box-scoped without reopening the whole dynamic-K design space"
+      ],
+      "artifacts": {
+        "campaign_manifest": "experiments/physnap/box_prior_v1/manifest.yaml",
+        "comparison_report": "experiments/physnap/box_prior_v1/evaluation/comparison_report.md",
+        "auto_review_loop": "scripts/physnap_auto_review_loop.py"
+      },
+      "architecture_changes": [
+        "Added manifest-driven box-prior workflow with queue/state/review artifacts",
+        "Added launcher-backed single-active-job training policy"
+      ],
+      "next": [
+        "Inspect comparison_report.md to identify whether the weak link is box metrics, physics metrics, or PartNet sanity.",
+        "Decide whether to add experiments, adjust the narrative, or lower the claim scope."
+      ],
+      "date": "2026-03-17",
+      "branch": "feature/3d-assets",
+      "commit": "b240e09c",
+      "id": 11
+    },
+    {
+      "summary": "Cleared the Infinigen->PhysNAP representation-fidelity blocker, regenerated repaired box data, and launched repaired scratch retraining.",
+      "completed": [
+        "Regenerated all four box graph datasets with visual-origin-aware conversion.",
+        "Rebuilt combined_k10 and regenerated the Infinigen box codebook.",
+        "Re-ran conversion audit and established a healthy box GT self-eval gate.",
+        "Launched infinigen_k10_fixed on the repaired dataset."
+      ],
+      "bugs_fixed": [
+        {
+          "bug": "Per-box and combined K=10 datasets were still derived from the pre-fix converter that ignored URDF visual origins.",
+          "root_cause": "prepare_k10 only merged existing .npz files and never re-converted raw Phase-1 data after the converter changed.",
+          "fix": "prepare_k10 now rebuilds per-box datasets from raw exports and invalidates stale box reference caches when forced."
+        },
+        {
+          "bug": "Conversion audit treated visual-origin sensitivity itself as a blocker instead of checking whether the saved dataset matched the fixed converter.",
+          "root_cause": "The audit compared fixed vs buggy conversion variants but did not measure saved-vs-fixed fidelity.",
+          "fix": "Audit now reports saved-vs-fixed errors, saved alignment, and PartNet GT control metrics."
+        },
+        {
+          "bug": "PhysNAP audit scripts could crash on libstdc++/PIL binary mismatch before GT evaluation started.",
+          "root_cause": "The physnap environment sometimes loaded the system libstdc++ instead of the conda copy required by Pillow/libLerc.",
+          "fix": "Added an auto re-exec preload guard so audit/evaluator processes start with the conda libstdc++.so.6 preloaded."
+        }
+      ],
+      "lessons": [
+        "A converter bug that changes local frames invalidates all downstream training and evaluation artifacts; those artifacts must be treated as archival after regeneration.",
+        "Box GT physics can be healthy even when PartNet GT exceeds an absolute E_pen/E_mob threshold, so those thresholds are not domain-universal."
+      ],
+      "artifacts": {
+        "conversion_audit": "experiments/physnap/box_prior_v1/diagnostics/conversion_audit.md",
+        "prepare_summary": "experiments/physnap/box_prior_v1/runtime/prepare_k10_summary.json",
+        "repaired_scratch_meta": "experiments/physnap/box_prior_v1/runtime/v6.1_diffusion_infinigen_k10_fixed/run_meta.json"
+      },
+      "architecture_changes": [
+        "prepare_k10 now has a raw-data reconversion stage before merge/codebook generation.",
+        "Added repaired training branch configs and launcher modes: infinigen_k10_fixed / finetune_k10_fixed.",
+        "Audit and evaluator now surface saved-dataset fidelity and PartNet GT self-eval controls."
+      ],
+      "next": [
+        "Let infinigen_k10_fixed finish and then launch finetune_k10_fixed.",
+        "Re-run evaluation on baseline / infinigen_k10_fixed / finetune_k10_fixed.",
+        "Decide whether the repaired branch supports the prior claim or only a weaker representation/benchmark result."
+      ],
+      "date": "2026-03-17",
+      "branch": "feature/3d-assets",
+      "commit": "b240e09c",
+      "id": 12
+    },
+    {
+      "summary": "box_prior_v1 phase1_diagnostics verdict=phase1_diagnosis_ready decision=advance_phase",
+      "completed": [
+        "Queue status: ['prepare_k10=completed', 'train_infinigen_k10=completed', 'train_finetune_k10=completed', 'prepare_mixed_replay=completed', 'train_mixed_finetune_k10=completed', 'train_partial_finetune_k10=completed', 'evaluate_all=completed']"
+      ],
+      "bugs_fixed": [],
+      "lessons": [
+        "The repaired bridge is healthy, and the dominant remaining failure signal is catastrophic forgetting during pure fine-tune."
+      ],
+      "artifacts": {
+        "campaign_manifest": "experiments/physnap/box_prior_v1/manifest.yaml",
+        "campaign_status": "experiments/physnap/box_prior_v1/campaign_status.md",
+        "decision_memo": "experiments/physnap/box_prior_v1/decision_memo.md"
+      },
+      "architecture_changes": [
+        "Phase gate is now auto_handoff_ready"
+      ],
+      "next": [
+        "Write the Phase 1 decision memo and selected Phase 2 base checkpoint.",
+        "Auto-bootstrap `box_conditioning_v2` immediately after Phase 1 completes."
+      ],
+      "date": "2026-03-18",
+      "branch": "feature/3d-assets",
+      "commit": "b240e09c",
+      "id": 13
+    },
+    {
+      "summary": "box_prior_v1 phase1_diagnostics verdict=phase1_diagnosis_ready decision=advance_phase",
+      "completed": [
+        "Queue status: ['prepare_k10=completed', 'train_infinigen_k10=completed', 'train_finetune_k10=completed', 'prepare_mixed_replay=completed', 'train_mixed_finetune_k10=completed', 'train_partial_finetune_k10=completed', 'evaluate_all=completed']"
+      ],
+      "bugs_fixed": [],
+      "lessons": [
+        "The repaired bridge is healthy, and the dominant remaining failure signal is catastrophic forgetting during pure fine-tune."
+      ],
+      "artifacts": {
+        "campaign_manifest": "experiments/physnap/box_prior_v1/manifest.yaml",
+        "campaign_status": "experiments/physnap/box_prior_v1/campaign_status.md",
+        "decision_memo": "experiments/physnap/box_prior_v1/decision_memo.md"
+      },
+      "architecture_changes": [
+        "Phase gate is now auto_handoff_ready"
+      ],
+      "next": [
+        "Write the Phase 1 decision memo and selected Phase 2 base checkpoint.",
+        "Auto-bootstrap `box_conditioning_v2` immediately after Phase 1 completes."
+      ],
+      "date": "2026-03-19",
+      "branch": "feature/3d-assets",
+      "commit": "b240e09c",
+      "id": 14
+    },
+    {
+      "summary": "box_prior_v1 phase1_diagnostics verdict=phase1_diagnosis_ready decision=advance_phase",
+      "completed": [
+        "Queue status: ['prepare_k10=completed', 'train_infinigen_k10=completed', 'train_finetune_k10=completed', 'prepare_mixed_replay=completed', 'train_mixed_finetune_k10=completed', 'train_partial_finetune_k10=completed', 'evaluate_all=completed']"
+      ],
+      "bugs_fixed": [],
+      "lessons": [
+        "The repaired bridge is healthy, and the dominant remaining failure signal is catastrophic forgetting during pure fine-tune."
+      ],
+      "artifacts": {
+        "campaign_manifest": "experiments/physnap/box_prior_v1/manifest.yaml",
+        "campaign_status": "experiments/physnap/box_prior_v1/campaign_status.md",
+        "decision_memo": "experiments/physnap/box_prior_v1/decision_memo.md"
+      },
+      "architecture_changes": [
+        "Phase gate is now auto_handoff_ready"
+      ],
+      "next": [
+        "Write the Phase 1 decision memo and selected Phase 2 base checkpoint.",
+        "Auto-bootstrap `box_conditioning_v2` immediately after Phase 1 completes."
+      ],
+      "date": "2026-03-19",
+      "branch": "feature/3d-assets",
+      "commit": "b240e09c",
+      "id": 15
+    },
+    {
+      "summary": "box_prior_v1 phase1_diagnostics verdict=phase1_diagnosis_ready decision=advance_phase",
+      "completed": [
+        "Queue status: ['prepare_k10=completed', 'train_infinigen_k10=completed', 'train_finetune_k10=completed', 'prepare_mixed_replay=completed', 'train_mixed_finetune_k10=completed', 'train_partial_finetune_k10=completed', 'evaluate_all=completed']"
+      ],
+      "bugs_fixed": [],
+      "lessons": [
+        "The repaired bridge is healthy, and the dominant remaining failure signal is catastrophic forgetting during pure fine-tune."
+      ],
+      "artifacts": {
+        "campaign_manifest": "experiments/physnap/box_prior_v1/manifest.yaml",
+        "campaign_status": "experiments/physnap/box_prior_v1/campaign_status.md",
+        "decision_memo": "experiments/physnap/box_prior_v1/decision_memo.md"
+      },
+      "architecture_changes": [
+        "Phase gate is now auto_handoff_ready"
+      ],
+      "next": [
+        "Write the Phase 1 decision memo and selected Phase 2 base checkpoint.",
+        "Auto-bootstrap `box_conditioning_v2` immediately after Phase 1 completes."
+      ],
+      "date": "2026-03-19",
+      "branch": "feature/3d-assets",
+      "commit": "b240e09c",
+      "id": 16
+    },
+    {
+      "summary": "box_conditioning_v2 phase2 progress 2/4 groups completed; multistate_singleview rerun active after invalid summary repair",
+      "completed": [
+        "Phase 2 conditioning exports completed for zero-state and multi-state groups",
+        "Guided runs completed for zero_singleview and zero_multiview",
+        "Phase 2 current progress: 2/4 guided groups completed while multistate_singleview reruns"
+      ],
+      "bugs_fixed": [
+        {
+          "bug": "Phase 2 guided runs for multistate groups completed without required genfull_per_* metrics, which caused evaluate_conditioning_v2 to fail with invalid_phase2_summary.",
+          "root_cause": "The accelerated run_guided.py path skipped writing genfull metrics for multistate groups due to a misplaced code block, and the loop treated those runs as completed too early.",
+          "fix": "Patched run_guided.py to emit the full Phase 2 metric set again and tightened physnap_auto_review_loop.py so guided steps are only marked completed when stats.json contains the required conditioning metrics."
+        }
+      ],
+      "lessons": [
+        "Phase 2 claim review must be artifact-first: guided stats must be validated before the queue can advance to evaluate_conditioning_v2.",
+        "The current strongest true claim is still pending because only 2 of 4 conditioning groups have finished with valid metrics."
+      ],
+      "artifacts": {
+        "phase2_state": "experiments/physnap/box_conditioning_v2/state.json",
+        "phase2_review": "experiments/physnap/box_conditioning_v2/review.json",
+        "phase2_dashboard": "experiments/physnap/box_conditioning_v2/campaign_status.md",
+        "phase2_history_snapshot": ".project-memory/history/2026-03-20_box-conditioning-v2-phase2-multistate-rerun-progress.md"
+      },
+      "architecture_changes": [
+        "Project memory STATUS now reflects the live Phase 2 campaign instead of only the last recorded iteration.",
+        "Project memory history now captures campaign milestones and repair snapshots outside experiments/physnap/."
+      ],
+      "next": [
+        "Wait for run_guided_multistate_singleview to finish and verify it auto-advances to run_guided_multistate_multiview.",
+        "Complete evaluate_conditioning_v2 and write the strongest-true-claim memo once all four conditioning groups have valid metrics.",
+        "Keep project-memory STATUS/history in sync with future Phase 2 milestones."
+      ],
+      "date": "2026-03-20",
+      "branch": "feature/3d-assets",
+      "commit": "b240e09c",
+      "id": 17
+    },
+    {
+      "summary": "box_conditioning_v2 phase2_conditioning_design verdict=claim_not_supported decision=revise_claim",
+      "completed": [
+        "Queue status: ['prepare_conditioning_v2=completed', 'export_cond_zero_singleview=completed', 'export_cond_zero_multiview=completed', 'export_cond_multistate_singleview=completed', 'export_cond_multistate_multiview=completed', 'run_guided_zero_singleview=completed', 'run_guided_zero_multiview=completed', 'run_guided_multistate_singleview=completed', 'run_guided_multistate_multiview=completed', 'evaluate_conditioning_v2=completed', 'write_phase2_claim_memo=pending']"
+      ],
+      "bugs_fixed": [],
+      "lessons": [
+        "All bounded Phase 2 conditioning recipes completed, but none produced a consistent gain over the zero-state single-view anchor."
+      ],
+      "artifacts": {
+        "campaign_manifest": "experiments/physnap/box_conditioning_v2/manifest.yaml",
+        "campaign_status": "experiments/physnap/box_conditioning_v2/campaign_status.md",
+        "decision_memo": "experiments/physnap/box_conditioning_v2/decision_memo.md"
+      },
+      "architecture_changes": [
+        "Phase gate is now ready_for_writeup"
+      ],
+      "next": [
+        "Write the strongest true claim memo for Phase 2 instead of the original strong claim.",
+        "Record which conditioning groups failed to improve the anchor and why."
+      ],
+      "date": "2026-03-20",
+      "branch": "feature/3d-assets",
+      "commit": "b240e09c",
+      "id": 18
+    },
+    {
+      "summary": "box_conditioning_v2 phase2_conditioning_design verdict=claim_not_supported decision=revise_claim",
+      "completed": [
+        "Queue status: ['prepare_conditioning_v2=completed', 'export_cond_zero_singleview=completed', 'export_cond_zero_multiview=completed', 'export_cond_multistate_singleview=completed', 'export_cond_multistate_multiview=completed', 'run_guided_zero_singleview=completed', 'run_guided_zero_multiview=completed', 'run_guided_multistate_singleview=completed', 'run_guided_multistate_multiview=completed', 'evaluate_conditioning_v2=completed', 'write_phase2_claim_memo=completed']"
+      ],
+      "bugs_fixed": [],
+      "lessons": [
+        "All bounded Phase 2 conditioning recipes completed, but none produced a consistent gain over the zero-state single-view anchor."
+      ],
+      "artifacts": {
+        "campaign_manifest": "experiments/physnap/box_conditioning_v2/manifest.yaml",
+        "campaign_status": "experiments/physnap/box_conditioning_v2/campaign_status.md",
+        "decision_memo": "experiments/physnap/box_conditioning_v2/decision_memo.md"
+      },
+      "architecture_changes": [
+        "Phase gate is now ready_for_writeup"
+      ],
+      "next": [
+        "Write the strongest true claim memo for Phase 2 instead of the original strong claim.",
+        "Record which conditioning groups failed to improve the anchor and why."
+      ],
+      "date": "2026-03-20",
+      "branch": "feature/3d-assets",
+      "commit": "b240e09c",
+      "id": 19
     }
   ],
   "commits": [

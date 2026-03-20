@@ -1,0 +1,32 @@
+{
+  "status": "prepared",
+  "prepared_dir": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/data/infinigen_graph_combined_k10",
+  "box_conversions": [
+    {
+      "box_type": "mailer",
+      "status": "reconverted",
+      "output_dir": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/data/infinigen_graph_mailer"
+    },
+    {
+      "box_type": "drawer",
+      "status": "reconverted",
+      "output_dir": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/data/infinigen_graph_drawer"
+    },
+    {
+      "box_type": "slip_lid",
+      "status": "reconverted",
+      "output_dir": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/data/infinigen_graph_sliplid"
+    },
+    {
+      "box_type": "tuck_end",
+      "status": "reconverted",
+      "output_dir": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/data/infinigen_graph_tuckend"
+    }
+  ],
+  "invalidated_box_refs": [
+    "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/infinigen_box_k10_val",
+    "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/infinigen_box_k10_val_eval256",
+    "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/infinigen_box_k10_val_eval32"
+  ],
+  "updated_at": "2026-03-17T21:04:15+08:00"
+}

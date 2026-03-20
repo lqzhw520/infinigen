@@ -1,0 +1,238 @@
+{
+  "samples_per_box": 8,
+  "box_types": {
+    "mailer": [
+      {
+        "box_type": "mailer",
+        "sample_id": "000001",
+        "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_mailer/dataset/train/000001",
+        "metadata_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_mailer/dataset/train/000001/metadata.json",
+        "urdf_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_mailer/dataset/train/000001/urdf_gt.urdf"
+      },
+      {
+        "box_type": "mailer",
+        "sample_id": "000002",
+        "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_mailer/dataset/train/000002",
+        "metadata_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_mailer/dataset/train/000002/metadata.json",
+        "urdf_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_mailer/dataset/train/000002/urdf_gt.urdf"
+      },
+      {
+        "box_type": "mailer",
+        "sample_id": "000003",
+        "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_mailer/dataset/train/000003",
+        "metadata_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_mailer/dataset/train/000003/metadata.json",
+        "urdf_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_mailer/dataset/train/000003/urdf_gt.urdf"
+      },
+      {
+        "box_type": "mailer",
+        "sample_id": "000004",
+        "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_mailer/dataset/train/000004",
+        "metadata_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_mailer/dataset/train/000004/metadata.json",
+        "urdf_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_mailer/dataset/train/000004/urdf_gt.urdf"
+      },
+      {
+        "box_type": "mailer",
+        "sample_id": "000005",
+        "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_mailer/dataset/train/000005",
+        "metadata_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_mailer/dataset/train/000005/metadata.json",
+        "urdf_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_mailer/dataset/train/000005/urdf_gt.urdf"
+      },
+      {
+        "box_type": "mailer",
+        "sample_id": "000006",
+        "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_mailer/dataset/train/000006",
+        "metadata_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_mailer/dataset/train/000006/metadata.json",
+        "urdf_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_mailer/dataset/train/000006/urdf_gt.urdf"
+      },
+      {
+        "box_type": "mailer",
+        "sample_id": "000007",
+        "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_mailer/dataset/train/000007",
+        "metadata_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_mailer/dataset/train/000007/metadata.json",
+        "urdf_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_mailer/dataset/train/000007/urdf_gt.urdf"
+      },
+      {
+        "box_type": "mailer",
+        "sample_id": "000008",
+        "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_mailer/dataset/train/000008",
+        "metadata_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_mailer/dataset/train/000008/metadata.json",
+        "urdf_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_mailer/dataset/train/000008/urdf_gt.urdf"
+      }
+    ],
+    "drawer": [
+      {
+        "box_type": "drawer",
+        "sample_id": "000001",
+        "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_drawer/dataset/train/000001",
+        "metadata_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_drawer/dataset/train/000001/metadata.json",
+        "urdf_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_drawer/dataset/train/000001/urdf_gt.urdf"
+      },
+      {
+        "box_type": "drawer",
+        "sample_id": "000002",
+        "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_drawer/dataset/train/000002",
+        "metadata_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_drawer/dataset/train/000002/metadata.json",
+        "urdf_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_drawer/dataset/train/000002/urdf_gt.urdf"
+      },
+      {
+        "box_type": "drawer",
+        "sample_id": "000003",
+        "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_drawer/dataset/train/000003",
+        "metadata_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_drawer/dataset/train/000003/metadata.json",
+        "urdf_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_drawer/dataset/train/000003/urdf_gt.urdf"
+      },
+      {
+        "box_type": "drawer",
+        "sample_id": "000004",
+        "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_drawer/dataset/train/000004",
+        "metadata_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_drawer/dataset/train/000004/metadata.json",
+        "urdf_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_drawer/dataset/train/000004/urdf_gt.urdf"
+      },
+      {
+        "box_type": "drawer",
+        "sample_id": "000005",
+        "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_drawer/dataset/train/000005",
+        "metadata_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_drawer/dataset/train/000005/metadata.json",
+        "urdf_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_drawer/dataset/train/000005/urdf_gt.urdf"
+      },
+      {
+        "box_type": "drawer",
+        "sample_id": "000006",
+        "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_drawer/dataset/train/000006",
+        "metadata_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_drawer/dataset/train/000006/metadata.json",
+        "urdf_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_drawer/dataset/train/000006/urdf_gt.urdf"
+      },
+      {
+        "box_type": "drawer",
+        "sample_id": "000007",
+        "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_drawer/dataset/train/000007",
+        "metadata_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_drawer/dataset/train/000007/metadata.json",
+        "urdf_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_drawer/dataset/train/000007/urdf_gt.urdf"
+      },
+      {
+        "box_type": "drawer",
+        "sample_id": "000008",
+        "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_drawer/dataset/train/000008",
+        "metadata_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_drawer/dataset/train/000008/metadata.json",
+        "urdf_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_drawer/dataset/train/000008/urdf_gt.urdf"
+      }
+    ],
+    "slip_lid": [
+      {
+        "box_type": "slip_lid",
+        "sample_id": "000001",
+        "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_sliplid/dataset/train/000001",
+        "metadata_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_sliplid/dataset/train/000001/metadata.json",
+        "urdf_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_sliplid/dataset/train/000001/urdf_gt.urdf"
+      },
+      {
+        "box_type": "slip_lid",
+        "sample_id": "000002",
+        "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_sliplid/dataset/train/000002",
+        "metadata_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_sliplid/dataset/train/000002/metadata.json",
+        "urdf_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_sliplid/dataset/train/000002/urdf_gt.urdf"
+      },
+      {
+        "box_type": "slip_lid",
+        "sample_id": "000003",
+        "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_sliplid/dataset/train/000003",
+        "metadata_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_sliplid/dataset/train/000003/metadata.json",
+        "urdf_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_sliplid/dataset/train/000003/urdf_gt.urdf"
+      },
+      {
+        "box_type": "slip_lid",
+        "sample_id": "000004",
+        "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_sliplid/dataset/train/000004",
+        "metadata_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_sliplid/dataset/train/000004/metadata.json",
+        "urdf_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_sliplid/dataset/train/000004/urdf_gt.urdf"
+      },
+      {
+        "box_type": "slip_lid",
+        "sample_id": "000005",
+        "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_sliplid/dataset/train/000005",
+        "metadata_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_sliplid/dataset/train/000005/metadata.json",
+        "urdf_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_sliplid/dataset/train/000005/urdf_gt.urdf"
+      },
+      {
+        "box_type": "slip_lid",
+        "sample_id": "000006",
+        "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_sliplid/dataset/train/000006",
+        "metadata_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_sliplid/dataset/train/000006/metadata.json",
+        "urdf_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_sliplid/dataset/train/000006/urdf_gt.urdf"
+      },
+      {
+        "box_type": "slip_lid",
+        "sample_id": "000007",
+        "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_sliplid/dataset/train/000007",
+        "metadata_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_sliplid/dataset/train/000007/metadata.json",
+        "urdf_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_sliplid/dataset/train/000007/urdf_gt.urdf"
+      },
+      {
+        "box_type": "slip_lid",
+        "sample_id": "000008",
+        "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_sliplid/dataset/train/000008",
+        "metadata_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_sliplid/dataset/train/000008/metadata.json",
+        "urdf_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_sliplid/dataset/train/000008/urdf_gt.urdf"
+      }
+    ],
+    "tuck_end": [
+      {
+        "box_type": "tuck_end",
+        "sample_id": "000001",
+        "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_tuckend/dataset/train/000001",
+        "metadata_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_tuckend/dataset/train/000001/metadata.json",
+        "urdf_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_tuckend/dataset/train/000001/urdf_gt.urdf"
+      },
+      {
+        "box_type": "tuck_end",
+        "sample_id": "000002",
+        "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_tuckend/dataset/train/000002",
+        "metadata_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_tuckend/dataset/train/000002/metadata.json",
+        "urdf_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_tuckend/dataset/train/000002/urdf_gt.urdf"
+      },
+      {
+        "box_type": "tuck_end",
+        "sample_id": "000003",
+        "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_tuckend/dataset/train/000003",
+        "metadata_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_tuckend/dataset/train/000003/metadata.json",
+        "urdf_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_tuckend/dataset/train/000003/urdf_gt.urdf"
+      },
+      {
+        "box_type": "tuck_end",
+        "sample_id": "000004",
+        "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_tuckend/dataset/train/000004",
+        "metadata_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_tuckend/dataset/train/000004/metadata.json",
+        "urdf_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_tuckend/dataset/train/000004/urdf_gt.urdf"
+      },
+      {
+        "box_type": "tuck_end",
+        "sample_id": "000005",
+        "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_tuckend/dataset/train/000005",
+        "metadata_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_tuckend/dataset/train/000005/metadata.json",
+        "urdf_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_tuckend/dataset/train/000005/urdf_gt.urdf"
+      },
+      {
+        "box_type": "tuck_end",
+        "sample_id": "000006",
+        "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_tuckend/dataset/train/000006",
+        "metadata_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_tuckend/dataset/train/000006/metadata.json",
+        "urdf_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_tuckend/dataset/train/000006/urdf_gt.urdf"
+      },
+      {
+        "box_type": "tuck_end",
+        "sample_id": "000007",
+        "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_tuckend/dataset/train/000007",
+        "metadata_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_tuckend/dataset/train/000007/metadata.json",
+        "urdf_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_tuckend/dataset/train/000007/urdf_gt.urdf"
+      },
+      {
+        "box_type": "tuck_end",
+        "sample_id": "000008",
+        "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_tuckend/dataset/train/000008",
+        "metadata_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_tuckend/dataset/train/000008/metadata.json",
+        "urdf_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_tuckend/dataset/train/000008/urdf_gt.urdf"
+      }
+    ]
+  },
+  "status": "prepared"
+}

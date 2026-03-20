@@ -7,8 +7,8 @@ Usage:
         --input-dirs external/physnap/data/infinigen_graph_mailer \
                      external/physnap/data/infinigen_graph_drawer \
                      external/physnap/data/infinigen_graph_sliplid \
-        --output-dir external/physnap/data/infinigen_graph_combined \
-        --exclude-types TUCK_END  # optional: exclude types with K>8
+                     external/physnap/data/infinigen_graph_tuckend \
+        --output-dir external/physnap/data/infinigen_graph_combined_k10
 """
 
 import argparse

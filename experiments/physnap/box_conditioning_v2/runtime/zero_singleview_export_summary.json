@@ -1,0 +1,8 @@
+{
+  "group_id": "zero_singleview",
+  "cond_dir": "/mnt/afs2/zhuhaowu/infinigen/experiments/physnap/box_conditioning_v2/conditioning/zero_singleview",
+  "n_objects": 32,
+  "points_per_cloud": 1000,
+  "state_mode": "zero",
+  "view_mode": "single"
+}

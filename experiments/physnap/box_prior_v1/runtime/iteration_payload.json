@@ -1,0 +1,22 @@
+{
+  "summary": "box_prior_v1 phase1_diagnostics verdict=phase1_diagnosis_ready decision=advance_phase",
+  "completed": [
+    "Queue status: ['prepare_k10=completed', 'train_infinigen_k10=completed', 'train_finetune_k10=completed', 'prepare_mixed_replay=completed', 'train_mixed_finetune_k10=completed', 'train_partial_finetune_k10=completed', 'evaluate_all=completed']"
+  ],
+  "bugs_fixed": [],
+  "lessons": [
+    "The repaired bridge is healthy, and the dominant remaining failure signal is catastrophic forgetting during pure fine-tune."
+  ],
+  "artifacts": {
+    "campaign_manifest": "experiments/physnap/box_prior_v1/manifest.yaml",
+    "campaign_status": "experiments/physnap/box_prior_v1/campaign_status.md",
+    "decision_memo": "experiments/physnap/box_prior_v1/decision_memo.md"
+  },
+  "architecture_changes": [
+    "Phase gate is now auto_handoff_ready"
+  ],
+  "next": [
+    "Write the Phase 1 decision memo and selected Phase 2 base checkpoint.",
+    "Auto-bootstrap `box_conditioning_v2` immediately after Phase 1 completes."
+  ]
+}

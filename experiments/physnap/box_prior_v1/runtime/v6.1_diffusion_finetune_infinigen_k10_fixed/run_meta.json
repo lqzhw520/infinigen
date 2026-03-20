@@ -1,0 +1,15 @@
+{
+  "mode": "finetune_k10_fixed",
+  "log_dir": "v6.1_diffusion_finetune_infinigen_k10_fixed",
+  "config_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/physnap/box_prior_v1/runtime/v6.1_diffusion_finetune_infinigen_k10_fixed/resolved_config.yaml",
+  "status": "completed",
+  "source_checkpoint": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/v6.1_diffusion_adapted/checkpoint/5455.pt",
+  "commit": "b240e09c1ef0e39b853ea6dc8ed649409168c32a",
+  "branch": "feature/3d-assets",
+  "created_at": "2026-03-17T23:52:46+08:00",
+  "launched_at": "2026-03-17T23:52:46+08:00",
+  "launch_command": "python run.py --config /mnt/afs2/zhuhaowu/infinigen/experiments/physnap/box_prior_v1/runtime/v6.1_diffusion_finetune_infinigen_k10_fixed/resolved_config.yaml -f",
+  "exit_code_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/physnap/box_prior_v1/runtime/v6.1_diffusion_finetune_infinigen_k10_fixed/exit_code.txt",
+  "pid": 2401854,
+  "finished_at": "2026-03-18T14:58:46+08:00"
+}

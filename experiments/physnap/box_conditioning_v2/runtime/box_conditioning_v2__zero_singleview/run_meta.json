@@ -1,0 +1,16 @@
+{
+  "group_id": "zero_singleview",
+  "output_name": "box_conditioning_v2__zero_singleview",
+  "cond_dir": "/mnt/afs2/zhuhaowu/infinigen/experiments/physnap/box_conditioning_v2/conditioning/zero_singleview",
+  "checkpoint_path": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/v6.1_diffusion_mixed_finetune_infinigen_k10/checkpoint/425_latest.pt",
+  "config_path": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/configs/nap/v6.1_diffusion_mixed_finetune_infinigen_k10.yaml",
+  "status": "completed",
+  "launched_at": "2026-03-19T10:17:25+08:00",
+  "finished_at": "2026-03-19T15:17:28+08:00",
+  "log_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/physnap/box_conditioning_v2/runtime/box_conditioning_v2__zero_singleview/launcher.log",
+  "run_dir": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/box_conditioning_v2__zero_singleview",
+  "exit_code": 0,
+  "gallery": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/box_conditioning_v2__zero_singleview/res_chnk03.png",
+  "stats_path": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/box_conditioning_v2__zero_singleview/stats.json",
+  "config_json_path": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/box_conditioning_v2__zero_singleview/config.json"
+}

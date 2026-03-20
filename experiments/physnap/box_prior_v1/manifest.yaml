@@ -1,0 +1,69 @@
+campaign:
+  id: box_prior_v1
+  title: Infinigen x PhysNAP Phase 1 Transfer Diagnosis
+  main_claim: Phase 1 diagnoses whether forgetting, over-updating, or parameterization
+    limits dominate repaired transfer behavior.
+  phase: phase1_diagnostics
+  phase_gate: await_phase1_diagnostics
+  auto_advance_to: box_conditioning_v2
+runtime:
+  single_active_train_job: true
+  launcher: scripts/train_physnap_infinigen.sh
+  evaluator: scripts/evaluate_physnap_training.py
+  evaluator_python: physnap
+  loop: scripts/physnap_auto_review_loop.py
+diagnostics:
+  conversion_audit: scripts/audit_infinigen_conversion.py
+  mixed_replay_builder: scripts/build_mixed_replay_dataset.py
+references:
+  box_val:
+    name: infinigen_box_k10_val
+    kind: box
+    split: val
+    config_path: external/physnap/configs/nap/v6.1_diffusion_infinigen_k10.yaml
+  partnet_val:
+    name: GTval
+    kind: partnet
+    split: val
+    config_path: external/physnap/configs/nap/v6.1_diffusion_adapted.yaml
+experiments:
+  baseline:
+    label: PartNet baseline
+    evaluation_stage: generate_baseline
+    config_path: external/physnap/configs/nap/v6.1_diffusion_adapted.yaml
+    checkpoint_path: external/physnap/log/v6.1_diffusion_adapted/checkpoint/5455.pt
+    log_dir: external/physnap/log/v6.1_diffusion_adapted
+  infinigen_k10:
+    label: Infinigen scratch K=10 (repaired)
+    evaluation_stage: generate_scratch
+    config_path: external/physnap/configs/nap/v6.1_diffusion_infinigen_k10_fixed.yaml
+    checkpoint_path: external/physnap/log/v6.1_diffusion_infinigen_k10_fixed/checkpoint/2400_latest.pt
+    log_dir: external/physnap/log/v6.1_diffusion_infinigen_k10_fixed
+  finetune_k10:
+    label: PartNet to Infinigen fine-tune K=10 (repaired)
+    evaluation_stage: generate_finetune
+    config_path: external/physnap/configs/nap/v6.1_diffusion_finetune_infinigen_k10_fixed.yaml
+    checkpoint_path: external/physnap/log/v6.1_diffusion_finetune_infinigen_k10_fixed/checkpoint/1200_latest.pt
+    log_dir: external/physnap/log/v6.1_diffusion_finetune_infinigen_k10_fixed
+  mixed_finetune_k10:
+    label: PartNet + Infinigen mixed replay fine-tune K=10
+    evaluation_stage: generate_mixed_finetune
+    enabled: true
+    config_path: external/physnap/configs/nap/v6.1_diffusion_mixed_finetune_infinigen_k10.yaml
+    checkpoint_path: external/physnap/log/v6.1_diffusion_mixed_finetune_infinigen_k10/checkpoint/60_latest.pt
+    log_dir: external/physnap/log/v6.1_diffusion_mixed_finetune_infinigen_k10
+  partial_finetune_k10:
+    label: PartNet to Infinigen partial fine-tune K=10
+    evaluation_stage: generate_partial_finetune
+    enabled: true
+    config_path: external/physnap/configs/nap/v6.1_diffusion_partial_finetune_infinigen_k10.yaml
+    checkpoint_path: external/physnap/log/v6.1_diffusion_partial_finetune_infinigen_k10/checkpoint/60_latest.pt
+    log_dir: external/physnap/log/v6.1_diffusion_partial_finetune_infinigen_k10
+queue:
+- id: prepare_k10
+- id: train_infinigen_k10
+- id: train_finetune_k10
+- id: prepare_mixed_replay
+- id: train_mixed_finetune_k10
+- id: train_partial_finetune_k10
+- id: evaluate_all

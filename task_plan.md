@@ -1,31 +1,21 @@
 # Task Plan
 
-**Status**: claim_not_supported
-**Last Updated**: 2026-03-20T19:36:21+08:00
+**Status**: COMPLETE
+**Last Updated**: 2026-03-20T21:00:00+08:00
 
-## Campaign
+## Campaign Terminal Truth
 
-- campaign_dir=/mnt/afs2/zhuhaowu/infinigen/experiments/physnap/box_conditioning_v2
-- phase=phase2_conditioning_design
-- phase_gate=ready_for_writeup
+- campaign=`box_prior_v1`
+- phase1_diagnosis=`forgetting-dominant`
+- campaign=`box_conditioning_v2`
+- phase=`phase2_conditioning_design`
+- phase_gate=`ready_for_writeup`
+- verdict=`claim_not_supported`
+- strongest_true_claim=`Mixed replay is the strongest validated transfer improvement, but richer conditioning under the current PhysNAP parameterization does not consistently beat the zero-state single-view anchor.`
 
-## Queue
+## Sync Work
 
-- `prepare_conditioning_v2`: completed
-- `export_cond_zero_singleview`: completed
-- `export_cond_zero_multiview`: completed
-- `export_cond_multistate_singleview`: completed
-- `export_cond_multistate_multiview`: completed
-- `run_guided_zero_singleview`: completed
-- `run_guided_zero_multiview`: completed
-- `run_guided_multistate_singleview`: completed
-- `run_guided_multistate_multiview`: completed
-- `evaluate_conditioning_v2`: completed
-- `write_phase2_claim_memo`: completed
-
-## Review
-
-- verdict=claim_not_supported
-- decision=revise_claim
-- workflow_score=10
-- evidence_score=5
+- Repaired project-memory sync contract so tracked memory files are synchronized before commit, not mutated after commit.
+- Backfilled the missing Phase 2 terminal history snapshot.
+- Added a dedicated Phase 2 root-cause tree artifact.
+- Aligned repo-level memory files with the final Phase 1 + Phase 2 truth.

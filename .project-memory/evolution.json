@@ -1,7 +1,7 @@
 {
   "project": "infinigen-anybox",
   "architecture_version": 4,
-  "last_updated": "2026-03-20T19:36:21+08:00",
+  "last_updated": "2026-03-20T21:23:50+08:00",
   "iterations": [
     {
       "id": 1,
@@ -689,6 +689,43 @@
       "branch": "feature/3d-assets",
       "commit": "b240e09c",
       "id": 19
+    },
+    {
+      "summary": "Synchronized final Phase 2 verdict into project memory and recorded the strict root-cause tree",
+      "completed": [
+        "Backfilled a dedicated Phase 2 terminal history snapshot for claim_not_supported.",
+        "Repaired the project-memory hook contract so post-commit no longer rewrites tracked files.",
+        "Recorded a dedicated Phase 2 root-cause artifact covering data/interface/architecture/metrics."
+      ],
+      "bugs_fixed": [
+        {
+          "bug": "Project-memory sync was only partially repaired: final campaign truth reached STATUS.md but not a dedicated terminal history snapshot, and post-commit still rewrote tracked files.",
+          "root_cause": "The memory contract mixed milestone sync with post-commit mutation, and patrol only checked for generic phase2 history instead of a final terminal snapshot.",
+          "fix": "Moved the hook to validate-only/log-only, tightened terminal history requirements, and backfilled the final Phase 2 verdict plus root-cause record into canonical memory artifacts."
+        }
+      ],
+      "lessons": [
+        "Canonical tracked memory sync must happen at milestone finalization, not in post-commit hooks.",
+        "Terminal campaign verdicts need a dedicated final history snapshot even if STATUS.md is already correct.",
+        "The current Phase 2 negative result is best explained by conditioning-interface and architecture mismatch, not raw Infinigen asset failure."
+      ],
+      "artifacts": {
+        "phase2_root_cause_tree": "experiments/physnap/box_conditioning_v2/root_cause_tree.md",
+        "phase2_final_history": ".project-memory/history/2026-03-20_box-conditioning-v2-phase2-final-verdict-claim-not-supported.md",
+        "project_status": ".project-memory/STATUS.md"
+      },
+      "architecture_changes": [
+        "Commit hooks are now validate-only/log-only for project memory.",
+        "Terminal campaign sync now requires STATUS/history/root scratch alignment."
+      ],
+      "next": [
+        "Use the root_cause_tree artifact as the canonical explanation for this negative result.",
+        "Treat missing terminal history snapshots as patrol incidents in future campaign completions."
+      ],
+      "date": "2026-03-20",
+      "branch": "feature/3d-assets",
+      "commit": "fe945088",
+      "id": 20
     }
   ],
   "commits": [
@@ -824,6 +861,13 @@
       "message": "Add physnap as submodule, update project files",
       "author": "zhuhaowu",
       "files_changed": 16
+    },
+    {
+      "hash": "fe945088",
+      "date": "2026-03-20T20:56:52+08:00",
+      "message": "average-fit improved, diversity worsened, physical consistency broken",
+      "author": "zhuhaowu",
+      "files_changed": 254
     }
   ]
 }

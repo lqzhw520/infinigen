@@ -1,13 +1,11 @@
 # Findings
 
-- campaign=box_conditioning_v2
-- phase=phase2_conditioning_design
-- gate=ready_for_writeup
-- verdict=claim_not_supported
-- Weakness: Baseline, scratch, and fine-tune comparison arms are incomplete.
-- Weakness: `zero_multiview` does not consistently beat the zero-state single-view anchor.
-- Weakness: `multistate_singleview` does not consistently beat the zero-state single-view anchor.
-- Weakness: `multistate_multiview` does not consistently beat the zero-state single-view anchor.
-- Weakness: Claim ladder `multi-state + multi-view beats zero-state single-view` via `multistate_multiview` => not supported.
-- Weakness: Claim ladder `multi-view only beats zero-state single-view` via `zero_multiview` => not supported.
-- Weakness: Claim ladder `multi-state only beats zero-state single-view` via `multistate_singleview` => not supported.
+- Phase 1 final diagnosis: `forgetting-dominant`.
+- Phase 2 final verdict: `claim_not_supported`.
+- Strongest true claim: Mixed replay is the strongest validated transfer improvement, but richer conditioning under the current PhysNAP parameterization does not consistently beat the zero-state single-view anchor.
+- Root-cause ranking:
+  1. conditioning interface mismatch
+  2. PhysNAP conditional architecture mismatch
+  3. lossy merged-observation construction risk
+  4. metrics expose the failure pattern but are not the primary cause
+- Locked interpretation: `average-fit improved, diversity worsened, physical consistency broken` is a real signal of interface/architecture mismatch, not evidence that multi-state information has no value.

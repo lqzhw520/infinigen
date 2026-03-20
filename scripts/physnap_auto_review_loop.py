@@ -1611,24 +1611,33 @@ def maybe_record_iteration(state: dict, review: dict, summary: dict | None) -> N
         cwd=PROJECT_ROOT,
         env=subprocess_env(),
     )
+    history_titles = [iteration_title(state, review, summary)]
+    if review.get("phase") == "phase1_diagnostics" and review.get("diagnosis"):
+        history_titles.append(f"{CAMPAIGN_DIR.name} phase1 final diagnosis {review.get('diagnosis')}")
+    if review.get("phase") == "phase2_conditioning_design" and review.get("verdict") in terminal_verdicts:
+        history_titles.append(f"{CAMPAIGN_DIR.name} phase2 final verdict {review.get('verdict')}")
     if WRITE_CAMPAIGN_HISTORY.exists():
-        subprocess.run(
-            [
-                str(INFINIGEN_PYTHON),
-                str(WRITE_CAMPAIGN_HISTORY),
-                "--project-root",
-                str(PROJECT_ROOT),
-                "--campaign-dir",
-                str(CAMPAIGN_DIR),
-                "--title",
-                iteration_title(state, review, summary),
-            ],
-            check=True,
-            cwd=PROJECT_ROOT,
-            env=subprocess_env(),
-        )
+        seen_titles = set()
+        for title in history_titles:
+            if not title or title in seen_titles:
+                continue
+            seen_titles.add(title)
+            subprocess.run(
+                [
+                    str(INFINIGEN_PYTHON),
+                    str(WRITE_CAMPAIGN_HISTORY),
+                    "--project-root",
+                    str(PROJECT_ROOT),
+                    "--campaign-dir",
+                    str(CAMPAIGN_DIR),
+                    "--title",
+                    title,
+                ],
+                check=True,
+                cwd=PROJECT_ROOT,
+                env=subprocess_env(),
+            )
     ITERATION_MARKER.write_text(marker_value + "\n")
-
 
 def sync_running_steps(state: dict, launcher: dict) -> None:
     state["active_job"] = launcher.get("active_train_job")

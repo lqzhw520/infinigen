@@ -3,7 +3,7 @@
 
 **Date**: 2026-03-20
 **Branch**: feature/3d-assets
-**Last Commit**: b240e09c Update physnap submodule to latest commit with custom changes
+**Last Commit**: fe945088 average-fit improved, diversity worsened, physical consistency broken
 
 ## Status
 
@@ -17,11 +17,15 @@ See `.project-memory/STATUS.md` for the full project status.
 - next_incomplete=None
 
 ## Completed
-- Queue status: ['prepare_conditioning_v2=completed', 'export_cond_zero_singleview=completed', 'export_cond_zero_multiview=completed', 'export_cond_multistate_singleview=completed', 'export_cond_multistate_multiview=completed', 'run_guided_zero_singleview=completed', 'run_guided_zero_multiview=completed', 'run_guided_multistate_singleview=completed', 'run_guided_multistate_multiview=completed', 'evaluate_conditioning_v2=completed', 'write_phase2_claim_memo=completed']
+- Backfilled a dedicated Phase 2 terminal history snapshot for claim_not_supported.
+- Repaired the project-memory hook contract so post-commit no longer rewrites tracked files.
+- Recorded a dedicated Phase 2 root-cause artifact covering data/interface/architecture/metrics.
 
 ## Next
-- Write the strongest true claim memo for Phase 2 instead of the original strong claim.
-- Record which conditioning groups failed to improve the anchor and why.
+- Use the root_cause_tree artifact as the canonical explanation for this negative result.
+- Treat missing terminal history snapshots as patrol incidents in future campaign completions.
 
 ## Lessons
-- All bounded Phase 2 conditioning recipes completed, but none produced a consistent gain over the zero-state single-view anchor.
+- Canonical tracked memory sync must happen at milestone finalization, not in post-commit hooks.
+- Terminal campaign verdicts need a dedicated final history snapshot even if STATUS.md is already correct.
+- The current Phase 2 negative result is best explained by conditioning-interface and architecture mismatch, not raw Infinigen asset failure.

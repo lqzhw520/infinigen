@@ -1,5 +1,5 @@
 # Infinigen-AnyBox Project Status
-<!-- Auto-maintained by infinigen-project-memory skill. Last updated: 2026-03-20 20:42 -->
+<!-- Auto-maintained by infinigen-project-memory skill. Last updated: 2026-03-20 21:25 -->
 
 ## Architecture
 
@@ -16,7 +16,7 @@ Phase 1: Data Engine          Phase 2: Perception           Phase 3: Planning
 ## Current State
 
 - **Branch**: feature/3d-assets
-- **Last Commit**: b240e09c Update physnap submodule to latest commit with custom changes
+- **Last Commit**: fe945088 average-fit improved, diversity worsened, physical consistency broken
 - **Phase**: box_conditioning_v2::phase2_conditioning_design gate=ready_for_writeup
 - **Active Work**: Unknown
 
@@ -39,6 +39,7 @@ Phase 1: Data Engine          Phase 2: Perception           Phase 3: Planning
 | 13 | 2026-03-18 | box_prior_v1 phase1_diagnostics verdict=phase1_diagnosis_ready decision=advance_phase | experiments/physnap/box_prior_v1/manifest.yaml, experiments/physnap/box_prior_v1/campaign_status.md, experiments/physnap/box_prior_v1/decision_memo.md | b240e09c |
 | 17 | 2026-03-20 | box_conditioning_v2 phase2 progress 2/4 groups completed; multistate_singleview rerun active after invalid summary repair | experiments/physnap/box_conditioning_v2/state.json, experiments/physnap/box_conditioning_v2/review.json, experiments/physnap/box_conditioning_v2/campaign_status.md, .project-memory/history/2026-03-20_box-conditioning-v2-phase2-multistate-rerun-progress.md | b240e09c |
 | 18 | 2026-03-20 | box_conditioning_v2 phase2_conditioning_design verdict=claim_not_supported decision=revise_claim | experiments/physnap/box_conditioning_v2/manifest.yaml, experiments/physnap/box_conditioning_v2/campaign_status.md, experiments/physnap/box_conditioning_v2/decision_memo.md | b240e09c |
+| 20 | 2026-03-20 | Synchronized final Phase 2 verdict into project memory and recorded the strict root-cause tree | experiments/physnap/box_conditioning_v2/root_cause_tree.md, .project-memory/history/2026-03-20_box-conditioning-v2-phase2-final-verdict-claim-not-supported.md, .project-memory/STATUS.md | fe945088 |
 
 ## Bug Fixes & Lessons
 
@@ -62,14 +63,15 @@ Phase 1: Data Engine          Phase 2: Perception           Phase 3: Planning
 | 16 | 2026-03-17 | Conversion audit treated visual-origin sensitivity itself as a blocker instead of checking whether the saved dataset matched the fixed converter. | The audit compared fixed vs buggy conversion variants but did not measure saved-vs-fixed fidelity. | Audit now reports saved-vs-fixed errors, saved alignment, and PartNet GT control metrics. | b240e09c |
 | 17 | 2026-03-17 | PhysNAP audit scripts could crash on libstdc++/PIL binary mismatch before GT evaluation started. | The physnap environment sometimes loaded the system libstdc++ instead of the conda copy required by Pillow/libLerc. | Added an auto re-exec preload guard so audit/evaluator processes start with the conda libstdc++.so.6 preloaded. | b240e09c |
 | 18 | 2026-03-20 | Phase 2 guided runs for multistate groups completed without required genfull_per_* metrics, which caused evaluate_conditioning_v2 to fail with invalid_phase2_summary. | The accelerated run_guided.py path skipped writing genfull metrics for multistate groups due to a misplaced code block, and the loop treated those runs as completed too early. | Patched run_guided.py to emit the full Phase 2 metric set again and tightened physnap_auto_review_loop.py so guided steps are only marked completed when stats.json contains the required conditioning metrics. | b240e09c |
+| 19 | 2026-03-20 | Project-memory sync was only partially repaired: final campaign truth reached STATUS.md but not a dedicated terminal history snapshot, and post-commit still rewrote tracked files. | The memory contract mixed milestone sync with post-commit mutation, and patrol only checked for generic phase2 history instead of a final terminal snapshot. | Moved the hook to validate-only/log-only, tightened terminal history requirements, and backfilled the final Phase 2 verdict plus root-cause record into canonical memory artifacts. | fe945088 |
 
 ## Verified Artifacts
 
 | Artifact | Path | Verification Command | Last Result |
 |----------|------|---------------------|-------------|
-| campaign_manifest | `experiments/physnap/box_conditioning_v2/manifest.yaml` | (run verification) | - |
-| campaign_status | `experiments/physnap/box_conditioning_v2/campaign_status.md` | (run verification) | - |
-| decision_memo | `experiments/physnap/box_conditioning_v2/decision_memo.md` | (run verification) | - |
+| phase2_root_cause_tree | `experiments/physnap/box_conditioning_v2/root_cause_tree.md` | (run verification) | - |
+| phase2_final_history | `.project-memory/history/2026-03-20_box-conditioning-v2-phase2-final-verdict-claim-not-supported.md` | (run verification) | - |
+| project_status | `.project-memory/STATUS.md` | (run verification) | - |
 
 ## Next Steps
 
@@ -78,9 +80,9 @@ Phase 1: Data Engine          Phase 2: Perception           Phase 3: Planning
 
 ## Key Files
 
-- `experiments/physnap/box_conditioning_v2/manifest.yaml` -- campaign_manifest
-- `experiments/physnap/box_conditioning_v2/campaign_status.md` -- campaign_status
-- `experiments/physnap/box_conditioning_v2/decision_memo.md` -- decision_memo
+- `experiments/physnap/box_conditioning_v2/root_cause_tree.md` -- phase2_root_cause_tree
+- `.project-memory/history/2026-03-20_box-conditioning-v2-phase2-final-verdict-claim-not-supported.md` -- phase2_final_history
+- `.project-memory/STATUS.md` -- project_status
 - `experiments/physnap/box_conditioning_v2/state.json` -- active campaign state
 - `experiments/physnap/box_conditioning_v2/review.json` -- active campaign review
 - `experiments/physnap/box_conditioning_v2/decision_memo.md` -- active decision memo
@@ -122,6 +124,9 @@ Phase 1: Data Engine          Phase 2: Perception           Phase 3: Planning
 - Phase 2 claim review must be artifact-first: guided stats must be validated before the queue can advance to evaluate_conditioning_v2.
 - The current strongest true claim is still pending because only 2 of 4 conditioning groups have finished with valid metrics.
 - All bounded Phase 2 conditioning recipes completed, but none produced a consistent gain over the zero-state single-view anchor.
+- Canonical tracked memory sync must happen at milestone finalization, not in post-commit hooks.
+- Terminal campaign verdicts need a dedicated final history snapshot even if STATUS.md is already correct.
+- The current Phase 2 negative result is best explained by conditioning-interface and architecture mismatch, not raw Infinigen asset failure.
 
 ## Live Campaign Snapshot
 

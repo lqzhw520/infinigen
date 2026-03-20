@@ -1,203 +1,131 @@
 ---
 name: infinigen-project-memory
-description: Maintain a single source of truth for the Infinigen-AnyBox project state, architecture, iteration history, and memory. Auto-triggers on git commit. Use when the user says "update project status", "archive this iteration", "project briefing", "what is the current state", "show project history", "evolve skill", starts a new session, or after completing a significant task. Also use proactively at session start if .project-memory/STATUS.md exists.
+description: Maintain a single source of truth for the Infinigen-AnyBox project state, architecture, iteration history, and memory. Use when the user says "update project status", "archive this iteration", "project briefing", "what is the current state", "show project history", or after completing a significant task or campaign milestone.
 metadata:
   author: infinigen-team
-  version: 2.1.0
+  version: 2.2.0
   project: infinigen-anybox
 ---
 
 # Infinigen Project Memory
 
-Unified project memory system with a single source of truth (`.project-memory/`) that auto-updates on every git commit, self-evolves its analysis dimensions, and archives iteration history.
+Unified project memory system with a single source of truth (`.project-memory/`) that is synchronized at research milestones, keeps commit-time validation lightweight, and archives iteration history without dirtying the worktree after commit.
 
 ## Architecture: What Lives Where
 
 ```
 .project-memory/                 <-- PRIMARY (single source of truth)
-├── STATUS.md                    <-- Current project state (auto-regenerated)
+├── STATUS.md                    <-- Current project state (canonical, regenerated)
 ├── evolution.json               <-- Machine-readable iteration DB (append-only)
-├── rules.json                   <-- Self-evolution config (auto-updated)
-└── history/                     <-- Immutable iteration + evolution snapshots
-    ├── YYYY-MM-DD_title.md
-    └── YYYY-MM-DD_skill-evolution-vN-to-vM.md
+├── rules.json                   <-- Self-evolution config
+├── history/                     <-- Immutable campaign and iteration snapshots
+└── logs/                        <-- Untracked diagnostics such as post-commit validation logs
 
-.session/checkpoint.md           <-- DEPRECATED VIEW (auto-synced from STATUS.md)
-task_plan.md / findings.md       <-- PER-TASK SCRATCH (auto-archived on completion)
-progress.md                      <-- Short session log for multi-step execution
-experiments/physnap/*            <-- Campaign manifests, summaries, reviews, next actions
+.session/checkpoint.md           <-- Deprecated synced view of STATUS.md
+task_plan.md / findings.md       <-- Current task scratch
+progress.md                      <-- Session progress log
+experiments/physnap/*            <-- Campaign manifests, state, summary, review, memo
 ```
 
-### Storage Hierarchy
+## Storage Hierarchy
 
 | Location | Role | Lifecycle |
 |----------|------|-----------|
-| `.project-memory/STATUS.md` | Canonical project state | Auto-regenerated on every commit |
-| `.project-memory/evolution.json` | Structured iteration + commit history | Append-only, never delete |
-| `.project-memory/history/` | Immutable snapshots of past iterations and evolution events | Write-once, never edit |
-| `.project-memory/rules.json` | Self-evolution rule engine | Auto-updated by evolve_skill.py |
-| `.session/checkpoint.md` | **Deprecated**. Legacy view, auto-synced from STATUS.md. Do not read directly; use STATUS.md. | Auto-synced |
-| `task_plan.md` | Current task scratch (planning-with-files) | Created per task, auto-archived + reset when task_plan contains "COMPLETE" |
-| `findings.md` | Current task discoveries | Same lifecycle as task_plan.md |
-| `progress.md` | Session progress log | Updated during long multi-step execution |
-| `experiments/physnap/*/manifest.yaml` | Campaign contract: claim, matrix, refs, queue | Versioned with code |
-| `experiments/physnap/*/{summary,next_actions,state}.json` | Loop state + review outputs | Mutable campaign working state |
+| `.project-memory/STATUS.md` | Canonical project state | Regenerated at milestone finalization and explicit status sync |
+| `.project-memory/evolution.json` | Structured iteration + commit history | Append-only, canonical writes go through `record_iteration.py` |
+| `.project-memory/history/` | Immutable snapshots of iterations and campaign milestones | Write-once, never edit |
+| `.project-memory/rules.json` | Self-evolution rule engine | Mutable config |
+| `.project-memory/logs/` | Untracked validation logs | Append-only diagnostics |
+| `.session/checkpoint.md` | Deprecated compatibility view | Auto-synced from STATUS.md |
+| `task_plan.md` | Current task scratch | Updated during active work |
+| `findings.md` | Current task discoveries | Updated during active work |
+| `progress.md` | Session progress log | Updated during active work |
+| `experiments/physnap/*/manifest.yaml` | Campaign contract | Versioned with code |
+| `experiments/physnap/*/{state,summary,review,next_actions}.json` | Campaign working truth | Mutable campaign state |
 
-## Automatic Pipeline (git commit triggers everything)
+## Canonical Sync Contract
 
-The post-commit hook runs a 4-step pipeline on every `git commit`:
+Canonical tracked memory sync happens at milestone finalization, not after `git commit`.
 
 ```
-git commit
+phase or claim milestone completes
     │
     ▼
-┌──────────────────────────────────────────────────────────┐
-│ Step 1: Log commit to evolution.json                     │
-│   - hash, date, message, author, files_changed           │
-│   - Cascade guard: skips if message starts with           │
-│     "Auto-update" or "[project-memory]"                  │
-├──────────────────────────────────────────────────────────┤
-│ Step 2: Regenerate STATUS.md + sync checkpoint.md        │
-│   - Runs update_status.py                                │
-│   - STATUS.md rebuilt from evolution.json + git state     │
-│   - .session/checkpoint.md synced (backward compat)      │
-├──────────────────────────────────────────────────────────┤
-│ Step 3: Conditional self-evolution                        │
-│   - Only triggers if commit changes >= 3 files           │
-│   - Runs evolve_skill.py which checks:                   │
-│     * >= N new iterations since last evolve               │
-│     * >= 2 new bugs OR >= 2 arch changes                  │
-│   - If triggered: updates rules.json, writes snapshot    │
-│     to history/YYYY-MM-DD_skill-evolution-vN-to-vM.md    │
-├──────────────────────────────────────────────────────────┤
-│ Step 4: Archive cleanup                                  │
-│   - If task_plan.md contains "COMPLETE":                 │
-│     * Snapshot task_plan + findings to history/           │
-│     * Reset both files to blank state                    │
-└──────────────────────────────────────────────────────────┘
+1. record_iteration.py
+   - append canonical iteration payload to evolution.json
+2. write_campaign_history.py
+   - write immutable human-readable snapshot to history/
+3. update_status.py
+   - rebuild STATUS.md and sync .session/checkpoint.md
+4. refresh root scratch files
+   - task_plan.md / findings.md / progress.md must reflect the same truth
+5. optional git commit
+   - commit occurs only after tracked memory files already reflect the milestone
 ```
 
-### Install / Reinstall the Hook
+## Commit Hook Policy
 
-```bash
-cp .cursor/skills/infinigen-project-memory/scripts/post_commit_hook.sh .git/hooks/post-commit
-chmod +x .git/hooks/post-commit
-```
+The post-commit hook is now validate-only / log-only.
 
-## Explicit Commands (user says)
+It may:
+- record commit metadata into an untracked diagnostic log
+- warn if the worktree is unexpectedly dirty after commit
+
+It must not:
+- rewrite `.project-memory/STATUS.md`
+- rewrite `.project-memory/evolution.json`
+- rewrite `.session/checkpoint.md`
+- reset `task_plan.md`, `findings.md`, or `progress.md`
+- mutate any other tracked file
+
+A successful normal commit should leave `git status` clean unless a separate running experiment loop legitimately changes tracked files later.
+
+## Explicit Commands
 
 | User says | What the agent does |
 |-----------|-------------------|
-| "update project status" | Runs `update_status.py` to regenerate STATUS.md |
-| "archive this iteration" | Runs `archive_iteration.py --title "..." --clean` to snapshot + reset |
-| "project briefing" | Reads STATUS.md + evolution.json, presents structured briefing |
-| "show project history" | Reads evolution.json, lists all iterations with summaries |
-| "evolve skill" | Runs `evolve_skill.py --force` to analyze trends and update rules |
-| "load checkpoint" | Runs `load_checkpoint.py` to show latest iteration record |
-| "record iteration" | Runs `record_iteration.py` with a campaign payload to append a new structured iteration |
+| "update project status" | Run `update_status.py` to regenerate STATUS.md |
+| "record iteration" | Run `record_iteration.py` with a payload JSON |
+| "write campaign history" | Run `write_campaign_history.py` for the active campaign |
+| "project briefing" | Read STATUS.md + evolution.json and summarize canonical truth |
+| "show project history" | Read evolution.json and `.project-memory/history/` |
+| "evolve skill" | Run `evolve_skill.py --force` |
 
 ## After Completing Significant Work
 
-The agent should proactively:
-1. Add a new iteration record to `evolution.json` (structured JSON with all fields)
-2. Commit the code changes (this triggers the auto-pipeline above)
-3. If a milestone is reached, also explicitly run `archive_iteration.py --title "..." --clean`
-4. Verify STATUS.md was updated by reading it
+Always do the following before considering the work synchronized:
+1. Append a structured iteration via `record_iteration.py`
+2. Write a human-readable history snapshot via `write_campaign_history.py`
+3. Refresh `STATUS.md`, `.session/checkpoint.md`, and root scratch files
+4. Verify campaign `review.json`, `decision_memo.md`, and project-memory agree
+5. Only then make a git commit if desired
 
-For manifest-driven experiment campaigns:
-1. Keep `manifest.yaml` as the decision contract for the current campaign
-2. Update `state.json`, `summary.json`, and `next_actions.json` as the loop advances
-3. When a milestone is reached, emit a payload JSON and append it via `record_iteration.py`
-4. Also write a human-readable campaign snapshot into `.project-memory/history/` so Phase reviews, repairs, and handoffs remain auditable outside the campaign folder
-5. Refresh `.project-memory/STATUS.md` from live campaign truth so project-level state never lags behind `experiments/physnap/*`
-6. Use `.project-memory/STATUS.md` to reflect campaign-level truth, not ad-hoc shell notes
-
-## Self-Evolution: How the Skill Evolves Itself
-
-The skill analyzes its own iteration data to detect emerging patterns:
-
-```
-evolution.json iterations
-    │
-    ▼
-┌────────────────────────────────────────┐
-│ evolve_skill.py                         │
-│                                         │
-│ 1. Classify bugs → detect uncovered     │
-│    categories → add to rules.json       │
-│ 2. Scan artifacts → detect new types    │
-│    → add to rules.json                  │
-│ 3. Count consecutive arch changes       │
-│    → warn if documentation is stale     │
-│ 4. Cluster lessons by theme             │
-│    → promote recurring themes to        │
-│      analysis_dimensions                │
-│ 5. Log evolution event to rules.json    │
-│    evolution_history array              │
-│ 6. Write snapshot to history/           │
-│    YYYY-MM-DD_skill-evolution-vN-to-vM  │
-└────────────────────────────────────────┘
-```
-
-**When it auto-triggers**: Post-commit hook runs `evolve_skill.py` if the commit changed >= 3 files. The script itself checks if enough new data exists (configurable via `evolve_every_n_iterations` in rules.json, default: 3). It also auto-triggers if >= 2 new bugs or >= 2 new architecture changes accumulated since last evolution.
-
-**When to force**: Run `python .cursor/skills/infinigen-project-memory/scripts/evolve_skill.py --force` to bypass thresholds.
-
-**Evolution snapshots**: Every evolution event is recorded in:
-- `rules.json` → `evolution_history` array (machine-readable)
-- `history/YYYY-MM-DD_skill-evolution-vN-to-vM.md` (human-readable, immutable)
+For manifest-driven campaigns:
+1. Keep `manifest.yaml` as the decision contract
+2. Keep `state.json`, `summary.json`, `review.json`, and `next_actions.json` coherent
+3. When a phase diagnosis, handoff, repair milestone, or final verdict is reached, write both:
+   - a structured iteration
+   - a human-readable `.project-memory/history/` snapshot
+4. Treat a missing terminal history snapshot as a sync failure, even if STATUS.md already looks correct
 
 ## Core Scripts
 
-| Script | Purpose | Auto/Explicit |
-|--------|---------|--------------|
-| `scripts/post_commit_hook.sh` | Full pipeline: commit log + STATUS regen + evolve + archive | Auto (git hook) |
-| `scripts/update_status.py` | Regenerate STATUS.md from evolution.json + git state | Auto (via hook) + Explicit |
-| `scripts/archive_iteration.py` | Snapshot to history/, optionally clean task_plan/findings | Auto (via hook) + Explicit |
-| `scripts/evolve_skill.py` | Analyze trends, update rules.json, write evolution snapshot | Auto (via hook, conditional) + Explicit |
-| `scripts/load_checkpoint.py` | Programmatic access to latest iteration record | Explicit only |
-| `scripts/record_iteration.py` | Append a campaign payload to evolution.json and optionally refresh STATUS.md | Explicit only |
-
-## evolution.json Schema
-
-Each iteration record:
-```json
-{
-  "id": 1,
-  "date": "YYYY-MM-DD",
-  "branch": "branch-name",
-  "commit": "short-hash",
-  "summary": "one-line summary",
-  "completed": ["list of completed items"],
-  "bugs_fixed": [{"bug": "desc", "root_cause": "why", "fix": "how"}],
-  "lessons": ["actionable lesson strings"],
-  "artifacts": {"key": "path"},
-  "architecture_changes": ["list of arch changes"],
-  "next": ["prioritized next items"]
-}
-```
-
-## Portability to Other Projects
-
-This skill is designed to be portable. To use it in another project:
-
-1. Copy `.cursor/skills/infinigen-project-memory/` to the new project
-2. Create `.project-memory/` directory with empty `evolution.json`:
-   ```json
-   {"project": "my-project", "architecture_version": 1, "iterations": [], "commits": []}
-   ```
-3. Run `cp .cursor/skills/infinigen-project-memory/scripts/post_commit_hook.sh .git/hooks/post-commit && chmod +x .git/hooks/post-commit`
-4. Make your first commit -- the pipeline bootstraps automatically
-
-The only infinigen-specific content is in `evolution.json` data (iterations, bugs, lessons). The scripts, hook, and rules engine are project-agnostic.
+| Script | Purpose |
+|--------|---------|
+| `scripts/post_commit_hook.sh` | Validate-only post-commit logging |
+| `scripts/update_status.py` | Regenerate STATUS.md from evolution + live campaign truth |
+| `scripts/write_campaign_history.py` | Write human-readable campaign milestone snapshots |
+| `scripts/record_iteration.py` | Append structured project-memory iterations |
+| `scripts/evolve_skill.py` | Analyze trends and update rules |
+| `scripts/load_checkpoint.py` | Show latest structured checkpoint |
 
 ## Rules
 
 - STATUS.md is the **canonical** project state. If it conflicts with other docs, STATUS.md wins.
-- evolution.json is append-only for iterations (never delete old records).
-- history/ files are immutable once written (no edits after archiving).
-- Keep STATUS.md under 300 lines. Link to docs/ for detailed architecture.
-- Always include verification commands for artifacts.
-- rules.json is the only mutable config -- updated by evolve_skill.py or manually.
-- `.session/checkpoint.md` is deprecated -- kept only for backward compatibility with session-resumption skill. Do not rely on it for any new logic.
-- Manifest-driven loops must keep `state.json`, `summary.json`, and `next_actions.json` in sync with `task_plan.md` and `findings.md`.
+- `record_iteration.py` is the only canonical writer for `evolution.json`.
+- `write_campaign_history.py` must be called for diagnosis locks, handoffs, repairs worth remembering, and final claim verdicts.
+- history files are immutable once written.
+- Final campaign verdicts must always create a dedicated terminal history snapshot.
+- Manifest-driven loops must keep `state.json`, `summary.json`, `review.json`, `decision_memo.md`, `task_plan.md`, `findings.md`, and `progress.md` aligned.
+- Commit hooks may validate and log, but must not rewrite tracked files after commit.
+- `.session/checkpoint.md` is deprecated and exists only for backward compatibility.

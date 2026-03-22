@@ -1,0 +1,23 @@
+{
+  "gate": "g1_asset_load",
+  "passed": true,
+  "urdf_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/urdf/drawerbox/42",
+  "nbody": 2,
+  "njnt": 1,
+  "ngeom": 9,
+  "joint_names": [
+    "drawer_slide_0"
+  ],
+  "joint_range": [
+    0.0,
+    0.25396514
+  ],
+  "joint_type": 2,
+  "test_positions": [
+    0.0,
+    0.12698257,
+    0.25396514
+  ],
+  "joint_moves": true,
+  "timestamp": 1774184913.60536
+}

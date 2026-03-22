@@ -1,0 +1,29 @@
+{
+  "g1_asset_load": {
+    "pass": "robosuite env loads drawerbox, joint moves"
+  },
+  "g2_obs_contract": {
+    "pass": "obs keys/shapes/dtypes match MINT spec"
+  },
+  "g3_grasp_plan": {
+    "pass": ">=1 grasp with score>0.5 on drawer handle"
+  },
+  "g4_trajectory_replay": {
+    "pass": "scripted trajectory achieves task success in sim"
+  },
+  "g5_delta_reconstruction": {
+    "pass": "reconstruction error < 1mm pos, < 1 deg rot"
+  },
+  "g6_lerobot_pack": {
+    "pass": "LeRobotDataset loads without error"
+  },
+  "g7_mint_batch_load": {
+    "pass": "dataloader batch correct shapes, no NaN"
+  },
+  "g8_mint_train": {
+    "pass": "loss decreases over 1000 steps"
+  },
+  "g9_sim_eval": {
+    "pass": "finetuned > pretrained MINT on held-out success rate"
+  }
+}

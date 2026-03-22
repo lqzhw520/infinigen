@@ -1,0 +1,51 @@
+{
+  "phase": "mint_sim_transfer_pipeline",
+  "phase_gate": "await_g9_eval",
+  "queue": [
+    {
+      "id": "g1_asset_load",
+      "status": "pending"
+    },
+    {
+      "id": "g2_obs_contract",
+      "status": "pending"
+    },
+    {
+      "id": "g3_grasp_plan",
+      "status": "pending"
+    },
+    {
+      "id": "g4_trajectory_replay",
+      "status": "pending"
+    },
+    {
+      "id": "g5_delta_reconstruction",
+      "status": "pending"
+    },
+    {
+      "id": "g6_lerobot_pack",
+      "status": "pending"
+    },
+    {
+      "id": "g7_mint_batch_load",
+      "status": "pending"
+    },
+    {
+      "id": "g8_mint_train",
+      "status": "pending"
+    },
+    {
+      "id": "g9_sim_eval",
+      "status": "pending"
+    },
+    {
+      "id": "write_claim_memo",
+      "status": "pending"
+    }
+  ],
+  "active_job": null,
+  "history": [],
+  "last_review": null,
+  "retries": {},
+  "verdict": null
+}

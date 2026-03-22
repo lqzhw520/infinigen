@@ -1,0 +1,36 @@
+campaign: mint_drawer_v1
+phase: mint_sim_transfer_pipeline
+phase_gate: await_g9_eval
+main_claim: >
+  Infinigen-generated articulated manipulation data improves MINT success
+  on held-out drawer variants in simulation relative to pretrained MINT.
+queue:
+  - g1_asset_load
+  - g2_obs_contract
+  - g3_grasp_plan
+  - g4_trajectory_replay
+  - g5_delta_reconstruction
+  - g6_lerobot_pack
+  - g7_mint_batch_load
+  - g8_mint_train
+  - g9_sim_eval
+  - write_claim_memo
+env_routing:
+  g1_asset_load: mint
+  g2_obs_contract: mint
+  g3_grasp_plan: graspnet
+  g4_trajectory_replay: mint
+  g5_delta_reconstruction: mint
+  g6_lerobot_pack: mint
+  g7_mint_batch_load: mint
+  g8_mint_train: mint
+  g9_sim_eval: mint
+object_split:
+  train: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+  held_out_sim: [11, 12, 13, 14, 15]
+task: open the drawer
+baselines:
+  - random
+  - pretrained_mint
+  - finetuned_mint
+primary_metric: held_out_sim_success_rate

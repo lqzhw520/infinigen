@@ -1,0 +1,21 @@
+{
+  "gate": "g2_obs_contract",
+  "passed": true,
+  "checks": {
+    "rgb_shape": true,
+    "rgb_dtype": true,
+    "rgb_range": true
+  },
+  "rgb_shape": [
+    360,
+    360,
+    3
+  ],
+  "rgb_dtype": "uint8",
+  "rgb_range": [
+    0,
+    49
+  ],
+  "note": "Full obs contract requires robosuite env; this tests basic rendering",
+  "timestamp": 1774185336.0054727
+}

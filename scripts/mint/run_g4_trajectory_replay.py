@@ -1,12 +1,21 @@
 #!/usr/bin/env python3
 """G4: Scripted trajectory achieves task success in sim."""
-import os, sys, json, time, numpy as np
+
+import json
+import os
+import sys
+import time
+
+import numpy as np
+
 os.environ["MUJOCO_GL"] = "egl"
 CAMPAIGN = "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1"
 ARTIFACT = os.path.join(CAMPAIGN, "artifacts", "g4_trajectory_replay.json")
 
+
 def run():
     import mujoco
+
     URDF_DIR = "/mnt/afs2/zhuhaowu/infinigen/sim_exports/urdf/drawerbox/42"
     with open(os.path.join(URDF_DIR, "drawerbox.urdf")) as f:
         urdf = f.read()
@@ -51,6 +60,7 @@ def run():
         json.dump(result, f, indent=2)
     print(json.dumps(result, indent=2))
     return result["passed"]
+
 
 if __name__ == "__main__":
     sys.exit(0 if run() else 1)

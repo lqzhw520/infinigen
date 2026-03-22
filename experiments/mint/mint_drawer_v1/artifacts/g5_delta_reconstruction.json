@@ -1,0 +1,10 @@
+{
+  "gate": "g5_delta_reconstruction",
+  "passed": true,
+  "max_error_m": 0.0,
+  "max_error_mm": 0.0,
+  "n_steps": 100,
+  "pos_scale": 0.05,
+  "clipping_count": 0,
+  "timestamp": 1774185324.2253194
+}

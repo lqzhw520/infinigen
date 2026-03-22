@@ -1,0 +1,613 @@
+{
+  "group_id": "ablation_best_single_view",
+  "objects": [
+    {
+      "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_mailer/dataset/train/000001",
+      "box_type": "MAILER",
+      "state_mode": "multi",
+      "view_mode": "multi",
+      "n_states": 3,
+      "n_views": 3,
+      "bbox_center": [
+        0.0,
+        0.0031017623841762543,
+        0.13428658246994019
+      ],
+      "distance": 1.194954365491867,
+      "aggregation": "best_single_view",
+      "best_chamfer_proxy": 0.02572169527411461,
+      "best_state_index": 0,
+      "best_view_index": 1,
+      "object_id": "mailer:000001"
+    },
+    {
+      "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_mailer/dataset/train/000002",
+      "box_type": "MAILER",
+      "state_mode": "multi",
+      "view_mode": "multi",
+      "n_states": 3,
+      "n_views": 3,
+      "bbox_center": [
+        0.0,
+        0.0031017623841762543,
+        0.13428658246994019
+      ],
+      "distance": 1.194954365491867,
+      "aggregation": "best_single_view",
+      "best_chamfer_proxy": 0.02572169527411461,
+      "best_state_index": 0,
+      "best_view_index": 1,
+      "object_id": "mailer:000002"
+    },
+    {
+      "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_mailer/dataset/train/000003",
+      "box_type": "MAILER",
+      "state_mode": "multi",
+      "view_mode": "multi",
+      "n_states": 3,
+      "n_views": 3,
+      "bbox_center": [
+        0.0,
+        0.0031017623841762543,
+        0.13428658246994019
+      ],
+      "distance": 1.194954365491867,
+      "aggregation": "best_single_view",
+      "best_chamfer_proxy": 0.02572169527411461,
+      "best_state_index": 0,
+      "best_view_index": 1,
+      "object_id": "mailer:000003"
+    },
+    {
+      "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_mailer/dataset/train/000004",
+      "box_type": "MAILER",
+      "state_mode": "multi",
+      "view_mode": "multi",
+      "n_states": 3,
+      "n_views": 3,
+      "bbox_center": [
+        0.0,
+        0.0031017623841762543,
+        0.13428658246994019
+      ],
+      "distance": 1.194954365491867,
+      "aggregation": "best_single_view",
+      "best_chamfer_proxy": 0.02572169527411461,
+      "best_state_index": 0,
+      "best_view_index": 1,
+      "object_id": "mailer:000004"
+    },
+    {
+      "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_mailer/dataset/train/000005",
+      "box_type": "MAILER",
+      "state_mode": "multi",
+      "view_mode": "multi",
+      "n_states": 3,
+      "n_views": 3,
+      "bbox_center": [
+        0.0,
+        0.0031017623841762543,
+        0.13428658246994019
+      ],
+      "distance": 1.194954365491867,
+      "aggregation": "best_single_view",
+      "best_chamfer_proxy": 0.02572169527411461,
+      "best_state_index": 0,
+      "best_view_index": 1,
+      "object_id": "mailer:000005"
+    },
+    {
+      "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_mailer/dataset/train/000006",
+      "box_type": "MAILER",
+      "state_mode": "multi",
+      "view_mode": "multi",
+      "n_states": 3,
+      "n_views": 3,
+      "bbox_center": [
+        0.0,
+        -0.039890822023153305,
+        0.030018195509910583
+      ],
+      "distance": 0.9501181542873383,
+      "aggregation": "best_single_view",
+      "best_chamfer_proxy": 0.025887351483106613,
+      "best_state_index": 0,
+      "best_view_index": 1,
+      "object_id": "mailer:000006"
+    },
+    {
+      "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_mailer/dataset/train/000007",
+      "box_type": "MAILER",
+      "state_mode": "multi",
+      "view_mode": "multi",
+      "n_states": 3,
+      "n_views": 3,
+      "bbox_center": [
+        0.0,
+        -0.039890822023153305,
+        0.030018195509910583
+      ],
+      "distance": 0.9501181542873383,
+      "aggregation": "best_single_view",
+      "best_chamfer_proxy": 0.025903895497322083,
+      "best_state_index": 0,
+      "best_view_index": 1,
+      "object_id": "mailer:000007"
+    },
+    {
+      "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_mailer/dataset/train/000008",
+      "box_type": "MAILER",
+      "state_mode": "multi",
+      "view_mode": "multi",
+      "n_states": 3,
+      "n_views": 3,
+      "bbox_center": [
+        0.0,
+        -0.039890822023153305,
+        0.030018195509910583
+      ],
+      "distance": 0.9501181542873383,
+      "aggregation": "best_single_view",
+      "best_chamfer_proxy": 0.025888418778777122,
+      "best_state_index": 0,
+      "best_view_index": 1,
+      "object_id": "mailer:000008"
+    },
+    {
+      "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_drawer/dataset/train/000001",
+      "box_type": "DRAWER",
+      "state_mode": "multi",
+      "view_mode": "multi",
+      "n_states": 3,
+      "n_views": 3,
+      "bbox_center": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "distance": 1.0549987107515335,
+      "aggregation": "best_single_view",
+      "best_chamfer_proxy": 0.028454946354031563,
+      "best_state_index": 0,
+      "best_view_index": 1,
+      "object_id": "drawer:000001"
+    },
+    {
+      "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_drawer/dataset/train/000002",
+      "box_type": "DRAWER",
+      "state_mode": "multi",
+      "view_mode": "multi",
+      "n_states": 3,
+      "n_views": 3,
+      "bbox_center": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "distance": 1.0549987107515335,
+      "aggregation": "best_single_view",
+      "best_chamfer_proxy": 0.028466038405895233,
+      "best_state_index": 0,
+      "best_view_index": 0,
+      "object_id": "drawer:000002"
+    },
+    {
+      "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_drawer/dataset/train/000003",
+      "box_type": "DRAWER",
+      "state_mode": "multi",
+      "view_mode": "multi",
+      "n_states": 3,
+      "n_views": 3,
+      "bbox_center": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "distance": 1.0549987107515335,
+      "aggregation": "best_single_view",
+      "best_chamfer_proxy": 0.028190823271870613,
+      "best_state_index": 0,
+      "best_view_index": 0,
+      "object_id": "drawer:000003"
+    },
+    {
+      "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_drawer/dataset/train/000004",
+      "box_type": "DRAWER",
+      "state_mode": "multi",
+      "view_mode": "multi",
+      "n_states": 3,
+      "n_views": 3,
+      "bbox_center": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "distance": 1.0549987107515335,
+      "aggregation": "best_single_view",
+      "best_chamfer_proxy": 0.028747446835041046,
+      "best_state_index": 0,
+      "best_view_index": 1,
+      "object_id": "drawer:000004"
+    },
+    {
+      "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_drawer/dataset/train/000005",
+      "box_type": "DRAWER",
+      "state_mode": "multi",
+      "view_mode": "multi",
+      "n_states": 3,
+      "n_views": 3,
+      "bbox_center": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "distance": 1.0549987107515335,
+      "aggregation": "best_single_view",
+      "best_chamfer_proxy": 0.028177080675959587,
+      "best_state_index": 0,
+      "best_view_index": 1,
+      "object_id": "drawer:000005"
+    },
+    {
+      "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_drawer/dataset/train/000006",
+      "box_type": "DRAWER",
+      "state_mode": "multi",
+      "view_mode": "multi",
+      "n_states": 3,
+      "n_views": 3,
+      "bbox_center": [
+        0.0,
+        -0.02499990165233612,
+        0.0
+      ],
+      "distance": 1.15847148001194,
+      "aggregation": "best_single_view",
+      "best_chamfer_proxy": 0.02835829369723797,
+      "best_state_index": 0,
+      "best_view_index": 0,
+      "object_id": "drawer:000006"
+    },
+    {
+      "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_drawer/dataset/train/000007",
+      "box_type": "DRAWER",
+      "state_mode": "multi",
+      "view_mode": "multi",
+      "n_states": 3,
+      "n_views": 3,
+      "bbox_center": [
+        0.0,
+        -0.02499990165233612,
+        0.0
+      ],
+      "distance": 1.15847148001194,
+      "aggregation": "best_single_view",
+      "best_chamfer_proxy": 0.028600752353668213,
+      "best_state_index": 0,
+      "best_view_index": 0,
+      "object_id": "drawer:000007"
+    },
+    {
+      "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_drawer/dataset/train/000008",
+      "box_type": "DRAWER",
+      "state_mode": "multi",
+      "view_mode": "multi",
+      "n_states": 3,
+      "n_views": 3,
+      "bbox_center": [
+        0.0,
+        -0.02499990165233612,
+        0.0
+      ],
+      "distance": 1.15847148001194,
+      "aggregation": "best_single_view",
+      "best_chamfer_proxy": 0.02787092700600624,
+      "best_state_index": 0,
+      "best_view_index": 0,
+      "object_id": "drawer:000008"
+    },
+    {
+      "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_sliplid/dataset/train/000001",
+      "box_type": "SLIP_LID",
+      "state_mode": "multi",
+      "view_mode": "multi",
+      "n_states": 3,
+      "n_views": 3,
+      "bbox_center": [
+        -0.0007845349609851837,
+        -0.0007845424115657806,
+        0.0286860391497612
+      ],
+      "distance": 0.9494352340698242,
+      "aggregation": "best_single_view",
+      "best_chamfer_proxy": 0.04277490824460983,
+      "best_state_index": 0,
+      "best_view_index": 0,
+      "object_id": "slip_lid:000001"
+    },
+    {
+      "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_sliplid/dataset/train/000002",
+      "box_type": "SLIP_LID",
+      "state_mode": "multi",
+      "view_mode": "multi",
+      "n_states": 3,
+      "n_views": 3,
+      "bbox_center": [
+        -0.0007845349609851837,
+        -0.0007845424115657806,
+        0.0286860391497612
+      ],
+      "distance": 0.9494352340698242,
+      "aggregation": "best_single_view",
+      "best_chamfer_proxy": 0.042715322226285934,
+      "best_state_index": 0,
+      "best_view_index": 0,
+      "object_id": "slip_lid:000002"
+    },
+    {
+      "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_sliplid/dataset/train/000003",
+      "box_type": "SLIP_LID",
+      "state_mode": "multi",
+      "view_mode": "multi",
+      "n_states": 3,
+      "n_views": 3,
+      "bbox_center": [
+        -0.0007845349609851837,
+        -0.0007845424115657806,
+        0.0286860391497612
+      ],
+      "distance": 0.9494352340698242,
+      "aggregation": "best_single_view",
+      "best_chamfer_proxy": 0.04355119541287422,
+      "best_state_index": 0,
+      "best_view_index": 0,
+      "object_id": "slip_lid:000003"
+    },
+    {
+      "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_sliplid/dataset/train/000004",
+      "box_type": "SLIP_LID",
+      "state_mode": "multi",
+      "view_mode": "multi",
+      "n_states": 3,
+      "n_views": 3,
+      "bbox_center": [
+        -0.0007845349609851837,
+        -0.0007845424115657806,
+        0.0286860391497612
+      ],
+      "distance": 0.9494352340698242,
+      "aggregation": "best_single_view",
+      "best_chamfer_proxy": 0.04321028292179108,
+      "best_state_index": 0,
+      "best_view_index": 0,
+      "object_id": "slip_lid:000004"
+    },
+    {
+      "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_sliplid/dataset/train/000005",
+      "box_type": "SLIP_LID",
+      "state_mode": "multi",
+      "view_mode": "multi",
+      "n_states": 3,
+      "n_views": 3,
+      "bbox_center": [
+        -0.0007845349609851837,
+        -0.0007845424115657806,
+        0.0286860391497612
+      ],
+      "distance": 0.9494352340698242,
+      "aggregation": "best_single_view",
+      "best_chamfer_proxy": 0.04311021789908409,
+      "best_state_index": 0,
+      "best_view_index": 2,
+      "object_id": "slip_lid:000005"
+    },
+    {
+      "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_sliplid/dataset/train/000006",
+      "box_type": "SLIP_LID",
+      "state_mode": "multi",
+      "view_mode": "multi",
+      "n_states": 3,
+      "n_views": 3,
+      "bbox_center": [
+        -0.0007845349609851837,
+        -0.0007845424115657806,
+        0.04368603229522705
+      ],
+      "distance": 0.9996512532234192,
+      "aggregation": "best_single_view",
+      "best_chamfer_proxy": 0.042785972356796265,
+      "best_state_index": 0,
+      "best_view_index": 0,
+      "object_id": "slip_lid:000006"
+    },
+    {
+      "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_sliplid/dataset/train/000007",
+      "box_type": "SLIP_LID",
+      "state_mode": "multi",
+      "view_mode": "multi",
+      "n_states": 3,
+      "n_views": 3,
+      "bbox_center": [
+        -0.0007845349609851837,
+        -0.0007845424115657806,
+        0.04368603229522705
+      ],
+      "distance": 0.9996512532234192,
+      "aggregation": "best_single_view",
+      "best_chamfer_proxy": 0.042795728892087936,
+      "best_state_index": 0,
+      "best_view_index": 0,
+      "object_id": "slip_lid:000007"
+    },
+    {
+      "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_sliplid/dataset/train/000008",
+      "box_type": "SLIP_LID",
+      "state_mode": "multi",
+      "view_mode": "multi",
+      "n_states": 3,
+      "n_views": 3,
+      "bbox_center": [
+        -0.0007845349609851837,
+        -0.0007845424115657806,
+        0.04368603229522705
+      ],
+      "distance": 0.9996512532234192,
+      "aggregation": "best_single_view",
+      "best_chamfer_proxy": 0.04303179681301117,
+      "best_state_index": 0,
+      "best_view_index": 0,
+      "object_id": "slip_lid:000008"
+    },
+    {
+      "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_tuckend/dataset/train/000001",
+      "box_type": "TUCK_END",
+      "state_mode": "multi",
+      "view_mode": "multi",
+      "n_states": 3,
+      "n_views": 3,
+      "bbox_center": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "distance": 1.0115090012550354,
+      "aggregation": "best_single_view",
+      "best_chamfer_proxy": 0.02109532803297043,
+      "best_state_index": 2,
+      "best_view_index": 2,
+      "object_id": "tuck_end:000001"
+    },
+    {
+      "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_tuckend/dataset/train/000002",
+      "box_type": "TUCK_END",
+      "state_mode": "multi",
+      "view_mode": "multi",
+      "n_states": 3,
+      "n_views": 3,
+      "bbox_center": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "distance": 1.0115090012550354,
+      "aggregation": "best_single_view",
+      "best_chamfer_proxy": 0.02109532803297043,
+      "best_state_index": 2,
+      "best_view_index": 2,
+      "object_id": "tuck_end:000002"
+    },
+    {
+      "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_tuckend/dataset/train/000003",
+      "box_type": "TUCK_END",
+      "state_mode": "multi",
+      "view_mode": "multi",
+      "n_states": 3,
+      "n_views": 3,
+      "bbox_center": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "distance": 1.0115090012550354,
+      "aggregation": "best_single_view",
+      "best_chamfer_proxy": 0.02109532803297043,
+      "best_state_index": 2,
+      "best_view_index": 2,
+      "object_id": "tuck_end:000003"
+    },
+    {
+      "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_tuckend/dataset/train/000004",
+      "box_type": "TUCK_END",
+      "state_mode": "multi",
+      "view_mode": "multi",
+      "n_states": 3,
+      "n_views": 3,
+      "bbox_center": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "distance": 1.0115090012550354,
+      "aggregation": "best_single_view",
+      "best_chamfer_proxy": 0.02109532803297043,
+      "best_state_index": 2,
+      "best_view_index": 2,
+      "object_id": "tuck_end:000004"
+    },
+    {
+      "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_tuckend/dataset/train/000005",
+      "box_type": "TUCK_END",
+      "state_mode": "multi",
+      "view_mode": "multi",
+      "n_states": 3,
+      "n_views": 3,
+      "bbox_center": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "distance": 1.0115090012550354,
+      "aggregation": "best_single_view",
+      "best_chamfer_proxy": 0.02109532803297043,
+      "best_state_index": 2,
+      "best_view_index": 2,
+      "object_id": "tuck_end:000005"
+    },
+    {
+      "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_tuckend/dataset/train/000006",
+      "box_type": "TUCK_END",
+      "state_mode": "multi",
+      "view_mode": "multi",
+      "n_states": 3,
+      "n_views": 3,
+      "bbox_center": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "distance": 0.8478046953678131,
+      "aggregation": "best_single_view",
+      "best_chamfer_proxy": 0.021181795746088028,
+      "best_state_index": 2,
+      "best_view_index": 2,
+      "object_id": "tuck_end:000006"
+    },
+    {
+      "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_tuckend/dataset/train/000007",
+      "box_type": "TUCK_END",
+      "state_mode": "multi",
+      "view_mode": "multi",
+      "n_states": 3,
+      "n_views": 3,
+      "bbox_center": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "distance": 0.8478046953678131,
+      "aggregation": "best_single_view",
+      "best_chamfer_proxy": 0.021181795746088028,
+      "best_state_index": 2,
+      "best_view_index": 2,
+      "object_id": "tuck_end:000007"
+    },
+    {
+      "sample_dir": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/data_engine/phase1_1k_tuckend/dataset/train/000008",
+      "box_type": "TUCK_END",
+      "state_mode": "multi",
+      "view_mode": "multi",
+      "n_states": 3,
+      "n_views": 3,
+      "bbox_center": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "distance": 0.8478046953678131,
+      "aggregation": "best_single_view",
+      "best_chamfer_proxy": 0.021181795746088028,
+      "best_state_index": 2,
+      "best_view_index": 2,
+      "object_id": "tuck_end:000008"
+    }
+  ]
+}

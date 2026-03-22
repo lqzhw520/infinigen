@@ -1,0 +1,114 @@
+campaign:
+  id: overnight_box_conditioning_phase2_ablations
+  title: Phase 2 cheap ablations (overnight sandbox)
+  phase: overnight_ablation
+conditioning:
+  plan_path: experiments/physnap/_overnight_sandbox/campaign_phase2_ablations/runtime/conditioning_plan.json
+  output_root: experiments/physnap/_overnight_sandbox/conditioning
+  samples_per_box: 8
+  points_per_cloud: 1000
+  render_width: 256
+  render_height: 256
+  guide:
+    cond_fac: 45
+    pen_fac: 2
+    mob_fac: 2
+    cond_temp: 1000
+    cond_model: squared
+    n_per_condition: 3
+    batch_size: 24
+    num_workers: 4
+    metrics_for: sdf
+    skip_visualization: true
+    skip_retrieval_exports: true
+    guide_fromto:
+    - 500
+    - 1000
+    dps_weight: 0.333
+  reference:
+    ref_name: infinigen_box_k10_val_eval32
+    ref_path: external/physnap/log/infinigen_box_k10_val_eval32
+  groups:
+    ablation_best_single_view:
+      label: best single (state×view) via mesh-vertex chamfer proxy
+      state_mode: multi
+      view_mode: multi
+      aggregation: best_single_view
+      cond_dir: experiments/physnap/_overnight_sandbox/conditioning/ablation_best_single_view
+      output_name: overnight_box_cond_v2__best_single_view
+      guide_overrides:
+        batch_size: 36
+        num_workers: 12
+        metrics_for: sdf
+        skip_visualization: true
+        skip_retrieval_exports: true
+    ablation_fixed_state_multiview:
+      label: merge multi-view at articulation state 0 only
+      state_mode: multi
+      view_mode: multi
+      aggregation: fixed_state_multiview
+      fixed_state_index: 0
+      cond_dir: experiments/physnap/_overnight_sandbox/conditioning/ablation_fixed_state_multiview
+      output_name: overnight_box_cond_v2__fixed_state_mv
+      guide_overrides:
+        batch_size: 36
+        num_workers: 12
+        metrics_for: sdf
+        skip_visualization: true
+        skip_retrieval_exports: true
+    ablation_pts_500:
+      label: multistate multiview merge_all N=500
+      state_mode: multi
+      view_mode: multi
+      aggregation: merge_all
+      points_per_cloud: 500
+      cond_dir: experiments/physnap/_overnight_sandbox/conditioning/ablation_pts_500
+      output_name: overnight_box_cond_v2__pts_500
+      guide_overrides:
+        batch_size: 36
+        num_workers: 12
+        metrics_for: sdf
+        skip_visualization: true
+        skip_retrieval_exports: true
+    ablation_pts_1000:
+      label: multistate multiview merge_all N=1000
+      state_mode: multi
+      view_mode: multi
+      aggregation: merge_all
+      points_per_cloud: 1000
+      cond_dir: experiments/physnap/_overnight_sandbox/conditioning/ablation_pts_1000
+      output_name: overnight_box_cond_v2__pts_1000
+      guide_overrides:
+        batch_size: 36
+        num_workers: 12
+        metrics_for: sdf
+        skip_visualization: true
+        skip_retrieval_exports: true
+    ablation_pts_2000:
+      label: multistate multiview merge_all N=2000
+      state_mode: multi
+      view_mode: multi
+      aggregation: merge_all
+      points_per_cloud: 2000
+      cond_dir: experiments/physnap/_overnight_sandbox/conditioning/ablation_pts_2000
+      output_name: overnight_box_cond_v2__pts_2000
+      guide_overrides:
+        batch_size: 36
+        num_workers: 12
+        metrics_for: sdf
+        skip_visualization: true
+        skip_retrieval_exports: true
+    ablation_pts_5000:
+      label: multistate multiview merge_all N=5000
+      state_mode: multi
+      view_mode: multi
+      aggregation: merge_all
+      points_per_cloud: 5000
+      cond_dir: experiments/physnap/_overnight_sandbox/conditioning/ablation_pts_5000
+      output_name: overnight_box_cond_v2__pts_5000
+      guide_overrides:
+        batch_size: 24
+        num_workers: 8
+        metrics_for: sdf
+        skip_visualization: true
+        skip_retrieval_exports: true

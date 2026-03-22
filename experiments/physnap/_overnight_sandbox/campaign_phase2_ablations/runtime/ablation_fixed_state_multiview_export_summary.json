@@ -1,0 +1,10 @@
+{
+  "group_id": "ablation_fixed_state_multiview",
+  "cond_dir": "/mnt/afs2/zhuhaowu/infinigen/experiments/physnap/_overnight_sandbox/conditioning/ablation_fixed_state_multiview",
+  "n_objects": 32,
+  "points_per_cloud": 1000,
+  "state_mode": "multi",
+  "view_mode": "multi",
+  "aggregation": "fixed_state_multiview",
+  "fixed_state_index": 0
+}

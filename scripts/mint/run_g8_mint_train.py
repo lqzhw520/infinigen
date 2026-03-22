@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 """G8: MINT fine-tune on local LeRobot dataset."""
-import os, sys, json, time
+
+import json
+import os
+import sys
+import time
+
 os.environ["MUJOCO_GL"] = "egl"
 os.environ["HF_HUB_OFFLINE"] = "1"
 os.environ["TRANSFORMERS_OFFLINE"] = "1"
@@ -11,11 +16,13 @@ OUTPUT_DIR = os.path.join(CAMPAIGN, "outputs")
 DATASET_ROOT = os.path.join(CAMPAIGN, "dataset")
 MINT_CKPT = "/mnt/afs2/zhuhaowu/infinigen/external/MINT/checkpoints/MINT-libero"
 
+
 def run():
     import subprocess
+
     cmd = [
         "lerobot-train",
-        f"--dataset.repo_id=infinigen_drawer_test",
+        "--dataset.repo_id=infinigen_drawer_test",
         f"--dataset.root={DATASET_ROOT}",
         "--policy.type=mint",
         f"--output_dir={OUTPUT_DIR}",
@@ -49,6 +56,7 @@ def run():
         json.dump(output, f, indent=2)
     print(json.dumps(output, indent=2))
     return output["passed"]
+
 
 if __name__ == "__main__":
     sys.exit(0 if run() else 1)

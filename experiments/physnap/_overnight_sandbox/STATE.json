@@ -1,0 +1,29 @@
+{
+  "started_at": "2026-03-20T22:30:00+08:00",
+  "round": 1,
+  "max_rounds": 4,
+  "total_gpu_hours": 0,
+  "max_gpu_hours": 30,
+  "phase": "box_conditioning_v2_phase2_overnight_ablations",
+  "claim": "multi-state multi-view outperform zero_singleview — NOT supported (Phase 2)",
+  "hypothesis": "PhysNAP conditioning flattens rich observations to 1000 pts without state/view metadata",
+  "experiments": [
+    {
+      "id": "phase2_ablations_20260320",
+      "launcher": "nohup (screen unavailable on host)",
+      "run_dir": "experiments/physnap/_overnight_sandbox/runs/phase2_ablations_20260320",
+      "script": "overnight_phase2_ablations.sh",
+      "groups": [
+        "ablation_best_single_view",
+        "ablation_fixed_state_multiview",
+        "ablation_pts_500",
+        "ablation_pts_1000",
+        "ablation_pts_2000",
+        "ablation_pts_5000"
+      ],
+      "status": "launched"
+    }
+  ],
+  "status": "running",
+  "verdict": null
+}

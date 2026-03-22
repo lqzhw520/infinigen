@@ -1,0 +1,16 @@
+{
+  "group_id": "ablation_pts_1000",
+  "output_name": "overnight_box_cond_v2__pts_1000",
+  "cond_dir": "/mnt/afs2/zhuhaowu/infinigen/experiments/physnap/_overnight_sandbox/conditioning/ablation_pts_1000",
+  "checkpoint_path": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/v6.1_diffusion_mixed_finetune_infinigen_k10/checkpoint/425_latest.pt",
+  "config_path": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/configs/nap/v6.1_diffusion_mixed_finetune_infinigen_k10.yaml",
+  "status": "completed",
+  "launched_at": "2026-03-21T12:27:43+08:00",
+  "finished_at": "2026-03-21T17:00:43+08:00",
+  "log_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/physnap/_overnight_sandbox/campaign_phase2_ablations/runtime/overnight_box_cond_v2__pts_1000/launcher.log",
+  "run_dir": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/overnight_box_cond_v2__pts_1000",
+  "exit_code": 0,
+  "gallery": null,
+  "stats_path": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/overnight_box_cond_v2__pts_1000/stats.json",
+  "config_json_path": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/overnight_box_cond_v2__pts_1000/config.json"
+}

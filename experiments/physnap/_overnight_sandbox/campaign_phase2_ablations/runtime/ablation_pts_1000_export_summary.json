@@ -1,0 +1,10 @@
+{
+  "group_id": "ablation_pts_1000",
+  "cond_dir": "/mnt/afs2/zhuhaowu/infinigen/experiments/physnap/_overnight_sandbox/conditioning/ablation_pts_1000",
+  "n_objects": 32,
+  "points_per_cloud": 1000,
+  "state_mode": "multi",
+  "view_mode": "multi",
+  "aggregation": "merge_all",
+  "fixed_state_index": 0
+}

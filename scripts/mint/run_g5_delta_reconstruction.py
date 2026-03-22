@@ -1,8 +1,16 @@
 #!/usr/bin/env python3
 """G5: Delta action conversion reconstructs original trajectory."""
-import os, sys, json, time, numpy as np
+
+import json
+import os
+import sys
+import time
+
+import numpy as np
+
 CAMPAIGN = "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1"
 ARTIFACT = os.path.join(CAMPAIGN, "artifacts", "g5_delta_reconstruction.json")
+
 
 def run():
     # Simulate: 100 absolute positions in a line
@@ -23,7 +31,7 @@ def run():
 
     # Compare
     orig = abs_actions[:, 0]
-    error = np.abs(orig[:len(reconstructed)] - reconstructed)
+    error = np.abs(orig[: len(reconstructed)] - reconstructed)
     max_error = float(error.max())
 
     result = {
@@ -33,13 +41,16 @@ def run():
         "max_error_mm": max_error * 1000,
         "n_steps": len(reconstructed),
         "pos_scale": pos_scale,
-        "clipping_count": int(np.sum(np.abs(np.diff(abs_actions[:, 0]) / pos_scale) > 1.0)),
+        "clipping_count": int(
+            np.sum(np.abs(np.diff(abs_actions[:, 0]) / pos_scale) > 1.0)
+        ),
         "timestamp": time.time(),
     }
     with open(ARTIFACT, "w") as f:
         json.dump(result, f, indent=2)
     print(json.dumps(result, indent=2))
     return result["passed"]
+
 
 if __name__ == "__main__":
     sys.exit(0 if run() else 1)

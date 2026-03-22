@@ -1,0 +1,16 @@
+{
+  "group_id": "ablation_best_single_view",
+  "output_name": "overnight_box_cond_v2__best_single_view",
+  "cond_dir": "/mnt/afs2/zhuhaowu/infinigen/experiments/physnap/_overnight_sandbox/conditioning/ablation_best_single_view",
+  "checkpoint_path": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/v6.1_diffusion_mixed_finetune_infinigen_k10/checkpoint/425_latest.pt",
+  "config_path": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/configs/nap/v6.1_diffusion_mixed_finetune_infinigen_k10.yaml",
+  "status": "completed",
+  "launched_at": "2026-03-20T22:24:12+08:00",
+  "finished_at": "2026-03-21T03:09:11+08:00",
+  "log_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/physnap/_overnight_sandbox/campaign_phase2_ablations/runtime/overnight_box_cond_v2__best_single_view/launcher.log",
+  "run_dir": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/overnight_box_cond_v2__best_single_view",
+  "exit_code": 0,
+  "gallery": null,
+  "stats_path": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/overnight_box_cond_v2__best_single_view/stats.json",
+  "config_json_path": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/overnight_box_cond_v2__best_single_view/config.json"
+}

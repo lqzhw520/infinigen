@@ -4,15 +4,18 @@
   "queue": [
     {
       "id": "g1_asset_load",
-      "status": "pending"
+      "status": "completed",
+      "result": "pass"
     },
     {
       "id": "g2_obs_contract",
-      "status": "pending"
+      "status": "completed",
+      "result": "pass"
     },
     {
       "id": "g3_grasp_plan",
-      "status": "pending"
+      "status": "failed",
+      "result": "fail"
     },
     {
       "id": "g4_trajectory_replay",
@@ -44,8 +47,27 @@
     }
   ],
   "active_job": null,
-  "history": [],
+  "history": [
+    {
+      "gate": "g1_asset_load",
+      "result": "pass",
+      "timestamp": 1774185335.3534958,
+      "env": "mint"
+    },
+    {
+      "gate": "g2_obs_contract",
+      "result": "pass",
+      "timestamp": 1774185336.047452,
+      "env": "mint"
+    },
+    {
+      "gate": "g3_grasp_plan",
+      "result": "fail",
+      "timestamp": 1774185338.7000306,
+      "env": "graspnet"
+    }
+  ],
   "last_review": null,
   "retries": {},
-  "verdict": null
+  "verdict": "implementation_blocked"
 }

@@ -1,0 +1,10 @@
+{
+  "group_id": "ablation_best_single_view",
+  "cond_dir": "/mnt/afs2/zhuhaowu/infinigen/experiments/physnap/_overnight_sandbox/conditioning/ablation_best_single_view",
+  "n_objects": 32,
+  "points_per_cloud": 1000,
+  "state_mode": "multi",
+  "view_mode": "multi",
+  "aggregation": "best_single_view",
+  "fixed_state_index": 0
+}

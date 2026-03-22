@@ -1,13 +1,20 @@
 #!/usr/bin/env python3
 """G2: Verify obs format matches MINT contract."""
-import os, sys, json, time, torch, numpy as np
+
+import json
+import os
+import sys
+import time
+
 os.environ["MUJOCO_GL"] = "egl"
 CAMPAIGN = "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1"
 ARTIFACT = os.path.join(CAMPAIGN, "artifacts", "g2_obs_contract.json")
 URDF_DIR = "/mnt/afs2/zhuhaowu/infinigen/sim_exports/urdf/drawerbox/42"
 
+
 def run():
     import mujoco
+
     with open(os.path.join(URDF_DIR, "drawerbox.urdf")) as f:
         urdf = f.read()
     assets = {}
@@ -47,6 +54,7 @@ def run():
     print(json.dumps(result, indent=2))
     renderer.close()
     return result["passed"]
+
 
 if __name__ == "__main__":
     sys.exit(0 if run() else 1)

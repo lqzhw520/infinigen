@@ -1,0 +1,35 @@
+{
+  "phase": "phase2_conditioning_design",
+  "phase_gate": "await_phase2_execution",
+  "primary_claim": "Multi-state, multi-view conditioning beats the original PhysNAP conditional regime.",
+  "required_groups": [
+    "zero_singleview",
+    "zero_multiview",
+    "multistate_singleview",
+    "multistate_multiview"
+  ],
+  "required_artifacts": [
+    "comparison_summary",
+    "comparison_report",
+    "claim_memo"
+  ],
+  "claim_ladder": [
+    {
+      "label": "multi-state + multi-view beats zero-state single-view",
+      "group_id": "multistate_multiview"
+    },
+    {
+      "label": "multi-view only beats zero-state single-view",
+      "group_id": "zero_multiview"
+    },
+    {
+      "label": "multi-state only beats zero-state single-view",
+      "group_id": "multistate_singleview"
+    }
+  ],
+  "scoring": {
+    "cond_error_tolerance_factor": 1.0,
+    "physics_tolerance_factor": 1.05,
+    "require_structural_gain": true
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "group_id": "ablation_pts_2000",
+  "output_name": "overnight_box_cond_v2__pts_2000",
+  "cond_dir": "/mnt/afs2/zhuhaowu/infinigen/experiments/physnap/_overnight_sandbox/conditioning/ablation_pts_2000",
+  "checkpoint_path": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/log/v6.1_diffusion_mixed_finetune_infinigen_k10/checkpoint/425_latest.pt",
+  "config_path": "/mnt/afs2/zhuhaowu/infinigen/external/physnap/configs/nap/v6.1_diffusion_mixed_finetune_infinigen_k10.yaml",
+  "status": "running",
+  "launched_at": "2026-03-21T17:00:43+08:00"
+}

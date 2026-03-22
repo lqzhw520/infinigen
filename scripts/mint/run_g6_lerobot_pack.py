@@ -1,9 +1,17 @@
 #!/usr/bin/env python3
 """G6: Create LeRobot v3 dataset from sample trajectory."""
-import os, sys, json, time, numpy as np
+
+import json
+import os
+import sys
+import time
+
+import numpy as np
+
 CAMPAIGN = "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1"
 ARTIFACT = os.path.join(CAMPAIGN, "artifacts", "g6_dataset_manifest.json")
 DATASET_ROOT = os.path.join(CAMPAIGN, "dataset")
+
 
 def run():
     from lerobot.datasets.lerobot_dataset import LeRobotDataset
@@ -34,8 +42,12 @@ def run():
                 "index": i,
                 "task_index": 0,
                 "task": "open the drawer",
-                "observation.images.image": np.random.randint(0, 255, (360, 360, 3), dtype=np.uint8),
-                "observation.images.image2": np.random.randint(0, 255, (360, 360, 3), dtype=np.uint8),
+                "observation.images.image": np.random.randint(
+                    0, 255, (360, 360, 3), dtype=np.uint8
+                ),
+                "observation.images.image2": np.random.randint(
+                    0, 255, (360, 360, 3), dtype=np.uint8
+                ),
                 "observation.state": np.random.randn(8).astype(np.float32),
                 "action": np.random.uniform(-1, 1, 7).astype(np.float32),
             }
@@ -45,6 +57,7 @@ def run():
 
         # Verify load
         from lerobot.datasets.lerobot_dataset import LeRobotDataset as LDS
+
         ds2 = LDS(repo_id="infinigen_drawer_test", root=DATASET_ROOT)
 
         result = {
@@ -67,6 +80,7 @@ def run():
         json.dump(result, f, indent=2)
     print(json.dumps(result, indent=2))
     return result["passed"]
+
 
 if __name__ == "__main__":
     sys.exit(0 if run() else 1)

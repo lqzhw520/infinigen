@@ -1,8 +1,9 @@
 {
-  "controller_id": null,
-  "run_id": null,
-  "owner": null,
-  "status": "released",
-  "note": "Stale manual_lineage_bridge:seed10:20260326T223500 lease released by resolution_plan_v2 rebuild on 2026-03-27T14:00:00+08:00. No active controller. GPU free.",
-  "released_at": "2026-03-27T14:00:00+08:00"
+  "controller_id": "resolution_plan_v2:20260327T150000",
+  "run_id": "resolution_plan_v2:20260327T150000",
+  "owner": "resolution_plan_v2",
+  "lease_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/runtime/controller_lease.json",
+  "status": "active",
+  "acquired_at": "2026-03-27T15:00:00+08:00",
+  "heartbeat_at": "2026-03-27T15:00:00+08:00"
 }

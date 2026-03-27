@@ -76,10 +76,11 @@
     },
     {
       "id": "d1_single_rollout_overfit",
-      "status": "pending",
-      "updated_at": "2026-03-27T14:00:00+08:00",
+      "status": "failed",
+      "updated_at": "2026-03-27T16:47:23+08:00",
       "attempts": 0,
-      "note": "Reset to pending. Previous d1 pointed at archived diagnostic_runs path. Must re-run against clean c2_replay_valid_rollouts/ with corrected strong_rollout_audit."
+      "note": "Reset to pending. Previous d1 pointed at archived diagnostic_runs path. Must re-run against clean c2_replay_valid_rollouts/ with corrected strong_rollout_audit.",
+      "last_error": "u3_regime_b_required"
     },
     {
       "id": "d2_single_seed_overfit",
@@ -107,21 +108,21 @@
       "updated_at": "2026-03-26T22:35:53+08:00"
     }
   ],
-  "active_job": null,
+  "active_job": "d1_single_rollout_overfit",
   "active_runtime": {
-    "step_id": "c2_action_contract_repair",
-    "active_lane": "dual",
-    "active_branch": "contract_repair",
+    "step_id": "d1_single_rollout_overfit",
+    "active_lane": "learnability",
+    "active_branch": null,
     "active_fingerprint": null,
-    "controller_id": "manual_lineage_bridge:seed10:20260326T223500",
-    "run_id": "manual_lineage_bridge:20260326T223500",
+    "controller_id": "resolution_plan_v2:20260327T150000",
+    "run_id": "resolution_plan_v2:20260327T150000",
     "worker_pid": null,
     "worker_kind": "manual_reconcile",
     "attempt_no": 0,
-    "launched_at": "2026-03-27T02:38:40+08:00",
-    "heartbeat_at": "2026-03-27T02:38:40+08:00",
-    "latest_artifact": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_action_contract_repair.json",
-    "last_error": "BrokenPipeError: [Errno 32] Broken pipe"
+    "launched_at": "2026-03-27T16:47:23+08:00",
+    "heartbeat_at": "2026-03-27T16:47:23+08:00",
+    "latest_artifact": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/d1_single_rollout_overfit.json",
+    "last_error": "u3_regime_b_required"
   },
   "history": [
     {
@@ -353,6 +354,31 @@
       "at": "2026-03-27T02:38:40+08:00",
       "event": "step_reconciled",
       "details": "c2_action_contract_repair => failed"
+    },
+    {
+      "at": "2026-03-27T12:46:15+08:00",
+      "event": "step_reconciled",
+      "details": "d1_single_rollout_overfit => failed"
+    },
+    {
+      "at": "2026-03-27T12:46:34+08:00",
+      "event": "step_reconciled",
+      "details": "d1_single_rollout_overfit => failed"
+    },
+    {
+      "at": "2026-03-27T12:47:25+08:00",
+      "event": "step_reconciled",
+      "details": "d1_single_rollout_overfit => failed"
+    },
+    {
+      "at": "2026-03-27T14:20:11+08:00",
+      "event": "step_reconciled",
+      "details": "d1_single_rollout_overfit => failed"
+    },
+    {
+      "at": "2026-03-27T16:47:23+08:00",
+      "event": "step_reconciled",
+      "details": "d1_single_rollout_overfit => failed"
     }
   ],
   "last_review": null,
@@ -372,8 +398,8 @@
     "robot_trajectory_revision_started": true
   },
   "coverage_expansion_attempts": 0,
-  "updated_at": "2026-03-27T14:00:00+08:00",
-  "last_error": null,
+  "updated_at": "2026-03-27T16:47:23+08:00",
+  "last_error": "u3_regime_b_required",
   "last_repair_action": "resolution_plan_v2_audit_corrected_source_dir",
   "strict_replay_lane": {
     "status": "repairing",
@@ -481,12 +507,12 @@
   ],
   "phase_gate": "clean_c2_available_ready_for_d1",
   "controller": {
-    "controller_id": null,
-    "run_id": null,
-    "owner": null,
+    "controller_id": "resolution_plan_v2:20260327T150000",
+    "run_id": "resolution_plan_v2:20260327T150000",
+    "owner": "resolution_plan_v2",
     "lease_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/runtime/controller_lease.json",
-    "status": "released",
-    "note": "Stale manual_lineage_bridge lease released by resolution_plan_v2 rebuild.",
-    "released_at": "2026-03-27T14:00:00+08:00"
+    "status": "active",
+    "acquired_at": "2026-03-27T15:00:00+08:00",
+    "heartbeat_at": "2026-03-27T15:00:00+08:00"
   }
 }

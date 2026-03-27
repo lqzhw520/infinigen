@@ -1,30 +1,11 @@
 # MINT Drawer Campaign Dashboard
 
-**Updated**: 2026-03-27T14:00:00+08:00
+**Updated**: 2026-03-27T16:47:23+08:00
 **Campaign**: `mint_drawer_v1`
 **Phase**: `mint_robot_trajectory_claim_push`
 **Gate**: `clean_c2_available_ready_for_d1`
 **Claim**: `Infinigen-generated AnyGrasp-conditioned robot-arm drawer trajectories improve MINT success on held-out drawer variants in simulation relative to pretrained MINT.`
 **Revision**: `robot_revision_v3_claim_push`
-**Resolution Plan**: `RESOLUTION_PLAN.md` v2 — corrected after B1/U5/C2 full evidence review
-**History Archived**: `history/ARCHIVE_INDEX.md`
-**Verdict**: `rebuild_in_progress` — clean rebuild under resolution_plan_v2
-
-## Key Finding (2026-03-27 audit)
-
-The previous `strong_rollout_audit.json` pointed at **archived** `diagnostic_runs/2026-03-26_gate_drift_reset/` which has been cleaned out. The clean `c2_replay_valid_rollouts/` directory contains **25 rollouts across seeds 2, 7, 8, 9, 10** with the following JSON-criteria results:
-
-| Seed | JSON-passing eps | Coherent? | Best ep pre_attach | Best ep persist |
-|------|-----------------|-----------|-------------------|-----------------|
-| 2    | ep01, ep02, ep04 | **YES** (3 rollouts) | 0.0009 (ep04) | 28 |
-| 7    | ep00 only        | no (1 rollout)      | 0.1177         | 20 |
-| 8    | ep00, ep01, ep02, ep03 | **YES** (4 rollouts) | 0.0 (ep00,ep03) | 48 (ep03) |
-| 9    | none             | no                  | —              | —  |
-| 10   | ep03 only        | no (1 rollout)      | 0.0            | 20 |
-
-**Provisional `strong_coherent_seeds`: [2, 8]** — pending NPZ-based grasp/pull verification
-
-**Previous blocker resolved**: The archived `seed_010_ep04` had `pre_attach=0.1215` (rejected). In the clean C2, `seed_010_ep03` has `pre_attach=0.0` — but only 1 rollout passes, so seed_010 is not yet coherent. Seeds 2 and 8 are the primary D1 targets.
 
 ## Queue
 
@@ -38,58 +19,81 @@ The previous `strong_rollout_audit.json` pointed at **archived** `diagnostic_run
 - `b1_oracle_scripted_baseline`: completed
 - `b2_anygrasp_scripted_baseline`: completed
 - `c1_teacher_native_rollout_rebuild`: completed
-- `c2_action_contract_repair`: **completed** *(reclassified: BrokenPipeError was in final write only; 25 clean rollouts present in `c2_replay_valid_rollouts/`)*
+- `c2_action_contract_repair`: completed
 - `c3_single_rollout_replay_gate`: completed
-- `d1_single_rollout_overfit`: **pending** *(reset — previous run used archived `diagnostic_runs/` path; must re-run against clean C2 with corrected audit)*
-- `d2_single_seed_overfit`: **pending** *(reset — previous `data_quality_floor_not_met` was against stale source)*
+- `d1_single_rollout_overfit`: failed
+- `d2_single_seed_overfit`: pending
 - `d3_train_seed_probe`: pending
 - `e1_heldout_eval`: pending
 - `write_claim_memo`: pending
 
 ## Runtime
 
-- Controller ID: `None` *(stale `manual_lineage_bridge` lease released)*
-- Run ID: `None`
-- Active Step: `d1_single_rollout_overfit` (pending — not yet launched)
+- Controller ID: `resolution_plan_v2:20260327T150000`
+- Run ID: `resolution_plan_v2:20260327T150000`
+- Active Step: `d1_single_rollout_overfit`
+- Active Lane: `learnability`
+- Active Branch: `None`
 - Worker PID: `None`
-- GPU: free (0 MiB / 81154 MiB)
-- Screen sessions: none
-- Last Error: *(cleared)*
-
-## Stale Files Cleared This Session
-
-| File | Action | Reason |
-|------|--------|--------|
-| `artifacts/d1_candidate_progress.json` | **deleted** | pointed at archived `diagnostic_runs/` path |
-| `artifacts/strong_rollout_audit.json` | **rebuilt** | corrected `source_dir` to `c2_replay_valid_rollouts/` |
-| `runtime/controller_lease.json` | **released** | stale `manual_lineage_bridge` lease |
-| `state.json` | **patched** | c2→completed, d1/d2→pending, active_job cleared |
-
-## Pre-D1 Checklist (must ALL pass before launching D1)
-
-- [ ] Run `run_strong_rollout_audit.py --source_dir artifacts/c2_replay_valid_rollouts/` to verify NPZ grasp/pull steps and confirm `strong_coherent_seeds=[2,8]`
-- [ ] Verify `strong_coherent_seeds` non-empty in output (per GPT gate A, accepted in RESOLUTION_PLAN v2)
-- [ ] Verify no competing python processes: `ps aux | grep python | grep -v grep`
-- [ ] Verify GPU free: `nvidia-smi | grep MiB`
-- [ ] Verify `diagnostic_runs/` is empty: `ls artifacts/diagnostic_runs/ | wc -l` → expect 0
-- [ ] Set fresh `MINT_CONTROLLER_ID` and `MINT_RUN_ID` before launching screen job
+- Worker Kind: `manual_reconcile`
+- Attempt: `0`
+- Launched At: `2026-03-27T16:47:23+08:00`
+- Heartbeat: `2026-03-27T16:47:23+08:00`
+- Latest Artifact: `/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/d1_single_rollout_overfit.json`
+- Last Error: `u3_regime_b_required`
 
 ## Review
 
-- Evidence Score: `6`/10 *(upgraded from 4: clean C2 data confirmed, 2 provisional coherent seeds)*
+- Success Semantics Version: `v3_attached_open_contract`
+- Dataset Fingerprint: `{'builder_version': 'd1_v5_attach_contract_hardened', 'variant_id': 'multi_episode_overfit', 'contract_mode': 'teacher_success_fallback', 'source_branch_id': 'branch4_densified_attach_window', 'rollout_multiplier': 5, 'balancing_mode': 'multi_episode_seed2', 'selected_seed_ids': [2], 'rollouts': [{'path': '/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_002_episode_00.npz', 'size': 2407687, 'content_sha256': 'e0d58597833ae302d614dd432e8f991e9e729b66f33b36d5ed909b61cdef4181', 'seed': 2, 'episode_index': 0, 'success': True, 'ever_attached': True, 'max_drawer_fraction': 1.0, 'branch_id': 'branch4_densified_attach_window', 'contract_mode': None, 'teacher_mode': 'closed_loop_native', 'uses_planned_segment': False, 'uses_target_fraction': False, 'attach_step': 66}, {'path': '/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_002_episode_01.npz', 'size': 2126951, 'content_sha256': '748501433c89c611544cb31987021d5945953845ce627ba39f01d9d60ffdac04', 'seed': 2, 'episode_index': 1, 'success': True, 'ever_attached': True, 'max_drawer_fraction': 1.0, 'branch_id': 'branch4_densified_attach_window', 'contract_mode': None, 'teacher_mode': 'closed_loop_native', 'uses_planned_segment': False, 'uses_target_fraction': False, 'attach_step': 66}, {'path': '/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_002_episode_02.npz', 'size': 2324339, 'content_sha256': 'c95bc3fcc3d6fbdb5bb2e03d1e4c16dc07fb6f4bac280b47fe93cf21e089b391', 'seed': 2, 'episode_index': 2, 'success': True, 'ever_attached': True, 'max_drawer_fraction': 0.9467273798838806, 'branch_id': 'branch4_densified_attach_window', 'contract_mode': None, 'teacher_mode': 'closed_loop_native', 'uses_planned_segment': False, 'uses_target_fraction': False, 'attach_step': 62}, {'path': '/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_002_episode_03.npz', 'size': 2773959, 'content_sha256': '76efc2bc4a61ca9f2a80bab1e5a8866568f61eced73592a8ae4213031d8f7031', 'seed': 2, 'episode_index': 3, 'success': True, 'ever_attached': True, 'max_drawer_fraction': 1.0, 'branch_id': 'branch4_densified_attach_window', 'contract_mode': None, 'teacher_mode': 'closed_loop_native', 'uses_planned_segment': False, 'uses_target_fraction': False, 'attach_step': 72}, {'path': '/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_002_episode_04.npz', 'size': 2172482, 'content_sha256': '98b00db696e4de3fbadb23d4fe0e0132bf4c2c3f260b516a08361b9b0d8ba1fc', 'seed': 2, 'episode_index': 4, 'success': True, 'ever_attached': True, 'max_drawer_fraction': 1.0, 'branch_id': 'branch4_densified_attach_window', 'contract_mode': None, 'teacher_mode': 'closed_loop_native', 'uses_planned_segment': False, 'uses_target_fraction': False, 'attach_step': 63}], 'fingerprint': 'f849c9c931026a94ee33d353949b6b319c9deffbd61c9bbce83d79813741f8ba'}`
+- Invalidated Results: `['d2_invalid_for_claim_due_to_single_rollout_seed', 'd3_invalid_for_claim_due_to_soft_gate', 'e1_diagnostic_only_after_gate_drift', {'step_id': 'd1_single_rollout_overfit', 'reason': 'contaminated_by_concurrent_control', 'details': {'since': '2026-03-26T18:26:00+08:00', 'note': 'Concurrent supervisor/D1/train processes detected; do not treat post-cutoff D1 artifacts as clean evidence.'}, 'recorded_at': '2026-03-26T19:17:59+08:00'}, {'step_id': 'd1_single_rollout_overfit', 'reason': 'contaminated_by_concurrent_control', 'details': {'since': '2026-03-26T19:19:02+08:00', 'note': 'Concurrent supervisor/D1/train processes detected; do not treat post-cutoff D1 artifacts as clean evidence.'}, 'recorded_at': '2026-03-26T19:20:27+08:00'}]`
+- Env Contract Audit Passed: `True`
+- Env Contract Failed Seeds: `[]`
+- Verdict: `awaiting_execution`
+- Decision: `run_experiments`
 - Workflow Score: `7`/10
-- Verdict: `rebuild_in_progress`
-- Decision: `run_strong_rollout_audit_then_d1`
-- Claim assessment: Provisional — seeds 2 and 8 have strong coherent rollout sets. Seeds 2 and 10 are AnyGrasp-only (oracle=0/6), making them the scientifically strongest evidence for the claim. D1 rank-1 target: `seed_002_ep04` (pre=0.0009, persist=28, post=1.0).
+- Evidence Score: `2`/10
+- Claim assessment: The strict-valid teacher pool now distinguishes diagnostic and mainline candidates; 3 D2-feasible rollout(s) remain eligible for the mainline D1->D2 path.
 
-## Invalidated Results (do not use for claim)
+## Lanes
 
-- `d1_single_rollout_overfit` (prior): contaminated by concurrent control + wrong source path
-- `d2_single_seed_overfit` (prior): `data_quality_floor_not_met` against stale archived data
-- `strong_rollout_audit.json` (prior, until 2026-03-27T14:00): pointed at `diagnostic_runs/` not `c2_replay_valid_rollouts/`
+- Strict Replay Lane: `repairing`
+- Strict Replay Best Branch: `branch4_densified_attach_window`
+- Strict Replay Metrics: `{'selected_branch': 'branch4_densified_attach_window', 'strict_replay_passed': False, 'successful_seed_count': 0, 'successful_replays': 0, 'successful_seeds': []}`
+- Learnability Lane: `ready_for_overfit`
+- Learnability Contract Mode: `teacher_success_fallback`
+- Learnability Source Branch: `branch4_densified_attach_window`
+- Learnability Current Step: `d1_single_rollout_overfit`
+- Strict-Valid Teacher Rollouts: `15`
+- Strict-Valid Teacher Seeds: `5`
+- D2-Feasible Seeds: `[2, 8, 10]`
+- D1 Candidate Order: `['/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_002_episode_01.npz', '/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_008_episode_04.npz', '/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_008_episode_01.npz']`
+- D1 Promoted Candidate: `None`
+- Upstream Audit Lane: `suspect`
+- Upstream Root Cause: `Handle semantics are weakly exported or heuristically inferred, so upstream asset/export metadata remains a real suspect.`
+- Upstream Blocking Step: `u3_handle_region_audit`
+- Upstream Affected Seeds: `[]`
+- Infinigen Fix Required: `False`
+- Infinigen Fix Allowed: `False`
+- Infinigen Patch Gate Reason: `await_d1_candidate_search`
+- Weakness: Handle semantics are weakly exported or heuristically inferred, so upstream asset/export metadata remains a real suspect.
+- Next: Advance the learnability lane into D1 overfit instead of waiting for strict replay to turn fully green.
+- Next: Keep the strict replay lane running in parallel so the teacher/native contract becomes scientifically cleaner even if the learnability lane advances first.
+- Next: Keep the upstream audit lane explicit: only modify `infinigen/**` if the audited evidence points to a specific export or geometry defect.
+- Next: Upstream remains suspect, but do not patch `infinigen/**` yet; wait for D1 candidate search to finish under strict success.
+- Next: Run or resume the next pending queue step: `d1_single_rollout_overfit`.
 
 ## Recent History
 
-- 2026-03-26T23:47:31+08:00: `d2_stop_loss` — `strong_rollout_count=1, strong_coherent_seeds=[]` (audit was against wrong source_dir)
-- 2026-03-27T02:38:40+08:00: `c2` last recorded as failed (BrokenPipeError in final write; rollout data already written)
-- 2026-03-27T14:00:00+08:00: **resolution_plan_v2 audit** — root cause identified: `strong_rollout_audit.json` pointed at cleaned-out `diagnostic_runs/`. Rebuilt against correct `c2_replay_valid_rollouts/`. `d1_candidate_progress.json` deleted. `state.json` reset. Stale lease released. Provisional `strong_coherent_seeds=[2,8]`.
+- 2026-03-26T19:52:27+08:00: auto_repair | d1_single_rollout_overfit failed: d1_single_rollout_overfit failed to show a positive train trend
+- 2026-03-26T19:52:27+08:00: implementation_blocked | D1 mainline exhausted under clean control; stop rerunning D1 blindly and require either the u3 regime-B lane or the upstream handle patch gate.
+- 2026-03-26T22:36:11+08:00: step_reconciled | d2_single_seed_overfit => failed
+- 2026-03-26T23:47:31+08:00: d2_stop_loss | Stopped D2 after confirming strong_rollout_count=1 and strong_coherent_seeds=[] under the pinned lineage.
+- 2026-03-26T23:47:31+08:00: step_reconciled | d2_single_seed_overfit => failed
+- 2026-03-27T00:44:31+08:00: step_reconciled | c1_teacher_native_rollout_rebuild => completed
+- 2026-03-27T02:38:40+08:00: step_reconciled | c2_action_contract_repair => failed
+- 2026-03-27T12:46:15+08:00: step_reconciled | d1_single_rollout_overfit => failed
+- 2026-03-27T12:46:34+08:00: step_reconciled | d1_single_rollout_overfit => failed
+- 2026-03-27T12:47:25+08:00: step_reconciled | d1_single_rollout_overfit => failed
+- 2026-03-27T14:20:11+08:00: step_reconciled | d1_single_rollout_overfit => failed
+- 2026-03-27T16:47:23+08:00: step_reconciled | d1_single_rollout_overfit => failed

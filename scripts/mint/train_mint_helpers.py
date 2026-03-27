@@ -15,7 +15,21 @@ TOKENIZER_PATH = (
 )
 
 
+def _find_checkpoint_at_step(output_dir: Path, step: int) -> Path | None:
+    """Find checkpoint saved at exactly `step` training steps."""
+    step_str = f"{step:06d}"
+    candidates = sorted(
+        output_dir.glob(f"**/{step_str}/pretrained_model"), key=lambda p: len(str(p))
+    )
+    return candidates[-1] if candidates else None
+
+
 def find_latest_checkpoint(output_dir: Path) -> Path | None:
+    """Return the latest checkpoint (prefer step-600 intermediate over final)."""
+    # Always check for step-600 intermediate checkpoint first (prevents loss→0 overfit)
+    step600 = _find_checkpoint_at_step(output_dir, 600)
+    if step600 is not None:
+        return step600
     candidates = sorted(
         output_dir.glob("**/pretrained_model"), key=lambda p: len(str(p))
     )
@@ -34,8 +48,11 @@ def run_training(
     if output_dir.exists():
         shutil.rmtree(output_dir)
 
+    LEROBOT_TRAIN = (
+        shutil.which("lerobot-train") or "/root/anaconda3/envs/mint/bin/lerobot-train"
+    )
     cmd = [
-        "lerobot-train",
+        LEROBOT_TRAIN,
         f"--dataset.repo_id={dataset_repo_id}",
         f"--dataset.root={dataset_root}",
         "--policy.type=mint",
@@ -49,7 +66,9 @@ def run_training(
         "--policy.gradient_checkpointing=true",
         "--policy.dtype=bfloat16",
         f"--steps={steps}",
-        f"--save_freq={steps}",
+        # Always save intermediate at step 600 to prevent loss→0 catastrophic overfit.
+        # Final checkpoint at `steps` is still saved but step-600 is preferred.
+        f"--save_freq={min(600, steps)}",
         "--batch_size=8",
         "--policy.device=cuda",
     ]
@@ -57,6 +76,10 @@ def run_training(
     env = os.environ.copy()
     env["PYTHONUNBUFFERED"] = "1"
     env["TOKENIZERS_PARALLELISM"] = "false"
+    # Ensure mint conda env bin is on PATH so lerobot-train and peers are found
+    mint_bin = "/root/anaconda3/envs/mint/bin"
+    if mint_bin not in env.get("PATH", ""):
+        env["PATH"] = mint_bin + ":" + env.get("PATH", "")
     log_path.parent.mkdir(parents=True, exist_ok=True)
     with log_path.open("w") as log_handle:
         proc = subprocess.Popen(

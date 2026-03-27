@@ -91,11 +91,17 @@ def rollout_policy(
     attached_trace = []
     frames = []
     frames2 = []
+    eef_pos_trace = []
+    raw_action_trace = []
     try:
         for steps in range(1, max_steps + 1):
             if video_path is not None:
                 frames.append(obs.image.copy())
                 frames2.append(obs.image2.copy())
+            # Track EEF position before action (end-effector pose in world frame)
+            eef_pos_trace.append(
+                obs.eef_pos.copy() if hasattr(obs, "eef_pos") else obs.state[:3].copy()
+            )
             if kind == "random":
                 action = random_policy(rng)
             else:
@@ -105,6 +111,8 @@ def rollout_policy(
                     action = policy.select_action(processed)
                 action = post(action)
                 action = action.squeeze(0).detach().cpu().numpy().astype(np.float32)
+            # Track raw actions before env.step (diagnostic: is policy outputting non-zero?)
+            raw_action_trace.append(action.copy() if action is not None else None)
             obs, _, done, info = env.step(action)
             pull_distance = max(pull_distance, float(info["drawer_fraction"]))
             grasp_success = grasp_success or bool(
@@ -145,6 +153,19 @@ def rollout_policy(
                 extra_line=f"max_steps={max_steps}",
                 fps=10,
             )
+        # --- Diagnostic: action + EEF motion metrics ---
+        valid_actions = [a for a in raw_action_trace if a is not None]
+        non_zero_action_ratio = 0.0
+        total_eef_motion = 0.0
+        if valid_actions:
+            non_zero_action_ratio = float(
+                np.mean([float(np.abs(a).max() > 0.01) for a in valid_actions])
+            )
+        if len(eef_pos_trace) > 1:
+            eef_arr = np.array(eef_pos_trace)
+            step_deltas = np.linalg.norm(np.diff(eef_arr, axis=0), axis=1)
+            total_eef_motion = float(np.sum(step_deltas))
+
         return {
             "seed": seed,
             "policy": kind,
@@ -158,6 +179,11 @@ def rollout_policy(
             "strict_success_version": STRICT_SUCCESS_VERSION,
             "strict_metrics": strict,
             "video_path": None if rendered_video is None else str(rendered_video),
+            # --- Diagnostic instrumentation ---
+            "non_zero_action_ratio": non_zero_action_ratio,
+            "total_eef_motion": total_eef_motion,
+            "drawer_trace": drawer_trace,
+            "attached_trace": attached_trace,
         }
     finally:
         env.close()
@@ -168,6 +194,15 @@ def aggregate(records: list[dict]) -> dict:
     pulls = [item["pull_distance"] for item in records]
     times = [item["time_to_completion"] for item in records]
     grasps = [1.0 if item["grasp_success"] else 0.0 for item in records]
+    # --- Diagnostic fields (may be absent on legacy records) ---
+    non_zero_ratios = [
+        item["non_zero_action_ratio"]
+        for item in records
+        if "non_zero_action_ratio" in item
+    ]
+    eef_motions = [
+        item["total_eef_motion"] for item in records if "total_eef_motion" in item
+    ]
     per_seed_records = {}
     for item in records:
         per_seed_records.setdefault(int(item["seed"]), []).append(item)
@@ -190,8 +225,27 @@ def aggregate(records: list[dict]) -> dict:
             "time_to_completion_mean": float(
                 statistics.mean(row["time_to_completion"] for row in seed_records)
             ),
+            # --- Diagnostic: per-seed action/EFF motion ---
+            "non_zero_action_ratio_mean": float(
+                statistics.mean(
+                    row["non_zero_action_ratio"]
+                    for row in seed_records
+                    if "non_zero_action_ratio" in row
+                )
+            )
+            if any("non_zero_action_ratio" in row for row in seed_records)
+            else None,
+            "total_eef_motion_mean": float(
+                statistics.mean(
+                    row["total_eef_motion"]
+                    for row in seed_records
+                    if "total_eef_motion" in row
+                )
+            )
+            if any("total_eef_motion" in row for row in seed_records)
+            else None,
         }
-    return {
+    result = {
         "n_episodes": len(records),
         "n_unique_seeds": len(per_seed_records),
         "success_rate": float(sum(successes) / max(len(successes), 1)),
@@ -204,6 +258,12 @@ def aggregate(records: list[dict]) -> dict:
         ),
         "per_seed": per_seed,
     }
+    # --- Aggregate diagnostic fields across all records ---
+    if non_zero_ratios:
+        result["non_zero_action_ratio_mean"] = float(statistics.mean(non_zero_ratios))
+    if eef_motions:
+        result["total_eef_motion_mean"] = float(statistics.mean(eef_motions))
+    return result
 
 
 def evaluate_policy_set(

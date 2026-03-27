@@ -28,3 +28,12 @@
 [submodule "external/physnap"]
 	path = external/physnap
 	url = https://github.com/JiahuiLei/NAP.git
+[submodule "external/MINT"]
+	path = external/MINT
+	url = git@github.com:RenMing-Huang/MINT.git
+[submodule "external/anygrasp_sdk"]
+	path = external/anygrasp_sdk
+	url = https://github.com/graspnet/anygrasp_sdk.git
+[submodule "external/contact_graspnet_pytorch"]
+	path = external/contact_graspnet_pytorch
+	url = git@github.com:elchun/contact_graspnet_pytorch.git

@@ -96,3 +96,20 @@ MUJOCO_LOG.TXT
 mjcf/
 urdf/
 usd/
+
+.TimeRecord
+
+.project-memory/
+.cursor/
+
+# Runtime experiment artifacts — never version these
+experiments/mint/mint_drawer_v1/history/
+experiments/mint/mint_drawer_v1/artifacts/diagnostic_runs/
+experiments/mint/mint_drawer_v1/dataset_*/
+experiments/mint/mint_drawer_v1/outputs_*/
+experiments/mint/mint_drawer_v1/runtime/*.log
+
+# Backup files created by editors/scripts
+*.bak_*
+**/.DS_Store
+scripts/mint/vendor/**/._*

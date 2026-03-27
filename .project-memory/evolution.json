@@ -1,7 +1,7 @@
 {
   "project": "infinigen-anybox",
   "architecture_version": 4,
-  "last_updated": "2026-03-20T21:23:50+08:00",
+  "last_updated": "2026-03-26T17:14:59+08:00",
   "iterations": [
     {
       "id": 1,
@@ -726,6 +726,635 @@
       "branch": "feature/3d-assets",
       "commit": "fe945088",
       "id": 20
+    },
+    {
+      "summary": "Completed g1_asset_load",
+      "completed": [
+        "g1_asset_load"
+      ],
+      "next": [
+        "Advance to the next queue step after g1_asset_load."
+      ],
+      "artifacts": {
+        "g1_asset_load": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g1_asset_load.json"
+      },
+      "lessons": [
+        "g1_asset_load now uses artifact-first validation."
+      ],
+      "bugs_fixed": [],
+      "date": "2026-03-23",
+      "branch": "feature/mint-integration",
+      "commit": "706cdb5d",
+      "id": 21
+    },
+    {
+      "summary": "Completed g2_obs_contract",
+      "completed": [
+        "g2_obs_contract"
+      ],
+      "next": [
+        "Advance to the next queue step after g2_obs_contract."
+      ],
+      "artifacts": {
+        "g2_obs_contract": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g2_obs_contract.json"
+      },
+      "lessons": [
+        "g2_obs_contract now uses artifact-first validation."
+      ],
+      "bugs_fixed": [],
+      "date": "2026-03-23",
+      "branch": "feature/mint-integration",
+      "commit": "706cdb5d",
+      "id": 22
+    },
+    {
+      "summary": "Terminal verdict: claim_supported",
+      "completed": [
+        "g8_mint_train",
+        "g9_sim_eval",
+        "write_claim_memo"
+      ],
+      "next": [
+        "Review the final MINT held-out simulation comparison and writeup."
+      ],
+      "artifacts": {
+        "g8_mint_train": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/checkpoints/001000/pretrained_model",
+        "g9_comparison_summary": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/evaluation/comparison_summary.json",
+        "g9_comparison_report": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/evaluation/comparison_report.md",
+        "decision_memo": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/decision_memo.md"
+      },
+      "lessons": [
+        "Python 3.12 mainline remained viable through G9 after fixing LeRobot finalization and feature-schema metadata.",
+        "The training checkpoint was valid even though the first wrapper run failed during a non-essential push-to-hub postamble."
+      ],
+      "bugs_fixed": [],
+      "date": "2026-03-23",
+      "branch": "feature/mint-integration",
+      "commit": "706cdb5d",
+      "id": 23
+    },
+    {
+      "summary": "Archived the proxy baseline and initialized the AnyGrasp robot-trajectory revision.",
+      "completed": [
+        "proxy_revision_archived"
+      ],
+      "next": [
+        "Run g1-g3 to validate the AnyGrasp + robot-scene setup."
+      ],
+      "artifacts": {
+        "archived_proxy": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/archived_proxy/proxy_revision"
+      },
+      "lessons": [
+        "The previous proxy result remains a valid archived baseline, but it no longer defines the active campaign claim.",
+        "The active claim now requires true robot-arm / end-effector trajectories."
+      ],
+      "bugs_fixed": [],
+      "date": "2026-03-23",
+      "branch": "feature/mint-integration",
+      "commit": "706cdb5d",
+      "id": 24
+    },
+    {
+      "summary": "Completed g3_anygrasp_ready",
+      "completed": [
+        "g3_anygrasp_ready"
+      ],
+      "next": [
+        "Advance to the next queue step after g3_anygrasp_ready."
+      ],
+      "artifacts": {
+        "g3_anygrasp_ready": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g3_anygrasp_ready.json"
+      },
+      "lessons": [
+        "g3_anygrasp_ready now uses artifact-first validation."
+      ],
+      "bugs_fixed": [],
+      "date": "2026-03-23",
+      "branch": "feature/mint-integration",
+      "commit": "706cdb5d",
+      "id": 25
+    },
+    {
+      "summary": "Completed g3_render_depth",
+      "completed": [
+        "g3_render_depth"
+      ],
+      "next": [
+        "Advance to the next queue step after g3_render_depth."
+      ],
+      "artifacts": {
+        "g3_render_depth": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g3_render_depth.json"
+      },
+      "lessons": [
+        "g3_render_depth now uses artifact-first validation."
+      ],
+      "bugs_fixed": [],
+      "date": "2026-03-23",
+      "branch": "feature/mint-integration",
+      "commit": "706cdb5d",
+      "id": 26
+    },
+    {
+      "summary": "Terminal verdict: scientific_not_supported",
+      "completed": [
+        "g8_mint_train",
+        "g9_sim_eval",
+        "write_claim_memo"
+      ],
+      "next": [
+        "Review the final MINT held-out simulation comparison and writeup."
+      ],
+      "artifacts": {
+        "g8_mint_train": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/checkpoints/001000/pretrained_model",
+        "g9_comparison_summary": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/evaluation/comparison_summary.json",
+        "g9_comparison_report": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/evaluation/comparison_report.md",
+        "decision_memo": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/decision_memo.md"
+      },
+      "lessons": [
+        "Python 3.12 mainline remained viable through G9 after fixing LeRobot finalization and feature-schema metadata.",
+        "The robot-trajectory revision uses true EEF delta actions rather than proxy drawer-joint deltas."
+      ],
+      "bugs_fixed": [],
+      "date": "2026-03-23",
+      "branch": "feature/mint-integration",
+      "commit": "706cdb5d",
+      "id": 27
+    },
+    {
+      "summary": "Terminal verdict: scientific_not_supported",
+      "completed": [
+        "g8_mint_train",
+        "g9_sim_eval",
+        "write_claim_memo"
+      ],
+      "next": [
+        "Review the final MINT held-out simulation comparison and writeup."
+      ],
+      "artifacts": {
+        "g8_mint_train": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/checkpoints/001000/pretrained_model",
+        "g9_comparison_summary": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/evaluation/comparison_summary.json",
+        "g9_comparison_report": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/evaluation/comparison_report.md",
+        "train_seed_probe": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/evaluation/train_seed_probe.json",
+        "decision_memo": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/decision_memo.md"
+      },
+      "lessons": [
+        "Python 3.12 mainline remained viable through G9 after fixing LeRobot finalization and feature-schema metadata.",
+        "The robot-trajectory revision uses true EEF delta actions rather than proxy drawer-joint deltas."
+      ],
+      "bugs_fixed": [],
+      "date": "2026-03-23",
+      "branch": "feature/mint-integration",
+      "commit": "706cdb5d",
+      "id": 28
+    },
+    {
+      "summary": "Terminal verdict: scientific_not_supported",
+      "completed": [
+        "g8_mint_train",
+        "g9_sim_eval",
+        "write_claim_memo"
+      ],
+      "next": [
+        "Review the final MINT held-out simulation comparison and writeup."
+      ],
+      "artifacts": {
+        "g8_mint_train": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/checkpoints/001000/pretrained_model",
+        "g9_comparison_summary": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/evaluation/comparison_summary.json",
+        "g9_comparison_report": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/evaluation/comparison_report.md",
+        "train_seed_probe": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/evaluation/train_seed_probe.json",
+        "decision_memo": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/decision_memo.md"
+      },
+      "lessons": [
+        "Python 3.12 mainline remained viable through G9 after fixing LeRobot finalization and feature-schema metadata.",
+        "The robot-trajectory revision uses true EEF delta actions rather than proxy drawer-joint deltas."
+      ],
+      "bugs_fixed": [],
+      "date": "2026-03-23",
+      "branch": "feature/mint-integration",
+      "commit": "706cdb5d",
+      "id": 29
+    },
+    {
+      "summary": "Terminal verdict: scientific_not_supported",
+      "completed": [
+        "g8_mint_train",
+        "g9_sim_eval",
+        "write_claim_memo"
+      ],
+      "next": [
+        "Review the final MINT held-out simulation comparison and writeup."
+      ],
+      "artifacts": {
+        "g8_mint_train": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/checkpoints/001000/pretrained_model",
+        "g9_comparison_summary": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/evaluation/comparison_summary.json",
+        "g9_comparison_report": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/evaluation/comparison_report.md",
+        "train_seed_probe": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/evaluation/train_seed_probe.json",
+        "decision_memo": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/decision_memo.md"
+      },
+      "lessons": [
+        "Python 3.12 mainline remained viable through G9 after fixing LeRobot finalization and feature-schema metadata.",
+        "The robot-trajectory revision uses true EEF delta actions rather than proxy drawer-joint deltas."
+      ],
+      "bugs_fixed": [],
+      "date": "2026-03-23",
+      "branch": "feature/mint-integration",
+      "commit": "706cdb5d",
+      "id": 30
+    },
+    {
+      "summary": "Archived the previous failed robot revision and initialized the root-cause repair ladder.",
+      "completed": [
+        "proxy_revision_archived",
+        "robot_revision_v1_failed_archived"
+      ],
+      "next": [
+        "Run g1-g3 to validate the AnyGrasp + robot-scene setup.",
+        "Do not rerun held-out evaluation until train-seed reproducibility turns positive."
+      ],
+      "artifacts": {
+        "archived_proxy": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/archived_proxy/proxy_revision",
+        "archived_robot_revision_v1_failed": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/archived_proxy/robot_revision_v1_failed"
+      },
+      "lessons": [
+        "The previous proxy result remains a valid archived baseline, but it no longer defines the active campaign claim.",
+        "The previous robot revision failed because a runnable pipeline was mistaken for a trustworthy scientific result.",
+        "The active claim now requires true robot-arm / end-effector trajectories and natural G5 replay."
+      ],
+      "bugs_fixed": [],
+      "date": "2026-03-23",
+      "branch": "feature/mint-integration",
+      "commit": "706cdb5d",
+      "id": 31
+    },
+    {
+      "summary": "Completed g1_asset_load",
+      "completed": [
+        "g1_asset_load"
+      ],
+      "next": [
+        "Advance to the next queue step after g1_asset_load."
+      ],
+      "artifacts": {
+        "g1_asset_load": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g1_asset_load.json"
+      },
+      "lessons": [
+        "g1_asset_load now uses artifact-first validation."
+      ],
+      "bugs_fixed": [],
+      "date": "2026-03-23",
+      "branch": "feature/mint-integration",
+      "commit": "706cdb5d",
+      "id": 32
+    },
+    {
+      "summary": "Completed g2_obs_contract",
+      "completed": [
+        "g2_obs_contract"
+      ],
+      "next": [
+        "Advance to the next queue step after g2_obs_contract."
+      ],
+      "artifacts": {
+        "g2_obs_contract": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g2_obs_contract.json"
+      },
+      "lessons": [
+        "g2_obs_contract now uses artifact-first validation."
+      ],
+      "bugs_fixed": [],
+      "date": "2026-03-23",
+      "branch": "feature/mint-integration",
+      "commit": "706cdb5d",
+      "id": 33
+    },
+    {
+      "summary": "Completed g3_render_depth",
+      "completed": [
+        "g3_render_depth"
+      ],
+      "next": [
+        "Advance to the next queue step after g3_render_depth."
+      ],
+      "artifacts": {
+        "g3_render_depth": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g3_render_depth.json"
+      },
+      "lessons": [
+        "g3_render_depth now uses artifact-first validation."
+      ],
+      "bugs_fixed": [],
+      "date": "2026-03-23",
+      "branch": "feature/mint-integration",
+      "commit": "706cdb5d",
+      "id": 34
+    },
+    {
+      "summary": "Completed g3_anygrasp_ready",
+      "completed": [
+        "g3_anygrasp_ready"
+      ],
+      "next": [
+        "Advance to the next queue step after g3_anygrasp_ready."
+      ],
+      "artifacts": {
+        "g3_anygrasp_ready": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g3_anygrasp_ready.json"
+      },
+      "lessons": [
+        "g3_anygrasp_ready now uses artifact-first validation."
+      ],
+      "bugs_fixed": [],
+      "date": "2026-03-23",
+      "branch": "feature/mint-integration",
+      "commit": "706cdb5d",
+      "id": 35
+    },
+    {
+      "summary": "Archived the previous failed robot revision and initialized the root-cause repair ladder.",
+      "completed": [
+        "proxy_revision_archived",
+        "robot_revision_v1_failed_archived"
+      ],
+      "next": [
+        "Run g1-g3 to validate the AnyGrasp + robot-scene setup.",
+        "Do not rerun held-out evaluation until train-seed reproducibility turns positive."
+      ],
+      "artifacts": {
+        "archived_proxy": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/archived_proxy/proxy_revision",
+        "archived_robot_revision_v1_failed": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/archived_proxy/robot_revision_v1_failed"
+      },
+      "lessons": [
+        "The previous proxy result remains a valid archived baseline, but it no longer defines the active campaign claim.",
+        "The previous robot revision failed because a runnable pipeline was mistaken for a trustworthy scientific result.",
+        "The active claim now requires true robot-arm / end-effector trajectories and natural G5 replay."
+      ],
+      "bugs_fixed": [],
+      "date": "2026-03-23",
+      "branch": "feature/mint-integration",
+      "commit": "706cdb5d",
+      "id": 36
+    },
+    {
+      "summary": "Completed g1_asset_load",
+      "completed": [
+        "g1_asset_load"
+      ],
+      "next": [
+        "Advance to the next queue step after g1_asset_load."
+      ],
+      "artifacts": {
+        "g1_asset_load": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g1_asset_load.json"
+      },
+      "lessons": [
+        "g1_asset_load now uses artifact-first validation."
+      ],
+      "bugs_fixed": [],
+      "date": "2026-03-23",
+      "branch": "feature/mint-integration",
+      "commit": "706cdb5d",
+      "id": 37
+    },
+    {
+      "summary": "Completed g2_obs_contract",
+      "completed": [
+        "g2_obs_contract"
+      ],
+      "next": [
+        "Advance to the next queue step after g2_obs_contract."
+      ],
+      "artifacts": {
+        "g2_obs_contract": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g2_obs_contract.json"
+      },
+      "lessons": [
+        "g2_obs_contract now uses artifact-first validation."
+      ],
+      "bugs_fixed": [],
+      "date": "2026-03-23",
+      "branch": "feature/mint-integration",
+      "commit": "706cdb5d",
+      "id": 38
+    },
+    {
+      "summary": "Completed g3_render_depth",
+      "completed": [
+        "g3_render_depth"
+      ],
+      "next": [
+        "Advance to the next queue step after g3_render_depth."
+      ],
+      "artifacts": {
+        "g3_render_depth": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g3_render_depth.json"
+      },
+      "lessons": [
+        "g3_render_depth now uses artifact-first validation."
+      ],
+      "bugs_fixed": [],
+      "date": "2026-03-23",
+      "branch": "feature/mint-integration",
+      "commit": "706cdb5d",
+      "id": 39
+    },
+    {
+      "summary": "Completed g3_anygrasp_ready",
+      "completed": [
+        "g3_anygrasp_ready"
+      ],
+      "next": [
+        "Advance to the next queue step after g3_anygrasp_ready."
+      ],
+      "artifacts": {
+        "g3_anygrasp_ready": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g3_anygrasp_ready.json"
+      },
+      "lessons": [
+        "g3_anygrasp_ready now uses artifact-first validation."
+      ],
+      "bugs_fixed": [],
+      "date": "2026-03-23",
+      "branch": "feature/mint-integration",
+      "commit": "706cdb5d",
+      "id": 40
+    },
+    {
+      "summary": "Completed g3_grasp_plan",
+      "completed": [
+        "g3_grasp_plan"
+      ],
+      "next": [
+        "Advance to the next queue step after g3_grasp_plan."
+      ],
+      "artifacts": {
+        "g3_grasp_plan": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g3_grasp_plan.json"
+      },
+      "lessons": [
+        "g3_grasp_plan now uses artifact-first validation."
+      ],
+      "bugs_fixed": [],
+      "date": "2026-03-23",
+      "branch": "feature/mint-integration",
+      "commit": "706cdb5d",
+      "id": 41
+    },
+    {
+      "summary": "Oracle grasp plus scripted robot open is stable on train seeds, and AnyGrasp is partially viable, but the current native 7D robot-action contract is not replay-faithful enough to support MINT training yet.",
+      "completed": [
+        "g4 oracle-vs-anygrasp scripted audit",
+        "g5 replay probe"
+      ],
+      "next": [
+        "Refine the G4/G5 robot-action contract so teacher rollouts are generated and replayed under the same native env.step semantics.",
+        "Do not rerun MINT training or held-out evaluation yet; the current bottleneck is below the learning layer.",
+        "After contract repair, rerun single-rollout overfit before any multi-seed or held-out evaluation."
+      ],
+      "artifacts": {
+        "g4_audit": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g4_oracle_vs_anygrasp_rollouts.json",
+        "g5_audit": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g5_contract_audit.json"
+      },
+      "lessons": [
+        "Do not interpret a runnable pipeline or a scripted oracle baseline as evidence that the native 7D action contract is learnable.",
+        "Teacher rollouts and replay/eval must share the same control semantics before MINT training is meaningful."
+      ],
+      "bugs_fixed": [],
+      "date": "2026-03-23",
+      "branch": "feature/mint-integration",
+      "commit": "706cdb5d",
+      "id": 42
+    },
+    {
+      "summary": "Activated the AnyGrasp robot-trajectory overnight ladder focused on action-contract repair before learning.",
+      "completed": [
+        "proxy_revision_archived",
+        "robot_revision_v1_failed_archived"
+      ],
+      "next": [
+        "Run A/B audits, then C-layer contract repair, then train-trend validation before held-out claim eval."
+      ],
+      "artifacts": {},
+      "lessons": [
+        "Do not treat pipeline executability as claim support.",
+        "Do not restart held-out evaluation before replay-faithful robot actions exist."
+      ],
+      "bugs_fixed": [],
+      "date": "2026-03-23",
+      "branch": "feature/mint-integration",
+      "commit": "706cdb5d",
+      "id": 43
+    },
+    {
+      "summary": "Completed b1_oracle_scripted_baseline",
+      "completed": [
+        "b1_oracle_scripted_baseline"
+      ],
+      "next": [
+        "Advance to the next queue step after b1_oracle_scripted_baseline."
+      ],
+      "artifacts": {
+        "b1_oracle_scripted_baseline": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/b1_oracle_scripted_baseline.json"
+      },
+      "lessons": [
+        "b1_oracle_scripted_baseline now uses artifact-first validation."
+      ],
+      "bugs_fixed": [],
+      "date": "2026-03-23",
+      "branch": "feature/mint-integration",
+      "commit": "706cdb5d",
+      "id": 44
+    },
+    {
+      "summary": "Completed b2_anygrasp_scripted_baseline",
+      "completed": [
+        "b2_anygrasp_scripted_baseline"
+      ],
+      "next": [
+        "Advance to the next queue step after b2_anygrasp_scripted_baseline."
+      ],
+      "artifacts": {
+        "b2_anygrasp_scripted_baseline": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/b2_anygrasp_scripted_baseline.json"
+      },
+      "lessons": [
+        "b2_anygrasp_scripted_baseline now uses artifact-first validation."
+      ],
+      "bugs_fixed": [],
+      "date": "2026-03-23",
+      "branch": "feature/mint-integration",
+      "commit": "706cdb5d",
+      "id": 45
+    },
+    {
+      "summary": "Completed c1_teacher_native_rollout_rebuild",
+      "completed": [
+        "c1_teacher_native_rollout_rebuild"
+      ],
+      "next": [
+        "Advance to the next queue step after c1_teacher_native_rollout_rebuild."
+      ],
+      "artifacts": {
+        "c1_teacher_native_rollout_rebuild": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c1_teacher_native_rollout_rebuild.json"
+      },
+      "lessons": [
+        "c1_teacher_native_rollout_rebuild now uses artifact-first validation."
+      ],
+      "bugs_fixed": [],
+      "date": "2026-03-24",
+      "branch": "feature/mint-integration",
+      "commit": "706cdb5d",
+      "id": 46
+    },
+    {
+      "summary": "Completed d1_single_rollout_overfit",
+      "completed": [
+        "d1_single_rollout_overfit"
+      ],
+      "next": [
+        "Advance to the next queue step after d1_single_rollout_overfit."
+      ],
+      "artifacts": {
+        "d1_single_rollout_overfit": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/d1_single_rollout_overfit.json"
+      },
+      "lessons": [
+        "d1_single_rollout_overfit now uses artifact-first validation."
+      ],
+      "bugs_fixed": [],
+      "date": "2026-03-24",
+      "branch": "feature/mint-integration",
+      "commit": "706cdb5d",
+      "id": 47
+    },
+    {
+      "summary": "Completed c3_single_rollout_replay_gate",
+      "completed": [
+        "c3_single_rollout_replay_gate"
+      ],
+      "next": [
+        "Advance to the next queue step after c3_single_rollout_replay_gate."
+      ],
+      "artifacts": {
+        "c3_single_rollout_replay_gate": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c3_single_rollout_replay_gate.json"
+      },
+      "lessons": [
+        "c3_single_rollout_replay_gate now uses artifact-first validation."
+      ],
+      "bugs_fixed": [],
+      "date": "2026-03-24",
+      "branch": "feature/mint-integration",
+      "commit": "706cdb5d",
+      "id": 48
+    },
+    {
+      "summary": "Completed c3_single_rollout_replay_gate",
+      "completed": [
+        "c3_single_rollout_replay_gate"
+      ],
+      "next": [
+        "Advance to the next queue step after c3_single_rollout_replay_gate."
+      ],
+      "artifacts": {
+        "c3_single_rollout_replay_gate": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c3_single_rollout_replay_gate.json"
+      },
+      "lessons": [
+        "c3_single_rollout_replay_gate now uses artifact-first validation."
+      ],
+      "bugs_fixed": [],
+      "date": "2026-03-26",
+      "branch": "feature/mint-integration",
+      "commit": "706cdb5d",
+      "id": 49
     }
   ],
   "commits": [

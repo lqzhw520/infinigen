@@ -14,7 +14,11 @@ GIT_CANDIDATES = [
     Path("/usr/bin/git"),
     Path("/bin/git"),
 ]
-CAMPAIGN_NAMES = ["box_prior_v1", "box_conditioning_v2"]
+CAMPAIGN_SPECS = [
+    ("experiments/physnap", "box_prior_v1"),
+    ("experiments/physnap", "box_conditioning_v2"),
+    ("experiments/mint", "mint_drawer_v1"),
+]
 
 
 def load_json(path: Path, default):
@@ -87,7 +91,11 @@ def build_milestone_table(iterations: list[dict]) -> str:
     for item in iterations:
         completed_str = ", ".join(item.get("completed", []))
         artifacts = item.get("artifacts", {})
-        output_str = ", ".join(str(value) for value in artifacts.values()) if artifacts else completed_str[:60]
+        output_str = (
+            ", ".join(str(value) for value in artifacts.values())
+            if artifacts
+            else completed_str[:60]
+        )
         rows.append(
             f"| {item['id']} | {item['date']} | {item['summary']} | {output_str} | {item['commit']} |"
         )
@@ -134,16 +142,20 @@ def summarize_queue(queue: list[dict]) -> str:
     return ", ".join(parts[:8]) + (" ..." if len(parts) > 8 else "")
 
 
-def campaign_snapshot(root: Path, campaign_name: str) -> dict | None:
-    campaign_dir = root / "experiments" / "physnap" / campaign_name
+def campaign_snapshot(root: Path, subdir: str, campaign_name: str) -> dict | None:
+    campaign_dir = root / subdir / campaign_name
     state = load_json(campaign_dir / "state.json", {})
     review = load_json(campaign_dir / "review.json", {})
     if not state and not review:
         return None
     queue = state.get("queue", [])
     active_runtime = state.get("active_runtime") or {}
-    next_incomplete = next((item.get("id") for item in queue if item.get("status") != "completed"), None)
-    running = any(item.get("status") == "running" for item in queue) or bool(active_runtime.get("step_id"))
+    next_incomplete = next(
+        (item.get("id") for item in queue if item.get("status") != "completed"), None
+    )
+    running = any(item.get("status") == "running" for item in queue) or bool(
+        active_runtime.get("step_id")
+    )
     completed_steps = sum(1 for item in queue if item.get("status") == "completed")
     updated_at = max(
         parse_timestamp(state.get("updated_at")),
@@ -172,8 +184,8 @@ def campaign_snapshot(root: Path, campaign_name: str) -> dict | None:
 
 def collect_campaign_snapshots(root: Path) -> list[dict]:
     snapshots = []
-    for campaign_name in CAMPAIGN_NAMES:
-        snapshot = campaign_snapshot(root, campaign_name)
+    for subdir, campaign_name in CAMPAIGN_SPECS:
+        snapshot = campaign_snapshot(root, subdir, campaign_name)
         if snapshot:
             snapshots.append(snapshot)
     snapshots.sort(key=lambda item: (item["running"], item["updated_at"]), reverse=True)
@@ -205,14 +217,18 @@ def campaign_section(campaigns: list[dict]) -> str:
             f"- Progress: `{campaign.get('completed_steps')}` / `{campaign.get('total_steps')}` steps complete"
         )
         unknown_ts = datetime.min.replace(tzinfo=timezone.utc)
-        lines.append(f"- Last Updated: `{campaign.get('updated_at').isoformat() if campaign.get('updated_at') != unknown_ts else 'unknown'}`")
+        lines.append(
+            f"- Last Updated: `{campaign.get('updated_at').isoformat() if campaign.get('updated_at') != unknown_ts else 'unknown'}`"
+        )
         if campaign.get("claim_assessment"):
             lines.append(f"- Claim Assessment: {campaign['claim_assessment']}")
         lines.append("")
     return "\n".join(lines)
 
 
-def key_files_section(iterations: list[dict], active_campaign: dict | None, root: Path) -> str:
+def key_files_section(
+    iterations: list[dict], active_campaign: dict | None, root: Path
+) -> str:
     lines = []
     latest = iterations[-1] if iterations else {}
     for name, path in (latest.get("artifacts") or {}).items():
@@ -230,7 +246,13 @@ def key_files_section(iterations: list[dict], active_campaign: dict | None, root
     return "\n".join(lines) if lines else "- (see evolution.json)"
 
 
-def sync_checkpoint(root: Path, branch: str, commit_line: str, active_campaign: dict | None, latest: dict):
+def sync_checkpoint(
+    root: Path,
+    branch: str,
+    commit_line: str,
+    active_campaign: dict | None,
+    latest: dict,
+):
     session_dir = root / ".session"
     session_dir.mkdir(exist_ok=True)
     cp_path = session_dir / "checkpoint.md"
@@ -309,7 +331,11 @@ def main() -> int:
     active_work = "Unknown"
     if active_campaign:
         current_phase = f"{active_campaign['name']}::{active_campaign['phase']} gate={active_campaign['gate']}"
-        active_work = active_campaign.get("active_step") or active_campaign.get("next_incomplete") or active_work
+        active_work = (
+            active_campaign.get("active_step")
+            or active_campaign.get("next_incomplete")
+            or active_work
+        )
     elif latest:
         completed = latest.get("completed", [])
         nexts = latest.get("next", [])
@@ -318,8 +344,19 @@ def main() -> int:
         if nexts:
             active_work = nexts[0]
 
-    template_path = root / ".cursor" / "skills" / "infinigen-project-memory" / "references" / "status-template.md"
-    content = template_path.read_text() if template_path.exists() else "# Infinigen-AnyBox Project Status\n"
+    template_path = (
+        root
+        / ".cursor"
+        / "skills"
+        / "infinigen-project-memory"
+        / "references"
+        / "status-template.md"
+    )
+    content = (
+        template_path.read_text()
+        if template_path.exists()
+        else "# Infinigen-AnyBox Project Status\n"
+    )
     now = datetime.now().strftime("%Y-%m-%d %H:%M")
     content = content.replace("{date}", now)
     content = content.replace("{branch}", branch)
@@ -327,11 +364,19 @@ def main() -> int:
     content = content.replace("{commit_message}", commit_msg)
     content = content.replace("{current_phase}", current_phase)
     content = content.replace("{active_work}", active_work)
-    content = content.replace("{milestones_rows}", build_milestone_table(display_iterations))
+    content = content.replace(
+        "{milestones_rows}", build_milestone_table(display_iterations)
+    )
     content = content.replace("{bugs_rows}", build_bugs_table(display_iterations))
-    content = content.replace("{artifacts_rows}", build_artifacts_table(display_iterations))
-    content = content.replace("{next_steps}", build_next_steps(display_iterations, active_campaign))
-    content = content.replace("{key_files}", key_files_section(display_iterations, active_campaign, root))
+    content = content.replace(
+        "{artifacts_rows}", build_artifacts_table(display_iterations)
+    )
+    content = content.replace(
+        "{next_steps}", build_next_steps(display_iterations, active_campaign)
+    )
+    content = content.replace(
+        "{key_files}", key_files_section(display_iterations, active_campaign, root)
+    )
 
     lessons = collect_lessons(display_iterations)
     if lessons:

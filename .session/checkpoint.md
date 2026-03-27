@@ -1,31 +1,26 @@
 # Session Checkpoint
 <!-- Auto-synced from .project-memory/STATUS.md by infinigen-project-memory skill -->
 
-**Date**: 2026-03-20
-**Branch**: feature/3d-assets
-**Last Commit**: fe945088 average-fit improved, diversity worsened, physical consistency broken
+**Date**: 2026-03-26
+**Branch**: feature/mint-integration
+**Last Commit**: 706cdb5d fix: split G3 depth+grasp, update launcher for env routing
 
 ## Status
 
 See `.project-memory/STATUS.md` for the full project status.
 
 ## Live Campaign
-- name=box_conditioning_v2
-- phase=phase2_conditioning_design
-- gate=ready_for_writeup
+- name=mint_drawer_v1
+- phase=mint_robot_trajectory_claim_push
+- gate=teacher_contract_rebuild
 - active_step=None
-- next_incomplete=None
+- next_incomplete=d1_single_rollout_overfit
 
 ## Completed
-- Backfilled a dedicated Phase 2 terminal history snapshot for claim_not_supported.
-- Repaired the project-memory hook contract so post-commit no longer rewrites tracked files.
-- Recorded a dedicated Phase 2 root-cause artifact covering data/interface/architecture/metrics.
+- c3_single_rollout_replay_gate
 
 ## Next
-- Use the root_cause_tree artifact as the canonical explanation for this negative result.
-- Treat missing terminal history snapshots as patrol incidents in future campaign completions.
+- Advance to the next queue step after c3_single_rollout_replay_gate.
 
 ## Lessons
-- Canonical tracked memory sync must happen at milestone finalization, not in post-commit hooks.
-- Terminal campaign verdicts need a dedicated final history snapshot even if STATUS.md is already correct.
-- The current Phase 2 negative result is best explained by conditioning-interface and architecture mismatch, not raw Infinigen asset failure.
+- c3_single_rollout_replay_gate now uses artifact-first validation.

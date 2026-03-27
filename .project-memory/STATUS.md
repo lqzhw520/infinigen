@@ -1,5 +1,5 @@
 # Infinigen-AnyBox Project Status
-<!-- Auto-maintained by infinigen-project-memory skill. Last updated: 2026-03-20 21:25 -->
+<!-- Auto-maintained by infinigen-project-memory skill. Last updated: 2026-03-26 17:14 -->
 
 ## Architecture
 
@@ -15,10 +15,10 @@ Phase 1: Data Engine          Phase 2: Perception           Phase 3: Planning
 
 ## Current State
 
-- **Branch**: feature/3d-assets
-- **Last Commit**: fe945088 average-fit improved, diversity worsened, physical consistency broken
-- **Phase**: box_conditioning_v2::phase2_conditioning_design gate=ready_for_writeup
-- **Active Work**: Unknown
+- **Branch**: feature/mint-integration
+- **Last Commit**: 706cdb5d fix: split G3 depth+grasp, update launcher for env routing
+- **Phase**: mint_drawer_v1::mint_robot_trajectory_claim_push gate=teacher_contract_rebuild
+- **Active Work**: d1_single_rollout_overfit
 
 ## Completed Milestones
 
@@ -40,6 +40,23 @@ Phase 1: Data Engine          Phase 2: Perception           Phase 3: Planning
 | 17 | 2026-03-20 | box_conditioning_v2 phase2 progress 2/4 groups completed; multistate_singleview rerun active after invalid summary repair | experiments/physnap/box_conditioning_v2/state.json, experiments/physnap/box_conditioning_v2/review.json, experiments/physnap/box_conditioning_v2/campaign_status.md, .project-memory/history/2026-03-20_box-conditioning-v2-phase2-multistate-rerun-progress.md | b240e09c |
 | 18 | 2026-03-20 | box_conditioning_v2 phase2_conditioning_design verdict=claim_not_supported decision=revise_claim | experiments/physnap/box_conditioning_v2/manifest.yaml, experiments/physnap/box_conditioning_v2/campaign_status.md, experiments/physnap/box_conditioning_v2/decision_memo.md | b240e09c |
 | 20 | 2026-03-20 | Synchronized final Phase 2 verdict into project memory and recorded the strict root-cause tree | experiments/physnap/box_conditioning_v2/root_cause_tree.md, .project-memory/history/2026-03-20_box-conditioning-v2-phase2-final-verdict-claim-not-supported.md, .project-memory/STATUS.md | fe945088 |
+| 21 | 2026-03-23 | Completed g1_asset_load | /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g1_asset_load.json | 706cdb5d |
+| 22 | 2026-03-23 | Completed g2_obs_contract | /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g2_obs_contract.json | 706cdb5d |
+| 23 | 2026-03-23 | Terminal verdict: claim_supported | /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/checkpoints/001000/pretrained_model, /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/evaluation/comparison_summary.json, /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/evaluation/comparison_report.md, /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/decision_memo.md | 706cdb5d |
+| 24 | 2026-03-23 | Archived the proxy baseline and initialized the AnyGrasp robot-trajectory revision. | /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/archived_proxy/proxy_revision | 706cdb5d |
+| 25 | 2026-03-23 | Completed g3_anygrasp_ready | /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g3_anygrasp_ready.json | 706cdb5d |
+| 26 | 2026-03-23 | Completed g3_render_depth | /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g3_render_depth.json | 706cdb5d |
+| 27 | 2026-03-23 | Terminal verdict: scientific_not_supported | /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/checkpoints/001000/pretrained_model, /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/evaluation/comparison_summary.json, /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/evaluation/comparison_report.md, /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/decision_memo.md | 706cdb5d |
+| 28 | 2026-03-23 | Terminal verdict: scientific_not_supported | /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/checkpoints/001000/pretrained_model, /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/evaluation/comparison_summary.json, /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/evaluation/comparison_report.md, /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/evaluation/train_seed_probe.json, /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/decision_memo.md | 706cdb5d |
+| 31 | 2026-03-23 | Archived the previous failed robot revision and initialized the root-cause repair ladder. | /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/archived_proxy/proxy_revision, /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/archived_proxy/robot_revision_v1_failed | 706cdb5d |
+| 41 | 2026-03-23 | Completed g3_grasp_plan | /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g3_grasp_plan.json | 706cdb5d |
+| 42 | 2026-03-23 | Oracle grasp plus scripted robot open is stable on train seeds, and AnyGrasp is partially viable, but the current native 7D robot-action contract is not replay-faithful enough to support MINT training yet. | /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g4_oracle_vs_anygrasp_rollouts.json, /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g5_contract_audit.json | 706cdb5d |
+| 43 | 2026-03-23 | Activated the AnyGrasp robot-trajectory overnight ladder focused on action-contract repair before learning. | proxy_revision_archived, robot_revision_v1_failed_archived | 706cdb5d |
+| 44 | 2026-03-23 | Completed b1_oracle_scripted_baseline | /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/b1_oracle_scripted_baseline.json | 706cdb5d |
+| 45 | 2026-03-23 | Completed b2_anygrasp_scripted_baseline | /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/b2_anygrasp_scripted_baseline.json | 706cdb5d |
+| 46 | 2026-03-24 | Completed c1_teacher_native_rollout_rebuild | /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c1_teacher_native_rollout_rebuild.json | 706cdb5d |
+| 47 | 2026-03-24 | Completed d1_single_rollout_overfit | /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/d1_single_rollout_overfit.json | 706cdb5d |
+| 48 | 2026-03-24 | Completed c3_single_rollout_replay_gate | /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c3_single_rollout_replay_gate.json | 706cdb5d |
 
 ## Bug Fixes & Lessons
 
@@ -69,24 +86,23 @@ Phase 1: Data Engine          Phase 2: Perception           Phase 3: Planning
 
 | Artifact | Path | Verification Command | Last Result |
 |----------|------|---------------------|-------------|
-| phase2_root_cause_tree | `experiments/physnap/box_conditioning_v2/root_cause_tree.md` | (run verification) | - |
-| phase2_final_history | `.project-memory/history/2026-03-20_box-conditioning-v2-phase2-final-verdict-claim-not-supported.md` | (run verification) | - |
-| project_status | `.project-memory/STATUS.md` | (run verification) | - |
+| c3_single_rollout_replay_gate | `/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c3_single_rollout_replay_gate.json` | (run verification) | - |
 
 ## Next Steps
 
-- Write the strongest true claim memo for Phase 2 instead of the original strong claim.
-- Record which conditioning groups failed to improve the anchor and why.
+- Advance the learnability lane into D1 overfit instead of waiting for strict replay to turn fully green.
+- Keep the strict replay lane running in parallel so the teacher/native contract becomes scientifically cleaner even if the learnability lane advances first.
+- Keep the upstream audit lane explicit: only modify `infinigen/**` if the audited evidence points to a specific export or geometry defect.
+- Upstream remains suspect, but do not patch `infinigen/**` yet; wait for D1 candidate search to finish under strict success.
+- Run or resume the next pending queue step: `d1_single_rollout_overfit`.
 
 ## Key Files
 
-- `experiments/physnap/box_conditioning_v2/root_cause_tree.md` -- phase2_root_cause_tree
-- `.project-memory/history/2026-03-20_box-conditioning-v2-phase2-final-verdict-claim-not-supported.md` -- phase2_final_history
-- `.project-memory/STATUS.md` -- project_status
-- `experiments/physnap/box_conditioning_v2/state.json` -- active campaign state
-- `experiments/physnap/box_conditioning_v2/review.json` -- active campaign review
-- `experiments/physnap/box_conditioning_v2/decision_memo.md` -- active decision memo
-- `experiments/physnap/box_conditioning_v2/campaign_status.md` -- active dashboard
+- `/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c3_single_rollout_replay_gate.json` -- c3_single_rollout_replay_gate
+- `experiments/mint/mint_drawer_v1/state.json` -- active campaign state
+- `experiments/mint/mint_drawer_v1/review.json` -- active campaign review
+- `experiments/mint/mint_drawer_v1/decision_memo.md` -- active decision memo
+- `experiments/mint/mint_drawer_v1/campaign_status.md` -- active dashboard
 
 ## Lessons Learned (cumulative)
 
@@ -127,8 +143,42 @@ Phase 1: Data Engine          Phase 2: Perception           Phase 3: Planning
 - Canonical tracked memory sync must happen at milestone finalization, not in post-commit hooks.
 - Terminal campaign verdicts need a dedicated final history snapshot even if STATUS.md is already correct.
 - The current Phase 2 negative result is best explained by conditioning-interface and architecture mismatch, not raw Infinigen asset failure.
+- g1_asset_load now uses artifact-first validation.
+- g2_obs_contract now uses artifact-first validation.
+- Python 3.12 mainline remained viable through G9 after fixing LeRobot finalization and feature-schema metadata.
+- The training checkpoint was valid even though the first wrapper run failed during a non-essential push-to-hub postamble.
+- The previous proxy result remains a valid archived baseline, but it no longer defines the active campaign claim.
+- The active claim now requires true robot-arm / end-effector trajectories.
+- g3_anygrasp_ready now uses artifact-first validation.
+- g3_render_depth now uses artifact-first validation.
+- The robot-trajectory revision uses true EEF delta actions rather than proxy drawer-joint deltas.
+- The previous robot revision failed because a runnable pipeline was mistaken for a trustworthy scientific result.
+- The active claim now requires true robot-arm / end-effector trajectories and natural G5 replay.
+- g3_grasp_plan now uses artifact-first validation.
+- Do not interpret a runnable pipeline or a scripted oracle baseline as evidence that the native 7D action contract is learnable.
+- Teacher rollouts and replay/eval must share the same control semantics before MINT training is meaningful.
+- Do not treat pipeline executability as claim support.
+- Do not restart held-out evaluation before replay-faithful robot actions exist.
+- b1_oracle_scripted_baseline now uses artifact-first validation.
+- b2_anygrasp_scripted_baseline now uses artifact-first validation.
+- c1_teacher_native_rollout_rebuild now uses artifact-first validation.
+- d1_single_rollout_overfit now uses artifact-first validation.
+- c3_single_rollout_replay_gate now uses artifact-first validation.
 
 ## Live Campaign Snapshot
+
+### mint_drawer_v1
+
+- Phase: `mint_robot_trajectory_claim_push`
+- Gate: `teacher_contract_rebuild`
+- Verdict: `awaiting_execution`
+- Decision: `run_experiments`
+- Active Step: `None`
+- Next Incomplete Step: `d1_single_rollout_overfit`
+- Queue: u1_asset_geometry_audit=completed, u2_joint_semantics_audit=completed, u3_handle_region_audit=completed, u4_export_consistency_audit=completed, u5_seed_outlier_audit=completed, a1_asset_scene_audit=completed, a2_frame_transform_audit=completed, b1_oracle_scripted_baseline=completed ...
+- Progress: `12` / `17` steps complete
+- Last Updated: `2026-03-26T17:14:59+08:00`
+- Claim Assessment: A contract-preflight-approved teacher-success rollout source is now available for learnability testing, even though strict replay is still being repaired in parallel.
 
 ### box_conditioning_v2
 

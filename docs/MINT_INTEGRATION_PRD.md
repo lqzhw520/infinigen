@@ -4,45 +4,93 @@
 **Branch**: `feature/mint-integration` (from `feature/3d-assets`)
 **Note**: Infinigen export code remains on `feature/3d-assets`. All MINT integration code on `feature/mint-integration`.
 **Author**: zhuhaowu
-**Last Updated**: 2026-03-22
-**Status**: Phase 1a & 2a Complete — URDF Loads & GraspNet Inference Verified (NOT end-to-end grasp on drawer yet)
+**Last Updated**: 2026-03-26
+**Status**: Active phase = `robot_revision_v3_claim_push` in automatic-pipeline recovery mode; old `D2/D3/E1` run archived as `diagnostic_only_after_gate_drift`; mainline reset to `teacher_contract_rebuild`
 
 ---
 
 ## 1. Objective
 
-Use Infinigen-generated articulated objects (drawers, cabinets) as simulation inputs to generate robot manipulation trajectories, then use these trajectories to fine-tune MINT for improved task transfer on novel articulated objects.
+Use Infinigen-generated articulated objects as simulation inputs to generate manipulation-relevant trajectories, then use these trajectories to fine-tune MINT for improved task transfer on novel articulated objects.
 
 **Phase scope clarification**: This PRD defines the **simulation-only** pipeline. Real-robot transfer is a future phase.
 
-**Deliverable (current phase)**:
-1. Infinigen articulated objects loadable in robosuite sim with correct physics
-2. Contact-GraspNet generates grasp candidates from rendered depth
-3. Scripted motion planner produces open-drawer trajectories
-4. Trajectories are converted to delta actions and replay-verified in sim
-5. Trajectories are packaged as a LeRobot v3 dataset
-6. MINT is fine-tuned on this dataset
-7. **Sim eval**: success rate on held-out objects in simulation (NOT real robot)
+**Deliverable (active phase)**:
+1. Infinigen articulated drawer objects loadable in the validated robot simulation path
+2. AnyGrasp detection produces handle-region grasp candidates from rendered robot-scene depth / point clouds
+3. Oracle grasp and AnyGrasp grasp are both tested with scripted robot open baselines
+4. Natural robot-arm trajectories are recorded and converted to MINT-compatible delta actions
+5. Only natural replay-valid rollouts are packaged as a LeRobot v3 dataset
+6. MINT is fine-tuned on this dataset for 1000 steps
+7. **Held-out sim eval only after train-seed reproducibility is positive**
 
 **What this does NOT deliver (future work)**:
 - Real-robot deployment
 - True demo-conditioned one-shot transfer (see Section 11 for the gap)
+- Tracking-conditioned grasp persistence
+- A publishable held-out claim before train-seed reproducibility is demonstrated
+
+### 1.1 Archived Prior Result (proxy-control baseline)
+
+The earlier proxy-control simulation campaign remains archived as a baseline:
+
+- Train split: drawerbox seeds `1-10`
+- Held-out split: drawerbox seeds `11-15`
+- Dataset built from generated rollouts: `20` episodes, `220` total frames
+- Fine-tuning: `1000` training steps completed, checkpoint written
+- Held-out simulation comparison:
+
+| Policy | Successes | Success Rate | Pull Distance | Time to Completion |
+| --- | ---: | ---: | ---: | ---: |
+| Random | 0 / 5 | 0.000 | 0.332 | 24.0 |
+| Pretrained MINT | 0 / 5 | 0.000 | 0.432 | 24.0 |
+| Fine-tuned MINT | 5 / 5 | 1.000 | 0.912 | 12.0 |
+
+**Archived strongest true claim**:
+
+> Fine-tuned MINT improves held-out drawer success in the proxy simulation.
+
+### 1.2 Current Active Phase (robot_revision_v3_claim_push)
+
+The active campaign is no longer the proxy path above. It is now the **AnyGrasp + robot-trajectory claim-push** phase, with a dual-track execution model:
+
+- `strict replay lane`: keep repairing `absolute -> delta -> native replay` fidelity
+- `learnability lane`: once teacher-success fallback is contract-preflight-clean, allow `C3 -> D1 -> D2 -> D3 -> E1`
+
+Current archived negative evidence from `robot_revision_v1_failed`:
+
+- Held-out seeds `11-15`: `finetuned_mint = 0/5`, `pretrained_mint = 0/5`
+- Train-seed probe: `finetuned_mint = 1/6`, `pretrained_mint = 0/6`
+- Root-cause hypotheses:
+  - G4/G5 data contract was partially non-physical
+  - `force_attach` contaminated training rollouts
+  - held-out evaluation was attempted before train-seed reproducibility was established
+
+**Current execution rule**:
+
+> No held-out claim will be called until train-seed reproducibility is positive, and teacher-success fallback is now treated as a legitimate learnability source while strict replay continues in parallel.
+
+**Additional current rule after gate-drift review**:
+
+> `D1` diagnostic success is not sufficient to advance the mainline. `D2` may only start from a `D2-feasible` seed with at least two strict-valid rollouts, `D3` requires a hard `D2` pass, and `E1` is invalid as a final verdict unless that hard gate chain remains intact.
 
 ---
 
 ## 2. System Architecture
 
 ```
-Phase 1: Asset Gen          Phase 2: Sim Env           Phase 3: Trajectory        Phase 4: Training
-┌──────────────┐         ┌──────────────────┐       ┌──────────────────┐      ┌───────────────┐
-│  Infinigen    │  URDF   │  robosuite       │  obs  │ Contact-GraspNet │      │  MINT         │
-│  DrawerBox    │──────→  │  + Franka Panda  │──────→│ + Motion Planner │─────→│  Fine-tune    │
-│  CabinetBox   │  MJCF   │  + dual camera   │  act  │ expert trajectory│      │  (LeRobot)    │
-│  MailerBox    │  (auto) │  + EGL headless  │       │ delta actions    │      │               │
-└──────────────┘         └──────────────────┘       └──────────────────┘      └───────────────┘
-  ✅ Verified ✓            ✅ Partially ✓            ✅ Model loads ✓          ✅ Model loads ✓
-  URDF loads in MuJoCo     robosuite 1.4.0           Contact-GraspNet          MINT eval 25/26
-  joints correct           EGL headless              generic inference OK      (see Known Issues)
+Archived baseline path:
+
+Phase 1: Asset Gen          Phase 2: Proxy Sim         Phase 3: Trajectory        Phase 4: Training/Eval
+┌──────────────┐         ┌──────────────────┐       ┌──────────────────┐      ┌────────────────────────┐
+│  Infinigen    │  URDF   │  DrawerProxyEnv  │  obs  │ Proxy expert      │      │  LeRobot + MINT        │
+│  DrawerBox    │──────→  │  + dual camera   │──────→│ rollouts          │─────→│  fine-tune + held-out  │
+│  seeds 1-15   │         │  + EGL headless  │       │ delta actions     │      │  sim evaluation        │
+└──────────────┘         └──────────────────┘       └──────────────────┘      └────────────────────────┘
+  ✅ Archived baseline      ✅ Archived baseline       ✅ Archived baseline       ✅ Archived baseline
+
+Active root-cause path:
+Infinigen drawer asset -> robot sim scene -> AnyGrasp / oracle grasp audit -> natural robot rollout -> G5 replay contract -> MINT overfit ladder -> held-out sim eval
 ```
 
 ---
@@ -58,7 +106,8 @@ Phase 1: Asset Gen          Phase 2: Sim Env           Phase 3: Trajectory      
 | robosuite | 1.4.0 | pip (mint) | mint | ✓ |
 | MuJoCo | 3.6.0 | pip (mint) | mint | ✓ |
 | PyTorch (mint) | 2.3+ | pip (mint) | mint | ✓ CUDA |
-| Contact-GraspNet | PyTorch ver. | external/contact_graspnet_pytorch/ | graspnet | ✓ |
+| AnyGrasp SDK | official SDK | external/anygrasp_sdk/ | graspnet | ✓ staged |
+| Contact-GraspNet | PyTorch ver. | external/contact_graspnet_pytorch/ | graspnet | archived auxiliary |
 | PyTorch (graspnet) | 2.5.1+cu121 | pip (graspnet) | graspnet | ✓ CUDA |
 
 ---
@@ -80,7 +129,7 @@ Phase 1: Asset Gen          Phase 2: Sim Env           Phase 3: Trajectory      
 ### Environment C: graspnet (conda: graspnet)
 - **CONSUMES**: point clouds (N×3 float32) from env B
 - **PRODUCES**: grasp candidates — `pred_grasps_cam` (B,N,4,4) + `pred_scores` (B,N,1)
-- **Contains**: Contact-GraspNet, opencv, open3d
+- **Contains**: AnyGrasp SDK, open3d, torch, and supporting perception deps
 - **MUST NOT**: touch env A or env B code/data
 
 ### Artifact format specifications:
@@ -127,39 +176,149 @@ Phase 1: Asset Gen          Phase 2: Sim Env           Phase 3: Trajectory      
 - robosuite MujocoXMLObject loads ✓
 - Joint movement verified ✓
 
-### 5.4 Contact-GraspNet: MODEL LOAD VERIFIED ✓
+### 5.4 AnyGrasp: DRAWER-SCENE STAGING VERIFIED ✓
 
 | Check | Result |
 |-------|--------|
-| Model load | PASS — 2,194,097 params |
-| Weight load | PASS — `ckpt["model"]` |
-| Inference | PASS — 793ms for 2048 points |
-| Output format | PASS — (B, 2048, 4, 4) SE(3) |
-| **Grasp on drawer** | **NOT YET TESTED** — only generic inference |
+| SDK staging | PASS — `gsnet.so`, `lib_cxx.so`, license, checkpoint path staged |
+| `load_net()` | PASS |
+| Smoke inference | PASS — non-empty grasp candidates returned |
+| Active contract | score threshold and handle-region hit are enforced in root-cause repair |
+
+Archived auxiliary note: Contact-GraspNet remains available as prior perception groundwork, but the active robot-trajectory phase uses AnyGrasp detection.
 
 ### 5.5 Headless Rendering: VERIFIED ✓
 - EGL rendering on A800, no display needed
 
+### 5.6 Current Active Phase Status
+
+| Gate | Result |
+|------|--------|
+| Archived proxy baseline | Complete — `claim_supported` |
+| Archived robot revision v1 | Complete — `scientific_not_supported`, but not accepted as final claim truth |
+| Archived gate-drift recovery run | `D1` passed diagnostically, but `D2/D3/E1` were reclassified as `diagnostic_only_after_gate_drift` |
+| Active robot revision v3 | In automatic-pipeline recovery mode; `teacher_contract_rebuild -> action_contract_repair -> replay_gate -> D1 mainline -> D2 -> D3 -> E1` |
+
 ---
 
-## 6. Known Issues Before Execution
+## 6. Current Root-Cause Focus
 
-### Negative Signals (must be resolved or acknowledged before claiming pipeline works)
+### Historical Negative Signals
+
+These are no longer treated as “warnings only”; they directly define the active repair ladder.
 
 | Signal | Detail | Implication |
 |--------|--------|-------------|
-| **Gripper action constant** | In 10-step test, `action_grip_varies` = FAIL. Gripper stays at one value. | May indicate MINT doesn't output varied gripper commands in first 10 steps, OR the model needs more steps to change gripper state. Needs investigation. |
-| **Closed-loop success = False** | In 100-step test, `success` = False. | Expected for random initial state without proper task setup, BUT must verify MINT can achieve success when given correct task instruction and initial state from LIBERO eval protocol. |
-| **Contact-GraspNet on drawer** | Model loads and infers, but has NOT been tested on actual rendered depth from a drawer scene. | Grasp candidates on real drawer geometry may fail or be poor quality. |
+| **Gripper action constant (10-step smoke test)** | Early smoke tests observed no gripper change in the first 10 executed steps. | This is **not by itself a data-normalization bug**. Current teacher actions are already in `[-1, 1]`, and the gripper channel is binary `{-1, +1}`. For representative oracle / AnyGrasp rollouts, the first close event occurs around step `34`, so a 10-step smoke test can miss the grasp phase entirely. Future checks must evaluate windows that include the `close -> attach_hold -> pull` segment rather than only the first few approach steps. |
+| **Train seeds only 1/6** | The archived robot-trajectory v1 revision only reached `1/6` fine-tuned success on train seeds. | Held-out failure cannot yet be treated as the main conclusion; train reproducibility is the first blocker. |
+| **force_attach contamination** | G5 used `force_attach=True` while generating training data. | Training data may have violated the real closed-loop contract. |
+| **G4 partial non-physicality** | G4 injected scripted drawer updates during rollout generation. | A runnable rollout is not enough; the rollout must be naturally replay-valid. |
+
+### Remaining Caveats
+
+1. The active phase is still **simulation-only**, not real robot.
+2. The archived proxy result is useful baseline evidence, but it does not satisfy the advisor’s robot-trajectory requirement.
+3. The active robot-trajectory phase still needs to prove:
+   - oracle scripted open success
+   - AnyGrasp scripted open success
+   - natural G5 replay validity
+   - train-seed positive trend
+4. `u3_handle_region_audit` remains an **upstream suspect**:
+   - Infinigen exports do not currently provide reliable handle part labels.
+   - Current AnyGrasp handle localization still depends on heuristic handle-center inference.
+   - Observed handle-center offsets on successful seeds are on the order of `0.126m - 0.279m`.
+5. `B1/B2` currently prove **task feasibility**, but not report-grade video quality:
+   - the stereo videos can show washed-out rendering and clipped wrist-camera geometry,
+   - so teacher videos now need a separate `report_safe` rendering path for presentation.
+4. Only after those pass does held-out transfer become a meaningful claim target.
+
+### 6.1 Risk Register (Current Top 4)
+
+#### Confirmed Fixed
+
+1. **Evaluation attach-state bug**
+   - Historical issue: evaluation never restored `attachment_local`, making strict success structurally impossible during policy rollout.
+   - Current status: fixed; no longer the active blocker.
+
+2. **Gate-drift execution bug**
+   - Historical issue: a diagnostic `D1` winner was allowed to flow into `D2`, and `D3/E1` advanced after soft gates.
+   - Current status: fixed in the recovery path; `D2/D3/E1` are no longer allowed to advance under that relaxed contract.
+
+#### Confirmed Open
+
+3. **Strict replay remains fully failing**
+   - Current evidence: `C2` completed only via `teacher_success_fallback`, while open-loop strict replay still fails on every rollout.
+   - Implication: learnability can continue, but the scientific cleanliness of the action contract remains unresolved.
+
+4. **Upstream handle semantics remain weak**
+   - Current evidence: `u3_handle_region_audit` still shows missing handle part labels and heuristic handle-center offsets of roughly `0.126m - 0.279m`.
+   - Implication: AnyGrasp-conditioned attach behavior is still being stabilized by compensatory branch logic rather than precise semantic handle localization.
+
+5. **Control-plane concurrency can contaminate live evidence**
+   - Current evidence: multiple supervisors / `run_d1_single_rollout_overfit.py` wrappers / `lerobot-train` jobs have overlapped on the same campaign.
+   - Implication: post-contamination D1 results must be forensically reclassified and cannot be used as clean scientific evidence until a single-controller lease is enforced.
+
+6. **Historical rollout drift can invalidate naive data-driven ranking**
+   - Current evidence: the archived diagnostic `seed_010_episode_04` that produced a real positive D1 signal is not identical to the current `c2_replay_valid_rollouts/seed_010_episode_04.npz`.
+   - Archived diagnostic copy: `96` steps, phase counts `{grasp: 15, hold_close: 10, pull: 7}`, `handle_distance_min ~= 0.0997`.
+   - Current active copy: `80` steps, phase counts `{grasp: 1, hold_close: 10, pull: 2}`, `handle_distance_min ~= 0.0250`.
+   - Implication: historical D1 success cannot be attributed to current `handle_distance_min` alone, and ranking changes must compare like-for-like rollout versions.
+
+7. **Teacher lineage was not part of the earlier recovery contract**
+   - Historical mistake: previous recovery plans tracked `controller_id/run_id` and dataset/checkpoint fingerprints, but not immutable teacher-rollout lineage.
+   - Concrete failure mode: `(seed, episode_index)` was implicitly treated as a stable teacher identity even though rebuilt `c1/c2` rollouts can change step count, phase counts, and handle-distance trace.
+   - Required correction: future D1/D2 decisions, historical comparisons, and checkpoint reuse must be keyed by rollout fingerprint / semantic summary, not seed-episode name alone.
+
+#### Watch But Not Primary
+
+- **Render / camera report quality**
+  - Current evidence: `B1/B2` stereo videos can still show washed-out primary views and clipped wrist-camera geometry.
+- **Handle-distance-only ranking**
+  - Current evidence: smaller `handle_distance_min` does correlate with easier attach in some runs, but the strongest apparent support mixed archived and current versions of `seed_010_episode_04`.
+  - Implication: `handle_distance_min` should be treated as an attachment-oriented signal, not yet as a standalone learnability metric.
+
+### 6.2 Mainline Recovery Rule
+
+The automatic mainline now follows a staged validation rule rather than an all-or-nothing D1 search:
+
+1. **Single-controller clean run only**
+   - Any post-cutoff results produced under concurrent control are archived as contaminated and are not valid claim evidence.
+2. **Stage A candidate screen**
+   - Evaluate only grasp-rich, `D2-feasible` mainline candidates with `base_overfit`.
+   - If neither candidate shows any attach-positive signal, immediately trigger the `u3` handle-metadata A/B lane.
+3. **Stage B attach-focused screen**
+   - Run `phase_balanced_overfit` and `attach_curriculum_overfit` only on the stronger Stage A candidate.
+4. **Promotion**
+   - Only a clean Stage B positive result may produce a `promoted_mainline_candidate`.
+5. **D2 hard gate**
+   - D2 may only start from a clean promoted mainline candidate whose seed has at least two strict-valid rollouts.
+  - Implication: this is important for reporting quality and may reflect scene/camera debt, but it is not currently the primary claim blocker.
+
+### 6.2 Engineering Failure Modes
+
+| Failure mode | Detection | Current status |
+|---|---|---|
+| Supervisor loop dead while queue still shows pending steps | no live `mint_auto_review_loop` / worker PIDs, stale `overnight_loop.log`, stale `state.active_runtime` | **Open operational risk** |
+| Artifact truth diverges from dashboard truth | compare step artifact JSON against `state.json`, `watch_status.json`, `campaign_status.md` | **Partially fixed** |
+| Invalid gate progression | verify `source_rollout_count`, hard-gate prerequisites, and queue transitions | **Fixed in recovery path** |
+| Scientific failure confused with engineering outage | require process check + artifact timestamp check before interpreting a failed/pending step | **Partially fixed** |
+
+### 6.3 Strict Replay Interpretation
+
+The project now treats strict replay as a **scientific lane**, not as a hidden prerequisite that can be silently weakened.
+
+- The authoritative strict-replay metric remains the original **open-loop replay**.
+- Additional replay variants may be used for diagnosis only.
+- In particular, state-restoring replay can help distinguish cumulative drift from deeper contract mismatch, but it must **not** replace the open-loop strict-replay definition in claim-facing conclusions.
 
 ### Open Questions (from GPT-5.4 review)
 
 | # | Question | Impact |
 |---|----------|--------|
-| 1 | Does the current MINT open-source stack truly support fine-tuning on custom LeRobot datasets? (README claims it, but we haven't tried `lerobot-train` on our data) | P0 — if not, whole plan needs re-architecture |
-| 2 | What is "one-shot" in our context? (see Section 11) | P1 — defines the final evaluation claim |
-| 3 | How many demos per task? (LIBERO uses ~50) | P1 — affects data generation cost |
-| 4 | What is the baseline for comparison? | P1 — needed for academic claim |
+| 1 | Does the current MINT open-source stack support custom LeRobot fine-tuning? | **Resolved** — yes, both proxy and robot-trajectory pipelines can train and write checkpoints |
+| 2 | Where is the main failure: assets/sim, AnyGrasp, G5 contract, or learning? | **Active** — this is the purpose of the current root-cause ladder |
+| 3 | How many natural successful robot rollouts are needed before train-seed trend stabilizes? | P1 — only investigate after overfit passes |
+| 4 | After train-seed trend is positive, how much held-out scale is needed? | P1 — only meaningful after L3 is reached |
 
 ---
 
@@ -171,8 +330,8 @@ Phase 1: Asset Gen          Phase 2: Sim Env           Phase 3: Trajectory      
 |-----|------|-------|-------|-------|
 | observation.images.image | uint8 | (H, W, 3) | [0, 255] | agentview camera |
 | observation.images.image2 | uint8 | (H, W, 3) | [0, 255] | eye_in_hand camera |
-| observation.state | float32 | (8,) | real | eef_pos(3) + eef_quat(4) + gripper(1) |
-| action | float32 | (7,) | [-1, 1] | delta: dx,dy,dz,drx,dry,drz,gripper |
+| observation.state | float32 | (8,) | real | real robot contract: `eef_pos_xyz (3) + eef_quat_xyzw (4) + gripper_open (1)` |
+| action | float32 | (7,) | [-1, 1] | real robot contract: `delta_xyz + delta_rxyz + gripper_command` |
 | task | string | — | — | e.g. "open the drawer" |
 | timestamp | float32 | (1,) | — | frame_index / fps |
 | frame_index | int64 | (1,) | — | 0-indexed within episode |
@@ -184,11 +343,14 @@ Phase 1: Asset Gen          Phase 2: Sim Env           Phase 3: Trajectory      
 - STATE: QUANTILES (q01/q99 → [-1, 1])
 - ACTION: IDENTITY (must already be in [-1, 1])
 
-### 7.3 Action Space (CRITICAL — Gate G5)
-- **Type**: relative delta in EEF space (OSC_POSE controller)
-- **Max output per step**: 0.05m position, 0.5 rad rotation
-- **action=1.0** → +0.05m (pos) or +0.5rad (rot) or gripper open
-- **action=-1.0** → -0.05m (pos) or -0.5rad (rot) or gripper close
+### 7.3 Action Space (Active Root-Cause Repair Path)
+- **Type**: robot end-effector delta control for the simulated manipulator
+- **Semantics**:
+  - `delta_x, delta_y, delta_z`
+  - `delta_rx, delta_ry, delta_rz`
+  - `gripper_command`
+- **Replay rule**: only natural successful robot rollouts may enter the training dataset
+- **Important note**: any rollout requiring `force_attach` is considered invalid for training
 
 ---
 
@@ -198,7 +360,7 @@ Phase 1: Asset Gen          Phase 2: Sim Env           Phase 3: Trajectory      
 
 **Current phase (simulation only)**: We do NOT claim true demo-conditioned one-shot transfer. We claim:
 
-> "MINT fine-tuned on Infinigen-generated articulated manipulation data achieves higher success rate on held-out drawer/cabinet variants than pretrained MINT."
+> "MINT fine-tuned on Infinigen-generated articulated manipulation data achieves higher success rate on held-out drawer variants than pretrained MINT."
 
 The "one-shot" in MINT's original paper refers to:
 - Given: a language instruction + one demonstration video
@@ -241,15 +403,18 @@ The "intent tokenization" happens internally (state → text tokens → VQ codes
 
 | Gate | Input | Output | Pass Criteria | Status |
 |------|-------|--------|---------------|--------|
-| G1: Asset Load | Infinigen URDF + OBJ | robosuite env with articulated object | env.reset() returns obs; joint moves | ✅ DONE |
-| G2: Obs Format | robosuite obs | MINT-compatible obs dict | obs shapes match LIBERO | ⬜ NEXT |
-| G3: Grasp Plan | depth from drawer scene | SE(3) grasp poses on handle | ≥1 grasp with score > 0.5 on handle region | ⬜ NEXT |
-| G4: Trajectory | grasp pose + task goal | (obs_seq, action_seq) | Replay achieves task success in sim | ⬜ TODO |
-| G5: Delta Actions | absolute trajectory | delta actions in [-1, 1] | Reconstruct from deltas matches original (< 1mm error) | ⬜ TODO |
-| G6: LeRobot Pack | (obs, act) sequences | LeRobot v3 dataset | `LeRobotDataset(root=path)` loads OK | ⬜ TODO |
-| G7: MINT Load | LeRobot dataset | training batch | `next(dataloader)` correct shapes, no NaN | ⬜ TODO |
-| G8: MINT Train | dataset + pretrained | fine-tuned model | Training loss decreases over 1000 steps | ⬜ TODO |
-| G9: Sim Eval | fine-tuned model | success rate on held-out objects | fine-tuned > pretrained MINT on drawer tasks | ⬜ TODO |
+| G1: Asset Load | Infinigen URDF + OBJ | robot + drawer scene | env loads, joint moves, URDF audit passes | ⏳ ACTIVE ROOT-CAUSE |
+| G2: Obs Format | robot scene obs | MINT-compatible obs dict | image/image2/depth/state/task shapes valid, scene-frame audit passes | ⏳ ACTIVE ROOT-CAUSE |
+| G3a: AnyGrasp Ready | SDK files + graspnet env | loadable detector | `.so`, license, checkpoint, `load_net()` all pass | ⏳ ACTIVE ROOT-CAUSE |
+| G3b: Grasp Plan | depth from robot scene | SE(3) grasp poses on drawer lip | AnyGrasp score >= 0.5 with handle-region hit | ⏳ ACTIVE ROOT-CAUSE |
+| G4: Robot Trajectory | oracle/AnyGrasp grasp + scripted open | robot-arm rollout | oracle scripted open must be stable; learning rollouts copied only after audit | ⏳ ACTIVE ROOT-CAUSE |
+| G5: Delta Actions | natural robot rollout | MINT action contract | replay without `force_attach`, bounded error, bounded action stats | ⏳ ACTIVE ROOT-CAUSE |
+| G6: LeRobot Pack | natural robot rollouts | LeRobot v3 dataset | finalized metadata, dataset integrity passes | ⏳ ACTIVE ROOT-CAUSE |
+| G7: MINT Load | LeRobot dataset | training batch | `next(dataloader)` correct shapes, no NaN | ⏳ ACTIVE ROOT-CAUSE |
+| G8a: Single-rollout overfit | one natural rollout | fine-tuned model | must beat pretrained on the source seed | ⏳ ACTIVE ROOT-CAUSE |
+| G8b: Single-seed overfit | one train seed | fine-tuned model | must beat pretrained on the source seed | ⏳ ACTIVE ROOT-CAUSE |
+| G8c: Train-seed probe | full train split | reproducibility summary | train-seed trend must turn positive before held-out eval | ⏳ ACTIVE ROOT-CAUSE |
+| G9: Sim Eval | fine-tuned model | success rate on held-out objects | only runs after G8c passes | ⏳ DEFERRED UNTIL TRAIN TREND |
 
 ---
 
@@ -269,7 +434,7 @@ The "intent tokenization" happens internally (state → text tokens → VQ codes
 |----------|-------------|
 | **Random policy** | Random action selection |
 | **Pretrained MINT** | Zero-shot MINT (trained on LIBERO only) |
-| **No conditioning** | MINT with empty task string |
+| **No conditioning** | Not executed in the current campaign; keep as future ablation |
 
 ### 10.3 Metrics
 
@@ -292,40 +457,40 @@ The "intent tokenization" happens internally (state → text tokens → VQ codes
 
 | Task | Description | Status |
 |------|-------------|--------|
-| 1a | URDF→robosuite MJCF auto-converter | ✅ Verified |
-| 1b | InfinigenDrawerEnv (robosuite) | ⬜ TODO |
-| 1c | Obs/action format alignment (G2) | ⬜ TODO |
-| 1d | Batch generate 10 drawer variants | ⬜ TODO |
+| 1a | URDF→proxy-sim load path | ✅ Done |
+| 1b | DrawerProxyEnv + EGL | ✅ Done |
+| 1c | Obs/action format alignment (G2) | ✅ Done |
+| 1d | Batch generate drawer variants 1-15 | ✅ Done |
 
 ### Phase 2: Grasp Planning
 
 | Task | Description | Status |
 |------|-------------|--------|
-| 2a | Install Contact-GraspNet | ✅ Done |
-| 2a' | Verify model loads + inference | ✅ Done (generic) |
-| 2b | Render depth from drawer scene | ⬜ TODO |
-| 2c | Run grasp prediction on drawer (G3) | ⬜ TODO |
-| 2d | Abstract GraspPlanner interface | ⬜ TODO |
+| 2a | Stage AnyGrasp SDK in `graspnet` env | ✅ Done |
+| 2a' | Verify `load_net()` + smoke inference | ✅ Done |
+| 2b | Render depth from robot drawer scene | ⏳ Re-run under root-cause ladder |
+| 2c | Run AnyGrasp on drawer lip / pull region (G3) | ⏳ Active |
+| 2d | Compare AnyGrasp vs oracle handle grasp | ⏳ Active |
 
 ### Phase 3: Trajectory Generation
 
 | Task | Description | Status |
 |------|-------------|--------|
-| 3a | IK solver for Franka | ⬜ TODO |
-| 3b | Open-drawer trajectory script | ⬜ TODO |
-| 3c | Delta action conversion (G5) | ⬜ TODO |
-| 3d | Replay verification (G4) | ⬜ TODO |
-| 3e | Batch 20-50 trajectories | ⬜ TODO |
+| 3a | Scripted robot-arm rollout with natural attach | ⏳ Active |
+| 3b | Oracle grasp + scripted open baseline | ⏳ Active |
+| 3c | AnyGrasp grasp + scripted open baseline | ⏳ Active |
+| 3d | Natural delta-action replay contract (G5) | ⏳ Active |
+| 3e | Batch clean natural trajectories | ⏳ Active |
 
 ### Phase 4: Dataset & Training
 
 | Task | Description | Status |
 |------|-------------|--------|
-| 4a | LeRobot dataset builder (G6) | ⬜ TODO |
-| 4b | Normalization stats | ⬜ TODO |
-| 4c | MINT fine-tune (G8) | ⬜ TODO |
-| 4d | Sim eval: train objects | ⬜ TODO |
-| 4e | Sim eval: held-out objects (G9) | ⬜ TODO |
+| 4a | LeRobot dataset builder from natural robot rollouts (G6) | ⏳ Active |
+| 4b | Single-rollout / single-seed overfit checks | ⏳ Active |
+| 4c | 1000-step MINT fine-tune (G8) | ⏳ Deferred until overfit checks pass |
+| 4d | Train-seed reproducibility probe | ⏳ Required before held-out |
+| 4e | Sim eval: held-out objects (G9) | ⏳ Deferred until train trend passes |
 
 ---
 
@@ -337,7 +502,8 @@ The "intent tokenization" happens internally (state → text tokens → VQ codes
 | MINT-tokenizer-libero | HuggingFace | external/MINT/checkpoints/ | ~1GB | ✅ |
 | paligemma tokenizer | HuggingFace (gated) | external/MINT/checkpoints/ | ~7MB | ✅ |
 | libero-assets | HuggingFace | mint env site-packages | ~766MB | ✅ |
-| Contact-GraspNet PyTorch | git clone | external/contact_graspnet_pytorch/ | ~30MB | ✅ |
+| AnyGrasp SDK assets | official request bundle | external/anygrasp_sdk/ | staged | ✅ |
+| Contact-GraspNet PyTorch | git clone | external/contact_graspnet_pytorch/ | ~30MB | archived auxiliary |
 | TF checkpoints (4 zips) | Google Drive | external/ (not needed) | ~250MB | ⚠️ Can delete |
 
 ---

@@ -1,0 +1,175 @@
+{
+  "gate": "strong_rollout_audit",
+  "generated_at": "2026-03-27T14:00:00+08:00",
+  "audit_version": "v2_clean_rebuild",
+  "source_dir": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts",
+  "note": "Rebuilt pointing at correct clean c2_replay_valid_rollouts/. Previous audit erroneously pointed at archived diagnostic_runs/2026-03-26_gate_drift_reset/ which has since been cleaned. JSON-verifiable criteria applied; grasp_steps/pull_steps require NPZ re-evaluation by run_strong_rollout_audit.py to finalize.",
+  "teacher_lineage_pin": null,
+  "strong_rollout_criteria": {
+    "attach_persistence_gte": 10,
+    "hold_close_steps_gte": 8,
+    "post_attach_drawer_delta_gte": 0.9,
+    "grasp_steps_gte": 5,
+    "pull_steps_gte": 7,
+    "pre_attach_drawer_motion_lte": 0.12,
+    "phase_distance_lte": 0.3
+  },
+  "json_criteria_pass_summary": {
+    "note": "These pass/fail determinations are based on JSON-verifiable fields only: pre_attach_drawer_motion, attach_persistence, post_attach_drawer_delta. The grasp_steps_gte and pull_steps_gte criteria require NPZ-based recomputation by the full audit script.",
+    "seed_002": {
+      "json_passing_episodes": [1, 2, 4],
+      "json_failing_episodes": [0, 3],
+      "coherent_json": true,
+      "comment": "3 rollouts pass JSON criteria; coherence likely met pending grasp/pull verification"
+    },
+    "seed_007": {
+      "json_passing_episodes": [0],
+      "json_failing_episodes": [1, 2, 3, 4],
+      "coherent_json": false,
+      "comment": "Only ep00 passes JSON criteria (pre=0.1177 barely under limit); single rollout insufficient for coherence"
+    },
+    "seed_008": {
+      "json_passing_episodes": [0, 1, 2, 3],
+      "json_failing_episodes": [4],
+      "coherent_json": true,
+      "comment": "4 rollouts pass JSON criteria; ep00 has persist=10 (exact boundary); strong coherence candidate"
+    },
+    "seed_009": {
+      "json_passing_episodes": [],
+      "json_failing_episodes": [0, 1, 2, 3, 4],
+      "coherent_json": false,
+      "comment": "No rollouts pass JSON criteria; ep02 fails on persist=7<10 and pre=0.111>0.12 borderline"
+    },
+    "seed_010": {
+      "json_passing_episodes": [3],
+      "json_failing_episodes": [0, 1, 2, 4],
+      "coherent_json": false,
+      "comment": "ep03 passes JSON criteria (pre=0.0, persist=20, post=1.0); ep01 fails on post=0.209<0.9; single rollout insufficient for coherence"
+    }
+  },
+  "strong_rollout_count": 8,
+  "strong_rollout_count_note": "Count of JSON-criteria-passing rollouts across all seeds. Final count pending grasp/pull NPZ verification.",
+  "strong_coherent_seeds_provisional": [2, 8],
+  "strong_coherent_seeds_note": "Seeds with >=2 JSON-passing rollouts. Subject to grasp/pull NPZ verification before D1 entry.",
+  "strong_rollout_order": [
+    {
+      "rank": 1,
+      "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_002_episode_04.npz",
+      "seed": 2,
+      "episode_index": 4,
+      "pre_attach_drawer_motion": 0.0009242110536433756,
+      "attach_persistence": 28,
+      "post_attach_drawer_delta": 1.0,
+      "json_pass": true,
+      "npz_verified": false
+    },
+    {
+      "rank": 2,
+      "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_008_episode_03.npz",
+      "seed": 8,
+      "episode_index": 3,
+      "pre_attach_drawer_motion": 0.0,
+      "attach_persistence": 48,
+      "post_attach_drawer_delta": 0.9971421903464943,
+      "json_pass": true,
+      "npz_verified": false
+    },
+    {
+      "rank": 3,
+      "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_002_episode_02.npz",
+      "seed": 2,
+      "episode_index": 2,
+      "pre_attach_drawer_motion": 0.0056523531675338745,
+      "attach_persistence": 39,
+      "post_attach_drawer_delta": 0.9470440745353699,
+      "json_pass": true,
+      "npz_verified": false
+    },
+    {
+      "rank": 4,
+      "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_002_episode_01.npz",
+      "seed": 2,
+      "episode_index": 1,
+      "pre_attach_drawer_motion": 0.019196324050426483,
+      "attach_persistence": 23,
+      "post_attach_drawer_delta": 1.0,
+      "json_pass": true,
+      "npz_verified": false
+    },
+    {
+      "rank": 5,
+      "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_008_episode_01.npz",
+      "seed": 8,
+      "episode_index": 1,
+      "pre_attach_drawer_motion": 0.00011700989125529304,
+      "attach_persistence": 19,
+      "post_attach_drawer_delta": 0.9190000295639038,
+      "json_pass": true,
+      "npz_verified": false
+    },
+    {
+      "rank": 6,
+      "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_008_episode_02.npz",
+      "seed": 8,
+      "episode_index": 2,
+      "pre_attach_drawer_motion": 0.0032705534249544144,
+      "attach_persistence": 19,
+      "post_attach_drawer_delta": 0.9820000529289246,
+      "json_pass": true,
+      "npz_verified": false
+    },
+    {
+      "rank": 7,
+      "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_007_episode_00.npz",
+      "seed": 7,
+      "episode_index": 0,
+      "pre_attach_drawer_motion": 0.11770740151405334,
+      "attach_persistence": 20,
+      "post_attach_drawer_delta": 1.0,
+      "json_pass": true,
+      "npz_verified": false
+    },
+    {
+      "rank": 8,
+      "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_010_episode_03.npz",
+      "seed": 10,
+      "episode_index": 3,
+      "pre_attach_drawer_motion": 0.0,
+      "attach_persistence": 20,
+      "post_attach_drawer_delta": 1.0,
+      "json_pass": true,
+      "npz_verified": false
+    },
+    {
+      "rank": 9,
+      "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_008_episode_00.npz",
+      "seed": 8,
+      "episode_index": 0,
+      "pre_attach_drawer_motion": 0.0,
+      "attach_persistence": 10,
+      "post_attach_drawer_delta": 1.0,
+      "json_pass": true,
+      "npz_verified": false,
+      "note": "persist=10 is exact boundary; borderline candidate"
+    }
+  ],
+  "rejected_from_strong_rollouts": [
+    {"rollout_path": "seed_002_episode_00", "seed": 2, "reject_reasons": ["pre_attach_motion_too_high"]},
+    {"rollout_path": "seed_002_episode_03", "seed": 2, "reject_reasons": ["post_attach_drawer_delta_too_low", "pre_attach_motion_too_high"]},
+    {"rollout_path": "seed_007_episode_01", "seed": 7, "reject_reasons": ["pre_attach_motion_too_high"]},
+    {"rollout_path": "seed_007_episode_02", "seed": 7, "reject_reasons": ["pre_attach_motion_too_high"]},
+    {"rollout_path": "seed_007_episode_03", "seed": 7, "reject_reasons": ["pre_attach_motion_too_high", "post_attach_drawer_delta_too_low"]},
+    {"rollout_path": "seed_007_episode_04", "seed": 7, "reject_reasons": ["pre_attach_motion_too_high", "post_attach_drawer_delta_too_low"]},
+    {"rollout_path": "seed_008_episode_04", "seed": 8, "reject_reasons": ["pre_attach_motion_too_high"]},
+    {"rollout_path": "seed_009_episode_00", "seed": 9, "reject_reasons": ["pre_attach_motion_too_high", "post_attach_drawer_delta_too_low"]},
+    {"rollout_path": "seed_009_episode_01", "seed": 9, "reject_reasons": ["pre_attach_motion_too_high"]},
+    {"rollout_path": "seed_009_episode_02", "seed": 9, "reject_reasons": ["attach_persistence_too_low", "pre_attach_motion_too_high"]},
+    {"rollout_path": "seed_009_episode_03", "seed": 9, "reject_reasons": ["pre_attach_motion_too_high", "post_attach_drawer_delta_too_low"]},
+    {"rollout_path": "seed_009_episode_04", "seed": 9, "reject_reasons": ["pre_attach_motion_too_high", "post_attach_drawer_delta_too_low"]},
+    {"rollout_path": "seed_010_episode_00", "seed": 10, "reject_reasons": ["pre_attach_motion_too_high"]},
+    {"rollout_path": "seed_010_episode_01", "seed": 10, "reject_reasons": ["post_attach_drawer_delta_too_low"]},
+    {"rollout_path": "seed_010_episode_02", "seed": 10, "reject_reasons": ["pre_attach_motion_too_high", "attach_persistence_too_low"]},
+    {"rollout_path": "seed_010_episode_04", "seed": 10, "reject_reasons": ["post_attach_drawer_delta_too_low"]}
+  ],
+  "next_action": "Run run_strong_rollout_audit.py against source_dir to compute NPZ-based grasp_steps and pull_steps, then confirm strong_coherent_seeds=[2,8] and proceed to D1 with seed_002_ep04 as rank-1 candidate."
+}

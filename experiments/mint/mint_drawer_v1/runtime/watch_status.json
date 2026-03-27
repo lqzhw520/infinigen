@@ -1,6 +1,26 @@
 {
-  "supervisor_pid": 3133835,
-  "launcher_pid": 3133836,
-  "restart_count": 0,
-  "timestamp": 1774185334.4079013
+  "updated_at": "2026-03-27T14:00:00+08:00",
+  "verdict": "rebuild_in_progress",
+  "phase_gate": "clean_c2_available_ready_for_d1",
+  "active_step": "d1_single_rollout_overfit",
+  "active_step_status": "pending",
+  "controller_id": null,
+  "worker_pid": null,
+  "gpu_status": "free (0 MiB used / 81154 MiB total)",
+  "screen_sessions": "none",
+  "note": "Resolution plan v2 rebuild. stale strong_rollout_audit corrected: source_dir now points at clean c2_replay_valid_rollouts/ (not archived diagnostic_runs). d1_candidate_progress.json deleted. state.json reset. Strong coherent seeds provisionally: [2, 8]. Awaiting D1 re-run against clean data.",
+  "strong_rollout_status": {
+    "source_dir": "artifacts/c2_replay_valid_rollouts/",
+    "json_passing_count": 8,
+    "strong_coherent_seeds_provisional": [2, 8],
+    "npz_verification_needed": true,
+    "rank1_candidate": "seed_002_episode_04 (pre=0.0009, persist=28, post=1.0)"
+  },
+  "next_action": "Run run_strong_rollout_audit.py against clean c2_replay_valid_rollouts/ to confirm grasp/pull criteria, then run D1 with seed_002_ep04 as rank-1 mainline candidate.",
+  "blockers": [],
+  "stale_files_cleared": [
+    "artifacts/d1_candidate_progress.json (deleted — pointed at archived diagnostic_runs path)",
+    "artifacts/strong_rollout_audit.json (rebuilt — corrected source_dir)",
+    "runtime/controller_lease.json (released — stale manual_lineage_bridge lease)"
+  ]
 }

@@ -1,23 +1,153 @@
 {
   "gate": "g1_asset_load",
   "passed": true,
-  "urdf_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/urdf/drawerbox/42",
-  "nbody": 2,
-  "njnt": 1,
-  "ngeom": 9,
-  "joint_names": [
-    "drawer_slide_0"
+  "required_seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
   ],
-  "joint_range": [
-    0.0,
-    0.25396514
+  "drawer_manifest": {
+    "available_seeds": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      42
+    ],
+    "root": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/urdf/drawerbox"
+  },
+  "generation": {
+    "generated": false,
+    "required_seeds": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ]
+  },
+  "load_checks": [
+    {
+      "seed": 1,
+      "image_shape": [
+        224,
+        224,
+        3
+      ],
+      "image2_shape": [
+        224,
+        224,
+        3
+      ],
+      "state_shape": [
+        8
+      ],
+      "eef_pos": [
+        -0.061459943652153015,
+        -0.22808837890625,
+        0.21429921686649323
+      ],
+      "drawer_fraction": 0.0
+    },
+    {
+      "seed": 10,
+      "image_shape": [
+        224,
+        224,
+        3
+      ],
+      "image2_shape": [
+        224,
+        224,
+        3
+      ],
+      "state_shape": [
+        8
+      ],
+      "eef_pos": [
+        -0.061459943652153015,
+        -0.22808837890625,
+        0.21429921686649323
+      ],
+      "drawer_fraction": 0.0
+    },
+    {
+      "seed": 11,
+      "image_shape": [
+        224,
+        224,
+        3
+      ],
+      "image2_shape": [
+        224,
+        224,
+        3
+      ],
+      "state_shape": [
+        8
+      ],
+      "eef_pos": [
+        -0.061459943652153015,
+        -0.22808837890625,
+        0.21429921686649323
+      ],
+      "drawer_fraction": 0.0
+    },
+    {
+      "seed": 15,
+      "image_shape": [
+        224,
+        224,
+        3
+      ],
+      "image2_shape": [
+        224,
+        224,
+        3
+      ],
+      "state_shape": [
+        8
+      ],
+      "eef_pos": [
+        -0.061459943652153015,
+        -0.22808837890625,
+        0.21429921686649323
+      ],
+      "drawer_fraction": 0.0
+    }
   ],
-  "joint_type": 2,
-  "test_positions": [
-    0.0,
-    0.12698257,
-    0.25396514
-  ],
-  "joint_moves": true,
-  "timestamp": 1774185335.32485
+  "timestamp": 1774268149.9615102
 }

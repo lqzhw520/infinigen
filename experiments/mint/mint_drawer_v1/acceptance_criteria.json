@@ -1,29 +1,50 @@
 {
-  "g1_asset_load": {
-    "pass": "robosuite env loads drawerbox, joint moves"
+  "u1_asset_geometry_audit": {
+    "pass": "sampled train and held-out seeds show sane drawer/cabinet geometry ranges, no systemic non-physical overlap, and any outliers are explicitly listed"
   },
-  "g2_obs_contract": {
-    "pass": "obs keys/shapes/dtypes match MINT spec"
+  "u2_joint_semantics_audit": {
+    "pass": "sampled seeds show consistent drawer joint axis, limits, and open-direction semantics with no systemic URDF articulation defect"
   },
-  "g3_grasp_plan": {
-    "pass": ">=1 grasp with score>0.5 on drawer handle"
+  "u3_handle_region_audit": {
+    "pass": "handle-region audit quantifies exported handle semantics, heuristic handle-center quality, and concludes whether handle metadata is clean, suspect, or blocked"
   },
-  "g4_trajectory_replay": {
-    "pass": "scripted trajectory achieves task success in sim"
+  "u4_export_consistency_audit": {
+    "pass": "exported mesh, articulation frames, metadata, and simulator-facing semantics are mutually consistent on sampled seeds"
   },
-  "g5_delta_reconstruction": {
-    "pass": "reconstruction error < 1mm pos, < 1 deg rot"
+  "u5_seed_outlier_audit": {
+    "pass": "seed-level audit distinguishes systemic upstream defects from a few bad seeds and explicitly lists any outlier seeds"
   },
-  "g6_lerobot_pack": {
-    "pass": "LeRobotDataset loads without error"
+  "a1_asset_scene_audit": {
+    "pass": "robot + drawer scene loads for train and held-out seeds, and URDF/joint audits pass"
   },
-  "g7_mint_batch_load": {
-    "pass": "dataloader batch correct shapes, no NaN"
+  "a2_frame_transform_audit": {
+    "pass": "scene emits dual RGB, depth, task, and MINT-compatible robot state(8,), and scene-frame audit passes"
   },
-  "g8_mint_train": {
-    "pass": "loss decreases over 1000 steps"
+  "b1_oracle_scripted_baseline": {
+    "pass": "oracle scripted robot open is stable on train seeds and proves the task is feasible in sim"
   },
-  "g9_sim_eval": {
-    "pass": "finetuned > pretrained MINT on held-out success rate"
+  "b2_anygrasp_scripted_baseline": {
+    "pass": "AnyGrasp scripted robot open has non-zero reproducible success on train seeds"
+  },
+  "c1_teacher_native_rollout_rebuild": {
+    "pass": "at least one native teacher branch yields natural attach-successful oracle rollouts on multiple train seeds"
+  },
+  "c2_action_contract_repair": {
+    "pass": "either a strict replay-faithful AnyGrasp-conditioned branch succeeds on >=3 train seeds without force_attach, or a teacher-success fallback branch is explicitly selected and recorded as the learnability source contract"
+  },
+  "c3_single_rollout_replay_gate": {
+    "pass": "at least one strict-valid AnyGrasp-conditioned rollout passes contract preflight and is promoted as the D1 candidate source"
+  },
+  "d1_single_rollout_overfit": {
+    "pass": "under strict success and a passed env contract audit, at least one mainline D1 candidate from a D2-feasible seed produces a promoted candidate with positive strict attached-open signal over pretrained on the source seed"
+  },
+  "d2_single_seed_overfit": {
+    "pass": "under strict success and multi-episode evaluation, the coherent subset for the promoted mainline D1 seed beats pretrained on the same source seed; if source_rollout_count < 2, D2 must fail-fast without training"
+  },
+  "d3_train_seed_probe": {
+    "pass": "under strict success and multi-episode evaluation, covered strict-valid train seeds show a clear positive trend before held-out evaluation, with at least 4 train seeds, 8 strict-valid rollouts, and 300 training frames"
+  },
+  "e1_heldout_eval": {
+    "pass": "only after D3 hard pass, fine-tuned MINT beats pretrained MINT on held-out seeds 11-15 under the same evaluator settings and baselines, using 3 episodes per seed"
   }
 }

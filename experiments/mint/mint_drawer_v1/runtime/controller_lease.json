@@ -1,0 +1,8 @@
+{
+  "controller_id": null,
+  "run_id": null,
+  "owner": null,
+  "status": "released",
+  "note": "Stale manual_lineage_bridge:seed10:20260326T223500 lease released by resolution_plan_v2 rebuild on 2026-03-27T14:00:00+08:00. No active controller. GPU free.",
+  "released_at": "2026-03-27T14:00:00+08:00"
+}

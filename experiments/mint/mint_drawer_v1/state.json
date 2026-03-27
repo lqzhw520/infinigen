@@ -1,73 +1,492 @@
 {
-  "phase": "mint_sim_transfer_pipeline",
-  "phase_gate": "await_g9_eval",
+  "phase": "mint_robot_trajectory_claim_push",
   "queue": [
     {
-      "id": "g1_asset_load",
+      "id": "u1_asset_geometry_audit",
       "status": "completed",
-      "result": "pass"
+      "attempts": 0,
+      "updated_at": "2026-03-26T12:40:00+08:00"
     },
     {
-      "id": "g2_obs_contract",
+      "id": "u2_joint_semantics_audit",
       "status": "completed",
-      "result": "pass"
+      "attempts": 0,
+      "updated_at": "2026-03-26T12:40:00+08:00"
     },
     {
-      "id": "g3_grasp_plan",
-      "status": "failed",
-      "result": "fail"
+      "id": "u3_handle_region_audit",
+      "status": "completed",
+      "attempts": 0,
+      "updated_at": "2026-03-26T12:40:00+08:00"
     },
     {
-      "id": "g4_trajectory_replay",
-      "status": "pending"
+      "id": "u4_export_consistency_audit",
+      "status": "completed",
+      "attempts": 0,
+      "updated_at": "2026-03-26T12:40:00+08:00"
     },
     {
-      "id": "g5_delta_reconstruction",
-      "status": "pending"
+      "id": "u5_seed_outlier_audit",
+      "status": "completed",
+      "attempts": 0,
+      "updated_at": "2026-03-26T12:40:00+08:00"
     },
     {
-      "id": "g6_lerobot_pack",
-      "status": "pending"
+      "id": "a1_asset_scene_audit",
+      "status": "completed",
+      "attempts": 0,
+      "updated_at": "2026-03-26T12:40:00+08:00"
     },
     {
-      "id": "g7_mint_batch_load",
-      "status": "pending"
+      "id": "a2_frame_transform_audit",
+      "status": "completed",
+      "attempts": 0,
+      "updated_at": "2026-03-26T12:40:00+08:00"
     },
     {
-      "id": "g8_mint_train",
-      "status": "pending"
+      "id": "b1_oracle_scripted_baseline",
+      "status": "completed",
+      "attempts": 0,
+      "updated_at": "2026-03-26T12:40:00+08:00"
     },
     {
-      "id": "g9_sim_eval",
-      "status": "pending"
+      "id": "b2_anygrasp_scripted_baseline",
+      "status": "completed",
+      "attempts": 0,
+      "updated_at": "2026-03-26T12:40:00+08:00"
+    },
+    {
+      "id": "c1_teacher_native_rollout_rebuild",
+      "status": "completed",
+      "attempts": 0,
+      "updated_at": "2026-03-27T00:44:31+08:00"
+    },
+    {
+      "id": "c2_action_contract_repair",
+      "status": "completed",
+      "attempts": 0,
+      "updated_at": "2026-03-27T14:00:00+08:00",
+      "note": "Clean c2_replay_valid_rollouts/ exists with 25 rollouts (seeds 2,7,8,9,10). BrokenPipeError was in the final write, data is present. Reclassified completed by resolution_plan_v2 audit."
+    },
+    {
+      "id": "c3_single_rollout_replay_gate",
+      "status": "completed",
+      "attempts": 0,
+      "updated_at": "2026-03-26T17:14:59+08:00"
+    },
+    {
+      "id": "d1_single_rollout_overfit",
+      "status": "pending",
+      "updated_at": "2026-03-27T14:00:00+08:00",
+      "attempts": 0,
+      "note": "Reset to pending. Previous d1 pointed at archived diagnostic_runs path. Must re-run against clean c2_replay_valid_rollouts/ with corrected strong_rollout_audit."
+    },
+    {
+      "id": "d2_single_seed_overfit",
+      "status": "pending",
+      "attempts": 0,
+      "updated_at": "2026-03-27T14:00:00+08:00",
+      "note": "Reset to pending. Previous failure was data_quality_floor_not_met against stale source. strong_coherent_seeds=[2,8] now available from clean C2."
+    },
+    {
+      "id": "d3_train_seed_probe",
+      "status": "pending",
+      "attempts": 0,
+      "updated_at": "2026-03-26T22:35:53+08:00"
+    },
+    {
+      "id": "e1_heldout_eval",
+      "status": "pending",
+      "attempts": 0,
+      "updated_at": "2026-03-26T22:35:53+08:00"
     },
     {
       "id": "write_claim_memo",
-      "status": "pending"
+      "status": "pending",
+      "attempts": 0,
+      "updated_at": "2026-03-26T22:35:53+08:00"
     }
   ],
   "active_job": null,
+  "active_runtime": {
+    "step_id": "c2_action_contract_repair",
+    "active_lane": "dual",
+    "active_branch": "contract_repair",
+    "active_fingerprint": null,
+    "controller_id": "manual_lineage_bridge:seed10:20260326T223500",
+    "run_id": "manual_lineage_bridge:20260326T223500",
+    "worker_pid": null,
+    "worker_kind": "manual_reconcile",
+    "attempt_no": 0,
+    "launched_at": "2026-03-27T02:38:40+08:00",
+    "heartbeat_at": "2026-03-27T02:38:40+08:00",
+    "latest_artifact": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_action_contract_repair.json",
+    "last_error": "BrokenPipeError: [Errno 32] Broken pipe"
+  },
   "history": [
     {
-      "gate": "g1_asset_load",
-      "result": "pass",
-      "timestamp": 1774185335.3534958,
-      "env": "mint"
+      "at": "2026-03-23T22:25:02+08:00",
+      "event": "robot_revision_v3_claim_push_started",
+      "details": "Activated the main-claim overnight ladder: audits -> contract repair -> train-trend -> held-out."
     },
     {
-      "gate": "g2_obs_contract",
-      "result": "pass",
-      "timestamp": 1774185336.047452,
-      "env": "mint"
+      "at": "2026-03-23T22:26:12+08:00",
+      "event": "b1_oracle_scripted_baseline",
+      "details": "validated artifact written"
     },
     {
-      "gate": "g3_grasp_plan",
-      "result": "fail",
-      "timestamp": 1774185338.7000306,
-      "env": "graspnet"
+      "at": "2026-03-23T22:26:26+08:00",
+      "event": "b2_anygrasp_scripted_baseline",
+      "details": "validated artifact written"
+    },
+    {
+      "at": "2026-03-24T01:12:00+08:00",
+      "event": "control_contract_repairs_applied",
+      "details": "Applied commanded-pose env.step semantics, native-teacher geometry fix, and C2/C3 learnability fallback before restarting from C1."
+    },
+    {
+      "at": "2026-03-24T01:16:24+08:00",
+      "event": "c1_teacher_native_rollout_rebuild",
+      "details": "validated artifact written"
+    },
+    {
+      "at": "2026-03-24T02:41:16+08:00",
+      "event": "auto_repair",
+      "details": "c2_action_contract_repair failed: action-contract repair did not yield replay-faithful AnyGrasp rollouts"
+    },
+    {
+      "at": "2026-03-24T04:06:07+08:00",
+      "event": "auto_repair",
+      "details": "c2_action_contract_repair failed: action-contract repair did not yield replay-faithful AnyGrasp rollouts"
+    },
+    {
+      "at": "2026-03-24T05:30:46+08:00",
+      "event": "auto_repair",
+      "details": "c2_action_contract_repair failed: action-contract repair did not yield replay-faithful AnyGrasp rollouts"
+    },
+    {
+      "at": "2026-03-24T11:36:07+08:00",
+      "event": "loop_restart",
+      "details": "Restarted claim-push loop under dual-lane control plane after C2/C3 resume fix."
+    },
+    {
+      "at": "2026-03-24T12:16:21+08:00",
+      "event": "d1_single_rollout_overfit",
+      "details": "validated artifact written"
+    },
+    {
+      "at": "2026-03-24T13:28:10+08:00",
+      "event": "auto_repair",
+      "details": "d2_single_seed_overfit failed after loop reattach: d2_single_seed_overfit failed to show a positive train trend"
+    },
+    {
+      "at": "2026-03-24T14:23:52+08:00",
+      "event": "auto_repair",
+      "details": "d2_single_seed_overfit failed: d2_single_seed_overfit failed to show a positive train trend"
+    },
+    {
+      "at": "2026-03-24T14:26:51+08:00",
+      "event": "auto_repair",
+      "details": "d2_single_seed_overfit failed after loop reattach: d2_single_seed_overfit failed to show a positive train trend"
+    },
+    {
+      "at": "2026-03-24T14:26:54+08:00",
+      "event": "auto_resume",
+      "details": "Cleared stale implementation_blocked verdict and resumed from d2_single_seed_overfit."
+    },
+    {
+      "at": "2026-03-24T15:02:53+08:00",
+      "event": "auto_repair",
+      "details": "d2_single_seed_overfit failed: d2_single_seed_overfit failed to show a positive train trend"
+    },
+    {
+      "at": "2026-03-24T15:50:35+08:00",
+      "event": "auto_repair",
+      "details": "d2_single_seed_overfit failed: d2_single_seed_overfit failed to show a positive train trend"
+    },
+    {
+      "at": "2026-03-24T16:19:10+08:00",
+      "event": "result_invalidated",
+      "details": "Invalidated prior D2 result because dataset/checkpoint caches lacked source fingerprinting and could reuse old seed-9 data."
+    },
+    {
+      "at": "2026-03-24T16:19:45+08:00",
+      "event": "c3_single_rollout_replay_gate",
+      "details": "validated artifact written"
+    },
+    {
+      "at": "2026-03-24T20:26:25+08:00",
+      "event": "auto_repair",
+      "details": "d1_single_rollout_overfit failed: d1_single_rollout_overfit failed to show a positive train trend"
+    },
+    {
+      "at": "2026-03-24T20:55:36+08:00",
+      "event": "auto_repair",
+      "details": "d1_single_rollout_overfit failed: d1_single_rollout_overfit failed to show a positive train trend"
+    },
+    {
+      "at": "2026-03-24T21:24:47+08:00",
+      "event": "auto_repair",
+      "details": "d1_single_rollout_overfit failed: d1_single_rollout_overfit failed to show a positive train trend"
+    },
+    {
+      "at": "2026-03-25T17:09:38+08:00",
+      "event": "result_invalidated",
+      "details": "Paused D1 because evaluate_mint_drawer_campaign.rollout_policy never restores attachment_local; strict eval is structurally invalid until evaluator is fixed."
+    },
+    {
+      "at": "2026-03-25T19:49:54+08:00",
+      "event": "step_reconciled",
+      "details": "d1_single_rollout_overfit => completed"
+    },
+    {
+      "at": "2026-03-25T21:34:35+08:00",
+      "event": "step_reconciled",
+      "details": "d2_single_seed_overfit => failed"
+    },
+    {
+      "at": "2026-03-25T21:44:48+08:00",
+      "event": "step_reconciled",
+      "details": "d3_train_seed_probe => failed"
+    },
+    {
+      "at": "2026-03-25T22:27:13+08:00",
+      "event": "step_reconciled",
+      "details": "d3_train_seed_probe => failed"
+    },
+    {
+      "at": "2026-03-26T12:39:16+08:00",
+      "event": "gate_drift_reset",
+      "details": "Archived previous C1-E1 artifacts as diagnostic_only_after_gate_drift and reset mainline to teacher_contract_rebuild."
+    },
+    {
+      "at": "2026-03-26T12:40:00+08:00",
+      "event": "gate_drift_reset",
+      "details": "Archived previous C1-E1 artifacts as diagnostic_only_after_gate_drift and reset mainline to teacher_contract_rebuild."
+    },
+    {
+      "at": "2026-03-26T14:57:09+08:00",
+      "event": "step_reconciled",
+      "details": "c1_teacher_native_rollout_rebuild => completed"
+    },
+    {
+      "at": "2026-03-26T16:16:06+08:00",
+      "event": "step_reconciled",
+      "details": "c2_action_contract_repair => completed"
+    },
+    {
+      "at": "2026-03-26T17:14:53+08:00",
+      "event": "step_reconciled",
+      "details": "c3_single_rollout_replay_gate => completed"
+    },
+    {
+      "at": "2026-03-26T17:14:59+08:00",
+      "event": "c3_single_rollout_replay_gate",
+      "details": "validated artifact written"
+    },
+    {
+      "at": "2026-03-26T18:26:45+08:00",
+      "event": "auto_repair",
+      "details": "d1_single_rollout_overfit failed: d1_single_rollout_overfit failed to show a positive train trend"
+    },
+    {
+      "at": "2026-03-26T18:26:45+08:00",
+      "event": "implementation_blocked",
+      "details": "D1 candidate search was exhausted under the current strict contract; stop rerunning D1 and require the upstream handle patch gate."
+    },
+    {
+      "at": "2026-03-26T18:36:02+08:00",
+      "event": "auto_repair",
+      "details": "d1_single_rollout_overfit failed after loop reattach: d1_single_rollout_overfit failed to show a positive train trend"
+    },
+    {
+      "at": "2026-03-26T18:36:02+08:00",
+      "event": "implementation_blocked",
+      "details": "D1 candidate search was exhausted under the current strict contract; stop rerunning D1 and require the upstream handle patch gate."
+    },
+    {
+      "at": "2026-03-26T19:17:59+08:00",
+      "event": "forensic_reconcile",
+      "details": "Reset d1_single_rollout_overfit to pending after concurrent-control contamination detected for runs after 2026-03-26T18:26:00+08:00."
+    },
+    {
+      "at": "2026-03-26T19:20:27+08:00",
+      "event": "forensic_reconcile",
+      "details": "Reset d1_single_rollout_overfit to pending after concurrent-control contamination detected for runs after 2026-03-26T19:19:02+08:00."
+    },
+    {
+      "at": "2026-03-26T19:52:24+08:00",
+      "event": "step_reconciled",
+      "details": "d1_single_rollout_overfit => failed"
+    },
+    {
+      "at": "2026-03-26T19:52:27+08:00",
+      "event": "auto_repair",
+      "details": "d1_single_rollout_overfit failed: d1_single_rollout_overfit failed to show a positive train trend"
+    },
+    {
+      "at": "2026-03-26T19:52:27+08:00",
+      "event": "implementation_blocked",
+      "details": "D1 mainline exhausted under clean control; stop rerunning D1 blindly and require either the u3 regime-B lane or the upstream handle patch gate."
+    },
+    {
+      "at": "2026-03-26T22:36:11+08:00",
+      "event": "step_reconciled",
+      "details": "d2_single_seed_overfit => failed"
+    },
+    {
+      "at": "2026-03-26T23:47:31+08:00",
+      "event": "d2_stop_loss",
+      "details": "Stopped D2 after confirming strong_rollout_count=1 and strong_coherent_seeds=[] under the pinned lineage."
+    },
+    {
+      "at": "2026-03-26T23:47:31+08:00",
+      "event": "step_reconciled",
+      "details": "d2_single_seed_overfit => failed"
+    },
+    {
+      "at": "2026-03-27T00:44:31+08:00",
+      "event": "step_reconciled",
+      "details": "c1_teacher_native_rollout_rebuild => completed"
+    },
+    {
+      "at": "2026-03-27T02:38:40+08:00",
+      "event": "step_reconciled",
+      "details": "c2_action_contract_repair => failed"
     }
   ],
   "last_review": null,
-  "retries": {},
-  "verdict": "implementation_blocked"
+  "retries": {
+    "d1_single_rollout_overfit": 1
+  },
+  "verdict": "rebuild_in_progress",
+  "claim_level": null,
+  "revision": {
+    "active": "robot_revision_v3_claim_push",
+    "archived": [
+      "proxy_revision",
+      "robot_revision_v1_failed"
+    ],
+    "proxy_revision_archived": true,
+    "robot_revision_v1_failed_archived": true,
+    "robot_trajectory_revision_started": true
+  },
+  "coverage_expansion_attempts": 0,
+  "updated_at": "2026-03-27T14:00:00+08:00",
+  "last_error": null,
+  "last_repair_action": "resolution_plan_v2_audit_corrected_source_dir",
+  "strict_replay_lane": {
+    "status": "repairing",
+    "best_branch": "branch4_densified_attach_window",
+    "best_metrics": {
+      "selected_branch": "branch4_densified_attach_window",
+      "strict_replay_passed": false,
+      "successful_seed_count": 0,
+      "successful_replays": 0,
+      "successful_seeds": []
+    },
+    "last_update": "2026-03-26T19:52:27+08:00"
+  },
+  "learnability_lane": {
+    "status": "ready_for_overfit",
+    "source_contract_mode": "teacher_success_fallback",
+    "source_branch": "branch4_densified_attach_window",
+    "current_step": "d1_single_rollout_overfit",
+    "last_positive_step": null,
+    "last_update": "2026-03-27T14:00:00+08:00",
+    "diagnostic_winner_seed": 9,
+    "diagnostic_winner_rollout": "seed_009_episode_02",
+    "strict_teacher_rollout_count": 15,
+    "strict_teacher_seed_count": 5,
+    "d1_candidate_order": [
+      {
+        "rank": 1,
+        "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_002_episode_04.npz",
+        "seed": 2,
+        "episode_index": 4,
+        "pre_attach_drawer_motion": 0.0009242110536433756,
+        "attach_persistence": 28,
+        "post_attach_drawer_delta": 1.0,
+        "json_pass": true,
+        "npz_verified": false
+      },
+      {
+        "rank": 2,
+        "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_008_episode_03.npz",
+        "seed": 8,
+        "episode_index": 3,
+        "pre_attach_drawer_motion": 0.0,
+        "attach_persistence": 48,
+        "post_attach_drawer_delta": 0.9971421903464943,
+        "json_pass": true,
+        "npz_verified": false
+      },
+      {
+        "rank": 3,
+        "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_002_episode_02.npz",
+        "seed": 2,
+        "episode_index": 2,
+        "pre_attach_drawer_motion": 0.0056523531675338745,
+        "attach_persistence": 39,
+        "post_attach_drawer_delta": 0.9470440745353699,
+        "json_pass": true,
+        "npz_verified": false
+      }
+    ],
+    "promoted_candidate": null,
+    "env_contract_passed": true,
+    "env_contract_failed_seeds": []
+  },
+  "upstream_audit_lane": {
+    "status": "suspect",
+    "root_cause": "Handle semantics are weakly exported or heuristically inferred, so upstream asset/export metadata remains a real suspect.",
+    "blocking_step": "u3_handle_region_audit",
+    "affected_seeds": [],
+    "fix_required": true,
+    "last_update": "2026-03-26T19:52:27+08:00",
+    "patch_allowed": true,
+    "patch_gate_reason": "d1_top3_failed_under_strict_success"
+  },
+  "last_invalidated_result": {
+    "step_id": "d1_single_rollout_overfit",
+    "reason": "contaminated_by_concurrent_control",
+    "details": {
+      "since": "2026-03-26T19:19:02+08:00",
+      "note": "Concurrent supervisor/D1/train processes detected; do not treat post-cutoff D1 artifacts as clean evidence."
+    },
+    "recorded_at": "2026-03-26T19:20:27+08:00"
+  },
+  "invalidated_results": [
+    "d2_invalid_for_claim_due_to_single_rollout_seed",
+    "d3_invalid_for_claim_due_to_soft_gate",
+    "e1_diagnostic_only_after_gate_drift",
+    {
+      "step_id": "d1_single_rollout_overfit",
+      "reason": "contaminated_by_concurrent_control",
+      "details": {
+        "since": "2026-03-26T18:26:00+08:00",
+        "note": "Concurrent supervisor/D1/train processes detected; do not treat post-cutoff D1 artifacts as clean evidence."
+      },
+      "recorded_at": "2026-03-26T19:17:59+08:00"
+    },
+    {
+      "step_id": "d1_single_rollout_overfit",
+      "reason": "contaminated_by_concurrent_control",
+      "details": {
+        "since": "2026-03-26T19:19:02+08:00",
+        "note": "Concurrent supervisor/D1/train processes detected; do not treat post-cutoff D1 artifacts as clean evidence."
+      },
+      "recorded_at": "2026-03-26T19:20:27+08:00"
+    }
+  ],
+  "phase_gate": "clean_c2_available_ready_for_d1",
+  "controller": {
+    "controller_id": null,
+    "run_id": null,
+    "owner": null,
+    "lease_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/runtime/controller_lease.json",
+    "status": "released",
+    "note": "Stale manual_lineage_bridge lease released by resolution_plan_v2 rebuild.",
+    "released_at": "2026-03-27T14:00:00+08:00"
+  }
 }

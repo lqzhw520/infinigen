@@ -1,10 +1,14 @@
 {
   "gate": "g5_delta_reconstruction",
-  "passed": true,
-  "max_error_m": 0.0,
-  "max_error_mm": 0.0,
-  "n_steps": 100,
-  "pos_scale": 0.05,
-  "clipping_count": 0,
-  "timestamp": 1774185324.2253194
+  "passed": false,
+  "record_count": 2,
+  "successful_replays": 0,
+  "successful_seed_count": 0,
+  "successful_seeds": [],
+  "min_successful_replays": 8,
+  "min_successful_seeds": 4,
+  "natural_source_dir": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g4_rollouts",
+  "natural_replay_dir": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g5_delta_rollouts",
+  "timestamp": "2026-03-23T21:48:43+08:00",
+  "blocker_reason": "Native env.step replay diverges sharply from scripted teacher rollouts before attach; replay never reaches successful grasp+pull behavior on sampled oracle rollouts."
 }

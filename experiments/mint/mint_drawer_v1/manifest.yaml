@@ -1,36 +1,93 @@
-campaign: mint_drawer_v1
-phase: mint_sim_transfer_pipeline
-phase_gate: await_g9_eval
-main_claim: >
-  Infinigen-generated articulated manipulation data improves MINT success
-  on held-out drawer variants in simulation relative to pretrained MINT.
-queue:
-  - g1_asset_load
-  - g2_obs_contract
-  - g3_grasp_plan
-  - g4_trajectory_replay
-  - g5_delta_reconstruction
-  - g6_lerobot_pack
-  - g7_mint_batch_load
-  - g8_mint_train
-  - g9_sim_eval
+campaign:
+  id: mint_drawer_v1
+  phase: mint_robot_trajectory_claim_push
+  phase_gate: await_train_reproducibility
+  scope: simulation-only
+  main_claim: Infinigen-generated AnyGrasp-conditioned robot-arm drawer trajectories
+    improve MINT success on held-out drawer variants in simulation relative to pretrained
+    MINT.
+  queue:
+  - u1_asset_geometry_audit
+  - u2_joint_semantics_audit
+  - u3_handle_region_audit
+  - u4_export_consistency_audit
+  - u5_seed_outlier_audit
+  - a1_asset_scene_audit
+  - a2_frame_transform_audit
+  - b1_oracle_scripted_baseline
+  - b2_anygrasp_scripted_baseline
+  - c1_teacher_native_rollout_rebuild
+  - c2_action_contract_repair
+  - c3_single_rollout_replay_gate
+  - d1_single_rollout_overfit
+  - d2_single_seed_overfit
+  - d3_train_seed_probe
+  - e1_heldout_eval
   - write_claim_memo
-env_routing:
-  g1_asset_load: mint
-  g2_obs_contract: mint
-  g3_grasp_plan: graspnet
-  g4_trajectory_replay: mint
-  g5_delta_reconstruction: mint
-  g6_lerobot_pack: mint
-  g7_mint_batch_load: mint
-  g8_mint_train: mint
-  g9_sim_eval: mint
-object_split:
-  train: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-  held_out_sim: [11, 12, 13, 14, 15]
-task: open the drawer
-baselines:
+  env_routing:
+    u1_asset_geometry_audit: mint
+    u2_joint_semantics_audit: mint
+    u3_handle_region_audit: mint
+    u4_export_consistency_audit: mint
+    u5_seed_outlier_audit: mint
+    a1_asset_scene_audit: mint
+    a2_frame_transform_audit: mint
+    b1_oracle_scripted_baseline: mint
+    b2_anygrasp_scripted_baseline: mint
+    c1_teacher_native_rollout_rebuild: mint
+    c2_action_contract_repair: mint
+    c3_single_rollout_replay_gate: mint
+    d1_single_rollout_overfit: mint
+    d2_single_seed_overfit: mint
+    d3_train_seed_probe: mint
+    e1_heldout_eval: mint
+    write_claim_memo: mint
+  object_split:
+    train:
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    - 8
+    - 9
+    - 10
+    held_out_sim:
+    - 11
+    - 12
+    - 13
+    - 14
+    - 15
+  baselines:
   - random
   - pretrained_mint
   - finetuned_mint
-primary_metric: held_out_sim_success_rate
+  primary_metric: held_out_sim_success_rate
+  review_contract:
+    queue_source_of_truth: manifest.queue
+    split_source_of_truth: manifest.object_split
+    baselines_source_of_truth: manifest.baselines
+    pass_definition:
+      queue_steps: acceptance_criteria.json
+      global_contracts:
+        strict_success: v3_attached_open_contract
+        env_contract_audit: passed
+        d2_mainline_seed_floor: 2
+        d3_mainline_dataset_floor: 4_seeds_8_rollouts_300_frames
+      reviewer_enhancements: step_review_guide.md
+  notes:
+    takeover_mode: anygrasp_robot_trajectory
+    tracking_scope: out_of_scope
+    proxy_baseline_archived: true
+    robot_revision_v1_failed_archived: true
+    root_cause_repair: true
+    claim_push_mode: true
+    root_cause_ladder:
+    - L1_oracle
+    - L2_anygrasp
+    - L3_train
+    - L4_heldout
+    diagnostic_vs_mainline_split: true
+    teacher_contract_rebuild_required: true

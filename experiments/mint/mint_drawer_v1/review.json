@@ -1,1 +1,28 @@
-{}
+{
+  "phase": "mint_robot_trajectory_claim_push",
+  "phase_gate": "u3_regime_b_gate",
+  "workflow_score": 7,
+  "evidence_score": 4,
+  "decision": "run_experiments",
+  "blocker_type": "implementation",
+  "verdict": "implementation_blocked",
+  "claim_assessment": "A single AnyGrasp-conditioned teacher-success rollout is now learnable: on train seed 10, extended_overfit improves success from 2/5 to 2/5.",
+  "strengths": [
+    "Proxy baseline has been archived before the robot-trajectory revision.",
+    "12/17 queue steps have validated artifacts.",
+    "Campaign history is being recorded incrementally.",
+    "Strict-valid teacher pool is explicit: 6 rollout(s) across 4 seed(s).",
+    "Environment contract audit passed: no-attach drawer exploit is below threshold on the sampled seeds."
+  ],
+  "weaknesses": [
+    "BrokenPipeError: [Errno 32] Broken pipe",
+    "Handle semantics are weakly exported or heuristically inferred, so upstream asset/export metadata remains a real suspect."
+  ],
+  "next_actions": [
+    "Keep the strict replay lane running in parallel so the teacher/native contract becomes scientifically cleaner even if the learnability lane advances first.",
+    "Keep the upstream audit lane explicit: only modify `infinigen/**` if the audited evidence points to a specific export or geometry defect.",
+    "Upstream remains suspect, but do not patch `infinigen/**` yet; wait for D1 candidate search to finish under strict success.",
+    "Repair the blocked gate and rerun the loop."
+  ],
+  "generated_at": "2026-03-27T02:38:40+08:00"
+}

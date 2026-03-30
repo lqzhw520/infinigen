@@ -10,7 +10,7 @@
   },
   "strongest_true_claim": "The strict-valid teacher pool now distinguishes diagnostic and mainline candidates; 3 D2-feasible rollout(s) remain eligible for the mainline D1->D2 path.",
   "proxy_baseline_archived": true,
-  "generated_at": "2026-03-27T16:47:23+08:00",
+  "generated_at": "2026-03-29T12:59:37+08:00",
   "last_error": "u3_regime_b_required",
   "strict_replay_lane": {
     "status": "repairing",
@@ -22,7 +22,7 @@
       "successful_replays": 0,
       "successful_seeds": []
     },
-    "last_update": "2026-03-27T16:47:23+08:00"
+    "last_update": "2026-03-29T12:59:37+08:00"
   },
   "learnability_lane": {
     "status": "ready_for_overfit",
@@ -30,7 +30,7 @@
     "source_branch": "branch4_densified_attach_window",
     "current_step": "d1_single_rollout_overfit",
     "last_positive_step": null,
-    "last_update": "2026-03-27T16:47:23+08:00",
+    "last_update": "2026-03-29T12:59:37+08:00",
     "diagnostic_winner_seed": 9,
     "diagnostic_winner_rollout": "seed_009_episode_02",
     "strict_teacher_rollout_count": 15,
@@ -93,7 +93,7 @@
     "blocking_step": "u3_handle_region_audit",
     "affected_seeds": [],
     "fix_required": false,
-    "last_update": "2026-03-27T16:47:23+08:00",
+    "last_update": "2026-03-29T12:59:37+08:00",
     "patch_allowed": false,
     "patch_gate_reason": "await_d1_candidate_search"
   },
@@ -219,8 +219,8 @@
     "gate": "d1_single_rollout_overfit",
     "passed": false,
     "failure_reason": "u3_regime_b_required",
-    "controller_id": "resolution_plan_v2:20260327T150000",
-    "run_id": "resolution_plan_v2:20260327T150000",
+    "controller_id": "20260328T012000",
+    "run_id": "20260328T012000",
     "strict_teacher_audit_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/strict_teacher_dataset_audit.json",
     "strict_teacher_source_dir": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts",
     "teacher_lineage_pin": {
@@ -234,7 +234,7 @@
       "created_at": "2026-03-27T15:00:00+08:00"
     },
     "active_teacher_source": {
-      "generated_at": "2026-03-27T16:20:49+08:00",
+      "generated_at": "2026-03-29T12:48:29+08:00",
       "source_dir": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts",
       "teacher_lineage_pin": {
         "label": "clean_rebuild_v2",
@@ -250,7 +250,7 @@
     },
     "strong_rollout_audit": {
       "gate": "strong_rollout_audit",
-      "generated_at": "2026-03-27T16:20:49+08:00",
+      "generated_at": "2026-03-29T12:48:30+08:00",
       "source_dir": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts",
       "teacher_lineage_pin": {
         "label": "clean_rebuild_v2",
@@ -5428,7 +5428,7 @@
         },
         "stage_a_attempt": {
           "variant": "multi_episode_overfit",
-          "steps": 600,
+          "steps": 3000,
           "builder_mode": "multi_episode_seed2",
           "rollout_count": 5,
           "dataset_root": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/dataset_d1_seed_002_episode_01_multi_episode_overfit",
@@ -5532,19 +5532,9 @@
             "repo_id": "infinigen_drawer_robot_v1_d1_seed_002_episode_01_multi_episode_overfit",
             "episode_count": 5,
             "frame_count": 499,
-            "seed_coverage": [
-              2
-            ],
-            "task_coverage": [
-              "open the drawer"
-            ],
-            "source_files": [
-              "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_002_episode_00.npz",
-              "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_002_episode_01.npz",
-              "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_002_episode_02.npz",
-              "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_002_episode_03.npz",
-              "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_002_episode_04.npz"
-            ],
+            "seed_coverage": [],
+            "task_coverage": [],
+            "source_files": [],
             "integrity": {
               "dataset_root": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/dataset_d1_seed_002_episode_01_multi_episode_overfit",
               "repo_id": "infinigen_drawer_robot_v1_d1_seed_002_episode_01_multi_episode_overfit",
@@ -5569,6 +5559,7 @@
               ],
               "passed": true
             },
+            "reused_existing_dataset": true,
             "fingerprint": {
               "builder_version": "d1_v5_attach_contract_hardened",
               "variant_id": "multi_episode_overfit",
@@ -5667,16 +5658,24 @@
           "training": {
             "passed": true,
             "returncode": 0,
-            "elapsed_sec": 730.9,
-            "steps_completed": 600,
-            "checkpoint_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs_d1_seed_002_episode_01_multi_episode_overfit/checkpoints/000600/pretrained_model",
+            "elapsed_sec": 0.0,
+            "steps_completed": 3000,
+            "checkpoint_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs_d1_seed_002_episode_01_multi_episode_overfit/checkpoints/003000/pretrained_model",
             "loss_samples": [
-              "INFO 2026-03-27 16:28:34 ot_train.py:423 step:200 smpl:2K ep:16 epch:3.21 loss:4.363 grdn:17.547 lr:2.2e-04 updt_s:1.040 data_s:0.009",
-              "INFO 2026-03-27 16:32:03 ot_train.py:423 step:400 smpl:3K ep:32 epch:6.41 loss:0.793 grdn:11.575 lr:1.4e-04 updt_s:1.035 data_s:0.007",
-              "INFO 2026-03-27 16:35:32 ot_train.py:423 step:600 smpl:5K ep:48 epch:9.62 loss:0.059 grdn:2.157 lr:4.4e-05 updt_s:1.037 data_s:0.007"
+              "INFO 2026-03-29 10:31:55 ot_train.py:423 step:1K smpl:10K ep:96 epch:19.24 loss:0.207 grdn:9.376 lr:4.3e-05 updt_s:0.842 data_s:0.009",
+              "INFO 2026-03-29 10:35:10 ot_train.py:423 step:1K smpl:11K ep:112 epch:22.44 loss:0.238 grdn:9.540 lr:4.0e-05 updt_s:0.843 data_s:0.008",
+              "INFO 2026-03-29 10:38:00 ot_train.py:423 step:2K smpl:13K ep:128 epch:25.65 loss:0.203 grdn:8.728 lr:3.7e-05 updt_s:0.842 data_s:0.008",
+              "INFO 2026-03-29 10:40:51 ot_train.py:423 step:2K smpl:14K ep:144 epch:28.86 loss:0.133 grdn:5.471 lr:3.5e-05 updt_s:0.843 data_s:0.008",
+              "INFO 2026-03-29 10:44:07 ot_train.py:423 step:2K smpl:16K ep:160 epch:32.06 loss:0.155 grdn:5.790 lr:3.2e-05 updt_s:0.842 data_s:0.008",
+              "INFO 2026-03-29 10:46:58 ot_train.py:423 step:2K smpl:18K ep:176 epch:35.27 loss:0.150 grdn:5.928 lr:3.0e-05 updt_s:0.843 data_s:0.008",
+              "INFO 2026-03-29 10:49:48 ot_train.py:423 step:2K smpl:19K ep:192 epch:38.48 loss:0.136 grdn:4.856 lr:2.8e-05 updt_s:0.841 data_s:0.009",
+              "INFO 2026-03-29 10:53:04 ot_train.py:423 step:3K smpl:21K ep:208 epch:41.68 loss:0.099 grdn:3.881 lr:2.7e-05 updt_s:0.843 data_s:0.008",
+              "INFO 2026-03-29 10:55:56 ot_train.py:423 step:3K smpl:22K ep:224 epch:44.89 loss:0.102 grdn:3.517 lr:2.6e-05 updt_s:0.845 data_s:0.008",
+              "INFO 2026-03-29 10:58:46 ot_train.py:423 step:3K smpl:24K ep:240 epch:48.10 loss:0.106 grdn:3.932 lr:2.5e-05 updt_s:0.844 data_s:0.008"
             ],
-            "stdout_tail": "                                               1.2]},\n                                                         'type': 'ColorJitter',\n                                                         'weight': 1.0},\n                                          'contrast': {'kwargs': {'contrast': [0.8,\n                                                                               1.2]},\n                                                       'type': 'ColorJitter',\n                                                       'weight': 1.0},\n                                          'hue': {'kwargs': {'hue': [-0.05,\n                                                                     0.05]},\n                                                  'type': 'ColorJitter',\n                                                  'weight': 1.0},\n                                          'saturation': {'kwargs': {'saturation': [0.5,\n                                                                                   1.5]},\n                                                         'type': 'ColorJitter',\n                                                         'weight': 1.0},\n                                          'sharpness': {'kwargs': {'sharpness': [0.5,\n                                                                                 1.5]},\n                                                        'type': 'SharpnessJitter',\n                                                        'weight': 1.0}}},\n             'repo_id': 'infinigen_drawer_robot_v1_d1_seed_002_episode_01_multi_episode_overfit',\n             'revision': None,\n             'root': '/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/dataset_d1_seed_002_episode_01_multi_episode_overfit',\n             'streaming': False,\n             'use_imagenet_stats': True,\n             'video_backend': 'torchcodec'},\n 'env': None,\n 'eval': {'batch_size': 50, 'n_episodes': 50, 'use_async_envs': False},\n 'eval_freq': 20000,\n 'job_name': 'mint_d1_seed_002_episode_01_multi_episode_overfit',\n 'log_freq': 200,\n 'num_workers': 4,\n 'optimizer': {'betas': [0.9, 0.95],\n               'eps': 1e-08,\n               'grad_clip_norm': 1.0,\n               'lr': 0.00025,\n               'type': 'adamw',\n               'weight_decay': 0.01},\n 'output_dir': '/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs_d1_seed_002_episode_01_multi_episode_overfit',\n 'peft': None,\n 'policy': {'action_expert_variant': 'gemma_300m',\n            'ch': 48,\n            'ch_mult': [2, 4, 8],\n            'chunk_size': 16,\n            'codebook_dim': 32,\n            'codebook_size': 512,\n            'compile_mode': 'max-autotune',\n            'compile_model': False,\n            'device': 'cuda',\n            'dtype': 'bfloat16',\n            'empty_cameras': 0,\n            'gradient_checkpointing': True,\n            'image_resolution': [224, 224],\n            'input_features': {},\n            'label_smooth': 0.0,\n            'license': None,\n            'max_action_dim': 7,\n            'max_state_dim': 32,\n            'n_action_steps': 1,\n            'n_obs_steps': 1,\n            'normalization_mapping': {'ACTION': <NormalizationMode.IDENTITY: 'IDENTITY'>,\n                                      'STATE': <NormalizationMode.QUANTILES: 'QUANTILES'>,\n                                      'VISUAL': <NormalizationMode.IDENTITY: 'IDENTITY'>},\n            'optimizer_betas': [0.9, 0.95],\n            'optimizer_eps': 1e-08,\n            'optimizer_grad_clip_norm': 1.0,\n            'optimizer_lr': 0.00025,\n            'optimizer_weight_decay': 0.01,\n            'output_features': {},\n            'paligemma_variant': 'gemma_2b',\n            'patch_nums': [1, 2, 4],\n            'patchwise': {'d_embed': 8,\n                          'enable': True,\n                          'grouped_depth': 2,\n                          'norm': 'layer'},\n            'pretrained_path': '/mnt/afs2/zhuhaowu/infinigen/external/MINT/checkpoints/MINT-libero',\n            'private': None,\n            'push_to_hub': False,\n            'quant_conv_ks': 3,\n            'quant_resi': 0.5,\n            'repo_id': 'infinigen_drawer_robot_v1_d1_seed_002_episode_01_multi_episode_overfit_mint_ft',\n            'scheduler_decay_lr': 2.5e-05,\n            'scheduler_decay_steps': 30000,\n            'scheduler_warmup_steps': 1000,\n            'share_quant_resi': 0,\n            'tags': None,\n            'tokenizer_max_length': 200,\n            'train_expert_only': False,\n            'type': 'mint',\n            'use_amp': False,\n            'use_peft': False,\n            'vqvae_name_or_path': '/mnt/afs2/zhuhaowu/infinigen/external/MINT/checkpoints/MINT-tokenizer-libero',\n            'znorm': True},\n 'rabc_epsilon': 1e-06,\n 'rabc_head_mode': 'sparse',\n 'rabc_kappa': 0.01,\n 'rabc_progress_path': None,\n 'rename_map': {},\n 'resume': False,\n 'save_checkpoint': True,\n 'save_freq': 600,\n 'scheduler': {'decay_lr': 2.5e-05,\n               'num_decay_steps': 30000,\n               'num_warmup_steps': 1000,\n               'peak_lr': 0.00025,\n               'type': 'cosine_decay_with_warmup'},\n 'seed': 1000,\n 'steps': 600,\n 'tolerance_s': 0.0001,\n 'use_policy_training_preset': True,\n 'use_rabc': False,\n 'wandb': {'disable_artifact': False,\n           'enable': False,\n           'entity': None,\n           'mode': None,\n           'notes': None,\n           'project': 'lerobot',\n           'run_id': None}}\nINFO 2026-03-27 16:23:55 ot_train.py:203 Logs will be saved locally.\nINFO 2026-03-27 16:23:55 ot_train.py:215 Creating dataset\nINFO 2026-03-27 16:23:55 ot_train.py:233 Creating policy\nLoading VQVAE weights from /mnt/afs2/zhuhaowu/infinigen/external/MINT/checkpoints/MINT-tokenizer-libero/ms_vqvae.pth\nLoaded VQVAE weights. Missing: 0, Unexpected: 0\nINFO 2026-03-27 16:24:45 ing_mint.py:596 Enabled gradient checkpointing for MINTPytorch model\nLoading model from: /mnt/afs2/zhuhaowu/infinigen/external/MINT/checkpoints/MINT-libero\n✓ Loaded state dict from model.safetensors\nWARNING 2026-03-27 16:24:47 ng_mint.py:1197 Vision embedding key might need handling: model.paligemma_with_expert.paligemma.model.vision_tower.vision_model.embeddings.patch_embedding.bias\nWARNING 2026-03-27 16:24:47 ng_mint.py:1197 Vision embedding key might need handling: model.paligemma_with_expert.paligemma.model.vision_tower.vision_model.embeddings.patch_embedding.weight\nMissing keys when loading state dict: 1 keys\n  - model.paligemma_with_expert.paligemma.model.language_model.embed_tokens.weight\nINFO 2026-03-27 16:25:04 ot_train.py:288 Creating optimizer and scheduler\nINFO 2026-03-27 16:25:04 hedulers.py:105 Auto-scaling LR scheduler: num_training_steps (600) < num_decay_steps (30000). Scaling warmup: 1000 → 20, decay: 30000 → 600 (scale factor: 0.020)\nINFO 2026-03-27 16:25:04 ot_train.py:323 Output dir: /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs_d1_seed_002_episode_01_multi_episode_overfit\nINFO 2026-03-27 16:25:04 ot_train.py:330 cfg.steps=600 (600)\nINFO 2026-03-27 16:25:04 ot_train.py:331 dataset.num_frames=499 (499)\nINFO 2026-03-27 16:25:04 ot_train.py:332 dataset.num_episodes=5\nINFO 2026-03-27 16:25:04 ot_train.py:335 Effective batch size: 8 x 1 = 8\nINFO 2026-03-27 16:25:04 ot_train.py:336 num_learnable_params=3498686704 (3B)\nINFO 2026-03-27 16:25:04 ot_train.py:337 num_total_params=3512186668 (4B)\nINFO 2026-03-27 16:25:04 ot_train.py:393 Start offline training on a fixed dataset, with effective batch size: 8\nINFO 2026-03-27 16:28:34 ot_train.py:423 step:200 smpl:2K ep:16 epch:3.21 loss:4.363 grdn:17.547 lr:2.2e-04 updt_s:1.040 data_s:0.009\nINFO 2026-03-27 16:32:03 ot_train.py:423 step:400 smpl:3K ep:32 epch:6.41 loss:0.793 grdn:11.575 lr:1.4e-04 updt_s:1.035 data_s:0.007\nINFO 2026-03-27 16:35:32 ot_train.py:423 step:600 smpl:5K ep:48 epch:9.62 loss:0.059 grdn:2.157 lr:4.4e-05 updt_s:1.037 data_s:0.007\nINFO 2026-03-27 16:35:32 ot_train.py:443 Checkpoint policy after step 600\nINFO 2026-03-27 16:35:58 ot_train.py:514 End of training\n",
+            "stdout_tail": "8,\n               'grad_clip_norm': 1.0,\n               'lr': 5e-05,\n               'type': 'adamw',\n               'weight_decay': 0.01},\n 'output_dir': '/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs_d1_seed_002_episode_01_multi_episode_overfit',\n 'peft': None,\n 'policy': {'action_expert_variant': 'gemma_300m',\n            'ch': 48,\n            'ch_mult': [2, 4, 8],\n            'chunk_size': 16,\n            'codebook_dim': 32,\n            'codebook_size': 512,\n            'compile_mode': 'max-autotune',\n            'compile_model': False,\n            'device': 'cuda',\n            'dtype': 'bfloat16',\n            'empty_cameras': 0,\n            'gradient_checkpointing': True,\n            'image_resolution': [224, 224],\n            'input_features': {},\n            'label_smooth': 0.0,\n            'license': None,\n            'max_action_dim': 7,\n            'max_state_dim': 32,\n            'n_action_steps': 1,\n            'n_obs_steps': 1,\n            'normalization_mapping': {'ACTION': <NormalizationMode.IDENTITY: 'IDENTITY'>,\n                                      'STATE': <NormalizationMode.QUANTILES: 'QUANTILES'>,\n                                      'VISUAL': <NormalizationMode.IDENTITY: 'IDENTITY'>},\n            'optimizer_betas': [0.9, 0.95],\n            'optimizer_eps': 1e-08,\n            'optimizer_grad_clip_norm': 1.0,\n            'optimizer_lr': 5e-05,\n            'optimizer_weight_decay': 0.01,\n            'output_features': {},\n            'paligemma_variant': 'gemma_2b',\n            'patch_nums': [1, 2, 4],\n            'patchwise': {'d_embed': 8,\n                          'enable': True,\n                          'grouped_depth': 2,\n                          'norm': 'layer'},\n            'pretrained_path': '/mnt/afs2/zhuhaowu/infinigen/external/MINT/checkpoints/MINT-libero',\n            'private': None,\n            'push_to_hub': False,\n            'quant_conv_ks': 3,\n            'quant_resi': 0.5,\n            'repo_id': 'infinigen_drawer_robot_v1_d1_seed_002_episode_01_multi_episode_overfit_mint_ft',\n            'scheduler_decay_lr': 2.5e-05,\n            'scheduler_decay_steps': 30000,\n            'scheduler_warmup_steps': 1000,\n            'share_quant_resi': 0,\n            'tags': None,\n            'tokenizer_max_length': 200,\n            'train_expert_only': False,\n            'type': 'mint',\n            'use_amp': False,\n            'use_peft': False,\n            'vqvae_name_or_path': '/mnt/afs2/zhuhaowu/infinigen/external/MINT/checkpoints/MINT-tokenizer-libero',\n            'znorm': True},\n 'rabc_epsilon': 1e-06,\n 'rabc_head_mode': 'sparse',\n 'rabc_kappa': 0.01,\n 'rabc_progress_path': None,\n 'rename_map': {},\n 'resume': False,\n 'save_checkpoint': True,\n 'save_freq': 600,\n 'scheduler': {'decay_lr': 2.5e-05,\n               'num_decay_steps': 30000,\n               'num_warmup_steps': 1000,\n               'peak_lr': 5e-05,\n               'type': 'cosine_decay_with_warmup'},\n 'seed': 1000,\n 'steps': 3000,\n 'tolerance_s': 0.0001,\n 'use_policy_training_preset': True,\n 'use_rabc': False,\n 'wandb': {'disable_artifact': False,\n           'enable': False,\n           'entity': None,\n           'mode': None,\n           'notes': None,\n           'project': 'lerobot',\n           'run_id': None}}\nINFO 2026-03-29 10:13:17 ot_train.py:203 Logs will be saved locally.\nINFO 2026-03-29 10:13:17 ot_train.py:215 Creating dataset\nINFO 2026-03-29 10:13:17 ot_train.py:233 Creating policy\nLoading VQVAE weights from /mnt/afs2/zhuhaowu/infinigen/external/MINT/checkpoints/MINT-tokenizer-libero/ms_vqvae.pth\nLoaded VQVAE weights. Missing: 0, Unexpected: 0\nINFO 2026-03-29 10:14:07 ing_mint.py:629 Enabled gradient checkpointing for MINTPytorch model (language + Gemma expert; vision tower excluded due to inplace op compatibility)\nLoading model from: /mnt/afs2/zhuhaowu/infinigen/external/MINT/checkpoints/MINT-libero\n✓ Loaded state dict from model.safetensors\nWARNING 2026-03-29 10:14:09 ng_mint.py:1402 Vision embedding key might need handling: model.paligemma_with_expert.paligemma.model.vision_tower.vision_model.embeddings.patch_embedding.bias\nWARNING 2026-03-29 10:14:09 ng_mint.py:1402 Vision embedding key might need handling: model.paligemma_with_expert.paligemma.model.vision_tower.vision_model.embeddings.patch_embedding.weight\nMissing keys when loading state dict: 5 keys\n  - model.paligemma_with_expert.paligemma.model.language_model.embed_tokens.weight\n  - model.direct_grip_head.0.weight\n  - model.direct_grip_head.0.bias\n  - model.direct_grip_head.2.weight\n  - model.direct_grip_head.2.bias\nINFO 2026-03-29 10:14:25 ot_train.py:288 Creating optimizer and scheduler\nINFO 2026-03-29 10:14:25 hedulers.py:105 Auto-scaling LR scheduler: num_training_steps (3000) < num_decay_steps (30000). Scaling warmup: 1000 → 100, decay: 30000 → 3000 (scale factor: 0.100)\nINFO 2026-03-29 10:14:25 ot_train.py:323 Output dir: /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs_d1_seed_002_episode_01_multi_episode_overfit\nINFO 2026-03-29 10:14:25 ot_train.py:330 cfg.steps=3000 (3K)\nINFO 2026-03-29 10:14:25 ot_train.py:331 dataset.num_frames=499 (499)\nINFO 2026-03-29 10:14:25 ot_train.py:332 dataset.num_episodes=5\nINFO 2026-03-29 10:14:25 ot_train.py:335 Effective batch size: 8 x 1 = 8\nINFO 2026-03-29 10:14:25 ot_train.py:336 num_learnable_params=3512711981 (4B)\nINFO 2026-03-29 10:14:25 ot_train.py:337 num_total_params=3512711981 (4B)\nINFO 2026-03-29 10:14:25 ot_train.py:393 Start offline training on a fixed dataset, with effective batch size: 8\nINFO 2026-03-29 10:17:16 ot_train.py:423 step:200 smpl:2K ep:16 epch:3.21 loss:9.683 grdn:112.921 lr:3.8e-05 updt_s:0.848 data_s:0.009\nINFO 2026-03-29 10:20:07 ot_train.py:423 step:400 smpl:3K ep:32 epch:6.41 loss:1.206 grdn:32.006 lr:4.9e-05 updt_s:0.844 data_s:0.007\nINFO 2026-03-29 10:22:58 ot_train.py:423 step:600 smpl:5K ep:48 epch:9.62 loss:0.341 grdn:18.953 lr:4.8e-05 updt_s:0.844 data_s:0.008\nINFO 2026-03-29 10:22:58 ot_train.py:443 Checkpoint policy after step 600\nINFO 2026-03-29 10:26:13 ot_train.py:423 step:800 smpl:6K ep:64 epch:12.83 loss:0.266 grdn:13.940 lr:4.7e-05 updt_s:0.842 data_s:0.008\nINFO 2026-03-29 10:29:04 ot_train.py:423 step:1K smpl:8K ep:80 epch:16.03 loss:0.246 grdn:11.839 lr:4.5e-05 updt_s:0.844 data_s:0.008\nINFO 2026-03-29 10:31:55 ot_train.py:423 step:1K smpl:10K ep:96 epch:19.24 loss:0.207 grdn:9.376 lr:4.3e-05 updt_s:0.842 data_s:0.009\nINFO 2026-03-29 10:31:55 ot_train.py:443 Checkpoint policy after step 1200\nINFO 2026-03-29 10:35:10 ot_train.py:423 step:1K smpl:11K ep:112 epch:22.44 loss:0.238 grdn:9.540 lr:4.0e-05 updt_s:0.843 data_s:0.008\nINFO 2026-03-29 10:38:00 ot_train.py:423 step:2K smpl:13K ep:128 epch:25.65 loss:0.203 grdn:8.728 lr:3.7e-05 updt_s:0.842 data_s:0.008\nINFO 2026-03-29 10:40:51 ot_train.py:423 step:2K smpl:14K ep:144 epch:28.86 loss:0.133 grdn:5.471 lr:3.5e-05 updt_s:0.843 data_s:0.008\nINFO 2026-03-29 10:40:51 ot_train.py:443 Checkpoint policy after step 1800\nINFO 2026-03-29 10:44:07 ot_train.py:423 step:2K smpl:16K ep:160 epch:32.06 loss:0.155 grdn:5.790 lr:3.2e-05 updt_s:0.842 data_s:0.008\nINFO 2026-03-29 10:46:58 ot_train.py:423 step:2K smpl:18K ep:176 epch:35.27 loss:0.150 grdn:5.928 lr:3.0e-05 updt_s:0.843 data_s:0.008\nINFO 2026-03-29 10:49:48 ot_train.py:423 step:2K smpl:19K ep:192 epch:38.48 loss:0.136 grdn:4.856 lr:2.8e-05 updt_s:0.841 data_s:0.009\nINFO 2026-03-29 10:49:48 ot_train.py:443 Checkpoint policy after step 2400\nINFO 2026-03-29 10:53:04 ot_train.py:423 step:3K smpl:21K ep:208 epch:41.68 loss:0.099 grdn:3.881 lr:2.7e-05 updt_s:0.843 data_s:0.008\nINFO 2026-03-29 10:55:56 ot_train.py:423 step:3K smpl:22K ep:224 epch:44.89 loss:0.102 grdn:3.517 lr:2.6e-05 updt_s:0.845 data_s:0.008\nINFO 2026-03-29 10:58:46 ot_train.py:423 step:3K smpl:24K ep:240 epch:48.10 loss:0.106 grdn:3.932 lr:2.5e-05 updt_s:0.844 data_s:0.008\nINFO 2026-03-29 10:58:46 ot_train.py:443 Checkpoint policy after step 3000\nINFO 2026-03-29 10:59:12 ot_train.py:514 End of training\n",
             "stderr_tail": "",
+            "reused_existing_checkpoint": true,
             "fingerprint": {
               "builder_version": "d1_v5_attach_contract_hardened",
               "variant_id": "multi_episode_overfit",
@@ -5797,11 +5796,11 @@
                     "grasp_success_rate": 0.0,
                     "time_to_completion_mean": 96.0,
                     "non_zero_action_ratio_mean": 1.0,
-                    "total_eef_motion_mean": 4.002836799621582
+                    "total_eef_motion_mean": 1.8991680860519409
                   }
                 },
                 "non_zero_action_ratio_mean": 1.0,
-                "total_eef_motion_mean": 4.002836799621582
+                "total_eef_motion_mean": 1.8991680860519409
               },
               "finetuned_mint": {
                 "n_episodes": 5,
@@ -5821,11 +5820,11 @@
                     "grasp_success_rate": 0.0,
                     "time_to_completion_mean": 96.0,
                     "non_zero_action_ratio_mean": 1.0,
-                    "total_eef_motion_mean": 9.547010231018067
+                    "total_eef_motion_mean": 16.32878246307373
                   }
                 },
                 "non_zero_action_ratio_mean": 1.0,
-                "total_eef_motion_mean": 9.547010231018067
+                "total_eef_motion_mean": 16.32878246307373
               }
             },
             "records": {
@@ -6095,7 +6094,7 @@
                   },
                   "video_path": null,
                   "non_zero_action_ratio": 1.0,
-                  "total_eef_motion": 1.6439790725708008,
+                  "total_eef_motion": 1.6552186012268066,
                   "drawer_trace": [
                     0.0,
                     0.0,
@@ -6327,7 +6326,7 @@
                   },
                   "video_path": null,
                   "non_zero_action_ratio": 1.0,
-                  "total_eef_motion": 10.399564743041992,
+                  "total_eef_motion": 1.5474205017089844,
                   "drawer_trace": [
                     0.0,
                     0.0,
@@ -6559,7 +6558,7 @@
                   },
                   "video_path": null,
                   "non_zero_action_ratio": 1.0,
-                  "total_eef_motion": 1.4832652807235718,
+                  "total_eef_motion": 3.233043670654297,
                   "drawer_trace": [
                     0.0,
                     0.0,
@@ -6791,7 +6790,7 @@
                   },
                   "video_path": null,
                   "non_zero_action_ratio": 1.0,
-                  "total_eef_motion": 4.9014997482299805,
+                  "total_eef_motion": 1.4742825031280518,
                   "drawer_trace": [
                     0.0,
                     0.0,
@@ -7025,7 +7024,7 @@
                   },
                   "video_path": null,
                   "non_zero_action_ratio": 1.0,
-                  "total_eef_motion": 8.003342628479004,
+                  "total_eef_motion": 15.897172927856445,
                   "drawer_trace": [
                     0.0,
                     0.0,
@@ -7257,7 +7256,7 @@
                   },
                   "video_path": null,
                   "non_zero_action_ratio": 1.0,
-                  "total_eef_motion": 7.680010795593262,
+                  "total_eef_motion": 15.901527404785156,
                   "drawer_trace": [
                     0.0,
                     0.0,
@@ -7489,7 +7488,7 @@
                   },
                   "video_path": null,
                   "non_zero_action_ratio": 1.0,
-                  "total_eef_motion": 9.756826400756836,
+                  "total_eef_motion": 19.29545783996582,
                   "drawer_trace": [
                     0.0,
                     0.0,
@@ -7721,7 +7720,7 @@
                   },
                   "video_path": null,
                   "non_zero_action_ratio": 1.0,
-                  "total_eef_motion": 12.846261024475098,
+                  "total_eef_motion": 13.81115436553955,
                   "drawer_trace": [
                     0.0,
                     0.0,
@@ -7953,7 +7952,7 @@
                   },
                   "video_path": null,
                   "non_zero_action_ratio": 1.0,
-                  "total_eef_motion": 9.448610305786133,
+                  "total_eef_motion": 16.73859977722168,
                   "drawer_trace": [
                     0.0,
                     0.0,
@@ -8168,7 +8167,7 @@
     "stage_b_candidate": null,
     "promoted_candidate": null,
     "failure_matrix_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/mainline_failure_matrix.json",
-    "timestamp": 1774601243.5196464
+    "timestamp": 1774760376.7356458
   },
   "env_contract_audit": {
     "gate": "env_contract_audit",

@@ -77,10 +77,31 @@
     {
       "id": "d1_single_rollout_overfit",
       "status": "failed",
-      "updated_at": "2026-03-27T16:47:23+08:00",
-      "attempts": 0,
-      "note": "Reset to pending. Previous d1 pointed at archived diagnostic_runs path. Must re-run against clean c2_replay_valid_rollouts/ with corrected strong_rollout_audit.",
-      "last_error": "u3_regime_b_required"
+      "updated_at": "2026-03-30T00:00:00+08:00",
+      "attempts": 2,
+      "note": "V21-V27 deep dive: all engineering bugs fixed (inplace ops, decoder unfreeze, dtype mismatch). Core issue: Data Distribution Shift — Infinigen gripper signals are continuous-gradual (1.0->-1.0 over ~5 steps) while MINT VQ-VAE expects discrete binary (-1/+1). Plus strict_rollout_criteria requires grasp_steps>=5 but teacher data only has 1-2 steps.",
+      "last_error": "u3_regime_b_required",
+      "v21_v27_summary": {
+        "v21": "Fix inplace ops in mint_utils.py (F.silu->nn.functional.silu, f_hat.add_->f_hat=f_hat+). Training stable: loss 4.65->0.306. Still 0% grasp.",
+        "v22": "Steps 600->1200, LR 2.5e-4->5e-5. Loss 0.097 (3x better). Episodes behavior varied. Still 0% grasp.",
+        "v23": "CRITICAL FINDING: Decoder was NEVER trained (0/153 weights changed). Only quantizer was in gradient path. Added reconstruction loss.",
+        "v24": "Decoder fully unfrozen (140/153 changed), loss 0.079. Still 0% grasp.",
+        "v25": "Fixed find_latest_checkpoint bug. 3000 steps trained. direct_grip_head weights missing (5 keys not loaded).",
+        "v26": "Added direct_grip_head (2-ch sigmoid), fixed dtype mismatch. GRIP DEBUG revealed: direct_grip_head outputs logits +6-8 -> always predicts OPEN.",
+        "v27": "Smart gripper override (only override when VQ-VAE also outputs OPEN). Still always OPEN -> override always triggers. Still 0% grasp."
+      },
+      "root_causes_identified": [
+        "P0: Teacher data grasp_steps=1-2 but strict_rollout_criteria requires >=5. Standard-data mismatch.",
+        "P0: Infinigen gripper is continuous-gradual, MINT expects discrete binary. Data distribution shift.",
+        "P1: VQ-VAE quantizer loses gripper timing info in small dataset (499 frames, 512 codebook entries).",
+        "P2: direct_grip_head learns to always predict OPEN (bias=+0.008, sigmoid->0.5) because training signal is noisy."
+      ],
+      "positive_signals": [
+        "Decoder trained (140/153 weights changed) — architecture fix worked",
+        "Quantizer updated (codebook entries 369/419/124/179 changed) — training signal flowing",
+        "Finetuned EEF motion 16.3m vs pretrained 1.9m (8.6x) — model learns motion but not gripper close"
+      ],
+      "next_phase": "data_distribution_fix"
     },
     {
       "id": "d2_single_seed_overfit",
@@ -114,17 +135,27 @@
     "active_lane": "learnability",
     "active_branch": null,
     "active_fingerprint": null,
-    "controller_id": "resolution_plan_v2:20260327T150000",
-    "run_id": "resolution_plan_v2:20260327T150000",
+    "controller_id": "20260328T012000",
+    "run_id": "20260328T012000",
     "worker_pid": null,
     "worker_kind": "manual_reconcile",
     "attempt_no": 0,
-    "launched_at": "2026-03-27T16:47:23+08:00",
-    "heartbeat_at": "2026-03-27T16:47:23+08:00",
+    "launched_at": "2026-03-29T12:59:36+08:00",
+    "heartbeat_at": "2026-03-29T12:59:36+08:00",
     "latest_artifact": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/d1_single_rollout_overfit.json",
     "last_error": "u3_regime_b_required"
   },
   "history": [
+    {
+      "at": "2026-03-29T14:00:00+08:00",
+      "event": "d1_deep_dive_started",
+      "details": "V21-V27 deep dive: fixed all engineering bugs (inplace ops, decoder unfreeze, dtype). Core finding: Data Distribution Shift — Infinigen gripper continuous-gradual vs MINT discrete binary. Plus grasp_steps mismatch (teacher=1-2, criteria=5)."
+    },
+    {
+      "at": "2026-03-29T14:00:00+08:00",
+      "event": "step_reconciled",
+      "details": "d1_single_rollout_overfit => failed (second attempt)"
+    },
     {
       "at": "2026-03-23T22:25:02+08:00",
       "event": "robot_revision_v3_claim_push_started",
@@ -379,13 +410,178 @@
       "at": "2026-03-27T16:47:23+08:00",
       "event": "step_reconciled",
       "details": "d1_single_rollout_overfit => failed"
+    },
+    {
+      "at": "2026-03-27T20:49:33+08:00",
+      "event": "step_reconciled",
+      "details": "d1_single_rollout_overfit => failed"
+    },
+    {
+      "at": "2026-03-27T21:45:18+08:00",
+      "event": "step_reconciled",
+      "details": "d1_single_rollout_overfit => failed"
+    },
+    {
+      "at": "2026-03-27T21:51:53+08:00",
+      "event": "step_reconciled",
+      "details": "d1_single_rollout_overfit => failed"
+    },
+    {
+      "at": "2026-03-27T22:01:33+08:00",
+      "event": "step_reconciled",
+      "details": "d1_single_rollout_overfit => failed"
+    },
+    {
+      "at": "2026-03-27T22:24:42+08:00",
+      "event": "step_reconciled",
+      "details": "d1_single_rollout_overfit => failed"
+    },
+    {
+      "at": "2026-03-27T22:39:37+08:00",
+      "event": "step_reconciled",
+      "details": "d1_single_rollout_overfit => failed"
+    },
+    {
+      "at": "2026-03-27T22:57:08+08:00",
+      "event": "step_reconciled",
+      "details": "d1_single_rollout_overfit => failed"
+    },
+    {
+      "at": "2026-03-27T23:08:14+08:00",
+      "event": "step_reconciled",
+      "details": "d1_single_rollout_overfit => failed"
+    },
+    {
+      "at": "2026-03-27T23:14:32+08:00",
+      "event": "step_reconciled",
+      "details": "d1_single_rollout_overfit => failed"
+    },
+    {
+      "at": "2026-03-27T23:26:10+08:00",
+      "event": "step_reconciled",
+      "details": "d1_single_rollout_overfit => failed"
+    },
+    {
+      "at": "2026-03-27T23:43:10+08:00",
+      "event": "step_reconciled",
+      "details": "d1_single_rollout_overfit => failed"
+    },
+    {
+      "at": "2026-03-28T00:06:29+08:00",
+      "event": "step_reconciled",
+      "details": "d1_single_rollout_overfit => failed"
+    },
+    {
+      "at": "2026-03-28T00:16:18+08:00",
+      "event": "step_reconciled",
+      "details": "d1_single_rollout_overfit => failed"
+    },
+    {
+      "at": "2026-03-28T00:23:06+08:00",
+      "event": "step_reconciled",
+      "details": "d1_single_rollout_overfit => failed"
+    },
+    {
+      "at": "2026-03-28T00:38:40+08:00",
+      "event": "step_reconciled",
+      "details": "d1_single_rollout_overfit => failed"
+    },
+    {
+      "at": "2026-03-28T00:44:36+08:00",
+      "event": "step_reconciled",
+      "details": "d1_single_rollout_overfit => failed"
+    },
+    {
+      "at": "2026-03-28T14:54:33+08:00",
+      "event": "step_reconciled",
+      "details": "d1_single_rollout_overfit => failed"
+    },
+    {
+      "at": "2026-03-28T15:09:26+08:00",
+      "event": "step_reconciled",
+      "details": "d1_single_rollout_overfit => failed"
+    },
+    {
+      "at": "2026-03-28T17:02:16+08:00",
+      "event": "step_reconciled",
+      "details": "d1_single_rollout_overfit => failed"
+    },
+    {
+      "at": "2026-03-28T18:42:10+08:00",
+      "event": "step_reconciled",
+      "details": "d1_single_rollout_overfit => failed"
+    },
+    {
+      "at": "2026-03-28T20:23:01+08:00",
+      "event": "step_reconciled",
+      "details": "d1_single_rollout_overfit => failed"
+    },
+    {
+      "at": "2026-03-28T20:40:52+08:00",
+      "event": "step_reconciled",
+      "details": "d1_single_rollout_overfit => failed"
+    },
+    {
+      "at": "2026-03-28T21:48:33+08:00",
+      "event": "step_reconciled",
+      "details": "d1_single_rollout_overfit => failed"
+    },
+    {
+      "at": "2026-03-28T23:15:12+08:00",
+      "event": "step_reconciled",
+      "details": "d1_single_rollout_overfit => failed"
+    },
+    {
+      "at": "2026-03-29T00:27:45+08:00",
+      "event": "step_reconciled",
+      "details": "d1_single_rollout_overfit => failed"
+    },
+    {
+      "at": "2026-03-29T00:52:33+08:00",
+      "event": "step_reconciled",
+      "details": "d1_single_rollout_overfit => failed"
+    },
+    {
+      "at": "2026-03-29T03:58:14+08:00",
+      "event": "step_reconciled",
+      "details": "d1_single_rollout_overfit => failed"
+    },
+    {
+      "at": "2026-03-29T04:27:52+08:00",
+      "event": "step_reconciled",
+      "details": "d1_single_rollout_overfit => failed"
+    },
+    {
+      "at": "2026-03-29T09:25:02+08:00",
+      "event": "step_reconciled",
+      "details": "d1_single_rollout_overfit => failed"
+    },
+    {
+      "at": "2026-03-29T11:10:17+08:00",
+      "event": "step_reconciled",
+      "details": "d1_single_rollout_overfit => failed"
+    },
+    {
+      "at": "2026-03-29T11:28:33+08:00",
+      "event": "step_reconciled",
+      "details": "d1_single_rollout_overfit => failed"
+    },
+    {
+      "at": "2026-03-29T12:14:29+08:00",
+      "event": "step_reconciled",
+      "details": "d1_single_rollout_overfit => failed"
+    },
+    {
+      "at": "2026-03-29T12:59:36+08:00",
+      "event": "step_reconciled",
+      "details": "d1_single_rollout_overfit => failed"
     }
   ],
   "last_review": null,
   "retries": {
-    "d1_single_rollout_overfit": 1
+    "d1_single_rollout_overfit": 2
   },
-  "verdict": "rebuild_in_progress",
+  "verdict": "data_distribution_shift_confirmed",
   "claim_level": null,
   "revision": {
     "active": "robot_revision_v3_claim_push",
@@ -398,9 +594,25 @@
     "robot_trajectory_revision_started": true
   },
   "coverage_expansion_attempts": 0,
-  "updated_at": "2026-03-27T16:47:23+08:00",
+  "updated_at": "2026-03-30T00:00:00+08:00",
   "last_error": "u3_regime_b_required",
-  "last_repair_action": "resolution_plan_v2_audit_corrected_source_dir",
+  "last_repair_action": "d1_v21_v27_deep_dive_data_distribution_shift_confirmed",
+  "data_distribution_fix": {
+    "status": "pending",
+    "gemini_suggestion": "Dataset Wrapper to rescale Infinigen data to match LIBERO distribution",
+    "方案A": "Dataset Wrapper (fast, 10min) — gripper binarization, action scaling to match LIBERO",
+    "方案B": "AnyGrasp data regeneration (2-3h GPU) — force gripper to -1.0 for >=5 steps at contact",
+    "方案C": "Modify strict_rollout_criteria — lower grasp_steps_gte from 5 to match data (1-2)",
+    "recommendation": "Start with 方案A (fastest), if works proceed to 方案B (correct). Also evaluate 方案C."
+  },
+  "engineering_fixes_completed": {
+    "mint_utils_inplace_ops": "FIXED — F.silu->nn.functional.silu, all f_hat.add_->f_hat=f_hat+",
+    "decoder_unfreeze": "FIXED — decoder now in gradient path (140/153 weights updated in v24+)",
+    "dtype_mismatch": "FIXED — direct_grip_head cast to bfloat16",
+    "checkpoint_finding": "FIXED — find_latest_checkpoint returns highest step not step-600",
+    "reconstruction_loss": "ADDED — VQ-VAE decoder reconstruction loss in training forward",
+    "direct_grip_head": "ADDED — bypasses VQ-VAE gripper bottleneck, but learns to always predict OPEN"
+  },
   "strict_replay_lane": {
     "status": "repairing",
     "best_branch": "branch4_densified_attach_window",
@@ -414,12 +626,12 @@
     "last_update": "2026-03-26T19:52:27+08:00"
   },
   "learnability_lane": {
-    "status": "ready_for_overfit",
+    "status": "data_distribution_fix_required",
     "source_contract_mode": "teacher_success_fallback",
     "source_branch": "branch4_densified_attach_window",
     "current_step": "d1_single_rollout_overfit",
     "last_positive_step": null,
-    "last_update": "2026-03-27T14:00:00+08:00",
+    "last_update": "2026-03-30T00:00:00+08:00",
     "diagnostic_winner_seed": 9,
     "diagnostic_winner_rollout": "seed_009_episode_02",
     "strict_teacher_rollout_count": 15,
@@ -507,12 +719,12 @@
   ],
   "phase_gate": "clean_c2_available_ready_for_d1",
   "controller": {
-    "controller_id": "resolution_plan_v2:20260327T150000",
-    "run_id": "resolution_plan_v2:20260327T150000",
-    "owner": "resolution_plan_v2",
+    "controller_id": "20260328T012000",
+    "run_id": "20260328T012000",
+    "heartbeat_at": "2026-03-28T15:04:30.230325",
+    "owner": null,
     "lease_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/runtime/controller_lease.json",
-    "status": "active",
-    "acquired_at": "2026-03-27T15:00:00+08:00",
-    "heartbeat_at": "2026-03-27T15:00:00+08:00"
+    "status": "acquired",
+    "acquired_at": "2026-03-28T15:04:30.230314"
   }
 }

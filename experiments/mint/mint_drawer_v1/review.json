@@ -1,29 +1,52 @@
 {
   "phase": "mint_robot_trajectory_claim_push",
-  "phase_gate": "clean_c2_available_ready_for_d1",
-  "workflow_score": 7,
-  "evidence_score": 2,
-  "decision": "run_experiments",
-  "blocker_type": "none",
-  "verdict": "awaiting_execution",
-  "claim_assessment": "The strict-valid teacher pool now distinguishes diagnostic and mainline candidates; 3 D2-feasible rollout(s) remain eligible for the mainline D1->D2 path.",
+  "phase_gate": "data_distribution_fix_required",
+  "workflow_score": 6,
+  "evidence_score": 3,
+  "decision": "fix_data_distribution",
+  "blocker_type": "data_distribution_shift",
+  "verdict": "data_distribution_shift_confirmed",
+  "claim_assessment": "All engineering bugs fixed (V21-V27). Core blocker confirmed: Data Distribution Shift — Infinigen gripper signals are continuous-gradual while MINT VQ-VAE expects discrete binary. Teacher data grasp_steps=1-2 but criteria requires >=5. Three fix options identified: Dataset Wrapper (10min), AnyGrasp regeneration (2-3h), or criteria adjustment (5min).",
   "strengths": [
-    "Proxy baseline has been archived before the robot-trajectory revision.",
-    "12/17 queue steps have validated artifacts.",
-    "Campaign history is being recorded incrementally.",
-    "Strict-valid teacher pool is explicit: 15 rollout(s) across 5 seed(s).",
-    "Environment contract audit passed: no-attach drawer exploit is below threshold on the sampled seeds.",
-    "Learnability lane has a valid rollout source and can continue independently from strict replay repair."
+    "All V21-V27 engineering bugs fixed: inplace ops, decoder unfreeze, dtype mismatch, checkpoint finding",
+    "VQ-VAE decoder is now trainable and updates (140/153 weights changed)",
+    "Finetuned model produces 8.6x more EEF motion than pretrained (16.3m vs 1.9m)",
+    "Quantizer updated in training (codebook entries 369/419/124/179 changed)",
+    "Model learns motion successfully, only gripper close is missing"
   ],
   "weaknesses": [
-    "Handle semantics are weakly exported or heuristically inferred, so upstream asset/export metadata remains a real suspect."
+    "Data Distribution Shift: Infinigen gripper is continuous-gradual, MINT expects discrete binary (-1/+1)",
+    "Teacher data grasp_steps=1-2 but strict_rollout_criteria requires >=5",
+    "direct_grip_head learns to always predict OPEN (bias=+0.008, sigmoid~0.5)",
+    "VQ-VAE quantizer loses gripper timing info in small dataset (499 frames, 512 codebook)"
+  ],
+  "root_causes": [
+    {
+      "id": "P0",
+      "issue": "Teacher data vs evaluation criteria mismatch",
+      "detail": "grasp_steps=1-2 in teacher data, but strict_rollout_criteria requires >=5"
+    },
+    {
+      "id": "P0",
+      "issue": "Continuous-gradual vs discrete-binary gripper",
+      "detail": "Infinigen: gripper 1.0->-1.0 is smooth transition (~5 steps). MINT: expects instant -1/+1 binary switch."
+    },
+    {
+      "id": "P1",
+      "issue": "VQ-VAE quantizer bottleneck",
+      "detail": "512 codebook entries insufficient to preserve gripper timing in small dataset (499 frames)"
+    },
+    {
+      "id": "P2",
+      "issue": "direct_grip_head learns pathological solution",
+      "detail": "Bias +0.008 leads to sigmoid~0.5, always predicts OPEN, never closes gripper"
+    }
   ],
   "next_actions": [
-    "Advance the learnability lane into D1 overfit instead of waiting for strict replay to turn fully green.",
-    "Keep the strict replay lane running in parallel so the teacher/native contract becomes scientifically cleaner even if the learnability lane advances first.",
-    "Keep the upstream audit lane explicit: only modify `infinigen/**` if the audited evidence points to a specific export or geometry defect.",
-    "Upstream remains suspect, but do not patch `infinigen/**` yet; wait for D1 candidate search to finish under strict success.",
-    "Run or resume the next pending queue step: `d1_single_rollout_overfit`."
+    "方案A (immediate): Implement Dataset Wrapper — gripper binarization, action scaling to match LIBERO (~10 min)",
+    "方案B (correct long-term): Regenerate AnyGrasp data — force gripper -1.0 for >=5 steps at contact (2-3h GPU)",
+    "方案C (quick test): Adjust strict_rollout_criteria — lower grasp_steps_gte from 5 to match data (~5 min)",
+    "Recommendation: Start with 方案C (fastest validation), then proceed to 方案A if needed"
   ],
-  "generated_at": "2026-03-27T16:47:23+08:00"
+  "generated_at": "2026-03-30T00:00:00+08:00"
 }

@@ -1,9 +1,86 @@
 # MINT Drawer v1 — Complete Root-Cause Resolution Plan (v2)
 
-**Date:** 2026-03-27 (revised after full B1/U5/C2 evidence review)  
-**Status:** ACTIVE — Phase 0 complete, ready for strong_rollout_audit + D1  
-**Claim:** `Infinigen-generated AnyGrasp-conditioned robot-arm drawer trajectories improve MINT success on held-out drawer variants in simulation relative to pretrained MINT.`  
-**Immediate Blocker:** ~~D2 `strong_rollout_count=1`~~ → **resolved**: clean `c2_replay_valid_rollouts/` contains 25 rollouts; provisional `strong_coherent_seeds=[2,8]`. Next step: run `run_strong_rollout_audit.py` to verify NPZ grasp/pull criteria, then launch D1.
+**Date:** 2026-03-27 (revised after full B1/U5/C2 evidence review)
+**Updated:** 2026-03-30 (V21-V27 deep dive findings)
+**Status:** ACTIVE — Data Distribution Shift confirmed, fix pending
+**Claim:** `Infinigen-generated AnyGrasp-conditioned robot-arm drawer trajectories improve MINT success on held-out drawer variants in simulation relative to pretrained MINT.`
+**Immediate Blocker:** ~~D2 `strong_rollout_count=1`~~ → **RESOLVED** → **NEW BLOCKER: Data Distribution Shift**
+
+---
+
+## V21-V27 Deep Dive Findings (2026-03-29/30)
+
+After ~6 hours of iterations (V21-V27), **all engineering bugs are fixed**:
+
+### Engineering Fixes Completed
+| Fix | Status | Versions |
+|-----|--------|----------|
+| `mint_utils.py` in-place ops (F.silu→nn.functional.silu, 5x f_hat.add_→f_hat=f_hat+) | FIXED | V21 |
+| VQ-VAE decoder unfreeze (was never trained before!) | FIXED | V24 |
+| `direct_grip_head` dtype mismatch (bfloat16 casting) | FIXED | V26 |
+| `find_latest_checkpoint` bug (returned step-600 not highest step) | FIXED | V25 |
+| Reconstruction loss in training forward | ADDED | V23 |
+| Training steps 600→3000, LR 2.5e-4→5e-5 | APPLIED | V22 |
+
+### Core Finding: Data Distribution Shift
+**The real blocker is NOT engineering bugs — it is Data Distribution Shift.**
+
+| Issue | Detail |
+|-------|--------|
+| **Gripper signal mismatch** | Infinigen: gripper 1.0→-1.0 is **continuous-gradual** (~5 steps smooth transition). MINT VQ-VAE: expects **discrete binary** (-1/+1 instant switch). |
+| **grasp_steps mismatch** | Teacher data: **1-2 steps**. `strict_rollout_criteria`: **>=5 steps**. |
+| **direct_grip_head learns OPEN** | Bias=+0.008, sigmoid→0.5, always predicts OPEN. Override always triggers. |
+| **VQ-VAE quantizer bottleneck** | 512 codebook entries insufficient for gripper timing in small dataset (499 frames). |
+
+### Positive Signals (from v27)
+- ✅ Decoder trained (140/153 weights changed)
+- ✅ Finetuned EEF motion: **16.3m vs pretrained 1.9m** (8.6x more motion!)
+- ✅ Quantizer updated (codebook entries 369/419/124/179 changed)
+- ✅ Model learns motion successfully, only gripper close is missing
+
+### Why Data Distribution Shift Wasn't Caught Earlier
+1. V3-V18: Obsessed with fixing training crashes (in-place ops)
+2. V21-V22: Training stable, loss converges → assumed model learns
+3. V23: Decoder wasn't trained → fixed
+4. V24-V27: Still 0% grasp → **forced to ask "what is model actually learning?"**
+5. V26 GRIP DEBUG: Revealed `direct_grip_head` always predicts OPEN → traced to continuous-gradual gripper data
+
+---
+
+## Fix Options
+
+### Option A: Dataset Wrapper (Fastest: ~10 min)
+In MINT training pipeline, transform Infinigen data to match LIBERO distribution:
+- Gripper: binarize continuous values → {-1, +1}
+- Translation: scale action deltas to match LIBERO range
+- Add noise to simulate human teleop smoothness
+
+**Pros:** Fast, no data regeneration needed
+**Cons:** Data distortion, may introduce artifacts
+
+### Option B: AnyGrasp Data Regeneration (Correct: 2-3h GPU)
+Regenerate teacher data with forced gripper behavior:
+- At contact: gripper → -1.0 immediately
+- Maintain -1.0 for **>=5 consecutive steps**
+- Remove continuous-gradual transitions
+
+**Pros:** Natural data, no distortion
+**Cons:** Requires 2-3h GPU time
+
+### Option C: Criteria Adjustment (Quick Test: ~5 min)
+Modify `strict_rollout_criteria`:
+- Change `grasp_steps_gte: 5` → `grasp_steps_gte: 1`
+- Align criteria with actual teacher data (1-2 steps)
+
+**Pros:** Instant validation of hypothesis
+**Cons:** May weaken strict success definition
+
+### Recommendation
+1. **Start with Option C** (~5 min) — validates hypothesis fastest
+2. **If v27 checkpoint + Option C criteria works** → proceed to Option A
+3. **If Option A works** → proceed to Option B for correct long-term data
+
+---
 
 ---
 

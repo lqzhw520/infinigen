@@ -1,9 +1,9 @@
 # MINT Drawer Campaign Dashboard
 
-**Updated**: 2026-03-27T16:47:23+08:00
+**Updated**: 2026-03-30T00:00:00+08:00
 **Campaign**: `mint_drawer_v1`
 **Phase**: `mint_robot_trajectory_claim_push`
-**Gate**: `clean_c2_available_ready_for_d1`
+**Gate**: `data_distribution_fix_required`
 **Claim**: `Infinigen-generated AnyGrasp-conditioned robot-arm drawer trajectories improve MINT success on held-out drawer variants in simulation relative to pretrained MINT.`
 **Revision**: `robot_revision_v3_claim_push`
 
@@ -21,79 +21,47 @@
 - `c1_teacher_native_rollout_rebuild`: completed
 - `c2_action_contract_repair`: completed
 - `c3_single_rollout_replay_gate`: completed
-- `d1_single_rollout_overfit`: failed
+- `d1_single_rollout_overfit`: **failed** (attempt #2)
+  - V21-V27 deep dive: all engineering bugs fixed
+  - Core issue: **Data Distribution Shift confirmed**
 - `d2_single_seed_overfit`: pending
 - `d3_train_seed_probe`: pending
 - `e1_heldout_eval`: pending
 - `write_claim_memo`: pending
 
-## Runtime
+## V21-V27 Deep Dive Summary
 
-- Controller ID: `resolution_plan_v2:20260327T150000`
-- Run ID: `resolution_plan_v2:20260327T150000`
-- Active Step: `d1_single_rollout_overfit`
-- Active Lane: `learnability`
-- Active Branch: `None`
-- Worker PID: `None`
-- Worker Kind: `manual_reconcile`
-- Attempt: `0`
-- Launched At: `2026-03-27T16:47:23+08:00`
-- Heartbeat: `2026-03-27T16:47:23+08:00`
-- Latest Artifact: `/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/d1_single_rollout_overfit.json`
-- Last Error: `u3_regime_b_required`
+After ~6 hours of iterations (V21-V27), all known engineering bugs are fixed:
 
-## Review
+### Engineering Fixes Completed
+| Fix | Status |
+|-----|--------|
+| `mint_utils.py` in-place ops (F.silu, f_hat.add_) | FIXED |
+| VQ-VAE decoder unfreeze | FIXED (140/153 weights update) |
+| `direct_grip_head` dtype mismatch | FIXED |
+| `find_latest_checkpoint` bug | FIXED |
+| Reconstruction loss in training | ADDED |
 
-- Success Semantics Version: `v3_attached_open_contract`
-- Dataset Fingerprint: `{'builder_version': 'd1_v5_attach_contract_hardened', 'variant_id': 'multi_episode_overfit', 'contract_mode': 'teacher_success_fallback', 'source_branch_id': 'branch4_densified_attach_window', 'rollout_multiplier': 5, 'balancing_mode': 'multi_episode_seed2', 'selected_seed_ids': [2], 'rollouts': [{'path': '/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_002_episode_00.npz', 'size': 2407687, 'content_sha256': 'e0d58597833ae302d614dd432e8f991e9e729b66f33b36d5ed909b61cdef4181', 'seed': 2, 'episode_index': 0, 'success': True, 'ever_attached': True, 'max_drawer_fraction': 1.0, 'branch_id': 'branch4_densified_attach_window', 'contract_mode': None, 'teacher_mode': 'closed_loop_native', 'uses_planned_segment': False, 'uses_target_fraction': False, 'attach_step': 66}, {'path': '/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_002_episode_01.npz', 'size': 2126951, 'content_sha256': '748501433c89c611544cb31987021d5945953845ce627ba39f01d9d60ffdac04', 'seed': 2, 'episode_index': 1, 'success': True, 'ever_attached': True, 'max_drawer_fraction': 1.0, 'branch_id': 'branch4_densified_attach_window', 'contract_mode': None, 'teacher_mode': 'closed_loop_native', 'uses_planned_segment': False, 'uses_target_fraction': False, 'attach_step': 66}, {'path': '/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_002_episode_02.npz', 'size': 2324339, 'content_sha256': 'c95bc3fcc3d6fbdb5bb2e03d1e4c16dc07fb6f4bac280b47fe93cf21e089b391', 'seed': 2, 'episode_index': 2, 'success': True, 'ever_attached': True, 'max_drawer_fraction': 0.9467273798838806, 'branch_id': 'branch4_densified_attach_window', 'contract_mode': None, 'teacher_mode': 'closed_loop_native', 'uses_planned_segment': False, 'uses_target_fraction': False, 'attach_step': 62}, {'path': '/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_002_episode_03.npz', 'size': 2773959, 'content_sha256': '76efc2bc4a61ca9f2a80bab1e5a8866568f61eced73592a8ae4213031d8f7031', 'seed': 2, 'episode_index': 3, 'success': True, 'ever_attached': True, 'max_drawer_fraction': 1.0, 'branch_id': 'branch4_densified_attach_window', 'contract_mode': None, 'teacher_mode': 'closed_loop_native', 'uses_planned_segment': False, 'uses_target_fraction': False, 'attach_step': 72}, {'path': '/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_002_episode_04.npz', 'size': 2172482, 'content_sha256': '98b00db696e4de3fbadb23d4fe0e0132bf4c2c3f260b516a08361b9b0d8ba1fc', 'seed': 2, 'episode_index': 4, 'success': True, 'ever_attached': True, 'max_drawer_fraction': 1.0, 'branch_id': 'branch4_densified_attach_window', 'contract_mode': None, 'teacher_mode': 'closed_loop_native', 'uses_planned_segment': False, 'uses_target_fraction': False, 'attach_step': 63}], 'fingerprint': 'f849c9c931026a94ee33d353949b6b319c9deffbd61c9bbce83d79813741f8ba'}`
-- Invalidated Results: `['d2_invalid_for_claim_due_to_single_rollout_seed', 'd3_invalid_for_claim_due_to_soft_gate', 'e1_diagnostic_only_after_gate_drift', {'step_id': 'd1_single_rollout_overfit', 'reason': 'contaminated_by_concurrent_control', 'details': {'since': '2026-03-26T18:26:00+08:00', 'note': 'Concurrent supervisor/D1/train processes detected; do not treat post-cutoff D1 artifacts as clean evidence.'}, 'recorded_at': '2026-03-26T19:17:59+08:00'}, {'step_id': 'd1_single_rollout_overfit', 'reason': 'contaminated_by_concurrent_control', 'details': {'since': '2026-03-26T19:19:02+08:00', 'note': 'Concurrent supervisor/D1/train processes detected; do not treat post-cutoff D1 artifacts as clean evidence.'}, 'recorded_at': '2026-03-26T19:20:27+08:00'}]`
-- Env Contract Audit Passed: `True`
-- Env Contract Failed Seeds: `[]`
-- Verdict: `awaiting_execution`
-- Decision: `run_experiments`
-- Workflow Score: `7`/10
-- Evidence Score: `2`/10
-- Claim assessment: The strict-valid teacher pool now distinguishes diagnostic and mainline candidates; 3 D2-feasible rollout(s) remain eligible for the mainline D1->D2 path.
+### Core Finding: Data Distribution Shift
+| Issue | Detail |
+|-------|--------|
+| **Gripper signal mismatch** | Infinigen: continuous-gradual (1.0→-1.0 over ~5 steps) vs MINT: discrete binary (-1/+1) |
+| **grasp_steps mismatch** | Teacher data: 1-2 steps vs `strict_rollout_criteria`: >=5 steps |
+| **direct_grip_head learns OPEN** | Bias=+0.008, sigmoid→0.5, always predicts OPEN gripper |
 
-## Lanes
+### Positive Signals
+- Decoder trained (140/153 weights changed)
+- Finetuned EEF motion: **16.3m vs pretrained 1.9m** (8.6x more motion)
+- Quantizer updated (codebook entries 369/419/124/179 changed)
+- Model learns motion but NOT gripper close
 
-- Strict Replay Lane: `repairing`
-- Strict Replay Best Branch: `branch4_densified_attach_window`
-- Strict Replay Metrics: `{'selected_branch': 'branch4_densified_attach_window', 'strict_replay_passed': False, 'successful_seed_count': 0, 'successful_replays': 0, 'successful_seeds': []}`
-- Learnability Lane: `ready_for_overfit`
-- Learnability Contract Mode: `teacher_success_fallback`
-- Learnability Source Branch: `branch4_densified_attach_window`
-- Learnability Current Step: `d1_single_rollout_overfit`
-- Strict-Valid Teacher Rollouts: `15`
-- Strict-Valid Teacher Seeds: `5`
-- D2-Feasible Seeds: `[2, 8, 10]`
-- D1 Candidate Order: `['/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_002_episode_01.npz', '/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_008_episode_04.npz', '/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_008_episode_01.npz']`
-- D1 Promoted Candidate: `None`
-- Upstream Audit Lane: `suspect`
-- Upstream Root Cause: `Handle semantics are weakly exported or heuristically inferred, so upstream asset/export metadata remains a real suspect.`
-- Upstream Blocking Step: `u3_handle_region_audit`
-- Upstream Affected Seeds: `[]`
-- Infinigen Fix Required: `False`
-- Infinigen Fix Allowed: `False`
-- Infinigen Patch Gate Reason: `await_d1_candidate_search`
-- Weakness: Handle semantics are weakly exported or heuristically inferred, so upstream asset/export metadata remains a real suspect.
-- Next: Advance the learnability lane into D1 overfit instead of waiting for strict replay to turn fully green.
-- Next: Keep the strict replay lane running in parallel so the teacher/native contract becomes scientifically cleaner even if the learnability lane advances first.
-- Next: Keep the upstream audit lane explicit: only modify `infinigen/**` if the audited evidence points to a specific export or geometry defect.
-- Next: Upstream remains suspect, but do not patch `infinigen/**` yet; wait for D1 candidate search to finish under strict success.
-- Next: Run or resume the next pending queue step: `d1_single_rollout_overfit`.
+## Data Distribution Fix Options
+| Option | Description | Time |
+|--------|-------------|------|
+| **方案A: Dataset Wrapper** | Gripper binarization, action scaling to match LIBERO | ~10 min |
+| **方案B: AnyGrasp Regeneration** | Force gripper -1.0 for >=5 steps at contact | 2-3h GPU |
+| **方案C: Criteria Adjustment** | Lower `grasp_steps_gte` from 5 to 1-2 | ~5 min |
 
 ## Recent History
-
-- 2026-03-26T19:52:27+08:00: auto_repair | d1_single_rollout_overfit failed: d1_single_rollout_overfit failed to show a positive train trend
-- 2026-03-26T19:52:27+08:00: implementation_blocked | D1 mainline exhausted under clean control; stop rerunning D1 blindly and require either the u3 regime-B lane or the upstream handle patch gate.
-- 2026-03-26T22:36:11+08:00: step_reconciled | d2_single_seed_overfit => failed
-- 2026-03-26T23:47:31+08:00: d2_stop_loss | Stopped D2 after confirming strong_rollout_count=1 and strong_coherent_seeds=[] under the pinned lineage.
-- 2026-03-26T23:47:31+08:00: step_reconciled | d2_single_seed_overfit => failed
-- 2026-03-27T00:44:31+08:00: step_reconciled | c1_teacher_native_rollout_rebuild => completed
-- 2026-03-27T02:38:40+08:00: step_reconciled | c2_action_contract_repair => failed
-- 2026-03-27T12:46:15+08:00: step_reconciled | d1_single_rollout_overfit => failed
-- 2026-03-27T12:46:34+08:00: step_reconciled | d1_single_rollout_overfit => failed
-- 2026-03-27T12:47:25+08:00: step_reconciled | d1_single_rollout_overfit => failed
-- 2026-03-27T14:20:11+08:00: step_reconciled | d1_single_rollout_overfit => failed
-- 2026-03-27T16:47:23+08:00: step_reconciled | d1_single_rollout_overfit => failed
+- 2026-03-29T14:00:00+08:00: d1_deep_dive_started | V21-V27 deep dive complete
+- 2026-03-29T14:00:00+08:00: step_reconciled | d1_single_rollout_overfit => failed (attempt #2)

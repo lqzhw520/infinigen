@@ -25,15 +25,16 @@ def _find_checkpoint_at_step(output_dir: Path, step: int) -> Path | None:
 
 
 def find_latest_checkpoint(output_dir: Path) -> Path | None:
-    """Return the latest checkpoint (prefer step-600 intermediate over final)."""
-    # Always check for step-600 intermediate checkpoint first (prevents loss→0 overfit)
-    step600 = _find_checkpoint_at_step(output_dir, 600)
-    if step600 is not None:
-        return step600
-    candidates = sorted(
-        output_dir.glob("**/pretrained_model"), key=lambda p: len(str(p))
+    """Return the latest checkpoint by step number.
+    Always returns the checkpoint with the highest step count.
+    """
+    all_dirs = list(output_dir.glob("checkpoints/*/"))
+    checkpoints = sorted(
+        [d for d in all_dirs if d.is_dir() and d.name.isdigit()],
+        key=lambda d: int(d.name),
     )
-    return candidates[-1] if candidates else None
+    pretrained_dirs = [d / "pretrained_model" for d in checkpoints if (d / "pretrained_model").exists()]
+    return pretrained_dirs[-1] if pretrained_dirs else None
 
 
 def run_training(
@@ -66,10 +67,11 @@ def run_training(
         "--policy.gradient_checkpointing=true",
         "--policy.dtype=bfloat16",
         f"--steps={steps}",
-        # Always save intermediate at step 600 to prevent loss→0 catastrophic overfit.
-        # Final checkpoint at `steps` is still saved but step-600 is preferred.
+        # D1 v22: Save at step 600 AND final step for checkpoint comparison.
         f"--save_freq={min(600, steps)}",
         "--batch_size=8",
+        # D1 v22: Lower LR for more stable convergence on small datasets.
+        f"--policy.optimizer_lr=5e-5",
         "--policy.device=cuda",
     ]
     start = time.time()

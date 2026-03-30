@@ -32,17 +32,17 @@ TEACHER_NPZ = Path(
     "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/"
     "artifacts/c2_replay_valid_rollouts/seed_002_episode_01.npz"
 )
-# Use the most recent D1 checkpoint
+# Use the NEW D1 checkpoint (multi_episode_overfit, VQ-VAE unfrozen)
 CHECKPOINT_DIR = Path(
     "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/"
-    "outputs_d1_seed_002_episode_01_extended_overfit/checkpoints/001200"
+    "outputs_d1_seed_002_episode_01_multi_episode_overfit/checkpoints/000600"
 )
 FINETUNED_CKPT = str(CHECKPOINT_DIR / "pretrained_model")
 DATASET_ROOT = Path(
     "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/"
-    "dataset_d1_seed_002_episode_01_extended_overfit"
+    "dataset_d1_seed_002_episode_01_multi_episode_overfit"
 )
-DATASET_REPO_ID = "infinigen_drawer_robot_v1_d1_seed_002_episode_01_extended_overfit"
+DATASET_REPO_ID = "infinigen_drawer_robot_v1_d1_seed_002_episode_01_multi_episode_overfit"
 
 
 def load_checkpoint_with_warnings(path: str, dataset_root: Path, repo_id: str) -> tuple:
@@ -60,30 +60,25 @@ def load_checkpoint_with_warnings(path: str, dataset_root: Path, repo_id: str) -
     policy.eval()
 
     # Check for missing/unexpected keys at load time
-    pretrained_state = torch.load(
-        path + "/model.safetensors.index.json"
-        if (Path(path) / "model.safetensors.index.json").exists()
-        else path + "/model.safetensors",
-        map_location="cpu",
-    )
-    if isinstance(pretrained_state, dict) and "state_dict" in pretrained_state:
-        sd = pretrained_state["state_dict"]
-    elif hasattr(pretrained_state, "keys"):
-        sd = dict(pretrained_state.keys())
+    safetensors_path = Path(path) / "model.safetensors.index.json"
+    if safetensors_path.exists():
+        # Load safetensors index JSON to check key counts
+        import json as json_mod
+        with open(safetensors_path) as f:
+            index_data = json_mod.load(f)
+        sd = {"index": index_data, "count": len(index_data.get("weight_map", {}))}
     else:
+        # No safetensors index, skip key check (model.safetensors can't be loaded by torch.load)
         sd = {}
 
     print(
-        f"Loaded policy has {len(sd) if hasattr(sd, '__len__') else 'unknown'} state dict entries"
+        f"Loaded policy with {sd.get('count', 'unknown')} safetensors entries"
     )
 
     preprocessor, postprocessor = make_pre_post_processors(
         policy.config, pretrained_path=path, dataset_stats=dataset.meta.stats
     )
-    print(f"Policy device: {policy.device}")
-    print(
-        f"Policy dtype: {next(policy.parameters()).dtype if list(policy.parameters()) else 'unknown'}"
-    )
+    print(f"Policy loaded successfully")
     return policy, preprocessor, postprocessor, dataset
 
 

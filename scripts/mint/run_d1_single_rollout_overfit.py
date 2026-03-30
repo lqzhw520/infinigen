@@ -48,12 +48,12 @@ MAINLINE_CANDIDATES = 1
 STAGE_A_VARIANTS = [
     {
         "id": "multi_episode_overfit",
-        "steps": 600,
+        "steps": 3000,  # v23: 3000 steps + reconstruction loss for decoder training
         "builder_mode": "multi_episode_seed2",
     },
 ]
 STAGE_B_VARIANTS = [
-    {"id": "phase_balanced_overfit", "steps": 600, "builder_mode": "phase_windows"},
+    {"id": "phase_balanced_overfit", "steps": 3000, "builder_mode": "phase_windows"},
 ]
 BUILDER_VERSION = "d1_v5_attach_contract_hardened"
 

@@ -30,7 +30,7 @@ from strict_teacher_dataset import (
     build_phase_balanced_windows,
     rebuild_strict_teacher_dataset,
 )
-from train_mint_helpers import find_latest_checkpoint, run_training
+from train_mint_helpers import find_latest_checkpoint, run_training, wait_for_training_complete
 from video_reporting import safe_render_policy_pair, safe_render_teacher_rollout
 
 ARTIFACT = CAMPAIGN_DIR / "artifacts" / "d1_single_rollout_overfit.json"
@@ -55,7 +55,7 @@ STAGE_A_VARIANTS = [
 STAGE_B_VARIANTS = [
     {"id": "phase_balanced_overfit", "steps": 3000, "builder_mode": "phase_windows"},
 ]
-BUILDER_VERSION = "d1_v5_attach_contract_hardened"
+BUILDER_VERSION = "d1_v6_gripper_binarize"
 
 
 def _candidate_key(seed: int, episode_index: int) -> str:
@@ -160,10 +160,21 @@ def _reuse_existing_attempt(
 
 
 def _reset_stale_paths(dataset_root: Path, output_dir: Path) -> None:
-    if dataset_root.exists():
-        shutil.rmtree(dataset_root)
-    if output_dir.exists():
-        shutil.rmtree(output_dir)
+    """Clean up stale directories AND fingerprint files to ensure fresh training."""
+    for path in [dataset_root, output_dir]:
+        if path.exists():
+            try:
+                shutil.rmtree(path)
+            except OSError:
+                pass
+    # Also clean up any orphaned fingerprint files in the artifacts directory
+    for pattern in ["outputs_d1_*_multi_episode*"]:
+        for stale_dir in CAMPAIGN_DIR.glob(pattern):
+            if stale_dir.is_dir() and stale_dir != output_dir:
+                try:
+                    shutil.rmtree(stale_dir)
+                except OSError:
+                    pass
 
 
 def _build_rollout_batch(
@@ -374,7 +385,11 @@ def _run_variant_attempt(
     episode_index = int(meta.get("episode_index", -1))
     candidate_key = _candidate_key(seed, episode_index)
     dataset_root = CAMPAIGN_DIR / f"dataset_d1_{candidate_key}_{variant['id']}"
-    output_dir = CAMPAIGN_DIR / f"outputs_d1_{candidate_key}_{variant['id']}"
+    # Use timestamped output dir to avoid FUSE filesystem caching issues
+    import uuid
+    run_ts = int(time.time())
+    run_suffix = f"{run_ts}_{uuid.uuid4().hex[:8]}"
+    output_dir = CAMPAIGN_DIR / f"outputs_d1_{candidate_key}_{variant['id']}_{run_suffix}"
     log_path = CAMPAIGN_DIR / "artifacts" / f"d1_{candidate_key}_{variant['id']}.log"
     dataset_repo_id = f"{DATASET_REPO_ID}_d1_{candidate_key}_{variant['id']}"
     rollout_batch = _build_rollout_batch(
@@ -420,10 +435,13 @@ def _run_variant_attempt(
     else:
         _reset_stale_paths(dataset_root, output_dir)
         dataset_payload = build_dataset_from_rollouts(
-            rollout_batch, dataset_root, dataset_repo_id
+            rollout_batch, dataset_root, dataset_repo_id,
+            gripper_binarize=True,  # Dataset Wrapper (Option A): binarize gripper to match MINT prior
         )
         dataset_payload["fingerprint"] = fingerprint
         save_fingerprint(dataset_root / FINGERPRINT_NAME, fingerprint)
+        
+        # Launch training in async mode (non-blocking)
         train_payload = run_training(
             dataset_root=dataset_root,
             dataset_repo_id=dataset_repo_id,
@@ -431,7 +449,48 @@ def _run_variant_attempt(
             log_path=log_path,
             steps=int(variant["steps"]),
             job_name=f"mint_d1_{candidate_key}_{variant['id']}",
+            async_mode=True,
         )
+        
+        # If async mode returned a placeholder, wait for training to complete
+        if train_payload.get("async_mode") and train_payload.get("pid"):
+            _write_progress(
+                {
+                    "step": "d1_single_rollout_overfit",
+                    "status": "running",
+                    "stage": "training_async_wait",
+                    "candidate_rank": candidate_rank,
+                    "candidate_role": candidate_mode,
+                    "candidate_key": candidate_key,
+                    "variant_rank": variant_rank,
+                    "variant_id": variant["id"],
+                    "training_pid": train_payload["pid"],
+                    "log_path": train_payload["log_path"],
+                }
+            )
+            # Wait for training to complete (polls for checkpoint)
+            train_result = wait_for_training_complete(
+                output_dir=output_dir,
+                log_path=log_path,
+                steps=int(variant["steps"]),
+                poll_interval=30.0,
+                max_wait_hours=12.0,
+            )
+            # Merge results
+            train_payload.update({
+                "passed": train_result.get("completed", False) or train_result.get("checkpoint_path") is not None,
+                "returncode": train_result.get("returncode", 0),
+                "elapsed_sec": train_result.get("elapsed_sec", 0.0),
+                "steps_completed": train_result.get("steps_completed", 0),
+                "checkpoint_path": train_result.get("checkpoint_path"),
+                "stdout_tail": train_result.get("log_tail", ""),
+                "status": "completed",
+            })
+            # Clean up PID file
+            pid_file = output_dir / ".training.pid"
+            if pid_file.exists():
+                pid_file.unlink()
+        
         save_fingerprint(output_dir / FINGERPRINT_NAME, fingerprint)
         train_payload["fingerprint"] = fingerprint
     finetuned_path = train_payload.get("checkpoint_path")

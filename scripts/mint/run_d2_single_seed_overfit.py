@@ -34,7 +34,7 @@ from strict_teacher_dataset import (
     build_phase_balanced_windows,
     rebuild_strict_teacher_dataset,
 )
-from train_mint_helpers import find_latest_checkpoint, run_training
+from train_mint_helpers import find_latest_checkpoint, run_training, wait_for_training_complete
 from video_reporting import safe_render_policy_pair, safe_render_teacher_rollout
 
 ARTIFACT = CAMPAIGN_DIR / "artifacts" / "d2_single_seed_overfit.json"
@@ -499,6 +499,8 @@ def run() -> bool:
             )
             dataset_payload["fingerprint"] = fingerprint
             save_fingerprint(dataset_root / FINGERPRINT_NAME, fingerprint)
+            
+            # Launch training in async mode (non-blocking)
             train_payload = run_training(
                 dataset_root=dataset_root,
                 dataset_repo_id=dataset_repo_id,
@@ -506,7 +508,48 @@ def run() -> bool:
                 log_path=log_path,
                 steps=int(variant["steps"]),
                 job_name=f"mint_d2_{variant['id']}",
+                async_mode=True,
             )
+            
+            # If async mode returned a placeholder, wait for training to complete
+            if train_payload.get("async_mode") and train_payload.get("pid"):
+                _write_variant_progress(
+                    {
+                        "step": "d2_single_seed_overfit",
+                        "status": "running",
+                        "controller_id": controller.get("controller_id"),
+                        "run_id": controller.get("run_id"),
+                        "selected_seed": selected_seed,
+                        "selected_rollouts": [str(path) for path in selected_paths],
+                        "source_rollout_count": source_rollout_count,
+                        "variant_id": variant["id"],
+                        "variant_stage": "training_async_wait",
+                        "training_pid": train_payload["pid"],
+                    }
+                )
+                # Wait for training to complete (polls for checkpoint)
+                train_result = wait_for_training_complete(
+                    output_dir=output_dir,
+                    log_path=log_path,
+                    steps=int(variant["steps"]),
+                    poll_interval=30.0,
+                    max_wait_hours=12.0,
+                )
+                # Merge results
+                train_payload.update({
+                    "passed": train_result.get("completed", False) or train_result.get("checkpoint_path") is not None,
+                    "returncode": train_result.get("returncode", 0),
+                    "elapsed_sec": train_result.get("elapsed_sec", 0.0),
+                    "steps_completed": train_result.get("steps_completed", 0),
+                    "checkpoint_path": train_result.get("checkpoint_path"),
+                    "stdout_tail": train_result.get("log_tail", ""),
+                    "status": "completed",
+                })
+                # Clean up PID file
+                pid_file = output_dir / ".training.pid"
+                if pid_file.exists():
+                    pid_file.unlink()
+            
             save_fingerprint(output_dir / FINGERPRINT_NAME, fingerprint)
             train_payload["fingerprint"] = fingerprint
         _write_variant_progress(

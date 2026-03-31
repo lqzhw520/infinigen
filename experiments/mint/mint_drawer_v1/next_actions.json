@@ -1,31 +1,11 @@
 {
-  "decision": "fix_data_distribution",
+  "decision": "run_experiments",
   "actions": [
     {
-      "type": "方案C_immediate_test",
+      "type": "run_experiments",
       "target": "d1_single_rollout_overfit",
-      "reason": "Lower grasp_steps_gte from 5 to 1-2 to match teacher data. Fastest validation (~5 min)."
-    },
-    {
-      "type": "方案A_fast_fix",
-      "target": "d1_single_rollout_overfit",
-      "reason": "Implement Dataset Wrapper: gripper binarization, action scaling to match LIBERO distribution. (~10 min)"
-    },
-    {
-      "type": "方案B_correct_long_term",
-      "target": "c2_action_contract_repair",
-      "reason": "Regenerate AnyGrasp data with forced gripper -1.0 for >=5 steps at contact. (2-3h GPU)"
-    },
-    {
-      "type": "reevaluate",
-      "target": "d1_single_rollout_overfit",
-      "reason": "After data fixes, re-evaluate with v27 checkpoint (decoder trained, 16.3m EEF motion)"
+      "reason": "Continue queue execution"
     }
   ],
-  "priority_order": [
-    "方案C (criteria adjustment, 5 min) — fastest validation",
-    "方案A (Dataset Wrapper, 10 min) — fast engineering fix",
-    "方案B (data regeneration, 2-3h) — correct long-term solution"
-  ],
-  "generated_at": "2026-03-30T00:00:00+08:00"
+  "generated_at": "2026-03-30T23:37:09+08:00"
 }

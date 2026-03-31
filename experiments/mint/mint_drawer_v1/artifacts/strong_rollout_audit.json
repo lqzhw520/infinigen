@@ -1,6 +1,6 @@
 {
   "gate": "strong_rollout_audit",
-  "generated_at": "2026-03-29T12:48:30+08:00",
+  "generated_at": "2026-03-30T21:47:19+08:00",
   "source_dir": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts",
   "teacher_lineage_pin": {
     "label": "clean_rebuild_v2",
@@ -16,12 +16,12 @@
     "attach_persistence_gte": 10,
     "hold_close_steps_gte": 8,
     "post_attach_drawer_delta_gte": 0.9,
-    "grasp_steps_gte": 5,
+    "grasp_steps_gte": 1,
     "pull_steps_gte": 7,
     "pre_attach_drawer_motion_lte": 0.12,
     "phase_distance_lte": 0.3
   },
-  "strong_rollout_count": 8,
+  "strong_rollout_count": 9,
   "strong_coherent_seeds": [
     2
   ],
@@ -275,13 +275,13 @@
     },
     {
       "seed": 10,
-      "strong_rollout_count": 1,
+      "strong_rollout_count": 2,
       "coherent": false,
       "coherence_threshold": 0.3,
       "coherent_subset": {
-        "rollout_count": 1,
-        "mean_pairwise_phase_distance": 0.0,
-        "max_pairwise_phase_distance": 0.0,
+        "rollout_count": 2,
+        "mean_pairwise_phase_distance": 0.3373711340206186,
+        "max_pairwise_phase_distance": 0.3373711340206186,
         "avg_max_drawer_fraction": 1.0,
         "avg_grasp_score": 0.056712303310632706,
         "rollouts": [
@@ -302,6 +302,24 @@
             },
             "branch_id": "branch4_densified_attach_window",
             "contract_mode": null
+          },
+          {
+            "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_010_episode_04.npz",
+            "episode_index": 4,
+            "length": 80,
+            "max_drawer_fraction": 1.0,
+            "grasp_score": 0.056712303310632706,
+            "phase_fractions": {
+              "staging": 0.3,
+              "pregrasp": 0.325,
+              "align": 0.2,
+              "grasp": 0.0125,
+              "hold_close": 0.125,
+              "pull": 0.025,
+              "retreat": 0.0125
+            },
+            "branch_id": "branch4_densified_attach_window",
+            "contract_mode": null
           }
         ]
       },
@@ -315,6 +333,16 @@
           "pull_steps": 17,
           "attach_persistence": 28,
           "handle_distance_min": 0.053859371691942215
+        },
+        {
+          "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_010_episode_04.npz",
+          "rollout_sha256": "2225683e967bf6352a29821c943f47b7c3c977e12c4043aaa7abae32280a2ff2",
+          "episode_index": 4,
+          "grasp_steps": 1,
+          "hold_close_steps": 10,
+          "pull_steps": 2,
+          "attach_persistence": 13,
+          "handle_distance_min": 0.025043200701475143
         }
       ]
     }
@@ -322,6 +350,20 @@
   "strong_rollout_order": [
     {
       "rank": 1,
+      "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_010_episode_04.npz",
+      "rollout_sha256": "2225683e967bf6352a29821c943f47b7c3c977e12c4043aaa7abae32280a2ff2",
+      "seed": 10,
+      "episode_index": 4,
+      "grasp_steps": 1,
+      "hold_close_steps": 10,
+      "pull_steps": 2,
+      "attach_persistence": 13,
+      "post_attach_drawer_delta": 1.0,
+      "pre_attach_drawer_motion": 0.0,
+      "handle_distance_min": 0.025043200701475143
+    },
+    {
+      "rank": 2,
       "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_002_episode_01.npz",
       "rollout_sha256": "748501433c89c611544cb31987021d5945953845ce627ba39f01d9d60ffdac04",
       "seed": 2,
@@ -335,7 +377,7 @@
       "handle_distance_min": 0.029375817626714706
     },
     {
-      "rank": 2,
+      "rank": 3,
       "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_008_episode_01.npz",
       "rollout_sha256": "3dad476583e5f3c5e2e66b939d82a5e190353299581decb12179646e13a4e5f9",
       "seed": 8,
@@ -349,7 +391,7 @@
       "handle_distance_min": 0.03896292671561241
     },
     {
-      "rank": 3,
+      "rank": 4,
       "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_002_episode_04.npz",
       "rollout_sha256": "98b00db696e4de3fbadb23d4fe0e0132bf4c2c3f260b516a08361b9b0d8ba1fc",
       "seed": 2,
@@ -363,7 +405,7 @@
       "handle_distance_min": 0.042213305830955505
     },
     {
-      "rank": 4,
+      "rank": 5,
       "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_002_episode_02.npz",
       "rollout_sha256": "c95bc3fcc3d6fbdb5bb2e03d1e4c16dc07fb6f4bac280b47fe93cf21e089b391",
       "seed": 2,
@@ -377,7 +419,7 @@
       "handle_distance_min": 0.04457671195268631
     },
     {
-      "rank": 5,
+      "rank": 6,
       "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_008_episode_03.npz",
       "rollout_sha256": "5e494a9e2df28836bc61424eef94a310aa84c2d2f5c0f8c76a957cccfdb13cf4",
       "seed": 8,
@@ -391,7 +433,7 @@
       "handle_distance_min": 0.04678609222173691
     },
     {
-      "rank": 6,
+      "rank": 7,
       "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_008_episode_02.npz",
       "rollout_sha256": "d3b8d2c64ef82d86464212eeb87108b85f48f8d578d534d1a71cc79584e3a2c5",
       "seed": 8,
@@ -405,7 +447,7 @@
       "handle_distance_min": 0.049198251217603683
     },
     {
-      "rank": 7,
+      "rank": 8,
       "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_007_episode_00.npz",
       "rollout_sha256": "9aa1c5dcb2b7942c5fcd870472a2e5769fcc39cc2107f0312e3695a122c077d2",
       "seed": 7,
@@ -419,7 +461,7 @@
       "handle_distance_min": 0.05350220948457718
     },
     {
-      "rank": 8,
+      "rank": 9,
       "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_010_episode_01.npz",
       "rollout_sha256": "0651438275cc19e8dcff5d14dee1157b008fc286b4e4d8a0a47387388dcc0569",
       "seed": 10,
@@ -443,20 +485,11 @@
       ]
     },
     {
-      "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_010_episode_04.npz",
-      "seed": 10,
-      "episode_index": 4,
-      "reject_reasons": [
-        "grasp_or_pull_signal_too_low"
-      ]
-    },
-    {
       "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_008_episode_00.npz",
       "seed": 8,
       "episode_index": 0,
       "reject_reasons": [
-        "hold_close_steps_too_low",
-        "grasp_or_pull_signal_too_low"
+        "hold_close_steps_too_low"
       ]
     },
     {
@@ -464,8 +497,7 @@
       "seed": 10,
       "episode_index": 0,
       "reject_reasons": [
-        "post_attach_drawer_delta_too_low",
-        "grasp_or_pull_signal_too_low"
+        "post_attach_drawer_delta_too_low"
       ]
     },
     {
@@ -475,8 +507,7 @@
       "reject_reasons": [
         "attach_persistence_too_low",
         "hold_close_steps_too_low",
-        "post_attach_drawer_delta_too_low",
-        "grasp_or_pull_signal_too_low"
+        "post_attach_drawer_delta_too_low"
       ]
     },
     {
@@ -485,8 +516,7 @@
       "episode_index": 2,
       "reject_reasons": [
         "attach_persistence_too_low",
-        "hold_close_steps_too_low",
-        "grasp_or_pull_signal_too_low"
+        "hold_close_steps_too_low"
       ]
     },
     {

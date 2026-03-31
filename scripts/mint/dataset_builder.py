@@ -70,6 +70,7 @@ def build_dataset_from_rollouts(
     *,
     robot_type: str = "infinigen_drawer_anygrasp_robot",
     remove_existing: bool = True,
+    gripper_binarize: bool = True,
 ) -> dict:
     from lerobot.datasets.lerobot_dataset import LeRobotDataset
 
@@ -119,12 +120,21 @@ def build_dataset_from_rollouts(
         source_files.append(str(npz_path))
         tasks.append(task)
         for idx in range(len(data["actions"])):
+            action = data["actions"][idx].astype(np.float32)
+            # Dataset Wrapper (Option A): Binarize gripper to match MINT VQ-VAE prior
+            # Infinigen data has continuous-gradual gripper (1.0 -> -1.0 over ~5 steps)
+            # MINT VQ-VAE was trained on LIBERO human teleop with discrete binary gripper
+            # Binarization: if gripper < 0 -> -1.0, else -> +1.0
+            if gripper_binarize:
+                gripper_val = action[6]
+                action = action.copy()
+                action[6] = -1.0 if gripper_val < 0 else 1.0
             frame = {
                 "task": task,
                 "observation.images.image": data["images"][idx].astype(np.uint8),
                 "observation.images.image2": data["images2"][idx].astype(np.uint8),
                 "observation.state": data["states"][idx].astype(np.float32),
-                "action": data["actions"][idx].astype(np.float32),
+                "action": action,
             }
             dataset.add_frame(frame)
             frame_count += 1

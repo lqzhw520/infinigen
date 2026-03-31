@@ -1,44 +1,21 @@
 {
-  "controller_id": null,
-  "run_id": null,
+  "controller_id": "d1_v57",
+  "run_id": "d1_v57_main",
   "supervisor_pid": null,
   "inner_watcher_pid": null,
   "worker_pid": null,
   "worker_kind": "manual_reconcile",
   "queue_step": "d1_single_rollout_overfit",
-  "stage": "data_distribution_fix",
+  "stage": "d1_single_rollout_overfit",
   "active_lane": "learnability",
   "active_branch": null,
   "status": "failed",
-  "last_heartbeat": "2026-03-30T00:00:00+08:00",
+  "last_heartbeat": "2026-03-30T23:37:09+08:00",
   "latest_artifact": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/d1_single_rollout_overfit.json",
   "last_successful_milestone": null,
   "retry_count": 2,
   "last_repair_action": "d1_v21_v27_deep_dive_data_distribution_shift_confirmed",
   "last_error": "u3_regime_b_required",
-  "verdict": "data_distribution_shift_confirmed",
-  "timestamp": "2026-03-30T00:00:00+08:00",
-  "data_distribution_fix_options": {
-    "方案A": {
-      "description": "Dataset Wrapper — gripper binarization, action scaling to match LIBERO",
-      "time": "~10 min",
-      "priority": 1
-    },
-    "方案B": {
-      "description": "AnyGrasp data regeneration — force gripper -1.0 for >=5 steps at contact",
-      "time": "2-3h GPU",
-      "priority": 2
-    },
-    "方案C": {
-      "description": "Modify strict_rollout_criteria — lower grasp_steps_gte from 5 to 1-2",
-      "time": "~5 min",
-      "priority": 3
-    }
-  },
-  "root_causes": [
-    "P0: Teacher data grasp_steps=1-2 but strict_rollout_criteria requires >=5",
-    "P0: Infinigen gripper is continuous-gradual, MINT expects discrete binary",
-    "P1: VQ-VAE quantizer loses gripper timing info in small dataset",
-    "P2: direct_grip_head learns to always predict OPEN"
-  ]
+  "verdict": "awaiting_execution",
+  "timestamp": "2026-03-30T23:37:09+08:00"
 }

@@ -32,6 +32,8 @@ Use Infinigen-generated articulated objects as simulation inputs to generate man
 
 ### 1.1 Archived Prior Result (proxy-control baseline)
 
+> **IMPORTANT CAVEAT**: The archived proxy result does **NOT** prove that SigLIP vision encoder can generalize to Infinigen synthetic images. The `DrawerProxyEnv` is a trivially simple task (fixed drawer-joint delta `[0.85, 0, 0, 0, 0, 0, 1.0]` per step). The 100% success came from MINT memorizing the training data pattern, not from vision encoder scene understanding. The real robot environment (`DrawerRobotEnv`) E1 evaluation shows: pretrained_mint = 0% grasp, finetuned_mint = 0% success. SigLIP P0 blocker is real.
+
 The earlier proxy-control simulation campaign remains archived as a baseline:
 
 - Train split: drawerbox seeds `1-10`
@@ -45,6 +47,8 @@ The earlier proxy-control simulation campaign remains archived as a baseline:
 | Random | 0 / 5 | 0.000 | 0.332 | 24.0 |
 | Pretrained MINT | 0 / 5 | 0.000 | 0.432 | 24.0 |
 | Fine-tuned MINT | 5 / 5 | 1.000 | 0.912 | 12.0 |
+
+> **See caveat above** — this result is valid for the proxy task but does not transfer to the robot-trajectory task.
 
 **Archived strongest true claim**:
 
@@ -107,7 +111,6 @@ Infinigen drawer asset -> robot sim scene -> AnyGrasp / oracle grasp audit -> na
 | MuJoCo | 3.6.0 | pip (mint) | mint | ✓ |
 | PyTorch (mint) | 2.3+ | pip (mint) | mint | ✓ CUDA |
 | AnyGrasp SDK | official SDK | external/anygrasp_sdk/ | graspnet | ✓ staged |
-| Contact-GraspNet | PyTorch ver. | external/contact_graspnet_pytorch/ | graspnet | archived auxiliary |
 | PyTorch (graspnet) | 2.5.1+cu121 | pip (graspnet) | graspnet | ✓ CUDA |
 
 ---
@@ -194,7 +197,7 @@ Archived auxiliary note: Contact-GraspNet remains available as prior perception 
 
 | Gate | Result |
 |------|--------|
-| Archived proxy baseline | Complete — `claim_supported` |
+| Archived proxy baseline | Complete — `claim_supported` (proxy task only; does not transfer to robot-trajectory task; see caveat in Section 1.1) |
 | Archived robot revision v1 | Complete — `scientific_not_supported`, but not accepted as final claim truth |
 | Archived gate-drift recovery run | `D1` passed diagnostically, but `D2/D3/E1` were reclassified as `diagnostic_only_after_gate_drift` |
 | Active robot revision v3 | In automatic-pipeline recovery mode; `teacher_contract_rebuild -> action_contract_repair -> replay_gate -> D1 mainline -> D2 -> D3 -> E1` |
@@ -503,7 +506,6 @@ The "intent tokenization" happens internally (state → text tokens → VQ codes
 | paligemma tokenizer | HuggingFace (gated) | external/MINT/checkpoints/ | ~7MB | ✅ |
 | libero-assets | HuggingFace | mint env site-packages | ~766MB | ✅ |
 | AnyGrasp SDK assets | official request bundle | external/anygrasp_sdk/ | staged | ✅ |
-| Contact-GraspNet PyTorch | git clone | external/contact_graspnet_pytorch/ | ~30MB | archived auxiliary |
 | TF checkpoints (4 zips) | Google Drive | external/ (not needed) | ~250MB | ⚠️ Can delete |
 
 ---
@@ -562,8 +564,8 @@ Resume: `_overnight_sandbox/CHECKPOINT_20260321.md`
 │   ├── MINT/
 │   │   ├── checkpoints/{MINT-libero, MINT-tokenizer-libero, paligemma-3b-pt-224}
 │   │   └── lerobot_policy_mint/
-│   └── contact_graspnet_pytorch/
-│       └── checkpoints/contact_graspnet/checkpoints/model.pt
+│   
+│      
 └── sim_exports/urdf/{drawerbox, mailerbox_simple, sliplidbox, tuckendbox}/
 ```
 

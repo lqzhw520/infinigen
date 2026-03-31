@@ -1,7 +1,7 @@
 {
   "campaign": "mint_drawer_v1",
   "phase": "mint_robot_trajectory_claim_push",
-  "status": "data_distribution_shift_confirmed",
+  "status": "root_cause_confirmed_dual_blocker",
   "artifacts": {
     "b1_oracle_scripted_baseline": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/b1_oracle_scripted_baseline.json",
     "b2_anygrasp_scripted_baseline": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/b2_anygrasp_scripted_baseline.json",

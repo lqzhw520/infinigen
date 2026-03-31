@@ -1,10 +1,11 @@
-# MINT Drawer v1 — Complete Root-Cause Resolution Plan (v2)
+# MINT Drawer v1 — Root-Cause Resolution Plan
+**真相源**: `experiments/mint/mint_drawer_v1/CAMPAIGN_TRUTH.md` — 所有内容以此为准。
 
 **Date:** 2026-03-27 (revised after full B1/U5/C2 evidence review)
-**Updated:** 2026-03-30 (V21-V27 deep dive findings)
-**Status:** ACTIVE — Data Distribution Shift confirmed, fix pending
+**Updated:** 2026-03-31T19:00:00+08:00 (Truth Consolidation v3.0 — dual P0 blockers confirmed: SigLIP + VQ-VAE)
+**Status:** ACTIVE — awaiting PhD师兄 VQ-VAE training code (2 days) + data expansion to 5,000+ frames
 **Claim:** `Infinigen-generated AnyGrasp-conditioned robot-arm drawer trajectories improve MINT success on held-out drawer variants in simulation relative to pretrained MINT.`
-**Immediate Blocker:** ~~D2 `strong_rollout_count=1`~~ → **RESOLVED** → **NEW BLOCKER: Data Distribution Shift**
+**Immediate Blocker:** ~~Data Distribution Shift (VQ-VAE codebook)~~ → **REJECTED → NEW: Action-Measurement Mismatch + Physics-Gap + Observation Mismatch + Insufficient Data**
 
 ---
 
@@ -555,3 +556,125 @@ Phase 2.5 gate: held-out oracle probe passes on ≥3 of seeds 11-15?
 3. Seeds 7 and 9 both have AnyGrasp successes with strong phase structure — these are additional D3 candidates.
 4. The oracle baseline failure on seeds 2,10 is a scientific asset: it demonstrates that AnyGrasp adds value over scripted oracles for these geometries.
 5. The held-out seeds (11-15) are the only genuine unknown — they must be probed before E1.
+
+---
+
+## 7. V57 Final Verification (2026-03-30)
+
+V57 is the definitive test: all engineering bugs fixed, frozen VQ-VAE decoder, no direct_grip_head.
+
+### V57 Approach
+
+**Core insight**: Not "fix the decoder" but "don't break the pretrained decoder". The LIBERO-pretrained VQ-VAE decoder already correctly decodes gripper from codebook — the problem is the codebook itself cannot encode Infinigen gripper.
+
+| Component | V56 | V57 |
+|-----------|-----|-----|
+| VQ-VAE decoder | Unfrozen (gradient competition) | **Frozen** |
+| direct_grip_head | Present (gradient competition source) | **Removed** |
+| Decoder gripper loss | Present (gradient competition) | **Removed** |
+| Inference gripper override | Present but disabled | **Removed** |
+| Forward return | `(loss, rec_loss)` | **`loss` only** |
+| Code changes | — | **-180 lines** |
+
+### V57 Training Log
+
+```
+step   200: loss=9.287   (initial unstable)
+step   400: loss=1.228
+step   600: loss=0.318   checkpoint #1
+step   800: loss=0.263
+step  1000: loss=0.212
+step  1200: loss=0.212   checkpoint #2
+step  1600: loss=0.169
+step  2000: loss=0.136
+step  2400: loss=0.104   checkpoint #3
+step  2800: loss=0.120
+step  3000: loss=0.100   checkpoint #4 (final)
+```
+
+**Training: STABLE ✅** — loss converges normally, no engineering issues.
+
+### V57 Evaluation Results
+
+| Metric | Pretrained MINT | Finetuned V57 | Gain |
+|--------|-----------------|---------------|------|
+| success | 0/5 | 0/5 | +0 |
+| grasp_success | 0.000 | 0.000 | +0 |
+| pull_distance | 0.000 | 0.000 | +0 |
+| total_eef_motion | 4.003m | 7.178m | **+3.175m (+79%)** |
+| ever_attached | false | false | — |
+| max_drawer_fraction | 0.0 | 0.0 | — |
+
+### V57 Root Cause Confirmation（修正版：2026-03-31）
+
+⚠️ **以下分析已被修正**
+
+**原始声明**："Infinigen data has continuous-gradual gripper: +1.0→-1.0 over ~5 steps" — **这是错误的**
+
+**经过 NPZ 原始数据验证的真实情况**：
+- `gripper_values ∈ {0, 1}` — **离散二进制**
+- `actions[:, 6] ∈ {-1, +1}` — **离散二进制**
+- `states[:, -1] ∈ {0, 1}` — **离散二进制（无中间值）**
+- **所有数据完全是离散的，与 LIBERO 格式完全匹配**
+
+**Engineering bugs**: ✅ 全部修复
+
+**但 V57 pretrained 和 finetuned 都 0% grasp 的真正根因需要进一步调查**：
+
+**Evidence chain（修正版）:**
+1. LM learns motion: EEF 4.0m → 7.2m (+79%) ✅
+2. LM learns EEF direction: directional coherence with teacher ✅
+3. LM does NOT learn gripper close: `ever_attached=false` for all 5 episodes ❌
+4. Both pretrained AND finetuned = 0% grasp → problem is NOT in fine-tuning ❌
+5. **VQ-VAE codebook gripper hypothesis REJECTED**: Infinigen gripper IS discrete binary {-1, +1}, matching LIBERO ❌→✅
+6. **Action-Measurement Mismatch DISCOVERED**: action delta vs actual EEF movement correlation X=0.54, Y/Z=0.16 ⚠️
+7. **Physics-Gap PLATFORM**: LIBERO real robot vs Infinigen simulation physical difference ⚠️
+
+**修正后的结论**：VQ-VAE codebook 不匹配不再是根本原因。真正的根因候选：
+1. **Action-Measurement Mismatch**：action delta 与 actual EEF movement 严重脱节
+2. **Physics-Gap**：LIBERO 真实机器人 vs Infinigen 仿真器物理差异
+3. **Observation Mismatch**：图像风格差异
+4. **数据量不足**：1,301 vs 50,000 帧
+
+**Option B (VQ-VAE 重训练) 被暂停**：必须先验证上述候选根因
+
+### V57 vs Previous Versions
+
+| Version | Decoder | gripper loss | direct_grip | Training Stable | EEF Motion | Grasp |
+|---------|---------|-------------|------------|---------------|-----------|-------|
+| V21 | frozen | no | no | ✅ | ~2m | 0% |
+| V24 | unfrozen (140/153) | yes | no | ✅ | 16.3m | 0% |
+| V26 | unfrozen | yes | added | ✅ | — | 0% |
+| V55 | unfrozen (disabled override) | yes | disabled | ✅ | 12.4m | 0% |
+| **V57** | **frozen** | **removed** | **removed** | **✅** | **7.2m** | **0%** |
+
+### Decision: V58 End-to-End Fine-tune (替代旧版 Option B)
+
+⚠️ **VQ-VAE 训练代码不存在**（博士师兄 2 天后提供）；Vision Encoder 训练代码也不存在（workspace 搜索完毕）。
+
+| Option | Scope | Data Needed | GPU Time | Expected Effect | Status |
+|--------|-------|------------|---------|----------------|--------|
+| **V58 (VQ-VAE + LM)** | encoder+quantizer+decoder + LM backbone | 5,000+ frames | ~24-48h | Partial (Vision Encoder not trained) | ⏳ Pending师兄 code |
+| Vision Encoder Fine-tune | SigLIP adaptation | 5,000+ frames | ~24h | Required for full solution | ❌ No training code exists |
+
+⚠️ **VQ-VAE 和 Vision Encoder 不是独立的，是通过 LM 耦合的。只重训练 VQ-VAE 是必要但不充分的。**
+
+### Prerequisite: Data Quality Gates
+
+Before generating new rollouts for V58, the following must be verified:
+
+1. **Physical realism**: Position delta ∈ [-0.05m, +0.05m], rotation delta ∈ [-0.3rad, +0.3rad]
+2. **Gripper close signal**: grasp_steps >= 5, hold_close_steps >= 8
+3. **Trajectory completeness**: episode length >= 60 frames, full phase coverage
+4. **Diversity**: >= 5 seeds, >= 2 rollouts per seed, phase_distance coherence
+
+---
+
+## 8. Safety Rules for V58
+
+1. **MINT model architecture must not change** until D2 passes on clean data. No exceptions.
+2. **One controller at a time.** Always check `ps aux | grep python` before launching any screen job.
+3. **All D1/D2 results must carry the same `MINT_CONTROLLER_ID`.** Mixed controller IDs invalidate comparison.
+4. **Rollout identity is SHA256, not seed/episode name.** The two `seed_010_episode_04.npz` files are different rollouts.
+5. **After each phase, sync:** `state.json`, `campaign_status.md`, `watch_status.json`, `review.json`, `findings.md`, `progress.md`.
+6. **Data quality gates must pass before VQ-VAE training begins.** No training on unverified data.

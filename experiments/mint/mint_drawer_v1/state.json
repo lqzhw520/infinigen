@@ -631,7 +631,7 @@
   "retries": {
     "d1_single_rollout_overfit": 2
   },
-  "verdict": "data_distribution_shift_confirmed",
+  "verdict": "root_cause_confirmed_dual_blocker",
   "claim_level": null,
   "revision": {
     "active": "robot_revision_v3_claim_push",
@@ -640,20 +640,28 @@
       "robot_revision_v1_failed"
     ],
     "proxy_revision_archived": true,
+    "proxy_revision_caveat": "Proxy Baseline 100% success does NOT prove SigLIP generalization — DrawerProxyEnv is trivially simple task (fixed joint-delta); E1 eval confirms pretrained_mint=0% grasp",
     "robot_revision_v1_failed_archived": true,
     "robot_trajectory_revision_started": true
   },
   "coverage_expansion_attempts": 0,
-  "updated_at": "2026-03-30T23:37:09+08:00",
+  "updated_at": "2026-03-31T19:00:00+08:00",
   "last_error": "u3_regime_b_required",
-  "last_repair_action": "d1_v21_v27_deep_dive_data_distribution_shift_confirmed",
-  "data_distribution_fix": {
-    "status": "pending",
-    "gemini_suggestion": "Dataset Wrapper to rescale Infinigen data to match LIBERO distribution",
-    "方案A": "Dataset Wrapper (fast, 10min) — gripper binarization, action scaling to match LIBERO",
-    "方案B": "AnyGrasp data regeneration (2-3h GPU) — force gripper to -1.0 for >=5 steps at contact",
-    "方案C": "Modify strict_rollout_criteria — lower grasp_steps_gte from 5 to match data (1-2)",
-    "recommendation": "Start with 方案A (fastest), if works proceed to 方案B (correct). Also evaluate 方案C."
+  "last_repair_action": "v57_truth_correction_v3_dual_p0_blockers",
+  "v57_v3_summary": {
+    "status": "root_cause_confirmed",
+    "pretrianed_mint": "0% grasp (E1 eval + D1 probe)",
+    "finetuned_v57": "0% grasp (3000 steps, stable loss)",
+    "p0_1_siglip": "CONFIRMED — SigLIP cannot generalize to Infinigen synthetic images",
+    "p0_2_vqvae": "CONFIRMED — VQ-VAE quantizer bottleneck; workspace no training code",
+    "data_insufficient": "CONFIRMED — 1,301 frames (2.6% of LIBERO 50K)",
+    "excluded_hypotheses": [
+      "VQ-VAE codebook mismatch (gripper) REJECTED — data is discrete binary",
+      "SigLIP can generalize (Proxy Baseline) REJECTED — proxy=trivial task",
+      "Decoder broken by direct_grip_head REJECTED — V57 frozen decoder still 0%"
+    ],
+    "decision": "await_phd_brother_vqvae_and_siglip_code_and_data_expansion",
+    "next_phase": "v58_end_to_end_finetune_with_siglip_solution"
   },
   "engineering_fixes_completed": {
     "mint_utils_inplace_ops": "FIXED — F.silu->nn.functional.silu, all f_hat.add_->f_hat=f_hat+",
@@ -676,14 +684,20 @@
     "last_update": "2026-03-26T19:52:27+08:00"
   },
   "learnability_lane": {
-    "status": "data_distribution_fix_required",
+    "status": "blocked_by_dual_p0",
+    "blocker": "SigLIP vision encoder + VQ-VAE quantizer; pretrained MINT = 0% grasp (independent of fine-tuning)",
     "source_contract_mode": "teacher_success_fallback",
     "source_branch": "branch4_densified_attach_window",
     "current_step": "d1_single_rollout_overfit",
     "last_positive_step": null,
-    "last_update": "2026-03-30T00:00:00+08:00",
-    "diagnostic_winner_seed": 9,
-    "diagnostic_winner_rollout": "seed_009_episode_02",
+    "last_update": "2026-03-31T19:00:00+08:00",
+    "v57_result": {
+      "pretrianed_grasp": 0,
+      "finetuned_grasp": 0,
+      "finetuned_eef_motion_m": 7.178,
+      "pretrianed_eef_motion_m": 4.003,
+      "conclusion": "LM learns motion but cannot close gripper; fine-tuning irrelevant; root cause in vision encoder + VQ-VAE"
+    },
     "strict_teacher_rollout_count": 15,
     "strict_teacher_seed_count": 5,
     "d1_candidate_order": [

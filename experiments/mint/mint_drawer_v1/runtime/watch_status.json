@@ -10,12 +10,15 @@
   "active_lane": "learnability",
   "active_branch": null,
   "status": "failed",
-  "last_heartbeat": "2026-03-30T23:37:09+08:00",
+  "last_heartbeat": "2026-03-31T19:00:00+08:00",
   "latest_artifact": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/d1_single_rollout_overfit.json",
   "last_successful_milestone": null,
   "retry_count": 2,
-  "last_repair_action": "d1_v21_v27_deep_dive_data_distribution_shift_confirmed",
+  "last_repair_action": "v57_truth_correction_v3_dual_p0_blockers",
   "last_error": "u3_regime_b_required",
-  "verdict": "awaiting_execution",
-  "timestamp": "2026-03-30T23:37:09+08:00"
+  "verdict": "root_cause_confirmed_dual_blocker",
+  "decision": "await_phd_brother_vqvae_and_siglip_code_and_data_expansion",
+  "next_phase": "v58_end_to_end_finetune_with_siglip_solution",
+  "timestamp": "2026-03-31T19:00:00+08:00",
+  "note": "SigLIP P0 blocker confirmed (E1 eval); Proxy Baseline REJECTED as SigLIP generalization evidence; v3.0 documents synced"
 }

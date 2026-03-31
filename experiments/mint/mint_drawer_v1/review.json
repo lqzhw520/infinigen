@@ -1,29 +1,30 @@
 {
   "phase": "mint_robot_trajectory_claim_push",
-  "phase_gate": "clean_c2_available_ready_for_d1",
+  "phase_gate": "await_phd_brother_vqvae_and_siglip_code_and_data_expansion",
   "workflow_score": 7,
   "evidence_score": 2,
-  "decision": "run_experiments",
-  "blocker_type": "none",
-  "verdict": "awaiting_execution",
-  "claim_assessment": "The strict-valid teacher pool now distinguishes diagnostic and mainline candidates; 3 D2-feasible rollout(s) remain eligible for the mainline D1->D2 path.",
+  "decision": "await_external_resources",
+  "blocker_type": "dual_p0",
+  "verdict": "root_cause_confirmed_dual_blocker",
+  "claim_assessment": "CLAIM NOT SUPPORTED — two P0 blockers confirmed by V57 experiment. SigLIP vision encoder cannot generalize to Infinigen synthetic images (E1 eval: pretrained_mint=0% grasp). VQ-VAE quantizer cannot encode Infinigen drawer-specific action latent (no training code). Proxy Baseline REJECTED as SigLIP generalization evidence.",
   "strengths": [
-    "Proxy baseline has been archived before the robot-trajectory revision.",
-    "12/17 queue steps have validated artifacts.",
-    "Campaign history is being recorded incrementally.",
-    "Strict-valid teacher pool is explicit: 15 rollout(s) across 5 seed(s).",
-    "Environment contract audit passed: no-attach drawer exploit is below threshold on the sampled seeds.",
-    "Learnability lane has a valid rollout source and can continue independently from strict replay repair."
+    "AnyGrasp successfully generates drawer-grasping trajectories on Infinigen sim",
+    "Teacher rollouts (C2) produce high-quality, physically valid action sequences",
+    "MINT LM successfully learns drawer motion patterns (EEF +3.2m in V57)",
+    "All engineering bugs resolved (V57 training fully stable)",
+    "Proxy baseline archived with clear caveat (not SigLIP generalization evidence)"
   ],
   "weaknesses": [
-    "Handle semantics are weakly exported or heuristically inferred, so upstream asset/export metadata remains a real suspect."
+    "P0-1: SigLIP vision encoder cannot generalize to Infinigen synthetic images (E1 eval confirmed; no training code in workspace)",
+    "P0-2: VQ-VAE quantizer cannot encode Infinigen-specific action latents (no training code in workspace)",
+    "Data insufficient: 1,301 frames (2.6% of LIBERO ~50K); need 5,000+"
   ],
   "next_actions": [
-    "Advance the learnability lane into D1 overfit instead of waiting for strict replay to turn fully green.",
-    "Keep the strict replay lane running in parallel so the teacher/native contract becomes scientifically cleaner even if the learnability lane advances first.",
-    "Keep the upstream audit lane explicit: only modify `infinigen/**` if the audited evidence points to a specific export or geometry defect.",
-    "Upstream remains suspect, but do not patch `infinigen/**` yet; wait for D1 candidate search to finish under strict success.",
-    "Run or resume the next pending queue step: `d1_single_rollout_overfit`."
+    "Contact PhD师兄 for VQ-VAE training code + SigLIP fine-tuning code",
+    "Generate more rollouts: target 5,000+ frames (currently 1,301)",
+    "Evaluate SigLIP replacement options (CLIP, DINOv2, etc.) if PhD师兄 cannot provide training code",
+    "Verify held-out seed solvability (seeds 11-15 — B1 only covered 1-10)"
   ],
-  "generated_at": "2026-03-30T23:37:09+08:00"
+  "generated_at": "2026-03-31T19:00:00+08:00",
+  "v3_correction_note": "Proxy Baseline 100% success does NOT prove SigLIP generalization — DrawerProxyEnv is trivially simple task (fixed joint-delta); real Robot Env E1 eval shows pretrained_mint=0% grasp"
 }

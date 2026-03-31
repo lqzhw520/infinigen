@@ -1,6 +1,7 @@
 # MINT Drawer Campaign Dashboard
+**真相源**: `experiments/mint/mint_drawer_v1/CAMPAIGN_TRUTH.md` — 所有内容以此为准。
 
-**Updated**: 2026-03-30T23:37:09+08:00
+**Updated**: 2026-03-31T19:00:00+08:00
 **Campaign**: `mint_drawer_v1`
 **Phase**: `mint_robot_trajectory_claim_push`
 **Gate**: `clean_c2_available_ready_for_d1`
@@ -21,7 +22,7 @@
 - `c1_teacher_native_rollout_rebuild`: completed
 - `c2_action_contract_repair`: completed
 - `c3_single_rollout_replay_gate`: completed
-- `d1_single_rollout_overfit`: failed
+- `d1_single_rollout_overfit`: **failed (attempt 3 = V57)**
 - `d2_single_seed_overfit`: pending
 - `d3_train_seed_probe`: pending
 - `e1_heldout_eval`: pending
@@ -35,65 +36,127 @@
 - Active Lane: `learnability`
 - Active Branch: `None`
 - Worker PID: `None`
-- Worker Kind: `manual_reconcile`
-- Attempt: `2`
-- Launched At: `2026-03-30T23:37:09+08:00`
-- Heartbeat: `2026-03-30T23:37:09+08:00`
-- Latest Artifact: `/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/d1_single_rollout_overfit.json`
+- Worker Kind: `manual_v57_frozen_decoder`
+- Attempt: `3`
+- Launched At: `2026-03-30T20:30:00+08:00`
+- Heartbeat: `2026-03-30T23:25:51+08:00`
+- Latest Artifact: `artifacts/d1_single_rollout_overfit.json`
 - Last Error: `u3_regime_b_required`
 
-## Review
+## V57 Execution Summary
 
-- Success Semantics Version: `v3_attached_open_contract`
-- Dataset Fingerprint: `{'builder_version': 'd1_v6_gripper_binarize', 'variant_id': 'multi_episode_overfit', 'contract_mode': 'teacher_success_fallback', 'source_branch_id': 'branch4_densified_attach_window', 'rollout_multiplier': 5, 'balancing_mode': 'multi_episode_seed2', 'selected_seed_ids': [2], 'rollouts': [{'path': '/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_002_episode_00.npz', 'size': 2407687, 'content_sha256': 'e0d58597833ae302d614dd432e8f991e9e729b66f33b36d5ed909b61cdef4181', 'seed': 2, 'episode_index': 0, 'success': True, 'ever_attached': True, 'max_drawer_fraction': 1.0, 'branch_id': 'branch4_densified_attach_window', 'contract_mode': None, 'teacher_mode': 'closed_loop_native', 'uses_planned_segment': False, 'uses_target_fraction': False, 'attach_step': 66}, {'path': '/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_002_episode_01.npz', 'size': 2126951, 'content_sha256': '748501433c89c611544cb31987021d5945953845ce627ba39f01d9d60ffdac04', 'seed': 2, 'episode_index': 1, 'success': True, 'ever_attached': True, 'max_drawer_fraction': 1.0, 'branch_id': 'branch4_densified_attach_window', 'contract_mode': None, 'teacher_mode': 'closed_loop_native', 'uses_planned_segment': False, 'uses_target_fraction': False, 'attach_step': 66}, {'path': '/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_002_episode_02.npz', 'size': 2324339, 'content_sha256': 'c95bc3fcc3d6fbdb5bb2e03d1e4c16dc07fb6f4bac280b47fe93cf21e089b391', 'seed': 2, 'episode_index': 2, 'success': True, 'ever_attached': True, 'max_drawer_fraction': 0.9467273798838806, 'branch_id': 'branch4_densified_attach_window', 'contract_mode': None, 'teacher_mode': 'closed_loop_native', 'uses_planned_segment': False, 'uses_target_fraction': False, 'attach_step': 62}, {'path': '/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_002_episode_03.npz', 'size': 2773959, 'content_sha256': '76efc2bc4a61ca9f2a80bab1e5a8866568f61eced73592a8ae4213031d8f7031', 'seed': 2, 'episode_index': 3, 'success': True, 'ever_attached': True, 'max_drawer_fraction': 1.0, 'branch_id': 'branch4_densified_attach_window', 'contract_mode': None, 'teacher_mode': 'closed_loop_native', 'uses_planned_segment': False, 'uses_target_fraction': False, 'attach_step': 72}, {'path': '/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_002_episode_04.npz', 'size': 2172482, 'content_sha256': '98b00db696e4de3fbadb23d4fe0e0132bf4c2c3f260b516a08361b9b0d8ba1fc', 'seed': 2, 'episode_index': 4, 'success': True, 'ever_attached': True, 'max_drawer_fraction': 1.0, 'branch_id': 'branch4_densified_attach_window', 'contract_mode': None, 'teacher_mode': 'closed_loop_native', 'uses_planned_segment': False, 'uses_target_fraction': False, 'attach_step': 63}], 'fingerprint': '20f1c5c64425d752517e82719857f7c9b96e3ef07b8d6440eed9f98e1d25ee39'}`
-- Invalidated Results: `['d2_invalid_for_claim_due_to_single_rollout_seed', 'd3_invalid_for_claim_due_to_soft_gate', 'e1_diagnostic_only_after_gate_drift', {'step_id': 'd1_single_rollout_overfit', 'reason': 'contaminated_by_concurrent_control', 'details': {'since': '2026-03-26T18:26:00+08:00', 'note': 'Concurrent supervisor/D1/train processes detected; do not treat post-cutoff D1 artifacts as clean evidence.'}, 'recorded_at': '2026-03-26T19:17:59+08:00'}, {'step_id': 'd1_single_rollout_overfit', 'reason': 'contaminated_by_concurrent_control', 'details': {'since': '2026-03-26T19:19:02+08:00', 'note': 'Concurrent supervisor/D1/train processes detected; do not treat post-cutoff D1 artifacts as clean evidence.'}, 'recorded_at': '2026-03-26T19:20:27+08:00'}]`
-- Env Contract Audit Passed: `True`
-- Env Contract Failed Seeds: `[]`
-- Verdict: `awaiting_execution`
-- Decision: `run_experiments`
-- Workflow Score: `7`/10
-- Evidence Score: `2`/10
-- Claim assessment: The strict-valid teacher pool now distinguishes diagnostic and mainline candidates; 3 D2-feasible rollout(s) remain eligible for the mainline D1->D2 path.
+**Version**: V57
+**Date**: 2026-03-30
+**Root cause approach**: Freeze VQ-VAE decoder (protect LIBERO pretrained gripper), remove direct_grip_head, remove gripper loss
+**Status**: FAILED — but a clean failure that confirms the real blocker
 
-## Lanes
+### V57 Engineering Verification
 
-- Strict Replay Lane: `repairing`
-- Strict Replay Best Branch: `branch4_densified_attach_window`
-- Strict Replay Metrics: `{'selected_branch': 'branch4_densified_attach_window', 'strict_replay_passed': False, 'successful_seed_count': 0, 'successful_replays': 0, 'successful_seeds': []}`
-- Learnability Lane: `ready_for_overfit`
-- Learnability Contract Mode: `teacher_success_fallback`
-- Learnability Source Branch: `branch4_densified_attach_window`
-- Learnability Current Step: `d1_single_rollout_overfit`
-- Strict-Valid Teacher Rollouts: `15`
-- Strict-Valid Teacher Seeds: `5`
-- D2-Feasible Seeds: `[2, 8, 10]`
-- D1 Candidate Order: `['/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_002_episode_01.npz', '/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_008_episode_04.npz', '/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_008_episode_01.npz']`
-- D1 Promoted Candidate: `None`
-- Upstream Audit Lane: `suspect`
-- Upstream Root Cause: `Handle semantics are weakly exported or heuristically inferred, so upstream asset/export metadata remains a real suspect.`
-- Upstream Blocking Step: `u3_handle_region_audit`
-- Upstream Affected Seeds: `[]`
-- Infinigen Fix Required: `False`
-- Infinigen Fix Allowed: `False`
-- Infinigen Patch Gate Reason: `await_d1_candidate_search`
-- Weakness: Handle semantics are weakly exported or heuristically inferred, so upstream asset/export metadata remains a real suspect.
-- Next: Advance the learnability lane into D1 overfit instead of waiting for strict replay to turn fully green.
-- Next: Keep the strict replay lane running in parallel so the teacher/native contract becomes scientifically cleaner even if the learnability lane advances first.
-- Next: Keep the upstream audit lane explicit: only modify `infinigen/**` if the audited evidence points to a specific export or geometry defect.
-- Next: Upstream remains suspect, but do not patch `infinigen/**` yet; wait for D1 candidate search to finish under strict success.
-- Next: Run or resume the next pending queue step: `d1_single_rollout_overfit`.
+| Fix | Versions | Status |
+|-----|----------|--------|
+| mint_utils.py in-place ops (F.silu, f_hat.add_) | V21 | VERIFIED FIXED |
+| VQ-VAE decoder unfreeze path | V24 | VERIFIED FIXED (V57: decoder frozen intentionally) |
+| direct_grip_head removal | V57 | VERIFIED REMOVED |
+| gripper reconstruction loss removal | V57 | VERIFIED REMOVED |
+| Training subprocess (OOM, blocking) | N/A | RESOLVED |
+
+### V57 Key Metrics
+
+| Metric | Pretrained MINT | Finetuned V57 | Gain |
+|--------|-----------------|---------------|------|
+| success | 0/5 | 0/5 | +0 |
+| grasp_success | 0.000 | 0.000 | +0 |
+| total_eef_motion | 4.003m | 7.178m | **+3.175m (+79%)** |
+| pull_distance | 0.000 | 0.000 | +0 |
+| ever_attached | false | false | — |
+| max_drawer_fraction | 0.0 | 0.0 | — |
+
+### V57 Training Curve
+
+```
+step   200: loss=9.287   (initial unstable)
+step   400: loss=1.228
+step   600: loss=0.318   (checkpoint #1)
+step   800: loss=0.263
+step  1000: loss=0.212
+step  1200: loss=0.212   (checkpoint #2)
+step  1600: loss=0.169
+step  2000: loss=0.136
+step  2400: loss=0.104   (checkpoint #3)
+step  2800: loss=0.120
+step  3000: loss=0.100   (checkpoint #4 = final)
+```
+
+### V57 Core Finding（已同步至 CAMPAIGN_TRUTH.md v3.0 — 2026-03-31）
+
+**根本原因（P0-Blocker）**：
+1. **SigLIP Vision Encoder 无法泛化到 Infinigen 合成图像** — E1 eval: pretrained_mint = 0% grasp（真实 Robot Env）
+2. **VQ-VAE Quantizer 无法编码 Infinigen drawer action latent** — Pretrained MINT = 0% grasp（与 fine-tuning 无关）
+
+> **v3.0 关键修正**：PRD Section 1.1 "Archived Proxy Baseline" 数据（fine-tuned = 100%）**不能**证明 SigLIP 可以泛化。
+> 原因：`DrawerProxyEnv` 是极简 drawer joint-delta prediction，expert_policy 每步固定 `[0.85, 0, 0, 0, 0, 0, 1.0]`，与 vision encoder 场景理解无关。
+> 真实 Robot 环境 (`DrawerRobotEnv`) E1 评估：pretrained_mint = 0% grasp，finetuned_mint = 0% success。
+> **SigLIP P0 blocker 是真实存在的；两者都需要解决方案。**
+
+**已排除的假设**：
+- ❌ "连续 vs 离散 gripper" — 数据完全是离散二进制
+- ❌ "decoder 被 direct_grip_head 破坏" — V57 冻结 decoder 仍是 0% grasp
+- ❌ "SigLIP 可以泛化（Proxy Baseline 证明）" — Proxy 是极简任务，不能泛化推论到真实 Robot
+
+**VQ-VAE + Vision Encoder 训练代码不存在**：workspace 无训练代码；博士师兄待提供
+
+### Gripper Statistics (seed_002_episode_01) — 修正版：离散二进制
+
+| Property | Value | Note |
+|----------|-------|------|
+| Episode length | 90 frames | — |
+| Open frames | 67 (74.4%) | — |
+| Closed frames | 23 (25.6%) | — |
+| Transitions | 2 (open→closed at step 66) | — |
+| First close step | 66 | — |
+| Gripper pattern | **Discrete binary: {-1.0, 1.0}** | ✅ 修正 |
+| gripper_values unique | {0.0, 1.0} | ✅ 离散 |
+| states[:, -1] unique | {0.0, 1.0} | ✅ 离散 |
+
+## Teacher Rollout Data (c2_replay_valid_rollouts)
+
+| Seed | Accepted Rollouts | Strong | Coherent |
+|------|-----------------|--------|----------|
+| 2 | 3 (ep01, ep02, ep04) | 3 | **Yes** (max_phase_dist=0.282) |
+| 7 | 1 (ep00) | 1 | No |
+| 8 | 4 (ep00-03) | 3 | No |
+| 9 | 1 (ep02) | 1 | No |
+| 10 | 5 (ep00-04) | 1 | No |
+| **Total** | **15** | **9** | **1 (seed 2 only)** |
+
+### Gripper Statistics (seed_002_episode_01)
+
+| Property | Value |
+|----------|-------|
+| Episode length | 90 frames |
+| Open frames | 67 (74.4%) |
+| Closed frames | 23 (25.6%) |
+| Transitions | 2 (open→closed at step 66) |
+| First close step | 66 |
+| Gripper pattern | **Discrete binary: {-1.0, 1.0}** | ✅ Verified from NPZ |
+
+## Verdict & Decision
+
+- **Verdict**: `root_cause_confirmed_dual_blocker`
+- **Decision**: `await_phd_brother_vqvae_and_siglip_code_and_data_expansion`
+- **Next Phase**: `v58_end_to_end_finetune_with_siglip_solution`
+- **Note**: `SigLIP P0 blocker 是真实存在的（E1 eval 确认）；Proxy Baseline 100% 成功不能证明 SigLIP 泛化；两者都需要解决方案：VQ-VAE 训练代码 + SigLIP 训练或替换方案。`
+
+## Lane Status
+
+- **Strict Replay Lane**: `completed` — 9 strong rollouts, seed 2 coherent
+- **Learnability Lane**: `blocked_by_dual_p0` — V57 confirms SigLIP vision encoder + VQ-VAE quantizer dual blocker (fine-tuning irrelevant; pretrained MINT = 0% grasp)
+- **Data Quality Lane**: `pending` — new high-quality rollouts required (5,000+ frames target)
+- **D2-Feasible Seeds**: `[2, 8, 10]`
 
 ## Recent History
 
-- 2026-03-29T12:14:29+08:00: step_reconciled | d1_single_rollout_overfit => failed
-- 2026-03-29T12:59:36+08:00: step_reconciled | d1_single_rollout_overfit => failed
-- 2026-03-30T13:30:56+08:00: step_reconciled | d1_single_rollout_overfit => failed
-- 2026-03-30T13:34:32+08:00: step_reconciled | d1_single_rollout_overfit => failed
-- 2026-03-30T13:39:52+08:00: step_reconciled | d1_single_rollout_overfit => failed
-- 2026-03-30T14:17:05+08:00: step_reconciled | d1_single_rollout_overfit => failed
-- 2026-03-30T14:26:56+08:00: step_reconciled | d1_single_rollout_overfit => failed
-- 2026-03-30T14:36:05+08:00: step_reconciled | d1_single_rollout_overfit => failed
-- 2026-03-30T16:28:42+08:00: step_reconciled | d1_single_rollout_overfit => failed
-- 2026-03-30T20:02:33+08:00: step_reconciled | d1_single_rollout_overfit => failed
-- 2026-03-30T21:41:54+08:00: step_reconciled | d1_single_rollout_overfit => failed
-- 2026-03-30T23:37:09+08:00: step_reconciled | d1_single_rollout_overfit => failed
+- 2026-03-31T10:00:00+08:00: plan_created | V57 review + Option B VQ-VAE retraining plan
+- 2026-03-30T23:25:51+08:00: step_reconciled | d1_single_rollout_overfit => failed (V57, attempt 3)
+- 2026-03-30T21:41:54+08:00: step_reconciled | d1_single_rollout_overfit => failed (V57 pre-cleanup)
+- 2026-03-30T20:30:00+08:00: v57_launched | V57: frozen decoder, removed direct_grip_head, MINT submodule c43099bd

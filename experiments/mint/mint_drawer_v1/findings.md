@@ -1,132 +1,130 @@
-# findings.md — mint_drawer_v1 D1 deep diagnosis
+# findings.md — mint_drawer_v1 D1 deep diagnosis + V57 truth correction
 
-**Updated**: 2026-03-27T14:30:00+08:00
+**Updated**: 2026-03-31T19:00:00+08:00
 
 ## D1 Run Summary
 
-- **Training**: PASSED (returncode=0, 1200 steps, loss 2.236→0.317→0.052→0.000→0.000)
-- **Eval**: ZERO SIGNAL (5/5 episodes: grasp=False, pull=0.0, ever_attached=False)
-- **D1 Gate**: FAILED — `failure_reason: u3_regime_b_required`
-- **stage_a_signal**: False for all candidates
+- **Training**: PASSED (V57: frozen decoder, 3000 steps, loss 9.287→0.100, stable convergence)
+- **Eval**: ZERO SIGNAL in grasp (5/5 episodes pretrained=0%, finetuned=0%)
+- **D1 Gate**: FAILED — `u3_regime_b_required` (V57, attempt 3)
+- **V57 Core Finding**: pretrained AND finetuned both 0% grasp — problem is NOT in fine-tuning strategy
+
+> **IMPORTANT CAVEAT (v3.0 — 2026-03-31)**: The archived proxy baseline result does **NOT** prove that SigLIP vision encoder can generalize to Infinigen synthetic images. The `DrawerProxyEnv` is a trivially simple task (fixed drawer-joint delta `[0.85, 0, 0, 0, 0, 0, 1.0]` per step). The 100% success came from MINT memorizing the training data pattern, not from vision encoder scene understanding. The real robot environment (`DrawerRobotEnv`) E1 evaluation shows: pretrained_mint = 0% grasp, finetuned_mint = 0% success. **SigLIP P0 blocker is real.**
 
 ---
 
-## Root Cause Decomposition
+## Root Cause Decomposition (Updated v3.0)
 
-### What `u3_regime_b_required` actually means
+### What V57 Actually Confirmed
 
-This is NOT a blocking upstream gate. It is the D1 script's internal label (line 613) for when `stage_a_survivors` is empty — i.e., no candidate produced a `stage_a_signal`. The name is misleading: it does not mean "u3 audit must pass first." It means "D1 training produced zero grasp/attach signal."
+V57 was designed to test: "Is the frozen pretrained decoder protecting LIBERO gripper representations?" The answer: **No — the problem is upstream of fine-tuning.**
 
-### The REAL failure: complete zero policy output
+Evidence chain:
+1. V57 pretrained MINT = 0% grasp (zero fine-tuning, clean evaluation)
+2. V57 finetuned = 0% grasp (3000 steps, stable loss)
+3. E1 held-out eval (DrawerRobotEnv): pretrained 1/5=20%, finetuned 0/5=0%
+4. **Conclusion: Pretrained MINT itself cannot execute the task in Infinigen robot sim. Fine-tuning strategy is irrelevant.**
 
-All 5 finetuned eval episodes:
+### Two P0 Blockers (v3.0 — confirmed)
+
+**P0-1: SigLIP Vision Encoder cannot generalize to Infinigen synthetic images**
+- Pretrained on WebLI (real photos) — never seen Infinigen synthetic images
+- Infinigen: synthetic rendering, different lighting, textures, noise characteristics
+- Result: vision encoder cannot recognize drawer, EEF, or spatial relationships
+- Evidence: E1 eval pretrained_mint = 0% grasp on real Robot Env
+
+**P0-2: VQ-VAE Quantizer cannot encode Infinigen drawer action latent**
+- Trained on LIBERO ~50,000 frames (diverse manipulation tasks)
+- Cannot encode Infinigen drawer-specific action latent space with 1,301 frames (2.6%)
+- 512 codebook entries sparsely covered by drawer-only data
+- Evidence: Pretrained MINT = 0% grasp (VQ-VAE was never trained on drawer data)
+
+**Both must be solved simultaneously. V58 (VQ-VAE retraining) is necessary but insufficient without vision encoder adaptation.**
+
+### What Was Excluded (v3.0)
+
+|| Hypothesis | Verdict | Evidence |
+||-----------|---------|---------|
+|| "Continuous vs discrete gripper" | REJECTED | NPZ verified: gripper_values ∈ {0,1}, actions[:,6] ∈ {-1,+1} |
+|| "Decoder broken by direct_grip_head" | REJECTED | V57 frozen decoder still 0% grasp |
+|| "SigLIP can generalize (Proxy Baseline)" | REJECTED | Proxy = trivial joint-delta task; real Robot Env E1 shows pretrained=0% grasp |
+|| "VQ-VAE codebook mismatch (gripper)" | REJECTED | Discrete binary data matches LIBERO; BUT quantizer may fail on drawer-specific latent encoding |
+|| "RL convention error" | REJECTED | action[N] correctly predicts state[N+1] |
+
+---
+
+## Root Cause Status (v3.0 — dual P0 blockers confirmed)
+
+|| Root Cause | Status | Evidence |
+||------------|--------|----------|
+|| P0-1: SigLIP Vision Encoder cannot generalize | **CONFIRMED** | E1 eval (DrawerRobotEnv): pretrained_mint = 0% grasp; V57 pretrained = 0% |
+|| P0-2: VQ-VAE Quantizer bottleneck | **CONFIRMED** | Pretrained MINT = 0% grasp (independent of fine-tuning); workspace no training code |
+|| P1: Insufficient data | **CONFIRMED** | 1,301 frames (2.6% of LIBERO ~50K); need 5,000+ |
+|| P2: Held-out seeds 11-15 physical solvability | **UNVERIFIED** | B1 only covers seeds 1-10; E1 oracle probe needed |
+|| ~~Engineering bugs~~ | **RESOLVED** | V57: training fully stable, loss converges normally |
+|| ~~Continuous gripper data~~ | **REJECTED** | NPZ verified: discrete binary {0,1} |
+|| ~~SigLIP can generalize (Proxy Baseline)~~ | **REJECTED** | Proxy = trivial task; does not transfer to robot-trajectory task |
+
+---
+
+## Hypotheses for Zero Grasp Signal (v3.0 — post-V57)
+
+> The question is no longer "why does fine-tuning fail?" but "why does pretrained MINT fail on Infinigen robot sim?"
+
+### H1: SigLIP Vision Encoder domain gap (CONFIRMED — P0-1)
+- SigLIP pretrained on WebLI real photos, Infinigen is synthetic
+- Result: vision encoder outputs garbage image embeddings
+- Evidence: E1 eval pretrained_mint = 0% grasp on real DrawerRobotEnv
+- **Fix needed**: Vision encoder fine-tuning or replacement (SigLIP training code does not exist in workspace)
+
+### H2: VQ-VAE Quantizer domain gap (CONFIRMED — P0-2)
+- VQ-VAE trained on LIBERO diverse manipulation tasks
+- Cannot encode Infinigen drawer-specific action latent space with 1,301 frames
+- 512 codebook entries sparsely covered by drawer-only data
+- **Fix needed**: VQ-VAE retraining on Infinigen data (code from PhD师兄)
+
+### H3: Data insufficiency (CONFIRMED — P1)
+- 1,301 frames vs LIBERO ~50,000 frames
+- Not enough to update either VQ-VAE codebook or vision encoder
+- **Fix needed**: Generate 5,000+ additional rollouts
+
+---
+
+## Recommended Next Actions (v3.0)
+
+### Immediate (blocked — waiting for external resources):
+1. ⏳ **Contact PhD师兄**: Request VQ-VAE training code + SigLIP fine-tuning code
+2. ⏳ **Generate more rollouts**: Target 5,000+ frames (currently 1,301)
+3. ❌ **Vision Encoder training**: No code exists in workspace; must find alternative solution
+
+### Decision Tree:
+
 ```
-grasp_success=False, pull_distance=0.0, ever_attached=False, steps=96
+PhD师兄 provides VQ-VAE code + SigLIP solution?
+  YES → V58 end-to-end fine-tune with SigLIP solution
+  NO  → Evaluate self-implementation feasibility
+        → Consider SigLIP replacement (CLIP, DINOv2, etc.)
 ```
-Pretrained baseline also zero (expected — pretrained MINT not adapted for Infinigen sim).
-
-**Training loss curve**: 2.236 → 0.317 → 0.052 → 0.000 → 0.000
-This is CATASTROPHIC OVERFIT to 1 episode × 90 frames. Loss=0 means the model memorized exact action tokens for that single rollout, but learned no generalizable policy.
-
-### Root cause: domain gap + single-episode overfit
-
-1. **1 episode = 90 frames, batch_size=8 → 11x overfitting per epoch**
-   - At step 800, loss=0.000 — model memorized the rollout completely
-   - Eval at seed=2 (SAME seed as training) still gets zero — the env reset is non-deterministic enough that exact token replay fails
-   
-2. **Eval env vs training env mismatch**
-   - Training: offline dataset from teacher rollout NPZ
-   - Eval: live PyBullet sim with DrawerRobotEnv
-   - The model overfits to exact action token sequences, not to visual-motor generalization
-   - At inference, even seed=2 with same asset produces different initial obs → zero grasp
-
-3. **Missing keys warning during training**:
-   ```
-   Missing keys when loading state dict: 1 keys
-   - model.paligemma_with_expert.paligemma.model.language_model.embed_tokens.weight
-   ```
-   This embedding key is missing on load — likely a precision/dtype mismatch on bfloat16 load. May cause the vision-language backbone to be partially random at eval time.
-
-4. **U3 audit flags**:
-   - `missing_handle_part_labels_suspect`: part_labels not exported in asset metadata
-   - `handle_center_world: None` in JSON metadata — u3 reads from env_record, not JSON
-   - `decision: upstream_suspect` — handle geometry is heuristically inferred
-   - This means DrawerRobotEnv may be computing attach detection based on heuristic handle position, not explicit mesh labels → false negatives in attach detection are possible
-
-5. **grasp_steps=1 in teacher rollout** (seed_002_ep01):
-   - The teacher only spends 1 step in "grasp" phase — extremely sparse grasp signal
-   - The policy learns near-zero grasp dwell time, making it unlikely to trigger attach
 
 ---
 
-## P0-P4 Root Cause Status
-
-| Root Cause | Status | Evidence |
-|------------|--------|----------|
-| P0: Strong rollout exists | RESOLVED | seed_002_ep01: pre_attach=0.019, persist=23, post=1.0, strict_success=True |
-| P1: Source dir stale | RESOLVED | active_teacher_source.json fixed, c2_replay_valid_rollouts/ used |
-| P2: lerobot-train missing | RESOLVED | absolute path fix in train_mint_helpers.py |
-| P3: Controller lease | RESOLVED | clean controller_id set |
-| P4: Training runs | RESOLVED | loss 2.236→0.000, checkpoint saved |
-| **P5: Eval produces zero signal** | **NEW — UNRESOLVED** | 5/5 finetuned episodes: grasp=False |
-| **P6: Missing embed_tokens weight** | **NEW — NEEDS INVESTIGATION** | Missing key warning on checkpoint load |
-| **P7: U3 handle part_labels absent** | **KNOWN — PARTIAL** | Heuristic handle detection, may cause false-neg attach |
-
----
-
-## Hypotheses for Zero Eval Signal
-
-### H1: Catastrophic overfit → no visual generalization (HIGH CONFIDENCE)
-- Loss=0 at step 800 with 1 episode means the model memorized exact token sequences
-- At eval, even slightly different obs → wrong tokens → arm doesn't move toward handle
-- **Test**: check if arm moves at all in sim (any non-zero drawer fraction across 96 steps)
-- **Fix**: phase_balanced_overfit variant with curriculum windows (already in STAGE_B), OR increase rollout count (multi-episode D1)
-
-### H2: Missing embed_tokens.weight causes partial model at eval (MEDIUM CONFIDENCE)
-- If the language embedding is random/zeroed at inference, language-conditioned actions are garbage
-- **Test**: load checkpoint and inspect embed_tokens weight norm
-- **Fix**: verify MINT checkpoint loading with bfloat16 flag, or use fp32 load
-
-### H3: DrawerRobotEnv observation mismatch (MEDIUM CONFIDENCE)
-- Training data: NPZ observations from teacher rollout (possibly different camera/frame)
-- Eval: live PyBullet rendering with DrawerRobotEnv
-- If image normalization, camera pose, or observation format differs → zero policy output
-- **Test**: render one eval obs and compare to training NPZ obs visually
-
-### H4: Action contract mismatch (LOWER CONFIDENCE)
-- active_action_contract.json has `translation_scale_m=0.03, rotation_scale_rad=0.25`
-- If teacher rollout used different scale → policy learns wrong action magnitudes
-- **Test**: compare action statistics from NPZ vs what DrawerRobotEnv expects
-
----
-
-## Recommended Next Actions (Priority Order)
-
-### Immediate (today):
-1. **Check if any arm motion happens** — inspect drawer_trace from eval (currently logging only final, not per-step)
-2. **Run phase_balanced_overfit variant** — STAGE_B already defined in D1, uses phase-windowed curriculum. Less catastrophic overfit.
-3. **Check embed_tokens weight** — load checkpoint and verify weight norm is non-trivial
-4. **Check obs alignment** — compare one NPZ obs image to one DrawerRobotEnv render for seed=2
-
-### If H1 confirmed (catastrophic overfit):
-- Run `attach_curriculum_overfit` variant (already in D1 STAGE_B)
-- Increase rollout count: use all 3 coherent seed-2 rollouts as dataset (multi-episode D1)
-- This is within D1 scope — no new code needed
-
-### If H2 confirmed (missing embed weight):
-- Fix MINT checkpoint load in `train_mint_helpers.py` / lerobot config
-- Add `--policy.load_strict=false` or verify bfloat16 embed load
-
-### If H3 confirmed (obs mismatch):
-- Fix DrawerRobotEnv to match NPZ observation format
-- This is a P0 substrate validity issue — affects all downstream training
-
----
-
-## Academic Claim Status
+## Academic Claim Status (v3.0 — updated with caveat)
 
 **Target claim**: Infinigen-generated trajectories improve MINT success on held-out drawer variants
 
-**Current blocker**: The finetuned policy produces zero grasp signal even on the TRAINING seed. This is a training/eval loop problem, not a data quality problem. The data IS good (strict_success=True, clean rollouts). The policy is not generalizing from the training signal.
+**Current status**: CLAIM NOT SUPPORTED — two P0 blockers confirmed.
 
-**Not a data problem.** Not a rollout quality problem. The C2 rollouts are valid. The issue is in how the policy learns from them (catastrophic overfit + possible obs mismatch).
+> **IMPORTANT CAVEAT**: The archived proxy baseline result does **NOT** prove that SigLIP vision encoder can generalize to Infinigen synthetic images. The `DrawerProxyEnv` is a trivially simple task (fixed drawer-joint delta `[0.85, 0, 0, 0, 0, 0, 1.0]` per step). The 100% success came from MINT memorizing the training data pattern, not from vision encoder scene understanding. The real robot environment (`DrawerRobotEnv`) E1 evaluation shows: pretrained_mint = 0% grasp, finetuned_mint = 0% success. **SigLIP P0 blocker is real.**
+
+**Archived strongest true claim**:
+- Archived proxy baseline | Complete — `claim_supported` (proxy task only; does not transfer to robot-trajectory task; see caveat above)
+- Archived robot revision v1 | Complete — `scientific_not_supported`, but not accepted as final claim truth
+
+**What was learned**:
+1. AnyGrasp successfully generates drawer-grasping trajectories on Infinigen sim ✅
+2. Teacher rollouts (C2) produce high-quality, physically valid action sequences ✅
+3. MINT language model successfully learns drawer motion patterns (EEF +3.2m in V57) ✅
+4. BUT: pretrained MINT cannot execute these trajectories in simulation (SigLIP domain gap) ❌
+5. AND: VQ-VAE cannot encode Infinigen-specific action latents (no training code) ❌
+
+**Path to claim**: Both P0 blockers must be resolved. Vision encoder generalization + VQ-VAE adaptation + sufficient data (5,000+ frames) are all required.

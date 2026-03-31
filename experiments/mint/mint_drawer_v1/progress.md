@@ -1,7 +1,9 @@
 # MINT Drawer v1 — Session Progress Log
 
-**Session:** 2026-03-27 (resolution_plan_v2 rebuild session)  
+**Session:** 2026-03-27 (resolution_plan_v2 rebuild session)
 **Goal:** Unblock D2 by fixing handle metadata → re-run C2 → get strong_rollout_count ≥ 2
+
+**Major Update 2026-03-31 v3.0**: V57 experiment confirmed dual P0 blockers (SigLIP + VQ-VAE). Proxy Baseline claim REJECTED as evidence for SigLIP generalization. All campaign documents now synced to CAMPAIGN_TRUTH.md v3.0.
 
 ---
 
@@ -32,17 +34,16 @@
 
 ---
 
-## Next Steps (in order)
+## Next Steps (v3.0 — updated after V57)
 
-- [ ] **Phase 0:** Complete diagnostic_runs archive (cp+rm, NFS-safe); clear d1_candidate_progress.json; reset state.json queue
-- [ ] **Phase 1:** Fix seed_010 handle_center_local — use c2 rollout with LOWEST pre_attach_motion as source (not ep04 circular ref)
-- [ ] **Phase 2:** Re-run C2 in screen with new MINT_CONTROLLER_ID → verify strong_rollout_count ≥ 2 AND strong_coherent_seeds non-empty
-- [ ] **Phase 2.5:** Oracle probe on held-out seeds 11-15 to verify E1 physical solvability
-- [ ] **Phase 3:** Add pre_attach_motion≤0.12 filter in strict_teacher_dataset.py; add no_attach_signal stop-loss in run_d1
-- [ ] **Phase 4:** Re-run D1 with clean controller lease → verify promoted_candidate.candidate_role=mainline
-- [ ] **Phase 5:** Re-run D2 → verify success_gain≥0.2, finetuned_successes≥3
-- [ ] **Phase 6:** D3 train seed probe (only after D2 hard-pass)
-- [ ] **Phase 7:** E1 held-out eval (only after D3 hard-pass AND Phase 2.5 solvability confirmed)
+### BLOCKED (waiting for external resources):
+- [ ] ⏳ **Contact PhD师兄**: Request VQ-VAE training code + SigLIP fine-tuning code
+- [ ] ⏳ **Generate more rollouts**: Target 5,000+ frames (currently 1,301)
+
+### NOT BLOCKED (can proceed independently):
+- [ ] **Verify held-out seed solvability**: Oracle probe on seeds 11-15 (B1 only covered 1-10)
+- [ ] **Consider SigLIP alternatives**: CLIP, DINOv2, or other vision encoders that may generalize to synthetic images
+- [ ] **Evaluate self-implementation**: Can VQ-VAE training be self-implemented from mint_utils.py reverse-engineering?
 
 ---
 

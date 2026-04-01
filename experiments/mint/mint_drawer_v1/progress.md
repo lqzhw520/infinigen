@@ -1,3 +1,8 @@
+<!-- LEGACY DOCUMENT — DO NOT USE AS SOURCE OF TRUTH -->
+<!-- Canonical sources: sovereign/ -->
+<!-- Generated truth: sovereign/CAMPAIGN_TRUTH.generated.md -->
+<!-- Archived location: archive/20260331_legacy/ -->
+
 # MINT Drawer v1 — Session Progress Log
 
 **Session:** 2026-03-27 (resolution_plan_v2 rebuild session)

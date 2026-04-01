@@ -1,0 +1,112 @@
+schema_version: 2
+
+claims:
+  # ── Claim 1: Vision encoder generalization ─────────────────────────────────
+  - claim_id: C_SIGLIP_GENERALIZATION
+    current_revision: 3
+    lifecycle_status: active
+    superseded_by: null          # no successor claim yet
+    supersedes: null             # no predecessor claim
+    split_from: null             # not split from anything
+    split_into: []              # not split into anything
+    revisions:
+      - revision: 1
+        statement: "SigLIP vision encoder cannot generalize to Infinigen synthetic images."
+        scope: broad
+        status: contradicted
+        evidence_ids: [E001]
+        change_type: create
+        change_reason: "Initial diagnosis from D1 V57 failed runs: pretrained_mint=0% grasp on DrawerRobotEnv (seed 2, 5 episodes)."
+        created_at: "2026-03-30T10:00:00+08:00"
+        superseded_by: C_SIGLIP_GENERALIZATION@2
+        superseded_by_reason: "E1 held-out eval seed 14 showed 1/5=20% success; original broad claim overstated the conclusion."
+        supersedes: null
+        # superseded_by field from the NEWER revision pointing backward
+        # supersedes field from the OLDER revision is null (nothing it superseded)
+
+      - revision: 2
+        statement: "SigLIP features are insufficient for DrawerRobotEnv grasp pipeline; however E1 seed 14 success (1/5=20%) suggests partial visual signal may exist."
+        scope: drawer_robot_env_only
+        status: contradicted
+        evidence_ids: [E001, E002]
+        change_type: scope_narrowed
+        change_reason: "Proxy baseline diagnosis was over-broad; narrowed to DrawerRobotEnv task-specific evaluation after seed 14 evidence emerged."
+        created_at: "2026-03-31T12:00:00+08:00"
+        superseded_by: C_SIGLIP_GENERALIZATION@3
+        superseded_by_reason: "D1 seed2 0% vs E1 seed14 1/5=20% inconsistency means vision alone is not proven P0; system-level reframe needed."
+        supersedes: C_SIGLIP_GENERALIZATION@1
+
+      - revision: 3
+        statement: "Current failure is more likely system-level misalignment across vision preprocessing, action quantization, and control loop, not vision alone. E1 1/5 grasp does not support full SigLIP rejection."
+        scope: current_mint_drawer_v1_pipeline
+        status: candidate
+        evidence_ids: [E001, E002, E003]
+        change_type: reframed
+        change_reason: "Reframed after advisor review: D1 seed2 0% vs E1 1/5=20% inconsistency means treating SigLIP as confirmed P0 is premature; system-level pipeline check needed."
+        created_at: "2026-03-31T19:00:00+08:00"
+        superseded_by: null
+        superseded_by_reason: null
+        supersedes: C_SIGLIP_GENERALIZATION@2
+
+  # ── Claim 2: VQ-VAE quantizer usability ────────────────────────────────────
+  - claim_id: C_VQVAE_USABLE
+    current_revision: 1
+    lifecycle_status: active
+    superseded_by: null
+    supersedes: null
+    split_from: null
+    split_into: []
+    revisions:
+      - revision: 1
+        statement: "Current VQ-VAE action quantizer encodes usable drawer-manipulation latent for the D1 pipeline."
+        scope: simulation_only
+        status: contradicted
+        evidence_ids: [E001]
+        change_type: create
+        change_reason: "Established from D1 V57: pretrained_mint=0% grasp (independent of fine-tuning); no VQ-VAE training code in workspace; V57 3000-step finetuned also 0%."
+        created_at: "2026-03-31T19:00:00+08:00"
+        superseded_by: null
+        superseded_by_reason: null
+        supersedes: null
+
+  # ── Claim 3: Dataset sufficiency ────────────────────────────────────────────
+  - claim_id: C_DATASET_SUFFICIENT
+    current_revision: 1
+    lifecycle_status: active
+    superseded_by: null
+    supersedes: null
+    split_from: null
+    split_into: []
+    revisions:
+      - revision: 1
+        statement: "1,301 frames is sufficient for VQ-VAE or vision encoder adaptation."
+        scope: data_scale
+        status: contradicted
+        evidence_ids: []
+        change_type: create
+        change_reason: "LIBERO uses ~50,000 frames. 1,301 frames = 2.6% of LIBERO. Target 5,000+ for meaningful adaptation. No training code exists in workspace."
+        created_at: "2026-03-31T19:00:00+08:00"
+        superseded_by: null
+        superseded_by_reason: null
+        supersedes: null
+
+  # ── Claim 4: Fine-tuning improves held-out ────────────────────────────────
+  - claim_id: C_FINETUNE_IMPROVES_HELDOUT
+    current_revision: 1
+    lifecycle_status: active
+    superseded_by: null
+    supersedes: null
+    split_from: null
+    split_into: []
+    revisions:
+      - revision: 1
+        statement: "Finetuned MINT improves held-out E1 success over pretrained baseline."
+        scope: heldout_eval_only
+        status: contradicted
+        evidence_ids: [E001, E002]
+        change_type: create
+        change_reason: "E1 held-out eval: pretrained 1/5=20%, finetuned 0/5=0% — finetuned is strictly worse than pretrained. V57 D1: pretrained 0%, finetuned 0%."
+        created_at: "2026-03-31T19:00:00+08:00"
+        superseded_by: null
+        superseded_by_reason: null
+        supersedes: null

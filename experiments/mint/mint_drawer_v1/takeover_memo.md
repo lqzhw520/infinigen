@@ -1,3 +1,8 @@
+<!-- LEGACY DOCUMENT — DO NOT USE AS SOURCE OF TRUTH -->
+<!-- Canonical sources: sovereign/ -->
+<!-- Generated truth: sovereign/CAMPAIGN_TRUTH.generated.md -->
+<!-- Archived location: archive/20260331_legacy/ -->
+
 # MINT AnyGrasp Robot-Trajectory Takeover Memo
 
 **Updated**: 2026-03-23T20:15:37+08:00

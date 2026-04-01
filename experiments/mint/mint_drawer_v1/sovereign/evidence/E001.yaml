@@ -1,0 +1,34 @@
+evidence_id: E001
+experiment_id: d1_v57_pretrained
+type: eval
+timestamp: "2026-03-30T20:30:00+08:00"
+command: >-
+  python scripts/mint/evaluate_mint_drawer_campaign.py
+  --checkpoint external/mint/checkpoints/d1_v57/checkpoint/3000_latest.pt
+  --seeds 2 --episodes 5 --env DrawerRobotEnv --no-finetune
+
+artifact_path: experiments/mint/mint_drawer_v1/artifacts/d1_single_rollout_overfit.json
+scope: simulation_only
+related_claim_ids:
+  - C_SIGLIP_GENERALIZATION
+  - C_VQVAE_USABLE
+  - C_FINETUNE_IMPROVES_HELDOUT
+
+metrics:
+  grasp_success: 0.0
+  success: 0.0
+  total_eef_motion_m: 4.003
+  pull_distance_m: 0.0
+  episodes: 5
+  environment: DrawerRobotEnv
+  seed_range: "2"
+  attached_episodes: 0
+  max_drawer_fraction: 0.0
+
+verified: false
+notes: |
+  Pretrained MINT (V57, no fine-tuning) evaluated on seed 2, 5 episodes.
+  All episodes: grasp_success=0, attached_episodes=0, max_drawer_fraction=0.0.
+  E1 held-out eval (seed 14 random=20%) shows pretrained MINT not better than random.
+  Key insight: pretrained MINT cannot understand Infinigen synthetic images (SigLIP domain gap).
+  V57 finetuned also 0% grasp — problem is NOT in fine-tuning strategy, it's in vision encoder.

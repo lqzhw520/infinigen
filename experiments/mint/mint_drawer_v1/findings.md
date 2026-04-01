@@ -1,3 +1,8 @@
+<!-- LEGACY DOCUMENT — DO NOT USE AS SOURCE OF TRUTH -->
+<!-- Canonical sources: sovereign/ -->
+<!-- Generated truth: sovereign/CAMPAIGN_TRUTH.generated.md -->
+<!-- Archived location: archive/20260331_legacy/ -->
+
 # findings.md — mint_drawer_v1 D1 deep diagnosis + V57 truth correction
 
 **Updated**: 2026-03-31T19:00:00+08:00

@@ -1,7 +1,8 @@
-<!-- LEGACY DOCUMENT — DO NOT USE AS SOURCE OF TRUTH -->
-<!-- Canonical sources: sovereign/ -->
-<!-- Generated truth: sovereign/CAMPAIGN_TRUTH.generated.md -->
-<!-- Archived location: archive/20260331_legacy/ -->
+# Data file: step-level acceptance criteria
+# Source: migrated from root acceptance_criteria.json
+# This is a DATA file, not a sovereign state file.
+# Read by: sovereign_cli.py close-experiment for gate validation.
+
 
 {
   "u1_asset_geometry_audit": {

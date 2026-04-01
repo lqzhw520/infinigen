@@ -1,3 +1,8 @@
+<!-- LEGACY DOCUMENT — DO NOT USE AS SOURCE OF TRUTH -->
+<!-- Canonical sources: sovereign/ -->
+<!-- Generated truth: sovereign/CAMPAIGN_TRUTH.generated.md -->
+<!-- Archived location: archive/20260331_legacy/ -->
+
 # MINT Drawer Campaign Dashboard
 **真相源**: `experiments/mint/mint_drawer_v1/CAMPAIGN_TRUTH.md` — 所有内容以此为准。
 

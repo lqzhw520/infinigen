@@ -1,3 +1,8 @@
+<!-- LEGACY DOCUMENT — DO NOT USE AS SOURCE OF TRUTH -->
+<!-- Canonical sources: sovereign/ -->
+<!-- Generated truth: sovereign/CAMPAIGN_TRUTH.generated.md -->
+<!-- Archived location: archive/20260331_legacy/ -->
+
 # MINT Step Review Guide
 
 This guide is the review index for the active campaign:

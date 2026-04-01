@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "last_updated": "2026-03-31T19:00:00+08:00",
+  "entries": [
+    {
+      "evidence_id": "E001",
+      "experiment_id": "d1_v57_pretrained",
+      "type": "eval",
+      "timestamp": "2026-03-30T20:30:00+08:00",
+      "path": "sovereign/evidence/E001.yaml",
+      "verified": false
+    }
+  ]
+}

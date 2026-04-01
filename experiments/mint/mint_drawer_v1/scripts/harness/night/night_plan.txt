@@ -1,0 +1,119 @@
+================================================================================
+NIGHT PLAN — 2026-04-01T20:14:17+0800
+Campaign: mint_drawer_v1
+Source: sovereign/next_actions.json + sovereign/claims.yaml + sovereign/state.json
+================================================================================
+
+## CLAIMS SUMMARY
+─────────────────────────────────────────────────────────────
+  Active Claims (from sovereign/claims.yaml):
+
+    [C_SIGLIP_GENERALIZATION]
+      status: active | current_rev: 3 | revisions: 3 total, 2 superseded
+      scope: current_mint_drawer_v1_pipeline
+      statement: Current failure is more likely system-level misalignment across vision preproces...
+      evidence: ['E001', 'E002', 'E003']
+
+    [C_VQVAE_USABLE]
+      status: active | current_rev: 1 | revisions: 1 total, 0 superseded
+      scope: simulation_only
+      statement: Current VQ-VAE action quantizer encodes usable drawer-manipulation latent for th...
+      evidence: ['E001']
+
+    [C_DATASET_SUFFICIENT]
+      status: active | current_rev: 1 | revisions: 1 total, 0 superseded
+      scope: data_scale
+      statement: 1,301 frames is sufficient for VQ-VAE or vision encoder adaptation.
+      evidence: (none)
+
+    [C_FINETUNE_IMPROVES_HELDOUT]
+      status: active | current_rev: 1 | revisions: 1 total, 0 superseded
+      scope: heldout_eval_only
+      statement: Finetuned MINT improves held-out E1 success over pretrained baseline.
+      evidence: ['E001', 'E002']
+
+
+## RECENT CLAIM CHANGES
+─────────────────────────────────────────────────────────────
+  Recent Claim Revisions (last 5 changes):
+
+    2026-03-31T19:00  C_SIGLIP_GENERALIZATION@3  [reframed]
+              Reframed after advisor review: D1 seed2 0% vs E1 1/5=20% inconsistency means tre...
+
+    2026-03-31T19:00  C_VQVAE_USABLE@1  [create]
+              Established from D1 V57: pretrained_mint=0% grasp (independent of fine-tuning); ...
+
+    2026-03-31T19:00  C_DATASET_SUFFICIENT@1  [create]
+              LIBERO uses ~50,000 frames. 1,301 frames = 2.6% of LIBERO. Target 5,000+ for mea...
+
+    2026-03-31T19:00  C_FINETUNE_IMPROVES_HELDOUT@1  [create]
+              E1 held-out eval: pretrained 1/5=20%, finetuned 0/5=0% — finetuned is strictly w...
+
+    2026-03-31T12:00  C_SIGLIP_GENERALIZATION@2  [scope_narrowed]
+              Proxy baseline diagnosis was over-broad; narrowed to DrawerRobotEnv task-specifi...
+
+
+## NEXT ACTIONS
+─────────────────────────────────────────────────────────────
+  Next Actions (from sovereign/next_actions.json):
+
+  Decision: await_external_resources
+  Generated: 2026-03-31T19:00:00+08:00
+  Verdict: root_cause_confirmed_dual_blocker
+  Next phase: v58_end_to_end_finetune_with_siglip_solution
+
+  Actions:
+    - type=await_external_resources
+      target: VQ-VAE training code (from PhD师兄), SigLIP fine-tuning code or alternative vision encoder solution (from PhD师兄 or self-research)
+      reason: V57 confirmed dual P0 blockers: SigLIP cannot generalize to Infinigen synthetic images + VQ-VAE quan...
+
+    - type=generate_data
+      target: 5,000+ frames
+      reason: Data insufficient for VQ-VAE or vision encoder adaptation...
+
+
+## CAMPAIGN QUEUE
+─────────────────────────────────────────────────────────────
+  Campaign Queue (from sovereign/state.json):
+
+  Total steps: 17
+    completed: 12
+    failed: 1
+    pending: 4
+
+  Pending / Blocked / Failed Steps:
+    [failed  ] d1_single_rollout_overfit
+               note: V21-V27 deep dive: all engineering bugs fixed (inplace ops, decoder unfreeze, dtype mismatch). Core ...
+    [pending ] d2_single_seed_overfit
+               note: Reset to pending. Previous failure was data_quality_floor_not_met against stale source. strong_coher...
+    [pending ] d3_train_seed_probe
+    [pending ] e1_heldout_eval
+    [pending ] write_claim_memo
+
+
+## RECOMMENDED NEXT STEPS (for human review)
+─────────────────────────────────────────────────────────────
+  Current decision: await_external_resources
+  Verdict: root_cause_confirmed_dual_blocker
+  Next phase: v58_end_to_end_finetune_with_siglip_solution
+  Awaiting: VQ-VAE training code (from PhD师兄), SigLIP fine-tuning code or alternative vision encoder solution (from PhD师兄 or self-research), 5,000+ frames
+
+  Active contradicted claims: C_VQVAE_USABLE, C_DATASET_SUFFICIENT, C_FINETUNE_IMPROVES_HELDOUT
+    → Review: Are these still accurate? Should they be superseded or archived?
+
+  Active candidate claims: C_SIGLIP_GENERALIZATION
+    → Review: What evidence is needed to promote to 'supported' or 'contradicted'?
+
+  Recommended actions for next session:
+    1. Run: python scripts/harness/sovereign_cli.py bootstrap
+    2. Review: sovereign/handoff.md for recent activity
+    3. Review: sovereign/CAMPAIGN_TRUTH.generated.md for current state
+    4. If blocked by external resources, verify status of:
+       - VQ-VAE training code (from PhD师兄)
+       - SigLIP fine-tuning code or alternative vision encoder solution (from PhD师兄 or self-research)
+       - 5,000+ frames
+    5. If unblocked, proceed with next_phase: {next_phase}
+
+================================================================================
+Plan generated: 2026-04-01T20:14:17+0800
+================================================================================

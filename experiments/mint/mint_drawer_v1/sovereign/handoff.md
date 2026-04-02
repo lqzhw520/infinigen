@@ -1,3 +1,62 @@
+## Bootstrap Handoff — 2026-04-02T01:30:00+0800
+
+### Git Rebase Result ✅
+- `git rebase origin/main` → 3 本地 commits 已 rebase 到 bc796ba 之上
+- SDAT/: 完整引入（core.py, model/vqvae.py, trainer.py, configs/train.yaml）
+- modeling_mint.py: origin/main 权威版本（V57 本地 Python 改动已清除）
+- test_mint.py / verify_mint.py: 作为独立脚本文件重新添加（不在 upstream）
+- 本地 V57 改动完整备份: `git branch mint_v57_backup`
+- 当前状态: `main` 与 `origin/main` 对齐（`git rev-list --left-right --count HEAD...origin/main` → 1 0）
+- 推送: `git push -u origin HEAD`（需要时执行）
+
+### MINT Architecture — Full Component Map
+MINT = PaliGemma (Vision Encoder) + MultiScaleVQVAE (Action Tokenizer) + Gemma (AR Expert)
+- VQ-VAE: action-only, camera-independent (SDAT/core.py confirms: seq_dim → tokens, no image input)
+- Vision Encoder: PaliGemma/SigLIP, camera-perspective-sensitive (PaliGemma + vision tower)
+- VQ-VAE pretrained on LIBERO action sequences (7-dim, 16-step chunks, 4 patch levels [1,2,4])
+- SDAT/train.yaml: `action_norm_mode: none`, `codebook_size=512`, `codebook_dim=32`
+
+### V58 Multi-Factor Alignment (from advisor feedback)
+Prioritized data quality dimensions:
+- P0: Physics-legal teacher rollouts (gripper cannot penetrate drawer; compliant pull)
+- P1: Camera viewpoint alignment (LIBERO eye-in-hand vs Infinigen third-person)
+- P1: Sim-to-Real gap (LIBERO photorealistic vs Infinigen synthetic rendering)
+- P2: VQ-VAE action distribution alignment (AnyGrasp vs human teleop action distributions)
+- P3: Lighting, mesh diversity, object variety
+
+### Claim Update
+- C_PHYSICS_LEGAL_TEACHER@1 (candidate): Supersedes C_VQVAE_USABLE, C_DATASET_SUFFICIENT
+- v57 lesson: VQ-VAE learns motion (EER 8.6x) but gripper never closes → vision encoder is the primary blocker
+- V58 priority: P0 (physics) → P1 (vision) → P2 (tokenizer) → P4 (joint fine-tune)
+
+---
+
+<!-- Bootstrap Handoff — 2026-04-02T00:00:00+0800 -->
+
+### Git Sync Status (New Evidence: 2026-04-02)
+- `origin/main` = `bc796ba fix ckpt save bug` — contains full SDAT tokenizer training code (SDAT/core.py 499 lines, SDAT/model/vqvae.py, SDAT/trainer.py, SDAT/configs/train.yaml)
+- `local/main` = `fdf2a79 Modifications to the fallback decoder` — V57 changes WITHOUT SDAT
+- Local commits `fdf2a79`, `c43099b`, `b305240` are ABOVE `4d04a88` (grafted Release) but NOT on origin/main
+- Action: Rebase local V57 changes onto origin/main (preserving quantizer-only unfreeze in modeling_mint.py)
+
+### Physics Penetration Claim (New: C_PHYSICS_LEGAL_TEACHER)
+- Evidence: `active_action_contract.json` — ALL 25 replay rollouts failed (passed: false)
+- Root cause A: Grasp phase — `max_position_error=0.33-1.03m` (gripper clips INTO drawer panel, not onto handle)
+- Root cause B: Pull phase — `max_drawer_error=1.0`, drawer fraction stays 0.0 (world-frame delta action physically impossible when drawer is constrained)
+- Root cause C: LIBERO (real robot) vs Infinigen (sim) physics — real robot stops at collision; Infinigen delta action ignores drawer constraint
+
+### V58 Data Pipeline Solution
+- Stage 0: Physics feasibility check for AnyGrasp candidates (contact force threshold)
+- Stage 1: Compliant pull controller (impedance control, not world-frame delta)  
+- Stage 2: Frame-by-frame collision filtering
+- Academic value: Demonstrates Infinigen can generate PHYSICS-LEGAL robot manipulation data
+
+### Updated Claims
+- C_PHYSICS_LEGAL_TEACHER@1: "Teacher rollouts from Infinigen + AnyGrasp contain gripper trajectories that violate physical collision constraints (gripper penetrates drawer panel; max_position_error 0.33-1.03m)."
+- Supersedes: C_VQVAE_USABLE@1, C_DATASET_SUFFICIENT@1 (root cause now shifted upstream to data generation, not tokenizer)
+
+---
+
 <!-- MORNING HANDOFF — 2026-04-01T20:14:17+0800 -->
 ## Morning Handoff — 2026-04-01T20:14:17+0800
 

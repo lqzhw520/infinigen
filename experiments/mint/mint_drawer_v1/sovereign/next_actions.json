@@ -1,22 +1,46 @@
 {
-  "decision": "await_external_resources",
+  "decision": "v58_physical_legality_first_vision_second",
   "actions": [
     {
-      "type": "await_external_resources",
+      "type": "git_sync",
       "targets": [
-        "VQ-VAE training code (from PhD师兄)",
-        "SigLIP fine-tuning code or alternative vision encoder solution (from PhD师兄 or self-research)"
+        "Rebase local V57 changes (fdf2a79) onto origin/main (bc796ba)",
+        "SDAT tokenizer training code: SDAT/core.py, SDAT/model/vqvae.py, SDAT/trainer.py",
+        "modeling_mint.py: origin/main authoritative (V57 Python changes cleared)"
       ],
-      "reason": "V57 confirmed dual P0 blockers: SigLIP cannot generalize to Infinigen synthetic images + VQ-VAE quantizer bottleneck. Workspace has no training code for either. Fine-tuning strategy irrelevant (pretrained MINT = 0% grasp)."
+      "reason": "origin/main now contains SDAT tokenizer training code + checkpoint bug fix. V57 modeling changes cleared per user decision. Git workflow: local-only, do not push to upstream."
+    },
+    {
+      "type": "physics_data_fix",
+      "priority": "P0",
+      "target": "Generate physics-legal teacher rollouts for V58",
+      "current_problem": "All 25 replay rollouts fail (max_position_error=0.33-1.03m, gripper clips through drawer; pull phase drawer_fraction=0.0 despite attach)",
+      "solution": "Stage 0: physics feasibility filter for AnyGrasp candidates; Stage 1: compliant pull controller (impedance control); Stage 2: frame-by-frame collision filtering",
+      "reason": "C_PHYSICS_LEGAL_TEACHER supersedes C_VQVAE_USABLE, C_DATASET_SUFFICIENT as upstream root cause. Pure engineering, no model training needed."
+    },
+    {
+      "type": "vision_encoder_diagnosis",
+      "priority": "P1",
+      "target": "Diagnose camera viewpoint + Sim-to-Real gap between LIBERO and Infinigen",
+      "current_problem": "LIBERO: eye-in-hand/forward camera, photorealistic images. Infinigen: third-person overhead, synthetic rendering. v57 lesson: model learns motion but gripper never closes (ever_attached=false) → vision encoder doesn't understand Infinigen images.",
+      "solution": "Check Infinigen camera config vs LIBERO camera config; determine if viewpoint adaptation or full vision encoder fine-tuning is needed",
+      "reason": "v57 showed frozen VQ-VAE + finetuned VQ-VAE = 0% grasp → vision encoder is the primary blocker, not tokenizer."
+    },
+    {
+      "type": "vqvae_tokenizer_retrain",
+      "priority": "P2",
+      "target": "Retrain VQ-VAE tokenizer on physics-legal Infinigen action sequences",
+      "current_status": "SDAT training code available from PhD师兄. Requires: (1) physics-legal rollouts, (2) LeRobotDataset format compatibility, (3) action_norm_mode config",
+      "reason": "VQ-VAE is action-only and camera-independent — only needs action distribution alignment. Not blocked by vision encoder gap."
     },
     {
       "type": "generate_data",
-      "target": "5,000+ frames",
-      "current": "1,301 frames",
-      "reason": "Data insufficient for VQ-VAE or vision encoder adaptation"
+      "target": "5,000+ physics-legal frames",
+      "current": "1,301 frames (physics-violating)",
+      "reason": "Data insufficient AND data is physically illegal. Note: data quality (physics) > data quantity for VLA pretraining."
     }
   ],
-  "generated_at": "2026-03-31T19:00:00+08:00",
-  "verdict": "root_cause_confirmed_dual_blocker",
-  "next_phase": "v58_end_to_end_finetune_with_siglip_solution"
+  "generated_at": "2026-04-02T01:30:00+08:00",
+  "verdict": "multi_factor_data_mismatch",
+  "next_phase": "v58_P0_physics_then_P1_vision_then_P2_tokenizer"
 }

@@ -1,0 +1,39 @@
+evidence_id: E006
+title: "LIBERO camera config audit: dual-camera, 256x256, wrist-mounted"
+type: data_audit
+date: "2026-04-02T03:00:00+08:00"
+verdict: confirmed_partial
+content: |
+  Source: external/LIBERO/datasets/libero_10_image/meta/info.json
+  Source: external/LIBERO/datasets/libero_10_image/meta/stats.json
+  
+  LIBERO camera configuration:
+    observation.images.image:
+      dtype: image
+      shape: [256, 256, 3]
+      fps: 10
+      Camera type: overhead/agentview (not eye-in-hand)
+    
+    observation.images.wrist_image:
+      dtype: image
+      shape: [256, 256, 3]
+      fps: 10
+      Camera type: wrist-mounted
+  
+  Total: 2 cameras, 256×256 each.
+  
+  Infinigen current configuration:
+    observation.images.image:  224×224×3 (third-person overhead)
+    observation.images.image2: 224×224×3 (wrist-mounted? TBD)
+  
+  Gap: Resolution (224 vs 256), naming schema (image/image2 vs image/wrist_image)
+  
+  LIBERO image statistics:
+    mean: [0.414, 0.371, 0.329]
+    std:  [0.252, 0.247, 0.241]
+  
+  Infinigen image statistics: NOT YET AUDITED.
+
+verdict_reason: "LIBERO dual-camera confirmed: overhead + wrist. Resolution 256x256. Infinigen uses 224x224. Naming schema differs (image/wrist_image vs image/image2). Render gap not yet quantified."
+confidence: medium
+tags: [camera_alignment, P1b, sim_to_sim, LIBERO_config]

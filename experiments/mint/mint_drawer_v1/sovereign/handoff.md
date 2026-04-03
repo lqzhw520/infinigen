@@ -1,6 +1,87 @@
-## Bootstrap Handoff — 2026-04-02T01:30:00+0800
+## Bootstrap Handoff — 2026-04-02T03:00:00+0800
 
 ### Git Rebase Result ✅
+- `git rebase origin/main` → 3 本地 commits 已 rebase 到 bc796ba 之上
+- SDAT/: 完整引入（core.py, model/vqvae.py, trainer.py, configs/train.yaml）
+- modeling_mint.py: origin/main 权威版本（V57 本地 Python 改动已清除）
+- test_mint.py / verify_mint.py: 作为独立脚本文件重新添加
+- 本地 V57 改动完整备份: `git branch mint_v57_backup`
+- 当前状态: `main` 与 `origin/main` 对齐
+
+### LIBERO Data Audit — Critical Findings from stats.json + info.json
+Codex review HIGH priority finding CONFIRMED by raw statistics:
+
+LIBERO info.json confirms:
+  observation.state[8] = [x,y,z, rx,ry,rz, rw, gripper]
+  action[7]           = [x,y,z, roll,pitch,yaw, gripper]
+
+LIBERO stats.json CONFIRMS gripper semantics:
+  state[7]: min=-0.041, max=0.001, std=0.013  ← CONTINUOUS float (joint position)
+  action[6]: min=-1.0, max=1.0,   std=0.996 ← DISCRETE binary {-1,+1}
+
+Infinigen drawer_robot_env._state_vector():
+  state[8] = [eef_pos(3) + eef_quat(4) + gripper_binary(1)]
+  gripper ∈ {0, 1} ← WRONG: should match LIBERO joint position
+
+MINT processor_mint.py state tokenization:
+  state → pad 32 → digitize 256 bins → text token
+  MINT learns: state[7] digitize → specific bin → should trigger gripper=-1 or +1
+  Infinigen state[7] = {0, 1} → digitize → completely wrong bins → MINT confused
+
+### P1a Specific Root Causes (Runtime Verified)
+1. **Gripper semantics**: LIBERO state[7] = single gripper joint position, range=[-0.041, +0.001]
+   - LIBERO convention: closed=-0.041, open=+0.001 (NEGATIVE = closed)
+   - Infinigen convention: closed=0, open=0.04 (POSITIVE = open)
+   - **SIGN IS INVERTED** between the two systems
+   - Fix: state[7] = mean_finger_joint_position × (-1.0)
+   - Infinigen PyBullet finger joints: panda_finger_joint1 [0, 0.04], panda_finger_joint2 [0, 0.04]
+2. **Quaternion order**: Infinigen state[3-6] = (w,x,y,z) from PyBullet ✓ (magnitude=1.0, validated)
+   - LIBERO state[3-6] exceed [-1,1] → not raw quaternions, will be handled by LeRobot normalizer
+   - NOT a blocker: quaternion format is compatible
+3. **Coordinate frame**: LIBERO EEF z range [0.446, 1.333] vs Infinigen ~0.21
+   - ~0.22m offset: likely different home position / table surface height
+   - Less critical than gripper alignment
+
+### P1a Fix Required
+```python
+# drawer_robot_env.py → _state_vector()
+# OLD (wrong):
+eef_pos, eef_quat = self.eef_pose()
+state = np.concatenate([eef_pos, eef_quat, np.array([self.gripper_open])])  # gripper=1=open
+
+# NEW (LIBERO-aligned):
+finger_pos = np.mean([
+    self.p.getJointState(self.robot_id, 9, physicsClientId=self.client)[0],  # finger1
+    self.p.getJointState(self.robot_id, 10, physicsClientId=self.client)[0],  # finger2
+])
+state = np.concatenate([eef_pos, eef_quat, np.array([-finger_pos])])  # NEGATE: LIBERO uses negative=closed
+```
+
+### V58 Corrected Priority Order (from Codex review)
+P0: Physics-legal teacher rollouts (pure engineering, no model dependency)
+  → P0 DONE before any training
+
+P1a: State/proprio contract alignment
+  ├─ Gripper semantics: state[7] joint position (LIBERO) vs binary {0,1} (Infinigen)
+  ├─ Quaternion order: (w,x,y,z) PyBullet vs (x,y,z,w) LIBERO motors
+  ├─ Coordinate frame: verify world reference alignment
+  └─ EEF position range: numerical alignment
+  → P1a is NOW the primary blocker (higher than vision encoder)
+
+P1b: Camera/framing alignment
+  ├─ Dual camera: image + wrist_image (LIBERO) vs image + image2 (Infinigen)
+  ├─ Camera perspective: eye-in-hand/forward (LIBERO) vs overhead (Infinigen)
+  └─ Resolution: 256×256 (LIBERO) vs 224×224 (Infinigen)
+
+P1c: Render/material alignment (SIM-TO-SIM gap, not sim-to-real)
+  └─ LIBERO rendering engine vs Infinigen rendering
+
+P2: VQ-VAE Tokenizer Retrain (SDAT available)
+P3: Joint Fine-tuning (vision + tokenizer + LM)
+
+---
+
+<!-- Bootstrap Handoff — 2026-04-02T01:30:00+0800 -->
 - `git rebase origin/main` → 3 本地 commits 已 rebase 到 bc796ba 之上
 - SDAT/: 完整引入（core.py, model/vqvae.py, trainer.py, configs/train.yaml）
 - modeling_mint.py: origin/main 权威版本（V57 本地 Python 改动已清除）

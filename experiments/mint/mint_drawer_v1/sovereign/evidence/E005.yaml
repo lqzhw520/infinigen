@@ -1,0 +1,36 @@
+evidence_id: E005
+title: "LIBERO stats.json state[7] continuous gripper joint position"
+type: data_audit
+date: "2026-04-02T03:00:00+08:00"
+verdict: confirmed
+content: |
+  Source: external/LIBERO/datasets/libero_10_image/meta/stats.json
+  Key finding: LIBERO observation.state[7] is NOT binary gripper.
+  
+  LIBERO observation.state[7]:
+    min: -0.0411
+    max:  0.0014
+    mean: -0.0286
+    std:   0.0132
+  
+  This is a CONTINUOUS joint position, NOT a binary {0,1} gripper value.
+  
+  Compare: LIBERO action[6] (gripper):
+    min: -1.0000
+    max:  1.0000
+    std:  0.9958
+  
+  This IS binary {-1, +1} with high std = mostly near extremes.
+  
+  Infinigen drawer_robot_env._state_vector() currently puts:
+    gripper_open ∈ {0, 1} in state[7]
+  
+  MINT processor_mint.py:
+    state → pad to 32 → digitize to 256 bins → text token
+    When Infinigen state[7]={0} digitize to bin X,
+    but LIBERO state[7]=-0.028 digitize to bin Y (Y << X).
+    MINT's Gemma Action Expert receives wrong state tokens.
+
+verdict_reason: "Confirmed by raw statistics. LIBERO gripper joint position is continuous in range [-0.041, 0.001], NOT binary {0,1}. This contradicts Infinigen's current _state_vector() implementation."
+confidence: high
+tags: [state_contract, gripper_semantics, P1a, stats_audit]

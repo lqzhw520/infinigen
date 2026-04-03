@@ -130,7 +130,26 @@ claims:
         superseded_by_reason: null
         supersedes: null
 
-  # ── Claim 6: Vision encoder viewpoint/sim2real gap ─────────────────────────────────
+  # ── Claim 7: State/proprio contract mismatch ─────────────────────────────────
+  - claim_id: C_STATE_CONTRACT
+    current_revision: 1
+    lifecycle_status: active
+    superseded_by: null
+    supersedes: null
+    split_from: null
+    split_into: []
+    revisions:
+      - revision: 1
+        statement: "Infinigen observation.state[8] format is [eef_pos(3) + eef_quat(4) + gripper_binary(1)] with gripper ∈ {0,1}. LIBERO observation.state[8] format is [x,y,z, rx,ry,rz,rw, gripper_joint] where state[7] is a continuous joint position (min=-0.041, max=0.001, std=0.013), NOT binary. MINT processor_mint.py digitizes state[7] into 256 bins → text token. When Infinigen state[7]={0,1} gets quantized, it lands in completely wrong bins compared to LIBERO's continuous joint positions, causing MINT's state tokenizer to emit incoherent tokens. This is P1a and is higher priority than camera/render alignment."
+        scope: v58_state_contract_alignment
+        status: candidate
+        evidence_ids: [E004, E005]
+        change_type: create
+        change_reason: "Established from stats.json audit: LIBERO state[7] std=0.013 (continuous), not binary. Infinigen drawer_robot_env._state_vector() puts binary gripper {0,1} in state[7]. MINT processor_mint.py digitizes state → text. Codex review confirms: observation.contract is higher priority than vision encoder for ever_attached=0."
+        created_at: "2026-04-02T03:00:00+08:00"
+        superseded_by: null
+        superseded_by_reason: null
+        supersedes: null
   - claim_id: C_VISION_ALIGNMENT
     current_revision: 1
     lifecycle_status: active
@@ -140,12 +159,12 @@ claims:
     split_into: []
     revisions:
       - revision: 1
-        statement: "MINT vision encoder (PaliGemma/SigLIP) cannot effectively process Infinigen synthetic images due to camera viewpoint mismatch (LIBERO eye-in-hand vs Infinigen third-person overhead) and Sim-to-Real rendering gap (LIBERO photorealistic vs Infinigen synthetic textures). v57 evidence: frozen VQ-VAE + finetuned VQ-VAE both yield 0% grasp (ever_attached=false) despite VQ-VAE learning motion successfully (EER 8.6x). The gripper never closes because the vision encoder does not understand when to close from Infinigen images."
-        scope: v58_vision_encoder_adaptation
+        statement: "LIBERO's pretrained vision encoder expects eye-in-hand or forward-facing camera with 256x256 resolution and dual-camera (image + wrist_image). Infinigen provides third-person overhead camera at 224x224 with image + image2 naming. This camera/render mismatch is P1b, below P1a (state contract) in priority but above P2 (tokenizer)."
+        scope: v58_vision_encoder_alignment
         status: candidate
-        evidence_ids: [E001, E003]
+        evidence_ids: [E006]
         change_type: create
-        change_reason: "Established from v57 lesson: LM learns motion but gripper never closes (ever_attached=false) → problem is upstream in vision encoder, not VQ-VAE tokenizer. Camera viewpoint (eye-in-hand vs overhead) and rendering gap are the likely root causes."
+        change_reason: "Established from codex review: LIBERO sim-to-sim alignment matters more than initially assessed. Camera perspective and naming schema diverge from MINT's training prior."
         created_at: "2026-04-02T01:30:00+08:00"
         superseded_by: null
         superseded_by_reason: null

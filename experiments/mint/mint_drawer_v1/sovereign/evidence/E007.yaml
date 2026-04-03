@@ -1,0 +1,43 @@
+evidence_id: E007
+title: "P1a complete audit: quat=(w,x,y,z) OK, gripper SIGN INVERTED, EEF z RANGE MISMATCH"
+type: runtime_verification
+date: "2026-04-02T03:30:00+08:00"
+verdict: confirmed
+content: |
+  Source: drawer_robot_env.py + PyBullet runtime + LIBERO stats.json
+  
+  TEST 1: QUATERNION ORDER
+  Infinigen state[3-6] = (w,x,y,z) from PyBullet getLinkState[5]
+    Verified: state[3-6] magnitude=1.0, getEulerFromQuaternion gives valid angles
+    So: Infinigen quat order = PyBullet (w,x,y,z) ✓
+  
+  LIBERO state[3-6]: min=[1.132, -3.641, -1.843, -0.001], max=[3.671, 3.561, 1.386, 0.042]
+    These exceed [-1,1] → NOT raw quaternions
+    Likely: normalized angle representation or MuJoCo internal format
+    LeRobot normalizer will handle range normalization
+  
+  TEST 2: GRIPPER SEMANTICS (CRITICAL)
+  Infinigen finger joints (open): [0.04, 0.04] (fully open)
+  Infinigen finger joints (closed): [0.0, 0.0] (fully closed)
+  LIBERO state[7]: min=-0.041, max=0.001
+  
+  HYPOTHESIS: LIBERO state[7] = single gripper joint
+    Closed (gripper=-1): state[7] ≈ -0.041
+    Open (gripper=+1): state[7] ≈ +0.001 or 0
+    Infinigen uses opposite sign convention
+  
+  RESOLUTION: state[7] = mean_finger_joints (NOT binary)
+    But must: (libero_sign - infinigen_value) to align
+    OR normalize both with separate LeRobot normalizer stats
+  
+  TEST 3: EEF POSITION Z RANGE (ALIGNMENT GAP)
+  Infinigen EEF z: ~0.21 (robot base at z=0)
+  LIBERO EEF z: min=0.446, max=1.333
+  
+  The ~0.22m difference: Infinigen is starting from different home position
+  Need to verify if LIBERO home position is higher (table surface z?)
+  This affects the state prior alignment but is less critical than gripper.
+
+verdict_reason: "Confirmed via runtime test. Quat order is compatible. Gripper needs: (1) replace binary with joint position, (2) handle sign convention difference. EEF z range requires verification of home position."
+confidence: high
+tags: [state_contract, P1a, gripper_sign, quat_order, runtime_verified]

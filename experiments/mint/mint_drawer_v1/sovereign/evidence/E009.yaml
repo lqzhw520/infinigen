@@ -1,0 +1,27 @@
+evidence_id: E009
+experiment_id: physics_legality_audit
+type: data_audit
+timestamp: "2026-04-03T06:00:00+08:00"
+command: "python scripts/mint/physics_legality.py audit-npz ..."
+artifact_path: "experiments/mint/mint_drawer_v1/outputs/physics_audit.json"
+scope: v58_teacher_data_pipeline
+related_claim_ids:
+  - C_PHYSICS_LEGAL_TEACHER
+metrics:
+  total_episodes: 25
+  legal_episodes: 0
+  illegal_episodes: 25
+  pass_rate: "0/25"
+  high_action_variance_rate: "25/25"
+  phantom_jump_rate: "25/25"
+  phantom_jump_max_m: 0.94
+  gripper_drawer_penetration_risk_rate: "4/25"
+verified: true
+notes: |
+  Physics legality audit of Infinigen teacher rollouts using standalone NumPy audit.
+  ALL 25 rollouts are physically illegal.
+  Root causes:
+  1. high_action_variance: 25/25 — action deltas 19-23x above LIBERO threshold
+  2. phantom_jumps: 25/25 — EEF teleportations of 0.3-0.94m between consecutive frames
+  3. gripper_drawer_penetration_risk: 4/25 — gripper clips into drawer during grasp
+  Confirms C_PHYSICS_LEGAL_TEACHER@1 with quantitative evidence.

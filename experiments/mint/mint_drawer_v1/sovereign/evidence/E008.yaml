@@ -1,0 +1,29 @@
+evidence_id: E008
+experiment_id: qa_offline_metrics_comparison
+type: data_audit
+timestamp: "2026-04-03T06:00:00+08:00"
+command: "python scripts/mint/dataset_qa_lerobot_fingerprint.py --mode compare ..."
+artifact_path: "experiments/mint/mint_drawer_v1/outputs/qa_comparison.json"
+scope: v58_offline_qa
+related_claim_ids:
+  - C_PHYSICS_LEGAL_TEACHER
+  - C_STATE_CONTRACT
+metrics:
+  action_variance_ratio: 7.16    # Infinigen 6.16x higher than LIBERO
+  state_action_lag_verdict: FAIL  # All dimensions wrong lag (should be 0 or -1, Infinigen has wrong)
+  gripper_state_verdict: FAIL     # Infinigen binary {0,1} vs LIBERO continuous [-0.042, +0.001]
+  gripper_action_verdict: PASS    # Both use binary {-1, +1} for action[6]
+  data_scale_episodes: 25         # Infinigen: 25 episodes; LIBERO: 1693 episodes
+  data_scale_frames: 25           # Infinigen: 25 frames; LIBERO: 273465 frames
+verified: true
+notes: |
+  Offline QA comparison between Infinigen teacher rollouts and LIBERO reference.
+  KEY FINDINGS:
+  1. ACTION_VARIANCE: Infinigen |Δa|_2 p95=1.1768 vs LIBERO=0.1643 (6.16x higher).
+     Root cause: physics violations cause erratic delta actions.
+  2. STATE_ACTION_LAG: Infinigen best_lag all 0 or -1. LIBERO heterogeneous.
+     LIBERO action[t]→state[t+1] convention causes lag=-1. Infinigen has wrong convention.
+  3. GRIPPER_STATE[7]: Infinigen binary {0.0, 1.0} vs LIBERO continuous [-0.042, +0.001].
+     CRITICAL P1a mismatch: MINT's NormalizerProcessorStep(QUANTILES) sees wrong distribution.
+  4. GRIPPER_ACTION[6]: Both Infinigen and LIBERO use discrete binary {-1.0, +1.0}. OK.
+  VERDICT: FAIL — P0 physics + P1a state contract issues both confirmed by QA metrics.

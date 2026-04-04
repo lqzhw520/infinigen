@@ -34,3 +34,11 @@
 - 2026-03-25T22:27:00+08:00: [MINT] D3 FAILED — finetuned 0% vs pretrained 33% on train seeds. Catastrophic forgetting confirmed.
 - 2026-03-25T22:29:00+08:00: [MINT] E1 launched with soft D3 dependency (training completed).
 - 2026-03-25T22:43:00+08:00: [MINT] E1 COMPLETED — verdict=`scientific_not_supported`. Finetuned 0% vs pretrained 20% on held-out seeds. Random policy (20%) ties pretrained.
+- 2026-04-03T14:30:00+08:00: [MINT] **P1a runtime verification PASS** — `_state_vector()` 输出连续 gripper joint ∈ [-0.042, +0.001]（非 binary {0,1}）。5 项检查全部通过：
+  - Initial state[7]=0.000830（Libero 范围）
+  - Open mean=0.000953, closed mean=-0.041664（全程非 binary）
+  - 物理顺序正确：open > closed
+  - 所有值在 Libero 范围内
+  - PyBullet→Libero 映射公式正确（偏差 < 0.001）
+  - **C_STATE_CONTRACT rev6 已注册**（evidence_added），E012 已记录
+  - sovereign_cli.py render-truth 重新生成 CAMPAIGN_TRUTH.generated.md

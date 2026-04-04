@@ -378,11 +378,21 @@ class DrawerRobotEnv:
 
     def _state_vector(self) -> np.ndarray:
         eef_pos, eef_quat = self.eef_pose()
+        j9 = self.p.getJointState(
+            self.robot_id, GRIPPER_JOINTS[0], physicsClientId=self.client
+        )[0]
+        j10 = self.p.getJointState(
+            self.robot_id, GRIPPER_JOINTS[1], physicsClientId=self.client
+        )[0]
+        finger_pos = (j9 + j10) / 2.0  # ∈ [0.0, 0.04] in PyBullet
+        # LIBERO convention: negative = closed, positive = open
+        # LIBERO range: [-0.042, +0.001]; PyBullet range: [0.0, 0.04]
+        gripper_joint = finger_pos * 1.075 - 0.042
         return np.concatenate(
             [
                 eef_pos.astype(np.float32),
                 eef_quat.astype(np.float32),
-                np.array([self.gripper_open], dtype=np.float32),
+                np.array([gripper_joint], dtype=np.float32),
             ]
         )
 

@@ -1,3 +1,22 @@
+# Harness v1.3-fix 
+**Campaign**: `mint_drawer_v1`
+**上次更新**: 2026-04-03 20:40 PM
+
+---
+## 现在你要用 harness，只跑一个命令：
+```bash
+cd /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1
+python scripts/harness/sovereign_cli.py go
+```
+**这一个命令会：lint 通过 → 打印当前 verdict → 打印 Active Claims → 打印 Pending Actions → 打印 Suggested Next Step + hint。
+
+不需要你手工跑多个脚本，不需要查文件。它自己把 sovereign/claims.yaml、sovereign/state.json、sovereign/evidence/index.json、sovereign/next_actions.json 全读一遍，汇总成上面那个输出。**
+
+
+
+---
+
+
 # Harness v1.3 — Quick Usage Guide
 
 **Campaign**: `mint_drawer_v1`

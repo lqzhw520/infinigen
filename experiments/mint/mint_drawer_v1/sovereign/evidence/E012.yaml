@@ -1,0 +1,54 @@
+evidence_id: E012
+experiment_id: p1a_state_vector_runtime_verification
+type: runtime_verification
+timestamp: "2026-04-03T06:30:00+08:00"
+command: "python3 scripts/mint/verify_p1a_state_vector.py"
+artifact_path: "scripts/mint/verify_p1a_state_vector.py"
+scope: v58_state_contract_alignment
+related_claim_ids:
+  - C_STATE_CONTRACT
+metrics:
+  check1_initial_state:
+    pass: true
+    value: 0.000830
+    expected_range: [-0.042, 0.001]
+    is_binary: false
+  check2_trajectory_nonbinary:
+    pass: true
+    open_mean: 0.000953
+    closed_mean: -0.041664
+    all_binary: false
+  check3_physical_ordering:
+    pass: true
+    open_mean: 0.000953
+    closed_mean: -0.041664
+    open_gt_closed: true
+  check4_libero_range:
+    pass: true
+    min: -0.041664
+    max: 0.000999
+    expected_range: [-0.042, 0.001]
+  check5_formula_verification:
+    pass: true
+    expected_open_libero: 0.001000
+    expected_closed_libero: -0.042000
+    actual_open: 0.000953
+    actual_closed: -0.041664
+    open_delta: 0.000047
+    closed_delta: 0.000336
+  overall: PASS
+verified: true
+notes: |
+  P1a runtime verification: drawer_robot_env._state_vector() now outputs continuous
+  gripper joint position ∈ [-0.042, +0.001] matching LIBERO contract.
+  
+  Key findings:
+  - Initial state[7] = 0.000830 (not binary 0 or 1)
+  - Open trajectory mean = 0.000953 (near LIBERO max = +0.001)
+  - Closed trajectory mean = -0.041664 (near LIBERO min = -0.042)
+  - All 16 sampled values strictly within LIBERO range [-0.042, +0.001]
+  - PyBullet → LIBERO mapping formula correct (deviation < 0.0005)
+  - Physical ordering correct: open > closed
+  
+  Formula: gripper_joint = (j9 + j10)/2 * 1.075 - 0.042
+  Where j9/j10 are PyBullet finger joint positions ∈ [0.0, 0.04]

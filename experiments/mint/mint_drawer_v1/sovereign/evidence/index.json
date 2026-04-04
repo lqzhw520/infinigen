@@ -1,50 +1,97 @@
-{
-  "version": 1,
-  "last_updated": "2026-04-02T03:00:00+08:00",
-  "entries": [
-    {
-      "evidence_id": "E001",
-      "experiment_id": "d1_v57_pretrained",
-      "type": "eval",
-      "timestamp": "2026-03-30T20:30:00+08:00",
-      "path": "sovereign/evidence/E001.yaml",
-      "verified": false
-    },
-    {
-      "evidence_id": "E004",
-      "experiment_id": "active_action_contract_audit",
-      "type": "audit",
-      "timestamp": "2026-04-02T00:00:00+08:00",
-      "path": "artifacts/active_action_contract.json",
-      "verified": true,
-      "summary": "All 25 replay rollouts fail (passed: false). max_position_error=0.33-1.03m (gripper clips through drawer). max_drawer_error=1.0, final_drawer_fraction=0.0 during pull phase."
-    },
-    {
-      "evidence_id": "E005",
-      "experiment_id": "libero_state_contract_audit",
-      "type": "data_audit",
-      "timestamp": "2026-04-02T03:00:00+08:00",
-      "path": "external/LIBERO/datasets/libero_10_image/meta/stats.json",
-      "verified": true,
-      "summary": "LIBERO observation.state[7]: continuous joint position (min=-0.041, max=0.001, std=0.013). NOT binary {0,1}. Infinigen _state_vector() puts binary gripper in state[7]. MINT state tokenizer confused. Root cause of ever_attached=false."
-    },
-    {
-      "evidence_id": "E006",
-      "experiment_id": "libero_camera_config_audit",
-      "type": "data_audit",
-      "timestamp": "2026-04-02T03:00:00+08:00",
-      "path": "external/LIBERO/datasets/libero_10_image/meta/info.json",
-      "verified": true,
-      "summary": "LIBERO dual-camera: image(256x256, overhead) + wrist_image(256x256, wrist). Infinigen: image(224x224, overhead) + image2(224x224, TBD). Resolution and naming schema gap confirmed. P1b."
-    },
-    {
-      "evidence_id": "E007",
-      "experiment_id": "p1a_runtime_verification",
-      "type": "runtime_verification",
-      "timestamp": "2026-04-02T03:30:00+08:00",
-      "path": "runtime test: drawer_robot_env + PyBullet + LIBERO stats",
-      "verified": true,
-      "summary": "Quat order: (w,x,y,z) OK. Gripper: LIBERO=[-0.041,+0.001] (joint pos, open=+0.001, closed=-0.041), Infinigen=[0,0.04] (positive). Sign INVERTED. Fix: replace binary with joint position, handle sign flip."
-    }
-  ]
-}
+version: 1
+last_updated: '2026-04-03T16:52:16+00:00'
+entries:
+- evidence_id: E001
+  experiment_id: d1_v57_pretrained
+  type: eval
+  timestamp: '2026-03-30T20:30:00+08:00'
+  path: sovereign/evidence/E001.yaml
+  verified: false
+- evidence_id: E004
+  experiment_id: active_action_contract_audit
+  type: audit
+  timestamp: '2026-04-02T00:00:00+08:00'
+  path: artifacts/active_action_contract.json
+  verified: true
+  summary: 'All 25 replay rollouts fail (passed: false). max_position_error=0.33-1.03m
+    (gripper clips through drawer). max_drawer_error=1.0, final_drawer_fraction=0.0
+    during pull phase.'
+- evidence_id: E005
+  experiment_id: libero_state_contract_audit
+  type: data_audit
+  timestamp: '2026-04-02T03:00:00+08:00'
+  path: external/LIBERO/datasets/libero_10_image/meta/stats.json
+  verified: true
+  summary: 'LIBERO observation.state[7]: continuous joint position (min=-0.041, max=0.001,
+    std=0.013). NOT binary {0,1}. Infinigen _state_vector() puts binary gripper in
+    state[7]. MINT state tokenizer confused. Root cause of ever_attached=false.'
+- evidence_id: E006
+  experiment_id: libero_camera_config_audit
+  type: data_audit
+  timestamp: '2026-04-02T03:00:00+08:00'
+  path: external/LIBERO/datasets/libero_10_image/meta/info.json
+  verified: true
+  summary: 'LIBERO dual-camera: image(256x256, overhead) + wrist_image(256x256, wrist).
+    Infinigen: image(224x224, overhead) + image2(224x224, TBD). Resolution and naming
+    schema gap confirmed. P1b.'
+- evidence_id: E007
+  experiment_id: p1a_runtime_verification
+  type: runtime_verification
+  timestamp: '2026-04-02T03:30:00+08:00'
+  path: 'runtime test: drawer_robot_env + PyBullet + LIBERO stats'
+  verified: true
+  summary: 'Quat order: (w,x,y,z) OK. Gripper: LIBERO=[-0.041,+0.001] (joint pos,
+    open=+0.001, closed=-0.041), Infinigen=[0,0.04] (positive). Sign INVERTED. Fix:
+    replace binary with joint position, handle sign flip.'
+- evidence_id: E008
+  experiment_id: qa_offline_metrics_comparison
+  type: data_audit
+  timestamp: '2026-04-03T06:00:00+08:00'
+  path: experiments/mint/mint_drawer_v1/outputs/qa_comparison.json
+  verified: true
+  summary: 'Offline QA: action_variance 7.16x above LIBERO, state_action_lag FAIL,
+    gripper_state FAIL. Verdict: FAIL — P0+P1a confirmed.'
+- evidence_id: E009
+  experiment_id: physics_legality_audit
+  type: data_audit
+  timestamp: '2026-04-03T06:00:00+08:00'
+  path: experiments/mint/mint_drawer_v1/outputs/physics_audit.json
+  verified: true
+  summary: 'Physics audit: 25/25 illegal (0% pass). phantom_jumps 0.3-0.94m, high_action_variance
+    25/25, gripper_penetration 4/25. Confirms C_PHYSICS_LEGAL_TEACHER@1.'
+- evidence_id: E010
+  experiment_id: dataset_builder_libero_alignment
+  type: engineering_fix
+  timestamp: '2026-04-03T06:00:00+08:00'
+  path: scripts/mint/dataset_builder.py
+  verified: true
+  summary: 'dataset_builder.py fixed: gripper_joint continuous, 256x256 images, LIBERO_KEY_RENAME
+    documented. PENDING: drawer_robot_env._state_vector() gripper fix.'
+- evidence_id: E011
+  experiment_id: p4_physics_legal_gate
+  type: gate_evaluation
+  timestamp: '2026-04-03T22:04:56+08:00'
+  path: sovereign/evidence/E011.yaml
+  verified: false
+- evidence_id: E002
+  experiment_id: p4_physics_legal_gate
+  type: gate_evaluation
+  timestamp: '2026-04-03T22:09:35+08:00'
+  path: sovereign/evidence/E002.yaml
+  verified: false
+- evidence_id: E012
+  experiment_id: p1a_state_vector_runtime_verification
+  type: runtime_verification
+  timestamp: '2026-04-03T06:30:00+08:00'
+  path: scripts/mint/verify_p1a_state_vector.py
+  verified: true
+  summary: 'P1a runtime verification PASS: _state_vector() outputs continuous gripper
+    joint ∈ [-0.042, +0.001]. Initial state[7]=0.000830, open_mean=0.000953, closed_mean=-0.041664.
+    All 5 checks passed. Formula correct: PyBullet finger_pos ∈ [0.0, 0.04] → LIBERO
+    ∈ [-0.042, +0.001].'
+- evidence_id: E003
+  experiment_id: p4_physics_legal_gate
+  type: gate_evaluation
+  timestamp: '2026-04-04T00:52:16+08:00'
+  path: sovereign/evidence/E003.yaml
+  verified: false

@@ -69,8 +69,25 @@ def lint_claims():
             )
 
         # ── Only one live revision ─────────────────────────────────
+        # Exception: claims that were superseded without a successor active revision
+        # (e.g. v1.3 schema adoption cases like C_VQVAE_USABLE → C_PHYSICS_LEGAL_TEACHER)
+        # are allowed to have 0 live revisions. In that case, superseded_by must
+        # point to a valid active claim.
         live = [r for r in revisions if r.get("superseded_by") is None]
-        if len(live) != 1:
+        if len(live) == 0:
+            # Fully superseded without a live successor — only error if superseded_by
+            # points to a non-existent or non-active claim
+            last_sb = revisions[-1].get("superseded_by")
+            if last_sb and last_sb != "null":
+                sup_id = last_sb.rsplit("@", 1)[0] if "@" in last_sb else last_sb
+                sup_claim = next((c for c in data["claims"] if c["claim_id"] == sup_id), None)
+                if sup_claim is None or sup_claim.get("lifecycle_status") != "active":
+                    errors.append(
+                        f"{cid}: 0 live revisions and superseded_by='{last_sb}' "
+                        f"points to a non-active claim — claim is orphaned"
+                    )
+            # 0 live is acceptable here (superseded without active successor)
+        elif len(live) != 1:
             errors.append(
                 f"{cid}: {len(live)} live revisions with superseded_by=null "
                 f"(must be exactly 1): {[r['revision'] for r in live]}"
@@ -176,12 +193,22 @@ def lint_claims():
                 )
 
         # ── Superseded lifecycle consistency ─────────────────────────
+        # Exception: if superseded by an active claim, the last revision MAY have
+        # superseded_by set (the superseder exists and is valid). We only error
+        # when the superseder itself is superseded/archived or when superseded_by
+        # points to a non-existent claim.
         if claim["lifecycle_status"] == "superseded":
-            if revisions[-1].get("superseded_by") is not None:
-                errors.append(
-                    f"{cid}: lifecycle_status=superseded but last revision "
-                    f"rev{revisions[-1]['revision']} superseded_by is not null"
-                )
+            last_sb = revisions[-1].get("superseded_by")
+            if last_sb and last_sb != "null":
+                # Check if the superseder is still active
+                sup_id = last_sb.rsplit("@", 1)[0] if "@" in last_sb else last_sb
+                sup_claim = next((c for c in data["claims"] if c["claim_id"] == sup_id), None)
+                if sup_claim is None or sup_claim.get("lifecycle_status") != "active":
+                    errors.append(
+                        f"{cid}: lifecycle_status=superseded but last revision "
+                        f"rev{revisions[-1]['revision']} superseded_by='{last_sb}' "
+                        f"and superseder is not active — claim is orphaned"
+                    )
 
         # ── Split lifecycle consistency ───────────────────────────────
         if claim["lifecycle_status"] == "split":

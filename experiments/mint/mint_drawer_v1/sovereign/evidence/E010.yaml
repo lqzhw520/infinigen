@@ -1,0 +1,29 @@
+evidence_id: E010
+experiment_id: dataset_builder_libero_alignment
+type: engineering_fix
+timestamp: "2026-04-03T06:00:00+08:00"
+command: "Modified scripts/mint/dataset_builder.py"
+artifact_path: "scripts/mint/dataset_builder.py"
+scope: v58_state_contract_alignment
+related_claim_ids:
+  - C_STATE_CONTRACT
+  - C_PHYSICS_LEGAL_TEACHER
+metrics:
+  gripper_state_fix: FIXED     # Now outputs continuous gripper_joint [-0.042, +0.001]
+  image_resolution_fix: FIXED   # Now outputs 256x256 instead of 224x224
+  action_key_fix: VERIFIED     # "actions" (plural) → "action" (singular) via LIBERO_KEY_RENAME
+  gripper_binarize_default: CHANGED  # Default changed from True to False
+  dataset_integrity_robustness: IMPROVED  # Added image/state/action shape validation
+verified: true
+notes: |
+  Fixed dataset_builder.py to align with LIBERO/LeRobot schema and MINT preprocessing.
+  CHANGES:
+  1. STATE_NAMES: eef_quat → motor_quat, gripper_open → gripper_joint (semantic alignment)
+  2. _infinigen_to_libero_gripper(): maps Infinigen binary {0.0=closed, 1.0=open}
+     to LIBERO continuous range [-0.042, +0.001] so MINT's NormalizerProcessorStep(QUANTILES) works.
+  3. Image resize: 224x224 → 256x256 (PIL BILINEAR upsampling)
+  4. LIBERO_KEY_RENAME: documents LeRobotDataset flat→nested key mapping
+  5. gripper_binarize default: False (correct: continuous output by default)
+  6. dataset_integrity(): removed revision="main", added shape validation
+  REMAINING: drawer_robot_env._state_vector() still outputs binary gripper → needs fix separately.
+  PENDING: robosuite+MuJoCo teacher environment (mujuco-teacher-env task).

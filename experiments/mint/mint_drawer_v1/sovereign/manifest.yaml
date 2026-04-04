@@ -7,18 +7,27 @@ campaign:
     improve MINT success on held-out drawer variants in simulation relative to pretrained
     MINT.
   queue:
+  # ── Upstream audits ─────────────────────────────────────────────────────────
   - u1_asset_geometry_audit
   - u2_joint_semantics_audit
   - u3_handle_region_audit
   - u4_export_consistency_audit
   - u5_seed_outlier_audit
+  # ── Asset & Frame audits ───────────────────────────────────────────────────
   - a1_asset_scene_audit
   - a2_frame_transform_audit
+  # ── Baseline rollouts ───────────────────────────────────────────────────────
   - b1_oracle_scripted_baseline
   - b2_anygrasp_scripted_baseline
+  # ── Teacher rollout rebuild ────────────────────────────────────────────────
   - c1_teacher_native_rollout_rebuild
   - c2_action_contract_repair
   - c3_single_rollout_replay_gate
+  # ── LIBERO alignment gates (NEW) ──────────────────────────────────────────
+  - p4_physics_legal_gate       # ≥6 physics-legal teacher rollouts
+  - p1a_state_vector_fix         # state[7] continuous gripper joint
+  - p1b_mujoco_env               # robosuite+MuJoCo dual-camera 256x256
+  # ── Training & Eval ────────────────────────────────────────────────────────
   - d1_single_rollout_overfit
   - d2_single_seed_overfit
   - d3_train_seed_probe
@@ -42,6 +51,10 @@ campaign:
     d3_train_seed_probe: mint
     e1_heldout_eval: mint
     write_claim_memo: mint
+    # LIBERO alignment gates
+    p4_physics_legal_gate: mint
+    p1a_state_vector_fix: mint
+    p1b_mujoco_env: mint
   object_split:
     train:
     - 1

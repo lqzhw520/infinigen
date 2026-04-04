@@ -66,6 +66,10 @@ QUEUE_ENVS = {
     "d3_train_seed_probe": "mint",
     "e1_heldout_eval": "mint",
     "write_claim_memo": "mint",
+    # LIBERO alignment gates
+    "p4_physics_legal_gate": "mint",
+    "p1a_state_vector_fix": "mint",
+    "p1b_mujoco_env": "mint",
 }
 
 DATASET_REPO_ID = "infinigen_drawer_robot_v1"
@@ -568,6 +572,9 @@ def step_lane(step_id: str | None, state: dict[str, Any] | None = None) -> str |
         "b1_oracle_scripted_baseline",
         "b2_anygrasp_scripted_baseline",
         "c1_teacher_native_rollout_rebuild",
+        "p4_physics_legal_gate",
+        "p1a_state_vector_fix",
+        "p1b_mujoco_env",
     }:
         return "foundation"
     if step_id == "c2_action_contract_repair":
@@ -840,6 +847,10 @@ def expected_artifacts(step_id: str) -> list[Path]:
         "d1_single_rollout_overfit",
         "d2_single_seed_overfit",
         "d3_train_seed_probe",
+        # LIBERO alignment gates
+        "p4_physics_legal_gate",
+        "p1a_state_vector_fix",
+        "p1b_mujoco_env",
     }:
         return [ARTIFACT_DIR / f"{step_id}.json"]
     if step_id == "e1_heldout_eval":
@@ -1113,6 +1124,30 @@ def validate_step_artifacts(step_id: str) -> tuple[bool, str, dict[str, Any]]:
         memo_path = CAMPAIGN_DIR / "decision_memo.md"
         ok = memo_path.exists() and memo_path.read_text().strip() != ""
         return ok, "decision memo missing" if not ok else "ok", {"path": str(memo_path)}
+
+    # ── LIBERO alignment gates ────────────────────────────────────────────────
+    if step_id == "p4_physics_legal_gate":
+        payload = validate_json_file(ARTIFACT_DIR / "p4_physics_legal_gate.json")
+        ok = bool(
+            payload
+            and payload.get("passed")
+            and int(payload.get("legal_seed_count", 0)) >= 6
+        )
+        return (
+            ok,
+            f"gate not passed: {payload.get('legal_seed_count', 0)}/6 seeds"
+            if payload
+            else f"{step_id} artifact missing",
+            payload or {},
+        )
+    if step_id in {"p1a_state_vector_fix", "p1b_mujoco_env"}:
+        payload = validate_json_file(ARTIFACT_DIR / f"{step_id}.json")
+        ok = bool(payload and payload.get("passed"))
+        return (
+            ok,
+            f"{step_id} artifact missing or failed" if not ok else "ok",
+            payload or {},
+        )
 
     path = ARTIFACT_DIR / f"{step_id}.json"
     payload = validate_json_file(path)

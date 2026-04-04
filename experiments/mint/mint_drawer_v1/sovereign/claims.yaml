@@ -1,171 +1,612 @@
 schema_version: 2
-
 claims:
-  # ── Claim 1: Vision encoder generalization ─────────────────────────────────
-  - claim_id: C_SIGLIP_GENERALIZATION
-    current_revision: 3
-    lifecycle_status: active
+- claim_id: C_SIGLIP_GENERALIZATION
+  current_revision: 3
+  lifecycle_status: active
+  superseded_by: null
+  supersedes: null
+  split_from: null
+  split_into: []
+  revisions:
+  - revision: 1
+    statement: SigLIP vision encoder cannot generalize to Infinigen synthetic images.
+    scope: broad
+    status: contradicted
+    evidence_ids:
+    - E001
+    change_type: create
+    change_reason: 'Initial diagnosis from D1 V57 failed runs: pretrained_mint=0%
+      grasp on DrawerRobotEnv (seed 2, 5 episodes).'
+    created_at: '2026-03-30T10:00:00+08:00'
+    superseded_by: C_SIGLIP_GENERALIZATION@2
+    superseded_by_reason: E1 held-out eval seed 14 showed 1/5=20% success; original
+      broad claim overstated the conclusion.
+    supersedes: null
+  - revision: 2
+    statement: SigLIP features are insufficient for DrawerRobotEnv grasp pipeline;
+      however E1 seed 14 success (1/5=20%) suggests partial visual signal may exist.
+    scope: drawer_robot_env_only
+    status: contradicted
+    evidence_ids:
+    - E001
+    - E002
+    change_type: scope_narrowed
+    change_reason: Proxy baseline diagnosis was over-broad; narrowed to DrawerRobotEnv
+      task-specific evaluation after seed 14 evidence emerged.
+    created_at: '2026-03-31T12:00:00+08:00'
+    superseded_by: C_SIGLIP_GENERALIZATION@3
+    superseded_by_reason: D1 seed2 0% vs E1 seed14 1/5=20% inconsistency means vision
+      alone is not proven P0; system-level reframe needed.
+    supersedes: C_SIGLIP_GENERALIZATION@1
+  - revision: 3
+    statement: Current failure is more likely system-level misalignment across vision
+      preprocessing, action quantization, and control loop, not vision alone. E1 1/5
+      grasp does not support full SigLIP rejection.
+    scope: current_mint_drawer_v1_pipeline
+    status: candidate
+    evidence_ids:
+    - E001
+    - E002
+    - E003
+    change_type: reframed
+    change_reason: 'Reframed after advisor review: D1 seed2 0% vs E1 1/5=20% inconsistency
+      means treating SigLIP as confirmed P0 is premature; system-level pipeline check
+      needed.'
+    created_at: '2026-03-31T19:00:00+08:00'
     superseded_by: null
+    superseded_by_reason: null
+    supersedes: C_SIGLIP_GENERALIZATION@2
+- claim_id: C_VQVAE_USABLE
+  current_revision: 1
+  lifecycle_status: superseded
+  superseded_by: C_PHYSICS_LEGAL_TEACHER
+  supersedes: null
+  split_from: null
+  split_into: []
+  revisions:
+  - revision: 1
+    statement: Current VQ-VAE action quantizer encodes usable drawer-manipulation
+      latent for the D1 pipeline.
+    scope: simulation_only
+    status: contradicted
+    evidence_ids:
+    - E001
+    change_type: create
+    change_reason: 'Established from D1 V57: pretrained_mint=0% grasp (independent
+      of fine-tuning); no VQ-VAE training code in workspace; V57 3000-step finetuned
+      also 0%.'
+    created_at: '2026-03-31T19:00:00+08:00'
+    superseded_by: C_PHYSICS_LEGAL_TEACHER@1
+    superseded_by_reason: 'Root cause shifted upstream: VQ-VAE failure is downstream
+      of physics-illegal teacher data. V57 frozen pretrained VQ-VAE with clean discrete-binary
+      gripper data still 0% grasp.'
     supersedes: null
-    split_from: null
-    split_into: []
-    revisions:
-      - revision: 1
-        statement: "SigLIP vision encoder cannot generalize to Infinigen synthetic images."
-        scope: broad
-        status: contradicted
-        evidence_ids: [E001]
-        change_type: create
-        change_reason: "Initial diagnosis from D1 V57 failed runs: pretrained_mint=0% grasp on DrawerRobotEnv (seed 2, 5 episodes)."
-        created_at: "2026-03-30T10:00:00+08:00"
-        superseded_by: C_SIGLIP_GENERALIZATION@2
-        superseded_by_reason: "E1 held-out eval seed 14 showed 1/5=20% success; original broad claim overstated the conclusion."
-        supersedes: null
-
-      - revision: 2
-        statement: "SigLIP features are insufficient for DrawerRobotEnv grasp pipeline; however E1 seed 14 success (1/5=20%) suggests partial visual signal may exist."
-        scope: drawer_robot_env_only
-        status: contradicted
-        evidence_ids: [E001, E002]
-        change_type: scope_narrowed
-        change_reason: "Proxy baseline diagnosis was over-broad; narrowed to DrawerRobotEnv task-specific evaluation after seed 14 evidence emerged."
-        created_at: "2026-03-31T12:00:00+08:00"
-        superseded_by: C_SIGLIP_GENERALIZATION@3
-        superseded_by_reason: "D1 seed2 0% vs E1 seed14 1/5=20% inconsistency means vision alone is not proven P0; system-level reframe needed."
-        supersedes: C_SIGLIP_GENERALIZATION@1
-
-      - revision: 3
-        statement: "Current failure is more likely system-level misalignment across vision preprocessing, action quantization, and control loop, not vision alone. E1 1/5 grasp does not support full SigLIP rejection."
-        scope: current_mint_drawer_v1_pipeline
-        status: candidate
-        evidence_ids: [E001, E002, E003]
-        change_type: reframed
-        change_reason: "Reframed after advisor review: D1 seed2 0% vs E1 1/5=20% inconsistency means treating SigLIP as confirmed P0 is premature; system-level pipeline check needed."
-        created_at: "2026-03-31T19:00:00+08:00"
-        superseded_by: null
-        superseded_by_reason: null
-        supersedes: C_SIGLIP_GENERALIZATION@2
-
-  # ── Claim 2: VQ-VAE quantizer usability ────────────────────────────────────
-  - claim_id: C_VQVAE_USABLE
-    current_revision: 1
-    lifecycle_status: active
-    superseded_by: C_PHYSICS_LEGAL_TEACHER
+- claim_id: C_DATASET_SUFFICIENT
+  current_revision: 1
+  lifecycle_status: superseded
+  superseded_by: C_PHYSICS_LEGAL_TEACHER
+  supersedes: null
+  split_from: null
+  split_into: []
+  revisions:
+  - revision: 1
+    statement: 1,301 frames is sufficient for VQ-VAE or vision encoder adaptation.
+    scope: data_scale
+    status: contradicted
+    evidence_ids: []
+    change_type: create
+    change_reason: LIBERO uses ~50,000 frames. 1,301 frames = 2.6% of LIBERO. Target
+      5,000+ for meaningful adaptation. No training code exists in workspace.
+    created_at: '2026-03-31T19:00:00+08:00'
+    superseded_by: C_PHYSICS_LEGAL_TEACHER@1
+    superseded_by_reason: Data QUALITY (physics-legal) is more fundamental than quantity.
+      25 physics-violating rollouts is worse than 5 physically-correct ones.
     supersedes: null
-    split_from: null
-    split_into: []
-    revisions:
-      - revision: 1
-        statement: "Current VQ-VAE action quantizer encodes usable drawer-manipulation latent for the D1 pipeline."
-        scope: simulation_only
-        status: contradicted
-        evidence_ids: [E001]
-        change_type: create
-        change_reason: "Established from D1 V57: pretrained_mint=0% grasp (independent of fine-tuning); no VQ-VAE training code in workspace; V57 3000-step finetuned also 0%."
-        created_at: "2026-03-31T19:00:00+08:00"
-        superseded_by: C_PHYSICS_LEGAL_TEACHER@1
-        superseded_by_reason: "Root cause shifted upstream: VQ-VAE failure is downstream of physics-illegal teacher data. V57 frozen pretrained VQ-VAE with clean discrete-binary gripper data still 0% grasp."
-        supersedes: null
-
-  # ── Claim 3: Dataset sufficiency ────────────────────────────────────────────
-  - claim_id: C_DATASET_SUFFICIENT
-    current_revision: 1
-    lifecycle_status: active
-    superseded_by: C_PHYSICS_LEGAL_TEACHER
-    supersedes: null
-    split_from: null
-    split_into: []
-    revisions:
-      - revision: 1
-        statement: "1,301 frames is sufficient for VQ-VAE or vision encoder adaptation."
-        scope: data_scale
-        status: contradicted
-        evidence_ids: []
-        change_type: create
-        change_reason: "LIBERO uses ~50,000 frames. 1,301 frames = 2.6% of LIBERO. Target 5,000+ for meaningful adaptation. No training code exists in workspace."
-        created_at: "2026-03-31T19:00:00+08:00"
-        superseded_by: C_PHYSICS_LEGAL_TEACHER@1
-        superseded_by_reason: "Data QUALITY (physics-legal) is more fundamental than quantity. 25 physics-violating rollouts is worse than 5 physically-correct ones."
-        supersedes: null
-
-  # ── Claim 4: Fine-tuning improves held-out ────────────────────────────────
-  - claim_id: C_FINETUNE_IMPROVES_HELDOUT
-    current_revision: 1
-    lifecycle_status: active
+- claim_id: C_FINETUNE_IMPROVES_HELDOUT
+  current_revision: 1
+  lifecycle_status: active
+  superseded_by: null
+  supersedes: null
+  split_from: null
+  split_into: []
+  revisions:
+  - revision: 1
+    statement: Finetuned MINT improves held-out E1 success over pretrained baseline.
+    scope: heldout_eval_only
+    status: contradicted
+    evidence_ids:
+    - E001
+    - E002
+    change_type: create
+    change_reason: 'E1 held-out eval: pretrained 1/5=20%, finetuned 0/5=0% — finetuned
+      is strictly worse than pretrained. V57 D1: pretrained 0%, finetuned 0%.'
+    created_at: '2026-03-31T19:00:00+08:00'
     superseded_by: null
+    superseded_by_reason: null
     supersedes: null
-    split_from: null
-    split_into: []
-    revisions:
-      - revision: 1
-        statement: "Finetuned MINT improves held-out E1 success over pretrained baseline."
-        scope: heldout_eval_only
-        status: contradicted
-        evidence_ids: [E001, E002]
-        change_type: create
-        change_reason: "E1 held-out eval: pretrained 1/5=20%, finetuned 0/5=0% — finetuned is strictly worse than pretrained. V57 D1: pretrained 0%, finetuned 0%."
-        created_at: "2026-03-31T19:00:00+08:00"
-        superseded_by: null
-        superseded_by_reason: null
-        supersedes: null
-
-  # ── Claim 5: Physics-legal teacher rollouts ─────────────────────────────────
-  - claim_id: C_PHYSICS_LEGAL_TEACHER
-    current_revision: 1
-    lifecycle_status: active
+- claim_id: C_PHYSICS_LEGAL_TEACHER
+  current_revision: 5
+  lifecycle_status: active
+  superseded_by: null
+  supersedes: null
+  split_from: null
+  split_into: []
+  revisions:
+  - revision: 1
+    statement: 'Teacher rollouts generated by Infinigen + AnyGrasp contain gripper
+      trajectories that violate physical collision constraints. Evidence: all 25 replay
+      rollouts fail (passed: false) with max_position_error=0.33-1.03m (gripper clips
+      through drawer panel), and max_drawer_error=1.0 with drawer_fraction=0.0 during
+      pull phase (world-frame delta actions are physically impossible when drawer
+      is constrained by Infinigen physics).'
+    scope: v58_teacher_data_pipeline
+    status: candidate
+    evidence_ids:
+    - E004
+    - E008
+    - E009
+    change_type: evidence_added
+    change_reason: 'E008 (offline QA): action_variance 6.16x above LIBERO threshold,
+      state_action_lag FAIL. E009 (physics audit): 25/25 illegal, phantom_jumps 0.3-0.94m,
+      100% high_action_variance. Both confirm physics violations are pervasive, not
+      edge cases.'
+    created_at: '2026-04-02T00:00:00+08:00'
+    superseded_by: C_PHYSICS_LEGAL_TEACHER@2
+    superseded_by_reason: 'P4 gate: 0 physics-legal teacher rollouts generated (seeds:
+      []) via run_p4_physics_legal_gate.py. Evidence: E011.'
+    supersedes: null
+  - revision: 2
+    statement: 'Teacher rollouts generated by Infinigen + AnyGrasp contain gripper
+      trajectories that violate physical collision constraints. Evidence: all 25 replay
+      rollouts fail (passed: false) with max_position_error=0.33-1.03m (gripper clips
+      through drawer panel), and max_drawer_error=1.0 with drawer_fraction=0.0 during
+      pull phase (world-frame delta actions are physically impossible when drawer
+      is constrained by Infinigen physics).'
+    scope: v58_teacher_data_pipeline
+    status: supported
+    evidence_ids:
+    - E004
+    - E008
+    - E009
+    - E011
+    change_type: status_update
+    change_reason: 'P4 gate: 0 physics-legal teacher rollouts generated (seeds: [])
+      via run_p4_physics_legal_gate.py. Evidence: E011.'
+    created_at: '2026-04-03T14:04:56+00:00'
+    superseded_by: C_PHYSICS_LEGAL_TEACHER@3
+    superseded_by_reason: 'P4 gate: 0 physics-legal teacher rollouts generated (seeds:
+      []) via run_p4_physics_legal_gate.py. Evidence: E011.'
+    supersedes: C_PHYSICS_LEGAL_TEACHER@1
+  - revision: 3
+    statement: 'Teacher rollouts generated by Infinigen + AnyGrasp contain gripper
+      trajectories that violate physical collision constraints. Evidence: all 25 replay
+      rollouts fail (passed: false) with max_position_error=0.33-1.03m (gripper clips
+      through drawer panel), and max_drawer_error=1.0 with drawer_fraction=0.0 during
+      pull phase (world-frame delta actions are physically impossible when drawer
+      is constrained by Infinigen physics).'
+    scope: v58_teacher_data_pipeline
+    status: supported
+    evidence_ids:
+    - E004
+    - E008
+    - E009
+    - E011
+    change_type: status_update
+    change_reason: 'P4 gate: 0 physics-legal teacher rollouts generated (seeds: [])
+      via run_p4_physics_legal_gate.py. Evidence: E011.'
+    created_at: '2026-04-03T14:05:04+00:00'
+    superseded_by: C_PHYSICS_LEGAL_TEACHER@4
+    superseded_by_reason: 'P4 gate: 0 physics-legal teacher rollouts generated (seeds:
+      []) via run_p4_physics_legal_gate.py. Evidence: E002.'
+    supersedes: C_PHYSICS_LEGAL_TEACHER@2
+  - revision: 4
+    statement: 'Teacher rollouts generated by Infinigen + AnyGrasp contain gripper
+      trajectories that violate physical collision constraints. Evidence: all 25 replay
+      rollouts fail (passed: false) with max_position_error=0.33-1.03m (gripper clips
+      through drawer panel), and max_drawer_error=1.0 with drawer_fraction=0.0 during
+      pull phase (world-frame delta actions are physically impossible when drawer
+      is constrained by Infinigen physics).'
+    scope: v58_teacher_data_pipeline
+    status: supported
+    evidence_ids:
+    - E004
+    - E008
+    - E009
+    - E011
+    - E002
+    change_type: status_update
+    change_reason: 'P4 gate: 0 physics-legal teacher rollouts generated (seeds: [])
+      via run_p4_physics_legal_gate.py. Evidence: E002.'
+    created_at: '2026-04-03T14:09:35+00:00'
+    superseded_by: C_PHYSICS_LEGAL_TEACHER@5
+    superseded_by_reason: 'P4 gate: 0 physics-legal teacher rollouts generated (seeds:
+      []) via run_p4_physics_legal_gate.py. Evidence: E003.'
+    supersedes: C_PHYSICS_LEGAL_TEACHER@3
+  - revision: 5
+    statement: 'Teacher rollouts generated by Infinigen + AnyGrasp contain gripper
+      trajectories that violate physical collision constraints. Evidence: all 25 replay
+      rollouts fail (passed: false) with max_position_error=0.33-1.03m (gripper clips
+      through drawer panel), and max_drawer_error=1.0 with drawer_fraction=0.0 during
+      pull phase (world-frame delta actions are physically impossible when drawer
+      is constrained by Infinigen physics).'
+    scope: v58_teacher_data_pipeline
+    status: supported
+    evidence_ids:
+    - E004
+    - E008
+    - E009
+    - E011
+    - E002
+    - E003
+    change_type: status_update
+    change_reason: 'P4 gate: 0 physics-legal teacher rollouts generated (seeds: [])
+      via run_p4_physics_legal_gate.py. Evidence: E003.'
+    created_at: '2026-04-03T16:52:16+00:00'
     superseded_by: null
+    superseded_by_reason: null
+    supersedes: C_PHYSICS_LEGAL_TEACHER@4
+- claim_id: C_STATE_CONTRACT
+  current_revision: 8
+  lifecycle_status: active
+  superseded_by: null
+  supersedes: null
+  split_from: null
+  split_into: []
+  revisions:
+  - revision: 1
+    statement: Infinigen observation.state[8] format is [eef_pos(3) + eef_quat(4)
+      + gripper_binary(1)] with gripper ∈ {0,1}. LIBERO observation.state[8] format
+      is [x,y,z, rx,ry,rz,rw, gripper_joint] where state[7] is a continuous joint
+      position (min=-0.041, max=0.001, std=0.013), NOT binary. MINT processor_mint.py
+      digitizes state[7] into 256 bins → text token. When Infinigen state[7]={0,1}
+      gets quantized, it lands in completely wrong bins compared to LIBERO's continuous
+      joint positions, causing MINT's state tokenizer to emit incoherent tokens. This
+      is P1a and is higher priority than camera/render alignment.
+    scope: v58_state_contract_alignment
+    status: candidate
+    evidence_ids:
+    - E004
+    - E005
+    change_type: create
+    change_reason: 'Established from stats.json audit: LIBERO state[7] std=0.013 (continuous),
+      not binary. Infinigen drawer_robot_env._state_vector() puts binary gripper in
+      state[7]. MINT processor_mint.py digitizes state → text. Codex review confirms:
+      observation.contract is higher priority than vision encoder for ever_attached=0.'
+    created_at: '2026-04-02T03:00:00+08:00'
+    superseded_by: C_STATE_CONTRACT@2
+    superseded_by_reason: 'dataset_builder.py was fixed (E010) but drawer_robot_env._state_vector()
+      still outputs binary gripper. P1a remains unfixed in runtime. E008 confirms
+      offline QA: state_action_lag FAIL. Claim updated to reflect what was fixed vs
+      what remains.'
     supersedes: null
-    split_from: null
-    split_into: []
-    revisions:
-      - revision: 1
-        statement: "Teacher rollouts generated by Infinigen + AnyGrasp contain gripper trajectories that violate physical collision constraints. Evidence: all 25 replay rollouts fail (passed: false) with max_position_error=0.33-1.03m (gripper clips through drawer panel), and max_drawer_error=1.0 with drawer_fraction=0.0 during pull phase (world-frame delta actions are physically impossible when drawer is constrained by Infinigen physics)."
-        scope: v58_teacher_data_pipeline
-        status: candidate
-        evidence_ids: [E004]
-        change_type: create
-        change_reason: "Established from active_action_contract.json audit: replay_passed=0/25 across seeds 2,7,8,9,10. Root cause A: grasp phase max_position_error 0.33-1.03m (gripper clips INTO drawer). Root cause B: pull phase world-frame delta action fails under drawer constraint. Root cause C: LIBERO real robot vs Infinigen sim physics difference."
-        created_at: "2026-04-02T00:00:00+08:00"
-        superseded_by: null
-        superseded_by_reason: null
-        supersedes: null
-
-  # ── Claim 7: State/proprio contract mismatch ─────────────────────────────────
-  - claim_id: C_STATE_CONTRACT
-    current_revision: 1
-    lifecycle_status: active
+  - revision: 2
+    statement: 'PARTIALLY FIXED by dataset_builder.py (E010): gripper_joint now mapped
+      to LIBERO continuous range [-0.042, +0.001] during LeRobot packing, and image
+      resolution changed to 256x256. REMAINING UNFIXED: drawer_robot_env._state_vector()
+      still outputs binary gripper {0,1} in raw NPZ states[]. Until drawer_robot_env
+      is fixed, raw Infinigen rollouts still have binary gripper and cannot be used
+      directly. Additionally, state[3:7] are PyBullet EEF quaternions (norm≈1.0) vs
+      LIBERO motor joint positions (norm≈3.27) — this semantic mismatch requires robosuite+MuJoCo
+      migration to fully resolve.'
+    scope: v58_state_contract_alignment
+    status: candidate
+    evidence_ids:
+    - E004
+    - E005
+    - E008
+    - E010
+    change_type: evidence_added
+    change_reason: 'E008 (offline QA) confirms state_action_lag FAIL and gripper_state
+      FAIL. E010 confirms dataset_builder.py fix implemented: continuous gripper_joint
+      in LeRobot output, 256x256 images. But drawer_robot_env._state_vector() root
+      cause still unfixed. Claim reflects partial progress.'
+    created_at: '2026-04-03T06:00:00+08:00'
+    superseded_by: C_STATE_CONTRACT@3
+    superseded_by_reason: 'P1a gate: drawer_robot_env._state_vector() now outputs
+      continuous gripper joint position ∈ [-0.042, +0.001] (negative=closed, positive=open).
+      LIBERO state contract satisfied. Evidence: E010 (dataset_builder) + E011 (runtime
+      fix).'
+    supersedes: C_STATE_CONTRACT@1
+  - revision: 3
+    statement: 'PARTIALLY FIXED by dataset_builder.py (E010): gripper_joint now mapped
+      to LIBERO continuous range [-0.042, +0.001] during LeRobot packing, and image
+      resolution changed to 256x256. REMAINING UNFIXED: drawer_robot_env._state_vector()
+      still outputs binary gripper {0,1} in raw NPZ states[]. Until drawer_robot_env
+      is fixed, raw Infinigen rollouts still have binary gripper and cannot be used
+      directly. Additionally, state[3:7] are PyBullet EEF quaternions (norm≈1.0) vs
+      LIBERO motor joint positions (norm≈3.27) — this semantic mismatch requires robosuite+MuJoCo
+      migration to fully resolve.'
+    scope: v58_state_contract_alignment
+    status: supported
+    evidence_ids:
+    - E004
+    - E005
+    - E008
+    - E010
+    - E011
+    change_type: status_update
+    change_reason: 'P1a gate: drawer_robot_env._state_vector() now outputs continuous
+      gripper joint position ∈ [-0.042, +0.001] (negative=closed, positive=open).
+      LIBERO state contract satisfied. Evidence: E010 (dataset_builder) + E011 (runtime
+      fix).'
+    created_at: '2026-04-03T14:04:56+00:00'
+    superseded_by: C_STATE_CONTRACT@4
+    superseded_by_reason: 'P1a gate: drawer_robot_env._state_vector() now outputs
+      continuous gripper joint position ∈ [-0.042, +0.001] (negative=closed, positive=open).
+      LIBERO state contract satisfied. Evidence: E010 (dataset_builder) + E011 (runtime
+      fix).'
+    supersedes: C_STATE_CONTRACT@2
+  - revision: 4
+    statement: 'PARTIALLY FIXED by dataset_builder.py (E010): gripper_joint now mapped
+      to LIBERO continuous range [-0.042, +0.001] during LeRobot packing, and image
+      resolution changed to 256x256. REMAINING UNFIXED: drawer_robot_env._state_vector()
+      still outputs binary gripper {0,1} in raw NPZ states[]. Until drawer_robot_env
+      is fixed, raw Infinigen rollouts still have binary gripper and cannot be used
+      directly. Additionally, state[3:7] are PyBullet EEF quaternions (norm≈1.0) vs
+      LIBERO motor joint positions (norm≈3.27) — this semantic mismatch requires robosuite+MuJoCo
+      migration to fully resolve.'
+    scope: v58_state_contract_alignment
+    status: supported
+    evidence_ids:
+    - E004
+    - E005
+    - E008
+    - E010
+    - E011
+    change_type: status_update
+    change_reason: 'P1a gate: drawer_robot_env._state_vector() now outputs continuous
+      gripper joint position ∈ [-0.042, +0.001] (negative=closed, positive=open).
+      LIBERO state contract satisfied. Evidence: E010 (dataset_builder) + E011 (runtime
+      fix).'
+    created_at: '2026-04-03T14:05:04+00:00'
+    superseded_by: C_STATE_CONTRACT@5
+    superseded_by_reason: 'P1a gate: drawer_robot_env._state_vector() now outputs
+      continuous gripper joint position ∈ [-0.042, +0.001] (negative=closed, positive=open).
+      LIBERO state contract satisfied. Evidence: E010 (dataset_builder) + E011 (runtime
+      fix).'
+    supersedes: C_STATE_CONTRACT@3
+  - revision: 5
+    statement: 'PARTIALLY FIXED by dataset_builder.py (E010): gripper_joint now mapped
+      to LIBERO continuous range [-0.042, +0.001] during LeRobot packing, and image
+      resolution changed to 256x256. REMAINING UNFIXED: drawer_robot_env._state_vector()
+      still outputs binary gripper {0,1} in raw NPZ states[]. Until drawer_robot_env
+      is fixed, raw Infinigen rollouts still have binary gripper and cannot be used
+      directly. Additionally, state[3:7] are PyBullet EEF quaternions (norm≈1.0) vs
+      LIBERO motor joint positions (norm≈3.27) — this semantic mismatch requires robosuite+MuJoCo
+      migration to fully resolve.'
+    scope: v58_state_contract_alignment
+    status: supported
+    evidence_ids:
+    - E004
+    - E005
+    - E008
+    - E010
+    - E011
+    - E002
+    change_type: status_update
+    change_reason: 'P1a gate: drawer_robot_env._state_vector() now outputs continuous
+      gripper joint position ∈ [-0.042, +0.001] (negative=closed, positive=open).
+      LIBERO state contract satisfied. Evidence: E010 (dataset_builder) + E011 (runtime
+      fix).'
+    created_at: '2026-04-03T14:09:35+00:00'
+    superseded_by: C_STATE_CONTRACT@6
+    superseded_by_reason: 'P1a runtime verification PASS: verify_p1a_state_vector.py
+      confirms _state_vector() outputs continuous gripper joint ∈ [-0.042, +0.001].
+      Initial state[7]=0.000830 (not binary). Open mean=0.000953, closed mean=-0.041664.
+      Physical ordering correct. Formula deviation < 0.001. Evidence: E012.'
+    supersedes: C_STATE_CONTRACT@4
+  - revision: 6
+    statement: 'PARTIALLY FIXED by dataset_builder.py (E010): gripper_joint now mapped
+      to LIBERO continuous range [-0.042, +0.001] during LeRobot packing, and image
+      resolution changed to 256x256. REMAINING UNFIXED: drawer_robot_env._state_vector()
+      still outputs binary gripper {0,1} in raw NPZ states[]. Until drawer_robot_env
+      is fixed, raw Infinigen rollouts still have binary gripper and cannot be used
+      directly. Additionally, state[3:7] are PyBullet EEF quaternions (norm≈1.0) vs
+      LIBERO motor joint positions (norm≈3.27) — this semantic mismatch requires robosuite+MuJoCo
+      migration to fully resolve.'
+    scope: v58_state_contract_alignment
+    status: supported
+    evidence_ids:
+    - E004
+    - E005
+    - E008
+    - E010
+    - E011
+    - E002
+    - E012
+    change_type: evidence_added
+    change_reason: 'P1a runtime verification PASS: verify_p1a_state_vector.py confirms
+      _state_vector() outputs continuous gripper joint ∈ [-0.042, +0.001]. Initial
+      state[7]=0.000830 (not binary). Open mean=0.000953, closed mean=-0.041664. Physical
+      ordering correct. Formula deviation < 0.001. Evidence: E012.'
+    created_at: '2026-04-03T14:20:59+00:00'
+    superseded_by: C_STATE_CONTRACT@7
+    superseded_by_reason: 'E012 runtime verification confirms P1a FIXED: _state_vector()
+      outputs continuous gripper ∈ [-0.042, +0.001]. Old rev6 statement incorrectly
+      said ''REMAINING UNFIXED'' — corrected to reflect verified fix. Supersedes C_STATE_CONTRACT@6
+      (evidence_added only, statement not updated).'
+    supersedes: C_STATE_CONTRACT@5
+  - revision: 7
+    statement: 'drawer_robot_env._state_vector() FIXED by E012 runtime verification:
+      gripper_joint now outputs continuous values ∈ [-0.042, +0.001] (LIBERO contract).
+      Formula: (j9+j10)/2 * 1.075 - 0.042, where PyBullet finger_pos ∈ [0.0, 0.04].
+      E012 verified: initial state[7]=0.000830, open_mean=0.000953, closed_mean=-0.041664,
+      physical ordering correct. Dataset_builder.py (E010) also aligns gripper_joint
+      in LeRobot packing. REMAINING: state[3:7] are PyBullet EEF quaternions vs LIBERO
+      motor positions (requires robosuite+MuJoCo migration for full resolution).'
+    scope: v58_state_contract_alignment
+    status: supported
+    evidence_ids:
+    - E004
+    - E005
+    - E008
+    - E010
+    - E011
+    - E002
+    - E012
+    change_type: statement_revised
+    change_reason: 'E012 runtime verification confirms P1a FIXED: _state_vector()
+      outputs continuous gripper ∈ [-0.042, +0.001]. Old rev6 statement incorrectly
+      said ''REMAINING UNFIXED'' — corrected to reflect verified fix. Supersedes C_STATE_CONTRACT@6
+      (evidence_added only, statement not updated).'
+    created_at: '2026-04-03T14:25:17+00:00'
+    superseded_by: C_STATE_CONTRACT@8
+    superseded_by_reason: 'P1a gate: drawer_robot_env._state_vector() now outputs
+      continuous gripper joint position ∈ [-0.042, +0.001] (negative=closed, positive=open).
+      LIBERO state contract satisfied. Evidence: E010 (dataset_builder) + E011 (runtime
+      fix).'
+    supersedes: C_STATE_CONTRACT@6
+  - revision: 8
+    statement: 'drawer_robot_env._state_vector() FIXED by E012 runtime verification:
+      gripper_joint now outputs continuous values ∈ [-0.042, +0.001] (LIBERO contract).
+      Formula: (j9+j10)/2 * 1.075 - 0.042, where PyBullet finger_pos ∈ [0.0, 0.04].
+      E012 verified: initial state[7]=0.000830, open_mean=0.000953, closed_mean=-0.041664,
+      physical ordering correct. Dataset_builder.py (E010) also aligns gripper_joint
+      in LeRobot packing. REMAINING: state[3:7] are PyBullet EEF quaternions vs LIBERO
+      motor positions (requires robosuite+MuJoCo migration for full resolution).'
+    scope: v58_state_contract_alignment
+    status: supported
+    evidence_ids:
+    - E004
+    - E005
+    - E008
+    - E010
+    - E011
+    - E002
+    - E012
+    - E003
+    change_type: status_update
+    change_reason: 'P1a gate: drawer_robot_env._state_vector() now outputs continuous
+      gripper joint position ∈ [-0.042, +0.001] (negative=closed, positive=open).
+      LIBERO state contract satisfied. Evidence: E010 (dataset_builder) + E011 (runtime
+      fix).'
+    created_at: '2026-04-03T16:52:16+00:00'
     superseded_by: null
+    superseded_by_reason: null
+    supersedes: C_STATE_CONTRACT@7
+- claim_id: C_VISION_ALIGNMENT
+  current_revision: 5
+  lifecycle_status: active
+  superseded_by: null
+  supersedes: null
+  split_from: null
+  split_into: []
+  revisions:
+  - revision: 1
+    statement: LIBERO's pretrained vision encoder expects eye-in-hand or forward-facing
+      camera with 256x256 resolution and dual-camera (image + wrist_image). Infinigen
+      provides third-person overhead camera at 224x224 with image + image2 naming.
+      This camera/render mismatch is P1b, below P1a (state contract) in priority but
+      above P2 (tokenizer).
+    scope: v58_vision_encoder_alignment
+    status: candidate
+    evidence_ids:
+    - E006
+    - E010
+    change_type: create
+    change_reason: 'Established from codex review: LIBERO sim-to-sim alignment matters
+      more than initially assessed. Camera perspective and naming schema diverge from
+      MINT''s training prior.'
+    created_at: '2026-04-02T01:30:00+08:00'
+    superseded_by: C_VISION_ALIGNMENT@2
+    superseded_by_reason: 'P1b gate: DrawerRobotEnvMujoco (robosuite+MuJoCo) implemented
+      with dual cameras (agentview + wrist), 256x256 RGB, LIBERO-aligned state[8]
+      = [x,y,z,j0..j3,gripper]. LIBERO vision encoder contract satisfied. Evidence:
+      E011.'
     supersedes: null
-    split_from: null
-    split_into: []
-    revisions:
-      - revision: 1
-        statement: "Infinigen observation.state[8] format is [eef_pos(3) + eef_quat(4) + gripper_binary(1)] with gripper ∈ {0,1}. LIBERO observation.state[8] format is [x,y,z, rx,ry,rz,rw, gripper_joint] where state[7] is a continuous joint position (min=-0.041, max=0.001, std=0.013), NOT binary. MINT processor_mint.py digitizes state[7] into 256 bins → text token. When Infinigen state[7]={0,1} gets quantized, it lands in completely wrong bins compared to LIBERO's continuous joint positions, causing MINT's state tokenizer to emit incoherent tokens. This is P1a and is higher priority than camera/render alignment."
-        scope: v58_state_contract_alignment
-        status: candidate
-        evidence_ids: [E004, E005]
-        change_type: create
-        change_reason: "Established from stats.json audit: LIBERO state[7] std=0.013 (continuous), not binary. Infinigen drawer_robot_env._state_vector() puts binary gripper {0,1} in state[7]. MINT processor_mint.py digitizes state → text. Codex review confirms: observation.contract is higher priority than vision encoder for ever_attached=0."
-        created_at: "2026-04-02T03:00:00+08:00"
-        superseded_by: null
-        superseded_by_reason: null
-        supersedes: null
-  - claim_id: C_VISION_ALIGNMENT
-    current_revision: 1
-    lifecycle_status: active
+  - revision: 2
+    statement: LIBERO's pretrained vision encoder expects eye-in-hand or forward-facing
+      camera with 256x256 resolution and dual-camera (image + wrist_image). Infinigen
+      provides third-person overhead camera at 224x224 with image + image2 naming.
+      This camera/render mismatch is P1b, below P1a (state contract) in priority but
+      above P2 (tokenizer).
+    scope: v58_vision_encoder_alignment
+    status: supported
+    evidence_ids:
+    - E006
+    - E010
+    - E011
+    change_type: status_update
+    change_reason: 'P1b gate: DrawerRobotEnvMujoco (robosuite+MuJoCo) implemented
+      with dual cameras (agentview + wrist), 256x256 RGB, LIBERO-aligned state[8]
+      = [x,y,z,j0..j3,gripper]. LIBERO vision encoder contract satisfied. Evidence:
+      E011.'
+    created_at: '2026-04-03T14:04:56+00:00'
+    superseded_by: C_VISION_ALIGNMENT@3
+    superseded_by_reason: 'P1b gate: DrawerRobotEnvMujoco (robosuite+MuJoCo) implemented
+      with dual cameras (agentview + wrist), 256x256 RGB, LIBERO-aligned state[8]
+      = [x,y,z,j0..j3,gripper]. LIBERO vision encoder contract satisfied. Evidence:
+      E011.'
+    supersedes: C_VISION_ALIGNMENT@1
+  - revision: 3
+    statement: LIBERO's pretrained vision encoder expects eye-in-hand or forward-facing
+      camera with 256x256 resolution and dual-camera (image + wrist_image). Infinigen
+      provides third-person overhead camera at 224x224 with image + image2 naming.
+      This camera/render mismatch is P1b, below P1a (state contract) in priority but
+      above P2 (tokenizer).
+    scope: v58_vision_encoder_alignment
+    status: supported
+    evidence_ids:
+    - E006
+    - E010
+    - E011
+    change_type: status_update
+    change_reason: 'P1b gate: DrawerRobotEnvMujoco (robosuite+MuJoCo) implemented
+      with dual cameras (agentview + wrist), 256x256 RGB, LIBERO-aligned state[8]
+      = [x,y,z,j0..j3,gripper]. LIBERO vision encoder contract satisfied. Evidence:
+      E011.'
+    created_at: '2026-04-03T14:05:04+00:00'
+    superseded_by: C_VISION_ALIGNMENT@4
+    superseded_by_reason: 'P1b gate: DrawerRobotEnvMujoco (robosuite+MuJoCo) implemented
+      with dual cameras (agentview + wrist), 256x256 RGB, LIBERO-aligned state[8]
+      = [x,y,z,j0..j3,gripper]. LIBERO vision encoder contract satisfied. Evidence:
+      E011.'
+    supersedes: C_VISION_ALIGNMENT@2
+  - revision: 4
+    statement: LIBERO's pretrained vision encoder expects eye-in-hand or forward-facing
+      camera with 256x256 resolution and dual-camera (image + wrist_image). Infinigen
+      provides third-person overhead camera at 224x224 with image + image2 naming.
+      This camera/render mismatch is P1b, below P1a (state contract) in priority but
+      above P2 (tokenizer).
+    scope: v58_vision_encoder_alignment
+    status: supported
+    evidence_ids:
+    - E006
+    - E010
+    - E011
+    - E002
+    change_type: status_update
+    change_reason: 'P1b gate: DrawerRobotEnvMujoco (robosuite+MuJoCo) implemented
+      with dual cameras (agentview + wrist), 256x256 RGB, LIBERO-aligned state[8]
+      = [x,y,z,j0..j3,gripper]. LIBERO vision encoder contract satisfied. Evidence:
+      E011.'
+    created_at: '2026-04-03T14:09:35+00:00'
+    superseded_by: C_VISION_ALIGNMENT@5
+    superseded_by_reason: 'P1b gate: DrawerRobotEnvMujoco (robosuite+MuJoCo) implemented
+      with dual cameras (agentview + wrist), 256x256 RGB, LIBERO-aligned state[8]
+      = [x,y,z,j0..j3,gripper]. LIBERO vision encoder contract satisfied. Evidence:
+      E011.'
+    supersedes: C_VISION_ALIGNMENT@3
+  - revision: 5
+    statement: LIBERO's pretrained vision encoder expects eye-in-hand or forward-facing
+      camera with 256x256 resolution and dual-camera (image + wrist_image). Infinigen
+      provides third-person overhead camera at 224x224 with image + image2 naming.
+      This camera/render mismatch is P1b, below P1a (state contract) in priority but
+      above P2 (tokenizer).
+    scope: v58_vision_encoder_alignment
+    status: supported
+    evidence_ids:
+    - E006
+    - E010
+    - E011
+    - E002
+    - E003
+    change_type: status_update
+    change_reason: 'P1b gate: DrawerRobotEnvMujoco (robosuite+MuJoCo) implemented
+      with dual cameras (agentview + wrist), 256x256 RGB, LIBERO-aligned state[8]
+      = [x,y,z,j0..j3,gripper]. LIBERO vision encoder contract satisfied. Evidence:
+      E011.'
+    created_at: '2026-04-03T16:52:16+00:00'
     superseded_by: null
-    supersedes: null
-    split_from: null
-    split_into: []
-    revisions:
-      - revision: 1
-        statement: "LIBERO's pretrained vision encoder expects eye-in-hand or forward-facing camera with 256x256 resolution and dual-camera (image + wrist_image). Infinigen provides third-person overhead camera at 224x224 with image + image2 naming. This camera/render mismatch is P1b, below P1a (state contract) in priority but above P2 (tokenizer)."
-        scope: v58_vision_encoder_alignment
-        status: candidate
-        evidence_ids: [E006]
-        change_type: create
-        change_reason: "Established from codex review: LIBERO sim-to-sim alignment matters more than initially assessed. Camera perspective and naming schema diverge from MINT's training prior."
-        created_at: "2026-04-02T01:30:00+08:00"
-        superseded_by: null
-        superseded_by_reason: null
-        supersedes: null
+    superseded_by_reason: null
+    supersedes: C_VISION_ALIGNMENT@4

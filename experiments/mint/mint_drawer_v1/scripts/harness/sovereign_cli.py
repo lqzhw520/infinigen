@@ -108,9 +108,9 @@ def cmd_bootstrap(_args: argparse.Namespace) -> None:
     print()
 
     lint_cmds = [
-        ("02_reconcile_sources", ["python3", str(CAMPAIGN_ROOT / "scripts/harness/02_reconcile_sources.py")]),
-        ("03_claim_lint", ["python3", str(CAMPAIGN_ROOT / "scripts/harness/03_claim_lint.py")]),
-        ("04_action_lint", ["python3", str(CAMPAIGN_ROOT / "scripts/harness/04_action_lint.py")]),
+        ("02_reconcile_sources", [sys.executable, str(CAMPAIGN_ROOT / "scripts/harness/02_reconcile_sources.py")]),
+        ("03_claim_lint",        [sys.executable, str(CAMPAIGN_ROOT / "scripts/harness/03_claim_lint.py")]),
+        ("04_action_lint",       [sys.executable, str(CAMPAIGN_ROOT / "scripts/harness/04_action_lint.py")]),
     ]
 
     all_ok = True
@@ -197,9 +197,9 @@ def cmd_bootstrap(_args: argparse.Namespace) -> None:
 def cmd_reconcile(_args: argparse.Namespace) -> None:
     """Run all lints (dev mode)."""
     lint_cmds = [
-        ["python3", str(CAMPAIGN_ROOT / "scripts/harness/02_reconcile_sources.py")],
-        ["python3", str(CAMPAIGN_ROOT / "scripts/harness/03_claim_lint.py")],
-        ["python3", str(CAMPAIGN_ROOT / "scripts/harness/04_action_lint.py")],
+        [sys.executable, str(CAMPAIGN_ROOT / "scripts/harness/02_reconcile_sources.py")],
+        [sys.executable, str(CAMPAIGN_ROOT / "scripts/harness/03_claim_lint.py")],
+        [sys.executable, str(CAMPAIGN_ROOT / "scripts/harness/04_action_lint.py")],
     ]
     all_ok = True
     for cmd in lint_cmds:
@@ -267,6 +267,10 @@ def cmd_render_truth(_args: argparse.Namespace) -> None:
             m = yaml.safe_load(f)
         campaign_id = m.get("campaign", {}).get("id", campaign_id)
 
+    claim_rows_md = "\n".join(claim_rows)
+    rev_rows_md  = "\n".join(rev_rows)
+    ev_rows_md   = "\n".join(ev_rows)
+
     md = f"""<!-- GENERATED FILE — DO NOT EDIT -->
 <!-- Source: sovereign/state.json + sovereign/claims.yaml + sovereign/evidence/index.json -->
 <!-- Generated at: {ts} -->
@@ -279,7 +283,7 @@ def cmd_render_truth(_args: argparse.Namespace) -> None:
 
 | Claim ID | Status | Scope | Statement |
 |----------|--------|-------|-----------|
-{"\n".join(claim_rows)}
+|{claim_rows_md}
 
 ### Current Verdict
 
@@ -294,7 +298,7 @@ def cmd_render_truth(_args: argparse.Namespace) -> None:
 
 | Time | Claim | Rev | Change | Reason |
 |------|-------|-----|--------|--------|
-{"\n".join(rev_rows)}
+|{rev_rows_md}
 
 ---
 
@@ -302,7 +306,7 @@ def cmd_render_truth(_args: argparse.Namespace) -> None:
 
 | ID | Experiment | Type | Timestamp |
 |----|-----------|------|-----------|
-{"\n".join(ev_rows)}
+|{ev_rows_md}
 
 ---
 
@@ -771,6 +775,156 @@ def cmd_write_handoff(args: argparse.Namespace) -> None:
     print(f"  OK: Updated sovereign/handoff.md")
 
 
+def cmd_go(_args: argparse.Namespace) -> None:
+    """One-shot session start: lint + truth + next actions. Run this first."""
+    import sys
+
+    print("╔══════════════════════════════════════════════════════╗")
+    print("║  sovereign go — mint_drawer_v1                      ║")
+    print("╚══════════════════════════════════════════════════════╝")
+    print()
+
+    # ── Step 1: Lint gates ──────────────────────────────────────────────────────
+    lint_cmds = [
+        ("02_reconcile_sources", CAMPAIGN_ROOT / "scripts/harness/02_reconcile_sources.py"),
+        ("03_claim_lint",        CAMPAIGN_ROOT / "scripts/harness/03_claim_lint.py"),
+        ("04_action_lint",       CAMPAIGN_ROOT / "scripts/harness/04_action_lint.py"),
+    ]
+    lint_ok = True
+    lint_warnings = []
+    for name, script in lint_cmds:
+        r = subprocess.run(
+            [sys.executable, str(script)],
+            capture_output=True, text=True,
+        )
+        if r.returncode == 0:
+            print(f"  PASS  {name}")
+            for line in r.stdout.splitlines():
+                if "WARN" in line:
+                    lint_warnings.append(f"  WARN  {name}: {line.strip()}")
+        else:
+            print(f"  FAIL  {name}")
+            for line in (r.stdout + r.stderr).splitlines():
+                if line.strip():
+                    print(f"         {line.strip()}")
+            lint_ok = False
+
+    if not lint_ok:
+        print()
+        print("LINT FAILURES — fix before proceeding.")
+        print("Hint: sovereign_cli.py reconcile  (dev mode, no fatal exit)")
+        return
+
+    # ── Step 2: Load truth ─────────────────────────────────────────────────────
+    with open(SOVEREIGN / "state.json") as f:
+        state = json.load(f)
+    with open(SOVEREIGN / "claims.yaml") as f:
+        import yaml as _yaml
+        claims_data = _yaml.safe_load(f)
+    with open(SOVEREIGN / "evidence/index.json") as f:
+        evidence_idx = json.load(f)
+    with open(CAMPAIGN_ROOT / "sovereign/next_actions.json") as f:
+        next_actions = json.load(f)
+
+    # ── Step 3: Print session summary ─────────────────────────────────────────
+    verdict = state.get("verdict", "unknown")
+    phase_gate = state.get("phase_gate", "unknown")
+
+    print()
+    print("─── Campaign Truth ─────────────────────────────────────────")
+    print(f"  verdict:  {verdict}")
+    print(f"  phase:    {phase_gate}")
+
+    # Active claims
+    print()
+    print("─── Active Claims ──────────────────────────────────────────")
+    for c in claims_data["claims"]:
+        if c.get("lifecycle_status") not in ("active",):
+            continue
+        live = c["revisions"][-1]
+        ev_count = len(live.get("evidence_ids", []))
+        print(f"  [{live['status']:>12}]  {c['claim_id']}  (rev{c['current_revision']}, {ev_count} evidence)")
+
+    # Evidence count
+    total_ev = len(evidence_idx.get("entries", []))
+    print(f"  total evidence: {total_ev}")
+
+    # Lint warnings
+    if lint_warnings:
+        print()
+        print("─── Warnings ────────────────────────────────────────────────")
+        for w in lint_warnings[:5]:
+            print(f"  {w}")
+        if len(lint_warnings) > 5:
+            print(f"  ... +{len(lint_warnings)-5} more (run gc_* scripts for full list)")
+
+    # ── Step 4: Next actions (from next_actions.json) ──────────────────────────
+    print()
+    print("─── Next Actions ────────────────────────────────────────────")
+    pending = [a for a in next_actions.get("actions", []) if a.get("status") == "pending"]
+    in_progress = [a for a in next_actions.get("actions", []) if a.get("status") == "in_progress"]
+    completed = [a for a in next_actions.get("actions", []) if a.get("status") == "completed"]
+
+    print(f"  pending: {len(pending)}  |  in_progress: {len(in_progress)}  |  completed: {len(completed)}")
+
+    if in_progress:
+        print()
+        print("  ▶ IN PROGRESS")
+        for a in in_progress:
+            print(f"    [{a.get('type', '?')}]  priority={a.get('priority', '-')}")
+            if a.get("target"):
+                print(f"      target: {a['target']}")
+            if a.get("current_problem"):
+                print(f"      problem: {a['current_problem'][:80]}")
+
+    if pending:
+        print()
+        print("  ▶ PENDING (next to start)")
+        for a in pending:
+            priority = a.get("priority", "-")
+            marker = "►►" if priority == "P0" else "  "
+            print(f"    {marker} [{priority}]  {a.get('type', '?')}")
+            print(f"        target: {a.get('target', '-')}")
+
+    # ── Step 5: What to do next ────────────────────────────────────────────────
+    print()
+    print("─── What to Do Next ─────────────────────────────────────────")
+    next_action = in_progress[0] if in_progress else (pending[0] if pending else None)
+    if next_action:
+        action_type = next_action.get("type", "?")
+        target = next_action.get("target", "-")
+        priority = next_action.get("priority", "-")
+        print(f"  Suggested next: [{priority}] {action_type}")
+        print(f"    {target}")
+
+        # Map action type to file paths / instructions
+        if "P0_physics" in action_type:
+            print(f"    files: scripts/mint/physics_legality.py")
+            print(f"    hint:  python scripts/mint/physics_legality.py generate --N 10 --bs 24")
+        elif "P1a" in action_type:
+            print(f"    files: scripts/mint/drawer_robot_env.py")
+            print(f"    hint:  Fix _state_vector() — replace binary gripper with continuous joint position")
+        elif "P1b" in action_type:
+            print(f"    files: outputs/mujoco_teacher_env_design.md")
+            print(f"    hint:  Implement robosuite+MuJoCo teacher environment")
+        elif "generate_data" in action_type:
+            print(f"    hint:  Run physics_constrained_teacher_rollout() then dataset_builder")
+    else:
+        print("  No pending actions. Review sovereign/claims.yaml.")
+
+    print()
+    print("─── Quick Ref ────────────────────────────────────────────────")
+    print("  bootstrap:   sovereign_cli.py bootstrap     (same as this)")
+    print("  reconcile:   sovereign_cli.py reconcile    (lint only, dev mode)")
+    print("  truth:      sovereign_cli.py render-truth")
+    print("  handoff:    sovereign_cli.py write-handoff")
+    print("  next steps: sovereign/next_actions.json")
+    print()
+    print("═" * 56)
+    print("  READY. Choose your next action from the list above.")
+    print("═" * 56)
+
+
 # ── CLI ───────────────────────────────────────────────────────────────────────
 
 def build_parser() -> argparse.ArgumentParser:
@@ -780,6 +934,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     sub = p.add_subparsers(dest="command", required=True)
 
+    sub.add_parser("go", help="One-shot: lint + truth + next actions — run this first")
     # bootstrap
     sub.add_parser("bootstrap", help="Session startup: run lints + print summary")
 
@@ -866,6 +1021,7 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 COMMAND_MAP = {
+    "go": cmd_go,
     "bootstrap": cmd_bootstrap,
     "reconcile": cmd_reconcile,
     "render-truth": cmd_render_truth,

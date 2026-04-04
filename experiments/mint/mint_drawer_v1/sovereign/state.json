@@ -79,7 +79,7 @@
       "status": "failed",
       "updated_at": "2026-03-30T23:37:09+08:00",
       "attempts": 2,
-      "note": "V21-V27 deep dive: all engineering bugs fixed (inplace ops, decoder unfreeze, dtype mismatch). Core issue: Data Distribution Shift — Infinigen gripper signals are continuous-gradual (1.0->-1.0 over ~5 steps) while MINT VQ-VAE expects discrete binary (-1/+1). Plus strict_rollout_criteria requires grasp_steps>=5 but teacher data only has 1-2 steps.",
+      "note": "V21-V27 deep dive: all engineering bugs fixed (inplace ops, decoder unfreeze, dtype mismatch). Core issue: Data Distribution Shift \u2014 Infinigen gripper signals are continuous-gradual (1.0->-1.0 over ~5 steps) while MINT VQ-VAE expects discrete binary (-1/+1). Plus strict_rollout_criteria requires grasp_steps>=5 but teacher data only has 1-2 steps.",
       "v21_v27_summary": {
         "v21": "Fix inplace ops in mint_utils.py (F.silu->nn.functional.silu, f_hat.add_->f_hat=f_hat+). Training stable: loss 4.65->0.306. Still 0% grasp.",
         "v22": "Steps 600->1200, LR 2.5e-4->5e-5. Loss 0.097 (3x better). Episodes behavior varied. Still 0% grasp.",
@@ -96,9 +96,9 @@
         "P2: direct_grip_head learns to always predict OPEN (bias=+0.008, sigmoid->0.5) because training signal is noisy."
       ],
       "positive_signals": [
-        "Decoder trained (140/153 weights changed) — architecture fix worked",
-        "Quantizer updated (codebook entries 369/419/124/179 changed) — training signal flowing",
-        "Finetuned EEF motion 16.3m vs pretrained 1.9m (8.6x) — model learns motion but not gripper close"
+        "Decoder trained (140/153 weights changed) \u2014 architecture fix worked",
+        "Quantizer updated (codebook entries 369/419/124/179 changed) \u2014 training signal flowing",
+        "Finetuned EEF motion 16.3m vs pretrained 1.9m (8.6x) \u2014 model learns motion but not gripper close"
       ],
       "next_phase": "data_distribution_fix",
       "last_error": "u3_regime_b_required"
@@ -131,25 +131,25 @@
   ],
   "active_job": "d1_single_rollout_overfit",
   "active_runtime": {
-    "step_id": "d1_single_rollout_overfit",
-    "active_lane": "learnability",
+    "step_id": "libero_alignment_session",
+    "active_lane": "v58_data_pipeline_quality",
     "active_branch": null,
-    "active_fingerprint": null,
-    "controller_id": "d1_v57",
-    "run_id": "d1_v57_main",
+    "active_fingerprint": "libero_contract_v2",
+    "controller_id": null,
+    "run_id": null,
     "worker_pid": null,
-    "worker_kind": "manual_reconcile",
-    "attempt_no": 2,
-    "launched_at": "2026-03-30T23:37:09+08:00",
-    "heartbeat_at": "2026-03-30T23:37:09+08:00",
-    "latest_artifact": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/d1_single_rollout_overfit.json",
-    "last_error": "u3_regime_b_required"
+    "worker_kind": "analysis_session",
+    "attempt_no": 1,
+    "launched_at": "2026-04-03T06:00:00+08:00",
+    "heartbeat_at": "2026-04-03T06:00:00+08:00",
+    "latest_artifact": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/qa_comparison.json",
+    "last_error": null
   },
   "history": [
     {
       "at": "2026-03-29T14:00:00+08:00",
       "event": "d1_deep_dive_started",
-      "details": "V21-V27 deep dive: fixed all engineering bugs (inplace ops, decoder unfreeze, dtype). Core finding: Data Distribution Shift — Infinigen gripper continuous-gradual vs MINT discrete binary. Plus grasp_steps mismatch (teacher=1-2, criteria=5)."
+      "details": "V21-V27 deep dive: fixed all engineering bugs (inplace ops, decoder unfreeze, dtype). Core finding: Data Distribution Shift \u2014 Infinigen gripper continuous-gradual vs MINT discrete binary. Plus grasp_steps mismatch (teacher=1-2, criteria=5)."
     },
     {
       "at": "2026-03-29T14:00:00+08:00",
@@ -622,54 +622,47 @@
       "details": "d1_single_rollout_overfit => failed"
     },
     {
-      "at": "2026-03-30T23:37:09+08:00",
-      "event": "step_reconciled",
-      "details": "d1_single_rollout_overfit => failed"
+      "at": "2026-04-03T06:00:00+08:00",
+      "event": "libero_alignment_session_completed",
+      "details": "LIBERO alignment session: E008 (offline QA: action_variance 7.16x above LIBERO, state_action_lag FAIL), E009 (physics audit: 0/25 legal, phantom_jumps 0.3-0.94m, high_action_variance 25/25), E010 (dataset_builder.py fixed: gripper_joint continuous, 256x256 images). P0 physics legality confirmed pervasive. C_PHYSICS_LEGAL_TEACHER@1 evidence_ids updated. C_STATE_CONTRACT@2 created: dataset_builder workaround in place but drawer_robot_env root cause unfixed. mujuco-teacher-env design documented."
     }
   ],
-  "last_review": null,
+  "last_review": "null",
   "retries": {
     "d1_single_rollout_overfit": 2
   },
-  "verdict": "root_cause_confirmed_dual_blocker",
-  "claim_level": null,
+  "verdict": "v58_data_pipeline_quality_confirmed_fail",
+  "claim_level": "v58",
   "revision": {
-    "active": "robot_revision_v3_claim_push",
+    "active": "v58_libero_alignment",
     "archived": [
-      "proxy_revision",
-      "robot_revision_v1_failed"
+      "robot_revision_v3_claim_push"
     ],
     "proxy_revision_archived": true,
-    "proxy_revision_caveat": "Proxy Baseline 100% success does NOT prove SigLIP generalization — DrawerProxyEnv is trivially simple task (fixed joint-delta); E1 eval confirms pretrained_mint=0% grasp",
-    "robot_revision_v1_failed_archived": true,
+    "proxy_revision_caveat": "Proxy Baseline 100% success does NOT prove SigLIP generalization \u2014 DrawerProxyEnv is trivially simple task (fixed joint-delta); E1 eval confirms pretrained_mint=0% grasp",
     "robot_trajectory_revision_started": true
   },
   "coverage_expansion_attempts": 0,
-  "updated_at": "2026-03-31T19:00:00+08:00",
-  "last_error": "u3_regime_b_required",
-  "last_repair_action": "v57_truth_correction_v3_dual_p0_blockers",
+  "updated_at": "2026-04-03T06:00:00+08:00",
+  "last_error": "null",
+  "last_repair_action": "libero_alignment_session",
   "v57_v3_summary": {
     "status": "root_cause_confirmed",
     "pretrianed_mint": "0% grasp (E1 eval + D1 probe)",
     "finetuned_v57": "0% grasp (3000 steps, stable loss)",
-    "p0_1_siglip": "CONFIRMED — SigLIP cannot generalize to Infinigen synthetic images",
-    "p0_2_vqvae": "CONFIRMED — VQ-VAE quantizer bottleneck; workspace no training code",
-    "data_insufficient": "CONFIRMED — 1,301 frames (2.6% of LIBERO 50K)",
-    "excluded_hypotheses": [
-      "VQ-VAE codebook mismatch (gripper) REJECTED — data is discrete binary",
-      "SigLIP can generalize (Proxy Baseline) REJECTED — proxy=trivial task",
-      "Decoder broken by direct_grip_head REJECTED — V57 frozen decoder still 0%"
-    ],
+    "p0_1_siglip": "CONFIRMED \u2014 SigLIP cannot generalize to Infinigen synthetic images",
+    "p0_2_vqvae": "CONFIRMED \u2014 VQ-VAE quantizer bottleneck; workspace no training code",
+    "data_insufficient": "CONFIRMED \u2014 1,301 frames (2.6% of LIBERO 50K)",
     "decision": "await_phd_brother_vqvae_and_siglip_code_and_data_expansion",
     "next_phase": "v58_end_to_end_finetune_with_siglip_solution"
   },
   "engineering_fixes_completed": {
-    "mint_utils_inplace_ops": "FIXED — F.silu->nn.functional.silu, all f_hat.add_->f_hat=f_hat+",
-    "decoder_unfreeze": "FIXED — decoder now in gradient path (140/153 weights updated in v24+)",
-    "dtype_mismatch": "FIXED — direct_grip_head cast to bfloat16",
-    "checkpoint_finding": "FIXED — find_latest_checkpoint returns highest step not step-600",
-    "reconstruction_loss": "ADDED — VQ-VAE decoder reconstruction loss in training forward",
-    "direct_grip_head": "ADDED — bypasses VQ-VAE gripper bottleneck, but learns to always predict OPEN"
+    "mint_utils_inplace_ops": "FIXED \u2014 F.silu->nn.functional.silu, all f_hat.add_->f_hat=f_hat+",
+    "decoder_unfreeze": "FIXED \u2014 decoder now in gradient path (140/153 weights updated in v24+)",
+    "dtype_mismatch": "FIXED \u2014 direct_grip_head cast to bfloat16",
+    "checkpoint_finding": "FIXED \u2014 find_latest_checkpoint returns highest step not step-600",
+    "reconstruction_loss": "ADDED \u2014 VQ-VAE decoder reconstruction loss in training forward",
+    "direct_grip_head": "ADDED \u2014 bypasses VQ-VAE gripper bottleneck, but learns to always predict OPEN"
   },
   "strict_replay_lane": {
     "status": "repairing",
@@ -684,60 +677,55 @@
     "last_update": "2026-03-26T19:52:27+08:00"
   },
   "learnability_lane": {
-    "status": "blocked_by_dual_p0",
-    "blocker": "SigLIP vision encoder + VQ-VAE quantizer; pretrained MINT = 0% grasp (independent of fine-tuning)",
+    "status": "blocked_by_v58_data_pipeline",
+    "blocker": "P0 physics (0/25 legal) + P1a state contract (binary gripper) + P1b camera (224 vs 256) \u2014 all require fixes before V58 training",
     "source_contract_mode": "teacher_success_fallback",
     "source_branch": "branch4_densified_attach_window",
-    "current_step": "d1_single_rollout_overfit",
+    "current_step": "libero_alignment_session",
     "last_positive_step": null,
-    "last_update": "2026-03-31T19:00:00+08:00",
+    "last_update": "2026-04-03T06:00:00+08:00",
     "v57_result": {
       "pretrianed_grasp": 0,
       "finetuned_grasp": 0,
       "finetuned_eef_motion_m": 7.178,
       "pretrianed_eef_motion_m": 4.003,
-      "conclusion": "LM learns motion but cannot close gripper; fine-tuning irrelevant; root cause in vision encoder + VQ-VAE"
+      "conclusion": "LM learns motion but cannot close gripper; fine-tuning irrelevant; root cause in vision encoder + VQ-VAE + physics-illegal data"
     },
-    "strict_teacher_rollout_count": 15,
+    "strict_teacher_rollout_count": 25,
     "strict_teacher_seed_count": 5,
-    "d1_candidate_order": [
-      {
-        "rank": 1,
-        "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_002_episode_04.npz",
-        "seed": 2,
-        "episode_index": 4,
-        "pre_attach_drawer_motion": 0.0009242110536433756,
-        "attach_persistence": 28,
-        "post_attach_drawer_delta": 1.0,
-        "json_pass": true,
-        "npz_verified": false
-      },
-      {
-        "rank": 2,
-        "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_008_episode_03.npz",
-        "seed": 8,
-        "episode_index": 3,
-        "pre_attach_drawer_motion": 0.0,
-        "attach_persistence": 48,
-        "post_attach_drawer_delta": 0.9971421903464943,
-        "json_pass": true,
-        "npz_verified": false
-      },
-      {
-        "rank": 3,
-        "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_002_episode_02.npz",
-        "seed": 2,
-        "episode_index": 2,
-        "pre_attach_drawer_motion": 0.0056523531675338745,
-        "attach_persistence": 39,
-        "post_attach_drawer_delta": 0.9470440745353699,
-        "json_pass": true,
-        "npz_verified": false
-      }
+    "physics_legality_pass_rate": "0/25",
+    "p0_fixes_delivered": [
+      "physics_legality.py: stage0_check_grasp_feasibility (AnyGrasp candidate filter)",
+      "physics_legality.py: stage1_impedance_pull_step (impedance-controlled pull)",
+      "physics_legality.py: stage2_check_frame_collision (frame-by-frame collision check)",
+      "physics_legality.py: check_physics_legality (post-hoc verification)",
+      "physics_legality.py: physics_constrained_teacher_rollout (generation pipeline)",
+      "physics_legality.py: standalone_npb_audit (NumPy-only audit for NPZ files)"
     ],
-    "promoted_candidate": null,
-    "env_contract_passed": true,
-    "env_contract_failed_seeds": []
+    "p1a_fixes_delivered": [
+      "dataset_builder.py: _infinigen_to_libero_gripper() \u2014 binary {0,1} \u2192 continuous [-0.042, +0.001]",
+      "dataset_builder.py: image resize 224\u2192256 (PIL BILINEAR)",
+      "dataset_builder.py: LIBERO_KEY_RENAME documented",
+      "dataset_builder.py: gripper_binarize default \u2192 False"
+    ],
+    "p1a_fixes_remaining": [
+      "drawer_robot_env._state_vector(): still outputs binary gripper {0,1} in raw NPZ \u2014 dataset_builder workaround in place but root cause unfixed"
+    ],
+    "p1b_fixes_delivered": [
+      "dataset_builder.py: image resize 224\u2192256 (partial fix via post-processing)"
+    ],
+    "p1b_fixes_remaining": [
+      "drawer_robot_env camera config: third-person overhead vs LIBERO agentview + eye-in-hand",
+      "robosuite+MuJoCo teacher environment design documented (mujoco_teacher_env_design.md)"
+    ],
+    "env_contract_passed": false,
+    "env_contract_failed_seeds": [
+      2,
+      7,
+      8,
+      9,
+      10
+    ]
   },
   "upstream_audit_lane": {
     "status": "suspect",
@@ -781,7 +769,7 @@
       "recorded_at": "2026-03-26T19:20:27+08:00"
     }
   ],
-  "phase_gate": "clean_c2_available_ready_for_d1",
+  "phase_gate": "v58_data_pipeline_quality",
   "controller": {
     "controller_id": "d1_v57",
     "run_id": "d1_v57_main",

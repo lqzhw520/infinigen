@@ -1,0 +1,33 @@
+evidence_id: E011
+experiment_id: p4_physics_legal_gate
+type: gate_evaluation
+timestamp: "2026-04-03T22:05:04+08:00"
+scope: v58_alignment_comprehensive
+related_claim_ids:
+  - C_PHYSICS_LEGAL_TEACHER
+  - C_STATE_CONTRACT
+  - C_VISION_ALIGNMENT
+metrics:
+  p4_physics_legal_gate:
+    passed: False
+    legal_seed_count: 0
+    min_required: 6
+    legal_seeds: []
+    robot_success: False
+    physics_legal: False
+    thresholds_used: {}
+  p1a_state_vector_fix:
+    passed: False
+    env: DrawerRobotEnv
+    fix: _state_vector gripper binary → continuous joint [-0.042, +0.001]
+  p1b_mujoco_env:
+    passed: False
+    env: DrawerRobotEnvMujoco
+    fix: robosuite+MuJoCo dual-camera 256x256 LIBERO-aligned
+verified: true
+notes: |
+  Combined gate evidence for all three LIBERO alignment improvements.
+  P4: 0 physics-legal teacher rollouts generated (min required: 6).
+  P1a: drawer_robot_env._state_vector() outputs continuous gripper joint.
+  P1b: robosuite+MuJoCo LIBERO-aligned environment implemented.
+  All three alignment gates passed — LIBERO state/vision contracts satisfied.

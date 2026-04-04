@@ -82,6 +82,32 @@ def save_claims(data: dict) -> None:
     save_yaml("claims.yaml", data)
 
 
+def load_json_file(name: str) -> dict:
+    """Load a sovereign JSON file."""
+    p = SOVEREIGN / name
+    with open(p) as f:
+        return json.load(f)
+
+
+def save_json_file(name: str, data: dict) -> None:
+    """Atomic write: temp file + rename. JSON only."""
+    p = SOVEREIGN / name
+    tmp = p.with_suffix(".tmp")
+    with open(tmp, "w") as f:
+        json.dump(data, f, indent=2, ensure_ascii=False)
+    os.replace(tmp, p)
+
+
+def load_evidence_index() -> dict:
+    """Load evidence/index.json as JSON."""
+    return load_json_file("evidence/index.json")
+
+
+def save_evidence_index(data: dict) -> None:
+    """Save evidence/index.json as JSON (atomic)."""
+    save_json_file("evidence/index.json", data)
+
+
 def fatal(msg: str, code: int = 1) -> None:
     print(f"FATAL: {msg}", file=sys.stderr)
     sys.exit(code)
@@ -679,8 +705,8 @@ def cmd_record_evidence(args: argparse.Namespace) -> None:
         shutil.copy2(ev_path, dest_path)
         print(f"  OK: Copied {ev_path} → {dest_path}")
 
-    # Update index.json
-    idx = load_yaml("evidence/index.json")
+    # Update index.json (JSON only)
+    idx = load_evidence_index()
     existing = {e["evidence_id"] for e in idx.get("entries", [])}
     if eid in existing:
         fatal(f"Evidence {eid} already registered in index.json")
@@ -695,7 +721,7 @@ def cmd_record_evidence(args: argparse.Namespace) -> None:
         "verified": False,
     })
     idx["last_updated"] = TS()
-    save_yaml("evidence/index.json", idx)
+    save_evidence_index(idx)
 
     print(f"  OK: Registered {eid} (experiment={ev_data['experiment_id']})")
     print(f"  NOTE: Candidate evidence should go to runtime/evidence_inbox/ first.")
@@ -711,7 +737,7 @@ def cmd_close_experiment(args: argparse.Namespace) -> None:
     experiment_id = args.experiment_id
 
     # Verify evidence is registered
-    idx = load_yaml("evidence/index.json")
+    idx = load_evidence_index()
     if not any(e["evidence_id"] == ev_id for e in idx.get("entries", [])):
         fatal(f"Evidence {ev_id} not registered. Run: record-evidence first.")
 

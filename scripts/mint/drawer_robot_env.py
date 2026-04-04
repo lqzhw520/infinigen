@@ -377,7 +377,31 @@ class DrawerRobotEnv:
         return pos, quat
 
     def _state_vector(self) -> np.ndarray:
-        eef_pos, eef_quat = self.eef_pose()
+        """
+        LIBERO-aligned state[8] (verified against raw HDF5 ground truth):
+
+        state[0:3] = eef_pos (world frame, m)
+        state[3:7] = motor_joint_positions[0:4] (4 arm joint values)
+        state[7]   = gripper_joint (continuous, ∈ [-0.042, +0.001])
+
+        LIBERO convention: negative = closed, positive = open.
+
+        Why motor_joints NOT eef_quat: raw parquet stats show state[3:7] row-norm ≈ 3.1
+        (not 1.0 as quaternion would require). info.json labels "[x,y,z,rx,ry,rz,rw,gripper]"
+        are incorrect. Ground truth confirmed by HDF5 robot_states = concat(gripper_qpos[2],
+        eef_pos[3], eef_quat[4]) in source code (bddl_base_domain.py:826) but parquet
+        stores a different 8D format where state[3:7] = motor joints (4D), not quaternions.
+        """
+        eef_pos, _ = self.eef_pose()
+        # Read all 7 arm joint positions
+        arm_joints = np.array(
+            [self.p.getJointState(self.robot_id, i, physicsClientId=self.client)[0]
+             for i in range(ARM_DOF)],
+            dtype=np.float32,
+        )
+        # state[3:7] = first 4 arm joint values
+        motor_joints_4 = arm_joints[:4]
+        # Read gripper finger positions
         j9 = self.p.getJointState(
             self.robot_id, GRIPPER_JOINTS[0], physicsClientId=self.client
         )[0]
@@ -391,10 +415,10 @@ class DrawerRobotEnv:
         return np.concatenate(
             [
                 eef_pos.astype(np.float32),
-                eef_quat.astype(np.float32),
+                motor_joints_4,
                 np.array([gripper_joint], dtype=np.float32),
             ]
-        )
+        )  # shape: (8,)
 
     def observe(self) -> RobotObservation:
         image, depth = self._camera_capture(self._view_matrix_primary())

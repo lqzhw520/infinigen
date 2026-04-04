@@ -105,22 +105,29 @@ def _infinigen_to_libero_action(action: np.ndarray, gripper_binarize: bool) -> n
 def _build_libero_state(state_npz: np.ndarray, gripper_binarize: bool) -> np.ndarray:
     """Build LIBERO-style 8D state from Infinigen NPZ state.
 
-    Infinigen NPZ state[8]: [eef_x, eef_y, eef_z, eef_quat_x, eef_quat_y, eef_quat_z, eef_quat_w, gripper_binary]
-    LIBERO    state[8]: [eef_x, eef_y, eef_z, motor_joint0, motor_joint1, motor_joint2, motor_joint3, gripper_joint]
+    After drawer_robot_env.py was fixed to produce motor_joints in state[3:7],
+    the NPZ now matches LIBERO format directly — no semantic conversion needed.
 
-    state[3:7] Infinigen = PyBullet EEF quaternion (norm ≈ 1.0).
-    state[3:7] LIBERO    = Panda motor joint positions (norm ≈ 3.27, NOT unit quaternions).
+    Current Infinigen NPZ state[8]:
+        state[0:3] = eef_pos (world frame, m)
+        state[3:7] = motor_joint_positions[0:4]  ← already motor joints (was eef_quat, fixed)
+        state[7]   = gripper_joint (continuous, ∈ [-0.042, +0.001]) ← already LIBERO range
 
-    state[7]: Infinigen gripper_binary {0.0=closed, 1.0=open} → LIBERO gripper_joint [-0.042, +0.001].
-    The conversion always applies to align with MINT's NormalizerProcessorStep(QUANTILES) for state.
+    LIBERO ground truth state[8] (verified by raw parquet stats):
+        state[0:3] = eef_pos (world frame, m)
+        state[3:7] = motor_joint_positions[0:4]
+        state[7]   = gripper_joint (continuous, ∈ [-0.042, +0.001])
+
+    Since both match, this function now only normalizes gripper to LIBERO range
+    (for backward compatibility with any legacy NPZs that might have binary gripper).
 
     Args:
-        state_npz: Infinigen state vector with binary gripper in index 7.
-        gripper_binarize: Unused. Kept for API compatibility. Gripper is always
-            converted to LIBERO continuous range regardless of this flag.
+        state_npz: Infinigen state vector (now motor_joints[3:7] + gripper_joint[7]).
+        gripper_binarize: Unused. Kept for API compatibility.
     """
     state = state_npz.astype(np.float32).copy()
-    # Always convert gripper_binary to LIBERO continuous joint range
+    # If gripper is binary {0.0, 1.0}, convert to LIBERO continuous range.
+    # New rollouts (post-fix) already have continuous gripper_joint, so this is a no-op.
     state[7] = _infinigen_to_libero_gripper(state[7])
     return state
 

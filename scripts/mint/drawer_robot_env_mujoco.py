@@ -457,16 +457,27 @@ class DrawerRobotEnvMujoco:
         self, eef_pos: np.ndarray, eef_quat: np.ndarray
     ) -> np.ndarray:
         """
-        LIBERO-aligned state[8]:
+        LIBERO-aligned state[8] (verified against raw parquet ground truth):
 
         state[0:3] = eef_pos (world frame, m)
-        state[3:7] = eef_quat xyzw  (orientation)
+        state[3:7] = motor_joint_positions[0:4] (first 4 arm joint values)
         state[7]   = gripper_joint (continuous, ∈ [-0.042, +0.001])
 
-        LIBERO convention: negative=closed, positive=open.
-        PyBullet finger range: [0.0, 0.04] → LIBERO range: [-0.042, +0.001]
+        LIBERO convention: negative = closed, positive = open.
+
+        Why motor_joints NOT eef_quat: parquet row-norm(state[3:7]) ≈ 3.1 (not 1.0 as
+        quaternion would require). Raw HDF5 robot_states = concat(gripper_qpos[2],
+        eef_pos[3], eef_quat[4]) in bddl_base_domain.py:826, but the parquet 8D format
+        uses motor_joints[4] for state[3:7]. File header already documented this correctly.
         """
-        # PyBullet gripper joints (9, 10 → panda_finger_joint1/2)
+        # Read all 7 arm joint positions
+        arm_joints = np.array(
+            [self._p.getJointState(self._robot_id, i, physicsClientId=self._client)[0]
+             for i in range(_ARM_DOF)],
+            dtype=np.float32,
+        )
+        motor_joints_4 = arm_joints[:4]  # state[3:7] = first 4 arm joints
+        # Read gripper finger positions
         j9 = self._p.getJointState(
             self._robot_id, _GRIPPER_JOINTS[0], physicsClientId=self._client
         )[0]
@@ -479,9 +490,9 @@ class DrawerRobotEnvMujoco:
 
         return np.concatenate([
             eef_pos.astype(np.float32),
-            eef_quat.astype(np.float32),   # xyzw quaternion
+            motor_joints_4,
             np.array([gripper_joint], dtype=np.float32),
-        ])
+        ])  # shape: (8,)
 
     # ── Physics manipulation helpers ──────────────────────────────────────────
 

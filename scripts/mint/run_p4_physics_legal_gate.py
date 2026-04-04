@@ -2,8 +2,16 @@
 """P4: Physics-legal teacher rollout gate.
 
 Gate condition: ≥ MIN_LEGAL unique seeds produce physics-legal rollouts.
-Searches all seeds × all branch_configs(), evaluates each rollout with
-check_physics_legality(), saves passing rollouts to ARTIFACT_DIR/p4_physics_legal_rollouts/.
+
+ROOT FIX (vs. previous version):
+  - OLD: checked ||Δaction||_2 against meter thresholds → false failures
+        (normalized gripper ±1 jumps already give Δ≈2, not 0.05m)
+  - NEW: judges real physics outcomes — Δeef_position_world, attach_persistence,
+        drawer_causal_follow, replay determinism
+
+Generation path (in priority order):
+  1. physics_constrained_teacher_rollout(): impedance controller + grasp feasibility
+  2. build_native_teacher_rollout(): fallback with branch sweep
 
 Exit codes:
   0 = gate passed (≥ MIN_LEGAL physics-legal rollouts)
@@ -29,7 +37,12 @@ sys.path.insert(0, str(SCRIPTS_MINT))
 from action_contract_repair import branch_configs
 from drawer_robot_env import build_native_teacher_rollout
 from mint_common import ARTIFACT_DIR
-from physics_legality import check_physics_legality, DEFAULT_PHYSICS_THRESHOLDS
+from physics_legality import (
+    check_physics_legality,
+    physics_constrained_teacher_rollout,
+    stage0_check_grasp_feasibility,
+    DEFAULT_PHYSICS_THRESHOLDS,
+)
 
 # Paths
 ARTIFACT = ARTIFACT_DIR / "p4_physics_legal_gate.json"
@@ -82,11 +95,11 @@ def _save_rollout(
         states=np.asarray(rollout["states"], dtype=np.float32),
         actions=np.asarray(rollout["actions"], dtype=np.float32),
         images=np.asarray(rollout["images"], dtype=np.uint8),
-        images2=np.asarray(rollout.get("images2") or [], dtype=np.uint8),
-        gripper_values=np.asarray(rollout.get("gripper_values") or [], dtype=np.float32),
-        eef_positions=np.asarray(rollout.get("eef_positions") or [], dtype=np.float32),
+        images2=np.asarray(_to_list(rollout.get("images2")), dtype=np.uint8),
+        gripper_values=np.asarray(_to_list(rollout.get("gripper_values")), dtype=np.float32),
+        eef_positions=np.asarray(_to_list(rollout.get("eef_positions")), dtype=np.float32),
         absolute_drawer_fraction=np.asarray(
-            rollout.get("absolute_drawer_fraction") or [], dtype=np.float32
+            _to_list(rollout.get("absolute_drawer_fraction")), dtype=np.float32
         ),
         # Metadata
         seed=np.int32(seed),
@@ -98,20 +111,55 @@ def _save_rollout(
         ever_attached=np.bool_(rollout.get("ever_attached", False)),
         # Optional traces
         joint_positions=np.asarray(
-            rollout.get("joint_positions") or [], dtype=np.float32
+            _to_list(rollout.get("joint_positions")), dtype=np.float32
         ),
         attached_trace=np.asarray(
-            rollout.get("attached_trace") or [], dtype=np.bool_
+            _to_list(rollout.get("attached_trace")), dtype=np.bool_
         ),
         handle_distance_trace=np.asarray(
-            rollout.get("handle_distance_trace") or [], dtype=np.float32
+            _to_list(rollout.get("handle_distance_trace")), dtype=np.float32
         ),
     )
     return path
 
 
+def _to_list(val: Any) -> list:
+    """Safe conversion: handles None, list, np.ndarray without ambiguous bool checks."""
+    if val is None:
+        return []
+    if isinstance(val, np.ndarray):
+        return val.tolist()
+    if isinstance(val, list):
+        return val
+    return list(val)
+
+
 def _legal_key(seed: int, branch_id: str, episode_index: int) -> str:
     return f"seed_{seed:03d}_{branch_id}_ep{episode_index}"
+
+
+def _frames_to_rollout_dict(frames: list[dict[str, Any]]) -> dict[str, Any]:
+    """
+    Convert frames from physics_constrained_teacher_rollout to the same dict format
+    as build_native_teacher_rollout, so the rest of the gate code is uniform.
+    """
+    T = len(frames)
+    states = np.array([f["state"] for f in frames], dtype=np.float32) if T > 0 else np.zeros((0, 8), dtype=np.float32)
+    actions = np.array([f["action"] for f in frames], dtype=np.float32) if T > 0 else np.zeros((0, 7), dtype=np.float32)
+    drawer_fracs = np.array([f.get("drawer_fraction", 0.0) for f in frames], dtype=np.float32)
+
+    return {
+        "states": states,
+        "actions": actions,
+        "images": [],   # no images captured during physics_constrained generation
+        "images2": [],
+        "eef_positions": states[:, :3].copy() if T > 0 else np.zeros((0, 3), dtype=np.float32),
+        "gripper_values": states[:, 7].copy() if T > 0 else np.zeros(0, dtype=np.float32),
+        "absolute_drawer_fraction": drawer_fracs,
+        "final_drawer_fraction": float(drawer_fracs[-1]) if T > 0 else 0.0,
+        "max_drawer_fraction": float(drawer_fracs.max()) if T > 0 else 0.0,
+        "joint_positions": states[:, 3:7].copy() if T > 0 else np.zeros((0, 4), dtype=np.float32),
+    }
 
 
 def run() -> bool:
@@ -120,6 +168,7 @@ def run() -> bool:
     branches = branch_configs()
     records: list[dict[str, Any]] = []
     legal_keys: set[str] = set()
+    legal_seed_set: set[int] = set()  # track unique seeds with ≥1 legal rollout
     legal_records: list[dict[str, Any]] = []
 
     print(f"[P4] seeds={seeds}  branches={[b['branch_id'] for b in branches]}")
@@ -135,33 +184,71 @@ def run() -> bool:
 
         pose_world = np.array(grasp["pose_world"], dtype=np.float32)
 
+        # Build anygrasp_candidates: primary grasp + top_candidates (up to 5)
+        anygrasp_candidates = [pose_world]
+        for top in grasp.get("top_candidates", [])[:4]:
+            anygrasp_candidates.append(np.array(top["pose_world"], dtype=np.float32))
+
         for branch in branches:
             bid = branch["branch_id"]
             for ep_idx in range(EPISODES_PER_COMBO):
                 rollout = None
-                try:
-                    rollout = build_native_teacher_rollout(
-                        seed=seed,
-                        grasp_pose_world=pose_world,
-                        branch_config=branch,
-                        episode_index=ep_idx,
-                        max_steps=96,
-                    )
-                except Exception as exc:  # pragma: no cover — defensive
-                    msg = f"{type(exc).__name__}: {exc}"
-                    print(f"  [error] seed={seed:03d}  branch={bid}  ep={ep_idx}  {msg}")
-                    records.append({
-                        "seed": seed, "branch": bid, "episode": ep_idx,
-                        "passed": False, "error": msg,
-                    })
-                    continue
+                method = "unknown"
 
-                # Evaluate physics legality on the rollout dict (not saved NPZ yet)
-                legality = check_physics_legality(
-                    rollout, DEFAULT_PHYSICS_THRESHOLDS
-                )
+                # ── Phase 1: Physics-constrained compliant controller ─────────
+                # Uses impedance control + grasp feasibility filter. This is the
+                # correct generation path — not the old world-frame delta controller.
+                try:
+                    result = physics_constrained_teacher_rollout(
+                        seed=seed,
+                        anygrasp_candidates=anygrasp_candidates,
+                        max_retry=3,   # retry different grasp candidates
+                        verbose=False,
+                    )
+                    method = "physics_constrained"
+                    legality = result.get("legality", {})
+                    if legality.get("legal"):
+                        # Extract rollout data from physics_constrained output
+                        frames = result.get("rollout_frames", [])
+                        if frames:
+                            rollout = _frames_to_rollout_dict(frames)
+                            rollout["success"] = legality.get("robot_success", True)
+                            rollout["final_drawer_fraction"] = legality.get("final_drawer_fraction", 0.0)
+                            rollout["max_drawer_fraction"] = legality.get("max_drawer_fraction", 0.0)
+                            rollout["ever_attached"] = bool(np.any([
+                                f.get("collision", {}).get("attached", False) for f in frames
+                            ]))
+                        else:
+                            rollout = None
+                except Exception as exc:
+                    result = None
+                    legality = {"legal": False, "issues": [f"physics_constrained exception: {exc}"]}
+
+                # ── Phase 2: Fallback to build_native_teacher_rollout() ───────
+                # Search across branches for any physics-legal trajectory.
+                # Even if Phase 1 fails, a branch variant might succeed.
+                if rollout is None:
+                    try:
+                        rollout = build_native_teacher_rollout(
+                            seed=seed,
+                            grasp_pose_world=pose_world,
+                            branch_config=branch,
+                            episode_index=ep_idx,
+                            max_steps=96,
+                        )
+                        method = "build_native_fallback"
+                        legality = check_physics_legality(rollout, DEFAULT_PHYSICS_THRESHOLDS)
+                    except Exception as exc:
+                        msg = f"{type(exc).__name__}: {exc}"
+                        print(f"  [error] seed={seed:03d}  branch={bid}  ep={ep_idx}  {msg}")
+                        records.append({
+                            "seed": seed, "branch": bid, "episode": ep_idx,
+                            "passed": False, "error": msg,
+                        })
+                        continue
+
                 robot_success = bool(rollout.get("success", False))
-                physics_ok = bool(legality["legal"])
+                physics_ok = bool(legality.get("legal", False))
                 passed = robot_success and physics_ok
 
                 record = {
@@ -169,6 +256,7 @@ def run() -> bool:
                     "branch": bid,
                     "episode": ep_idx,
                     "passed": passed,
+                    "method": method,
                     "robot_success": robot_success,
                     "physics_legal": physics_ok,
                     "final_drawer_fraction": float(rollout.get("final_drawer_fraction", 0.0)),
@@ -181,29 +269,30 @@ def run() -> bool:
                 if passed:
                     lkey = _legal_key(seed, bid, ep_idx)
                     legal_keys.add(lkey)
+                    legal_seed_set.add(seed)   # track unique seeds
                     path = _save_rollout(seed, bid, ep_idx, rollout)
                     record["rollout_path"] = str(path)
                     legal_records.append(record)
                     print(
-                        f"  [legal] seed={seed:03d}  branch={bid}  ep={ep_idx}"
+                        f"  [legal:{method}] seed={seed:03d}  branch={bid}  ep={ep_idx}"
                         f"  drawer={record['max_drawer_fraction']:.2f}"
                     )
-                    if len(legal_keys) >= MIN_LEGAL:
+                    if len(legal_seed_set) >= MIN_LEGAL:
                         print(f"[P4] Reached MIN_LEGAL={MIN_LEGAL} — stopping search")
                         break
                 else:
                     issues_str = ", ".join(record["issues"][:2]) if record["issues"] else "none"
                     print(
-                        f"  [reject] seed={seed:03d}  branch={bid}  ep={ep_idx}"
+                        f"  [reject:{method}] seed={seed:03d}  branch={bid}  ep={ep_idx}"
                         f"  robot_ok={robot_success}  physics_ok={physics_ok}"
                         f"  issues=[{issues_str[:80]}]"
                     )
 
                 records.append(record)
 
-            if len(legal_keys) >= MIN_LEGAL:
+            if len(legal_seed_set) >= MIN_LEGAL:
                 break
-        if len(legal_keys) >= MIN_LEGAL:
+        if len(legal_seed_set) >= MIN_LEGAL:
             break
 
     elapsed_s = time.monotonic() - t0

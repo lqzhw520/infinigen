@@ -1,4 +1,4 @@
-evidence_id: E012
+evidence_id: E013
 experiment_id: p4_physics_legal_gate
 scope: physics_legality
 description: |
@@ -13,4 +13,4 @@ metrics:
   legal_rollout_count: 13
   legal_seeds: [1, 2, 3, 4, 5, 6]
   elapsed_s: 849
-timestamp: 1775295974.6499453
+timestamp: 1775296032.4826128

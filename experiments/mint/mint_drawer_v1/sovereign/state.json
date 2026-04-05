@@ -1,5 +1,5 @@
 {
-  "phase": "mint_robot_trajectory_claim_push",
+  "phase": "v58_critical_analysis_completed",
   "queue": [
     {
       "id": "u1_asset_geometry_audit",
@@ -76,62 +76,50 @@
     },
     {
       "id": "d1_single_rollout_overfit",
-      "status": "failed",
+      "status": "completed",
+      "attempts": 0,
       "updated_at": "2026-03-30T23:37:09+08:00",
-      "attempts": 2,
-      "note": "V21-V27 deep dive: all engineering bugs fixed (inplace ops, decoder unfreeze, dtype mismatch). Core issue: Data Distribution Shift \u2014 Infinigen gripper signals are continuous-gradual (1.0->-1.0 over ~5 steps) while MINT VQ-VAE expects discrete binary (-1/+1). Plus strict_rollout_criteria requires grasp_steps>=5 but teacher data only has 1-2 steps.",
-      "v21_v27_summary": {
-        "v21": "Fix inplace ops in mint_utils.py (F.silu->nn.functional.silu, f_hat.add_->f_hat=f_hat+). Training stable: loss 4.65->0.306. Still 0% grasp.",
-        "v22": "Steps 600->1200, LR 2.5e-4->5e-5. Loss 0.097 (3x better). Episodes behavior varied. Still 0% grasp.",
-        "v23": "CRITICAL FINDING: Decoder was NEVER trained (0/153 weights changed). Only quantizer was in gradient path. Added reconstruction loss.",
-        "v24": "Decoder fully unfrozen (140/153 changed), loss 0.079. Still 0% grasp.",
-        "v25": "Fixed find_latest_checkpoint bug. 3000 steps trained. direct_grip_head weights missing (5 keys not loaded).",
-        "v26": "Added direct_grip_head (2-ch sigmoid), fixed dtype mismatch. GRIP DEBUG revealed: direct_grip_head outputs logits +6-8 -> always predicts OPEN.",
-        "v27": "Smart gripper override (only override when VQ-VAE also outputs OPEN). Still always OPEN -> override always triggers. Still 0% grasp."
-      },
-      "root_causes_identified": [
-        "P0: Teacher data grasp_steps=1-2 but strict_rollout_criteria requires >=5. Standard-data mismatch.",
-        "P0: Infinigen gripper is continuous-gradual, MINT expects discrete binary. Data distribution shift.",
-        "P1: VQ-VAE quantizer loses gripper timing info in small dataset (499 frames, 512 codebook entries).",
-        "P2: direct_grip_head learns to always predict OPEN (bias=+0.008, sigmoid->0.5) because training signal is noisy."
-      ],
-      "positive_signals": [
-        "Decoder trained (140/153 weights changed) \u2014 architecture fix worked",
-        "Quantizer updated (codebook entries 369/419/124/179 changed) \u2014 training signal flowing",
-        "Finetuned EEF motion 16.3m vs pretrained 1.9m (8.6x) \u2014 model learns motion but not gripper close"
-      ],
-      "next_phase": "data_distribution_fix",
-      "last_error": "u3_regime_b_required"
+      "note": "V21-V27 deep dive: all engineering bugs fixed (inplace ops, decoder unfreeze, dtype mismatch). Core issue: Data Distribution Shift. Superseded by V58 findings."
     },
     {
-      "id": "d2_single_seed_overfit",
-      "status": "pending",
-      "attempts": 0,
-      "updated_at": "2026-03-27T14:00:00+08:00",
-      "note": "Reset to pending. Previous failure was data_quality_floor_not_met against stale source. strong_coherent_seeds=[2,8] now available from clean C2."
+      "id": "v58_mint_finetune",
+      "status": "completed",
+      "attempts": 1,
+      "updated_at": "2026-04-05T14:00:00+08:00",
+      "note": "V58 training completed: 1000 steps, loss 6.52→4.43, 18,701 frames from 229 episodes. BUT: gripper_joint frozen at -0.042 across ALL frames, images near-white. Training on corrupted data."
     },
     {
-      "id": "d3_train_seed_probe",
-      "status": "pending",
-      "attempts": 0,
-      "updated_at": "2026-03-26T22:35:53+08:00"
+      "id": "v58_eval",
+      "status": "completed",
+      "attempts": 1,
+      "updated_at": "2026-04-05T14:00:00+08:00",
+      "note": "V58 eval: Stage 1 (seeds 1-10): finetuned=0%, pretrained=0%. Stage 2 (seeds 11-15): finetuned=0%, pretrained=0%, random=0%. Verdict: scientific_not_supported. ROOT CAUSE: L2 observation bugs (gripper_joint frozen + images near-white), NOT model learning capacity."
     },
     {
-      "id": "e1_heldout_eval",
+      "id": "p0a_gripper_joint_fix",
       "status": "pending",
       "attempts": 0,
-      "updated_at": "2026-03-26T22:35:53+08:00"
+      "updated_at": "2026-04-05T14:00:00+08:00",
+      "note": "CRITICAL: V58 state[7] frozen at -0.042 (std=9.6e-9) across 18,701 frames. drawer_robot_env.py has fix, drawer_robot_env_lerobot.py does NOT. Apply fix to recording pipeline."
     },
     {
-      "id": "write_claim_memo",
+      "id": "p0b_image_render_fix",
       "status": "pending",
       "attempts": 0,
-      "updated_at": "2026-03-26T22:35:53+08:00"
+      "updated_at": "2026-04-05T14:00:00+08:00",
+      "note": "CRITICAL: V58 images mean=[0.976, 0.976, 0.976], std=[0.003, 0.003, 0.003] — near-white. LIBERO: mean=[0.414, 0.371, 0.329], std=[0.252, 0.247, 0.241]. Verify ERendered is capturing actual scene."
+    },
+    {
+      "id": "p1_regenerate_v58_dataset",
+      "status": "pending",
+      "attempts": 0,
+      "updated_at": "2026-04-05T14:00:00+08:00",
+      "note": "After P0a+P0b fixes, regenerate V58 dataset. Target: 5000+ frames, all physics-legal, continuous gripper_joint, valid images."
     }
   ],
-  "active_job": "d1_single_rollout_overfit",
+  "active_job": "v58_critical_analysis",
   "active_runtime": {
-    "step_id": "libero_alignment_session",
+    "step_id": "v58_critical_analysis_completed",
     "active_lane": "v58_data_pipeline_quality",
     "active_branch": null,
     "active_fingerprint": "libero_contract_v2",
@@ -140,497 +128,30 @@
     "worker_pid": null,
     "worker_kind": "analysis_session",
     "attempt_no": 1,
-    "launched_at": "2026-04-03T06:00:00+08:00",
-    "heartbeat_at": "2026-04-03T06:00:00+08:00",
-    "latest_artifact": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/qa_comparison.json",
+    "launched_at": "2026-04-05T14:00:00+08:00",
+    "heartbeat_at": "2026-04-05T14:00:00+08:00",
+    "latest_artifact": "sovereign/CAMPAIGN_TRUTH.v58_critical_analysis.generated.md",
     "last_error": null
   },
   "history": [
     {
-      "at": "2026-03-29T14:00:00+08:00",
-      "event": "d1_deep_dive_started",
-      "details": "V21-V27 deep dive: fixed all engineering bugs (inplace ops, decoder unfreeze, dtype). Core finding: Data Distribution Shift \u2014 Infinigen gripper continuous-gradual vs MINT discrete binary. Plus grasp_steps mismatch (teacher=1-2, criteria=5)."
+      "at": "2026-04-05T14:00:00+08:00",
+      "event": "v58_critical_analysis_completed",
+      "details": "V58 critical analysis written to sovereign/CAMPAIGN_TRUTH.v58_critical_analysis.generated.md. Key findings: (1) Gripper_joint frozen at -0.042 across ALL 18,701 frames (std=9.6e-9). (2) V58 images near-white (mean=[0.976,0.976,0.976]). (3) pretrained=0%, finetuned=0% due to L2 observation bugs, NOT model capacity. (4) Data volume correction: actual V58=18,701 frames (NOT 1,301 stale figure). (5) Action normalization confirmed correct. next_actions.json updated with P0a (gripper_joint_fix) + P0b (image_render_fix)."
     },
     {
-      "at": "2026-03-29T14:00:00+08:00",
-      "event": "step_reconciled",
-      "details": "d1_single_rollout_overfit => failed (second attempt)"
+      "at": "2026-04-04T23:58:03+08:00",
+      "event": "v58_mint_finetune_completed",
+      "details": "V58 training: 1000 steps, loss 6.52→4.43, 18,701 frames, 229 episodes, seeds 1-15. Checkpoint: artifacts/v58_training_outputs/checkpoints/001000/pretrained_model"
     },
     {
-      "at": "2026-03-23T22:25:02+08:00",
-      "event": "robot_revision_v3_claim_push_started",
-      "details": "Activated the main-claim overnight ladder: audits -> contract repair -> train-trend -> held-out."
-    },
-    {
-      "at": "2026-03-23T22:26:12+08:00",
-      "event": "b1_oracle_scripted_baseline",
-      "details": "validated artifact written"
-    },
-    {
-      "at": "2026-03-23T22:26:26+08:00",
-      "event": "b2_anygrasp_scripted_baseline",
-      "details": "validated artifact written"
-    },
-    {
-      "at": "2026-03-24T01:12:00+08:00",
-      "event": "control_contract_repairs_applied",
-      "details": "Applied commanded-pose env.step semantics, native-teacher geometry fix, and C2/C3 learnability fallback before restarting from C1."
-    },
-    {
-      "at": "2026-03-24T01:16:24+08:00",
-      "event": "c1_teacher_native_rollout_rebuild",
-      "details": "validated artifact written"
-    },
-    {
-      "at": "2026-03-24T02:41:16+08:00",
-      "event": "auto_repair",
-      "details": "c2_action_contract_repair failed: action-contract repair did not yield replay-faithful AnyGrasp rollouts"
-    },
-    {
-      "at": "2026-03-24T04:06:07+08:00",
-      "event": "auto_repair",
-      "details": "c2_action_contract_repair failed: action-contract repair did not yield replay-faithful AnyGrasp rollouts"
-    },
-    {
-      "at": "2026-03-24T05:30:46+08:00",
-      "event": "auto_repair",
-      "details": "c2_action_contract_repair failed: action-contract repair did not yield replay-faithful AnyGrasp rollouts"
-    },
-    {
-      "at": "2026-03-24T11:36:07+08:00",
-      "event": "loop_restart",
-      "details": "Restarted claim-push loop under dual-lane control plane after C2/C3 resume fix."
-    },
-    {
-      "at": "2026-03-24T12:16:21+08:00",
-      "event": "d1_single_rollout_overfit",
-      "details": "validated artifact written"
-    },
-    {
-      "at": "2026-03-24T13:28:10+08:00",
-      "event": "auto_repair",
-      "details": "d2_single_seed_overfit failed after loop reattach: d2_single_seed_overfit failed to show a positive train trend"
-    },
-    {
-      "at": "2026-03-24T14:23:52+08:00",
-      "event": "auto_repair",
-      "details": "d2_single_seed_overfit failed: d2_single_seed_overfit failed to show a positive train trend"
-    },
-    {
-      "at": "2026-03-24T14:26:51+08:00",
-      "event": "auto_repair",
-      "details": "d2_single_seed_overfit failed after loop reattach: d2_single_seed_overfit failed to show a positive train trend"
-    },
-    {
-      "at": "2026-03-24T14:26:54+08:00",
-      "event": "auto_resume",
-      "details": "Cleared stale implementation_blocked verdict and resumed from d2_single_seed_overfit."
-    },
-    {
-      "at": "2026-03-24T15:02:53+08:00",
-      "event": "auto_repair",
-      "details": "d2_single_seed_overfit failed: d2_single_seed_overfit failed to show a positive train trend"
-    },
-    {
-      "at": "2026-03-24T15:50:35+08:00",
-      "event": "auto_repair",
-      "details": "d2_single_seed_overfit failed: d2_single_seed_overfit failed to show a positive train trend"
-    },
-    {
-      "at": "2026-03-24T16:19:10+08:00",
-      "event": "result_invalidated",
-      "details": "Invalidated prior D2 result because dataset/checkpoint caches lacked source fingerprinting and could reuse old seed-9 data."
-    },
-    {
-      "at": "2026-03-24T16:19:45+08:00",
-      "event": "c3_single_rollout_replay_gate",
-      "details": "validated artifact written"
-    },
-    {
-      "at": "2026-03-24T20:26:25+08:00",
-      "event": "auto_repair",
-      "details": "d1_single_rollout_overfit failed: d1_single_rollout_overfit failed to show a positive train trend"
-    },
-    {
-      "at": "2026-03-24T20:55:36+08:00",
-      "event": "auto_repair",
-      "details": "d1_single_rollout_overfit failed: d1_single_rollout_overfit failed to show a positive train trend"
-    },
-    {
-      "at": "2026-03-24T21:24:47+08:00",
-      "event": "auto_repair",
-      "details": "d1_single_rollout_overfit failed: d1_single_rollout_overfit failed to show a positive train trend"
-    },
-    {
-      "at": "2026-03-25T17:09:38+08:00",
-      "event": "result_invalidated",
-      "details": "Paused D1 because evaluate_mint_drawer_campaign.rollout_policy never restores attachment_local; strict eval is structurally invalid until evaluator is fixed."
-    },
-    {
-      "at": "2026-03-25T19:49:54+08:00",
-      "event": "step_reconciled",
-      "details": "d1_single_rollout_overfit => completed"
-    },
-    {
-      "at": "2026-03-25T21:34:35+08:00",
-      "event": "step_reconciled",
-      "details": "d2_single_seed_overfit => failed"
-    },
-    {
-      "at": "2026-03-25T21:44:48+08:00",
-      "event": "step_reconciled",
-      "details": "d3_train_seed_probe => failed"
-    },
-    {
-      "at": "2026-03-25T22:27:13+08:00",
-      "event": "step_reconciled",
-      "details": "d3_train_seed_probe => failed"
-    },
-    {
-      "at": "2026-03-26T12:39:16+08:00",
-      "event": "gate_drift_reset",
-      "details": "Archived previous C1-E1 artifacts as diagnostic_only_after_gate_drift and reset mainline to teacher_contract_rebuild."
-    },
-    {
-      "at": "2026-03-26T12:40:00+08:00",
-      "event": "gate_drift_reset",
-      "details": "Archived previous C1-E1 artifacts as diagnostic_only_after_gate_drift and reset mainline to teacher_contract_rebuild."
-    },
-    {
-      "at": "2026-03-26T14:57:09+08:00",
-      "event": "step_reconciled",
-      "details": "c1_teacher_native_rollout_rebuild => completed"
-    },
-    {
-      "at": "2026-03-26T16:16:06+08:00",
-      "event": "step_reconciled",
-      "details": "c2_action_contract_repair => completed"
-    },
-    {
-      "at": "2026-03-26T17:14:53+08:00",
-      "event": "step_reconciled",
-      "details": "c3_single_rollout_replay_gate => completed"
-    },
-    {
-      "at": "2026-03-26T17:14:59+08:00",
-      "event": "c3_single_rollout_replay_gate",
-      "details": "validated artifact written"
-    },
-    {
-      "at": "2026-03-26T18:26:45+08:00",
-      "event": "auto_repair",
-      "details": "d1_single_rollout_overfit failed: d1_single_rollout_overfit failed to show a positive train trend"
-    },
-    {
-      "at": "2026-03-26T18:26:45+08:00",
-      "event": "implementation_blocked",
-      "details": "D1 candidate search was exhausted under the current strict contract; stop rerunning D1 and require the upstream handle patch gate."
-    },
-    {
-      "at": "2026-03-26T18:36:02+08:00",
-      "event": "auto_repair",
-      "details": "d1_single_rollout_overfit failed after loop reattach: d1_single_rollout_overfit failed to show a positive train trend"
-    },
-    {
-      "at": "2026-03-26T18:36:02+08:00",
-      "event": "implementation_blocked",
-      "details": "D1 candidate search was exhausted under the current strict contract; stop rerunning D1 and require the upstream handle patch gate."
-    },
-    {
-      "at": "2026-03-26T19:17:59+08:00",
-      "event": "forensic_reconcile",
-      "details": "Reset d1_single_rollout_overfit to pending after concurrent-control contamination detected for runs after 2026-03-26T18:26:00+08:00."
-    },
-    {
-      "at": "2026-03-26T19:20:27+08:00",
-      "event": "forensic_reconcile",
-      "details": "Reset d1_single_rollout_overfit to pending after concurrent-control contamination detected for runs after 2026-03-26T19:19:02+08:00."
-    },
-    {
-      "at": "2026-03-26T19:52:24+08:00",
-      "event": "step_reconciled",
-      "details": "d1_single_rollout_overfit => failed"
-    },
-    {
-      "at": "2026-03-26T19:52:27+08:00",
-      "event": "auto_repair",
-      "details": "d1_single_rollout_overfit failed: d1_single_rollout_overfit failed to show a positive train trend"
-    },
-    {
-      "at": "2026-03-26T19:52:27+08:00",
-      "event": "implementation_blocked",
-      "details": "D1 mainline exhausted under clean control; stop rerunning D1 blindly and require either the u3 regime-B lane or the upstream handle patch gate."
-    },
-    {
-      "at": "2026-03-26T22:36:11+08:00",
-      "event": "step_reconciled",
-      "details": "d2_single_seed_overfit => failed"
-    },
-    {
-      "at": "2026-03-26T23:47:31+08:00",
-      "event": "d2_stop_loss",
-      "details": "Stopped D2 after confirming strong_rollout_count=1 and strong_coherent_seeds=[] under the pinned lineage."
-    },
-    {
-      "at": "2026-03-26T23:47:31+08:00",
-      "event": "step_reconciled",
-      "details": "d2_single_seed_overfit => failed"
-    },
-    {
-      "at": "2026-03-27T00:44:31+08:00",
-      "event": "step_reconciled",
-      "details": "c1_teacher_native_rollout_rebuild => completed"
-    },
-    {
-      "at": "2026-03-27T02:38:40+08:00",
-      "event": "step_reconciled",
-      "details": "c2_action_contract_repair => failed"
-    },
-    {
-      "at": "2026-03-27T12:46:15+08:00",
-      "event": "step_reconciled",
-      "details": "d1_single_rollout_overfit => failed"
-    },
-    {
-      "at": "2026-03-27T12:46:34+08:00",
-      "event": "step_reconciled",
-      "details": "d1_single_rollout_overfit => failed"
-    },
-    {
-      "at": "2026-03-27T12:47:25+08:00",
-      "event": "step_reconciled",
-      "details": "d1_single_rollout_overfit => failed"
-    },
-    {
-      "at": "2026-03-27T14:20:11+08:00",
-      "event": "step_reconciled",
-      "details": "d1_single_rollout_overfit => failed"
-    },
-    {
-      "at": "2026-03-27T16:47:23+08:00",
-      "event": "step_reconciled",
-      "details": "d1_single_rollout_overfit => failed"
-    },
-    {
-      "at": "2026-03-27T20:49:33+08:00",
-      "event": "step_reconciled",
-      "details": "d1_single_rollout_overfit => failed"
-    },
-    {
-      "at": "2026-03-27T21:45:18+08:00",
-      "event": "step_reconciled",
-      "details": "d1_single_rollout_overfit => failed"
-    },
-    {
-      "at": "2026-03-27T21:51:53+08:00",
-      "event": "step_reconciled",
-      "details": "d1_single_rollout_overfit => failed"
-    },
-    {
-      "at": "2026-03-27T22:01:33+08:00",
-      "event": "step_reconciled",
-      "details": "d1_single_rollout_overfit => failed"
-    },
-    {
-      "at": "2026-03-27T22:24:42+08:00",
-      "event": "step_reconciled",
-      "details": "d1_single_rollout_overfit => failed"
-    },
-    {
-      "at": "2026-03-27T22:39:37+08:00",
-      "event": "step_reconciled",
-      "details": "d1_single_rollout_overfit => failed"
-    },
-    {
-      "at": "2026-03-27T22:57:08+08:00",
-      "event": "step_reconciled",
-      "details": "d1_single_rollout_overfit => failed"
-    },
-    {
-      "at": "2026-03-27T23:08:14+08:00",
-      "event": "step_reconciled",
-      "details": "d1_single_rollout_overfit => failed"
-    },
-    {
-      "at": "2026-03-27T23:14:32+08:00",
-      "event": "step_reconciled",
-      "details": "d1_single_rollout_overfit => failed"
-    },
-    {
-      "at": "2026-03-27T23:26:10+08:00",
-      "event": "step_reconciled",
-      "details": "d1_single_rollout_overfit => failed"
-    },
-    {
-      "at": "2026-03-27T23:43:10+08:00",
-      "event": "step_reconciled",
-      "details": "d1_single_rollout_overfit => failed"
-    },
-    {
-      "at": "2026-03-28T00:06:29+08:00",
-      "event": "step_reconciled",
-      "details": "d1_single_rollout_overfit => failed"
-    },
-    {
-      "at": "2026-03-28T00:16:18+08:00",
-      "event": "step_reconciled",
-      "details": "d1_single_rollout_overfit => failed"
-    },
-    {
-      "at": "2026-03-28T00:23:06+08:00",
-      "event": "step_reconciled",
-      "details": "d1_single_rollout_overfit => failed"
-    },
-    {
-      "at": "2026-03-28T00:38:40+08:00",
-      "event": "step_reconciled",
-      "details": "d1_single_rollout_overfit => failed"
-    },
-    {
-      "at": "2026-03-28T00:44:36+08:00",
-      "event": "step_reconciled",
-      "details": "d1_single_rollout_overfit => failed"
-    },
-    {
-      "at": "2026-03-28T14:54:33+08:00",
-      "event": "step_reconciled",
-      "details": "d1_single_rollout_overfit => failed"
-    },
-    {
-      "at": "2026-03-28T15:09:26+08:00",
-      "event": "step_reconciled",
-      "details": "d1_single_rollout_overfit => failed"
-    },
-    {
-      "at": "2026-03-28T17:02:16+08:00",
-      "event": "step_reconciled",
-      "details": "d1_single_rollout_overfit => failed"
-    },
-    {
-      "at": "2026-03-28T18:42:10+08:00",
-      "event": "step_reconciled",
-      "details": "d1_single_rollout_overfit => failed"
-    },
-    {
-      "at": "2026-03-28T20:23:01+08:00",
-      "event": "step_reconciled",
-      "details": "d1_single_rollout_overfit => failed"
-    },
-    {
-      "at": "2026-03-28T20:40:52+08:00",
-      "event": "step_reconciled",
-      "details": "d1_single_rollout_overfit => failed"
-    },
-    {
-      "at": "2026-03-28T21:48:33+08:00",
-      "event": "step_reconciled",
-      "details": "d1_single_rollout_overfit => failed"
-    },
-    {
-      "at": "2026-03-28T23:15:12+08:00",
-      "event": "step_reconciled",
-      "details": "d1_single_rollout_overfit => failed"
-    },
-    {
-      "at": "2026-03-29T00:27:45+08:00",
-      "event": "step_reconciled",
-      "details": "d1_single_rollout_overfit => failed"
-    },
-    {
-      "at": "2026-03-29T00:52:33+08:00",
-      "event": "step_reconciled",
-      "details": "d1_single_rollout_overfit => failed"
-    },
-    {
-      "at": "2026-03-29T03:58:14+08:00",
-      "event": "step_reconciled",
-      "details": "d1_single_rollout_overfit => failed"
-    },
-    {
-      "at": "2026-03-29T04:27:52+08:00",
-      "event": "step_reconciled",
-      "details": "d1_single_rollout_overfit => failed"
-    },
-    {
-      "at": "2026-03-29T09:25:02+08:00",
-      "event": "step_reconciled",
-      "details": "d1_single_rollout_overfit => failed"
-    },
-    {
-      "at": "2026-03-29T11:10:17+08:00",
-      "event": "step_reconciled",
-      "details": "d1_single_rollout_overfit => failed"
-    },
-    {
-      "at": "2026-03-29T11:28:33+08:00",
-      "event": "step_reconciled",
-      "details": "d1_single_rollout_overfit => failed"
-    },
-    {
-      "at": "2026-03-29T12:14:29+08:00",
-      "event": "step_reconciled",
-      "details": "d1_single_rollout_overfit => failed"
-    },
-    {
-      "at": "2026-03-29T12:59:36+08:00",
-      "event": "step_reconciled",
-      "details": "d1_single_rollout_overfit => failed"
-    },
-    {
-      "at": "2026-03-30T13:30:56+08:00",
-      "event": "step_reconciled",
-      "details": "d1_single_rollout_overfit => failed"
-    },
-    {
-      "at": "2026-03-30T13:34:32+08:00",
-      "event": "step_reconciled",
-      "details": "d1_single_rollout_overfit => failed"
-    },
-    {
-      "at": "2026-03-30T13:39:52+08:00",
-      "event": "step_reconciled",
-      "details": "d1_single_rollout_overfit => failed"
-    },
-    {
-      "at": "2026-03-30T14:17:05+08:00",
-      "event": "step_reconciled",
-      "details": "d1_single_rollout_overfit => failed"
-    },
-    {
-      "at": "2026-03-30T14:26:56+08:00",
-      "event": "step_reconciled",
-      "details": "d1_single_rollout_overfit => failed"
-    },
-    {
-      "at": "2026-03-30T14:36:05+08:00",
-      "event": "step_reconciled",
-      "details": "d1_single_rollout_overfit => failed"
-    },
-    {
-      "at": "2026-03-30T16:28:42+08:00",
-      "event": "step_reconciled",
-      "details": "d1_single_rollout_overfit => failed"
-    },
-    {
-      "at": "2026-03-30T20:02:33+08:00",
-      "event": "step_reconciled",
-      "details": "d1_single_rollout_overfit => failed"
-    },
-    {
-      "at": "2026-03-30T21:41:54+08:00",
-      "event": "step_reconciled",
-      "details": "d1_single_rollout_overfit => failed"
-    },
-    {
-      "at": "2026-04-03T06:00:00+08:00",
-      "event": "libero_alignment_session_completed",
-      "details": "LIBERO alignment session: E008 (offline QA: action_variance 7.16x above LIBERO, state_action_lag FAIL), E009 (physics audit: 0/25 legal, phantom_jumps 0.3-0.94m, high_action_variance 25/25), E010 (dataset_builder.py fixed: gripper_joint continuous, 256x256 images). P0 physics legality confirmed pervasive. C_PHYSICS_LEGAL_TEACHER@1 evidence_ids updated. C_STATE_CONTRACT@2 created: dataset_builder workaround in place but drawer_robot_env root cause unfixed. mujuco-teacher-env design documented."
+      "at": "2026-04-04T16:05:12+08:00",
+      "event": "v58_eval_completed",
+      "details": "V58 eval: Stage 1 (seeds 1-10): finetuned=0.000, pretrained=0.000. Stage 2 (seeds 11-15): finetuned=0.000, pretrained=0.000, random=0.0. Verdict: scientific_not_supported."
     }
   ],
-  "last_review": "null",
-  "retries": {
-    "d1_single_rollout_overfit": 2
-  },
+  "last_review": "sovereign/CAMPAIGN_TRUTH.v58_critical_analysis.generated.md",
+  "retries": {},
   "verdict": "v58_data_pipeline_quality_confirmed_fail",
   "claim_level": "v58",
   "revision": {
@@ -639,144 +160,114 @@
       "robot_revision_v3_claim_push"
     ],
     "proxy_revision_archived": true,
-    "proxy_revision_caveat": "Proxy Baseline 100% success does NOT prove SigLIP generalization \u2014 DrawerProxyEnv is trivially simple task (fixed joint-delta); E1 eval confirms pretrained_mint=0% grasp",
+    "proxy_revision_caveat": "V58 0% success is NOT evidence that MINT cannot learn. It IS evidence of L2 observation bugs (gripper_joint frozen + images near-white). Fix data first.",
     "robot_trajectory_revision_started": true
   },
   "coverage_expansion_attempts": 0,
-  "updated_at": "2026-04-03T06:00:00+08:00",
+  "updated_at": "2026-04-05T14:00:00+08:00",
   "last_error": "null",
-  "last_repair_action": "libero_alignment_session",
-  "v57_v3_summary": {
-    "status": "root_cause_confirmed",
-    "pretrianed_mint": "0% grasp (E1 eval + D1 probe)",
-    "finetuned_v57": "0% grasp (3000 steps, stable loss)",
-    "p0_1_siglip": "CONFIRMED \u2014 SigLIP cannot generalize to Infinigen synthetic images",
-    "p0_2_vqvae": "CONFIRMED \u2014 VQ-VAE quantizer bottleneck; workspace no training code",
-    "data_insufficient": "CONFIRMED \u2014 1,301 frames (2.6% of LIBERO 50K)",
-    "decision": "await_phd_brother_vqvae_and_siglip_code_and_data_expansion",
-    "next_phase": "v58_end_to_end_finetune_with_siglip_solution"
-  },
-  "engineering_fixes_completed": {
-    "mint_utils_inplace_ops": "FIXED \u2014 F.silu->nn.functional.silu, all f_hat.add_->f_hat=f_hat+",
-    "decoder_unfreeze": "FIXED \u2014 decoder now in gradient path (140/153 weights updated in v24+)",
-    "dtype_mismatch": "FIXED \u2014 direct_grip_head cast to bfloat16",
-    "checkpoint_finding": "FIXED \u2014 find_latest_checkpoint returns highest step not step-600",
-    "reconstruction_loss": "ADDED \u2014 VQ-VAE decoder reconstruction loss in training forward",
-    "direct_grip_head": "ADDED \u2014 bypasses VQ-VAE gripper bottleneck, but learns to always predict OPEN"
-  },
-  "strict_replay_lane": {
-    "status": "repairing",
-    "best_branch": "branch4_densified_attach_window",
-    "best_metrics": {
-      "selected_branch": "branch4_densified_attach_window",
-      "strict_replay_passed": false,
-      "successful_seed_count": 0,
-      "successful_replays": 0,
-      "successful_seeds": []
+  "last_repair_action": "v58_critical_analysis_completed",
+  "v58_critical_findings": {
+    "finding_1_gripper_joint_frozen": {
+      "description": "V58 state[7] (gripper_joint) frozen at -0.042 across ALL 18,701 frames",
+      "evidence": "std=9.6e-9, mean=-0.042, min=-0.042, max=-0.042. LIBERO: std=0.013, range=[-0.041, +0.001]",
+      "severity": "CRITICAL",
+      "mechanism": "drawer_robot_env.py has continuous gripper fix, drawer_robot_env_lerobot.py does NOT. All V58 recording uses lerobot path.",
+      "downstream": "MINT state tokenizer produces identical tokens for gripper_joint → zero gripper signal → model relies on vision encoder",
+      "fix": "Apply same continuous gripper conversion to drawer_robot_env_lerobot.py → _state_vector()"
     },
-    "last_update": "2026-03-26T19:52:27+08:00"
-  },
-  "learnability_lane": {
-    "status": "blocked_by_v58_data_pipeline",
-    "blocker": "P0 physics (0/25 legal) + P1a state contract (binary gripper) + P1b camera (224 vs 256) \u2014 all require fixes before V58 training",
-    "source_contract_mode": "teacher_success_fallback",
-    "source_branch": "branch4_densified_attach_window",
-    "current_step": "libero_alignment_session",
-    "last_positive_step": null,
-    "last_update": "2026-04-03T06:00:00+08:00",
-    "v57_result": {
-      "pretrianed_grasp": 0,
-      "finetuned_grasp": 0,
-      "finetuned_eef_motion_m": 7.178,
-      "pretrianed_eef_motion_m": 4.003,
-      "conclusion": "LM learns motion but cannot close gripper; fine-tuning irrelevant; root cause in vision encoder + VQ-VAE + physics-illegal data"
+    "finding_2_near_white_images": {
+      "description": "V58 rendered images are near-white (mean=[0.976,0.976,0.976], std=[0.003,0.003,0.003])",
+      "evidence": "V58 train.log: image mean ~0.976. LIBERO: mean=[0.414,0.371,0.329], std=[0.252,0.247,0.241]",
+      "severity": "CRITICAL",
+      "mechanism": "PyBullet ERendered outputting blank/white frames. Likely ER_TINY_RENDERER headless configuration issue.",
+      "downstream": "Vision encoder pretrained on LIBERO realistic scenes receives white noise → cannot learn scene structure or gripper state",
+      "fix": "Verify ERendered camera capture. Check lighting, renderer backend, and scene geometry export."
     },
-    "strict_teacher_rollout_count": 25,
-    "strict_teacher_seed_count": 5,
-    "physics_legality_pass_rate": "0/25",
-    "p0_fixes_delivered": [
-      "physics_legality.py: stage0_check_grasp_feasibility (AnyGrasp candidate filter)",
-      "physics_legality.py: stage1_impedance_pull_step (impedance-controlled pull)",
-      "physics_legality.py: stage2_check_frame_collision (frame-by-frame collision check)",
-      "physics_legality.py: check_physics_legality (post-hoc verification)",
-      "physics_legality.py: physics_constrained_teacher_rollout (generation pipeline)",
-      "physics_legality.py: standalone_npb_audit (NumPy-only audit for NPZ files)"
+    "finding_3_data_volume_correction": {
+      "description": "V58 used 18,701 frames (NOT 1,301 stale figure)",
+      "evidence": "v58_train.log: 'dataset.num_frames=18701 (19K), num_episodes=229'",
+      "correction": "next_actions.json previously stated 1,301 frames — this was pre-V58 recovery era. Actual V58: 18,701 frames, 229 episodes.",
+      "impact": "More data does NOT help — all 18,701 frames are corrupted (frozen gripper + near-white images). Fix the bug first."
+    },
+    "finding_4_action_normalization_correct": {
+      "description": "Action normalization is correct — NOT the root cause",
+      "evidence": "MINT output: IDENTITY normalization, no de-normalization. V58 action distributions (translation max=0.55, rotation max=0.14) within clipping range.",
+      "mechanism": "clip action[:3] to [-1,1] → multiply by 0.03m/step. clip action[3:6] to [-1,1] → multiply by 0.25rad/step. gripper: >=0 → open, <0 → close.",
+      "verdict": "Action normalization is NOT the root cause of V58 0%."
+    },
+    "finding_5_pretrain_eq_finetune": {
+      "description": "Both pretrained and finetuned MINT = 0% — confirms L2 data bug",
+      "evidence": "V58 Stage 2: finetuned=0.000, pretrained=0.000, random=0.0",
+      "mechanism": "Pretrained MINT: trained on LIBERO where state[7] varies → sees constant -0.042 → degenerate embeddings. Finetuned MINT: trained on V58 corrupted data → learned to ignore state[7] + vision input = white noise → no useful gripper signal.",
+      "verdict": "0% is NOT a test of MINT's learning capacity — it's a test of data quality."
+    }
+  },
+  "v58_eval_results": {
+    "stage_1_train_probe": {
+      "seeds": "1-10",
+      "finetuned_success": 0.0,
+      "pretrained_success": 0.0,
+      "gain": "+0.000",
+      "trend_passed": false
+    },
+    "stage_2_heldout_eval": {
+      "seeds": "11-15",
+      "finetuned_success": 0.0,
+      "pretrained_success": 0.0,
+      "random_success": 0.0,
+      "verdict": "scientific_not_supported"
+    }
+  },
+  "v58_train_results": {
+    "steps": 1000,
+    "frames": 18701,
+    "episodes": 229,
+    "seeds": "1-15",
+    "loss_trajectory": [6.52, 5.18, 4.83, 4.58, 4.43],
+    "checkpoint": "artifacts/v58_training_outputs/checkpoints/001000/pretrained_model",
+    "elapsed_sec": 1430.8
+  },
+  "grade_assessment": {
+    "quality": "VERY_LOW",
+    "confounding_variables": [
+      {
+        "name": "gripper_joint_frozen",
+        "severity": "CRITICAL",
+        "direction": "Makes gripper learning impossible"
+      },
+      {
+        "name": "near_white_images",
+        "severity": "CRITICAL",
+        "direction": "Makes vision learning impossible"
+      },
+      {
+        "name": "action_physics_violations",
+        "severity": "HIGH",
+        "direction": "Makes action space unreliable"
+      },
+      {
+        "name": "state_format_mismatch",
+        "severity": "MEDIUM",
+        "direction": "MINT state tokenizer receives degenerate input"
+      }
     ],
-    "p1a_fixes_delivered": [
-      "dataset_builder.py: _infinigen_to_libero_gripper() \u2014 binary {0,1} \u2192 continuous [-0.042, +0.001]",
-      "dataset_builder.py: image resize 224\u2192256 (PIL BILINEAR)",
-      "dataset_builder.py: LIBERO_KEY_RENAME documented",
-      "dataset_builder.py: gripper_binarize default \u2192 False"
-    ],
-    "p1a_fixes_remaining": [
-      "drawer_robot_env._state_vector(): still outputs binary gripper {0,1} in raw NPZ \u2014 dataset_builder workaround in place but root cause unfixed"
-    ],
-    "p1b_fixes_delivered": [
-      "dataset_builder.py: image resize 224\u2192256 (partial fix via post-processing)"
-    ],
-    "p1b_fixes_remaining": [
-      "drawer_robot_env camera config: third-person overhead vs LIBERO agentview + eye-in-hand",
-      "robosuite+MuJoCo teacher environment design documented (mujoco_teacher_env_design.md)"
-    ],
-    "env_contract_passed": false,
-    "env_contract_failed_seeds": [
-      2,
-      7,
-      8,
-      9,
-      10
-    ]
+    "conclusion": "V58 0% is NOT a valid test of MINT's learning capacity. Fix L2 observation bugs first."
   },
   "upstream_audit_lane": {
-    "status": "suspect",
-    "root_cause": "Handle semantics are weakly exported or heuristically inferred, so upstream asset/export metadata remains a real suspect.",
-    "blocking_step": "u3_handle_region_audit",
-    "affected_seeds": [],
+    "status": "completed",
+    "key_finding": "drawer_robot_env.py has continuous gripper fix, drawer_robot_env_lerobot.py does NOT. This is the L2 observation bug.",
     "fix_required": true,
-    "last_update": "2026-03-26T19:52:27+08:00",
-    "patch_allowed": true,
-    "patch_gate_reason": "d1_top3_failed_under_strict_success"
+    "last_update": "2026-04-05T14:00:00+08:00"
   },
-  "last_invalidated_result": {
-    "step_id": "d1_single_rollout_overfit",
-    "reason": "contaminated_by_concurrent_control",
-    "details": {
-      "since": "2026-03-26T19:19:02+08:00",
-      "note": "Concurrent supervisor/D1/train processes detected; do not treat post-cutoff D1 artifacts as clean evidence."
-    },
-    "recorded_at": "2026-03-26T19:20:27+08:00"
-  },
-  "invalidated_results": [
-    "d2_invalid_for_claim_due_to_single_rollout_seed",
-    "d3_invalid_for_claim_due_to_soft_gate",
-    "e1_diagnostic_only_after_gate_drift",
-    {
-      "step_id": "d1_single_rollout_overfit",
-      "reason": "contaminated_by_concurrent_control",
-      "details": {
-        "since": "2026-03-26T18:26:00+08:00",
-        "note": "Concurrent supervisor/D1/train processes detected; do not treat post-cutoff D1 artifacts as clean evidence."
-      },
-      "recorded_at": "2026-03-26T19:17:59+08:00"
-    },
-    {
-      "step_id": "d1_single_rollout_overfit",
-      "reason": "contaminated_by_concurrent_control",
-      "details": {
-        "since": "2026-03-26T19:19:02+08:00",
-        "note": "Concurrent supervisor/D1/train processes detected; do not treat post-cutoff D1 artifacts as clean evidence."
-      },
-      "recorded_at": "2026-03-26T19:20:27+08:00"
-    }
-  ],
   "phase_gate": "v58_data_pipeline_quality",
   "controller": {
-    "controller_id": "d1_v57",
-    "run_id": "d1_v57_main",
-    "owner": "manual_v57_frozen_decoder",
-    "lease_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/runtime/controller_lease.json",
-    "status": "acquired",
-    "acquired_at": "2026-03-30T20:30:00+08:00",
-    "heartbeat_at": "2026-03-30T20:30:00+08:00"
+    "controller_id": "v58_analysis",
+    "run_id": "v58_critical_analysis",
+    "owner": "harness_agent",
+    "lease_path": null,
+    "status": "completed",
+    "acquired_at": "2026-04-05T14:00:00+08:00",
+    "heartbeat_at": "2026-04-05T14:00:00+08:00"
   }
 }

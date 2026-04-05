@@ -1,0 +1,23 @@
+{
+  "stage": "stage1_train_probe",
+  "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "episodes_per_seed": 3,
+  "finetuned_success_rate": 0.0,
+  "pretrained_success_rate": 0.0,
+  "success_gain": 0.0,
+  "finetuned_successful_seeds": 0,
+  "trend_passed": false,
+  "finetuned_eef_motion": 4.133629989624024,
+  "pretrained_eef_motion": 4.96886146068573
+}

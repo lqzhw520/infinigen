@@ -84,8 +84,12 @@ def _infinigen_to_libero_gripper(gripper_binary: float) -> float:
     LIBERO state[7] range: [-0.042, +0.001] (negative=closed, positive=open).
     LIBERO action[6]     : {-1.0=close, +1.0=open} (discrete binary).
     We store continuous state[7] so MINT's NormalizerProcessorStep(QUANTILES) can normalize it.
+
+    NOTE: This function is kept for API compatibility. The actual gripper_joint in the
+    LeRobot dataset now comes from continuous state[7] (PyBullet finger positions mapped
+    to LIBERO range). Callers should use the gripper_binary → LIBERO mapping here
+    only when the input is genuinely binary.
     """
-    # LIBERO open ≈ +0.001, closed ≈ -0.042. Map our binary {0.0, 1.0} to that range.
     OPEN_JOINT = 0.001
     CLOSED_JOINT = -0.042
     if gripper_binary > 0.5:
@@ -102,33 +106,48 @@ def _infinigen_to_libero_action(action: np.ndarray, gripper_binarize: bool) -> n
     return action.astype(np.float32)
 
 
+def _clip_gripper_to_libero_range(gripper_joint: float) -> float:
+    """Clip continuous gripper_joint to LIBERO-valid range.
+
+    PyBullet physics can drive finger positions beyond the kinematic limits during contact.
+    The formula finger_pos * 1.075 - 0.042 then produces values outside [-0.042, +0.001].
+    Clamp to the physically valid range to ensure the LeRobot dataset is consistent.
+    """
+    LIBERO_MIN = -0.042
+    LIBERO_MAX = +0.001
+    return float(np.clip(gripper_joint, LIBERO_MIN, LIBERO_MAX))
+
+
 def _build_libero_state(state_npz: np.ndarray, gripper_binarize: bool) -> np.ndarray:
     """Build LIBERO-style 8D state from Infinigen NPZ state.
 
-    After drawer_robot_env.py was fixed to produce motor_joints in state[3:7],
-    the NPZ now matches LIBERO format directly — no semantic conversion needed.
-
-    Current Infinigen NPZ state[8]:
+    Infinigen NPZ state[8] (verified post-fix at commit bef89ca2):
         state[0:3] = eef_pos (world frame, m)
-        state[3:7] = motor_joint_positions[0:4]  ← already motor joints (was eef_quat, fixed)
-        state[7]   = gripper_joint (continuous, ∈ [-0.042, +0.001]) ← already LIBERO range
+        state[3:7] = motor_joint_positions[0:4]  ← PyBullet arm joints → matches LIBERO
+        state[7]   = gripper_joint (continuous, from PyBullet finger_pos → LIBERO range)
+                    Raw range: ~[-0.05, +0.07] (PyBullet [0.0, 0.04] scaled, may exceed
+                    due to PyBullet contact physics pushing fingers beyond kinematic limits)
 
-    LIBERO ground truth state[8] (verified by raw parquet stats):
+    LIBERO ground truth state[8]:
         state[0:3] = eef_pos (world frame, m)
         state[3:7] = motor_joint_positions[0:4]
-        state[7]   = gripper_joint (continuous, ∈ [-0.042, +0.001])
+        state[7]   = gripper_joint (continuous ∈ [-0.042, +0.001])
 
-    Since both match, this function now only normalizes gripper to LIBERO range
-    (for backward compatibility with any legacy NPZs that might have binary gripper).
+    The PyBullet → LIBERO range mapping (finger_pos * 1.075 - 0.042) is already
+    applied inside drawer_robot_env.py's _state_vector(). state[7] is therefore
+    already in the correct continuous format and MUST NOT be passed through
+    _infinigen_to_libero_gripper() (which would incorrectly binarize it, freezing
+    all frames to -0.042).
 
     Args:
-        state_npz: Infinigen state vector (now motor_joints[3:7] + gripper_joint[7]).
+        state_npz: Infinigen state vector (motor_joints[3:7] + gripper_joint[7]).
         gripper_binarize: Unused. Kept for API compatibility.
     """
     state = state_npz.astype(np.float32).copy()
-    # If gripper is binary {0.0, 1.0}, convert to LIBERO continuous range.
-    # New rollouts (post-fix) already have continuous gripper_joint, so this is a no-op.
-    state[7] = _infinigen_to_libero_gripper(state[7])
+    # state[7] is already continuous gripper_joint from PyBullet. Do NOT convert.
+    # Also clamp to LIBERO-valid range in case PyBullet physics produces out-of-range
+    # values during contact (fingers pushed beyond kinematic limits).
+    state[7] = _clip_gripper_to_libero_range(state[7])
     return state
 
 

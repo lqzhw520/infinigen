@@ -26,7 +26,7 @@ campaign:
   # ── LIBERO alignment gates (NEW) ──────────────────────────────────────────
   - p4_physics_legal_gate       # ≥6 physics-legal teacher rollouts
   - p1a_state_vector_fix         # state[7] continuous gripper joint
-  - p1b_mujoco_env               # robosuite+MuJoCo dual-camera 256x256
+  - p1b_mujoco_env               # PyBullet LIBERO-aligned dual-camera 256x256 (ER_TINY_RENDERER)
   # ── Training & Eval ────────────────────────────────────────────────────────
   - d1_single_rollout_overfit
   - d2_single_seed_overfit

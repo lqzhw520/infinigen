@@ -1,0 +1,34 @@
+evidence_id: E014
+experiment_id: v58_mint_finetune
+scope: training
+description: |
+  V58 MINT fine-tuning completed on physics-legal rollouts.
+  Training used lerobot-train for 1000 steps on 229 episodes
+  (18701 frames) from seeds 1-15.
+  Loss converged from 6.52 (step 200) → 4.43 (step 1K).
+  Checkpoint saved to artifacts/v58_training_outputs/checkpoints/001000/pretrained_model.
+
+  Root fix applied to configuration_mint.py before eval:
+  - Added VQVAE MultiScale params as explicit MINTConfig dataclass fields
+  - VQVAE keys no longer leak into __dict__ (removed _VQVAE_SCHEMA_LEAK_KEYS filtering)
+  - _load_vqvae_runtime_config now writes directly to __dict__ for valid dataclass fields
+
+  V58 checkpoint config.json patched with tokenizer path + VQVAE fields
+  so MINTPolicy.from_pretrained can load without errors.
+metrics:
+  steps: 1000
+  loss_start: 6.520
+  loss_end: 4.431
+  checkpoint_step: "001000"
+  elapsed_s: 1430.8
+  n_episodes: 229
+  n_frames: 18701
+  n_seeds: 15
+  tokenizer_path: /mnt/afs2/zhuhaowu/infinigen/external/MINT/checkpoints/MINT-tokenizer-libero
+  source_dataset: p4_physics_legal_rollouts + v58_recovery_rollouts
+timestamp: 1775318312.4980478
+files:
+  checkpoint: experiments/mint/mint_drawer_v1/artifacts/v58_training_outputs/checkpoints/001000/pretrained_model
+  summary: experiments/mint/mint_drawer_v1/outputs/v58_train_summary.json
+  log: experiments/mint/mint_drawer_v1/outputs/v58_train.log
+  config_patched: experiments/mint/mint_drawer_v1/artifacts/v58_training_outputs/checkpoints/001000/pretrained_model/config.json

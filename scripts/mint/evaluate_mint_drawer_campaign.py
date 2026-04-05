@@ -8,6 +8,12 @@ from pathlib import Path
 
 import numpy as np
 import torch
+# Apply compatibility patches BEFORE importing lerobot/MINT.
+# Fixes lerobot 0.4.3 + draccus 0.8.0 issues with local MINT checkpoints.
+from mint_eval_patches import apply as _apply_patches
+
+_apply_patches()
+
 from drawer_robot_env import DrawerRobotEnv
 from mint_common import (
     ACTIVE_ACTION_CONTRACT_PATH,

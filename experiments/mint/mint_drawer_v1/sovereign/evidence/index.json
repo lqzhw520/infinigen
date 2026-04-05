@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "last_updated": "2026-04-04T09:47:12+00:00",
+  "last_updated": "2026-04-05T04:46:43+00:00",
   "entries": [
     {
       "evidence_id": "E001",
@@ -108,11 +108,30 @@
     },
     {
       "evidence_id": "E013",
-      "experiment_id": "p4_physics_legal_gate",
+      "experiment_id": "v58_critical_analysis",
       "type": "eval",
       "timestamp": 1775296032.4826128,
       "path": "sovereign/evidence/E013.yaml",
-      "verified": false
+      "verified": true,
+      "summary": "V58 critical analysis: gripper_joint frozen at -0.042 (std=9.6e-9) across ALL 18,701 V58 frames. drawer_robot_env.py has fix, drawer_robot_env_lerobot.py does NOT. V58 images near-white (mean=[0.976,0.976,0.976]). V58 eval: pretrained=0%, finetuned=0%, random=0%. Verdict: scientific_not_supported. ROOT CAUSE: L2 observation bugs, NOT model learning capacity."
+    },
+    {
+      "evidence_id": "E014",
+      "experiment_id": "v58_mint_finetune_and_eval",
+      "type": "training",
+      "timestamp": "2026-04-04T16:05:12+08:00",
+      "path": "sovereign/evidence/E014.yaml",
+      "verified": true,
+      "summary": "V58 fine-tuning: 1000 steps, loss 6.52→4.43, 18,701 frames, 229 episodes, seeds 1-15. EEF motion=4.13m (model learns motion but not gripper). V58 eval: Stage 1 (seeds 1-10): finetuned=0%, pretrained=0%. Stage 2 (seeds 11-15): finetuned=0%, pretrained=0%, random=0%. GRADE: VERY_LOW quality. ROOT CAUSE: gripper_joint frozen + images near-white."
+    },
+    {
+      "evidence_id": "E015",
+      "experiment_id": "v58_eval",
+      "type": "eval",
+      "timestamp": "2026-04-05T14:00:00+08:00",
+      "path": "outputs/v58_eval.log",
+      "verified": true,
+      "summary": "V58 eval: Stage 1 (seeds 1-10): finetuned=0.000, pretrained=0.000, gain=+0.000. Stage 2 (seeds 11-15): finetuned=0.000, pretrained=0.000, random=0.0. Verdict: scientific_not_supported. KeyError: random in render_report (non-blocking bug). Both pretrained and finetuned = 0% confirms L2 observation bugs, NOT model capacity."
     }
   ]
 }

@@ -28,6 +28,11 @@ from pathlib import Path
 
 import numpy as np
 
+# Apply compatibility patches BEFORE importing lerobot/MINT.
+from mint_eval_patches import apply as _apply_patches
+
+_apply_patches()
+
 # ---- Local imports (scripts/mint/ must be cwd) ----
 from drawer_robot_env import DrawerRobotEnv
 from mint_common import (

@@ -42,3 +42,12 @@
   - PyBullet→Libero 映射公式正确（偏差 < 0.001）
   - **C_STATE_CONTRACT rev6 已注册**（evidence_added），E012 已记录
   - sovereign_cli.py render-truth 重新生成 CAMPAIGN_TRUTH.generated.md
+
+- 2026-04-04T16:45:00+08:00: [V58] **MINT fine-tuning 完成 + Night Runner 已部署**
+  - **训练完成**：1000 步，loss 6.52→4.43，checkpoint 保存至 `artifacts/v58_training_outputs/checkpoints/001000/pretrained_model`
+  - **Root Fix 1**：`configuration_mint.py` — 将 VQVAE MultiScale 参数（codebook_size, ch, patch_nums, patchwise 等）添加为显式 dataclass 字段。移除 `_VQVAE_SCHEMA_LEAK_KEYS` 过滤机制（因为建模代码需要这些字段作为 `config.X` 访问）
+  - **Root Fix 2**：`MINT-libero/config.json` — 修复时移除了 codebook_size 等 VQVAE 字段，但误将 `vqvae_name_or_path` 也清空。重新设置为 `/mnt/afs2/zhuhaowu/infinigen/external/MINT/checkpoints/MINT-tokenizer-libero`
+  - **Root Fix 3**：`v58_training_outputs/.../config.json` — 训练时 `vqvae_name_or_path` 同样被 draccus 序列化为空字符串，导致 eval 时 MINTPolicy.from_pretrained 失败。手动补全所有 VQVAE 字段 + tokenizer 路径
+  - **Eval Night Runner**：v58_eval screen 已部署（PID 1767602），Stage 1（Train Probe seeds 1-10）+ Stage 2（Held-out Eval seeds 11-15）运行中
+  - **E014 已记录**：V58 训练 evidence + config patch 操作
+  - **下一步**：监控 v58_eval.screen → 等待 stage1 + stage2 完成 → 检查 success_rate → 决定是否推进 sovereign

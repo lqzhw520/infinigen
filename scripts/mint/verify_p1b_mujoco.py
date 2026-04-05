@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
-"""P1b: Verify robosuite+MuJoCo teacher environment produces LIBERO-aligned observations.
+"""P1b: Verify LIBERO-aligned teacher environment produces LIBERO-aligned observations.
 
 Gate condition:
   1. agentview image: (256, 256, 3) uint8
   2. wrist image:    (256, 256, 3) uint8
   3. state:  (8,) float32, state[7] ∈ [-0.042, +0.001]
+
+NOTE: DrawerRobotEnvLeRobot uses PyBullet (not MuJoCo) for both physics and rendering.
+      See drawer_robot_env_lerobot.py docstring for details.
 
 Exit codes:
   0 = PASS
@@ -22,10 +25,10 @@ sys.path.insert(0, str(SCRIPTS_MINT))
 
 # Import the environment; file may not exist yet → AttributeError → FAIL
 try:
-    from drawer_robot_env_mujoco import DrawerRobotEnvMujoco
+    from drawer_robot_env_lerobot import DrawerRobotEnvLeRobot
 except (ImportError, AttributeError) as exc:
-    print(f"[FAIL] Could not import DrawerRobotEnvMujoco: {exc}")
-    print("       drawer_robot_env_mujoco.py does not exist yet.")
+    print(f"[FAIL] Could not import DrawerRobotEnvLeRobot: {exc}")
+    print("       drawer_robot_env_lerobot.py does not exist yet.")
     sys.exit(1)
 
 LIBERO_GRIPPER_MIN = -0.042
@@ -53,14 +56,14 @@ def run() -> bool:
 
     # Smoke test: load env, reset, observe
     try:
-        env = DrawerRobotEnvMujoco(seed=2, image_size=256, max_steps=8)
+        env = DrawerRobotEnvLeRobot(seed=2, image_size=256, max_steps=8)
     except Exception as exc:
-        print(f"[FAIL] Could not construct DrawerRobotEnvMujoco: {exc}")
+        print(f"[FAIL] Could not construct DrawerRobotEnvLeRobot: {exc}")
         sys.exit(1)
 
     try:
         obs = env.reset()
-        print("[DrawerRobotEnvMujoco smoke test]")
+        print("[DrawerRobotEnvLeRobot smoke test]")
 
         # Check image shapes (RobotObservation uses __getitem__ for subscript access)
         agent_img = obs["image"]

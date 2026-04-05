@@ -5,12 +5,12 @@ description: |
   Root-fixed P4 gate (check_physics_legality now judges real physics outcomes
   instead of normalized action deltas). Physics constraints calibrated against
   measured EEF velocity distributions. Found 6 physics-legal
-  seeds across all 15 seeds × 6 branches. All legal rollouts achieved
-  drawer fraction ≥ 0.90 with no phantom jumps, no attach flickers (>2 frames),
-  and no sustained drawer stall (≥5 frames).
+  seeds across all 15 seeds x 6 branches. All legal rollouts achieved
+  drawer fraction >= 0.90 with no phantom jumps, no attach flickers (>2 frames),
+  and no sustained drawer stall (>=5 frames).
 metrics:
   legal_seed_count: 6
   legal_rollout_count: 13
   legal_seeds: [1, 2, 3, 4, 5, 6]
   elapsed_s: 849
-timestamp: 1775296032.4826128
+timestamp: 1775301023.5619013

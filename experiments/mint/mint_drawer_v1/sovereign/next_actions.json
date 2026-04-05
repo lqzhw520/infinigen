@@ -1,5 +1,5 @@
 {
-  "decision": "v58_P0_physics_legal_then_P1a_state_contract_then_P1b_P1c_vision_then_P2_tokenizer",
+  "decision": "v58_P0a_P0b_then_P1_regenerate_data_then_P2_retrain_then_P3_eval",
   "actions": [
     {
       "type": "git_sync",
@@ -17,7 +17,43 @@
       "target": "Generate physics-legal teacher rollouts for V58",
       "current_problem": "All 25 replay rollouts fail (max_position_error=0.33-1.03m, gripper clips through drawer; pull phase drawer_fraction=0.0 despite attach)",
       "solution": "Stage 0: physics feasibility filter for AnyGrasp candidates; Stage 1: compliant pull controller (impedance control); Stage 2: frame-by-frame collision filtering",
-      "reason": "C_PHYSICS_LEGAL_TEACHER supersedes C_VQVAE_USABLE, C_DATASET_SUFFICIENT as upstream root cause. Pure engineering, no model training needed.",
+      "reason": "P4 gate PASSED: 6/6 physics-legal seeds found, 13 legal rollouts. Physics data is available. This action is now COMPLETED.",
+      "status": "completed"
+    },
+    {
+      "type": "P0a_gripper_joint_fix",
+      "priority": "P0",
+      "target": "Fix gripper_joint frozen constant in V58 recording pipeline",
+      "current_problem": "V58 state[7] (gripper_joint) is frozen at -0.042 across ALL 18,701 frames (std=9.6e-9). Oracle actions vary (-1.0 to +1.0) but state never updates. drawer_robot_env.py has the fix, drawer_robot_env_lerobot.py does NOT.",
+      "evidence": "V58 eval: pretrained=0%, finetuned=0%, but eef_motion=4.13m (model learns motion but not gripper). Gripper_joint frozen → state tokenizer produces identical tokens → zero gripper signal.",
+      "solution": "Apply the same continuous gripper conversion fix from drawer_robot_env.py to drawer_robot_env_lerobot.py → _state_vector(). Formula: (j9+j10)/2 * 1.075 - 0.042 where PyBullet finger_pos ∈ [0.0, 0.04].",
+      "reason": "CRITICAL: All V58 training data (18,701 frames) has frozen gripper_joint. MINT's state tokenizer receives zero gripper information. This is the L2 observation bug that makes learning impossible.",
+      "status": "pending"
+    },
+    {
+      "type": "P0b_image_render_fix",
+      "priority": "P0",
+      "target": "Fix near-white images in V58 dataset",
+      "current_problem": "V58 rendered images: mean=[0.976, 0.976, 0.976], std=[0.003, 0.003, 0.003] — near-white, zero useful visual information. LIBERO images: mean=[0.414, 0.371, 0.329], std=[0.252, 0.247, 0.241].",
+      "evidence": "V58 train.log: image mean ~0.976 across all frames. Vision encoder pretrained on LIBERO realistic scenes cannot learn from white noise.",
+      "solution": "Verify PyBullet ERendered is capturing actual scene geometry. Check camera configuration, lighting, and renderer backend (ER_TINY_RENDERER vs ERendering). Add visual debugging to capture and save sample frames.",
+      "reason": "CRITICAL: Vision encoder receives near-white images → cannot infer gripper state or scene structure → MINT outputs random gripper actions → 0% success.",
+      "status": "pending"
+    },
+    {
+      "type": "P1_regenerate_v58_dataset",
+      "priority": "P1",
+      "target": "Regenerate V58 dataset with P0a+P0b fixes applied",
+      "current_status": "Current V58 has 18,701 frames but gripper_joint=frozen, images=near-white. V58 recovery generated 18,906 frames (185 rollouts). P4 physics-legal data: 795 frames (seeds 1-6).",
+      "reason": "After P0a+P0b fixes, regenerate the full V58 dataset. Target: 5000+ frames, all physics-legal, continuous gripper_joint, valid images.",
+      "status": "pending"
+    },
+    {
+      "type": "P2_vqvae_tokenizer_retrain",
+      "priority": "P2",
+      "target": "Retrain VQ-VAE tokenizer on physics-legal Infinigen action sequences",
+      "current_status": "SDAT training code available from PhD师兄. Requires: (1) P0 physics-legal rollouts, (2) LeRobotDataset format, (3) action_norm_mode config.",
+      "reason": "VQ-VAE is action-only and camera-independent — only needs action distribution alignment. NOT blocked by P1a/P1b but downstream. Not blocked by vision encoder gap.",
       "status": "pending"
     },
     {
@@ -51,7 +87,7 @@
           "expected": "state[7] = gripper_joint_position (continuous), not {0,1}"
         }
       ],
-      "reason": "Codex review HIGH: '把 observation.state(8) 写死成 pos+quat+gripper 是不对的'。stats.json 证实 LIBERO state[7] 是连续关节位置。processor_mint.py digitizes state → text token。P1a is the new primary blocker (higher than vision encoder).",
+      "reason": "Codex review HIGH: '把 observation.state(8) 写死成 pos+quat+gripper 是不对的'. stats.json 证实 LIBERO state[7] 是连续关节位置。processor_mint.py digitizes state → text token。P1a is the new primary blocker (higher than vision encoder).",
       "status": "pending"
     },
     {
@@ -111,24 +147,17 @@
       "status": "pending"
     },
     {
-      "type": "P2_vqvae_tokenizer_retrain",
-      "priority": "P2",
-      "target": "Retrain VQ-VAE tokenizer on physics-legal Infinigen action sequences",
-      "current_status": "SDAT training code available from PhD师兄. Requires: (1) P0 physics-legal rollouts, (2) LeRobotDataset format, (3) action_norm_mode config",
-      "reason": "VQ-VAE is action-only and camera-independent — only needs action distribution alignment. NOT blocked by P1a/P1b but downstream. Not blocked by vision encoder gap.",
-      "status": "pending"
-    },
-    {
       "type": "generate_data",
       "target": "5,000+ physics-legal frames, state-contract-aligned",
-      "current": "1,301 frames (physics-violating, state-contract-mismatched)",
-      "reason": "Data insufficient AND data is physically illegal AND state contract wrong. Note: data quality (physics + state alignment) > data quantity for VLA pretraining.",
+      "current": "18,701 frames (V58) but gripper_joint=frozen constant, images=near-white — data CORRUPTED. Previously 1,301 frames (stale, pre-V58 recovery).",
+      "reason": "Data QUALITY is the blocker (gripper_joint frozen + images near-white), NOT quantity. V58 used 18,701 frames but all corrupted. After P0a+P0b fixes, regenerate with proper data pipeline.",
       "status": "pending"
     }
   ],
-  "generated_at": "2026-04-02T03:00:00+08:00",
-  "verdict": "multi_factor_data_mismatch",
-  "next_phase": "v58_P0_P1a_P1b_P1c_P2",
+  "generated_at": "2026-04-05T14:00:00+08:00",
+  "verdict": "v58_data_pipeline_quality_confirmed_fail",
+  "next_phase": "v58_P0a_P0b_P1_regenerate_P2_retrain_P3_eval",
   "codex_review_reference": "experiments/mint/mint_drawer_v1/outputs/codex_reviews.md",
-  "libero_audit_reference": "external/LIBERO/datasets/libero_10_image/meta/stats.json"
+  "libero_audit_reference": "external/LIBERO/datasets/libero_10_image/meta/stats.json",
+  "critical_analysis_reference": "sovereign/CAMPAIGN_TRUTH.v58_critical_analysis.generated.md"
 }

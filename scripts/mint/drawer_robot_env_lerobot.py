@@ -1,12 +1,17 @@
 #!/usr/bin/env python3
 """
-DrawerRobotEnvMujoco — LIBERO-aligned robot environment backed by PyBullet physics.
+DrawerRobotEnvLeRobot — LIBERO-aligned robot environment backed by PyBullet physics.
 
 Architecture
 ------------
 |- Physics:  MuJoCo-compatible joint-space PD control (via PyBullet).
 |- Rendering: PyBullet ER_TINY_RENDERER (headless, reliable on A800 without GPU/EGL).
-|- Cameras:  LIBERO overhead (agentview, pitch=-90°) + EEF wrist camera.
+|- Cameras:  LIBERO overhead (agentview, pitch=-90 deg) + EEF wrist camera.
+
+NOTE: Despite the original filename "drawer_robot_env_mujoco.py", this environment uses
+|     PyBullet for both physics and rendering. True MuJoCo integration (robosuite+MuJoCo)
+|     was attempted but blocked by A800 headless rendering limitations (no DISPLAY/Xvfb).
+|     See: experiments/mint/mint_drawer_v1/outputs/mujoco_teacher_env_design.md
 
 State (8 DOF):
     state[0:3]  eef_pos (m)  in world frame
@@ -133,7 +138,7 @@ class RobotObservation:
 #  Main environment class
 # ─────────────────────────────────────────────────────────────────────────────
 
-class DrawerRobotEnvMujoco:
+class DrawerRobotEnvLeRobot:
     """
     LIBERO-aligned robot drawer environment (PyBullet backend).
 

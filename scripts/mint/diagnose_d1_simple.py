@@ -12,6 +12,11 @@ import time
 
 sys.path.insert(0, str(Path(__file__).parent))
 
+# Apply compatibility patches BEFORE importing lerobot/MINT.
+from mint_eval_patches import apply as _apply_patches
+
+_apply_patches()
+
 from drawer_robot_env import DrawerRobotEnv
 from mint_common import (
     ACTIVE_ACTION_CONTRACT_PATH,

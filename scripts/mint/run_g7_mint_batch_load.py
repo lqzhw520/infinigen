@@ -3,6 +3,11 @@
 
 from __future__ import annotations
 
+# Apply compatibility patches BEFORE importing torch/lerobot.
+from mint_eval_patches import apply as _apply_patches
+
+_apply_patches()
+
 import json
 import time
 

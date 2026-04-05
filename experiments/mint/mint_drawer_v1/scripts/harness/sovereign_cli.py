@@ -801,6 +801,46 @@ def cmd_write_handoff(args: argparse.Namespace) -> None:
     print(f"  OK: Updated sovereign/handoff.md")
 
 
+# ── Subcommand: pack-dataset ──────────────────────────────────────────
+
+def cmd_pack_dataset(args: argparse.Namespace) -> None:
+    """Run pack_dataset.sh with optional --force-archive.
+    This is the MANDATORY entry point for all dataset packing.
+    """
+    import subprocess
+    import sys
+    from pathlib import Path as _P
+
+    script = _P(__file__).parent / "pack_dataset.sh"
+    cmd = ["bash", str(script)]
+    if args.force_archive:
+        cmd.append("--force-archive")
+    cmd.extend(args.extra_args)
+
+    print(f"=== sovereign_cli.py pack-dataset ===")
+    print(f"  Running: {' '.join(cmd)}")
+    print(f"  archive-first: {'no (will fail if dataset/ exists)' if not args.force_archive else 'YES (--force-archive)'}")
+    print()
+
+    r = subprocess.run(cmd)
+    sys.exit(r.returncode)
+
+
+# ── Subcommand: verify-manifest ─────────────────────────────────────
+
+def cmd_verify_manifest(args: argparse.Namespace) -> None:
+    """Run train_gate.py to verify dataset is valid.
+    Equivalent to: python scripts/harness/train_gate.py
+    """
+    import subprocess
+    import sys
+    from pathlib import Path as _P
+
+    script = _P(__file__).parent / "train_gate.py"
+    r = subprocess.run([sys.executable, str(script)])
+    sys.exit(r.returncode)
+
+
 def cmd_go(_args: argparse.Namespace) -> None:
     """One-shot session start: lint + truth + next actions. Run this first."""
     import sys
@@ -840,6 +880,29 @@ def cmd_go(_args: argparse.Namespace) -> None:
         print("LINT FAILURES — fix before proceeding.")
         print("Hint: sovereign_cli.py reconcile  (dev mode, no fatal exit)")
         return
+
+    # ── Gate 4: Dataset manifest ─────────────────────────────────────────
+    manifest_path = SOVEREIGN.parent / "artifacts" / "current_dataset_manifest.json"
+    manifest_ok = False
+    if manifest_path.exists():
+        try:
+            m = json.load(open(manifest_path))
+            manifest_ver = m.get("dataset_version", "?")
+            manifest_frames = m.get("frame_count", "?")
+            manifest_loads = m.get("dataset_loads", False)
+            if manifest_loads:
+                print(f"  PASS  dataset_manifest (dataset_version={manifest_ver}, frames={manifest_frames})")
+                manifest_ok = True
+            else:
+                print(f"  WARN  dataset_manifest: dataset_loads=False")
+        except Exception as e:
+            print(f"  WARN  dataset_manifest: {e}")
+    else:
+        print(f"  WARN  dataset_manifest: not found (run: sovereign_cli.py pack-dataset)")
+
+    if not manifest_ok:
+        print()
+        print("  NOTE: Run 'sovereign_cli.py pack-dataset' to establish clean dataset truth.")
 
     # ── Step 2: Load truth ─────────────────────────────────────────────────────
     with open(SOVEREIGN / "state.json") as f:
@@ -1043,6 +1106,15 @@ def build_parser() -> argparse.ArgumentParser:
     wh.add_argument("--decision")
     wh.add_argument("--content", help="Full handoff content (markdown)")
 
+    # pack-dataset
+    pd = sub.add_parser("pack-dataset", help="Run pack_dataset.sh — MANDATORY entry point for packing")
+    pd.add_argument("--force-archive", action="store_true",
+                   help="Archive existing dataset/ before packing (required if dataset/ exists)")
+    pd.add_argument("extra_args", nargs="*", help="Extra args passed to run_v58_lerobot_pack.py")
+
+    # verify-manifest
+    sub.add_parser("verify-manifest", help="Run train_gate.py — verify dataset is valid")
+
     return p
 
 
@@ -1059,6 +1131,8 @@ COMMAND_MAP = {
     "record-evidence": cmd_record_evidence,
     "close-experiment": cmd_close_experiment,
     "write-handoff": cmd_write_handoff,
+    "pack-dataset": cmd_pack_dataset,
+    "verify-manifest": cmd_verify_manifest,
 }
 
 

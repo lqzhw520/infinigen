@@ -1,6 +1,6 @@
 {
-  "version": 1,
-  "last_updated": "2026-04-05T04:46:43+00:00",
+  "version": 2,
+  "last_updated": "2026-04-06T00:15:00+08:00",
   "entries": [
     {
       "evidence_id": "E001",
@@ -53,7 +53,7 @@
       "timestamp": "2026-04-03T06:00:00+08:00",
       "path": "experiments/mint/mint_drawer_v1/outputs/qa_comparison.json",
       "verified": true,
-      "summary": "Offline QA: action_variance 7.16x above LIBERO, state_action_lag FAIL, gripper_state FAIL. Verdict: FAIL — P0+P1a confirmed."
+      "summary": "Offline QA: action_variance 7.16x above LIBERO, state_action_lag FAIL, gripper_state FAIL. Verdict: FAIL \u2014 P0+P1a confirmed."
     },
     {
       "evidence_id": "E009",
@@ -96,7 +96,7 @@
       "timestamp": "2026-04-03T06:30:00+08:00",
       "path": "scripts/mint/verify_p1a_state_vector.py",
       "verified": true,
-      "summary": "P1a runtime verification PASS: _state_vector() outputs continuous gripper joint ∈ [-0.042, +0.001]. Initial state[7]=0.000830, open_mean=0.000953, closed_mean=-0.041664. All 5 checks passed. Formula correct: PyBullet finger_pos ∈ [0.0, 0.04] → LIBERO ∈ [-0.042, +0.001]."
+      "summary": "P1a runtime verification PASS: _state_vector() outputs continuous gripper joint \u2208 [-0.042, +0.001]. Initial state[7]=0.000830, open_mean=0.000953, closed_mean=-0.041664. All 5 checks passed. Formula correct: PyBullet finger_pos \u2208 [0.0, 0.04] \u2192 LIBERO \u2208 [-0.042, +0.001]."
     },
     {
       "evidence_id": "E003",
@@ -122,7 +122,7 @@
       "timestamp": "2026-04-04T16:05:12+08:00",
       "path": "sovereign/evidence/E014.yaml",
       "verified": true,
-      "summary": "V58 fine-tuning: 1000 steps, loss 6.52→4.43, 18,701 frames, 229 episodes, seeds 1-15. EEF motion=4.13m (model learns motion but not gripper). V58 eval: Stage 1 (seeds 1-10): finetuned=0%, pretrained=0%. Stage 2 (seeds 11-15): finetuned=0%, pretrained=0%, random=0%. GRADE: VERY_LOW quality. ROOT CAUSE: gripper_joint frozen + images near-white."
+      "summary": "V58 fine-tuning: 1000 steps, loss 6.52\u21924.43, 18,701 frames, 229 episodes, seeds 1-15. EEF motion=4.13m (model learns motion but not gripper). V58 eval: Stage 1 (seeds 1-10): finetuned=0%, pretrained=0%. Stage 2 (seeds 11-15): finetuned=0%, pretrained=0%, random=0%. GRADE: VERY_LOW quality. ROOT CAUSE: gripper_joint frozen + images near-white."
     },
     {
       "evidence_id": "E015",
@@ -132,6 +132,84 @@
       "path": "outputs/v58_eval.log",
       "verified": true,
       "summary": "V58 eval: Stage 1 (seeds 1-10): finetuned=0.000, pretrained=0.000, gain=+0.000. Stage 2 (seeds 11-15): finetuned=0.000, pretrained=0.000, random=0.0. Verdict: scientific_not_supported. KeyError: random in render_report (non-blocking bug). Both pretrained and finetuned = 0% confirms L2 observation bugs, NOT model capacity."
+    },
+    {
+      "evidence_id": "E016",
+      "experiment_id": "v58_live_audit",
+      "type": "audit",
+      "timestamp": "2026-04-05T13:51:00+08:00",
+      "path": "live_remote_audit",
+      "verified": true,
+      "summary": "Live remote audit: file-000.parquet corrupted (Parquet magic bytes), live dataset is old (3,305 frames, continuous gripper), V58 0% root cause = near-white images not frozen gripper"
+    },
+    {
+      "evidence_id": "E017",
+      "experiment_id": "v58_live_audit",
+      "type": "audit",
+      "timestamp": "2026-04-05T14:00:00+08:00",
+      "path": "live_remote_audit_npz_raw",
+      "verified": true,
+      "summary": "NPZ raw gripper_joint: std=0.0208, 40 unique values, range=[-0.050, +0.014]. stats.json gripper_joint: std=0.0196, range=[-0.042,+0.001]. Both continuous. V58 gripper_joint was NEVER frozen. P0a fix addressed non-existent problem."
+    },
+    {
+      "evidence_id": "E018",
+      "experiment_id": "v58_provenance_audit_and_cleanup",
+      "type": "provenance_audit",
+      "timestamp": "2026-04-05T14:35:00+08:00",
+      "path": "sovereign/CAMPAIGN_TRUTH.v58_critical_analysis.generated.md",
+      "verified": true,
+      "summary": "FOUR-LAYER DATA PROVENANCE COLLAPSE: (1) Train-time truth: 229/18701 (Apr 4 23:20 pack, dataset_loads=true). (2) Pack artifact truth: v58_lerobot_pack.json = 229/18701. (3) Current live: 36/3305, corrupted parquet \u2014 OVERWRITTEN Apr 5 13:38. (4) Sovereign written: had wrong conclusions on P0a. All 229 original NPZ files confirmed available. V59 clean pack in progress. Archive: artifacts/v58_archive_2026-04-05_1435/."
+    },
+    {
+      "evidence_id": "E019",
+      "experiment_id": "v59_clean_dataset_pack",
+      "type": "dataset_pack",
+      "timestamp": "2026-04-05T14:35:00+08:00",
+      "path": "outputs/v59_lerobot_pack.log",
+      "verified": true,
+      "summary": "V59 clean pack: 240 episodes, 19701 frames, dataset_loads=true. Old dataset/ archived to v58_archive_2026-04-05_1435/. Images remain near-white due to ER_TINY_RENDERER limitation (see E020)."
+    },
+    {
+      "evidence_id": "E020",
+      "experiment_id": "p0b_er_tiny_render_audit",
+      "type": "code_audit",
+      "timestamp": "2026-04-05T16:30:00+08:00",
+      "path": "sovereign/evidence/E020.yaml",
+      "verified": true,
+      "summary": "ER_TINY_RENDERER ignores all color APIs for URDF mesh. MTL/URDF patches applied (144 files). Runtime color fix impossible. Re-recording rollouts with EGL/MuJoCo required for colored images."
+    },
+    {
+      "evidence_id": "E021",
+      "experiment_id": "v59_overfit_validation",
+      "type": "eval",
+      "timestamp": "2026-04-05T17:00:00+08:00",
+      "path": "sovereign/evidence/E021.yaml",
+      "verified": true
+    },
+    {
+      "evidence_id": "E022",
+      "experiment_id": "v59_overfit_env_gate",
+      "type": "eval",
+      "timestamp": "2026-04-05T20:35:00+08:00",
+      "path": "sovereign/evidence/E022.yaml",
+      "verified": true
+    },
+    {
+      "evidence_id": "E023",
+      "experiment_id": "rca1_teacher_quality_audit",
+      "type": "audit",
+      "timestamp": "2026-04-05T22:30:00+08:00",
+      "path": "sovereign/evidence/E023.yaml",
+      "verified": true,
+      "summary": "All 7/7 teacher episodes confirmed task-successful (success=True, mean_max_drawer=0.989). Teacher quality ELIMINATED as root cause. RCA2 (action normalization) becomes highest priority."
+    },
+    {
+      "evidence_id": "E024",
+      "experiment_id": "rca2_action_normalization",
+      "type": "RCA",
+      "timestamp": "2026-04-06T00:15:00+08:00",
+      "path": "sovereign/evidence/E024.yaml",
+      "verified": false
     }
   ]
 }

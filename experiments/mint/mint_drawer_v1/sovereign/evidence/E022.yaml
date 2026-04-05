@@ -1,0 +1,76 @@
+evidence_id: E022
+experiment_id: v59_overfit_env_gate
+type: eval
+timestamp: "2026-04-05T20:35:00+08:00"
+scope: env_level_overfit_validation
+verified: true
+summary: |
+  V59 env-level overfit gate: NEGATIVE_GATE.
+  Finetuned checkpoint achieves +51.7% action RMSE improvement in offline eval,
+  but achieves ZERO drawer_fraction in simulation rollouts.
+  BOTH pretrained and finetuned get 0.000 drawer_fraction on all 6 rollouts
+  (3 seeds × 2 episodes, 96 steps each).
+  CONCLUSION: Offline action imitation improvement does NOT translate to task success.
+  Pipeline has a deeper issue: actions predicted by MINT do not open the drawer in simulation.
+  NOTE ON WEAK_PASS: The original script output said "WEAK_PASS". This has been corrected:
+  WEAK_PASS implied finetuned ≥ pretrained, but 0.000 = 0.000 is not success.
+  This is a NEGATIVE_GATE: neither policy achieves any drawer motion in simulation.
+finding: V59_ENV_GATE_NEGATIVE_GATE — PIPELINE_ISSUE_DEEPER_THAN_IMAGE_QUALITY
+implications:
+  - offline_improvement_vs_sim_success: "Offline action RMSE +51.7%" does NOT mean "sim success > 0"
+  - pretrained_baseline: Pretrained MINT also gets 0.000 drawer_fraction — suggests pretrained was never
+    trained to open drawers in simulation on Infinigen data, OR there's a sim-to-sim gap
+  - action_contract_mismatch: MINT predicts actions in training action space; these may not
+    correspond to correct physics in DrawerRobotEnv
+  - normalization_mismatch: ACTION normalization=IDENTITY means MINT output is passed directly to env.step;
+    but the training action space (from Infinigen physics) may not align with what the env expects
+  - full_retrain_not_justified: Training on all 19,701 frames will NOT fix this if the issue
+    is action/state alignment — it is not merely insufficient data quantity
+  - colored_reroll_priority: OPEN QUESTION. E022 does NOT prove white images are not the bottleneck.
+    Both policies were evaluated in white-image envs. The fact that pretrained also fails
+    in white images does not isolate the image-quality effect. Colored images may still
+    be a significant contributing factor. P0b colored reroll remains UNDECIDED.
+metrics:
+  rollouts_per_policy: 6
+  seeds: [1, 2, 3]
+  episodes_per_seed: 2
+  max_steps: 96
+  pretrained_strict_success_rate: 0.000
+  finetuned_strict_success_rate: 0.000
+  pretrained_mean_drawer_fraction: 0.000
+  finetuned_mean_drawer_fraction: 0.000
+  pretrained_attach_rate: 0.000
+  finetuned_attach_rate: 0.000
+  strict_success_gain: 0.000
+  drawer_fraction_gain: 0.000
+  gate_verdict: NEGATIVE_GATE  # CORRECTED from WEAK_PASS
+gate_interpretation: |
+  NEGATIVE_GATE: both policies score 0.000 drawer_fraction. Neither pretrained MINT nor
+  finetuned MINT can open the drawer in simulation. The gate criterion was finetuned >
+  pretrained on ALL metrics. Both policies achieved 0.000. This is a pipeline failure.
+  CORRECTION: "weak pass" was misleading — it implied finetuned ≥ pretrained, but
+  0.000 = 0.000 is not a pass on any meaningful criterion.
+key_diagnostic: |
+  V58 eval (2026-04-04) also reported pretrained=0.000 and finetuned=0.000 on held-out seeds.
+  This is consistent with E022: pretrained MINT was never trained to open drawers in
+  Infinigen simulation. However, NOTE: the original hypothesis "teacher demos were not
+  successful" was DISPROVED by E023 (RCA1): all 7/7 teacher episodes are task-successful.
+  The correct diagnostic is: teacher demos ARE successful, MINT improves at imitating
+  them offline, but the imitated actions still do not open the drawer in simulation.
+  This narrows the root cause to:
+  (1) action normalization mismatch between MINT output and env.step input
+  (2) state representation gap between dataset state and MINT's expected input
+  (3) sim-to-sim gap (LIBERO pretraining vs Infinigen physics)
+next_action_required: |
+  ROOT CAUSE ANALYSIS:
+  1. RCA2: Check action normalization — is MINT's IDENTITY-normalized output compatible with env.step?
+  2. RCA3: Check state representation — does dataset state match MINT's expected input?
+  3. P0b colored reroll: OPEN QUESTION. Not proven primary, not proven irrelevant.
+     Do NOT cancel. Keep as UNDECIDED pending RCA2/RCA3 results.
+  DO NOT: full V59 retrain (may repeat V58 failure)
+  DO NOT: claim images are confirmed not to be the bottleneck
+related_evidence:
+  - E021: V59 offline overfit (action RMSE +51.7%)
+  - E023: RCA1 teacher quality — all 7/7 teacher episodes confirmed task-successful
+  - E015: V58 eval (pretrained=0.000, finetuned=0.000)
+  - E020: ER_TINY near-white images (confirmed suboptimal but open as contributing factor)

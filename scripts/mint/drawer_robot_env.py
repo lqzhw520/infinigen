@@ -248,7 +248,7 @@ class DrawerRobotEnv:
     def _load_drawer(self) -> int:
         drawer_path = _urdf_path(self.seed)
         flags = self.p.URDF_USE_SELF_COLLISION
-        return self.p.loadURDF(
+        drawer_id = self.p.loadURDF(
             str(drawer_path),
             basePosition=[0.0, 0.0, 0.0],
             baseOrientation=self.p.getQuaternionFromEuler([0.0, 0.0, 0.0]),
@@ -256,6 +256,20 @@ class DrawerRobotEnv:
             flags=flags,
             physicsClientId=self.client,
         )
+        # P0b fix: ER_TINY_RENDERER does not read .mtl material files.
+        # Set cardboard color via changeVisualShape after loading.
+        cardboard_rgba = [0.60, 0.50, 0.40, 1.0]
+        num_joints = self.p.getNumJoints(drawer_id, physicsClientId=self.client)
+        link_indices = list(range(num_joints))
+        link_indices.insert(0, -1)
+        for link_idx in link_indices:
+            self.p.changeVisualShape(
+                drawer_id,
+                linkIndex=link_idx,
+                rgbaColor=cardboard_rgba,
+                physicsClientId=self.client,
+            )
+        return drawer_id
 
     def _arm_joint_bounds(self) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
         lower_limits = []

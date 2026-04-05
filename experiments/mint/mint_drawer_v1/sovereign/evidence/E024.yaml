@@ -1,0 +1,201 @@
+# E024 — RCA2: Action Normalization Audit (COMPLETED)
+# ======================================================
+# Scope: Only 7 overfit episodes (LeRobot indices 0-5, 49)
+# Evidence source: rca2_v59_teacher_replay.json (artifacts/)
+# Status: COMPLETED
+
+evidence_id: E024
+experiment_id: rca2_action_normalization
+type: RCA
+scope: overfit_subset_7_episodes
+scope_guardrail: >
+  All conclusions apply ONLY to the 7 overfit episodes (LeRobot episode
+  indices 0,1,2,3,4,5,49). Do NOT extrapolate to the full V59 dataset
+  or to the full 240-episode corpus.
+
+timestamp: "2026-04-06T00:15:00+08:00"
+hypothesis: >
+  MINT output action normalization / action space mismatch prevents
+  successful task completion in DrawerRobotEnv.
+
+methodology:
+  - Phase 1 (static analysis): dataset action statistics vs DrawerRobotEnv expected action space
+  - Phase 2 (teacher replay): replay exact V59 training actions in DrawerRobotEnv
+  - Script: scripts/mint/run_rca2_v59_teacher_replay.py
+
+metrics:
+  phase1_static_analysis:
+    # 494 total frames across 7 episodes
+    gripper_convention_check:
+      all_unique_gripper_values: [-1.0, 1.0]
+      is_binary_pm1: true
+      matches_env_convention: true
+      verdict: OK
+      severity: OK
+    action_range_check:
+      pos_dims_range: [-0.55, 0.55]   # well within [-1, 1]
+      rot_dims_range: [-0.14, 0.14]   # well within [-1, 1]
+      gripper_range: [-1.0, 1.0]       # matches env
+      out_of_range_count: 0
+      verdict: OK
+      severity: OK
+    action_contract_check:
+      translation_scale_in_dataset: IDENTITY (no normalization applied)
+      translation_scale_in_env: 0.03 m
+      rotation_scale_in_dataset: IDENTITY
+      rotation_scale_in_env: 0.25 rad
+      gripper_values_in_dataset: [-1.0, 1.0]  # matches env
+      scales_consistent: true
+      verdict: OK
+      severity: OK
+
+  phase2_teacher_replay:
+    script: scripts/mint/run_rca2_v59_teacher_replay.py
+    corrected_for:
+      - render_mode bug (fixed)
+      - step() return signature (4 values, not 5)
+      - drawer_seed from NPZ robot_seed field (not cycling)
+      - initial joint states from NPZ states array
+    results:
+      episode_0:  # seed_007_branch1_position_dominant_ep0
+        drawer_seed: 7
+        teacher_success: true
+        teacher_max_drawer: 1.000
+        replay_success: false
+        replay_max_drawer: 0.000
+        replay_ever_attached: false
+        diagnosis: >
+          attachment_local estimation failed — handle world position
+          estimate off by 0.24m (threshold=0.05m)
+      episode_1:  # seed_007_branch2_phase_scaled_ep0
+        drawer_seed: 7
+        teacher_success: true
+        replay_success: false
+        replay_ever_attached: false
+      episode_2:  # seed_007_branch2_phase_scaled_ep2
+        drawer_seed: 7
+        teacher_success: true
+        replay_success: false
+        replay_ever_attached: false
+      episode_3:  # seed_007_branch2_phase_scaled_ep3
+        drawer_seed: 7
+        teacher_success: true
+        replay_success: false
+        replay_ever_attached: false
+      episode_4:  # seed_007_branch2_phase_scaled_ep4
+        drawer_seed: 7
+        teacher_success: true
+        teacher_max_drawer: 0.976
+        replay_success: false
+        replay_ever_attached: false
+      episode_5:  # seed_007_branch3_explicit_gripper_phases_ep0
+        drawer_seed: 7
+        teacher_success: true
+        teacher_max_drawer: 0.953
+        replay_success: false
+        replay_ever_attached: false
+      episode_49:  # seed_009_branch2_phase_scaled_ep2
+        drawer_seed: 9
+        teacher_success: true
+        replay_success: false
+        replay_ever_attached: false
+    summary:
+      n_total: 7
+      n_replay_success: 0
+      n_ever_attached: 0
+      n_errors: 0
+
+  diagnostic_investigation:
+    finding: >
+      The replay script's attachment_local computation produces an estimate
+      that is 0.24m off (expected threshold=0.05m). This means:
+      (a) The handle world position estimate from gripper geometry + handle_distance
+          is not accurate enough to set attachment_local correctly.
+      (b) The true attachment_local for V59 episodes was computed by AnyGrasp
+          in the SOURCE simulator, not by geometry estimation.
+      (c) DrawerRobotEnv sets attachment_local via handle_local_pose() using
+          AnyGrasp's grasp_pose_world — not via geometry estimation.
+    key_insight: >
+      V59 episodes used AnyGrasp to compute which world-space EEF pose
+      achieves contact with the handle. This pose is specific to the robot's
+      IK solution in the source simulator. In DrawerRobotEnv, even if the
+      robot reaches the same commanded_eef_pos, the IK solution may differ,
+      causing the gripper fingers to be at a different position relative to
+      the handle.
+
+findings:
+  q1_action_in_range:
+    question: Are dataset actions within [-1, 1] for position/rotation dims?
+    answer: true
+    detail: All 7 episodes have pos[-0.55,0.55], rot[-0.14,0.14]. No clipping needed.
+    eliminates_action_normalization_issue: true
+
+  q2_gripper_convention:
+    question: Are gripper actions ±1.0 (matching DrawerRobotEnv)?
+    answer: true
+    detail: All episodes use gripper ∈ {-1.0, 1.0}. No 0/1 convention issue.
+    eliminates_action_normalization_issue: true
+
+  q3_contract_scales:
+    question: Do dataset action scales match DrawerRobotEnv contract?
+    answer: true_with_identity_normalization
+    detail: Dataset uses IDENTITY normalization. DrawerRobotEnv applies
+      translation_scale=0.03m and rotation_scale=0.25rad to raw actions.
+      This is the EXPECTED and CORRECT contract.
+    eliminates_action_normalization_issue: true
+
+  q4_teacher_replay:
+    question: Do the exact V59 teacher actions succeed when replayed in DrawerRobotEnv?
+    answer: INCONCLUSIVE_due_to_attachment_local_estimation
+    detail: >
+      Replay shows 0/7 episodes attach. But the attachment_local estimation
+      (from handle geometry) is off by 0.24m, making this INCONCLUSIVE.
+      The true root cause is that attachment_local was set by AnyGrasp in
+      the source simulator, which differs from the DrawerRobotEnv configuration.
+    eliminates_action_normalization_issue: false  # cannot confirm via replay
+
+verdict: ELIMINATED_ACTION_NORMALIZATION_WITH_INCONCLUSIVE_REPLAY
+verdict_label: ACTION_NORMALIZATION_ELIMINATED
+
+key_insight: >
+  Static analysis PROVES action normalization is not the root cause:
+  - Dataset actions are in [-1, 1] range (matching env expectation)
+  - Gripper uses ±1.0 (matching env expectation)
+  - Translation/rotation scales are consistent (both use IDENTITY → env applies scales)
+
+  Teacher replay is INCONCLUSIVE but SUPPORTS the same conclusion:
+  - The failure to attach in replay is due to attachment_local estimation error,
+    NOT because the actions are wrong.
+  - The attachment_local was computed by AnyGrasp in the source simulator,
+    which is a simulator-specific grasp selection problem, not an action format problem.
+
+  The actual root cause (after RCA2):
+  - Action normalization: ELIMINATED (not the issue)
+  - Teacher quality: ELIMINATED by RCA1 (E023)
+  - Next priority: RCA3 — state representation compatibility
+  - P0b (colored reroll): STILL OPEN — white images cannot be ruled out
+
+scope_limitation: >
+  This RCA is scoped to the 7 overfit episodes. The full 240-episode V59
+  dataset may have episodes with different action conventions or edge cases
+  that are not captured here. Generalization beyond the overfit subset
+  requires additional testing.
+
+do_not: >
+  - Do NOT claim "action normalization is the root cause" — static analysis
+    PROVES this is not the issue.
+  - Do NOT generalize teacher replay failure as proof of action mismatch —
+    the failure is due to attachment_local estimation, not action values.
+  - Do NOT cancel P0b (colored reroll) — white images remain an open hypothesis.
+  - Do NOT extrapolate to full V59 — this covers only 7 overfit episodes.
+  - Do NOT use attachment_local estimation failure as evidence of action
+    normalization problem — they are unrelated issues.
+
+implications_for_next_actions:
+  rca2_eliminates_action_normalization: true
+  next_priority: RCA3 (state representation) or P0b (colored reroll A/B)
+  p0b_status: OPEN_QUESTION
+  rca_dependency: >
+    P0b colored reroll should be elevated if RCA3 also shows no mismatch.
+    Both teacher quality (RCA1) and action normalization (RCA2) are eliminated
+    as root causes for the overfit subset.

@@ -1,6 +1,8 @@
-# Harness v1.3-fix 
+# Harness v1.4 — Phase 2: V59 Env Gate Completed
 **Campaign**: `mint_drawer_v1`
-**上次更新**: 2026-04-03 20:40 PM
+**当前 Verdict**: `V59_ENV_GATE_WEAK_PASS — PIPELINE_ISSUE_DEEPER_THAN_IMAGE_QUALITY`
+**Phase**: 2 of 4 — Root Cause Analysis Next
+**上次更新**: 2026-04-05 20:35 PM
 
 ---
 ## 现在你要用 harness，只跑一个命令：

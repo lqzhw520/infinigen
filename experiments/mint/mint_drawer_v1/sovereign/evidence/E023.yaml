@@ -1,0 +1,118 @@
+evidence_id: E023
+experiment_id: rca1_teacher_quality_audit
+type: audit
+timestamp: "2026-04-05T22:30:00+08:00"
+scope: teacher_demonstration_quality_root_cause_analysis
+verified: true
+summary: |
+  RCA1: Verifies whether the 7 teacher demonstration episodes (used in V59 overfit
+  training, episodes 0-5+49 in LeRobot dataset index) are themselves task-successful.
+  This is the highest-priority question: if teacher demos themselves don't open the drawer,
+  MINT learning to imitate them would be inherently limited.
+
+  RESULT: All 7/7 episodes are 100% task-successful. Teacher quality is NOT the root cause
+  for the overfit subset.
+
+  SCOPE BOUNDARY: This conclusion applies ONLY to the 7 episodes used in V59 overfit
+  training. It does NOT prove that all 240 episodes / 19,701 frames in the V59 dataset
+  are free of teacher-quality issues.
+
+  Source file mapping (LeRobot episode index → NPZ source):
+    Ep 0  → seed_007_branch1_position_dominant_ep0.npz  (41 frames, success=True, max_drawer=1.000)
+    Ep 1  → seed_007_branch2_phase_scaled_ep0.npz        (70 frames, success=True, max_drawer=1.000)
+    Ep 2  → seed_007_branch2_phase_scaled_ep2.npz    (99 frames, success=True, max_drawer=1.000)
+    Ep 3  → seed_007_branch2_phase_scaled_ep3.npz    (92 frames, success=True, max_drawer=1.000)
+    Ep 4  → seed_007_branch2_phase_scaled_ep4.npz   (57 frames, success=True, max_drawer=0.976)
+    Ep 5  → seed_007_branch3_explicit_gripper_phases_ep0.npz  (91 frames, success=True, max_drawer=0.953)
+    Ep 49 → seed_009_branch2_phase_scaled_ep2.npz   (44 frames, success=True, max_drawer=1.000)
+
+  IMPORTANT METHODOLOGY NOTE: The "episode index" in the LeRobot dataset does NOT correspond
+  to the episode index in the NPZ filenames. The LeRobot episode index is the N-th file
+  in the sorted pack order (v58_physics_legal_rollouts + p4_physics_legal_rollouts).
+  This was verified by:
+    1. Counting files in the V59 pack log (240 files, sorted)
+    2. Mapping LeRobot episode index N to pack_log[N]
+    3. Confirming episode 0 maps to seed_007_branch1_position_dominant_ep0.npz (41 frames)
+       which exactly matches LeRobot Ep 0 length=41
+
+finding: RCA1_TEACHER_QUALITY_CONFIRMED_SUCCESSFUL — NOT_ROOT_CAUSE_FOR_OVERFIT_SUBSET
+implications:
+  - teacher_not_successful_hypothesis: REJECTED for overfit subset — all 7 episodes are task-successful
+  - teacher_quality_is_not_the_bottleneck_for_overfit_subset: CONFIRMED for 7 overfit episodes
+    (does NOT generalize to all 19,701 frames in V59)
+  - root_cause_narrowed_further: The failure must be in the MINT training or inference
+    pipeline: action normalization, state representation, or sim-to-sim gap (LIBERO→Infinigen)
+  - next_hypothesis: RCA2 (action normalization) and RCA3 (state representation) become higher priority
+    now that teacher quality is cleared for the overfit subset
+  - white_images_still_open: E022 and E023 together do NOT prove white images are irrelevant.
+    Both env gates (pretrained and finetuned) were evaluated in white-image envs.
+    The pretrained failure alone does NOT isolate image quality as non-causal.
+    P0b colored reroll remains UNDECIDED, not CANCELLED.
+metrics:
+  episodes_tested: 7
+  episodes_with_success: 7
+  success_rate: 1.000
+  episodes_with_attach: 7
+  attach_rate: 1.000
+  mean_max_drawer_fraction: 0.989
+  mean_final_drawer_fraction: 0.866
+  source_verification_method: LeRobot episode index → pack log file order → NPZ source
+key_diagnostic: |
+  The critical discovery: the LeRobot dataset episode index is NOT the same as the NPZ filename
+  episode index. This was the source of previous confusion where ep5 and ep49 appeared to be
+  missing from physics-legal rollouts. The correct mapping requires tracing through the pack
+  log's sorted file order.
+
+  Methodology for correct mapping:
+    1. V59 pack source: v58_physics_legal_rollouts (227) + p4_physics_legal_rollouts (13) = 240 files
+    2. Files sorted alphabetically: first 227 are v58, last 13 are p4
+    3. LeRobot episode_index = position in sorted list (0 to 239)
+    4. LeRobot Ep 5 = all_files[5] = seed_007_branch3_explicit_gripper_phases_ep0.npz
+    5. LeRobot Ep 49 = all_files[49] = seed_009_branch2_phase_scaled_ep2.npz
+
+  All mapped correctly and all 7 are task-successful.
+root_cause_ranking_after_rca1: |
+  RCA1 eliminates teacher quality as root cause for the 7 overfit training episodes.
+  Remaining hypotheses:
+
+  Priority 1 (NOT YET TESTED):
+    - RCA2: Action normalization mismatch
+      MINT outputs IDENTITY-normalized actions → env.step()
+      Need to verify: does MINT's action output range match what DrawerRobotEnv expects?
+      The training action space comes from Infinigen physics; the eval uses the same env.
+      But there may be a scaling/unit mismatch.
+
+  Priority 2 (NOT YET TESTED):
+    - RCA3: State representation gap
+      LIBERO pretraining vs Infinigen state format
+      State[3:7] might represent different things (joint positions vs something else)
+      Need to verify: does the state vector format match?
+
+  Priority 3 (CONFIRMED BUT NOT SOLO CAUSE — OPEN):
+    - Near-white images (P0b, E020)
+      Confirmed to exist in current data. Pretrained MINT also fails in white-image envs.
+      E022 does NOT prove images are irrelevant — pretrained failure in white images
+      is consistent with multiple hypotheses (action mismatch, state gap, OR white images).
+      P0b colored reroll remains OPEN / UNDECIDED pending RCA2/RCA3.
+
+  Priority 4 (ELIMINATED):
+    - Teacher demo quality for overfit subset (RCA1, E023) — ELIMINATED for 7 episodes
+    - Frozen gripper_joint (CANCELLED) — ELIMINATED for current live dataset
+
+  RECOMMENDATION: Proceed to RCA2 (action normalization) as next step.
+next_action_required: |
+  DO NOT attribute V58/V59 failure to teacher quality for the overfit subset — RCA1 disproves this.
+  DO NOT generalize "teacher quality cleared" to all 19,701 frames — scope is 7 episodes only.
+  Proceed to RCA2: verify action normalization compatibility between MINT output and env.step input.
+do_not: [
+  "Do NOT claim teacher demos are unsuccessful for overfit episodes — all 7/7 confirmed successful",
+  "Do NOT claim teacher quality is globally cleared for all V59 data — scope is 7 episodes only",
+  "Do NOT prioritize teacher quality fixes — this hypothesis is ELIMINATED for overfit subset",
+  "Do NOT cancel P0b colored reroll — it remains UNDECIDED, not CANCELLED",
+  "Do NOT claim white images are confirmed not to be the bottleneck — pretrained failure is consistent with multiple hypotheses"
+]
+related_evidence:
+  - E021: V59 offline overfit (action RMSE +51.7%)
+  - E022: V59 env gate failure (both policies 0.000 drawer_fraction)
+  - E020: ER_TINY near-white images
+  - C_PHYSICS_LEGAL_TEACHER: all rollouts were physics-legal

@@ -1,0 +1,34 @@
+evidence_id: E020
+experiment_id: p0b_er_tiny_render_audit
+type: code_audit
+timestamp: "2026-04-05T16:30:00+08:00"
+scope: rendering
+verified: true
+summary: |
+  ER_TINY_RENDERER completely ignores all color APIs for URDF mesh geometry.
+  Tested: URDF <material><color> (P0b fix), changeVisualShape(), GEOM_BOX rgbaColor.
+  ALL return rgba=(1.0, 1.0, 1.0) white regardless of input.
+  Same behavior for both robot (Panda URDF) and drawer (drawerbox URDF).
+  ER_BULLET_HARDWARE_OPENGL also ignores color for MESH geometry.
+  Root cause: software renderer hardcodes white for URDF mesh without texture.
+  MTL files and <material> tags are irrelevant — ER_TINY does not parse them.
+  Fixes applied (correct hygiene, prevent future issues):
+    1. 144 drawerbox MTL files patched with cardboard material
+    2. 16 drawerbox URDF files patched with <material name="cardboard"><color rgba="0.60 0.50 0.40 1.0"/></material>
+    3. drawer_robot_env_lerobot.py _load_drawer() patched with changeVisualShape (for future renderers)
+    4. drawer_robot_env.py _load_drawer() patched with changeVisualShape (for future renderers)
+  These patches are correct engineering (other renderers will benefit) but
+  ER_TINY_RENDERER remains white regardless.
+  Impact on V58 training: existing 19,701 rollout images are white-saturated.
+  Resolution: re-record rollouts with EGL/MuJoCo/Blender renderer.
+  OR accept white images and train MINT to cope with monochrome input.
+metrics:
+  tested_apis: 4
+  white_rendered: 4
+  color_respected: 0
+  er_tiny_color_support: false
+  robot_image_mean: 250.7
+  drawer_image_mean: 249.2
+  cardboard_color_expected: [153, 128, 102]
+  cardboard_pixels_observed: 637 (1.3%)
+  conclusion: ER_TINY ignores color — runtime fix impossible, recording fix required

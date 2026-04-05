@@ -1,0 +1,140 @@
+<?xml version="1.0" ?>
+<robot name="object">
+  <link name="world" />
+  <joint name="world_joint" type="fixed">
+    <origin xyz="0.0 0.0 0.0" />
+    <parent link="world" />
+    <child link="link_0" />
+    <dynamics damping="0.0" friction="0.0" />
+  </joint>
+  <joint name="drawer_slide_0" type="prismatic">
+    <origin xyz="0.0 1.338876232104269e-10 0.0" />
+    <parent link="link_0" />
+    <child link="link_1" />
+    <dynamics damping="0.6" friction="0.25" />
+    <axis xyz="0.0 -1.0000000074505806 0.0" />
+    <limit lower="0.0" upper="0.14376073" />
+  </joint>
+  <link name="link_1">
+    <visual>
+      <geometry>
+        <mesh filename="assets/geom_4.obj" />
+      </geometry>
+      <origin xyz="0.0 -0.01797009272851119 -0.043071895837783813" />
+    <material><color rgba="0.60 0.50 0.40 1.0" /></material></visual>
+    <collision>
+      <geometry>
+        <mesh filename="assets/geom_4_col0.obj" />
+      </geometry>
+      <origin xyz="0.0 -0.01797009272851119 -0.043071895837783813" />
+    </collision>
+    <visual>
+      <geometry>
+        <mesh filename="assets/geom_5.obj" />
+      </geometry>
+      <origin xyz="0.0 0.05268909768782487 0.0" />
+    <material><color rgba="0.60 0.50 0.40 1.0" /></material></visual>
+    <collision>
+      <geometry>
+        <mesh filename="assets/geom_5_col0.obj" />
+      </geometry>
+      <origin xyz="0.0 0.05268909768782487 0.0" />
+    </collision>
+    <visual>
+      <geometry>
+        <mesh filename="assets/geom_6.obj" />
+      </geometry>
+      <origin xyz="0.0 -0.08862928314484725 0.0" />
+    <material><color rgba="0.60 0.50 0.40 1.0" /></material></visual>
+    <collision>
+      <geometry>
+        <mesh filename="assets/geom_6_col0.obj" />
+      </geometry>
+      <origin xyz="0.0 -0.08862928314484725 0.0" />
+    </collision>
+    <visual>
+      <geometry>
+        <mesh filename="assets/geom_7.obj" />
+      </geometry>
+      <origin xyz="-0.14051693677902222 -0.01797009272851119 0.0" />
+    <material><color rgba="0.60 0.50 0.40 1.0" /></material></visual>
+    <collision>
+      <geometry>
+        <mesh filename="assets/geom_7_col0.obj" />
+      </geometry>
+      <origin xyz="-0.14051693677902222 -0.01797009272851119 0.0" />
+    </collision>
+    <visual>
+      <geometry>
+        <mesh filename="assets/geom_8.obj" />
+      </geometry>
+      <origin xyz="0.14051693677902222 -0.01797009272851119 0.0" />
+    <material><color rgba="0.60 0.50 0.40 1.0" /></material></visual>
+    <collision>
+      <geometry>
+        <mesh filename="assets/geom_8_col0.obj" />
+      </geometry>
+      <origin xyz="0.14051693677902222 -0.01797009272851119 0.0" />
+    </collision>
+    <inertial>
+      <mass value="0.4817724448100984" />
+      <inertia ixx="0.0019189789375885387" ixy="0.0" ixz="0.0" iyy="0.0050232458254593545" iyz="0.0" izz="0.00612554850728902" />
+      <origin xyz="1.8003556395391063e-18 -0.017970092594623562 -0.01494682384848691" />
+    </inertial>
+  </link>
+  <link name="link_0">
+    <visual>
+      <geometry>
+        <mesh filename="assets/geom_0.obj" />
+      </geometry>
+      <origin xyz="0.0 0.0 -0.04673541337251663" />
+    <material><color rgba="0.60 0.50 0.40 1.0" /></material></visual>
+    <collision>
+      <geometry>
+        <mesh filename="assets/geom_0_col0.obj" />
+      </geometry>
+      <origin xyz="0.0 0.0 -0.04673541337251663" />
+    </collision>
+    <visual>
+      <geometry>
+        <mesh filename="assets/geom_1.obj" />
+      </geometry>
+      <origin xyz="0.0 0.08862928301095963 0.0" />
+    <material><color rgba="0.60 0.50 0.40 1.0" /></material></visual>
+    <collision>
+      <geometry>
+        <mesh filename="assets/geom_1_col0.obj" />
+      </geometry>
+      <origin xyz="0.0 0.08862928301095963 0.0" />
+    </collision>
+    <visual>
+      <geometry>
+        <mesh filename="assets/geom_2.obj" />
+      </geometry>
+      <origin xyz="-0.14784397184848785 0.0 0.0" />
+    <material><color rgba="0.60 0.50 0.40 1.0" /></material></visual>
+    <collision>
+      <geometry>
+        <mesh filename="assets/geom_2_col0.obj" />
+      </geometry>
+      <origin xyz="-0.14784397184848785 0.0 0.0" />
+    </collision>
+    <visual>
+      <geometry>
+        <mesh filename="assets/geom_3.obj" />
+      </geometry>
+      <origin xyz="0.14784397184848785 0.0 0.0" />
+    <material><color rgba="0.60 0.50 0.40 1.0" /></material></visual>
+    <collision>
+      <geometry>
+        <mesh filename="assets/geom_3_col0.obj" />
+      </geometry>
+      <origin xyz="0.14784397184848785 0.0 0.0" />
+    </collision>
+    <inertial>
+      <mass value="0.48046398111323185" />
+      <inertia ixx="0.002135899708933439" ixy="0.0" ixz="2.710505431213761e-20" iyy="0.0060900620501524" iyz="0.0" izz="0.00730420593522682" />
+      <origin xyz="-3.6105172170397965e-18 0.021809059456335822 -0.02129906195542129" />
+    </inertial>
+  </link>
+</robot>

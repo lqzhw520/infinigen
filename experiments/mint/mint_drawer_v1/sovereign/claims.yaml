@@ -96,7 +96,8 @@ claims:
       Fix P0a (gripper_joint) + P0b (image render) before generating more data.
     scope: data_scale
     status: contradicted
-    evidence_ids: []
+    evidence_ids:
+    - E014
     change_type: create
     change_reason: 'Data volume correction: V58 used 18,701 frames (NOT 1,301). C_GRIPPER_JOINT_FROZEN
       and C_IMAGE_NEAR_WHITE confirm all data is corrupted. C_DATASET_SUFFICIENT revised
@@ -1104,9 +1105,9 @@ claims:
     superseded_by_reason: null
     supersedes: C_VISION_ALIGNMENT@10
 - claim_id: C_GRIPPER_JOINT_FROZEN
-  current_revision: 1
-  lifecycle_status: active
-  superseded_by: null
+  current_revision: 3
+  lifecycle_status: superseded
+  superseded_by: C_DATA_INTEGRITY_AND_P0B_PRIORITY
   supersedes: null
   split_from: null
   split_into: []
@@ -1129,9 +1130,69 @@ claims:
       conversion. Evidence: v58_train.log (dataset.num_frames=18701), V58 eval (pretraiend=finetuned=0%,
       eef_motion=4.13m).'
     created_at: '2026-04-05T04:46:27+00:00'
-    superseded_by: null
-    superseded_by_reason: null
+    superseded_by: C_GRIPPER_JOINT_FROZEN@2
+    superseded_by_reason: 'Rev 2 corrects root cause: drawer_robot_env.py _state_vector()
+      ALREADY has continuous gripper (commit bef89ca2, 2026-04-04). The actual bug
+      is in dataset_builder._build_libero_state() which incorrectly calls _infinigen_to_libero_gripper(state[7])
+      on ALREADY-continuous gripper_joint values, freezing all frames to -0.042. drawer_robot_env_lerobot.py
+      is a staged-new file UNUSED by V58 pipeline.'
     supersedes: null
+  - revision: 2
+    statement: 'ROOT CAUSE CORRECTED: V58 LeRobot dataset has gripper_joint frozen
+      at -0.042 across all 18,701 frames (verified: LeRobot parquet state[:,7] all
+      = -0.042, std=0.00000). BUT: the raw Infinigen NPZ files have HEALTHY continuous
+      gripper_joint (std=0.0096-0.0834, min unique=40+ values per file). The freeze
+      happens in dataset_builder._build_libero_state() which calls _infinigen_to_libero_gripper(state[7])
+      on ALREADY-continuous state[7] values. Since state[7] (e.g., 0.034, -0.01, 0.001)
+      ALL fail the check "if gripper_binary > 0.5", they ALL map to CLOSED_JOINT=-0.042.
+      FIXED: _build_libero_state() now returns state directly without conversion,
+      and clamps to LIBERO range [-0.042, +0.001] for PyBullet contact outliers. Fix
+      verified: v58_lerobot_pack_fix.log running.'
+    scope: v58_dataset_builder_pipeline
+    status: supported
+    evidence_ids:
+    - E013
+    - E014
+    - E015
+    change_type: statement_revised
+    change_reason: 'P0a investigation: git history (bef89ca2, 2026-04-04) confirms
+      drawer_robot_env._state_vector() ALREADY has continuous gripper fix. Actual
+      bug is in dataset_builder._build_libero_state(): it incorrectly calls _infinigen_to_libero_gripper(state[7])
+      on already-continuous values. Verified: NPZ state[7] is healthy (std>0.009),
+      LeRobot parquet is frozen (std=0.0). Fix applied: removed incorrect _infinigen_to_libero_gripper
+      call.'
+    created_at: '2026-04-05T13:15:00+08:00'
+    superseded_by: C_GRIPPER_JOINT_FROZEN@3
+    superseded_by_reason: 'Rev 3: P0a verified FIXED. dataset_builder._build_libero_state()
+      fix confirmed effective. file-000.parquet (12,480 frames from new pack): gripper_joint
+      std=0.0198, 6,693 unique values (vs OLD: std=0.0000, 1 unique value). NPZ raw
+      data already had continuous values; LeRobot packing was the bug.'
+    supersedes: C_GRIPPER_JOINT_FROZEN@1
+  - revision: 3
+    statement: 'VERIFIED FIXED: P0a completed. dataset_builder._build_libero_state()
+      fix confirmed effective. file-000.parquet verification: gripper_joint std=0.0198,
+      6,693 unique values, range=[-0.042, +0.001]. Vs OLD LeRobot parquet: std=0.0000,
+      1 unique value (all = -0.042). NPZ raw data already had healthy continuous values
+      (std=0.0096-0.0834). Root cause was dataset_builder calling _infinigen_to_libero_gripper()
+      on already-continuous values (all < 0.5 → CLOSED=-0.042). Fix: remove incorrect
+      conversion + add LIBERO range clamp.'
+    scope: v58_dataset_builder_pipeline
+    status: supported
+    evidence_ids:
+    - E013
+    - E014
+    - E015
+    change_type: statement_revised
+    change_reason: 'P0a verified FIXED. Verified file-000.parquet (12,480 frames from
+      new pack): gripper_joint std=0.0198, 6,693 unique values. dataset_builder fix
+      is effective. Partial pack completed (155/240 episodes). Remaining episodes
+      pending. P0a DONE.'
+    created_at: '2026-04-05T13:35:00+08:00'
+    superseded_by: C_DATA_INTEGRITY_AND_P0B_PRIORITY
+    superseded_by_reason: 'Audit finding: rev3 said ''verified fixed'' but new pack
+      never completed. Live dataset is old dataset with already-continuous gripper.
+      Frozen gripper was never the root cause of V58 0%.'
+    supersedes: C_GRIPPER_JOINT_FROZEN@2
 - claim_id: C_IMAGE_NEAR_WHITE
   current_revision: 1
   lifecycle_status: active
@@ -1141,25 +1202,66 @@ claims:
   split_into: []
   revisions:
   - revision: 1
-    statement: V58 rendered images are near-white (mean=[0.976,0.976,0.976], std=[0.003,0.003,0.003]),
-      providing zero useful visual information for MINT's SigLIP/PaliGemma vision
-      encoder. LIBERO images have realistic colors (mean=[0.414,0.371,0.329], std=[0.252,0.247,0.241]).
-      PyBullet ERendered headless configuration is outputting blank/white frames.
+    statement: 'CONFIRMED ROOT CAUSE of V58 0%: V58 rendered images are near-white
+      (mean=[0.977,0.977,0.977], std=[0.0028,0.0028,0.0028]). LIBERO images have realistic
+      colors (mean=[0.414,0.371,0.329], std=[0.252,0.247,0.241]). Root cause: empty
+      MTL files — drawerbox geom_*.mtl have no material definitions (only Blender
+      header comments, no Kd/Ka/Ks). PyBullet ER_TINY_RENDERER renders objects without
+      materials as white. CRITICAL CONTEXT: Old dataset (3,305 frames) had CONTINUOUS
+      gripper_joint (std=0.0196, range=[-0.042, +0.001]) — frozen gripper was NOT
+      present. V58 trained on this dataset and STILL got 0%. This proves near-white
+      images (NOT frozen gripper) is the real root cause. Fix: add material definitions
+      to URDF or MTL files, then regenerate images.'
     scope: v58_vision_pipeline
     status: supported
     evidence_ids:
     - E013
     - E014
-    change_type: create
-    change_reason: 'V58 critical analysis: V58 images near-white (mean~0.976). Vision
-      encoder pretrained on LIBERO realistic scenes cannot learn from white noise.
-      Root cause: PyBullet ER_TINY_RENDERER configuration or scene geometry export
-      issue.'
-    created_at: '2026-04-05T04:46:27+00:00'
+    - E016
+    change_type: statement_revised
+    change_reason: 'Codex audit: old dataset has continuous gripper_joint (std=0.0196)
+      but V58 still failed. Frozen gripper was NOT the root cause. Near-white images
+      are.'
+    created_at: '2026-04-05T13:51:00+08:00'
     superseded_by: null
     superseded_by_reason: null
     supersedes: null
-- claim_id: C_DATA_VOLUME_CORRECTION
+- claim_id: C_IMAGE_NEAR_WHITE@2
+  current_revision: 1
+  lifecycle_status: active
+  superseded_by: null
+  supersedes: C_IMAGE_NEAR_WHITE
+  split_from: null
+  split_into: []
+  revisions:
+  - revision: 1
+    statement: 'CONFIRMED ROOT CAUSE (one of multiple): V58 images near-white (mean=[0.977,0.977,0.977],
+      std=[0.0028,0.0028,0.0028]). LIBERO images: mean=[0.414,0.371,0.329], std=[0.252,0.247,0.241].
+      Root cause: empty MTL files (geom_*.mtl have no Kd/Ka/Ks). PyBullet ER_TINY_RENDERER
+      renders without materials -> white. CONTEXT: V58 trained on dataset with CONTINUOUS
+      gripper (std=0.0196) and STILL got 0%. Near-white images (NOT frozen gripper)
+      is confirmed root cause. IMPORTANT CAVEAT: MINT 0% is MULTI-CAUSE. Near-white
+      images are ONE confirmed cause. Remaining factors: teacher demo quality (AnyGrasp
+      physics violations), insufficient training (18K frames/1K steps vs 3B model),
+      state[3:7] format (joint positions vs quaternions). Fix images first, then small-scale
+      validation.'
+    scope: v58_vision_pipeline
+    status: supported
+    evidence_ids:
+    - E013
+    - E014
+    - E016
+    - E017
+    change_type: statement_revised
+    change_reason: 'Data provenance audit: V58 trained on 229/18701 original dataset
+      (with continuous gripper, written Apr 4 23:20). Current live dataset (36/3305)
+      was overwritten by Apr 5 interrupted pack. P0a CANCELLED. P0b (near-white images)
+      confirmed as ONE of multiple root causes.'
+    created_at: '2026-04-05T14:35:00+08:00'
+    superseded_by: null
+    superseded_by_reason: null
+    supersedes: C_IMAGE_NEAR_WHITE
+- claim_id: C_DATA_PROVENANCE_COLLAPSE
   current_revision: 1
   lifecycle_status: active
   superseded_by: null
@@ -1182,6 +1284,307 @@ claims:
       statement incorrectly used stale 1,301 figure. All V58 data is corrupted — quantity
       is irrelevant until quality is fixed.'
     created_at: '2026-04-05T04:46:27+00:00'
+    superseded_by: null
+    superseded_by_reason: null
+    supersedes: null
+- claim_id: C_GRIPPER_JOINT_FIXED_V58
+  current_revision: 1
+  lifecycle_status: superseded
+  superseded_by: C_GRIPPER_JOINT_NOT_FROZEN_IN_V58
+  supersedes: C_GRIPPER_JOINT_FROZEN
+  split_from: null
+  split_into: []
+  revisions:
+  - revision: 1
+    statement: 'CANCELLED: P0a gripper_joint fix was correct code engineering but
+      addressed a NON-EXISTENT problem. Live evidence confirms: NPZ raw gripper_joint
+      std=0.0208 (continuous, 40 unique values). stats.json gripper_joint std=0.0196
+      (continuous, range=[-0.042,+0.001]). V58 dataset had CONTINUOUS gripper_joint
+      throughout — gripper was NEVER frozen. The dataset_builder._build_libero_state()
+      code fix (removed erroneous _infinigen_to_libero_gripper call) was correct engineering
+      but did NOT change the V58 dataset because V58 training happened BEFORE the
+      code fix was committed. V58 0% is NOT caused by frozen gripper.'
+    scope: v58_recording_pipeline
+    status: contradicted
+    evidence_ids:
+    - E013
+    - E014
+    - E015
+    change_type: statement_revised
+    change_reason: 'Live audit: NPZ raw gripper_joint std=0.0208, stats.json gripper_joint
+      std=0.0196 — both continuous. gripper_joint was never frozen in V58 dataset.'
+    created_at: '2026-04-05T14:00:00+08:00'
+    superseded_by: null
+    superseded_by_reason: null
+    supersedes: C_GRIPPER_JOINT_FROZEN@3
+- claim_id: C_DATA_INTEGRITY_AND_P0B_PRIORITY
+  current_revision: 1
+  lifecycle_status: active
+  superseded_by: null
+  supersedes:
+  - C_GRIPPER_JOINT_FROZEN
+  - C_GRIPPER_JOINT_FIXED_V58
+  split_from: null
+  split_into: []
+  revisions:
+  - revision: 1
+    statement: 'V58 data integrity audit FAILED and root cause priority REFRAMED.
+      (1) New pack FAILED: file-000.parquet CORRUPTED (Parquet magic bytes error —
+      partial write), file-001.parquet MISSING. New pack never completed. (2) Live
+      dataset is OLD dataset (36 episodes, 3,305 frames). (3) Old dataset has CONTINUOUS
+      gripper_joint (std=0.0196, range=[-0.042, +0.001]). Frozen gripper was NOT present
+      in training data. (4) V58 trained on old dataset (with continuous gripper) and
+      STILL got 0% success. CONCLUSION: frozen gripper was NEVER the root cause of
+      V58 0%. P0b (near-white images, mean=0.977, std=0.0028) is the REAL root cause.
+      P0a code fix is correct but irrelevant to V58 failure. PRIORITY: P0b (images)
+      >> P0a (gripper code). NEXT: P0b fix → complete new pack → P1_regenerate → P2_retrain.'
+    scope: v58_data_integrity
+    status: supported
+    evidence_ids:
+    - E013
+    - E014
+    - E015
+    - E016
+    change_type: create
+    change_reason: 'Codex audit (live remote): live parquet corrupted, live dataset
+      is old, old dataset had continuous gripper but V58 still 0%. Root cause reframed
+      from P0a (gripper) to P0b (images).'
+    created_at: '2026-04-05T13:51:00+08:00'
+    superseded_by: null
+    superseded_by_reason: null
+    supersedes: null
+- claim_id: C_GRIPPER_JOINT_NOT_FROZEN_IN_V58
+  current_revision: 2
+  lifecycle_status: active
+  superseded_by: null
+  supersedes:
+  - C_GRIPPER_JOINT_FROZEN
+  - C_GRIPPER_JOINT_FIXED_V58
+  split_from: null
+  split_into: []
+  revisions:
+  - revision: 1
+    statement: 'V58 dataset had CONTINUOUS gripper_joint throughout — frozen gripper
+      was NOT the root cause. Evidence: NPZ raw gripper_joint std=0.0208 (40 unique
+      values, range=[-0.050,+0.014]). stats.json gripper_joint std=0.0196 (range=[-0.042,+0.001]).
+      Both NPZ and packed LeRobot dataset agree: gripper_joint varies continuously.
+      dataset_builder._build_libero_state() code fix (remove _infinigen_to_libero_gripper
+      call) was correct engineering but was committed AFTER V58 training, so it did
+      not affect V58 dataset. Confirmed root cause of V58 0%: near-white images (mean=0.977,
+      std=0.0028). Plausible contributing factors: teacher demo quality, training
+      steps insufficient (3K frames/1K steps vs 3B model). Recommendation: fix near-white
+      images first, then small-scale validation before full retrain.'
+    scope: v58_data_pipeline
+    status: supported
+    evidence_ids:
+    - E013
+    - E014
+    - E015
+    - E016
+    - E017
+    change_type: create
+    change_reason: 'Live audit 2026-04-05: NPZ raw gripper_joint std=0.0208 (continuous).
+      stats.json gripper_joint std=0.0196 (continuous). Both prove gripper_joint was
+      NOT frozen. C_GRIPPER_JOINT_FROZEN and C_GRIPPER_JOINT_FIXED_V58 are both contradicted
+      by live evidence.'
+    created_at: '2026-04-05T14:00:00+08:00'
+    superseded_by: C_GRIPPER_JOINT_NOT_FROZEN_IN_V58@2
+    superseded_by_reason: 'Revised by rev2: gripper frozen claim is wrong framing.
+      E022/E023 update narrative.'
+    supersedes: null
+  - revision: 2
+    statement: 'V58 dataset had CONTINUOUS gripper_joint — CANCELLED root cause. Evidence:
+      NPZ raw std=0.0208, stats.json std=0.0196. Near-white images confirmed suboptimal
+      (E020, E022). E022: pretrained MINT (never trained on Infinigen images) also
+      gets 0.000 drawer_fraction. This is CONSISTENT WITH multiple hypotheses: (a)
+      white images ARE the bottleneck, (b) action/state mismatch IS the bottleneck,
+      (c) both contribute. NOT YET PROVEN which. E023 (RCA1): teacher demo quality
+      ELIMINATED as root cause for overfit subset (7/7 episodes task-successful).
+      Remaining: RCA2 (action normalization), RCA3 (state representation). P0b (colored
+      reroll): OPEN / UNDECIDED pending RCA2/3.'
+    scope: v58_root_cause_revisited
+    status: supported
+    evidence_ids:
+    - E023
+    - E022
+    - E021
+    change_type: statement_revised
+    change_reason: 'E023 eliminated teacher quality. E022 showed near-white images
+      are not the sole cause (pretrained MINT also 0.000). Updated claim: gripper
+      continuous confirmed, images contributing but not primary, teacher eliminated,
+      RCA2/3 next.'
+    created_at: '2026-04-05T22:30:00+08:00'
+- claim_id: C_V59_OFFLINE_OVERFIT_SIGNAL
+  current_revision: 1
+  lifecycle_status: active
+  superseded_by: null
+  supersedes: null
+  split_from: null
+  split_into: []
+  revisions:
+  - revision: 1
+    statement: 'V59 finetuned checkpoint shows better offline action imitation than
+      pretrained on the training subset. Evidence: 200 steps on 494 frames, loss 6.520→3.741
+      (-42.7%), action RMSE +51.7%, gripper MAE +78.0%. HOWEVER: task-level overfit
+      has NOT been verified in DrawerRobotEnv. No evidence of: (1) drawer success
+      rate in simulation, (2) attach/open sequence correctness, (3) drawer fraction
+      improvement. "Pipeline confirmed" is OVERSTATED — "offline imitation improved"
+      is the accurate claim. Env-level overfit gate (finetuned vs pretrained in env)
+      required before claiming task success.'
+    scope: v59_overfit_validation
+    status: supported
+    evidence_ids:
+    - E021
+    change_type: create
+    change_reason: 'Codex review: overfit validation only tested offline action regression,
+      not environment-level drawer success. "Pipeline confirmed" is overstated. Corrected
+      to "offline signal positive, task verification pending".'
+    created_at: '2026-04-05T17:00:00+08:00'
+    superseded_by: null
+    superseded_by_reason: null
+    supersedes: null
+- claim_id: C_V58_TRAIN_vs_LIVE_DATA
+  current_revision: 1
+  lifecycle_status: active
+  superseded_by: null
+  supersedes:
+  - C_IMAGE_NEAR_WHITE
+  - C_IMAGE_NEAR_WHITE@2
+  split_from: null
+  split_into: []
+  revisions:
+  - revision: 1
+    statement: 'V58 TRAIN-TIME dataset was 18,701 frames / 229 episodes (from v58_train.log:
+      "dataset.num_frames=18701, dataset.num_episodes=229"). Current live dataset/
+      is 3,305 frames / 36 episodes — this is a RESIDUE from post-training overwrite,
+      NOT what V58 was trained on. The original 18,701/229 dataset was overwritten
+      by an interrupted pack run on Apr 5 13:38. The claim "V58 used corrupt data
+      (3305 frames)" is FALSE. V58 trained on 18,701 frames. V58 failure (0% success)
+      occurred with near-white images (ER_TINY_RENDERER) and continuous gripper_joint.
+      3305/36 is post-train residue.'
+    scope: v58_data_provenance
+    status: supported
+    evidence_ids:
+    - E015
+    - E016
+    - E017
+    - E018
+    - E019
+    change_type: create
+    change_reason: 'Codex review: C_V58_FAILURE_ROOT_CAUSE_REVISED incorrectly claimed
+      "V58 used corrupt data (3305 instead of 18701)". v58_train.log confirms V58
+      was trained on 18,701 frames. 3305/36 is post-training residue. V58 0% failure
+      is with 18,701 frames of near-white image data.'
+    created_at: '2026-04-05T17:00:00+08:00'
+    superseded_by: null
+    superseded_by_reason: null
+    supersedes: null
+- claim_id: C_V59_ENV_GATE_FAILED
+  current_revision: 1
+  lifecycle_status: active
+  superseded_by: null
+  supersedes: null
+  split_from: null
+  split_into: []
+  revisions:
+  - revision: 1
+    statement: 'V59 env-level overfit gate: NEGATIVE_GATE. Both pretrained and finetuned
+      MINT achieve 0.000 drawer_fraction on all 6 simulation rollouts (3 seeds × 2
+      episodes). Offline action RMSE improvement (+51.7%) does NOT translate to task
+      success. CORRECTED DIAGNOSIS: E023 (RCA1) proved all 7/7 teacher episodes are
+      task-successful (mean_max_drawer=0.989). Teacher demos ARE successful. MINT
+      improved at imitating them offline, but imitated actions still do not open the
+      drawer in simulation. Root cause must be: action normalization mismatch, state
+      representation gap, or sim-to-sim gap (LIBERO→Infinigen). Insufficient training
+      data is NOT the sole cause. Full V59 retrain without fixing action/state contract
+      will repeat V58 failure. P0b (colored reroll): OPEN QUESTION — pretrained failure
+      in white images is consistent with multiple hypotheses.'
+    scope: v59_pipeline_validation
+    status: supported
+    evidence_ids:
+    - E022
+    - E021
+    - E015
+    change_type: create
+    change_reason: 'E022 env-level overfit gate: both policies get 0.000 drawer_fraction.
+      Offline improvement (E021) does not mean task success. V58 failure was NOT due
+      to insufficient data or white images. Root cause investigation required.'
+    created_at: '2026-04-05T20:35:00+08:00'
+    superseded_by: null
+    superseded_by_reason: null
+    supersedes: null
+- claim_id: C_RCA1_TEACHER_NOT_ROOT_CAUSE
+  current_revision: 1
+  lifecycle_status: active
+  superseded_by: null
+  supersedes:
+  - C_PHYSICS_LEGAL_TEACHER
+  split_from: null
+  split_into: []
+  revisions:
+  - revision: 1
+    statement: 'All 7/7 V59 overfit teacher episodes are task-successful. RCA1 verified:
+      episodes 0,1,2,3,4,5,49 (LeRobot indices) map to physics-legal NPZ rollouts
+      with success=True, mean_max_drawer_fraction=0.989, attach_rate=1.0. Teacher
+      quality is NOT the root cause of V58/V59 failure. Root cause must be in MINT
+      training pipeline: action normalization, state representation, or sim-to-sim
+      gap. METHODOLOGY: LeRobot episode_index ≠ NPZ filename episode index. Must trace
+      through V59 pack log sorted file order. E023 confirms.'
+    scope: rca1_teacher_quality
+    status: supported
+    evidence_ids:
+    - E023
+    - E022
+    - E021
+    change_type: create
+    change_reason: 'RCA1 completed: all 7/7 teacher episodes confirmed task-successful.
+      Teacher quality ELIMINATED as root cause. MINT failure must be in action/state
+      pipeline.'
+    created_at: '2026-04-05T22:30:00+08:00'
+    superseded_by: null
+    superseded_by_reason: null
+    supersedes: null
+- claim_id: C_V59_ACTION_NORMALIZATION_NOT_ROOT_CAUSE
+  scope: overfit_subset_7_episodes
+  statement: 'For the 7 V59 overfit episodes, action normalization is NOT the root
+    cause of
+
+    task failure in DrawerRobotEnv. Dataset actions are in [-1, 1] range (position/rotation)
+
+    and gripper uses ±1.0 convention, matching DrawerRobotEnv''s expected input contract.
+
+    Teacher action replay is inconclusive (attachment_local estimation error) but
+
+    static analysis independently proves no action format mismatch.
+
+    '
+  current_revision: 1
+  lifecycle_status: active
+  superseded_by: null
+  supersedes: null
+  revisions:
+  - revision: 1
+    statement: 'For the 7 V59 overfit episodes, action normalization is NOT the root
+      cause of
+
+      task failure in DrawerRobotEnv. Dataset actions are in [-1, 1] range (position/rotation)
+
+      and gripper uses ±1.0 convention, matching DrawerRobotEnv''s expected input
+      contract.
+
+      Teacher action replay is inconclusive (attachment_local estimation error) but
+
+      static analysis independently proves no action format mismatch.
+
+      '
+    scope: overfit_subset_7_episodes
+    status: supported
+    evidence_ids:
+    - E024
+    change_type: create
+    change_reason: 'RCA2 static analysis: gripper=±1.0, pos/rot in [-1,1], scales
+      consistent with DrawerRobotEnv'
+    created_at: '2026-04-06T00:16:00+08:00'
     superseded_by: null
     superseded_by_reason: null
     supersedes: null

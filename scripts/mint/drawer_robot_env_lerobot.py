@@ -366,7 +366,7 @@ class DrawerRobotEnvLeRobot:
         drawer_path = _DRAWER_ROOT / str(self._seed) / "drawerbox.urdf"
         if not drawer_path.exists():
             raise FileNotFoundError(f"Drawer URDF not found: {drawer_path}")
-        return self._p.loadURDF(
+        drawer_id = self._p.loadURDF(
             str(drawer_path),
             basePosition=[0.0, 0.0, 0.0],
             baseOrientation=[0.0, 0.0, 0.0, 1.0],
@@ -374,6 +374,24 @@ class DrawerRobotEnvLeRobot:
             flags=self._p.URDF_USE_SELF_COLLISION,
             physicsClientId=self._client,
         )
+        # P0b fix: ER_TINY_RENDERER does not read .mtl material files.
+        # Set cardboard color via changeVisualShape after loading.
+        # Cardboard color from modular_box_factory.py BoxMaterialConfig:
+        #   Kd = (0.60, 0.50, 0.40)
+        # RGBA: alpha=1.0 (fully opaque)
+        cardboard_rgba = [0.60, 0.50, 0.40, 1.0]
+        num_joints = self._p.getNumJoints(drawer_id, physicsClientId=self._client)
+        # Set all links (including base link = -1)
+        link_indices = list(range(num_joints))
+        link_indices.insert(0, -1)  # base link
+        for link_idx in link_indices:
+            self._p.changeVisualShape(
+                drawer_id,
+                linkIndex=link_idx,
+                rgbaColor=cardboard_rgba,
+                physicsClientId=self._client,
+            )
+        return drawer_id
 
     # ── PyBullet camera helpers ──────────────────────────────────────────────
 

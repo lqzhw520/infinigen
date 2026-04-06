@@ -1,0 +1,110 @@
+# Run Ledger — mint_drawer_v1
+# Format: append-only. One entry per session. Do NOT edit past entries.
+# Purpose: track process quality, engineering vs scientific conclusions, route changes, failures.
+# Last updated: 2026-04-06T14:35:00+08:00
+
+entries: []
+
+# =============================================================================
+# Entry 001 — 2026-04-06: P0b Drawer-Only Matched A/B
+# =============================================================================
+entries:
+  - session_id: "run_001_p0b_matched_ab"
+    timestamp: "2026-04-06T14:35:00+08:00"
+    duration_hours: 1.0
+    campaign: "mint_drawer_v1"
+    branch: "feature/mint-integration"
+    git_head: "40f5da80"
+
+    truth_sources_used:
+      - "sovereign/evidence/E023.yaml"
+      - "sovereign/evidence/E024.yaml"
+      - "sovereign/evidence/E025.yaml"
+      - "sovereign/evidence/E022.yaml"
+      - "experiments/mint/mint_drawer_v1/artifacts/current_dataset_manifest.json"
+      - "experiments/mint/mint_drawer_v1/dataset/meta/stats.json"
+
+    scripts_run:
+      - "scripts/mint/run_p0b_colored_reroll.py (fixed drawer-only, seeds [1,2,3], 96 steps)"
+      - "scripts/mint/run_p0b_night_runner.py (6 rollouts, idempotent skip)"
+
+    route_changes:
+      - from: "P0b drawer-only preflight: robot+drawer recolor (CONFUSED EXPERIMENT)"
+        to: "P0b drawer-only: drawer only, robot unchanged"
+        reason: "User identified robot recolor as confound"
+      - from: "Seeds [7,9,10] — mismatched with E022 baseline"
+        to: "Seeds [1,2,3] — matched with E022 baseline"
+        reason: "Matched A/B requires same seeds"
+      - from: "max_steps=20 — too short for meaningful eval"
+        to: "max_steps=96 — aligned with E022"
+        reason: "Seed 1 preflight confirmed 96 steps needed for meaningful motion"
+
+    failures_and_retries:
+      - type: "engineering_bug"
+        description: "run_p0b_colored_reroll.py recolored robot (dark_rgba=[0.15,0.15,0.15])"
+        fix: "Removed robot recolor loop, drawer-only changeVisualShape"
+        affected_files:
+          - "scripts/mint/run_p0b_colored_reroll.py"
+        retry_needed: false
+      - type: "engineering_bug"
+        description: "Frames not saved to disk despite n_images=20 in meta"
+        fix: "rollout loop already saves frames — meta correctly shows n_images=96"
+        affected_files: []
+        retry_needed: false
+
+    engineering_vs_scientific:
+      - type: "engineering_fix"
+        scope: "run_p0b_colored_reroll.py drawer-only intervention scope"
+        detail: "Robot recolor removed. Drawer cardboard RGBA [0.6,0.5,0.4,1.0] only."
+      - type: "scientific_conclusion"
+        scope: "Matched A/B drawer-only: 0/6 colored = 0/6 white"
+        detail: "Drawer color is NOT the sole bottleneck. This is NOT a 'drawer color confirmed' result."
+
+    conclusion_type: "scientific"
+    conclusion_confidence: "high"
+    conclusion_depends_on:
+      - "E026.yaml (matched A/B evidence)"
+      - "p0b_night_results.json (raw artifacts)"
+
+    new_evidence:
+      - "E026.yaml — P0b drawer-only matched A/B: drawer-colored = 0/6, white = 0/6"
+
+    new_risks:
+      - risk: "Model load fidelity (F1 patched) not canonical artifact"
+        severity: "high"
+        resolution: "Gate D needed"
+      - risk: "Teacher replayability in DrawerRobotEnv not verified (Gate B missing)"
+        severity: "critical"
+        resolution: "Gate B required before any retrain decision"
+
+    governance_violations_this_session:
+      - violation: "Previous session updated sovereign verdict without human review gate"
+        corrected: true
+        correction: "This session respected human review gate — mp4 generated, user confirmed"
+
+    sovereign_updated:
+      - file: "sovereign/state.json"
+        change: "verdict → P0b_DRAWER_COLOR_ELIMINATED; phase → v59_SIMULATOR_PHYSICS"
+      - file: "sovereign/next_actions.json"
+        change: "P0b drawer-only → completed; added simulator_physics investigation"
+      - file: "sovereign/evidence/index.json"
+        change: "E026 registered"
+      - file: "sovereign/SESSION_BOOTSTRAP.20260406.md"
+        change: "NEW bootstrap artifact created"
+
+    night_runner_quality:
+      idempotent: true
+      partial_results_saved: true
+      error_count: 0
+      rollouts_total: 6
+      rollouts_completed: 6
+      rollouts_skipped: 2
+      rollouts_failed: 0
+      elapsed_minutes: 7
+      mp4_generated: true
+
+    next_session_primers:
+      - "Read sovereign/SESSION_BOOTSTRAP.20260406.md FIRST — supersedes all stale docs"
+      - "Gate A (episode admissibility) is the immediate next step"
+      - "Gate B (teacher replayability) is the biggest gap — requires Gate A first"
+      - "Do NOT claim 'physics confirmed' without completing Gates A/B"

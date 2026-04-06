@@ -1,5 +1,5 @@
 {
-  "decision": "v59_RCA2_COMPLETED — ACTION_NORMALIZATION_ELIMINATED — RCA3_STATE_REPRESENTATION_NEXT — P0B_OPEN_QUESTION",
+  "decision": "V59_GATE_A_COMPLETED \u2014 GATE_B_NOW_PRIMARY",
   "actions": [
     {
       "type": "data_provenance_fix",
@@ -13,7 +13,7 @@
       "priority": "P0",
       "target": "Fix near-white images (ER_TINY_RENDERER limitation)",
       "status": "completed",
-      "evidence": "E020.yaml — ER_TINY ignores all color APIs. MTL/URDF patches applied but ER_TINY still renders white at runtime."
+      "evidence": "E020.yaml \u2014 ER_TINY ignores all color APIs. MTL/URDF patches applied but ER_TINY still renders white at runtime."
     },
     {
       "type": "P0b_overfit_with_white_images",
@@ -42,7 +42,7 @@
       "status": "completed",
       "result": {
         "verdict": "ELIMINATED",
-        "evidence": "E023.yaml — All 7/7 teacher episodes are task-successful (success=True, mean_max_drawer=0.989). Teacher quality is NOT the root cause."
+        "evidence": "E023.yaml \u2014 All 7/7 teacher episodes are task-successful (success=True, mean_max_drawer=0.989). Teacher quality is NOT the root cause."
       }
     },
     {
@@ -59,9 +59,9 @@
       ],
       "result": {
         "verdict": "ACTION_NORMALIZATION_ELIMINATED",
-        "evidence": "E024.yaml — static analysis proves no action format mismatch. Teacher replay inconclusive due to attachment_local estimation error, not action values.",
-        "static_analysis": "OK — gripper=±1.0, pos/rot in [-1,1], scales consistent",
-        "teacher_replay": "INCONCLUSIVE — 0/7 attach, but due to attachment_local estimation not action values"
+        "evidence": "E024.yaml \u2014 static analysis proves no action format mismatch. Teacher replay inconclusive due to attachment_local estimation error, not action values.",
+        "static_analysis": "OK \u2014 gripper=\u00b11.0, pos/rot in [-1,1], scales consistent",
+        "teacher_replay": "INCONCLUSIVE \u2014 0/7 attach, but due to attachment_local estimation not action values"
       },
       "rca2_eliminates_action_normalization": true
     },
@@ -69,39 +69,131 @@
       "type": "RCA3_state_representation",
       "priority": "P0",
       "target": "Verify state representation compatibility between dataset and env",
-      "status": "pending",
+      "status": "completed",
       "description": "After RCA2, check if LIBERO pretraining vs Infinigen state format causes representation gap. SCOPE: This audit is limited to the current overfit subset and current env. Do NOT generalize to full V59. State[3:7] format and units may differ from what MINT was pretrained on. GUARDRAIL: P0b returns to priority if RCA2 and RCA3 both show no issue.",
       "subtasks": [
         "Compare dataset state[3:7] vs LIBERO state format",
         "Check if state normalization in MINT matches dataset state distribution",
         "Verify _state_vector() output is compatible with MINT state tokenizer"
       ],
-      "note": "Elevated to P0 after RCA2 eliminated action normalization. P0b still open."
+      "note": "Elevated to P0 after RCA2 eliminated action normalization. P0b still open.",
+      "result": {
+        "verdict": "STATE_FORMAT_MATCH_ELIMINATED",
+        "evidence": "E025.yaml \u2014 7/7 EEF/joints/gripper match, state7 continuous, action-gap risk LOW."
+      }
     },
     {
       "type": "P0b_colored_reroll",
-      "priority": "P1",
-      "target": "Re-record rollouts with EGL-rendered drawer env",
+      "priority": "P0",
+      "target": "Re-record rollouts with colored drawer images (PyBullet changeVisualShape)",
+      "status": "completed",
+      "decision": "UNDECIDED \u2014 Conditional on RCA2/RCA3 results. Near-white images are confirmed suboptimal but NOT yet proven as the primary bottleneck. Both policies (pretrained + finetuned) fail in white-image envs. This is CONSISTENT WITH multiple hypotheses: (a) white images ARE the bottleneck, (b) images are irrelevant and action/state mismatch is the bottleneck, OR (c) both contribute. Without a white-vs-colored A/B control, images cannot be ruled in or out as primary cause. P0b remains UNDECIDED, not CANCELLED. GUARDRAIL: If RCA2 (action) and RCA3 (state) show no misalignment, P0b must be re-elevated as the primary hypothesis for re-testing.",
+      "rca_dependency": "UNDECIDED until RCA2 (action) and RCA3 (state) are complete. GUARDRAIL: P0b returns to primary priority if RCA2/3 show no contract mismatch.",
+      "note": "P0b drawer-only ELIMINATED. Same 0/6 as white baseline. Simulator physics is primary hypothesis. Full-scene color still open.",
+      "preflight_results": "SUPERSEDED by matched A/B",
+      "model_loading_fixes": {
+        "critical_fix": "RuntimeError expected Float but found BFloat16 in SigLIP encoder layer_norm",
+        "root_cause": "Checkpoint has mixed dtypes: patch_embedding=float32, encoder layer_norm=bfloat16. to_bfloat16_for_selected_params promoted whole model to bfloat16, but SiglipVisionEmbeddings converts input to float32 (matching float32 patch_embedding), causing layer_norm bfloat16 weights vs float32 input mismatch",
+        "fix": "Changed to_bfloat16_for_selected_params to convert to float32 (not bfloat16). Also fixed: embed_language_tokens (GemmaForCausalLM uses .language_model.model.embed_tokens), forward (call .language_model.model.forward not .language_model.forward), all .language_model.layers[] -> .language_model.model.layers[], comprehensive key remapping for checkpoint architecture mismatch (165 missing + 164 unexpected keys fixed)",
+        "files": [
+          "external/MINT/lerobot_policy_mint/src/lerobot_policy_mint/modeling_mint.py",
+          "scripts/mint/evaluate_mint_drawer_campaign.py"
+        ]
+      },
+      "rollout_results": {
+        "pretrained_colored_seed7": {
+          "success": false,
+          "max_drawer_fraction": 0.0,
+          "rgb_std": 57.04,
+          "non_white_pct": 9.8,
+          "image_is_colored": true,
+          "non_zero_action_ratio": 1.0,
+          "total_eef_motion": 0.311,
+          "frames": 20
+        }
+      },
+      "result": {
+        "matched_A_B": true,
+        "drawer_only": true,
+        "robot_recolor": false,
+        "A_white_success": "0/6",
+        "B_colored_success": "0/6",
+        "verdict": "DRAWER_COLOR_NOT_SOLE_BOTTLENECK",
+        "evidence": "E026.yaml"
+      }
+    },
+    {
+      "type": "simulator_physics_investigation",
+      "id": "sim1_contact_physics",
+      "priority": "P0",
+      "target": "Verify if action that achieves attach in source sim achieves attach in DrawerRobotEnv",
       "status": "pending",
-      "decision": "UNDECIDED — Conditional on RCA2/RCA3 results. Near-white images are confirmed suboptimal but NOT yet proven as the primary bottleneck. Both policies (pretrained + finetuned) fail in white-image envs. This is CONSISTENT WITH multiple hypotheses: (a) white images ARE the bottleneck, (b) images are irrelevant and action/state mismatch is the bottleneck, OR (c) both contribute. Without a white-vs-colored A/B control, images cannot be ruled in or out as primary cause. P0b remains UNDECIDED, not CANCELLED. GUARDRAIL: If RCA2 (action) and RCA3 (state) show no misalignment, P0b must be re-elevated as the primary hypothesis for re-testing.",
-      "rca_dependency": "UNDECIDED until RCA2 (action) and RCA3 (state) are complete. GUARDRAIL: P0b returns to primary priority if RCA2/3 show no contract mismatch."
+      "description": "RCA1/2/3/4 (drawer color) all eliminated. Root cause is simulator physics mismatch. E023: teacher demos ARE successful in source sim. E024: action normalization is correct. E026: drawer color is NOT the bottleneck. The remaining hypothesis: actions that achieve attach in the source sim DO NOT achieve attach in DrawerRobotEnv. Possible causes: PyBullet contact parameters (friction, stiffness), IK solution differences, URDF geometry (handle position, drawer dimensions).",
+      "subtasks": [
+        "Test oracle/scripted policy in DrawerRobotEnv \u2014 can ANY policy achieve attach?",
+        "Compare PyBullet contact parameters with source sim",
+        "Check drawer URDF handle position vs source sim geometry",
+        "Verify IK solution consistency between source sim and DrawerRobotEnv"
+      ],
+      "depends_on": [
+        "gate_b_teacher_replayability"
+      ]
+    },
+    {
+      "type": "learnability_audit_gate",
+      "id": "gate_a_episode_admissibility",
+      "priority": "P0",
+      "target": "Classify 240 V59 episodes into task-teaching/motion-only/weak-noisy",
+      "status": "completed",
+      "evidence": "E027.yaml",
+      "result": {
+        "tier_distribution": "0 task-teaching, 240 motion-only, 0 weak/noisy",
+        "image_whiteness": "240/240 near-white (image_std=0.0000 within episodes)",
+        "action_quality": "STRONG (mean std=0.275, all above 0.15 threshold)",
+        "gripper": "70% binary, 30% continuous, 0% frozen",
+        "critical_finding": "ALL episodes have ZERO visual texture within-episode despite NPZ success=True"
+      }
+    },
+    {
+      "type": "learnability_audit_gate",
+      "id": "gate_b_teacher_replayability",
+      "priority": "P0",
+      "target": "Verify teacher actions replay successfully in DrawerRobotEnv (top-10 episodes)",
+      "status": "pending",
+      "description": "Gate A reveals: all 240 episodes have STRONG action quality but ZERO visual texture. Gate B must answer: can teacher actions (which succeed in source sim with success=True) replay successfully in DrawerRobotEnv? If NOT: the problem is simulator physics (actions non-transferable). If YES: the problem is MINT policy learning on zero-visual-texture data.",
+      "episode_candidates": [
+        157,
+        205,
+        25,
+        180,
+        3,
+        181,
+        158,
+        182,
+        138,
+        209
+      ],
+      "criteria": "Top-10 by action_std, episode length >= 20",
+      "depends_on": [
+        "gate_a_episode_admissibility"
+      ]
     }
   ],
-  "generated_at": "2026-04-05T20:35:00+08:00",
-  "verdict": "V59_RCA2_COMPLETED — ACTION_NORMALIZATION_ELIMINATED — ROOT_CAUSE_UNRESOLVED — P0B_OPEN",
-  "next_phase": "v59_RCA3_STATE_REPRESENTATION",
-  "evidence": "E021.yaml, E022.yaml, E023.yaml",
+  "generated_at": "2026-04-06T14:40:00+08:00",
+  "verdict": "V59_RCA3_COMPLETED \u2014 STATE_REPRESENTATION_ELIMINATED \u2014 ROOT_CAUSE_NARROWED_TO_IMAGE_OR_PHYSICS \u2014 P0B_ELEVATED",
+  "next_phase": "v59_LEARNABILITY_AUDIT_GATE_B",
+  "evidence": "E026.yaml",
   "primary_truth_sources": [
-    "E022.yaml — V59 env-level negative gate (authoritative)",
-    "E023.yaml — RCA1 teacher quality audit (authoritative)",
-    "next_actions.json — current next actions (authoritative)",
-    "sovereign go — live system truth (authoritative)"
+    "E022.yaml \u2014 V59 env-level negative gate (authoritative)",
+    "E023.yaml \u2014 RCA1 teacher quality audit (authoritative)",
+    "next_actions.json \u2014 current next actions (authoritative)",
+    "sovereign go \u2014 live system truth (authoritative)"
   ],
   "guardrails": [
-    "RCA2 conclusions apply ONLY to overfit subset (7 episodes) and current env/inference path. Do NOT extrapolate to full V59.",
-    "P0b (colored reroll) remains OPEN. If RCA2 and RCA3 show no mismatch, P0b must be re-elevated as primary bottleneck.",
-    "state.json contains legacy v58 narrative. Do NOT use it as primary truth. Use E022.yaml, E023.yaml, next_actions.json, and sovereign go output instead."
+    "P0b drawer-only conclusions apply ONLY to drawer color. Full-scene color remains unexplored.",
+    "Simulator physics investigation must use same seeds/policies as matched A/B.",
+    "Do NOT claim 'image domain eliminated' \u2014 only 'drawer color is not sole bottleneck'."
   ],
   "critical_analysis_reference": "sovereign/CAMPAIGN_TRUTH.v58_critical_analysis.generated.md",
-  "phase": "v59_RCA3_STATE_REPRESENTATION"
+  "phase": "v59_SIMULATOR_PHYSICS"
 }

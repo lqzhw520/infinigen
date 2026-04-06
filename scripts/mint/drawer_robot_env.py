@@ -226,6 +226,7 @@ class DrawerRobotEnv:
         self.ever_attached = False
         self.camera_projection = self._projection_matrix()
         self.reset()
+        self.attach_step: int | None = None  # set during replay
 
     def close(self) -> None:
         try:

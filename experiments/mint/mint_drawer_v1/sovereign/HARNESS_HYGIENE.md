@@ -1,8 +1,8 @@
 # Harness Hygiene Rules — mint_drawer_v1
 
-**Version**: 1.4
+**Version**: 1.5
 **Generated**: 2026-04-05T14:35+08:00
-**Last Updated**: 2026-04-05T17:00+08:00 (V59 overfit validated)
+**Last Updated**: 2026-04-06T14:35+08:00 (Learnability Audit gates; E026 updated; SESSION_BOOTSTRAP + run_ledger added)
 **Supersedes**: Ad-hoc operations that caused V58 provenance collapse
 
 ---
@@ -120,3 +120,27 @@ experiments/mint/mint_drawer_v1/artifacts/
 | Version | Date | Author | Change |
 |---------|------|--------|--------|
 | 1.0 | 2026-04-05T14:35 | harness_agent | Initial rules after V58 provenance collapse |
+| 1.4 | 2026-04-05T17:00 | harness_agent | V59 pack hygiene |
+| 1.5 | 2026-04-06T14:35 | harness_agent | Learnability Audit gates; SESSION_BOOTSTRAP + run_ledger added |
+
+---
+
+## Learnability Audit Hygiene
+
+Every new RCA or diagnostic before launching MINT retrain MUST complete these gates:
+
+| Gate | Name | Must Pass Before |
+|------|------|-----------------|
+| Gate A | Episode Admissibility | Any replay or retrain |
+| Gate B | Teacher Replayability | MINT retrain decision |
+| Gate C | Visual Sufficiency | Image-domain conclusions |
+| Gate D | Model Load Fidelity | Scientific conclusions about MINT |
+| Gate E | Task Learnability | Full retrain authorization |
+
+**The "just run more RCA" pattern is forbidden.** Do not write "root cause narrowed to X" without completing Gates A/B first.
+
+---
+
+## Session Bootstrap Protocol
+
+Each new session MUST read and follow `sovereign/SESSION_BOOTSTRAP.20260406.md` FIRST. It supersedes all stale docs including this file.

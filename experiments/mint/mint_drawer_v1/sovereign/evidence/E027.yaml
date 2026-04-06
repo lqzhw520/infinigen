@@ -1,0 +1,183 @@
+# E027 — Gate A: Episode Admissibility Audit (COMPLETED)
+# ==========================================================
+# Scope: Full V59 dataset — ALL 240 episodes
+# Evidence source: gate_a_episode_admissibility/ (artifacts/)
+# Run: 2026-04-06 14:40 UTC+8
+# Status: COMPLETED
+
+evidence_id: E027
+experiment_id: gate_a_episode_admissibility_audit
+type: learnability_audit
+scope: full_v59_240_episodes
+scope_guardrail: >
+  Gate A classifies episodes by DATA QUALITY, not by whether MINT can learn them.
+  Tier classification is a prerequisite for Gate B (Teacher Replayability).
+  An episode being "task-teaching" in the source sim does NOT mean
+  MINT can learn from it — Gate B must verify replayability in DrawerRobotEnv.
+
+timestamp: "2026-04-06T14:40:00+08:00"
+verified: false
+
+thresholds_used:
+  image_std_near_white: 0.010
+  image_std_colored: 0.050
+  action_std_weak: 0.05
+  action_std_nominal: 0.15
+  gripper_std_binary: 0.95
+  gripper_std_frozen: 0.02
+  min_episode_length: 10
+  gripper_std_continuous_range: [0.02, 0.90]
+
+results:
+  n_total: 240
+  tier_distribution:
+    task-teaching: "0/240 (0.0%)"
+    motion-only: "240/240 (100.0%)"
+    weak/noisy: "0/240 (0.0%)"
+
+  image_color_distribution:
+    near-white: "240/240 (100.0%)"    # CRITICAL: ALL episodes have near-white images
+    partial: "0/240 (0.0%)"
+    colored: "0/240 (0.0%)"
+  image_std_mean: 0.0000
+  image_std_min: 0.0000
+  image_std_max: 0.0000
+  note: "image_std=0.0000 for every episode means NO within-episode visual texture.
+         The std>0 in dataset meta/stats.json is from AVERAGING across episodes,
+         not from variation within episodes."
+
+  action_distribution:
+    action_std_mean: 0.2752
+    action_std_std: 0.0211
+    action_std_min: 0.1951
+    action_std_max: 0.3238
+    assessment: "STRONG — all episodes have meaningful motion (std > 0.15 threshold)"
+  action_pos_std_mean: 0.0  # computed from position-only subset
+  gripper_action_distribution:
+    binary: "168/240 (70.0%)"      # gripper std > 0.95
+    continuous: "72/240 (30.0%)"     # 0.02 <= gripper std <= 0.90
+    frozen: "0/240 (0.0%)"           # gripper std < 0.02
+
+  episode_length:
+    mean: 82.1
+    min: 31
+    max: 115
+    assessment: "SUFFICIENT — all episodes are long enough for meaningful evaluation"
+
+  gate_b_replay_candidates:
+    n: 240
+    criteria: "tier in [motion-only], length >= 20, action_std >= 0.10"
+    note: "All 240 episodes qualify as Gate B replay candidates based on action quality.
+           But ALL 240 are motion-only due to near-white images."
+
+findings:
+
+  q1_episode_quality_overall:
+    question: "What is the quality distribution of the 240 V59 episodes?"
+    answer: "0 task-teaching, 240 motion-only, 0 weak/noisy"
+    detail: >
+      Every episode has strong action variance (mean std=0.275) indicating meaningful motion.
+      No episodes are weak or noisy. However, ALL episodes have near-white images
+      (image_std=0.0000 within each episode).
+    implication: "The dataset has MOTION QUALITY but ZERO VISUAL TEXTURE within episodes."
+
+  q2_image_whiteness:
+    question: "Are images near-white within individual episodes?"
+    answer: YES
+    detail: >
+      240/240 episodes have image_std=0.0000 (within-episode). This is the most
+      critical finding. The images are PERFECTLY homogeneous within each episode.
+      This means SigLIP/PaliGemma cannot extract ANY visual features from individual
+      frames (no texture, no edge, no handle salience).
+    implication: >
+      Image-based policy learning is fundamentally limited by the data.
+      The vision encoder sees near-identical white noise in every frame of every episode.
+      MINT can only learn from action/state, not from visual texture.
+
+  q3_gripper_action_type:
+    question: "Are gripper actions binary or continuous in the V59 dataset?"
+    answer: MIXED — 70% binary, 30% continuous, 0% frozen
+    detail: >
+      168 episodes have binary-like gripper actions (std > 0.95).
+      72 episodes have continuous gripper actions (0.02 <= std <= 0.90).
+      0 episodes have frozen gripper actions (std < 0.02).
+      NOTE: "binary" here means the gripper opens and closes as a unit (±1.0 action),
+      which is intentional for the drawer task — it is not an artifact.
+
+  q4_action_motion_quality:
+    question: "Do episodes have sufficient action variance for learning?"
+    answer: YES — STRONG
+    detail: >
+      Action std ranges from 0.195 to 0.324 (mean 0.275), well above the 0.15 nominal
+      threshold. All 240 episodes show meaningful end-effector motion.
+      This confirms that episodes are not low-quality/noisy — they contain real motion.
+
+  q5_task_teaching_episodes:
+    question: "Can episodes be classified as 'task-teaching'?"
+    answer: NO
+    detail: >
+      No episodes qualify as "task-teaching" because ALL have near-white images.
+      The definition of "task-teaching" requires: (1) meaningful motion AND
+      (2) non-near-white images. All episodes satisfy (1) but 0% satisfy (2).
+      CRITICAL CAVEAT: NPZ source files all have success=True (drawer opened in source sim).
+      But the source sim images are near-white. The "task-teaching" classification
+      is based on VISUAL quality, not on whether the source sim succeeded.
+
+combined_conclusion: >
+  Gate A reveals a fundamental data quality constraint:
+  The V59 dataset has EXCELLENT ACTION QUALITY but ZERO VISUAL TEXTURE.
+  
+  Every episode: near-white images + strong action variance + no gripper frozen.
+  Every episode: source NPZ success=True (drawer opened in source sim).
+  
+  But: image_std=0.0000 for ALL 240 episodes = no visual features.
+  This means MINT (a vision-based policy) is being trained on:
+    - Strong action signals (EEF motion, gripper open/close)
+    - Zero visual texture (every frame = homogeneous white)
+  
+  The policy can ONLY learn from action/state, NOT from vision.
+  This is consistent with:
+    - E022: both pretrained and finetuned = 0/6 success
+    - E026: drawer color = 0/6 (color can't help if there's no texture)
+  
+  IMPLICATION FOR GATE B:
+    The teacher replayability question is NOT whether the actions are high quality
+    (they are). The question is whether the POLICY (MINT) can learn from
+    action-only signals when the vision encoder receives zero-information images.
+    Gate B must test this directly: can any policy succeed in DrawerRobotEnv
+    even when trained on these near-white images?
+
+do_not: >
+  - Do NOT conclude "episodes are low quality" — action quality is strong
+  - Do NOT conclude "image whitening is fine" — zero visual texture is a fundamental constraint
+  - Do NOT skip Gate B based on Gate A results
+  - Do NOT claim "task-teaching episodes exist" — 0/240 qualify
+  - Do NOT ignore the NPZ success=True labels — they show drawer was opened in source sim
+
+gate_b_implications:
+  all_240_qualify_for_replay: true
+  but_image_constraint_unchanged: true
+  gate_b_must_answer: >
+    Even if teacher actions replay successfully in DrawerRobotEnv,
+    can a policy trained on near-white images learn to replicate them?
+    This is a LEARNING question, not just a REPLAY question.
+
+  recommended_gate_b_scope: >
+    Test REPLAYABILITY of top-10 episodes by action quality:
+    episodes [157, 205, 25, 180, 3, 181, 158, 182, 138, 209]
+    These have the highest action variance and longest episode lengths.
+    Replay them in DrawerRobotEnv to verify the physics is compatible.
+
+implications_for_next_actions:
+  gate_a_completed: true
+  gate_b_priority: HIGH
+  gate_c_visual_sufficiency: >
+    All 240 episodes are near-white. Gate C cannot test "richer images help"
+    using the existing V59 dataset. Gate C would require RE-RECORDING the dataset
+    with colored images — which is expensive. The more efficient path is to
+    first complete Gate B, then decide if re-recording is justified.
+  policy_learning_constraint: >
+    MINT is a vision-based policy. If images have zero information (near-white),
+    MINT must learn from action/state alone. This is a fundamentally different
+    learning problem than what MINT was designed for (vision-conditioned action).
+    Consider: is action-only MINT evaluation even valid given the data constraints?

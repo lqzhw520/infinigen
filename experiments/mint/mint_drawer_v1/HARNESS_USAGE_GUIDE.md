@@ -1,172 +1,96 @@
-# Harness v1.4 — Phase 2: V59 Env Gate Completed
+# Harness v2 — mint_drawer_v1
 **Campaign**: `mint_drawer_v1`
-**当前 Verdict**: `V59_ENV_GATE_WEAK_PASS — PIPELINE_ISSUE_DEEPER_THAN_IMAGE_QUALITY`
-**Phase**: 2 of 4 — Root Cause Analysis Next
-**上次更新**: 2026-04-05 20:35 PM
+**Status**: `v59_LEARNABILITY_AUDIT_IN_PROGRESS`
+**Phase**: Learnability Audit
+**Updated**: 2026-04-06T14:35+08:00
+**STALE WARNING**: This file must be updated at end of each session.
 
 ---
-## 现在你要用 harness，只跑一个命令：
+
+## 当前 Verdict（每次 session 开始时确认）
+
+```
+V59_RCA123_ALL_ELIMINATED — P0b_DRAWER_COLOR_ELIMINATED — SIMULATOR_PHYSICS_NOW_PRIMARY
+```
+
+**完整 Truth Sources**（只读这些）：
+```
+sovereign/SESSION_BOOTSTRAP.20260406.md ← 每次 session 第一个读的文件
+sovereign/evidence/E022.yaml  — Env gate: white=0/6
+sovereign/evidence/E023.yaml — RCA1: teacher ELIMINATED (7/7 successful)
+sovereign/evidence/E024.yaml — RCA2: action normalization ELIMINATED
+sovereign/evidence/E025.yaml — RCA3: state representation ELIMINATED
+sovereign/evidence/E026.yaml — P0b: drawer color ELIMINATED (matched A/B: 0/6)
+sovereign/next_actions.json — 当前队列
+sovereign/state.json — phase + verdict（Tier 1，不含 narrative）
+sovereign/run_ledger.yaml — session 历史
+```
+
+**过时的文件（不要作为当前依据）**：
+```
+sovereign/handoff.md        ← 停在了 2026-04-04
+HARNESS_USAGE_GUIDE.md    ← 停在了 2026-04-05
+sovereign/HARNESS_HYGIENE.md ← 停在了 2026-04-05
+sovereign/CAMPAIGN_TRUTH.*  ← 旧的 generated view
+state.json (legacy fields) ← V58 narrative 已废弃
+artifacts/p0b_colored_rollouts/seed_007_* ← exploratory superseded
+```
+
+---
+
+## 新 Session 启动（每个 Cursor session 开始时）
+
 ```bash
 cd /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1
-python scripts/harness/sovereign_cli.py go
-```
-**这一个命令会：lint 通过 → 打印当前 verdict → 打印 Active Claims → 打印 Pending Actions → 打印 Suggested Next Step + hint。
 
-不需要你手工跑多个脚本，不需要查文件。它自己把 sovereign/claims.yaml、sovereign/state.json、sovereign/evidence/index.json、sovereign/next_actions.json 全读一遍，汇总成上面那个输出。**
+# 1. Read bootstrap FIRST
+cat sovereign/SESSION_BOOTSTRAP.20260406.md
 
-
-
----
-
-
-# Harness v1.3 — Quick Usage Guide
-
-**Campaign**: `mint_drawer_v1`
-**Phase**: 1 of 4
-**上次更新**: 2026-03-31
-
----
-
-## 新 Session 启动（每个 Cursor session 开始时运行）
-
-```bash
-cd /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1
-
-# 1. 验证 sovereign 完整性
+# 2. Reconcile sovereign
 python3 scripts/harness/02_reconcile_sources.py
-# 期望: RECONCILE OK (0 warnings)
+# 期望: RECONCILE OK
 
-# 2. 阅读 handoff（如果存在）
-cat sovereign/handoff.md
-
-# 3. 阅读当前 claim 状态
-cat sovereign/CAMPAIGN_TRUTH.generated.md
-```
-
-**如果 reconcile 报 ERROR**：停止分析，先修复错误（见下方 Troubleshooting）。
-
----
-
-## Claim 操作规范
-
-### 读取 claim
-
-```python
-import yaml
-claims = yaml.safe_load(open("sovereign/claims.yaml"))
-
-for c in claims["claims"]:
-    rev = c["revisions"][c["current_revision"] - 1]
-    print(f"{c['claim_id']}: {rev['status']} | {rev['scope']}")
-    print(f"  {rev['statement'][:100]}")
-```
-
-### 变更 claim（Phase 2 后）
-
-**禁止直接编辑** `sovereign/claims.yaml`。
-
-正确方式（Phase 2 后）：
-```bash
-python3 scripts/harness/sovereign_cli.py revise-claim \
-    --claim C_SIGLIP_GENERALIZATION \
-    --status contradicted \
-    --change-type evidence_added \
-    --evidence-add E003 \
-    --change-reason "E3 eval confirms pretrained=0% on held-out seeds 11-15"
+# 3. Run lints
+python3 scripts/harness/03_claim_lint.py
+python3 scripts/harness/04_action_lint.py
 ```
 
 ---
 
-## Evidence 操作规范
+## 当前 Learnability Audit 进度
 
-### 查看已有 evidence
-
-```bash
-# Evidence index
-cat sovereign/evidence/index.json
-
-# 具体 evidence
-cat sovereign/evidence/E001.yaml
-```
-
-### 追加新 evidence（Phase 2 后）
-
-```bash
-python3 scripts/harness/sovereign_cli.py record-evidence \
-    --file /path/to/new/evidence.yaml
-```
+| Gate | 名称 | 状态 | 证据 |
+|------|------|------|------|
+| Gate A | Episode Admissibility | ⏳ **PENDING** | — |
+| Gate B | Teacher Replayability | ⏳ **PENDING** (critical gap) | — |
+| Gate C | Visual Sufficiency | ⏳ PENDING | — |
+| Gate D | Model Load Fidelity | ⚠️ 部分完成 | F1 rated, not canonical |
+| Gate E | Task Learnability | ⏳ PENDING | — |
+| RCA1 | Teacher Quality | ✅ ELIMINATED | E023: 7/7 successful |
+| RCA2 | Action Normalization | ✅ ELIMINATED | E024 |
+| RCA3 | State Representation | ✅ ELIMINATED | E025 |
+| P0b | Drawer Color (sole) | ✅ ELIMINATED | E026: 0/6 matched A/B |
 
 ---
 
-## 关闭实验（Phase 2 后）
+## 立即下一步
 
-训练/评估完成后，不要直接编辑 sovereign 文件：
-```bash
-python3 scripts/harness/sovereign_cli.py close-experiment \
-    --evidence E003 \
-    --experiment-id d2_v58_run01 \
-    --metrics grasp_success=0.0,total_eef_motion_m=7.2
-```
+**Gate A: Episode Admissibility Audit** — 跑全量 240 episodes 的 episode-level 诊断，分类：
+- `task-teaching`: strict_success=True, ever_attached=True, meaningful attach persistence
+- `motion-only`: 有动作但无 attach
+- `weak/noisy`: 低 action variance、状态异常、physics illegal
 
----
-
-## Legacy 文件清单
-
-以下文件**不得**作为真相源：
-
-| 文件 | 状态 |
-|------|------|
-| `campaign_status.md` | LEGACY — 已打标 |
-| `findings.md` | LEGACY — 已打标 |
-| `progress.md` | LEGACY — 已打标 |
-| `decision_memo.md` | LEGACY — 已打标 |
-| `takeover_memo.md` | LEGACY — 已打标 |
-| `step_review_guide.md` | LEGACY — 已打标 |
-| `campaign_spec.md` | LEGACY — 已打标 |
-| `review_prompt.md` | LEGACY — 已打标 |
-| `acceptance_criteria.json` | LEGACY — 数据迁移至 `sovereign/acceptance_criteria.yaml` |
-| `summary.json` | LEGACY — 已打标 |
-| `review.json` | LEGACY — 已打标 |
+**Gate B: Teacher Replayability**（在 Gate A 后执行）— 验证 teacher action 在 DrawerRobotEnv 中是否可重放成功。**这是当前最大缺口**。如果不过，后面任何 MINT 调优都是在拟合一个当前 env 不可执行的目标。
 
 ---
 
-## Troubleshooting
+## Run Ledger
 
-### Q: `02_reconcile_sources.py` 报 ERROR
-
-```bash
-# 检查软链接
-ls -la manifest.yaml state.json next_actions.json
-
-# 重新同步
-bash scripts/harness/01_sync_pointers.sh
-python3 scripts/harness/02_reconcile_sources.py
+```
+sovereign/run_ledger.yaml ← append-only，每次 session 追加
 ```
 
-### Q: `CAMPAIGN_TRUTH.md` 被覆盖了
-
-重新创建 stub：
-```bash
-cat > CAMPAIGN_TRUTH.md << 'EOF'
-# CAMPAIGN_TRUTH (LEGACY POINTER)
-
-DO NOT EDIT THIS FILE.
-Canonical source: sovereign/CAMPAIGN_TRUTH.generated.md
-EOF
-```
-
-### Q: Claim revision chain 断裂
-
-运行深度验证：
-```python
-import yaml
-data = yaml.safe_load(open("sovereign/claims.yaml"))
-# 检查 superseded_by 链接是否指向存在的 claim_id@revision
-```
-
-### Q: Legacy 文件的旧内容还有用吗
-
-有用，但只能作为**历史上下文**，不能作为当前决策依据。
+**最近 session**：`run_001_p0b_matched_ab`（2026-04-06, 1h, drawer color eliminated）
 
 ---
 
@@ -174,10 +98,9 @@ data = yaml.safe_load(open("sovereign/claims.yaml"))
 
 | Phase | 内容 | 状态 |
 |-------|------|------|
-| **Phase 1** | Sovereignty convergence (目录/symlink/claims/schema) | ✅ **完成** |
-| **Phase 2** | Lint gates + sovereign_cli.py | 🔜 下一阶段 |
-| **Phase 3** | GC scripts (report-only) | ⏳ 待定 |
-| **Phase 4** | Night runner (P3a→b→c) | ⏳ 待定 |
-
-完整 plan: `.cursor/plans/harness_engineering_v1_for_mint_drawer_v1_96fbd6f6.plan.md`
-测试报告: `HARNESS_PHASE1_REPORT.md`
+| V58 Train/Eval | V58 finetune + eval | ✅ 完结（0%） |
+| V59 Data Pack | 240ep, 19701f, dataset_loads=true | ✅ 完结 |
+| RCA1/2/3 | Teacher/Action/State elimination | ✅ 完结 |
+| P0b Drawer Color | Matched A/B | ✅ 完结 |
+| **Learnability Audit** | Gate A/B/C/D/E | ⏳ **IN PROGRESS** |
+| Simulator Physics | 待定 | ⏳ 待定 |

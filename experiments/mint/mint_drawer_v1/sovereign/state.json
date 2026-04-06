@@ -1,6 +1,6 @@
 {
-  "phase": "v59_RCA3_STATE_REPRESENTATION",
-  "verdict": "V59_RCA2_COMPLETED \u2014 ACTION_NORMALIZATION_ELIMINATED \u2014 ROOT_CAUSE_UNRESOLVED \u2014 P0B_OPEN",
+  "phase": "v59_LEARNABILITY_AUDIT_GATE_B",
+  "verdict": "V59_GATE_A_COMPLETED \u2014 ALL_EPISODES_ZERO_VISUAL_TEXTURE \u2014 GATE_B_NOW_PRIMARY",
   "queue": [
     {
       "id": "u1_asset_geometry_audit",
@@ -106,11 +106,11 @@
     },
     {
       "id": "p0b_image_render_fix",
-      "status": "in_progress",
+      "status": "completed",
       "attempts": 0,
-      "updated_at": "2026-04-05T22:00:00+08:00",
-      "note": "ER_TINY RENDERER limitation CONFIRMED (E020): renders all URDF mesh geometry as white. MTL/URDF patches applied (144 MTL files + 16 URDF files) but ER_TINY ignores them at runtime. IMPORTANT after E022: P0b is NOT the sole root cause. Pretrained MINT (never trained on Infinigen images) also gets 0.000 drawer_fraction (E022). P0b still needed as part of multi-cause fix, but RCA must complete first.",
-      "notes": "E022 \u540e\u7684\u4fee\u6b63\uff1anear-white images \u4e0d\u662f\u552f\u4e00\u6839\u56e0\u3002\u767d\u56fe\u50cf\u4fee\u590d\uff08P0b\uff09\u4ecd\u5e94\u5b8c\u6210\uff0c\u4f46\u4f18\u5148\u7ea7\u4f4e\u4e8e RCA\u3002"
+      "updated_at": "2026-04-06T14:23:37+08:00",
+      "note": "E026 matched A/B: drawer-colored = 0/6, white = 0/6. Drawer color NOT the bottleneck. SIMULATOR_PHYSICS is now primary.",
+      "notes": "P0b drawer-only ELIMINATED as sole bottleneck. Full-scene color still open but not priority."
     },
     {
       "id": "p1_regenerate_v58_dataset",
@@ -127,22 +127,6 @@
       "note": "DATA PROVENANCE COLLAPSE confirmed. FOUR LAYERS: (1) Train-time truth: 229/18701 (Apr 4 23:20 pack, dataset_loads=true). (2) Pack artifact truth: v58_lerobot_pack.json shows 229/18701. (3) Current live truth: 36/3305, corrupted parquet \u2014 OVERWRITTEN Apr 5 13:38 interrupted pack. (4) Sovereign written truth: had wrong conclusions on P0a (frozen gripper). RECOMMENDATION: Regenerate from NPZ sources."
     }
   ],
-  "active_job": "v58_critical_analysis",
-  "active_runtime": {
-    "step_id": "v58_critical_analysis_completed",
-    "active_lane": "v58_data_pipeline_quality",
-    "active_branch": null,
-    "active_fingerprint": "libero_contract_v2",
-    "controller_id": null,
-    "run_id": null,
-    "worker_pid": null,
-    "worker_kind": "analysis_session",
-    "attempt_no": 1,
-    "launched_at": "2026-04-05T14:00:00+08:00",
-    "heartbeat_at": "2026-04-05T14:00:00+08:00",
-    "latest_artifact": "sovereign/CAMPAIGN_TRUTH.v58_critical_analysis.generated.md",
-    "last_error": null
-  },
   "history": [
     {
       "at": "2026-04-05T22:30:00+08:00",
@@ -173,204 +157,251 @@
       "at": "2026-04-04T16:05:12+08:00",
       "event": "v58_eval_completed",
       "details": "V58 eval: Stage 1 (seeds 1-10): finetuned=0.000, pretrained=0.000. Stage 2 (seeds 11-15): finetuned=0.000, pretrained=0.000, random=0.0. Verdict: scientific_not_supported."
+    },
+    {
+      "at": "2026-04-06T14:23:37+08:00",
+      "event": "P0b_drawer_only_matched_AB_completed",
+      "details": "Matched A/B: drawer-colored (B) = 0/6 success, white (A) = 0/6 success. DRAWER COLOR ELIMINATED as sole bottleneck. E026 evidence written. Simulator physics is now the primary hypothesis. E022 seed 7/9/10 exploratory results superseded."
+    },
+    {
+      "at": "2026-04-06T14:40:00+08:00",
+      "event": "gate_a_episode_admissibility_completed",
+      "details": "Gate A: 240/240 episodes motion-only, 0/240 task-teaching. ALL episodes have near-white images (image_std=0.0000 within episode). Action quality STRONG (mean=0.275). Critical finding: zero visual texture within every episode despite NPZ success=True. Gate B (teacher replayability) is now primary."
     }
   ],
-  "last_review": "sovereign/CAMPAIGN_TRUTH.v58_critical_analysis.generated.md",
-  "retries": {},
-  "claim_level": "v58",
-  "revision": {
-    "active": "v58_libero_alignment",
-    "archived": [
-      "robot_revision_v3_claim_push"
-    ],
-    "proxy_revision_archived": true,
-    "proxy_revision_caveat": "V58 0% success is NOT evidence that MINT cannot learn. It IS evidence of L2 observation bugs (gripper_joint frozen + images near-white). Fix data first.",
-    "robot_trajectory_revision_started": true
-  },
-  "coverage_expansion_attempts": 0,
-  "updated_at": "2026-04-05T22:30:00+08:00",
+  "updated_at": "2026-04-06T14:40:00+08:00",
   "last_error": null,
-  "last_repair_action": "rca1_teacher_quality_completed_7_of_7_episodes_task_successful",
-  "v58_critical_findings": {
-    "data_provenance_collapse": {
-      "description": "V58 training used ORIGINAL dataset (229/18701, Apr 4 23:20 pack). Current live dataset (36/3305) is an OVERWRITE from Apr 5 13:38 interrupted pack.",
-      "evidence": "Train-time: v58_train.log confirms 18701 frames. Pack-time: v58_lerobot_pack.log confirms 229 episodes, dataset_loads=true. Live: info.json modified Apr 5 13:38, file-000.parquet corrupted. Timestamps prove overwrite happened AFTER training.",
-      "severity": "CRITICAL",
-      "mechanism": "run_v58_lerobot_pack.py was re-run on Apr 5 13:32-13:38 with 240 rollouts (vs original 229). Interrupted mid-pack, overwrote original parquet files with partial/corrupted version.",
-      "fix": "Regenerate dataset from NPZ source files using corrected code. Do NOT trust current dataset/."
-    },
-    "finding_1_gripper_joint_REVISED": {
-      "description": "V58 gripper_joint was NEVER frozen \u2014 CANCELLED root cause",
-      "evidence": "NPZ raw gripper_joint std=0.0208 (40 unique values, range=[-0.050,+0.014]). stats.json gripper_joint std=0.0196 (continuous, range=[-0.042,+0.001]). Both agree: continuous. dataset_builder._build_libero_state() fix was correct but committed AFTER V58 training.",
-      "severity": "N/A \u2014 CANCELLED",
-      "mechanism": "dataset_builder.py code fix (remove _infinigen_to_libero_gripper call) was correct engineering but addressed a non-existent problem in the V58 context.",
-      "fix": "P0a CANCELLED. The code fix is still correct engineering practice."
-    },
-    "finding_2_near_white_images": {
-      "description": "V58 rendered images are near-white (mean=[0.976,0.976,0.976], std=[0.003,0.003,0.003])",
-      "evidence": "V58 train.log: image mean ~0.976. LIBERO: mean=[0.414,0.371,0.329], std=[0.252,0.247,0.241]. Root cause: empty MTL files (only Blender header comments, no Kd/Ka/Ks). PyBullet ER_TINY_RENDERER renders without materials \u2192 white.",
-      "severity": "CRITICAL",
-      "mechanism": "drawerbox .mtl files have no material definitions. ER_TINY_RENDERER renders blank geometry as white.",
-      "downstream": "Vision encoder pretrained on LIBERO realistic scenes receives white noise \u2192 cannot learn scene structure or gripper state",
-      "fix": "Add material definitions (Kd, Ka, Ks) to drawerbox URDF/MTL files. Then regenerate images and repack dataset."
-    },
-    "finding_3_data_volume_correction": {
-      "description": "V58 used 18,701 frames (NOT 1,301 stale figure)",
-      "evidence": "v58_train.log: 'dataset.num_frames=18701 (19K), num_episodes=229'",
-      "correction": "The '1,301 frames' figure was pre-V58 recovery era. Actual V58: 18,701 frames, 229 episodes, used for training.",
-      "impact": "More data does NOT help if data quality is broken. V58 18,701 frames had near-white images and still failed."
-    },
-    "finding_4_action_normalization_correct": {
-      "description": "Action normalization is correct \u2014 NOT the root cause",
-      "evidence": "MINT output: IDENTITY normalization, no de-normalization. V58 action distributions within clipping range.",
-      "verdict": "Action normalization is NOT the root cause of V58 0%."
-    },
-    "finding_5_pretrain_eq_finetune": {
-      "description": "Both pretrained and finetuned MINT = 0% \u2014 confirms L2 data bug, not model capacity",
-      "evidence": "V58 Stage 2: finetuned=0.000, pretrained=0.000, random=0.0",
-      "mechanism": "Pretrained MINT: sees near-white images \u2192 cannot infer scene. Finetuned MINT: trained on near-white images + continuous gripper \u2192 learned to ignore both.",
-      "verdict": "0% is NOT a test of MINT's learning capacity \u2014 it's a test of data quality."
-    },
-    "p0a_gripper_joint_fix": {
-      "status": "cancelled",
-      "root_cause_corrected": false,
-      "root_cause_detail": "gripper_joint was NEVER frozen in V58 dataset. dataset_builder fix was correct engineering but addressed a non-existent problem. Committed AFTER V58 training.",
-      "fix_applied": "dataset_builder.py _build_libero_state() \u2014 removed _infinigen_to_libero_gripper call, added _clip_gripper_to_libero_range()",
-      "verification": "NPZ raw std=0.0208, stats.json std=0.0196 \u2014 both continuous. dataset_builder fix is still correct code but did not affect V58 training.",
-      "pack_status": "cancelled"
-    },
-    "p0b_image_render_fix": {
-      "status": "in_progress",
-      "root_cause": "empty MTL files \u2014 PyBullet ER_TINY_RENDERER renders without material \u2192 white",
-      "evidence": "MTL files all empty (0 bytes or header-only), stats.json image mean=0.975 std=0.004",
-      "next_action": "Add material definitions to drawerbox URDF/MTL files"
-    },
-    "data_integrity_audit": {
-      "status": "audit_completed",
-      "timestamp": "2026-04-05T13:51:00+08:00",
-      "findings": {
-        "live_dataset_corrupted": true,
-        "live_dataset_is_old": true,
-        "live_dataset_episodes": 36,
-        "live_dataset_frames": 3305,
-        "live_gripper_continuous": true,
-        "live_gripper_std": 0.0196,
-        "new_pack_failed": true,
-        "new_pack_claimed_frames": 18701,
-        "new_pack_actual_file_000": "CORRUPTED (Parquet magic bytes error)",
-        "new_pack_actual_file_001": "MISSING (not written)",
-        "v58_train_used_old_dataset": true,
-        "v58_0pct_root_cause": "near_white_images_not_frozen_gripper",
-        "codex_audit_findings": {
-          "finding_1_p0a_not_verified": "CONFIRMED \u2014 new pack parquet corrupted",
-          "finding_2_gripper_already_continuous": "CONFIRMED \u2014 old dataset already had continuous gripper, training still failed",
-          "finding_3_sovereign_cli_path": "CONFIRMED \u2014 correct path is experiments/mint/mint_drawer_v1/scripts/harness/sovereign_cli.py",
-          "finding_4_p0b_mtl_root_cause": "CONFIRMED \u2014 MTL files empty (only Blender header comments, no Kd/Ka/Ks)"
-        },
-        "p0a_revisited": {
-          "p0a_cancelled": true,
-          "evidence_npz": "gripper_joint std=0.0208, 40 unique values, range=[-0.050, +0.014]",
-          "evidence_stats_json": "gripper_joint std=0.0196, range=[-0.042, +0.001]",
-          "conclusion": "gripper_joint was NEVER frozen in V58 dataset. dataset_builder fix was correct but addressed non-problem. V58 0% NOT caused by frozen gripper."
-        },
-        "v58_0pct_root_causes": {
-          "confirmed_root_cause": "multi_cause_unresolved",
-          "note": "E022: both pretrained and finetuned fail in simulation (0.000 drawer_fraction). E023 (RCA1): 7/7 teacher episodes task-successful \u2014 teacher quality ELIMINATED. Root cause unresolved. Near-white images OPEN. RCA2/3 pending.",
-          "plausible_contributing_factors": [
-            "teacher_demo_quality_anygrasp_grasps_not_stable_enough_for_drawer_task",
-            "action_normalization_mismatch_mint_output_vs_env_step",
-            "state_representation_gap_libero_vs_infinigen",
-            "near_white_images_still_a_contributing_factor_not_sole_cause"
-          ],
-          "not_root_cause": [
-            "insufficient_training_data_quantity (V58 had 18701 frames and still failed)",
-            "teacher_demo_quality_for_overfit_subset (E023: 7/7 episodes task-successful)"
-          ],
-          "rca_priority": {
-            "RCA1": "ELIMINATED (E023): All 7/7 teacher episodes task-successful",
-            "RCA2": "NEXT \u2014 Action normalization: MINT IDENTITY output vs env.step action space",
-            "RCA3": "Pending \u2014 State representation: dataset state vs env._state_vector() format"
-          },
-          "recommendation": "DO NOT retrain. \u5148\u505a RCA1/2/3\u3002\u53ea\u6709\u5f53 RCA \u901a\u8fc7\u540e\u624d\u80fd\u51b3\u5b9a\u4e0b\u4e00\u6b65\u3002"
-        }
-      },
-      "implication": "P0a code fix is correct but P0a is NOT the root cause of V58 0%. P0b (near-white images) is the real culprit. Live dataset (old) has continuous gripper but failed \u2192 images, not gripper, broke V58.",
-      "next_actions_priority": "P0b_first_then_P1_regenerate_then_P2_retrain",
-      "next_actions_priority_recommended": {
-        "step_1": "P0b: Fix near-white images (add materials to URDF/MTL)",
-        "step_2": "Small-scale validation: 500 frames, 200 steps, verify MINT can overfit",
-        "step_3": "Verify teacher demo quality: check action distributions, physics legality of actual used rollouts",
-        "step_4": "Scale up if step 2 passes",
-        "note": "Do NOT retrain full 1K steps on potentially still-broken pipeline without small-scale validation first"
-      }
-    }
-  },
-  "v58_eval_results": {
-    "stage_1_train_probe": {
-      "seeds": "1-10",
-      "finetuned_success": 0.0,
-      "pretrained_success": 0.0,
-      "gain": "+0.000",
-      "trend_passed": false
-    },
-    "stage_2_heldout_eval": {
-      "seeds": "11-15",
-      "finetuned_success": 0.0,
-      "pretrained_success": 0.0,
-      "random_success": 0.0,
-      "verdict": "scientific_not_supported"
-    }
-  },
-  "v58_train_results": {
-    "steps": 1000,
-    "frames": 18701,
-    "episodes": 229,
-    "seeds": "1-15",
-    "loss_trajectory": [
-      6.52,
-      5.18,
-      4.83,
-      4.58,
-      4.43
-    ],
-    "checkpoint": "artifacts/v58_training_outputs/checkpoints/001000/pretrained_model",
-    "elapsed_sec": 1430.8
-  },
-  "grade_assessment": {
-    "label": "FAILED_ENV_GATE",
-    "grade": "D",
-    "interpretation": "MINT achieves near-perfect imitation but fails task-level evaluation in DrawerRobotEnv. Root cause unresolved; action normalization eliminated; P0b (colored images) remains open."
-  },
-  "upstream_audit_lane": {
-    "status": "completed",
-    "key_finding": "drawer_robot_env.py has continuous gripper fix, drawer_robot_env_lerobot.py does NOT. This is the L2 observation bug.",
-    "fix_required": true,
-    "last_update": "2026-04-05T14:00:00+08:00"
-  },
-  "phase_gate": "v59_RCA2_COMPLETED",
-  "controller": {
-    "controller_id": "v58_analysis",
-    "run_id": "v58_critical_analysis",
-    "owner": "harness_agent",
-    "lease_path": null,
-    "status": "completed",
-    "acquired_at": "2026-04-05T14:00:00+08:00",
-    "heartbeat_at": "2026-04-05T14:00:00+08:00"
-  },
+  "last_repair_action": "Gate_A_completed_E027_written",
+  "phase_gate": "v59_GATE_A_COMPLETED",
   "rca_priority": [
-    "RCA3_state_representation",
     "P0b_colored_reroll"
   ],
   "rca_status": {
-    "rca1_teacher_quality": "ELIMINATED \u2014 teacher demos are 100% successful for 7 overfit episodes (E023)",
-    "rca2_action_normalization": "ELIMINATED \u2014 static analysis shows action format OK; teacher replay inconclusive due to attachment_local estimation error (E024)",
-    "rca3_state_representation": "PENDING \u2014 next priority"
+    "rca1_teacher_quality": "ELIMINATED \u2014 teacher demos 100% successful for 7 overfit episodes (E023)",
+    "rca2_action_normalization": "ELIMINATED \u2014 static analysis + replay diagnostic (E024)",
+    "rca3_state_representation": "ELIMINATED \u2014 env_state matches parquet exactly; state7 continuous (E025)",
+    "p0b_preflight": "SUPERSEDED \u2014 preflight used robot recolor, replaced by matched A/B drawer-only (E026)",
+    "p0b_drawer_color": "ELIMINATED \u2014 drawer-only colored = 0/6, same as white = 0/6. Not sole bottleneck.",
+    "gate_a": "COMPLETED \u2014 240/240 motion-only, 0/240 task-teaching, image_std=0.0000",
+    "gate_b": "PENDING \u2014 teacher replayability (top-10 episodes)"
   },
   "notes": [
     {
       "timestamp": "2026-04-06T00:16:00+08:00",
       "event": "RCA2_COMPLETED",
       "finding": "Action normalization ELIMINATED as root cause. Static analysis: gripper=\u00b11.0, pos/rot in [-1,1], scales consistent. Teacher replay inconclusive (attachment_local estimation failed)."
+    },
+    {
+      "timestamp": "2026-04-06T01:31:00+08:00",
+      "event": "RCA3_COMPLETED",
+      "finding": "RCA1/2/3 ALL ELIMINATED. Root cause narrowed to simulator physics mismatch OR white images. P0b elevated to P0."
+    },
+    {
+      "timestamp": "2026-04-06T04:43:00+08:00",
+      "event": "P0b_PREFLIGHT_ALL_PASSED",
+      "finding": "All 5 preflights passed. P0b rollout infrastructure verified: pretrained+finetuned rollouts work, actual frames colored (rgb_std=57.04, non_white=9.8%), schema correct. Model loading critical fixes: (1) dtype float32 in vision tower, (2) embed_language_tokens path corrected, (3) forward uses GemmaModel not CausalLM, (4) 165/164 key mismatches fixed. Night runner ready for unattended execution."
+    },
+    {
+      "timestamp": "2026-04-06T14:23:37+08:00",
+      "event": "P0b_DRAWER_COLOR_ELIMINATED",
+      "finding": "Matched A/B drawer-only: 0/6 success (same as E022 white baseline). Drawer color is NOT the bottleneck. Simulator physics (PyBullet vs source sim action mismatch) is now primary hypothesis."
     }
-  ]
+  ],
+  "_LEGACY_V58_NARRATIVE": "The following fields contain superseded V58-era narrative and must NOT be cited as current truth. They are kept for audit trail only.",
+  "_legacy_fields": {
+    "active_job": "v58_critical_analysis",
+    "active_runtime": {
+      "step_id": "v58_critical_analysis_completed",
+      "active_lane": "v58_data_pipeline_quality",
+      "active_branch": null,
+      "active_fingerprint": "libero_contract_v2",
+      "controller_id": null,
+      "run_id": null,
+      "worker_pid": null,
+      "worker_kind": "analysis_session",
+      "attempt_no": 1,
+      "launched_at": "2026-04-05T14:00:00+08:00",
+      "heartbeat_at": "2026-04-05T14:00:00+08:00",
+      "latest_artifact": "sovereign/CAMPAIGN_TRUTH.v58_critical_analysis.generated.md",
+      "last_error": null
+    },
+    "last_review": "sovereign/CAMPAIGN_TRUTH.v58_critical_analysis.generated.md",
+    "retries": {},
+    "claim_level": "v58",
+    "revision": {
+      "active": "v58_libero_alignment",
+      "archived": [
+        "robot_revision_v3_claim_push"
+      ],
+      "proxy_revision_archived": true,
+      "proxy_revision_caveat": "V58 0% success is NOT evidence that MINT cannot learn. It IS evidence of L2 observation bugs (gripper_joint frozen + images near-white). Fix data first.",
+      "robot_trajectory_revision_started": true
+    },
+    "coverage_expansion_attempts": 0,
+    "v58_critical_findings": {
+      "data_provenance_collapse": {
+        "description": "V58 training used ORIGINAL dataset (229/18701, Apr 4 23:20 pack). Current live dataset (36/3305) is an OVERWRITE from Apr 5 13:38 interrupted pack.",
+        "evidence": "Train-time: v58_train.log confirms 18701 frames. Pack-time: v58_lerobot_pack.log confirms 229 episodes, dataset_loads=true. Live: info.json modified Apr 5 13:38, file-000.parquet corrupted. Timestamps prove overwrite happened AFTER training.",
+        "severity": "CRITICAL",
+        "mechanism": "run_v58_lerobot_pack.py was re-run on Apr 5 13:32-13:38 with 240 rollouts (vs original 229). Interrupted mid-pack, overwrote original parquet files with partial/corrupted version.",
+        "fix": "Regenerate dataset from NPZ source files using corrected code. Do NOT trust current dataset/."
+      },
+      "finding_1_gripper_joint_REVISED": {
+        "description": "V58 gripper_joint was NEVER frozen \u2014 CANCELLED root cause",
+        "evidence": "NPZ raw gripper_joint std=0.0208 (40 unique values, range=[-0.050,+0.014]). stats.json gripper_joint std=0.0196 (continuous, range=[-0.042,+0.001]). Both agree: continuous. dataset_builder._build_libero_state() fix was correct but committed AFTER V58 training.",
+        "severity": "N/A \u2014 CANCELLED",
+        "mechanism": "dataset_builder.py code fix (remove _infinigen_to_libero_gripper call) was correct engineering but addressed a non-existent problem in the V58 context.",
+        "fix": "P0a CANCELLED. The code fix is still correct engineering practice."
+      },
+      "finding_2_near_white_images": {
+        "description": "V58 rendered images are near-white (mean=[0.976,0.976,0.976], std=[0.003,0.003,0.003])",
+        "evidence": "V58 train.log: image mean ~0.976. LIBERO: mean=[0.414,0.371,0.329], std=[0.252,0.247,0.241]. Root cause: empty MTL files (only Blender header comments, no Kd/Ka/Ks). PyBullet ER_TINY_RENDERER renders without materials \u2192 white.",
+        "severity": "CRITICAL",
+        "mechanism": "drawerbox .mtl files have no material definitions. ER_TINY_RENDERER renders blank geometry as white.",
+        "downstream": "Vision encoder pretrained on LIBERO realistic scenes receives white noise \u2192 cannot learn scene structure or gripper state",
+        "fix": "Add material definitions (Kd, Ka, Ks) to drawerbox URDF/MTL files. Then regenerate images and repack dataset."
+      },
+      "finding_3_data_volume_correction": {
+        "description": "V58 used 18,701 frames (NOT 1,301 stale figure)",
+        "evidence": "v58_train.log: 'dataset.num_frames=18701 (19K), num_episodes=229'",
+        "correction": "The '1,301 frames' figure was pre-V58 recovery era. Actual V58: 18,701 frames, 229 episodes, used for training.",
+        "impact": "More data does NOT help if data quality is broken. V58 18,701 frames had near-white images and still failed."
+      },
+      "finding_4_action_normalization_correct": {
+        "description": "Action normalization is correct \u2014 NOT the root cause",
+        "evidence": "MINT output: IDENTITY normalization, no de-normalization. V58 action distributions within clipping range.",
+        "verdict": "Action normalization is NOT the root cause of V58 0%."
+      },
+      "finding_5_pretrain_eq_finetune": {
+        "description": "Both pretrained and finetuned MINT = 0% \u2014 confirms L2 data bug, not model capacity",
+        "evidence": "V58 Stage 2: finetuned=0.000, pretrained=0.000, random=0.0",
+        "mechanism": "Pretrained MINT: sees near-white images \u2192 cannot infer scene. Finetuned MINT: trained on near-white images + continuous gripper \u2192 learned to ignore both.",
+        "verdict": "0% is NOT a test of MINT's learning capacity \u2014 it's a test of data quality."
+      },
+      "p0a_gripper_joint_fix": {
+        "status": "cancelled",
+        "root_cause_corrected": false,
+        "root_cause_detail": "gripper_joint was NEVER frozen in V58 dataset. dataset_builder fix was correct engineering but addressed a non-existent problem. Committed AFTER V58 training.",
+        "fix_applied": "dataset_builder.py _build_libero_state() \u2014 removed _infinigen_to_libero_gripper call, added _clip_gripper_to_libero_range()",
+        "verification": "NPZ raw std=0.0208, stats.json std=0.0196 \u2014 both continuous. dataset_builder fix is still correct code but did not affect V58 training.",
+        "pack_status": "cancelled"
+      },
+      "p0b_image_render_fix": {
+        "status": "in_progress",
+        "root_cause": "empty MTL files \u2014 PyBullet ER_TINY_RENDERER renders without material \u2192 white",
+        "evidence": "MTL files all empty (0 bytes or header-only), stats.json image mean=0.975 std=0.004",
+        "next_action": "Add material definitions to drawerbox URDF/MTL files"
+      },
+      "data_integrity_audit": {
+        "status": "audit_completed",
+        "timestamp": "2026-04-05T13:51:00+08:00",
+        "findings": {
+          "live_dataset_corrupted": true,
+          "live_dataset_is_old": true,
+          "live_dataset_episodes": 36,
+          "live_dataset_frames": 3305,
+          "live_gripper_continuous": true,
+          "live_gripper_std": 0.0196,
+          "new_pack_failed": true,
+          "new_pack_claimed_frames": 18701,
+          "new_pack_actual_file_000": "CORRUPTED (Parquet magic bytes error)",
+          "new_pack_actual_file_001": "MISSING (not written)",
+          "v58_train_used_old_dataset": true,
+          "v58_0pct_root_cause": "near_white_images_not_frozen_gripper",
+          "codex_audit_findings": {
+            "finding_1_p0a_not_verified": "CONFIRMED \u2014 new pack parquet corrupted",
+            "finding_2_gripper_already_continuous": "CONFIRMED \u2014 old dataset already had continuous gripper, training still failed",
+            "finding_3_sovereign_cli_path": "CONFIRMED \u2014 correct path is experiments/mint/mint_drawer_v1/scripts/harness/sovereign_cli.py",
+            "finding_4_p0b_mtl_root_cause": "CONFIRMED \u2014 MTL files empty (only Blender header comments, no Kd/Ka/Ks)"
+          },
+          "p0a_revisited": {
+            "p0a_cancelled": true,
+            "evidence_npz": "gripper_joint std=0.0208, 40 unique values, range=[-0.050, +0.014]",
+            "evidence_stats_json": "gripper_joint std=0.0196, range=[-0.042, +0.001]",
+            "conclusion": "gripper_joint was NEVER frozen in V58 dataset. dataset_builder fix was correct but addressed non-problem. V58 0% NOT caused by frozen gripper."
+          },
+          "v58_0pct_root_causes": {
+            "confirmed_root_cause": "multi_cause_unresolved",
+            "note": "E022: both pretrained and finetuned fail in simulation (0.000 drawer_fraction). E023 (RCA1): 7/7 teacher episodes task-successful \u2014 teacher quality ELIMINATED. Root cause unresolved. Near-white images OPEN. RCA2/3 pending.",
+            "plausible_contributing_factors": [
+              "teacher_demo_quality_anygrasp_grasps_not_stable_enough_for_drawer_task",
+              "action_normalization_mismatch_mint_output_vs_env_step",
+              "state_representation_gap_libero_vs_infinigen",
+              "near_white_images_still_a_contributing_factor_not_sole_cause"
+            ],
+            "not_root_cause": [
+              "insufficient_training_data_quantity (V58 had 18701 frames and still failed)",
+              "teacher_demo_quality_for_overfit_subset (E023: 7/7 episodes task-successful)"
+            ],
+            "rca_priority": {
+              "RCA1": "ELIMINATED (E023): All 7/7 teacher episodes task-successful",
+              "RCA2": "NEXT \u2014 Action normalization: MINT IDENTITY output vs env.step action space",
+              "RCA3": "Pending \u2014 State representation: dataset state vs env._state_vector() format"
+            },
+            "recommendation": "DO NOT retrain. \u5148\u505a RCA1/2/3\u3002\u53ea\u6709\u5f53 RCA \u901a\u8fc7\u540e\u624d\u80fd\u51b3\u5b9a\u4e0b\u4e00\u6b65\u3002"
+          }
+        },
+        "implication": "P0a code fix is correct but P0a is NOT the root cause of V58 0%. P0b (near-white images) is the real culprit. Live dataset (old) has continuous gripper but failed \u2192 images, not gripper, broke V58.",
+        "next_actions_priority": "P0b_first_then_P1_regenerate_then_P2_retrain",
+        "next_actions_priority_recommended": {
+          "step_1": "P0b: Fix near-white images (add materials to URDF/MTL)",
+          "step_2": "Small-scale validation: 500 frames, 200 steps, verify MINT can overfit",
+          "step_3": "Verify teacher demo quality: check action distributions, physics legality of actual used rollouts",
+          "step_4": "Scale up if step 2 passes",
+          "note": "Do NOT retrain full 1K steps on potentially still-broken pipeline without small-scale validation first"
+        }
+      }
+    },
+    "v58_eval_results": {
+      "stage_1_train_probe": {
+        "seeds": "1-10",
+        "finetuned_success": 0.0,
+        "pretrained_success": 0.0,
+        "gain": "+0.000",
+        "trend_passed": false
+      },
+      "stage_2_heldout_eval": {
+        "seeds": "11-15",
+        "finetuned_success": 0.0,
+        "pretrained_success": 0.0,
+        "random_success": 0.0,
+        "verdict": "scientific_not_supported"
+      }
+    },
+    "v58_train_results": {
+      "steps": 1000,
+      "frames": 18701,
+      "episodes": 229,
+      "seeds": "1-15",
+      "loss_trajectory": [
+        6.52,
+        5.18,
+        4.83,
+        4.58,
+        4.43
+      ],
+      "checkpoint": "artifacts/v58_training_outputs/checkpoints/001000/pretrained_model",
+      "elapsed_sec": 1430.8
+    },
+    "grade_assessment": {
+      "label": "SIMULATOR_PHYSICS_NOW_PRIMARY",
+      "grade": "D",
+      "interpretation": "RCA1/2/3 eliminated. P0b drawer-only eliminated (matched A/B). Simulator physics is primary. Policy produces motion but fails to attach."
+    },
+    "upstream_audit_lane": {
+      "status": "completed",
+      "key_finding": "drawer_robot_env.py has continuous gripper fix, drawer_robot_env_lerobot.py does NOT. This is the L2 observation bug.",
+      "fix_required": true,
+      "last_update": "2026-04-05T14:00:00+08:00"
+    },
+    "controller": {
+      "controller_id": "v58_analysis",
+      "run_id": "v58_critical_analysis",
+      "owner": "harness_agent",
+      "lease_path": null,
+      "status": "completed",
+      "acquired_at": "2026-04-05T14:00:00+08:00",
+      "heartbeat_at": "2026-04-05T14:00:00+08:00"
+    }
+  }
 }

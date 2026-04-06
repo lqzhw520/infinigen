@@ -45,10 +45,9 @@ def _load_policy(path: str, dataset_root: Path, repo_id: str):
         path, local_files_only=True, dataset_stats=dataset.meta.stats
     )
     policy.eval()
-    # Cast direct_grip_head to match model dtype (bfloat16) after state dict loading
+    # Cast direct_grip_head to float32 to match paligemma_with_expert (now float32)
     if hasattr(policy.model, "direct_grip_head"):
-        model_dtype = next(iter(policy.model.paligemma_with_expert.gemma_expert.model.parameters())).dtype
-        policy.model.direct_grip_head = policy.model.direct_grip_head.to(dtype=model_dtype)
+        policy.model.direct_grip_head = policy.model.direct_grip_head.to(dtype=torch.float32)
     preprocessor, postprocessor = make_pre_post_processors(
         policy.config, pretrained_path=path, dataset_stats=dataset.meta.stats
     )

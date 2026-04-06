@@ -1,0 +1,127 @@
+{
+  "health": {
+    "ok": true,
+    "gpu": {
+      "ok": true,
+      "used_mb": 0,
+      "total_mb": 81920,
+      "free_mb": 81154,
+      "pct": 0.0
+    },
+    "disk": {
+      "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts": {
+        "ok": true,
+        "avail_gb": 4754,
+        "total_gb": 20480
+      },
+      "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/p0b_colored_rollouts": {
+        "ok": true,
+        "avail_gb": 4754,
+        "total_gb": 20480
+      }
+    }
+  },
+  "preflight1": {
+    "preflight": 1,
+    "passed": true,
+    "details": {
+      "/mnt/afs2/zhuhaowu/infinigen/scripts/mint/run_p0b_colored_reroll.py": {
+        "ok": true,
+        "error": null
+      },
+      "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/scripts/harness/v59_night_runner.py": {
+        "ok": true,
+        "error": null
+      }
+    }
+  },
+  "preflight2": {
+    "preflight": 2,
+    "passed": true,
+    "colored_count": 5,
+    "mean_rgb_std": 56.855183661480964,
+    "mean_non_white_pct": 3.256005527210884,
+    "frame_stats": [
+      {
+        "frame": "frame_0000.png",
+        "rgb_mean": 244.44429607780611,
+        "rgb_std": 36.23296582190897,
+        "non_white_pct": 3.1529017857142856,
+        "colored": true
+      },
+      {
+        "frame": "frame_0001.png",
+        "rgb_mean": 234.69981664540816,
+        "rgb_std": 62.141836416326015,
+        "non_white_pct": 3.2950680272108848,
+        "colored": true
+      },
+      {
+        "frame": "frame_0002.png",
+        "rgb_mean": 234.72397161989795,
+        "rgb_std": 62.11088389531136,
+        "non_white_pct": 3.291082057823129,
+        "colored": true
+      },
+      {
+        "frame": "frame_0003.png",
+        "rgb_mean": 234.81423389668367,
+        "rgb_std": 61.975605805561415,
+        "non_white_pct": 3.277795493197279,
+        "colored": true
+      },
+      {
+        "frame": "frame_0004.png",
+        "rgb_mean": 234.91697225765307,
+        "rgb_std": 61.81462636829705,
+        "non_white_pct": 3.263180272108843,
+        "colored": true
+      }
+    ]
+  },
+  "preflight3": {
+    "preflight": 3,
+    "passed": true,
+    "e022_seeds": [
+      1,
+      2,
+      3
+    ],
+    "e022_policies": [
+      "finetuned",
+      "pretrained"
+    ],
+    "p0b_seeds": [
+      7,
+      9,
+      10
+    ],
+    "p0b_policies": [
+      "pretrained",
+      "finetuned"
+    ],
+    "seeds_match": false,
+    "policies_match": true,
+    "note": "E022 baseline is exploratory (different seeds). P0b tests colored rendering on new seeds. A clean A/B needs same seeds."
+  },
+  "preflight4": {
+    "preflight": 4,
+    "passed": true,
+    "issues": []
+  },
+  "preflight5": {
+    "preflight": 5,
+    "passed": true,
+    "guard_checks": {
+      "checks_artifact_exists": true,
+      "checks_colored_rendering": true,
+      "checks_ab_comparison": true,
+      "has_conditional_update": true
+    }
+  },
+  "summary": {
+    "n_passed": 5,
+    "n_total": 5,
+    "all_passed": true
+  }
+}

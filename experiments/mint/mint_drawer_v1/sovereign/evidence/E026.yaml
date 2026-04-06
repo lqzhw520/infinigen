@@ -1,0 +1,219 @@
+# E026 — P0b: Matched A/B — Drawer-Only Colored Rollout (COMPLETED)
+# ================================================================
+# Scope: Matched A/B — drawer-only intervention, seeds [1,2,3], pretrained+finetuned
+# Evidence source: p0b_night_results.json (artifacts/p0b_colored_rollouts/)
+# Run: 2026-04-06 14:16-14:23 UTC+8
+# Status: COMPLETED — Matched A/B confirmed
+
+evidence_id: E026
+experiment_id: P0b_drawer_only_matched_AB
+type: eval
+scope: matched_A_B_drawer_only
+scope_guardrail: >
+  Matched A/B experiment. Intervention is drawer-only color (cardboard RGBA).
+  Robot/gripper/background/camera/policy/checkpoint all UNCHANGED from E022 baseline.
+  Same seeds [1,2,3], same policies [pretrained,finetuned], same steps [96].
+  Robot recolor NOT included — drawer-only intervention confirmed.
+
+timestamp: "2026-04-06T14:23:37+08:00"
+verified: false
+
+matched_A_B_design:
+  design: "MATCHED_A_B"
+  intervention: "drawer-only recolor via changeVisualShape (cardboard RGBA [0.6,0.5,0.4,1.0])"
+  control: "E022 white baseline (seeds [1,2,3], pretrained+finetuned, 96 steps, white images)"
+  matched_dimensions:
+    seeds: [1, 2, 3]  # EXACTLY matching E022
+    policies: [pretrained, finetuned]  # EXACTLY matching E022
+    max_steps: 96  # EXACTLY matching E022
+    checkpoint: "same as E022"
+    env: "DrawerRobotEnv same config"
+  only_intervention_difference: "drawer color (white → cardboard)"
+  robot_recolor: false
+  full_scene_recolor: false
+  confounds: none
+
+a_b_results:
+  A_white_baseline:
+    source: E022 (v59_overfit_env_gate)
+    seeds: [1, 2, 3]
+    policies: [pretrained, finetuned]
+    max_steps: 96
+    pretrained:
+      success: 0/3
+      attached: 0/3
+      mean_max_drawer: 0.000
+    finetuned:
+      success: 0/3
+      attached: 0/3
+      mean_max_drawer: 0.000
+    image_stats:
+      image_mean: [0.976, 0.976, 0.976]  # near-white
+      image_std: [0.003, 0.003, 0.003]  # near-white
+      rendering: ER_TINY_RENDERER (no color)
+    verdict: "0/6 = NEGATIVE_GATE"
+
+  B_colored_drawer:
+    source: E026 (P0b drawer-only night runner)
+    seeds: [1, 2, 3]  # EXACTLY matching E022
+    policies: [pretrained, finetuned]  # EXACTLY matching E022
+    max_steps: 96  # EXACTLY matching E022
+    pretrained:
+      n: 3
+      success: 0/3
+      attached: 0/3
+      mean_max_drawer: 0.000
+      mean_rgb_std: 36.36
+    finetuned:
+      n: 3
+      success: 0/3
+      attached: 0/3
+      mean_max_drawer: 0.000
+      mean_rgb_std: 36.01
+    image_stats:
+      rgb_mean: ~245-246
+      rgb_std: 32-43  # colored (vs ~0.003 for white)
+      non_white_pct: 8-12%  # colored pixels confirmed
+      rendering: ER_TINY_RENDERER + changeVisualShape (cardboard RGBA)
+    verdict: "0/6 = SAME AS A"
+
+  comparison:
+    A_vs_B_success: "EQUAL — 0/6 vs 0/6"
+    A_vs_B_attach: "EQUAL — 0/6 vs 0/6"
+    A_vs_B_drawer_motion: "EQUAL — 0.000 vs 0.000"
+    intervention_effect: "NONE DETECTED"
+
+per_rollout_summary:
+  - rollout_id: seed_001_pretrained_drawer_colored
+    seed: 1
+    policy: pretrained
+    max_steps: 96
+    success: false
+    max_drawer_fraction: 0.000
+    ever_attached: false
+    rgb_std: 33.31
+    non_white_pct: 8.9%
+    image_is_colored: true
+    total_eef_motion: 6.609
+  - rollout_id: seed_001_finetuned_drawer_colored
+    seed: 1
+    policy: finetuned
+    max_steps: 96
+    success: false
+    max_drawer_fraction: 0.000
+    ever_attached: false
+    rgb_std: 32.88
+    non_white_pct: 8.4%
+    image_is_colored: true
+    total_eef_motion: 5.033
+  - rollout_id: seed_002_pretrained_drawer_colored
+    seed: 2
+    policy: pretrained
+    max_steps: 96
+    success: false
+    max_drawer_fraction: 0.000
+    ever_attached: false
+    rgb_std: 43.09
+    non_white_pct: 11.8%
+    image_is_colored: true
+    total_eef_motion: 6.073
+  - rollout_id: seed_002_finetuned_drawer_colored
+    seed: 2
+    policy: finetuned
+    max_steps: 96
+    success: false
+    max_drawer_fraction: 0.000
+    ever_attached: false
+    rgb_std: 42.82
+    non_white_pct: 11.3%
+    image_is_colored: true
+    total_eef_motion: 4.371
+  - rollout_id: seed_003_pretrained_drawer_colored
+    seed: 3
+    policy: pretrained
+    max_steps: 96
+    success: false
+    max_drawer_fraction: 0.000
+    ever_attached: false
+    rgb_std: 32.68
+    non_white_pct: 8.6%
+    image_is_colored: true
+    total_eef_motion: 6.078
+  - rollout_id: seed_003_finetuned_drawer_colored
+    seed: 3
+    policy: finetuned
+    max_steps: 96
+    success: false
+    max_drawer_fraction: 0.000
+    ever_attached: false
+    rgb_std: 32.34
+    non_white_pct: 8.3%
+    image_is_colored: true
+    total_eef_motion: 5.231
+
+verdict: DRAWER_COLOR_NOT_SOLE_BOTTLENECK
+verdict_label: P0b_DRAWER_COLOR_ELIMINATED
+
+findings:
+  q1_does_drawer_color_improve_success:
+    question: "Does drawer-only colored rendering improve MINT drawer-opening success over white images?"
+    answer: NO
+    detail: >
+      Matched A/B: drawer-colored rollouts (B) achieve IDENTICAL success rate to white-image
+      rollouts (A): both are 0/6. No evidence that drawer color alone enables MINT success.
+    eliminates_p0b_drawer_only: true
+
+  q2_is_white_image_the_bottleneck:
+    question: "Are near-white images (mean=0.976) the primary/sole bottleneck preventing MINT success?"
+    answer: NO_SOLE_BOTTLENECK
+    detail: >
+      Both colored (rgb_std=32-43) and white (rgb_std=0.003) images produce 0/6 success.
+      Image domain alone cannot explain MINT failure. Root cause must be elsewhere.
+
+  q3_eef_motion_consistency:
+    question: "Do policies produce comparable EEF motion in colored vs white conditions?"
+    answer: YES_CONSISTENT
+    detail: >
+      All 6 colored rollouts: non_zero_action_ratio=1.0, total_eef_motion=4.4-6.6m.
+      Pretrained and finetuned produce motion but no attach.
+      This matches E022 white-image behavior exactly (motion without success).
+
+combined_p0b_conclusion: >
+  DRAWER COLOR IS NOT THE BOTTLENECK.
+  Matched A/B confirms: drawer-only color produces 0/6 success, identical to white images (0/6).
+  Image domain is NOT the sole root cause. MINT policy produces motion but fails to
+  attach and open the drawer in BOTH white and colored conditions.
+
+  The root cause is now narrowed to:
+  1. SIMULATOR PHYSICS MISMATCH (PyBullet DrawerRobotEnv vs source simulator)
+     — the action that achieves attach in the source sim does NOT achieve attach in DrawerRobotEnv
+     — E024: action normalization is correct, but action values are not sufficient for attach
+  2. POLICY CAPACITY / LEARNING GAP
+     — E022: pretrained MINT (never trained on Infinigen) also gets 0.000
+     — E023: teacher demos ARE successful in source sim, but actions don't transfer
+
+do_not: >
+  - Do NOT conclude "colored images work" — E026 shows 0/6 success for colored drawer
+  - Do NOT conclude "white images are the bottleneck" — E026 shows same 0/6 for both
+  - Do NOT cancel simulator physics investigation
+  - Do NOT claim image domain is eliminated as a contributing factor — only as SOLE bottleneck
+  - Do NOT proceed to full retrain without resolving simulator physics or policy gap
+
+scope_limitation: >
+  This A/B tested drawer color only. Full-scene color (robot + background + drawer) was NOT tested.
+  The possibility that richer visual scene (realistic textures, varied colors) might help
+  remains unexplored. However, drawer color alone is NOT the bottleneck.
+
+implications_for_next_actions:
+  p0b_drawer_color_eliminated: true
+  p0b_full_scene_color_open: true
+  next_priority: simulator_physics_investigation
+  simulator_physics_questions:
+    - Why does the action that achieves attach in source sim fail to achieve attach in DrawerRobotEnv?
+    - Is it contact parameters (friction, stiffness)?
+    - Is it IK solution differences between simulators?
+    - Is it the drawer URDF geometry (handle position, drawer dimensions)?
+  policy_gap_questions:
+    - Can ANY policy achieve attach in DrawerRobotEnv?
+    - Has a scripted baseline (oracle) been tested in DrawerRobotEnv?
+    - What is the minimum action precision needed to achieve attach?

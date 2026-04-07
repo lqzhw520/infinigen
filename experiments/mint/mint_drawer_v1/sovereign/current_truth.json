@@ -1,0 +1,1030 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-04-07T15:19:53+08:00",
+  "campaign": {
+    "id": "mint_drawer_v1",
+    "root": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1"
+  },
+  "authority": {
+    "tier0": [
+      "sovereign/claims.yaml",
+      "sovereign/evidence/index.json",
+      "sovereign/evidence/*.yaml",
+      "sovereign/next_actions.json",
+      "artifacts/current_dataset_manifest.json",
+      "sovereign/workspace_manifest.json",
+      "sovereign/model_load_fidelity.json",
+      "sovereign/current_truth.json"
+    ],
+    "tier1": [
+      "sovereign/state.json"
+    ],
+    "tier2": [
+      "sovereign/SESSION_BOOTSTRAP.20260407.md",
+      "HARNESS_USAGE_GUIDE.md",
+      "sovereign/handoff.md",
+      "sovereign/CAMPAIGN_TRUTH.generated.md"
+    ]
+  },
+  "current": {
+    "phase": "v59_LEARNABILITY_AUDIT_GATE_B",
+    "phase_gate": "v59_GATE_A_COMPLETED",
+    "verdict": "V59_GATE_A_COMPLETED — GATE_B_NOW_PRIMARY",
+    "decision": "V59_GATE_A_COMPLETED — GATE_B_NOW_PRIMARY",
+    "next_action": {
+      "type": "learnability_audit_gate",
+      "id": "gate_b_teacher_replayability",
+      "priority": "P0",
+      "target": "Verify teacher actions replay successfully in DrawerRobotEnv (top-10 episodes)",
+      "status": "pending",
+      "description": "Gate A reveals: all 240 episodes have strong action quality and extremely weak within-episode visual variation. Gate B answers a narrower question: can teacher actions that succeed in the source simulator achieve attach/open when replayed inside DrawerRobotEnv? If not, simulator physics/geometry compatibility becomes the stronger candidate. If yes, learnability remains open and needs separate gates.",
+      "episode_candidates": [
+        157,
+        205,
+        25,
+        180,
+        3,
+        181,
+        158,
+        182,
+        138,
+        209
+      ],
+      "criteria": "Top-10 by action_std, episode length >= 20",
+      "depends_on": [
+        "gate_a_episode_admissibility"
+      ]
+    },
+    "open_gates": [
+      {
+        "type": "learnability_audit_gate",
+        "id": "gate_b_teacher_replayability",
+        "priority": "P0",
+        "target": "Verify teacher actions replay successfully in DrawerRobotEnv (top-10 episodes)",
+        "status": "pending",
+        "description": "Gate A reveals: all 240 episodes have strong action quality and extremely weak within-episode visual variation. Gate B answers a narrower question: can teacher actions that succeed in the source simulator achieve attach/open when replayed inside DrawerRobotEnv? If not, simulator physics/geometry compatibility becomes the stronger candidate. If yes, learnability remains open and needs separate gates.",
+        "episode_candidates": [
+          157,
+          205,
+          25,
+          180,
+          3,
+          181,
+          158,
+          182,
+          138,
+          209
+        ],
+        "criteria": "Top-10 by action_std, episode length >= 20",
+        "depends_on": [
+          "gate_a_episode_admissibility"
+        ]
+      }
+    ],
+    "blockers": [],
+    "stale_docs": [],
+    "authority_notes": [
+      "current_truth.json is derived from Tier-0/Tier-1 only.",
+      "Derived docs are convenience surfaces and must not override canonical files.",
+      "Scientific conclusions apply to the local patched MINT variant, not blindly to upstream MINT."
+    ]
+  },
+  "dataset": {
+    "manifest_version": 1,
+    "dataset_version": "v59_20260405",
+    "created_at": "2026-04-05T00:00:00+0000",
+    "producer_script": "scripts/harness/pack_dataset.sh (seeded from v58)",
+    "pack_result_json": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_lerobot_pack.json",
+    "pack_log": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v59_lerobot_pack.log",
+    "source_dirs": [
+      "artifacts/v58_physics_legal_rollouts/",
+      "artifacts/p4_physics_legal_rollouts/"
+    ],
+    "source_rollout_count": 240,
+    "episode_count": 240,
+    "frame_count": 19701,
+    "info_sha": "7390fad7bb8eb283",
+    "dataset_loads": true,
+    "dataset_length": 19701,
+    "image_shape": "(256, 256, 3)",
+    "state_shape": "(8,)",
+    "action_shape": "(7,)",
+    "git_commit": "ef06962130fd"
+  },
+  "workspace": {
+    "schema_version": 1,
+    "generated_at": "2026-04-07T15:19:44+08:00",
+    "campaign_root": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1",
+    "project_root": "/mnt/afs2/zhuhaowu/infinigen",
+    "main_repo": {
+      "root": "/mnt/afs2/zhuhaowu/infinigen",
+      "exists": true,
+      "branch": "feature/mint-integration",
+      "head": "78f807833d5fbb17734b6cf83f5b8430f7b018ce",
+      "upstream": "my-origin/feature/mint-integration",
+      "ahead": 0,
+      "behind": 0,
+      "dirty": true,
+      "dirty_files": [
+        " M experiments/mint/mint_drawer_v1/HARNESS_USAGE_GUIDE.md",
+        " M experiments/mint/mint_drawer_v1/scripts/harness/02_reconcile_sources.py",
+        " M experiments/mint/mint_drawer_v1/scripts/harness/sovereign_cli.py",
+        " M experiments/mint/mint_drawer_v1/scripts/harness/v59_night_runner.py",
+        " M experiments/mint/mint_drawer_v1/sovereign/CAMPAIGN_TRUTH.generated.md",
+        " M experiments/mint/mint_drawer_v1/sovereign/SESSION_BOOTSTRAP.20260406.md",
+        " M experiments/mint/mint_drawer_v1/sovereign/claims.yaml",
+        " M experiments/mint/mint_drawer_v1/sovereign/evidence/E021.yaml",
+        " M experiments/mint/mint_drawer_v1/sovereign/evidence/E022.yaml",
+        " M experiments/mint/mint_drawer_v1/sovereign/evidence/E026.yaml",
+        " M experiments/mint/mint_drawer_v1/sovereign/evidence/E027.yaml",
+        " M experiments/mint/mint_drawer_v1/sovereign/evidence/index.json",
+        " M experiments/mint/mint_drawer_v1/sovereign/handoff.md",
+        " M experiments/mint/mint_drawer_v1/sovereign/next_actions.json",
+        " M experiments/mint/mint_drawer_v1/sovereign/run_ledger.yaml",
+        " M experiments/mint/mint_drawer_v1/sovereign/state.json",
+        "?? experiments/mint/mint_drawer_v1/scripts/harness/05_semantic_truth_lint.py",
+        "?? experiments/mint/mint_drawer_v1/scripts/harness/legacy/",
+        "?? experiments/mint/mint_drawer_v1/scripts/harness/truth_backend.py",
+        "?? experiments/mint/mint_drawer_v1/sovereign/SESSION_BOOTSTRAP.20260407.md",
+        "?? experiments/mint/mint_drawer_v1/sovereign/current_truth.json",
+        "?? experiments/mint/mint_drawer_v1/sovereign/experiment_specs/",
+        "?? experiments/mint/mint_drawer_v1/sovereign/legacy/",
+        "?? experiments/mint/mint_drawer_v1/sovereign/model_load_fidelity.json",
+        "?? experiments/mint/mint_drawer_v1/sovereign/workspace_manifest.json"
+      ],
+      "error": null
+    },
+    "submodules": {
+      "external/MINT": {
+        "root": "/mnt/afs2/zhuhaowu/infinigen/external/MINT",
+        "exists": true,
+        "branch": "main",
+        "head": "8d75b32174606e0499205633c639d50bd5fc0909",
+        "upstream": "origin/main",
+        "ahead": 0,
+        "behind": 2,
+        "dirty": false,
+        "dirty_files": [],
+        "error": null
+      }
+    }
+  },
+  "model_load_fidelity": {
+    "schema_version": 1,
+    "generated_at": "2026-04-07T15:19:53+08:00",
+    "campaign": "mint_drawer_v1",
+    "main_repo_head": "78f807833d5fbb17734b6cf83f5b8430f7b018ce",
+    "main_repo_branch": "feature/mint-integration",
+    "external_mint_head": "8d75b32174606e0499205633c639d50bd5fc0909",
+    "external_mint_branch": "main",
+    "compatibility_patches": [],
+    "semantic_patches": [],
+    "experimental_patches": [],
+    "missing_keys_count": 165,
+    "unexpected_keys_count": null,
+    "architectural_key_mismatches_fixed": 165,
+    "metric_sources": [
+      "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/sovereign/night/night_runner.log"
+    ],
+    "dtype_policy": "current runtime uses local patched precision path; see semantic patches",
+    "pretrained_and_finetuned_same_shim": true,
+    "fidelity_grade": "F2",
+    "fidelity_summary": "Runnable but semantically drifted",
+    "guardrail": "Scientific conclusions apply to the local patched MINT variant, not blindly to upstream MINT."
+  },
+  "claims": {
+    "active_count": 16,
+    "summary": [
+      {
+        "claim_id": "C_SIGLIP_GENERALIZATION",
+        "revision": 3,
+        "lifecycle_status": "active",
+        "status": "candidate",
+        "scope": "current_mint_drawer_v1_pipeline",
+        "statement": "Current failure is more likely system-level misalignment across vision preprocessing, action quantization, and control loop, not vision alone. E1 1/5 grasp does not support full SigLIP rejection.",
+        "evidence_ids": [
+          "E001",
+          "E002",
+          "E003"
+        ],
+        "display_role": "retired_display",
+        "display_role_reason": "active but status=candidate and not driving the current phase"
+      },
+      {
+        "claim_id": "C_FINETUNE_IMPROVES_HELDOUT",
+        "revision": 1,
+        "lifecycle_status": "active",
+        "status": "contradicted",
+        "scope": "heldout_eval_only",
+        "statement": "Finetuned MINT improves held-out E1 success over pretrained baseline.",
+        "evidence_ids": [
+          "E001",
+          "E002"
+        ],
+        "display_role": "retired_display",
+        "display_role_reason": "active but status=contradicted and not driving the current phase"
+      },
+      {
+        "claim_id": "C_PHYSICS_LEGAL_TEACHER_HISTORICAL_SUMMARY",
+        "revision": 1,
+        "lifecycle_status": "active",
+        "status": "supported",
+        "scope": "historical_context_only",
+        "statement": "Historical summary only: in the v58 teacher replay pipeline, source teacher trajectories repeatedly failed when replayed under DrawerRobotEnv/PyBullet physics. This claim is preserved as simulator-gap context for the campaign, not as a current-driving verdict about teacher quality in the original source simulator.",
+        "evidence_ids": [
+          "E004",
+          "E008",
+          "E009",
+          "E011",
+          "E002",
+          "E003"
+        ],
+        "display_role": "historical_context",
+        "display_role_reason": "active supporting context but not directly driving the current phase"
+      },
+      {
+        "claim_id": "C_STATE_CONTRACT_HISTORICAL_SUMMARY",
+        "revision": 1,
+        "lifecycle_status": "active",
+        "status": "supported",
+        "scope": "historical_context_only",
+        "statement": "Historical summary only: the v58 state-contract investigation progressed from initial mismatch diagnosis to partial packing fixes and then runtime-side fixes. This chain remains useful historical context, but it no longer governs the current v59 Gate B replayability decision surface.",
+        "evidence_ids": [
+          "E004",
+          "E005",
+          "E008",
+          "E010",
+          "E011",
+          "E002",
+          "E012",
+          "E003"
+        ],
+        "display_role": "historical_context",
+        "display_role_reason": "active supporting context but not directly driving the current phase"
+      },
+      {
+        "claim_id": "C_VISION_ALIGNMENT_HISTORICAL_SUMMARY",
+        "revision": 1,
+        "lifecycle_status": "active",
+        "status": "supported",
+        "scope": "historical_context_only",
+        "statement": "Historical summary only: the v58 camera/render alignment mismatch remained an important legacy context claim about why pretrained vision priors could misread Infinigen observations. It is retained as historical context, not as a current-driving claim for the v59 Gate B replayability audit.",
+        "evidence_ids": [
+          "E006",
+          "E010",
+          "E011",
+          "E002",
+          "E003"
+        ],
+        "display_role": "historical_context",
+        "display_role_reason": "active supporting context but not directly driving the current phase"
+      },
+      {
+        "claim_id": "C_IMAGE_NEAR_WHITE",
+        "revision": 1,
+        "lifecycle_status": "active",
+        "status": "supported",
+        "scope": "v58_vision_pipeline",
+        "statement": "CONFIRMED ROOT CAUSE of V58 0%: V58 rendered images are near-white (mean=[0.977,0.977,0.977], std=[0.0028,0.0028,0.0028]). LIBERO images have realistic colors (mean=[0.414,0.371,0.329], std=[0.252,0.247,0.241]). Root cause: empty MTL files — drawerbox geom_*.mtl have no material definitions (only Blender header comments, no Kd/Ka/Ks). PyBullet ER_TINY_RENDERER renders objects without materials as white. CRITICAL CONTEXT: Old dataset (3,305 frames) had CONTINUOUS gripper_joint (std=0.0196, range=[-0.042, +0.001]) — frozen gripper was NOT present. V58 trained on this dataset and STILL got 0%. This proves near-white images (NOT frozen gripper) is the real root cause. Fix: add material definitions to URDF or MTL files, then regenerate images.",
+        "evidence_ids": [
+          "E013",
+          "E014",
+          "E016"
+        ],
+        "display_role": "historical_context",
+        "display_role_reason": "active supporting context but not directly driving the current phase",
+        "debt_flags": [
+          "scope_not_current_phase"
+        ]
+      },
+      {
+        "claim_id": "C_IMAGE_NEAR_WHITE@2",
+        "revision": 1,
+        "lifecycle_status": "active",
+        "status": "supported",
+        "scope": "v58_vision_pipeline",
+        "statement": "CONFIRMED ROOT CAUSE (one of multiple): V58 images near-white (mean=[0.977,0.977,0.977], std=[0.0028,0.0028,0.0028]). LIBERO images: mean=[0.414,0.371,0.329], std=[0.252,0.247,0.241]. Root cause: empty MTL files (geom_*.mtl have no Kd/Ka/Ks). PyBullet ER_TINY_RENDERER renders without materials -> white. CONTEXT: V58 trained on dataset with CONTINUOUS gripper (std=0.0196) and STILL got 0%. Near-white images (NOT frozen gripper) is confirmed root cause. IMPORTANT CAVEAT: MINT 0% is MULTI-CAUSE. Near-white images are ONE confirmed cause. Remaining factors: teacher demo quality (AnyGrasp physics violations), insufficient training (18K frames/1K steps vs 3B model), state[3:7] format (joint positions vs quaternions). Fix images first, then small-scale validation.",
+        "evidence_ids": [
+          "E013",
+          "E014",
+          "E016",
+          "E017"
+        ],
+        "display_role": "historical_context",
+        "display_role_reason": "active supporting context but not directly driving the current phase",
+        "debt_flags": [
+          "scope_not_current_phase"
+        ]
+      },
+      {
+        "claim_id": "C_DATA_PROVENANCE_COLLAPSE",
+        "revision": 1,
+        "lifecycle_status": "active",
+        "status": "supported",
+        "scope": "data_volume_facts",
+        "statement": "V58 training actually used 18,701 frames from 229 episodes (verified from v58_train.log: 'dataset.num_frames=18701'). The '1,301 frames' figure in next_actions.json and C_DATASET_SUFFICIENT is a STALE snapshot from pre-V58 recovery era. All 18,701 V58 frames are CORRUPTED (frozen gripper + near-white images). More corrupted data does NOT help.",
+        "evidence_ids": [
+          "E014"
+        ],
+        "display_role": "historical_context",
+        "display_role_reason": "active supporting context but not directly driving the current phase"
+      },
+      {
+        "claim_id": "C_DATA_INTEGRITY_AND_P0B_PRIORITY",
+        "revision": 1,
+        "lifecycle_status": "active",
+        "status": "supported",
+        "scope": "v58_data_integrity",
+        "statement": "V58 data integrity audit FAILED and root cause priority REFRAMED. (1) New pack FAILED: file-000.parquet CORRUPTED (Parquet magic bytes error — partial write), file-001.parquet MISSING. New pack never completed. (2) Live dataset is OLD dataset (36 episodes, 3,305 frames). (3) Old dataset has CONTINUOUS gripper_joint (std=0.0196, range=[-0.042, +0.001]). Frozen gripper was NOT present in training data. (4) V58 trained on old dataset (with continuous gripper) and STILL got 0% success. CONCLUSION: frozen gripper was NEVER the root cause of V58 0%. P0b (near-white images, mean=0.977, std=0.0028) is the REAL root cause. P0a code fix is correct but irrelevant to V58 failure. PRIORITY: P0b (images) >> P0a (gripper code). NEXT: P0b fix → complete new pack → P1_regenerate → P2_retrain.",
+        "evidence_ids": [
+          "E013",
+          "E014",
+          "E015",
+          "E016"
+        ],
+        "display_role": "historical_context",
+        "display_role_reason": "active supporting context but not directly driving the current phase",
+        "debt_flags": [
+          "scope_not_current_phase"
+        ]
+      },
+      {
+        "claim_id": "C_GRIPPER_JOINT_NOT_FROZEN_IN_V58",
+        "revision": 2,
+        "lifecycle_status": "active",
+        "status": "supported",
+        "scope": "v58_root_cause_revisited",
+        "statement": "V58 dataset had CONTINUOUS gripper_joint — CANCELLED root cause. Evidence: NPZ raw std=0.0208, stats.json std=0.0196. Near-white images confirmed suboptimal (E020, E022). E022: pretrained MINT (never trained on Infinigen images) also gets 0.000 drawer_fraction. This is CONSISTENT WITH multiple hypotheses: (a) white images ARE the bottleneck, (b) action/state mismatch IS the bottleneck, (c) both contribute. NOT YET PROVEN which. E023 (RCA1): teacher demo quality ELIMINATED as root cause for overfit subset (7/7 episodes task-successful). Remaining: RCA2 (action normalization), RCA3 (state representation). P0b (colored reroll): OPEN / UNDECIDED pending RCA2/3.",
+        "evidence_ids": [
+          "E023",
+          "E022",
+          "E021"
+        ],
+        "display_role": "historical_context",
+        "display_role_reason": "active supporting context but not directly driving the current phase",
+        "debt_flags": [
+          "scope_not_current_phase"
+        ]
+      },
+      {
+        "claim_id": "C_V59_OFFLINE_OVERFIT_SIGNAL",
+        "revision": 1,
+        "lifecycle_status": "active",
+        "status": "supported",
+        "scope": "v59_overfit_validation",
+        "statement": "V59 finetuned checkpoint shows better offline action imitation than pretrained on the training subset. Evidence: 200 steps on 494 frames, loss 6.520→3.741 (-42.7%), action RMSE +51.7%, gripper MAE +78.0%. HOWEVER: task-level overfit has NOT been verified in DrawerRobotEnv. No evidence of: (1) drawer success rate in simulation, (2) attach/open sequence correctness, (3) drawer fraction improvement. \"Pipeline confirmed\" is OVERSTATED — \"offline imitation improved\" is the accurate claim. Env-level overfit gate (finetuned vs pretrained in env) required before claiming task success.",
+        "evidence_ids": [
+          "E021"
+        ],
+        "display_role": "current_driving",
+        "display_role_reason": "explicitly mapped to current phase/action"
+      },
+      {
+        "claim_id": "C_V58_TRAIN_vs_LIVE_DATA",
+        "revision": 1,
+        "lifecycle_status": "active",
+        "status": "supported",
+        "scope": "v58_data_provenance",
+        "statement": "V58 TRAIN-TIME dataset was 18,701 frames / 229 episodes (from v58_train.log: \"dataset.num_frames=18701, dataset.num_episodes=229\"). Current live dataset/ is 3,305 frames / 36 episodes — this is a RESIDUE from post-training overwrite, NOT what V58 was trained on. The original 18,701/229 dataset was overwritten by an interrupted pack run on Apr 5 13:38. The claim \"V58 used corrupt data (3305 frames)\" is FALSE. V58 trained on 18,701 frames. V58 failure (0% success) occurred with near-white images (ER_TINY_RENDERER) and continuous gripper_joint. 3305/36 is post-train residue.",
+        "evidence_ids": [
+          "E015",
+          "E016",
+          "E017",
+          "E018",
+          "E019"
+        ],
+        "display_role": "historical_context",
+        "display_role_reason": "active supporting context but not directly driving the current phase",
+        "debt_flags": [
+          "scope_not_current_phase"
+        ]
+      },
+      {
+        "claim_id": "C_V59_ENV_GATE_FAILED",
+        "revision": 1,
+        "lifecycle_status": "active",
+        "status": "supported",
+        "scope": "v59_pipeline_validation",
+        "statement": "V59 env-level overfit gate: NEGATIVE_GATE. Both pretrained and finetuned MINT achieve 0.000 drawer_fraction on all 6 simulation rollouts (3 seeds × 2 episodes). Offline action RMSE improvement (+51.7%) does NOT translate to task success. CORRECTED DIAGNOSIS: E023 (RCA1) proved all 7/7 teacher episodes are task-successful (mean_max_drawer=0.989). Teacher demos ARE successful. MINT improved at imitating them offline, but imitated actions still do not open the drawer in simulation. Root cause must be: action normalization mismatch, state representation gap, or sim-to-sim gap (LIBERO→Infinigen). Insufficient training data is NOT the sole cause. Full V59 retrain without fixing action/state contract will repeat V58 failure. P0b (colored reroll): OPEN QUESTION — pretrained failure in white images is consistent with multiple hypotheses.",
+        "evidence_ids": [
+          "E022",
+          "E021",
+          "E015"
+        ],
+        "display_role": "current_driving",
+        "display_role_reason": "explicitly mapped to current phase/action"
+      },
+      {
+        "claim_id": "C_RCA1_TEACHER_NOT_ROOT_CAUSE",
+        "revision": 1,
+        "lifecycle_status": "active",
+        "status": "supported",
+        "scope": "rca1_teacher_quality",
+        "statement": "All 7/7 V59 overfit teacher episodes are task-successful. RCA1 verified: episodes 0,1,2,3,4,5,49 (LeRobot indices) map to physics-legal NPZ rollouts with success=True, mean_max_drawer_fraction=0.989, attach_rate=1.0. Teacher quality is NOT the root cause of V58/V59 failure. Root cause must be in MINT training pipeline: action normalization, state representation, or sim-to-sim gap. METHODOLOGY: LeRobot episode_index ≠ NPZ filename episode index. Must trace through V59 pack log sorted file order. E023 confirms.",
+        "evidence_ids": [
+          "E023",
+          "E022",
+          "E021"
+        ],
+        "display_role": "current_driving",
+        "display_role_reason": "explicitly mapped to current phase/action"
+      },
+      {
+        "claim_id": "C_V59_ACTION_NORMALIZATION_NOT_ROOT_CAUSE",
+        "revision": 1,
+        "lifecycle_status": "active",
+        "status": "supported",
+        "scope": "overfit_subset_7_episodes",
+        "statement": "For the 7 V59 overfit episodes, action normalization is NOT the root cause of\ntask failure in DrawerRobotEnv. Dataset actions are in [-1, 1] range (position/rotation)\nand gripper uses ±1.0 convention, matching DrawerRobotEnv's expected input contract.\nTeacher action replay is inconclusive (attachment_local estimation error) but\nstatic analysis independently proves no action format mismatch.\n",
+        "evidence_ids": [
+          "E024"
+        ],
+        "display_role": "current_driving",
+        "display_role_reason": "explicitly mapped to current phase/action"
+      },
+      {
+        "claim_id": "C_V59_STATE_REPRESENTATION_NOT_ROOT_CAUSE",
+        "revision": 1,
+        "lifecycle_status": "active",
+        "status": "supported",
+        "scope": "overfit_subset_7_episodes",
+        "statement": "State representation is not the root cause for the 7 overfit episodes.",
+        "evidence_ids": [
+          "E025"
+        ],
+        "display_role": "current_driving",
+        "display_role_reason": "explicitly mapped to current phase/action"
+      }
+    ],
+    "current_driving": [
+      {
+        "claim_id": "C_V59_OFFLINE_OVERFIT_SIGNAL",
+        "revision": 1,
+        "lifecycle_status": "active",
+        "status": "supported",
+        "scope": "v59_overfit_validation",
+        "statement": "V59 finetuned checkpoint shows better offline action imitation than pretrained on the training subset. Evidence: 200 steps on 494 frames, loss 6.520→3.741 (-42.7%), action RMSE +51.7%, gripper MAE +78.0%. HOWEVER: task-level overfit has NOT been verified in DrawerRobotEnv. No evidence of: (1) drawer success rate in simulation, (2) attach/open sequence correctness, (3) drawer fraction improvement. \"Pipeline confirmed\" is OVERSTATED — \"offline imitation improved\" is the accurate claim. Env-level overfit gate (finetuned vs pretrained in env) required before claiming task success.",
+        "evidence_ids": [
+          "E021"
+        ],
+        "display_role": "current_driving",
+        "display_role_reason": "explicitly mapped to current phase/action"
+      },
+      {
+        "claim_id": "C_V59_ENV_GATE_FAILED",
+        "revision": 1,
+        "lifecycle_status": "active",
+        "status": "supported",
+        "scope": "v59_pipeline_validation",
+        "statement": "V59 env-level overfit gate: NEGATIVE_GATE. Both pretrained and finetuned MINT achieve 0.000 drawer_fraction on all 6 simulation rollouts (3 seeds × 2 episodes). Offline action RMSE improvement (+51.7%) does NOT translate to task success. CORRECTED DIAGNOSIS: E023 (RCA1) proved all 7/7 teacher episodes are task-successful (mean_max_drawer=0.989). Teacher demos ARE successful. MINT improved at imitating them offline, but imitated actions still do not open the drawer in simulation. Root cause must be: action normalization mismatch, state representation gap, or sim-to-sim gap (LIBERO→Infinigen). Insufficient training data is NOT the sole cause. Full V59 retrain without fixing action/state contract will repeat V58 failure. P0b (colored reroll): OPEN QUESTION — pretrained failure in white images is consistent with multiple hypotheses.",
+        "evidence_ids": [
+          "E022",
+          "E021",
+          "E015"
+        ],
+        "display_role": "current_driving",
+        "display_role_reason": "explicitly mapped to current phase/action"
+      },
+      {
+        "claim_id": "C_RCA1_TEACHER_NOT_ROOT_CAUSE",
+        "revision": 1,
+        "lifecycle_status": "active",
+        "status": "supported",
+        "scope": "rca1_teacher_quality",
+        "statement": "All 7/7 V59 overfit teacher episodes are task-successful. RCA1 verified: episodes 0,1,2,3,4,5,49 (LeRobot indices) map to physics-legal NPZ rollouts with success=True, mean_max_drawer_fraction=0.989, attach_rate=1.0. Teacher quality is NOT the root cause of V58/V59 failure. Root cause must be in MINT training pipeline: action normalization, state representation, or sim-to-sim gap. METHODOLOGY: LeRobot episode_index ≠ NPZ filename episode index. Must trace through V59 pack log sorted file order. E023 confirms.",
+        "evidence_ids": [
+          "E023",
+          "E022",
+          "E021"
+        ],
+        "display_role": "current_driving",
+        "display_role_reason": "explicitly mapped to current phase/action"
+      },
+      {
+        "claim_id": "C_V59_ACTION_NORMALIZATION_NOT_ROOT_CAUSE",
+        "revision": 1,
+        "lifecycle_status": "active",
+        "status": "supported",
+        "scope": "overfit_subset_7_episodes",
+        "statement": "For the 7 V59 overfit episodes, action normalization is NOT the root cause of\ntask failure in DrawerRobotEnv. Dataset actions are in [-1, 1] range (position/rotation)\nand gripper uses ±1.0 convention, matching DrawerRobotEnv's expected input contract.\nTeacher action replay is inconclusive (attachment_local estimation error) but\nstatic analysis independently proves no action format mismatch.\n",
+        "evidence_ids": [
+          "E024"
+        ],
+        "display_role": "current_driving",
+        "display_role_reason": "explicitly mapped to current phase/action"
+      },
+      {
+        "claim_id": "C_V59_STATE_REPRESENTATION_NOT_ROOT_CAUSE",
+        "revision": 1,
+        "lifecycle_status": "active",
+        "status": "supported",
+        "scope": "overfit_subset_7_episodes",
+        "statement": "State representation is not the root cause for the 7 overfit episodes.",
+        "evidence_ids": [
+          "E025"
+        ],
+        "display_role": "current_driving",
+        "display_role_reason": "explicitly mapped to current phase/action"
+      }
+    ],
+    "historical_context": [
+      {
+        "claim_id": "C_PHYSICS_LEGAL_TEACHER_HISTORICAL_SUMMARY",
+        "revision": 1,
+        "lifecycle_status": "active",
+        "status": "supported",
+        "scope": "historical_context_only",
+        "statement": "Historical summary only: in the v58 teacher replay pipeline, source teacher trajectories repeatedly failed when replayed under DrawerRobotEnv/PyBullet physics. This claim is preserved as simulator-gap context for the campaign, not as a current-driving verdict about teacher quality in the original source simulator.",
+        "evidence_ids": [
+          "E004",
+          "E008",
+          "E009",
+          "E011",
+          "E002",
+          "E003"
+        ],
+        "display_role": "historical_context",
+        "display_role_reason": "active supporting context but not directly driving the current phase"
+      },
+      {
+        "claim_id": "C_STATE_CONTRACT_HISTORICAL_SUMMARY",
+        "revision": 1,
+        "lifecycle_status": "active",
+        "status": "supported",
+        "scope": "historical_context_only",
+        "statement": "Historical summary only: the v58 state-contract investigation progressed from initial mismatch diagnosis to partial packing fixes and then runtime-side fixes. This chain remains useful historical context, but it no longer governs the current v59 Gate B replayability decision surface.",
+        "evidence_ids": [
+          "E004",
+          "E005",
+          "E008",
+          "E010",
+          "E011",
+          "E002",
+          "E012",
+          "E003"
+        ],
+        "display_role": "historical_context",
+        "display_role_reason": "active supporting context but not directly driving the current phase"
+      },
+      {
+        "claim_id": "C_VISION_ALIGNMENT_HISTORICAL_SUMMARY",
+        "revision": 1,
+        "lifecycle_status": "active",
+        "status": "supported",
+        "scope": "historical_context_only",
+        "statement": "Historical summary only: the v58 camera/render alignment mismatch remained an important legacy context claim about why pretrained vision priors could misread Infinigen observations. It is retained as historical context, not as a current-driving claim for the v59 Gate B replayability audit.",
+        "evidence_ids": [
+          "E006",
+          "E010",
+          "E011",
+          "E002",
+          "E003"
+        ],
+        "display_role": "historical_context",
+        "display_role_reason": "active supporting context but not directly driving the current phase"
+      },
+      {
+        "claim_id": "C_IMAGE_NEAR_WHITE",
+        "revision": 1,
+        "lifecycle_status": "active",
+        "status": "supported",
+        "scope": "v58_vision_pipeline",
+        "statement": "CONFIRMED ROOT CAUSE of V58 0%: V58 rendered images are near-white (mean=[0.977,0.977,0.977], std=[0.0028,0.0028,0.0028]). LIBERO images have realistic colors (mean=[0.414,0.371,0.329], std=[0.252,0.247,0.241]). Root cause: empty MTL files — drawerbox geom_*.mtl have no material definitions (only Blender header comments, no Kd/Ka/Ks). PyBullet ER_TINY_RENDERER renders objects without materials as white. CRITICAL CONTEXT: Old dataset (3,305 frames) had CONTINUOUS gripper_joint (std=0.0196, range=[-0.042, +0.001]) — frozen gripper was NOT present. V58 trained on this dataset and STILL got 0%. This proves near-white images (NOT frozen gripper) is the real root cause. Fix: add material definitions to URDF or MTL files, then regenerate images.",
+        "evidence_ids": [
+          "E013",
+          "E014",
+          "E016"
+        ],
+        "display_role": "historical_context",
+        "display_role_reason": "active supporting context but not directly driving the current phase",
+        "debt_flags": [
+          "scope_not_current_phase"
+        ]
+      },
+      {
+        "claim_id": "C_IMAGE_NEAR_WHITE@2",
+        "revision": 1,
+        "lifecycle_status": "active",
+        "status": "supported",
+        "scope": "v58_vision_pipeline",
+        "statement": "CONFIRMED ROOT CAUSE (one of multiple): V58 images near-white (mean=[0.977,0.977,0.977], std=[0.0028,0.0028,0.0028]). LIBERO images: mean=[0.414,0.371,0.329], std=[0.252,0.247,0.241]. Root cause: empty MTL files (geom_*.mtl have no Kd/Ka/Ks). PyBullet ER_TINY_RENDERER renders without materials -> white. CONTEXT: V58 trained on dataset with CONTINUOUS gripper (std=0.0196) and STILL got 0%. Near-white images (NOT frozen gripper) is confirmed root cause. IMPORTANT CAVEAT: MINT 0% is MULTI-CAUSE. Near-white images are ONE confirmed cause. Remaining factors: teacher demo quality (AnyGrasp physics violations), insufficient training (18K frames/1K steps vs 3B model), state[3:7] format (joint positions vs quaternions). Fix images first, then small-scale validation.",
+        "evidence_ids": [
+          "E013",
+          "E014",
+          "E016",
+          "E017"
+        ],
+        "display_role": "historical_context",
+        "display_role_reason": "active supporting context but not directly driving the current phase",
+        "debt_flags": [
+          "scope_not_current_phase"
+        ]
+      },
+      {
+        "claim_id": "C_DATA_PROVENANCE_COLLAPSE",
+        "revision": 1,
+        "lifecycle_status": "active",
+        "status": "supported",
+        "scope": "data_volume_facts",
+        "statement": "V58 training actually used 18,701 frames from 229 episodes (verified from v58_train.log: 'dataset.num_frames=18701'). The '1,301 frames' figure in next_actions.json and C_DATASET_SUFFICIENT is a STALE snapshot from pre-V58 recovery era. All 18,701 V58 frames are CORRUPTED (frozen gripper + near-white images). More corrupted data does NOT help.",
+        "evidence_ids": [
+          "E014"
+        ],
+        "display_role": "historical_context",
+        "display_role_reason": "active supporting context but not directly driving the current phase"
+      },
+      {
+        "claim_id": "C_DATA_INTEGRITY_AND_P0B_PRIORITY",
+        "revision": 1,
+        "lifecycle_status": "active",
+        "status": "supported",
+        "scope": "v58_data_integrity",
+        "statement": "V58 data integrity audit FAILED and root cause priority REFRAMED. (1) New pack FAILED: file-000.parquet CORRUPTED (Parquet magic bytes error — partial write), file-001.parquet MISSING. New pack never completed. (2) Live dataset is OLD dataset (36 episodes, 3,305 frames). (3) Old dataset has CONTINUOUS gripper_joint (std=0.0196, range=[-0.042, +0.001]). Frozen gripper was NOT present in training data. (4) V58 trained on old dataset (with continuous gripper) and STILL got 0% success. CONCLUSION: frozen gripper was NEVER the root cause of V58 0%. P0b (near-white images, mean=0.977, std=0.0028) is the REAL root cause. P0a code fix is correct but irrelevant to V58 failure. PRIORITY: P0b (images) >> P0a (gripper code). NEXT: P0b fix → complete new pack → P1_regenerate → P2_retrain.",
+        "evidence_ids": [
+          "E013",
+          "E014",
+          "E015",
+          "E016"
+        ],
+        "display_role": "historical_context",
+        "display_role_reason": "active supporting context but not directly driving the current phase",
+        "debt_flags": [
+          "scope_not_current_phase"
+        ]
+      },
+      {
+        "claim_id": "C_GRIPPER_JOINT_NOT_FROZEN_IN_V58",
+        "revision": 2,
+        "lifecycle_status": "active",
+        "status": "supported",
+        "scope": "v58_root_cause_revisited",
+        "statement": "V58 dataset had CONTINUOUS gripper_joint — CANCELLED root cause. Evidence: NPZ raw std=0.0208, stats.json std=0.0196. Near-white images confirmed suboptimal (E020, E022). E022: pretrained MINT (never trained on Infinigen images) also gets 0.000 drawer_fraction. This is CONSISTENT WITH multiple hypotheses: (a) white images ARE the bottleneck, (b) action/state mismatch IS the bottleneck, (c) both contribute. NOT YET PROVEN which. E023 (RCA1): teacher demo quality ELIMINATED as root cause for overfit subset (7/7 episodes task-successful). Remaining: RCA2 (action normalization), RCA3 (state representation). P0b (colored reroll): OPEN / UNDECIDED pending RCA2/3.",
+        "evidence_ids": [
+          "E023",
+          "E022",
+          "E021"
+        ],
+        "display_role": "historical_context",
+        "display_role_reason": "active supporting context but not directly driving the current phase",
+        "debt_flags": [
+          "scope_not_current_phase"
+        ]
+      },
+      {
+        "claim_id": "C_V58_TRAIN_vs_LIVE_DATA",
+        "revision": 1,
+        "lifecycle_status": "active",
+        "status": "supported",
+        "scope": "v58_data_provenance",
+        "statement": "V58 TRAIN-TIME dataset was 18,701 frames / 229 episodes (from v58_train.log: \"dataset.num_frames=18701, dataset.num_episodes=229\"). Current live dataset/ is 3,305 frames / 36 episodes — this is a RESIDUE from post-training overwrite, NOT what V58 was trained on. The original 18,701/229 dataset was overwritten by an interrupted pack run on Apr 5 13:38. The claim \"V58 used corrupt data (3305 frames)\" is FALSE. V58 trained on 18,701 frames. V58 failure (0% success) occurred with near-white images (ER_TINY_RENDERER) and continuous gripper_joint. 3305/36 is post-train residue.",
+        "evidence_ids": [
+          "E015",
+          "E016",
+          "E017",
+          "E018",
+          "E019"
+        ],
+        "display_role": "historical_context",
+        "display_role_reason": "active supporting context but not directly driving the current phase",
+        "debt_flags": [
+          "scope_not_current_phase"
+        ]
+      }
+    ],
+    "retired_display": [
+      {
+        "claim_id": "C_SIGLIP_GENERALIZATION",
+        "revision": 3,
+        "lifecycle_status": "active",
+        "status": "candidate",
+        "scope": "current_mint_drawer_v1_pipeline",
+        "statement": "Current failure is more likely system-level misalignment across vision preprocessing, action quantization, and control loop, not vision alone. E1 1/5 grasp does not support full SigLIP rejection.",
+        "evidence_ids": [
+          "E001",
+          "E002",
+          "E003"
+        ],
+        "display_role": "retired_display",
+        "display_role_reason": "active but status=candidate and not driving the current phase"
+      },
+      {
+        "claim_id": "C_VQVAE_USABLE",
+        "revision": 1,
+        "lifecycle_status": "superseded",
+        "status": "contradicted",
+        "scope": "simulation_only",
+        "statement": "Current VQ-VAE action quantizer encodes usable drawer-manipulation latent for the D1 pipeline.",
+        "evidence_ids": [
+          "E001"
+        ],
+        "display_role": "retired_display",
+        "display_role_reason": "lifecycle_status=superseded"
+      },
+      {
+        "claim_id": "C_DATASET_SUFFICIENT",
+        "revision": 2,
+        "lifecycle_status": "superseded",
+        "status": "supported",
+        "scope": "data_volume_facts",
+        "statement": "V58 has 18,701 frames but ALL CORRUPTED: gripper_joint frozen at -0.042 (std=9.6e-9) + images near-white (mean=[0.976,0.976,0.976]). The \"1,301 frames\" figure was a stale pre-V58 snapshot. Data QUALITY (L2 observation correctness) is the blocker, not quantity. Fix P0a (gripper_joint) + P0b (image render) before generating more data.",
+        "evidence_ids": [
+          "E013",
+          "E014",
+          "E015"
+        ],
+        "display_role": "retired_display",
+        "display_role_reason": "lifecycle_status=superseded"
+      },
+      {
+        "claim_id": "C_FINETUNE_IMPROVES_HELDOUT",
+        "revision": 1,
+        "lifecycle_status": "active",
+        "status": "contradicted",
+        "scope": "heldout_eval_only",
+        "statement": "Finetuned MINT improves held-out E1 success over pretrained baseline.",
+        "evidence_ids": [
+          "E001",
+          "E002"
+        ],
+        "display_role": "retired_display",
+        "display_role_reason": "active but status=contradicted and not driving the current phase"
+      },
+      {
+        "claim_id": "C_PHYSICS_LEGAL_TEACHER",
+        "revision": 12,
+        "lifecycle_status": "superseded",
+        "status": "archived",
+        "scope": "historical_context_only",
+        "statement": "Historical predecessor chain retained for traceability only. See C_PHYSICS_LEGAL_TEACHER_HISTORICAL_SUMMARY@1 for the compact historical summary now used by Harness v2 displays.",
+        "evidence_ids": [
+          "E004",
+          "E008",
+          "E009",
+          "E011",
+          "E002",
+          "E003"
+        ],
+        "display_role": "retired_display",
+        "display_role_reason": "lifecycle_status=superseded"
+      },
+      {
+        "claim_id": "C_STATE_CONTRACT",
+        "revision": 15,
+        "lifecycle_status": "superseded",
+        "status": "archived",
+        "scope": "historical_context_only",
+        "statement": "Historical predecessor chain retained for traceability only. See C_STATE_CONTRACT_HISTORICAL_SUMMARY@1 for the compact historical summary now used by Harness v2 displays.",
+        "evidence_ids": [
+          "E004",
+          "E005",
+          "E008",
+          "E010",
+          "E011",
+          "E002",
+          "E012",
+          "E003"
+        ],
+        "display_role": "retired_display",
+        "display_role_reason": "lifecycle_status=superseded"
+      },
+      {
+        "claim_id": "C_VISION_ALIGNMENT",
+        "revision": 12,
+        "lifecycle_status": "superseded",
+        "status": "archived",
+        "scope": "historical_context_only",
+        "statement": "Historical predecessor chain retained for traceability only. See C_VISION_ALIGNMENT_HISTORICAL_SUMMARY@1 for the compact historical summary now used by Harness v2 displays.",
+        "evidence_ids": [
+          "E006",
+          "E010",
+          "E011",
+          "E002",
+          "E003"
+        ],
+        "display_role": "retired_display",
+        "display_role_reason": "lifecycle_status=superseded"
+      },
+      {
+        "claim_id": "C_GRIPPER_JOINT_FROZEN",
+        "revision": 3,
+        "lifecycle_status": "superseded",
+        "status": "supported",
+        "scope": "v58_dataset_builder_pipeline",
+        "statement": "VERIFIED FIXED: P0a completed. dataset_builder._build_libero_state() fix confirmed effective. file-000.parquet verification: gripper_joint std=0.0198, 6,693 unique values, range=[-0.042, +0.001]. Vs OLD LeRobot parquet: std=0.0000, 1 unique value (all = -0.042). NPZ raw data already had healthy continuous values (std=0.0096-0.0834). Root cause was dataset_builder calling _infinigen_to_libero_gripper() on already-continuous values (all < 0.5 → CLOSED=-0.042). Fix: remove incorrect conversion + add LIBERO range clamp.",
+        "evidence_ids": [
+          "E013",
+          "E014",
+          "E015"
+        ],
+        "display_role": "retired_display",
+        "display_role_reason": "lifecycle_status=superseded"
+      },
+      {
+        "claim_id": "C_GRIPPER_JOINT_FIXED_V58",
+        "revision": 1,
+        "lifecycle_status": "superseded",
+        "status": "contradicted",
+        "scope": "v58_recording_pipeline",
+        "statement": "CANCELLED: P0a gripper_joint fix was correct code engineering but addressed a NON-EXISTENT problem. Live evidence confirms: NPZ raw gripper_joint std=0.0208 (continuous, 40 unique values). stats.json gripper_joint std=0.0196 (continuous, range=[-0.042,+0.001]). V58 dataset had CONTINUOUS gripper_joint throughout — gripper was NEVER frozen. The dataset_builder._build_libero_state() code fix (removed erroneous _infinigen_to_libero_gripper call) was correct engineering but did NOT change the V58 dataset because V58 training happened BEFORE the code fix was committed. V58 0% is NOT caused by frozen gripper.",
+        "evidence_ids": [
+          "E013",
+          "E014",
+          "E015"
+        ],
+        "display_role": "retired_display",
+        "display_role_reason": "lifecycle_status=superseded"
+      }
+    ],
+    "debt_flags": [
+      {
+        "claim_id": "C_IMAGE_NEAR_WHITE",
+        "flags": [
+          {
+            "flag": "scope_not_current_phase",
+            "detail": "scope=v58_vision_pipeline does not directly match current phase=v59_LEARNABILITY_AUDIT_GATE_B"
+          }
+        ]
+      },
+      {
+        "claim_id": "C_IMAGE_NEAR_WHITE@2",
+        "flags": [
+          {
+            "flag": "scope_not_current_phase",
+            "detail": "scope=v58_vision_pipeline does not directly match current phase=v59_LEARNABILITY_AUDIT_GATE_B"
+          }
+        ]
+      },
+      {
+        "claim_id": "C_DATA_INTEGRITY_AND_P0B_PRIORITY",
+        "flags": [
+          {
+            "flag": "scope_not_current_phase",
+            "detail": "scope=v58_data_integrity does not directly match current phase=v59_LEARNABILITY_AUDIT_GATE_B"
+          }
+        ]
+      },
+      {
+        "claim_id": "C_GRIPPER_JOINT_NOT_FROZEN_IN_V58",
+        "flags": [
+          {
+            "flag": "scope_not_current_phase",
+            "detail": "scope=v58_root_cause_revisited does not directly match current phase=v59_LEARNABILITY_AUDIT_GATE_B"
+          }
+        ]
+      },
+      {
+        "claim_id": "C_V58_TRAIN_vs_LIVE_DATA",
+        "flags": [
+          {
+            "flag": "scope_not_current_phase",
+            "detail": "scope=v58_data_provenance does not directly match current phase=v59_LEARNABILITY_AUDIT_GATE_B"
+          }
+        ]
+      }
+    ],
+    "lifecycle_review_queue": [],
+    "counts": {
+      "current_driving": 5,
+      "historical_context": 9,
+      "retired_display": 9,
+      "with_debt_flags": 5,
+      "lifecycle_review_queue": 0
+    }
+  },
+  "evidence": {
+    "total": 27,
+    "verified_count": 23,
+    "latest_verified": [
+      {
+        "evidence_id": "E027",
+        "experiment_id": "gate_a_episode_admissibility",
+        "type": "learnability_audit",
+        "timestamp": "2026-04-06T14:40:00+08:00",
+        "path": "sovereign/evidence/E027.yaml",
+        "verified": true,
+        "summary": "Gate A: 240 episodes have strong action signal and extremely weak within-episode visual variation under the audit metric."
+      },
+      {
+        "evidence_id": "E026",
+        "experiment_id": "P0b_drawer_only_matched_AB",
+        "type": "eval",
+        "timestamp": "2026-04-06T14:23:37+08:00",
+        "path": "sovereign/evidence/E026.yaml",
+        "verified": true,
+        "summary": "Matched A/B: drawer-colored (B) = 0/6, white (A) = 0/6. Drawer-only color is not the sole bottleneck."
+      },
+      {
+        "evidence_id": "E025",
+        "experiment_id": "rca3_state_representation",
+        "type": "RCA",
+        "timestamp": "2026-04-06T01:30:00+08:00",
+        "path": "sovereign/evidence/E025.yaml",
+        "verified": true,
+        "summary": "RCA3 scope-limited audit: no obvious subset-level state-format mismatch for the 7-episode overfit subset."
+      },
+      {
+        "evidence_id": "E024",
+        "experiment_id": "rca2_action_normalization",
+        "type": "RCA",
+        "timestamp": "2026-04-06T00:15:00+08:00",
+        "path": "sovereign/evidence/E024.yaml",
+        "verified": true,
+        "summary": "RCA2 scope-limited audit: no obvious static action-format/range mismatch for the 7-episode overfit subset; replay remained inconclusive."
+      },
+      {
+        "evidence_id": "E023",
+        "experiment_id": "rca1_teacher_quality_audit",
+        "type": "audit",
+        "timestamp": "2026-04-05T22:30:00+08:00",
+        "path": "sovereign/evidence/E023.yaml",
+        "verified": true,
+        "summary": "All 7/7 teacher episodes confirmed task-successful (success=True, mean_max_drawer=0.989). Teacher quality ELIMINATED as root cause. RCA2 (action normalization) becomes highest priority."
+      }
+    ],
+    "latest_all": [
+      {
+        "evidence_id": "E027",
+        "experiment_id": "gate_a_episode_admissibility",
+        "type": "learnability_audit",
+        "timestamp": "2026-04-06T14:40:00+08:00",
+        "path": "sovereign/evidence/E027.yaml",
+        "verified": true,
+        "summary": "Gate A: 240 episodes have strong action signal and extremely weak within-episode visual variation under the audit metric."
+      },
+      {
+        "evidence_id": "E026",
+        "experiment_id": "P0b_drawer_only_matched_AB",
+        "type": "eval",
+        "timestamp": "2026-04-06T14:23:37+08:00",
+        "path": "sovereign/evidence/E026.yaml",
+        "verified": true,
+        "summary": "Matched A/B: drawer-colored (B) = 0/6, white (A) = 0/6. Drawer-only color is not the sole bottleneck."
+      },
+      {
+        "evidence_id": "E025",
+        "experiment_id": "rca3_state_representation",
+        "type": "RCA",
+        "timestamp": "2026-04-06T01:30:00+08:00",
+        "path": "sovereign/evidence/E025.yaml",
+        "verified": true,
+        "summary": "RCA3 scope-limited audit: no obvious subset-level state-format mismatch for the 7-episode overfit subset."
+      },
+      {
+        "evidence_id": "E024",
+        "experiment_id": "rca2_action_normalization",
+        "type": "RCA",
+        "timestamp": "2026-04-06T00:15:00+08:00",
+        "path": "sovereign/evidence/E024.yaml",
+        "verified": true,
+        "summary": "RCA2 scope-limited audit: no obvious static action-format/range mismatch for the 7-episode overfit subset; replay remained inconclusive."
+      },
+      {
+        "evidence_id": "E023",
+        "experiment_id": "rca1_teacher_quality_audit",
+        "type": "audit",
+        "timestamp": "2026-04-05T22:30:00+08:00",
+        "path": "sovereign/evidence/E023.yaml",
+        "verified": true,
+        "summary": "All 7/7 teacher episodes confirmed task-successful (success=True, mean_max_drawer=0.989). Teacher quality ELIMINATED as root cause. RCA2 (action normalization) becomes highest priority."
+      }
+    ]
+  },
+  "actions": {
+    "pending_count": 2,
+    "in_progress_count": 0,
+    "completed_count": 9,
+    "blocked_count": 0
+  },
+  "derived_docs": {
+    "latest_bootstrap": "sovereign/SESSION_BOOTSTRAP.20260407.md",
+    "usage_guide": "HARNESS_USAGE_GUIDE.md",
+    "handoff": "sovereign/handoff.md",
+    "campaign_truth": "sovereign/CAMPAIGN_TRUTH.generated.md",
+    "statuses": [
+      {
+        "path": "sovereign/SESSION_BOOTSTRAP.20260407.md",
+        "exists": true,
+        "stale": false,
+        "reasons": []
+      },
+      {
+        "path": "HARNESS_USAGE_GUIDE.md",
+        "exists": true,
+        "stale": false,
+        "reasons": []
+      },
+      {
+        "path": "sovereign/handoff.md",
+        "exists": true,
+        "stale": false,
+        "reasons": []
+      },
+      {
+        "path": "sovereign/CAMPAIGN_TRUTH.generated.md",
+        "exists": true,
+        "stale": false,
+        "reasons": []
+      }
+    ]
+  }
+}

@@ -209,7 +209,8 @@
       "type": "RCA",
       "timestamp": "2026-04-06T00:15:00+08:00",
       "path": "sovereign/evidence/E024.yaml",
-      "verified": false
+      "verified": true,
+      "summary": "RCA2 scope-limited audit: no obvious static action-format/range mismatch for the 7-episode overfit subset; replay remained inconclusive."
     },
     {
       "evidence_id": "E025",
@@ -217,7 +218,8 @@
       "type": "RCA",
       "timestamp": "2026-04-06T01:30:00+08:00",
       "path": "sovereign/evidence/E025.yaml",
-      "verified": false
+      "verified": true,
+      "summary": "RCA3 scope-limited audit: no obvious subset-level state-format mismatch for the 7-episode overfit subset."
     },
     {
       "evidence_id": "E026",
@@ -225,8 +227,8 @@
       "type": "eval",
       "timestamp": "2026-04-06T14:23:37+08:00",
       "path": "sovereign/evidence/E026.yaml",
-      "verified": false,
-      "summary": "Matched A/B: drawer-colored (B) = 0/6, white (A) = 0/6. Drawer color NOT the bottleneck."
+      "verified": true,
+      "summary": "Matched A/B: drawer-colored (B) = 0/6, white (A) = 0/6. Drawer-only color is not the sole bottleneck."
     },
     {
       "evidence_id": "E027",
@@ -234,8 +236,8 @@
       "type": "learnability_audit",
       "timestamp": "2026-04-06T14:40:00+08:00",
       "path": "sovereign/evidence/E027.yaml",
-      "verified": false,
-      "summary": "Gate A: 240 episodes ALL near-white (image_std=0.0000), ALL motion-only. Action quality STRONG (std=0.275). 0 task-teaching. Image constraint fundamental."
+      "verified": true,
+      "summary": "Gate A: 240 episodes have strong action signal and extremely weak within-episode visual variation under the audit metric."
     }
   ]
 }

@@ -1,0 +1,18 @@
+spec_id: offline_overfit
+family: overfit_eval
+canonical_evidence_id: E021
+canonical_artifact: artifacts/v59_overfit_eval.json
+auto_publish: false
+requires_scope_guardrail: true
+must_be_verified_for_current_truth: true
+required_schema_fields:
+  - n_frames
+  - rmse_improvement_pct
+  - gripper_mae_improvement_pct
+allowed_conclusion_vocabulary:
+  - offline imitation improvement
+disallowed_phrases:
+  - pipeline confirmed
+  - task success confirmed
+scope_guardrails:
+  - Offline overfit is not task-level success

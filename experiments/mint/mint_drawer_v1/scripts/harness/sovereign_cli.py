@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from __future__ import annotations
 """
 sovereign_cli.py — Phase 2
 Harness v1.3 — Single controlled-write entry point for mint_drawer_v1 sovereign.
@@ -22,12 +23,12 @@ Rules:
 """
 import argparse
 import json
-import sys
 import os
 import shutil
 import subprocess
+import sys
 import textwrap
-from datetime import datetime, timezone  # noqa: F401 (kept for backward compat)
+from datetime import datetime
 from pathlib import Path
 from typing import Any
 
@@ -40,8 +41,29 @@ PROPOSALS_DIR = SOVEREIGN / "proposals"
 sys.path.insert(0, str(CAMPAIGN_ROOT / "scripts" / "harness"))
 
 import yaml
-from datetime import datetime
-from datetime import timezone as DT_TIMEZONE
+
+from truth_backend import (
+    CAMPAIGN_ROOT as TB_CAMPAIGN_ROOT,
+    CURRENT_TRUTH_PATH,
+    DATASET_MANIFEST_PATH,
+    EVIDENCE_INDEX_PATH,
+    MODEL_LOAD_FIDELITY_PATH,
+    NEXT_ACTIONS_PATH,
+    RUN_LEDGER_PATH,
+    STATE_PATH,
+    WORKSPACE_MANIFEST_PATH,
+    build_current_truth,
+    build_model_load_fidelity,
+    build_workspace_manifest,
+    derive_docs,
+    load_json as tb_load_json,
+    migrate_state_file,
+    normalize_next_actions,
+    normalize_run_ledger,
+    now_ts as tb_now_ts,
+    publish_experiment,
+    save_json as tb_save_json,
+)
 
 # ── Constants ──────────────────────────────────────────────────────────────────
 STATUS_ENUM = ["hypothesis", "candidate", "supported", "contradicted", "archived"]
@@ -53,7 +75,7 @@ CHANGE_TYPE_ENUM = [
 ]
 
 def _now_ts() -> str:
-    return datetime.now(DT_TIMEZONE.utc).strftime("%Y-%m-%dT%H:%M:%S+00:00")
+    return tb_now_ts()
 
 TS = _now_ts
 
@@ -125,231 +147,85 @@ def warn(msg: str) -> None:
     print(f"  WARN: {msg}")
 
 
+def _lint_scripts() -> list[tuple[str, Path]]:
+    return [
+        ("02_reconcile_sources", CAMPAIGN_ROOT / "scripts/harness/02_reconcile_sources.py"),
+        ("03_claim_lint", CAMPAIGN_ROOT / "scripts/harness/03_claim_lint.py"),
+        ("04_action_lint", CAMPAIGN_ROOT / "scripts/harness/04_action_lint.py"),
+        ("05_semantic_truth_lint", CAMPAIGN_ROOT / "scripts/harness/05_semantic_truth_lint.py"),
+    ]
+
+
+def _run_lints() -> tuple[bool, list[str]]:
+    warnings = []
+    ok_all = True
+    for name, script in _lint_scripts():
+        result = subprocess.run(
+            [sys.executable, str(script)],
+            capture_output=True,
+            text=True,
+        )
+        if result.returncode == 0:
+            print(f"  PASS  {name}")
+            for line in result.stdout.splitlines():
+                if "WARN:" in line or line.strip().startswith("WARN"):
+                    warnings.append(f"{name}: {line.strip()}")
+        else:
+            ok_all = False
+            print(f"  FAIL  {name}")
+            for line in (result.stdout + result.stderr).splitlines():
+                if line.strip():
+                    print(f"         {line.strip()}")
+    return ok_all, warnings
+
+
+def _refresh_canonical_surfaces() -> dict[str, Any]:
+    workspace = build_workspace_manifest()
+    fidelity = build_model_load_fidelity(workspace)
+    normalize_run_ledger()
+    raw_state = tb_load_json(STATE_PATH, default={}) or {}
+    next_actions = tb_load_json(NEXT_ACTIONS_PATH, default={}) or {}
+    if next_actions:
+        tb_save_json(NEXT_ACTIONS_PATH, normalize_next_actions(next_actions, raw_state))
+    state = migrate_state_file()
+    truth = build_current_truth()
+    derive_docs(truth)
+    truth = build_current_truth()
+    derive_docs(truth)
+    truth = build_current_truth()
+    return {
+        "workspace": workspace,
+        "fidelity": fidelity,
+        "state": state,
+        "truth": truth,
+    }
+
+
 # ── Subcommand: bootstrap ──────────────────────────────────────────────────────
 
 def cmd_bootstrap(_args: argparse.Namespace) -> None:
-    """Run all lints + print session summary with claim revision history."""
-    print("=== sovereign_cli.py bootstrap ===")
-    print(f"Campaign: {CAMPAIGN_ROOT.name}")
-    print()
-
-    lint_cmds = [
-        ("02_reconcile_sources", [sys.executable, str(CAMPAIGN_ROOT / "scripts/harness/02_reconcile_sources.py")]),
-        ("03_claim_lint",        [sys.executable, str(CAMPAIGN_ROOT / "scripts/harness/03_claim_lint.py")]),
-        ("04_action_lint",       [sys.executable, str(CAMPAIGN_ROOT / "scripts/harness/04_action_lint.py")]),
-    ]
-
-    all_ok = True
-    lint_warnings = []
-
-    for name, cmd in lint_cmds:
-        result = subprocess.run(cmd, capture_output=True, text=True)
-        if result.returncode == 0:
-            print(f"  PASS: {name}")
-            # Collect warnings from stdout
-            for line in result.stdout.splitlines():
-                if "WARN" in line:
-                    lint_warnings.append(f"{name}: {line.strip()}")
-        else:
-            print(f"  FAIL: {name}")
-            print(result.stdout)
-            print(result.stderr)
-            all_ok = False
-
-    if not all_ok:
-        fatal("Bootstrap failed: lint errors found. Fix before proceeding.", 1)
-
-    # Load claims for summary
-    claims_data = load_claims()
-    claims_list = claims_data["claims"]
-
-    print()
-    print("=== SESSION BOOTSTRAP ===")
-    print(f"Sovereign version: {claims_data.get('schema_version', 'unknown')}")
-    print(f"Active claims: {len(claims_list)}")
-
-    for c in claims_list:
-        cid = c["claim_id"]
-        rev = c["current_revision"]
-        lifecycle = c["lifecycle_status"]
-        live_rev = c["revisions"][-1]
-        status = live_rev["status"]
-        scope = live_rev["scope"]
-        rev_count = len(c["revisions"])
-        superseded_note = ""
-        if rev_count > 1:
-            superseded_note = f" (superseded {rev_count - 1} older)"
-        print(f"  {cid}: rev{rev} {lifecycle} {status}{superseded_note}")
-        print(f"    scope: {scope}")
-        print(f"    statement: {live_rev['statement'][:80]}...")
-
-    print()
-    print("Recent claim changes:")
-    # Sort all revisions by created_at, most recent first, take last 3
-    all_revs = []
-    for c in claims_list:
-        for r in c["revisions"]:
-            all_revs.append((c["claim_id"], r))
-    all_revs.sort(key=lambda x: x[1].get("created_at", ""), reverse=True)
-    for claim_id, rev in all_revs[:3]:
-        ct = rev["change_type"]
-        ts = rev.get("created_at", "unknown")
-        reason = rev.get("change_reason", "no reason")
-        print(f"  {ts} {claim_id}@{rev['revision']} [{ct}]: {reason[:60]}")
-
-    print()
-    superseded = [c for c in claims_list if c["lifecycle_status"] == "superseded"]
-    if superseded:
-        print(f"Superseded claims: {len(superseded)}")
-        for c in superseded:
-            print(f"  {c['claim_id']} (superseded)")
-    else:
-        print("Superseded claims: none")
-
-    if lint_warnings:
-        print()
-        print(f"Lint warnings ({len(lint_warnings)}):")
-        for w in lint_warnings[:5]:
-            print(f"  {w}")
-        if len(lint_warnings) > 5:
-            print(f"  ... and {len(lint_warnings) - 5} more")
-
-    print()
-    print("=== PROCEED WITH ANALYSIS ===")
+    """Alias to go: refresh truth surfaces, run lints, regenerate docs, print current truth."""
+    cmd_go(_args)
 
 
 # ── Subcommand: reconcile ─────────────────────────────────────────────────────
 
 def cmd_reconcile(_args: argparse.Namespace) -> None:
-    """Run all lints (dev mode)."""
-    lint_cmds = [
-        [sys.executable, str(CAMPAIGN_ROOT / "scripts/harness/02_reconcile_sources.py")],
-        [sys.executable, str(CAMPAIGN_ROOT / "scripts/harness/03_claim_lint.py")],
-        [sys.executable, str(CAMPAIGN_ROOT / "scripts/harness/04_action_lint.py")],
-    ]
-    all_ok = True
-    for cmd in lint_cmds:
-        r = subprocess.run(cmd)
-        if r.returncode != 0:
-            all_ok = False
+    """Run all lints against current canonical/runtime surfaces."""
+    _refresh_canonical_surfaces()
+    all_ok, _warnings = _run_lints()
     sys.exit(0 if all_ok else 1)
 
 
 # ── Subcommand: render-truth ─────────────────────────────────────────────────
 
 def cmd_render_truth(_args: argparse.Namespace) -> None:
-    """Render sovereign/CAMPAIGN_TRUTH.generated.md from sovereign data."""
-    claims_data = load_claims()
-    with open(SOVEREIGN / "state.json") as f:
-        state = json.load(f)
-    with open(EVIDENCE_DIR / "index.json") as f:
-        evidence_idx = json.load(f)
-
-    ts = TS()
-
-    # Build Part A: current claims table
-    claim_rows = []
-    for c in claims_data["claims"]:
-        live = c["revisions"][-1]
-        cid = c["claim_id"]
-        row = f"{cid} | {live['status']} | {live['scope']} | {live['statement'][:60]}..."
-        claim_rows.append(row)
-
-    # Build Part B: recent revisions
-    all_revs = []
-    for c in claims_data["claims"]:
-        for r in c["revisions"]:
-            all_revs.append((c["claim_id"], r))
-    all_revs.sort(key=lambda x: x[1].get("created_at", ""), reverse=True)
-    rev_rows = []
-    for claim_id, rev in all_revs[:6]:
-        ts_r = rev.get("created_at", "unknown")
-        ct = rev.get("change_type", "")
-        reason = rev.get("change_reason", "—")
-        rev_rows.append(f"{ts_r} | {claim_id}@{rev['revision']} | {ct} | {reason[:50]}...")
-
-    # Build evidence table
-    ev_rows = []
-    for e in evidence_idx.get("entries", []):
-        ev_rows.append(f"{e['evidence_id']} | {e['experiment_id']} | {e.get('type','?')} | {e.get('timestamp','?')}")
-
-    # Current verdict from state.json
-    verdict_raw = state.get("verdict") or state.get("current_verdict") or {}
-    blockers = verdict_raw.get("blocker_claims", []) if isinstance(verdict_raw, dict) else []
-    verdict_status = verdict_raw.get("status", "unknown") if isinstance(verdict_raw, dict) else (verdict_raw or "unknown")
-    verdict_reason = verdict_raw.get("reason", "—") if isinstance(verdict_raw, dict) else "—"
-
-    # Queue summary
-    queue = state.get("queue", [])
-    pending_steps = [s for s in queue if s.get("status") == "pending"]
-    completed_steps = [s for s in queue if s.get("status") in ("completed", "passed")]
-    blocked_steps = [s for s in queue if s.get("status") == "blocked"]
-
-    # Get campaign_id from manifest
-    manifest_path = SOVEREIGN / "manifest.yaml"
-    campaign_id = CAMPAIGN_ROOT.name
-    if manifest_path.exists():
-        with open(manifest_path) as f:
-            m = yaml.safe_load(f)
-        campaign_id = m.get("campaign", {}).get("id", campaign_id)
-
-    claim_rows_md = "\n".join(claim_rows)
-    rev_rows_md  = "\n".join(rev_rows)
-    ev_rows_md   = "\n".join(ev_rows)
-
-    md = f"""<!-- GENERATED FILE — DO NOT EDIT -->
-<!-- Source: sovereign/state.json + sovereign/claims.yaml + sovereign/evidence/index.json -->
-<!-- Generated at: {ts} -->
-<!-- To regenerate: sovereign_cli.py render-truth -->
-<!-- HARNESS VERSION: v1.3 -->
-
-# CAMPAIGN_TRUTH — {campaign_id}
-
-## Part A — Current Active Claims
-
-| Claim ID | Status | Scope | Statement |
-|----------|--------|-------|-----------|
-|{claim_rows_md}
-
-### Current Verdict
-
-**Status**: `{verdict_status}`
-**Blockers**: `{', '.join(blockers) if blockers else 'none'}`
-**Reason**: `{verdict_reason}`
-**Decision**: `{state.get('decision') or '—'}`
-
----
-
-## Part B — Recent Claim Revisions
-
-| Time | Claim | Rev | Change | Reason |
-|------|-------|-----|--------|--------|
-|{rev_rows_md}
-
----
-
-## Evidence Chain
-
-| ID | Experiment | Type | Timestamp |
-|----|-----------|------|-----------|
-|{ev_rows_md}
-
----
-
-## Campaign Queue Summary
-
-- **Pending**: {len(pending_steps)} steps
-- **Completed**: {len(completed_steps)} steps
-- **Blocked**: {len(blocked_steps)} steps
-"""
-
-    out_path = SOVEREIGN / "CAMPAIGN_TRUTH.generated.md"
-    tmp = out_path.with_suffix(".tmp")
-    with open(tmp, "w") as f:
-        f.write(md)
-    os.replace(tmp, out_path)
-    print(f"  OK: rendered {out_path}")
-    print(f"  Claims: {len(claims_data['claims'])}, Revisions shown: {min(6, len(all_revs))}")
+    """Refresh current_truth and regenerate all derived docs."""
+    context = _refresh_canonical_surfaces()
+    print(f"  OK: rendered {SOVEREIGN / 'CAMPAIGN_TRUTH.generated.md'}")
+    print(f"  OK: refreshed {CURRENT_TRUTH_PATH}")
+    print(f"  phase: {context['truth']['current']['phase']}")
+    print(f"  verdict: {context['truth']['current']['verdict']}")
 
 
 # ── Subcommand: revise-claim ─────────────────────────────────────────────────
@@ -722,6 +598,7 @@ def cmd_record_evidence(args: argparse.Namespace) -> None:
     })
     idx["last_updated"] = TS()
     save_evidence_index(idx)
+    _refresh_canonical_surfaces()
 
     print(f"  OK: Registered {eid} (experiment={ev_data['experiment_id']})")
     print(f"  NOTE: Candidate evidence should go to runtime/evidence_inbox/ first.")
@@ -759,6 +636,7 @@ def cmd_close_experiment(args: argparse.Namespace) -> None:
     with open(tmp, "w") as f:
         json.dump(state, f, indent=2)
     os.replace(tmp, state_path)
+    _refresh_canonical_surfaces()
     print(f"  OK: Closed experiment {experiment_id} (evidence={ev_id})")
 
     # Optionally promote claim
@@ -770,35 +648,11 @@ def cmd_close_experiment(args: argparse.Namespace) -> None:
 # ── Subcommand: write-handoff ────────────────────────────────────────────────
 
 def cmd_write_handoff(args: argparse.Namespace) -> None:
-    """Write sovereign/handoff.md."""
-    content = args.content or textwrap.dedent(f"""\
-        ## Handoff — {CAMPAIGN_ROOT.name}
-
-        **Updated**: {TS()}
-        **Sovereign version**: {load_claims().get('schema_version', 1)}
-
-        ### Current Verdict
-
-        **Status**: `{args.status or 'unknown'}`
-        **Blockers**: `{args.blockers or 'none'}`
-        **Reason**: `{args.reason or '—'}`
-        **Decision**: `{args.decision or '—'}`
-
-        ### What the Next Agent Must Do
-
-        1. Run: `python3 scripts/harness/sovereign_cli.py bootstrap`
-        2. Read: `sovereign/claims.yaml` — ONLY sovereign files are canonical
-        3. DO NOT edit `sovereign/claims.yaml` directly — use `sovereign_cli.py revise-claim`
-        4. DO NOT close experiments directly — use `sovereign_cli.py close-experiment`
-        5. Read: `sovereign/handoff.md` (this file) for latest state
-    """)
-
-    handoff_path = SOVEREIGN / "handoff.md"
-    tmp = handoff_path.with_suffix(".tmp")
-    with open(tmp, "w") as f:
-        f.write(content)
-    os.replace(tmp, handoff_path)
-    print(f"  OK: Updated sovereign/handoff.md")
+    """Regenerate derived docs, including sovereign/handoff.md."""
+    if args.content or args.status or args.blockers or args.reason or args.decision:
+        warn("write-handoff now generates from current_truth.json; manual content arguments are ignored.")
+    _refresh_canonical_surfaces()
+    print(f"  OK: Updated {SOVEREIGN / 'handoff.md'}")
 
 
 # ── Subcommand: pack-dataset ──────────────────────────────────────────
@@ -841,197 +695,185 @@ def cmd_verify_manifest(args: argparse.Namespace) -> None:
     sys.exit(r.returncode)
 
 
-def cmd_go(_args: argparse.Namespace) -> None:
-    """One-shot session start: lint + truth + next actions. Run this first."""
-    import sys
+def cmd_refresh_workspace(_args: argparse.Namespace) -> None:
+    manifest = build_workspace_manifest()
+    print(f"  OK: wrote {WORKSPACE_MANIFEST_PATH}")
+    print(f"  branch: {manifest.get('main_repo', {}).get('branch')}")
+    print(f"  head:   {manifest.get('main_repo', {}).get('head')}")
+    print(f"  dirty:  {len(manifest.get('main_repo', {}).get('dirty_files', []))} files")
 
+
+def cmd_refresh_model_fidelity(_args: argparse.Namespace) -> None:
+    workspace = tb_load_json(WORKSPACE_MANIFEST_PATH, default=None)
+    if not workspace:
+        workspace = build_workspace_manifest()
+    fidelity = build_model_load_fidelity(workspace)
+    print(f"  OK: wrote {MODEL_LOAD_FIDELITY_PATH}")
+    print(f"  fidelity_grade: {fidelity.get('fidelity_grade')}")
+    print(f"  semantic_patches: {len(fidelity.get('semantic_patches', []))}")
+
+
+def cmd_build_truth(_args: argparse.Namespace) -> None:
+    _refresh_canonical_surfaces()
+    print(f"  OK: wrote {CURRENT_TRUTH_PATH}")
+
+
+def cmd_derive_docs(_args: argparse.Namespace) -> None:
+    truth = tb_load_json(CURRENT_TRUTH_PATH, default=None)
+    if not truth:
+        truth = build_current_truth()
+    outputs = derive_docs(truth)
+    build_current_truth()
+    for path in outputs:
+        print(f"  OK: refreshed {path}")
+
+
+def cmd_publish_experiment(args: argparse.Namespace) -> None:
+    artifact = Path(args.from_artifact)
+    if not artifact.is_absolute():
+        artifact = CAMPAIGN_ROOT / artifact
+    result = publish_experiment(args.spec, artifact)
+    _refresh_canonical_surfaces()
+    if result.get("published"):
+        print(f"  OK: published {args.spec}")
+        print(f"  verdict: {result.get('verdict')}")
+    else:
+        print(f"  OK: proposal-only for {args.spec}")
+        print(f"  proposal: {result.get('proposal')}")
+
+
+def cmd_go(_args: argparse.Namespace) -> None:
+    """Refresh canonical/runtime surfaces, lint them, regenerate docs, and print current truth."""
     print("╔══════════════════════════════════════════════════════╗")
     print("║  sovereign go — mint_drawer_v1                      ║")
     print("╚══════════════════════════════════════════════════════╝")
     print()
 
-    # ── Step 1: Lint gates ──────────────────────────────────────────────────────
-    lint_cmds = [
-        ("02_reconcile_sources", CAMPAIGN_ROOT / "scripts/harness/02_reconcile_sources.py"),
-        ("03_claim_lint",        CAMPAIGN_ROOT / "scripts/harness/03_claim_lint.py"),
-        ("04_action_lint",       CAMPAIGN_ROOT / "scripts/harness/04_action_lint.py"),
-    ]
-    lint_ok = True
-    lint_warnings = []
-    for name, script in lint_cmds:
-        r = subprocess.run(
-            [sys.executable, str(script)],
-            capture_output=True, text=True,
-        )
-        if r.returncode == 0:
-            print(f"  PASS  {name}")
-            for line in r.stdout.splitlines():
-                if "WARN" in line:
-                    lint_warnings.append(f"  WARN  {name}: {line.strip()}")
+    context = _refresh_canonical_surfaces()
+    lint_ok, lint_warnings = _run_lints()
+    truth = tb_load_json(CURRENT_TRUTH_PATH, default={}) or context["truth"]
+
+    manifest = tb_load_json(DATASET_MANIFEST_PATH, default={}) or {}
+    if manifest:
+        if manifest.get("dataset_loads"):
+            print(
+                f"  PASS  dataset_manifest (dataset_version={manifest.get('dataset_version')}, "
+                f"frames={manifest.get('frame_count')})"
+            )
         else:
-            print(f"  FAIL  {name}")
-            for line in (r.stdout + r.stderr).splitlines():
-                if line.strip():
-                    print(f"         {line.strip()}")
-            lint_ok = False
+            print("  WARN  dataset_manifest: dataset_loads=False")
+    else:
+        print("  WARN  dataset_manifest: missing")
 
     if not lint_ok:
         print()
         print("LINT FAILURES — fix before proceeding.")
-        print("Hint: sovereign_cli.py reconcile  (dev mode, no fatal exit)")
-        return
+        sys.exit(1)
 
-    # ── Gate 4: Dataset manifest ─────────────────────────────────────────
-    manifest_path = SOVEREIGN.parent / "artifacts" / "current_dataset_manifest.json"
-    manifest_ok = False
-    if manifest_path.exists():
-        try:
-            m = json.load(open(manifest_path))
-            manifest_ver = m.get("dataset_version", "?")
-            manifest_frames = m.get("frame_count", "?")
-            manifest_loads = m.get("dataset_loads", False)
-            if manifest_loads:
-                print(f"  PASS  dataset_manifest (dataset_version={manifest_ver}, frames={manifest_frames})")
-                manifest_ok = True
-            else:
-                print(f"  WARN  dataset_manifest: dataset_loads=False")
-        except Exception as e:
-            print(f"  WARN  dataset_manifest: {e}")
+    print()
+    print("─── Current Truth ──────────────────────────────────────────")
+    print(f"  verdict:  {truth['current'].get('verdict', 'unknown')}")
+    print(f"  phase:    {truth['current'].get('phase', 'unknown')}")
+    print(f"  gate:     {truth['current'].get('phase_gate', 'unknown')}")
+    print(f"  decision: {truth['current'].get('decision', 'unknown')}")
+
+    print()
+    print("─── Workspace ──────────────────────────────────────────────")
+    workspace = truth.get("workspace", {})
+    print(f"  branch:   {workspace.get('main_repo', {}).get('branch')}")
+    print(f"  head:     {workspace.get('main_repo', {}).get('head')}")
+    print(f"  dirty:    {len(workspace.get('main_repo', {}).get('dirty_files', []))} files")
+    print(
+        "  external/MINT dirty: "
+        f"{len(workspace.get('submodules', {}).get('external/MINT', {}).get('dirty_files', []))} files"
+    )
+
+    print()
+    print("─── Model Fidelity ─────────────────────────────────────────")
+    fidelity = truth.get("model_load_fidelity", {})
+    print(f"  grade:    {fidelity.get('fidelity_grade', 'unknown')}")
+    print(f"  summary:  {fidelity.get('fidelity_summary', 'unknown')}")
+    print(f"  semantic patches: {len(fidelity.get('semantic_patches', []))}")
+
+    claims_view = truth.get("claims", {})
+    driving_claims = claims_view.get("current_driving", [])
+    historical_claims = claims_view.get("historical_context", [])
+    debt_flags = claims_view.get("debt_flags", [])
+    lifecycle_review_queue = claims_view.get("lifecycle_review_queue", [])
+
+    print()
+    print("─── Claims Driving This Phase ──────────────────────────────")
+    if driving_claims:
+        for item in driving_claims:
+            print(
+                f"  [{item.get('status', 'unknown'):>12}] {item.get('claim_id')} "
+                f"(rev{item.get('revision')}, {len(item.get('evidence_ids', []))} evidence)"
+            )
     else:
-        print(f"  WARN  dataset_manifest: not found (run: sovereign_cli.py pack-dataset)")
+        print("  none")
+    print(f"  historical context claims: {len(historical_claims)}")
+    print(f"  claim debt flags: {len(debt_flags)}")
+    print(f"  lifecycle review queue: {len(lifecycle_review_queue)}")
+    for item in lifecycle_review_queue[:3]:
+        print(
+            f"    - [{item.get('priority', '-')}] {item.get('claim_id')} "
+            f"-> {item.get('recommended_action')}"
+        )
+    print(f"  total evidence: {truth.get('evidence', {}).get('total', 0)}")
 
-    if not manifest_ok:
-        print()
-        print("  NOTE: Run 'sovereign_cli.py pack-dataset' to establish clean dataset truth.")
-
-    # ── Step 2: Load truth ─────────────────────────────────────────────────────
-    with open(SOVEREIGN / "state.json") as f:
-        state = json.load(f)
-    with open(SOVEREIGN / "claims.yaml") as f:
-        import yaml as _yaml
-        claims_data = _yaml.safe_load(f)
-    with open(SOVEREIGN / "evidence/index.json") as f:
-        evidence_idx = json.load(f)
-    with open(CAMPAIGN_ROOT / "sovereign/next_actions.json") as f:
-        next_actions = json.load(f)
-
-    # ── Step 3: Print session summary ─────────────────────────────────────────
-    verdict = state.get("verdict", "unknown")
-    phase_gate = state.get("phase_gate", "unknown")
-
-    print()
-    print("─── Campaign Truth ─────────────────────────────────────────")
-    print(f"  verdict:  {verdict}")
-    print(f"  phase:    {phase_gate}")
-
-    # Active claims
-    print()
-    print("─── Active Claims ──────────────────────────────────────────")
-    for c in claims_data["claims"]:
-        if c.get("lifecycle_status") not in ("active",):
-            continue
-        live = c["revisions"][-1]
-        ev_count = len(live.get("evidence_ids", []))
-        print(f"  [{live['status']:>12}]  {c['claim_id']}  (rev{c['current_revision']}, {ev_count} evidence)")
-
-    # Evidence count
-    total_ev = len(evidence_idx.get("entries", []))
-    print(f"  total evidence: {total_ev}")
-
-    # Lint warnings
     if lint_warnings:
         print()
-        print("─── Warnings ────────────────────────────────────────────────")
-        for w in lint_warnings[:5]:
-            print(f"  {w}")
-        if len(lint_warnings) > 5:
-            print(f"  ... +{len(lint_warnings)-5} more (run gc_* scripts for full list)")
+        print("─── Warnings ───────────────────────────────────────────────")
+        for warning in lint_warnings[:8]:
+            print(f"  {warning}")
+        if len(lint_warnings) > 8:
+            print(f"  ... +{len(lint_warnings) - 8} more")
 
-    # ── Step 4: Next actions (from next_actions.json) ──────────────────────────
+    stale_docs = truth["current"].get("stale_docs", [])
     print()
-    print("─── Next Actions ────────────────────────────────────────────")
-    pending = [a for a in next_actions.get("actions", []) if a.get("status") == "pending"]
-    in_progress = [a for a in next_actions.get("actions", []) if a.get("status") == "in_progress"]
-    completed = [a for a in next_actions.get("actions", []) if a.get("status") == "completed"]
+    print("─── Derived Docs ───────────────────────────────────────────")
+    print(f"  latest bootstrap: {truth.get('derived_docs', {}).get('latest_bootstrap')}")
+    print(f"  stale docs: {len(stale_docs)}")
+    for item in stale_docs[:5]:
+        print(f"    - {item['path']} ({', '.join(item['reasons'])})")
 
-    print(f"  pending: {len(pending)}  |  in_progress: {len(in_progress)}  |  completed: {len(completed)}")
-
-    if in_progress:
-        print()
-        print("  ▶ IN PROGRESS")
-        for a in in_progress:
-            print(f"    [{a.get('type', '?')}]  priority={a.get('priority', '-')}")
-            if a.get("target"):
-                print(f"      target: {a['target']}")
-            if a.get("current_problem"):
-                print(f"      problem: {a['current_problem'][:80]}")
-
-    if pending:
-        print()
-        print("  ▶ PENDING (next to start)")
-        for a in pending:
-            priority = a.get("priority", "-")
-            marker = "►►" if priority == "P0" else "  "
-            print(f"    {marker} [{priority}]  {a.get('type', '?')}")
-            print(f"        target: {a.get('target', '-')}")
-
-    # ── Step 5: What to do next ────────────────────────────────────────────────
     print()
-    print("─── What to Do Next ─────────────────────────────────────────")
-    next_action = in_progress[0] if in_progress else (pending[0] if pending else None)
+    print("─── Next Action ────────────────────────────────────────────")
+    next_action = truth["current"].get("next_action") or {}
     if next_action:
-        action_type = next_action.get("type", "?")
-        target = next_action.get("target", "-")
-        priority = next_action.get("priority", "-")
-        print(f"  Suggested next: [{priority}] {action_type}")
-        print(f"    {target}")
-
-        # Map action type to file paths / instructions
-        if "P0_physics" in action_type:
-            print(f"    files: scripts/mint/physics_legality.py")
-            print(f"    hint:  python scripts/mint/physics_legality.py generate --N 10 --bs 24")
-        elif "P1a" in action_type:
-            print(f"    files: scripts/mint/drawer_robot_env.py")
-            print(f"    hint:  Fix _state_vector() — replace binary gripper with continuous joint position")
-        elif "P1b" in action_type:
-            print(f"    files: outputs/mujoco_teacher_env_design.md")
-            print(f"    hint:  Implement robosuite+MuJoCo teacher environment")
-        elif "generate_data" in action_type:
-            print(f"    hint:  Run physics_constrained_teacher_rollout() then dataset_builder")
+        print(f"  Suggested next: [{next_action.get('priority', '-')}] {next_action.get('type', '?')}")
+        print(f"    id: {next_action.get('id', '-')}")
+        print(f"    target: {next_action.get('target', '-')}")
     else:
-        print("  No pending actions. Review sovereign/claims.yaml.")
+        print("  No pending or in-progress actions.")
 
     print()
-    print("─── Quick Ref ────────────────────────────────────────────────")
-    print("  bootstrap:   sovereign_cli.py bootstrap     (same as this)")
-    print("  reconcile:   sovereign_cli.py reconcile    (lint only, dev mode)")
-    print("  truth:      sovereign_cli.py render-truth")
-    print("  handoff:    sovereign_cli.py write-handoff")
-    print("  next steps: sovereign/next_actions.json")
-    print()
-    print("═" * 56)
-    print("  READY. Choose your next action from the list above.")
-    print("═" * 56)
+    print("─── Quick Ref ──────────────────────────────────────────────")
+    print("  current truth: sovereign/current_truth.json")
+    print("  workspace:     sovereign/workspace_manifest.json")
+    print("  model fidelity: sovereign/model_load_fidelity.json")
+    print("  usage guide:   HARNESS_USAGE_GUIDE.md")
+    print("  handoff:       sovereign/handoff.md")
+    print("  run ledger:    sovereign/run_ledger.yaml")
 
 
 # ── CLI ───────────────────────────────────────────────────────────────────────
 
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
-        description="Harness v1.3 — Sovereign CLI",
+        description="Harness v2 — Sovereign CLI",
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     sub = p.add_subparsers(dest="command", required=True)
 
     sub.add_parser("go", help="One-shot: lint + truth + next actions — run this first")
-    # bootstrap
-    sub.add_parser("bootstrap", help="Session startup: run lints + print summary")
-
-    # reconcile
+    sub.add_parser("bootstrap", help="Alias to go")
     sub.add_parser("reconcile", help="Run all lints (dev mode)")
-
-    # render-truth
     sub.add_parser("render-truth", help="Render CAMPAIGN_TRUTH.generated.md")
+    sub.add_parser("refresh-workspace", help="Write sovereign/workspace_manifest.json")
+    sub.add_parser("refresh-model-fidelity", help="Write sovereign/model_load_fidelity.json")
+    sub.add_parser("build-truth", help="Write sovereign/current_truth.json and normalize runtime surfaces")
+    sub.add_parser("derive-docs", help="Regenerate bootstrap/usage guide/handoff/generated truth")
 
     # revise-claim
     rc = sub.add_parser("revise-claim", help="Add new revision to existing claim")
@@ -1115,6 +957,10 @@ def build_parser() -> argparse.ArgumentParser:
     # verify-manifest
     sub.add_parser("verify-manifest", help="Run train_gate.py — verify dataset is valid")
 
+    pe = sub.add_parser("publish-experiment", help="Validate/publish a spec-backed experiment artifact")
+    pe.add_argument("--spec", required=True, help="Experiment spec ID from sovereign/experiment_specs/")
+    pe.add_argument("--from", dest="from_artifact", required=True, help="Raw artifact JSON path")
+
     return p
 
 
@@ -1123,6 +969,10 @@ COMMAND_MAP = {
     "bootstrap": cmd_bootstrap,
     "reconcile": cmd_reconcile,
     "render-truth": cmd_render_truth,
+    "refresh-workspace": cmd_refresh_workspace,
+    "refresh-model-fidelity": cmd_refresh_model_fidelity,
+    "build-truth": cmd_build_truth,
+    "derive-docs": cmd_derive_docs,
     "revise-claim": cmd_revise_claim,
     "supersede-claim": cmd_supersede_claim,
     "split-claim": cmd_split_claim,
@@ -1133,6 +983,7 @@ COMMAND_MAP = {
     "write-handoff": cmd_write_handoff,
     "pack-dataset": cmd_pack_dataset,
     "verify-manifest": cmd_verify_manifest,
+    "publish-experiment": cmd_publish_experiment,
 }
 
 

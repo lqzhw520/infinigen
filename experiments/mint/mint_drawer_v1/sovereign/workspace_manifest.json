@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-04-07T15:19:44+08:00",
+  "campaign_root": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1",
+  "project_root": "/mnt/afs2/zhuhaowu/infinigen",
+  "main_repo": {
+    "root": "/mnt/afs2/zhuhaowu/infinigen",
+    "exists": true,
+    "branch": "feature/mint-integration",
+    "head": "78f807833d5fbb17734b6cf83f5b8430f7b018ce",
+    "upstream": "my-origin/feature/mint-integration",
+    "ahead": 0,
+    "behind": 0,
+    "dirty": true,
+    "dirty_files": [
+      " M experiments/mint/mint_drawer_v1/HARNESS_USAGE_GUIDE.md",
+      " M experiments/mint/mint_drawer_v1/scripts/harness/02_reconcile_sources.py",
+      " M experiments/mint/mint_drawer_v1/scripts/harness/sovereign_cli.py",
+      " M experiments/mint/mint_drawer_v1/scripts/harness/v59_night_runner.py",
+      " M experiments/mint/mint_drawer_v1/sovereign/CAMPAIGN_TRUTH.generated.md",
+      " M experiments/mint/mint_drawer_v1/sovereign/SESSION_BOOTSTRAP.20260406.md",
+      " M experiments/mint/mint_drawer_v1/sovereign/claims.yaml",
+      " M experiments/mint/mint_drawer_v1/sovereign/evidence/E021.yaml",
+      " M experiments/mint/mint_drawer_v1/sovereign/evidence/E022.yaml",
+      " M experiments/mint/mint_drawer_v1/sovereign/evidence/E026.yaml",
+      " M experiments/mint/mint_drawer_v1/sovereign/evidence/E027.yaml",
+      " M experiments/mint/mint_drawer_v1/sovereign/evidence/index.json",
+      " M experiments/mint/mint_drawer_v1/sovereign/handoff.md",
+      " M experiments/mint/mint_drawer_v1/sovereign/next_actions.json",
+      " M experiments/mint/mint_drawer_v1/sovereign/run_ledger.yaml",
+      " M experiments/mint/mint_drawer_v1/sovereign/state.json",
+      "?? experiments/mint/mint_drawer_v1/scripts/harness/05_semantic_truth_lint.py",
+      "?? experiments/mint/mint_drawer_v1/scripts/harness/legacy/",
+      "?? experiments/mint/mint_drawer_v1/scripts/harness/truth_backend.py",
+      "?? experiments/mint/mint_drawer_v1/sovereign/SESSION_BOOTSTRAP.20260407.md",
+      "?? experiments/mint/mint_drawer_v1/sovereign/current_truth.json",
+      "?? experiments/mint/mint_drawer_v1/sovereign/experiment_specs/",
+      "?? experiments/mint/mint_drawer_v1/sovereign/legacy/",
+      "?? experiments/mint/mint_drawer_v1/sovereign/model_load_fidelity.json",
+      "?? experiments/mint/mint_drawer_v1/sovereign/workspace_manifest.json"
+    ],
+    "error": null
+  },
+  "submodules": {
+    "external/MINT": {
+      "root": "/mnt/afs2/zhuhaowu/infinigen/external/MINT",
+      "exists": true,
+      "branch": "main",
+      "head": "8d75b32174606e0499205633c639d50bd5fc0909",
+      "upstream": "origin/main",
+      "ahead": 0,
+      "behind": 2,
+      "dirty": false,
+      "dirty_files": [],
+      "error": null
+    }
+  }
+}

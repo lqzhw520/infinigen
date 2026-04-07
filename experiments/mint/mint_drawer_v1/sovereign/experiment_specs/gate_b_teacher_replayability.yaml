@@ -1,0 +1,21 @@
+spec_id: gate_b_teacher_replayability
+family: learnability_audit
+canonical_artifact: artifacts/gate_b_teacher_replayability/gate_b_replay_summary.json
+auto_publish: false
+requires_scope_guardrail: true
+must_be_verified_for_current_truth: false
+required_schema_fields:
+  - mode_results
+  - episodes
+  - aggregate
+allowed_conclusion_vocabulary:
+  - replayability
+  - physics compatibility
+  - attach
+disallowed_phrases:
+  - policy learnability confirmed
+  - MINT cannot learn
+  - image domain eliminated
+scope_guardrails:
+  - Gate B tests teacher replayability inside DrawerRobotEnv
+  - Gate B is not a direct policy learning verdict

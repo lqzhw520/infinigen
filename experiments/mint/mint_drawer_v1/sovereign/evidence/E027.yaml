@@ -16,7 +16,7 @@ scope_guardrail: >
   MINT can learn from it — Gate B must verify replayability in DrawerRobotEnv.
 
 timestamp: "2026-04-06T14:40:00+08:00"
-verified: false
+verified: true
 
 thresholds_used:
   image_std_near_white: 0.010
@@ -87,12 +87,11 @@ findings:
     detail: >
       240/240 episodes have image_std=0.0000 (within-episode). This is the most
       critical finding. The images are PERFECTLY homogeneous within each episode.
-      This means SigLIP/PaliGemma cannot extract ANY visual features from individual
-      frames (no texture, no edge, no handle salience).
+      This is a data-distribution fact about the stored frames, not a direct
+      measurement of what SigLIP/PaliGemma or MINT can or cannot learn from them.
     implication: >
-      Image-based policy learning is fundamentally limited by the data.
-      The vision encoder sees near-identical white noise in every frame of every episode.
-      MINT can only learn from action/state, not from visual texture.
+      V59 provides extremely weak within-episode visual variation.
+      Whether this is sufficient for policy learning remains a separate empirical question.
 
   q3_gripper_action_type:
     question: "Are gripper actions binary or continuous in the V59 dataset?"
@@ -124,28 +123,28 @@ findings:
       is based on VISUAL quality, not on whether the source sim succeeded.
 
 combined_conclusion: >
-  Gate A reveals a fundamental data quality constraint:
+  Gate A reveals a fundamental data distribution constraint:
   The V59 dataset has EXCELLENT ACTION QUALITY but ZERO VISUAL TEXTURE.
   
   Every episode: near-white images + strong action variance + no gripper frozen.
   Every episode: source NPZ success=True (drawer opened in source sim).
   
-  But: image_std=0.0000 for ALL 240 episodes = no visual features.
-  This means MINT (a vision-based policy) is being trained on:
-    - Strong action signals (EEF motion, gripper open/close)
-    - Zero visual texture (every frame = homogeneous white)
-  
-  The policy can ONLY learn from action/state, NOT from vision.
-  This is consistent with:
-    - E022: both pretrained and finetuned = 0/6 success
-    - E026: drawer color = 0/6 (color can't help if there's no texture)
-  
+  But: image_std=0.0000 for ALL 240 episodes = zero within-episode visual variation
+  under the Gate A metric.
+
+  What Gate A DOES support:
+    - action/state signal quality is strong enough to justify further audit
+    - visual texture is extremely weak and should be treated as a major data-quality concern
+
+  What Gate A does NOT support:
+    - a final learnability verdict for MINT
+    - a claim that policy learning must be action-only
+    - a claim that Gate B answers policy learning
+
   IMPLICATION FOR GATE B:
-    The teacher replayability question is NOT whether the actions are high quality
-    (they are). The question is whether the POLICY (MINT) can learn from
-    action-only signals when the vision encoder receives zero-information images.
-    Gate B must test this directly: can any policy succeed in DrawerRobotEnv
-    even when trained on these near-white images?
+    The teacher replayability question is whether source-sim teacher actions
+    can achieve attach/open inside DrawerRobotEnv. That is a replayability /
+    physics-compatibility gate, not a full policy-learning gate.
 
 do_not: >
   - Do NOT conclude "episodes are low quality" — action quality is strong
@@ -158,9 +157,8 @@ gate_b_implications:
   all_240_qualify_for_replay: true
   but_image_constraint_unchanged: true
   gate_b_must_answer: >
-    Even if teacher actions replay successfully in DrawerRobotEnv,
-    can a policy trained on near-white images learn to replicate them?
-    This is a LEARNING question, not just a REPLAY question.
+    Do teacher actions that succeeded in the source simulator achieve attach/open
+    when replayed inside DrawerRobotEnv under the current env contract?
 
   recommended_gate_b_scope: >
     Test REPLAYABILITY of top-10 episodes by action quality:
@@ -177,7 +175,6 @@ implications_for_next_actions:
     with colored images — which is expensive. The more efficient path is to
     first complete Gate B, then decide if re-recording is justified.
   policy_learning_constraint: >
-    MINT is a vision-based policy. If images have zero information (near-white),
-    MINT must learn from action/state alone. This is a fundamentally different
-    learning problem than what MINT was designed for (vision-conditioned action).
-    Consider: is action-only MINT evaluation even valid given the data constraints?
+    Gate A does not resolve policy learnability. It only establishes that
+    visual variation in the stored V59 frames is extremely weak, so any
+    learnability claims require additional gates beyond this data audit.

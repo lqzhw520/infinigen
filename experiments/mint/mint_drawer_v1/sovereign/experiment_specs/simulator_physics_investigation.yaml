@@ -1,0 +1,17 @@
+spec_id: simulator_physics_investigation
+family: simulator_rca
+canonical_artifact: artifacts/simulator_physics_investigation/summary.json
+auto_publish: false
+requires_scope_guardrail: true
+must_be_verified_for_current_truth: false
+required_schema_fields:
+  - summary
+  - experiments
+allowed_conclusion_vocabulary:
+  - simulator physics candidate
+  - physics compatibility gap
+disallowed_phrases:
+  - physics confirmed
+  - sole root cause
+scope_guardrails:
+  - Requires Gate B-style replay evidence before promotion

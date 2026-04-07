@@ -4,6 +4,10 @@ type: eval
 timestamp: "2026-04-05T20:35:00+08:00"
 scope: env_level_overfit_validation
 verified: true
+scope_guardrail: |
+  E022 is a task-level execution gate for the evaluated env path.
+  It does not by itself prove a single root cause, nor does it eliminate image-domain
+  or simulator-compatibility factors globally.
 summary: |
   V59 env-level overfit gate: NEGATIVE_GATE.
   Finetuned checkpoint achieves +51.7% action RMSE improvement in offline eval,
@@ -12,8 +16,8 @@ summary: |
   (3 seeds × 2 episodes, 96 steps each).
   CONCLUSION: Offline action imitation improvement does NOT translate to task success.
   Pipeline has a deeper issue: actions predicted by MINT do not open the drawer in simulation.
-  NOTE ON WEAK_PASS: The original script output said "WEAK_PASS". This has been corrected:
-  WEAK_PASS implied finetuned ≥ pretrained, but 0.000 = 0.000 is not success.
+  NOTE ON LEGACY LABEL: The original script output used a misleading legacy label.
+  That label implied finetuned ≥ pretrained, but 0.000 = 0.000 is not success.
   This is a NEGATIVE_GATE: neither policy achieves any drawer motion in simulation.
 finding: V59_ENV_GATE_NEGATIVE_GATE — PIPELINE_ISSUE_DEEPER_THAN_IMAGE_QUALITY
 implications:
@@ -48,7 +52,7 @@ gate_interpretation: |
   NEGATIVE_GATE: both policies score 0.000 drawer_fraction. Neither pretrained MINT nor
   finetuned MINT can open the drawer in simulation. The gate criterion was finetuned >
   pretrained on ALL metrics. Both policies achieved 0.000. This is a pipeline failure.
-  CORRECTION: "weak pass" was misleading — it implied finetuned ≥ pretrained, but
+  CORRECTION: the legacy label was misleading — it implied finetuned ≥ pretrained, but
   0.000 = 0.000 is not a pass on any meaningful criterion.
 key_diagnostic: |
   V58 eval (2026-04-04) also reported pretrained=0.000 and finetuned=0.000 on held-out seeds.

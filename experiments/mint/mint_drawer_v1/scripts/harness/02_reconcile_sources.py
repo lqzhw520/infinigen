@@ -10,8 +10,8 @@ Exit codes:
 Checks:
   - Root-level files that look canonical but are not symlinks/stubs
   - CAMPAIGN_TRUTH.md stub content
-  - next_actions references valid claim IDs
   - legacy markers present on known legacy files
+  - Harness v2 canonical/generated surfaces exist or are warn-only if not generated yet
 """
 import os
 import sys
@@ -127,6 +127,24 @@ def check_sovereign_files_exist():
             errors.append(f"MISSING sovereign file: {fname}")
 
 
+def check_harness_v2_surfaces():
+    """Warn on missing v2 truth surfaces; go will generate them."""
+    optional = [
+        "current_truth.json",
+        "workspace_manifest.json",
+        "model_load_fidelity.json",
+        "run_ledger.yaml",
+    ]
+    for fname in optional:
+        fpath = SOVEREIGN / fname
+        if not fpath.exists():
+            warnings.append(f"HARNESS_V2_MISSING: sovereign/{fname} (run sovereign_cli.py go)")
+
+    specs_dir = SOVEREIGN / "experiment_specs"
+    if not specs_dir.exists():
+        warnings.append("HARNESS_V2_MISSING: sovereign/experiment_specs/ (spec-backed publish disabled)")
+
+
 def main():
     print("=== 02_reconcile_sources.py ===")
     print(f"Campaign root: {ROOT}")
@@ -137,6 +155,7 @@ def main():
     check_legacy_markers()
     check_evidence_index()
     check_sovereign_files_exist()
+    check_harness_v2_surfaces()
 
     if warnings:
         print(f"\n--- WARNINGS ({len(warnings)}) ---")

@@ -1,7 +1,7 @@
-# SESSION_BOOTSTRAP.20260406
+# SESSION_BOOTSTRAP.20260407
 **GENERATED FROM current_truth.json — NOT CANONICAL**
 
-- Generated at: `2026-04-06T23:38:18+08:00`
+- Generated at: `2026-04-07T15:19:53+08:00`
 - Source: `sovereign/current_truth.json`
 - Stale policy: regenerate with `python scripts/harness/sovereign_cli.py go`
 
@@ -30,7 +30,7 @@
 ## Workspace Snapshot
 - Branch: `feature/mint-integration`
 - HEAD: `78f807833d5fbb17734b6cf83f5b8430f7b018ce`
-- Dirty files: `22`
+- Dirty files: `25`
 - external/MINT dirty files: `0`
 
 ## Model Load Fidelity
@@ -44,7 +44,4 @@
 - Target: Verify teacher actions replay successfully in DrawerRobotEnv (top-10 episodes)
 
 ## Stale / Unsafe Docs
-- `sovereign/SESSION_BOOTSTRAP.20260406.md` — phase_mismatch, older_than_canonical
-- `HARNESS_USAGE_GUIDE.md` — phase_mismatch, older_than_canonical
-- `sovereign/handoff.md` — phase_mismatch, older_than_canonical
-- `sovereign/CAMPAIGN_TRUTH.generated.md` — phase_mismatch, older_than_canonical
+- none

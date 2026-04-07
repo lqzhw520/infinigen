@@ -1,0 +1,19 @@
+spec_id: env_gate
+family: eval_gate
+canonical_evidence_id: E022
+canonical_artifact: artifacts/v59_overfit_env_gate.json
+auto_publish: false
+requires_scope_guardrail: true
+must_be_verified_for_current_truth: true
+required_schema_fields:
+  - aggregate.pretrained
+  - aggregate.finetuned
+  - per_rollout
+allowed_conclusion_vocabulary:
+  - negative gate
+  - task-level failure
+disallowed_phrases:
+  - weak pass
+  - pipeline confirmed
+scope_guardrails:
+  - Env gate measures task-level execution, not full causal root cause

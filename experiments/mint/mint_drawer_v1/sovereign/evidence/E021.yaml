@@ -4,6 +4,9 @@ type: eval
 timestamp: "2026-04-05T17:00:00+08:00"
 scope: offline_overfit_validation_only
 verified: true
+scope_guardrail: |
+  E021 measures offline imitation on the overfit subset only.
+  It does not establish task-level success, pipeline confirmation, or image-domain conclusions.
 summary: |
   V59 overfit validation — offline action imitation results only.
   Training: 200 steps on 494 frames (episodes 0-5, 49), loss 6.520→3.741 (-42.7%).
@@ -12,7 +15,7 @@ summary: |
   WHAT THIS PROVES: Offline action imitation improved significantly on the training subset.
   WHAT THIS DOES NOT PROVE: Task-level overfit success in DrawerRobotEnv.
   MISSING EVIDENCE: No drawer success rate, attach/open sequence, or drawer fraction comparison.
-  CONCLUSION CORRECTED: "Offline signal positive" — NOT "pipeline confirmed".
+  CONCLUSION CORRECTED: "Offline signal positive" — not a task-level confirmation.
   Env-level overfit gate required before claiming task success.
 finding: V59_OFFLINE_OVERFIT_POSITIVE — TASK_CONFIRMATION_PENDING
 scope_limitation: |
@@ -22,7 +25,7 @@ scope_limitation: |
   - Attach/open sequence correctness
   - Drawer fraction / pull distance in env
   - Generalization to held-out seeds
-  Without env-level evaluation, "pipeline confirmed" is NOT scientifically justified.
+  Without env-level evaluation, a task-level confirmation is NOT scientifically justified.
   "White images non-blocking" claim is ALSO NOT justified — only offline imitation improved.
   A/B comparison (white vs colored) and env evaluation are both required for that claim.
 limitations:
@@ -53,6 +56,6 @@ next_action: |
   2. Measure: strict_success, attach/open sequence, drawer_fraction, pull_distance
   3. If env gate PASSES: proceed to full V59 retrain
   4. If env gate FAILS: do NOT full retrain; re-evaluate colored reroll priority
-related_evidence:
+  related_evidence:
   - E020: ER_TINY_RENDERER limitation (white images)
   - E019: V59 dataset pack integrity

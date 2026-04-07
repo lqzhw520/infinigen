@@ -1,0 +1,29 @@
+spec_id: p0b_drawer_only_ab
+family: matched_ab
+canonical_evidence_id: E026
+canonical_artifact: artifacts/p0b_colored_rollouts/p0b_night_results.json
+auto_publish: true
+requires_scope_guardrail: true
+must_be_verified_for_current_truth: true
+required_schema_fields:
+  - aggregate.success_rate
+  - a_b_comparison.matched_A_B
+  - a_b_comparison.same_seeds
+  - a_b_comparison.same_policies
+  - a_b_comparison.same_steps
+allowed_conclusion_vocabulary:
+  - drawer-only color not sole bottleneck
+  - matched A/B
+disallowed_phrases:
+  - image domain is NOT the root cause
+  - physics confirmed
+  - global image elimination
+scope_guardrails:
+  - Drawer-only recolor does not eliminate broader image-domain factors
+  - Matched A/B covers drawer-only intervention only
+bindings:
+  action_types:
+    - P0b_colored_reroll
+collector:
+  command: python /mnt/afs2/zhuhaowu/infinigen/scripts/mint/run_p0b_night_runner.py --max-hours {max_hours}
+  artifact: /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/p0b_colored_rollouts/p0b_night_results.json

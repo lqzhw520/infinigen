@@ -16,7 +16,7 @@ scope_guardrail: >
   Robot recolor NOT included — drawer-only intervention confirmed.
 
 timestamp: "2026-04-06T14:23:37+08:00"
-verified: false
+verified: true
 
 matched_A_B_design:
   design: "MATCHED_A_B"
@@ -168,7 +168,8 @@ findings:
     answer: NO_SOLE_BOTTLENECK
     detail: >
       Both colored (rgb_std=32-43) and white (rgb_std=0.003) images produce 0/6 success.
-      Image domain alone cannot explain MINT failure. Root cause must be elsewhere.
+      Drawer-only recolor alone cannot explain MINT failure. Broader image-domain factors
+      remain open.
 
   q3_eef_motion_consistency:
     question: "Do policies produce comparable EEF motion in colored vs white conditions?"
@@ -181,22 +182,19 @@ findings:
 combined_p0b_conclusion: >
   DRAWER COLOR IS NOT THE BOTTLENECK.
   Matched A/B confirms: drawer-only color produces 0/6 success, identical to white images (0/6).
-  Image domain is NOT the sole root cause. MINT policy produces motion but fails to
+  Drawer-only color is NOT the sole root cause. MINT policy produces motion but fails to
   attach and open the drawer in BOTH white and colored conditions.
 
-  The root cause is now narrowed to:
-  1. SIMULATOR PHYSICS MISMATCH (PyBullet DrawerRobotEnv vs source simulator)
-     — the action that achieves attach in the source sim does NOT achieve attach in DrawerRobotEnv
-     — E024: action normalization is correct, but action values are not sufficient for attach
-  2. POLICY CAPACITY / LEARNING GAP
-     — E022: pretrained MINT (never trained on Infinigen) also gets 0.000
-     — E023: teacher demos ARE successful in source sim, but actions don't transfer
+  This supports:
+  1. Drawer-only recolor is insufficient as a standalone intervention.
+  2. Physics/replayability and broader visual-sufficiency hypotheses remain open.
+  3. E026 should not be used to eliminate image domain globally.
 
 do_not: >
   - Do NOT conclude "colored images work" — E026 shows 0/6 success for colored drawer
   - Do NOT conclude "white images are the bottleneck" — E026 shows same 0/6 for both
   - Do NOT cancel simulator physics investigation
-  - Do NOT claim image domain is eliminated as a contributing factor — only as SOLE bottleneck
+  - Do NOT claim image domain is eliminated as a contributing factor — only drawer-only color as a sole bottleneck
   - Do NOT proceed to full retrain without resolving simulator physics or policy gap
 
 scope_limitation: >
@@ -207,7 +205,7 @@ scope_limitation: >
 implications_for_next_actions:
   p0b_drawer_color_eliminated: true
   p0b_full_scene_color_open: true
-  next_priority: simulator_physics_investigation
+  next_priority: gate_b_teacher_replayability
   simulator_physics_questions:
     - Why does the action that achieves attach in source sim fail to achieve attach in DrawerRobotEnv?
     - Is it contact parameters (friction, stiffness)?

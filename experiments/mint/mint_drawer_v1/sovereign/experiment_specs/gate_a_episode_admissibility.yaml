@@ -1,0 +1,25 @@
+spec_id: gate_a_episode_admissibility
+family: learnability_audit
+canonical_evidence_id: E027
+canonical_artifact: artifacts/gate_a_episode_admissibility/gate_a_results.json
+auto_publish: false
+requires_scope_guardrail: true
+must_be_verified_for_current_truth: true
+required_schema_fields:
+  - n_total
+  - tier_distribution
+  - image_color_distribution
+  - action_distribution
+allowed_conclusion_vocabulary:
+  - data quality
+  - motion-only
+  - near-white
+  - zero visual texture
+disallowed_phrases:
+  - MINT can only learn from action/state
+  - policy learning is fundamentally limited by the data
+  - Gate B must test this directly
+  - This is a LEARNING question, not just a REPLAY question
+scope_guardrails:
+  - Gate A classifies data distribution, not policy learnability
+  - Gate B answers replayability / physics compatibility only

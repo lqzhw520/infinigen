@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-04-07T15:19:53+08:00",
+  "campaign": "mint_drawer_v1",
+  "main_repo_head": "78f807833d5fbb17734b6cf83f5b8430f7b018ce",
+  "main_repo_branch": "feature/mint-integration",
+  "external_mint_head": "8d75b32174606e0499205633c639d50bd5fc0909",
+  "external_mint_branch": "main",
+  "compatibility_patches": [],
+  "semantic_patches": [],
+  "experimental_patches": [],
+  "missing_keys_count": 165,
+  "unexpected_keys_count": null,
+  "architectural_key_mismatches_fixed": 165,
+  "metric_sources": [
+    "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/sovereign/night/night_runner.log"
+  ],
+  "dtype_policy": "current runtime uses local patched precision path; see semantic patches",
+  "pretrained_and_finetuned_same_shim": true,
+  "fidelity_grade": "F2",
+  "fidelity_summary": "Runnable but semantically drifted",
+  "guardrail": "Scientific conclusions apply to the local patched MINT variant, not blindly to upstream MINT."
+}

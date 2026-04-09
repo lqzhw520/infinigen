@@ -9,6 +9,7 @@ import shutil
 import subprocess
 import sys
 import time
+import traceback
 from pathlib import Path
 from typing import Any
 
@@ -22,7 +23,7 @@ from mint_eval_patches import apply as _apply_mint_patches
 
 _apply_mint_patches()
 
-from anygrasp_helper import build_anygrasp, stage_detection_assets
+from anygrasp_helper import stage_detection_assets
 from dataset_builder import build_dataset_from_rollouts
 from drawer_proxy import DrawerProxyEnv
 from drawer_robot_env_mujoco import (
@@ -73,6 +74,8 @@ M4_ROLLOUT_ORACLE = ARTIFACT_DIR / "m4_rollouts_oracle_mujoco"
 M4_ROLLOUT_LEARNING = ARTIFACT_DIR / "m4_rollouts_learning_mujoco"
 M6_OUTPUT_DIR = OUTPUT_DIR / "m6_mujoco_mint_train"
 M7_OUTPUT_DIR = OUTPUT_DIR / "m7_mujoco_eval"
+GRASPNET_PYTHON = Path("/root/anaconda3/envs/graspnet/bin/python")
+ANYGRASP_SUBPROCESS = PROJECT_ROOT / "scripts" / "mint" / "run_mujoco_anygrasp_subprocess.py"
 
 TRAIN_SEEDS = default_train_seeds()[:6]
 HELDOUT_SEEDS = default_heldout_seeds()
@@ -272,7 +275,6 @@ def run_m3_anygrasp_gate() -> dict[str, Any]:
             "setup": setup,
         }
 
-    detector = build_anygrasp()
     M3_CACHE_DIR.mkdir(parents=True, exist_ok=True)
     records = []
     passed_count = 0
@@ -281,48 +283,54 @@ def run_m3_anygrasp_gate() -> dict[str, Any]:
         try:
             env.reset()
             payload = env.anygrasp_payload(num_points=4096)
-            gg, _ = detector.get_grasp(
-                payload["pc"].astype(np.float32),
-                payload["colors"].astype(np.float32),
-                lims=payload["limits"].astype(np.float32).tolist(),
-                apply_object_mask=True,
-                dense_grasp=False,
-                collision_detection=True,
+            payload_path = M3_CACHE_DIR / f"seed_{seed:03d}_payload.npz"
+            cache_path = M3_CACHE_DIR / f"seed_{seed:03d}.json"
+            np.savez_compressed(
+                payload_path,
+                pc=payload["pc"].astype(np.float32),
+                colors=payload["colors"].astype(np.float32),
+                limits=payload["limits"].astype(np.float32),
+                handle_center_world=np.asarray(payload["handle_center_world"], dtype=np.float32),
+                drawer_motion_axis=np.asarray(payload["drawer_motion_axis"], dtype=np.float32),
+                drawer_aabb_world=np.asarray(payload["drawer_aabb_world"], dtype=np.float32),
             )
-            top_candidates = []
-            selected = None
-            if len(gg) > 0:
-                gg = gg.sort_by_score()
-                handle = payload["handle_center_world"]
-                for idx in range(min(len(gg), 10)):
-                    grasp = gg[idx]
-                    pose = np.eye(4, dtype=np.float32)
-                    pose[:3, :3] = np.asarray(grasp.rotation_matrix, dtype=np.float32)
-                    pose[:3, 3] = np.asarray(grasp.translation, dtype=np.float32)
-                    dist = float(np.linalg.norm(pose[:3, 3] - handle))
-                    item = {
-                        "rank": idx + 1,
-                        "score": float(grasp.score),
-                        "distance_to_handle": dist,
-                        "pose_world": pose.tolist(),
-                    }
-                    top_candidates.append(item)
-                    if selected is None and dist <= 0.10:
-                        selected = item
-                if selected is None and top_candidates:
-                    selected = top_candidates[0]
-            seed_passed = selected is not None
+            proc = subprocess.run(
+                [
+                    str(GRASPNET_PYTHON),
+                    str(ANYGRASP_SUBPROCESS),
+                    "--payload",
+                    str(payload_path),
+                    "--output",
+                    str(cache_path),
+                    "--max-candidates",
+                    "10",
+                ],
+                cwd=str(PROJECT_ROOT),
+                capture_output=True,
+                text=True,
+            )
+            if cache_path.exists():
+                cache_payload = json.loads(cache_path.read_text())
+            else:
+                cache_payload = {
+                    "passed": False,
+                    "error": "AnyGrasp subprocess did not produce output",
+                }
+            top_candidates = cache_payload.get("top_candidates", [])
+            selected = cache_payload.get("selected_grasp")
+            seed_passed = bool(cache_payload.get("passed")) and selected is not None and proc.returncode == 0
             passed_count += int(seed_passed)
-            cache_payload = {
-                "seed": seed,
-                "passed": seed_passed,
-                "selected_grasp": selected,
-                "top_candidates": top_candidates,
-                "handle_center_world": np.asarray(payload["handle_center_world"]).tolist(),
-                "drawer_motion_axis": np.asarray(payload["drawer_motion_axis"]).tolist(),
-                "drawer_aabb_world": np.asarray(payload["drawer_aabb_world"]).tolist(),
-                "timestamp": now_iso(),
-            }
+            cache_payload.update(
+                {
+                    "seed": seed,
+                    "passed": seed_passed,
+                    "timestamp": now_iso(),
+                    "subprocess_returncode": proc.returncode,
+                    "subprocess_stdout_tail": proc.stdout[-2000:],
+                    "subprocess_stderr_tail": proc.stderr[-2000:],
+                    "payload_path": str(payload_path),
+                }
+            )
             write_json_atomic(M3_CACHE_DIR / f"seed_{seed:03d}.json", cache_payload)
             records.append(
                 {
@@ -330,6 +338,7 @@ def run_m3_anygrasp_gate() -> dict[str, Any]:
                     "passed": seed_passed,
                     "top_score": float(top_candidates[0]["score"]) if top_candidates else 0.0,
                     "distance_to_handle": float(selected["distance_to_handle"]) if selected else None,
+                    "subprocess_returncode": proc.returncode,
                 }
             )
         finally:
@@ -630,13 +639,23 @@ def main() -> int:
     for stage in STAGE_ORDER:
         sync_sovereign_running(stage, status)
         handler = stage_handlers.get(stage)
-        if handler is None:
-            if stage == "m7_mint_eval_gate":
-                payload = run_m7_mint_eval_gate(train_result or {})
+        try:
+            if handler is None:
+                if stage == "m7_mint_eval_gate":
+                    payload = run_m7_mint_eval_gate(train_result or {})
+                else:
+                    payload = {"passed": False, "error": f"No handler for {stage}"}
             else:
-                payload = {"passed": False, "error": f"No handler for {stage}"}
-        else:
-            payload = handler()
+                payload = handler()
+        except Exception as exc:
+            payload = {
+                "passed": False,
+                "error": f"{type(exc).__name__}: {exc}",
+                "traceback": traceback.format_exc(),
+                "backend": "mujoco",
+                "robot_in_loop": stage != "m1_proxy_asset_smoke",
+                "canonical": stage != "m1_proxy_asset_smoke",
+            }
         artifact_path = _save_stage_result(stage, payload)
         summary["stages"].append({"stage": stage, "artifact": str(artifact_path), "passed": bool(payload.get("passed"))})
 

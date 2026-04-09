@@ -1,8 +1,8 @@
 # Harness Hygiene Rules — mint_drawer_v1
 
-**Version**: 1.5
+**Version**: 1.6
 **Generated**: 2026-04-05T14:35+08:00
-**Last Updated**: 2026-04-06T14:35+08:00 (Learnability Audit gates; E026 updated; SESSION_BOOTSTRAP + run_ledger added)
+**Last Updated**: 2026-04-09T21:00+08:00 (Mainline authority reset: MuJoCo canonical, PyBullet historical-only)
 **Supersedes**: Ad-hoc operations that caused V58 provenance collapse
 
 ---
@@ -14,6 +14,30 @@
 3. **Provenance-locked artifacts** — Pack results (`.json`) and logs (`.log`) are written BEFORE the operation, and are read-only after
 4. **Clean dataset truth** — The `dataset/` directory is the authoritative "current" dataset. Prior versions live in `artifacts/v58_archive_YYYY-MM-DD_HHMMSS/`
 5. **Sovereign state follows reality** — `sovereign/state.json` phase must match the actual disk state
+
+---
+
+## Mainline Authority Guardrails
+
+1. **`sovereign/current_truth.json` and `sovereign/next_actions.json` decide the canonical mainline.**
+   Plan files under `/root/.cursor/plans/*.plan.md`, ad-hoc notes, or detached-run scripts are not canonical until their direction is mirrored into sovereign.
+2. **When the user explicitly changes the scientific mainline, update sovereign before launching any detached runner.**
+   Do not "temporarily" keep the old canonical next action and launch against it.
+3. **MuJoCo-vs-PyBullet must be explicit.**
+   Every overnight runner status JSON must include its backend. If the canonical mainline is MuJoCo, any runner that imports `DrawerRobotEnv` / `DrawerRobotEnvLeRobot` / `run_g9_sim_eval.py` is invalid for canonical results.
+4. **Historical lines stay on disk but lose authority.**
+   PyBullet/Gate-B/DrawerRobotEnv artifacts may remain as historical context, but they must be marked `historical_context_only` or `deferred` in sovereign rather than left as canonical pending actions.
+5. **Invalid detached runs must be closed explicitly.**
+   If a wrong-line night run is launched, its status file must be rewritten to `invalidated` with the reason. Never leave stale `running` state behind.
+
+### Required Preflight Before Any Night Runner
+
+- Confirm `current_truth.current.next_action` matches the intended scientific line.
+- Confirm the runner backend matches that line.
+- If canonical mainline is MuJoCo:
+  - runner must not rely on `DrawerRobotEnv` / `DrawerRobotEnvLeRobot`
+  - runner must not call the historical PyBullet evaluation entrypoints
+- Write the selected backend and control benchmark into the night-runner status file before starting the heavy work.
 
 ---
 
@@ -122,6 +146,7 @@ experiments/mint/mint_drawer_v1/artifacts/
 | 1.0 | 2026-04-05T14:35 | harness_agent | Initial rules after V58 provenance collapse |
 | 1.4 | 2026-04-05T17:00 | harness_agent | V59 pack hygiene |
 | 1.5 | 2026-04-06T14:35 | harness_agent | Learnability Audit gates; SESSION_BOOTSTRAP + run_ledger added |
+| 1.6 | 2026-04-09T21:00 | codex | Mainline authority reset guardrails; MuJoCo canonical / PyBullet historical-only rule |
 
 ---
 

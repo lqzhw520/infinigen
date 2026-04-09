@@ -3,6 +3,8 @@
 
 from __future__ import annotations
 
+import json
+import os
 import statistics
 from pathlib import Path
 
@@ -27,6 +29,7 @@ from render_rollout_video import render_trace_video
 from strict_success import STRICT_SUCCESS_VERSION, evaluate_strict_success
 
 MINT_CKPT = "/mnt/afs2/zhuhaowu/infinigen/external/MINT/checkpoints/MINT-libero"
+DEFAULT_EVAL_IMAGE_SIZE = 256
 
 
 def random_policy(rng: np.random.Generator) -> np.ndarray:
@@ -69,6 +72,22 @@ def _obs_to_batch(obs) -> dict:
     }
 
 
+def _dataset_image_size() -> int:
+    override = os.environ.get("MINT_DRAWER_EVAL_IMAGE_SIZE")
+    if override:
+        return int(override)
+    info_path = DATASET_DIR / "meta" / "info.json"
+    if info_path.exists():
+        try:
+            info = json.loads(info_path.read_text())
+            shape = info["features"]["observation.images.image"]["shape"]
+            if isinstance(shape, list) and len(shape) >= 2:
+                return int(shape[0])
+        except (KeyError, TypeError, ValueError, json.JSONDecodeError):
+            pass
+    return DEFAULT_EVAL_IMAGE_SIZE
+
+
 def rollout_policy(
     seed: int,
     kind: str,
@@ -82,8 +101,12 @@ def rollout_policy(
     video_variant: str | None = None,
     video_attempt: str | None = None,
 ) -> dict:
+    image_size = _dataset_image_size()
     env = DrawerRobotEnv(
-        seed=seed, image_size=224, max_steps=max_steps, action_contract=action_contract
+        seed=seed,
+        image_size=image_size,
+        max_steps=max_steps,
+        action_contract=action_contract,
     )
     obs = env.reset()
     rng = np.random.default_rng(rng_seed + seed)
@@ -193,6 +216,7 @@ def rollout_policy(
             "total_eef_motion": total_eef_motion,
             "drawer_trace": drawer_trace,
             "attached_trace": attached_trace,
+            "env_image_size": image_size,
         }
     finally:
         env.close()

@@ -1,5 +1,5 @@
 {
-  "decision": "V59_UPSTREAM_MINT_BASELINE_RESTORED — PATCH_REGRESSION_ISOLATION_NEXT",
+  "decision": "V59_OFFICIAL_CONTROL_RESTORED — TRUE_INFINIGEN_MUJOCO_MAINLINE_NEXT",
   "actions": [
     {
       "type": "data_provenance_fix",
@@ -149,12 +149,35 @@
       }
     },
     {
+      "type": "MUJOCO_INFINIGEN_MAINLINE_ALIGNMENT",
+      "id": "mujoco_infinigen_mainline_alignment",
+      "priority": "P0",
+      "target": "Canonicalize true Infinigen URDF + AnyGrasp + MuJoCo alignment against the restored upstream MINT control",
+      "status": "pending",
+      "description": "The scientific mainline is now the true Infinigen URDF + AnyGrasp + MuJoCo line. external/MINT=4eab579 and the official LIBERO drawer baseline remain the benchmark control only. DrawerRobotEnv/PyBullet runners are historical diagnostic context and must not be used as canonical overnight results.",
+      "required_conditions": [
+        "Control benchmark remains upstream external/MINT=4eab579 with 3/3 success on libero_goal/open_the_middle_drawer_of_the_cabinet",
+        "Canonical training/eval backend is MuJoCo-backed, not DrawerRobotEnv/PyBullet-backed",
+        "Any detached runner must declare backend and fail preflight if it imports DrawerRobotEnv while MuJoCo mainline is active"
+      ],
+      "evidence": [
+        "E028",
+        "E029",
+        "E030",
+        "E031",
+        "E033",
+        "E034",
+        "E036"
+      ]
+    },
+    {
       "type": "MINT_PATCH_REGRESSION_ISOLATION",
       "id": "mint_patch_regression_isolation",
       "priority": "P0",
       "target": "Isolate the minimal local patch delta that breaks the restored official LIBERO drawer baseline",
-      "status": "pending",
+      "status": "deferred",
       "description": "Use the restored 4eab579 release baseline as the control and re-introduce local MINT patches one change at a time until the regression reappears.",
+      "note": "Important engineering hygiene, but no longer the canonical scientific mainline after the authority reset to MuJoCo + Infinigen alignment.",
       "fixed_conditions": [
         "Official LIBERO drawer task: libero_goal / open_the_middle_drawer_of_the_cabinet",
         "Release-era runtime: python 3.12.13, lerobot 0.4.3, torch 2.7.1+cu126, transformers 4.53.3",
@@ -171,8 +194,9 @@
       "id": "gate_b_teacher_replayability",
       "priority": "P0",
       "target": "Verify teacher actions replay successfully in DrawerRobotEnv (top-10 episodes)",
-      "status": "pending",
+      "status": "historical_context_only",
       "description": "Gate A reveals: all 240 episodes have strong action quality and extremely weak within-episode visual variation. Gate B answers a narrower question: can teacher actions that succeed in the source simulator achieve attach/open when replayed inside DrawerRobotEnv? If not, simulator physics/geometry compatibility becomes the stronger candidate. If yes, learnability remains open and needs separate gates.",
+      "note": "This remains useful historical context for the PyBullet proxy line but is not the canonical mainline after the MuJoCo authority reset.",
       "episode_candidates": [
         157,
         205,
@@ -195,8 +219,9 @@
       "id": "sim1_contact_physics",
       "priority": "P0",
       "target": "Verify if action that achieves attach in source sim achieves attach in DrawerRobotEnv",
-      "status": "pending",
+      "status": "historical_context_only",
       "description": "Leading hypothesis after the current gates is simulator physics / geometry mismatch, but this is NOT yet confirmed. Gate B replayability must run first. E023: teacher demos are successful in source sim. E024: no obvious static action mismatch. E026: drawer-only color is not the sole bottleneck. Possible causes remain: contact parameters, IK differences, or handle/drawer geometry differences.",
+      "note": "Historical PyBullet/DrawerRobotEnv follow-up only. Not a canonical next action while MuJoCo mainline is active.",
       "subtasks": [
         "Test oracle/scripted policy in DrawerRobotEnv — can ANY policy achieve attach?",
         "Compare PyBullet contact parameters with source sim",

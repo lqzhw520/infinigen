@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-04-09T20:56:33+08:00",
+  "generated_at": "2026-04-09T21:46:00+08:00",
   "campaign": {
     "id": "mint_drawer_v1",
     "root": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1"
@@ -27,60 +27,63 @@
     ]
   },
   "current": {
-    "phase": "v59_MUJOCO_PILOT_PHASE4 — upstream baseline restored; isolate patch regression",
-    "phase_gate": "MUJOCO_PILOT_UPSTREAM_BASELINE_RESTORED",
-    "verdict": "V59_UPSTREAM_MINT_BASELINE_RESTORED — PATCH_REGRESSION_ISOLATION_NEXT",
-    "decision": "V59_UPSTREAM_MINT_BASELINE_RESTORED — PATCH_REGRESSION_ISOLATION_NEXT",
+    "phase": "v59_MUJOCO_MAINLINE_PHASE5 — upstream control fixed; true Infinigen MuJoCo alignment is canonical",
+    "phase_gate": "MUJOCO_MAINLINE_AUTHORITY_RESET",
+    "verdict": "V59_OFFICIAL_CONTROL_RESTORED — TRUE_INFINIGEN_MUJOCO_MAINLINE_NEXT",
+    "decision": "V59_OFFICIAL_CONTROL_RESTORED — TRUE_INFINIGEN_MUJOCO_MAINLINE_NEXT",
     "next_action": {
-      "type": "MINT_PATCH_REGRESSION_ISOLATION",
-      "id": "mint_patch_regression_isolation",
+      "type": "MUJOCO_INFINIGEN_MAINLINE_ALIGNMENT",
+      "id": "mujoco_infinigen_mainline_alignment",
       "priority": "P0",
-      "target": "Isolate the minimal local patch delta that breaks the restored official LIBERO drawer baseline",
+      "target": "Align the true Infinigen URDF + AnyGrasp + MuJoCo line against the restored upstream MINT control",
       "status": "pending",
-      "description": "Use the restored 4eab579 release baseline as the control and re-introduce local MINT patches one change at a time until the regression reappears.",
+      "description": "Use external/MINT=4eab579 and the official LIBERO drawer baseline only as the control benchmark, then wire training/evaluation through the true Infinigen URDF + AnyGrasp + MuJoCo path. DrawerRobotEnv/PyBullet is historical diagnostic context only and must not drive canonical night runs.",
       "fixed_conditions": [
-        "Official LIBERO drawer task: libero_goal / open_the_middle_drawer_of_the_cabinet",
-        "Release-era runtime: python 3.12.13, lerobot 0.4.3, torch 2.7.1+cu126, transformers 4.53.3",
-        "256x256 observations, policy.n_action_steps=4, same MINT-libero checkpoint and tokenizer",
-        "Control remains external/MINT=4eab579 with proven 3/3 success"
+        "Official upstream control remains external/MINT=4eab579 with proven 3/3 drawer success on libero_goal/open_the_middle_drawer_of_the_cabinet",
+        "Canonical mainline backend is MuJoCo-backed, not DrawerRobotEnv/PyBullet-backed",
+        "Any detached runner must declare its backend and fail preflight if it imports DrawerRobotEnv while MuJoCo mainline is active",
+        "Patch regression isolation remains engineering hygiene only and must not preempt the MuJoCo mainline"
       ],
       "evidence": [
-        "E035",
+        "E028",
+        "E029",
+        "E030",
+        "E031",
+        "E033",
+        "E034",
         "E036"
       ]
     },
     "open_gates": [
       {
-        "type": "learnability_audit_gate",
-        "id": "gate_b_teacher_replayability",
+        "type": "MUJOCO_INFINIGEN_MAINLINE_ALIGNMENT",
+        "id": "mujoco_infinigen_true_env_gate",
         "priority": "P0",
-        "target": "Verify teacher actions replay successfully in DrawerRobotEnv (top-10 episodes)",
+        "target": "Verify that the scientific mainline uses the true Infinigen URDF + AnyGrasp + MuJoCo path rather than the historical PyBullet proxy line",
         "status": "pending",
-        "description": "Gate A reveals: all 240 episodes have strong action quality and extremely weak within-episode visual variation. Gate B answers a narrower question: can teacher actions that succeed in the source simulator achieve attach/open when replayed inside DrawerRobotEnv? If not, simulator physics/geometry compatibility becomes the stronger candidate. If yes, learnability remains open and needs separate gates.",
-        "episode_candidates": [
-          157,
-          205,
-          25,
-          180,
-          3,
-          181,
-          158,
-          182,
-          138,
-          209
+        "description": "Canonical next work is the MuJoCo mainline: true Infinigen asset/backend wiring, AnyGrasp-conditioned data alignment, and MINT train/eval on that line. Historical PyBullet replayability gates remain archived context but are not canonical open gates.",
+        "required_outputs": [
+          "MuJoCo-backed Infinigen env/training/eval path (not PyBullet shim)",
+          "Explicit benchmark linkage to upstream 4eab579 control",
+          "Night-runner preflight that blocks PyBullet runners when MuJoCo mainline is active"
         ],
-        "criteria": "Top-10 by action_std, episode length >= 20",
         "depends_on": [
-          "gate_a_episode_admissibility"
+          "libero_goal_drawer_official_baseline_repro"
         ]
       }
     ],
-    "blockers": [],
-    "stale_docs": [],
+    "blockers": [
+      "True Infinigen URDF + AnyGrasp + MuJoCo train/eval wiring is not yet the canonical executed runner in-repo."
+    ],
+    "stale_docs": [
+      "Historical Gate B / DrawerRobotEnv / PyBullet surfaces remain on disk and must not be used as canonical next actions."
+    ],
     "authority_notes": [
       "current_truth.json is derived from Tier-0/Tier-1 only.",
       "Derived docs are convenience surfaces and must not override canonical files.",
-      "Scientific conclusions attach to the current external/MINT head recorded here; patched variants must be evaluated separately from the restored upstream control."
+      "Scientific conclusions attach to the current external/MINT head recorded here; patched variants must be evaluated separately from the restored upstream control.",
+      "If the user or active plan declares MuJoCo as the scientific mainline, sovereign must be updated before launching any detached runner.",
+      "While this phase is active, any DrawerRobotEnv/PyBullet runner is historical-only and invalid for canonical mainline results."
     ]
   },
   "dataset": {
@@ -107,7 +110,7 @@
   },
   "workspace": {
     "schema_version": 1,
-    "generated_at": "2026-04-09T20:56:33+08:00",
+    "generated_at": "2026-04-09T21:46:00+08:00",
     "campaign_root": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1",
     "project_root": "/mnt/afs2/zhuhaowu/infinigen",
     "main_repo": {
@@ -139,7 +142,7 @@
   },
   "model_load_fidelity": {
     "schema_version": 1,
-    "generated_at": "2026-04-09T20:56:33+08:00",
+    "generated_at": "2026-04-09T21:46:00+08:00",
     "campaign": "mint_drawer_v1",
     "main_repo_head": "a471d80888646fe42d748d43a27620a4f8f68853",
     "main_repo_branch": "feature/mint-integration",

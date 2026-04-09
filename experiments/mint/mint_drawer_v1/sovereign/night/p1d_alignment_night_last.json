@@ -1,0 +1,11 @@
+{
+  "stage": "p1d_alignment_night",
+  "status": "invalidated",
+  "invalidated_at": "2026-04-09T21:00:00+08:00",
+  "reason": "Launched against the historical DrawerRobotEnv/PyBullet line after the scientific mainline had already moved to Infinigen URDF + AnyGrasp + MuJoCo.",
+  "canonical_replacement": "mujoco_infinigen_mainline_alignment",
+  "notes": [
+    "Do not use p1d_alignment_night as canonical evidence.",
+    "Any future detached runner must pass the sovereign_mainline_guard preflight before launch."
+  ]
+}

@@ -19,6 +19,7 @@ from mint_common import (
 
 ARTIFACT = ARTIFACT_DIR / "g8_train_summary.json"
 LOG_PATH = ARTIFACT_DIR / "g8_train.log"
+TRAIN_OUTPUT_DIR = OUTPUT_DIR / "g8_mint_train"
 MINT_CKPT = "/mnt/afs2/zhuhaowu/infinigen/external/MINT/checkpoints/MINT-libero"
 TOKENIZER_PATH = (
     "/mnt/afs2/zhuhaowu/infinigen/external/MINT/checkpoints/MINT-tokenizer-libero"
@@ -26,9 +27,11 @@ TOKENIZER_PATH = (
 
 
 def run() -> bool:
-    if OUTPUT_DIR.exists():
-        shutil.rmtree(OUTPUT_DIR)
-    train_root = OUTPUT_DIR
+    train_steps = int(os.environ.get("MINT_TRAIN_STEPS", "1000"))
+    batch_size = int(os.environ.get("MINT_TRAIN_BATCH_SIZE", "8"))
+    save_freq = int(os.environ.get("MINT_TRAIN_SAVE_FREQ", str(train_steps)))
+    if TRAIN_OUTPUT_DIR.exists():
+        shutil.rmtree(TRAIN_OUTPUT_DIR)
 
     cmd = [
         "lerobot-train",
@@ -37,16 +40,16 @@ def run() -> bool:
         "--policy.type=mint",
         f"--policy.repo_id={DATASET_REPO_ID}_mint_ft",
         "--policy.push_to_hub=false",
-        f"--output_dir={OUTPUT_DIR}",
+        f"--output_dir={TRAIN_OUTPUT_DIR}",
         "--job_name=mint_drawer_ft",
         f"--policy.pretrained_path={MINT_CKPT}",
         f"--policy.vqvae_name_or_path={TOKENIZER_PATH}",
         "--policy.compile_model=false",
         "--policy.gradient_checkpointing=true",
         "--policy.dtype=bfloat16",
-        "--steps=1000",
-        "--save_freq=1000",
-        "--batch_size=8",
+        f"--steps={train_steps}",
+        f"--save_freq={save_freq}",
+        f"--batch_size={batch_size}",
         "--policy.device=cuda",
     ]
     start = time.time()
@@ -63,7 +66,7 @@ def run() -> bool:
     if LOG_PATH.exists():
         log_tail = LOG_PATH.read_text(errors="ignore")[-6000:]
 
-    checkpoint_path = find_latest_checkpoint(OUTPUT_DIR)
+    checkpoint_path = find_latest_checkpoint(TRAIN_OUTPUT_DIR)
     loss_lines = [
         line.strip() for line in log_tail.splitlines() if "loss" in line.lower()
     ]
@@ -77,8 +80,11 @@ def run() -> bool:
         ),
         "returncode": proc.returncode,
         "elapsed_sec": round(elapsed, 1),
-        "steps_completed": 1000 if checkpoint_path is not None else 0,
+        "steps_requested": train_steps,
+        "batch_size": batch_size,
+        "steps_completed": train_steps if checkpoint_path is not None else 0,
         "checkpoint_path": str(checkpoint_path) if checkpoint_path else None,
+        "train_output_dir": str(TRAIN_OUTPUT_DIR),
         "loss_samples": loss_lines[-10:],
         "stdout_tail": log_tail,
         "stderr_tail": "",

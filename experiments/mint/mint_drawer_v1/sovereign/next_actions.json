@@ -395,7 +395,7 @@
       "description": "Update next_actions.json, current_truth.json, evidence/index.json, claims.yaml with new evidence E028-E031 and new claims C_MINT_LM_STATE_INVARIANT and C_MINT_INFERENCE_DESIGN_OPEN."
     }
   ],
-  "generated_at": "2026-04-09T20:52:10+08:00",
+  "generated_at": "2026-04-09T20:53:24+08:00",
   "verdict": "V59_UPSTREAM_MINT_BASELINE_RESTORED — PATCH_REGRESSION_ISOLATION_NEXT",
   "next_phase": "v59_MUJOCO_PILOT_PHASE4 — upstream baseline restored; isolate patch regression",
   "evidence": "E028.yaml, E029.yaml, E030.yaml, E031.yaml, E033.yaml, E034.yaml",

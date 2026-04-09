@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-04-09T20:52:11+08:00",
+  "generated_at": "2026-04-09T20:53:25+08:00",
   "campaign": {
     "id": "mint_drawer_v1",
     "root": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1"
@@ -107,17 +107,17 @@
   },
   "workspace": {
     "schema_version": 1,
-    "generated_at": "2026-04-09T20:52:10+08:00",
+    "generated_at": "2026-04-09T20:53:24+08:00",
     "campaign_root": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1",
     "project_root": "/mnt/afs2/zhuhaowu/infinigen",
     "main_repo": {
       "root": "/mnt/afs2/zhuhaowu/infinigen",
       "exists": true,
       "branch": "feature/mint-integration",
-      "head": "8fd7e83659983fd205ca7c1b318261a40b703b83",
+      "head": "fbfea0ba3bc1a85c6e78193deacdc099c429b7e7",
       "upstream": "my-origin/feature/mint-integration",
       "ahead": 0,
-      "behind": 1,
+      "behind": 2,
       "dirty": true,
       "dirty_files": [
         " ? external/MINT"
@@ -143,9 +143,9 @@
   },
   "model_load_fidelity": {
     "schema_version": 1,
-    "generated_at": "2026-04-09T20:52:10+08:00",
+    "generated_at": "2026-04-09T20:53:24+08:00",
     "campaign": "mint_drawer_v1",
-    "main_repo_head": "8fd7e83659983fd205ca7c1b318261a40b703b83",
+    "main_repo_head": "fbfea0ba3bc1a85c6e78193deacdc099c429b7e7",
     "main_repo_branch": "feature/mint-integration",
     "external_mint_head": "4eab5795345721001c412ff1ca2c886a11eab606",
     "external_mint_branch": "HEAD",

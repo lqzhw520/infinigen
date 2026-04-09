@@ -1,7 +1,7 @@
 # Handoff — mint_drawer_v1
 **GENERATED FROM current_truth.json — NOT CANONICAL**
 
-- Generated at: `2026-04-09T20:52:11+08:00`
+- Generated at: `2026-04-09T20:53:24+08:00`
 - Source: `sovereign/current_truth.json`
 - Stale policy: regenerate with `python scripts/harness/sovereign_cli.py go`
 

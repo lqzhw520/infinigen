@@ -48,10 +48,20 @@ def main() -> int:
     pybullet_markers = [
         "DrawerRobotEnv(",
         "DrawerRobotEnvLeRobot",
+        "drawer_robot_env.py",
+        "drawer_robot_env_lerobot.py",
         "run_g9_sim_eval.py",
         "evaluate_mint_drawer_campaign",
     ]
+    allowed_mujoco_mainline_markers = [
+        "DrawerRobotEnvMuJoCo",
+        "run_mujoco_infinigen_mainline_night.py",
+        "drawer_robot_env_mujoco.py",
+    ]
     matched_markers = [marker for marker in pybullet_markers if marker in source]
+    matched_allowed_markers = [
+        marker for marker in allowed_mujoco_mainline_markers if marker in source
+    ]
 
     payload = {
         "phase": phase,
@@ -60,6 +70,7 @@ def main() -> int:
         "referenced_python_files": referenced,
         "canonical_is_mujoco": canonical_is_mujoco,
         "matched_pybullet_markers": matched_markers,
+        "matched_allowed_mujoco_mainline_markers": matched_allowed_markers,
         "passed": not (canonical_is_mujoco and matched_markers),
     }
     print(json.dumps(payload, indent=2))

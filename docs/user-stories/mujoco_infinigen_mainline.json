@@ -1,0 +1,42 @@
+{
+  "story_set": "mujoco_infinigen_mainline",
+  "updated_at": "2026-04-09T22:10:00+08:00",
+  "stories": [
+    {
+      "id": "authority",
+      "title": "Canonical authority stays on the true MuJoCo mainline",
+      "acceptance_criteria": [
+        "Canonical mainline is mujoco_infinigen_mainline_alignment",
+        "Any detached run declares backend, robot_in_loop, control_baseline_ref, and canonical_next_action_at_launch",
+        "Wrong-line runs are marked invalidated instead of being left in running state"
+      ]
+    },
+    {
+      "id": "environment",
+      "title": "True MuJoCo robot-in-loop env exposes a MINT-compatible contract",
+      "acceptance_criteria": [
+        "The env loads Infinigen drawer URDF assets from sim_exports/urdf/drawerbox",
+        "The env supports reset, step, observe, and cleanup without PyBullet compatibility layers",
+        "Observations contain dual RGB images, state(8,), task text, and drawer progress"
+      ]
+    },
+    {
+      "id": "data",
+      "title": "MuJoCo rollouts pack directly into the canonical LeRobot dataset",
+      "acceptance_criteria": [
+        "Oracle and AnyGrasp robot rollouts are saved with images, images2, states, actions, and JSON metadata",
+        "dataset_builder.build_dataset_from_rollouts ingests the MuJoCo rollouts without a schema migration",
+        "The pack artifact records rollout sources, seed coverage, task coverage, and frame count"
+      ]
+    },
+    {
+      "id": "training_eval",
+      "title": "Night runner compares pretrained and fine-tuned MINT on the same MuJoCo env",
+      "acceptance_criteria": [
+        "Fine-tuned MINT starts from upstream external/MINT@4eab579",
+        "The night runner emits pretrained-vs-finetuned held-out metrics from the same MuJoCo env",
+        "The final report records measured outcomes only and does not write new causal claims into claims.yaml"
+      ]
+    }
+  ]
+}

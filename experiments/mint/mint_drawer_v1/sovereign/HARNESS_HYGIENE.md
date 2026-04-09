@@ -29,6 +29,8 @@
    PyBullet/Gate-B/DrawerRobotEnv artifacts may remain as historical context, but they must be marked `historical_context_only` or `deferred` in sovereign rather than left as canonical pending actions.
 5. **Invalid detached runs must be closed explicitly.**
    If a wrong-line night run is launched, its status file must be rewritten to `invalidated` with the reason. Never leave stale `running` state behind.
+6. **Canonical MuJoCo night-runners must sync sovereign after every stage.**
+   Updating only the final summary is insufficient. `current_truth.json`, `next_actions.json`, `sovereign/night/*_last.json`, and `evidence/index.json` must advance together so morning review sees one coherent truth surface.
 
 ### Required Preflight Before Any Night Runner
 
@@ -38,6 +40,17 @@
   - runner must not rely on `DrawerRobotEnv` / `DrawerRobotEnvLeRobot`
   - runner must not call the historical PyBullet evaluation entrypoints
 - Write the selected backend and control benchmark into the night-runner status file before starting the heavy work.
+- For canonical MuJoCo night-runners, every stage payload must include:
+  - `backend`
+  - `robot_in_loop`
+  - `canonical`
+  - `control_baseline_ref`
+  - `mujoco_env_ref`
+  - `canonical_next_action_at_launch`
+  - `current_stage`
+  - `status`
+  - `failed_stage`
+  - `historical_lines_ignored`
 
 ---
 

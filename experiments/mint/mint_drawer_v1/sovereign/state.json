@@ -3,11 +3,11 @@
   "phase": "v59_MUJOCO_PILOT_PHASE3 — official LIBERO drawer baseline reproduction",
   "phase_gate": "MUJOCO_PILOT_OFFICIAL_BASELINE_PENDING",
   "verdict": "V59_MUJOCO_PILOT_ESTABLISHED — OFFICIAL_LIBERO_BASELINE_REPRO_NEXT",
-  "updated_at": "2026-04-09T16:42:28+08:00",
-  "active_job": "gate_b_teacher_replayability",
+  "updated_at": "2026-04-09T16:45:04+08:00",
+  "active_job": "libero_goal_drawer_official_baseline_repro",
   "runtime_pointers": {
-    "current_next_action_id": "gate_b_teacher_replayability",
-    "current_next_action_type": "learnability_audit_gate",
+    "current_next_action_id": "libero_goal_drawer_official_baseline_repro",
+    "current_next_action_type": "MINT_LIBERO_OFFICIAL_BASELINE_REPRO",
     "last_error": null,
     "last_repair_action": "Gate_A_completed_E027_written",
     "generated_from": "next_actions.json"

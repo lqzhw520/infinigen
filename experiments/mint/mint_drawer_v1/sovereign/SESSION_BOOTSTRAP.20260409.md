@@ -1,7 +1,7 @@
 # SESSION_BOOTSTRAP.20260409
 **GENERATED FROM current_truth.json — NOT CANONICAL**
 
-- Generated at: `2026-04-09T16:42:29+08:00`
+- Generated at: `2026-04-09T16:45:04+08:00`
 - Source: `sovereign/current_truth.json`
 - Stale policy: regenerate with `python scripts/harness/sovereign_cli.py go`
 
@@ -29,8 +29,8 @@
 
 ## Workspace Snapshot
 - Branch: `feature/mint-integration`
-- HEAD: `0ac4f14d77ca6a1c0df23a413f728a2f3cbf8c98`
-- Dirty files: `61`
+- HEAD: `4253ba45f3951c828c3482cb42c118e409702125`
+- Dirty files: `10`
 - external/MINT dirty files: `0`
 
 ## Model Load Fidelity
@@ -38,10 +38,10 @@
 - Summary: Runnable but semantically drifted
 
 ## Next Action
-- Type: `learnability_audit_gate`
-- Id: `gate_b_teacher_replayability`
+- Type: `MINT_LIBERO_OFFICIAL_BASELINE_REPRO`
+- Id: `libero_goal_drawer_official_baseline_repro`
 - Priority: `P0`
-- Target: Verify teacher actions replay successfully in DrawerRobotEnv (top-10 episodes)
+- Target: Reproduce official MINT LIBERO drawer baseline on an in-distribution drawer/cabinet task
 
 ## Stale / Unsafe Docs
 - none

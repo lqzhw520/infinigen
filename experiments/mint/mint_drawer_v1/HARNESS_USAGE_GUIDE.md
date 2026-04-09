@@ -1,7 +1,7 @@
 # Harness v2 — mint_drawer_v1
 **GENERATED FROM current_truth.json — NOT CANONICAL**
 
-- Generated at: `2026-04-09T16:42:29+08:00`
+- Generated at: `2026-04-09T16:45:04+08:00`
 - Source: `sovereign/current_truth.json`
 - Stale policy: regenerate with `python scripts/harness/sovereign_cli.py go`
 
@@ -9,31 +9,22 @@
 - Verdict: `V59_MUJOCO_PILOT_ESTABLISHED — OFFICIAL_LIBERO_BASELINE_REPRO_NEXT`
 - Phase: `v59_MUJOCO_PILOT_PHASE3 — official LIBERO drawer baseline reproduction`
 - Decision: `V59_MUJOCO_PILOT_ESTABLISHED — OFFICIAL_LIBERO_BASELINE_REPRO_NEXT`
-- Human read: We are in `v59_MUJOCO_PILOT_PHASE3 — official LIBERO drawer baseline reproduction`. The current top priority is `gate_b_teacher_replayability`: Verify teacher actions replay successfully in DrawerRobotEnv (top-10 episodes)
+- Human read: We are in `v59_MUJOCO_PILOT_PHASE3 — official LIBERO drawer baseline reproduction`. The current top priority is `libero_goal_drawer_official_baseline_repro`: Reproduce official MINT LIBERO drawer baseline on an in-distribution drawer/cabinet task
 - Dataset anchor: `v59_20260405` / `240` episodes / `19701` frames / loads=`True`
-- Workspace: branch `feature/mint-integration` @ `0ac4f14d77ca6a1c0df23a413f728a2f3cbf8c98` / dirty files `61`
+- Workspace: branch `feature/mint-integration` @ `4253ba45f3951c828c3482cb42c118e409702125` / dirty files `10`
 - MINT fidelity: `F2` — Runnable but semantically drifted
 
 ## Claims Driving This Phase
-- `C_V59_OFFLINE_OVERFIT_SIGNAL` [supported]: V59 finetuned checkpoint shows better offline action imitation than pretrained on the training subset. Evidence: 200 steps on 494 frames, loss 6.520→3.741 (-42.7%), action RMSE +51.7%, gripper MAE +78.0%. HOWEVER: task-level overfit has NOT been verified in DrawerRobotEnv. No evidence of: (1) drawer success rate in simulation, (2) attach/open sequence correctness, (3) drawer fraction improvement. "Pipeline confirmed" is OVERSTATED — "offline imitation improved" is the accurate claim. Env-level overfit gate (finetuned vs pretrained in env) required before claiming task success.
-- `C_V59_ENV_GATE_FAILED` [supported]: V59 env-level overfit gate: NEGATIVE_GATE. Both pretrained and finetuned MINT achieve 0.000 drawer_fraction on all 6 simulation rollouts (3 seeds × 2 episodes). Offline action RMSE improvement (+51.7%) does NOT translate to task success. CORRECTED DIAGNOSIS: E023 (RCA1) proved all 7/7 teacher episodes are task-successful (mean_max_drawer=0.989). Teacher demos ARE successful. MINT improved at imitating them offline, but imitated actions still do not open the drawer in simulation. Root cause must be: action normalization mismatch, state representation gap, or sim-to-sim gap (LIBERO→Infinigen). Insufficient training data is NOT the sole cause. Full V59 retrain without fixing action/state contract will repeat V58 failure. P0b (colored reroll): OPEN QUESTION — pretrained failure in white images is consistent with multiple hypotheses.
-- `C_RCA1_TEACHER_NOT_ROOT_CAUSE` [supported]: All 7/7 V59 overfit teacher episodes are task-successful. RCA1 verified: episodes 0,1,2,3,4,5,49 (LeRobot indices) map to physics-legal NPZ rollouts with success=True, mean_max_drawer_fraction=0.989, attach_rate=1.0. Teacher quality is NOT the root cause of V58/V59 failure. Root cause must be in MINT training pipeline: action normalization, state representation, or sim-to-sim gap. METHODOLOGY: LeRobot episode_index ≠ NPZ filename episode index. Must trace through V59 pack log sorted file order. E023 confirms.
-- `C_V59_ACTION_NORMALIZATION_NOT_ROOT_CAUSE` [supported]: For the 7 V59 overfit episodes, action normalization is NOT the root cause of
-task failure in DrawerRobotEnv. Dataset actions are in [-1, 1] range (position/rotation)
-and gripper uses ±1.0 convention, matching DrawerRobotEnv's expected input contract.
-Teacher action replay is inconclusive (attachment_local estimation error) but
-static analysis independently proves no action format mismatch.
-
-- `C_V59_STATE_REPRESENTATION_NOT_ROOT_CAUSE` [supported]: State representation is not the root cause for the 7 overfit episodes.
+- No current-driving claims were classified.
 
 ## Historical Context Claims
-- Historical context claims currently suppressed from the main dashboard: `10`
+- Historical context claims currently suppressed from the main dashboard: `15`
 - `C_PHYSICS_LEGAL_TEACHER_HISTORICAL_SUMMARY` [supported] / scope `historical_context_only`
 - `C_STATE_CONTRACT_HISTORICAL_SUMMARY` [supported] / scope `historical_context_only`
 - `C_VISION_ALIGNMENT_HISTORICAL_SUMMARY` [supported] / scope `historical_context_only`
 - `C_IMAGE_NEAR_WHITE` [supported] / scope `v58_vision_pipeline`
 - `C_IMAGE_NEAR_WHITE@2` [supported] / scope `v58_vision_pipeline`
-- ... plus `5` more historical-context claims
+- ... plus `10` more historical-context claims
 
 ## What Is Settled Right Now
 - `E034`: Forward-pass recheck after E033 shows mixed, nonzero state sensitivity on real LIBERO observations; strong state-invariant/image-only diagnosis is not supported.
@@ -53,9 +44,9 @@ static analysis independently proves no action format mismatch.
 4. The spec for the current next action, if the next action is spec-backed
 
 ## Tonight / Next Safe Move
-- Canonical next action: `learnability_audit_gate` / `gate_b_teacher_replayability` / priority `P0`
-- Target: Verify teacher actions replay successfully in DrawerRobotEnv (top-10 episodes)
-- Scope: Gate A reveals: all 240 episodes have strong action quality and extremely weak within-episode visual variation. Gate B answers a narrower question: can teacher actions that succeed in the source simulator achieve attach/open when replayed inside DrawerRobotEnv? If not, simulator physics/geometry compatibility becomes the stronger candidate. If yes, learnability remains open and needs separate gates.
+- Canonical next action: `MINT_LIBERO_OFFICIAL_BASELINE_REPRO` / `libero_goal_drawer_official_baseline_repro` / priority `P0`
+- Target: Reproduce official MINT LIBERO drawer baseline on an in-distribution drawer/cabinet task
+- Scope: Use the official LeRobot LIBERO evaluation path on an official MINT evaluation-suite drawer task before drawing capability conclusions from the MuJoCo pilot.
 
 ## Canonical Rules
 - Tier 0 files are authoritative; generated docs are convenience views only.

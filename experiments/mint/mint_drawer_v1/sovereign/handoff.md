@@ -1,7 +1,7 @@
 # Handoff — mint_drawer_v1
 **GENERATED FROM current_truth.json — NOT CANONICAL**
 
-- Generated at: `2026-04-09T16:42:29+08:00`
+- Generated at: `2026-04-09T16:45:04+08:00`
 - Source: `sovereign/current_truth.json`
 - Stale policy: regenerate with `python scripts/harness/sovereign_cli.py go`
 
@@ -14,7 +14,7 @@
 1. Run `python scripts/harness/sovereign_cli.py go` first.
 2. Read `sovereign/current_truth.json`, not historical summaries.
 3. Respect experiment specs before publishing any scientific conclusion.
-4. Current next action: `learnability_audit_gate` / `gate_b_teacher_replayability`.
+4. Current next action: `MINT_LIBERO_OFFICIAL_BASELINE_REPRO` / `libero_goal_drawer_official_baseline_repro`.
 
 ## Current Risks
 - Model fidelity: `F2`

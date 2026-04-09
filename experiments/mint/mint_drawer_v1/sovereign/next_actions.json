@@ -123,6 +123,23 @@
       }
     },
     {
+      "type": "MINT_LIBERO_OFFICIAL_BASELINE_REPRO",
+      "id": "libero_goal_drawer_official_baseline_repro",
+      "priority": "P0",
+      "target": "Reproduce official MINT LIBERO drawer baseline on an in-distribution drawer/cabinet task",
+      "status": "pending",
+      "description": "Use the official LeRobot LIBERO evaluation path on an official MINT evaluation-suite drawer task before drawing capability conclusions from the MuJoCo pilot.",
+      "candidate_suite": "libero_goal",
+      "candidate_task": "open_the_middle_drawer_of_the_cabinet",
+      "required_conditions": [
+        "Official LeRobot LIBERO wrapper (not raw OffScreenRenderEnv loop)",
+        "256x256 observations to match policy_preprocessor.json",
+        "policy.n_action_steps=4 to match README evaluation settings",
+        "Task drawn from official suites: libero_10/object/spatial/goal",
+        "Re-run after E033 key-remap fix with current external/MINT head"
+      ]
+    },
+    {
       "type": "learnability_audit_gate",
       "id": "gate_b_teacher_replayability",
       "priority": "P0",
@@ -349,26 +366,9 @@
       "target": "Update sovereign with MuJoCo pilot findings",
       "status": "pending",
       "description": "Update next_actions.json, current_truth.json, evidence/index.json, claims.yaml with new evidence E028-E031 and new claims C_MINT_LM_STATE_INVARIANT and C_MINT_INFERENCE_DESIGN_OPEN."
-    },
-    {
-      "type": "MINT_LIBERO_OFFICIAL_BASELINE_REPRO",
-      "id": "libero_goal_drawer_official_baseline_repro",
-      "priority": "P0",
-      "target": "Reproduce official MINT LIBERO drawer baseline on an in-distribution drawer/cabinet task",
-      "status": "pending",
-      "description": "Use the official LeRobot LIBERO evaluation path on an official MINT evaluation-suite drawer task before drawing capability conclusions from the MuJoCo pilot.",
-      "candidate_suite": "libero_goal",
-      "candidate_task": "open_the_middle_drawer_of_the_cabinet",
-      "required_conditions": [
-        "Official LeRobot LIBERO wrapper (not raw OffScreenRenderEnv loop)",
-        "256x256 observations to match policy_preprocessor.json",
-        "policy.n_action_steps=4 to match README evaluation settings",
-        "Task drawn from official suites: libero_10/object/spatial/goal",
-        "Re-run after E033 key-remap fix with current external/MINT head"
-      ]
     }
   ],
-  "generated_at": "2026-04-09T16:42:28+08:00",
+  "generated_at": "2026-04-09T16:45:04+08:00",
   "verdict": "V59_MUJOCO_PILOT_ESTABLISHED — OFFICIAL_LIBERO_BASELINE_REPRO_NEXT",
   "next_phase": "v59_MUJOCO_PILOT_PHASE3 — official LIBERO drawer baseline reproduction",
   "evidence": "E028.yaml, E029.yaml, E030.yaml, E031.yaml, E033.yaml, E034.yaml",

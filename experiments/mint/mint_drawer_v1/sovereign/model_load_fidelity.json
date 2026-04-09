@@ -1,14 +1,76 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-04-07T15:19:53+08:00",
+  "generated_at": "2026-04-09T16:42:28+08:00",
   "campaign": "mint_drawer_v1",
-  "main_repo_head": "78f807833d5fbb17734b6cf83f5b8430f7b018ce",
+  "main_repo_head": "0ac4f14d77ca6a1c0df23a413f728a2f3cbf8c98",
   "main_repo_branch": "feature/mint-integration",
-  "external_mint_head": "8d75b32174606e0499205633c639d50bd5fc0909",
+  "external_mint_head": "b5eabd41b4ca72264b3dc6ed18caac1cd062b3e2",
   "external_mint_branch": "main",
-  "compatibility_patches": [],
+  "compatibility_patches": [
+    {
+      "file": "external/MINT",
+      "reason": "local MINT patch present"
+    }
+  ],
   "semantic_patches": [],
-  "experimental_patches": [],
+  "experimental_patches": [
+    {
+      "file": "scripts/mint/drawer_robot_env.py",
+      "reason": "local experiment/runtime shim"
+    },
+    {
+      "file": "scripts/mint/mujoco_pilot_common.py",
+      "reason": "local experiment/runtime shim"
+    },
+    {
+      "file": "scripts/mint/run_gate_b_close_timing_rescue.py",
+      "reason": "local experiment/runtime shim"
+    },
+    {
+      "file": "scripts/mint/run_gate_b_corrected_plan_v2.py",
+      "reason": "local experiment/runtime shim"
+    },
+    {
+      "file": "scripts/mint/run_gate_b_handle_offset_retargeting.py",
+      "reason": "local experiment/runtime shim"
+    },
+    {
+      "file": "scripts/mint/run_gate_b_proposal_overnight_bundle.py",
+      "reason": "local experiment/runtime shim"
+    },
+    {
+      "file": "scripts/mint/run_gate_b_replay_gap_contraction.py",
+      "reason": "local experiment/runtime shim"
+    },
+    {
+      "file": "scripts/mint/run_gate_b_seed_retarget_discrepancy.py",
+      "reason": "local experiment/runtime shim"
+    },
+    {
+      "file": "scripts/mint/run_gate_b_teacher_replayability.py",
+      "reason": "local experiment/runtime shim"
+    },
+    {
+      "file": "scripts/mint/run_mujoco_pilot_night.py",
+      "reason": "local experiment/runtime shim"
+    },
+    {
+      "file": "scripts/mint/run_p1c0_libero_drawer_smoke.py",
+      "reason": "local experiment/runtime shim"
+    },
+    {
+      "file": "scripts/mint/run_p1c2_libero_drawer_oracle.py",
+      "reason": "local experiment/runtime shim"
+    },
+    {
+      "file": "scripts/mint/run_p1c4_mint_on_libero.py",
+      "reason": "local experiment/runtime shim"
+    },
+    {
+      "file": "scripts/mint/run_p1c5_state_comparison.py",
+      "reason": "local experiment/runtime shim"
+    }
+  ],
   "missing_keys_count": 165,
   "unexpected_keys_count": null,
   "architectural_key_mismatches_fixed": 165,

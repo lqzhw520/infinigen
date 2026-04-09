@@ -1,5 +1,5 @@
 {
-  "decision": "V59_GATE_A_COMPLETED — GATE_B_NOW_PRIMARY",
+  "decision": "V59_MUJOCO_PILOT_ESTABLISHED — OFFICIAL_LIBERO_BASELINE_REPRO_NEXT",
   "actions": [
     {
       "type": "data_provenance_fix",
@@ -177,25 +177,217 @@
         "gripper": "70% binary, 30% continuous, 0% frozen",
         "critical_finding": "ALL episodes have ZERO visual texture within-episode despite NPZ success=True"
       }
+    },
+    {
+      "type": "mujoco_pilot_smoke",
+      "id": "p1c0_libero_drawer_smoke",
+      "priority": "P0",
+      "target": "Verify LIBERO + MuJoCo + OSMesa pipeline on A800",
+      "status": "completed",
+      "result": {
+        "verdict": "PASS",
+        "evidence": "artifacts/p1c0_libero_drawer_smoke.json",
+        "findings": [
+          "MUJOCO_GL=osmesa confirmed working",
+          "OffScreenRenderEnv resets/renders/steps/closes cleanly (3/3 runs)",
+          "agentview mean=118.5, wrist mean=147.7 (non-white, realistic render)",
+          "LIBERO drawer task (libero_90/KITCHEN_SCENE1_open_the_bottom_drawer) is reachable"
+        ]
+      }
+    },
+    {
+      "type": "mujoco_pilot_state_oracle",
+      "id": "p1c2_libero_drawer_oracle",
+      "priority": "P0",
+      "target": "Verify drawer task semantics reachable under MuJoCo state control",
+      "status": "completed",
+      "result": {
+        "verdict": "PASS — state-space oracle 3/3",
+        "evidence": "artifacts/p1c2_libero_drawer_oracle_gate.json",
+        "findings": [
+          "Direct qpos manipulation drives drawer joint from closed to open_qpos",
+          "success_rate=1.0 (3/3 init states)",
+          "drawer_fraction trace: 0.059→1.0 linearly (24 steps)",
+          "oracle_type=mujoco_state_oracle — does NOT prove action-space reachability"
+        ],
+        "oracle_does_not_prove": [
+          "Action-space scripted controller quality",
+          "Teacher trajectory fidelity",
+          "Robot reaching handle via joint/torque control"
+        ]
+      }
+    },
+    {
+      "type": "mujoco_pilot_mint_baseline",
+      "id": "p1c4_mint_on_libero",
+      "priority": "P0",
+      "target": "Evaluate pretrained MINT on LIBERO drawer task",
+      "status": "completed",
+      "result": {
+        "verdict": "STALE_NONBASELINE_RESULT — do not compare directly to paper baseline",
+        "evidence": "artifacts/p1c4_mint_on_libero_drawer.json",
+        "findings": [
+          "0% on libero_90/KITCHEN_SCENE1_open_the_bottom_drawer_of_the_cabinet",
+          "Run timestamp predates E033 key-remap fix and E034 forward-pass recheck",
+          "Custom rollout used image_size=224 and MAX_STEPS=96",
+          "Run did not reproduce official MINT baseline conditions from README"
+        ],
+        "guardrail": "Treat this as a pilot diagnostic only, not as official LIBERO drawer capability evidence."
+      }
+    },
+    {
+      "type": "mujoco_pilot_state_comparison",
+      "id": "p1c5_state_semantic_comparison",
+      "priority": "P1",
+      "target": "Compare PyBullet dataset state vs LIBERO live state distributions",
+      "status": "completed",
+      "result": {
+        "verdict": "NEGATIVE_RESULT — pi_minus_joint_pos NOT better than raw_joint_pos",
+        "evidence": "artifacts/p1c5_state_semantic_comparison.json",
+        "findings": [
+          "raw_joint_pos mean_l2_delta vs PyBullet dataset: 4.234",
+          "pi_minus_joint_pos mean_l2_delta vs PyBullet dataset: 9.773",
+          "pi_minus_joint_pos is MORE divergent from PyBullet distribution than raw_joint_pos",
+          "WARNING: comparison baseline (PyBullet dataset) is itself from a different scene/robot config — delta reflects initial pose difference, not semantic mismatch"
+        ],
+        "interpretation": "Against the PyBullet dataset distribution, raw_joint_pos is closer. But this comparison cannot determine which mapping is correct for LIBERO URDF. Correct reference should be LIBERO ground truth parquet, not PyBullet dataset."
+      }
+    },
+    {
+      "type": "MINT_forward_pass_diagnostic",
+      "id": "p1c6_mint_forward_pass",
+      "priority": "P0",
+      "target": "Diagnose MINT policy forward pass — state influence and action pattern",
+      "status": "completed",
+      "result": {
+        "verdict": "REVISED_AFTER_E034 — mixed state sensitivity, not universal state invariance",
+        "evidence": "E034.yaml",
+        "findings": [
+          "After E033 key-remap fix, LM weights load through remapped checkpoint paths",
+          "Real LIBERO observations: mean state delta = 8.6%, range = 0.9%-20.6%",
+          "1/3 init states show clear state-variant behavior; 2/3 are near-invariant",
+          "Strong image-only/random-LM explanation is not supported"
+        ],
+        "implication_for_p1c4": "Forward-pass health improved, but official baseline still needs to be rerun under paper-aligned conditions."
+      }
+    },
+    {
+      "type": "MINT_LM_WEIGHTS_AUDIT",
+      "id": "mint_lm_weights_audit",
+      "priority": "P0",
+      "target": "Determine if 165 missing LM keys are a design choice (frozen random) or a checkpoint bug",
+      "status": "completed",
+      "description": "Forward pass diagnostic shows state-invariant actions. Hypothesis: LM weights are randomly initialized and frozen during training. Need to verify: (1) Check MINT training code for LM freezing settings, (2) Compare with upstream OpenPI checkpoint for similar missing keys pattern, (3) If frozen-random is confirmed, then MINT inference design should rely primarily on visual features.",
+      "depends_on": [
+        "p1c6_mint_forward_pass"
+      ],
+      "result": {
+        "verdict": "KEY_REMAP_BUG_FIXED — not a frozen-random LM diagnosis",
+        "evidence": "E033.yaml, E034.yaml",
+        "findings": [
+          "Large checkpoint mismatch reduced from 165 missing / 164 unexpected to 1 intentional tied-weight miss",
+          "E034 recheck shows LM/state pathway has nonzero influence under real LIBERO observations",
+          "Primary remaining blocker is official baseline reproduction, not unresolved loading failure"
+        ]
+      }
+    },
+    {
+      "type": "LIBERO_action_space_oracle",
+      "id": "libero_goal_action_oracle",
+      "priority": "P0",
+      "target": "Prove LIBERO drawer task reachable via robot actions (not direct state manipulation)",
+      "status": "pending",
+      "description": "p1c2 proved state-space reachability. This proves action-space reachability. Use LIBERO's built-in scripted policy or a simple IK-based reaching controller to drive the robot to the handle and pull the drawer. If this fails, the LIBERO environment itself may have physics/geometry issues. If it succeeds, we have a valid baseline for MINT comparison.",
+      "candidate_task": "libero_goal/open_the_middle_drawer_of_the_cabinet (simpler than KITCHEN_SCENE1 — no multi-drawer confusion)",
+      "criteria": "success_rate >= 2/3 (oracle completing task in simulation)"
+    },
+    {
+      "type": "MINT_INFERENCE_DESIGN_REVIEW",
+      "id": "mint_inference_review",
+      "priority": "P0",
+      "target": "Review official MINT evaluation pipeline for LIBERO tasks",
+      "status": "pending",
+      "description": "p1c6 shows policy acting as image-only prior. Need to verify: (1) Does the official MINT evaluation code use any special inference tricks (warm-up steps, action queue, batch inference)? (2) Does MINT's published 98.3% LIBERO success use the same select_action call pattern as our pipeline? If their official code differs significantly, our 0% may be a pipeline mismatch, not a model limitation.",
+      "verification_items": [
+        "Check lerobot/examples/ or HuggingFace Spaces for MINT evaluation code",
+        "Compare our select_action usage with any official evaluation scripts",
+        "Verify if action queue (TemporalEnsembler) needs warm-up steps",
+        "Check if MINT official inference uses different state normalization"
+      ]
+    },
+    {
+      "type": "LIBERO_drawer_native_baseline",
+      "id": "libero_goal_mint_baseline_clean",
+      "priority": "P1",
+      "target": "Run MINT on libero_goal drawer task with verified clean inputs",
+      "status": "pending",
+      "description": "After mint_lm_weights_audit and libero_goal_action_oracle are done. If LM weights are frozen-random (design choice), evaluate if visual-only MINT can solve simpler drawer tasks. If LM weights should have loaded (checkpoint bug), fix the checkpoint first.",
+      "depends_on": [
+        "mint_lm_weights_audit",
+        "libero_goal_action_oracle"
+      ],
+      "input_requirements": [
+        "image_size=256x256 (from policy_preprocessor.json)",
+        "task_text from LIBERO task.language field",
+        "state from LIBERO OffScreenRenderEnv observation",
+        "action queue: use temporal ensembling (n_action_steps > 1)"
+      ]
+    },
+    {
+      "type": "STATE_MAPPING_AUDIT",
+      "id": "state_mapping_verification",
+      "priority": "P1",
+      "target": "Verify motor joint mapping for LIBERO URDF against ground truth",
+      "status": "pending",
+      "description": "p1c5 showed pi_minus_joint_pos is MORE divergent from PyBullet dataset than raw_joint_pos. But PyBullet dataset is not the correct reference. Need to collect ground truth state samples from LIBERO OffScreenRenderEnv and compare against the QUANTILES stats in the checkpoint. Correct approach: (1) Run LIBERO env for ~100 steps collecting robot0_joint_pos, (2) Apply motor mappings (raw, pi_minus, other), (3) Compare resulting state[3:7] distributions against QUANTILES stats mean/std. The correct mapping is the one whose output matches QUANTILES stats.",
+      "reference": "QUANTILES from 273,465 frames: dim[3] mean=2.972 std=0.344, dim[4] mean=-0.220 std=0.907, dim[5] mean=-0.126 std=0.325, dim[6] mean=+0.027 std=0.014"
+    },
+    {
+      "type": "harness_sovereign_update",
+      "id": "sov_mujoco_pilot_20260408",
+      "priority": "P2",
+      "target": "Update sovereign with MuJoCo pilot findings",
+      "status": "pending",
+      "description": "Update next_actions.json, current_truth.json, evidence/index.json, claims.yaml with new evidence E028-E031 and new claims C_MINT_LM_STATE_INVARIANT and C_MINT_INFERENCE_DESIGN_OPEN."
+    },
+    {
+      "type": "MINT_LIBERO_OFFICIAL_BASELINE_REPRO",
+      "id": "libero_goal_drawer_official_baseline_repro",
+      "priority": "P0",
+      "target": "Reproduce official MINT LIBERO drawer baseline on an in-distribution drawer/cabinet task",
+      "status": "pending",
+      "description": "Use the official LeRobot LIBERO evaluation path on an official MINT evaluation-suite drawer task before drawing capability conclusions from the MuJoCo pilot.",
+      "candidate_suite": "libero_goal",
+      "candidate_task": "open_the_middle_drawer_of_the_cabinet",
+      "required_conditions": [
+        "Official LeRobot LIBERO wrapper (not raw OffScreenRenderEnv loop)",
+        "256x256 observations to match policy_preprocessor.json",
+        "policy.n_action_steps=4 to match README evaluation settings",
+        "Task drawn from official suites: libero_10/object/spatial/goal",
+        "Re-run after E033 key-remap fix with current external/MINT head"
+      ]
     }
   ],
-  "generated_at": "2026-04-07T15:19:53+08:00",
-  "verdict": "V59_GATE_A_COMPLETED — GATE_B_NOW_PRIMARY",
-  "next_phase": "v59_LEARNABILITY_AUDIT_GATE_B",
-  "evidence": "E026.yaml",
+  "generated_at": "2026-04-09T16:42:28+08:00",
+  "verdict": "V59_MUJOCO_PILOT_ESTABLISHED — OFFICIAL_LIBERO_BASELINE_REPRO_NEXT",
+  "next_phase": "v59_MUJOCO_PILOT_PHASE3 — official LIBERO drawer baseline reproduction",
+  "evidence": "E028.yaml, E029.yaml, E030.yaml, E031.yaml, E033.yaml, E034.yaml",
   "primary_truth_sources": [
-    "E022.yaml — V59 env-level negative gate (authoritative)",
-    "E023.yaml — RCA1 teacher quality audit (authoritative)",
-    "next_actions.json — current next actions (authoritative)",
-    "sovereign go — live system truth (authoritative)"
+    "artifacts/p1c0_libero_drawer_smoke.json — LIBERO pipeline available",
+    "artifacts/p1c2_libero_drawer_oracle_gate.json — state-space oracle reachable",
+    "artifacts/p1c4_mint_on_libero_drawer.json — stale/nonbaseline pilot result",
+    "artifacts/p1c5_state_semantic_comparison.json — PyBullet-vs-LIBERO state comparison (supporting only)",
+    "sovereign/evidence/E033.yaml — key-remap fix verified",
+    "sovereign/evidence/E034.yaml — forward-pass recheck with real LIBERO observations"
   ],
   "guardrails": [
-    "P0b drawer-only conclusions apply ONLY to drawer color. Full-scene color remains unexplored.",
-    "Simulator physics investigation must use same seeds/policies as matched A/B.",
-    "Do NOT claim 'image domain eliminated' — only 'drawer color is not sole bottleneck'."
+    "Do not compare p1c4 0% directly to paper-reported LIBERO drawer capability.",
+    "Official baseline repro must use an official suite task, 256x256 images, n_action_steps=4, and the LeRobot LIBERO wrapper.",
+    "E032 is historical and unverified; use E033/E034 for current MINT loading and forward-pass interpretation.",
+    "Do not claim image-only prior or random LM weights as canonical truth."
   ],
   "critical_analysis_reference": "sovereign/CAMPAIGN_TRUTH.v58_critical_analysis.generated.md",
-  "phase": "v59_LEARNABILITY_AUDIT_GATE_B",
-  "phase_gate": "v59_GATE_A_COMPLETED",
+  "phase": "v59_MUJOCO_PILOT_PHASE3 — official LIBERO drawer baseline reproduction",
+  "phase_gate": "MUJOCO_PILOT_OFFICIAL_BASELINE_PENDING",
   "authority_note": "Canonical action queue. current_truth.json and generated docs are derived from this file plus claims/evidence/dataset/workspace/model manifests."
 }

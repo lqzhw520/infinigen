@@ -1,0 +1,68 @@
+evidence_id: E034
+experiment_id: p1c6_forward_pass_recheck
+type: forward_pass_diagnostic
+timestamp: "2026-04-09T07:23:00+08:00"
+path: experiments/mint/mint_drawer_v1/artifacts/p1c6_forward_pass_recheck.json
+verified: true
+
+summary: >
+  Forward pass re-checked after E033 key remap fix. LM weights confirmed loaded.
+  3 LIBERO init states tested. Mean delta=8.6%, range=0.9-20.6%.
+  init=0/1: near state-invariant (<5%). init=2: 20.6% delta — state variant.
+  Overall: STATE_VARIANT. The prior E028 STATE_INVARIANT finding was likely due to
+  fake inputs (torch.randn) producing meaningless vision features and negligible state effect.
+
+verification_details:
+  lm_weights_loaded:
+    layers.0.q_proj: true
+    lm_head: true
+    embed_tokens: true
+  embed_tokens_in_checkpoint: false  # intentional
+  key_remap_fixed: true
+  input_type: real LIBERO observations (not fake torch.randn)
+
+per_init_results:
+  - init_index: 0
+    delta_pct_max: 4.1
+    verdict: marginal_state_invariant
+  - init_index: 1
+    delta_pct_max: 0.9
+    verdict: state_invariant
+  - init_index: 2
+    delta_pct_max: 20.6
+    verdict: state_variant
+
+aggregate:
+  mean_delta_pct: 8.6
+  state_invariant_count: 2
+  state_variant_count: 1
+
+verdict: STATE_VARIANT
+conclusion: >
+  After LM weight fix, state input shows non-trivial influence on action output
+  for at least 1/3 init states. The prior E028 "state-invariant" finding
+  (delta <2% with fake torch.randn inputs) is NOT reproduced with real LIBERO observations.
+  The state conditioning channel IS active when the vision pipeline produces meaningful features.
+
+DOES_PROVE:
+  - "state input influences action output with real image features"
+DOES_NOT_PROVE:
+  - "state influence is sufficient for drawer task success"
+  - "LM weights are functionally equivalent to pretrained weights"
+  - "E028 finding was wrong"  # different test conditions: fake vs real images
+
+guardrail: >
+  E034 uses 3 init states with real LIBERO observations — more realistic than E028
+  (which used torch.randn fake images). But 3 states is a small sample.
+  Do NOT claim LM weights are fully functional — 1/3 states show strong state influence
+  while 2/3 are near-invariant. This may reflect scene-dependent behavior or
+  partial LM conditioning.
+
+scope: mint_forward_pass_state_influence
+confidence: medium
+metrics:
+  mean_delta_pct: 8.6
+  state_invariant_count: 2
+  state_variant_count: 1
+  lm_weights_loaded: true
+  embed_tokens_missing: false  # intentionally missing in checkpoint, but initialized from HuggingFace

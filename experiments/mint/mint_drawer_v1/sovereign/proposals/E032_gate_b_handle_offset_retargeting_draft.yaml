@@ -1,0 +1,51 @@
+draft_id: E032_draft
+draft_type: proposal_only_followup
+target_evidence_id: E032
+experiment_id: gate_b_handle_offset_retargeting
+timestamp: '2026-04-07T20:38:15+08:00'
+scope: gate_b_top10_handle_offset_retargeting
+verified: false
+sample_scope:
+  sample: Gate A action-quality top-10
+  mapping_target: success-selected legacy rollout subset
+  population_claim: No population-wide claim over full 240 episodes
+summary: Stage A.6 / H2 tests whether a constant world-frame pre-handle retargeting
+  offset materially contracts the replay-gap while preserving teacher rotation and
+  gripper channels.
+source_artifacts:
+  e029: sovereign/proposals/E029_gate_b_corrected_deconfounded_draft.yaml
+  e030: sovereign/proposals/E030_gate_b_replay_gap_contraction_draft.yaml
+  e031: sovereign/proposals/E031_gate_b_close_timing_rescue_draft.yaml
+  h2: artifacts/gate_b8_handle_offset_retargeting/gate_b8_summary.json
+measurement_runtime_note: H2 used image_size=16 and render_observations=False for
+  state-only measurement throughput; physics, task semantics, and action contracts
+  were unchanged.
+key_findings:
+  baseline_success_rate: 0.1
+  retarget_success_rate: 0.0
+  success_rate_delta: -0.1
+  baseline_attach_rate: 0.3
+  retarget_attach_rate: 0.4
+  attach_rate_delta: 0.10000000000000003
+  rescued_success_count: 0
+  rescued_attach_count: 2
+  mean_retarget_active_steps_per_episode: 102.3
+  mean_applied_offset_norm_m: 0.17474466413259507
+final_branch: handle-offset retargeting improves pre-handle/attach entry but does
+  not improve end-to-end success
+stage_c_reconsider_allowed: false
+allowed_wording:
+- Handle-offset retargeting can be discussed as a replay-gap contraction factor under
+  canonical current-env semantics.
+- Teacher rotation and gripper channels stayed fixed while only pre-handle translation
+  was retargeted.
+disallowed_wording:
+- policy-only gap proven
+- root cause solved
+- source-grasp fidelity proven
+- handle-offset retargeting fully explains the replay-gap unless the rescue is material
+  and near-complete
+do_not:
+- Do not treat H2 as a source-grasp fidelity proof.
+- Do not generalize beyond the Gate A top-10 sample.
+- Do not reopen policy-gap Stage C from H2 alone.

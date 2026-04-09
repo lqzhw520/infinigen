@@ -1,0 +1,47 @@
+draft_id: E031_draft
+draft_type: proposal_only_followup
+target_evidence_id: E031
+experiment_id: gate_b_close_timing_rescue
+timestamp: '2026-04-07T20:22:32+08:00'
+scope: gate_b_top10_close_timing_rescue
+verified: false
+sample_scope:
+  sample: Gate A action-quality top-10
+  mapping_target: success-selected legacy rollout subset
+  population_claim: No population-wide claim over full 240 episodes
+summary: Stage A.6 / H1 tests whether delaying teacher close commands until current-env
+  near-handle timing materially contracts the replay-gap while preserving teacher
+  translation and rotation actions.
+source_artifacts:
+  e029: sovereign/proposals/E029_gate_b_corrected_deconfounded_draft.yaml
+  e030: sovereign/proposals/E030_gate_b_replay_gap_contraction_draft.yaml
+  h1: artifacts/gate_b7_close_timing_rescue/gate_b7_summary.json
+measurement_runtime_note: H1 used image_size=16 and render_observations=False for
+  state-only measurement throughput; physics, task semantics, and action contracts
+  were unchanged.
+key_findings:
+  baseline_success_rate: 0.1
+  rescue_success_rate: 0.1
+  success_rate_delta: 0.0
+  baseline_attach_rate: 0.3
+  rescue_attach_rate: 0.1
+  attach_rate_delta: -0.19999999999999998
+  rescued_success_count: 1
+  rescued_attach_count: 0
+  mean_suppressed_close_steps_per_episode: 36.0
+final_branch: close timing partially contributes to the replay-gap but is not sufficient
+  alone
+stage_c_reconsider_allowed: false
+allowed_wording:
+- Close timing can be discussed as a replay-gap contraction factor under canonical
+  current-env semantics.
+- Teacher motion channels stayed fixed while only premature close commands were delayed.
+disallowed_wording:
+- policy-only gap proven
+- root cause solved
+- source-grasp fidelity proven
+- close timing fully explains the replay-gap unless the rescue is material and near-complete
+do_not:
+- Do not treat H1 alone as sufficient to reopen policy-gap Stage C.
+- Do not generalize beyond the Gate A top-10 sample.
+- Do not rewrite E030; H1 is a follow-up contraction audit.

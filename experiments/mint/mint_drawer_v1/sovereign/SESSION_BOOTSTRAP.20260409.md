@@ -1,15 +1,15 @@
-# SESSION_BOOTSTRAP.20260407
+# SESSION_BOOTSTRAP.20260409
 **GENERATED FROM current_truth.json — NOT CANONICAL**
 
-- Generated at: `2026-04-07T21:40:25+08:00`
+- Generated at: `2026-04-09T16:42:29+08:00`
 - Source: `sovereign/current_truth.json`
 - Stale policy: regenerate with `python scripts/harness/sovereign_cli.py go`
 
 ## Current Canonical Truth
-- Verdict: `V59_GATE_A_COMPLETED — GATE_B_NOW_PRIMARY`
-- Phase: `v59_LEARNABILITY_AUDIT_GATE_B`
-- Phase gate: `v59_GATE_A_COMPLETED`
-- Decision: `V59_GATE_A_COMPLETED — GATE_B_NOW_PRIMARY`
+- Verdict: `V59_MUJOCO_PILOT_ESTABLISHED — OFFICIAL_LIBERO_BASELINE_REPRO_NEXT`
+- Phase: `v59_MUJOCO_PILOT_PHASE3 — official LIBERO drawer baseline reproduction`
+- Phase gate: `MUJOCO_PILOT_OFFICIAL_BASELINE_PENDING`
+- Decision: `V59_MUJOCO_PILOT_ESTABLISHED — OFFICIAL_LIBERO_BASELINE_REPRO_NEXT`
 
 ## Canonical Sources
 - `sovereign/claims.yaml`
@@ -30,7 +30,7 @@
 ## Workspace Snapshot
 - Branch: `feature/mint-integration`
 - HEAD: `0ac4f14d77ca6a1c0df23a413f728a2f3cbf8c98`
-- Dirty files: `40`
+- Dirty files: `61`
 - external/MINT dirty files: `0`
 
 ## Model Load Fidelity

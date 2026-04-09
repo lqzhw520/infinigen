@@ -1,0 +1,180 @@
+draft_id: E028_draft
+draft_type: evidence_draft
+target_evidence_id: E028
+experiment_id: gate_b_teacher_executability_audit
+type: learnability_audit
+scope: gate_b_teacher_executability_top10
+scope_guardrail: >
+  Gate B is a teacher executability audit only. It does not directly determine
+  policy learnability, does not eliminate image-domain effects, and does not
+  by itself justify a final root-cause claim.
+timestamp: "2026-04-07T16:44:50+08:00"
+draft_status: review_required
+verified: false
+
+source_artifacts:
+  canonical_summary: artifacts/gate_b_teacher_replayability/gate_b_replay_summary.json
+  per_episode_dir: artifacts/gate_b_teacher_replayability/episodes
+  csv: artifacts/gate_b_teacher_replayability/gate_b_replay_episodes.csv
+  markdown_summary: artifacts/gate_b_teacher_replayability/gate_b_replay_summary.md
+  publish_proposal: sovereign/proposals/publish_gate_b_teacher_replayability_20260407_164450.yaml
+
+summary: |
+  Gate B asks whether source-successful teacher actions are executable in the
+  current DrawerRobotEnv contract, and if not, at which execution layer they fail.
+
+  On the canonical top-10 episodes from Gate A, the current Gate B collector finds:
+    - open_loop_attach_rate = 0.9
+    - open_loop_success_rate = 0.5
+    - state_anchored_attach_rate = 1.0
+    - state_anchored_success_rate = 0.6
+    - oracle_reachability_rate = 1.0
+
+  The collector's deterministic interpretation is:
+    decision_support = teacher_actions_executable_policy_gap_remains
+
+  This weakens the hypothesis that the current pipeline is blocked by a pure
+  "teacher target is not executable in DrawerRobotEnv" failure. Teacher actions
+  are substantially executable in the current env, and the env task itself is
+  fully reachable under the oracle script.
+
+results:
+  n_total: 10
+  source_success_rate: 1.0
+  open_loop:
+    attach_rate: 0.9
+    success_rate: 0.5
+    dominant_failure_stage: success
+    failure_stage_counts:
+      near_handle_no_attach: 1
+      pull_no_open: 4
+      success: 5
+    mean_position_error_m: 0.1275
+    mean_handle_distance_m: 0.2156
+    mean_max_drawer_fraction: 0.9285
+  state_anchored:
+    attach_rate: 1.0
+    success_rate: 0.6
+    dominant_failure_stage: success
+    failure_stage_counts:
+      pull_no_open: 4
+      success: 6
+    mean_position_error_m: 0.0945
+    mean_handle_distance_m: 0.2216
+    mean_max_drawer_fraction: 0.9825
+  oracle_reachability:
+    attach_rate: 1.0
+    success_rate: 1.0
+    dominant_failure_stage: success
+    failure_stage_counts:
+      success: 10
+    mean_position_error_m: 0.2325
+    mean_handle_distance_m: 0.1591
+    mean_max_drawer_fraction: 0.9767
+  decision_support: teacher_actions_executable_policy_gap_remains
+  decision_support_explanation: >
+    Teacher actions and oracle are executable in the current env.
+
+per_episode_synopsis:
+  - episode_index: 157
+    open_loop: near_handle_no_attach
+    state_anchored: success
+    oracle_reachability: success
+  - episode_index: 205
+    open_loop: pull_no_open
+    state_anchored: success
+    oracle_reachability: success
+  - episode_index: 25
+    open_loop: success
+    state_anchored: pull_no_open
+    oracle_reachability: success
+  - episode_index: 180
+    open_loop: success
+    state_anchored: success
+    oracle_reachability: success
+  - episode_index: 3
+    open_loop: pull_no_open
+    state_anchored: success
+    oracle_reachability: success
+  - episode_index: 181
+    open_loop: success
+    state_anchored: pull_no_open
+    oracle_reachability: success
+  - episode_index: 158
+    open_loop: pull_no_open
+    state_anchored: success
+    oracle_reachability: success
+  - episode_index: 182
+    open_loop: success
+    state_anchored: pull_no_open
+    oracle_reachability: success
+  - episode_index: 138
+    open_loop: success
+    state_anchored: pull_no_open
+    oracle_reachability: success
+  - episode_index: 209
+    open_loop: pull_no_open
+    state_anchored: success
+    oracle_reachability: success
+
+findings:
+  q1_are_teacher_targets_executable_in_current_env:
+    answer: YES_SUBSTANTIALLY
+    detail: >
+      The audit does not support a pure executability failure story. In open-loop
+      replay, 9/10 episodes attach and 5/10 complete success. In state-anchored
+      replay, 10/10 attach and 6/10 complete success. Oracle reachability succeeds
+      in all 10/10 episodes.
+
+  q2_is_pure_physics_or_contract_gap_supported:
+    answer: NO
+    detail: >
+      The deterministic Gate B rule for physics_or_contract_gap_likely requires
+      both replay modes to fail attach while oracle succeeds. The observed data do
+      not satisfy that branch. This draft therefore does not support "pure physics
+      or contract gap" as the leading explanation.
+
+  q3_what_failure_stage_dominates_when_runs_fail:
+    answer: PULL_NO_OPEN
+    detail: >
+      Most failed runs are not "never near handle" failures. The dominant failed
+      stage is pull_no_open, with only a single near_handle_no_attach case in
+      open-loop replay (episode 157). This suggests that the remaining gap is more
+      about successful pull execution robustness than broad inability to reach/attach.
+
+methodology_caveat: |
+  The canonical top-10 Gate B NPZs are legacy physics-legal rollout files, not
+  full native teacher-rollout artifacts. They do not carry sidecar JSON metadata,
+  `grasp_pose_local_*`, `eef_quaternions`, or `next_drawer_fraction`.
+
+  To keep the audit executable on current data, the collector reconstructs handle
+  semantics from the current env using `anygrasp_payload()` / current-env handle
+  center heuristics and applies legacy-compatible state-restore fallbacks.
+
+  Therefore, this draft supports:
+    "teacher actions are substantially executable under current-env handle semantics"
+  but it is NOT a perfect proof of exact source-grasp replay fidelity.
+
+implications_for_mainline:
+  supported:
+    - Gate B does not support `physics_or_contract_gap_likely` as the current leading interpretation.
+    - Gate B supports `teacher_actions_executable_policy_gap_remains`.
+    - Gate B supports keeping the mainline focused on executability / policy-gap analysis rather than blind retraining.
+  not_supported:
+    - final root cause solved
+    - MINT will necessarily learn from the current data
+    - image domain eliminated
+    - upstream-faithful MINT conclusion
+
+recommended_next_questions:
+  - Why do 4/10 open-loop runs and 4/10 state-anchored runs still fail at `pull_no_open`?
+  - What action precision or controller robustness is needed to convert attach into stable open success?
+  - How much of the remaining gap is due to policy robustness versus current model fidelity (`F2`)?
+  - Does richer image domain still matter once teacher executability is no longer the primary blocker?
+
+do_not:
+  - Do NOT promote this draft directly into `sovereign/evidence/` without daylight review.
+  - Do NOT claim `physics confirmed` or `root cause solved`.
+  - Do NOT claim `MINT cannot learn`.
+  - Do NOT claim `image domain eliminated`.
+  - Do NOT treat current-env heuristic handle semantics as an exact proof of source-grasp replay fidelity.

@@ -1,0 +1,49 @@
+proposal_id: E033_gate_b_seed_retarget_discrepancy
+status: proposal_only
+title: Gate B H2b seed-vs-retarget discrepancy audit
+sample_scope:
+  sample: Gate A action-quality top-10
+  mapping_target: success-selected legacy rollout subset
+  population_claim: No population-wide claim over full 240 episodes
+inputs:
+  top10_episodes:
+  - 157
+  - 205
+  - 25
+  - 180
+  - 3
+  - 181
+  - 158
+  - 182
+  - 138
+  - 209
+  modes:
+  - open_loop
+  - seeded_initial_physical_pose
+  - seeded_initial_physical_and_command
+  - retarget_first_20_steps
+  - retarget_until_source_reference_step
+  - retarget_until_near_handle
+  source_artifacts:
+    b5: /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/gate_b5_initial_state_seed/gate_b5_summary.json
+    b8: /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/gate_b8_handle_offset_retargeting/gate_b8_summary.json
+result:
+  best_seed_mode: seeded_initial_physical_and_command
+  best_seed_success_rate: 0.3
+  best_retarget_mode: retarget_first_20_steps
+  best_retarget_success_rate: 0.1
+  seeded_command_alignment_success_delta: 0.09999999999999998
+  continuous_minus_best_seed_success_delta: -0.3
+  continuous_minus_finite_best_success_delta: -0.1
+  final_branch: one-shot seeding outperforms retargeting; the seed-vs-retarget discrepancy
+    is consistent with continuous pre-handle intervention being too intrusive
+allowed_wording:
+- One-shot seeding and retargeting interventions produce different trade-offs within
+  approach/handle-entry behavior.
+- Continuous pre-handle retargeting should be treated as a strong intervention, not
+  a clean geometry-alignment fix.
+disallowed_wording:
+- constant handle offset fixes the replay-gap
+- coordinate-system bug proven
+- policy-only gap established
+- root cause solved

@@ -1,17 +1,17 @@
 # Harness v2 — mint_drawer_v1
 **GENERATED FROM current_truth.json — NOT CANONICAL**
 
-- Generated at: `2026-04-07T15:19:53+08:00`
+- Generated at: `2026-04-09T16:42:29+08:00`
 - Source: `sovereign/current_truth.json`
 - Stale policy: regenerate with `python scripts/harness/sovereign_cli.py go`
 
 ## At A Glance
-- Verdict: `V59_GATE_A_COMPLETED — GATE_B_NOW_PRIMARY`
-- Phase: `v59_LEARNABILITY_AUDIT_GATE_B`
-- Decision: `V59_GATE_A_COMPLETED — GATE_B_NOW_PRIMARY`
-- Human read: We are in `v59_LEARNABILITY_AUDIT_GATE_B`. The current top priority is `gate_b_teacher_replayability`: Verify teacher actions replay successfully in DrawerRobotEnv (top-10 episodes)
+- Verdict: `V59_MUJOCO_PILOT_ESTABLISHED — OFFICIAL_LIBERO_BASELINE_REPRO_NEXT`
+- Phase: `v59_MUJOCO_PILOT_PHASE3 — official LIBERO drawer baseline reproduction`
+- Decision: `V59_MUJOCO_PILOT_ESTABLISHED — OFFICIAL_LIBERO_BASELINE_REPRO_NEXT`
+- Human read: We are in `v59_MUJOCO_PILOT_PHASE3 — official LIBERO drawer baseline reproduction`. The current top priority is `gate_b_teacher_replayability`: Verify teacher actions replay successfully in DrawerRobotEnv (top-10 episodes)
 - Dataset anchor: `v59_20260405` / `240` episodes / `19701` frames / loads=`True`
-- Workspace: branch `feature/mint-integration` @ `78f807833d5fbb17734b6cf83f5b8430f7b018ce` / dirty files `25`
+- Workspace: branch `feature/mint-integration` @ `0ac4f14d77ca6a1c0df23a413f728a2f3cbf8c98` / dirty files `61`
 - MINT fidelity: `F2` — Runnable but semantically drifted
 
 ## Claims Driving This Phase
@@ -27,20 +27,20 @@ static analysis independently proves no action format mismatch.
 - `C_V59_STATE_REPRESENTATION_NOT_ROOT_CAUSE` [supported]: State representation is not the root cause for the 7 overfit episodes.
 
 ## Historical Context Claims
-- Historical context claims currently suppressed from the main dashboard: `9`
+- Historical context claims currently suppressed from the main dashboard: `10`
 - `C_PHYSICS_LEGAL_TEACHER_HISTORICAL_SUMMARY` [supported] / scope `historical_context_only`
 - `C_STATE_CONTRACT_HISTORICAL_SUMMARY` [supported] / scope `historical_context_only`
 - `C_VISION_ALIGNMENT_HISTORICAL_SUMMARY` [supported] / scope `historical_context_only`
 - `C_IMAGE_NEAR_WHITE` [supported] / scope `v58_vision_pipeline`
 - `C_IMAGE_NEAR_WHITE@2` [supported] / scope `v58_vision_pipeline`
-- ... plus `4` more historical-context claims
+- ... plus `5` more historical-context claims
 
 ## What Is Settled Right Now
-- `E027`: Gate A: 240 episodes have strong action signal and extremely weak within-episode visual variation under the audit metric.
-- `E026`: Matched A/B: drawer-colored (B) = 0/6, white (A) = 0/6. Drawer-only color is not the sole bottleneck.
-- `E025`: RCA3 scope-limited audit: no obvious subset-level state-format mismatch for the 7-episode overfit subset.
-- `E024`: RCA2 scope-limited audit: no obvious static action-format/range mismatch for the 7-episode overfit subset; replay remained inconclusive.
-- `E023`: All 7/7 teacher episodes confirmed task-successful (success=True, mean_max_drawer=0.989). Teacher quality ELIMINATED as root cause. RCA2 (action normalization) becomes highest priority.
+- `E034`: Forward-pass recheck after E033 shows mixed, nonzero state sensitivity on real LIBERO observations; strong state-invariant/image-only diagnosis is not supported.
+- `E033`: MINT key-remap fix verified. Large 165 missing / 164 unexpected mismatch collapses to 1 intentional tied-weight miss; forward-pass diagnostics must be rechecked afterward.
+- `E031`: Against PyBullet dataset: raw_joint_pos mean_l2_delta=4.23, pi_minus_joint_pos=9.77. pi_minus NOT better. Reference is PyBullet dataset (wrong baseline for LIBERO comparison).
+- `E030`: MINT on LIBERO drawer: 0% success for both raw_joint_pos and pi_minus_joint_pos. action_l2≈1.0 dominated by gripper=-1. Pipeline not clean: LM weights missing, image_size mismatch.
+- `E029`: State-space oracle 3/3. Direct qpos manipulation drives drawer from closed to open_qpos. Does NOT prove action-space reachability.
 
 ## What Is Still Open
 - Open gate `gate_b_teacher_replayability` [P0]: Verify teacher actions replay successfully in DrawerRobotEnv (top-10 episodes)

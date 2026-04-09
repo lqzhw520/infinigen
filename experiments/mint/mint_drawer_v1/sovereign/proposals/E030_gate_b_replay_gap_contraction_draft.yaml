@@ -1,0 +1,49 @@
+draft_id: E030_draft
+draft_type: proposal_only_followup
+target_evidence_id: E030
+experiment_id: gate_b_replay_gap_contraction
+timestamp: '2026-04-07T20:16:01+08:00'
+scope: gate_b_top10_replay_gap_contraction
+verified: false
+sample_scope:
+  sample: Gate A action-quality top-10
+  mapping_target: success-selected legacy rollout subset
+  population_claim: No population-wide claim over full 240 episodes
+summary: Stage A.5 contracts the replay-gap by comparing env-native oracle reachability
+  to teacher open-loop execution, testing step-0 initial-state seeding, and auditing
+  teacher actions under current-env handle semantics.
+source_artifacts:
+  e029: sovereign/proposals/E029_gate_b_corrected_deconfounded_draft.yaml
+  r1: artifacts/gate_b4_teacher_oracle_gap/gate_b4_summary.json
+  r2: artifacts/gate_b5_initial_state_seed/gate_b5_summary.json
+  r3: artifacts/gate_b6_handle_semantics/gate_b6_summary.json
+measurement_runtime_note: Replay-gap contraction audits used image_size=16 and render_observations=False
+  for state-only measurement throughput; physics, task semantics, and action contracts
+  were unchanged.
+key_findings:
+  oracle_success_rate: 1.0
+  open_loop_success_rate: 0.1
+  open_loop_attach_rate: 0.3
+  best_seed_success_rate: 0.3
+  best_seed_success_delta_vs_open_loop: 0.19999999999999998
+  best_seed_attach_delta_vs_open_loop: 0.0
+  best_seed_vs_oracle_success_gap: 0.7
+  close_before_near_rate: 1.0
+  source_attached_but_current_never_near_rate: 0.5
+  dominant_gap_category: pre_handle_replay_gap
+final_branch: pre-handle approach and handle-semantics mismatch dominate the replay-gap
+stage_c_reconsider_allowed: false
+allowed_wording:
+- Replay-gap contraction refines the gap between env-native reachability and teacher-action
+  execution under canonical current-env semantics.
+- Initial-state seeding and current-env handle semantics can be discussed only as
+  replay-gap contraction factors, not as solved root cause.
+disallowed_wording:
+- policy-only gap proven
+- source-grasp fidelity proven
+- root cause solved
+- visual bottleneck proven from Stage A.5
+do_not:
+- Do not treat env-native oracle reachability as teacher-trajectory fidelity.
+- Do not reopen policy-gap Stage C solely because one seeded mode improves.
+- Do not generalize beyond the Gate A top-10 sample.

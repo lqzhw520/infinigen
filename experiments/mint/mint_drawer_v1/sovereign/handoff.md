@@ -1,14 +1,14 @@
 # Handoff — mint_drawer_v1
 **GENERATED FROM current_truth.json — NOT CANONICAL**
 
-- Generated at: `2026-04-07T15:19:53+08:00`
+- Generated at: `2026-04-09T16:42:29+08:00`
 - Source: `sovereign/current_truth.json`
 - Stale policy: regenerate with `python scripts/harness/sovereign_cli.py go`
 
 ## Current Verdict
-- Verdict: `V59_GATE_A_COMPLETED — GATE_B_NOW_PRIMARY`
-- Phase: `v59_LEARNABILITY_AUDIT_GATE_B`
-- Decision: `V59_GATE_A_COMPLETED — GATE_B_NOW_PRIMARY`
+- Verdict: `V59_MUJOCO_PILOT_ESTABLISHED — OFFICIAL_LIBERO_BASELINE_REPRO_NEXT`
+- Phase: `v59_MUJOCO_PILOT_PHASE3 — official LIBERO drawer baseline reproduction`
+- Decision: `V59_MUJOCO_PILOT_ESTABLISHED — OFFICIAL_LIBERO_BASELINE_REPRO_NEXT`
 
 ## What The Next Agent Must Do
 1. Run `python scripts/harness/sovereign_cli.py go` first.

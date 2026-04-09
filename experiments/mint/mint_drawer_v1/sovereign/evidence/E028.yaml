@@ -1,0 +1,44 @@
+evidence_id: E028
+experiment_id: p1c0_libero_drawer_smoke
+type: runtime_verification
+timestamp: 2026-04-07T22:58:11+08:00
+path: experiments/mint/mint_drawer_v1/artifacts/p1c0_libero_drawer_smoke.json
+verified: true
+
+summary: >
+  MuJoCo + LIBERO + OSMesa pipeline smoke test PASS (3/3 runs).
+
+verification_details:
+  runtime:
+    MUJOCO_GL: osmesa
+    PYOPENGL_PLATFORM: osmesa
+  benchmark: libero_90
+  task: KITCHEN_SCENE1_open_the_bottom_drawer_of_the_cabinet
+  bddl_file: "/root/anaconda3/envs/mint/lib/python3.12/site-packages/libero/libero/bddl_files/libero_90/KITCHEN_SCENE1_open_the_bottom_drawer_of_the_cabinet.bddl"
+
+results:
+  - run_index: 0
+    passed: true
+    agentview_mean: 118.54
+    wrist_mean: 147.76
+    after_steps_success: false
+  - run_index: 1
+    passed: true
+    agentview_mean: 118.64
+    wrist_mean: 147.63
+    after_steps_success: false
+  - run_index: 2
+    passed: true
+    agentview_mean: 118.77
+    wrist_mean: 148.29
+    after_steps_success: false
+
+verdict: PASS
+conclusion: >
+  True MuJoCo / LIBERO drawer pipeline is operational on A800. OSMesa rendering produces
+  non-white images (agentview ~118, wrist ~148). No crashes across 3 independent runs.
+  This establishes the foundation for all subsequent MuJoCo-line experiments.
+
+scope: mujoco_pilot_pipeline_only
+confidence: high
+pipeline_valid: true

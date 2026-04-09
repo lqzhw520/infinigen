@@ -176,7 +176,7 @@ def main() -> None:
 
     if auto_publish:
         publish_cmd = (
-            f"cd {PROJECT_ROOT} && python {CLI} publish-experiment "
+            f"cd {PROJECT_ROOT} && {sys.executable} {CLI} publish-experiment "
             f"--spec {spec_id} --from {artifact}"
         )
         publish_result = shell(publish_cmd)

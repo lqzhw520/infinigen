@@ -171,6 +171,7 @@ class DrawerRobotEnv:
         image_size: int = 224,
         max_steps: int = 48,
         action_contract: dict[str, Any] | None = None,
+        render_observations: bool = True,
     ):
         import pybullet as p
 
@@ -179,6 +180,7 @@ class DrawerRobotEnv:
         self.seed_metadata = _load_seed_metadata(seed)
         self.image_size = int(image_size)
         self.max_steps = int(max_steps)
+        self.render_observations = bool(render_observations)
         self.client = p.connect(p.DIRECT)
         p.resetSimulation(physicsClientId=self.client)
         p.setTimeStep(TIME_STEP, physicsClientId=self.client)
@@ -436,8 +438,13 @@ class DrawerRobotEnv:
         )  # shape: (8,)
 
     def observe(self) -> RobotObservation:
-        image, depth = self._camera_capture(self._view_matrix_primary())
-        image2, _ = self._camera_capture(self._view_matrix_wrist())
+        if self.render_observations:
+            image, depth = self._camera_capture(self._view_matrix_primary())
+            image2, _ = self._camera_capture(self._view_matrix_wrist())
+        else:
+            image = np.zeros((self.image_size, self.image_size, 3), dtype=np.uint8)
+            image2 = np.zeros((self.image_size, self.image_size, 3), dtype=np.uint8)
+            depth = np.zeros((self.image_size, self.image_size), dtype=np.float32)
         eef_pos, eef_quat = self.eef_pose()
         return RobotObservation(
             image=image,
@@ -1383,12 +1390,19 @@ def build_native_teacher_rollout(
     *,
     grasp_source: str = "anygrasp",
     grasp_score: float | None = None,
+    image_size: int = 224,
+    record_images: bool = True,
+    render_observations: bool = True,
 ) -> dict[str, Any]:
     action_contract = dict(
         branch_config.get("action_contract", DEFAULT_ACTION_CONTRACT)
     )
     env = DrawerRobotEnv(
-        seed=seed, image_size=224, max_steps=max_steps, action_contract=action_contract
+        seed=seed,
+        image_size=image_size,
+        max_steps=max_steps,
+        action_contract=action_contract,
+        render_observations=render_observations,
     )
     obs = env.reset()
     initial_obs = obs
@@ -1459,9 +1473,10 @@ def build_native_teacher_rollout(
         reward = (
             1.0 if next_obs.drawer_fraction >= 0.90 else float(next_obs.drawer_fraction)
         )
-        images.append(current_obs.image.copy())
-        images2.append(current_obs.image2.copy())
-        depths.append(current_obs.depth.copy())
+        if record_images:
+            images.append(current_obs.image.copy())
+            images2.append(current_obs.image2.copy())
+            depths.append(current_obs.depth.copy())
         states.append(current_obs.state.copy())
         eef_positions.append(current_obs.eef_pos.copy())
         eef_quats.append(current_obs.eef_quat.copy())
@@ -1790,9 +1805,9 @@ def build_native_teacher_rollout(
             "success": success,
             "task": env.task,
             "steps": len(actions),
-            "images": _stack_or_empty(images, (224, 224, 3), np.uint8),
-            "images2": _stack_or_empty(images2, (224, 224, 3), np.uint8),
-            "depths": _stack_or_empty(depths, (224, 224), np.float32),
+            "images": _stack_or_empty(images, (image_size, image_size, 3), np.uint8),
+            "images2": _stack_or_empty(images2, (image_size, image_size, 3), np.uint8),
+            "depths": _stack_or_empty(depths, (image_size, image_size), np.float32),
             "states": _stack_or_empty(states, (8,), np.float32),
             "eef_positions": _stack_or_empty(eef_positions, (3,), np.float32),
             "eef_quaternions": _stack_or_empty(eef_quats, (4,), np.float32),

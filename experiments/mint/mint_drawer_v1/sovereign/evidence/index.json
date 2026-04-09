@@ -1,6 +1,6 @@
 {
-  "version": 2,
-  "last_updated": "2026-04-06T14:40:00+08:00",
+  "version": 3,
+  "last_updated": "2026-04-09T15:46:21+08:00",
   "entries": [
     {
       "evidence_id": "E001",
@@ -53,7 +53,7 @@
       "timestamp": "2026-04-03T06:00:00+08:00",
       "path": "experiments/mint/mint_drawer_v1/outputs/qa_comparison.json",
       "verified": true,
-      "summary": "Offline QA: action_variance 7.16x above LIBERO, state_action_lag FAIL, gripper_state FAIL. Verdict: FAIL \u2014 P0+P1a confirmed."
+      "summary": "Offline QA: action_variance 7.16x above LIBERO, state_action_lag FAIL, gripper_state FAIL. Verdict: FAIL — P0+P1a confirmed."
     },
     {
       "evidence_id": "E009",
@@ -96,7 +96,7 @@
       "timestamp": "2026-04-03T06:30:00+08:00",
       "path": "scripts/mint/verify_p1a_state_vector.py",
       "verified": true,
-      "summary": "P1a runtime verification PASS: _state_vector() outputs continuous gripper joint \u2208 [-0.042, +0.001]. Initial state[7]=0.000830, open_mean=0.000953, closed_mean=-0.041664. All 5 checks passed. Formula correct: PyBullet finger_pos \u2208 [0.0, 0.04] \u2192 LIBERO \u2208 [-0.042, +0.001]."
+      "summary": "P1a runtime verification PASS: _state_vector() outputs continuous gripper joint ∈ [-0.042, +0.001]. Initial state[7]=0.000830, open_mean=0.000953, closed_mean=-0.041664. All 5 checks passed. Formula correct: PyBullet finger_pos ∈ [0.0, 0.04] → LIBERO ∈ [-0.042, +0.001]."
     },
     {
       "evidence_id": "E003",
@@ -122,7 +122,7 @@
       "timestamp": "2026-04-04T16:05:12+08:00",
       "path": "sovereign/evidence/E014.yaml",
       "verified": true,
-      "summary": "V58 fine-tuning: 1000 steps, loss 6.52\u21924.43, 18,701 frames, 229 episodes, seeds 1-15. EEF motion=4.13m (model learns motion but not gripper). V58 eval: Stage 1 (seeds 1-10): finetuned=0%, pretrained=0%. Stage 2 (seeds 11-15): finetuned=0%, pretrained=0%, random=0%. GRADE: VERY_LOW quality. ROOT CAUSE: gripper_joint frozen + images near-white."
+      "summary": "V58 fine-tuning: 1000 steps, loss 6.52→4.43, 18,701 frames, 229 episodes, seeds 1-15. EEF motion=4.13m (model learns motion but not gripper). V58 eval: Stage 1 (seeds 1-10): finetuned=0%, pretrained=0%. Stage 2 (seeds 11-15): finetuned=0%, pretrained=0%, random=0%. GRADE: VERY_LOW quality. ROOT CAUSE: gripper_joint frozen + images near-white."
     },
     {
       "evidence_id": "E015",
@@ -158,7 +158,7 @@
       "timestamp": "2026-04-05T14:35:00+08:00",
       "path": "sovereign/CAMPAIGN_TRUTH.v58_critical_analysis.generated.md",
       "verified": true,
-      "summary": "FOUR-LAYER DATA PROVENANCE COLLAPSE: (1) Train-time truth: 229/18701 (Apr 4 23:20 pack, dataset_loads=true). (2) Pack artifact truth: v58_lerobot_pack.json = 229/18701. (3) Current live: 36/3305, corrupted parquet \u2014 OVERWRITTEN Apr 5 13:38. (4) Sovereign written: had wrong conclusions on P0a. All 229 original NPZ files confirmed available. V59 clean pack in progress. Archive: artifacts/v58_archive_2026-04-05_1435/."
+      "summary": "FOUR-LAYER DATA PROVENANCE COLLAPSE: (1) Train-time truth: 229/18701 (Apr 4 23:20 pack, dataset_loads=true). (2) Pack artifact truth: v58_lerobot_pack.json = 229/18701. (3) Current live: 36/3305, corrupted parquet — OVERWRITTEN Apr 5 13:38. (4) Sovereign written: had wrong conclusions on P0a. All 229 original NPZ files confirmed available. V59 clean pack in progress. Archive: artifacts/v58_archive_2026-04-05_1435/."
     },
     {
       "evidence_id": "E019",
@@ -238,6 +238,69 @@
       "path": "sovereign/evidence/E027.yaml",
       "verified": true,
       "summary": "Gate A: 240 episodes have strong action signal and extremely weak within-episode visual variation under the audit metric."
+    },
+    {
+      "evidence_id": "E028",
+      "experiment_id": "p1c0_libero_drawer_smoke",
+      "type": "runtime_verification",
+      "timestamp": "2026-04-07T22:58:11+08:00",
+      "path": "experiments/mint/mint_drawer_v1/artifacts/p1c0_libero_drawer_smoke.json",
+      "verified": true,
+      "summary": "MuJoCo + LIBERO + OSMesa pipeline smoke test PASS. 3/3 runs clean. agentview mean=118.5, wrist mean=147.7 (non-white). drawer task reachable under MuJoCo state control."
+    },
+    {
+      "evidence_id": "E029",
+      "experiment_id": "p1c2_libero_drawer_oracle",
+      "type": "state_oracle",
+      "timestamp": "2026-04-07T22:58:31+08:00",
+      "path": "experiments/mint/mint_drawer_v1/artifacts/p1c2_libero_drawer_oracle_gate.json",
+      "verified": true,
+      "summary": "State-space oracle 3/3. Direct qpos manipulation drives drawer from closed to open_qpos. Does NOT prove action-space reachability."
+    },
+    {
+      "evidence_id": "E030",
+      "experiment_id": "p1c4_mint_on_libero",
+      "type": "eval",
+      "timestamp": "2026-04-07T23:03:46+08:00",
+      "path": "experiments/mint/mint_drawer_v1/artifacts/p1c4_mint_on_libero_drawer.json",
+      "verified": true,
+      "summary": "MINT on LIBERO drawer: 0% success for both raw_joint_pos and pi_minus_joint_pos. action_l2≈1.0 dominated by gripper=-1. Pipeline not clean: LM weights missing, image_size mismatch."
+    },
+    {
+      "evidence_id": "E031",
+      "experiment_id": "p1c5_state_semantic_comparison",
+      "type": "data_audit",
+      "timestamp": "2026-04-07T23:04:09+08:00",
+      "path": "experiments/mint/mint_drawer_v1/artifacts/p1c5_state_semantic_comparison.json",
+      "verified": true,
+      "summary": "Against PyBullet dataset: raw_joint_pos mean_l2_delta=4.23, pi_minus_joint_pos=9.77. pi_minus NOT better. Reference is PyBullet dataset (wrong baseline for LIBERO comparison)."
+    },
+    {
+      "evidence_id": "E032",
+      "experiment_id": "mint_forward_pass_diagnostic",
+      "type": "diagnostic",
+      "timestamp": "2026-04-08T00:00:00+08:00",
+      "path": "sovereign/evidence/archive/E032.unverified.20260408.md",
+      "verified": false,
+      "summary": "Historical manual forward-pass diagnostic without authoritative artifact. Do not use as canonical evidence; superseded by E033 and E034."
+    },
+    {
+      "evidence_id": "E033",
+      "experiment_id": "mint_key_remap_fix",
+      "type": "code_fix",
+      "timestamp": "2026-04-09T06:55:00+08:00",
+      "path": "sovereign/evidence/E033.yaml",
+      "verified": true,
+      "summary": "MINT key-remap fix verified. Large 165 missing / 164 unexpected mismatch collapses to 1 intentional tied-weight miss; forward-pass diagnostics must be rechecked afterward."
+    },
+    {
+      "evidence_id": "E034",
+      "experiment_id": "p1c6_forward_pass_recheck",
+      "type": "forward_pass_diagnostic",
+      "timestamp": "2026-04-09T07:23:00+08:00",
+      "path": "sovereign/evidence/E034.yaml",
+      "verified": true,
+      "summary": "Forward-pass recheck after E033 shows mixed, nonzero state sensitivity on real LIBERO observations; strong state-invariant/image-only diagnosis is not supported."
     }
   ]
 }

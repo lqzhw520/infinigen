@@ -1,15 +1,15 @@
 # CAMPAIGN_TRUTH — mint_drawer_v1
 **GENERATED FROM current_truth.json — NOT CANONICAL**
 
-- Generated at: `2026-04-07T15:19:53+08:00`
+- Generated at: `2026-04-09T16:42:29+08:00`
 - Source: `sovereign/current_truth.json`
 - Stale policy: regenerate with `python scripts/harness/sovereign_cli.py go`
 
 ## Canonical Summary
-- Verdict: `V59_GATE_A_COMPLETED — GATE_B_NOW_PRIMARY`
-- Phase: `v59_LEARNABILITY_AUDIT_GATE_B`
-- Phase gate: `v59_GATE_A_COMPLETED`
-- Decision: `V59_GATE_A_COMPLETED — GATE_B_NOW_PRIMARY`
+- Verdict: `V59_MUJOCO_PILOT_ESTABLISHED — OFFICIAL_LIBERO_BASELINE_REPRO_NEXT`
+- Phase: `v59_MUJOCO_PILOT_PHASE3 — official LIBERO drawer baseline reproduction`
+- Phase gate: `MUJOCO_PILOT_OFFICIAL_BASELINE_PENDING`
+- Decision: `V59_MUJOCO_PILOT_ESTABLISHED — OFFICIAL_LIBERO_BASELINE_REPRO_NEXT`
 
 ## Active Claims
 - `C_SIGLIP_GENERALIZATION` rev3 [candidate] — Current failure is more likely system-level misalignment across vision preprocessing, action quantization, and control loop, not vision alone. E1 1/5 grasp does not support full SigLIP rejection.
@@ -33,16 +33,17 @@ Teacher action replay is inconclusive (attachment_local estimation error) but
 static analysis independently proves no action format mismatch.
 
 - `C_V59_STATE_REPRESENTATION_NOT_ROOT_CAUSE` rev1 [supported] — State representation is not the root cause for the 7 overfit episodes.
+- `C_MINT_LIBERO_ZERO_BASELINE_INCONCLUSIVE` rev2 [supported] — The current p1c4 = 0% MuJoCo result is inconclusive for MINT LIBERO drawer capability. That run used a non-baseline setup (libero_90/KITCHEN_SCENE1 open-bottom-drawer), predated the E033 key-remap fix, and did not reproduce official MINT eval conditions (official suites libero_10/object/spatial/goal, 256x256 images, policy.n_action_steps=4, official LeRobot LIBERO wrapper).
 
 ## Latest Verified Evidence
-- `E027` `gate_a_episode_admissibility` — Gate A: 240 episodes have strong action signal and extremely weak within-episode visual variation under the audit metric.
-- `E026` `P0b_drawer_only_matched_AB` — Matched A/B: drawer-colored (B) = 0/6, white (A) = 0/6. Drawer-only color is not the sole bottleneck.
-- `E025` `rca3_state_representation` — RCA3 scope-limited audit: no obvious subset-level state-format mismatch for the 7-episode overfit subset.
-- `E024` `rca2_action_normalization` — RCA2 scope-limited audit: no obvious static action-format/range mismatch for the 7-episode overfit subset; replay remained inconclusive.
-- `E023` `rca1_teacher_quality_audit` — All 7/7 teacher episodes confirmed task-successful (success=True, mean_max_drawer=0.989). Teacher quality ELIMINATED as root cause. RCA2 (action normalization) becomes highest priority.
+- `E034` `p1c6_forward_pass_recheck` — Forward-pass recheck after E033 shows mixed, nonzero state sensitivity on real LIBERO observations; strong state-invariant/image-only diagnosis is not supported.
+- `E033` `mint_key_remap_fix` — MINT key-remap fix verified. Large 165 missing / 164 unexpected mismatch collapses to 1 intentional tied-weight miss; forward-pass diagnostics must be rechecked afterward.
+- `E031` `p1c5_state_semantic_comparison` — Against PyBullet dataset: raw_joint_pos mean_l2_delta=4.23, pi_minus_joint_pos=9.77. pi_minus NOT better. Reference is PyBullet dataset (wrong baseline for LIBERO comparison).
+- `E030` `p1c4_mint_on_libero` — MINT on LIBERO drawer: 0% success for both raw_joint_pos and pi_minus_joint_pos. action_l2≈1.0 dominated by gripper=-1. Pipeline not clean: LM weights missing, image_size mismatch.
+- `E029` `p1c2_libero_drawer_oracle` — State-space oracle 3/3. Direct qpos manipulation drives drawer from closed to open_qpos. Does NOT prove action-space reachability.
 
 ## Actions
-- Pending: `2`
+- Pending: `8`
 - In progress: `0`
-- Completed: `9`
+- Completed: `15`
 - Blocked: `0`

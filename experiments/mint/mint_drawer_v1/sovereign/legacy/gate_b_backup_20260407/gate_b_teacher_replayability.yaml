@@ -12,7 +12,7 @@ bindings:
 collector:
   command: >-
     cd /mnt/afs2/zhuhaowu/infinigen &&
-    /root/anaconda3/envs/mint/bin/python scripts/mint/run_gate_b_teacher_replayability.py
+    python scripts/mint/run_gate_b_teacher_replayability.py
     --output-dir /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/gate_b_teacher_replayability
   artifact: /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/gate_b_teacher_replayability/gate_b_replay_summary.json
 required_schema_fields:

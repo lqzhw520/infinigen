@@ -1,0 +1,64 @@
+evidence_id: E033
+experiment_id: mint_key_remap_fix
+type: code_fix
+timestamp: "2026-04-09T06:55:00+08:00"
+verified: true
+
+summary: >
+  MINT checkpoint key remapping bug fixed. All 165 missing + 164 unexpected keys resolved.
+  Final: 0 unexpected keys, 1 intentional missing (embed_tokens not saved in MINT checkpoint).
+  Changes p1c6 interpretation: language_model weights were NOT randomly initialized —
+  they failed to load due to incorrect key remapping. Forward pass diagnostic needs re-verification.
+
+verification_details:
+  missing_keys_count: 1
+  unexpected_keys_count: 0
+  missing_keys:
+    - model.paligemma_with_expert.paligemma.language_model.model.embed_tokens.weight
+  architectural_fixes:
+    gemma_expert_layers:
+      checkpoint_path: "gemma_expert.model.model.layers.*"
+      model_path: "gemma_expert.model.layers.*"
+      fix: remove one .model. layer
+      keys_affected: 163
+    paligemma_language_model:
+      checkpoint_path: ".paligemma.model.language_model.*"
+      model_path: ".paligemma.language_model.model.*"
+      fix: fix condition string, distinguish embed_tokens (double .model.) from others (single .model.)
+      keys_affected: 163
+    paligemma_lm_head:
+      checkpoint_path: ".paligemma.lm_head.*"
+      model_path: ".paligemma.language_model.lm_head.*"
+      fix: move from paligemma toplevel into language_model submodule
+      keys_affected: 1
+    pal_modal_projector:
+      checkpoint_path: ".paligemma.model.multi_modal_projector.*"
+      model_path: ".paligemma.multi_modal_projector.*"
+      fix: remove .model. after paligemma
+      keys_affected: 2
+
+p1c4_conclusion_update:
+  previous: "165 missing LM keys = random initialization (design choice)"
+  now: "165 missing = key remapping bug. All LM weights now load correctly."
+  action_required: "re-run p1c6 forward pass to verify if state-invariant behavior persists."
+
+p1c6_state_invariant_conclusion_status:
+  status: "REVISED_PENDING"
+  reason: "p1c6 diagnostic was run when 165 LM keys were missing. Now all weights load."
+  required_action: "re-run p1c6 forward pass diagnostic with fixed key loading."
+
+verdict: "FIXED — key loading bug resolved. Forward pass re-verification required."
+conclusion: >
+  All 165 language_model weights now load correctly. Only embed_tokens remains missing (intentional).
+  p1c6 state-invariant conclusion must be re-verified.
+
+guardrail: Forward pass must be re-verified before claiming LM weights are functional.
+
+scope: mint_checkpoint_loading
+confidence: medium
+metrics:
+  missing_keys_before: 165
+  unexpected_keys_before: 164
+  fixed_count: 166
+  missing_keys_after: 1
+  unexpected_keys_after: 0

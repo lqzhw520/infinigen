@@ -1,9 +1,9 @@
 {
   "runtime_schema_version": 2,
-  "phase": "v59_LEARNABILITY_AUDIT_GATE_B",
-  "phase_gate": "v59_GATE_A_COMPLETED",
-  "verdict": "V59_GATE_A_COMPLETED — GATE_B_NOW_PRIMARY",
-  "updated_at": "2026-04-07T15:19:53+08:00",
+  "phase": "v59_MUJOCO_PILOT_PHASE3 — official LIBERO drawer baseline reproduction",
+  "phase_gate": "MUJOCO_PILOT_OFFICIAL_BASELINE_PENDING",
+  "verdict": "V59_MUJOCO_PILOT_ESTABLISHED — OFFICIAL_LIBERO_BASELINE_REPRO_NEXT",
+  "updated_at": "2026-04-09T16:42:28+08:00",
   "active_job": "gate_b_teacher_replayability",
   "runtime_pointers": {
     "current_next_action_id": "gate_b_teacher_replayability",

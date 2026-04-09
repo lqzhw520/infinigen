@@ -1,0 +1,8 @@
+proposal_id: publish_gate_b_teacher_replayability_20260407_164427
+spec_id: gate_b_teacher_replayability
+artifact: artifacts/gate_b_teacher_replayability/gate_b_replay_summary.json
+created_at: '2026-04-07T16:44:27+08:00'
+reason: Spec is proposal-only; human/daylight review required.
+decision_support: teacher_actions_executable_policy_gap_remains
+summary: Teacher actions and oracle are executable in the current env.
+evidence_draft_ready: true

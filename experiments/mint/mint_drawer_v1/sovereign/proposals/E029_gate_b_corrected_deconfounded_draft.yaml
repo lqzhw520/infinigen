@@ -1,0 +1,90 @@
+draft_id: E029_draft
+draft_type: evidence_draft
+target_evidence_id: E029
+experiment_id: gate_b_corrected_deconfounded_followup
+type: learnability_audit
+scope: gate_b_corrected_top10
+scope_guardrail: E029 is a corrected Gate B follow-up draft. It is proposal-only,
+  limited to the Gate A top-10 sample, and does not directly determine final policy
+  learnability.
+timestamp: '2026-04-07T19:34:24+08:00'
+draft_status: review_required
+verified: false
+sample_scope:
+  sample: Gate A action-quality top-10
+  mapping_target: success-selected legacy rollout subset
+  population_claim: No population-wide claim over full 240 episodes
+measurement_runtime_note: Stage A executability follow-ups were collected with reduced
+  observation resolution (16px) and render-observations=False for measurement throughput.
+  This does not change physics, task semantics, or action contracts.
+source_artifacts:
+  baseline_gate_b: artifacts/gate_b_teacher_replayability/gate_b_replay_summary.json
+  b1_sentinel: artifacts/gate_b1_threshold_sentinel/gate_b1_sentinel_summary.json
+  b2_anchored: artifacts/gate_b2_anchored_decomposition/gate_b2_summary.json
+  b3_source_validation: artifacts/gate_b3_source_validation/gate_b3_summary.json
+  baseline_e028: sovereign/proposals/E028_gate_b_teacher_executability_draft.yaml
+summary: Corrected Gate B follow-up freezes the optimistic baseline and re-evaluates
+  it under canonical-threshold reachability, anchored contamination decomposition,
+  and deterministic source-validation.
+baseline_snapshot:
+  decision_support: teacher_actions_executable_policy_gap_remains
+  open_loop_success_rate: 0.5
+  state_anchored_success_rate: 0.6
+  oracle_reachability_rate: 1.0
+sentinel_findings:
+  oracle_attach_rate_delta_015_vs_005: 0.0
+  oracle_success_rate_delta_015_vs_005: 0.0
+  open_loop_attach_rate_delta_015_vs_005: 0.6000000000000001
+  open_loop_success_rate_delta_015_vs_005: 0.4
+  oracle_threshold_sensitivity_grade: low
+  open_loop_threshold_sensitivity_grade: high
+  oracle_vs_open_loop_success_gap:
+    '0.05': 0.9
+    '0.10': 0.6
+    '0.15': 0.5
+  oracle_vs_open_loop_attach_gap:
+    '0.05': 0.7
+    '0.10': 0.19999999999999996
+    '0.15': 0.09999999999999998
+  oracle_canonical_threshold_status: strong
+  primary_threshold_m: 0.05
+  science_thresholds_m:
+  - 0.05
+  dual_threshold_required: false
+  large_replay_gap: true
+  small_replay_gap: false
+anchored_findings:
+  contamination_material: true
+  science_thresholds_m:
+  - 0.05
+source_validation_findings:
+  tier_counts:
+    Tier A: 6
+    Tier B: 4
+  tier_x_among_success_episodes: 0
+  tier_x_among_failure_episodes: 0
+  all_tier_a: false
+oracle_definition:
+  oracle_type: env_native_reachability_oracle
+  oracle_uses_env_handle_pose: true
+  oracle_uses_teacher_actions: false
+  oracle_proves: task reachability under current-env handle semantics
+  oracle_does_not_prove: teacher trajectory fidelity
+final_branch: large replay-gap remains between env-native reachability and teacher-action
+  execution
+stage_c_entry_allowed: false
+allowed_wording:
+- Gate B weakens the strong hypothesis that teacher targets are globally unexecutable
+  in the current env.
+- The remaining gap is best described as a mixed executability/robustness problem
+  unless the corrected follow-up fully clears the canonical threshold, contamination,
+  and mapping gates.
+disallowed_wording:
+- policy-only gap proven
+- source-grasp fidelity proven
+- image-domain eliminated
+- root cause solved
+do_not:
+- Do not promote this draft directly into sovereign/evidence without daylight review.
+- Do not treat env-native oracle reachability as proof of teacher trajectory fidelity.
+- Do not write policy-only narrative if Stage C entry is blocked.

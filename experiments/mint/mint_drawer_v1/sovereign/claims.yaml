@@ -1750,3 +1750,97 @@ claims:
     supersedes: null
   current_revision: 1
   lifecycle_status: active
+- claim_id: C_MINT_LIBERO_ZERO_BASELINE_INCONCLUSIVE
+  revisions:
+  - revision: 1
+    statement: 'MINT on LIBERO drawer = 0% is an INCONCLUSIVE result, NOT a model
+      capability conclusion. The MuJoCo pilot (p1c4) uses a non-clean pipeline: image_size
+      mismatch (224 vs 256x256), task_text not verified, and most critically, 165
+      missing LM keys causing state-invariant action output (E032). Drawer task requires
+      state-conditioned actions; MINT operates as image-only VQ-VAE prior. 0% drawer
+      success is EXPECTED behavior for this pipeline.
+
+      '
+    scope: mujoco_pilot
+    status: candidate
+    evidence_ids:
+    - E030
+    - E032
+    change_type: create
+    change_reason: Forward pass diagnostic (E032) shows zero_state vs GT-mean_state
+      give nearly identical actions (delta <2% of action range). Action gripper=-1
+      dominates. 165 LM keys missing. MINT acts as image-only prior, not state-conditioned
+      policy.
+    created_at: '2026-04-08T00:00:00+08:00'
+    superseded_by: C_MINT_LIBERO_ZERO_BASELINE_INCONCLUSIVE@2
+    superseded_by_reason: Revision 2 reframes p1c4 as a stale, non-baseline result
+      after E033/E034 and official baseline audit.
+    supersedes: null
+  - revision: 2
+    statement: The current p1c4 = 0% MuJoCo result is inconclusive for MINT LIBERO
+      drawer capability. That run used a non-baseline setup (libero_90/KITCHEN_SCENE1
+      open-bottom-drawer), predated the E033 key-remap fix, and did not reproduce
+      official MINT eval conditions (official suites libero_10/object/spatial/goal,
+      256x256 images, policy.n_action_steps=4, official LeRobot LIBERO wrapper).
+    scope: mujoco_pilot_p1c4_nonbaseline
+    status: supported
+    evidence_ids:
+    - E030
+    - E033
+    - E034
+    change_type: statement_revised
+    change_reason: Reframed after E033/E034 and official baseline audit. Current 0%
+      result is stale and not directly comparable to paper baseline.
+    created_at: '2026-04-09T23:59:00+08:00'
+    superseded_by: null
+    superseded_by_reason: null
+    supersedes: null
+  current_revision: 2
+  lifecycle_status: active
+- claim_id: C_MINT_LM_WEIGHTS_STATE_INVARIANT
+  revisions:
+  - revision: 1
+    statement: 'MINT forward pass produces state-invariant actions. 165 language model
+      keys are missing from the checkpoint (embed_tokens + 27-layer Q/K/V/O projections
+      + norms). Zero-state vs GT-mean-state inputs produce actions with <2% translation
+      delta and 0% rotation/gripper delta. Action gripper=-1 across all state modes.
+      Hypothesis: LM weights are intentionally frozen at random initialization (Pi
+      Zero class design). Policy relies on visual features + VQ-VAE action prior,
+      not state conditioning. This explains why drawer task (which requires precise
+      state tracking) fails while the policy produces stable near-constant output.
+
+      '
+    scope: mint_inference_design
+    status: candidate
+    evidence_ids:
+    - E032
+    - E030
+    change_type: create
+    change_reason: '实测 (2026-04-08): select_action with zero_state and GT-mean-state
+      produce nearly identical outputs. Missing keys: model.paligemma_with_expert.paligemma.language_model.model.embed_tokens
+      + 27 layers x 4 projections + norms. Consistent with frozen-random LM design.'
+    created_at: '2026-04-08T00:00:00+08:00'
+    superseded_by: C_MINT_LM_WEIGHTS_STATE_INVARIANT@2
+    superseded_by_reason: Revision 2 retires the overstrong state-invariant/random-LM
+      interpretation after E033/E034.
+    supersedes: null
+  - revision: 2
+    statement: The earlier strong diagnosis that MINT behaves as an image-only VQ-VAE
+      prior because language-model weights failed to load is contradicted by E033/E034.
+      The key-remap bug is fixed, LM weights load after remapping, and real-LIBERO
+      forward-pass recheck shows mixed nonzero state sensitivity rather than universal
+      state invariance.
+    scope: mint_forward_pass_state_influence
+    status: contradicted
+    evidence_ids:
+    - E033
+    - E034
+    change_type: superseded
+    change_reason: Retired overstrong image-only/random-LM interpretation after remap
+      fix and real-observation recheck.
+    created_at: '2026-04-09T23:59:00+08:00'
+    superseded_by: null
+    superseded_by_reason: null
+    supersedes: null
+  current_revision: 2
+  lifecycle_status: superseded

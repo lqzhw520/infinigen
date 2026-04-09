@@ -1,0 +1,68 @@
+evidence_id: E031
+experiment_id: p1c5_state_semantic_comparison
+type: data_audit
+timestamp: 2026-04-07T23:04:09+08:00
+path: experiments/mint/mint_drawer_v1/artifacts/p1c5_state_semantic_comparison.json
+verified: true
+
+summary: >
+  Against PyBullet dataset distribution, raw_joint_pos (L2 delta=4.23) is closer than
+  pi_minus_joint_pos (L2 delta=9.77). However, the comparison reference (PyBullet dataset)
+  is itself from a different scene/robot configuration, making this comparison invalid for
+  determining the correct LIBERO motor joint mapping. pi_minus_joint_pos cannot be
+  rejected based on this evidence alone.
+
+verification_details:
+  comparison_method: mean_l2_delta_between_live_and_pybullet
+  live_source: LIBERO OffScreenRenderEnv observations
+  pybullet_reference: experiments/mint/mint_drawer_v1/dataset parquet (PyBullet Infinigen states)
+
+  dimension_wise_mean_delta:
+    raw_joint_pos:
+      - dim0 (eef_x): -0.167  # different initial robot pose
+      - dim1 (eef_y): +0.059
+      - dim2 (eef_z): +1.046  # different scene height
+      - dim3 (joint0): +2.955  # motor 0 raw
+      - dim4 (joint1): +0.517
+      - dim5 (joint2): -2.245
+      - dim6 (joint3): -1.663
+      - dim7 (gripper): -0.006
+      mean_l2_delta: 4.234
+    pi_minus_joint_pos:
+      - dim0 (eef_x): -0.167
+      - dim1 (eef_y): +0.059
+      - dim2 (eef_z): +1.046
+      - dim3 (motor0): +6.115  # pi_minus makes this MUCH worse
+      - dim4 (motor1): +3.978
+      - dim5 (motor2): +0.888
+      - dim6 (motor3): +6.354
+      - dim7 (gripper): -0.006
+      mean_l2_delta: 9.773
+
+  WARNING_reference_wrong: >
+    PyBullet dataset is from Infinigen drawerbox scene (different robot URDF,
+    different scene geometry, different initial poses). The L2 delta primarily reflects
+    scene/URDF differences, NOT motor joint mapping correctness.
+
+verdict: NEGATIVE_RESULT
+conclusion: >
+  pi_minus_joint_pos is NOT validated against LIBERO ground truth. The correct reference
+  is the QUANTILES stats from the MINT checkpoint (273,465 frames, LIBERO observation.state).
+  Correct approach: collect live LIBERO env states, apply mappings, compare against
+  QUANTILES dim[3:7] mean/std.
+
+correct_verification_needed:
+  reference: QUANTILES stats from 273,465 LIBERO frames
+  "observation.state" dim[3:7]: motor joints
+    - dim3: mean=2.972, std=0.344
+    - dim4: mean=-0.220, std=0.907
+    - dim5: mean=-0.126, std=0.325
+    - dim6: mean=+0.027, std=0.014
+  approach: >
+    1. Collect robot0_joint_pos from LIBERO OffScreenRenderEnv
+    2. Apply candidate mappings (raw, pi_minus, etc.)
+    3. Compare resulting dim[3:7] distribution against QUANTILES
+
+scope: mujoco_pilot_state_comparison_limited
+confidence: low_as_mapping_validation
+pipeline_valid: partial

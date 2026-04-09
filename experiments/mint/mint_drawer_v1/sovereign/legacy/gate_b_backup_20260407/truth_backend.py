@@ -6,7 +6,6 @@ import os
 import re
 import shutil
 import subprocess
-import uuid
 from copy import deepcopy
 from datetime import datetime
 from pathlib import Path
@@ -95,11 +94,6 @@ def ensure_dir(path: Path) -> None:
     path.mkdir(parents=True, exist_ok=True)
 
 
-def _unique_tmp_path(path: Path) -> Path:
-    suffix = path.suffix + f".tmp.{os.getpid()}.{uuid.uuid4().hex}"
-    return path.with_suffix(suffix)
-
-
 def load_json(path: Path, default: Any | None = None) -> Any:
     if not path.exists():
         return deepcopy(default)
@@ -109,7 +103,7 @@ def load_json(path: Path, default: Any | None = None) -> Any:
 
 def save_json(path: Path, data: Any) -> None:
     ensure_dir(path.parent)
-    tmp = _unique_tmp_path(path)
+    tmp = path.with_suffix(path.suffix + ".tmp")
     with open(tmp, "w") as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
     os.replace(tmp, path)
@@ -124,7 +118,7 @@ def load_yaml(path: Path, default: Any | None = None) -> Any:
 
 def save_yaml(path: Path, data: Any) -> None:
     ensure_dir(path.parent)
-    tmp = _unique_tmp_path(path)
+    tmp = path.with_suffix(path.suffix + ".tmp")
     with open(tmp, "w") as f:
         yaml.dump(data, f, default_flow_style=False, allow_unicode=True, sort_keys=False)
     os.replace(tmp, path)
@@ -132,7 +126,7 @@ def save_yaml(path: Path, data: Any) -> None:
 
 def save_text(path: Path, data: str) -> None:
     ensure_dir(path.parent)
-    tmp = _unique_tmp_path(path)
+    tmp = path.with_suffix(path.suffix + ".tmp")
     with open(tmp, "w") as f:
         f.write(data)
     os.replace(tmp, path)
@@ -1365,17 +1359,6 @@ def publish_experiment(spec_id: str, artifact_path: Path) -> dict[str, Any]:
             "created_at": now_ts(),
             "reason": "Spec is proposal-only; human/daylight review required.",
         }
-        if spec_id == "gate_b_teacher_replayability":
-            aggregate = artifact.get("aggregate", {}) if isinstance(artifact, dict) else {}
-            decision_support = aggregate.get("decision_support")
-            proposal["decision_support"] = decision_support
-            proposal["summary"] = aggregate.get(
-                "decision_support_explanation",
-                "Gate B artifact collected; daylight review required.",
-            )
-            proposal["evidence_draft_ready"] = bool(
-                decision_support and decision_support != "inconclusive_replay_pipeline"
-            )
         proposal_path = SOVEREIGN / "proposals" / f"{proposal['proposal_id']}.yaml"
         save_yaml(proposal_path, proposal)
         return {"published": False, "proposal": str(proposal_path.relative_to(CAMPAIGN_ROOT))}

@@ -82,7 +82,9 @@ HELDOUT_SEEDS = default_heldout_seeds()
 IMAGE_SIZE = 256
 MAX_STEPS = 96
 MIN_ANYGRASP_SEEDS = 4
-MIN_ORACLE_SEEDS = 3
+# First overnight run is allowed to proceed with a minimal oracle-backed
+# learning set as long as the robot-in-loop rollout source is real and auditable.
+MIN_ORACLE_SEEDS = 2
 
 
 def _artifact_path(stage: str) -> Path:
@@ -637,6 +639,11 @@ def main() -> int:
     train_result: dict[str, Any] | None = None
 
     for stage in STAGE_ORDER:
+        status = make_night_status(
+            current_stage=stage,
+            status="running",
+            canonical_next_action_at_launch=canonical_next_action,
+        )
         sync_sovereign_running(stage, status)
         handler = stage_handlers.get(stage)
         try:

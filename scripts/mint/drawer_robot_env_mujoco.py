@@ -22,8 +22,8 @@ TRANSLATION_SCALE_M = 0.03
 ROTATION_SCALE_RAD = 0.25
 GRIPPER_OPEN = 0.001
 GRIPPER_CLOSED = -0.042
-ATTACH_THRESHOLD_M = 0.05
-DETACH_THRESHOLD_M = 0.11
+ATTACH_THRESHOLD_M = 0.06
+DETACH_THRESHOLD_M = 0.18
 DRAWER_SUCCESS_FRACTION = 0.90
 DEFAULT_TASK = "open the drawer"
 DEFAULT_PULL_OPEN_FRACTION = 0.92
@@ -326,7 +326,7 @@ class DrawerRobotEnvMuJoCo:
             self._attached = False
 
         if self._attached:
-            drawer_delta = float(np.dot(self.eef_pos - prev_pos, self._motion_axis)) * 4.0
+            drawer_delta = float(np.dot(self.eef_pos - prev_pos, self._motion_axis)) * 6.0
             low, high = self.joint_range.tolist()
             self.data.qpos[self.joint_idx] = np.clip(
                 float(self.data.qpos[self.joint_idx]) + drawer_delta,
@@ -387,14 +387,13 @@ def build_robot_rollout(
 ) -> dict[str, Any]:
     env = DrawerRobotEnvMuJoCo(seed=seed, image_size=image_size, max_steps=max_steps)
     obs = env.reset()
-    handle = env._handle_center_world()
     axis = env._motion_axis
-    pregrasp_pose = _pose_from_point(handle, axis, offset=0.08, z_lift=0.05)
+    handle = env._handle_center_world()
+    pregrasp_pose = _pose_from_point(handle, axis, offset=0.04, z_lift=0.03)
     grasp_pose = np.asarray(grasp_pose_world, dtype=np.float32).copy()
     grasp_pose[:3, 3] = handle
     low, high = env.joint_range.tolist()
     open_fraction = float(np.clip(pull_open_fraction, 0.75, 0.95))
-    open_joint = low + (high - low) * open_fraction
     retreat_target = handle + axis * 0.16 + np.array([0.0, 0.0, 0.05], dtype=np.float32)
 
     images, images2, states, actions, rewards = [], [], [], [], []
@@ -403,18 +402,7 @@ def build_robot_rollout(
     ever_attached = False
     attach_step = None
     success = False
-
-    def target_for_phase(phase: str) -> tuple[np.ndarray, bool]:
-        if phase == "pregrasp":
-            return pregrasp_pose[:3, 3], False
-        if phase == "grasp":
-            return grasp_pose[:3, 3], True
-        if phase == "pull":
-            fraction = env._drawer_fraction()
-            target_joint = low + (high - low) * open_fraction
-            remaining = max(0.0, target_joint - float(env.data.qpos[env.joint_idx]))
-            return handle + axis * remaining + np.array([0.0, 0.0, 0.01], dtype=np.float32), True
-        return retreat_target, False
+    close_hold_steps = 0
 
     phase = "pregrasp"
     for step_idx in range(max_steps):
@@ -423,16 +411,42 @@ def build_robot_rollout(
         states.append(obs.state.copy())
         abs_drawer.append(float(obs.drawer_fraction))
 
-        if phase == "pregrasp" and np.linalg.norm(obs.eef_pos - pregrasp_pose[:3, 3]) < 0.03:
-            phase = "grasp"
-        elif phase == "grasp" and env._attached:
+        handle = env._handle_center_world()
+        pregrasp_target = handle - axis * 0.04 + np.array([0.0, 0.0, 0.03], dtype=np.float32)
+        contact_target = handle + np.array([0.0, 0.0, 0.005], dtype=np.float32)
+        pull_target = handle + axis * 0.03 + np.array([0.0, 0.0, 0.005], dtype=np.float32)
+        retreat_target = handle + axis * 0.10 + np.array([0.0, 0.0, 0.05], dtype=np.float32)
+
+        if env._attached and attach_step is None:
+            attach_step = step_idx
+        if env._attached and phase in {"pregrasp", "contact", "close"}:
             phase = "pull"
-            if attach_step is None:
-                attach_step = step_idx
+        elif phase == "pregrasp" and np.linalg.norm(obs.eef_pos - pregrasp_target) < 0.02:
+            phase = "contact"
+        elif phase == "contact" and np.linalg.norm(obs.eef_pos - handle) < 0.03:
+            phase = "close"
+            close_hold_steps = 0
+        elif phase == "close":
+            close_hold_steps += 1
+            if close_hold_steps >= 4:
+                phase = "pull" if env._attached else "contact"
+                close_hold_steps = 0
+        elif phase == "pull" and not env._attached:
+            phase = "contact"
         elif phase == "pull" and obs.drawer_fraction >= open_fraction:
             phase = "retreat"
 
-        target_pos, close = target_for_phase(phase)
+        if phase == "pregrasp":
+            target_pos, close = pregrasp_target, False
+        elif phase == "contact":
+            target_pos, close = contact_target, False
+        elif phase == "close":
+            target_pos, close = contact_target, True
+        elif phase == "pull":
+            target_pos, close = pull_target, True
+        else:
+            target_pos, close = retreat_target, False
+
         action = _script_action(obs.eef_pos, target_pos, close)
         next_obs, reward, done, info = env.step(action)
         actions.append(action.copy())

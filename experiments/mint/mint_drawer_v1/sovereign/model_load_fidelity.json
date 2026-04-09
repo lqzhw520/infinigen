@@ -1,21 +1,12 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-04-09T20:53:24+08:00",
+  "generated_at": "2026-04-09T20:56:33+08:00",
   "campaign": "mint_drawer_v1",
-  "main_repo_head": "fbfea0ba3bc1a85c6e78193deacdc099c429b7e7",
+  "main_repo_head": "a471d80888646fe42d748d43a27620a4f8f68853",
   "main_repo_branch": "feature/mint-integration",
   "external_mint_head": "4eab5795345721001c412ff1ca2c886a11eab606",
   "external_mint_branch": "HEAD",
-  "compatibility_patches": [
-    {
-      "file": "external/MINT",
-      "reason": "local MINT patch present"
-    },
-    {
-      "file": "external/MINT/checkpoints/",
-      "reason": "local MINT patch present"
-    }
-  ],
+  "compatibility_patches": [],
   "semantic_patches": [],
   "experimental_patches": [],
   "missing_keys_count": null,
@@ -23,8 +14,8 @@
   "architectural_key_mismatches_fixed": null,
   "metric_sources": [],
   "dtype_policy": "Derived from current runtime artifacts; see metric_sources for the control evidence actually used.",
-  "pretrained_and_finetuned_same_shim": true,
-  "fidelity_grade": "F1",
-  "fidelity_summary": "Compatibility-patched but high-fidelity",
+  "pretrained_and_finetuned_same_shim": false,
+  "fidelity_grade": "F0",
+  "fidelity_summary": "Upstream-faithful",
   "guardrail": "Scientific conclusions attach to the current external/MINT head recorded here; patched variants must be evaluated separately from the restored upstream control."
 }

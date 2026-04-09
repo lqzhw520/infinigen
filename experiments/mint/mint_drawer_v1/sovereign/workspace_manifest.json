@@ -1,20 +1,18 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-04-09T20:53:24+08:00",
+  "generated_at": "2026-04-09T20:56:33+08:00",
   "campaign_root": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1",
   "project_root": "/mnt/afs2/zhuhaowu/infinigen",
   "main_repo": {
     "root": "/mnt/afs2/zhuhaowu/infinigen",
     "exists": true,
     "branch": "feature/mint-integration",
-    "head": "fbfea0ba3bc1a85c6e78193deacdc099c429b7e7",
+    "head": "a471d80888646fe42d748d43a27620a4f8f68853",
     "upstream": "my-origin/feature/mint-integration",
     "ahead": 0,
-    "behind": 2,
-    "dirty": true,
-    "dirty_files": [
-      " ? external/MINT"
-    ],
+    "behind": 3,
+    "dirty": false,
+    "dirty_files": [],
     "error": null
   },
   "submodules": {
@@ -26,10 +24,8 @@
       "upstream": null,
       "ahead": null,
       "behind": null,
-      "dirty": true,
-      "dirty_files": [
-        "?? checkpoints/"
-      ],
+      "dirty": false,
+      "dirty_files": [],
       "error": null
     }
   }

@@ -1,7 +1,7 @@
 # SESSION_BOOTSTRAP.20260409
 **GENERATED FROM current_truth.json — NOT CANONICAL**
 
-- Generated at: `2026-04-09T20:53:24+08:00`
+- Generated at: `2026-04-09T20:56:33+08:00`
 - Source: `sovereign/current_truth.json`
 - Stale policy: regenerate with `python scripts/harness/sovereign_cli.py go`
 
@@ -29,13 +29,13 @@
 
 ## Workspace Snapshot
 - Branch: `feature/mint-integration`
-- HEAD: `fbfea0ba3bc1a85c6e78193deacdc099c429b7e7`
-- Dirty files: `1`
-- external/MINT dirty files: `1`
+- HEAD: `a471d80888646fe42d748d43a27620a4f8f68853`
+- Dirty files: `0`
+- external/MINT dirty files: `0`
 
 ## Model Load Fidelity
-- Grade: `F1`
-- Summary: Compatibility-patched but high-fidelity
+- Grade: `F0`
+- Summary: Upstream-faithful
 
 ## Next Action
 - Type: `MINT_PATCH_REGRESSION_ISOLATION`

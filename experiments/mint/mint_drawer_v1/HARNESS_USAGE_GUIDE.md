@@ -1,7 +1,7 @@
 # Harness v2 — mint_drawer_v1
 **GENERATED FROM current_truth.json — NOT CANONICAL**
 
-- Generated at: `2026-04-09T20:53:24+08:00`
+- Generated at: `2026-04-09T20:56:33+08:00`
 - Source: `sovereign/current_truth.json`
 - Stale policy: regenerate with `python scripts/harness/sovereign_cli.py go`
 
@@ -11,8 +11,8 @@
 - Decision: `V59_UPSTREAM_MINT_BASELINE_RESTORED — PATCH_REGRESSION_ISOLATION_NEXT`
 - Human read: We are in `v59_MUJOCO_PILOT_PHASE4 — upstream baseline restored; isolate patch regression`. The current top priority is `mint_patch_regression_isolation`: Isolate the minimal local patch delta that breaks the restored official LIBERO drawer baseline
 - Dataset anchor: `v59_20260405` / `240` episodes / `19701` frames / loads=`True`
-- Workspace: branch `feature/mint-integration` @ `fbfea0ba3bc1a85c6e78193deacdc099c429b7e7` / dirty files `1`
-- MINT fidelity: `F1` — Compatibility-patched but high-fidelity
+- Workspace: branch `feature/mint-integration` @ `a471d80888646fe42d748d43a27620a4f8f68853` / dirty files `0`
+- MINT fidelity: `F0` — Upstream-faithful
 
 ## Claims Driving This Phase
 - `C_MINT_RELEASE_BASELINE_RESTORED` [supported]: Under the release-era runtime and official LIBERO drawer baseline conditions, upstream external/MINT commit 4eab579 restores a valid MINT-libero control baseline: libero_goal/open_the_middle_drawer_of_the_cabinet succeeds 3/3 with 256x256 observations and policy.n_action_steps=4.

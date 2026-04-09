@@ -1,21 +1,22 @@
 # Harness v2 — mint_drawer_v1
 **GENERATED FROM current_truth.json — NOT CANONICAL**
 
-- Generated at: `2026-04-09T16:45:04+08:00`
+- Generated at: `2026-04-09T20:50:15+08:00`
 - Source: `sovereign/current_truth.json`
 - Stale policy: regenerate with `python scripts/harness/sovereign_cli.py go`
 
 ## At A Glance
-- Verdict: `V59_MUJOCO_PILOT_ESTABLISHED — OFFICIAL_LIBERO_BASELINE_REPRO_NEXT`
-- Phase: `v59_MUJOCO_PILOT_PHASE3 — official LIBERO drawer baseline reproduction`
-- Decision: `V59_MUJOCO_PILOT_ESTABLISHED — OFFICIAL_LIBERO_BASELINE_REPRO_NEXT`
-- Human read: We are in `v59_MUJOCO_PILOT_PHASE3 — official LIBERO drawer baseline reproduction`. The current top priority is `libero_goal_drawer_official_baseline_repro`: Reproduce official MINT LIBERO drawer baseline on an in-distribution drawer/cabinet task
+- Verdict: `V59_UPSTREAM_MINT_BASELINE_RESTORED — PATCH_REGRESSION_ISOLATION_NEXT`
+- Phase: `v59_MUJOCO_PILOT_PHASE4 — upstream baseline restored; isolate patch regression`
+- Decision: `V59_UPSTREAM_MINT_BASELINE_RESTORED — PATCH_REGRESSION_ISOLATION_NEXT`
+- Human read: We are in `v59_MUJOCO_PILOT_PHASE4 — upstream baseline restored; isolate patch regression`. The current top priority is `mint_patch_regression_isolation`: Isolate the minimal local patch delta that breaks the restored official LIBERO drawer baseline
 - Dataset anchor: `v59_20260405` / `240` episodes / `19701` frames / loads=`True`
-- Workspace: branch `feature/mint-integration` @ `4253ba45f3951c828c3482cb42c118e409702125` / dirty files `10`
-- MINT fidelity: `F2` — Runnable but semantically drifted
+- Workspace: branch `feature/mint-integration` @ `8ddcc44e2736fb8f186090e8fa3af7009e870772` / dirty files `17`
+- MINT fidelity: `F1` — Compatibility-patched but high-fidelity
 
 ## Claims Driving This Phase
-- No current-driving claims were classified.
+- `C_MINT_RELEASE_BASELINE_RESTORED` [supported]: Under the release-era runtime and official LIBERO drawer baseline conditions, upstream external/MINT commit 4eab579 restores a valid MINT-libero control baseline: libero_goal/open_the_middle_drawer_of_the_cabinet succeeds 3/3 with 256x256 observations and policy.n_action_steps=4.
+- `C_MINT_LOCAL_PATCH_REGRESSION` [supported]: On the same release-era runtime, official LIBERO drawer task, checkpoint, tokenizer, and evaluation path, the local patched MINT variant regresses relative to upstream 4eab579: upstream succeeds 3/3, while patched b5eabd4 fails before rollout with a GemmaModel.has-no-attribute-model error. This supports a local patch regression claim under the matched A/B scope.
 
 ## Historical Context Claims
 - Historical context claims currently suppressed from the main dashboard: `15`
@@ -27,11 +28,11 @@
 - ... plus `10` more historical-context claims
 
 ## What Is Settled Right Now
+- `E036`: After rolling external/MINT back to upstream 4eab579 on feature/mint-integration, the official LIBERO drawer baseline is restored: libero_goal/open_the_middle_drawer_of_the_cabinet succeeds 3/3 under the release-era runtime with 256x256 observations and n_action_steps=4.
+- `E035`: Release-runtime matched A/B on official LIBERO drawer baseline: upstream 4eab579 succeeds 3/3, while local patched b5eabd4 fails under identical task/checkpoint/runtime conditions with GemmaModel.has-no-attribute-model. Supports a local patch regression claim, not an upstream capability failure.
 - `E034`: Forward-pass recheck after E033 shows mixed, nonzero state sensitivity on real LIBERO observations; strong state-invariant/image-only diagnosis is not supported.
 - `E033`: MINT key-remap fix verified. Large 165 missing / 164 unexpected mismatch collapses to 1 intentional tied-weight miss; forward-pass diagnostics must be rechecked afterward.
 - `E031`: Against PyBullet dataset: raw_joint_pos mean_l2_delta=4.23, pi_minus_joint_pos=9.77. pi_minus NOT better. Reference is PyBullet dataset (wrong baseline for LIBERO comparison).
-- `E030`: MINT on LIBERO drawer: 0% success for both raw_joint_pos and pi_minus_joint_pos. action_l2≈1.0 dominated by gripper=-1. Pipeline not clean: LM weights missing, image_size mismatch.
-- `E029`: State-space oracle 3/3. Direct qpos manipulation drives drawer from closed to open_qpos. Does NOT prove action-space reachability.
 
 ## What Is Still Open
 - Open gate `gate_b_teacher_replayability` [P0]: Verify teacher actions replay successfully in DrawerRobotEnv (top-10 episodes)
@@ -44,9 +45,9 @@
 4. The spec for the current next action, if the next action is spec-backed
 
 ## Tonight / Next Safe Move
-- Canonical next action: `MINT_LIBERO_OFFICIAL_BASELINE_REPRO` / `libero_goal_drawer_official_baseline_repro` / priority `P0`
-- Target: Reproduce official MINT LIBERO drawer baseline on an in-distribution drawer/cabinet task
-- Scope: Use the official LeRobot LIBERO evaluation path on an official MINT evaluation-suite drawer task before drawing capability conclusions from the MuJoCo pilot.
+- Canonical next action: `MINT_PATCH_REGRESSION_ISOLATION` / `mint_patch_regression_isolation` / priority `P0`
+- Target: Isolate the minimal local patch delta that breaks the restored official LIBERO drawer baseline
+- Scope: Use the restored 4eab579 release baseline as the control and re-introduce local MINT patches one change at a time until the regression reappears.
 
 ## Canonical Rules
 - Tier 0 files are authoritative; generated docs are convenience views only.

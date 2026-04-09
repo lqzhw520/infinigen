@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "last_updated": "2026-04-09T15:46:21+08:00",
+  "last_updated": "2026-04-09T20:39:58+0800",
   "entries": [
     {
       "evidence_id": "E001",
@@ -301,6 +301,24 @@
       "path": "sovereign/evidence/E034.yaml",
       "verified": true,
       "summary": "Forward-pass recheck after E033 shows mixed, nonzero state sensitivity on real LIBERO observations; strong state-invariant/image-only diagnosis is not supported."
+    },
+    {
+      "evidence_id": "E035",
+      "experiment_id": "p1c10_release_runtime_matched_ab",
+      "type": "matched_ab_eval",
+      "timestamp": "2026-04-09T19:55:24+08:00",
+      "path": "experiments/mint/mint_drawer_v1/artifacts/p1c10_release_runtime_matched_ab.json",
+      "verified": true,
+      "summary": "Release-runtime matched A/B on official LIBERO drawer baseline: upstream 4eab579 succeeds 3/3, while local patched b5eabd4 fails under identical task/checkpoint/runtime conditions with GemmaModel.has-no-attribute-model. Supports a local patch regression claim, not an upstream capability failure."
+    },
+    {
+      "evidence_id": "E036",
+      "experiment_id": "p1c11_official_libero_goal_drawer_baseline_rollback_4eab579",
+      "type": "official_baseline_eval",
+      "timestamp": "2026-04-09T20:33:55+08:00",
+      "path": "experiments/mint/mint_drawer_v1/artifacts/p1c11_official_libero_goal_drawer_baseline_rollback_4eab579.json",
+      "verified": true,
+      "summary": "After rolling external/MINT back to upstream 4eab579 on feature/mint-integration, the official LIBERO drawer baseline is restored: libero_goal/open_the_middle_drawer_of_the_cabinet succeeds 3/3 under the release-era runtime with 256x256 observations and n_action_steps=4."
     }
   ]
 }

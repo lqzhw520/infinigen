@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-04-09T16:45:04+08:00",
+  "generated_at": "2026-04-09T20:50:15+08:00",
   "campaign": {
     "id": "mint_drawer_v1",
     "root": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1"
@@ -27,25 +27,26 @@
     ]
   },
   "current": {
-    "phase": "v59_MUJOCO_PILOT_PHASE3 — official LIBERO drawer baseline reproduction",
-    "phase_gate": "MUJOCO_PILOT_OFFICIAL_BASELINE_PENDING",
-    "verdict": "V59_MUJOCO_PILOT_ESTABLISHED — OFFICIAL_LIBERO_BASELINE_REPRO_NEXT",
-    "decision": "V59_MUJOCO_PILOT_ESTABLISHED — OFFICIAL_LIBERO_BASELINE_REPRO_NEXT",
+    "phase": "v59_MUJOCO_PILOT_PHASE4 — upstream baseline restored; isolate patch regression",
+    "phase_gate": "MUJOCO_PILOT_UPSTREAM_BASELINE_RESTORED",
+    "verdict": "V59_UPSTREAM_MINT_BASELINE_RESTORED — PATCH_REGRESSION_ISOLATION_NEXT",
+    "decision": "V59_UPSTREAM_MINT_BASELINE_RESTORED — PATCH_REGRESSION_ISOLATION_NEXT",
     "next_action": {
-      "type": "MINT_LIBERO_OFFICIAL_BASELINE_REPRO",
-      "id": "libero_goal_drawer_official_baseline_repro",
+      "type": "MINT_PATCH_REGRESSION_ISOLATION",
+      "id": "mint_patch_regression_isolation",
       "priority": "P0",
-      "target": "Reproduce official MINT LIBERO drawer baseline on an in-distribution drawer/cabinet task",
+      "target": "Isolate the minimal local patch delta that breaks the restored official LIBERO drawer baseline",
       "status": "pending",
-      "description": "Use the official LeRobot LIBERO evaluation path on an official MINT evaluation-suite drawer task before drawing capability conclusions from the MuJoCo pilot.",
-      "candidate_suite": "libero_goal",
-      "candidate_task": "open_the_middle_drawer_of_the_cabinet",
-      "required_conditions": [
-        "Official LeRobot LIBERO wrapper (not raw OffScreenRenderEnv loop)",
-        "256x256 observations to match policy_preprocessor.json",
-        "policy.n_action_steps=4 to match README evaluation settings",
-        "Task drawn from official suites: libero_10/object/spatial/goal",
-        "Re-run after E033 key-remap fix with current external/MINT head"
+      "description": "Use the restored 4eab579 release baseline as the control and re-introduce local MINT patches one change at a time until the regression reappears.",
+      "fixed_conditions": [
+        "Official LIBERO drawer task: libero_goal / open_the_middle_drawer_of_the_cabinet",
+        "Release-era runtime: python 3.12.13, lerobot 0.4.3, torch 2.7.1+cu126, transformers 4.53.3",
+        "256x256 observations, policy.n_action_steps=4, same MINT-libero checkpoint and tokenizer",
+        "Control remains external/MINT=4eab579 with proven 3/3 success"
+      ],
+      "evidence": [
+        "E035",
+        "E036"
       ]
     },
     "open_gates": [
@@ -79,7 +80,7 @@
     "authority_notes": [
       "current_truth.json is derived from Tier-0/Tier-1 only.",
       "Derived docs are convenience surfaces and must not override canonical files.",
-      "Scientific conclusions apply to the local patched MINT variant, not blindly to upstream MINT."
+      "Scientific conclusions attach to the current external/MINT head recorded here; patched variants must be evaluated separately from the restored upstream control."
     ]
   },
   "dataset": {
@@ -106,29 +107,36 @@
   },
   "workspace": {
     "schema_version": 1,
-    "generated_at": "2026-04-09T16:45:03+08:00",
+    "generated_at": "2026-04-09T20:50:08+08:00",
     "campaign_root": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1",
     "project_root": "/mnt/afs2/zhuhaowu/infinigen",
     "main_repo": {
       "root": "/mnt/afs2/zhuhaowu/infinigen",
       "exists": true,
       "branch": "feature/mint-integration",
-      "head": "4253ba45f3951c828c3482cb42c118e409702125",
+      "head": "8ddcc44e2736fb8f186090e8fa3af7009e870772",
       "upstream": "my-origin/feature/mint-integration",
       "ahead": 0,
-      "behind": 1,
+      "behind": 0,
       "dirty": true,
       "dirty_files": [
         " M experiments/mint/mint_drawer_v1/HARNESS_USAGE_GUIDE.md",
+        " M experiments/mint/mint_drawer_v1/scripts/harness/truth_backend.py",
         " M experiments/mint/mint_drawer_v1/sovereign/CAMPAIGN_TRUTH.generated.md",
         " M experiments/mint/mint_drawer_v1/sovereign/SESSION_BOOTSTRAP.20260409.md",
+        " M experiments/mint/mint_drawer_v1/sovereign/claims.yaml",
         " M experiments/mint/mint_drawer_v1/sovereign/current_truth.json",
+        " M experiments/mint/mint_drawer_v1/sovereign/evidence/index.json",
         " M experiments/mint/mint_drawer_v1/sovereign/handoff.md",
         " M experiments/mint/mint_drawer_v1/sovereign/model_load_fidelity.json",
         " M experiments/mint/mint_drawer_v1/sovereign/next_actions.json",
         " M experiments/mint/mint_drawer_v1/sovereign/run_ledger.yaml",
         " M experiments/mint/mint_drawer_v1/sovereign/state.json",
-        " M experiments/mint/mint_drawer_v1/sovereign/workspace_manifest.json"
+        " M experiments/mint/mint_drawer_v1/sovereign/workspace_manifest.json",
+        " M external/MINT",
+        "?? scripts/mint/run_p1c10_release_runtime_matched_ab.py",
+        "?? scripts/mint/run_p1c7_official_libero_goal_drawer_baseline.py",
+        "?? scripts/mint/run_p1c8_mint_release_vs_patched_ab.py"
       ],
       "error": null
     },
@@ -136,42 +144,64 @@
       "external/MINT": {
         "root": "/mnt/afs2/zhuhaowu/infinigen/external/MINT",
         "exists": true,
-        "branch": "main",
-        "head": "b5eabd41b4ca72264b3dc6ed18caac1cd062b3e2",
-        "upstream": "origin/main",
-        "ahead": 0,
-        "behind": 3,
-        "dirty": false,
-        "dirty_files": [],
+        "branch": "HEAD",
+        "head": "4eab5795345721001c412ff1ca2c886a11eab606",
+        "upstream": null,
+        "ahead": null,
+        "behind": null,
+        "dirty": true,
+        "dirty_files": [
+          "?? checkpoints/"
+        ],
         "error": null
       }
     }
   },
   "model_load_fidelity": {
     "schema_version": 1,
-    "generated_at": "2026-04-09T16:45:04+08:00",
+    "generated_at": "2026-04-09T20:50:14+08:00",
     "campaign": "mint_drawer_v1",
-    "main_repo_head": "4253ba45f3951c828c3482cb42c118e409702125",
+    "main_repo_head": "8ddcc44e2736fb8f186090e8fa3af7009e870772",
     "main_repo_branch": "feature/mint-integration",
-    "external_mint_head": "b5eabd41b4ca72264b3dc6ed18caac1cd062b3e2",
-    "external_mint_branch": "main",
-    "compatibility_patches": [],
-    "semantic_patches": [],
-    "experimental_patches": [],
-    "missing_keys_count": 165,
-    "unexpected_keys_count": null,
-    "architectural_key_mismatches_fixed": 165,
-    "metric_sources": [
-      "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/sovereign/night/night_runner.log"
+    "external_mint_head": "4eab5795345721001c412ff1ca2c886a11eab606",
+    "external_mint_branch": "HEAD",
+    "compatibility_patches": [
+      {
+        "file": "external/MINT",
+        "reason": "local MINT patch present"
+      },
+      {
+        "file": "external/MINT/checkpoints/",
+        "reason": "local MINT patch present"
+      }
     ],
-    "dtype_policy": "current runtime uses local patched precision path; see semantic patches",
+    "semantic_patches": [],
+    "experimental_patches": [
+      {
+        "file": "scripts/mint/run_p1c10_release_runtime_matched_ab.py",
+        "reason": "local experiment/runtime shim"
+      },
+      {
+        "file": "scripts/mint/run_p1c7_official_libero_goal_drawer_baseline.py",
+        "reason": "local experiment/runtime shim"
+      },
+      {
+        "file": "scripts/mint/run_p1c8_mint_release_vs_patched_ab.py",
+        "reason": "local experiment/runtime shim"
+      }
+    ],
+    "missing_keys_count": null,
+    "unexpected_keys_count": null,
+    "architectural_key_mismatches_fixed": null,
+    "metric_sources": [],
+    "dtype_policy": "Derived from current runtime artifacts; see metric_sources for the control evidence actually used.",
     "pretrained_and_finetuned_same_shim": true,
-    "fidelity_grade": "F2",
-    "fidelity_summary": "Runnable but semantically drifted",
-    "guardrail": "Scientific conclusions apply to the local patched MINT variant, not blindly to upstream MINT."
+    "fidelity_grade": "F1",
+    "fidelity_summary": "Compatibility-patched but high-fidelity",
+    "guardrail": "Scientific conclusions attach to the current external/MINT head recorded here; patched variants must be evaluated separately from the restored upstream control."
   },
   "claims": {
-    "active_count": 17,
+    "active_count": 19,
     "summary": [
       {
         "claim_id": "C_SIGLIP_GENERALIZATION",
@@ -447,9 +477,62 @@
         ],
         "display_role": "historical_context",
         "display_role_reason": "active supporting context but not directly driving the current phase"
+      },
+      {
+        "claim_id": "C_MINT_RELEASE_BASELINE_RESTORED",
+        "revision": 1,
+        "lifecycle_status": "active",
+        "status": "supported",
+        "scope": "official_libero_drawer_baseline_release_runtime",
+        "statement": "Under the release-era runtime and official LIBERO drawer baseline conditions, upstream external/MINT commit 4eab579 restores a valid MINT-libero control baseline: libero_goal/open_the_middle_drawer_of_the_cabinet succeeds 3/3 with 256x256 observations and policy.n_action_steps=4.",
+        "evidence_ids": [
+          "E036"
+        ],
+        "display_role": "current_driving",
+        "display_role_reason": "explicitly mapped to current phase/action"
+      },
+      {
+        "claim_id": "C_MINT_LOCAL_PATCH_REGRESSION",
+        "revision": 1,
+        "lifecycle_status": "active",
+        "status": "supported",
+        "scope": "matched_ab_upstream_vs_local_patch_release_runtime",
+        "statement": "On the same release-era runtime, official LIBERO drawer task, checkpoint, tokenizer, and evaluation path, the local patched MINT variant regresses relative to upstream 4eab579: upstream succeeds 3/3, while patched b5eabd4 fails before rollout with a GemmaModel.has-no-attribute-model error. This supports a local patch regression claim under the matched A/B scope.",
+        "evidence_ids": [
+          "E035"
+        ],
+        "display_role": "current_driving",
+        "display_role_reason": "explicitly mapped to current phase/action"
       }
     ],
-    "current_driving": [],
+    "current_driving": [
+      {
+        "claim_id": "C_MINT_RELEASE_BASELINE_RESTORED",
+        "revision": 1,
+        "lifecycle_status": "active",
+        "status": "supported",
+        "scope": "official_libero_drawer_baseline_release_runtime",
+        "statement": "Under the release-era runtime and official LIBERO drawer baseline conditions, upstream external/MINT commit 4eab579 restores a valid MINT-libero control baseline: libero_goal/open_the_middle_drawer_of_the_cabinet succeeds 3/3 with 256x256 observations and policy.n_action_steps=4.",
+        "evidence_ids": [
+          "E036"
+        ],
+        "display_role": "current_driving",
+        "display_role_reason": "explicitly mapped to current phase/action"
+      },
+      {
+        "claim_id": "C_MINT_LOCAL_PATCH_REGRESSION",
+        "revision": 1,
+        "lifecycle_status": "active",
+        "status": "supported",
+        "scope": "matched_ab_upstream_vs_local_patch_release_runtime",
+        "statement": "On the same release-era runtime, official LIBERO drawer task, checkpoint, tokenizer, and evaluation path, the local patched MINT variant regresses relative to upstream 4eab579: upstream succeeds 3/3, while patched b5eabd4 fails before rollout with a GemmaModel.has-no-attribute-model error. This supports a local patch regression claim under the matched A/B scope.",
+        "evidence_ids": [
+          "E035"
+        ],
+        "display_role": "current_driving",
+        "display_role_reason": "explicitly mapped to current phase/action"
+      }
+    ],
     "historical_context": [
       {
         "claim_id": "C_PHYSICS_LEGAL_TEACHER_HISTORICAL_SUMMARY",
@@ -862,7 +945,7 @@
         "flags": [
           {
             "flag": "scope_not_current_phase",
-            "detail": "scope=v58_vision_pipeline does not directly match current phase=v59_MUJOCO_PILOT_PHASE3 — official LIBERO drawer baseline reproduction"
+            "detail": "scope=v58_vision_pipeline does not directly match current phase=v59_MUJOCO_PILOT_PHASE4 — upstream baseline restored; isolate patch regression"
           }
         ]
       },
@@ -871,7 +954,7 @@
         "flags": [
           {
             "flag": "scope_not_current_phase",
-            "detail": "scope=v58_vision_pipeline does not directly match current phase=v59_MUJOCO_PILOT_PHASE3 — official LIBERO drawer baseline reproduction"
+            "detail": "scope=v58_vision_pipeline does not directly match current phase=v59_MUJOCO_PILOT_PHASE4 — upstream baseline restored; isolate patch regression"
           }
         ]
       },
@@ -880,7 +963,7 @@
         "flags": [
           {
             "flag": "scope_not_current_phase",
-            "detail": "scope=v58_data_integrity does not directly match current phase=v59_MUJOCO_PILOT_PHASE3 — official LIBERO drawer baseline reproduction"
+            "detail": "scope=v58_data_integrity does not directly match current phase=v59_MUJOCO_PILOT_PHASE4 — upstream baseline restored; isolate patch regression"
           }
         ]
       },
@@ -889,7 +972,7 @@
         "flags": [
           {
             "flag": "scope_not_current_phase",
-            "detail": "scope=v58_root_cause_revisited does not directly match current phase=v59_MUJOCO_PILOT_PHASE3 — official LIBERO drawer baseline reproduction"
+            "detail": "scope=v58_root_cause_revisited does not directly match current phase=v59_MUJOCO_PILOT_PHASE4 — upstream baseline restored; isolate patch regression"
           }
         ]
       },
@@ -898,14 +981,14 @@
         "flags": [
           {
             "flag": "scope_not_current_phase",
-            "detail": "scope=v58_data_provenance does not directly match current phase=v59_MUJOCO_PILOT_PHASE3 — official LIBERO drawer baseline reproduction"
+            "detail": "scope=v58_data_provenance does not directly match current phase=v59_MUJOCO_PILOT_PHASE4 — upstream baseline restored; isolate patch regression"
           }
         ]
       }
     ],
     "lifecycle_review_queue": [],
     "counts": {
-      "current_driving": 0,
+      "current_driving": 2,
       "historical_context": 15,
       "retired_display": 10,
       "with_debt_flags": 5,
@@ -913,9 +996,27 @@
     }
   },
   "evidence": {
-    "total": 34,
-    "verified_count": 29,
+    "total": 36,
+    "verified_count": 31,
     "latest_verified": [
+      {
+        "evidence_id": "E036",
+        "experiment_id": "p1c11_official_libero_goal_drawer_baseline_rollback_4eab579",
+        "type": "official_baseline_eval",
+        "timestamp": "2026-04-09T20:33:55+08:00",
+        "path": "experiments/mint/mint_drawer_v1/artifacts/p1c11_official_libero_goal_drawer_baseline_rollback_4eab579.json",
+        "verified": true,
+        "summary": "After rolling external/MINT back to upstream 4eab579 on feature/mint-integration, the official LIBERO drawer baseline is restored: libero_goal/open_the_middle_drawer_of_the_cabinet succeeds 3/3 under the release-era runtime with 256x256 observations and n_action_steps=4."
+      },
+      {
+        "evidence_id": "E035",
+        "experiment_id": "p1c10_release_runtime_matched_ab",
+        "type": "matched_ab_eval",
+        "timestamp": "2026-04-09T19:55:24+08:00",
+        "path": "experiments/mint/mint_drawer_v1/artifacts/p1c10_release_runtime_matched_ab.json",
+        "verified": true,
+        "summary": "Release-runtime matched A/B on official LIBERO drawer baseline: upstream 4eab579 succeeds 3/3, while local patched b5eabd4 fails under identical task/checkpoint/runtime conditions with GemmaModel.has-no-attribute-model. Supports a local patch regression claim, not an upstream capability failure."
+      },
       {
         "evidence_id": "E034",
         "experiment_id": "p1c6_forward_pass_recheck",
@@ -942,27 +1043,27 @@
         "path": "experiments/mint/mint_drawer_v1/artifacts/p1c5_state_semantic_comparison.json",
         "verified": true,
         "summary": "Against PyBullet dataset: raw_joint_pos mean_l2_delta=4.23, pi_minus_joint_pos=9.77. pi_minus NOT better. Reference is PyBullet dataset (wrong baseline for LIBERO comparison)."
-      },
-      {
-        "evidence_id": "E030",
-        "experiment_id": "p1c4_mint_on_libero",
-        "type": "eval",
-        "timestamp": "2026-04-07T23:03:46+08:00",
-        "path": "experiments/mint/mint_drawer_v1/artifacts/p1c4_mint_on_libero_drawer.json",
-        "verified": true,
-        "summary": "MINT on LIBERO drawer: 0% success for both raw_joint_pos and pi_minus_joint_pos. action_l2≈1.0 dominated by gripper=-1. Pipeline not clean: LM weights missing, image_size mismatch."
-      },
-      {
-        "evidence_id": "E029",
-        "experiment_id": "p1c2_libero_drawer_oracle",
-        "type": "state_oracle",
-        "timestamp": "2026-04-07T22:58:31+08:00",
-        "path": "experiments/mint/mint_drawer_v1/artifacts/p1c2_libero_drawer_oracle_gate.json",
-        "verified": true,
-        "summary": "State-space oracle 3/3. Direct qpos manipulation drives drawer from closed to open_qpos. Does NOT prove action-space reachability."
       }
     ],
     "latest_all": [
+      {
+        "evidence_id": "E036",
+        "experiment_id": "p1c11_official_libero_goal_drawer_baseline_rollback_4eab579",
+        "type": "official_baseline_eval",
+        "timestamp": "2026-04-09T20:33:55+08:00",
+        "path": "experiments/mint/mint_drawer_v1/artifacts/p1c11_official_libero_goal_drawer_baseline_rollback_4eab579.json",
+        "verified": true,
+        "summary": "After rolling external/MINT back to upstream 4eab579 on feature/mint-integration, the official LIBERO drawer baseline is restored: libero_goal/open_the_middle_drawer_of_the_cabinet succeeds 3/3 under the release-era runtime with 256x256 observations and n_action_steps=4."
+      },
+      {
+        "evidence_id": "E035",
+        "experiment_id": "p1c10_release_runtime_matched_ab",
+        "type": "matched_ab_eval",
+        "timestamp": "2026-04-09T19:55:24+08:00",
+        "path": "experiments/mint/mint_drawer_v1/artifacts/p1c10_release_runtime_matched_ab.json",
+        "verified": true,
+        "summary": "Release-runtime matched A/B on official LIBERO drawer baseline: upstream 4eab579 succeeds 3/3, while local patched b5eabd4 fails under identical task/checkpoint/runtime conditions with GemmaModel.has-no-attribute-model. Supports a local patch regression claim, not an upstream capability failure."
+      },
       {
         "evidence_id": "E034",
         "experiment_id": "p1c6_forward_pass_recheck",
@@ -989,31 +1090,13 @@
         "path": "sovereign/evidence/archive/E032.unverified.20260408.md",
         "verified": false,
         "summary": "Historical manual forward-pass diagnostic without authoritative artifact. Do not use as canonical evidence; superseded by E033 and E034."
-      },
-      {
-        "evidence_id": "E031",
-        "experiment_id": "p1c5_state_semantic_comparison",
-        "type": "data_audit",
-        "timestamp": "2026-04-07T23:04:09+08:00",
-        "path": "experiments/mint/mint_drawer_v1/artifacts/p1c5_state_semantic_comparison.json",
-        "verified": true,
-        "summary": "Against PyBullet dataset: raw_joint_pos mean_l2_delta=4.23, pi_minus_joint_pos=9.77. pi_minus NOT better. Reference is PyBullet dataset (wrong baseline for LIBERO comparison)."
-      },
-      {
-        "evidence_id": "E030",
-        "experiment_id": "p1c4_mint_on_libero",
-        "type": "eval",
-        "timestamp": "2026-04-07T23:03:46+08:00",
-        "path": "experiments/mint/mint_drawer_v1/artifacts/p1c4_mint_on_libero_drawer.json",
-        "verified": true,
-        "summary": "MINT on LIBERO drawer: 0% success for both raw_joint_pos and pi_minus_joint_pos. action_l2≈1.0 dominated by gripper=-1. Pipeline not clean: LM weights missing, image_size mismatch."
       }
     ]
   },
   "actions": {
     "pending_count": 8,
     "in_progress_count": 0,
-    "completed_count": 15,
+    "completed_count": 16,
     "blocked_count": 0
   },
   "derived_docs": {

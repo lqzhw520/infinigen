@@ -1,13 +1,13 @@
 {
   "runtime_schema_version": 2,
-  "phase": "v59_MUJOCO_PILOT_PHASE3 — official LIBERO drawer baseline reproduction",
-  "phase_gate": "MUJOCO_PILOT_OFFICIAL_BASELINE_PENDING",
-  "verdict": "V59_MUJOCO_PILOT_ESTABLISHED — OFFICIAL_LIBERO_BASELINE_REPRO_NEXT",
-  "updated_at": "2026-04-09T16:45:04+08:00",
-  "active_job": "libero_goal_drawer_official_baseline_repro",
+  "phase": "v59_MUJOCO_PILOT_PHASE4 — upstream baseline restored; isolate patch regression",
+  "phase_gate": "MUJOCO_PILOT_UPSTREAM_BASELINE_RESTORED",
+  "verdict": "V59_UPSTREAM_MINT_BASELINE_RESTORED — PATCH_REGRESSION_ISOLATION_NEXT",
+  "updated_at": "2026-04-09T20:50:14+08:00",
+  "active_job": "mint_patch_regression_isolation",
   "runtime_pointers": {
-    "current_next_action_id": "libero_goal_drawer_official_baseline_repro",
-    "current_next_action_type": "MINT_LIBERO_OFFICIAL_BASELINE_REPRO",
+    "current_next_action_id": "mint_patch_regression_isolation",
+    "current_next_action_type": "MINT_PATCH_REGRESSION_ISOLATION",
     "last_error": null,
     "last_repair_action": "Gate_A_completed_E027_written",
     "generated_from": "next_actions.json"

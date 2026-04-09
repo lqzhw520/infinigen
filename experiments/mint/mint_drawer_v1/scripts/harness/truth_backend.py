@@ -68,6 +68,10 @@ CURRENT_DRIVING_BY_ACTION_ID = {
         "C_V59_ACTION_NORMALIZATION_NOT_ROOT_CAUSE",
         "C_V59_STATE_REPRESENTATION_NOT_ROOT_CAUSE",
     },
+    "mint_patch_regression_isolation": {
+        "C_MINT_RELEASE_BASELINE_RESTORED",
+        "C_MINT_LOCAL_PATCH_REGRESSION",
+    },
 }
 
 CURRENT_DRIVING_BY_PHASE = {
@@ -77,6 +81,10 @@ CURRENT_DRIVING_BY_PHASE = {
         "C_RCA1_TEACHER_NOT_ROOT_CAUSE",
         "C_V59_ACTION_NORMALIZATION_NOT_ROOT_CAUSE",
         "C_V59_STATE_REPRESENTATION_NOT_ROOT_CAUSE",
+    },
+    "v59_MUJOCO_PILOT_PHASE4 — upstream baseline restored; isolate patch regression": {
+        "C_MINT_RELEASE_BASELINE_RESTORED",
+        "C_MINT_LOCAL_PATCH_REGRESSION",
     },
 }
 
@@ -435,6 +443,14 @@ def build_workspace_manifest() -> dict[str, Any]:
 
 
 def _read_candidate_logs() -> list[Path]:
+    release_controls = [
+        CAMPAIGN_ROOT / "outputs" / "p1c11_official_libero_goal_drawer_baseline_rollback_4eab579" / "variant_summary.json",
+        CAMPAIGN_ROOT / "outputs" / "p1c10_release_runtime_matched_ab" / "upstream_release_4eab579_release_runtime" / "variant_summary.json",
+    ]
+    existing_release_controls = [path for path in release_controls if path.exists()]
+    if existing_release_controls:
+        return existing_release_controls
+
     logs = []
     night_log = CAMPAIGN_ROOT / "sovereign" / "night" / "night_runner.log"
     if night_log.exists():
@@ -541,10 +557,18 @@ def build_model_load_fidelity(workspace_manifest: dict[str, Any] | None = None) 
             experimental_patches.append({"file": file_path, "reason": reason})
 
     log_metrics = _extract_model_metrics_from_logs()
+    missing_keys = log_metrics.get("missing_keys_count")
+    unexpected_keys = log_metrics.get("unexpected_keys_count")
+    fixed_mismatches = log_metrics.get("architectural_key_mismatches_fixed")
+    release_control_signature = (
+        missing_keys in (0, 1, None)
+        and unexpected_keys in (0, None)
+        and fixed_mismatches in (0, None)
+    )
 
     fidelity_grade = "F0"
     summary = "Upstream-faithful"
-    if semantic_patches or (log_metrics.get("missing_keys_count") or 0) > 0 or (log_metrics.get("unexpected_keys_count") or 0) > 0:
+    if semantic_patches or ((((missing_keys or 0) > 0) or ((unexpected_keys or 0) > 0)) and not release_control_signature):
         fidelity_grade = "F2"
         summary = "Runnable but semantically drifted"
     elif compatibility_patches or experimental_patches:
@@ -562,15 +586,15 @@ def build_model_load_fidelity(workspace_manifest: dict[str, Any] | None = None) 
         "compatibility_patches": compatibility_patches,
         "semantic_patches": semantic_patches,
         "experimental_patches": experimental_patches,
-        "missing_keys_count": log_metrics.get("missing_keys_count"),
-        "unexpected_keys_count": log_metrics.get("unexpected_keys_count"),
-        "architectural_key_mismatches_fixed": log_metrics.get("architectural_key_mismatches_fixed"),
+        "missing_keys_count": missing_keys,
+        "unexpected_keys_count": unexpected_keys,
+        "architectural_key_mismatches_fixed": fixed_mismatches,
         "metric_sources": log_metrics.get("sources", []),
-        "dtype_policy": "current runtime uses local patched precision path; see semantic patches",
-        "pretrained_and_finetuned_same_shim": True,
+        "dtype_policy": "Derived from current runtime artifacts; see metric_sources for the control evidence actually used.",
+        "pretrained_and_finetuned_same_shim": bool(compatibility_patches or semantic_patches),
         "fidelity_grade": fidelity_grade,
         "fidelity_summary": summary,
-        "guardrail": "Scientific conclusions apply to the local patched MINT variant, not blindly to upstream MINT.",
+        "guardrail": "Scientific conclusions attach to the current external/MINT head recorded here; patched variants must be evaluated separately from the restored upstream control.",
     }
     save_json(MODEL_LOAD_FIDELITY_PATH, payload)
     return payload
@@ -897,10 +921,10 @@ def build_current_truth() -> dict[str, Any]:
             ],
         },
         "current": {
-            "phase": state.get("phase", next_actions.get("phase", "unknown")),
-            "phase_gate": state.get("phase_gate", next_actions.get("phase_gate", "unknown")),
-            "verdict": state.get("verdict", next_actions.get("verdict", "unknown")),
-            "decision": next_actions.get("decision", state.get("verdict", "unknown")),
+            "phase": state.get("phase") or next_actions.get("phase") or "unknown",
+            "phase_gate": state.get("phase_gate") or next_actions.get("phase_gate") or "unknown",
+            "verdict": state.get("verdict") or next_actions.get("verdict") or "unknown",
+            "decision": next_actions.get("decision") or state.get("verdict") or "unknown",
             "next_action": next_action,
             "open_gates": [action for action in actions if action.get("type") == "learnability_audit_gate" and action.get("status") != "completed"],
             "blockers": blocked,

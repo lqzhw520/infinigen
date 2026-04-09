@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-04-09T20:50:14+08:00",
+  "generated_at": "2026-04-09T20:52:10+08:00",
   "campaign": "mint_drawer_v1",
-  "main_repo_head": "8ddcc44e2736fb8f186090e8fa3af7009e870772",
+  "main_repo_head": "8fd7e83659983fd205ca7c1b318261a40b703b83",
   "main_repo_branch": "feature/mint-integration",
   "external_mint_head": "4eab5795345721001c412ff1ca2c886a11eab606",
   "external_mint_branch": "HEAD",
@@ -17,20 +17,7 @@
     }
   ],
   "semantic_patches": [],
-  "experimental_patches": [
-    {
-      "file": "scripts/mint/run_p1c10_release_runtime_matched_ab.py",
-      "reason": "local experiment/runtime shim"
-    },
-    {
-      "file": "scripts/mint/run_p1c7_official_libero_goal_drawer_baseline.py",
-      "reason": "local experiment/runtime shim"
-    },
-    {
-      "file": "scripts/mint/run_p1c8_mint_release_vs_patched_ab.py",
-      "reason": "local experiment/runtime shim"
-    }
-  ],
+  "experimental_patches": [],
   "missing_keys_count": null,
   "unexpected_keys_count": null,
   "architectural_key_mismatches_fixed": null,

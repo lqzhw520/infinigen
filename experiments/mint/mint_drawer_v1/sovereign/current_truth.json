@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-04-09T20:50:15+08:00",
+  "generated_at": "2026-04-09T20:52:11+08:00",
   "campaign": {
     "id": "mint_drawer_v1",
     "root": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1"
@@ -107,36 +107,20 @@
   },
   "workspace": {
     "schema_version": 1,
-    "generated_at": "2026-04-09T20:50:08+08:00",
+    "generated_at": "2026-04-09T20:52:10+08:00",
     "campaign_root": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1",
     "project_root": "/mnt/afs2/zhuhaowu/infinigen",
     "main_repo": {
       "root": "/mnt/afs2/zhuhaowu/infinigen",
       "exists": true,
       "branch": "feature/mint-integration",
-      "head": "8ddcc44e2736fb8f186090e8fa3af7009e870772",
+      "head": "8fd7e83659983fd205ca7c1b318261a40b703b83",
       "upstream": "my-origin/feature/mint-integration",
       "ahead": 0,
-      "behind": 0,
+      "behind": 1,
       "dirty": true,
       "dirty_files": [
-        " M experiments/mint/mint_drawer_v1/HARNESS_USAGE_GUIDE.md",
-        " M experiments/mint/mint_drawer_v1/scripts/harness/truth_backend.py",
-        " M experiments/mint/mint_drawer_v1/sovereign/CAMPAIGN_TRUTH.generated.md",
-        " M experiments/mint/mint_drawer_v1/sovereign/SESSION_BOOTSTRAP.20260409.md",
-        " M experiments/mint/mint_drawer_v1/sovereign/claims.yaml",
-        " M experiments/mint/mint_drawer_v1/sovereign/current_truth.json",
-        " M experiments/mint/mint_drawer_v1/sovereign/evidence/index.json",
-        " M experiments/mint/mint_drawer_v1/sovereign/handoff.md",
-        " M experiments/mint/mint_drawer_v1/sovereign/model_load_fidelity.json",
-        " M experiments/mint/mint_drawer_v1/sovereign/next_actions.json",
-        " M experiments/mint/mint_drawer_v1/sovereign/run_ledger.yaml",
-        " M experiments/mint/mint_drawer_v1/sovereign/state.json",
-        " M experiments/mint/mint_drawer_v1/sovereign/workspace_manifest.json",
-        " M external/MINT",
-        "?? scripts/mint/run_p1c10_release_runtime_matched_ab.py",
-        "?? scripts/mint/run_p1c7_official_libero_goal_drawer_baseline.py",
-        "?? scripts/mint/run_p1c8_mint_release_vs_patched_ab.py"
+        " ? external/MINT"
       ],
       "error": null
     },
@@ -159,9 +143,9 @@
   },
   "model_load_fidelity": {
     "schema_version": 1,
-    "generated_at": "2026-04-09T20:50:14+08:00",
+    "generated_at": "2026-04-09T20:52:10+08:00",
     "campaign": "mint_drawer_v1",
-    "main_repo_head": "8ddcc44e2736fb8f186090e8fa3af7009e870772",
+    "main_repo_head": "8fd7e83659983fd205ca7c1b318261a40b703b83",
     "main_repo_branch": "feature/mint-integration",
     "external_mint_head": "4eab5795345721001c412ff1ca2c886a11eab606",
     "external_mint_branch": "HEAD",
@@ -176,20 +160,7 @@
       }
     ],
     "semantic_patches": [],
-    "experimental_patches": [
-      {
-        "file": "scripts/mint/run_p1c10_release_runtime_matched_ab.py",
-        "reason": "local experiment/runtime shim"
-      },
-      {
-        "file": "scripts/mint/run_p1c7_official_libero_goal_drawer_baseline.py",
-        "reason": "local experiment/runtime shim"
-      },
-      {
-        "file": "scripts/mint/run_p1c8_mint_release_vs_patched_ab.py",
-        "reason": "local experiment/runtime shim"
-      }
-    ],
+    "experimental_patches": [],
     "missing_keys_count": null,
     "unexpected_keys_count": null,
     "architectural_key_mismatches_fixed": null,

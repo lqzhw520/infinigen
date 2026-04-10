@@ -1,0 +1,56 @@
+{
+  "code": {
+    "config_class": "MINTConfig",
+    "config_source": "/mnt/afs2/zhuhaowu/infinigen/external/MINT/lerobot_policy_mint/src/lerobot_policy_mint/configuration_mint.py",
+    "lerobot_policy_mint_init": "/mnt/afs2/zhuhaowu/infinigen/external/MINT/lerobot_policy_mint/src/lerobot_policy_mint/__init__.py",
+    "lerobot_policy_mint_package": "/mnt/afs2/zhuhaowu/infinigen/external/MINT/lerobot_policy_mint/src/lerobot_policy_mint/__init__.py",
+    "policy_class": "MINTPolicy",
+    "policy_source": "/mnt/afs2/zhuhaowu/infinigen/external/MINT/lerobot_policy_mint/src/lerobot_policy_mint/modeling_mint.py"
+  },
+  "config_pretrained_path_after_override": "/mnt/afs2/zhuhaowu/infinigen/external/MINT/checkpoints/MINT-libero",
+  "config_pretrained_path_before_override": "lerobot/pi05_base",
+  "duration_s": 63.774147272109985,
+  "error": {
+    "message": "'GemmaModel' object has no attribute 'model'",
+    "traceback": "Traceback (most recent call last):\n  File \"/mnt/afs2/zhuhaowu/infinigen/scripts/mint/run_p1c10_release_runtime_matched_ab.py\", line 222, in child_main\n    eval_info = eval_policy_all(\n                ^^^^^^^^^^^^^^^^\n  File \"/root/anaconda3/envs/mint/lib/python3.12/site-packages/lerobot/scripts/lerobot_eval.py\", line 755, in eval_policy_all\n    tg, tid, metrics = task_runner(task_group, task_id, env)\n                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/root/anaconda3/envs/mint/lib/python3.12/site-packages/lerobot/scripts/lerobot_eval.py\", line 661, in run_one\n    metrics = eval_one(\n              ^^^^^^^^^\n  File \"/root/anaconda3/envs/mint/lib/python3.12/site-packages/lerobot/scripts/lerobot_eval.py\", line 611, in eval_one\n    task_result = eval_policy(\n                  ^^^^^^^^^^^^\n  File \"/root/anaconda3/envs/mint/lib/python3.12/site-packages/lerobot/scripts/lerobot_eval.py\", line 339, in eval_policy\n    rollout_data = rollout(\n                   ^^^^^^^^\n  File \"/root/anaconda3/envs/mint/lib/python3.12/site-packages/lerobot/scripts/lerobot_eval.py\", line 177, in rollout\n    action = policy.select_action(observation)\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/root/anaconda3/envs/mint/lib/python3.12/site-packages/torch/utils/_contextlib.py\", line 116, in decorate_context\n    return func(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/afs2/zhuhaowu/infinigen/external/MINT/lerobot_policy_mint/src/lerobot_policy_mint/modeling_mint.py\", line 1379, in select_action\n    actions, intentions = self.predict_action_chunk(batch)\n                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/root/anaconda3/envs/mint/lib/python3.12/site-packages/torch/utils/_contextlib.py\", line 116, in decorate_context\n    return func(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/afs2/zhuhaowu/infinigen/external/MINT/lerobot_policy_mint/src/lerobot_policy_mint/modeling_mint.py\", line 1398, in predict_action_chunk\n    actions, intentions = self.model.sample_actions(images, img_masks, tokens, masks, **kwargs)\n                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/root/anaconda3/envs/mint/lib/python3.12/site-packages/torch/utils/_contextlib.py\", line 116, in decorate_context\n    return func(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/afs2/zhuhaowu/infinigen/external/MINT/lerobot_policy_mint/src/lerobot_policy_mint/modeling_mint.py\", line 781, in sample_actions\n    prefix_embs, prefix_pad_masks, prefix_att_masks = self.embed_prefix(images, img_masks, tokens, masks)\n                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/afs2/zhuhaowu/infinigen/external/MINT/lerobot_policy_mint/src/lerobot_policy_mint/modeling_mint.py\", line 660, in embed_prefix\n    lang_emb = self._apply_checkpoint(lang_embed_func, tokens)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/afs2/zhuhaowu/infinigen/external/MINT/lerobot_policy_mint/src/lerobot_policy_mint/modeling_mint.py\", line 625, in _apply_checkpoint\n    return func(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/afs2/zhuhaowu/infinigen/external/MINT/lerobot_policy_mint/src/lerobot_policy_mint/modeling_mint.py\", line 656, in lang_embed_func\n    lang_emb = self.paligemma_with_expert.embed_language_tokens(tokens)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/mnt/afs2/zhuhaowu/infinigen/external/MINT/lerobot_policy_mint/src/lerobot_policy_mint/modeling_mint.py\", line 442, in embed_language_tokens\n    return self.paligemma.language_model.model.embed_tokens(tokens)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/root/anaconda3/envs/mint/lib/python3.12/site-packages/torch/nn/modules/module.py\", line 1940, in __getattr__\n    raise AttributeError(\nAttributeError: 'GemmaModel' object has no attribute 'model'\n",
+    "type": "AttributeError"
+  },
+  "experiment": {
+    "checkpoint": "/mnt/afs2/zhuhaowu/infinigen/external/MINT/checkpoints/MINT-libero",
+    "n_action_steps": 4,
+    "n_episodes": 3,
+    "observation_height": 256,
+    "observation_width": 256,
+    "seed": 42,
+    "task_id": 0,
+    "task_name": "open_the_middle_drawer_of_the_cabinet",
+    "task_suite": "libero_goal",
+    "tokenizer": "/mnt/afs2/zhuhaowu/infinigen/external/MINT/checkpoints/MINT-tokenizer-libero",
+    "tokenizer_checkpoint": "/mnt/afs2/zhuhaowu/infinigen/external/MINT/checkpoints/MINT-tokenizer-libero/ms_vqvae.pth"
+  },
+  "generated_at": "2026-04-09T19:54:19+08:00",
+  "label": "current_patched_b5eabd4_release_runtime",
+  "mint_src": "/mnt/afs2/zhuhaowu/infinigen/external/MINT/lerobot_policy_mint/src",
+  "returncode": 1,
+  "runtime_env": {
+    "MUJOCO_GL": "osmesa",
+    "PYOPENGL_PLATFORM": "osmesa",
+    "PYTHONPATH_prefix": [
+      "/mnt/afs2/zhuhaowu/infinigen/external/MINT/lerobot_policy_mint/src",
+      "/mnt/afs2/zhuhaowu/infinigen/external/LIBERO"
+    ],
+    "TOKENIZERS_PARALLELISM": "false",
+    "python_executable": "/root/anaconda3/envs/mint/bin/python"
+  },
+  "runtime_versions": {
+    "lerobot": "0.4.3",
+    "python": "3.12.13",
+    "torch": "2.7.1+cu126",
+    "transformers": "4.53.3"
+  },
+  "task_binding": {
+    "max_episode_steps": 300,
+    "task_attr": "open_the_middle_drawer_of_the_cabinet",
+    "task_description": "open the middle drawer of the cabinet"
+  }
+}

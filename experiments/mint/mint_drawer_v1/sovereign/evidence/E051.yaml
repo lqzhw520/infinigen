@@ -1,0 +1,7 @@
+evidence_id: E051
+experiment_id: p1i_infinigen_mint_alignment_solution_plan
+type: root_cause_execution_plan
+timestamp: '2026-04-10T16:51:02+08:00'
+path: experiments/mint/mint_drawer_v1/artifacts/p1i_infinigen_mint_alignment_solution_plan.json
+verified: true
+summary: Canonical root-cause execution plan for the Infinigen+AnyGrasp+MuJoCo to MINT alignment line. Prioritizes exact control trace capture, state/action semantic alignment, visual semantics, eval-path parity, and dataset expansion before the next fine-tune.

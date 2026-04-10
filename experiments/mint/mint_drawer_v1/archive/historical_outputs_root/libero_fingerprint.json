@@ -1,0 +1,219 @@
+{
+  "dataset": "LIBERO_full",
+  "codebase_version": "v2.0",
+  "total_episodes": 1693,
+  "episodes_sampled": 100,
+  "episode_length": {
+    "mean": 277.21,
+    "std": 58.47585741141382,
+    "min": 174,
+    "max": 455
+  },
+  "fps": 10,
+  "timestamp_dt_mean": 0.09999999992493866,
+  "features": {
+    "image": {
+      "key": "image",
+      "dtype": "image",
+      "shape": [
+        256,
+        256,
+        3
+      ],
+      "normalize": "float32 [0,1]"
+    },
+    "wrist_image": {
+      "key": "wrist_image",
+      "dtype": "image",
+      "shape": [
+        256,
+        256,
+        3
+      ],
+      "normalize": "float32 [0,1]"
+    },
+    "state": {
+      "key": "state",
+      "dtype": "float32",
+      "shape": [
+        8
+      ]
+    },
+    "actions": {
+      "key": "actions",
+      "dtype": "float32",
+      "shape": [
+        7
+      ]
+    },
+    "timestamp": {
+      "key": "timestamp"
+    },
+    "frame_index": {
+      "key": "frame_index"
+    },
+    "episode_index": {
+      "key": "episode_index"
+    },
+    "task_index": {
+      "key": "task_index"
+    }
+  },
+  "state_semantics": {
+    "[0]": "eef_pos_x (m)",
+    "[1]": "eef_pos_y (m)",
+    "[2]": "eef_pos_z (m)",
+    "[3]": "quat_component (xyzw, normalized ~1.0)",
+    "[4]": "quat_component (xyzw)",
+    "[5]": "quat_component (xyzw)",
+    "[6]": "quat_component (xyzw) \u2014 OVERLAPS with gripper_joint range",
+    "[7]": "gripper_joint_position (m, CONTINUOUS range [-0.042, +0.001])"
+  },
+  "state_ranges": {
+    "[0]": {
+      "min": -0.46368950605392456,
+      "max": 0.21031762659549713
+    },
+    "[1]": {
+      "min": -0.3255046010017395,
+      "max": 0.39128610491752625
+    },
+    "[2]": {
+      "min": 0.4457610547542572,
+      "max": 1.3257501125335693
+    },
+    "[3]": {
+      "min": 1.1321442127227783,
+      "max": 3.6714255809783936
+    },
+    "[4]": {
+      "min": -3.641430377960205,
+      "max": 3.560650587081909
+    },
+    "[5]": {
+      "min": -1.6532092094421387,
+      "max": 0.9885894656181335
+    },
+    "[6]": {
+      "min": -0.0010040868073701859,
+      "max": 0.040933579206466675
+    },
+    "[7]": {
+      "min": -0.04111652821302414,
+      "max": 0.0006346299778670073
+    }
+  },
+  "action_semantics": {
+    "[0]": "delta_x (normalized [-1, 1] \u2192 scaled by translation_scale)",
+    "[1]": "delta_y",
+    "[2]": "delta_z",
+    "[3]": "delta_rx (rotvec, normalized)",
+    "[4]": "delta_ry",
+    "[5]": "delta_rz",
+    "[6]": "gripper_command: {-1.0=CLOSE, +1.0=OPEN} \u2014 DISCRETE BINARY"
+  },
+  "action_ranges": {
+    "[0]": {
+      "min": -0.9375,
+      "max": 0.9375
+    },
+    "[1]": {
+      "min": -0.9375,
+      "max": 0.9107142686843872
+    },
+    "[2]": {
+      "min": -0.9375,
+      "max": 0.9375
+    },
+    "[3]": {
+      "min": -0.17142857611179352,
+      "max": 0.30000001192092896
+    },
+    "[4]": {
+      "min": -0.29892855882644653,
+      "max": 0.26249998807907104
+    },
+    "[5]": {
+      "min": -0.3482142984867096,
+      "max": 0.375
+    },
+    "[6]": {
+      "min": -1.0,
+      "max": 1.0
+    }
+  },
+  "action_delta_l2": {
+    "mean": 0.08325448912656111,
+    "std": 0.22364786976922732,
+    "p50": 0.04747652685261997,
+    "p95": 0.1608597427159126,
+    "p99": 2.0001109471683645,
+    "max": 2.019829054184058,
+    "NOTE": "This is |diff(actions)|_L2 per step. Very low p95 indicates smooth motion."
+  },
+  "gripper_analysis": {
+    "action_dim6_unique_values": [
+      -1.0,
+      1.0
+    ],
+    "is_action_gripper_binary": true,
+    "state_dim6_unique_count": 414,
+    "state_dim7_unique_count": 410,
+    "state_dim7_stats": {
+      "mean": -0.028711145869219187,
+      "std": 0.013239179860313664,
+      "min": -0.04111652821302414,
+      "max": 0.0006346299778670073
+    },
+    "state_dim7_is_continuous": true,
+    "gripper_transitions_per_ep": {
+      "mean": 3.55,
+      "median": 4.0,
+      "max": 8
+    }
+  },
+  "quat_norm_check": {
+    "state[3:7]_norm_mean": 3.269454901329202,
+    "state[3:7]_norm_std": 0.2226387906274263,
+    "NOTE": "mean~1.0 and std~0 confirms dims[3:7] are a quaternion (normalized). state[6] is both quat_comp3 AND overlaps slightly with gripper joint range."
+  },
+  "action_state_temporal_alignment": {
+    "convention": "action[t] causes state[t] to transition to state[t+1]. Best lag=1 means action[t] best predicts delta_state[t+1].",
+    "lag_analysis_per_dim": {
+      "[0]": {
+        "best_lag": 1,
+        "r": 0.9723583596395761
+      },
+      "[1]": {
+        "best_lag": 1,
+        "r": 0.9953816554235644
+      },
+      "[2]": {
+        "best_lag": 0,
+        "r": 0.9917990733741257
+      },
+      "[3]": {
+        "best_lag": 1,
+        "r": 0.9504431180375392
+      },
+      "[4]": {
+        "best_lag": -1,
+        "r": 0.49929434690183044
+      },
+      "[5]": {
+        "best_lag": 1,
+        "r": -0.3944506508965379
+      },
+      "[6]": {
+        "best_lag": 0,
+        "r": -0.41009819561704997
+      }
+    }
+  },
+  "p0_contract_critical_findings": {
+    "state[7]": "CONTINUOUS float joint position [-0.042, +0.001]. NEGATIVE=closed, POSITIVE=open. MUST NOT be binary {0, 1}.",
+    "action[6]": "DISCRETE {-1.0=close, +1.0=open}. NOT continuous. Transitions jump 2.0 in one step (open\u2192close or close\u2192open).",
+    "action_convention": "action[t] \u2192 state[t+1]. Best lag=1 for position dims (r>0.97). Our Infinigen code uses this convention (verified).",
+    "action_clip": "action[0:6] bounded by [-1, 1]. BUT in raw data: max translation = 0.9375 (not 1.0), max rotation = 0.375 (not 1.0). This means LIBERO human teleop never uses full [-1, 1] range \u2014 teleop is smooth."
+  }
+}

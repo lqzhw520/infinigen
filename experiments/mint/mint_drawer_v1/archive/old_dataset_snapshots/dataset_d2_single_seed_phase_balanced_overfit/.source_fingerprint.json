@@ -1,0 +1,62 @@
+{
+  "builder_version": "d2_v5_attach_contract_hardened",
+  "variant_id": "phase_balanced_overfit",
+  "contract_mode": "teacher_success_fallback",
+  "source_branch_id": null,
+  "rollout_multiplier": 3,
+  "balancing_mode": "phase_windows",
+  "selected_seed_ids": [
+    10
+  ],
+  "rollouts": [
+    {
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/d2_phase_windows/phase_balanced_overfit/seed_010_episode_03__phase_window_00.npz",
+      "size": 176897,
+      "content_sha256": "e5e1fee533a1165b60e85ef2a7764a89f3dbb352403cabae6e665dfbc2257274",
+      "seed": 10,
+      "episode_index": 3,
+      "success": true,
+      "ever_attached": true,
+      "max_drawer_fraction": 1.0,
+      "branch_id": "branch4_densified_attach_window",
+      "contract_mode": null,
+      "teacher_mode": null,
+      "uses_planned_segment": null,
+      "uses_target_fraction": null,
+      "attach_step": null
+    },
+    {
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/d2_phase_windows/phase_balanced_overfit/seed_010_episode_04__phase_window_00.npz",
+      "size": 785009,
+      "content_sha256": "2d616dbe6d1c33880b78057d58bbf979417a89ba7571c4ed6a8df91270afa055",
+      "seed": 10,
+      "episode_index": 4,
+      "success": true,
+      "ever_attached": true,
+      "max_drawer_fraction": 1.0,
+      "branch_id": "branch4_densified_attach_window",
+      "contract_mode": null,
+      "teacher_mode": null,
+      "uses_planned_segment": null,
+      "uses_target_fraction": null,
+      "attach_step": null
+    },
+    {
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/d2_phase_windows/phase_balanced_overfit/seed_010_episode_04__phase_window_01.npz",
+      "size": 336774,
+      "content_sha256": "125d1971d1427bb9d7f67f6970ead7735f24c0cbe85f2c9a9ec36b2602921e42",
+      "seed": 10,
+      "episode_index": 4,
+      "success": true,
+      "ever_attached": true,
+      "max_drawer_fraction": 1.0,
+      "branch_id": "branch4_densified_attach_window",
+      "contract_mode": null,
+      "teacher_mode": null,
+      "uses_planned_segment": null,
+      "uses_target_fraction": null,
+      "attach_step": null
+    }
+  ],
+  "fingerprint": "4281def759846354876f4c197099a7872d3755664bc126387848d3f387c4fcee"
+}

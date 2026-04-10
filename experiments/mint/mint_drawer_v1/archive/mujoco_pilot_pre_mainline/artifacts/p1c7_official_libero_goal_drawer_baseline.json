@@ -1,0 +1,92 @@
+{
+  "command": [
+    "/root/anaconda3/envs/infinigen/bin/lerobot-eval",
+    "--policy.path=/mnt/afs2/zhuhaowu/infinigen/external/MINT/checkpoints/MINT-libero",
+    "--policy.vqvae_name_or_path=/mnt/afs2/zhuhaowu/infinigen/external/MINT/checkpoints/MINT-tokenizer-libero",
+    "--env.type=libero",
+    "--env.task=libero_goal",
+    "--env.task_ids=[0]",
+    "--env.observation_height=256",
+    "--env.observation_width=256",
+    "--policy.n_action_steps=4",
+    "--policy.device=cuda",
+    "--eval.batch_size=1",
+    "--eval.n_episodes=3",
+    "--seed=42",
+    "--output_dir=/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c7_official_libero_goal_drawer_baseline"
+  ],
+  "cwd": "/mnt/afs2/zhuhaowu/infinigen",
+  "duration_s": 256.53970646858215,
+  "eval_info": {
+    "overall": {
+      "avg_max_reward": 0.0,
+      "avg_sum_reward": 0.0,
+      "eval_ep_s": 61.12929113705953,
+      "eval_s": 183.38787293434143,
+      "n_episodes": 3,
+      "pc_success": 0.0,
+      "video_paths": [
+        "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c7_official_libero_goal_drawer_baseline/videos/libero_goal_0/eval_episode_0.mp4",
+        "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c7_official_libero_goal_drawer_baseline/videos/libero_goal_0/eval_episode_1.mp4",
+        "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c7_official_libero_goal_drawer_baseline/videos/libero_goal_0/eval_episode_2.mp4"
+      ]
+    },
+    "per_group": {
+      "libero_goal": {
+        "avg_max_reward": 0.0,
+        "avg_sum_reward": 0.0,
+        "n_episodes": 3,
+        "pc_success": 0.0,
+        "video_paths": [
+          "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c7_official_libero_goal_drawer_baseline/videos/libero_goal_0/eval_episode_0.mp4",
+          "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c7_official_libero_goal_drawer_baseline/videos/libero_goal_0/eval_episode_1.mp4",
+          "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c7_official_libero_goal_drawer_baseline/videos/libero_goal_0/eval_episode_2.mp4"
+        ]
+      }
+    },
+    "per_task": [
+      {
+        "metrics": {
+          "max_rewards": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "successes": [
+            false,
+            false,
+            false
+          ],
+          "sum_rewards": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "video_paths": [
+            "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c7_official_libero_goal_drawer_baseline/videos/libero_goal_0/eval_episode_0.mp4",
+            "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c7_official_libero_goal_drawer_baseline/videos/libero_goal_0/eval_episode_1.mp4",
+            "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c7_official_libero_goal_drawer_baseline/videos/libero_goal_0/eval_episode_2.mp4"
+          ]
+        },
+        "task_group": "libero_goal",
+        "task_id": 0
+      }
+    ]
+  },
+  "eval_info_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c7_official_libero_goal_drawer_baseline/eval_info.json",
+  "generated_at": "2026-04-09T17:08:49+08:00",
+  "n_episodes": 3,
+  "passed": true,
+  "returncode": 0,
+  "runtime": {
+    "MUJOCO_GL": "osmesa",
+    "PYOPENGL_PLATFORM": "osmesa",
+    "TOKENIZERS_PARALLELISM": "false"
+  },
+  "seed": 42,
+  "stage": "p1c7",
+  "stderr_tail": "]\u001b[A\n\nRunning rollout with at most 300 steps:  95%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258c| 286/300 [00:54<00:02,  5.56it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps:  95%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258c| 286/300 [00:54<00:02,  5.56it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps:  96%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258c| 287/300 [00:54<00:02,  5.85it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps:  96%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258c| 287/300 [00:54<00:02,  5.85it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps:  96%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258c| 288/300 [00:54<00:01,  6.07it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps:  96%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258c| 288/300 [00:54<00:01,  6.07it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps:  96%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258b| 289/300 [00:54<00:02,  5.28it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps:  96%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258b| 289/300 [00:54<00:02,  5.28it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps:  97%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258b| 290/300 [00:54<00:01,  5.59it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps:  97%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258b| 290/300 [00:54<00:01,  5.59it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps:  97%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258b| 291/300 [00:54<00:01,  5.86it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps:  97%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258b| 291/300 [00:55<00:01,  5.86it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps:  97%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258b| 292/300 [00:55<00:01,  5.99it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps:  97%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258b| 292/300 [00:55<00:01,  5.99it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps:  98%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258a| 293/300 [00:55<00:01,  5.22it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps:  98%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258a| 293/300 [00:55<00:01,  5.22it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps:  98%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258a| 294/300 [00:55<00:01,  5.57it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps:  98%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258a| 294/300 [00:55<00:01,  5.57it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps:  98%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258a| 295/300 [00:55<00:00,  5.85it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps:  98%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258a| 295/300 [00:55<00:00,  5.85it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps:  99%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258a| 296/300 [00:55<00:00,  6.06it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps:  99%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258a| 296/300 [00:55<00:00,  6.06it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps:  99%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2589| 297/300 [00:55<00:00,  5.23it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps:  99%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2589| 297/300 [00:56<00:00,  5.23it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps:  99%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2589| 298/300 [00:56<00:00,  5.58it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps:  99%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2589| 298/300 [00:56<00:00,  5.58it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2589| 299/300 [00:56<00:00,  5.87it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2589| 299/300 [00:56<00:00,  5.87it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 300/300 [00:56<00:00,  6.06it/s, running_success_rate=0.0%]\u001b[A\n\n                                                                                                                    \u001b[A\nStepping through eval batches:  67%|\u2588\u2588\u2588\u2588\u2588\u2588\u258b   | 2/3 [03:03<01:01, 61.64s/it, running_success_rate=0.0%]\nStepping through eval batches: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 3/3 [03:03<00:00, 60.88s/it, running_success_rate=0.0%]\nStepping through eval batches: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 3/3 [03:03<00:00, 61.06s/it, running_success_rate=0.0%]\nINFO 2026-04-09 17:08:48 bot_eval.py:579 End of eval\n",
+  "stdout_tail": "Creating LIBERO envs | suites=['libero_goal'] | n_envs(per task)=1 | init_states=True\nRestricting to task_ids=[0]\n[info] using task orders [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]\nBuilt vec env | suite=libero_goal | task_id=0 | n_envs=1\nLoading VQVAE weights from /mnt/afs2/zhuhaowu/infinigen/external/MINT/checkpoints/MINT-tokenizer-libero/ms_vqvae.pth\nLoaded VQVAE weights. Missing: 0, Unexpected: 0\nLoading model from: /mnt/afs2/zhuhaowu/infinigen/external/MINT/checkpoints/MINT-libero\n\u2713 Loaded state dict from model.safetensors\nFixed 166 architectural key mismatches (checkpoint vs model)\nMissing keys when loading state dict: 1 keys\n  - model.paligemma_with_expert.paligemma.language_model.model.embed_tokens.weight\nOverall Aggregated Metrics:\n{'avg_sum_reward': 0.0, 'avg_max_reward': 0.0, 'pc_success': 0.0, 'n_episodes': 3, 'eval_s': 183.38787293434143, 'eval_ep_s': 61.12929113705953, 'video_paths': ['/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c7_official_libero_goal_drawer_baseline/videos/libero_goal_0/eval_episode_0.mp4', '/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c7_official_libero_goal_drawer_baseline/videos/libero_goal_0/eval_episode_1.mp4', '/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c7_official_libero_goal_drawer_baseline/videos/libero_goal_0/eval_episode_2.mp4']}\n\nAggregated Metrics for per_task:\n[{'task_group': 'libero_goal', 'task_id': 0, 'metrics': {'sum_rewards': [0.0, 0.0, 0.0], 'max_rewards': [0.0, 0.0, 0.0], 'successes': [False, False, False], 'video_paths': ['/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c7_official_libero_goal_drawer_baseline/videos/libero_goal_0/eval_episode_0.mp4', '/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c7_official_libero_goal_drawer_baseline/videos/libero_goal_0/eval_episode_1.mp4', '/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c7_official_libero_goal_drawer_baseline/videos/libero_goal_0/eval_episode_2.mp4']}}]\n\nAggregated Metrics for per_group:\n{'libero_goal': {'avg_sum_reward': 0.0, 'avg_max_reward': 0.0, 'pc_success': 0.0, 'n_episodes': 3, 'video_paths': ['/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c7_official_libero_goal_drawer_baseline/videos/libero_goal_0/eval_episode_0.mp4', '/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c7_official_libero_goal_drawer_baseline/videos/libero_goal_0/eval_episode_1.mp4', '/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c7_official_libero_goal_drawer_baseline/videos/libero_goal_0/eval_episode_2.mp4']}}\n\nAggregated Metrics for overall:\n{'avg_sum_reward': 0.0, 'avg_max_reward': 0.0, 'pc_success': 0.0, 'n_episodes': 3, 'eval_s': 183.38787293434143, 'eval_ep_s': 61.12929113705953, 'video_paths': ['/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c7_official_libero_goal_drawer_baseline/videos/libero_goal_0/eval_episode_0.mp4', '/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c7_official_libero_goal_drawer_baseline/videos/libero_goal_0/eval_episode_1.mp4', '/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c7_official_libero_goal_drawer_baseline/videos/libero_goal_0/eval_episode_2.mp4']}\n",
+  "task_id": 0,
+  "task_suite": "libero_goal"
+}

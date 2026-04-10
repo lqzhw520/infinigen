@@ -2,7 +2,7 @@ evidence_id: E031
 experiment_id: p1c5_state_semantic_comparison
 type: data_audit
 timestamp: 2026-04-07T23:04:09+08:00
-path: experiments/mint/mint_drawer_v1/artifacts/p1c5_state_semantic_comparison.json
+path: experiments/mint/mint_drawer_v1/archive/historical_artifacts_root/p1c5_state_semantic_comparison.json
 verified: true
 
 summary: >

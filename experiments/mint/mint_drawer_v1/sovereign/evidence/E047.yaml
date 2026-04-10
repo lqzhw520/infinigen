@@ -1,0 +1,8 @@
+evidence_id: E047
+experiment_id: p1h_working_set_cleanup
+type: working_set_cleanup
+timestamp: '2026-04-10T16:51:59+08:00'
+path: experiments/mint/mint_drawer_v1/artifacts/p1h_working_set_manifest.json
+verified: true
+summary: Root-level artifacts/outputs cleaned into a canonical working set plus archive,
+  with evidence paths updated.

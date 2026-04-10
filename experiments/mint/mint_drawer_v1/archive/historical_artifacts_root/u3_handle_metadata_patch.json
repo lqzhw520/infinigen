@@ -1,0 +1,87 @@
+{
+  "gate": "u3_handle_metadata_patch",
+  "generated_at": "2026-03-26T23:49:08+08:00",
+  "target_seeds": [
+    2,
+    10,
+    11
+  ],
+  "patched_seeds": [
+    {
+      "seed": 2,
+      "metadata_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/urdf/drawerbox/2/metadata.json",
+      "source": "strong_rollout_local_pose",
+      "source_rollout": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/diagnostic_runs/2026-03-26_gate_drift_reset/c2_replay_valid_rollouts/seed_002_episode_04.npz",
+      "handle_center_local": [
+        -0.1452844887971878,
+        -0.1362035870552063,
+        -0.06825096905231476
+      ]
+    },
+    {
+      "seed": 10,
+      "metadata_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/urdf/drawerbox/10/metadata.json",
+      "source": "fallback_accepted_rollout_local_pose",
+      "source_rollout": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/diagnostic_runs/2026-03-26_gate_drift_reset/c2_replay_valid_rollouts/seed_010_episode_04.npz",
+      "handle_center_local": [
+        -0.12249346077442169,
+        -0.06982514262199402,
+        0.03239614516496658
+      ]
+    },
+    {
+      "seed": 11,
+      "metadata_path": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/urdf/drawerbox/11/metadata.json",
+      "source": "bbox_front_face_heuristic",
+      "source_rollout": null,
+      "handle_center_local": [
+        0.16118426620960236,
+        0.0,
+        0.0
+      ]
+    }
+  ],
+  "active_teacher_source": {
+    "generated_at": "2026-03-26T23:41:04+08:00",
+    "source_dir": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/diagnostic_runs/2026-03-26_gate_drift_reset/c2_replay_valid_rollouts",
+    "teacher_lineage_pin": {
+      "label": "archived_seed10_positive_lineage",
+      "reason": "Pin D1/D2 to the archived diagnostic lineage that produced the only reproducible positive D1 signal on a D2-feasible seed.",
+      "source_dir": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/diagnostic_runs/2026-03-26_gate_drift_reset/c2_replay_valid_rollouts",
+      "mainline_candidate_override": [
+        {
+          "seed": 10,
+          "episode_index": 4
+        },
+        {
+          "seed": 2,
+          "episode_index": 4
+        }
+      ],
+      "diagnostic_candidate_override": [
+        {
+          "seed": 10,
+          "episode_index": 4
+        },
+        {
+          "seed": 2,
+          "episode_index": 4
+        },
+        {
+          "seed": 9,
+          "episode_index": 2
+        }
+      ],
+      "created_at": "2026-03-26T22:20:00+08:00",
+      "allow_legacy_contract_metadata": true,
+      "d2_subset_override": {
+        "10": [
+          3,
+          4
+        ]
+      }
+    },
+    "lineage_pin_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/teacher_lineage_pin.json"
+  },
+  "strong_rollout_audit_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/strong_rollout_audit.json"
+}

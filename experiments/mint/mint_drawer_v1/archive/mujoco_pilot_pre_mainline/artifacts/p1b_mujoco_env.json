@@ -1,0 +1,9 @@
+{
+  "gate": "p1b_mujoco_env",
+  "passed": true,
+  "elapsed_s": 1.5,
+  "stdout": "[DrawerRobotEnvMujoco smoke test]\n  [agentview image] OK shape=(256, 256, 3)\n  [wrist image] OK shape=(256, 256, 3)\n  [agentview dtype uint8] OK\n  [wrist dtype uint8] OK\n  [state shape (8,)] OK shape=(8,)\n  [state dtype float32] OK\n  [state[7] \u2208 LIBERO gripper range] OK state[7]=+0.000830 vs range=[-0.042, 0.001]\n  [eef_pos finite] OK eef_pos=[-0.06145779 -0.22809416  0.21433006]\n  [agentview non-trivial (mean > 1)] OK mean_pixel=251.39\n  [wrist non-trivial (mean > 1)] OK mean_pixel=241.51\n  [step() returns RobotObservation] OK\n  [step() done flag] OK\n\n[SUMMARY]\n  PASSED: 12\n  FAILED: 0\n\n[P1b gate] PASS\n",
+  "stderr": "pybullet build time: Jan 27 2026 16:23:36\n",
+  "returncode": 0,
+  "timestamp": 1775232683.9990056
+}

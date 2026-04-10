@@ -1,0 +1,190 @@
+{
+  "gate": "g3_render_depth",
+  "passed": true,
+  "render_cache_dir": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g3_scene_renders",
+  "seed_count": 15,
+  "required_seed_count": 15,
+  "records": [
+    {
+      "seed": 1,
+      "point_cloud_shape": [
+        102400,
+        3
+      ],
+      "depth_shape": [
+        320,
+        320
+      ],
+      "cache_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g3_scene_renders/seed_001.npz"
+    },
+    {
+      "seed": 2,
+      "point_cloud_shape": [
+        102400,
+        3
+      ],
+      "depth_shape": [
+        320,
+        320
+      ],
+      "cache_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g3_scene_renders/seed_002.npz"
+    },
+    {
+      "seed": 3,
+      "point_cloud_shape": [
+        102400,
+        3
+      ],
+      "depth_shape": [
+        320,
+        320
+      ],
+      "cache_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g3_scene_renders/seed_003.npz"
+    },
+    {
+      "seed": 4,
+      "point_cloud_shape": [
+        102400,
+        3
+      ],
+      "depth_shape": [
+        320,
+        320
+      ],
+      "cache_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g3_scene_renders/seed_004.npz"
+    },
+    {
+      "seed": 5,
+      "point_cloud_shape": [
+        102400,
+        3
+      ],
+      "depth_shape": [
+        320,
+        320
+      ],
+      "cache_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g3_scene_renders/seed_005.npz"
+    },
+    {
+      "seed": 6,
+      "point_cloud_shape": [
+        102400,
+        3
+      ],
+      "depth_shape": [
+        320,
+        320
+      ],
+      "cache_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g3_scene_renders/seed_006.npz"
+    },
+    {
+      "seed": 7,
+      "point_cloud_shape": [
+        102400,
+        3
+      ],
+      "depth_shape": [
+        320,
+        320
+      ],
+      "cache_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g3_scene_renders/seed_007.npz"
+    },
+    {
+      "seed": 8,
+      "point_cloud_shape": [
+        102400,
+        3
+      ],
+      "depth_shape": [
+        320,
+        320
+      ],
+      "cache_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g3_scene_renders/seed_008.npz"
+    },
+    {
+      "seed": 9,
+      "point_cloud_shape": [
+        102400,
+        3
+      ],
+      "depth_shape": [
+        320,
+        320
+      ],
+      "cache_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g3_scene_renders/seed_009.npz"
+    },
+    {
+      "seed": 10,
+      "point_cloud_shape": [
+        102400,
+        3
+      ],
+      "depth_shape": [
+        320,
+        320
+      ],
+      "cache_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g3_scene_renders/seed_010.npz"
+    },
+    {
+      "seed": 11,
+      "point_cloud_shape": [
+        102400,
+        3
+      ],
+      "depth_shape": [
+        320,
+        320
+      ],
+      "cache_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g3_scene_renders/seed_011.npz"
+    },
+    {
+      "seed": 12,
+      "point_cloud_shape": [
+        102400,
+        3
+      ],
+      "depth_shape": [
+        320,
+        320
+      ],
+      "cache_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g3_scene_renders/seed_012.npz"
+    },
+    {
+      "seed": 13,
+      "point_cloud_shape": [
+        102400,
+        3
+      ],
+      "depth_shape": [
+        320,
+        320
+      ],
+      "cache_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g3_scene_renders/seed_013.npz"
+    },
+    {
+      "seed": 14,
+      "point_cloud_shape": [
+        102400,
+        3
+      ],
+      "depth_shape": [
+        320,
+        320
+      ],
+      "cache_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g3_scene_renders/seed_014.npz"
+    },
+    {
+      "seed": 15,
+      "point_cloud_shape": [
+        102400,
+        3
+      ],
+      "depth_shape": [
+        320,
+        320
+      ],
+      "cache_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g3_scene_renders/seed_015.npz"
+    }
+  ],
+  "timestamp": 1774268185.5619073
+}

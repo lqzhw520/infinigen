@@ -1,0 +1,179 @@
+{
+  "control_surface": {
+    "dataset_root": "/mnt/afs2/zhuhaowu/infinigen/external/LIBERO/datasets/libero_10_image",
+    "task_specific_benchmark": "E036/p1c11 official LIBERO drawer baseline"
+  },
+  "target_surface": {
+    "dataset_root": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/dataset",
+    "night_runner_result": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/mujoco_infinigen_mainline_night.json"
+  },
+  "findings": [
+    {
+      "id": "image_brightness_gap",
+      "severity": "high",
+      "summary": "Primary camera images are much darker and lower-variance than the official control dataset.",
+      "control_mean_rgb": [
+        0.41397433979078524,
+        0.3712978250446838,
+        0.3288835352525059
+      ],
+      "target_mean_rgb": [
+        0.025222658643535536,
+        0.021695042778463923,
+        0.016682630950329354
+      ],
+      "control_std_rgb": [
+        0.25164212259146873,
+        0.24734572014295175,
+        0.24088087733655836
+      ],
+      "target_std_rgb": [
+        0.00587755452313963,
+        0.005074094167663934,
+        0.003979351535374566
+      ]
+    },
+    {
+      "id": "wrist_camera_gap",
+      "severity": "medium",
+      "summary": "Secondary camera images are also much darker than the official wrist-image distribution.",
+      "control_mean_rgb": [
+        0.4322330795152778,
+        0.37688954907086686,
+        0.3298114295372065
+      ],
+      "target_mean_rgb": [
+        0.052647988113702505,
+        0.04468215448716108,
+        0.03562197068158318
+      ]
+    },
+    {
+      "id": "task_text_gap",
+      "severity": "high",
+      "summary": "The current dataset task text is generic and does not match the official control drawer phrasing.",
+      "control_drawer_tasks": [
+        "put the black bowl in the bottom drawer of the cabinet and close it"
+      ],
+      "target_tasks": [
+        "open the drawer"
+      ]
+    },
+    {
+      "id": "state_variation_gap",
+      "severity": "medium",
+      "summary": "State dimensions 3:7 are nearly constant in the Infinigen dataset, unlike the official control distribution.",
+      "control_state_std": [
+        0.10743443931273489,
+        0.1442475967164441,
+        0.2572337413645642,
+        0.34413808792923967,
+        1.2344301693194124,
+        0.3579880702551748,
+        0.01330878669640957,
+        0.013174591556403457
+      ],
+      "target_state_std": [
+        0.02639957554634141,
+        0.05280962743735106,
+        0.027658715792332984,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.020440798147753236
+      ]
+    },
+    {
+      "id": "action_degeneracy_gap",
+      "severity": "low",
+      "summary": "Rollout actions are far more degenerate than the official control distribution, especially rotation channels.",
+      "control_action_std": [
+        0.28252488092180783,
+        0.3590113909029878,
+        0.3674089836402496,
+        0.03770618379976311,
+        0.05429303163570244,
+        0.08724782772335003,
+        0.9957991664979265
+      ],
+      "target_action_std": [
+        0.2633913412849074,
+        0.06005038148003814,
+        0.19769436947113048,
+        0.0,
+        0.0,
+        0.0,
+        0.9422181217242581
+      ],
+      "control_action_mean": [
+        0.018203219580245917,
+        0.05858386677049721,
+        -0.05592356325431262,
+        0.004626933903665416,
+        0.0028960781014207345,
+        -0.0076731359981381505,
+        -0.09156491125954229
+      ],
+      "target_action_mean": [
+        -0.0749999988079071,
+        -0.9927101850509643,
+        0.022960499823093415,
+        0.0,
+        0.0,
+        0.0,
+        -0.33499999046325685
+      ]
+    },
+    {
+      "id": "rollout_quality_gap",
+      "severity": "high",
+      "summary": "Current robot rollout source quality is still low; the first pilot copied more learning files than truly successful rollouts.",
+      "anygrasp_successful_seeds": 2,
+      "oracle_successful_seeds": 2,
+      "copied_learning_files": 6,
+      "successful_oracle_rollouts": 2
+    },
+    {
+      "id": "dataset_size_gap",
+      "severity": "high",
+      "summary": "The current training dataset is extremely small for adapting a 3B policy.",
+      "target_episode_count": 6,
+      "target_frame_count": 400
+    },
+    {
+      "id": "pilot_outcome",
+      "severity": "high",
+      "summary": "The first MuJoCo pilot completed end-to-end but produced no held-out improvement.",
+      "pretrained_success_count": 0,
+      "finetuned_success_count": 0,
+      "heldout_seed_count": 5
+    }
+  ],
+  "recommendations": [
+    {
+      "priority": "P0",
+      "action": "Filter the learning set to successful oracle/AnyGrasp rollouts only and regenerate the dataset."
+    },
+    {
+      "priority": "P0",
+      "action": "Expand train rollout generation from seeds 1-6 to the full train pool 1-10 and keep only successful episodes."
+    },
+    {
+      "priority": "P0",
+      "action": "Align the task text to the official drawer phrasing instead of the generic 'open the drawer'."
+    },
+    {
+      "priority": "P0",
+      "action": "Calibrate MuJoCo-rendered images toward the official control brightness/contrast distribution before training and eval."
+    },
+    {
+      "priority": "P1",
+      "action": "Increase overnight training steps substantially beyond the 200-step pilot once the learning set is filtered and expanded."
+    },
+    {
+      "priority": "P1",
+      "action": "Treat the current 0/5 result as a pilot infrastructure result, not as a scientific failure of the MuJoCo/Infinigen line."
+    }
+  ]
+}

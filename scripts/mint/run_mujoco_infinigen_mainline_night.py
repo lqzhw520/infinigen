@@ -76,15 +76,17 @@ M6_OUTPUT_DIR = OUTPUT_DIR / "m6_mujoco_mint_train"
 M7_OUTPUT_DIR = OUTPUT_DIR / "m7_mujoco_eval"
 GRASPNET_PYTHON = Path("/root/anaconda3/envs/graspnet/bin/python")
 ANYGRASP_SUBPROCESS = PROJECT_ROOT / "scripts" / "mint" / "run_mujoco_anygrasp_subprocess.py"
+ALIGNMENT_AUDIT_SCRIPT = PROJECT_ROOT / "scripts" / "mint" / "run_p1e_mujoco_infinigen_alignment_audit.py"
+ALIGNMENT_AUDIT_JSON = ARTIFACT_DIR / "p1e_mujoco_infinigen_alignment_audit.json"
+ALIGNMENT_AUDIT_MD = OUTPUT_DIR / "p1e_mujoco_infinigen_alignment_audit.md"
 
-TRAIN_SEEDS = default_train_seeds()[:6]
+TRAIN_SEEDS = default_train_seeds()
 HELDOUT_SEEDS = default_heldout_seeds()
 IMAGE_SIZE = 256
 MAX_STEPS = 96
-MIN_ANYGRASP_SEEDS = 4
-# First overnight run is allowed to proceed with a minimal oracle-backed
-# learning set as long as the robot-in-loop rollout source is real and auditable.
-MIN_ORACLE_SEEDS = 2
+MIN_ANYGRASP_SEEDS = int(os.environ.get("MUJOCO_MIN_ANYGRASP_SEEDS", "4"))
+MIN_ORACLE_SEEDS = int(os.environ.get("MUJOCO_MIN_ORACLE_SEEDS", "3"))
+SUCCESS_REPEAT = int(os.environ.get("MUJOCO_SUCCESS_REPEAT", "8"))
 
 
 def _artifact_path(stage: str) -> Path:
@@ -97,6 +99,31 @@ def _save_stage_result(stage: str, payload: dict[str, Any]) -> Path:
     path = _artifact_path(stage)
     write_json_atomic(path, payload)
     return path
+
+
+def _run_alignment_audit() -> dict[str, Any]:
+    proc = subprocess.run(
+        [sys.executable, str(ALIGNMENT_AUDIT_SCRIPT)],
+        cwd=str(PROJECT_ROOT),
+        capture_output=True,
+        text=True,
+    )
+    payload = {
+        "returncode": proc.returncode,
+        "stdout_tail": proc.stdout[-4000:],
+        "stderr_tail": proc.stderr[-4000:],
+        "json_path": str(ALIGNMENT_AUDIT_JSON),
+        "md_path": str(ALIGNMENT_AUDIT_MD),
+        "passed": proc.returncode == 0 and ALIGNMENT_AUDIT_JSON.exists(),
+    }
+    if ALIGNMENT_AUDIT_JSON.exists():
+        try:
+            audit = json.loads(ALIGNMENT_AUDIT_JSON.read_text())
+            payload["finding_ids"] = [item.get("id") for item in audit.get("findings", [])]
+            payload["recommendations"] = audit.get("recommendations", [])
+        except json.JSONDecodeError:
+            payload["passed"] = False
+    return payload
 
 
 def _read_current_next_action() -> dict[str, Any]:
@@ -259,7 +286,7 @@ def run_m2_true_robot_env_gate() -> dict[str, Any]:
         "robot_in_loop": True,
         "canonical": True,
         "records": records,
-        "task": "open the drawer",
+        "task": "open the middle drawer of the cabinet",
         "image_size": IMAGE_SIZE,
         "max_steps": 8,
     }
@@ -412,21 +439,46 @@ def run_m4_robot_rollout_gate() -> dict[str, Any]:
 
     learning_source = None
     learning_dir = None
+    candidate_sources: list[tuple[str, Path, int]] = []
     if any_success >= MIN_ANYGRASP_SEEDS:
-        learning_source = "anygrasp"
-        learning_dir = M4_ROLLOUT_ANY
-    elif oracle_success >= MIN_ORACLE_SEEDS:
-        learning_source = "oracle_handle"
-        learning_dir = M4_ROLLOUT_ORACLE
+        candidate_sources.append(("anygrasp", M4_ROLLOUT_ANY, any_success))
+    if oracle_success >= MIN_ORACLE_SEEDS:
+        candidate_sources.append(("oracle_handle", M4_ROLLOUT_ORACLE, oracle_success))
+    if candidate_sources:
+        learning_source, learning_dir, _best_success = max(candidate_sources, key=lambda item: (item[2], item[0] == "oracle_handle"))
 
     copied = 0
+    learning_records: list[dict[str, Any]] = []
     if learning_dir is not None:
-        for file_path in sorted(learning_dir.glob("*.npz")):
-            shutil.copy2(file_path, M4_ROLLOUT_LEARNING / file_path.name)
+        source_records = any_records if learning_source == "anygrasp" else oracle_records
+        for record in source_records:
+            if not record.get("passed"):
+                continue
+            file_path = Path(record["path"])
             meta_path = file_path.with_suffix(".json")
-            if meta_path.exists():
-                shutil.copy2(meta_path, M4_ROLLOUT_LEARNING / meta_path.name)
-            copied += 1
+            for repeat_idx in range(SUCCESS_REPEAT):
+                dest_name = (
+                    file_path.stem
+                    if repeat_idx == 0
+                    else f"{file_path.stem}_rep{repeat_idx:02d}"
+                )
+                dest_path = M4_ROLLOUT_LEARNING / f"{dest_name}.npz"
+                shutil.copy2(file_path, dest_path)
+                if meta_path.exists():
+                    dest_meta = M4_ROLLOUT_LEARNING / f"{dest_name}.json"
+                    meta = json.loads(meta_path.read_text())
+                    meta["repeat_index"] = repeat_idx
+                    meta["source_rollout_path"] = str(file_path)
+                    write_json_atomic(dest_meta, meta)
+                copied += 1
+                learning_records.append(
+                    {
+                        "seed": record["seed"],
+                        "source_path": str(file_path),
+                        "repeat_index": repeat_idx,
+                        "dest_path": str(dest_path),
+                    }
+                )
 
     return {
         "passed": learning_source is not None and copied > 0,
@@ -442,6 +494,10 @@ def run_m4_robot_rollout_gate() -> dict[str, Any]:
         "learning_source": learning_source,
         "learning_rollout_dir": str(M4_ROLLOUT_LEARNING) if learning_source else None,
         "copied_learning_files": copied,
+        "successful_learning_seeds": sorted({int(item["seed"]) for item in learning_records}),
+        "successful_learning_rollouts": len(learning_records),
+        "success_repeat": SUCCESS_REPEAT,
+        "learning_records": learning_records,
     }
 
 
@@ -479,13 +535,14 @@ def run_m5_dataset_pack_gate() -> dict[str, Any]:
         "task_coverage": payload["task_coverage"],
         "source_files": payload["source_files"],
         "integrity": integrity,
+        "alignment_audit": _run_alignment_audit(),
     }
 
 
 def run_m6_mint_train_gate() -> dict[str, Any]:
-    train_steps = int(os.environ.get("MUJOCO_MINT_TRAIN_STEPS", "200"))
+    train_steps = int(os.environ.get("MUJOCO_MINT_TRAIN_STEPS", "4000"))
     batch_size = int(os.environ.get("MUJOCO_MINT_TRAIN_BATCH_SIZE", "4"))
-    save_freq = int(os.environ.get("MUJOCO_MINT_TRAIN_SAVE_FREQ", str(train_steps)))
+    save_freq = int(os.environ.get("MUJOCO_MINT_TRAIN_SAVE_FREQ", str(max(500, train_steps // 4))))
     log_path = ARTIFACT_DIR / "m6_mint_train.log"
     if M6_OUTPUT_DIR.exists():
         shutil.rmtree(M6_OUTPUT_DIR)

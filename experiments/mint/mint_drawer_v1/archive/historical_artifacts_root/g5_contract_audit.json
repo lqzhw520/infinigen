@@ -1,0 +1,63 @@
+{
+  "gate": "g5_delta_reconstruction",
+  "passed": false,
+  "record_count": 2,
+  "successful_replays": 0,
+  "successful_seed_count": 0,
+  "successful_seeds": [],
+  "min_successful_replays": 8,
+  "min_successful_seeds": 4,
+  "blocker_type": "action_contract",
+  "blocker_reason": "Native env.step replay diverges sharply from scripted teacher rollouts before attach; replay never reaches successful grasp+pull behavior on sampled oracle rollouts.",
+  "records": [
+    {
+      "source": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g4_rollouts/seed_001_episode_00.npz",
+      "seed": 1,
+      "passed": false,
+      "source_grasp_source": "oracle_handle",
+      "action_contract": {
+        "max_abs_action": 1.0,
+        "clipped_fraction": 0.0,
+        "translation_norm_p95": 1.7320507764816284,
+        "rotation_norm_p95": 1.7320507764816284
+      },
+      "metrics": {
+        "replay_steps": 114,
+        "max_position_error_m": 1.3159080743789673,
+        "mean_position_error_m": 0.8292039632797241,
+        "max_rotation_error_rad": 3.0544593334198,
+        "max_drawer_error": 1.0,
+        "max_handle_distance_m": 1.2532272338867188,
+        "attached_agreement": 0.631578947368421,
+        "success": false,
+        "ever_attached": false,
+        "final_drawer_fraction": 0.0
+      }
+    },
+    {
+      "source": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g4_rollouts_oracle/seed_007_episode_00.npz",
+      "seed": 7,
+      "passed": false,
+      "source_grasp_source": "oracle_handle",
+      "action_contract": {
+        "max_abs_action": 1.0,
+        "clipped_fraction": 0.0,
+        "translation_norm_p95": 1.7320507764816284,
+        "rotation_norm_p95": 1.7320507764816284
+      },
+      "metrics": {
+        "replay_steps": 154,
+        "max_position_error_m": 1.1714897155761719,
+        "mean_position_error_m": 0.6723178625106812,
+        "max_rotation_error_rad": 3.0807693004608154,
+        "max_drawer_error": 1.0,
+        "max_handle_distance_m": 1.1675264835357666,
+        "attached_agreement": 0.45454545454545453,
+        "success": false,
+        "ever_attached": false,
+        "final_drawer_fraction": 0.0
+      }
+    }
+  ],
+  "timestamp": "2026-03-23T21:48:43+08:00"
+}

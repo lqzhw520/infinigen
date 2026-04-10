@@ -1,0 +1,328 @@
+{
+  "gate": "u2_joint_semantics_audit",
+  "passed": true,
+  "decision": "upstream_clean",
+  "flags": [],
+  "bad_axis_seeds": [],
+  "bad_limit_seeds": [],
+  "bad_lower_bound_seeds": [],
+  "records": [
+    {
+      "seed": 1,
+      "joint_name": "drawer_slide_0",
+      "joint_type": "prismatic",
+      "axis_xyz": [
+        0.0,
+        -1.0,
+        0.0
+      ],
+      "axis_norm": 1.0,
+      "axis_alignment_to_negative_y": 1.0,
+      "origin_xyz": [
+        0.0,
+        1.338876232104269e-10,
+        0.0
+      ],
+      "limit_lower": 0.0,
+      "limit_upper": 0.14376073,
+      "damping": 0.6,
+      "friction": 0.25
+    },
+    {
+      "seed": 2,
+      "joint_name": "drawer_slide_0",
+      "joint_type": "prismatic",
+      "axis_xyz": [
+        0.0,
+        -1.0,
+        0.0
+      ],
+      "axis_norm": 1.0,
+      "axis_alignment_to_negative_y": 1.0,
+      "origin_xyz": [
+        0.0,
+        -4.074356407812729e-10,
+        0.0
+      ],
+      "limit_lower": 0.0,
+      "limit_upper": 0.21874034,
+      "damping": 0.6,
+      "friction": 0.25
+    },
+    {
+      "seed": 3,
+      "joint_name": "drawer_slide_0",
+      "joint_type": "prismatic",
+      "axis_xyz": [
+        0.0,
+        -1.0,
+        0.0
+      ],
+      "axis_norm": 1.0,
+      "axis_alignment_to_negative_y": 1.0,
+      "origin_xyz": [
+        0.0,
+        4.375115825183684e-10,
+        0.0
+      ],
+      "limit_lower": 0.0,
+      "limit_upper": 0.23488727,
+      "damping": 0.6,
+      "friction": 0.25
+    },
+    {
+      "seed": 4,
+      "joint_name": "drawer_slide_0",
+      "joint_type": "prismatic",
+      "axis_xyz": [
+        0.0,
+        -1.0,
+        0.0
+      ],
+      "axis_norm": 1.0,
+      "axis_alignment_to_negative_y": 1.0,
+      "origin_xyz": [
+        0.0,
+        -5.739137498572688e-10,
+        0.0
+      ],
+      "limit_lower": 0.0,
+      "limit_upper": 0.20541175,
+      "damping": 0.6,
+      "friction": 0.25
+    },
+    {
+      "seed": 5,
+      "joint_name": "drawer_slide_0",
+      "joint_type": "prismatic",
+      "axis_xyz": [
+        0.0,
+        -1.0,
+        0.0
+      ],
+      "axis_norm": 1.0,
+      "axis_alignment_to_negative_y": 1.0,
+      "origin_xyz": [
+        0.0,
+        6.801501584163816e-10,
+        0.0
+      ],
+      "limit_lower": 0.0,
+      "limit_upper": 0.18257642,
+      "damping": 0.6,
+      "friction": 0.25
+    },
+    {
+      "seed": 6,
+      "joint_name": "drawer_slide_0",
+      "joint_type": "prismatic",
+      "axis_xyz": [
+        0.0,
+        -1.0,
+        0.0
+      ],
+      "axis_norm": 1.0,
+      "axis_alignment_to_negative_y": 1.0,
+      "origin_xyz": [
+        0.0,
+        3.97365251814108e-10,
+        0.0
+      ],
+      "limit_lower": 0.0,
+      "limit_upper": 0.12190505,
+      "damping": 0.6,
+      "friction": 0.25
+    },
+    {
+      "seed": 7,
+      "joint_name": "drawer_slide_0",
+      "joint_type": "prismatic",
+      "axis_xyz": [
+        0.0,
+        -1.0,
+        0.0
+      ],
+      "axis_norm": 1.0,
+      "axis_alignment_to_negative_y": 1.0,
+      "origin_xyz": [
+        0.0,
+        -5.04719599447867e-10,
+        0.0
+      ],
+      "limit_lower": 0.0,
+      "limit_upper": 0.2709693,
+      "damping": 0.6,
+      "friction": 0.25
+    },
+    {
+      "seed": 8,
+      "joint_name": "drawer_slide_0",
+      "joint_type": "prismatic",
+      "axis_xyz": [
+        0.0,
+        -1.0,
+        0.0
+      ],
+      "axis_norm": 1.0,
+      "axis_alignment_to_negative_y": 1.0,
+      "origin_xyz": [
+        0.0,
+        6.908082994527831e-10,
+        0.0
+      ],
+      "limit_lower": 0.0,
+      "limit_upper": 0.18543744,
+      "damping": 0.6,
+      "friction": 0.25
+    },
+    {
+      "seed": 9,
+      "joint_name": "drawer_slide_0",
+      "joint_type": "prismatic",
+      "axis_xyz": [
+        0.0,
+        -1.0,
+        0.0
+      ],
+      "axis_norm": 1.0,
+      "axis_alignment_to_negative_y": 1.0,
+      "origin_xyz": [
+        0.0,
+        -5.632782573705697e-10,
+        0.0
+      ],
+      "limit_lower": 0.0,
+      "limit_upper": 0.20160517,
+      "damping": 0.6,
+      "friction": 0.25
+    },
+    {
+      "seed": 10,
+      "joint_name": "drawer_slide_0",
+      "joint_type": "prismatic",
+      "axis_xyz": [
+        0.0,
+        -1.0,
+        0.0
+      ],
+      "axis_norm": 1.0,
+      "axis_alignment_to_negative_y": 1.0,
+      "origin_xyz": [
+        0.0,
+        2.716852298689787e-10,
+        0.0
+      ],
+      "limit_lower": 0.0,
+      "limit_upper": 0.11668793,
+      "damping": 0.6,
+      "friction": 0.25
+    },
+    {
+      "seed": 11,
+      "joint_name": "drawer_slide_0",
+      "joint_type": "prismatic",
+      "axis_xyz": [
+        0.0,
+        -1.0,
+        0.0
+      ],
+      "axis_norm": 1.0,
+      "axis_alignment_to_negative_y": 1.0,
+      "origin_xyz": [
+        0.0,
+        2.2690883894060931e-10,
+        0.0
+      ],
+      "limit_lower": 0.0,
+      "limit_upper": 0.09745661,
+      "damping": 0.6,
+      "friction": 0.25
+    },
+    {
+      "seed": 12,
+      "joint_name": "drawer_slide_0",
+      "joint_type": "prismatic",
+      "axis_xyz": [
+        0.0,
+        -1.0,
+        0.0
+      ],
+      "axis_norm": 1.0,
+      "axis_alignment_to_negative_y": 1.0,
+      "origin_xyz": [
+        0.0,
+        -6.135700281184597e-10,
+        0.0
+      ],
+      "limit_lower": 0.0,
+      "limit_upper": 0.2196053,
+      "damping": 0.6,
+      "friction": 0.25
+    },
+    {
+      "seed": 13,
+      "joint_name": "drawer_slide_0",
+      "joint_type": "prismatic",
+      "axis_xyz": [
+        0.0,
+        -1.0,
+        0.0
+      ],
+      "axis_norm": 1.0,
+      "axis_alignment_to_negative_y": 1.0,
+      "origin_xyz": [
+        0.0,
+        4.778455409137905e-10,
+        0.0
+      ],
+      "limit_lower": 0.0,
+      "limit_upper": 0.25654143,
+      "damping": 0.6,
+      "friction": 0.25
+    },
+    {
+      "seed": 14,
+      "joint_name": "drawer_slide_0",
+      "joint_type": "prismatic",
+      "axis_xyz": [
+        0.0,
+        -1.0,
+        0.0
+      ],
+      "axis_norm": 1.0,
+      "axis_alignment_to_negative_y": 1.0,
+      "origin_xyz": [
+        0.0,
+        -6.664357399266407e-10,
+        0.0
+      ],
+      "limit_lower": 0.0,
+      "limit_upper": 0.23852667,
+      "damping": 0.6,
+      "friction": 0.25
+    },
+    {
+      "seed": 15,
+      "joint_name": "drawer_slide_0",
+      "joint_type": "prismatic",
+      "axis_xyz": [
+        0.0,
+        -1.0,
+        0.0
+      ],
+      "axis_norm": 1.0,
+      "axis_alignment_to_negative_y": 1.0,
+      "origin_xyz": [
+        0.0,
+        -3.44321682277382e-10,
+        0.0
+      ],
+      "limit_lower": 0.0,
+      "limit_upper": 0.18485633,
+      "damping": 0.6,
+      "friction": 0.25
+    }
+  ],
+  "conclusion_text": "Joint axes and ranges are consistent with the controller's drawer-opening assumption.",
+  "timestamp": 1774340179.2119658
+}

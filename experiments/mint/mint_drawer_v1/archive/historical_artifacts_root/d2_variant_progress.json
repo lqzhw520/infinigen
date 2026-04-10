@@ -1,0 +1,18 @@
+{
+  "step": "d2_single_seed_overfit",
+  "status": "failed",
+  "controller_id": "manual_lineage_bridge:seed10:20260326T223500",
+  "run_id": "manual_lineage_bridge:20260326T223500",
+  "selected_seed": 10,
+  "selected_rollouts": [
+    "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/diagnostic_runs/2026-03-26_gate_drift_reset/c2_replay_valid_rollouts/seed_010_episode_03.npz",
+    "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/diagnostic_runs/2026-03-26_gate_drift_reset/c2_replay_valid_rollouts/seed_010_episode_04.npz"
+  ],
+  "source_rollout_count": 2,
+  "variant_id": "extended_overfit",
+  "variant_stage": "terminated_by_stop_loss",
+  "checkpoint_written": true,
+  "evaluation_started": true,
+  "evaluation_finished": false,
+  "failure_reason": "data_quality_floor_not_met"
+}

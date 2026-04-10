@@ -1,0 +1,1578 @@
+{
+  "gate": "c3_single_rollout_replay_gate",
+  "passed": true,
+  "selected_rollout": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_009_episode_03.npz",
+  "selected_rollout_fingerprint": {
+    "builder_version": "c3_v2_selected_rollout",
+    "variant_id": "single_rollout_gate",
+    "contract_mode": "teacher_success_fallback",
+    "source_branch_id": "branch4_densified_attach_window",
+    "rollout_multiplier": 1,
+    "balancing_mode": "none",
+    "selected_seed_ids": [
+      9
+    ],
+    "rollouts": [
+      {
+        "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_009_episode_03.npz",
+        "size": 2170576,
+        "seed": 9,
+        "episode_index": 3,
+        "success": true,
+        "ever_attached": true,
+        "max_drawer_fraction": 1.0,
+        "branch_id": "branch4_densified_attach_window",
+        "contract_mode": null,
+        "teacher_mode": "closed_loop_native",
+        "uses_planned_segment": false,
+        "uses_target_fraction": false,
+        "attach_step": 70
+      }
+    ],
+    "fingerprint": "48409815abcf041796accd3d8aee0e3c6677bb4b71f2c5d141f2c4db13a4e4c3"
+  },
+  "source_grasp_source": "anygrasp",
+  "source_branch_id": "branch4_densified_attach_window",
+  "contract_mode": "teacher_success_fallback",
+  "strict_passed": false,
+  "fallback_passed": true,
+  "contract_preflight": {
+    "passed": true,
+    "rollout_count": 25,
+    "passed_count": 25,
+    "best_rollout": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_009_episode_03.npz",
+    "best_rollout_analysis": {
+      "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_009_episode_03.npz",
+      "seed": 9,
+      "episode_index": 3,
+      "source_branch_id": "branch4_densified_attach_window",
+      "contract_mode": null,
+      "task": "open the drawer",
+      "success": true,
+      "ever_attached": true,
+      "attach_step": 70,
+      "max_drawer_fraction": 1.0,
+      "handle_distance_min": 0.08983830362558365,
+      "actions_shape": [
+        99,
+        7
+      ],
+      "states_shape": [
+        99,
+        8
+      ],
+      "phase_values": [
+        "align",
+        "grasp",
+        "hold_close",
+        "pregrasp",
+        "pull",
+        "retreat",
+        "staging"
+      ],
+      "phase_step_counts": {
+        "align": 16,
+        "grasp": 5,
+        "hold_close": 10,
+        "pregrasp": 26,
+        "pull": 17,
+        "retreat": 1,
+        "staging": 24
+      },
+      "gripper_unique_values": [
+        -1.0,
+        1.0
+      ],
+      "gripper_range": 2.0,
+      "gripper_transition_count": 2,
+      "action_clipped_fraction": 0.14285714285714285,
+      "action_norm_p95": 0.7218050181865692,
+      "action_min": -1.0,
+      "action_max": 1.0,
+      "has_nan": false,
+      "metadata_present": {
+        "branch_id": true,
+        "seed": true,
+        "task": true,
+        "success": true
+      },
+      "preflight_passed": true,
+      "preflight_reasons": []
+    },
+    "rollouts": [
+      {
+        "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_002_episode_00.npz",
+        "seed": 2,
+        "episode_index": 0,
+        "source_branch_id": "branch4_densified_attach_window",
+        "contract_mode": null,
+        "task": "open the drawer",
+        "success": true,
+        "ever_attached": true,
+        "attach_step": 66,
+        "max_drawer_fraction": 1.0,
+        "handle_distance_min": 0.045804884284734726,
+        "actions_shape": [
+          100,
+          7
+        ],
+        "states_shape": [
+          100,
+          8
+        ],
+        "phase_values": [
+          "align",
+          "grasp",
+          "hold_close",
+          "pregrasp",
+          "pull",
+          "retreat",
+          "staging"
+        ],
+        "phase_step_counts": {
+          "align": 16,
+          "grasp": 1,
+          "hold_close": 10,
+          "pregrasp": 26,
+          "pull": 22,
+          "retreat": 1,
+          "staging": 24
+        },
+        "gripper_unique_values": [
+          -1.0,
+          1.0
+        ],
+        "gripper_range": 2.0,
+        "gripper_transition_count": 2,
+        "action_clipped_fraction": 0.14285714285714285,
+        "action_norm_p95": 0.7233256697654724,
+        "action_min": -1.0,
+        "action_max": 1.0,
+        "has_nan": false,
+        "metadata_present": {
+          "branch_id": true,
+          "seed": true,
+          "task": true,
+          "success": true
+        },
+        "preflight_passed": true,
+        "preflight_reasons": []
+      },
+      {
+        "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_002_episode_01.npz",
+        "seed": 2,
+        "episode_index": 1,
+        "source_branch_id": "branch4_densified_attach_window",
+        "contract_mode": null,
+        "task": "open the drawer",
+        "success": true,
+        "ever_attached": true,
+        "attach_step": 66,
+        "max_drawer_fraction": 1.0,
+        "handle_distance_min": 0.029375817626714706,
+        "actions_shape": [
+          90,
+          7
+        ],
+        "states_shape": [
+          90,
+          8
+        ],
+        "phase_values": [
+          "align",
+          "grasp",
+          "hold_close",
+          "pregrasp",
+          "pull",
+          "retreat",
+          "staging"
+        ],
+        "phase_step_counts": {
+          "align": 16,
+          "grasp": 1,
+          "hold_close": 10,
+          "pregrasp": 26,
+          "pull": 12,
+          "retreat": 1,
+          "staging": 24
+        },
+        "gripper_unique_values": [
+          -1.0,
+          1.0
+        ],
+        "gripper_range": 2.0,
+        "gripper_transition_count": 2,
+        "action_clipped_fraction": 0.14285714285714285,
+        "action_norm_p95": 0.7233256697654724,
+        "action_min": -1.0,
+        "action_max": 1.0,
+        "has_nan": false,
+        "metadata_present": {
+          "branch_id": true,
+          "seed": true,
+          "task": true,
+          "success": true
+        },
+        "preflight_passed": true,
+        "preflight_reasons": []
+      },
+      {
+        "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_002_episode_02.npz",
+        "seed": 2,
+        "episode_index": 2,
+        "source_branch_id": "branch4_densified_attach_window",
+        "contract_mode": null,
+        "task": "open the drawer",
+        "success": true,
+        "ever_attached": true,
+        "attach_step": 62,
+        "max_drawer_fraction": 0.9467273798838806,
+        "handle_distance_min": 0.04457671195268631,
+        "actions_shape": [
+          102,
+          7
+        ],
+        "states_shape": [
+          102,
+          8
+        ],
+        "phase_values": [
+          "align",
+          "grasp",
+          "hold_close",
+          "pregrasp",
+          "pull",
+          "retreat",
+          "staging"
+        ],
+        "phase_step_counts": {
+          "align": 16,
+          "grasp": 1,
+          "hold_close": 10,
+          "pregrasp": 26,
+          "pull": 28,
+          "retreat": 1,
+          "staging": 20
+        },
+        "gripper_unique_values": [
+          -1.0,
+          1.0
+        ],
+        "gripper_range": 2.0,
+        "gripper_transition_count": 2,
+        "action_clipped_fraction": 0.14285714285714285,
+        "action_norm_p95": 0.7078225642442703,
+        "action_min": -1.0,
+        "action_max": 1.0,
+        "has_nan": false,
+        "metadata_present": {
+          "branch_id": true,
+          "seed": true,
+          "task": true,
+          "success": true
+        },
+        "preflight_passed": true,
+        "preflight_reasons": []
+      },
+      {
+        "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_002_episode_03.npz",
+        "seed": 2,
+        "episode_index": 3,
+        "source_branch_id": "branch4_densified_attach_window",
+        "contract_mode": null,
+        "task": "open the drawer",
+        "success": true,
+        "ever_attached": true,
+        "attach_step": 72,
+        "max_drawer_fraction": 1.0,
+        "handle_distance_min": 0.029920293018221855,
+        "actions_shape": [
+          115,
+          7
+        ],
+        "states_shape": [
+          115,
+          8
+        ],
+        "phase_values": [
+          "align",
+          "grasp",
+          "hold_close",
+          "pregrasp",
+          "pull",
+          "staging"
+        ],
+        "phase_step_counts": {
+          "align": 16,
+          "grasp": 7,
+          "hold_close": 10,
+          "pregrasp": 26,
+          "pull": 32,
+          "staging": 24
+        },
+        "gripper_unique_values": [
+          -1.0,
+          1.0
+        ],
+        "gripper_range": 2.0,
+        "gripper_transition_count": 1,
+        "action_clipped_fraction": 0.14285714285714285,
+        "action_norm_p95": 0.7224057137966156,
+        "action_min": -1.0,
+        "action_max": 1.0,
+        "has_nan": false,
+        "metadata_present": {
+          "branch_id": true,
+          "seed": true,
+          "task": true,
+          "success": true
+        },
+        "preflight_passed": true,
+        "preflight_reasons": []
+      },
+      {
+        "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_002_episode_04.npz",
+        "seed": 2,
+        "episode_index": 4,
+        "source_branch_id": "branch4_densified_attach_window",
+        "contract_mode": null,
+        "task": "open the drawer",
+        "success": true,
+        "ever_attached": true,
+        "attach_step": 63,
+        "max_drawer_fraction": 1.0,
+        "handle_distance_min": 0.042213305830955505,
+        "actions_shape": [
+          92,
+          7
+        ],
+        "states_shape": [
+          92,
+          8
+        ],
+        "phase_values": [
+          "align",
+          "grasp",
+          "hold_close",
+          "pregrasp",
+          "pull",
+          "retreat",
+          "staging"
+        ],
+        "phase_step_counts": {
+          "align": 16,
+          "grasp": 2,
+          "hold_close": 10,
+          "pregrasp": 26,
+          "pull": 17,
+          "retreat": 1,
+          "staging": 20
+        },
+        "gripper_unique_values": [
+          -1.0,
+          1.0
+        ],
+        "gripper_range": 2.0,
+        "gripper_transition_count": 2,
+        "action_clipped_fraction": 0.14285714285714285,
+        "action_norm_p95": 0.7233256697654724,
+        "action_min": -1.0,
+        "action_max": 1.0,
+        "has_nan": false,
+        "metadata_present": {
+          "branch_id": true,
+          "seed": true,
+          "task": true,
+          "success": true
+        },
+        "preflight_passed": true,
+        "preflight_reasons": []
+      },
+      {
+        "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_007_episode_00.npz",
+        "seed": 7,
+        "episode_index": 0,
+        "source_branch_id": "branch4_densified_attach_window",
+        "contract_mode": null,
+        "task": "open the drawer",
+        "success": true,
+        "ever_attached": true,
+        "attach_step": 66,
+        "max_drawer_fraction": 1.0,
+        "handle_distance_min": 0.05350220948457718,
+        "actions_shape": [
+          87,
+          7
+        ],
+        "states_shape": [
+          87,
+          8
+        ],
+        "phase_values": [
+          "align",
+          "grasp",
+          "hold_close",
+          "pregrasp",
+          "pull",
+          "retreat",
+          "staging"
+        ],
+        "phase_step_counts": {
+          "align": 16,
+          "grasp": 1,
+          "hold_close": 10,
+          "pregrasp": 26,
+          "pull": 9,
+          "retreat": 1,
+          "staging": 24
+        },
+        "gripper_unique_values": [
+          -1.0,
+          1.0
+        ],
+        "gripper_range": 2.0,
+        "gripper_transition_count": 2,
+        "action_clipped_fraction": 0.14285714285714285,
+        "action_norm_p95": 0.7166136562824249,
+        "action_min": -1.0,
+        "action_max": 1.0,
+        "has_nan": false,
+        "metadata_present": {
+          "branch_id": true,
+          "seed": true,
+          "task": true,
+          "success": true
+        },
+        "preflight_passed": true,
+        "preflight_reasons": []
+      },
+      {
+        "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_007_episode_01.npz",
+        "seed": 7,
+        "episode_index": 1,
+        "source_branch_id": "branch4_densified_attach_window",
+        "contract_mode": null,
+        "task": "open the drawer",
+        "success": true,
+        "ever_attached": true,
+        "attach_step": 66,
+        "max_drawer_fraction": 1.0,
+        "handle_distance_min": 0.052842047065496445,
+        "actions_shape": [
+          98,
+          7
+        ],
+        "states_shape": [
+          98,
+          8
+        ],
+        "phase_values": [
+          "align",
+          "grasp",
+          "hold_close",
+          "pregrasp",
+          "pull",
+          "retreat",
+          "staging"
+        ],
+        "phase_step_counts": {
+          "align": 16,
+          "grasp": 1,
+          "hold_close": 10,
+          "pregrasp": 26,
+          "pull": 20,
+          "retreat": 1,
+          "staging": 24
+        },
+        "gripper_unique_values": [
+          -1.0,
+          1.0
+        ],
+        "gripper_range": 2.0,
+        "gripper_transition_count": 2,
+        "action_clipped_fraction": 0.14285714285714285,
+        "action_norm_p95": 0.719163018465042,
+        "action_min": -1.0,
+        "action_max": 1.0,
+        "has_nan": false,
+        "metadata_present": {
+          "branch_id": true,
+          "seed": true,
+          "task": true,
+          "success": true
+        },
+        "preflight_passed": true,
+        "preflight_reasons": []
+      },
+      {
+        "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_007_episode_02.npz",
+        "seed": 7,
+        "episode_index": 2,
+        "source_branch_id": "branch4_densified_attach_window",
+        "contract_mode": null,
+        "task": "open the drawer",
+        "success": true,
+        "ever_attached": true,
+        "attach_step": 66,
+        "max_drawer_fraction": 1.0,
+        "handle_distance_min": 0.03687851130962372,
+        "actions_shape": [
+          97,
+          7
+        ],
+        "states_shape": [
+          97,
+          8
+        ],
+        "phase_values": [
+          "align",
+          "grasp",
+          "hold_close",
+          "pregrasp",
+          "pull",
+          "retreat",
+          "staging"
+        ],
+        "phase_step_counts": {
+          "align": 16,
+          "grasp": 1,
+          "hold_close": 10,
+          "pregrasp": 26,
+          "pull": 19,
+          "retreat": 1,
+          "staging": 24
+        },
+        "gripper_unique_values": [
+          -1.0,
+          1.0
+        ],
+        "gripper_range": 2.0,
+        "gripper_transition_count": 2,
+        "action_clipped_fraction": 0.14285714285714285,
+        "action_norm_p95": 0.7168447852134705,
+        "action_min": -1.0,
+        "action_max": 1.0,
+        "has_nan": false,
+        "metadata_present": {
+          "branch_id": true,
+          "seed": true,
+          "task": true,
+          "success": true
+        },
+        "preflight_passed": true,
+        "preflight_reasons": []
+      },
+      {
+        "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_007_episode_03.npz",
+        "seed": 7,
+        "episode_index": 3,
+        "source_branch_id": "branch4_densified_attach_window",
+        "contract_mode": null,
+        "task": "open the drawer",
+        "success": true,
+        "ever_attached": true,
+        "attach_step": 79,
+        "max_drawer_fraction": 1.0,
+        "handle_distance_min": 0.048974912613630295,
+        "actions_shape": [
+          100,
+          7
+        ],
+        "states_shape": [
+          100,
+          8
+        ],
+        "phase_values": [
+          "align",
+          "grasp",
+          "hold_close",
+          "pregrasp",
+          "pull",
+          "retreat",
+          "staging"
+        ],
+        "phase_step_counts": {
+          "align": 16,
+          "grasp": 14,
+          "hold_close": 10,
+          "pregrasp": 26,
+          "pull": 9,
+          "retreat": 1,
+          "staging": 24
+        },
+        "gripper_unique_values": [
+          -1.0,
+          1.0
+        ],
+        "gripper_range": 2.0,
+        "gripper_transition_count": 2,
+        "action_clipped_fraction": 0.14285714285714285,
+        "action_norm_p95": 0.7233256697654724,
+        "action_min": -1.0,
+        "action_max": 1.0,
+        "has_nan": false,
+        "metadata_present": {
+          "branch_id": true,
+          "seed": true,
+          "task": true,
+          "success": true
+        },
+        "preflight_passed": true,
+        "preflight_reasons": []
+      },
+      {
+        "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_007_episode_04.npz",
+        "seed": 7,
+        "episode_index": 4,
+        "source_branch_id": "branch4_densified_attach_window",
+        "contract_mode": null,
+        "task": "open the drawer",
+        "success": true,
+        "ever_attached": true,
+        "attach_step": 59,
+        "max_drawer_fraction": 1.0,
+        "handle_distance_min": 0.05920988693833351,
+        "actions_shape": [
+          102,
+          7
+        ],
+        "states_shape": [
+          102,
+          8
+        ],
+        "phase_values": [
+          "align",
+          "grasp",
+          "hold_close",
+          "pregrasp",
+          "pull",
+          "retreat",
+          "staging"
+        ],
+        "phase_step_counts": {
+          "align": 16,
+          "grasp": 1,
+          "hold_close": 10,
+          "pregrasp": 26,
+          "pull": 31,
+          "retreat": 1,
+          "staging": 17
+        },
+        "gripper_unique_values": [
+          -1.0,
+          1.0
+        ],
+        "gripper_range": 2.0,
+        "gripper_transition_count": 2,
+        "action_clipped_fraction": 0.14285714285714285,
+        "action_norm_p95": 0.7168549925088882,
+        "action_min": -1.0,
+        "action_max": 1.0,
+        "has_nan": false,
+        "metadata_present": {
+          "branch_id": true,
+          "seed": true,
+          "task": true,
+          "success": true
+        },
+        "preflight_passed": true,
+        "preflight_reasons": []
+      },
+      {
+        "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_008_episode_00.npz",
+        "seed": 8,
+        "episode_index": 0,
+        "source_branch_id": "branch4_densified_attach_window",
+        "contract_mode": null,
+        "task": "open the drawer",
+        "success": true,
+        "ever_attached": true,
+        "attach_step": 66,
+        "max_drawer_fraction": 1.0,
+        "handle_distance_min": 0.04785063490271568,
+        "actions_shape": [
+          77,
+          7
+        ],
+        "states_shape": [
+          77,
+          8
+        ],
+        "phase_values": [
+          "align",
+          "grasp",
+          "hold_close",
+          "pregrasp",
+          "pull",
+          "retreat",
+          "staging"
+        ],
+        "phase_step_counts": {
+          "align": 16,
+          "grasp": 1,
+          "hold_close": 7,
+          "pregrasp": 26,
+          "pull": 2,
+          "retreat": 1,
+          "staging": 24
+        },
+        "gripper_unique_values": [
+          -1.0,
+          1.0
+        ],
+        "gripper_range": 2.0,
+        "gripper_transition_count": 2,
+        "action_clipped_fraction": 0.14285714285714285,
+        "action_norm_p95": 0.7191975951194763,
+        "action_min": -1.0,
+        "action_max": 1.0,
+        "has_nan": false,
+        "metadata_present": {
+          "branch_id": true,
+          "seed": true,
+          "task": true,
+          "success": true
+        },
+        "preflight_passed": true,
+        "preflight_reasons": []
+      },
+      {
+        "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_008_episode_01.npz",
+        "seed": 8,
+        "episode_index": 1,
+        "source_branch_id": "branch4_densified_attach_window",
+        "contract_mode": null,
+        "task": "open the drawer",
+        "success": true,
+        "ever_attached": true,
+        "attach_step": 57,
+        "max_drawer_fraction": 0.9187119298198414,
+        "handle_distance_min": 0.03896292671561241,
+        "actions_shape": [
+          77,
+          7
+        ],
+        "states_shape": [
+          77,
+          8
+        ],
+        "phase_values": [
+          "align",
+          "grasp",
+          "hold_close",
+          "pregrasp",
+          "pull",
+          "retreat",
+          "staging"
+        ],
+        "phase_step_counts": {
+          "align": 16,
+          "grasp": 1,
+          "hold_close": 10,
+          "pregrasp": 26,
+          "pull": 8,
+          "retreat": 1,
+          "staging": 15
+        },
+        "gripper_unique_values": [
+          -1.0,
+          1.0
+        ],
+        "gripper_range": 2.0,
+        "gripper_transition_count": 2,
+        "action_clipped_fraction": 0.14285714285714285,
+        "action_norm_p95": 0.7144636631011962,
+        "action_min": -1.0,
+        "action_max": 1.0,
+        "has_nan": false,
+        "metadata_present": {
+          "branch_id": true,
+          "seed": true,
+          "task": true,
+          "success": true
+        },
+        "preflight_passed": true,
+        "preflight_reasons": []
+      },
+      {
+        "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_008_episode_02.npz",
+        "seed": 8,
+        "episode_index": 2,
+        "source_branch_id": "branch4_densified_attach_window",
+        "contract_mode": null,
+        "task": "open the drawer",
+        "success": true,
+        "ever_attached": true,
+        "attach_step": 57,
+        "max_drawer_fraction": 0.9844497714840519,
+        "handle_distance_min": 0.049198251217603683,
+        "actions_shape": [
+          77,
+          7
+        ],
+        "states_shape": [
+          77,
+          8
+        ],
+        "phase_values": [
+          "align",
+          "grasp",
+          "hold_close",
+          "pregrasp",
+          "pull",
+          "retreat",
+          "staging"
+        ],
+        "phase_step_counts": {
+          "align": 16,
+          "grasp": 1,
+          "hold_close": 10,
+          "pregrasp": 26,
+          "pull": 8,
+          "retreat": 1,
+          "staging": 15
+        },
+        "gripper_unique_values": [
+          -1.0,
+          1.0
+        ],
+        "gripper_range": 2.0,
+        "gripper_transition_count": 2,
+        "action_clipped_fraction": 0.14285714285714285,
+        "action_norm_p95": 0.7145504236221314,
+        "action_min": -1.0,
+        "action_max": 1.0,
+        "has_nan": false,
+        "metadata_present": {
+          "branch_id": true,
+          "seed": true,
+          "task": true,
+          "success": true
+        },
+        "preflight_passed": true,
+        "preflight_reasons": []
+      },
+      {
+        "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_008_episode_03.npz",
+        "seed": 8,
+        "episode_index": 3,
+        "source_branch_id": "branch4_densified_attach_window",
+        "contract_mode": null,
+        "task": "open the drawer",
+        "success": true,
+        "ever_attached": true,
+        "attach_step": 66,
+        "max_drawer_fraction": 1.0,
+        "handle_distance_min": 0.04678609222173691,
+        "actions_shape": [
+          115,
+          7
+        ],
+        "states_shape": [
+          115,
+          8
+        ],
+        "phase_values": [
+          "align",
+          "grasp",
+          "hold_close",
+          "pregrasp",
+          "pull",
+          "retreat",
+          "staging"
+        ],
+        "phase_step_counts": {
+          "align": 16,
+          "grasp": 1,
+          "hold_close": 10,
+          "pregrasp": 26,
+          "pull": 37,
+          "retreat": 1,
+          "staging": 24
+        },
+        "gripper_unique_values": [
+          -1.0,
+          1.0
+        ],
+        "gripper_range": 2.0,
+        "gripper_transition_count": 2,
+        "action_clipped_fraction": 0.14285714285714285,
+        "action_norm_p95": 0.717030507326126,
+        "action_min": -1.0,
+        "action_max": 1.0,
+        "has_nan": false,
+        "metadata_present": {
+          "branch_id": true,
+          "seed": true,
+          "task": true,
+          "success": true
+        },
+        "preflight_passed": true,
+        "preflight_reasons": []
+      },
+      {
+        "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_008_episode_04.npz",
+        "seed": 8,
+        "episode_index": 4,
+        "source_branch_id": "branch4_densified_attach_window",
+        "contract_mode": null,
+        "task": "open the drawer",
+        "success": true,
+        "ever_attached": true,
+        "attach_step": 63,
+        "max_drawer_fraction": 0.9856699432811762,
+        "handle_distance_min": 0.03157094866037369,
+        "actions_shape": [
+          107,
+          7
+        ],
+        "states_shape": [
+          107,
+          8
+        ],
+        "phase_values": [
+          "align",
+          "grasp",
+          "hold_close",
+          "pregrasp",
+          "pull",
+          "retreat",
+          "staging"
+        ],
+        "phase_step_counts": {
+          "align": 16,
+          "grasp": 1,
+          "hold_close": 10,
+          "pregrasp": 26,
+          "pull": 32,
+          "retreat": 1,
+          "staging": 21
+        },
+        "gripper_unique_values": [
+          -1.0,
+          1.0
+        ],
+        "gripper_range": 2.0,
+        "gripper_transition_count": 2,
+        "action_clipped_fraction": 0.14285714285714285,
+        "action_norm_p95": 0.7233256697654724,
+        "action_min": -1.0,
+        "action_max": 1.0,
+        "has_nan": false,
+        "metadata_present": {
+          "branch_id": true,
+          "seed": true,
+          "task": true,
+          "success": true
+        },
+        "preflight_passed": true,
+        "preflight_reasons": []
+      },
+      {
+        "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_009_episode_00.npz",
+        "seed": 9,
+        "episode_index": 0,
+        "source_branch_id": "branch4_densified_attach_window",
+        "contract_mode": null,
+        "task": "open the drawer",
+        "success": true,
+        "ever_attached": true,
+        "attach_step": 62,
+        "max_drawer_fraction": 1.0,
+        "handle_distance_min": 0.05528227612376213,
+        "actions_shape": [
+          114,
+          7
+        ],
+        "states_shape": [
+          114,
+          8
+        ],
+        "phase_values": [
+          "align",
+          "grasp",
+          "hold_close",
+          "pregrasp",
+          "pull",
+          "staging"
+        ],
+        "phase_step_counts": {
+          "align": 16,
+          "grasp": 2,
+          "hold_close": 10,
+          "pregrasp": 26,
+          "pull": 41,
+          "staging": 19
+        },
+        "gripper_unique_values": [
+          -1.0,
+          1.0
+        ],
+        "gripper_range": 2.0,
+        "gripper_transition_count": 1,
+        "action_clipped_fraction": 0.14285714285714285,
+        "action_norm_p95": 0.7000403314828871,
+        "action_min": -1.0,
+        "action_max": 1.0,
+        "has_nan": false,
+        "metadata_present": {
+          "branch_id": true,
+          "seed": true,
+          "task": true,
+          "success": true
+        },
+        "preflight_passed": true,
+        "preflight_reasons": []
+      },
+      {
+        "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_009_episode_01.npz",
+        "seed": 9,
+        "episode_index": 1,
+        "source_branch_id": "branch4_densified_attach_window",
+        "contract_mode": null,
+        "task": "open the drawer",
+        "success": true,
+        "ever_attached": true,
+        "attach_step": 66,
+        "max_drawer_fraction": 1.0,
+        "handle_distance_min": 0.036397602409124374,
+        "actions_shape": [
+          98,
+          7
+        ],
+        "states_shape": [
+          98,
+          8
+        ],
+        "phase_values": [
+          "align",
+          "grasp",
+          "hold_close",
+          "pregrasp",
+          "pull",
+          "retreat",
+          "staging"
+        ],
+        "phase_step_counts": {
+          "align": 16,
+          "grasp": 1,
+          "hold_close": 10,
+          "pregrasp": 26,
+          "pull": 20,
+          "retreat": 1,
+          "staging": 24
+        },
+        "gripper_unique_values": [
+          -1.0,
+          1.0
+        ],
+        "gripper_range": 2.0,
+        "gripper_transition_count": 2,
+        "action_clipped_fraction": 0.14285714285714285,
+        "action_norm_p95": 0.7233256697654724,
+        "action_min": -1.0,
+        "action_max": 1.0,
+        "has_nan": false,
+        "metadata_present": {
+          "branch_id": true,
+          "seed": true,
+          "task": true,
+          "success": true
+        },
+        "preflight_passed": true,
+        "preflight_reasons": []
+      },
+      {
+        "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_009_episode_02.npz",
+        "seed": 9,
+        "episode_index": 2,
+        "source_branch_id": "branch4_densified_attach_window",
+        "contract_mode": null,
+        "task": "open the drawer",
+        "success": true,
+        "ever_attached": true,
+        "attach_step": 66,
+        "max_drawer_fraction": 1.0,
+        "handle_distance_min": 0.047221194952726364,
+        "actions_shape": [
+          74,
+          7
+        ],
+        "states_shape": [
+          74,
+          8
+        ],
+        "phase_values": [
+          "align",
+          "grasp",
+          "hold_close",
+          "pregrasp",
+          "pull",
+          "retreat",
+          "staging"
+        ],
+        "phase_step_counts": {
+          "align": 16,
+          "grasp": 1,
+          "hold_close": 4,
+          "pregrasp": 26,
+          "pull": 2,
+          "retreat": 1,
+          "staging": 24
+        },
+        "gripper_unique_values": [
+          -1.0,
+          1.0
+        ],
+        "gripper_range": 2.0,
+        "gripper_transition_count": 2,
+        "action_clipped_fraction": 0.14285714285714285,
+        "action_norm_p95": 0.7233256697654724,
+        "action_min": -1.0,
+        "action_max": 1.0,
+        "has_nan": false,
+        "metadata_present": {
+          "branch_id": true,
+          "seed": true,
+          "task": true,
+          "success": true
+        },
+        "preflight_passed": true,
+        "preflight_reasons": []
+      },
+      {
+        "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_009_episode_03.npz",
+        "seed": 9,
+        "episode_index": 3,
+        "source_branch_id": "branch4_densified_attach_window",
+        "contract_mode": null,
+        "task": "open the drawer",
+        "success": true,
+        "ever_attached": true,
+        "attach_step": 70,
+        "max_drawer_fraction": 1.0,
+        "handle_distance_min": 0.08983830362558365,
+        "actions_shape": [
+          99,
+          7
+        ],
+        "states_shape": [
+          99,
+          8
+        ],
+        "phase_values": [
+          "align",
+          "grasp",
+          "hold_close",
+          "pregrasp",
+          "pull",
+          "retreat",
+          "staging"
+        ],
+        "phase_step_counts": {
+          "align": 16,
+          "grasp": 5,
+          "hold_close": 10,
+          "pregrasp": 26,
+          "pull": 17,
+          "retreat": 1,
+          "staging": 24
+        },
+        "gripper_unique_values": [
+          -1.0,
+          1.0
+        ],
+        "gripper_range": 2.0,
+        "gripper_transition_count": 2,
+        "action_clipped_fraction": 0.14285714285714285,
+        "action_norm_p95": 0.7218050181865692,
+        "action_min": -1.0,
+        "action_max": 1.0,
+        "has_nan": false,
+        "metadata_present": {
+          "branch_id": true,
+          "seed": true,
+          "task": true,
+          "success": true
+        },
+        "preflight_passed": true,
+        "preflight_reasons": []
+      },
+      {
+        "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_009_episode_04.npz",
+        "seed": 9,
+        "episode_index": 4,
+        "source_branch_id": "branch4_densified_attach_window",
+        "contract_mode": null,
+        "task": "open the drawer",
+        "success": true,
+        "ever_attached": true,
+        "attach_step": 93,
+        "max_drawer_fraction": 1.0,
+        "handle_distance_min": 0.012301754206418991,
+        "actions_shape": [
+          116,
+          7
+        ],
+        "states_shape": [
+          116,
+          8
+        ],
+        "phase_values": [
+          "align",
+          "grasp",
+          "hold_close",
+          "pregrasp",
+          "pull",
+          "staging"
+        ],
+        "phase_step_counts": {
+          "align": 16,
+          "grasp": 29,
+          "hold_close": 2,
+          "pregrasp": 26,
+          "pull": 20,
+          "staging": 23
+        },
+        "gripper_unique_values": [
+          -1.0,
+          1.0
+        ],
+        "gripper_range": 2.0,
+        "gripper_transition_count": 3,
+        "action_clipped_fraction": 0.14285714285714285,
+        "action_norm_p95": 0.7130156308412552,
+        "action_min": -1.0,
+        "action_max": 1.0,
+        "has_nan": false,
+        "metadata_present": {
+          "branch_id": true,
+          "seed": true,
+          "task": true,
+          "success": true
+        },
+        "preflight_passed": true,
+        "preflight_reasons": []
+      },
+      {
+        "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_010_episode_00.npz",
+        "seed": 10,
+        "episode_index": 0,
+        "source_branch_id": "branch4_densified_attach_window",
+        "contract_mode": null,
+        "task": "open the drawer",
+        "success": true,
+        "ever_attached": true,
+        "attach_step": 63,
+        "max_drawer_fraction": 0.9256685304621051,
+        "handle_distance_min": 0.04890676960349083,
+        "actions_shape": [
+          76,
+          7
+        ],
+        "states_shape": [
+          76,
+          8
+        ],
+        "phase_values": [
+          "align",
+          "grasp",
+          "hold_close",
+          "pregrasp",
+          "pull",
+          "retreat",
+          "staging"
+        ],
+        "phase_step_counts": {
+          "align": 16,
+          "grasp": 1,
+          "hold_close": 10,
+          "pregrasp": 26,
+          "pull": 1,
+          "retreat": 1,
+          "staging": 21
+        },
+        "gripper_unique_values": [
+          -1.0,
+          1.0
+        ],
+        "gripper_range": 2.0,
+        "gripper_transition_count": 2,
+        "action_clipped_fraction": 0.14285714285714285,
+        "action_norm_p95": 0.7233256697654724,
+        "action_min": -1.0,
+        "action_max": 1.0,
+        "has_nan": false,
+        "metadata_present": {
+          "branch_id": true,
+          "seed": true,
+          "task": true,
+          "success": true
+        },
+        "preflight_passed": true,
+        "preflight_reasons": []
+      },
+      {
+        "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_010_episode_01.npz",
+        "seed": 10,
+        "episode_index": 1,
+        "source_branch_id": "branch4_densified_attach_window",
+        "contract_mode": null,
+        "task": "open the drawer",
+        "success": true,
+        "ever_attached": true,
+        "attach_step": 68,
+        "max_drawer_fraction": 1.0,
+        "handle_distance_min": 0.053859371691942215,
+        "actions_shape": [
+          97,
+          7
+        ],
+        "states_shape": [
+          97,
+          8
+        ],
+        "phase_values": [
+          "align",
+          "grasp",
+          "hold_close",
+          "pregrasp",
+          "pull",
+          "retreat",
+          "staging"
+        ],
+        "phase_step_counts": {
+          "align": 16,
+          "grasp": 3,
+          "hold_close": 10,
+          "pregrasp": 26,
+          "pull": 17,
+          "retreat": 1,
+          "staging": 24
+        },
+        "gripper_unique_values": [
+          -1.0,
+          1.0
+        ],
+        "gripper_range": 2.0,
+        "gripper_transition_count": 2,
+        "action_clipped_fraction": 0.14285714285714285,
+        "action_norm_p95": 0.7233256697654724,
+        "action_min": -1.0,
+        "action_max": 1.0,
+        "has_nan": false,
+        "metadata_present": {
+          "branch_id": true,
+          "seed": true,
+          "task": true,
+          "success": true
+        },
+        "preflight_passed": true,
+        "preflight_reasons": []
+      },
+      {
+        "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_010_episode_02.npz",
+        "seed": 10,
+        "episode_index": 2,
+        "source_branch_id": "branch4_densified_attach_window",
+        "contract_mode": null,
+        "task": "open the drawer",
+        "success": true,
+        "ever_attached": true,
+        "attach_step": 58,
+        "max_drawer_fraction": 1.0,
+        "handle_distance_min": 0.046679046005010605,
+        "actions_shape": [
+          68,
+          7
+        ],
+        "states_shape": [
+          68,
+          8
+        ],
+        "phase_values": [
+          "align",
+          "grasp",
+          "hold_close",
+          "pregrasp",
+          "pull",
+          "retreat",
+          "staging"
+        ],
+        "phase_step_counts": {
+          "align": 16,
+          "grasp": 2,
+          "hold_close": 2,
+          "pregrasp": 26,
+          "pull": 6,
+          "retreat": 1,
+          "staging": 15
+        },
+        "gripper_unique_values": [
+          -1.0,
+          1.0
+        ],
+        "gripper_range": 2.0,
+        "gripper_transition_count": 2,
+        "action_clipped_fraction": 0.14285714285714285,
+        "action_norm_p95": 0.7233256697654724,
+        "action_min": -1.0,
+        "action_max": 1.0,
+        "has_nan": false,
+        "metadata_present": {
+          "branch_id": true,
+          "seed": true,
+          "task": true,
+          "success": true
+        },
+        "preflight_passed": true,
+        "preflight_reasons": []
+      },
+      {
+        "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_010_episode_03.npz",
+        "seed": 10,
+        "episode_index": 3,
+        "source_branch_id": "branch4_densified_attach_window",
+        "contract_mode": null,
+        "task": "open the drawer",
+        "success": true,
+        "ever_attached": true,
+        "attach_step": 61,
+        "max_drawer_fraction": 1.0,
+        "handle_distance_min": 0.03517405688762665,
+        "actions_shape": [
+          82,
+          7
+        ],
+        "states_shape": [
+          82,
+          8
+        ],
+        "phase_values": [
+          "align",
+          "grasp",
+          "hold_close",
+          "pregrasp",
+          "pull",
+          "retreat",
+          "staging"
+        ],
+        "phase_step_counts": {
+          "align": 16,
+          "grasp": 1,
+          "hold_close": 3,
+          "pregrasp": 26,
+          "pull": 16,
+          "retreat": 1,
+          "staging": 19
+        },
+        "gripper_unique_values": [
+          -1.0,
+          1.0
+        ],
+        "gripper_range": 2.0,
+        "gripper_transition_count": 2,
+        "action_clipped_fraction": 0.14285714285714285,
+        "action_norm_p95": 0.7172649711370468,
+        "action_min": -1.0,
+        "action_max": 1.0,
+        "has_nan": false,
+        "metadata_present": {
+          "branch_id": true,
+          "seed": true,
+          "task": true,
+          "success": true
+        },
+        "preflight_passed": true,
+        "preflight_reasons": []
+      },
+      {
+        "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_010_episode_04.npz",
+        "seed": 10,
+        "episode_index": 4,
+        "source_branch_id": "branch4_densified_attach_window",
+        "contract_mode": null,
+        "task": "open the drawer",
+        "success": true,
+        "ever_attached": true,
+        "attach_step": 66,
+        "max_drawer_fraction": 1.0,
+        "handle_distance_min": 0.025043200701475143,
+        "actions_shape": [
+          80,
+          7
+        ],
+        "states_shape": [
+          80,
+          8
+        ],
+        "phase_values": [
+          "align",
+          "grasp",
+          "hold_close",
+          "pregrasp",
+          "pull",
+          "retreat",
+          "staging"
+        ],
+        "phase_step_counts": {
+          "align": 16,
+          "grasp": 1,
+          "hold_close": 10,
+          "pregrasp": 26,
+          "pull": 2,
+          "retreat": 1,
+          "staging": 24
+        },
+        "gripper_unique_values": [
+          -1.0,
+          1.0
+        ],
+        "gripper_range": 2.0,
+        "gripper_transition_count": 2,
+        "action_clipped_fraction": 0.14285714285714285,
+        "action_norm_p95": 0.7233256697654724,
+        "action_min": -1.0,
+        "action_max": 1.0,
+        "has_nan": false,
+        "metadata_present": {
+          "branch_id": true,
+          "seed": true,
+          "task": true,
+          "success": true
+        },
+        "preflight_passed": true,
+        "preflight_reasons": []
+      }
+    ]
+  },
+  "metrics": {
+    "replay_steps": 73,
+    "max_position_error_m": 0.8567422032356262,
+    "mean_position_error_m": 0.21218284964561462,
+    "max_rotation_error_rad": 1.6461974382400513,
+    "max_drawer_error": 0.8570293188095093,
+    "max_handle_distance_m": 0.6896372437477112,
+    "attached_agreement": 1.0,
+    "success": true,
+    "ever_attached": true,
+    "attach_step": 70,
+    "final_drawer_fraction": 1.0,
+    "phase_counts": {
+      "staging": 24,
+      "pregrasp": 26,
+      "align": 16,
+      "grasp": 5,
+      "hold_close": 2
+    },
+    "action_stats": {
+      "max_abs_action": 1.0,
+      "clipped_fraction": 0.0,
+      "translation_norm_p95": 0.6928203105926514,
+      "rotation_norm_p95": 0.20784610509872437
+    },
+    "replay_mode": "open_loop"
+  },
+  "single_rollout_dir": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c3_single_rollout",
+  "timestamp": 1774516493.6039894
+}

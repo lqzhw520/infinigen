@@ -1,0 +1,22 @@
+{
+  "sdk_root": "/mnt/afs2/zhuhaowu/infinigen/external/anygrasp_sdk",
+  "checkpoint_detection_path": "/mnt/afs2/zhuhaowu/infinigen/external/anygrasp_sdk/checkpoint_detection.tar",
+  "checkpoint_tracking_path": "/mnt/afs2/zhuhaowu/infinigen/external/anygrasp_sdk/checkpoint_tracking.tar",
+  "license_files": [
+    "HaowuZhu.lic",
+    "HaowuZhu.public_key",
+    "HaowuZhu.signature",
+    "licenseCfg.json"
+  ],
+  "staged_gsnet": "/mnt/afs2/zhuhaowu/infinigen/external/anygrasp_sdk/grasp_detection/gsnet.so",
+  "staged_lib_cxx": "/mnt/afs2/zhuhaowu/infinigen/external/anygrasp_sdk/grasp_detection/lib_cxx.so",
+  "staged_checkpoint": "/mnt/afs2/zhuhaowu/infinigen/external/anygrasp_sdk/grasp_detection/log/checkpoint_detection.tar",
+  "passed": true,
+  "load_net": "ok",
+  "smoke_inference": {
+    "render_cache": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g3_scene_renders/seed_001.npz",
+    "candidate_count": 858
+  },
+  "gate": "g3_anygrasp_ready",
+  "timestamp": 1774268203.1686783
+}

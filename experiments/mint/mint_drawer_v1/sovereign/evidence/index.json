@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "last_updated": "2026-04-09T20:39:58+0800",
+  "last_updated": "2026-04-10T16:51:59+08:00",
   "entries": [
     {
       "evidence_id": "E001",
@@ -15,7 +15,7 @@
       "experiment_id": "active_action_contract_audit",
       "type": "audit",
       "timestamp": "2026-04-02T00:00:00+08:00",
-      "path": "artifacts/active_action_contract.json",
+      "path": "experiments/mint/mint_drawer_v1/archive/historical_artifacts_root/active_action_contract.json",
       "verified": true,
       "summary": "All 25 replay rollouts fail (passed: false). max_position_error=0.33-1.03m (gripper clips through drawer). max_drawer_error=1.0, final_drawer_fraction=0.0 during pull phase."
     },
@@ -51,7 +51,7 @@
       "experiment_id": "qa_offline_metrics_comparison",
       "type": "data_audit",
       "timestamp": "2026-04-03T06:00:00+08:00",
-      "path": "experiments/mint/mint_drawer_v1/outputs/qa_comparison.json",
+      "path": "experiments/mint/mint_drawer_v1/archive/historical_outputs_root/qa_comparison.json",
       "verified": true,
       "summary": "Offline QA: action_variance 7.16x above LIBERO, state_action_lag FAIL, gripper_state FAIL. Verdict: FAIL — P0+P1a confirmed."
     },
@@ -60,7 +60,7 @@
       "experiment_id": "physics_legality_audit",
       "type": "data_audit",
       "timestamp": "2026-04-03T06:00:00+08:00",
-      "path": "experiments/mint/mint_drawer_v1/outputs/physics_audit.json",
+      "path": "experiments/mint/mint_drawer_v1/archive/historical_outputs_root/physics_audit.json",
       "verified": true,
       "summary": "Physics audit: 25/25 illegal (0% pass). phantom_jumps 0.3-0.94m, high_action_variance 25/25, gripper_penetration 4/25. Confirms C_PHYSICS_LEGAL_TEACHER@1."
     },
@@ -129,7 +129,7 @@
       "experiment_id": "v58_eval",
       "type": "eval",
       "timestamp": "2026-04-05T14:00:00+08:00",
-      "path": "outputs/v58_eval.log",
+      "path": "experiments/mint/mint_drawer_v1/archive/historical_outputs_root/v58_eval.log",
       "verified": true,
       "summary": "V58 eval: Stage 1 (seeds 1-10): finetuned=0.000, pretrained=0.000, gain=+0.000. Stage 2 (seeds 11-15): finetuned=0.000, pretrained=0.000, random=0.0. Verdict: scientific_not_supported. KeyError: random in render_report (non-blocking bug). Both pretrained and finetuned = 0% confirms L2 observation bugs, NOT model capacity."
     },
@@ -165,7 +165,7 @@
       "experiment_id": "v59_clean_dataset_pack",
       "type": "dataset_pack",
       "timestamp": "2026-04-05T14:35:00+08:00",
-      "path": "outputs/v59_lerobot_pack.log",
+      "path": "experiments/mint/mint_drawer_v1/archive/historical_outputs_root/v59_lerobot_pack.log",
       "verified": true,
       "summary": "V59 clean pack: 240 episodes, 19701 frames, dataset_loads=true. Old dataset/ archived to v58_archive_2026-04-05_1435/. Images remain near-white due to ER_TINY_RENDERER limitation (see E020)."
     },
@@ -244,7 +244,7 @@
       "experiment_id": "p1c0_libero_drawer_smoke",
       "type": "runtime_verification",
       "timestamp": "2026-04-07T22:58:11+08:00",
-      "path": "experiments/mint/mint_drawer_v1/artifacts/p1c0_libero_drawer_smoke.json",
+      "path": "experiments/mint/mint_drawer_v1/archive/historical_artifacts_root/p1c0_libero_drawer_smoke.json",
       "verified": true,
       "summary": "MuJoCo + LIBERO + OSMesa pipeline smoke test PASS. 3/3 runs clean. agentview mean=118.5, wrist mean=147.7 (non-white). drawer task reachable under MuJoCo state control."
     },
@@ -253,7 +253,7 @@
       "experiment_id": "p1c2_libero_drawer_oracle",
       "type": "state_oracle",
       "timestamp": "2026-04-07T22:58:31+08:00",
-      "path": "experiments/mint/mint_drawer_v1/artifacts/p1c2_libero_drawer_oracle_gate.json",
+      "path": "experiments/mint/mint_drawer_v1/archive/historical_artifacts_root/p1c2_libero_drawer_oracle_gate.json",
       "verified": true,
       "summary": "State-space oracle 3/3. Direct qpos manipulation drives drawer from closed to open_qpos. Does NOT prove action-space reachability."
     },
@@ -262,7 +262,7 @@
       "experiment_id": "p1c4_mint_on_libero",
       "type": "eval",
       "timestamp": "2026-04-07T23:03:46+08:00",
-      "path": "experiments/mint/mint_drawer_v1/artifacts/p1c4_mint_on_libero_drawer.json",
+      "path": "experiments/mint/mint_drawer_v1/archive/historical_artifacts_root/p1c4_mint_on_libero_drawer.json",
       "verified": true,
       "summary": "MINT on LIBERO drawer: 0% success for both raw_joint_pos and pi_minus_joint_pos. action_l2≈1.0 dominated by gripper=-1. Pipeline not clean: LM weights missing, image_size mismatch."
     },
@@ -271,7 +271,7 @@
       "experiment_id": "p1c5_state_semantic_comparison",
       "type": "data_audit",
       "timestamp": "2026-04-07T23:04:09+08:00",
-      "path": "experiments/mint/mint_drawer_v1/artifacts/p1c5_state_semantic_comparison.json",
+      "path": "experiments/mint/mint_drawer_v1/archive/historical_artifacts_root/p1c5_state_semantic_comparison.json",
       "verified": true,
       "summary": "Against PyBullet dataset: raw_joint_pos mean_l2_delta=4.23, pi_minus_joint_pos=9.77. pi_minus NOT better. Reference is PyBullet dataset (wrong baseline for LIBERO comparison)."
     },
@@ -319,6 +319,114 @@
       "path": "experiments/mint/mint_drawer_v1/artifacts/p1c11_official_libero_goal_drawer_baseline_rollback_4eab579.json",
       "verified": true,
       "summary": "After rolling external/MINT back to upstream 4eab579 on feature/mint-integration, the official LIBERO drawer baseline is restored: libero_goal/open_the_middle_drawer_of_the_cabinet succeeds 3/3 under the release-era runtime with 256x256 observations and n_action_steps=4."
+    },
+    {
+      "evidence_id": "E037",
+      "experiment_id": "m0_authority_preflight",
+      "type": "mujoco_mainline_stage",
+      "timestamp": "2026-04-09T23:07:29+08:00",
+      "path": "experiments/mint/mint_drawer_v1/artifacts/m0_authority_preflight.json",
+      "verified": true,
+      "summary": "m0_authority_preflight passed"
+    },
+    {
+      "evidence_id": "E038",
+      "experiment_id": "m1_proxy_asset_smoke",
+      "type": "mujoco_mainline_stage",
+      "timestamp": "2026-04-09T23:07:30+08:00",
+      "path": "experiments/mint/mint_drawer_v1/artifacts/m1_proxy_asset_smoke.json",
+      "verified": true,
+      "summary": "m1_proxy_asset_smoke passed"
+    },
+    {
+      "evidence_id": "E039",
+      "experiment_id": "m2_true_robot_env_gate",
+      "type": "mujoco_mainline_stage",
+      "timestamp": "2026-04-09T23:07:30+08:00",
+      "path": "experiments/mint/mint_drawer_v1/artifacts/m2_true_robot_env_gate.json",
+      "verified": true,
+      "summary": "m2_true_robot_env_gate passed"
+    },
+    {
+      "evidence_id": "E040",
+      "experiment_id": "m3_anygrasp_gate",
+      "type": "mujoco_mainline_stage",
+      "timestamp": "2026-04-09T23:08:25+08:00",
+      "path": "experiments/mint/mint_drawer_v1/artifacts/m3_anygrasp_gate.json",
+      "verified": true,
+      "summary": "m3_anygrasp_gate passed"
+    },
+    {
+      "evidence_id": "E041",
+      "experiment_id": "m4_robot_rollout_gate",
+      "type": "mujoco_mainline_stage",
+      "timestamp": "2026-04-09T23:08:40+08:00",
+      "path": "experiments/mint/mint_drawer_v1/artifacts/m4_robot_rollout_gate.json",
+      "verified": true,
+      "summary": "m4_robot_rollout_gate passed"
+    },
+    {
+      "evidence_id": "E042",
+      "experiment_id": "m5_dataset_pack_gate",
+      "type": "mujoco_mainline_stage",
+      "timestamp": "2026-04-09T23:09:07+08:00",
+      "path": "experiments/mint/mint_drawer_v1/artifacts/m5_dataset_pack_gate.json",
+      "verified": true,
+      "summary": "m5_dataset_pack_gate passed"
+    },
+    {
+      "evidence_id": "E043",
+      "experiment_id": "m6_mint_train_gate",
+      "type": "mujoco_mainline_stage",
+      "timestamp": "2026-04-10T00:40:43+08:00",
+      "path": "experiments/mint/mint_drawer_v1/artifacts/m6_mint_train_gate.json",
+      "verified": true,
+      "summary": "m6_mint_train_gate passed"
+    },
+    {
+      "evidence_id": "E044",
+      "experiment_id": "m7_mint_eval_gate",
+      "type": "mujoco_mainline_stage",
+      "timestamp": "2026-04-10T00:44:36+08:00",
+      "path": "experiments/mint/mint_drawer_v1/artifacts/m7_mint_eval_gate.json",
+      "verified": true,
+      "summary": "m7_mint_eval_gate passed"
+    },
+    {
+      "evidence_id": "E047",
+      "experiment_id": "p1h_working_set_cleanup",
+      "type": "working_set_cleanup",
+      "timestamp": "2026-04-10T12:01:23+08:00",
+      "path": "experiments/mint/mint_drawer_v1/artifacts/p1h_working_set_manifest.json",
+      "verified": true,
+      "summary": "Canonical working set cleanup. Historical artifacts/outputs moved under archive/, evidence paths updated, and current root working set reduced to the active MuJoCo mainline plus control references."
+    },
+    {
+      "evidence_id": "E045",
+      "experiment_id": "p1f_mainline_alignment_cleanup_report",
+      "type": "mainline_summary",
+      "timestamp": "2026-04-10T12:01:23+08:00",
+      "path": "experiments/mint/mint_drawer_v1/artifacts/p1f_mainline_alignment_cleanup_report.json",
+      "verified": true,
+      "summary": "Canonical summary of what the MuJoCo mainline night-runner actually did, what was aligned, what trained, and what still failed."
+    },
+    {
+      "evidence_id": "E046",
+      "experiment_id": "p1g_exact_control_alignment_audit",
+      "type": "exact_control_alignment_audit",
+      "timestamp": "2026-04-10T12:01:23+08:00",
+      "path": "experiments/mint/mint_drawer_v1/artifacts/p1g_exact_control_alignment_audit.json",
+      "verified": true,
+      "summary": "Exact-control audit using p1c11 successful videos as the control visual surface. Shows task-text/resolution alignment is direct, but visual/state/action equivalence remains unproven and current target variance is far lower than the successful control."
+    },
+    {
+      "evidence_id": "E051",
+      "experiment_id": "p1i_infinigen_mint_alignment_solution_plan",
+      "type": "root_cause_execution_plan",
+      "timestamp": "2026-04-10T16:51:58+08:00",
+      "path": "experiments/mint/mint_drawer_v1/artifacts/p1i_infinigen_mint_alignment_solution_plan.json",
+      "verified": true,
+      "summary": "Canonical root-cause execution plan for the Infinigen+AnyGrasp+MuJoCo to MINT alignment line. Prioritizes exact control trace capture, state/action semantic alignment, visual semantics, eval-path parity, and dataset expansion before the next fine-tune."
     }
   ]
 }

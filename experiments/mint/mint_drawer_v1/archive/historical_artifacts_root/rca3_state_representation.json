@@ -1,0 +1,832 @@
+{
+  "rca_id": "RCA3",
+  "scope": "overfit_subset_7_episodes",
+  "scope_guardrail": "Conclusions apply ONLY to the 7 overfit episodes (LeRobot indices 0,1,2,3,4,5,49). Do NOT extrapolate to the full V59 dataset.",
+  "timestamp": "2026-04-06T00:18:34+08:00",
+  "results": [
+    {
+      "episode_index": 0,
+      "drawer_seed": 7,
+      "n_frames": 41,
+      "dataset_state_continuity": {
+        "n_frames": 41,
+        "n_unique_state7": 36,
+        "state7_unique_sample": [
+          -0.042,
+          -0.041824,
+          -0.041534,
+          -0.041534,
+          -0.041534,
+          -0.041534,
+          -0.041534,
+          -0.041534,
+          -0.041534,
+          -0.041534,
+          -0.041534,
+          -0.041534,
+          -0.041052,
+          -0.039711,
+          -0.034851,
+          -0.030835,
+          -0.016176,
+          -0.0156,
+          -0.014561,
+          0.000823
+        ],
+        "state7_min": -0.041999999433755875,
+        "state7_max": 0.0010000000474974513,
+        "state7_mean": -0.01844865456223488,
+        "state7_std": 0.020037418231368065,
+        "state7_is_binary": false,
+        "state7_libero_bounds": [
+          -0.042,
+          0.001
+        ],
+        "state7_in_libero_bounds": false
+      },
+      "env_state_match": {
+        "drawer_seed": 7,
+        "ds_init_eef": [
+          -0.061459243297576904,
+          -0.22808998823165894,
+          0.21429863572120667
+        ],
+        "env_init_eef": [
+          -0.061459243297576904,
+          -0.22808998823165894,
+          0.21429863572120667
+        ],
+        "eef_diff_m": 0.0,
+        "eef_match": true,
+        "ds_init_joints": [
+          -0.9478221535682678,
+          -0.21619318425655365,
+          0.646809995174408,
+          -1.9553953409194946
+        ],
+        "env_init_joints": [
+          -0.9478221535682678,
+          -0.21619318425655365,
+          0.646809995174408,
+          -1.9553953409194946
+        ],
+        "joints_diff": 0.0,
+        "joints_match": true,
+        "ds_init_gripper": 0.0008232260588556528,
+        "env_init_gripper": 0.0008232260588556528,
+        "gripper_diff": 0.0,
+        "gripper_match": true,
+        "motor_joints_range": {
+          "0": {
+            "min": -3.488534927368164,
+            "max": -0.9478221535682678,
+            "mean": -2.5890450477600098,
+            "std": 0.5262482166290283
+          },
+          "1": {
+            "min": -2.155794620513916,
+            "max": 1.0798475742340088,
+            "mean": -0.17116500437259674,
+            "std": 0.7568382024765015
+          },
+          "2": {
+            "min": -0.8159895539283752,
+            "max": 3.4821341037750244,
+            "mean": 2.206639289855957,
+            "std": 1.0764795541763306
+          },
+          "3": {
+            "min": -2.6060473918914795,
+            "max": -1.4993939399719238,
+            "mean": -2.0541911125183105,
+            "std": 0.22062954306602478
+          }
+        }
+      },
+      "gripper_action_state_gap": {
+        "action6_unique": [
+          -1.0,
+          1.0
+        ],
+        "action6_is_binary": true,
+        "state7_is_continuous": true,
+        "n_action_transitions": 2,
+        "n_state_transitions": 19,
+        "state_transition_leads_action": true,
+        "gripper_action_state_gap_risk": "LOW",
+        "gap_description": "Gripper actions are binary (\u00b11.0) but gripper state[7] is continuous. The model predicts state7 from image+state context. The action[6] is used for action-conditioned prediction during training. If action[6] is binary but the target state7 is continuous, the model must learn that binary gripper commands \u2192 smooth gripper state changes. This is learnable IF the dataset contains sufficient gripper-closing frames with continuous intermediate states (which V59 has).",
+        "close_frames_mean_state7": -0.03692775219678879,
+        "open_frames_mean_state7": 0.0009612948051653802,
+        "open_minus_close": 0.03788904845714569
+      }
+    },
+    {
+      "episode_index": 1,
+      "drawer_seed": 7,
+      "n_frames": 70,
+      "dataset_state_continuity": {
+        "n_frames": 70,
+        "n_unique_state7": 40,
+        "state7_unique_sample": [
+          -0.042,
+          -0.041535,
+          -0.041534,
+          -0.041449,
+          -0.040772,
+          -0.040712,
+          -0.040627,
+          -0.040382,
+          -0.039914,
+          -0.038403,
+          -0.034903,
+          -0.034444,
+          -0.031712,
+          -0.026577,
+          -0.013865,
+          -0.009709,
+          -0.008313,
+          -0.002153,
+          -0.001069,
+          -0.000572
+        ],
+        "state7_min": -0.041999999433755875,
+        "state7_max": 0.0010000000474974513,
+        "state7_mean": -0.015442095696926117,
+        "state7_std": 0.019767945632338524,
+        "state7_is_binary": false,
+        "state7_libero_bounds": [
+          -0.042,
+          0.001
+        ],
+        "state7_in_libero_bounds": false
+      },
+      "env_state_match": {
+        "drawer_seed": 7,
+        "ds_init_eef": [
+          -0.061459243297576904,
+          -0.22808998823165894,
+          0.21429863572120667
+        ],
+        "env_init_eef": [
+          -0.061459243297576904,
+          -0.22808998823165894,
+          0.21429863572120667
+        ],
+        "eef_diff_m": 0.0,
+        "eef_match": true,
+        "ds_init_joints": [
+          -0.9478221535682678,
+          -0.21619318425655365,
+          0.646809995174408,
+          -1.9553953409194946
+        ],
+        "env_init_joints": [
+          -0.9478221535682678,
+          -0.21619318425655365,
+          0.646809995174408,
+          -1.9553953409194946
+        ],
+        "joints_diff": 0.0,
+        "joints_match": true,
+        "ds_init_gripper": 0.0008232260588556528,
+        "env_init_gripper": 0.0008232260588556528,
+        "gripper_diff": 0.0,
+        "gripper_match": true,
+        "motor_joints_range": {
+          "0": {
+            "min": -3.62764835357666,
+            "max": -0.9478221535682678,
+            "mean": -3.2278428077697754,
+            "std": 0.4253392815589905
+          },
+          "1": {
+            "min": -2.167656183242798,
+            "max": 0.6223242282867432,
+            "mean": -1.1362988948822021,
+            "std": 0.7224727272987366
+          },
+          "2": {
+            "min": 0.646809995174408,
+            "max": 3.274686813354492,
+            "mean": 2.367656946182251,
+            "std": 0.6471441984176636
+          },
+          "3": {
+            "min": -2.514875888824463,
+            "max": 1.131837248802185,
+            "mean": 0.16521024703979492,
+            "std": 1.1925417184829712
+          }
+        }
+      },
+      "gripper_action_state_gap": {
+        "action6_unique": [
+          -1.0,
+          1.0
+        ],
+        "action6_is_binary": true,
+        "state7_is_continuous": true,
+        "n_action_transitions": 2,
+        "n_state_transitions": 33,
+        "state_transition_leads_action": true,
+        "gripper_action_state_gap_risk": "LOW",
+        "gap_description": "Gripper actions are binary (\u00b11.0) but gripper state[7] is continuous. The model predicts state7 from image+state context. The action[6] is used for action-conditioned prediction during training. If action[6] is binary but the target state7 is continuous, the model must learn that binary gripper commands \u2192 smooth gripper state changes. This is learnable IF the dataset contains sufficient gripper-closing frames with continuous intermediate states (which V59 has).",
+        "close_frames_mean_state7": -0.03667669743299484,
+        "open_frames_mean_state7": -0.00045364111429080367,
+        "open_minus_close": 0.03622305765748024
+      }
+    },
+    {
+      "episode_index": 2,
+      "drawer_seed": 7,
+      "n_frames": 99,
+      "dataset_state_continuity": {
+        "n_frames": 99,
+        "n_unique_state7": 60,
+        "state7_unique_sample": [
+          -0.042,
+          -0.041729,
+          -0.041535,
+          -0.041534,
+          -0.041483,
+          -0.041421,
+          -0.041094,
+          -0.041083,
+          -0.041025,
+          -0.040917,
+          -0.040904,
+          -0.040358,
+          -0.040304,
+          -0.040217,
+          -0.03869,
+          -0.036297,
+          -0.035877,
+          -0.033912,
+          -0.032106,
+          -0.03194
+        ],
+        "state7_min": -0.041999999433755875,
+        "state7_max": 0.0010000000474974513,
+        "state7_mean": -0.01975984312593937,
+        "state7_std": 0.019534515216946602,
+        "state7_is_binary": false,
+        "state7_libero_bounds": [
+          -0.042,
+          0.001
+        ],
+        "state7_in_libero_bounds": false
+      },
+      "env_state_match": {
+        "drawer_seed": 7,
+        "ds_init_eef": [
+          -0.061459243297576904,
+          -0.22808998823165894,
+          0.21429863572120667
+        ],
+        "env_init_eef": [
+          -0.061459243297576904,
+          -0.22808998823165894,
+          0.21429863572120667
+        ],
+        "eef_diff_m": 0.0,
+        "eef_match": true,
+        "ds_init_joints": [
+          -0.9478221535682678,
+          -0.21619318425655365,
+          0.646809995174408,
+          -1.9553953409194946
+        ],
+        "env_init_joints": [
+          -0.9478221535682678,
+          -0.21619318425655365,
+          0.646809995174408,
+          -1.9553953409194946
+        ],
+        "joints_diff": 0.0,
+        "joints_match": true,
+        "ds_init_gripper": 0.0008232260588556528,
+        "env_init_gripper": 0.0008232260588556528,
+        "gripper_diff": 0.0,
+        "gripper_match": true,
+        "motor_joints_range": {
+          "0": {
+            "min": -3.7067487239837646,
+            "max": -0.9478221535682678,
+            "mean": -3.1818759441375732,
+            "std": 0.4832342565059662
+          },
+          "1": {
+            "min": -2.044475793838501,
+            "max": 1.3943467140197754,
+            "mean": -0.8298173546791077,
+            "std": 0.7399262189865112
+          },
+          "2": {
+            "min": -2.2701494693756104,
+            "max": 5.203017711639404,
+            "mean": 2.1374988555908203,
+            "std": 1.2387914657592773
+          },
+          "3": {
+            "min": -6.465181827545166,
+            "max": 1.0485739707946777,
+            "mean": -0.8523280620574951,
+            "std": 1.6814836263656616
+          }
+        }
+      },
+      "gripper_action_state_gap": {
+        "action6_unique": [
+          -1.0,
+          1.0
+        ],
+        "action6_is_binary": true,
+        "state7_is_continuous": true,
+        "n_action_transitions": 2,
+        "n_state_transitions": 61,
+        "state_transition_leads_action": true,
+        "gripper_action_state_gap_risk": "LOW",
+        "gap_description": "Gripper actions are binary (\u00b11.0) but gripper state[7] is continuous. The model predicts state7 from image+state context. The action[6] is used for action-conditioned prediction during training. If action[6] is binary but the target state7 is continuous, the model must learn that binary gripper commands \u2192 smooth gripper state changes. This is learnable IF the dataset contains sufficient gripper-closing frames with continuous intermediate states (which V59 has).",
+        "close_frames_mean_state7": -0.03217434883117676,
+        "open_frames_mean_state7": -0.003697236767038703,
+        "open_minus_close": 0.02847711183130741
+      }
+    },
+    {
+      "episode_index": 3,
+      "drawer_seed": 7,
+      "n_frames": 92,
+      "dataset_state_continuity": {
+        "n_frames": 92,
+        "n_unique_state7": 65,
+        "state7_unique_sample": [
+          -0.042,
+          -0.041538,
+          -0.041536,
+          -0.041534,
+          -0.041534,
+          -0.041534,
+          -0.041534,
+          -0.041534,
+          -0.041534,
+          -0.041534,
+          -0.041534,
+          -0.04152,
+          -0.041509,
+          -0.041395,
+          -0.041375,
+          -0.041344,
+          -0.041267,
+          -0.040536,
+          -0.04006,
+          -0.040032
+        ],
+        "state7_min": -0.041999999433755875,
+        "state7_max": 0.0010000000474974513,
+        "state7_mean": -0.020768431946635246,
+        "state7_std": 0.02020183764398098,
+        "state7_is_binary": false,
+        "state7_libero_bounds": [
+          -0.042,
+          0.001
+        ],
+        "state7_in_libero_bounds": false
+      },
+      "env_state_match": {
+        "drawer_seed": 7,
+        "ds_init_eef": [
+          -0.061459243297576904,
+          -0.22808998823165894,
+          0.21429863572120667
+        ],
+        "env_init_eef": [
+          -0.061459243297576904,
+          -0.22808998823165894,
+          0.21429863572120667
+        ],
+        "eef_diff_m": 0.0,
+        "eef_match": true,
+        "ds_init_joints": [
+          -0.9478221535682678,
+          -0.21619318425655365,
+          0.646809995174408,
+          -1.9553953409194946
+        ],
+        "env_init_joints": [
+          -0.9478221535682678,
+          -0.21619318425655365,
+          0.646809995174408,
+          -1.9553953409194946
+        ],
+        "joints_diff": 0.0,
+        "joints_match": true,
+        "ds_init_gripper": 0.0008232260588556528,
+        "env_init_gripper": 0.0008232260588556528,
+        "gripper_diff": 0.0,
+        "gripper_match": true,
+        "motor_joints_range": {
+          "0": {
+            "min": -3.9628806114196777,
+            "max": -0.9478221535682678,
+            "mean": -3.3555009365081787,
+            "std": 0.4216671288013458
+          },
+          "1": {
+            "min": -2.291995048522949,
+            "max": 0.7571368217468262,
+            "mean": -1.373788833618164,
+            "std": 0.6526787877082825
+          },
+          "2": {
+            "min": 0.31275251507759094,
+            "max": 3.3989365100860596,
+            "mean": 2.3131394386291504,
+            "std": 0.5714702606201172
+          },
+          "3": {
+            "min": -2.562941074371338,
+            "max": 1.2332829236984253,
+            "mean": 0.43262559175491333,
+            "std": 0.9736510515213013
+          }
+        }
+      },
+      "gripper_action_state_gap": {
+        "action6_unique": [
+          -1.0,
+          1.0
+        ],
+        "action6_is_binary": true,
+        "state7_is_continuous": true,
+        "n_action_transitions": 2,
+        "n_state_transitions": 58,
+        "state_transition_leads_action": true,
+        "gripper_action_state_gap_risk": "LOW",
+        "gap_description": "Gripper actions are binary (\u00b11.0) but gripper state[7] is continuous. The model predicts state7 from image+state context. The action[6] is used for action-conditioned prediction during training. If action[6] is binary but the target state7 is continuous, the model must learn that binary gripper commands \u2192 smooth gripper state changes. This is learnable IF the dataset contains sufficient gripper-closing frames with continuous intermediate states (which V59 has).",
+        "close_frames_mean_state7": -0.039075035601854324,
+        "open_frames_mean_state7": -0.0017043723491951823,
+        "open_minus_close": 0.03737066313624382
+      }
+    },
+    {
+      "episode_index": 4,
+      "drawer_seed": 7,
+      "n_frames": 57,
+      "dataset_state_continuity": {
+        "n_frames": 57,
+        "n_unique_state7": 40,
+        "state7_unique_sample": [
+          -0.042,
+          -0.041921,
+          -0.040224,
+          -0.040224,
+          -0.040224,
+          -0.040224,
+          -0.040223,
+          -0.040223,
+          -0.040223,
+          -0.040221,
+          -0.040216,
+          -0.040053,
+          -0.039349,
+          -0.039216,
+          -0.039108,
+          -0.037553,
+          -0.027422,
+          -0.024444,
+          -0.015209,
+          -0.011368
+        ],
+        "state7_min": -0.041999999433755875,
+        "state7_max": 0.0010000000474974513,
+        "state7_mean": -0.015566185116767883,
+        "state7_std": 0.01905788853764534,
+        "state7_is_binary": false,
+        "state7_libero_bounds": [
+          -0.042,
+          0.001
+        ],
+        "state7_in_libero_bounds": false
+      },
+      "env_state_match": {
+        "drawer_seed": 7,
+        "ds_init_eef": [
+          -0.061459243297576904,
+          -0.22808998823165894,
+          0.21429863572120667
+        ],
+        "env_init_eef": [
+          -0.061459243297576904,
+          -0.22808998823165894,
+          0.21429863572120667
+        ],
+        "eef_diff_m": 0.0,
+        "eef_match": true,
+        "ds_init_joints": [
+          -0.9478221535682678,
+          -0.21619318425655365,
+          0.646809995174408,
+          -1.9553953409194946
+        ],
+        "env_init_joints": [
+          -0.9478221535682678,
+          -0.21619318425655365,
+          0.646809995174408,
+          -1.9553953409194946
+        ],
+        "joints_diff": 0.0,
+        "joints_match": true,
+        "ds_init_gripper": 0.0008232260588556528,
+        "env_init_gripper": 0.0008232260588556528,
+        "gripper_diff": 0.0,
+        "gripper_match": true,
+        "motor_joints_range": {
+          "0": {
+            "min": -3.5412566661834717,
+            "max": -0.9478221535682678,
+            "mean": -3.1206634044647217,
+            "std": 0.41029855608940125
+          },
+          "1": {
+            "min": -1.930043339729309,
+            "max": 0.6180371046066284,
+            "mean": -1.1877671480178833,
+            "std": 0.8073276877403259
+          },
+          "2": {
+            "min": 0.646809995174408,
+            "max": 3.3182671070098877,
+            "mean": 2.794027805328369,
+            "std": 0.34419897198677063
+          },
+          "3": {
+            "min": -2.3722147941589355,
+            "max": 1.0289027690887451,
+            "mean": -0.05974965915083885,
+            "std": 1.2446444034576416
+          }
+        }
+      },
+      "gripper_action_state_gap": {
+        "action6_unique": [
+          -1.0,
+          1.0
+        ],
+        "action6_is_binary": true,
+        "state7_is_continuous": true,
+        "n_action_transitions": 2,
+        "n_state_transitions": 31,
+        "state_transition_leads_action": true,
+        "gripper_action_state_gap_risk": "LOW",
+        "gap_description": "Gripper actions are binary (\u00b11.0) but gripper state[7] is continuous. The model predicts state7 from image+state context. The action[6] is used for action-conditioned prediction during training. If action[6] is binary but the target state7 is continuous, the model must learn that binary gripper commands \u2192 smooth gripper state changes. This is learnable IF the dataset contains sufficient gripper-closing frames with continuous intermediate states (which V59 has).",
+        "close_frames_mean_state7": -0.036395877599716187,
+        "open_frames_mean_state7": -0.0004560832167044282,
+        "open_minus_close": 0.03593979403376579
+      }
+    },
+    {
+      "episode_index": 5,
+      "drawer_seed": 7,
+      "n_frames": 91,
+      "dataset_state_continuity": {
+        "n_frames": 91,
+        "n_unique_state7": 53,
+        "state7_unique_sample": [
+          -0.042,
+          -0.041534,
+          -0.041534,
+          -0.041534,
+          -0.041534,
+          -0.041501,
+          -0.041479,
+          -0.041478,
+          -0.041458,
+          -0.041426,
+          -0.041426,
+          -0.041241,
+          -0.041006,
+          -0.040954,
+          -0.035832,
+          -0.029955,
+          -0.02822,
+          -0.02811,
+          -0.028016,
+          -0.027922
+        ],
+        "state7_min": -0.041999999433755875,
+        "state7_max": 0.0010000000474974513,
+        "state7_mean": -0.018948279321193695,
+        "state7_std": 0.019439077004790306,
+        "state7_is_binary": false,
+        "state7_libero_bounds": [
+          -0.042,
+          0.001
+        ],
+        "state7_in_libero_bounds": false
+      },
+      "env_state_match": {
+        "drawer_seed": 7,
+        "ds_init_eef": [
+          -0.061459243297576904,
+          -0.22808998823165894,
+          0.21429863572120667
+        ],
+        "env_init_eef": [
+          -0.061459243297576904,
+          -0.22808998823165894,
+          0.21429863572120667
+        ],
+        "eef_diff_m": 0.0,
+        "eef_match": true,
+        "ds_init_joints": [
+          -0.9478221535682678,
+          -0.21619318425655365,
+          0.646809995174408,
+          -1.9553953409194946
+        ],
+        "env_init_joints": [
+          -0.9478221535682678,
+          -0.21619318425655365,
+          0.646809995174408,
+          -1.9553953409194946
+        ],
+        "joints_diff": 0.0,
+        "joints_match": true,
+        "ds_init_gripper": 0.0008232260588556528,
+        "env_init_gripper": 0.0008232260588556528,
+        "gripper_diff": 0.0,
+        "gripper_match": true,
+        "motor_joints_range": {
+          "0": {
+            "min": -3.621626615524292,
+            "max": -0.9478221535682678,
+            "mean": -3.273099899291992,
+            "std": 0.4287603199481964
+          },
+          "1": {
+            "min": -1.9002763032913208,
+            "max": 1.260805368423462,
+            "mean": -0.9743220806121826,
+            "std": 0.6992852687835693
+          },
+          "2": {
+            "min": 0.646809995174408,
+            "max": 4.128654479980469,
+            "mean": 2.095581531524658,
+            "std": 0.6210290789604187
+          },
+          "3": {
+            "min": -2.9433181285858154,
+            "max": 0.9649600386619568,
+            "mean": 0.018773818388581276,
+            "std": 1.228527307510376
+          }
+        }
+      },
+      "gripper_action_state_gap": {
+        "action6_unique": [
+          -1.0,
+          1.0
+        ],
+        "action6_is_binary": true,
+        "state7_is_continuous": true,
+        "n_action_transitions": 2,
+        "n_state_transitions": 39,
+        "state_transition_leads_action": true,
+        "gripper_action_state_gap_risk": "LOW",
+        "gap_description": "Gripper actions are binary (\u00b11.0) but gripper state[7] is continuous. The model predicts state7 from image+state context. The action[6] is used for action-conditioned prediction during training. If action[6] is binary but the target state7 is continuous, the model must learn that binary gripper commands \u2192 smooth gripper state changes. This is learnable IF the dataset contains sufficient gripper-closing frames with continuous intermediate states (which V59 has).",
+        "close_frames_mean_state7": -0.03539459779858589,
+        "open_frames_mean_state7": -0.0006232349551282823,
+        "open_minus_close": 0.03477136418223381
+      }
+    },
+    {
+      "episode_index": 49,
+      "drawer_seed": 9,
+      "n_frames": 44,
+      "dataset_state_continuity": {
+        "n_frames": 44,
+        "n_unique_state7": 34,
+        "state7_unique_sample": [
+          -0.042,
+          -0.041534,
+          -0.041488,
+          -0.041259,
+          -0.026175,
+          -0.012653,
+          -0.009709,
+          -0.008718,
+          -0.008337,
+          -0.006004,
+          -0.005962,
+          -0.005041,
+          -0.001774,
+          0.000827,
+          0.000833,
+          0.000859,
+          0.000896,
+          0.000908,
+          0.000925,
+          0.000927
+        ],
+        "state7_min": -0.041999999433755875,
+        "state7_max": 0.0010000000474974513,
+        "state7_mean": -0.006975104101002216,
+        "state7_std": 0.014702936634421349,
+        "state7_is_binary": false,
+        "state7_libero_bounds": [
+          -0.042,
+          0.001
+        ],
+        "state7_in_libero_bounds": false
+      },
+      "env_state_match": {
+        "drawer_seed": 9,
+        "ds_init_eef": [
+          -0.06145980581641197,
+          -0.22809025645256042,
+          0.21429714560508728
+        ],
+        "env_init_eef": [
+          -0.06145980581641197,
+          -0.22809025645256042,
+          0.21429714560508728
+        ],
+        "eef_diff_m": 0.0,
+        "eef_match": true,
+        "ds_init_joints": [
+          -0.9478265047073364,
+          -0.21619458496570587,
+          0.6468135714530945,
+          -1.9553992748260498
+        ],
+        "env_init_joints": [
+          -0.9478265047073364,
+          -0.21619458496570587,
+          0.6468135714530945,
+          -1.9553992748260498
+        ],
+        "joints_diff": 0.0,
+        "joints_match": true,
+        "ds_init_gripper": 0.0008269927930086851,
+        "env_init_gripper": 0.0008269927930086851,
+        "gripper_diff": 0.0,
+        "gripper_match": true,
+        "motor_joints_range": {
+          "0": {
+            "min": -3.694342613220215,
+            "max": -0.9478265047073364,
+            "mean": -3.192373752593994,
+            "std": 0.46621131896972656
+          },
+          "1": {
+            "min": -2.3505828380584717,
+            "max": 0.7194914817810059,
+            "mean": -1.081231713294983,
+            "std": 0.5892307758331299
+          },
+          "2": {
+            "min": 0.022708691656589508,
+            "max": 3.4772138595581055,
+            "mean": 2.5565919876098633,
+            "std": 0.7400703430175781
+          },
+          "3": {
+            "min": -6.3153605461120605,
+            "max": 0.9976181983947754,
+            "mean": -1.4216563701629639,
+            "std": 2.355494737625122
+          }
+        }
+      },
+      "gripper_action_state_gap": {
+        "action6_unique": [
+          -1.0,
+          1.0
+        ],
+        "action6_is_binary": true,
+        "state7_is_continuous": true,
+        "n_action_transitions": 2,
+        "n_state_transitions": 22,
+        "state_transition_leads_action": true,
+        "gripper_action_state_gap_risk": "LOW",
+        "gap_description": "Gripper actions are binary (\u00b11.0) but gripper state[7] is continuous. The model predicts state7 from image+state context. The action[6] is used for action-conditioned prediction during training. If action[6] is binary but the target state7 is continuous, the model must learn that binary gripper commands \u2192 smooth gripper state changes. This is learnable IF the dataset contains sufficient gripper-closing frames with continuous intermediate states (which V59 has).",
+        "close_frames_mean_state7": -0.03454696014523506,
+        "open_frames_mean_state7": -0.0027148600202053785,
+        "open_minus_close": 0.031832098960876465
+      }
+    }
+  ],
+  "summary": {
+    "n_total": 7,
+    "n_errors": 0,
+    "n_eef_match": 7,
+    "n_joints_match": 7,
+    "n_gripper_match": 7,
+    "n_continuous_state7": 7,
+    "n_high_gap_risk": 0,
+    "n_low_gap_risk": 7
+  },
+  "verdict": "STATE_FORMAT_MATCH_ELIMINATED",
+  "rca3_eliminates_state_representation": true
+}

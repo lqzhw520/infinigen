@@ -1,0 +1,11 @@
+episode_index,npz_name,teacher_close_step,baseline_success,baseline_ever_attached,baseline_failure_stage,baseline_first_near_handle_step,baseline_attach_step,baseline_min_handle_distance_m,baseline_max_drawer_fraction,rescue_success,rescue_ever_attached,rescue_failure_stage,rescue_first_near_handle_step,rescue_attach_step,rescue_min_handle_distance_m,rescue_max_drawer_fraction,suppressed_close_steps,first_allowed_close_step,first_rescue_near_handle_step,success_rescued,attach_rescued
+3,seed_007_branch2_phase_scaled_ep3.npz,44,False,False,never_near_handle,,,0.056033771485090256,1.0,False,False,never_near_handle,,,0.07902441918849945,1.0,47,,135,False,False
+25,seed_008_branch2_phase_scaled_ep0.npz,38,False,False,never_near_handle,,,0.06251408159732819,0.18001799285411835,False,False,never_near_handle,,,0.10219443589448929,0.10785125195980072,29,,,False,False
+138,seed_012_branch2_phase_scaled_ep4.npz,34,True,True,success,,51,0.07838362455368042,1.0,False,False,near_handle_no_attach,81,,0.02738976664841175,1.0,47,,82,False,False
+157,seed_013_branch2_phase_scaled_ep0.npz,41,False,False,never_near_handle,,,0.14601057767868042,1.0,False,False,never_near_handle,,,0.11051017045974731,1.0,29,,,False,False
+158,seed_013_branch2_phase_scaled_ep2.npz,42,False,True,pull_no_open,92,77,0.03839823231101036,1.0,False,False,near_handle_no_attach,77,,0.045275550335645676,1.0,44,,,False,False
+180,seed_014_branch2_phase_scaled_ep1.npz,42,False,False,near_handle_no_attach,126,,0.048888444900512695,1.0,False,False,never_near_handle,,,0.06428122520446777,1.0,20,,,False,False
+181,seed_014_branch2_phase_scaled_ep3.npz,40,False,False,near_handle_no_attach,141,,0.0496491938829422,0.27451470494270325,False,False,near_handle_no_attach,162,,0.02912849746644497,1.0,47,,142,False,False
+182,seed_014_branch2_phase_scaled_ep4.npz,43,False,False,near_handle_no_attach,155,,0.024997709318995476,1.0,False,False,near_handle_no_attach,198,,0.04812934249639511,1.0,58,,199,False,False
+205,seed_015_branch2_phase_scaled_ep0.npz,42,False,False,never_near_handle,,,0.06718415021896362,0.4090992510318756,False,False,never_near_handle,,,0.06536523997783661,0.00037090212572366,39,,,False,False
+209,seed_015_branch2_phase_scaled_ep4.npz,35,False,True,attached_no_pull,57,54,0.04179937392473221,0.12162546068429947,True,True,success,34,35,0.03650340065360069,1.0,0,35,29,True,False

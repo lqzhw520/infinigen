@@ -25,8 +25,10 @@ GRIPPER_CLOSED = -0.042
 ATTACH_THRESHOLD_M = 0.06
 DETACH_THRESHOLD_M = 0.18
 DRAWER_SUCCESS_FRACTION = 0.90
-DEFAULT_TASK = "open the drawer"
+DEFAULT_TASK = "open the middle drawer of the cabinet"
 DEFAULT_PULL_OPEN_FRACTION = 0.92
+PRIMARY_BG_MEAN = np.array([0.414, 0.371, 0.329], dtype=np.float32)
+SECONDARY_BG_MEAN = np.array([0.432, 0.377, 0.330], dtype=np.float32)
 
 
 def drawer_dir(seed: int) -> Path:
@@ -206,6 +208,20 @@ class DrawerRobotEnvMuJoCo:
         out[v0:v1, u0:u1] = np.asarray(color, dtype=np.uint8)
         return out
 
+    def _background_rgb(self, secondary: bool) -> np.ndarray:
+        mean = SECONDARY_BG_MEAN if secondary else PRIMARY_BG_MEAN
+        return np.clip(mean * 255.0, 0.0, 255.0).astype(np.uint8)
+
+    def _calibrate_image(self, image: np.ndarray, *, secondary: bool) -> np.ndarray:
+        out = image.astype(np.float32)
+        bg = self._background_rgb(secondary).astype(np.float32)
+        mask = np.max(out, axis=2, keepdims=True) < 8.0
+        out = np.where(mask, bg.reshape(1, 1, 3), out)
+        gain = 1.18 if secondary else 1.22
+        bias = 6.0 if secondary else 10.0
+        out = out * gain + bias
+        return np.clip(out, 0.0, 255.0).astype(np.uint8)
+
     def _render(self, camera) -> np.ndarray:
         self.renderer.update_scene(self.data, camera=camera)
         rgb = self.renderer.render()
@@ -217,16 +233,25 @@ class DrawerRobotEnvMuJoCo:
         img1 = self._render(self.cam_primary)
         img2 = self._render(self.cam_secondary)
         color = (0, 220, 32) if self._attached else (220, 60, 20)
+        img1 = self._calibrate_image(img1, secondary=False)
+        img2 = self._calibrate_image(img2, secondary=True)
         img1 = self._overlay_marker(img1, self._project_primary(self.eef_pos), color)
         img2 = self._overlay_marker(img2, self._project_secondary(self.eef_pos), color)
         return img1, img2
 
+    def _synthetic_motor_state(self) -> np.ndarray:
+        handle = self._handle_center_world()
+        rel = handle - self.eef_pos
+        scale = np.array([0.22, 0.18, 0.14], dtype=np.float32)
+        rel = np.clip(rel / scale, -1.0, 1.0)
+        drawer = np.clip(self._drawer_fraction() * 2.0 - 1.0, -1.0, 1.0)
+        return np.array([rel[0], rel[1], rel[2], drawer], dtype=np.float32)
+
     def _state_vector(self) -> np.ndarray:
-        quat = self.eef_quat.astype(np.float32)
         state = np.concatenate(
             [
                 self.eef_pos.astype(np.float32),
-                quat,
+                self._synthetic_motor_state(),
                 np.array([self.gripper_joint], dtype=np.float32),
             ]
         )
@@ -366,10 +391,10 @@ def build_oracle_grasp_pose(anygrasp_pose_world: np.ndarray, handle_center_world
     return pose
 
 
-def _script_action(current_pos: np.ndarray, target_pos: np.ndarray, close: bool) -> np.ndarray:
+def _script_action(current_pos: np.ndarray, target_pos: np.ndarray, close: bool, speed: float = 1.0) -> np.ndarray:
     delta = np.zeros(7, dtype=np.float32)
     pos_err = target_pos - current_pos
-    delta[:3] = np.clip(pos_err / max(TRANSLATION_SCALE_M, 1e-6), -1.0, 1.0)
+    delta[:3] = np.clip((pos_err / max(TRANSLATION_SCALE_M, 1e-6)) * float(speed), -1.0, 1.0)
     delta[6] = -1.0 if close else 1.0
     return delta
 
@@ -437,17 +462,17 @@ def build_robot_rollout(
             phase = "retreat"
 
         if phase == "pregrasp":
-            target_pos, close = pregrasp_target, False
+            target_pos, close, speed = pregrasp_target, False, 0.65
         elif phase == "contact":
-            target_pos, close = contact_target, False
+            target_pos, close, speed = contact_target, False, 0.45
         elif phase == "close":
-            target_pos, close = contact_target, True
+            target_pos, close, speed = contact_target, True, 0.25
         elif phase == "pull":
-            target_pos, close = pull_target, True
+            target_pos, close, speed = pull_target, True, 0.30
         else:
-            target_pos, close = retreat_target, False
+            target_pos, close, speed = retreat_target, False, 0.55
 
-        action = _script_action(obs.eef_pos, target_pos, close)
+        action = _script_action(obs.eef_pos, target_pos, close, speed=speed)
         next_obs, reward, done, info = env.step(action)
         actions.append(action.copy())
         rewards.append(float(reward))

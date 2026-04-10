@@ -1,0 +1,158 @@
+{
+  "checkpoint": "/mnt/afs2/zhuhaowu/infinigen/external/MINT/checkpoints/MINT-libero",
+  "comparison": {
+    "differs_only_in_mint_code_path": true,
+    "patched_pc_success": 0.0,
+    "same_checkpoint": true,
+    "same_cli": true,
+    "same_task": true,
+    "upstream_pc_success": null
+  },
+  "generated_at": "2026-04-09T17:40:11+08:00",
+  "n_episodes": 3,
+  "passed": false,
+  "results": [
+    {
+      "command": [
+        "/root/anaconda3/envs/infinigen/bin/lerobot-eval",
+        "--policy.path=/mnt/afs2/zhuhaowu/infinigen/external/MINT/checkpoints/MINT-libero",
+        "--policy.vqvae_name_or_path=/mnt/afs2/zhuhaowu/infinigen/external/MINT/checkpoints/MINT-tokenizer-libero",
+        "--env.type=libero",
+        "--env.task=libero_goal",
+        "--env.task_ids=[0]",
+        "--env.observation_height=256",
+        "--env.observation_width=256",
+        "--policy.n_action_steps=4",
+        "--policy.device=cuda",
+        "--eval.batch_size=1",
+        "--eval.n_episodes=3",
+        "--seed=42",
+        "--output_dir=/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c8_mint_release_vs_patched_ab/upstream_release_4eab579"
+      ],
+      "duration_s": 7.700105905532837,
+      "eval_info": null,
+      "eval_info_path": null,
+      "mint_src": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c8_mint_release_vs_patched_ab/mint_upstream_4eab579/lerobot_policy_mint/src",
+      "returncode": 1,
+      "runtime": {
+        "MUJOCO_GL": "osmesa",
+        "PYOPENGL_PLATFORM": "osmesa",
+        "PYTHONPATH_prefix": [
+          "/mnt/afs2/zhuhaowu/infinigen/external/LIBERO",
+          "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c8_mint_release_vs_patched_ab/mint_upstream_4eab579/lerobot_policy_mint/src"
+        ],
+        "TOKENIZERS_PARALLELISM": "false"
+      },
+      "stderr_tail": "ges/lerobot/configs/parser.py\", line 232, in wrapper_inner\n    cfg = draccus.parse(config_class=argtype, config_path=config_path, args=cli_args)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/root/anaconda3/envs/infinigen/lib/python3.11/site-packages/draccus/argparsing.py\", line 211, in parse\n    return parser.parse_args(args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/root/anaconda3/envs/infinigen/lib/python3.11/site-packages/draccus/argparsing.py\", line 102, in parse_args\n    args, _ = self.parse_known_args(args, namespace, is_parse_args=True)\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/root/anaconda3/envs/infinigen/lib/python3.11/site-packages/draccus/argparsing.py\", line 136, in parse_known_args\n    parsed_t = self._postprocessing(parsed_args)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/root/anaconda3/envs/infinigen/lib/python3.11/site-packages/draccus/argparsing.py\", line 180, in _postprocessing\n    cfg = decoding.decode(self.config_class, deflat_d)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/root/anaconda3/envs/infinigen/lib/python3.11/site-packages/draccus/parsers/registry_utils.py\", line 78, in wrapper\n    return base_func(*args, **kw)\n           ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/root/anaconda3/envs/infinigen/lib/python3.11/site-packages/draccus/parsers/decoding.py\", line 48, in decode\n    return get_decoding_fn(cls)(raw_value, ())  # type: ignore\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/root/anaconda3/envs/infinigen/lib/python3.11/site-packages/draccus/parsers/decoding.py\", line 159, in decode_dataclass\n    instance = origin(**init_args)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"<string>\", line 11, in __init__\n  File \"/root/anaconda3/envs/infinigen/lib/python3.11/site-packages/lerobot/configs/eval.py\", line 49, in __post_init__\n    self.policy = PreTrainedConfig.from_pretrained(policy_path, cli_overrides=cli_overrides)\n                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/root/anaconda3/envs/infinigen/lib/python3.11/site-packages/lerobot/configs/policies.py\", line 211, in from_pretrained\n    orig_config = draccus.parse(cls, config_file, args=[])\n                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/root/anaconda3/envs/infinigen/lib/python3.11/site-packages/draccus/argparsing.py\", line 211, in parse\n    return parser.parse_args(args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/root/anaconda3/envs/infinigen/lib/python3.11/site-packages/draccus/argparsing.py\", line 102, in parse_args\n    args, _ = self.parse_known_args(args, namespace, is_parse_args=True)\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/root/anaconda3/envs/infinigen/lib/python3.11/site-packages/draccus/argparsing.py\", line 136, in parse_known_args\n    parsed_t = self._postprocessing(parsed_args)\n               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/root/anaconda3/envs/infinigen/lib/python3.11/site-packages/draccus/argparsing.py\", line 180, in _postprocessing\n    cfg = decoding.decode(self.config_class, deflat_d)\n          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/root/anaconda3/envs/infinigen/lib/python3.11/site-packages/draccus/parsers/registry_utils.py\", line 78, in wrapper\n    return base_func(*args, **kw)\n           ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/root/anaconda3/envs/infinigen/lib/python3.11/site-packages/draccus/parsers/decoding.py\", line 48, in decode\n    return get_decoding_fn(cls)(raw_value, ())  # type: ignore\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/root/anaconda3/envs/infinigen/lib/python3.11/site-packages/draccus/parsers/decoding.py\", line 194, in decode_choice_class\n    raise DecodingError(path, f\"Couldn't find a choice class for '{choice_type}' in {cls}\") from e\ndraccus.utils.DecodingError: Couldn't find a choice class for 'mint' in <class 'lerobot.configs.policies.PreTrainedConfig'>\n",
+      "stdout_tail": "",
+      "variant": "upstream_release_4eab579"
+    },
+    {
+      "command": [
+        "/root/anaconda3/envs/infinigen/bin/lerobot-eval",
+        "--policy.path=/mnt/afs2/zhuhaowu/infinigen/external/MINT/checkpoints/MINT-libero",
+        "--policy.vqvae_name_or_path=/mnt/afs2/zhuhaowu/infinigen/external/MINT/checkpoints/MINT-tokenizer-libero",
+        "--env.type=libero",
+        "--env.task=libero_goal",
+        "--env.task_ids=[0]",
+        "--env.observation_height=256",
+        "--env.observation_width=256",
+        "--policy.n_action_steps=4",
+        "--policy.device=cuda",
+        "--eval.batch_size=1",
+        "--eval.n_episodes=3",
+        "--seed=42",
+        "--output_dir=/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c8_mint_release_vs_patched_ab/current_patched_b5eabd4"
+      ],
+      "duration_s": 260.357563495636,
+      "eval_info": {
+        "overall": {
+          "avg_max_reward": 0.0,
+          "avg_sum_reward": 0.0,
+          "eval_ep_s": 61.33658218383789,
+          "eval_s": 184.0097460746765,
+          "n_episodes": 3,
+          "pc_success": 0.0,
+          "video_paths": [
+            "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c8_mint_release_vs_patched_ab/current_patched_b5eabd4/videos/libero_goal_0/eval_episode_0.mp4",
+            "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c8_mint_release_vs_patched_ab/current_patched_b5eabd4/videos/libero_goal_0/eval_episode_1.mp4",
+            "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c8_mint_release_vs_patched_ab/current_patched_b5eabd4/videos/libero_goal_0/eval_episode_2.mp4"
+          ]
+        },
+        "per_group": {
+          "libero_goal": {
+            "avg_max_reward": 0.0,
+            "avg_sum_reward": 0.0,
+            "n_episodes": 3,
+            "pc_success": 0.0,
+            "video_paths": [
+              "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c8_mint_release_vs_patched_ab/current_patched_b5eabd4/videos/libero_goal_0/eval_episode_0.mp4",
+              "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c8_mint_release_vs_patched_ab/current_patched_b5eabd4/videos/libero_goal_0/eval_episode_1.mp4",
+              "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c8_mint_release_vs_patched_ab/current_patched_b5eabd4/videos/libero_goal_0/eval_episode_2.mp4"
+            ]
+          }
+        },
+        "per_task": [
+          {
+            "metrics": {
+              "max_rewards": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "successes": [
+                false,
+                false,
+                false
+              ],
+              "sum_rewards": [
+                0.0,
+                0.0,
+                0.0
+              ],
+              "video_paths": [
+                "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c8_mint_release_vs_patched_ab/current_patched_b5eabd4/videos/libero_goal_0/eval_episode_0.mp4",
+                "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c8_mint_release_vs_patched_ab/current_patched_b5eabd4/videos/libero_goal_0/eval_episode_1.mp4",
+                "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c8_mint_release_vs_patched_ab/current_patched_b5eabd4/videos/libero_goal_0/eval_episode_2.mp4"
+              ]
+            },
+            "task_group": "libero_goal",
+            "task_id": 0
+          }
+        ]
+      },
+      "eval_info_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c8_mint_release_vs_patched_ab/current_patched_b5eabd4/eval_info.json",
+      "mint_src": "/mnt/afs2/zhuhaowu/infinigen/external/MINT/lerobot_policy_mint/src",
+      "returncode": 0,
+      "runtime": {
+        "MUJOCO_GL": "osmesa",
+        "PYOPENGL_PLATFORM": "osmesa",
+        "PYTHONPATH_prefix": [
+          "/mnt/afs2/zhuhaowu/infinigen/external/LIBERO",
+          "/mnt/afs2/zhuhaowu/infinigen/external/MINT/lerobot_policy_mint/src"
+        ],
+        "TOKENIZERS_PARALLELISM": "false"
+      },
+      "stderr_tail": "]\u001b[A\n\nRunning rollout with at most 300 steps:  95%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258c| 286/300 [00:53<00:02,  5.17it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps:  95%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258c| 286/300 [00:53<00:02,  5.17it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps:  96%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258c| 287/300 [00:53<00:02,  5.57it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps:  96%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258c| 287/300 [00:53<00:02,  5.57it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps:  96%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258c| 288/300 [00:53<00:02,  5.85it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps:  96%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258c| 288/300 [00:54<00:02,  5.85it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps:  96%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258b| 289/300 [00:54<00:02,  5.14it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps:  96%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258b| 289/300 [00:54<00:02,  5.14it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps:  97%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258b| 290/300 [00:54<00:01,  5.51it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps:  97%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258b| 290/300 [00:54<00:01,  5.51it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps:  97%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258b| 291/300 [00:54<00:01,  5.82it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps:  97%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258b| 291/300 [00:54<00:01,  5.82it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps:  97%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258b| 292/300 [00:54<00:01,  6.03it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps:  97%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258b| 292/300 [00:54<00:01,  6.03it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps:  98%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258a| 293/300 [00:54<00:01,  5.24it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps:  98%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258a| 293/300 [00:54<00:01,  5.24it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps:  98%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258a| 294/300 [00:54<00:01,  5.59it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps:  98%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258a| 294/300 [00:55<00:01,  5.59it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps:  98%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258a| 295/300 [00:55<00:00,  5.77it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps:  98%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258a| 295/300 [00:55<00:00,  5.77it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps:  99%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258a| 296/300 [00:55<00:00,  6.03it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps:  99%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u258a| 296/300 [00:55<00:00,  6.03it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps:  99%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2589| 297/300 [00:55<00:00,  5.26it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps:  99%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2589| 297/300 [00:55<00:00,  5.26it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps:  99%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2589| 298/300 [00:55<00:00,  5.61it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps:  99%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2589| 298/300 [00:55<00:00,  5.61it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2589| 299/300 [00:55<00:00,  5.90it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2589| 299/300 [00:55<00:00,  5.90it/s, running_success_rate=0.0%]\u001b[A\n\nRunning rollout with at most 300 steps: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 300/300 [00:55<00:00,  6.10it/s, running_success_rate=0.0%]\u001b[A\n\n                                                                                                                    \u001b[A\nStepping through eval batches:  67%|\u2588\u2588\u2588\u2588\u2588\u2588\u258b   | 2/3 [03:03<01:02, 62.07s/it, running_success_rate=0.0%]\nStepping through eval batches: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 3/3 [03:03<00:00, 60.92s/it, running_success_rate=0.0%]\nStepping through eval batches: 100%|\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588\u2588| 3/3 [03:03<00:00, 61.27s/it, running_success_rate=0.0%]\nINFO 2026-04-09 17:40:10 bot_eval.py:579 End of eval\n",
+      "stdout_tail": "Creating LIBERO envs | suites=['libero_goal'] | n_envs(per task)=1 | init_states=True\nRestricting to task_ids=[0]\n[info] using task orders [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]\nBuilt vec env | suite=libero_goal | task_id=0 | n_envs=1\nLoading VQVAE weights from /mnt/afs2/zhuhaowu/infinigen/external/MINT/checkpoints/MINT-tokenizer-libero/ms_vqvae.pth\nLoaded VQVAE weights. Missing: 0, Unexpected: 0\nLoading model from: /mnt/afs2/zhuhaowu/infinigen/external/MINT/checkpoints/MINT-libero\n\u2713 Loaded state dict from model.safetensors\nFixed 166 architectural key mismatches (checkpoint vs model)\nMissing keys when loading state dict: 1 keys\n  - model.paligemma_with_expert.paligemma.language_model.model.embed_tokens.weight\nOverall Aggregated Metrics:\n{'avg_sum_reward': 0.0, 'avg_max_reward': 0.0, 'pc_success': 0.0, 'n_episodes': 3, 'eval_s': 184.0097460746765, 'eval_ep_s': 61.33658218383789, 'video_paths': ['/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c8_mint_release_vs_patched_ab/current_patched_b5eabd4/videos/libero_goal_0/eval_episode_0.mp4', '/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c8_mint_release_vs_patched_ab/current_patched_b5eabd4/videos/libero_goal_0/eval_episode_1.mp4', '/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c8_mint_release_vs_patched_ab/current_patched_b5eabd4/videos/libero_goal_0/eval_episode_2.mp4']}\n\nAggregated Metrics for per_task:\n[{'task_group': 'libero_goal', 'task_id': 0, 'metrics': {'sum_rewards': [0.0, 0.0, 0.0], 'max_rewards': [0.0, 0.0, 0.0], 'successes': [False, False, False], 'video_paths': ['/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c8_mint_release_vs_patched_ab/current_patched_b5eabd4/videos/libero_goal_0/eval_episode_0.mp4', '/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c8_mint_release_vs_patched_ab/current_patched_b5eabd4/videos/libero_goal_0/eval_episode_1.mp4', '/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c8_mint_release_vs_patched_ab/current_patched_b5eabd4/videos/libero_goal_0/eval_episode_2.mp4']}}]\n\nAggregated Metrics for per_group:\n{'libero_goal': {'avg_sum_reward': 0.0, 'avg_max_reward': 0.0, 'pc_success': 0.0, 'n_episodes': 3, 'video_paths': ['/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c8_mint_release_vs_patched_ab/current_patched_b5eabd4/videos/libero_goal_0/eval_episode_0.mp4', '/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c8_mint_release_vs_patched_ab/current_patched_b5eabd4/videos/libero_goal_0/eval_episode_1.mp4', '/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c8_mint_release_vs_patched_ab/current_patched_b5eabd4/videos/libero_goal_0/eval_episode_2.mp4']}}\n\nAggregated Metrics for overall:\n{'avg_sum_reward': 0.0, 'avg_max_reward': 0.0, 'pc_success': 0.0, 'n_episodes': 3, 'eval_s': 184.0097460746765, 'eval_ep_s': 61.33658218383789, 'video_paths': ['/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c8_mint_release_vs_patched_ab/current_patched_b5eabd4/videos/libero_goal_0/eval_episode_0.mp4', '/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c8_mint_release_vs_patched_ab/current_patched_b5eabd4/videos/libero_goal_0/eval_episode_1.mp4', '/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c8_mint_release_vs_patched_ab/current_patched_b5eabd4/videos/libero_goal_0/eval_episode_2.mp4']}\n",
+      "variant": "current_patched_b5eabd4"
+    }
+  ],
+  "seed": 42,
+  "stage": "p1c8",
+  "task_id": 0,
+  "task_suite": "libero_goal",
+  "tokenizer": "/mnt/afs2/zhuhaowu/infinigen/external/MINT/checkpoints/MINT-tokenizer-libero",
+  "variants": [
+    {
+      "head": "4eab5795345721001c412ff1ca2c886a11eab606",
+      "name": "upstream_release_4eab579",
+      "src": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c8_mint_release_vs_patched_ab/mint_upstream_4eab579/lerobot_policy_mint/src"
+    },
+    {
+      "head": "b5eabd41b4ca72264b3dc6ed18caac1cd062b3e2",
+      "name": "current_patched_b5eabd4",
+      "src": "/mnt/afs2/zhuhaowu/infinigen/external/MINT/lerobot_policy_mint/src"
+    }
+  ]
+}

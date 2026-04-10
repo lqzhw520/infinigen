@@ -1,0 +1,130 @@
+{
+  "summary": {},
+  "action_delta": {
+    "l2_p95": {
+      "libero": 0.1642905474321923,
+      "infinigen": 1.1768114956362643,
+      "change": "+616.3%"
+    }
+  },
+  "autocorrelation": {},
+  "state_action_lag": {
+    "reference": {
+      "dx": {
+        "best_lag": 1,
+        "r": 0.2570004224181616,
+        "expected_lag": 1,
+        "is_correct": true
+      },
+      "dy": {
+        "best_lag": -1,
+        "r": 0.3195631525704598,
+        "expected_lag": 1,
+        "is_correct": false
+      },
+      "dz": {
+        "best_lag": 1,
+        "r": 0.1916124847455238,
+        "expected_lag": 1,
+        "is_correct": true
+      },
+      "drx": {
+        "best_lag": 1,
+        "r": 0.038234214062585974,
+        "expected_lag": 1,
+        "is_correct": true
+      },
+      "dry": {
+        "best_lag": -1,
+        "r": -0.012938576271205425,
+        "expected_lag": 1,
+        "is_correct": false
+      },
+      "drz": {
+        "best_lag": 1,
+        "r": 0.03994854986707938,
+        "expected_lag": 1,
+        "is_correct": true
+      },
+      "gripper": {
+        "best_lag": -1,
+        "r": -0.2502705904294526,
+        "expected_lag": 1,
+        "is_correct": false
+      }
+    },
+    "infinigen": {
+      "dx": {
+        "best_lag": 0,
+        "r": 0.40333358383073337,
+        "expected_lag": 1,
+        "is_correct": false
+      },
+      "dy": {
+        "best_lag": 0,
+        "r": 0.32296669718000004,
+        "expected_lag": 1,
+        "is_correct": false
+      },
+      "dz": {
+        "best_lag": -1,
+        "r": -0.2977409928615267,
+        "expected_lag": 1,
+        "is_correct": false
+      },
+      "drx": {
+        "best_lag": 0,
+        "r": -0.09870640434034895,
+        "expected_lag": 1,
+        "is_correct": false
+      },
+      "dry": {
+        "best_lag": -1,
+        "r": 0.06462949559382004,
+        "expected_lag": 1,
+        "is_correct": false
+      },
+      "drz": {
+        "best_lag": 0,
+        "r": 0.05009280173405258,
+        "expected_lag": 1,
+        "is_correct": false
+      },
+      "gripper": {
+        "best_lag": -1,
+        "r": -0.02148458642533588,
+        "expected_lag": 1,
+        "is_correct": false
+      }
+    },
+    "issues": []
+  },
+  "episode_filtering": {
+    "libero": "8/100 passing",
+    "infinigen": "1/25 passing"
+  },
+  "verdict": "WARN \u2014 non-critical issues",
+  "verdict_issues": [
+    "ACTION_VARIANCE: Infinigen |\u0394a|_2 p95=1.1768 >> LIBERO=0.1643 \u2014 teacher has excessive motion jumps"
+  ],
+  "gripper_analysis": {
+    "libero": {
+      "is_binary_jumps": true,
+      "unique_deltas": [
+        0.0,
+        2.0
+      ],
+      "num_transitions": 370,
+      "transitions_per_ep": 0.013347763347763348
+    },
+    "infinigen": {
+      "is_binary_jumps": true,
+      "unique_deltas": [
+        0.0,
+        2.0
+      ],
+      "num_transitions": 52,
+      "transitions_per_ep": 0.022231722958529286
+    }
+  }
+}

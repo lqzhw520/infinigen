@@ -1,0 +1,407 @@
+{
+  "experiment": "gate_b5_initial_state_seed",
+  "timestamp": "2026-04-07T20:16:01+08:00",
+  "sample_scope": {
+    "sample": "Gate A action-quality top-10",
+    "mapping_target": "success-selected legacy rollout subset",
+    "population_claim": "No population-wide claim over full 240 episodes"
+  },
+  "attach_threshold_m": 0.05,
+  "measurement_image_size_px": 16,
+  "render_observations": false,
+  "episodes": [
+    {
+      "episode_index": 3,
+      "npz_name": "seed_007_branch2_phase_scaled_ep3.npz",
+      "mode": "open_loop",
+      "success": false,
+      "ever_attached": false,
+      "failure_stage": "never_near_handle",
+      "min_handle_distance_m": 0.056033771485090256,
+      "first_near_handle_step": null,
+      "attach_step": null,
+      "max_drawer_fraction": 1.0
+    },
+    {
+      "episode_index": 3,
+      "npz_name": "seed_007_branch2_phase_scaled_ep3.npz",
+      "mode": "seeded_initial_physical_pose",
+      "success": false,
+      "ever_attached": false,
+      "failure_stage": "near_handle_no_attach",
+      "min_handle_distance_m": 0.03296036645770073,
+      "first_near_handle_step": 135,
+      "attach_step": null,
+      "max_drawer_fraction": 1.0
+    },
+    {
+      "episode_index": 3,
+      "npz_name": "seed_007_branch2_phase_scaled_ep3.npz",
+      "mode": "seeded_initial_physical_and_command",
+      "success": false,
+      "ever_attached": false,
+      "failure_stage": "never_near_handle",
+      "min_handle_distance_m": 0.11914117634296417,
+      "first_near_handle_step": null,
+      "attach_step": null,
+      "max_drawer_fraction": 1.0
+    },
+    {
+      "episode_index": 25,
+      "npz_name": "seed_008_branch2_phase_scaled_ep0.npz",
+      "mode": "open_loop",
+      "success": false,
+      "ever_attached": false,
+      "failure_stage": "never_near_handle",
+      "min_handle_distance_m": 0.06251408159732819,
+      "first_near_handle_step": null,
+      "attach_step": null,
+      "max_drawer_fraction": 0.18001799285411835
+    },
+    {
+      "episode_index": 25,
+      "npz_name": "seed_008_branch2_phase_scaled_ep0.npz",
+      "mode": "seeded_initial_physical_pose",
+      "success": false,
+      "ever_attached": false,
+      "failure_stage": "never_near_handle",
+      "min_handle_distance_m": 0.1035202145576477,
+      "first_near_handle_step": null,
+      "attach_step": null,
+      "max_drawer_fraction": 0.003065315308049321
+    },
+    {
+      "episode_index": 25,
+      "npz_name": "seed_008_branch2_phase_scaled_ep0.npz",
+      "mode": "seeded_initial_physical_and_command",
+      "success": false,
+      "ever_attached": false,
+      "failure_stage": "never_near_handle",
+      "min_handle_distance_m": 0.09839598089456558,
+      "first_near_handle_step": null,
+      "attach_step": null,
+      "max_drawer_fraction": 0.0
+    },
+    {
+      "episode_index": 138,
+      "npz_name": "seed_012_branch2_phase_scaled_ep4.npz",
+      "mode": "open_loop",
+      "success": true,
+      "ever_attached": true,
+      "failure_stage": "success",
+      "min_handle_distance_m": 0.07838362455368042,
+      "first_near_handle_step": null,
+      "attach_step": 51,
+      "max_drawer_fraction": 1.0
+    },
+    {
+      "episode_index": 138,
+      "npz_name": "seed_012_branch2_phase_scaled_ep4.npz",
+      "mode": "seeded_initial_physical_pose",
+      "success": true,
+      "ever_attached": true,
+      "failure_stage": "success",
+      "min_handle_distance_m": 0.07392700761556625,
+      "first_near_handle_step": null,
+      "attach_step": 41,
+      "max_drawer_fraction": 1.0
+    },
+    {
+      "episode_index": 138,
+      "npz_name": "seed_012_branch2_phase_scaled_ep4.npz",
+      "mode": "seeded_initial_physical_and_command",
+      "success": false,
+      "ever_attached": false,
+      "failure_stage": "never_near_handle",
+      "min_handle_distance_m": 0.07668112963438034,
+      "first_near_handle_step": null,
+      "attach_step": null,
+      "max_drawer_fraction": 1.0
+    },
+    {
+      "episode_index": 157,
+      "npz_name": "seed_013_branch2_phase_scaled_ep0.npz",
+      "mode": "open_loop",
+      "success": false,
+      "ever_attached": false,
+      "failure_stage": "never_near_handle",
+      "min_handle_distance_m": 0.14601057767868042,
+      "first_near_handle_step": null,
+      "attach_step": null,
+      "max_drawer_fraction": 1.0
+    },
+    {
+      "episode_index": 157,
+      "npz_name": "seed_013_branch2_phase_scaled_ep0.npz",
+      "mode": "seeded_initial_physical_pose",
+      "success": false,
+      "ever_attached": false,
+      "failure_stage": "never_near_handle",
+      "min_handle_distance_m": 0.0623466856777668,
+      "first_near_handle_step": null,
+      "attach_step": null,
+      "max_drawer_fraction": 0.4140264689922333
+    },
+    {
+      "episode_index": 157,
+      "npz_name": "seed_013_branch2_phase_scaled_ep0.npz",
+      "mode": "seeded_initial_physical_and_command",
+      "success": false,
+      "ever_attached": false,
+      "failure_stage": "near_handle_no_attach",
+      "min_handle_distance_m": 0.041616059839725494,
+      "first_near_handle_step": 97,
+      "attach_step": null,
+      "max_drawer_fraction": 1.0
+    },
+    {
+      "episode_index": 158,
+      "npz_name": "seed_013_branch2_phase_scaled_ep2.npz",
+      "mode": "open_loop",
+      "success": false,
+      "ever_attached": true,
+      "failure_stage": "pull_no_open",
+      "min_handle_distance_m": 0.03839823231101036,
+      "first_near_handle_step": 92,
+      "attach_step": 77,
+      "max_drawer_fraction": 1.0
+    },
+    {
+      "episode_index": 158,
+      "npz_name": "seed_013_branch2_phase_scaled_ep2.npz",
+      "mode": "seeded_initial_physical_pose",
+      "success": false,
+      "ever_attached": true,
+      "failure_stage": "never_near_handle",
+      "min_handle_distance_m": 0.06913939863443375,
+      "first_near_handle_step": null,
+      "attach_step": 59,
+      "max_drawer_fraction": 1.0
+    },
+    {
+      "episode_index": 158,
+      "npz_name": "seed_013_branch2_phase_scaled_ep2.npz",
+      "mode": "seeded_initial_physical_and_command",
+      "success": true,
+      "ever_attached": true,
+      "failure_stage": "success",
+      "min_handle_distance_m": 0.062255021184682846,
+      "first_near_handle_step": null,
+      "attach_step": 56,
+      "max_drawer_fraction": 1.0
+    },
+    {
+      "episode_index": 180,
+      "npz_name": "seed_014_branch2_phase_scaled_ep1.npz",
+      "mode": "open_loop",
+      "success": false,
+      "ever_attached": false,
+      "failure_stage": "near_handle_no_attach",
+      "min_handle_distance_m": 0.048888444900512695,
+      "first_near_handle_step": 126,
+      "attach_step": null,
+      "max_drawer_fraction": 1.0
+    },
+    {
+      "episode_index": 180,
+      "npz_name": "seed_014_branch2_phase_scaled_ep1.npz",
+      "mode": "seeded_initial_physical_pose",
+      "success": false,
+      "ever_attached": false,
+      "failure_stage": "near_handle_no_attach",
+      "min_handle_distance_m": 0.027631111443042755,
+      "first_near_handle_step": 65,
+      "attach_step": null,
+      "max_drawer_fraction": 1.0
+    },
+    {
+      "episode_index": 180,
+      "npz_name": "seed_014_branch2_phase_scaled_ep1.npz",
+      "mode": "seeded_initial_physical_and_command",
+      "success": false,
+      "ever_attached": false,
+      "failure_stage": "never_near_handle",
+      "min_handle_distance_m": 0.06131497398018837,
+      "first_near_handle_step": null,
+      "attach_step": null,
+      "max_drawer_fraction": 1.0
+    },
+    {
+      "episode_index": 181,
+      "npz_name": "seed_014_branch2_phase_scaled_ep3.npz",
+      "mode": "open_loop",
+      "success": false,
+      "ever_attached": false,
+      "failure_stage": "near_handle_no_attach",
+      "min_handle_distance_m": 0.0496491938829422,
+      "first_near_handle_step": 141,
+      "attach_step": null,
+      "max_drawer_fraction": 0.27451470494270325
+    },
+    {
+      "episode_index": 181,
+      "npz_name": "seed_014_branch2_phase_scaled_ep3.npz",
+      "mode": "seeded_initial_physical_pose",
+      "success": false,
+      "ever_attached": true,
+      "failure_stage": "pull_no_open",
+      "min_handle_distance_m": 0.03283868357539177,
+      "first_near_handle_step": 139,
+      "attach_step": 64,
+      "max_drawer_fraction": 1.0
+    },
+    {
+      "episode_index": 181,
+      "npz_name": "seed_014_branch2_phase_scaled_ep3.npz",
+      "mode": "seeded_initial_physical_and_command",
+      "success": false,
+      "ever_attached": false,
+      "failure_stage": "near_handle_no_attach",
+      "min_handle_distance_m": 0.017463110387325287,
+      "first_near_handle_step": 66,
+      "attach_step": null,
+      "max_drawer_fraction": 1.0
+    },
+    {
+      "episode_index": 182,
+      "npz_name": "seed_014_branch2_phase_scaled_ep4.npz",
+      "mode": "open_loop",
+      "success": false,
+      "ever_attached": false,
+      "failure_stage": "near_handle_no_attach",
+      "min_handle_distance_m": 0.024997709318995476,
+      "first_near_handle_step": 155,
+      "attach_step": null,
+      "max_drawer_fraction": 1.0
+    },
+    {
+      "episode_index": 182,
+      "npz_name": "seed_014_branch2_phase_scaled_ep4.npz",
+      "mode": "seeded_initial_physical_pose",
+      "success": false,
+      "ever_attached": true,
+      "failure_stage": "pull_no_open",
+      "min_handle_distance_m": 0.03653866797685623,
+      "first_near_handle_step": 64,
+      "attach_step": 95,
+      "max_drawer_fraction": 1.0
+    },
+    {
+      "episode_index": 182,
+      "npz_name": "seed_014_branch2_phase_scaled_ep4.npz",
+      "mode": "seeded_initial_physical_and_command",
+      "success": false,
+      "ever_attached": false,
+      "failure_stage": "never_near_handle",
+      "min_handle_distance_m": 0.06503496319055557,
+      "first_near_handle_step": null,
+      "attach_step": null,
+      "max_drawer_fraction": 1.0
+    },
+    {
+      "episode_index": 205,
+      "npz_name": "seed_015_branch2_phase_scaled_ep0.npz",
+      "mode": "open_loop",
+      "success": false,
+      "ever_attached": false,
+      "failure_stage": "never_near_handle",
+      "min_handle_distance_m": 0.06718415021896362,
+      "first_near_handle_step": null,
+      "attach_step": null,
+      "max_drawer_fraction": 0.4090992510318756
+    },
+    {
+      "episode_index": 205,
+      "npz_name": "seed_015_branch2_phase_scaled_ep0.npz",
+      "mode": "seeded_initial_physical_pose",
+      "success": false,
+      "ever_attached": true,
+      "failure_stage": "attached_no_pull",
+      "min_handle_distance_m": 0.04199221357703209,
+      "first_near_handle_step": 79,
+      "attach_step": 79,
+      "max_drawer_fraction": 0.043160129338502884
+    },
+    {
+      "episode_index": 205,
+      "npz_name": "seed_015_branch2_phase_scaled_ep0.npz",
+      "mode": "seeded_initial_physical_and_command",
+      "success": true,
+      "ever_attached": true,
+      "failure_stage": "success",
+      "min_handle_distance_m": 0.04499613121151924,
+      "first_near_handle_step": 71,
+      "attach_step": 71,
+      "max_drawer_fraction": 0.9376865029335022
+    },
+    {
+      "episode_index": 209,
+      "npz_name": "seed_015_branch2_phase_scaled_ep4.npz",
+      "mode": "open_loop",
+      "success": false,
+      "ever_attached": true,
+      "failure_stage": "attached_no_pull",
+      "min_handle_distance_m": 0.04179937392473221,
+      "first_near_handle_step": 57,
+      "attach_step": 54,
+      "max_drawer_fraction": 0.12162546068429947
+    },
+    {
+      "episode_index": 209,
+      "npz_name": "seed_015_branch2_phase_scaled_ep4.npz",
+      "mode": "seeded_initial_physical_pose",
+      "success": true,
+      "ever_attached": true,
+      "failure_stage": "success",
+      "min_handle_distance_m": 0.04246972128748894,
+      "first_near_handle_step": 34,
+      "attach_step": 45,
+      "max_drawer_fraction": 0.9827313423156738
+    },
+    {
+      "episode_index": 209,
+      "npz_name": "seed_015_branch2_phase_scaled_ep4.npz",
+      "mode": "seeded_initial_physical_and_command",
+      "success": true,
+      "ever_attached": true,
+      "failure_stage": "success",
+      "min_handle_distance_m": 0.03666592761874199,
+      "first_near_handle_step": 34,
+      "attach_step": 35,
+      "max_drawer_fraction": 1.0
+    }
+  ],
+  "aggregate": {
+    "modes": {
+      "open_loop": {
+        "attach_rate": 0.3,
+        "success_rate": 0.1,
+        "dominant_failure_stage": "never_near_handle"
+      },
+      "seeded_initial_physical_pose": {
+        "attach_rate": 0.6,
+        "success_rate": 0.2,
+        "dominant_failure_stage": "never_near_handle"
+      },
+      "seeded_initial_physical_and_command": {
+        "attach_rate": 0.3,
+        "success_rate": 0.3,
+        "dominant_failure_stage": "never_near_handle"
+      }
+    },
+    "improvements_vs_open_loop": {
+      "seeded_initial_physical_pose": {
+        "attach_rate_delta_vs_open_loop": 0.3,
+        "success_rate_delta_vs_open_loop": 0.1
+      },
+      "seeded_initial_physical_and_command": {
+        "attach_rate_delta_vs_open_loop": 0.0,
+        "success_rate_delta_vs_open_loop": 0.19999999999999998
+      }
+    },
+    "best_seed_mode": "seeded_initial_physical_and_command",
+    "best_seed_success_rate": 0.3,
+    "best_seed_success_delta_vs_open_loop": 0.19999999999999998,
+    "best_seed_attach_delta_vs_open_loop": 0.0
+  }
+}

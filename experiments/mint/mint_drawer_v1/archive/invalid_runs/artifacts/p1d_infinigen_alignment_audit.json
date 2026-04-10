@@ -1,0 +1,66 @@
+{
+  "stage": "p1d_infinigen_alignment_audit",
+  "generated_at": 1775741195.7545485,
+  "control_artifact": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/p1c11_official_libero_goal_drawer_baseline_rollback_4eab579.json",
+  "dataset_info_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/dataset/meta/info.json",
+  "current_truth_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/sovereign/current_truth.json",
+  "checks": {
+    "official_control_restored": {
+      "passed": true,
+      "actual_pc_success": 100.0,
+      "expected_pc_success": 100.0
+    },
+    "upstream_mint_control_head": {
+      "passed": true,
+      "actual_head": "4eab5795345721001c412ff1ca2c886a11eab606",
+      "expected_head": "4eab5795345721001c412ff1ca2c886a11eab606"
+    },
+    "dataset_images_are_256": {
+      "passed": true,
+      "actual_shape": [
+        256,
+        256,
+        3
+      ]
+    },
+    "infinigen_eval_uses_dataset_image_size": {
+      "passed": true,
+      "actual_image_size": 256,
+      "expected_image_size": 256
+    },
+    "dataset_and_env_task_text_are_consistent": {
+      "passed": true,
+      "dataset_task": "open the drawer",
+      "env_task": "open the drawer"
+    }
+  },
+  "resolved_alignment_items": [
+    "official_control_restored",
+    "upstream_mint_control_head",
+    "dataset_images_are_256",
+    "infinigen_eval_uses_dataset_image_size",
+    "dataset_and_env_task_text_are_consistent"
+  ],
+  "unresolved_alignment_items": [],
+  "residual_gaps": [
+    {
+      "gap": "backend_difference",
+      "control": "official LIBERO MuJoCo drawer task",
+      "infinigen_line": "PyBullet DrawerRobotEnv",
+      "status": "residual"
+    },
+    {
+      "gap": "task_text_specificity",
+      "control": "open_the_middle_drawer_of_the_cabinet",
+      "infinigen_line": "open the drawer",
+      "status": "residual"
+    },
+    {
+      "gap": "success_metric",
+      "control": "native LIBERO success / reward",
+      "infinigen_line": "strict_success over drawer_fraction + attachment trace",
+      "status": "residual"
+    }
+  ],
+  "passed": true
+}

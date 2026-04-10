@@ -1,0 +1,1896 @@
+{
+  "source": "LIBERO_reference",
+  "dataset": "LIBERO_full",
+  "episodes_sampled": 100,
+  "total_frames": 27721,
+  "action_delta": {
+    "total_frames": 27721,
+    "total_deltas": 27720,
+    "per_dim": {
+      "dx": {
+        "mean": 0.026556605572105367,
+        "std": 0.03534532356235871,
+        "p50": 0.01607142947614193,
+        "p95": 0.08839285373687744,
+        "p99": 0.14464285969734192,
+        "max": 1.1169643104076385,
+        "zero_frac": 0.17954545454545454
+      },
+      "dy": {
+        "mean": 0.024453269878572357,
+        "std": 0.03428811596479469,
+        "p50": 0.0133928582072258,
+        "p95": 0.08571431040763855,
+        "p99": 0.14464285969734192,
+        "max": 0.9749999940395355,
+        "zero_frac": 0.21594516594516594
+      },
+      "dz": {
+        "mean": 0.031111046685608747,
+        "std": 0.03944087629262648,
+        "p50": 0.018750011920928955,
+        "p95": 0.10178571566939354,
+        "p99": 0.17142857611179352,
+        "max": 0.9508928572759032,
+        "zero_frac": 0.15923520923520923
+      },
+      "drx": {
+        "mean": 0.0036116135944042845,
+        "std": 0.005985817528542347,
+        "p50": 0.0010714288800954819,
+        "p95": 0.014999999664723873,
+        "p99": 0.025714286603033543,
+        "max": 0.2207142859697342,
+        "zero_frac": 0.44556277056277055
+      },
+      "dry": {
+        "mean": 0.006079390863310089,
+        "std": 0.008821364269270136,
+        "p50": 0.0032142847776412964,
+        "p95": 0.022499999962747097,
+        "p99": 0.03857142850756645,
+        "max": 0.23464285582304,
+        "zero_frac": 0.3181096681096681
+      },
+      "drz": {
+        "mean": 0.004698039053004937,
+        "std": 0.008069661142147048,
+        "p50": 0.0021428572945296764,
+        "p95": 0.018214285373687744,
+        "p99": 0.03428571289870888,
+        "max": 0.3503571362234652,
+        "zero_frac": 0.3395743145743146
+      },
+      "gripper": {
+        "mean": 0.026695526695526696,
+        "std": 0.22951776019624673,
+        "p50": 0.0,
+        "p95": 0.0,
+        "p99": 2.0,
+        "max": 2.0,
+        "zero_frac": 0.9866522366522367
+      }
+    },
+    "l2": {
+      "mean": 0.08520531639909806,
+      "std": 0.22942016067767468,
+      "p50": 0.04769058770039426,
+      "p95": 0.1642905474321923,
+      "p99": 2.0001417858130472,
+      "max": 2.465853919719881
+    },
+    "gripper_analysis": {
+      "is_binary_jumps": true,
+      "unique_deltas": [
+        0.0,
+        2.0
+      ],
+      "num_transitions": 370,
+      "transitions_per_ep": 0.013347763347763348
+    }
+  },
+  "autocorrelation": {
+    "per_dim": {
+      "dx": {
+        "acf_1": 0.9878247075245019,
+        "acf_5": 0.8274679161895572,
+        "acf_10": 0.5465875500834763,
+        "suggested_chunk_length": 11
+      },
+      "dy": {
+        "acf_1": 0.9930814162496308,
+        "acf_5": 0.8985241113398368,
+        "acf_10": 0.7164620696571478,
+        "suggested_chunk_length": 16
+      },
+      "dz": {
+        "acf_1": 0.9903812079430214,
+        "acf_5": 0.8393422231821787,
+        "acf_10": 0.5254754117540884,
+        "suggested_chunk_length": 11
+      },
+      "drx": {
+        "acf_1": 0.9831980070982096,
+        "acf_5": 0.7885206272278379,
+        "acf_10": 0.4996626855096621,
+        "suggested_chunk_length": 10
+      },
+      "dry": {
+        "acf_1": 0.9810584738976971,
+        "acf_5": 0.7616876694297062,
+        "acf_10": 0.4339003351307815,
+        "suggested_chunk_length": 9
+      },
+      "drz": {
+        "acf_1": 0.994506797520069,
+        "acf_5": 0.9208165834240736,
+        "acf_10": 0.7828265814008274,
+        "suggested_chunk_length": 21
+      },
+      "gripper": {
+        "acf_1": 0.9729335078944958,
+        "acf_5": 0.866713637460062,
+        "acf_10": 0.735765672620218,
+        "suggested_chunk_length": 20
+      }
+    },
+    "suggested_chunk_length": {
+      "dx": 11,
+      "dy": 16,
+      "dz": 11,
+      "drx": 10,
+      "dry": 9,
+      "drz": 21,
+      "gripper": 20
+    },
+    "overall_position_chunk_length": 11
+  },
+  "state_action_lag": {
+    "per_dim": {
+      "dx": {
+        "best_lag": 1,
+        "r": 0.2570004224181616,
+        "expected_lag": 1,
+        "is_correct": true
+      },
+      "dy": {
+        "best_lag": -1,
+        "r": 0.3195631525704598,
+        "expected_lag": 1,
+        "is_correct": false
+      },
+      "dz": {
+        "best_lag": 1,
+        "r": 0.1916124847455238,
+        "expected_lag": 1,
+        "is_correct": true
+      },
+      "drx": {
+        "best_lag": 1,
+        "r": 0.038234214062585974,
+        "expected_lag": 1,
+        "is_correct": true
+      },
+      "dry": {
+        "best_lag": -1,
+        "r": -0.012938576271205425,
+        "expected_lag": 1,
+        "is_correct": false
+      },
+      "drz": {
+        "best_lag": 1,
+        "r": 0.03994854986707938,
+        "expected_lag": 1,
+        "is_correct": true
+      },
+      "gripper": {
+        "best_lag": -1,
+        "r": -0.2502705904294526,
+        "expected_lag": 1,
+        "is_correct": false
+      }
+    },
+    "p0_verdict": "FAIL",
+    "p0_issues": [
+      "action[1] (dy): expected lag=1, got lag=-1, r=0.3196",
+      "action[4] (dry): expected lag=1, got lag=-1, r=-0.0129",
+      "action[6] (gripper): expected lag=1, got lag=-1, r=-0.2503"
+    ]
+  },
+  "cross_episode_variance": {
+    "n_episodes": 100,
+    "n_bins": 10,
+    "per_bin": {
+      "bin_00_frac_0.1": {
+        "0": {
+          "mean": 0.3492589276097715,
+          "std": 0.25098568606154603,
+          "n": 100
+        },
+        "1": {
+          "mean": -0.1905803565867245,
+          "std": 0.3607313545991102,
+          "n": 100
+        },
+        "2": {
+          "mean": -0.031473213960416614,
+          "std": 0.07701940862326655,
+          "n": 100
+        },
+        "3": {
+          "mean": 0.017235714205307884,
+          "std": 0.03356229398993345,
+          "n": 100
+        },
+        "4": {
+          "mean": 0.0239107142703142,
+          "std": 0.039642579594294444,
+          "n": 100
+        },
+        "5": {
+          "mean": -0.06259285736246965,
+          "std": 0.07797748950188288,
+          "n": 100
+        },
+        "6": {
+          "mean": -1.0,
+          "std": 0.0,
+          "n": 100
+        }
+      },
+      "bin_01_frac_0.1": {
+        "0": {
+          "mean": -0.06857142836321145,
+          "std": 0.22433063645262072,
+          "n": 100
+        },
+        "1": {
+          "mean": -0.012964285891503096,
+          "std": 0.17080623113249807,
+          "n": 100
+        },
+        "2": {
+          "mean": -0.38673214327543975,
+          "std": 0.21739269300882963,
+          "n": 100
+        },
+        "3": {
+          "mean": 0.016753571394365282,
+          "std": 0.03880508248121316,
+          "n": 100
+        },
+        "4": {
+          "mean": -0.0070250002550892535,
+          "std": 0.06422407887454941,
+          "n": 100
+        },
+        "5": {
+          "mean": -0.07321071419981308,
+          "std": 0.110824858814532,
+          "n": 100
+        },
+        "6": {
+          "mean": -0.92,
+          "std": 0.39191835884530846,
+          "n": 100
+        }
+      },
+      "bin_02_frac_0.2": {
+        "0": {
+          "mean": 0.0550446421164088,
+          "std": 0.24347974656473392,
+          "n": 100
+        },
+        "1": {
+          "mean": 0.04143750100629404,
+          "std": 0.20265989115659905,
+          "n": 100
+        },
+        "2": {
+          "mean": 0.04684821555856615,
+          "std": 0.4586433140428695,
+          "n": 100
+        },
+        "3": {
+          "mean": -0.005553571478230879,
+          "std": 0.03398699391821928,
+          "n": 100
+        },
+        "4": {
+          "mean": 0.018296428588218987,
+          "std": 0.051788099277660836,
+          "n": 100
+        },
+        "5": {
+          "mean": 0.008535714329918847,
+          "std": 0.08206549952517962,
+          "n": 100
+        },
+        "6": {
+          "mean": 0.18,
+          "std": 0.9836666101886349,
+          "n": 100
+        }
+      },
+      "bin_03_frac_0.3": {
+        "0": {
+          "mean": 0.011705357655882835,
+          "std": 0.264202929491627,
+          "n": 100
+        },
+        "1": {
+          "mean": 0.23507142897695302,
+          "std": 0.43854556324279975,
+          "n": 100
+        },
+        "2": {
+          "mean": 0.03696428686613217,
+          "std": 0.33030685281316957,
+          "n": 100
+        },
+        "3": {
+          "mean": 0.0025928571657277645,
+          "std": 0.022293761190042817,
+          "n": 100
+        },
+        "4": {
+          "mean": 0.0009071431122720242,
+          "std": 0.04451459945308905,
+          "n": 100
+        },
+        "5": {
+          "mean": 0.025992857296951114,
+          "std": 0.09894997972927344,
+          "n": 100
+        },
+        "6": {
+          "mean": 0.74,
+          "std": 0.6726068688320095,
+          "n": 100
+        }
+      },
+      "bin_04_frac_0.5": {
+        "0": {
+          "mean": 0.014089286050293595,
+          "std": 0.2710797989950543,
+          "n": 100
+        },
+        "1": {
+          "mean": 0.13508035802282392,
+          "std": 0.37062490935700226,
+          "n": 100
+        },
+        "2": {
+          "mean": 0.0399107132293284,
+          "std": 0.40115620266569163,
+          "n": 100
+        },
+        "3": {
+          "mean": 0.004585714307613671,
+          "std": 0.03501347132717324,
+          "n": 100
+        },
+        "4": {
+          "mean": -0.008364285498391837,
+          "std": 0.04964789726068769,
+          "n": 100
+        },
+        "5": {
+          "mean": -0.010757142810616642,
+          "std": 0.04084175789993215,
+          "n": 100
+        },
+        "6": {
+          "mean": 0.52,
+          "std": 0.8541662601625049,
+          "n": 100
+        }
+      },
+      "bin_05_frac_0.6": {
+        "0": {
+          "mean": 0.004607142810709774,
+          "std": 0.2225324118073505,
+          "n": 100
+        },
+        "1": {
+          "mean": -0.014142858441919088,
+          "std": 0.46845221583839675,
+          "n": 100
+        },
+        "2": {
+          "mean": 0.030348214306868612,
+          "std": 0.30916169871330645,
+          "n": 100
+        },
+        "3": {
+          "mean": 0.00677142842207104,
+          "std": 0.0364048913640016,
+          "n": 100
+        },
+        "4": {
+          "mean": 0.006949999735224992,
+          "std": 0.06302405635782982,
+          "n": 100
+        },
+        "5": {
+          "mean": -0.0030750000895932317,
+          "std": 0.0623614363117749,
+          "n": 100
+        },
+        "6": {
+          "mean": -0.36,
+          "std": 0.9329523031752479,
+          "n": 100
+        }
+      },
+      "bin_06_frac_0.7": {
+        "0": {
+          "mean": -0.09656249940861017,
+          "std": 0.21430659860324874,
+          "n": 100
+        },
+        "1": {
+          "mean": -0.02643749807262793,
+          "std": 0.35814266025856634,
+          "n": 100
+        },
+        "2": {
+          "mean": -0.20169642683118583,
+          "std": 0.3341514339246759,
+          "n": 100
+        },
+        "3": {
+          "mean": 0.008457142935367302,
+          "std": 0.033981307800948664,
+          "n": 100
+        },
+        "4": {
+          "mean": -0.007599999976810068,
+          "std": 0.06395566255503349,
+          "n": 100
+        },
+        "5": {
+          "mean": -0.005135714540956542,
+          "std": 0.07877479828549468,
+          "n": 100
+        },
+        "6": {
+          "mean": -0.62,
+          "std": 0.7846018098373212,
+          "n": 100
+        }
+      },
+      "bin_07_frac_0.8": {
+        "0": {
+          "mean": -0.055607141922228036,
+          "std": 0.318853776970504,
+          "n": 100
+        },
+        "1": {
+          "mean": 0.016875000626314432,
+          "std": 0.23336137876204285,
+          "n": 100
+        },
+        "2": {
+          "mean": -0.025446427725255488,
+          "std": 0.41188703881955196,
+          "n": 100
+        },
+        "3": {
+          "mean": -0.002346428685123101,
+          "std": 0.05508532918422831,
+          "n": 100
+        },
+        "4": {
+          "mean": 0.01614285727322567,
+          "std": 0.04561096023985149,
+          "n": 100
+        },
+        "5": {
+          "mean": 0.004614286012947559,
+          "std": 0.07419815826412617,
+          "n": 100
+        },
+        "6": {
+          "mean": 0.1,
+          "std": 0.99498743710662,
+          "n": 100
+        }
+      },
+      "bin_08_frac_0.8": {
+        "0": {
+          "mean": 0.03506249856669456,
+          "std": 0.29441023654819665,
+          "n": 100
+        },
+        "1": {
+          "mean": 0.27439285672968255,
+          "std": 0.4546958952161553,
+          "n": 100
+        },
+        "2": {
+          "mean": 0.04167857154505327,
+          "std": 0.36926442458140657,
+          "n": 100
+        },
+        "3": {
+          "mean": 0.009950000056414865,
+          "std": 0.03947545154480434,
+          "n": 100
+        },
+        "4": {
+          "mean": -0.004200000215787441,
+          "std": 0.06636594890038501,
+          "n": 100
+        },
+        "5": {
+          "mean": 0.022942857260350138,
+          "std": 0.07637424805943774,
+          "n": 100
+        },
+        "6": {
+          "mean": 0.58,
+          "std": 0.8146164741766522,
+          "n": 100
+        }
+      },
+      "bin_09_frac_0.9": {
+        "0": {
+          "mean": 0.027428571609780194,
+          "std": 0.3159661092125107,
+          "n": 100
+        },
+        "1": {
+          "mean": 0.11394642901839688,
+          "std": 0.25739954341201327,
+          "n": 100
+        },
+        "2": {
+          "mean": -0.09975000017089769,
+          "std": 0.2648483123323705,
+          "n": 100
+        },
+        "3": {
+          "mean": 0.005314285607310012,
+          "std": 0.05148224496978897,
+          "n": 100
+        },
+        "4": {
+          "mean": -0.0005857141909655183,
+          "std": 0.05078118156700907,
+          "n": 100
+        },
+        "5": {
+          "mean": 0.016221428303979338,
+          "std": 0.0775557434307469,
+          "n": 100
+        },
+        "6": {
+          "mean": -0.12,
+          "std": 0.9927738916792685,
+          "n": 100
+        }
+      }
+    },
+    "overall": {
+      "dx": {
+        "std": 0.2836409221624099,
+        "range": [
+          -0.9375,
+          0.9375
+        ]
+      },
+      "dy": {
+        "std": 0.35907282354828207,
+        "range": [
+          -0.9375,
+          0.9107142686843872
+        ]
+      },
+      "dz": {
+        "std": 0.36218914324650336,
+        "range": [
+          -0.9375,
+          0.9375
+        ]
+      },
+      "drx": {
+        "std": 0.038149288359600464,
+        "range": [
+          -0.17142857611179352,
+          0.30000001192092896
+        ]
+      },
+      "dry": {
+        "std": 0.05504882095909785,
+        "range": [
+          -0.29892855882644653,
+          0.26249998807907104
+        ]
+      },
+      "drz": {
+        "std": 0.08934368919591482,
+        "range": [
+          -0.3482142984867096,
+          0.375
+        ]
+      },
+      "gripper": {
+        "std": 0.993633792405184,
+        "range": [
+          -1.0,
+          1.0
+        ]
+      }
+    }
+  },
+  "episode_flags": {
+    "total_episodes": 100,
+    "flagged_episodes": 92,
+    "passing_episodes": 8,
+    "pass_rate": "8/100 (8%)",
+    "exclude_episode_indices": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      6,
+      7,
+      8,
+      9,
+      10,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      20,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59,
+      60,
+      61,
+      63,
+      64,
+      65,
+      66,
+      67,
+      68,
+      69,
+      70,
+      71,
+      73,
+      74,
+      75,
+      76,
+      77,
+      78,
+      79,
+      80,
+      81,
+      82,
+      83,
+      84,
+      85,
+      86,
+      87,
+      88,
+      89,
+      90,
+      91,
+      92,
+      93,
+      94,
+      95,
+      96,
+      97,
+      98,
+      99
+    ],
+    "exclude_reasons": {
+      "0": [
+        "gripper at same value at start and end"
+      ],
+      "1": [
+        "gripper at same value at start and end"
+      ],
+      "2": [
+        "gripper at same value at start and end"
+      ],
+      "3": [
+        "gripper at same value at start and end"
+      ],
+      "4": [
+        "gripper at same value at start and end"
+      ],
+      "6": [
+        "gripper at same value at start and end"
+      ],
+      "7": [
+        "gripper at same value at start and end"
+      ],
+      "8": [
+        "gripper at same value at start and end"
+      ],
+      "9": [
+        "gripper at same value at start and end"
+      ],
+      "10": [
+        "gripper at same value at start and end"
+      ],
+      "12": [
+        "gripper at same value at start and end"
+      ],
+      "13": [
+        "gripper at same value at start and end"
+      ],
+      "14": [
+        "gripper at same value at start and end"
+      ],
+      "15": [
+        "gripper at same value at start and end"
+      ],
+      "16": [
+        "gripper at same value at start and end"
+      ],
+      "17": [
+        "gripper at same value at start and end"
+      ],
+      "18": [
+        "gripper at same value at start and end"
+      ],
+      "20": [
+        "gripper at same value at start and end"
+      ],
+      "22": [
+        "gripper at same value at start and end"
+      ],
+      "23": [
+        "gripper at same value at start and end"
+      ],
+      "24": [
+        "gripper at same value at start and end"
+      ],
+      "25": [
+        "gripper at same value at start and end"
+      ],
+      "26": [
+        "gripper at same value at start and end"
+      ],
+      "27": [
+        "only 1 transitions"
+      ],
+      "28": [
+        "only 1 transitions"
+      ],
+      "29": [
+        "gripper at same value at start and end"
+      ],
+      "30": [
+        "gripper at same value at start and end"
+      ],
+      "31": [
+        "gripper at same value at start and end"
+      ],
+      "32": [
+        "gripper at same value at start and end"
+      ],
+      "33": [
+        "gripper at same value at start and end"
+      ],
+      "34": [
+        "gripper at same value at start and end"
+      ],
+      "35": [
+        "gripper at same value at start and end"
+      ],
+      "36": [
+        "gripper at same value at start and end"
+      ],
+      "38": [
+        "gripper at same value at start and end"
+      ],
+      "39": [
+        "gripper at same value at start and end"
+      ],
+      "40": [
+        "gripper at same value at start and end"
+      ],
+      "41": [
+        "gripper at same value at start and end"
+      ],
+      "42": [
+        "gripper at same value at start and end"
+      ],
+      "43": [
+        "gripper at same value at start and end"
+      ],
+      "44": [
+        "gripper at same value at start and end"
+      ],
+      "45": [
+        "gripper at same value at start and end"
+      ],
+      "46": [
+        "gripper at same value at start and end"
+      ],
+      "47": [
+        "only 1 transitions"
+      ],
+      "48": [
+        "gripper at same value at start and end"
+      ],
+      "49": [
+        "gripper at same value at start and end"
+      ],
+      "50": [
+        "gripper at same value at start and end"
+      ],
+      "51": [
+        "gripper at same value at start and end"
+      ],
+      "53": [
+        "gripper at same value at start and end"
+      ],
+      "54": [
+        "gripper at same value at start and end"
+      ],
+      "55": [
+        "only 1 transitions"
+      ],
+      "56": [
+        "gripper at same value at start and end"
+      ],
+      "57": [
+        "gripper at same value at start and end"
+      ],
+      "58": [
+        "gripper at same value at start and end"
+      ],
+      "59": [
+        "gripper at same value at start and end"
+      ],
+      "60": [
+        "gripper at same value at start and end"
+      ],
+      "61": [
+        "only 1 transitions"
+      ],
+      "63": [
+        "gripper at same value at start and end"
+      ],
+      "64": [
+        "only 1 transitions"
+      ],
+      "65": [
+        "gripper at same value at start and end"
+      ],
+      "66": [
+        "gripper at same value at start and end"
+      ],
+      "67": [
+        "gripper at same value at start and end"
+      ],
+      "68": [
+        "gripper at same value at start and end"
+      ],
+      "69": [
+        "gripper at same value at start and end"
+      ],
+      "70": [
+        "gripper at same value at start and end"
+      ],
+      "71": [
+        "gripper at same value at start and end"
+      ],
+      "73": [
+        "gripper at same value at start and end"
+      ],
+      "74": [
+        "gripper at same value at start and end"
+      ],
+      "75": [
+        "gripper at same value at start and end"
+      ],
+      "76": [
+        "gripper at same value at start and end"
+      ],
+      "77": [
+        "gripper at same value at start and end"
+      ],
+      "78": [
+        "gripper at same value at start and end"
+      ],
+      "79": [
+        "gripper at same value at start and end"
+      ],
+      "80": [
+        "gripper at same value at start and end"
+      ],
+      "81": [
+        "only 1 transitions"
+      ],
+      "82": [
+        "gripper at same value at start and end"
+      ],
+      "83": [
+        "gripper at same value at start and end"
+      ],
+      "84": [
+        "gripper at same value at start and end"
+      ],
+      "85": [
+        "gripper at same value at start and end"
+      ],
+      "86": [
+        "gripper at same value at start and end"
+      ],
+      "87": [
+        "gripper at same value at start and end"
+      ],
+      "88": [
+        "gripper at same value at start and end"
+      ],
+      "89": [
+        "gripper at same value at start and end"
+      ],
+      "90": [
+        "gripper at same value at start and end"
+      ],
+      "91": [
+        "gripper at same value at start and end"
+      ],
+      "92": [
+        "gripper at same value at start and end"
+      ],
+      "93": [
+        "gripper at same value at start and end"
+      ],
+      "94": [
+        "gripper at same value at start and end"
+      ],
+      "95": [
+        "gripper at same value at start and end"
+      ],
+      "96": [
+        "gripper at same value at start and end"
+      ],
+      "97": [
+        "gripper at same value at start and end"
+      ],
+      "98": [
+        "gripper at same value at start and end"
+      ],
+      "99": [
+        "gripper at same value at start and end"
+      ]
+    },
+    "per_episode": [
+      {
+        "episode_index": 0,
+        "length": 214,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 1,
+        "length": 284,
+        "n_gripper_transitions": 6,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 2,
+        "length": 345,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 3,
+        "length": 285,
+        "n_gripper_transitions": 2,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 4,
+        "length": 278,
+        "n_gripper_transitions": 8,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 5,
+        "length": 240,
+        "n_gripper_transitions": 3,
+        "flags": [],
+        "is_flagged": false
+      },
+      {
+        "episode_index": 6,
+        "length": 279,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 7,
+        "length": 272,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 8,
+        "length": 259,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 9,
+        "length": 302,
+        "n_gripper_transitions": 6,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 10,
+        "length": 383,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 11,
+        "length": 218,
+        "n_gripper_transitions": 3,
+        "flags": [],
+        "is_flagged": false
+      },
+      {
+        "episode_index": 12,
+        "length": 279,
+        "n_gripper_transitions": 6,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 13,
+        "length": 285,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 14,
+        "length": 257,
+        "n_gripper_transitions": 2,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 15,
+        "length": 242,
+        "n_gripper_transitions": 2,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 16,
+        "length": 248,
+        "n_gripper_transitions": 2,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 17,
+        "length": 249,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 18,
+        "length": 276,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 19,
+        "length": 249,
+        "n_gripper_transitions": 3,
+        "flags": [],
+        "is_flagged": false
+      },
+      {
+        "episode_index": 20,
+        "length": 359,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 21,
+        "length": 264,
+        "n_gripper_transitions": 3,
+        "flags": [],
+        "is_flagged": false
+      },
+      {
+        "episode_index": 22,
+        "length": 263,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 23,
+        "length": 455,
+        "n_gripper_transitions": 6,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 24,
+        "length": 241,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 25,
+        "length": 255,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 26,
+        "length": 296,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 27,
+        "length": 234,
+        "n_gripper_transitions": 1,
+        "flags": [
+          "too_few_gripper_transitions"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 28,
+        "length": 195,
+        "n_gripper_transitions": 1,
+        "flags": [
+          "too_few_gripper_transitions"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 29,
+        "length": 288,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 30,
+        "length": 284,
+        "n_gripper_transitions": 6,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 31,
+        "length": 241,
+        "n_gripper_transitions": 2,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 32,
+        "length": 229,
+        "n_gripper_transitions": 2,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 33,
+        "length": 259,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 34,
+        "length": 449,
+        "n_gripper_transitions": 2,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 35,
+        "length": 353,
+        "n_gripper_transitions": 2,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 36,
+        "length": 240,
+        "n_gripper_transitions": 2,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 37,
+        "length": 246,
+        "n_gripper_transitions": 3,
+        "flags": [],
+        "is_flagged": false
+      },
+      {
+        "episode_index": 38,
+        "length": 261,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 39,
+        "length": 288,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 40,
+        "length": 228,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 41,
+        "length": 236,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 42,
+        "length": 244,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 43,
+        "length": 272,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 44,
+        "length": 267,
+        "n_gripper_transitions": 2,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 45,
+        "length": 267,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 46,
+        "length": 409,
+        "n_gripper_transitions": 6,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 47,
+        "length": 182,
+        "n_gripper_transitions": 1,
+        "flags": [
+          "too_few_gripper_transitions"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 48,
+        "length": 278,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 49,
+        "length": 308,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 50,
+        "length": 290,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 51,
+        "length": 404,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 52,
+        "length": 237,
+        "n_gripper_transitions": 3,
+        "flags": [],
+        "is_flagged": false
+      },
+      {
+        "episode_index": 53,
+        "length": 242,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 54,
+        "length": 401,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 55,
+        "length": 178,
+        "n_gripper_transitions": 1,
+        "flags": [
+          "too_few_gripper_transitions"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 56,
+        "length": 310,
+        "n_gripper_transitions": 6,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 57,
+        "length": 368,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 58,
+        "length": 253,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 59,
+        "length": 224,
+        "n_gripper_transitions": 2,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 60,
+        "length": 250,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 61,
+        "length": 180,
+        "n_gripper_transitions": 1,
+        "flags": [
+          "too_few_gripper_transitions"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 62,
+        "length": 251,
+        "n_gripper_transitions": 3,
+        "flags": [],
+        "is_flagged": false
+      },
+      {
+        "episode_index": 63,
+        "length": 248,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 64,
+        "length": 189,
+        "n_gripper_transitions": 1,
+        "flags": [
+          "too_few_gripper_transitions"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 65,
+        "length": 255,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 66,
+        "length": 248,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 67,
+        "length": 388,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 68,
+        "length": 289,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 69,
+        "length": 292,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 70,
+        "length": 416,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 71,
+        "length": 312,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 72,
+        "length": 271,
+        "n_gripper_transitions": 3,
+        "flags": [],
+        "is_flagged": false
+      },
+      {
+        "episode_index": 73,
+        "length": 450,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 74,
+        "length": 264,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 75,
+        "length": 240,
+        "n_gripper_transitions": 2,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 76,
+        "length": 278,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 77,
+        "length": 300,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 78,
+        "length": 271,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 79,
+        "length": 274,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 80,
+        "length": 239,
+        "n_gripper_transitions": 2,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 81,
+        "length": 174,
+        "n_gripper_transitions": 1,
+        "flags": [
+          "too_few_gripper_transitions"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 82,
+        "length": 290,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 83,
+        "length": 292,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 84,
+        "length": 247,
+        "n_gripper_transitions": 2,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 85,
+        "length": 292,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 86,
+        "length": 421,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 87,
+        "length": 263,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 88,
+        "length": 269,
+        "n_gripper_transitions": 6,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 89,
+        "length": 229,
+        "n_gripper_transitions": 2,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 90,
+        "length": 223,
+        "n_gripper_transitions": 2,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 91,
+        "length": 258,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 92,
+        "length": 280,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 93,
+        "length": 235,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 94,
+        "length": 257,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 95,
+        "length": 242,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 96,
+        "length": 280,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 97,
+        "length": 249,
+        "n_gripper_transitions": 2,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 98,
+        "length": 285,
+        "n_gripper_transitions": 4,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      },
+      {
+        "episode_index": 99,
+        "length": 288,
+        "n_gripper_transitions": 2,
+        "flags": [
+          "gripper_not_closed"
+        ],
+        "is_flagged": true
+      }
+    ],
+    "reference_used": {
+      "action_delta_l2_p95_ref": 0.1642905474321923,
+      "max_position_error_ref": 0.03
+    },
+    "cli_export": "python scripts/mint/run_g6_lerobot_pack.py --exclude_episodes 0,1,2,3,4,6,7,8,9,10,12,13,14,15,16,17,18,20,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,38,39,40,41,42,43,44,45,46,47,48,49,50,51,53,54,55,56,57,58,59,60,61,63,64,65,66,67,68,69,70,71,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99"
+  }
+}

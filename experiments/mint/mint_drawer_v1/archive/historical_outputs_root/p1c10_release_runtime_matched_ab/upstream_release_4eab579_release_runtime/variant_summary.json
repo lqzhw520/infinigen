@@ -1,0 +1,107 @@
+{
+  "code": {
+    "config_class": "MINTConfig",
+    "config_source": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c10_release_runtime_matched_ab/mint_upstream_4eab579/lerobot_policy_mint/src/lerobot_policy_mint/configuration_mint.py",
+    "lerobot_policy_mint_init": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c10_release_runtime_matched_ab/mint_upstream_4eab579/lerobot_policy_mint/src/lerobot_policy_mint/__init__.py",
+    "lerobot_policy_mint_package": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c10_release_runtime_matched_ab/mint_upstream_4eab579/lerobot_policy_mint/src/lerobot_policy_mint/__init__.py",
+    "policy_class": "MINTPolicy",
+    "policy_source": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c10_release_runtime_matched_ab/mint_upstream_4eab579/lerobot_policy_mint/src/lerobot_policy_mint/modeling_mint.py"
+  },
+  "config_pretrained_path_after_override": "/mnt/afs2/zhuhaowu/infinigen/external/MINT/checkpoints/MINT-libero",
+  "config_pretrained_path_before_override": "lerobot/pi05_base",
+  "duration_s": 163.0027096271515,
+  "eval_info": {
+    "overall": {
+      "avg_max_reward": 1.0,
+      "avg_sum_reward": 1.0,
+      "eval_ep_s": 29.584994475046795,
+      "eval_s": 88.7549831867218,
+      "n_episodes": 3,
+      "pc_success": 100.0,
+      "video_paths": [
+        "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c10_release_runtime_matched_ab/upstream_release_4eab579_release_runtime/videos/libero_goal_0/libero_goal_0/eval_episode_0.mp4",
+        "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c10_release_runtime_matched_ab/upstream_release_4eab579_release_runtime/videos/libero_goal_0/libero_goal_0/eval_episode_1.mp4",
+        "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c10_release_runtime_matched_ab/upstream_release_4eab579_release_runtime/videos/libero_goal_0/libero_goal_0/eval_episode_2.mp4"
+      ]
+    },
+    "per_group": {
+      "libero_goal": {
+        "avg_max_reward": 1.0,
+        "avg_sum_reward": 1.0,
+        "n_episodes": 3,
+        "pc_success": 100.0,
+        "video_paths": [
+          "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c10_release_runtime_matched_ab/upstream_release_4eab579_release_runtime/videos/libero_goal_0/libero_goal_0/eval_episode_0.mp4",
+          "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c10_release_runtime_matched_ab/upstream_release_4eab579_release_runtime/videos/libero_goal_0/libero_goal_0/eval_episode_1.mp4",
+          "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c10_release_runtime_matched_ab/upstream_release_4eab579_release_runtime/videos/libero_goal_0/libero_goal_0/eval_episode_2.mp4"
+        ]
+      }
+    },
+    "per_task": [
+      {
+        "metrics": {
+          "max_rewards": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "successes": [
+            true,
+            true,
+            true
+          ],
+          "sum_rewards": [
+            1.0,
+            1.0,
+            1.0
+          ],
+          "video_paths": [
+            "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c10_release_runtime_matched_ab/upstream_release_4eab579_release_runtime/videos/libero_goal_0/libero_goal_0/eval_episode_0.mp4",
+            "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c10_release_runtime_matched_ab/upstream_release_4eab579_release_runtime/videos/libero_goal_0/libero_goal_0/eval_episode_1.mp4",
+            "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c10_release_runtime_matched_ab/upstream_release_4eab579_release_runtime/videos/libero_goal_0/libero_goal_0/eval_episode_2.mp4"
+          ]
+        },
+        "task_group": "libero_goal",
+        "task_id": 0
+      }
+    ]
+  },
+  "experiment": {
+    "checkpoint": "/mnt/afs2/zhuhaowu/infinigen/external/MINT/checkpoints/MINT-libero",
+    "n_action_steps": 4,
+    "n_episodes": 3,
+    "observation_height": 256,
+    "observation_width": 256,
+    "seed": 42,
+    "task_id": 0,
+    "task_name": "open_the_middle_drawer_of_the_cabinet",
+    "task_suite": "libero_goal",
+    "tokenizer": "/mnt/afs2/zhuhaowu/infinigen/external/MINT/checkpoints/MINT-tokenizer-libero",
+    "tokenizer_checkpoint": "/mnt/afs2/zhuhaowu/infinigen/external/MINT/checkpoints/MINT-tokenizer-libero/ms_vqvae.pth"
+  },
+  "generated_at": "2026-04-09T19:51:34+08:00",
+  "label": "upstream_release_4eab579_release_runtime",
+  "mint_src": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c10_release_runtime_matched_ab/mint_upstream_4eab579/lerobot_policy_mint/src",
+  "returncode": 0,
+  "runtime_env": {
+    "MUJOCO_GL": "osmesa",
+    "PYOPENGL_PLATFORM": "osmesa",
+    "PYTHONPATH_prefix": [
+      "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c10_release_runtime_matched_ab/mint_upstream_4eab579/lerobot_policy_mint/src",
+      "/mnt/afs2/zhuhaowu/infinigen/external/LIBERO"
+    ],
+    "TOKENIZERS_PARALLELISM": "false",
+    "python_executable": "/root/anaconda3/envs/mint/bin/python"
+  },
+  "runtime_versions": {
+    "lerobot": "0.4.3",
+    "python": "3.12.13",
+    "torch": "2.7.1+cu126",
+    "transformers": "4.53.3"
+  },
+  "task_binding": {
+    "max_episode_steps": 300,
+    "task_attr": "open_the_middle_drawer_of_the_cabinet",
+    "task_description": "open the middle drawer of the cabinet"
+  }
+}

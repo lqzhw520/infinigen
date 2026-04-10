@@ -1,0 +1,90 @@
+{
+  "bddl_file": "/root/anaconda3/envs/mint/lib/python3.12/site-packages/libero/libero/bddl_files/libero_90/KITCHEN_SCENE1_open_the_bottom_drawer_of_the_cabinet.bddl",
+  "benchmark_name": "libero_90",
+  "errors": [],
+  "generated_at": "2026-04-07T22:58:11+08:00",
+  "passed": true,
+  "runs": [
+    {
+      "after_steps": {
+        "done": false,
+        "reward": 0.0,
+        "step": 10,
+        "success": false
+      },
+      "passed": true,
+      "reset": {
+        "agentview_mean": 118.54327392578125,
+        "agentview_shape": [
+          128,
+          128,
+          3
+        ],
+        "success_after_reset": false,
+        "wrist_mean": 147.7584228515625,
+        "wrist_shape": [
+          128,
+          128,
+          3
+        ]
+      },
+      "run_index": 0
+    },
+    {
+      "after_steps": {
+        "done": false,
+        "reward": 0.0,
+        "step": 10,
+        "success": false
+      },
+      "passed": true,
+      "reset": {
+        "agentview_mean": 118.64060465494792,
+        "agentview_shape": [
+          128,
+          128,
+          3
+        ],
+        "success_after_reset": false,
+        "wrist_mean": 147.6283976236979,
+        "wrist_shape": [
+          128,
+          128,
+          3
+        ]
+      },
+      "run_index": 1
+    },
+    {
+      "after_steps": {
+        "done": false,
+        "reward": 0.0,
+        "step": 10,
+        "success": false
+      },
+      "passed": true,
+      "reset": {
+        "agentview_mean": 118.76595052083333,
+        "agentview_shape": [
+          128,
+          128,
+          3
+        ],
+        "success_after_reset": false,
+        "wrist_mean": 148.28560384114584,
+        "wrist_shape": [
+          128,
+          128,
+          3
+        ]
+      },
+      "run_index": 2
+    }
+  ],
+  "runtime": {
+    "MUJOCO_GL": "osmesa",
+    "PYOPENGL_PLATFORM": "osmesa"
+  },
+  "stage": "p1c0",
+  "task_name": "KITCHEN_SCENE1_open_the_bottom_drawer_of_the_cabinet"
+}

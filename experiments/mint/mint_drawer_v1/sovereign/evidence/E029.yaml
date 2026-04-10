@@ -1,15 +1,14 @@
 evidence_id: E029
 experiment_id: p1c2_libero_drawer_oracle
 type: state_oracle
-timestamp: 2026-04-07T22:58:31+08:00
-path: experiments/mint/mint_drawer_v1/artifacts/p1c2_libero_drawer_oracle_gate.json
+timestamp: 2026-04-07 22:58:31+08:00
+path: experiments/mint/mint_drawer_v1/archive/historical_artifacts_root/p1c2_libero_drawer_oracle_gate.json
 verified: true
+summary: 'State-space oracle confirms drawer task semantics reachable under MuJoCo
+  state control. 3/3 init states achieved success via direct qpos manipulation. This
+  proves the task definition (drawer joint → success signal) is sound in LIBERO/MuJoCo.
 
-summary: >
-  State-space oracle confirms drawer task semantics reachable under MuJoCo state control.
-  3/3 init states achieved success via direct qpos manipulation.
-  This proves the task definition (drawer joint → success signal) is sound in LIBERO/MuJoCo.
-
+  '
 verification_details:
   oracle_type: mujoco_state_oracle
   oracle_uses_robot_actions: false
@@ -17,24 +16,24 @@ verification_details:
   episodes: 3
   success_rate: 1.0
   drawer_joint_name: wooden_cabinet_1_bottom_level
-  joint_range: [0.0, -0.16]
+  joint_range:
+  - 0.0
+  - -0.16
   drawer_fraction_trace:
-    - 0.059 (closed)
-    - 0.500 (mid)
-    - 1.000 (open)
-
+  - 0.059 (closed)
+  - 0.500 (mid)
+  - 1.000 (open)
 verdict: PASS — task semantics and success detector reachable
-conclusion: >
-  Drawer joint can be driven from closed (qpos=0.0) to open (qpos=-0.16).
+conclusion: 'Drawer joint can be driven from closed (qpos=0.0) to open (qpos=-0.16).
   check_success() returns True at full open. The LIBERO drawer task is physically
   achievable within the MuJoCo simulation.
 
+  '
 DOES_PROVE:
-  - "drawer task semantics and success detector are reachable under MuJoCo state control"
+- drawer task semantics and success detector are reachable under MuJoCo state control
 DOES_NOT_PROVE:
-  - "action-space scripted controller quality"
-  - "teacher trajectory fidelity"
-  - "robot reaching handle via joint/torque control"
-
+- action-space scripted controller quality
+- teacher trajectory fidelity
+- robot reaching handle via joint/torque control
 scope: mujoco_pilot_task_reachability
 confidence: high

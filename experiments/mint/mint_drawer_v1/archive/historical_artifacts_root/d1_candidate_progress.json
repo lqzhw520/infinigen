@@ -1,0 +1,67 @@
+{
+  "step": "d1_single_rollout_overfit",
+  "status": "failed",
+  "stage": "stage_a_failed",
+  "candidate_mode": "mainline",
+  "candidate_order": [
+    {
+      "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_002_episode_01.npz",
+      "rollout_sha256": "748501433c89c611544cb31987021d5945953845ce627ba39f01d9d60ffdac04",
+      "seed": 2,
+      "episode_index": 1,
+      "branch_id": "branch4_densified_attach_window",
+      "contract_mode": null,
+      "grasp_score": 0.0546005442738533,
+      "teacher_mode": "closed_loop_native",
+      "uses_planned_segment": false,
+      "uses_target_fraction": false,
+      "legacy_contract_metadata_relaxed": false,
+      "phase_counts": {
+        "staging": 24,
+        "pregrasp": 26,
+        "align": 16,
+        "grasp": 1,
+        "hold_close": 10,
+        "pull": 12,
+        "retreat": 1
+      },
+      "phase_values": [
+        "align",
+        "grasp",
+        "hold_close",
+        "pregrasp",
+        "pull",
+        "retreat",
+        "staging"
+      ],
+      "handle_distance_min": 0.029375817626714706,
+      "strict_success": {
+        "strict_success_version": "v3_attached_open_contract",
+        "strict_success_config": {
+          "drawer_open_threshold": 0.9,
+          "min_attach_persistence_steps": 3,
+          "max_pre_attach_drawer_motion": 0.3,
+          "min_post_attach_drawer_delta": 0.35,
+          "major_open_threshold": 0.35
+        },
+        "strict_success": true,
+        "drawer_open": true,
+        "ever_attached": true,
+        "first_attach_step": 66,
+        "attach_persistence": 23,
+        "pre_attach_drawer_motion": 0.019196324050426483,
+        "unattached_drawer_delta_max": 0.019196324050426483,
+        "attach_drawer_fraction": 0.0,
+        "post_attach_drawer_delta": 1.0,
+        "first_major_open_step": 72,
+        "attach_before_major_open": true,
+        "max_drawer_fraction": 1.0
+      },
+      "warnings": [],
+      "reject_reasons": [],
+      "accepted": true,
+      "strong_rollout": true,
+      "strong_reject_reasons": []
+    }
+  ]
+}

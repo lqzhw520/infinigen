@@ -1,0 +1,157 @@
+{
+  "experiment": "gate_b3_source_validation",
+  "timestamp": "2026-04-07T19:34:24+08:00",
+  "sample_scope": {
+    "sample": "Gate A action-quality top-10",
+    "mapping_target": "success-selected legacy rollout subset",
+    "population_claim": "No population-wide claim over full 240 episodes"
+  },
+  "mapping_rule": {
+    "source": "run_v58_lerobot_pack.py deterministic packer order",
+    "order": [
+      "sorted successful v58_physics_legal_rollouts",
+      "then sorted successful p4_physics_legal_rollouts"
+    ]
+  },
+  "episodes": [
+    {
+      "dataset_episode_index": 157,
+      "current_gate_b_npz_name": "seed_013_branch2_phase_scaled_ep0.npz",
+      "current_gate_b_npz_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_013_branch2_phase_scaled_ep0.npz",
+      "reconstructed_npz_name": "seed_013_branch2_phase_scaled_ep0.npz",
+      "reconstructed_npz_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_013_branch2_phase_scaled_ep0.npz",
+      "mapping_match": true,
+      "metadata_success": true,
+      "trace_recomputed_strict_success": true,
+      "metadata_vs_trace_match": true,
+      "source_native_available": false,
+      "tier": "Tier A"
+    },
+    {
+      "dataset_episode_index": 205,
+      "current_gate_b_npz_name": "seed_015_branch2_phase_scaled_ep0.npz",
+      "current_gate_b_npz_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_015_branch2_phase_scaled_ep0.npz",
+      "reconstructed_npz_name": "seed_015_branch2_phase_scaled_ep0.npz",
+      "reconstructed_npz_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_015_branch2_phase_scaled_ep0.npz",
+      "mapping_match": true,
+      "metadata_success": true,
+      "trace_recomputed_strict_success": true,
+      "metadata_vs_trace_match": true,
+      "source_native_available": false,
+      "tier": "Tier A"
+    },
+    {
+      "dataset_episode_index": 25,
+      "current_gate_b_npz_name": "seed_008_branch2_phase_scaled_ep0.npz",
+      "current_gate_b_npz_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_008_branch2_phase_scaled_ep0.npz",
+      "reconstructed_npz_name": "seed_008_branch2_phase_scaled_ep0.npz",
+      "reconstructed_npz_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_008_branch2_phase_scaled_ep0.npz",
+      "mapping_match": true,
+      "metadata_success": true,
+      "trace_recomputed_strict_success": false,
+      "metadata_vs_trace_match": false,
+      "source_native_available": false,
+      "tier": "Tier B"
+    },
+    {
+      "dataset_episode_index": 180,
+      "current_gate_b_npz_name": "seed_014_branch2_phase_scaled_ep1.npz",
+      "current_gate_b_npz_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_014_branch2_phase_scaled_ep1.npz",
+      "reconstructed_npz_name": "seed_014_branch2_phase_scaled_ep1.npz",
+      "reconstructed_npz_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_014_branch2_phase_scaled_ep1.npz",
+      "mapping_match": true,
+      "metadata_success": true,
+      "trace_recomputed_strict_success": true,
+      "metadata_vs_trace_match": true,
+      "source_native_available": false,
+      "tier": "Tier A"
+    },
+    {
+      "dataset_episode_index": 3,
+      "current_gate_b_npz_name": "seed_007_branch2_phase_scaled_ep3.npz",
+      "current_gate_b_npz_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_007_branch2_phase_scaled_ep3.npz",
+      "reconstructed_npz_name": "seed_007_branch2_phase_scaled_ep3.npz",
+      "reconstructed_npz_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_007_branch2_phase_scaled_ep3.npz",
+      "mapping_match": true,
+      "metadata_success": true,
+      "trace_recomputed_strict_success": true,
+      "metadata_vs_trace_match": true,
+      "source_native_available": false,
+      "tier": "Tier A"
+    },
+    {
+      "dataset_episode_index": 181,
+      "current_gate_b_npz_name": "seed_014_branch2_phase_scaled_ep3.npz",
+      "current_gate_b_npz_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_014_branch2_phase_scaled_ep3.npz",
+      "reconstructed_npz_name": "seed_014_branch2_phase_scaled_ep3.npz",
+      "reconstructed_npz_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_014_branch2_phase_scaled_ep3.npz",
+      "mapping_match": true,
+      "metadata_success": true,
+      "trace_recomputed_strict_success": false,
+      "metadata_vs_trace_match": false,
+      "source_native_available": false,
+      "tier": "Tier B"
+    },
+    {
+      "dataset_episode_index": 158,
+      "current_gate_b_npz_name": "seed_013_branch2_phase_scaled_ep2.npz",
+      "current_gate_b_npz_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_013_branch2_phase_scaled_ep2.npz",
+      "reconstructed_npz_name": "seed_013_branch2_phase_scaled_ep2.npz",
+      "reconstructed_npz_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_013_branch2_phase_scaled_ep2.npz",
+      "mapping_match": true,
+      "metadata_success": true,
+      "trace_recomputed_strict_success": true,
+      "metadata_vs_trace_match": true,
+      "source_native_available": false,
+      "tier": "Tier A"
+    },
+    {
+      "dataset_episode_index": 182,
+      "current_gate_b_npz_name": "seed_014_branch2_phase_scaled_ep4.npz",
+      "current_gate_b_npz_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_014_branch2_phase_scaled_ep4.npz",
+      "reconstructed_npz_name": "seed_014_branch2_phase_scaled_ep4.npz",
+      "reconstructed_npz_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_014_branch2_phase_scaled_ep4.npz",
+      "mapping_match": true,
+      "metadata_success": true,
+      "trace_recomputed_strict_success": false,
+      "metadata_vs_trace_match": false,
+      "source_native_available": false,
+      "tier": "Tier B"
+    },
+    {
+      "dataset_episode_index": 138,
+      "current_gate_b_npz_name": "seed_012_branch2_phase_scaled_ep4.npz",
+      "current_gate_b_npz_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_012_branch2_phase_scaled_ep4.npz",
+      "reconstructed_npz_name": "seed_012_branch2_phase_scaled_ep4.npz",
+      "reconstructed_npz_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_012_branch2_phase_scaled_ep4.npz",
+      "mapping_match": true,
+      "metadata_success": true,
+      "trace_recomputed_strict_success": false,
+      "metadata_vs_trace_match": false,
+      "source_native_available": false,
+      "tier": "Tier B"
+    },
+    {
+      "dataset_episode_index": 209,
+      "current_gate_b_npz_name": "seed_015_branch2_phase_scaled_ep4.npz",
+      "current_gate_b_npz_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_015_branch2_phase_scaled_ep4.npz",
+      "reconstructed_npz_name": "seed_015_branch2_phase_scaled_ep4.npz",
+      "reconstructed_npz_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_015_branch2_phase_scaled_ep4.npz",
+      "mapping_match": true,
+      "metadata_success": true,
+      "trace_recomputed_strict_success": true,
+      "metadata_vs_trace_match": true,
+      "source_native_available": false,
+      "tier": "Tier A"
+    }
+  ],
+  "aggregate": {
+    "tier_counts": {
+      "Tier A": 6,
+      "Tier B": 4
+    },
+    "tier_x_among_success_episodes": 0,
+    "tier_x_among_failure_episodes": 0,
+    "all_tier_a": false
+  }
+}

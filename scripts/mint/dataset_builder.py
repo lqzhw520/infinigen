@@ -13,10 +13,10 @@ STATE_NAMES = [
     "eef_pos_x",
     "eef_pos_y",
     "eef_pos_z",
-    "motor_quat_x",   # LIBERO: motor joint positions (quat-like), not eef_quat!
-    "motor_quat_y",
-    "motor_quat_z",
-    "motor_quat_w",
+    "motor_proxy_0",
+    "motor_proxy_1",
+    "motor_proxy_2",
+    "motor_proxy_3",
     "gripper_joint",  # LIBERO: continuous joint position, NOT binary gripper_open
 ]
 
@@ -214,7 +214,7 @@ def build_dataset_from_rollouts(
         data = np.load(npz_path, allow_pickle=True)
         meta_path = npz_path.with_suffix(".json")
         meta = json.loads(meta_path.read_text()) if meta_path.exists() else {}
-        task = str(meta.get("task", "open the drawer"))
+        task = str(meta.get("task", "open the middle drawer of the cabinet"))
         source_files.append(str(npz_path))
         tasks.append(task)
         n_frames = len(data["actions"])

@@ -1,0 +1,52 @@
+{
+  "gate": "sovereign_record",
+  "passed": true,
+  "records": [
+    {
+      "step": "record-evidence-E013",
+      "ok": true,
+      "skipped": true
+    },
+    {
+      "step": "revise-claim-C_PHYSICS_LEGAL_TEACHER",
+      "ok": true,
+      "stdout": "  OK: C_PHYSICS_LEGAL_TEACHER: added rev11 [None]\n      status: supported, scope: v58_teacher_data_pipeline\n      reason: P4 root-fixed gate: 6/6 physics-legal seeds found (threshold met). New physics",
+      "stderr": ""
+    },
+    {
+      "step": "revise-claim-C_STATE_CONTRACT",
+      "ok": true,
+      "stdout": "  OK: C_STATE_CONTRACT: added rev14 [None]\n      status: supported, scope: v58_state_contract_alignment\n      reason: P1a + P1b state schema fix: state[3:7] now outputs motor_joint_values[0:4] (verifi",
+      "stderr": ""
+    },
+    {
+      "step": "revise-claim-C_VISION_ALIGNMENT",
+      "ok": true,
+      "stdout": "  OK: C_VISION_ALIGNMENT: added rev11 [None]\n      status: supported, scope: v58_vision_encoder_alignment\n      reason: P1b: DrawerRobotEnvMujoco (PyBullet ER_TINY_RENDERER, headless) provides LIBERO-",
+      "stderr": ""
+    },
+    {
+      "step": "render-truth",
+      "ok": true,
+      "stdout": "  OK: rendered /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/sovereign/CAMPAIGN_TRUTH.generated.md\n  Claims: 7, Revisions shown: 6\n",
+      "stderr": ""
+    },
+    {
+      "step": "write-handoff",
+      "ok": true,
+      "stdout": "  OK: Updated sovereign/handoff.md\n",
+      "stderr": ""
+    }
+  ],
+  "legal_seed_count": 6,
+  "legal_seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+  ],
+  "legal_rollout_count": 13,
+  "timestamp": 1775301149.6586287
+}

@@ -1,0 +1,2430 @@
+{
+  "gate": "v58_data_generation",
+  "passed": false,
+  "new_rollouts": 41,
+  "new_frames": 2592,
+  "new_seeds": [
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+  ],
+  "p4_frames": 795,
+  "p4_seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6
+  ],
+  "total_frames": 3387,
+  "total_seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15
+  ],
+  "target_frames": 5000,
+  "target_seeds": 10,
+  "records": [
+    {
+      "seed": 7,
+      "branch": "branch1_position_dominant",
+      "episode": 0,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 41,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 7 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 7,
+      "branch": "branch1_position_dominant",
+      "episode": 1,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 97,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "rollout_not_successful: robot_success=False"
+      ]
+    },
+    {
+      "seed": 7,
+      "branch": "branch1_position_dominant",
+      "episode": 2,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 100,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 27 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 7,
+      "branch": "branch2_phase_scaled",
+      "episode": 0,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 70,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 10 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 7,
+      "branch": "branch2_phase_scaled",
+      "episode": 1,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 95,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "detach_flicker: 16/62 frames detached after initial attach (frac=0.26)",
+        "drawer_stall_while_attached: 16 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 7,
+      "branch": "branch2_phase_scaled",
+      "episode": 2,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 99,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 22 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 7,
+      "branch": "branch3_explicit_gripper_phases",
+      "episode": 0,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 91,
+      "max_drawer_fraction": 0.9533244432070722,
+      "issues": [
+        "drawer_stall_while_attached: 9 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 7,
+      "branch": "branch3_explicit_gripper_phases",
+      "episode": 1,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 100,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_007_branch3_explicit_gripper_phases_ep1.npz"
+    },
+    {
+      "seed": 7,
+      "branch": "branch3_explicit_gripper_phases",
+      "episode": 2,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 97,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "rollout_not_successful: robot_success=False"
+      ]
+    },
+    {
+      "seed": 7,
+      "branch": "branch4_densified_attach_window",
+      "episode": 0,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 97,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 13 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 7,
+      "branch": "branch4_densified_attach_window",
+      "episode": 1,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 88,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 6 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 7,
+      "branch": "branch4_densified_attach_window",
+      "episode": 2,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 113,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 12 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 7,
+      "branch": "branch5_local_frame_translation",
+      "episode": 0,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 98,
+      "max_drawer_fraction": 0.9707428429420196,
+      "issues": [
+        "drawer_stall_while_attached: 13 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 7,
+      "branch": "branch5_local_frame_translation",
+      "episode": 1,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 107,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 14 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 7,
+      "branch": "branch5_local_frame_translation",
+      "episode": 2,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 99,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 25 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 7,
+      "branch": "branch6_rotation_lagged_pull",
+      "episode": 0,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 102,
+      "max_drawer_fraction": 0.9952813870811533,
+      "issues": [
+        "drawer_stall_while_attached: 20 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 7,
+      "branch": "branch6_rotation_lagged_pull",
+      "episode": 1,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 97,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 15 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 7,
+      "branch": "branch6_rotation_lagged_pull",
+      "episode": 2,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 112,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 19 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 8,
+      "branch": "branch1_position_dominant",
+      "episode": 0,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 100,
+      "max_drawer_fraction": 0.9164836306519974,
+      "issues": [
+        "drawer_stall_while_attached: 23 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 8,
+      "branch": "branch1_position_dominant",
+      "episode": 1,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 108,
+      "max_drawer_fraction": 0.8896280772407981,
+      "issues": [
+        "drawer_stall_while_attached: 22 frames with fraction decrease while robot should be pulling",
+        "rollout_not_successful: robot_success=False"
+      ]
+    },
+    {
+      "seed": 8,
+      "branch": "branch1_position_dominant",
+      "episode": 2,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 106,
+      "max_drawer_fraction": 0.9216055385297588,
+      "issues": [
+        "drawer_stall_while_attached: 20 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 8,
+      "branch": "branch2_phase_scaled",
+      "episode": 0,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 74,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "detach_flicker: 7/35 frames detached after initial attach (frac=0.20)",
+        "drawer_stall_while_attached: 9 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 8,
+      "branch": "branch2_phase_scaled",
+      "episode": 1,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 71,
+      "max_drawer_fraction": 0.9783090507290939,
+      "issues": [
+        "drawer_stall_while_attached: 10 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 8,
+      "branch": "branch2_phase_scaled",
+      "episode": 2,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 62,
+      "max_drawer_fraction": 0.9408151694466622,
+      "issues": [
+        "drawer_stall_while_attached: 8 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 8,
+      "branch": "branch3_explicit_gripper_phases",
+      "episode": 0,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 111,
+      "max_drawer_fraction": 0.6148078176605815,
+      "issues": [
+        "drawer_stall_while_attached: 13 frames with fraction decrease while robot should be pulling",
+        "rollout_not_successful: robot_success=False"
+      ]
+    },
+    {
+      "seed": 8,
+      "branch": "branch3_explicit_gripper_phases",
+      "episode": 1,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 78,
+      "max_drawer_fraction": 0.9959227642336751,
+      "issues": [
+        "drawer_stall_while_attached: 5 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 8,
+      "branch": "branch3_explicit_gripper_phases",
+      "episode": 2,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 106,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 12 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 8,
+      "branch": "branch4_densified_attach_window",
+      "episode": 0,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 106,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_008_branch4_densified_attach_window_ep0.npz"
+    },
+    {
+      "seed": 8,
+      "branch": "branch4_densified_attach_window",
+      "episode": 1,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 101,
+      "max_drawer_fraction": 0.9340082591783827,
+      "issues": [
+        "drawer_stall_while_attached: 16 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 8,
+      "branch": "branch4_densified_attach_window",
+      "episode": 2,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 115,
+      "max_drawer_fraction": 0.36407526188652295,
+      "issues": [
+        "drawer_stall_while_attached: 10 frames with fraction decrease while robot should be pulling",
+        "rollout_not_successful: robot_success=False"
+      ]
+    },
+    {
+      "seed": 8,
+      "branch": "branch5_local_frame_translation",
+      "episode": 0,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 104,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 15 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 8,
+      "branch": "branch5_local_frame_translation",
+      "episode": 1,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 80,
+      "max_drawer_fraction": 0.941190161495715,
+      "issues": [
+        "drawer_stall_while_attached: 6 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 8,
+      "branch": "branch5_local_frame_translation",
+      "episode": 2,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 51,
+      "max_drawer_fraction": 0.9952647356740136,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_008_branch5_local_frame_translation_ep2.npz"
+    },
+    {
+      "seed": 8,
+      "branch": "branch6_rotation_lagged_pull",
+      "episode": 0,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 72,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 9 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 8,
+      "branch": "branch6_rotation_lagged_pull",
+      "episode": 1,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 91,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "detach_flicker: 16/44 frames detached after initial attach (frac=0.36)",
+        "drawer_stall_while_attached: 8 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 8,
+      "branch": "branch6_rotation_lagged_pull",
+      "episode": 2,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 111,
+      "max_drawer_fraction": 0.7609742786689484,
+      "issues": [
+        "drawer_stall_while_attached: 10 frames with fraction decrease while robot should be pulling",
+        "rollout_not_successful: robot_success=False"
+      ]
+    },
+    {
+      "seed": 9,
+      "branch": "branch1_position_dominant",
+      "episode": 0,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 57,
+      "max_drawer_fraction": 0.94770404764127,
+      "issues": [
+        "drawer_stall_while_attached: 5 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 9,
+      "branch": "branch1_position_dominant",
+      "episode": 1,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 108,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 10 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 9,
+      "branch": "branch1_position_dominant",
+      "episode": 2,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 108,
+      "max_drawer_fraction": 0.7833046787201489,
+      "issues": [
+        "drawer_stall_while_attached: 10 frames with fraction decrease while robot should be pulling",
+        "rollout_not_successful: robot_success=False"
+      ]
+    },
+    {
+      "seed": 9,
+      "branch": "branch2_phase_scaled",
+      "episode": 0,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 53,
+      "max_drawer_fraction": 0.9995926375971068,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_009_branch2_phase_scaled_ep0.npz"
+    },
+    {
+      "seed": 9,
+      "branch": "branch2_phase_scaled",
+      "episode": 1,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 105,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 20 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 9,
+      "branch": "branch2_phase_scaled",
+      "episode": 2,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 44,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_009_branch2_phase_scaled_ep2.npz"
+    },
+    {
+      "seed": 9,
+      "branch": "branch3_explicit_gripper_phases",
+      "episode": 0,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 113,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 14 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 9,
+      "branch": "branch3_explicit_gripper_phases",
+      "episode": 1,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 96,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "detach_flicker: 15/43 frames detached after initial attach (frac=0.35)"
+      ]
+    },
+    {
+      "seed": 9,
+      "branch": "branch3_explicit_gripper_phases",
+      "episode": 2,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 66,
+      "max_drawer_fraction": 0.9989834361724185,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_009_branch3_explicit_gripper_phases_ep2.npz"
+    },
+    {
+      "seed": 9,
+      "branch": "branch4_densified_attach_window",
+      "episode": 0,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 72,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_009_branch4_densified_attach_window_ep0.npz"
+    },
+    {
+      "seed": 9,
+      "branch": "branch4_densified_attach_window",
+      "episode": 1,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 97,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 6 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 9,
+      "branch": "branch4_densified_attach_window",
+      "episode": 2,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 98,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 9 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 9,
+      "branch": "branch5_local_frame_translation",
+      "episode": 0,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 97,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 18 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 9,
+      "branch": "branch5_local_frame_translation",
+      "episode": 1,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 67,
+      "max_drawer_fraction": 0.915753538158929,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_009_branch5_local_frame_translation_ep1.npz"
+    },
+    {
+      "seed": 9,
+      "branch": "branch5_local_frame_translation",
+      "episode": 2,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 62,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 7 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 9,
+      "branch": "branch6_rotation_lagged_pull",
+      "episode": 0,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 97,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "rollout_not_successful: robot_success=False"
+      ]
+    },
+    {
+      "seed": 9,
+      "branch": "branch6_rotation_lagged_pull",
+      "episode": 1,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 96,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "detach_flicker: 9/37 frames detached after initial attach (frac=0.24)",
+        "drawer_stall_while_attached: 9 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 9,
+      "branch": "branch6_rotation_lagged_pull",
+      "episode": 2,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 96,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "detach_flicker: 16/44 frames detached after initial attach (frac=0.36)",
+        "drawer_stall_while_attached: 11 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 10,
+      "branch": "branch1_position_dominant",
+      "episode": 0,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 49,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_010_branch1_position_dominant_ep0.npz"
+    },
+    {
+      "seed": 10,
+      "branch": "branch1_position_dominant",
+      "episode": 1,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 65,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_010_branch1_position_dominant_ep1.npz"
+    },
+    {
+      "seed": 10,
+      "branch": "branch1_position_dominant",
+      "episode": 2,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 109,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 17 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 10,
+      "branch": "branch2_phase_scaled",
+      "episode": 0,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 109,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 24 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 10,
+      "branch": "branch2_phase_scaled",
+      "episode": 1,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 71,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_010_branch2_phase_scaled_ep1.npz"
+    },
+    {
+      "seed": 10,
+      "branch": "branch2_phase_scaled",
+      "episode": 2,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 62,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 5 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 10,
+      "branch": "branch3_explicit_gripper_phases",
+      "episode": 0,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 73,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 9 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 10,
+      "branch": "branch3_explicit_gripper_phases",
+      "episode": 1,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 64,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_010_branch3_explicit_gripper_phases_ep1.npz"
+    },
+    {
+      "seed": 10,
+      "branch": "branch3_explicit_gripper_phases",
+      "episode": 2,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 98,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 14 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 10,
+      "branch": "branch4_densified_attach_window",
+      "episode": 0,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 80,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_010_branch4_densified_attach_window_ep0.npz"
+    },
+    {
+      "seed": 10,
+      "branch": "branch4_densified_attach_window",
+      "episode": 1,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 92,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 7 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 10,
+      "branch": "branch4_densified_attach_window",
+      "episode": 2,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 75,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_010_branch4_densified_attach_window_ep2.npz"
+    },
+    {
+      "seed": 10,
+      "branch": "branch5_local_frame_translation",
+      "episode": 0,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 55,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_010_branch5_local_frame_translation_ep0.npz"
+    },
+    {
+      "seed": 10,
+      "branch": "branch5_local_frame_translation",
+      "episode": 1,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 52,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_010_branch5_local_frame_translation_ep1.npz"
+    },
+    {
+      "seed": 10,
+      "branch": "branch5_local_frame_translation",
+      "episode": 2,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 57,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 6 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 10,
+      "branch": "branch6_rotation_lagged_pull",
+      "episode": 0,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 57,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_010_branch6_rotation_lagged_pull_ep0.npz"
+    },
+    {
+      "seed": 10,
+      "branch": "branch6_rotation_lagged_pull",
+      "episode": 1,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 108,
+      "max_drawer_fraction": 0.9110285737271886,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_010_branch6_rotation_lagged_pull_ep1.npz"
+    },
+    {
+      "seed": 10,
+      "branch": "branch6_rotation_lagged_pull",
+      "episode": 2,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 57,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_010_branch6_rotation_lagged_pull_ep2.npz"
+    },
+    {
+      "seed": 11,
+      "branch": "branch1_position_dominant",
+      "episode": 0,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 87,
+      "max_drawer_fraction": 0.9696289557299989,
+      "issues": [
+        "drawer_stall_while_attached: 7 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 11,
+      "branch": "branch1_position_dominant",
+      "episode": 1,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 55,
+      "max_drawer_fraction": 0.933474758948071,
+      "issues": [
+        "drawer_stall_while_attached: 8 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 11,
+      "branch": "branch1_position_dominant",
+      "episode": 2,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 79,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 5 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 11,
+      "branch": "branch2_phase_scaled",
+      "episode": 0,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 35,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_011_branch2_phase_scaled_ep0.npz"
+    },
+    {
+      "seed": 11,
+      "branch": "branch2_phase_scaled",
+      "episode": 1,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 35,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_011_branch2_phase_scaled_ep1.npz"
+    },
+    {
+      "seed": 11,
+      "branch": "branch2_phase_scaled",
+      "episode": 2,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 52,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_011_branch2_phase_scaled_ep2.npz"
+    },
+    {
+      "seed": 11,
+      "branch": "branch3_explicit_gripper_phases",
+      "episode": 0,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 98,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 22 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 11,
+      "branch": "branch3_explicit_gripper_phases",
+      "episode": 1,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 85,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 9 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 11,
+      "branch": "branch3_explicit_gripper_phases",
+      "episode": 2,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 58,
+      "max_drawer_fraction": 0.937014188311392,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_011_branch3_explicit_gripper_phases_ep2.npz"
+    },
+    {
+      "seed": 11,
+      "branch": "branch4_densified_attach_window",
+      "episode": 0,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 97,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 10 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 11,
+      "branch": "branch4_densified_attach_window",
+      "episode": 1,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 101,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 10 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 11,
+      "branch": "branch4_densified_attach_window",
+      "episode": 2,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 74,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_011_branch4_densified_attach_window_ep2.npz"
+    },
+    {
+      "seed": 11,
+      "branch": "branch5_local_frame_translation",
+      "episode": 0,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 56,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_011_branch5_local_frame_translation_ep0.npz"
+    },
+    {
+      "seed": 11,
+      "branch": "branch5_local_frame_translation",
+      "episode": 1,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 61,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_011_branch5_local_frame_translation_ep1.npz"
+    },
+    {
+      "seed": 11,
+      "branch": "branch5_local_frame_translation",
+      "episode": 2,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 57,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_011_branch5_local_frame_translation_ep2.npz"
+    },
+    {
+      "seed": 11,
+      "branch": "branch6_rotation_lagged_pull",
+      "episode": 0,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 100,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 9 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 11,
+      "branch": "branch6_rotation_lagged_pull",
+      "episode": 1,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 63,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 7 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 11,
+      "branch": "branch6_rotation_lagged_pull",
+      "episode": 2,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 58,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 5 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 12,
+      "branch": "branch1_position_dominant",
+      "episode": 0,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 35,
+      "max_drawer_fraction": 0.9623091118934783,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_012_branch1_position_dominant_ep0.npz"
+    },
+    {
+      "seed": 12,
+      "branch": "branch1_position_dominant",
+      "episode": 1,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 99,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 21 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 12,
+      "branch": "branch1_position_dominant",
+      "episode": 2,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 84,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "detach_flicker: 20/60 frames detached after initial attach (frac=0.33)",
+        "drawer_stall_while_attached: 10 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 12,
+      "branch": "branch2_phase_scaled",
+      "episode": 0,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 56,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 7 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 12,
+      "branch": "branch2_phase_scaled",
+      "episode": 1,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 108,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 23 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 12,
+      "branch": "branch2_phase_scaled",
+      "episode": 2,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 96,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "detach_flicker: 13/59 frames detached after initial attach (frac=0.22)",
+        "drawer_stall_while_attached: 18 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 12,
+      "branch": "branch3_explicit_gripper_phases",
+      "episode": 0,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 105,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 15 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 12,
+      "branch": "branch3_explicit_gripper_phases",
+      "episode": 1,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 108,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 30 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 12,
+      "branch": "branch3_explicit_gripper_phases",
+      "episode": 2,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 74,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_012_branch3_explicit_gripper_phases_ep2.npz"
+    },
+    {
+      "seed": 12,
+      "branch": "branch4_densified_attach_window",
+      "episode": 0,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 102,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 9 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 12,
+      "branch": "branch4_densified_attach_window",
+      "episode": 1,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 99,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 9 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 12,
+      "branch": "branch4_densified_attach_window",
+      "episode": 2,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 96,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_012_branch4_densified_attach_window_ep2.npz"
+    },
+    {
+      "seed": 12,
+      "branch": "branch5_local_frame_translation",
+      "episode": 0,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 67,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_012_branch5_local_frame_translation_ep0.npz"
+    },
+    {
+      "seed": 12,
+      "branch": "branch5_local_frame_translation",
+      "episode": 1,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 69,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 5 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 12,
+      "branch": "branch5_local_frame_translation",
+      "episode": 2,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 96,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "detach_flicker: 14/58 frames detached after initial attach (frac=0.24)",
+        "drawer_stall_while_attached: 9 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 12,
+      "branch": "branch6_rotation_lagged_pull",
+      "episode": 0,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 111,
+      "max_drawer_fraction": 0.8413032187212168,
+      "issues": [
+        "drawer_stall_while_attached: 31 frames with fraction decrease while robot should be pulling",
+        "rollout_not_successful: robot_success=False"
+      ]
+    },
+    {
+      "seed": 12,
+      "branch": "branch6_rotation_lagged_pull",
+      "episode": 1,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 52,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_012_branch6_rotation_lagged_pull_ep1.npz"
+    },
+    {
+      "seed": 12,
+      "branch": "branch6_rotation_lagged_pull",
+      "episode": 2,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 111,
+      "max_drawer_fraction": 0.6652825429525843,
+      "issues": [
+        "drawer_stall_while_attached: 11 frames with fraction decrease while robot should be pulling",
+        "rollout_not_successful: robot_success=False"
+      ]
+    },
+    {
+      "seed": 13,
+      "branch": "branch1_position_dominant",
+      "episode": 0,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 95,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "detach_flicker: 20/60 frames detached after initial attach (frac=0.33)",
+        "drawer_stall_while_attached: 12 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 13,
+      "branch": "branch1_position_dominant",
+      "episode": 1,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 108,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 27 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 13,
+      "branch": "branch1_position_dominant",
+      "episode": 2,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 99,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 16 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 13,
+      "branch": "branch2_phase_scaled",
+      "episode": 0,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 71,
+      "max_drawer_fraction": 0.9232431841537194,
+      "issues": [
+        "drawer_stall_while_attached: 12 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 13,
+      "branch": "branch2_phase_scaled",
+      "episode": 1,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 97,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "rollout_not_successful: robot_success=False"
+      ]
+    },
+    {
+      "seed": 13,
+      "branch": "branch2_phase_scaled",
+      "episode": 2,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 87,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 15 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 13,
+      "branch": "branch3_explicit_gripper_phases",
+      "episode": 0,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 111,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 26 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 13,
+      "branch": "branch3_explicit_gripper_phases",
+      "episode": 1,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 79,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 5 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 13,
+      "branch": "branch3_explicit_gripper_phases",
+      "episode": 2,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 97,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "rollout_not_successful: robot_success=False"
+      ]
+    },
+    {
+      "seed": 13,
+      "branch": "branch4_densified_attach_window",
+      "episode": 0,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 99,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 8 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 13,
+      "branch": "branch4_densified_attach_window",
+      "episode": 1,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 96,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 9 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 13,
+      "branch": "branch4_densified_attach_window",
+      "episode": 2,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 97,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 12 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 13,
+      "branch": "branch5_local_frame_translation",
+      "episode": 0,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 110,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 26 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 13,
+      "branch": "branch5_local_frame_translation",
+      "episode": 1,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 96,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "detach_flicker: 7/51 frames detached after initial attach (frac=0.14)",
+        "drawer_stall_while_attached: 19 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 13,
+      "branch": "branch5_local_frame_translation",
+      "episode": 2,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 96,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "detach_flicker: 16/60 frames detached after initial attach (frac=0.27)",
+        "drawer_stall_while_attached: 9 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 13,
+      "branch": "branch6_rotation_lagged_pull",
+      "episode": 0,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 45,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_013_branch6_rotation_lagged_pull_ep0.npz"
+    },
+    {
+      "seed": 13,
+      "branch": "branch6_rotation_lagged_pull",
+      "episode": 1,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 55,
+      "max_drawer_fraction": 0.9698952088861825,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_013_branch6_rotation_lagged_pull_ep1.npz"
+    },
+    {
+      "seed": 13,
+      "branch": "branch6_rotation_lagged_pull",
+      "episode": 2,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 99,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_013_branch6_rotation_lagged_pull_ep2.npz"
+    },
+    {
+      "seed": 14,
+      "branch": "branch1_position_dominant",
+      "episode": 0,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 43,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_014_branch1_position_dominant_ep0.npz"
+    },
+    {
+      "seed": 14,
+      "branch": "branch1_position_dominant",
+      "episode": 1,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 43,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_014_branch1_position_dominant_ep1.npz"
+    },
+    {
+      "seed": 14,
+      "branch": "branch1_position_dominant",
+      "episode": 2,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 98,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 11 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 14,
+      "branch": "branch2_phase_scaled",
+      "episode": 0,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 105,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 25 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 14,
+      "branch": "branch2_phase_scaled",
+      "episode": 1,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 63,
+      "max_drawer_fraction": 0.99806578461649,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_014_branch2_phase_scaled_ep1.npz"
+    },
+    {
+      "seed": 14,
+      "branch": "branch2_phase_scaled",
+      "episode": 2,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 105,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 30 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 14,
+      "branch": "branch3_explicit_gripper_phases",
+      "episode": 0,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 96,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "detach_flicker: 15/43 frames detached after initial attach (frac=0.35)",
+        "drawer_stall_while_attached: 16 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 14,
+      "branch": "branch3_explicit_gripper_phases",
+      "episode": 1,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 75,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_014_branch3_explicit_gripper_phases_ep1.npz"
+    },
+    {
+      "seed": 14,
+      "branch": "branch3_explicit_gripper_phases",
+      "episode": 2,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 88,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 6 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 14,
+      "branch": "branch4_densified_attach_window",
+      "episode": 0,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 105,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 11 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 14,
+      "branch": "branch4_densified_attach_window",
+      "episode": 1,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 97,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 8 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 14,
+      "branch": "branch4_densified_attach_window",
+      "episode": 2,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 97,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 11 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 14,
+      "branch": "branch5_local_frame_translation",
+      "episode": 0,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 100,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 14 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 14,
+      "branch": "branch5_local_frame_translation",
+      "episode": 1,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 97,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 21 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 14,
+      "branch": "branch5_local_frame_translation",
+      "episode": 2,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 68,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 6 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 14,
+      "branch": "branch6_rotation_lagged_pull",
+      "episode": 0,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 98,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 10 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 14,
+      "branch": "branch6_rotation_lagged_pull",
+      "episode": 1,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 102,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 8 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 14,
+      "branch": "branch6_rotation_lagged_pull",
+      "episode": 2,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 111,
+      "max_drawer_fraction": 0.8396336538509873,
+      "issues": [
+        "drawer_stall_while_attached: 10 frames with fraction decrease while robot should be pulling",
+        "rollout_not_successful: robot_success=False"
+      ]
+    },
+    {
+      "seed": 15,
+      "branch": "branch1_position_dominant",
+      "episode": 0,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 108,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 23 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 15,
+      "branch": "branch1_position_dominant",
+      "episode": 1,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 107,
+      "max_drawer_fraction": 0.9983182352238276,
+      "issues": [
+        "drawer_stall_while_attached: 32 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 15,
+      "branch": "branch1_position_dominant",
+      "episode": 2,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 108,
+      "max_drawer_fraction": 0.8851164853097785,
+      "issues": [
+        "drawer_stall_while_attached: 13 frames with fraction decrease while robot should be pulling",
+        "rollout_not_successful: robot_success=False"
+      ]
+    },
+    {
+      "seed": 15,
+      "branch": "branch2_phase_scaled",
+      "episode": 0,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 82,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 19 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 15,
+      "branch": "branch2_phase_scaled",
+      "episode": 1,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 109,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 18 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 15,
+      "branch": "branch2_phase_scaled",
+      "episode": 2,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 64,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_015_branch2_phase_scaled_ep2.npz"
+    },
+    {
+      "seed": 15,
+      "branch": "branch3_explicit_gripper_phases",
+      "episode": 0,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 106,
+      "max_drawer_fraction": 0.9011038733145402,
+      "issues": [
+        "drawer_stall_while_attached: 19 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 15,
+      "branch": "branch3_explicit_gripper_phases",
+      "episode": 1,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 112,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 11 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 15,
+      "branch": "branch3_explicit_gripper_phases",
+      "episode": 2,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 110,
+      "max_drawer_fraction": 0.932355625994566,
+      "issues": [
+        "drawer_stall_while_attached: 15 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 15,
+      "branch": "branch4_densified_attach_window",
+      "episode": 0,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 104,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 8 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 15,
+      "branch": "branch4_densified_attach_window",
+      "episode": 1,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 114,
+      "max_drawer_fraction": 0.3407031647754563,
+      "issues": [
+        "drawer_stall_while_attached: 10 frames with fraction decrease while robot should be pulling",
+        "rollout_not_successful: robot_success=False"
+      ]
+    },
+    {
+      "seed": 15,
+      "branch": "branch4_densified_attach_window",
+      "episode": 2,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 85,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 5 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 15,
+      "branch": "branch5_local_frame_translation",
+      "episode": 0,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 59,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 6 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 15,
+      "branch": "branch5_local_frame_translation",
+      "episode": 1,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 96,
+      "max_drawer_fraction": 0.9367350447248254,
+      "issues": [
+        "detach_flicker: 7/51 frames detached after initial attach (frac=0.14)",
+        "drawer_stall_while_attached: 17 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 15,
+      "branch": "branch5_local_frame_translation",
+      "episode": 2,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 109,
+      "max_drawer_fraction": 0.8603254590804625,
+      "issues": [
+        "drawer_stall_while_attached: 25 frames with fraction decrease while robot should be pulling",
+        "rollout_not_successful: robot_success=False"
+      ]
+    },
+    {
+      "seed": 15,
+      "branch": "branch6_rotation_lagged_pull",
+      "episode": 0,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 61,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_015_branch6_rotation_lagged_pull_ep0.npz"
+    },
+    {
+      "seed": 15,
+      "branch": "branch6_rotation_lagged_pull",
+      "episode": 1,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 81,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 9 frames with fraction decrease while robot should be pulling"
+      ]
+    },
+    {
+      "seed": 15,
+      "branch": "branch6_rotation_lagged_pull",
+      "episode": 2,
+      "passed": false,
+      "method": "build_native_fallback",
+      "n_frames": 111,
+      "max_drawer_fraction": 1.0,
+      "issues": [
+        "drawer_stall_while_attached: 20 frames with fraction decrease while robot should be pulling"
+      ]
+    }
+  ],
+  "legal_rollouts": [
+    {
+      "seed": 7,
+      "branch": "branch3_explicit_gripper_phases",
+      "episode": 1,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 100,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_007_branch3_explicit_gripper_phases_ep1.npz"
+    },
+    {
+      "seed": 8,
+      "branch": "branch4_densified_attach_window",
+      "episode": 0,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 106,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_008_branch4_densified_attach_window_ep0.npz"
+    },
+    {
+      "seed": 8,
+      "branch": "branch5_local_frame_translation",
+      "episode": 2,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 51,
+      "max_drawer_fraction": 0.9952647356740136,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_008_branch5_local_frame_translation_ep2.npz"
+    },
+    {
+      "seed": 9,
+      "branch": "branch2_phase_scaled",
+      "episode": 0,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 53,
+      "max_drawer_fraction": 0.9995926375971068,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_009_branch2_phase_scaled_ep0.npz"
+    },
+    {
+      "seed": 9,
+      "branch": "branch2_phase_scaled",
+      "episode": 2,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 44,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_009_branch2_phase_scaled_ep2.npz"
+    },
+    {
+      "seed": 9,
+      "branch": "branch3_explicit_gripper_phases",
+      "episode": 2,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 66,
+      "max_drawer_fraction": 0.9989834361724185,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_009_branch3_explicit_gripper_phases_ep2.npz"
+    },
+    {
+      "seed": 9,
+      "branch": "branch4_densified_attach_window",
+      "episode": 0,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 72,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_009_branch4_densified_attach_window_ep0.npz"
+    },
+    {
+      "seed": 9,
+      "branch": "branch5_local_frame_translation",
+      "episode": 1,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 67,
+      "max_drawer_fraction": 0.915753538158929,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_009_branch5_local_frame_translation_ep1.npz"
+    },
+    {
+      "seed": 10,
+      "branch": "branch1_position_dominant",
+      "episode": 0,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 49,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_010_branch1_position_dominant_ep0.npz"
+    },
+    {
+      "seed": 10,
+      "branch": "branch1_position_dominant",
+      "episode": 1,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 65,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_010_branch1_position_dominant_ep1.npz"
+    },
+    {
+      "seed": 10,
+      "branch": "branch2_phase_scaled",
+      "episode": 1,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 71,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_010_branch2_phase_scaled_ep1.npz"
+    },
+    {
+      "seed": 10,
+      "branch": "branch3_explicit_gripper_phases",
+      "episode": 1,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 64,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_010_branch3_explicit_gripper_phases_ep1.npz"
+    },
+    {
+      "seed": 10,
+      "branch": "branch4_densified_attach_window",
+      "episode": 0,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 80,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_010_branch4_densified_attach_window_ep0.npz"
+    },
+    {
+      "seed": 10,
+      "branch": "branch4_densified_attach_window",
+      "episode": 2,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 75,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_010_branch4_densified_attach_window_ep2.npz"
+    },
+    {
+      "seed": 10,
+      "branch": "branch5_local_frame_translation",
+      "episode": 0,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 55,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_010_branch5_local_frame_translation_ep0.npz"
+    },
+    {
+      "seed": 10,
+      "branch": "branch5_local_frame_translation",
+      "episode": 1,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 52,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_010_branch5_local_frame_translation_ep1.npz"
+    },
+    {
+      "seed": 10,
+      "branch": "branch6_rotation_lagged_pull",
+      "episode": 0,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 57,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_010_branch6_rotation_lagged_pull_ep0.npz"
+    },
+    {
+      "seed": 10,
+      "branch": "branch6_rotation_lagged_pull",
+      "episode": 1,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 108,
+      "max_drawer_fraction": 0.9110285737271886,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_010_branch6_rotation_lagged_pull_ep1.npz"
+    },
+    {
+      "seed": 10,
+      "branch": "branch6_rotation_lagged_pull",
+      "episode": 2,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 57,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_010_branch6_rotation_lagged_pull_ep2.npz"
+    },
+    {
+      "seed": 11,
+      "branch": "branch2_phase_scaled",
+      "episode": 0,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 35,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_011_branch2_phase_scaled_ep0.npz"
+    },
+    {
+      "seed": 11,
+      "branch": "branch2_phase_scaled",
+      "episode": 1,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 35,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_011_branch2_phase_scaled_ep1.npz"
+    },
+    {
+      "seed": 11,
+      "branch": "branch2_phase_scaled",
+      "episode": 2,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 52,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_011_branch2_phase_scaled_ep2.npz"
+    },
+    {
+      "seed": 11,
+      "branch": "branch3_explicit_gripper_phases",
+      "episode": 2,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 58,
+      "max_drawer_fraction": 0.937014188311392,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_011_branch3_explicit_gripper_phases_ep2.npz"
+    },
+    {
+      "seed": 11,
+      "branch": "branch4_densified_attach_window",
+      "episode": 2,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 74,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_011_branch4_densified_attach_window_ep2.npz"
+    },
+    {
+      "seed": 11,
+      "branch": "branch5_local_frame_translation",
+      "episode": 0,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 56,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_011_branch5_local_frame_translation_ep0.npz"
+    },
+    {
+      "seed": 11,
+      "branch": "branch5_local_frame_translation",
+      "episode": 1,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 61,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_011_branch5_local_frame_translation_ep1.npz"
+    },
+    {
+      "seed": 11,
+      "branch": "branch5_local_frame_translation",
+      "episode": 2,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 57,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_011_branch5_local_frame_translation_ep2.npz"
+    },
+    {
+      "seed": 12,
+      "branch": "branch1_position_dominant",
+      "episode": 0,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 35,
+      "max_drawer_fraction": 0.9623091118934783,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_012_branch1_position_dominant_ep0.npz"
+    },
+    {
+      "seed": 12,
+      "branch": "branch3_explicit_gripper_phases",
+      "episode": 2,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 74,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_012_branch3_explicit_gripper_phases_ep2.npz"
+    },
+    {
+      "seed": 12,
+      "branch": "branch4_densified_attach_window",
+      "episode": 2,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 96,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_012_branch4_densified_attach_window_ep2.npz"
+    },
+    {
+      "seed": 12,
+      "branch": "branch5_local_frame_translation",
+      "episode": 0,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 67,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_012_branch5_local_frame_translation_ep0.npz"
+    },
+    {
+      "seed": 12,
+      "branch": "branch6_rotation_lagged_pull",
+      "episode": 1,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 52,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_012_branch6_rotation_lagged_pull_ep1.npz"
+    },
+    {
+      "seed": 13,
+      "branch": "branch6_rotation_lagged_pull",
+      "episode": 0,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 45,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_013_branch6_rotation_lagged_pull_ep0.npz"
+    },
+    {
+      "seed": 13,
+      "branch": "branch6_rotation_lagged_pull",
+      "episode": 1,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 55,
+      "max_drawer_fraction": 0.9698952088861825,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_013_branch6_rotation_lagged_pull_ep1.npz"
+    },
+    {
+      "seed": 13,
+      "branch": "branch6_rotation_lagged_pull",
+      "episode": 2,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 99,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_013_branch6_rotation_lagged_pull_ep2.npz"
+    },
+    {
+      "seed": 14,
+      "branch": "branch1_position_dominant",
+      "episode": 0,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 43,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_014_branch1_position_dominant_ep0.npz"
+    },
+    {
+      "seed": 14,
+      "branch": "branch1_position_dominant",
+      "episode": 1,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 43,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_014_branch1_position_dominant_ep1.npz"
+    },
+    {
+      "seed": 14,
+      "branch": "branch2_phase_scaled",
+      "episode": 1,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 63,
+      "max_drawer_fraction": 0.99806578461649,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_014_branch2_phase_scaled_ep1.npz"
+    },
+    {
+      "seed": 14,
+      "branch": "branch3_explicit_gripper_phases",
+      "episode": 1,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 75,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_014_branch3_explicit_gripper_phases_ep1.npz"
+    },
+    {
+      "seed": 15,
+      "branch": "branch2_phase_scaled",
+      "episode": 2,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 64,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_015_branch2_phase_scaled_ep2.npz"
+    },
+    {
+      "seed": 15,
+      "branch": "branch6_rotation_lagged_pull",
+      "episode": 0,
+      "passed": true,
+      "method": "build_native_fallback",
+      "n_frames": 61,
+      "max_drawer_fraction": 1.0,
+      "issues": [],
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_physics_legal_rollouts/seed_015_branch6_rotation_lagged_pull_ep0.npz"
+    }
+  ],
+  "elapsed_s": 4552.2,
+  "timestamp": 1775306628.0594745
+}

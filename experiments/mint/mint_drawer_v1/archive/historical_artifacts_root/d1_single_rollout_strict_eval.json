@@ -1,0 +1,8 @@
+{
+  "gate": "d1_single_rollout_overfit",
+  "strict_success_revalidated": true,
+  "controller_id": "d1_v57",
+  "run_id": "d1_v57_main",
+  "promoted_candidate": null,
+  "evaluation": null
+}

@@ -1,0 +1,76 @@
+{
+  "artifact_id": "p1i_infinigen_mint_alignment_solution_plan",
+  "type": "alignment_solution_plan",
+  "generated_at": "2026-04-10T13:00:00+08:00",
+  "corrected_at": "2026-04-10T14:00:00+08:00",
+  "campaign": "mint_drawer_v1",
+  "status": "active",
+  "verdict": "EXACT_CONTROL_ALIGNMENT_NOT_ESTABLISHED — VISUAL_INFO_GAP_CONFIRMED — ACTION_ROTATION_DEGENERATE — DATA_SCALE_INSUFFICIENT — INFERENCE_CONFIG_MISMATCH",
+  "correction_note": "v1.0 中的 E048（MINT 模型加载损坏）是错误升级。实测 external/MINT@4eab579 的 MINTPolicy.from_pretrained() 输出 Missing keys=1（仅 embed_tokens.weight），paligemma.model 和 paligemma.model.get_image_features 均存在。模型加载本身没有问题。已从 sovereign 中删除 E048/E049/E050，重写 plan。",
+  "confirmed_gaps": {
+    "visual_info_gap": {
+      "priority": "P1",
+      "summary": "Infinigen images 3.3x lower std_rgb, 2.6x lower edge_density, 12x lower entropy than LIBERO",
+      "evidence": "E046/p1g_exact_control_alignment_audit"
+    },
+    "action_rotation_degenerate": {
+      "priority": "P1",
+      "summary": "action[3:6] always 0.0 in all 500 training frames — _script_action() does not compute rotation",
+      "evidence": "E046/p1g_exact_control_alignment_audit",
+      "pending": "需要 Phase 0.2 control action trace 来确认 LIBERO rotation 范围"
+    },
+    "state_proxy": {
+      "priority": "P1",
+      "summary": "state[3:7] is synthetic motor proxy, not real arm joints",
+      "evidence": "E046/p1g_exact_control_alignment_audit",
+      "pending": "需要 Phase 0.2 control state trace 来确认 LIBERO 关节角分布"
+    },
+    "data_scale_insufficient": {
+      "priority": "P1",
+      "summary": "500 frames vs LIBERO 273,465 frames (1/547)"
+    },
+    "inference_config_mismatch": {
+      "priority": "P1",
+      "summary": "n_action_steps=1 in checkpoint config, official baseline uses n_action_steps=4"
+    }
+  },
+  "NOT_confirmed": {
+    "mint_model_loading_broken": {
+      "summary": "E048 推断错误。实测 Missing keys=1（仅 embed_tokens.weight），paligemma.model 和 get_image_features 均存在",
+      "correction": "已从 sovereign 和所有文件中移除 E048 相关内容"
+    }
+  },
+  "pending_gaps": {
+    "state_gap": "{} — p1g 中未捕获 control state trace",
+    "action_gap": "{} — p1g 中未捕获 control action trace"
+  },
+  "execution_plan": {
+    "phases": [
+      {"phase": 0, "name": "exact_control_surface_reproduction", "priority": "P0", "status": "pending"},
+      {"phase": 1, "name": "state_action_alignment_verification", "priority": "P1", "status": "pending"},
+      {"phase": 2, "name": "action_rotation_fix", "priority": "P1", "status": "pending", "condition": "LIBERO rotation non-zero"},
+      {"phase": 3, "name": "state_semantic_fix", "priority": "P1", "status": "pending", "condition": "state[3:7] gap significant"},
+      {"phase": 4, "name": "visual_texture_fix", "priority": "P1", "status": "pending"},
+      {"phase": 5, "name": "data_scale_expansion", "priority": "P1", "status": "pending"},
+      {"phase": 6, "name": "inference_config_align", "priority": "P1", "status": "pending"},
+      {"phase": 7, "name": "finetune_and_eval", "priority": "P0", "status": "pending"}
+    ],
+    "total_gpu_hours": 9,
+    "total_wall_hours": 30
+  },
+  "gates": {
+    "G1": {"condition": "Control state trace captured"},
+    "G2": {"condition": "Control action trace captured"},
+    "G3": {"condition": "state[3:7] Wasserstein distance quantified"},
+    "G4": {"condition": "action[0:6] Wasserstein distance quantified"},
+    "G5": {"condition": "edge_density > 0.04, entropy > 4.0, std_rgb > 0.12"},
+    "G6": {"condition": "finetuned > pretrained, at least 1 seed > 0.1"}
+  },
+  "reference_files": [
+    "external/MINT/lerobot_policy_mint/src/lerobot_policy_mint/modeling_mint.py",
+    "scripts/mint/drawer_robot_env_mujoco.py",
+    "scripts/mint/dataset_builder.py"
+  ],
+  "human_readable": "outputs/p1i_infinigen_mint_alignment_solution_plan.md",
+  "sovereign_refs": ["E036", "E045", "E046", "E047", "E033", "E034"]
+}

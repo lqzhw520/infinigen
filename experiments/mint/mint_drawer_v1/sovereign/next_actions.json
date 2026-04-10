@@ -2,6 +2,73 @@
   "decision": "V59_OFFICIAL_CONTROL_RESTORED — TRUE_INFINIGEN_MUJOCO_MAINLINE_NEXT",
   "actions": [
     {
+      "type": "MUJOCO_ALIGNMENT_EXPANSION",
+      "id": "capture_exact_control_trace_and_expand_success_seeds",
+      "priority": "P0",
+      "target": "Capture exact successful control traces and expand successful MuJoCo train seed coverage before the next fine-tune",
+      "status": "pending",
+      "description": "p1g shows task-text/resolution alignment is direct, but exact control state/action equivalence is still missing and the current train set is only 5 successful seeds repeated 10x.",
+      "control_baseline_ref": "E036/p1c11_official_libero_goal_drawer_baseline_rollback_4eab579",
+      "alignment_audit_ref": "E046/p1g_exact_control_alignment_audit",
+      "cleanup_manifest_ref": "E047/p1h_working_set_cleanup_manifest",
+      "updated_at": "2026-04-10T16:51:59+08:00"
+    },
+    {
+      "type": "EXACT_CONTROL_ALIGNMENT_AUDIT",
+      "id": "p1g_exact_control_alignment_audit",
+      "priority": "P0",
+      "target": "Summarize direct vs heuristic alignment evidence against the restored official control",
+      "status": "completed",
+      "evidence": "E046"
+    },
+    {
+      "type": "WORKING_SET_CLEANUP",
+      "id": "p1h_working_set_cleanup",
+      "priority": "P0",
+      "target": "Reduce artifacts/outputs root to the active working set and archive the historical remainder",
+      "status": "completed",
+      "evidence": "E047"
+    },
+    {
+      "type": "ROOT_CAUSE_EXECUTION_PLAN",
+      "id": "p1i_infinigen_mint_alignment_solution_plan",
+      "priority": "P0",
+      "target": "Publish the canonical root-cause execution plan for exact-control alignment before the next fine-tune",
+      "status": "completed",
+      "evidence": "E051"
+    },
+    {
+      "type": "EXACT_CONTROL_ALIGNMENT_AUDIT",
+      "id": "p1g_exact_control_alignment_audit",
+      "priority": "P0",
+      "target": "Summarize direct vs heuristic alignment evidence against the restored official control",
+      "status": "completed",
+      "evidence": "E046"
+    },
+    {
+      "type": "WORKING_SET_CLEANUP",
+      "id": "p1h_working_set_cleanup",
+      "priority": "P0",
+      "target": "Reduce artifacts/outputs root to the active working set and archive the historical remainder",
+      "status": "completed",
+      "evidence": "E047"
+    },
+    {
+      "type": "MUJOCO_MAINLINE_RESULT_REVIEW",
+      "id": "review_mujoco_infinigen_mainline_results",
+      "priority": "P0",
+      "target": "Review true MuJoCo Infinigen night-runner results and decide the next scientific move",
+      "status": "completed",
+      "description": "True MuJoCo Infinigen night-runner completed; review held-out pretrained vs finetuned results.",
+      "control_baseline_ref": "E036/p1c11_official_libero_goal_drawer_baseline_rollback_4eab579",
+      "updated_at": "2026-04-10T00:44:36+08:00",
+      "result": {
+        "summary_ref": "E045",
+        "alignment_audit_ref": "E046",
+        "cleanup_manifest_ref": "E047"
+      }
+    },
+    {
       "type": "data_provenance_fix",
       "priority": "P0",
       "target": "Fix data provenance collapse",
@@ -153,7 +220,7 @@
       "id": "mujoco_infinigen_mainline_alignment",
       "priority": "P0",
       "target": "Canonicalize true Infinigen URDF + AnyGrasp + MuJoCo alignment against the restored upstream MINT control",
-      "status": "pending",
+      "status": "completed",
       "description": "The scientific mainline is now the true Infinigen URDF + AnyGrasp + MuJoCo line. external/MINT=4eab579 and the official LIBERO drawer baseline remain the benchmark control only. DrawerRobotEnv/PyBullet runners are historical diagnostic context and must not be used as canonical overnight results.",
       "required_conditions": [
         "Control benchmark remains upstream external/MINT=4eab579 with 3/3 success on libero_goal/open_the_middle_drawer_of_the_cabinet",
@@ -168,7 +235,9 @@
         "E033",
         "E034",
         "E036"
-      ]
+      ],
+      "result": "True MuJoCo Infinigen night-runner completed; cleaned success-only dataset trained for 8000 steps, but held-out drawer remained 0/5 -> 0/5.",
+      "updated_at": "2026-04-10T00:44:36+08:00"
     },
     {
       "type": "MINT_PATCH_REGRESSION_ISOLATION",
@@ -420,26 +489,7 @@
       "description": "Update next_actions.json, current_truth.json, evidence/index.json, claims.yaml with new evidence E028-E031 and new claims C_MINT_LM_STATE_INVARIANT and C_MINT_INFERENCE_DESIGN_OPEN."
     }
   ],
-  "generated_at": "2026-04-09T20:56:33+08:00",
-  "verdict": "V59_UPSTREAM_MINT_BASELINE_RESTORED — PATCH_REGRESSION_ISOLATION_NEXT",
-  "next_phase": "v59_MUJOCO_PILOT_PHASE4 — upstream baseline restored; isolate patch regression",
-  "evidence": "E028.yaml, E029.yaml, E030.yaml, E031.yaml, E033.yaml, E034.yaml",
-  "primary_truth_sources": [
-    "artifacts/p1c0_libero_drawer_smoke.json — LIBERO pipeline available",
-    "artifacts/p1c2_libero_drawer_oracle_gate.json — state-space oracle reachable",
-    "artifacts/p1c4_mint_on_libero_drawer.json — stale/nonbaseline pilot result",
-    "artifacts/p1c5_state_semantic_comparison.json — PyBullet-vs-LIBERO state comparison (supporting only)",
-    "sovereign/evidence/E033.yaml — key-remap fix verified",
-    "sovereign/evidence/E034.yaml — forward-pass recheck with real LIBERO observations"
-  ],
-  "guardrails": [
-    "Do not compare p1c4 0% directly to paper-reported LIBERO drawer capability.",
-    "Official baseline repro must use an official suite task, 256x256 images, n_action_steps=4, and the LeRobot LIBERO wrapper.",
-    "E032 is historical and unverified; use E033/E034 for current MINT loading and forward-pass interpretation.",
-    "Do not claim image-only prior or random LM weights as canonical truth."
-  ],
-  "critical_analysis_reference": "sovereign/CAMPAIGN_TRUTH.v58_critical_analysis.generated.md",
-  "phase": "v59_MUJOCO_PILOT_PHASE4 — upstream baseline restored; isolate patch regression",
-  "phase_gate": "MUJOCO_PILOT_UPSTREAM_BASELINE_RESTORED",
-  "authority_note": "Canonical action queue. current_truth.json and generated docs are derived from this file plus claims/evidence/dataset/workspace/model manifests."
+  "generated_at": "2026-04-10T00:44:36+08:00",
+  "recovered_at": "2026-04-10T00:44:36+08:00",
+  "recovery_note": "Recovered from a 0-byte next_actions.json using HEAD plus current_truth.json after MuJoCo mainline completion."
 }

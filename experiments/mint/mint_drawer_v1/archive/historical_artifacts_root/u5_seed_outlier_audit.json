@@ -1,0 +1,140 @@
+{
+  "gate": "u5_seed_outlier_audit",
+  "passed": true,
+  "decision": "upstream_clean",
+  "root_cause": "oracle_handle_heuristic_mismatch",
+  "affected_seeds": [
+    2,
+    10
+  ],
+  "oracle_only_fail_seeds": [
+    2,
+    10
+  ],
+  "failed_all_modalities_seeds": [],
+  "flags": [],
+  "per_seed": [
+    {
+      "seed": 1,
+      "split": "train",
+      "oracle_successes": 6,
+      "anygrasp_successes": 0,
+      "c1_teacher_successes": 5,
+      "c2_teacher_successes": 0
+    },
+    {
+      "seed": 2,
+      "split": "train",
+      "oracle_successes": 0,
+      "anygrasp_successes": 3,
+      "c1_teacher_successes": 0,
+      "c2_teacher_successes": 2
+    },
+    {
+      "seed": 3,
+      "split": "train",
+      "oracle_successes": 4,
+      "anygrasp_successes": 0,
+      "c1_teacher_successes": 5,
+      "c2_teacher_successes": 0
+    },
+    {
+      "seed": 4,
+      "split": "train",
+      "oracle_successes": 3,
+      "anygrasp_successes": 0,
+      "c1_teacher_successes": 0,
+      "c2_teacher_successes": 0
+    },
+    {
+      "seed": 5,
+      "split": "train",
+      "oracle_successes": 5,
+      "anygrasp_successes": 0,
+      "c1_teacher_successes": 4,
+      "c2_teacher_successes": 0
+    },
+    {
+      "seed": 6,
+      "split": "train",
+      "oracle_successes": 2,
+      "anygrasp_successes": 0,
+      "c1_teacher_successes": 0,
+      "c2_teacher_successes": 0
+    },
+    {
+      "seed": 7,
+      "split": "train",
+      "oracle_successes": 3,
+      "anygrasp_successes": 2,
+      "c1_teacher_successes": 0,
+      "c2_teacher_successes": 3
+    },
+    {
+      "seed": 8,
+      "split": "train",
+      "oracle_successes": 3,
+      "anygrasp_successes": 1,
+      "c1_teacher_successes": 0,
+      "c2_teacher_successes": 0
+    },
+    {
+      "seed": 9,
+      "split": "train",
+      "oracle_successes": 5,
+      "anygrasp_successes": 2,
+      "c1_teacher_successes": 5,
+      "c2_teacher_successes": 4
+    },
+    {
+      "seed": 10,
+      "split": "train",
+      "oracle_successes": 0,
+      "anygrasp_successes": 3,
+      "c1_teacher_successes": 0,
+      "c2_teacher_successes": 2
+    },
+    {
+      "seed": 11,
+      "split": "held_out",
+      "oracle_successes": 0,
+      "anygrasp_successes": 0,
+      "c1_teacher_successes": 0,
+      "c2_teacher_successes": 0
+    },
+    {
+      "seed": 12,
+      "split": "held_out",
+      "oracle_successes": 0,
+      "anygrasp_successes": 0,
+      "c1_teacher_successes": 0,
+      "c2_teacher_successes": 0
+    },
+    {
+      "seed": 13,
+      "split": "held_out",
+      "oracle_successes": 0,
+      "anygrasp_successes": 0,
+      "c1_teacher_successes": 0,
+      "c2_teacher_successes": 0
+    },
+    {
+      "seed": 14,
+      "split": "held_out",
+      "oracle_successes": 0,
+      "anygrasp_successes": 0,
+      "c1_teacher_successes": 0,
+      "c2_teacher_successes": 0
+    },
+    {
+      "seed": 15,
+      "split": "held_out",
+      "oracle_successes": 0,
+      "anygrasp_successes": 0,
+      "c1_teacher_successes": 0,
+      "c2_teacher_successes": 0
+    }
+  ],
+  "conclusion_text": "Observed failures are not concentrated in a way that forces an upstream Infinigen explanation.",
+  "timestamp": 1774340295.8817904
+}

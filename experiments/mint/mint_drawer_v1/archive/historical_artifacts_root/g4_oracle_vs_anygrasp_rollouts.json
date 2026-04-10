@@ -1,0 +1,1170 @@
+{
+  "gate": "g4_robot_trajectory",
+  "oracle": {
+    "successful_seed_count": 8,
+    "successful_rollouts": 31,
+    "record_count": 10,
+    "min_successful_seeds": 6,
+    "min_successful_rollouts": 12,
+    "passed": true,
+    "rollout_dir": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g4_rollouts_oracle",
+    "records": [
+      {
+        "passed": true,
+        "successful_attempts": 6,
+        "attempt_count": 6,
+        "attempts": [
+          {
+            "episode_index": 0,
+            "success": true,
+            "steps": 114,
+            "drawer_fraction_final": 0.9160692868987532,
+            "ever_attached": true,
+            "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g4_rollouts_oracle/seed_001_episode_00.npz"
+          },
+          {
+            "episode_index": 1,
+            "success": true,
+            "steps": 83,
+            "drawer_fraction_final": 0.9206297464284976,
+            "ever_attached": true,
+            "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g4_rollouts_oracle/seed_001_episode_01.npz"
+          },
+          {
+            "episode_index": 2,
+            "success": true,
+            "steps": 107,
+            "drawer_fraction_final": 0.9090410579741558,
+            "ever_attached": true,
+            "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g4_rollouts_oracle/seed_001_episode_02.npz"
+          },
+          {
+            "episode_index": 3,
+            "success": true,
+            "steps": 163,
+            "drawer_fraction_final": 0.8993878684134319,
+            "ever_attached": true,
+            "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g4_rollouts_oracle/seed_001_episode_03.npz"
+          },
+          {
+            "episode_index": 4,
+            "success": true,
+            "steps": 93,
+            "drawer_fraction_final": 0.8900440226370357,
+            "ever_attached": true,
+            "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g4_rollouts_oracle/seed_001_episode_04.npz"
+          },
+          {
+            "episode_index": 5,
+            "success": true,
+            "steps": 79,
+            "drawer_fraction_final": 0.8941109586533946,
+            "ever_attached": true,
+            "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g4_rollouts_oracle/seed_001_episode_05.npz"
+          }
+        ],
+        "seed": 1,
+        "selected_score": 0.5802384614944458
+      },
+      {
+        "passed": false,
+        "successful_attempts": 0,
+        "attempt_count": 6,
+        "attempts": [
+          {
+            "episode_index": 0,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 1,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 2,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 3,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 4,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 5,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          }
+        ],
+        "seed": 2,
+        "selected_score": 0.0546005442738533
+      },
+      {
+        "passed": true,
+        "successful_attempts": 4,
+        "attempt_count": 6,
+        "attempts": [
+          {
+            "episode_index": 0,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 1,
+            "success": true,
+            "steps": 149,
+            "drawer_fraction_final": 0.9358850760284201,
+            "ever_attached": true,
+            "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g4_rollouts_oracle/seed_003_episode_01.npz"
+          },
+          {
+            "episode_index": 2,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 3,
+            "success": true,
+            "steps": 155,
+            "drawer_fraction_final": 0.23369214788302198,
+            "ever_attached": true,
+            "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g4_rollouts_oracle/seed_003_episode_03.npz"
+          },
+          {
+            "episode_index": 4,
+            "success": true,
+            "steps": 155,
+            "drawer_fraction_final": 0.5233445687525689,
+            "ever_attached": true,
+            "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g4_rollouts_oracle/seed_003_episode_04.npz"
+          },
+          {
+            "episode_index": 5,
+            "success": true,
+            "steps": 93,
+            "drawer_fraction_final": 0.8947920147373349,
+            "ever_attached": true,
+            "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g4_rollouts_oracle/seed_003_episode_05.npz"
+          }
+        ],
+        "seed": 3,
+        "selected_score": 0.10805801302194595
+      },
+      {
+        "passed": true,
+        "successful_attempts": 3,
+        "attempt_count": 6,
+        "attempts": [
+          {
+            "episode_index": 0,
+            "success": true,
+            "steps": 98,
+            "drawer_fraction_final": 0.9127305689462734,
+            "ever_attached": true,
+            "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g4_rollouts_oracle/seed_004_episode_00.npz"
+          },
+          {
+            "episode_index": 1,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 2,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 3,
+            "success": true,
+            "steps": 127,
+            "drawer_fraction_final": 0.8951290229094448,
+            "ever_attached": true,
+            "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g4_rollouts_oracle/seed_004_episode_03.npz"
+          },
+          {
+            "episode_index": 4,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 5,
+            "success": true,
+            "steps": 93,
+            "drawer_fraction_final": 0.9363835859775749,
+            "ever_attached": true,
+            "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g4_rollouts_oracle/seed_004_episode_05.npz"
+          }
+        ],
+        "seed": 4,
+        "selected_score": 0.509576141834259
+      },
+      {
+        "passed": true,
+        "successful_attempts": 5,
+        "attempt_count": 6,
+        "attempts": [
+          {
+            "episode_index": 0,
+            "success": true,
+            "steps": 120,
+            "drawer_fraction_final": 0.8927673159428704,
+            "ever_attached": true,
+            "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g4_rollouts_oracle/seed_005_episode_00.npz"
+          },
+          {
+            "episode_index": 1,
+            "success": true,
+            "steps": 78,
+            "drawer_fraction_final": 0.901575746689013,
+            "ever_attached": true,
+            "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g4_rollouts_oracle/seed_005_episode_01.npz"
+          },
+          {
+            "episode_index": 2,
+            "success": true,
+            "steps": 153,
+            "drawer_fraction_final": 0.5145978148425217,
+            "ever_attached": true,
+            "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g4_rollouts_oracle/seed_005_episode_02.npz"
+          },
+          {
+            "episode_index": 3,
+            "success": true,
+            "steps": 161,
+            "drawer_fraction_final": 0.9096796088859141,
+            "ever_attached": true,
+            "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g4_rollouts_oracle/seed_005_episode_03.npz"
+          },
+          {
+            "episode_index": 4,
+            "success": true,
+            "steps": 138,
+            "drawer_fraction_final": 0.8941834641248122,
+            "ever_attached": true,
+            "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g4_rollouts_oracle/seed_005_episode_04.npz"
+          },
+          {
+            "episode_index": 5,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          }
+        ],
+        "seed": 5,
+        "selected_score": 0.29652735590934753
+      },
+      {
+        "passed": true,
+        "successful_attempts": 2,
+        "attempt_count": 6,
+        "attempts": [
+          {
+            "episode_index": 0,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 1,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 2,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 3,
+            "success": true,
+            "steps": 78,
+            "drawer_fraction_final": 0.8998395587217423,
+            "ever_attached": true,
+            "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g4_rollouts_oracle/seed_006_episode_03.npz"
+          },
+          {
+            "episode_index": 4,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 5,
+            "success": true,
+            "steps": 79,
+            "drawer_fraction_final": 0.9240856767748244,
+            "ever_attached": true,
+            "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g4_rollouts_oracle/seed_006_episode_05.npz"
+          }
+        ],
+        "seed": 6,
+        "selected_score": 0.2965792417526245
+      },
+      {
+        "passed": true,
+        "successful_attempts": 3,
+        "attempt_count": 6,
+        "attempts": [
+          {
+            "episode_index": 0,
+            "success": true,
+            "steps": 154,
+            "drawer_fraction_final": 0.9135403435858583,
+            "ever_attached": true,
+            "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g4_rollouts_oracle/seed_007_episode_00.npz"
+          },
+          {
+            "episode_index": 1,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 2,
+            "success": true,
+            "steps": 114,
+            "drawer_fraction_final": 0.9159099466862394,
+            "ever_attached": true,
+            "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g4_rollouts_oracle/seed_007_episode_02.npz"
+          },
+          {
+            "episode_index": 3,
+            "success": true,
+            "steps": 156,
+            "drawer_fraction_final": 0.9156649899321031,
+            "ever_attached": true,
+            "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g4_rollouts_oracle/seed_007_episode_03.npz"
+          },
+          {
+            "episode_index": 4,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 5,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          }
+        ],
+        "seed": 7,
+        "selected_score": 0.481132835149765
+      },
+      {
+        "passed": true,
+        "successful_attempts": 3,
+        "attempt_count": 6,
+        "attempts": [
+          {
+            "episode_index": 0,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 1,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 2,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 3,
+            "success": true,
+            "steps": 77,
+            "drawer_fraction_final": 0.9252198319760111,
+            "ever_attached": true,
+            "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g4_rollouts_oracle/seed_008_episode_03.npz"
+          },
+          {
+            "episode_index": 4,
+            "success": true,
+            "steps": 107,
+            "drawer_fraction_final": 0.9055530412028888,
+            "ever_attached": true,
+            "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g4_rollouts_oracle/seed_008_episode_04.npz"
+          },
+          {
+            "episode_index": 5,
+            "success": true,
+            "steps": 93,
+            "drawer_fraction_final": 0.9366448203705124,
+            "ever_attached": true,
+            "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g4_rollouts_oracle/seed_008_episode_05.npz"
+          }
+        ],
+        "seed": 8,
+        "selected_score": 0.20119628310203552
+      },
+      {
+        "passed": true,
+        "successful_attempts": 5,
+        "attempt_count": 6,
+        "attempts": [
+          {
+            "episode_index": 0,
+            "success": true,
+            "steps": 114,
+            "drawer_fraction_final": 0.9020996058879518,
+            "ever_attached": true,
+            "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g4_rollouts_oracle/seed_009_episode_00.npz"
+          },
+          {
+            "episode_index": 1,
+            "success": true,
+            "steps": 79,
+            "drawer_fraction_final": 0.9213344428577043,
+            "ever_attached": true,
+            "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g4_rollouts_oracle/seed_009_episode_01.npz"
+          },
+          {
+            "episode_index": 2,
+            "success": false,
+            "steps": 155,
+            "drawer_fraction_final": 0.745399165672727,
+            "ever_attached": true,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 3,
+            "success": true,
+            "steps": 135,
+            "drawer_fraction_final": 0.9321878445192274,
+            "ever_attached": true,
+            "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g4_rollouts_oracle/seed_009_episode_03.npz"
+          },
+          {
+            "episode_index": 4,
+            "success": true,
+            "steps": 156,
+            "drawer_fraction_final": 0.9250971461830908,
+            "ever_attached": true,
+            "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g4_rollouts_oracle/seed_009_episode_04.npz"
+          },
+          {
+            "episode_index": 5,
+            "success": true,
+            "steps": 121,
+            "drawer_fraction_final": 0.8985430109598267,
+            "ever_attached": true,
+            "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g4_rollouts_oracle/seed_009_episode_05.npz"
+          }
+        ],
+        "seed": 9,
+        "selected_score": 0.11126352101564407
+      },
+      {
+        "passed": false,
+        "successful_attempts": 0,
+        "attempt_count": 6,
+        "attempts": [
+          {
+            "episode_index": 0,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 1,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 2,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 3,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 4,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 5,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          }
+        ],
+        "seed": 10,
+        "selected_score": 0.056712303310632706
+      }
+    ]
+  },
+  "anygrasp": {
+    "successful_seed_count": 5,
+    "successful_rollouts": 11,
+    "record_count": 10,
+    "min_successful_seeds": 4,
+    "min_successful_rollouts": 8,
+    "passed": true,
+    "rollout_dir": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g4_rollouts_anygrasp",
+    "records": [
+      {
+        "passed": false,
+        "successful_attempts": 0,
+        "attempt_count": 6,
+        "attempts": [
+          {
+            "episode_index": 0,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 1,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 2,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 3,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 4,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 5,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          }
+        ],
+        "seed": 1,
+        "selected_score": 0.5802384614944458
+      },
+      {
+        "passed": true,
+        "successful_attempts": 3,
+        "attempt_count": 6,
+        "attempts": [
+          {
+            "episode_index": 0,
+            "success": true,
+            "steps": 114,
+            "drawer_fraction_final": 0.9187568159428818,
+            "ever_attached": true,
+            "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g4_rollouts_anygrasp/seed_002_episode_00.npz"
+          },
+          {
+            "episode_index": 1,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 2,
+            "success": true,
+            "steps": 148,
+            "drawer_fraction_final": 0.934437967867651,
+            "ever_attached": true,
+            "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g4_rollouts_anygrasp/seed_002_episode_02.npz"
+          },
+          {
+            "episode_index": 3,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 4,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 5,
+            "success": true,
+            "steps": 78,
+            "drawer_fraction_final": 0.9258873501106974,
+            "ever_attached": true,
+            "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g4_rollouts_anygrasp/seed_002_episode_05.npz"
+          }
+        ],
+        "seed": 2,
+        "selected_score": 0.0546005442738533
+      },
+      {
+        "passed": false,
+        "successful_attempts": 0,
+        "attempt_count": 6,
+        "attempts": [
+          {
+            "episode_index": 0,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 1,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 2,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 3,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 4,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 5,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          }
+        ],
+        "seed": 3,
+        "selected_score": 0.10805801302194595
+      },
+      {
+        "passed": false,
+        "successful_attempts": 0,
+        "attempt_count": 6,
+        "attempts": [
+          {
+            "episode_index": 0,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 1,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 2,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 3,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 4,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 5,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          }
+        ],
+        "seed": 4,
+        "selected_score": 0.509576141834259
+      },
+      {
+        "passed": false,
+        "successful_attempts": 0,
+        "attempt_count": 6,
+        "attempts": [
+          {
+            "episode_index": 0,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 1,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 2,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 3,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 4,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 5,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          }
+        ],
+        "seed": 5,
+        "selected_score": 0.29652735590934753
+      },
+      {
+        "passed": false,
+        "successful_attempts": 0,
+        "attempt_count": 6,
+        "attempts": [
+          {
+            "episode_index": 0,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 1,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 2,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 3,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 4,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 5,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          }
+        ],
+        "seed": 6,
+        "selected_score": 0.2965792417526245
+      },
+      {
+        "passed": true,
+        "successful_attempts": 2,
+        "attempt_count": 6,
+        "attempts": [
+          {
+            "episode_index": 0,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 1,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 2,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 3,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 4,
+            "success": true,
+            "steps": 106,
+            "drawer_fraction_final": 0.9252166580516761,
+            "ever_attached": true,
+            "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g4_rollouts_anygrasp/seed_007_episode_04.npz"
+          },
+          {
+            "episode_index": 5,
+            "success": true,
+            "steps": 155,
+            "drawer_fraction_final": 0.8991872152774795,
+            "ever_attached": true,
+            "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g4_rollouts_anygrasp/seed_007_episode_05.npz"
+          }
+        ],
+        "seed": 7,
+        "selected_score": 0.481132835149765
+      },
+      {
+        "passed": true,
+        "successful_attempts": 1,
+        "attempt_count": 6,
+        "attempts": [
+          {
+            "episode_index": 0,
+            "success": false,
+            "steps": 152,
+            "drawer_fraction_final": 0.7930971431293132,
+            "ever_attached": true,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 1,
+            "success": false,
+            "steps": 152,
+            "drawer_fraction_final": 0.8172691357036601,
+            "ever_attached": true,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 2,
+            "success": false,
+            "steps": 153,
+            "drawer_fraction_final": 0.861081253220353,
+            "ever_attached": true,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 3,
+            "success": true,
+            "steps": 154,
+            "drawer_fraction_final": 0.788232222551373,
+            "ever_attached": true,
+            "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g4_rollouts_anygrasp/seed_008_episode_03.npz"
+          },
+          {
+            "episode_index": 4,
+            "success": false,
+            "steps": 152,
+            "drawer_fraction_final": 0.7957811660405006,
+            "ever_attached": true,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 5,
+            "success": false,
+            "steps": 151,
+            "drawer_fraction_final": 0.8270282168886302,
+            "ever_attached": true,
+            "rollout_path": null
+          }
+        ],
+        "seed": 8,
+        "selected_score": 0.20119628310203552
+      },
+      {
+        "passed": true,
+        "successful_attempts": 2,
+        "attempt_count": 6,
+        "attempts": [
+          {
+            "episode_index": 0,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 1,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 2,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 3,
+            "success": true,
+            "steps": 93,
+            "drawer_fraction_final": 0.9321878445192274,
+            "ever_attached": true,
+            "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g4_rollouts_anygrasp/seed_009_episode_03.npz"
+          },
+          {
+            "episode_index": 4,
+            "success": true,
+            "steps": 121,
+            "drawer_fraction_final": 0.9250971461830908,
+            "ever_attached": true,
+            "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g4_rollouts_anygrasp/seed_009_episode_04.npz"
+          },
+          {
+            "episode_index": 5,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          }
+        ],
+        "seed": 9,
+        "selected_score": 0.11126352101564407
+      },
+      {
+        "passed": true,
+        "successful_attempts": 3,
+        "attempt_count": 6,
+        "attempts": [
+          {
+            "episode_index": 0,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 1,
+            "success": true,
+            "steps": 128,
+            "drawer_fraction_final": 0.9257403211580733,
+            "ever_attached": true,
+            "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g4_rollouts_anygrasp/seed_010_episode_01.npz"
+          },
+          {
+            "episode_index": 2,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 3,
+            "success": false,
+            "steps": 57,
+            "drawer_fraction_final": 0.0,
+            "ever_attached": false,
+            "rollout_path": null
+          },
+          {
+            "episode_index": 4,
+            "success": true,
+            "steps": 81,
+            "drawer_fraction_final": 0.9319701324356909,
+            "ever_attached": true,
+            "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g4_rollouts_anygrasp/seed_010_episode_04.npz"
+          },
+          {
+            "episode_index": 5,
+            "success": true,
+            "steps": 79,
+            "drawer_fraction_final": 0.9005639360069219,
+            "ever_attached": true,
+            "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g4_rollouts_anygrasp/seed_010_episode_05.npz"
+          }
+        ],
+        "seed": 10,
+        "selected_score": 0.056712303310632706
+      }
+    ]
+  },
+  "learning_source": "oracle_handle",
+  "learning_rollout_dir": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g4_rollouts",
+  "copied_learning_files": 62,
+  "timestamp": 1774271842.3682485,
+  "learning_source_policy": "prefer_oracle_during_root_cause_repair"
+}

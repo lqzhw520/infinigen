@@ -1,0 +1,114 @@
+{
+  "gate": "env_contract_audit",
+  "passed": true,
+  "strict_success_version": "v3_attached_open_contract",
+  "strict_success_config": {
+    "drawer_open_threshold": 0.9,
+    "min_attach_persistence_steps": 3,
+    "max_pre_attach_drawer_motion": 0.3,
+    "min_post_attach_drawer_delta": 0.35,
+    "major_open_threshold": 0.35
+  },
+  "no_attach_max_drawer_delta_threshold": 0.02,
+  "sampled_seeds": [
+    2
+  ],
+  "records": [
+    {
+      "seed": 2,
+      "no_attach_probe": {
+        "phase_records": [
+          {
+            "phase": "approach_open",
+            "steps": 18
+          },
+          {
+            "phase": "close_open",
+            "steps": 18
+          },
+          {
+            "phase": "pull_open",
+            "steps": 18
+          },
+          {
+            "phase": "retreat_open",
+            "steps": 18
+          }
+        ],
+        "strict_metrics": {
+          "strict_success_version": "v3_attached_open_contract",
+          "strict_success_config": {
+            "drawer_open_threshold": 0.9,
+            "min_attach_persistence_steps": 3,
+            "max_pre_attach_drawer_motion": 0.3,
+            "min_post_attach_drawer_delta": 0.35,
+            "major_open_threshold": 0.35
+          },
+          "strict_success": false,
+          "drawer_open": false,
+          "ever_attached": false,
+          "first_attach_step": null,
+          "attach_persistence": 0,
+          "pre_attach_drawer_motion": 0.0,
+          "unattached_drawer_delta_max": 0.0,
+          "attach_drawer_fraction": 0.0,
+          "post_attach_drawer_delta": 0.0,
+          "first_major_open_step": null,
+          "attach_before_major_open": true,
+          "max_drawer_fraction": 0.0
+        },
+        "passed": true
+      },
+      "attach_probe": {
+        "phase_records": [
+          {
+            "phase": "approach",
+            "steps": 18
+          },
+          {
+            "phase": "close",
+            "steps": 18
+          },
+          {
+            "phase": "attach_hold",
+            "steps": 1
+          },
+          {
+            "phase": "pull",
+            "steps": 1
+          },
+          {
+            "phase": "retreat",
+            "steps": 1
+          }
+        ],
+        "strict_metrics": {
+          "strict_success_version": "v3_attached_open_contract",
+          "strict_success_config": {
+            "drawer_open_threshold": 0.9,
+            "min_attach_persistence_steps": 3,
+            "max_pre_attach_drawer_motion": 0.3,
+            "min_post_attach_drawer_delta": 0.35,
+            "major_open_threshold": 0.35
+          },
+          "strict_success": true,
+          "drawer_open": true,
+          "ever_attached": true,
+          "first_attach_step": 22,
+          "attach_persistence": 17,
+          "pre_attach_drawer_motion": 0.0,
+          "unattached_drawer_delta_max": 0.0,
+          "attach_drawer_fraction": 0.016101377084851265,
+          "post_attach_drawer_delta": 0.9838986229151487,
+          "first_major_open_step": 23,
+          "attach_before_major_open": true,
+          "max_drawer_fraction": 1.0
+        },
+        "passed": true
+      },
+      "passed": true
+    }
+  ],
+  "failed_seeds": [],
+  "timestamp": 1774586966.5722117
+}

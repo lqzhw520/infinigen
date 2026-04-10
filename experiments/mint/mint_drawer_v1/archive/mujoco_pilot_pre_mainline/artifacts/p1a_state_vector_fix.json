@@ -1,0 +1,9 @@
+{
+  "gate": "p1a_state_vector_fix",
+  "passed": true,
+  "elapsed_s": 3.9,
+  "stdout": "\n[seed 002]\n  seed=002  gripper_fraction=0.00  state[7]=-0.041664  [OK]\n  seed=002  gripper_fraction=0.20  state[7]=-0.033402  [OK]\n  seed=002  gripper_fraction=0.40  state[7]=-0.024802  [OK]\n  seed=002  gripper_fraction=0.60  state[7]=-0.016202  [OK]\n  seed=002  gripper_fraction=0.80  state[7]=-0.007602  [OK]\n  seed=002  gripper_fraction=1.00  state[7]=+0.000916  [OK]\n\n[seed 005]\n  seed=005  gripper_fraction=0.00  state[7]=-0.041664  [OK]\n  seed=005  gripper_fraction=0.20  state[7]=-0.033402  [OK]\n  seed=005  gripper_fraction=0.40  state[7]=-0.024802  [OK]\n  seed=005  gripper_fraction=0.60  state[7]=-0.016202  [OK]\n  seed=005  gripper_fraction=0.80  state[7]=-0.007602  [OK]\n  seed=005  gripper_fraction=1.00  state[7]=+0.000917  [OK]\n\n[seed 009]\n  seed=009  gripper_fraction=0.00  state[7]=-0.041664  [OK]\n  seed=009  gripper_fraction=0.20  state[7]=-0.033402  [OK]\n  seed=009  gripper_fraction=0.40  state[7]=-0.024802  [OK]\n  seed=009  gripper_fraction=0.60  state[7]=-0.016202  [OK]\n  seed=009  gripper_fraction=0.80  state[7]=-0.007602  [OK]\n  seed=009  gripper_fraction=1.00  state[7]=+0.000916  [OK]\n\n[continuity check]\n\n  Continuity analysis:\n    total samples: 18\n    unique values: 6\n    sample values (sorted): [-0.0417, -0.0334, -0.0248, -0.0162, -0.0076, 0.0009]\n    min=-0.041664  max=0.000917\n    LIBERO range: [-0.042, 0.001]\n    \u2713 Unique count 6 > 2 (continuous mapping confirmed)\n    \u2713 All values within LIBERO range\n    \u2713 Physical ordering OK: open_mean=0.000916 > closed_mean=-0.037533\n\n[SUMMARY]\n  PASSED range checks: 18\n  FAILED range checks: 0\n  Continuous (not binary): YES\n\n[PASS] P1a state[7] continuous LIBERO-aligned gripper joint\n",
+  "stderr": "pybullet build time: Jan 27 2026 16:23:36\n",
+  "returncode": 0,
+  "timestamp": 1775232610.257107
+}

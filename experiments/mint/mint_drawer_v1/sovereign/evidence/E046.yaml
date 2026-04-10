@@ -1,0 +1,8 @@
+evidence_id: E046
+experiment_id: p1g_exact_control_alignment_audit
+type: exact_control_alignment_audit
+timestamp: '2026-04-10T16:51:59+08:00'
+path: experiments/mint/mint_drawer_v1/artifacts/p1g_exact_control_alignment_audit.json
+verified: true
+summary: Exact-control audit showing that current alignment claims are only partially
+  supported; visual/state/action equivalence is still unresolved.

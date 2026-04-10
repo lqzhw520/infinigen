@@ -1,0 +1,11 @@
+episode_index,npz_name,source_min_handle_distance_m,current_min_handle_distance_m,source_current_min_handle_distance_delta_m,source_first_attach_step,teacher_close_step,current_first_near_handle_step,current_attach_step,current_failure_stage,close_before_near_current,source_attached_but_current_never_near,handle_distance_vs_source_error
+3,seed_007_branch2_phase_scaled_ep3.npz,0.0316646583378315,0.056033771485090256,0.02436911314725876,44,44,,,never_near_handle,True,True,0.1995300054550171
+25,seed_008_branch2_phase_scaled_ep0.npz,0.0543111152946949,0.06251408159732819,0.008202966302633286,38,38,,,never_near_handle,True,True,0.05903448909521103
+138,seed_012_branch2_phase_scaled_ep4.npz,0.02330775558948517,0.07838362455368042,0.05507586896419525,34,34,,51,success,True,True,0.0754416361451149
+157,seed_013_branch2_phase_scaled_ep0.npz,0.03215006738901138,0.14601057767868042,0.11386051028966904,41,41,,,never_near_handle,True,True,0.2055443525314331
+158,seed_013_branch2_phase_scaled_ep2.npz,0.047528497874736786,0.03839823231101036,-0.009130265563726425,42,42,92,77,pull_no_open,True,False,0.17244499921798706
+180,seed_014_branch2_phase_scaled_ep1.npz,0.04059518873691559,0.048888444900512695,0.008293256163597107,42,42,126,,near_handle_no_attach,True,False,0.06359723955392838
+181,seed_014_branch2_phase_scaled_ep3.npz,0.024236982688307762,0.0496491938829422,0.025412211194634438,40,40,141,,near_handle_no_attach,True,False,0.12337098270654678
+182,seed_014_branch2_phase_scaled_ep4.npz,0.051185157150030136,0.024997709318995476,-0.02618744783103466,44,43,155,,near_handle_no_attach,True,False,0.15623508393764496
+205,seed_015_branch2_phase_scaled_ep0.npz,0.055948927998542786,0.06718415021896362,0.011235222220420837,42,42,,,never_near_handle,True,True,0.07622195780277252
+209,seed_015_branch2_phase_scaled_ep4.npz,0.026921885088086128,0.04179937392473221,0.01487748883664608,35,35,57,54,attached_no_pull,True,False,0.06082519143819809

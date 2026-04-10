@@ -1,0 +1,367 @@
+{
+  "total": 25,
+  "legal": 0,
+  "illegal": 25,
+  "pass_rate": "0/25",
+  "issue_counts": {
+    "high_action_variance": 25,
+    "phantom_jumps": 25,
+    "gripper_drawer_penetration_risk": 4
+  },
+  "per_file": [
+    {
+      "file": "seed_002_episode_00.npz",
+      "legal": false,
+      "n_frames": 100,
+      "issues": [
+        "high_action_variance:p95=1.1818>0.05m",
+        "phantom_jumps:max_jump=0.5358m>0.05m"
+      ],
+      "metrics": {
+        "p95_delta_l2": 1.1817903518676758,
+        "max_delta_l2": 2.065694808959961,
+        "max_position_jump_m": 0.535784900188446
+      }
+    },
+    {
+      "file": "seed_002_episode_01.npz",
+      "legal": false,
+      "n_frames": 90,
+      "issues": [
+        "high_action_variance:p95=1.1269>0.05m",
+        "phantom_jumps:max_jump=0.5858m>0.05m"
+      ],
+      "metrics": {
+        "p95_delta_l2": 1.1268590927124016,
+        "max_delta_l2": 2.0763187408447266,
+        "max_position_jump_m": 0.5858275890350342
+      }
+    },
+    {
+      "file": "seed_002_episode_02.npz",
+      "legal": false,
+      "n_frames": 102,
+      "issues": [
+        "high_action_variance:p95=0.9628>0.05m",
+        "phantom_jumps:max_jump=0.3630m>0.05m"
+      ],
+      "metrics": {
+        "p95_delta_l2": 0.9628042578697205,
+        "max_delta_l2": 2.087845802307129,
+        "max_position_jump_m": 0.36304616928100586
+      }
+    },
+    {
+      "file": "seed_002_episode_03.npz",
+      "legal": false,
+      "n_frames": 115,
+      "issues": [
+        "high_action_variance:p95=1.1013>0.05m",
+        "phantom_jumps:max_jump=0.4185m>0.05m"
+      ],
+      "metrics": {
+        "p95_delta_l2": 1.1012660562992094,
+        "max_delta_l2": 2.020693063735962,
+        "max_position_jump_m": 0.4184931814670563
+      }
+    },
+    {
+      "file": "seed_002_episode_04.npz",
+      "legal": false,
+      "n_frames": 92,
+      "issues": [
+        "high_action_variance:p95=1.1681>0.05m",
+        "phantom_jumps:max_jump=0.9397m>0.05m"
+      ],
+      "metrics": {
+        "p95_delta_l2": 1.1680906414985657,
+        "max_delta_l2": 2.182636022567749,
+        "max_position_jump_m": 0.9397191405296326
+      }
+    },
+    {
+      "file": "seed_007_episode_00.npz",
+      "legal": false,
+      "n_frames": 87,
+      "issues": [
+        "high_action_variance:p95=1.0834>0.05m",
+        "phantom_jumps:max_jump=0.6177m>0.05m"
+      ],
+      "metrics": {
+        "p95_delta_l2": 1.0834149420261383,
+        "max_delta_l2": 2.1591479778289795,
+        "max_position_jump_m": 0.6176874041557312
+      }
+    },
+    {
+      "file": "seed_007_episode_01.npz",
+      "legal": false,
+      "n_frames": 98,
+      "issues": [
+        "high_action_variance:p95=1.0136>0.05m",
+        "phantom_jumps:max_jump=0.9660m>0.05m"
+      ],
+      "metrics": {
+        "p95_delta_l2": 1.0135818004608141,
+        "max_delta_l2": 2.0763187408447266,
+        "max_position_jump_m": 0.966031551361084
+      }
+    },
+    {
+      "file": "seed_007_episode_02.npz",
+      "legal": false,
+      "n_frames": 97,
+      "issues": [
+        "high_action_variance:p95=1.1740>0.05m",
+        "phantom_jumps:max_jump=0.9721m>0.05m",
+        "gripper_drawer_penetration_risk:1_frames_near_drawer"
+      ],
+      "metrics": {
+        "p95_delta_l2": 1.174045443534851,
+        "max_delta_l2": 2.1605324745178223,
+        "max_position_jump_m": 0.9720690846443176
+      }
+    },
+    {
+      "file": "seed_007_episode_03.npz",
+      "legal": false,
+      "n_frames": 100,
+      "issues": [
+        "high_action_variance:p95=1.4179>0.05m",
+        "phantom_jumps:max_jump=0.9398m>0.05m",
+        "gripper_drawer_penetration_risk:1_frames_near_drawer"
+      ],
+      "metrics": {
+        "p95_delta_l2": 1.4178624510765074,
+        "max_delta_l2": 2.132246494293213,
+        "max_position_jump_m": 0.9398488998413086
+      }
+    },
+    {
+      "file": "seed_007_episode_04.npz",
+      "legal": false,
+      "n_frames": 102,
+      "issues": [
+        "high_action_variance:p95=0.8669>0.05m",
+        "phantom_jumps:max_jump=0.7251m>0.05m"
+      ],
+      "metrics": {
+        "p95_delta_l2": 0.866873562335968,
+        "max_delta_l2": 2.1400325298309326,
+        "max_position_jump_m": 0.7251198291778564
+      }
+    },
+    {
+      "file": "seed_008_episode_00.npz",
+      "legal": false,
+      "n_frames": 77,
+      "issues": [
+        "high_action_variance:p95=1.2793>0.05m",
+        "phantom_jumps:max_jump=0.4919m>0.05m"
+      ],
+      "metrics": {
+        "p95_delta_l2": 1.2793127596378326,
+        "max_delta_l2": 2.064727544784546,
+        "max_position_jump_m": 0.4919162392616272
+      }
+    },
+    {
+      "file": "seed_008_episode_01.npz",
+      "legal": false,
+      "n_frames": 77,
+      "issues": [
+        "high_action_variance:p95=0.9497>0.05m",
+        "phantom_jumps:max_jump=0.4865m>0.05m"
+      ],
+      "metrics": {
+        "p95_delta_l2": 0.949675977230072,
+        "max_delta_l2": 2.173044204711914,
+        "max_position_jump_m": 0.4864560663700104
+      }
+    },
+    {
+      "file": "seed_008_episode_02.npz",
+      "legal": false,
+      "n_frames": 77,
+      "issues": [
+        "high_action_variance:p95=1.0238>0.05m",
+        "phantom_jumps:max_jump=0.2055m>0.05m"
+      ],
+      "metrics": {
+        "p95_delta_l2": 1.0238098353147507,
+        "max_delta_l2": 2.0458784103393555,
+        "max_position_jump_m": 0.20545680820941925
+      }
+    },
+    {
+      "file": "seed_008_episode_03.npz",
+      "legal": false,
+      "n_frames": 115,
+      "issues": [
+        "high_action_variance:p95=1.0042>0.05m",
+        "phantom_jumps:max_jump=0.5095m>0.05m"
+      ],
+      "metrics": {
+        "p95_delta_l2": 1.0042175769805906,
+        "max_delta_l2": 2.0763187408447266,
+        "max_position_jump_m": 0.5094652771949768
+      }
+    },
+    {
+      "file": "seed_008_episode_04.npz",
+      "legal": false,
+      "n_frames": 107,
+      "issues": [
+        "high_action_variance:p95=1.1962>0.05m",
+        "phantom_jumps:max_jump=0.5351m>0.05m"
+      ],
+      "metrics": {
+        "p95_delta_l2": 1.1962423622608185,
+        "max_delta_l2": 2.0590572357177734,
+        "max_position_jump_m": 0.5350549817085266
+      }
+    },
+    {
+      "file": "seed_009_episode_00.npz",
+      "legal": false,
+      "n_frames": 114,
+      "issues": [
+        "high_action_variance:p95=0.9657>0.05m",
+        "phantom_jumps:max_jump=0.8911m>0.05m"
+      ],
+      "metrics": {
+        "p95_delta_l2": 0.9656713485717758,
+        "max_delta_l2": 2.0,
+        "max_position_jump_m": 0.8910632729530334
+      }
+    },
+    {
+      "file": "seed_009_episode_01.npz",
+      "legal": false,
+      "n_frames": 98,
+      "issues": [
+        "high_action_variance:p95=1.1643>0.05m",
+        "phantom_jumps:max_jump=0.8407m>0.05m",
+        "gripper_drawer_penetration_risk:1_frames_near_drawer"
+      ],
+      "metrics": {
+        "p95_delta_l2": 1.1642704010009763,
+        "max_delta_l2": 2.087845802307129,
+        "max_position_jump_m": 0.8407131433486938
+      }
+    },
+    {
+      "file": "seed_009_episode_02.npz",
+      "legal": false,
+      "n_frames": 74,
+      "issues": [
+        "high_action_variance:p95=1.1939>0.05m",
+        "phantom_jumps:max_jump=0.8352m>0.05m"
+      ],
+      "metrics": {
+        "p95_delta_l2": 1.1938535928726175,
+        "max_delta_l2": 2.0763187408447266,
+        "max_position_jump_m": 0.8351917862892151
+      }
+    },
+    {
+      "file": "seed_009_episode_03.npz",
+      "legal": false,
+      "n_frames": 99,
+      "issues": [
+        "high_action_variance:p95=0.9950>0.05m",
+        "phantom_jumps:max_jump=0.5360m>0.05m"
+      ],
+      "metrics": {
+        "p95_delta_l2": 0.9950482070446011,
+        "max_delta_l2": 2.0763187408447266,
+        "max_position_jump_m": 0.5360246300697327
+      }
+    },
+    {
+      "file": "seed_009_episode_04.npz",
+      "legal": false,
+      "n_frames": 116,
+      "issues": [
+        "high_action_variance:p95=0.9533>0.05m",
+        "phantom_jumps:max_jump=1.1124m>0.05m"
+      ],
+      "metrics": {
+        "p95_delta_l2": 0.9533105313777923,
+        "max_delta_l2": 2.0285956859588623,
+        "max_position_jump_m": 1.1124365329742432
+      }
+    },
+    {
+      "file": "seed_010_episode_00.npz",
+      "legal": false,
+      "n_frames": 76,
+      "issues": [
+        "high_action_variance:p95=1.4075>0.05m",
+        "phantom_jumps:max_jump=0.5447m>0.05m"
+      ],
+      "metrics": {
+        "p95_delta_l2": 1.4074572682380677,
+        "max_delta_l2": 2.0650861263275146,
+        "max_position_jump_m": 0.544689953327179
+      }
+    },
+    {
+      "file": "seed_010_episode_01.npz",
+      "legal": false,
+      "n_frames": 97,
+      "issues": [
+        "high_action_variance:p95=1.1815>0.05m",
+        "phantom_jumps:max_jump=0.7085m>0.05m",
+        "gripper_drawer_penetration_risk:1_frames_near_drawer"
+      ],
+      "metrics": {
+        "p95_delta_l2": 1.181542307138443,
+        "max_delta_l2": 2.1540181636810303,
+        "max_position_jump_m": 0.7084898948669434
+      }
+    },
+    {
+      "file": "seed_010_episode_02.npz",
+      "legal": false,
+      "n_frames": 68,
+      "issues": [
+        "high_action_variance:p95=1.1981>0.05m",
+        "phantom_jumps:max_jump=0.5439m>0.05m"
+      ],
+      "metrics": {
+        "p95_delta_l2": 1.1980808734893797,
+        "max_delta_l2": 2.1575419902801514,
+        "max_position_jump_m": 0.5439015030860901
+      }
+    },
+    {
+      "file": "seed_010_episode_03.npz",
+      "legal": false,
+      "n_frames": 82,
+      "issues": [
+        "high_action_variance:p95=1.2066>0.05m",
+        "phantom_jumps:max_jump=0.9437m>0.05m"
+      ],
+      "metrics": {
+        "p95_delta_l2": 1.2066254615783691,
+        "max_delta_l2": 2.064727544784546,
+        "max_position_jump_m": 0.9437499642372131
+      }
+    },
+    {
+      "file": "seed_010_episode_04.npz",
+      "legal": false,
+      "n_frames": 80,
+      "issues": [
+        "high_action_variance:p95=1.2452>0.05m",
+        "phantom_jumps:max_jump=0.5635m>0.05m"
+      ],
+      "metrics": {
+        "p95_delta_l2": 1.2452180266380306,
+        "max_delta_l2": 2.070162296295166,
+        "max_position_jump_m": 0.5635440349578857
+      }
+    }
+  ]
+}

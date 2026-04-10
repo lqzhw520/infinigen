@@ -1,0 +1,65 @@
+{
+  "seed": 10,
+  "episode_index": 4,
+  "success": true,
+  "steps": 96,
+  "task": "open the drawer",
+  "grasp_source": "anygrasp",
+  "grasp_score": 0.056712303310632706,
+  "ever_attached": true,
+  "final_drawer_fraction": 0.9999897557660851,
+  "max_drawer_fraction": 1.0,
+  "pregrasp_pose": {
+    "pos": [
+      -0.1256611943244934,
+      -0.16982513666152954,
+      0.07299189269542694
+    ],
+    "quat": [
+      0.3616144061088562,
+      0.238840252161026,
+      0.42103058099746704,
+      0.7968209385871887
+    ]
+  },
+  "grasp_pose": {
+    "pos": [
+      -0.12249346077442169,
+      -0.06982514262199402,
+      0.03239614516496658
+    ],
+    "quat": [
+      0.3616144061088562,
+      0.238840252161026,
+      0.42103058099746704,
+      0.7968209385871887
+    ]
+  },
+  "retreat_pose": {
+    "pos": [
+      -0.12407732754945755,
+      -0.23857481777668,
+      0.08269402384757996
+    ],
+    "quat": [
+      0.3616144061088562,
+      0.238840252161026,
+      0.42103058099746704,
+      0.7968209385871887
+    ]
+  },
+  "pull_fraction_target": 0.9319701194763184,
+  "branch_id": "branch4_densified_attach_window",
+  "action_contract": {
+    "action_frame": "world",
+    "translation_scale_m": 0.03,
+    "rotation_scale_rad": 0.25,
+    "attach_threshold_m": 0.15
+  },
+  "derived_from": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/strict_teacher_rollouts/seed_010_episode_04.npz",
+  "derivation": "phase_window",
+  "phase_window": [
+    57,
+    96
+  ]
+}

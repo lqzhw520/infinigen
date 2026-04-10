@@ -1,0 +1,12 @@
+{
+  "gate": "g4_robot_trajectory",
+  "passed": true,
+  "oracle_successful_seed_count": 8,
+  "oracle_successful_rollouts": 31,
+  "anygrasp_successful_seed_count": 5,
+  "anygrasp_successful_rollouts": 11,
+  "learning_source": "oracle_handle",
+  "rollout_dir": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g4_rollouts",
+  "copied_learning_files": 62,
+  "timestamp": 1774271842.3682485
+}

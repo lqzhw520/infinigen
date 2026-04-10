@@ -1,26 +1,24 @@
 evidence_id: E030
 experiment_id: p1c4_mint_on_libero
 type: eval
-timestamp: 2026-04-07T23:03:46+08:00
-path: experiments/mint/mint_drawer_v1/artifacts/p1c4_mint_on_libero_drawer.json
+timestamp: 2026-04-07 23:03:46+08:00
+path: experiments/mint/mint_drawer_v1/archive/historical_artifacts_root/p1c4_mint_on_libero_drawer.json
 verified: true
+summary: 'MINT on LIBERO drawer: 0% success for both raw_joint_pos and pi_minus_joint_pos.
+  Action L2 dominated by gripper=-1. Result INCONCLUSIVE due to pipeline cleanliness
+  issues. CANNOT be used to conclude MINT model capability.
 
-summary: >
-  MINT on LIBERO drawer: 0% success for both raw_joint_pos and pi_minus_joint_pos.
-  Action L2 dominated by gripper=-1. Result INCONCLUSIVE due to pipeline cleanliness issues.
-  CANNOT be used to conclude MINT model capability.
-
+  '
 verification_details:
   checkpoint: external/MINT/checkpoints/MINT-libero
   benchmark: libero_90
   task: KITCHEN_SCENE1_open_the_bottom_drawer_of_the_cabinet
-  image_size: 224  # MISMATCH: checkpoint expects 256x256
+  image_size: 224
   state_modes_tested:
-    - raw_joint_pos
-    - pi_minus_joint_pos
+  - raw_joint_pos
+  - pi_minus_joint_pos
   episodes_per_mode: 3
   max_steps: 96
-
 aggregate_results:
   raw_joint_pos:
     success_rate: 0.0
@@ -32,36 +30,37 @@ aggregate_results:
     mean_final_drawer_fraction: 0.0588
     mean_max_drawer_fraction: 0.0588
     mean_action_l2: 1.001
-
 action_pattern_analysis:
   dominant_action_component: gripper=-1.0
   translation_magnitude: ~0.04 (tiny, <5% of [-0.94,+0.94] range)
   rotation_magnitude: ~0.01 (tiny)
   action_variance_across_episodes: near-zero for translation/rotation
-  interpretation: "Policy outputs near-constant gripper-close with minimal motion. Consistent with image-only prior behavior."
-
+  interpretation: Policy outputs near-constant gripper-close with minimal motion.
+    Consistent with image-only prior behavior.
 pipeline_issues:
-  - image_size: "224 vs 256x256 (checkpoint expects 256)"
-  - task_text: "not verified against LIBERO task.language field"
-  - state_normalization: "QUANTILES from checkpoint loaded correctly; no dataset_stats injection needed"
-  - 165_missing_LM_keys: "embed_tokens + 27 layers Q/K/V/O + norms — LM weights may be randomly initialized"
-  - action_invariant: "confirmed in E032: zero_state vs GT-mean_state give nearly identical actions"
-
+- image_size: 224 vs 256x256 (checkpoint expects 256)
+- task_text: not verified against LIBERO task.language field
+- state_normalization: QUANTILES from checkpoint loaded correctly; no dataset_stats
+    injection needed
+- 165_missing_LM_keys: embed_tokens + 27 layers Q/K/V/O + norms — LM weights may be
+    randomly initialized
+- action_invariant: 'confirmed in E032: zero_state vs GT-mean_state give nearly identical
+    actions'
 verdict: INCONCLUSIVE — pipeline clean required
-conclusion: >
-  MINT achieves 0% drawer success in LIBERO. However, the pipeline has multiple cleanliness issues
-  that prevent this from being a valid model capability assessment. The action pattern (constant
-  gripper=-1, minimal translation) is consistent with MINT operating as an image-only VQ-VAE prior
-  rather than a state-conditional policy. This result should be interpreted as "current inference
-  pipeline gives state-invariant actions" rather than "MINT model cannot do drawer task."
+conclusion: 'MINT achieves 0% drawer success in LIBERO. However, the pipeline has
+  multiple cleanliness issues that prevent this from being a valid model capability
+  assessment. The action pattern (constant gripper=-1, minimal translation) is consistent
+  with MINT operating as an image-only VQ-VAE prior rather than a state-conditional
+  policy. This result should be interpreted as "current inference pipeline gives state-invariant
+  actions" rather than "MINT model cannot do drawer task."
 
+  '
 DOES_PROVE:
-  - "With current inference pipeline, MINT on LIBERO drawer = 0%"
+- With current inference pipeline, MINT on LIBERO drawer = 0%
 DOES_NOT_PROVE:
-  - "MINT model capability"
-  - "MINT pretraining quality"
-  - "LIBERO task unsolvable by MINT"
-
+- MINT model capability
+- MINT pretraining quality
+- LIBERO task unsolvable by MINT
 scope: mujoco_pilot_mint_baseline_inconclusive
 confidence: low_as_model_conclusion
 pipeline_valid: false

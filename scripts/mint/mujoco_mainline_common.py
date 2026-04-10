@@ -163,6 +163,17 @@ def _upsert_next_action(actions: list[dict[str, Any]], item: dict[str, Any]) -> 
     return out
 
 
+def _retire_stale_mainline_actions(actions: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    out = []
+    for existing in actions:
+        updated = deepcopy(existing)
+        if updated.get("type") in {"MUJOCO_MAINLINE_STAGE_FIX", "MUJOCO_MAINLINE_RESULT_REVIEW"} and updated.get("status") in {"pending", "running", "blocked"}:
+            updated["status"] = "superseded"
+            updated["superseded_at"] = now_iso()
+        out.append(updated)
+    return out
+
+
 def sync_sovereign_running(stage: str, status: dict[str, Any]) -> None:
     current_truth = load_json(CURRENT_TRUTH_PATH, {})
     next_actions = load_json(NEXT_ACTIONS_PATH, {})
@@ -181,7 +192,7 @@ def sync_sovereign_running(stage: str, status: dict[str, Any]) -> None:
     current_truth["current"] = current
     write_json_atomic(CURRENT_TRUTH_PATH, current_truth)
 
-    actions = next_actions.get("actions", [])
+    actions = _retire_stale_mainline_actions(next_actions.get("actions", []))
     next_actions["actions"] = _upsert_next_action(
         actions,
         {
@@ -224,7 +235,7 @@ def sync_sovereign_failure(stage: str, reason: str, status: dict[str, Any]) -> N
     current_truth["current"] = current
     write_json_atomic(CURRENT_TRUTH_PATH, current_truth)
 
-    actions = next_actions.get("actions", [])
+    actions = _retire_stale_mainline_actions(next_actions.get("actions", []))
     actions = _upsert_next_action(actions, current["next_action"])
     actions = _upsert_next_action(
         actions,
@@ -263,7 +274,7 @@ def sync_sovereign_success(final_stage: str, status: dict[str, Any], summary_not
     current_truth["current"] = current
     write_json_atomic(CURRENT_TRUTH_PATH, current_truth)
 
-    actions = next_actions.get("actions", [])
+    actions = _retire_stale_mainline_actions(next_actions.get("actions", []))
     actions = _upsert_next_action(actions, current["next_action"])
     actions = _upsert_next_action(
         actions,

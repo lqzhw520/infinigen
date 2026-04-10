@@ -1,0 +1,14 @@
+{
+  "eval": "v59_overfit_action_eval",
+  "n_frames": 400,
+  "pretrained_rmse": 0.30805624700151385,
+  "finetuned_rmse": 0.1486652846884681,
+  "rmse_improvement_pct": 51.74086351583141,
+  "pretrained_gripper_mae": 1.1158602826297284,
+  "finetuned_gripper_mae": 0.24533742487430574,
+  "gripper_improvement_pct": 78.01360719676093,
+  "loss_step0": 6.52,
+  "loss_step200": 3.741,
+  "loss_reduction_pct": 42.7,
+  "timestamp": 1775380249.037634
+}

@@ -3,7 +3,7 @@ experiment_id: physics_legality_audit
 type: data_audit
 timestamp: "2026-04-03T06:00:00+08:00"
 command: "python scripts/mint/physics_legality.py audit-npz ..."
-artifact_path: "experiments/mint/mint_drawer_v1/outputs/physics_audit.json"
+artifact_path: "experiments/mint/mint_drawer_v1/archive/historical_outputs_root/physics_audit.json"
 scope: v58_teacher_data_pipeline
 related_claim_ids:
   - C_PHYSICS_LEGAL_TEACHER

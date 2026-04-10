@@ -1,0 +1,6 @@
+{
+  "stage": "p1d_alignment_night",
+  "status": "invalidated",
+  "reason": "Wrong backend for the canonical mainline: PyBullet historical proxy line was used instead of the MuJoCo Infinigen mainline.",
+  "canonical_replacement": "mujoco_infinigen_mainline_alignment"
+}

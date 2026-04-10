@@ -3,7 +3,7 @@ experiment_id: qa_offline_metrics_comparison
 type: data_audit
 timestamp: "2026-04-03T06:00:00+08:00"
 command: "python scripts/mint/dataset_qa_lerobot_fingerprint.py --mode compare ..."
-artifact_path: "experiments/mint/mint_drawer_v1/outputs/qa_comparison.json"
+artifact_path: "experiments/mint/mint_drawer_v1/archive/historical_outputs_root/qa_comparison.json"
 scope: v58_offline_qa
 related_claim_ids:
   - C_PHYSICS_LEGAL_TEACHER

@@ -1,0 +1,61 @@
+{
+  "generated_at": 1774878439.6606803,
+  "controller_id": "d1_v57",
+  "run_id": "d1_v57_main",
+  "d1_stage_policy": {
+    "stage_a_variants": [
+      "multi_episode_overfit"
+    ],
+    "stage_b_variants": [
+      "phase_balanced_overfit"
+    ],
+    "candidate_screen": "run base_overfit on both mainline candidates, then continue only the better candidate"
+  },
+  "strict_teacher_audit_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/strict_teacher_dataset_audit.json",
+  "mainline_candidates": [
+    {
+      "seed": 2,
+      "episode": 1,
+      "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_002_episode_01.npz",
+      "grasp_steps": 1,
+      "hold_close_steps": 10,
+      "pull_steps": 12,
+      "attach_persistence": 23,
+      "handle_distance_min": 0.029375817626714706,
+      "pre_attach_drawer_motion": 0.019196324050426483,
+      "strict_success": true,
+      "historical_d1": null
+    },
+    {
+      "seed": 2,
+      "episode": 4,
+      "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_002_episode_04.npz",
+      "grasp_steps": 2,
+      "hold_close_steps": 10,
+      "pull_steps": 17,
+      "attach_persistence": 28,
+      "handle_distance_min": 0.042213305830955505,
+      "pre_attach_drawer_motion": 0.0009242110536433756,
+      "strict_success": true,
+      "historical_d1": null
+    },
+    {
+      "seed": 2,
+      "episode": 2,
+      "rollout_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts/seed_002_episode_02.npz",
+      "grasp_steps": 1,
+      "hold_close_steps": 10,
+      "pull_steps": 28,
+      "attach_persistence": 39,
+      "handle_distance_min": 0.04457671195268631,
+      "pre_attach_drawer_motion": 0.0056523531675338745,
+      "strict_success": true,
+      "historical_d1": null
+    }
+  ],
+  "previous_d2_summary": {
+    "passed": false,
+    "selected_seed": 10,
+    "source_rollout_count": null
+  }
+}

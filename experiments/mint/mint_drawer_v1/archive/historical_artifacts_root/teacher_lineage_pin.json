@@ -1,0 +1,10 @@
+{
+  "label": "clean_rebuild_v2",
+  "reason": "Resolution plan v2: released archived_seed10_positive_lineage pin. Source is now clean c2_replay_valid_rollouts/ with 25 rollouts across seeds 2,7,8,9,10.",
+  "source_dir": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/c2_replay_valid_rollouts",
+  "mainline_candidate_override": null,
+  "diagnostic_candidate_override": null,
+  "allow_legacy_contract_metadata": false,
+  "d2_subset_override": null,
+  "created_at": "2026-03-27T15:00:00+08:00"
+}

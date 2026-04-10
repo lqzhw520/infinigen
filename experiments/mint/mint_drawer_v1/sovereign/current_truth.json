@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-04-09T21:46:00+08:00",
+  "generated_at": "2026-04-10T16:51:59+08:00",
   "campaign": {
     "id": "mint_drawer_v1",
     "root": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1"
@@ -27,86 +27,107 @@
     ]
   },
   "current": {
-    "phase": "v59_MUJOCO_MAINLINE_PHASE5 — upstream control fixed; true Infinigen MuJoCo alignment is canonical",
-    "phase_gate": "MUJOCO_MAINLINE_AUTHORITY_RESET",
+    "phase": "v59_MUJOCO_MAINLINE_PHASE7 — exact-control alignment audit and working-set cleanup completed",
+    "phase_gate": "p1g_exact_control_alignment_audit",
     "verdict": "V59_OFFICIAL_CONTROL_RESTORED — TRUE_INFINIGEN_MUJOCO_MAINLINE_NEXT",
     "decision": "V59_OFFICIAL_CONTROL_RESTORED — TRUE_INFINIGEN_MUJOCO_MAINLINE_NEXT",
     "next_action": {
-      "type": "MUJOCO_INFINIGEN_MAINLINE_ALIGNMENT",
-      "id": "mujoco_infinigen_mainline_alignment",
+      "type": "MUJOCO_ALIGNMENT_EXPANSION",
+      "id": "capture_exact_control_trace_and_expand_success_seeds",
       "priority": "P0",
-      "target": "Align the true Infinigen URDF + AnyGrasp + MuJoCo line against the restored upstream MINT control",
+      "target": "Capture exact successful control traces and expand successful MuJoCo train seed coverage before the next fine-tune",
       "status": "pending",
-      "description": "Use external/MINT=4eab579 and the official LIBERO drawer baseline only as the control benchmark, then wire training/evaluation through the true Infinigen URDF + AnyGrasp + MuJoCo path. DrawerRobotEnv/PyBullet is historical diagnostic context only and must not drive canonical night runs.",
-      "fixed_conditions": [
-        "Official upstream control remains external/MINT=4eab579 with proven 3/3 drawer success on libero_goal/open_the_middle_drawer_of_the_cabinet",
-        "Canonical mainline backend is MuJoCo-backed, not DrawerRobotEnv/PyBullet-backed",
-        "Any detached runner must declare its backend and fail preflight if it imports DrawerRobotEnv while MuJoCo mainline is active",
-        "Patch regression isolation remains engineering hygiene only and must not preempt the MuJoCo mainline"
-      ],
-      "evidence": [
-        "E028",
-        "E029",
-        "E030",
-        "E031",
-        "E033",
-        "E034",
-        "E036"
-      ]
+      "description": "p1g shows task-text/resolution alignment is direct, but exact control state/action equivalence is still missing and the current train set is only 5 successful seeds repeated 10x.",
+      "control_baseline_ref": "E036/p1c11_official_libero_goal_drawer_baseline_rollback_4eab579",
+      "alignment_audit_ref": "E046/p1g_exact_control_alignment_audit",
+      "cleanup_manifest_ref": "E047/p1h_working_set_cleanup_manifest",
+      "updated_at": "2026-04-10T16:51:59+08:00"
     },
     "open_gates": [
       {
-        "type": "MUJOCO_INFINIGEN_MAINLINE_ALIGNMENT",
-        "id": "mujoco_infinigen_true_env_gate",
+        "type": "MUJOCO_ALIGNMENT_EXPANSION",
+        "id": "capture_exact_control_trace_and_expand_success_seeds",
         "priority": "P0",
-        "target": "Verify that the scientific mainline uses the true Infinigen URDF + AnyGrasp + MuJoCo path rather than the historical PyBullet proxy line",
+        "target": "Capture exact successful control traces and expand successful MuJoCo train seed coverage before the next fine-tune",
         "status": "pending",
-        "description": "Canonical next work is the MuJoCo mainline: true Infinigen asset/backend wiring, AnyGrasp-conditioned data alignment, and MINT train/eval on that line. Historical PyBullet replayability gates remain archived context but are not canonical open gates.",
-        "required_outputs": [
-          "MuJoCo-backed Infinigen env/training/eval path (not PyBullet shim)",
-          "Explicit benchmark linkage to upstream 4eab579 control",
-          "Night-runner preflight that blocks PyBullet runners when MuJoCo mainline is active"
-        ],
-        "depends_on": [
-          "libero_goal_drawer_official_baseline_repro"
-        ]
+        "description": "p1g shows task-text/resolution alignment is direct, but exact control state/action equivalence is still missing and the current train set is only 5 successful seeds repeated 10x.",
+        "control_baseline_ref": "E036/p1c11_official_libero_goal_drawer_baseline_rollback_4eab579",
+        "alignment_audit_ref": "E046/p1g_exact_control_alignment_audit",
+        "cleanup_manifest_ref": "E047/p1h_working_set_cleanup_manifest",
+        "updated_at": "2026-04-10T16:51:59+08:00"
       }
     ],
     "blockers": [
-      "True Infinigen URDF + AnyGrasp + MuJoCo train/eval wiring is not yet the canonical executed runner in-repo."
+      "Exact successful control state/action traces are still unavailable for one-to-one comparison against the MuJoCo/Infinigen training surface.",
+      "Current learning set covers only 5 successful train seeds, repeated 10x; diversity is still too low for a strong adaptation claim.",
+      "Visual encoder compatibility is supported only by pixel-level heuristics; no encoder-level feature matching has been measured yet."
     ],
     "stale_docs": [
-      "Historical Gate B / DrawerRobotEnv / PyBullet surfaces remain on disk and must not be used as canonical next actions."
+      "p1e task_text_gap is superseded by p1g exact-control audit.",
+      "Historical artifacts/outputs are archived under archive/ and should not be used as the current working set."
     ],
     "authority_notes": [
       "current_truth.json is derived from Tier-0/Tier-1 only.",
       "Derived docs are convenience surfaces and must not override canonical files.",
       "Scientific conclusions attach to the current external/MINT head recorded here; patched variants must be evaluated separately from the restored upstream control.",
       "If the user or active plan declares MuJoCo as the scientific mainline, sovereign must be updated before launching any detached runner.",
-      "While this phase is active, any DrawerRobotEnv/PyBullet runner is historical-only and invalid for canonical mainline results."
-    ]
+      "While this phase is active, any DrawerRobotEnv/PyBullet runner is historical-only and invalid for canonical mainline results.",
+      "Use E045/E046/E047 as the canonical review surface for the completed MuJoCo mainline run.",
+      "Use E045/E046/E047 as the canonical review surface for the completed MuJoCo mainline run."
+    ],
+    "review_surfaces": [
+      {
+        "evidence_id": "E045",
+        "path": "experiments/mint/mint_drawer_v1/artifacts/p1f_mainline_alignment_cleanup_report.json",
+        "role": "run_summary"
+      },
+      {
+        "evidence_id": "E046",
+        "path": "experiments/mint/mint_drawer_v1/artifacts/p1g_exact_control_alignment_audit.json",
+        "role": "exact_control_alignment_audit"
+      },
+      {
+        "evidence_id": "E047",
+        "path": "experiments/mint/mint_drawer_v1/artifacts/p1h_working_set_manifest.json",
+        "role": "working_set_manifest"
+      }
+    ],
+    "canonical_readable_reports": [
+      "experiments/mint/mint_drawer_v1/outputs/p1f_mainline_alignment_cleanup_report.md",
+      "experiments/mint/mint_drawer_v1/outputs/p1g_exact_control_alignment_audit.md",
+      "experiments/mint/mint_drawer_v1/outputs/p1h_working_set_manifest.md",
+      "experiments/mint/mint_drawer_v1/outputs/p1i_infinigen_mint_alignment_solution_plan.md"
+    ],
+    "generated_at": "2026-04-10T16:51:02+08:00"
   },
   "dataset": {
-    "manifest_version": 1,
-    "dataset_version": "v59_20260405",
-    "created_at": "2026-04-05T00:00:00+0000",
-    "producer_script": "scripts/harness/pack_dataset.sh (seeded from v58)",
-    "pack_result_json": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v58_lerobot_pack.json",
-    "pack_log": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v59_lerobot_pack.log",
+    "manifest_version": 2,
+    "dataset_version": "mujoco_mainline_20260410",
+    "created_at": "2026-04-10T16:51:59+08:00",
+    "producer_script": "scripts/mint/run_mujoco_infinigen_mainline_night.py:m5_dataset_pack_gate",
+    "pack_result_json": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/m5_dataset_pack_gate.json",
     "source_dirs": [
-      "artifacts/v58_physics_legal_rollouts/",
-      "artifacts/p4_physics_legal_rollouts/"
+      "artifacts/m4_rollouts_learning_mujoco/"
     ],
-    "source_rollout_count": 240,
-    "episode_count": 240,
-    "frame_count": 19701,
-    "info_sha": "7390fad7bb8eb283",
+    "source_rollout_count": 50,
+    "episode_count": 50,
+    "frame_count": 500,
     "dataset_loads": true,
-    "dataset_length": 19701,
+    "dataset_length": 500,
     "image_shape": "(256, 256, 3)",
     "state_shape": "(8,)",
     "action_shape": "(7,)",
-    "git_commit": "ef06962130fd"
+    "task_coverage": [
+      "open the middle drawer of the cabinet"
+    ],
+    "seed_coverage": [
+      1,
+      5,
+      6,
+      8,
+      10
+    ],
+    "learning_source": "oracle_handle"
   },
   "workspace": {
     "schema_version": 1,
@@ -121,8 +142,53 @@
       "upstream": "my-origin/feature/mint-integration",
       "ahead": 0,
       "behind": 3,
-      "dirty": false,
-      "dirty_files": [],
+      "dirty": true,
+      "dirty_files": [
+        " D experiments/mint/mint_drawer_v1/CAMPAIGN_TRUTH.md",
+        " D experiments/mint/mint_drawer_v1/D1_ADVISOR_REPORT.md",
+        " D experiments/mint/mint_drawer_v1/HARNESS_PHASE1_REPORT.md",
+        " D experiments/mint/mint_drawer_v1/HARNESS_PHASE2_REPORT.md",
+        " D experiments/mint/mint_drawer_v1/HARNESS_ROLLOUT_STATUS.md",
+        " D experiments/mint/mint_drawer_v1/HARNESS_SPEC.md",
+        " D experiments/mint/mint_drawer_v1/RESOLUTION_PLAN.md",
+        " D experiments/mint/mint_drawer_v1/acceptance_criteria.json",
+        " D experiments/mint/mint_drawer_v1/artifacts/g1_asset_load.json",
+        " D experiments/mint/mint_drawer_v1/artifacts/g2_obs_contract.json",
+        " D experiments/mint/mint_drawer_v1/artifacts/g5_delta_reconstruction.json",
+        " D experiments/mint/mint_drawer_v1/artifacts/strong_rollout_audit.json",
+        " D experiments/mint/mint_drawer_v1/campaign_spec.md",
+        " D experiments/mint/mint_drawer_v1/campaign_status.md",
+        " D experiments/mint/mint_drawer_v1/decision_memo.md",
+        " D experiments/mint/mint_drawer_v1/findings.md",
+        " D experiments/mint/mint_drawer_v1/progress.md",
+        " D experiments/mint/mint_drawer_v1/review.json",
+        " D experiments/mint/mint_drawer_v1/review_prompt.md",
+        " M experiments/mint/mint_drawer_v1/sovereign/current_truth.json",
+        " M experiments/mint/mint_drawer_v1/sovereign/evidence/E008.yaml",
+        " M experiments/mint/mint_drawer_v1/sovereign/evidence/E009.yaml",
+        " M experiments/mint/mint_drawer_v1/sovereign/evidence/E028.yaml",
+        " M experiments/mint/mint_drawer_v1/sovereign/evidence/E029.yaml",
+        " M experiments/mint/mint_drawer_v1/sovereign/evidence/E030.yaml",
+        " M experiments/mint/mint_drawer_v1/sovereign/evidence/E031.yaml",
+        " M experiments/mint/mint_drawer_v1/sovereign/evidence/index.json",
+        " M experiments/mint/mint_drawer_v1/sovereign/next_actions.json",
+        " D experiments/mint/mint_drawer_v1/step_review_guide.md",
+        " D experiments/mint/mint_drawer_v1/summary.json",
+        " D experiments/mint/mint_drawer_v1/takeover_memo.md",
+        " M scripts/mint/dataset_builder.py",
+        " M scripts/mint/drawer_robot_env_mujoco.py",
+        " M scripts/mint/mujoco_mainline_common.py",
+        " M scripts/mint/run_mujoco_infinigen_mainline_night.py",
+        "?? experiments/mint/mint_drawer_v1/archive/",
+        "?? experiments/mint/mint_drawer_v1/sovereign/evidence/E045.yaml",
+        "?? experiments/mint/mint_drawer_v1/sovereign/evidence/E046.yaml",
+        "?? experiments/mint/mint_drawer_v1/sovereign/evidence/E047.yaml",
+        "?? experiments/mint/mint_drawer_v1/sovereign/evidence/E051.yaml",
+        "?? scripts/mint/run_p1e_mujoco_infinigen_alignment_audit.py",
+        "?? scripts/mint/run_p1f_mainline_alignment_cleanup_report.py",
+        "?? scripts/mint/run_p1g_exact_control_alignment_audit.py",
+        "?? scripts/mint/run_p1h_working_set_cleanup.py"
+      ],
       "error": null
     },
     "submodules": {

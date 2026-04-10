@@ -1,0 +1,94 @@
+{
+  "seed": 8,
+  "episode_index": 4,
+  "success": true,
+  "steps": 107,
+  "task": "open the drawer",
+  "grasp_source": "anygrasp",
+  "grasp_score": 0.20119628310203552,
+  "ever_attached": true,
+  "final_drawer_fraction": 0.9856699432811762,
+  "max_drawer_fraction": 0.9856699432811762,
+  "pregrasp_pose": {
+    "pos": [
+      -0.06312605738639832,
+      -0.21511781215667725,
+      0.042483389377593994
+    ],
+    "quat": [
+      0.7098401784896851,
+      0.4533599019050598,
+      -0.2131979763507843,
+      -0.4951144754886627
+    ]
+  },
+  "grasp_pose": {
+    "pos": [
+      -0.06111901253461838,
+      -0.11511781811714172,
+      -0.00013650953769683838
+    ],
+    "quat": [
+      0.7098401784896851,
+      0.4533599019050598,
+      -0.2131979763507843,
+      -0.4951144754886627
+    ]
+  },
+  "retreat_pose": {
+    "pos": [
+      -0.06212253496050835,
+      -0.3430413007736206,
+      0.05117344111204147
+    ],
+    "quat": [
+      0.7098401784896851,
+      0.4533599019050598,
+      -0.2131979763507843,
+      -0.4951144754886627
+    ]
+  },
+  "pull_fraction_target": 0.9055530428886414,
+  "branch_id": "branch4_densified_attach_window",
+  "action_contract": {
+    "action_frame": "world",
+    "translation_scale_m": 0.03,
+    "rotation_scale_rad": 0.25,
+    "attach_threshold_m": 0.15
+  },
+  "attach_step": 63,
+  "teacher_mode": "closed_loop_native",
+  "uses_planned_segment": false,
+  "uses_target_fraction": false,
+  "strict_metrics": {
+    "strict_success_version": "v3_attached_open_contract",
+    "strict_success_config": {
+      "drawer_open_threshold": 0.9,
+      "min_attach_persistence_steps": 3,
+      "max_pre_attach_drawer_motion": 0.3,
+      "min_post_attach_drawer_delta": 0.35,
+      "major_open_threshold": 0.35
+    },
+    "strict_success": true,
+    "drawer_open": true,
+    "ever_attached": true,
+    "first_attach_step": 63,
+    "attach_persistence": 43,
+    "pre_attach_drawer_motion": 0.17367620766162872,
+    "unattached_drawer_delta_max": 0.17367620766162872,
+    "attach_drawer_fraction": 0.007337938062846661,
+    "post_attach_drawer_delta": 0.9783320324495435,
+    "first_major_open_step": 100,
+    "attach_before_major_open": true,
+    "max_drawer_fraction": 0.9856699705123901
+  },
+  "phase_counts": {
+    "align": 16,
+    "grasp": 1,
+    "hold_close": 10,
+    "pregrasp": 26,
+    "pull": 32,
+    "retreat": 1,
+    "staging": 21
+  }
+}

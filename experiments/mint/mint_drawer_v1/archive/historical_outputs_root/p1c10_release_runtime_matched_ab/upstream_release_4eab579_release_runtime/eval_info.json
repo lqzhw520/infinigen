@@ -1,0 +1,56 @@
+{
+  "overall": {
+    "avg_max_reward": 1.0,
+    "avg_sum_reward": 1.0,
+    "eval_ep_s": 29.584994475046795,
+    "eval_s": 88.7549831867218,
+    "n_episodes": 3,
+    "pc_success": 100.0,
+    "video_paths": [
+      "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c10_release_runtime_matched_ab/upstream_release_4eab579_release_runtime/videos/libero_goal_0/libero_goal_0/eval_episode_0.mp4",
+      "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c10_release_runtime_matched_ab/upstream_release_4eab579_release_runtime/videos/libero_goal_0/libero_goal_0/eval_episode_1.mp4",
+      "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c10_release_runtime_matched_ab/upstream_release_4eab579_release_runtime/videos/libero_goal_0/libero_goal_0/eval_episode_2.mp4"
+    ]
+  },
+  "per_group": {
+    "libero_goal": {
+      "avg_max_reward": 1.0,
+      "avg_sum_reward": 1.0,
+      "n_episodes": 3,
+      "pc_success": 100.0,
+      "video_paths": [
+        "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c10_release_runtime_matched_ab/upstream_release_4eab579_release_runtime/videos/libero_goal_0/libero_goal_0/eval_episode_0.mp4",
+        "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c10_release_runtime_matched_ab/upstream_release_4eab579_release_runtime/videos/libero_goal_0/libero_goal_0/eval_episode_1.mp4",
+        "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c10_release_runtime_matched_ab/upstream_release_4eab579_release_runtime/videos/libero_goal_0/libero_goal_0/eval_episode_2.mp4"
+      ]
+    }
+  },
+  "per_task": [
+    {
+      "metrics": {
+        "max_rewards": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "successes": [
+          true,
+          true,
+          true
+        ],
+        "sum_rewards": [
+          1.0,
+          1.0,
+          1.0
+        ],
+        "video_paths": [
+          "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c10_release_runtime_matched_ab/upstream_release_4eab579_release_runtime/videos/libero_goal_0/libero_goal_0/eval_episode_0.mp4",
+          "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c10_release_runtime_matched_ab/upstream_release_4eab579_release_runtime/videos/libero_goal_0/libero_goal_0/eval_episode_1.mp4",
+          "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p1c10_release_runtime_matched_ab/upstream_release_4eab579_release_runtime/videos/libero_goal_0/libero_goal_0/eval_episode_2.mp4"
+        ]
+      },
+      "task_group": "libero_goal",
+      "task_id": 0
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+evidence_id: E055
+experiment_id: p1m_state_action_gap_audit
+type: state_action_gap_audit
+timestamp: '2026-04-10T21:32:44+08:00'
+path: experiments/mint/mint_drawer_v1/artifacts/p1m_state_action_gap_audit.json
+verified: true
+summary: Measured state/action gap audit selecting the canonical MuJoCo state mapping
+  by score and explicitly validating whether qpos-based candidates are representable.

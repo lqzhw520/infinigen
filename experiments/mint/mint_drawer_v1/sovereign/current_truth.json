@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-04-10T16:51:59+08:00",
+  "generated_at": "2026-04-11T10:06:15+08:00",
   "campaign": {
     "id": "mint_drawer_v1",
     "root": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1"
@@ -27,44 +27,81 @@
     ]
   },
   "current": {
-    "phase": "v59_MUJOCO_MAINLINE_PHASE7 — exact-control alignment audit and working-set cleanup completed",
-    "phase_gate": "p1g_exact_control_alignment_audit",
-    "verdict": "V59_OFFICIAL_CONTROL_RESTORED — TRUE_INFINIGEN_MUJOCO_MAINLINE_NEXT",
-    "decision": "V59_OFFICIAL_CONTROL_RESTORED — TRUE_INFINIGEN_MUJOCO_MAINLINE_NEXT",
+    "phase": "v63_ROOT_CAUSE_REFRAMED_AFTER_OVERNIGHT_NEGATIVE_RESULT",
+    "phase_gate": "p2_overnight_alignment_discovery",
+    "verdict": "V63_OVERNIGHT_V1_NEGATIVE_RESULT_POINTS_TO_EMBODIMENT_STATE_ACTION_CONTRACT_AND_VISUAL_SEMANTICS_NOT_DATA_SCALE_ALONE",
+    "decision": "V63_OVERNIGHT_V1_NEGATIVE_RESULT_POINTS_TO_EMBODIMENT_STATE_ACTION_CONTRACT_AND_VISUAL_SEMANTICS_NOT_DATA_SCALE_ALONE",
     "next_action": {
-      "type": "MUJOCO_ALIGNMENT_EXPANSION",
-      "id": "capture_exact_control_trace_and_expand_success_seeds",
+      "type": "EMBODIMENT_CONTRACT_PROBE",
+      "id": "implement_orientation_sensitive_embodiment_probe_for_v2_runner",
       "priority": "P0",
-      "target": "Capture exact successful control traces and expand successful MuJoCo train seed coverage before the next fine-tune",
       "status": "pending",
-      "description": "p1g shows task-text/resolution alignment is direct, but exact control state/action equivalence is still missing and the current train set is only 5 successful seeds repeated 10x.",
-      "control_baseline_ref": "E036/p1c11_official_libero_goal_drawer_baseline_rollback_4eab579",
-      "alignment_audit_ref": "E046/p1g_exact_control_alignment_audit",
-      "cleanup_manifest_ref": "E047/p1h_working_set_cleanup_manifest",
-      "updated_at": "2026-04-10T16:51:59+08:00"
+      "target": "Modify DrawerRobotEnvMuJoCo so attachment/opening can depend on orientation agreement, emit orientation telemetry, and use that branch as the first causal lane in the v2 overnight runner.",
+      "description": "E059 showed that adding rotation labels alone did not lift the 5-seed/100-frame ceiling. E055 also showed env_nq=1, and the current MuJoCo step logic uses distance and translation but not orientation for drawer interaction. The next cycle must test embodiment/state-action contract causally, not just inject more rotation or more frames.",
+      "control_baseline_ref": "E052/p1j_control_rerun_v2",
+      "state_action_gap_ref": "E055/p1m_state_action_gap_audit",
+      "visual_gap_ref": "E056/p1n_visual_semantics_canonical",
+      "dataset_ceiling_ref": "E057/p1o_dataset_expansion_manifest",
+      "overnight_negative_ref": "E059/p2_overnight_alignment_discovery",
+      "updated_at": "2026-04-11T10:06:15+08:00"
     },
     "open_gates": [
       {
-        "type": "MUJOCO_ALIGNMENT_EXPANSION",
-        "id": "capture_exact_control_trace_and_expand_success_seeds",
+        "type": "EMBODIMENT_CONTRACT_PROBE",
+        "id": "implement_orientation_sensitive_embodiment_probe_for_v2_runner",
         "priority": "P0",
-        "target": "Capture exact successful control traces and expand successful MuJoCo train seed coverage before the next fine-tune",
         "status": "pending",
-        "description": "p1g shows task-text/resolution alignment is direct, but exact control state/action equivalence is still missing and the current train set is only 5 successful seeds repeated 10x.",
-        "control_baseline_ref": "E036/p1c11_official_libero_goal_drawer_baseline_rollback_4eab579",
-        "alignment_audit_ref": "E046/p1g_exact_control_alignment_audit",
-        "cleanup_manifest_ref": "E047/p1h_working_set_cleanup_manifest",
-        "updated_at": "2026-04-10T16:51:59+08:00"
+        "target": "Add an orientation-sensitive attachment/opening branch and orientation telemetry so the overnight runner can test whether embodiment contract, not rotation labels alone, lifts the rollout ceiling.",
+        "description": "Current MuJoCo env exposes nq=1 and drawer interaction ignores orientation. This must be probed causally before more training claims.",
+        "updated_at": "2026-04-11T10:06:15+08:00"
+      },
+      {
+        "type": "STATE_CONTRACT_REAUDIT",
+        "id": "add_control_telemetry_compatible_state_candidate_and_rerun_p1m",
+        "priority": "P0",
+        "status": "pending",
+        "target": "Extend the measured state audit with a control-telemetry-compatible candidate that uses only observables available in the current environment or explicitly records impossibility under the current embodiment.",
+        "description": "M0 retained only because qpos candidates are invalid when env_nq=1. State semantics remain unresolved.",
+        "updated_at": "2026-04-11T10:06:15+08:00"
+      },
+      {
+        "type": "VISUAL_CANONICAL_FIX",
+        "id": "implement_render_level_visual_semantics_fix",
+        "priority": "P1",
+        "status": "pending",
+        "target": "Improve canonical render-level camera/material/background/lighting semantics and rerun p1n without relying on diagnostic-only texture injection.",
+        "description": "E056 still shows large edge-density, entropy, and std_rgb gaps versus control.",
+        "updated_at": "2026-04-11T10:06:15+08:00"
+      },
+      {
+        "type": "DATA_SCALE_FALSIFICATION",
+        "id": "falsify_more_frames_alone_using_baseline_contract_control",
+        "priority": "P1",
+        "status": "pending",
+        "target": "Add a data-scale-only control lane that expands frame count without repairing embodiment or visual semantics, so the v2 runner can explicitly test whether more frames alone help.",
+        "description": "E057 established a 100-frame ceiling under the current contract; that ceiling may be a symptom, not the primary cause.",
+        "updated_at": "2026-04-11T10:06:15+08:00"
+      },
+      {
+        "type": "V2_OVERNIGHT_CAUSAL_RUNNER",
+        "id": "run_v2_root_cause_overnight_matrix",
+        "priority": "P1-after-probes",
+        "status": "pending",
+        "target": "Run the v2 overnight runner only after embodiment, state, visual, and data-scale-only branches are implemented, with training allocated only to lanes that pass causal prescreen thresholds.",
+        "description": "The v1 overnight discovery runner tied all lanes on a prescreen score that ignored state/visual gains and therefore could not isolate root cause.",
+        "updated_at": "2026-04-11T10:06:15+08:00"
       }
     ],
     "blockers": [
-      "Exact successful control state/action traces are still unavailable for one-to-one comparison against the MuJoCo/Infinigen training surface.",
-      "Current learning set covers only 5 successful train seeds, repeated 10x; diversity is still too low for a strong adaptation claim.",
-      "Visual encoder compatibility is supported only by pixel-level heuristics; no encoder-level feature matching has been measured yet."
+      "The current MuJoCo environment exposes env_nq=1 and therefore cannot natively represent the 4D arm-joint state semantics seen in control telemetry.",
+      "Drawer interaction currently depends on distance, gripper close/open, and translation along the drawer axis, but not on orientation agreement; this makes rotation mismatch real but not causally sufficient to explain the rollout ceiling.",
+      "Canonical visual semantics remain far from control (large entropy, edge-density, and std_rgb gaps).",
+      "The 100-frame ceiling is a downstream symptom of the current contract. Increasing frame count before repairing embodiment/state-action/visual semantics is not a scientifically valid next step."
     ],
     "stale_docs": [
       "p1e task_text_gap is superseded by p1g exact-control audit.",
-      "Historical artifacts/outputs are archived under archive/ and should not be used as the current working set."
+      "Historical artifacts/outputs are archived under archive/ and should not be used as the current working set.",
+      "p2_alignment_execution_report.md overstated gate completion and has been archived as a non-canonical execution report."
     ],
     "authority_notes": [
       "current_truth.json is derived from Tier-0/Tier-1 only.",
@@ -72,8 +109,8 @@
       "Scientific conclusions attach to the current external/MINT head recorded here; patched variants must be evaluated separately from the restored upstream control.",
       "If the user or active plan declares MuJoCo as the scientific mainline, sovereign must be updated before launching any detached runner.",
       "While this phase is active, any DrawerRobotEnv/PyBullet runner is historical-only and invalid for canonical mainline results.",
-      "Use E045/E046/E047 as the canonical review surface for the completed MuJoCo mainline run.",
-      "Use E045/E046/E047 as the canonical review surface for the completed MuJoCo mainline run."
+      "Canonical readable reports remain p1f/p1g/p1h/p1i only; p1j-p1o and p2 overnight reports are execution evidence, not canonical readable reports.",
+      "E059 is a valid negative-result evidence item, but its v1 overnight ranking is non-canonical because the prescreen score ignored state-alignment and visual-gap improvements."
     ],
     "review_surfaces": [
       {
@@ -90,6 +127,11 @@
         "evidence_id": "E047",
         "path": "experiments/mint/mint_drawer_v1/artifacts/p1h_working_set_manifest.json",
         "role": "working_set_manifest"
+      },
+      {
+        "evidence_id": "E051",
+        "path": "experiments/mint/mint_drawer_v1/artifacts/p1i_infinigen_mint_alignment_solution_plan.json",
+        "role": "root_cause_execution_plan"
       }
     ],
     "canonical_readable_reports": [
@@ -98,7 +140,7 @@
       "experiments/mint/mint_drawer_v1/outputs/p1h_working_set_manifest.md",
       "experiments/mint/mint_drawer_v1/outputs/p1i_infinigen_mint_alignment_solution_plan.md"
     ],
-    "generated_at": "2026-04-10T16:51:02+08:00"
+    "generated_at": "2026-04-11T10:06:15+08:00"
   },
   "dataset": {
     "manifest_version": 2,

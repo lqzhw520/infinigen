@@ -1,0 +1,9 @@
+evidence_id: E053
+experiment_id: p1k_capture_control_traces
+type: control_trace_capture
+timestamp: '2026-04-10T21:42:34+08:00'
+path: experiments/mint/mint_drawer_v1/artifacts/p1k_capture_control_traces.json
+verified: true
+summary: Exact successful control trace capture for official LIBERO drawer control,
+  including images, policy-facing state, raw/post actions, sent actions, and drawer
+  progress.

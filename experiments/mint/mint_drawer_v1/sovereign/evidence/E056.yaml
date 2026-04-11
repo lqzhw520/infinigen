@@ -1,0 +1,9 @@
+evidence_id: E056
+experiment_id: p1n_visual_semantics_canonical
+type: visual_semantics_canonical
+timestamp: '2026-04-10T21:45:43+08:00'
+path: experiments/mint/mint_drawer_v1/artifacts/p1n_visual_semantics_canonical.json
+verified: false
+summary: Canonical visual semantics audit comparing control traces to current render-level
+  target images, with any post-render texture injection explicitly isolated to diagnostic-only
+  ablations.

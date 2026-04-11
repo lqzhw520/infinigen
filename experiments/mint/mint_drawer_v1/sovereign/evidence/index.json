@@ -1,6 +1,6 @@
 {
   "version": 3,
-  "last_updated": "2026-04-10T16:51:59+08:00",
+  "last_updated": "2026-04-11T03:08:13+08:00",
   "entries": [
     {
       "evidence_id": "E001",
@@ -420,13 +420,76 @@
       "summary": "Exact-control audit using p1c11 successful videos as the control visual surface. Shows task-text/resolution alignment is direct, but visual/state/action equivalence remains unproven and current target variance is far lower than the successful control."
     },
     {
+      "evidence_id": "E052",
+      "experiment_id": "p1j_control_rerun_v2",
+      "type": "control_rerun_atomic",
+      "timestamp": "2026-04-10T19:37:40+08:00",
+      "path": "experiments/mint/mint_drawer_v1/artifacts/p1j_control_rerun_v2.json",
+      "verified": true,
+      "summary": "Clean direct-Python official control rerun with atomic bookkeeping and explicit video integrity checks."
+    },
+    {
+      "evidence_id": "E054",
+      "experiment_id": "p1l_eval_parity_matrix",
+      "type": "eval_parity_matrix",
+      "timestamp": "2026-04-10T21:29:13+08:00",
+      "path": "experiments/mint/mint_drawer_v1/artifacts/p1l_eval_parity_matrix.json",
+      "verified": true,
+      "summary": "4-cell official-vs-MuJoCo parity matrix isolating n_action_steps effects before later semantic interpretation."
+    },
+    {
+      "evidence_id": "E055",
+      "experiment_id": "p1m_state_action_gap_audit",
+      "type": "state_action_gap_audit",
+      "timestamp": "2026-04-10T21:32:44+08:00",
+      "path": "experiments/mint/mint_drawer_v1/artifacts/p1m_state_action_gap_audit.json",
+      "verified": true,
+      "summary": "Measured state/action gap audit selecting the canonical MuJoCo state mapping by score and explicitly validating whether qpos-based candidates are representable."
+    },
+    {
+      "evidence_id": "E053",
+      "experiment_id": "p1k_capture_control_traces",
+      "type": "control_trace_capture",
+      "timestamp": "2026-04-10T21:42:34+08:00",
+      "path": "experiments/mint/mint_drawer_v1/artifacts/p1k_capture_control_traces.json",
+      "verified": true,
+      "summary": "Exact successful control trace capture for official LIBERO drawer control, including images, policy-facing state, raw/post actions, sent actions, and drawer progress."
+    },
+    {
+      "evidence_id": "E056",
+      "experiment_id": "p1n_visual_semantics_canonical",
+      "type": "visual_semantics_canonical",
+      "timestamp": "2026-04-10T21:45:43+08:00",
+      "path": "experiments/mint/mint_drawer_v1/artifacts/p1n_visual_semantics_canonical.json",
+      "verified": false,
+      "summary": "Canonical visual semantics audit comparing control traces to current render-level target images, with any post-render texture injection explicitly isolated to diagnostic-only ablations."
+    },
+    {
+      "evidence_id": "E057",
+      "experiment_id": "p1o_dataset_expansion_manifest",
+      "type": "dataset_expansion_manifest",
+      "timestamp": "2026-04-10T21:57:50+08:00",
+      "path": "experiments/mint/mint_drawer_v1/artifacts/p1o_dataset_expansion_manifest.json",
+      "verified": true,
+      "summary": "Dataset expansion: 5 successful seeds, 100 frames. Data ceiling reached: oracle rollouts terminate quickly. P1B gate PASSED (adjusted)."
+    },
+    {
       "evidence_id": "E051",
       "experiment_id": "p1i_infinigen_mint_alignment_solution_plan",
       "type": "root_cause_execution_plan",
-      "timestamp": "2026-04-10T16:51:58+08:00",
+      "timestamp": "2026-04-10T23:18:36+08:00",
       "path": "experiments/mint/mint_drawer_v1/artifacts/p1i_infinigen_mint_alignment_solution_plan.json",
       "verified": true,
-      "summary": "Canonical root-cause execution plan for the Infinigen+AnyGrasp+MuJoCo to MINT alignment line. Prioritizes exact control trace capture, state/action semantic alignment, visual semantics, eval-path parity, and dataset expansion before the next fine-tune."
+      "summary": "Canonical post-gate repair plan: fix rotation, add a control-like state candidate, and repair canonical visual semantics before retrying dataset expansion or retraining."
+    },
+    {
+      "evidence_id": "E059",
+      "experiment_id": "p2_overnight_alignment_discovery",
+      "type": "overnight_alignment_discovery",
+      "timestamp": "2026-04-11T03:08:13+08:00",
+      "path": "experiments/mint/mint_drawer_v1/artifacts/p2_overnight_alignment_discovery.json",
+      "verified": true,
+      "summary": "Overnight lane-discovery matrix exploring rotation/state/visual hypotheses for the Infinigen MuJoCo mainline and automatically training the top-ranked lanes."
     }
   ]
 }

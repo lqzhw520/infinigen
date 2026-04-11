@@ -1,0 +1,8 @@
+evidence_id: E052
+experiment_id: p1j_control_rerun_v2
+type: control_rerun_atomic
+timestamp: '2026-04-10T19:37:40+08:00'
+path: experiments/mint/mint_drawer_v1/artifacts/p1j_control_rerun_v2.json
+verified: true
+summary: Clean direct-Python official control rerun with atomic bookkeeping and explicit
+  video integrity checks.

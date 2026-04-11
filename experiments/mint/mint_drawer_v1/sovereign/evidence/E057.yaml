@@ -1,0 +1,7 @@
+evidence_id: E057
+experiment_id: p1o_dataset_expansion_manifest
+type: dataset_expansion_manifest
+timestamp: '2026-04-10T21:57:50+08:00'
+path: experiments/mint/mint_drawer_v1/artifacts/p1o_dataset_expansion_manifest.json
+verified: true
+summary: Dataset expansion attempt established a 5-seed / 100-frame ceiling under the current contract; the original scale target was not met. Treat this as ceiling evidence, not successful expansion.

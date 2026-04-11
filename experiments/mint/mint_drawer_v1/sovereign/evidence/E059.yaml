@@ -1,0 +1,7 @@
+evidence_id: E059
+experiment_id: p2_overnight_alignment_discovery
+type: overnight_alignment_discovery
+timestamp: '2026-04-11T03:08:13+08:00'
+path: experiments/mint/mint_drawer_v1/artifacts/p2_overnight_alignment_discovery.json
+verified: true
+summary: Negative overnight v1 result: rotation-only and surrogate-state lanes did not lift the 5-seed / 100-frame ceiling or improve held-out success. This points to a deeper embodiment/state-action contract issue plus the existing visual gap, and the v1 ranking itself is non-canonical because its prescreen score ignored state and visual gains.

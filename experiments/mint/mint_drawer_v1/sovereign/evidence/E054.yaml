@@ -1,0 +1,8 @@
+evidence_id: E054
+experiment_id: p1l_eval_parity_matrix
+type: eval_parity_matrix
+timestamp: '2026-04-10T21:29:13+08:00'
+path: experiments/mint/mint_drawer_v1/artifacts/p1l_eval_parity_matrix.json
+verified: true
+summary: 4-cell official-vs-MuJoCo parity matrix isolating n_action_steps effects
+  before later semantic interpretation.

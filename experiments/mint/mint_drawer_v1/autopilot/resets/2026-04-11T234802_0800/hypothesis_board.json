@@ -1,0 +1,95 @@
+{
+  "H0_same_problem_identity": {
+    "id": "H0_same_problem_identity",
+    "description": "Current environment is still close enough to the upstream benchmark-alignment claim.",
+    "prior": 0.39196993045504913,
+    "posterior": 0.31023107901486535,
+    "importance": 1.0,
+    "supporting_experiments": [
+      "E0"
+    ],
+    "contradicting_experiments": [
+      "E4"
+    ],
+    "next_best_test": "E0",
+    "status": "active"
+  },
+  "H1_embodiment_causal_contract": {
+    "id": "H1_embodiment_causal_contract",
+    "description": "Primary blocker is missing embodiment and causal action semantics, especially orientation-insensitive interaction.",
+    "prior": 0.6,
+    "posterior": 0.7867533149583869,
+    "importance": 1.0,
+    "supporting_experiments": [
+      "E1"
+    ],
+    "contradicting_experiments": [],
+    "next_best_test": "E1",
+    "status": "active"
+  },
+  "H2_state_representability": {
+    "id": "H2_state_representability",
+    "description": "Primary blocker is unresolved or impossible control-compatible state representability under the current embodiment.",
+    "prior": 0.65,
+    "posterior": 0.5545419078455561,
+    "importance": 0.95,
+    "supporting_experiments": [],
+    "contradicting_experiments": [
+      "E2"
+    ],
+    "next_best_test": "E2",
+    "status": "active"
+  },
+  "H3_observation_visual_contract": {
+    "id": "H3_observation_visual_contract",
+    "description": "Observation contract and visual semantics are a strong co-blocker.",
+    "prior": 0.7245805765477757,
+    "posterior": 0.8001605115473343,
+    "importance": 0.95,
+    "supporting_experiments": [
+      "E0",
+      "E3"
+    ],
+    "contradicting_experiments": [],
+    "next_best_test": "E0",
+    "status": "active"
+  },
+  "H4_unique_data_scale_only": {
+    "id": "H4_unique_data_scale_only",
+    "description": "More unique successful data alone can solve the current failure without contract repair.",
+    "prior": 0.25,
+    "posterior": 0.25,
+    "importance": 0.7,
+    "supporting_experiments": [],
+    "contradicting_experiments": [],
+    "next_best_test": "E5",
+    "status": "active"
+  },
+  "H5_optimization_only": {
+    "id": "H5_optimization_only",
+    "description": "More repeat count or more train steps on the same weak data can solve the current failure.",
+    "prior": 0.15,
+    "posterior": 0.15,
+    "importance": 0.6,
+    "supporting_experiments": [],
+    "contradicting_experiments": [],
+    "next_best_test": "E6",
+    "status": "active"
+  },
+  "H6_environment_invalid_for_claim": {
+    "id": "H6_environment_invalid_for_claim",
+    "description": "Current environment formulation is insufficient for the benchmark-alignment claim.",
+    "prior": 0.5598789249951341,
+    "posterior": 0.7578027582151943,
+    "importance": 1.0,
+    "supporting_experiments": [
+      "E2",
+      "E4"
+    ],
+    "contradicting_experiments": [
+      "E1"
+    ],
+    "next_best_test": "E4",
+    "status": "active"
+  }
+}

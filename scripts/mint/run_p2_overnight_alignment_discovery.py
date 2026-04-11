@@ -1,9 +1,13 @@
 #!/usr/bin/env python3
-"""Overnight discovery matrix for MuJoCo/Infinigen -> MINT alignment.
+"""Legacy v1 non-canonical overnight discovery matrix for MuJoCo/Infinigen -> MINT alignment.
 
 This runner is intentionally broader than the canonical single-line flow:
 it explores a small lane matrix overnight, ranks lanes by data-line quality,
 then trains/evaluates the top-K lanes automatically.
+
+Warning: this v1 ranker does not include contract-validity, state-alignment, or
+visual-alignment gains in its ranking function and must not be treated as the
+canonical root-cause controller.
 """
 
 from __future__ import annotations
@@ -140,6 +144,8 @@ def _write_summary(summary: dict[str, Any]) -> None:
     lines = [
         "# P2 Overnight Alignment Discovery",
         "",
+        "> Warning: legacy_v1_noncanonical_ranker. This report does not rank lanes using state/visual/contract gains and should not be treated as the canonical root-cause controller output.",
+        "",
         f"Generated: {summary['generated_at']}",
         f"Status: {summary['status']}",
         "",
@@ -168,6 +174,7 @@ def _write_summary(summary: dict[str, Any]) -> None:
 
 def _make_story() -> dict[str, Any]:
     return {
+        "legacy_warning": "legacy_v1_noncanonical_ranker: ranking omits state/visual/contract gains",
         "user_story": "As the MINT/Infinigen mainline owner, I want an overnight automated lane-discovery run that searches for a trainable aligned data line instead of repeating the current failing single-line setup.",
         "acceptance_criteria": [
             "The runner explores at least 4 distinct lanes spanning rotation/state/visual hypotheses.",

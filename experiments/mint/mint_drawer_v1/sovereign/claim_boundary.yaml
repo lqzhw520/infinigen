@@ -1,0 +1,22 @@
+claim_id: benchmark_alignment_mint_drawer_v1
+active_phase: v63_ROOT_CAUSE_REFRAMED_AFTER_OVERNIGHT_NEGATIVE_RESULT
+must_preserve:
+  task_text: open the middle drawer of the cabinet
+  image_resolution: [256, 256]
+  observation_channels: [image, image2, state, action]
+  heldout_seed_policy: fixed
+  upstream_control_ref: E052/p1j_control_rerun_v2
+  parity_ref: E054/p1l_eval_parity_matrix
+forbidden_without_new_claim_id:
+  - diagnostic_texture_as_canonical
+  - duplicated_state_dims_for_shape_only
+  - changing_task_family
+  - changing_resolution
+  - moving_heldout_seeds
+  - non_wrist_secondary_camera_for_benchmark_claim
+controller_defaults:
+  auto_promote_sovereign: false
+  allow_full_retrain: false
+  allow_new_claim: false
+  manual_build_phase: true
+  autonomous_cycle_phase: true

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Append-only registry helpers for the v2 root-cause controller."""
+"""Append-only registry helpers for the reformulation-aware root-cause controller."""
 
 from __future__ import annotations
 
@@ -18,9 +18,14 @@ from root_cause_contracts import (
 )
 
 
+MORNING_MEMO_PATH = AUTOPILOT_DIR / "morning_memo.md"
+FINAL_ROUTE_PATH = AUTOPILOT_DIR / "route_decision.json"
+FINAL_RUN_SUMMARY_PATH = AUTOPILOT_DIR / "final_run_summary.json"
+
+
 def _append_jsonl_atomic(path: Path, payload: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    lines = []
+    lines: list[str] = []
     if path.exists():
         lines = path.read_text().splitlines()
     lines.append(json.dumps(payload, ensure_ascii=False))
@@ -68,16 +73,32 @@ def write_cycle_bundle(
     cycle_memo: str,
     proposed_current_truth_delta: dict[str, Any],
     proposed_next_actions: dict[str, Any],
+    cycle_summary: dict[str, Any],
+    route_decision: dict[str, Any],
 ) -> None:
     write_json_atomic(cycle_dir / "lane_specs.json", lane_specs)
     write_json_atomic(cycle_dir / "lane_results.json", lane_results)
     write_json_atomic(cycle_dir / "gate_report.json", gate_report)
     write_json_atomic(cycle_dir / "hypothesis_board.json", hypothesis_board)
+    write_json_atomic(cycle_dir / "cycle_summary.json", cycle_summary)
+    write_json_atomic(cycle_dir / "route_decision.json", route_decision)
     write_text_atomic(cycle_dir / "cycle_memo.md", cycle_memo)
     write_json_atomic(cycle_dir / "proposed_current_truth_delta.json", proposed_current_truth_delta)
     write_json_atomic(cycle_dir / "proposed_next_actions.json", proposed_next_actions)
-    write_cycle_state({
-        "updated_at": now_iso(),
-        "last_cycle_id": cycle_dir.name,
-        "terminal_state": gate_report.get("terminal_state"),
-    })
+    write_cycle_state(
+        {
+            "updated_at": now_iso(),
+            "last_cycle_id": cycle_dir.name,
+            "completed_experiments": cycle_summary.get("completed_experiments", []),
+            "scientific_terminal_state": route_decision.get("scientific_terminal_state"),
+            "route_next_branch": route_decision.get("route_next_branch"),
+            "terminal_state": route_decision.get("route_next_branch"),
+        }
+    )
+
+
+def write_final_run_outputs(*, route_decision: dict[str, Any], morning_memo: str, final_summary: dict[str, Any]) -> None:
+    ensure_registry_layout()
+    write_json_atomic(FINAL_ROUTE_PATH, route_decision)
+    write_text_atomic(MORNING_MEMO_PATH, morning_memo)
+    write_json_atomic(FINAL_RUN_SUMMARY_PATH, final_summary)

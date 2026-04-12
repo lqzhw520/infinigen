@@ -1,0 +1,33 @@
+{
+  "experiment_id": "RF6",
+  "generated_at": "2026-04-12T01:11:21+08:00",
+  "passed": true,
+  "best_profile_id": "reformulation_v0",
+  "replicated_state_mode": "telemetry_candidate_v2",
+  "baseline_summary": {
+    "rollout_count": 3,
+    "unique_success_rate": 0.3333333333333333,
+    "attach_rate": 1.0,
+    "mean_max_drawer_fraction": 0.5201365203879951,
+    "avg_episode_length": 67.33333333333333,
+    "success_count": 1
+  },
+  "candidate_summary": {
+    "rollout_count": 3,
+    "unique_success_rate": 0.0,
+    "attach_rate": 1.0,
+    "mean_max_drawer_fraction": 0.08193016264058332,
+    "avg_episode_length": 96.0,
+    "success_count": 0
+  },
+  "rollout_ceiling_lift": {
+    "score": -0.12377988541086847,
+    "delta_unique_success_rate": -0.3333333333333333,
+    "delta_attach_rate": 0.0,
+    "delta_mean_max_drawer_fraction": -0.43820635774741173,
+    "delta_avg_episode_length_ratio": 0.4257425742574259,
+    "delta_orientation_causal_sensitivity": 0.0
+  },
+  "prior_rollout_ceiling_lift": -0.06945071119852303,
+  "replication_consistent": true
+}

@@ -1,0 +1,601 @@
+{
+  "RF4_current_surface_clean": {
+    "lane_id": "RF4_current_surface_clean",
+    "stage": "probe",
+    "env_contract_config": {
+      "secondary_camera_mode": "legacy_fixed_scene",
+      "enable_marker_overlay": false,
+      "calibration_mode": "none",
+      "interaction_mode": "legacy_translation_only",
+      "state_mode": "m0_proxy",
+      "emit_orientation_telemetry": true,
+      "emit_camera_metadata": true,
+      "canonical_lane": true
+    },
+    "interventions": {
+      "rotation_source": "zero",
+      "reformulation_profile": "legacy_current"
+    },
+    "dataset_config": {
+      "unique_data_budget": null,
+      "success_repeat": 1,
+      "train_seed_pool": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "heldout_seed_pool": [
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "max_steps": 96
+    },
+    "train_config": {
+      "train_steps": 0,
+      "batch_size": 0,
+      "top_k": 0,
+      "tiny_retrain": false,
+      "full_retrain": false
+    },
+    "claim_policy": "new_claim_required",
+    "note": "Current visual surface cleaned for readability baseline. Violations: ['non_wrist_secondary_camera_for_benchmark_claim']",
+    "experiment_id": "RF4",
+    "coverage": {},
+    "cost": 1.0,
+    "lane_hash": "8d995487a723df1b",
+    "resource_budget_snapshot": {
+      "policy": {
+        "AUTO_PROMOTE_SOVEREIGN": false,
+        "ALLOW_FULL_RETRAIN": false,
+        "ALLOW_NEW_CLAIM": false,
+        "RUN_MODE": "autonomous_cycle_phase"
+      },
+      "limits": {
+        "max_rollouts_per_experiment": 3,
+        "max_disk_growth_mb": 4096,
+        "retry_backoff_seconds": 5,
+        "max_retries": 2,
+        "max_cycles_per_run": 4,
+        "max_tiny_retrain_budget": 1
+      },
+      "disk_growth_mb": 0.081,
+      "completed_experiments": [
+        "RF0",
+        "RF3",
+        "RF1",
+        "RF2"
+      ]
+    }
+  },
+  "RF4_wrist_raw_surface": {
+    "lane_id": "RF4_wrist_raw_surface",
+    "stage": "probe",
+    "env_contract_config": {
+      "secondary_camera_mode": "wrist_dynamic",
+      "enable_marker_overlay": false,
+      "calibration_mode": "none",
+      "interaction_mode": "legacy_translation_only",
+      "state_mode": "m0_proxy",
+      "emit_orientation_telemetry": true,
+      "emit_camera_metadata": true,
+      "canonical_lane": true
+    },
+    "interventions": {
+      "rotation_source": "zero",
+      "reformulation_profile": "minimal_contract_repair_v1"
+    },
+    "dataset_config": {
+      "unique_data_budget": null,
+      "success_repeat": 1,
+      "train_seed_pool": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "heldout_seed_pool": [
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "max_steps": 96
+    },
+    "train_config": {
+      "train_steps": 0,
+      "batch_size": 0,
+      "top_k": 0,
+      "tiny_retrain": false,
+      "full_retrain": false
+    },
+    "claim_policy": "canonical",
+    "note": "Wrist/raw/no-overlay visual surface.",
+    "experiment_id": "RF4",
+    "coverage": {},
+    "cost": 1.0,
+    "lane_hash": "aa02a6373006f85a",
+    "resource_budget_snapshot": {
+      "policy": {
+        "AUTO_PROMOTE_SOVEREIGN": false,
+        "ALLOW_FULL_RETRAIN": false,
+        "ALLOW_NEW_CLAIM": false,
+        "RUN_MODE": "autonomous_cycle_phase"
+      },
+      "limits": {
+        "max_rollouts_per_experiment": 3,
+        "max_disk_growth_mb": 4096,
+        "retry_backoff_seconds": 5,
+        "max_retries": 2,
+        "max_cycles_per_run": 4,
+        "max_tiny_retrain_budget": 1
+      },
+      "disk_growth_mb": 0.081,
+      "completed_experiments": [
+        "RF0",
+        "RF3",
+        "RF1",
+        "RF2"
+      ]
+    }
+  },
+  "RF4_reformulation_v0_surface": {
+    "lane_id": "RF4_reformulation_v0_surface",
+    "stage": "probe",
+    "env_contract_config": {
+      "secondary_camera_mode": "wrist_dynamic",
+      "enable_marker_overlay": false,
+      "calibration_mode": "none",
+      "interaction_mode": "orientation_sensitive_v1",
+      "state_mode": "telemetry_candidate_v2",
+      "emit_orientation_telemetry": true,
+      "emit_camera_metadata": true,
+      "canonical_lane": true
+    },
+    "interventions": {
+      "rotation_source": "aligned",
+      "reformulation_profile": "reformulation_v0"
+    },
+    "dataset_config": {
+      "unique_data_budget": null,
+      "success_repeat": 1,
+      "train_seed_pool": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "heldout_seed_pool": [
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "max_steps": 96
+    },
+    "train_config": {
+      "train_steps": 0,
+      "batch_size": 0,
+      "top_k": 0,
+      "tiny_retrain": false,
+      "full_retrain": false
+    },
+    "claim_policy": "canonical",
+    "note": "Reformulated visual surface under reformulation_v0.",
+    "experiment_id": "RF4",
+    "coverage": {},
+    "cost": 1.0,
+    "lane_hash": "055039bd2292dbfa",
+    "resource_budget_snapshot": {
+      "policy": {
+        "AUTO_PROMOTE_SOVEREIGN": false,
+        "ALLOW_FULL_RETRAIN": false,
+        "ALLOW_NEW_CLAIM": false,
+        "RUN_MODE": "autonomous_cycle_phase"
+      },
+      "limits": {
+        "max_rollouts_per_experiment": 3,
+        "max_disk_growth_mb": 4096,
+        "retry_backoff_seconds": 5,
+        "max_retries": 2,
+        "max_cycles_per_run": 4,
+        "max_tiny_retrain_budget": 1
+      },
+      "disk_growth_mb": 0.081,
+      "completed_experiments": [
+        "RF0",
+        "RF3",
+        "RF1",
+        "RF2"
+      ]
+    }
+  },
+  "RF5_legacy_current": {
+    "lane_id": "RF5_legacy_current",
+    "stage": "probe",
+    "env_contract_config": {
+      "secondary_camera_mode": "legacy_fixed_scene",
+      "enable_marker_overlay": true,
+      "calibration_mode": "legacy_bg_gain_bias",
+      "interaction_mode": "legacy_translation_only",
+      "state_mode": "m0_proxy",
+      "emit_orientation_telemetry": true,
+      "emit_camera_metadata": true,
+      "canonical_lane": false
+    },
+    "interventions": {
+      "rotation_source": "zero",
+      "reformulation_profile": "legacy_current"
+    },
+    "dataset_config": {
+      "unique_data_budget": null,
+      "success_repeat": 1,
+      "train_seed_pool": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "heldout_seed_pool": [
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "max_steps": 96
+    },
+    "train_config": {
+      "train_steps": 0,
+      "batch_size": 0,
+      "top_k": 0,
+      "tiny_retrain": false,
+      "full_retrain": false
+    },
+    "claim_policy": "diagnostic",
+    "note": "Legacy current formulation.",
+    "experiment_id": "RF5",
+    "coverage": {},
+    "cost": 1.0,
+    "lane_hash": "cdbe7a517e84ff80",
+    "resource_budget_snapshot": {
+      "policy": {
+        "AUTO_PROMOTE_SOVEREIGN": false,
+        "ALLOW_FULL_RETRAIN": false,
+        "ALLOW_NEW_CLAIM": false,
+        "RUN_MODE": "autonomous_cycle_phase"
+      },
+      "limits": {
+        "max_rollouts_per_experiment": 3,
+        "max_disk_growth_mb": 4096,
+        "retry_backoff_seconds": 5,
+        "max_retries": 2,
+        "max_cycles_per_run": 4,
+        "max_tiny_retrain_budget": 1
+      },
+      "disk_growth_mb": 0.081,
+      "completed_experiments": [
+        "RF0",
+        "RF3",
+        "RF1",
+        "RF2",
+        "RF4"
+      ]
+    }
+  },
+  "RF5_minimal_contract_repair_v1": {
+    "lane_id": "RF5_minimal_contract_repair_v1",
+    "stage": "probe",
+    "env_contract_config": {
+      "secondary_camera_mode": "wrist_dynamic",
+      "enable_marker_overlay": false,
+      "calibration_mode": "none",
+      "interaction_mode": "orientation_sensitive_v1",
+      "state_mode": "telemetry_candidate_v1",
+      "emit_orientation_telemetry": true,
+      "emit_camera_metadata": true,
+      "canonical_lane": true
+    },
+    "interventions": {
+      "rotation_source": "aligned",
+      "reformulation_profile": "minimal_contract_repair_v1"
+    },
+    "dataset_config": {
+      "unique_data_budget": null,
+      "success_repeat": 1,
+      "train_seed_pool": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "heldout_seed_pool": [
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "max_steps": 96
+    },
+    "train_config": {
+      "train_steps": 0,
+      "batch_size": 0,
+      "top_k": 0,
+      "tiny_retrain": false,
+      "full_retrain": false
+    },
+    "claim_policy": "canonical",
+    "note": "Minimal repair bundle under telemetry_candidate_v1.",
+    "experiment_id": "RF5",
+    "coverage": {},
+    "cost": 1.0,
+    "lane_hash": "5b41dcb5e3c3dc33",
+    "resource_budget_snapshot": {
+      "policy": {
+        "AUTO_PROMOTE_SOVEREIGN": false,
+        "ALLOW_FULL_RETRAIN": false,
+        "ALLOW_NEW_CLAIM": false,
+        "RUN_MODE": "autonomous_cycle_phase"
+      },
+      "limits": {
+        "max_rollouts_per_experiment": 3,
+        "max_disk_growth_mb": 4096,
+        "retry_backoff_seconds": 5,
+        "max_retries": 2,
+        "max_cycles_per_run": 4,
+        "max_tiny_retrain_budget": 1
+      },
+      "disk_growth_mb": 0.081,
+      "completed_experiments": [
+        "RF0",
+        "RF3",
+        "RF1",
+        "RF2",
+        "RF4"
+      ]
+    }
+  },
+  "RF5_reformulation_v0": {
+    "lane_id": "RF5_reformulation_v0",
+    "stage": "probe",
+    "env_contract_config": {
+      "secondary_camera_mode": "wrist_dynamic",
+      "enable_marker_overlay": false,
+      "calibration_mode": "none",
+      "interaction_mode": "orientation_sensitive_v1",
+      "state_mode": "telemetry_candidate_v2",
+      "emit_orientation_telemetry": true,
+      "emit_camera_metadata": true,
+      "canonical_lane": true
+    },
+    "interventions": {
+      "rotation_source": "aligned",
+      "reformulation_profile": "reformulation_v0"
+    },
+    "dataset_config": {
+      "unique_data_budget": null,
+      "success_repeat": 1,
+      "train_seed_pool": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "heldout_seed_pool": [
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "max_steps": 96
+    },
+    "train_config": {
+      "train_steps": 0,
+      "batch_size": 0,
+      "top_k": 0,
+      "tiny_retrain": false,
+      "full_retrain": false
+    },
+    "claim_policy": "canonical",
+    "note": "Reformulation bootstrap bundle under telemetry_candidate_v2.",
+    "experiment_id": "RF5",
+    "coverage": {},
+    "cost": 1.0,
+    "lane_hash": "53af28c50efe0788",
+    "resource_budget_snapshot": {
+      "policy": {
+        "AUTO_PROMOTE_SOVEREIGN": false,
+        "ALLOW_FULL_RETRAIN": false,
+        "ALLOW_NEW_CLAIM": false,
+        "RUN_MODE": "autonomous_cycle_phase"
+      },
+      "limits": {
+        "max_rollouts_per_experiment": 3,
+        "max_disk_growth_mb": 4096,
+        "retry_backoff_seconds": 5,
+        "max_retries": 2,
+        "max_cycles_per_run": 4,
+        "max_tiny_retrain_budget": 1
+      },
+      "disk_growth_mb": 0.081,
+      "completed_experiments": [
+        "RF0",
+        "RF3",
+        "RF1",
+        "RF2",
+        "RF4"
+      ]
+    }
+  },
+  "RF6_legacy_current_replication": {
+    "lane_id": "RF6_legacy_current_replication",
+    "stage": "probe",
+    "env_contract_config": {
+      "secondary_camera_mode": "legacy_fixed_scene",
+      "enable_marker_overlay": true,
+      "calibration_mode": "legacy_bg_gain_bias",
+      "interaction_mode": "legacy_translation_only",
+      "state_mode": "m0_proxy",
+      "emit_orientation_telemetry": true,
+      "emit_camera_metadata": true,
+      "canonical_lane": false
+    },
+    "interventions": {
+      "rotation_source": "zero",
+      "reformulation_profile": "legacy_current"
+    },
+    "dataset_config": {
+      "unique_data_budget": null,
+      "success_repeat": 1,
+      "train_seed_pool": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "heldout_seed_pool": [
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "max_steps": 96
+    },
+    "train_config": {
+      "train_steps": 0,
+      "batch_size": 0,
+      "top_k": 0,
+      "tiny_retrain": false,
+      "full_retrain": false
+    },
+    "claim_policy": "diagnostic",
+    "note": "Replication baseline on alternate seeds.",
+    "experiment_id": "RF6",
+    "coverage": {},
+    "cost": 1.0,
+    "lane_hash": "fa958d3141037f3a",
+    "resource_budget_snapshot": {
+      "policy": {
+        "AUTO_PROMOTE_SOVEREIGN": false,
+        "ALLOW_FULL_RETRAIN": false,
+        "ALLOW_NEW_CLAIM": false,
+        "RUN_MODE": "autonomous_cycle_phase"
+      },
+      "limits": {
+        "max_rollouts_per_experiment": 3,
+        "max_disk_growth_mb": 4096,
+        "retry_backoff_seconds": 5,
+        "max_retries": 2,
+        "max_cycles_per_run": 4,
+        "max_tiny_retrain_budget": 1
+      },
+      "disk_growth_mb": 0.081,
+      "completed_experiments": [
+        "RF0",
+        "RF3",
+        "RF1",
+        "RF2",
+        "RF4",
+        "RF5"
+      ]
+    }
+  },
+  "RF6_reformulation_v0_replication": {
+    "lane_id": "RF6_reformulation_v0_replication",
+    "stage": "probe",
+    "env_contract_config": {
+      "secondary_camera_mode": "wrist_dynamic",
+      "enable_marker_overlay": false,
+      "calibration_mode": "none",
+      "interaction_mode": "orientation_sensitive_v1",
+      "state_mode": "telemetry_candidate_v2",
+      "emit_orientation_telemetry": true,
+      "emit_camera_metadata": true,
+      "canonical_lane": true
+    },
+    "interventions": {
+      "rotation_source": "aligned",
+      "reformulation_profile": "reformulation_v0"
+    },
+    "dataset_config": {
+      "unique_data_budget": null,
+      "success_repeat": 1,
+      "train_seed_pool": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "heldout_seed_pool": [
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "max_steps": 96
+    },
+    "train_config": {
+      "train_steps": 0,
+      "batch_size": 0,
+      "top_k": 0,
+      "tiny_retrain": false,
+      "full_retrain": false
+    },
+    "claim_policy": "canonical",
+    "note": "Replication run for reformulation_v0 on alternate seeds.",
+    "experiment_id": "RF6",
+    "coverage": {},
+    "cost": 1.0,
+    "lane_hash": "825cdff61aebed63",
+    "resource_budget_snapshot": {
+      "policy": {
+        "AUTO_PROMOTE_SOVEREIGN": false,
+        "ALLOW_FULL_RETRAIN": false,
+        "ALLOW_NEW_CLAIM": false,
+        "RUN_MODE": "autonomous_cycle_phase"
+      },
+      "limits": {
+        "max_rollouts_per_experiment": 3,
+        "max_disk_growth_mb": 4096,
+        "retry_backoff_seconds": 5,
+        "max_retries": 2,
+        "max_cycles_per_run": 4,
+        "max_tiny_retrain_budget": 1
+      },
+      "disk_growth_mb": 0.081,
+      "completed_experiments": [
+        "RF0",
+        "RF3",
+        "RF1",
+        "RF2",
+        "RF4",
+        "RF5"
+      ]
+    }
+  }
+}

@@ -41,7 +41,7 @@ ROT_ACTION_CLIP = np.array([0.35, 0.45, 0.45], dtype=np.float32)
 SecondaryCameraMode = Literal["legacy_fixed_scene", "wrist_dynamic"]
 CalibrationMode = Literal["none", "legacy_bg_gain_bias", "diagnostic_texture"]
 InteractionMode = Literal["legacy_translation_only", "orientation_sensitive_v1"]
-StateMode = Literal["m0_proxy", "eef_pose_gripper", "telemetry_candidate_v1"]
+StateMode = Literal["m0_proxy", "eef_pose_gripper", "telemetry_candidate_v1", "telemetry_candidate_v2"]
 RotationSource = Literal["zero", "aligned", "random"]
 
 
@@ -498,7 +498,7 @@ class DrawerRobotEnvMuJoCo:
                 "gripper_joint",
             ]
             provenance = ["observed"] * 8
-        else:
+        elif mode == "telemetry_candidate_v1":
             dim_names = [
                 "eef_pos_x_m",
                 "eef_pos_y_m",
@@ -510,6 +510,18 @@ class DrawerRobotEnvMuJoCo:
                 "drawer_fraction_signed",
             ]
             provenance = ["observed", "observed", "observed", "derived", "derived", "derived", "observed", "derived"]
+        else:
+            dim_names = [
+                "eef_pos_x_m",
+                "eef_pos_y_m",
+                "eef_pos_z_m",
+                "eef_rotvec_x",
+                "eef_rotvec_y",
+                "eef_rotvec_z",
+                "handle_distance_norm",
+                "drawer_fraction_signed",
+            ]
+            provenance = ["observed", "observed", "observed", "derived", "derived", "derived", "derived", "derived"]
         duplicate_dims = sorted({name for name in dim_names if dim_names.count(name) > 1})
         return {
             "state_mode": mode,
@@ -542,11 +554,22 @@ class DrawerRobotEnvMuJoCo:
             )
             return state.astype(np.float32)
         rotvec = R.from_quat(np.asarray(self.eef_quat, dtype=np.float32)).as_rotvec().astype(np.float32)
+        if mode == "telemetry_candidate_v1":
+            state = np.concatenate(
+                [
+                    self.eef_pos.astype(np.float32),
+                    rotvec,
+                    np.array([self.gripper_joint, self._drawer_fraction_signed()], dtype=np.float32),
+                ]
+            )
+            return state.astype(np.float32)
+        handle_distance = float(np.linalg.norm(self._handle_center_world() - self.eef_pos))
+        handle_distance_norm = np.clip(handle_distance / 0.35, 0.0, 1.0)
         state = np.concatenate(
             [
                 self.eef_pos.astype(np.float32),
                 rotvec,
-                np.array([self.gripper_joint, self._drawer_fraction_signed()], dtype=np.float32),
+                np.array([handle_distance_norm, self._drawer_fraction_signed()], dtype=np.float32),
             ]
         )
         return state.astype(np.float32)

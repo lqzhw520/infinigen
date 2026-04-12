@@ -1,0 +1,951 @@
+{
+  "RF4": {
+    "experiment_id": "RF4",
+    "generated_at": "2026-04-12T01:11:12+08:00",
+    "passed": false,
+    "control_stats": {
+      "sample_count": 60,
+      "mean_rgb": [
+        0.4950149953365326,
+        0.459183007478714,
+        0.42161399126052856
+      ],
+      "std_rgb": [
+        0.2234800010919571,
+        0.20572799444198608,
+        0.1882220059633255
+      ],
+      "brightness_mean": 0.4658514164943321,
+      "edge_density_mean": 0.06390914916992188,
+      "entropy_mean": 6.921495348851545
+    },
+    "lanes": [
+      {
+        "lane": {
+          "lane_id": "RF4_current_surface_clean",
+          "stage": "probe",
+          "env_contract_config": {
+            "secondary_camera_mode": "legacy_fixed_scene",
+            "enable_marker_overlay": false,
+            "calibration_mode": "none",
+            "interaction_mode": "legacy_translation_only",
+            "state_mode": "m0_proxy",
+            "emit_orientation_telemetry": true,
+            "emit_camera_metadata": true,
+            "canonical_lane": true
+          },
+          "interventions": {
+            "rotation_source": "zero",
+            "reformulation_profile": "legacy_current"
+          },
+          "dataset_config": {
+            "unique_data_budget": null,
+            "success_repeat": 1,
+            "train_seed_pool": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "heldout_seed_pool": [
+              11,
+              12,
+              13,
+              14,
+              15
+            ],
+            "max_steps": 96
+          },
+          "train_config": {
+            "train_steps": 0,
+            "batch_size": 0,
+            "top_k": 0,
+            "tiny_retrain": false,
+            "full_retrain": false
+          },
+          "claim_policy": "new_claim_required",
+          "note": "Current visual surface cleaned for readability baseline. Violations: ['non_wrist_secondary_camera_for_benchmark_claim']",
+          "experiment_id": "RF4",
+          "coverage": {},
+          "cost": 1.0,
+          "lane_hash": "8d995487a723df1b"
+        },
+        "claim_policy": "new_claim_required",
+        "secondary_camera_wrist_like": false,
+        "secondary_camera_residual_mean": 1.1940297946751675,
+        "secondary_camera_residual_max": 1.2383108139038086,
+        "marker_overlay_enabled": false,
+        "diagnostic_only": true,
+        "provenance_complete": true,
+        "target_stats": {
+          "sample_count": 24,
+          "mean_rgb": [
+            0.021083999425172806,
+            0.017712999135255814,
+            0.014028999954462051
+          ],
+          "std_rgb": [
+            0.07034099847078323,
+            0.059098001569509506,
+            0.04682699963450432
+          ],
+          "brightness_mean": 0.018304408453648387,
+          "edge_density_mean": 0.007045745849609375,
+          "entropy_mean": 0.5453182342293129
+        },
+        "gap": {
+          "brightness_gap": 0.447547,
+          "std_rgb_abs_gap": [
+            0.153139,
+            0.14663,
+            0.141395
+          ],
+          "edge_density_gap": 0.056863,
+          "entropy_gap": 6.376177
+        },
+        "weighted_visual_gap": 2.6026269333333336,
+        "framing_score": 0.0,
+        "observation_contract_pass": false
+      },
+      {
+        "lane": {
+          "lane_id": "RF4_wrist_raw_surface",
+          "stage": "probe",
+          "env_contract_config": {
+            "secondary_camera_mode": "wrist_dynamic",
+            "enable_marker_overlay": false,
+            "calibration_mode": "none",
+            "interaction_mode": "legacy_translation_only",
+            "state_mode": "m0_proxy",
+            "emit_orientation_telemetry": true,
+            "emit_camera_metadata": true,
+            "canonical_lane": true
+          },
+          "interventions": {
+            "rotation_source": "zero",
+            "reformulation_profile": "minimal_contract_repair_v1"
+          },
+          "dataset_config": {
+            "unique_data_budget": null,
+            "success_repeat": 1,
+            "train_seed_pool": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "heldout_seed_pool": [
+              11,
+              12,
+              13,
+              14,
+              15
+            ],
+            "max_steps": 96
+          },
+          "train_config": {
+            "train_steps": 0,
+            "batch_size": 0,
+            "top_k": 0,
+            "tiny_retrain": false,
+            "full_retrain": false
+          },
+          "claim_policy": "canonical",
+          "note": "Wrist/raw/no-overlay visual surface.",
+          "experiment_id": "RF4",
+          "coverage": {},
+          "cost": 1.0,
+          "lane_hash": "aa02a6373006f85a"
+        },
+        "claim_policy": "canonical",
+        "secondary_camera_wrist_like": true,
+        "secondary_camera_residual_mean": 0.0,
+        "secondary_camera_residual_max": 0.0,
+        "marker_overlay_enabled": false,
+        "diagnostic_only": false,
+        "provenance_complete": true,
+        "target_stats": {
+          "sample_count": 24,
+          "mean_rgb": [
+            0.021083999425172806,
+            0.017712999135255814,
+            0.014028999954462051
+          ],
+          "std_rgb": [
+            0.07034099847078323,
+            0.059098001569509506,
+            0.04682699963450432
+          ],
+          "brightness_mean": 0.018304408453648387,
+          "edge_density_mean": 0.007045745849609375,
+          "entropy_mean": 0.5453182342293129
+        },
+        "gap": {
+          "brightness_gap": 0.447547,
+          "std_rgb_abs_gap": [
+            0.153139,
+            0.14663,
+            0.141395
+          ],
+          "edge_density_gap": 0.056863,
+          "entropy_gap": 6.376177
+        },
+        "weighted_visual_gap": 2.6026269333333336,
+        "framing_score": 1.0,
+        "observation_contract_pass": true
+      },
+      {
+        "lane": {
+          "lane_id": "RF4_reformulation_v0_surface",
+          "stage": "probe",
+          "env_contract_config": {
+            "secondary_camera_mode": "wrist_dynamic",
+            "enable_marker_overlay": false,
+            "calibration_mode": "none",
+            "interaction_mode": "orientation_sensitive_v1",
+            "state_mode": "telemetry_candidate_v2",
+            "emit_orientation_telemetry": true,
+            "emit_camera_metadata": true,
+            "canonical_lane": true
+          },
+          "interventions": {
+            "rotation_source": "aligned",
+            "reformulation_profile": "reformulation_v0"
+          },
+          "dataset_config": {
+            "unique_data_budget": null,
+            "success_repeat": 1,
+            "train_seed_pool": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "heldout_seed_pool": [
+              11,
+              12,
+              13,
+              14,
+              15
+            ],
+            "max_steps": 96
+          },
+          "train_config": {
+            "train_steps": 0,
+            "batch_size": 0,
+            "top_k": 0,
+            "tiny_retrain": false,
+            "full_retrain": false
+          },
+          "claim_policy": "canonical",
+          "note": "Reformulated visual surface under reformulation_v0.",
+          "experiment_id": "RF4",
+          "coverage": {},
+          "cost": 1.0,
+          "lane_hash": "055039bd2292dbfa"
+        },
+        "claim_policy": "canonical",
+        "secondary_camera_wrist_like": true,
+        "secondary_camera_residual_mean": 0.0,
+        "secondary_camera_residual_max": 0.0,
+        "marker_overlay_enabled": false,
+        "diagnostic_only": false,
+        "provenance_complete": true,
+        "target_stats": {
+          "sample_count": 24,
+          "mean_rgb": [
+            0.021080000326037407,
+            0.017727000638842583,
+            0.014027999714016914
+          ],
+          "std_rgb": [
+            0.06908299773931503,
+            0.058058001101017,
+            0.045983001589775085
+          ],
+          "brightness_mean": 0.018305216271892872,
+          "edge_density_mean": 0.008612314860026041,
+          "entropy_mean": 0.6059187912006584
+        },
+        "gap": {
+          "brightness_gap": 0.447546,
+          "std_rgb_abs_gap": [
+            0.154397,
+            0.14767,
+            0.142239
+          ],
+          "edge_density_gap": 0.055297,
+          "entropy_gap": 6.315577
+        },
+        "weighted_visual_gap": 2.5779700000000005,
+        "framing_score": 1.0,
+        "observation_contract_pass": true
+      }
+    ],
+    "best_lane": {
+      "lane": {
+        "lane_id": "RF4_reformulation_v0_surface",
+        "stage": "probe",
+        "env_contract_config": {
+          "secondary_camera_mode": "wrist_dynamic",
+          "enable_marker_overlay": false,
+          "calibration_mode": "none",
+          "interaction_mode": "orientation_sensitive_v1",
+          "state_mode": "telemetry_candidate_v2",
+          "emit_orientation_telemetry": true,
+          "emit_camera_metadata": true,
+          "canonical_lane": true
+        },
+        "interventions": {
+          "rotation_source": "aligned",
+          "reformulation_profile": "reformulation_v0"
+        },
+        "dataset_config": {
+          "unique_data_budget": null,
+          "success_repeat": 1,
+          "train_seed_pool": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "heldout_seed_pool": [
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "max_steps": 96
+        },
+        "train_config": {
+          "train_steps": 0,
+          "batch_size": 0,
+          "top_k": 0,
+          "tiny_retrain": false,
+          "full_retrain": false
+        },
+        "claim_policy": "canonical",
+        "note": "Reformulated visual surface under reformulation_v0.",
+        "experiment_id": "RF4",
+        "coverage": {},
+        "cost": 1.0,
+        "lane_hash": "055039bd2292dbfa"
+      },
+      "claim_policy": "canonical",
+      "secondary_camera_wrist_like": true,
+      "secondary_camera_residual_mean": 0.0,
+      "secondary_camera_residual_max": 0.0,
+      "marker_overlay_enabled": false,
+      "diagnostic_only": false,
+      "provenance_complete": true,
+      "target_stats": {
+        "sample_count": 24,
+        "mean_rgb": [
+          0.021080000326037407,
+          0.017727000638842583,
+          0.014027999714016914
+        ],
+        "std_rgb": [
+          0.06908299773931503,
+          0.058058001101017,
+          0.045983001589775085
+        ],
+        "brightness_mean": 0.018305216271892872,
+        "edge_density_mean": 0.008612314860026041,
+        "entropy_mean": 0.6059187912006584
+      },
+      "gap": {
+        "brightness_gap": 0.447546,
+        "std_rgb_abs_gap": [
+          0.154397,
+          0.14767,
+          0.142239
+        ],
+        "edge_density_gap": 0.055297,
+        "entropy_gap": 6.315577
+      },
+      "weighted_visual_gap": 2.5779700000000005,
+      "framing_score": 1.0,
+      "observation_contract_pass": true
+    },
+    "best_visual_alignment_gain": 0.0094738638940286,
+    "observation_semantics_pass": true,
+    "perceptual_readability_pass": false
+  },
+  "RF5": {
+    "experiment_id": "RF5",
+    "generated_at": "2026-04-12T01:11:18+08:00",
+    "passed": false,
+    "baseline_summary": {
+      "rollout_count": 3,
+      "unique_success_rate": 0.3333333333333333,
+      "attach_rate": 0.6666666666666666,
+      "mean_max_drawer_fraction": 0.4965751629173072,
+      "avg_episode_length": 67.66666666666667,
+      "success_count": 1,
+      "orientation_causal_sensitivity": 0.0
+    },
+    "profiles": {
+      "minimal_contract_repair_v1": {
+        "lane": {
+          "lane_id": "RF5_minimal_contract_repair_v1",
+          "stage": "probe",
+          "env_contract_config": {
+            "secondary_camera_mode": "wrist_dynamic",
+            "enable_marker_overlay": false,
+            "calibration_mode": "none",
+            "interaction_mode": "orientation_sensitive_v1",
+            "state_mode": "telemetry_candidate_v1",
+            "emit_orientation_telemetry": true,
+            "emit_camera_metadata": true,
+            "canonical_lane": true
+          },
+          "interventions": {
+            "rotation_source": "aligned",
+            "reformulation_profile": "minimal_contract_repair_v1"
+          },
+          "dataset_config": {
+            "unique_data_budget": null,
+            "success_repeat": 1,
+            "train_seed_pool": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "heldout_seed_pool": [
+              11,
+              12,
+              13,
+              14,
+              15
+            ],
+            "max_steps": 96
+          },
+          "train_config": {
+            "train_steps": 0,
+            "batch_size": 0,
+            "top_k": 0,
+            "tiny_retrain": false,
+            "full_retrain": false
+          },
+          "claim_policy": "canonical",
+          "note": "Minimal repair bundle under telemetry_candidate_v1.",
+          "experiment_id": "RF5",
+          "coverage": {},
+          "cost": 1.0,
+          "lane_hash": "5b41dcb5e3c3dc33"
+        },
+        "rollout_summary": {
+          "rollout_count": 3,
+          "unique_success_rate": 0.0,
+          "attach_rate": 0.6666666666666666,
+          "mean_max_drawer_fraction": 0.2235214653717981,
+          "avg_episode_length": 96.0,
+          "success_count": 0,
+          "orientation_causal_sensitivity": 0.2235214653717981
+        },
+        "observation_report": {
+          "lane": {
+            "lane_id": "RF5_minimal_contract_repair_v1",
+            "stage": "probe",
+            "env_contract_config": {
+              "secondary_camera_mode": "wrist_dynamic",
+              "enable_marker_overlay": false,
+              "calibration_mode": "none",
+              "interaction_mode": "orientation_sensitive_v1",
+              "state_mode": "telemetry_candidate_v1",
+              "emit_orientation_telemetry": true,
+              "emit_camera_metadata": true,
+              "canonical_lane": true
+            },
+            "interventions": {
+              "rotation_source": "aligned",
+              "reformulation_profile": "minimal_contract_repair_v1"
+            },
+            "dataset_config": {
+              "unique_data_budget": null,
+              "success_repeat": 1,
+              "train_seed_pool": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+              ],
+              "heldout_seed_pool": [
+                11,
+                12,
+                13,
+                14,
+                15
+              ],
+              "max_steps": 96
+            },
+            "train_config": {
+              "train_steps": 0,
+              "batch_size": 0,
+              "top_k": 0,
+              "tiny_retrain": false,
+              "full_retrain": false
+            },
+            "claim_policy": "canonical",
+            "note": "Minimal repair bundle under telemetry_candidate_v1.",
+            "experiment_id": "RF5",
+            "coverage": {},
+            "cost": 1.0,
+            "lane_hash": "5b41dcb5e3c3dc33"
+          },
+          "claim_policy": "canonical",
+          "secondary_camera_wrist_like": true,
+          "secondary_camera_residual_mean": 0.0,
+          "secondary_camera_residual_max": 0.0,
+          "marker_overlay_enabled": false,
+          "diagnostic_only": false,
+          "provenance_complete": true,
+          "target_stats": {
+            "sample_count": 24,
+            "mean_rgb": [
+              0.021080000326037407,
+              0.017727000638842583,
+              0.014027999714016914
+            ],
+            "std_rgb": [
+              0.06908299773931503,
+              0.058058001101017,
+              0.045983001589775085
+            ],
+            "brightness_mean": 0.018305216271892872,
+            "edge_density_mean": 0.008612314860026041,
+            "entropy_mean": 0.6059187912006584
+          },
+          "gap": {
+            "brightness_gap": 0.447546,
+            "std_rgb_abs_gap": [
+              0.154397,
+              0.14767,
+              0.142239
+            ],
+            "edge_density_gap": 0.055297,
+            "entropy_gap": 6.315577
+          },
+          "weighted_visual_gap": 2.5779700000000005,
+          "framing_score": 1.0,
+          "observation_contract_pass": true
+        },
+        "rollout_ceiling_lift": {
+          "score": -0.06945071119852303,
+          "delta_unique_success_rate": -0.3333333333333333,
+          "delta_attach_rate": 0.0,
+          "delta_mean_max_drawer_fraction": -0.2730536975455091,
+          "delta_avg_episode_length_ratio": 0.4187192118226599,
+          "delta_orientation_causal_sensitivity": 0.2235214653717981
+        },
+        "state_alignment_gain": 0.058460787533259784,
+        "sensor_contract_gain": {
+          "score": 0.8015688100101618,
+          "wrist_relativeness_gain": 1.0,
+          "no_overlay_gain": 1.0,
+          "visual_alignment_gain": 0.007844050050808904,
+          "framing_gain": 1.0
+        }
+      },
+      "reformulation_v0": {
+        "lane": {
+          "lane_id": "RF5_reformulation_v0",
+          "stage": "probe",
+          "env_contract_config": {
+            "secondary_camera_mode": "wrist_dynamic",
+            "enable_marker_overlay": false,
+            "calibration_mode": "none",
+            "interaction_mode": "orientation_sensitive_v1",
+            "state_mode": "telemetry_candidate_v2",
+            "emit_orientation_telemetry": true,
+            "emit_camera_metadata": true,
+            "canonical_lane": true
+          },
+          "interventions": {
+            "rotation_source": "aligned",
+            "reformulation_profile": "reformulation_v0"
+          },
+          "dataset_config": {
+            "unique_data_budget": null,
+            "success_repeat": 1,
+            "train_seed_pool": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "heldout_seed_pool": [
+              11,
+              12,
+              13,
+              14,
+              15
+            ],
+            "max_steps": 96
+          },
+          "train_config": {
+            "train_steps": 0,
+            "batch_size": 0,
+            "top_k": 0,
+            "tiny_retrain": false,
+            "full_retrain": false
+          },
+          "claim_policy": "canonical",
+          "note": "Reformulation bootstrap bundle under telemetry_candidate_v2.",
+          "experiment_id": "RF5",
+          "coverage": {},
+          "cost": 1.0,
+          "lane_hash": "53af28c50efe0788"
+        },
+        "rollout_summary": {
+          "rollout_count": 3,
+          "unique_success_rate": 0.0,
+          "attach_rate": 0.6666666666666666,
+          "mean_max_drawer_fraction": 0.2235214653717981,
+          "avg_episode_length": 96.0,
+          "success_count": 0,
+          "orientation_causal_sensitivity": 0.2235214653717981
+        },
+        "observation_report": {
+          "lane": {
+            "lane_id": "RF5_reformulation_v0",
+            "stage": "probe",
+            "env_contract_config": {
+              "secondary_camera_mode": "wrist_dynamic",
+              "enable_marker_overlay": false,
+              "calibration_mode": "none",
+              "interaction_mode": "orientation_sensitive_v1",
+              "state_mode": "telemetry_candidate_v2",
+              "emit_orientation_telemetry": true,
+              "emit_camera_metadata": true,
+              "canonical_lane": true
+            },
+            "interventions": {
+              "rotation_source": "aligned",
+              "reformulation_profile": "reformulation_v0"
+            },
+            "dataset_config": {
+              "unique_data_budget": null,
+              "success_repeat": 1,
+              "train_seed_pool": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+              ],
+              "heldout_seed_pool": [
+                11,
+                12,
+                13,
+                14,
+                15
+              ],
+              "max_steps": 96
+            },
+            "train_config": {
+              "train_steps": 0,
+              "batch_size": 0,
+              "top_k": 0,
+              "tiny_retrain": false,
+              "full_retrain": false
+            },
+            "claim_policy": "canonical",
+            "note": "Reformulation bootstrap bundle under telemetry_candidate_v2.",
+            "experiment_id": "RF5",
+            "coverage": {},
+            "cost": 1.0,
+            "lane_hash": "53af28c50efe0788"
+          },
+          "claim_policy": "canonical",
+          "secondary_camera_wrist_like": true,
+          "secondary_camera_residual_mean": 0.0,
+          "secondary_camera_residual_max": 0.0,
+          "marker_overlay_enabled": false,
+          "diagnostic_only": false,
+          "provenance_complete": true,
+          "target_stats": {
+            "sample_count": 24,
+            "mean_rgb": [
+              0.021080000326037407,
+              0.017727000638842583,
+              0.014027999714016914
+            ],
+            "std_rgb": [
+              0.06908299773931503,
+              0.058058001101017,
+              0.045983001589775085
+            ],
+            "brightness_mean": 0.018305216271892872,
+            "edge_density_mean": 0.008612314860026041,
+            "entropy_mean": 0.6059187912006584
+          },
+          "gap": {
+            "brightness_gap": 0.447546,
+            "std_rgb_abs_gap": [
+              0.154397,
+              0.14767,
+              0.142239
+            ],
+            "edge_density_gap": 0.055297,
+            "entropy_gap": 6.315577
+          },
+          "weighted_visual_gap": 2.5779700000000005,
+          "framing_score": 1.0,
+          "observation_contract_pass": true
+        },
+        "rollout_ceiling_lift": {
+          "score": -0.06945071119852303,
+          "delta_unique_success_rate": -0.3333333333333333,
+          "delta_attach_rate": 0.0,
+          "delta_mean_max_drawer_fraction": -0.2730536975455091,
+          "delta_avg_episode_length_ratio": 0.4187192118226599,
+          "delta_orientation_causal_sensitivity": 0.2235214653717981
+        },
+        "state_alignment_gain": 0.17297692286648592,
+        "sensor_contract_gain": {
+          "score": 0.8015688100101618,
+          "wrist_relativeness_gain": 1.0,
+          "no_overlay_gain": 1.0,
+          "visual_alignment_gain": 0.007844050050808904,
+          "framing_gain": 1.0
+        }
+      }
+    },
+    "best_profile_id": "reformulation_v0",
+    "best_profile": {
+      "lane": {
+        "lane_id": "RF5_reformulation_v0",
+        "stage": "probe",
+        "env_contract_config": {
+          "secondary_camera_mode": "wrist_dynamic",
+          "enable_marker_overlay": false,
+          "calibration_mode": "none",
+          "interaction_mode": "orientation_sensitive_v1",
+          "state_mode": "telemetry_candidate_v2",
+          "emit_orientation_telemetry": true,
+          "emit_camera_metadata": true,
+          "canonical_lane": true
+        },
+        "interventions": {
+          "rotation_source": "aligned",
+          "reformulation_profile": "reformulation_v0"
+        },
+        "dataset_config": {
+          "unique_data_budget": null,
+          "success_repeat": 1,
+          "train_seed_pool": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "heldout_seed_pool": [
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "max_steps": 96
+        },
+        "train_config": {
+          "train_steps": 0,
+          "batch_size": 0,
+          "top_k": 0,
+          "tiny_retrain": false,
+          "full_retrain": false
+        },
+        "claim_policy": "canonical",
+        "note": "Reformulation bootstrap bundle under telemetry_candidate_v2.",
+        "experiment_id": "RF5",
+        "coverage": {},
+        "cost": 1.0,
+        "lane_hash": "53af28c50efe0788"
+      },
+      "rollout_summary": {
+        "rollout_count": 3,
+        "unique_success_rate": 0.0,
+        "attach_rate": 0.6666666666666666,
+        "mean_max_drawer_fraction": 0.2235214653717981,
+        "avg_episode_length": 96.0,
+        "success_count": 0,
+        "orientation_causal_sensitivity": 0.2235214653717981
+      },
+      "observation_report": {
+        "lane": {
+          "lane_id": "RF5_reformulation_v0",
+          "stage": "probe",
+          "env_contract_config": {
+            "secondary_camera_mode": "wrist_dynamic",
+            "enable_marker_overlay": false,
+            "calibration_mode": "none",
+            "interaction_mode": "orientation_sensitive_v1",
+            "state_mode": "telemetry_candidate_v2",
+            "emit_orientation_telemetry": true,
+            "emit_camera_metadata": true,
+            "canonical_lane": true
+          },
+          "interventions": {
+            "rotation_source": "aligned",
+            "reformulation_profile": "reformulation_v0"
+          },
+          "dataset_config": {
+            "unique_data_budget": null,
+            "success_repeat": 1,
+            "train_seed_pool": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "heldout_seed_pool": [
+              11,
+              12,
+              13,
+              14,
+              15
+            ],
+            "max_steps": 96
+          },
+          "train_config": {
+            "train_steps": 0,
+            "batch_size": 0,
+            "top_k": 0,
+            "tiny_retrain": false,
+            "full_retrain": false
+          },
+          "claim_policy": "canonical",
+          "note": "Reformulation bootstrap bundle under telemetry_candidate_v2.",
+          "experiment_id": "RF5",
+          "coverage": {},
+          "cost": 1.0,
+          "lane_hash": "53af28c50efe0788"
+        },
+        "claim_policy": "canonical",
+        "secondary_camera_wrist_like": true,
+        "secondary_camera_residual_mean": 0.0,
+        "secondary_camera_residual_max": 0.0,
+        "marker_overlay_enabled": false,
+        "diagnostic_only": false,
+        "provenance_complete": true,
+        "target_stats": {
+          "sample_count": 24,
+          "mean_rgb": [
+            0.021080000326037407,
+            0.017727000638842583,
+            0.014027999714016914
+          ],
+          "std_rgb": [
+            0.06908299773931503,
+            0.058058001101017,
+            0.045983001589775085
+          ],
+          "brightness_mean": 0.018305216271892872,
+          "edge_density_mean": 0.008612314860026041,
+          "entropy_mean": 0.6059187912006584
+        },
+        "gap": {
+          "brightness_gap": 0.447546,
+          "std_rgb_abs_gap": [
+            0.154397,
+            0.14767,
+            0.142239
+          ],
+          "edge_density_gap": 0.055297,
+          "entropy_gap": 6.315577
+        },
+        "weighted_visual_gap": 2.5779700000000005,
+        "framing_score": 1.0,
+        "observation_contract_pass": true
+      },
+      "rollout_ceiling_lift": {
+        "score": -0.06945071119852303,
+        "delta_unique_success_rate": -0.3333333333333333,
+        "delta_attach_rate": 0.0,
+        "delta_mean_max_drawer_fraction": -0.2730536975455091,
+        "delta_avg_episode_length_ratio": 0.4187192118226599,
+        "delta_orientation_causal_sensitivity": 0.2235214653717981
+      },
+      "state_alignment_gain": 0.17297692286648592,
+      "sensor_contract_gain": {
+        "score": 0.8015688100101618,
+        "wrist_relativeness_gain": 1.0,
+        "no_overlay_gain": 1.0,
+        "visual_alignment_gain": 0.007844050050808904,
+        "framing_gain": 1.0
+      }
+    },
+    "rollout_ceiling_lift": {
+      "score": -0.06945071119852303,
+      "delta_unique_success_rate": -0.3333333333333333,
+      "delta_attach_rate": 0.0,
+      "delta_mean_max_drawer_fraction": -0.2730536975455091,
+      "delta_avg_episode_length_ratio": 0.4187192118226599,
+      "delta_orientation_causal_sensitivity": 0.2235214653717981
+    },
+    "state_alignment_gain": 0.17297692286648592,
+    "sensor_contract_gain": {
+      "score": 0.8015688100101618,
+      "wrist_relativeness_gain": 1.0,
+      "no_overlay_gain": 1.0,
+      "visual_alignment_gain": 0.007844050050808904,
+      "framing_gain": 1.0
+    }
+  },
+  "RF6": {
+    "experiment_id": "RF6",
+    "generated_at": "2026-04-12T01:11:21+08:00",
+    "passed": true,
+    "best_profile_id": "reformulation_v0",
+    "replicated_state_mode": "telemetry_candidate_v2",
+    "baseline_summary": {
+      "rollout_count": 3,
+      "unique_success_rate": 0.3333333333333333,
+      "attach_rate": 1.0,
+      "mean_max_drawer_fraction": 0.5201365203879951,
+      "avg_episode_length": 67.33333333333333,
+      "success_count": 1
+    },
+    "candidate_summary": {
+      "rollout_count": 3,
+      "unique_success_rate": 0.0,
+      "attach_rate": 1.0,
+      "mean_max_drawer_fraction": 0.08193016264058332,
+      "avg_episode_length": 96.0,
+      "success_count": 0
+    },
+    "rollout_ceiling_lift": {
+      "score": -0.12377988541086847,
+      "delta_unique_success_rate": -0.3333333333333333,
+      "delta_attach_rate": 0.0,
+      "delta_mean_max_drawer_fraction": -0.43820635774741173,
+      "delta_avg_episode_length_ratio": 0.4257425742574259,
+      "delta_orientation_causal_sensitivity": 0.0
+    },
+    "prior_rollout_ceiling_lift": -0.06945071119852303,
+    "replication_consistent": true
+  }
+}

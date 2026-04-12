@@ -1,0 +1,11 @@
+{
+  "actions": [
+    {
+      "type": "environment_reformulation",
+      "id": "environment_reformulation",
+      "status": "pending",
+      "priority": "P0",
+      "scientific_terminal_state": "BENCHMARK_ALIGNMENT_UNSUPPORTED_UNDER_CURRENT_FORMULATION"
+    }
+  ]
+}

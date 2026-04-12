@@ -1,0 +1,11 @@
+{
+  "phase": "v65_REFORMULATION_BOOTSTRAP_AFTER_STAGE_A_TERMINAL_NEGATIVE",
+  "verdict": "Repeated evidence supports same-problem identity failure under the current formulation.",
+  "next_action": {
+    "type": "environment_reformulation",
+    "id": "environment_reformulation",
+    "status": "pending",
+    "priority": "P0"
+  },
+  "scientific_terminal_state": "BENCHMARK_ALIGNMENT_UNSUPPORTED_UNDER_CURRENT_FORMULATION"
+}

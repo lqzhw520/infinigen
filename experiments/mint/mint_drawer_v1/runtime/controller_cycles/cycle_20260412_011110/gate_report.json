@@ -1,0 +1,270 @@
+{
+  "generated_at": "2026-04-12T01:11:21+08:00",
+  "gates": [
+    {
+      "gate_id": "G0_baseline_integrity",
+      "passed": true,
+      "summary": "Authority readable and verified p1j/p1l baseline anchors confirm a healthy control baseline and non-blocking parity.",
+      "blocking": true,
+      "details": {
+        "p1j_exists": true,
+        "p1l_exists": true,
+        "control_baseline_pass": true,
+        "control_pc_success": 100.0,
+        "parity_non_blocker": true,
+        "parity_decision": {
+          "official_success_delta": 0,
+          "official_drawer_delta": 0.009071191108088517,
+          "mujoco_success_delta": 0,
+          "mujoco_drawer_delta": 0.0,
+          "parity_blocker": false,
+          "interpretation": "n_action_steps parity is not the primary blocker under the current probe; later semantic gates may proceed."
+        },
+        "authority_readable": true
+      }
+    },
+    {
+      "gate_id": "G1_observation_contract",
+      "passed": true,
+      "summary": "Observation contract requires wrist-like second camera, no overlay, no diagnostic trick, and provenance-complete canonical lane.",
+      "blocking": true,
+      "details": {
+        "lane": {
+          "lane_id": "RF1_reformulation_v0_observation",
+          "stage": "probe",
+          "env_contract_config": {
+            "secondary_camera_mode": "wrist_dynamic",
+            "enable_marker_overlay": false,
+            "calibration_mode": "none",
+            "interaction_mode": "orientation_sensitive_v1",
+            "state_mode": "telemetry_candidate_v2",
+            "emit_orientation_telemetry": true,
+            "emit_camera_metadata": true,
+            "canonical_lane": true
+          },
+          "interventions": {
+            "rotation_source": "aligned",
+            "reformulation_profile": "reformulation_v0"
+          },
+          "dataset_config": {
+            "unique_data_budget": null,
+            "success_repeat": 1,
+            "train_seed_pool": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6
+            ],
+            "heldout_seed_pool": [
+              11,
+              12,
+              13,
+              14,
+              15
+            ],
+            "max_steps": 96
+          },
+          "train_config": {
+            "train_steps": 0,
+            "batch_size": 0,
+            "top_k": 0,
+            "tiny_retrain": false,
+            "full_retrain": false
+          },
+          "claim_policy": "canonical",
+          "note": "Observation contract under reformulation_v0 profile.",
+          "experiment_id": "RF1",
+          "coverage": {},
+          "cost": 1.0,
+          "lane_hash": "eca445a823020ad5"
+        },
+        "claim_policy": "canonical",
+        "secondary_camera_wrist_like": true,
+        "secondary_camera_residual_mean": 0.0,
+        "secondary_camera_residual_max": 0.0,
+        "marker_overlay_enabled": false,
+        "diagnostic_only": false,
+        "provenance_complete": true,
+        "target_stats": {
+          "sample_count": 24,
+          "mean_rgb": [
+            0.021080000326037407,
+            0.017727000638842583,
+            0.014027999714016914
+          ],
+          "std_rgb": [
+            0.06908299773931503,
+            0.058058001101017,
+            0.045983001589775085
+          ],
+          "brightness_mean": 0.018305216271892872,
+          "edge_density_mean": 0.008612314860026041,
+          "entropy_mean": 0.6059187912006584
+        },
+        "gap": {
+          "brightness_gap": 0.447546,
+          "std_rgb_abs_gap": [
+            0.154397,
+            0.14767,
+            0.142239
+          ],
+          "edge_density_gap": 0.055297,
+          "entropy_gap": 6.315577
+        },
+        "weighted_visual_gap": 2.5779700000000005,
+        "framing_score": 1.0,
+        "observation_contract_pass": true
+      }
+    },
+    {
+      "gate_id": "G2_action_causality",
+      "passed": true,
+      "summary": "Rotation only counts if aligned rotation measurably beats zero/random under orientation-sensitive physics.",
+      "blocking": true,
+      "details": {
+        "orientation_causal_sensitivity": 0.2235214653717981,
+        "effect_size": 0.2235214653717981,
+        "aligned_beats_random_under_sensitive": true
+      }
+    },
+    {
+      "gate_id": "G3_state_semantics",
+      "passed": true,
+      "summary": "State gate requires a telemetry-compatible, provenance-complete, non-duplicated state candidate with non-trivial measured adequacy over M0.",
+      "blocking": true,
+      "details": {
+        "selected_state_mapping": "M_telemetry_v2",
+        "best_telemetry_candidate": "M_telemetry_v2",
+        "telemetry_semantic_pass": true,
+        "strict_state_gate_ready": true,
+        "state_alignment_gain_vs_m0": 0.17297692286648592,
+        "impossible": false
+      }
+    },
+    {
+      "gate_id": "G4_visual_canonicality",
+      "passed": false,
+      "summary": "Visual gate requires clean canonical observation semantics plus material perceptual readability improvement.",
+      "blocking": true,
+      "details": {
+        "best_lane": {
+          "lane": {
+            "lane_id": "RF4_reformulation_v0_surface",
+            "stage": "probe",
+            "env_contract_config": {
+              "secondary_camera_mode": "wrist_dynamic",
+              "enable_marker_overlay": false,
+              "calibration_mode": "none",
+              "interaction_mode": "orientation_sensitive_v1",
+              "state_mode": "telemetry_candidate_v2",
+              "emit_orientation_telemetry": true,
+              "emit_camera_metadata": true,
+              "canonical_lane": true
+            },
+            "interventions": {
+              "rotation_source": "aligned",
+              "reformulation_profile": "reformulation_v0"
+            },
+            "dataset_config": {
+              "unique_data_budget": null,
+              "success_repeat": 1,
+              "train_seed_pool": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6
+              ],
+              "heldout_seed_pool": [
+                11,
+                12,
+                13,
+                14,
+                15
+              ],
+              "max_steps": 96
+            },
+            "train_config": {
+              "train_steps": 0,
+              "batch_size": 0,
+              "top_k": 0,
+              "tiny_retrain": false,
+              "full_retrain": false
+            },
+            "claim_policy": "canonical",
+            "note": "Reformulated visual surface under reformulation_v0.",
+            "experiment_id": "RF4",
+            "coverage": {},
+            "cost": 1.0,
+            "lane_hash": "055039bd2292dbfa"
+          },
+          "claim_policy": "canonical",
+          "secondary_camera_wrist_like": true,
+          "secondary_camera_residual_mean": 0.0,
+          "secondary_camera_residual_max": 0.0,
+          "marker_overlay_enabled": false,
+          "diagnostic_only": false,
+          "provenance_complete": true,
+          "target_stats": {
+            "sample_count": 24,
+            "mean_rgb": [
+              0.021080000326037407,
+              0.017727000638842583,
+              0.014027999714016914
+            ],
+            "std_rgb": [
+              0.06908299773931503,
+              0.058058001101017,
+              0.045983001589775085
+            ],
+            "brightness_mean": 0.018305216271892872,
+            "edge_density_mean": 0.008612314860026041,
+            "entropy_mean": 0.6059187912006584
+          },
+          "gap": {
+            "brightness_gap": 0.447546,
+            "std_rgb_abs_gap": [
+              0.154397,
+              0.14767,
+              0.142239
+            ],
+            "edge_density_gap": 0.055297,
+            "entropy_gap": 6.315577
+          },
+          "weighted_visual_gap": 2.5779700000000005,
+          "framing_score": 1.0,
+          "observation_contract_pass": true
+        },
+        "observation_semantics_pass": true,
+        "perceptual_readability_pass": false,
+        "best_visual_alignment_gain": 0.0094738638940286
+      }
+    },
+    {
+      "gate_id": "G5_training_eligibility",
+      "passed": false,
+      "summary": "Training is eligible only after G1-G4 pass and at least one causal gain threshold is met.",
+      "blocking": false,
+      "details": {
+        "best_profile_id": "reformulation_v0",
+        "rollout_ceiling_lift": -0.06945071119852303,
+        "state_alignment_gain": 0.17297692286648592,
+        "sensor_contract_gain": 0.8015688100101618
+      }
+    }
+  ],
+  "contract_validity_score": 1.0,
+  "scientific_terminal_state": "BENCHMARK_ALIGNMENT_UNSUPPORTED_UNDER_CURRENT_FORMULATION",
+  "route_next_branch": "environment_reformulation",
+  "route_why": "Repeated evidence supports same-problem identity failure under the current formulation.",
+  "route_decision": {
+    "scientific_terminal_state": "BENCHMARK_ALIGNMENT_UNSUPPORTED_UNDER_CURRENT_FORMULATION",
+    "route_next_branch": "environment_reformulation",
+    "why": "Repeated evidence supports same-problem identity failure under the current formulation.",
+    "h0_posterior": 0.11516460216354997,
+    "h6_posterior": 0.9003097233874662
+  }
+}

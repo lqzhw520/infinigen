@@ -1,0 +1,377 @@
+{
+  "experiment_id": "RF2",
+  "generated_at": "2026-04-12T01:10:40+08:00",
+  "passed": true,
+  "matrix": {
+    "RF2_legacy_translation_only_zero": {
+      "lane": {
+        "lane_id": "RF2_legacy_translation_only_zero",
+        "stage": "probe",
+        "env_contract_config": {
+          "secondary_camera_mode": "wrist_dynamic",
+          "enable_marker_overlay": false,
+          "calibration_mode": "none",
+          "interaction_mode": "legacy_translation_only",
+          "state_mode": "m0_proxy",
+          "emit_orientation_telemetry": true,
+          "emit_camera_metadata": true,
+          "canonical_lane": false
+        },
+        "interventions": {
+          "rotation_source": "zero",
+          "reformulation_profile": "minimal_contract_repair_v1"
+        },
+        "dataset_config": {
+          "unique_data_budget": null,
+          "success_repeat": 1,
+          "train_seed_pool": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "heldout_seed_pool": [
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "max_steps": 96
+        },
+        "train_config": {
+          "train_steps": 0,
+          "batch_size": 0,
+          "top_k": 0,
+          "tiny_retrain": false,
+          "full_retrain": false
+        },
+        "claim_policy": "diagnostic",
+        "note": "Reformulated action-causality matrix lane.",
+        "experiment_id": "RF2",
+        "coverage": {},
+        "cost": 1.0,
+        "lane_hash": "a9402c13bd15d767"
+      },
+      "rollout_summary": {
+        "rollout_count": 3,
+        "unique_success_rate": 0.3333333333333333,
+        "attach_rate": 0.6666666666666666,
+        "mean_max_drawer_fraction": 0.4965751629173072,
+        "avg_episode_length": 67.66666666666667,
+        "success_count": 1
+      }
+    },
+    "RF2_legacy_translation_only_aligned": {
+      "lane": {
+        "lane_id": "RF2_legacy_translation_only_aligned",
+        "stage": "probe",
+        "env_contract_config": {
+          "secondary_camera_mode": "wrist_dynamic",
+          "enable_marker_overlay": false,
+          "calibration_mode": "none",
+          "interaction_mode": "legacy_translation_only",
+          "state_mode": "m0_proxy",
+          "emit_orientation_telemetry": true,
+          "emit_camera_metadata": true,
+          "canonical_lane": false
+        },
+        "interventions": {
+          "rotation_source": "aligned",
+          "reformulation_profile": "minimal_contract_repair_v1"
+        },
+        "dataset_config": {
+          "unique_data_budget": null,
+          "success_repeat": 1,
+          "train_seed_pool": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "heldout_seed_pool": [
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "max_steps": 96
+        },
+        "train_config": {
+          "train_steps": 0,
+          "batch_size": 0,
+          "top_k": 0,
+          "tiny_retrain": false,
+          "full_retrain": false
+        },
+        "claim_policy": "diagnostic",
+        "note": "Reformulated action-causality matrix lane.",
+        "experiment_id": "RF2",
+        "coverage": {},
+        "cost": 1.0,
+        "lane_hash": "64bbec6120e4dedc"
+      },
+      "rollout_summary": {
+        "rollout_count": 3,
+        "unique_success_rate": 0.3333333333333333,
+        "attach_rate": 0.6666666666666666,
+        "mean_max_drawer_fraction": 0.4965751629173072,
+        "avg_episode_length": 67.66666666666667,
+        "success_count": 1
+      }
+    },
+    "RF2_legacy_translation_only_random": {
+      "lane": {
+        "lane_id": "RF2_legacy_translation_only_random",
+        "stage": "probe",
+        "env_contract_config": {
+          "secondary_camera_mode": "wrist_dynamic",
+          "enable_marker_overlay": false,
+          "calibration_mode": "none",
+          "interaction_mode": "legacy_translation_only",
+          "state_mode": "m0_proxy",
+          "emit_orientation_telemetry": true,
+          "emit_camera_metadata": true,
+          "canonical_lane": false
+        },
+        "interventions": {
+          "rotation_source": "random",
+          "reformulation_profile": "minimal_contract_repair_v1"
+        },
+        "dataset_config": {
+          "unique_data_budget": null,
+          "success_repeat": 1,
+          "train_seed_pool": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "heldout_seed_pool": [
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "max_steps": 96
+        },
+        "train_config": {
+          "train_steps": 0,
+          "batch_size": 0,
+          "top_k": 0,
+          "tiny_retrain": false,
+          "full_retrain": false
+        },
+        "claim_policy": "diagnostic",
+        "note": "Reformulated action-causality matrix lane.",
+        "experiment_id": "RF2",
+        "coverage": {},
+        "cost": 1.0,
+        "lane_hash": "b79685a1aaf5f498"
+      },
+      "rollout_summary": {
+        "rollout_count": 3,
+        "unique_success_rate": 0.3333333333333333,
+        "attach_rate": 0.6666666666666666,
+        "mean_max_drawer_fraction": 0.4965751629173072,
+        "avg_episode_length": 67.66666666666667,
+        "success_count": 1
+      }
+    },
+    "RF2_orientation_sensitive_v1_zero": {
+      "lane": {
+        "lane_id": "RF2_orientation_sensitive_v1_zero",
+        "stage": "probe",
+        "env_contract_config": {
+          "secondary_camera_mode": "wrist_dynamic",
+          "enable_marker_overlay": false,
+          "calibration_mode": "none",
+          "interaction_mode": "orientation_sensitive_v1",
+          "state_mode": "m0_proxy",
+          "emit_orientation_telemetry": true,
+          "emit_camera_metadata": true,
+          "canonical_lane": true
+        },
+        "interventions": {
+          "rotation_source": "zero",
+          "reformulation_profile": "minimal_contract_repair_v1"
+        },
+        "dataset_config": {
+          "unique_data_budget": null,
+          "success_repeat": 1,
+          "train_seed_pool": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "heldout_seed_pool": [
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "max_steps": 96
+        },
+        "train_config": {
+          "train_steps": 0,
+          "batch_size": 0,
+          "top_k": 0,
+          "tiny_retrain": false,
+          "full_retrain": false
+        },
+        "claim_policy": "canonical",
+        "note": "Reformulated action-causality matrix lane.",
+        "experiment_id": "RF2",
+        "coverage": {},
+        "cost": 1.0,
+        "lane_hash": "3a34d43ea741d1ec"
+      },
+      "rollout_summary": {
+        "rollout_count": 3,
+        "unique_success_rate": 0.0,
+        "attach_rate": 0.0,
+        "mean_max_drawer_fraction": 0.0,
+        "avg_episode_length": 96.0,
+        "success_count": 0
+      }
+    },
+    "RF2_orientation_sensitive_v1_aligned": {
+      "lane": {
+        "lane_id": "RF2_orientation_sensitive_v1_aligned",
+        "stage": "probe",
+        "env_contract_config": {
+          "secondary_camera_mode": "wrist_dynamic",
+          "enable_marker_overlay": false,
+          "calibration_mode": "none",
+          "interaction_mode": "orientation_sensitive_v1",
+          "state_mode": "m0_proxy",
+          "emit_orientation_telemetry": true,
+          "emit_camera_metadata": true,
+          "canonical_lane": true
+        },
+        "interventions": {
+          "rotation_source": "aligned",
+          "reformulation_profile": "minimal_contract_repair_v1"
+        },
+        "dataset_config": {
+          "unique_data_budget": null,
+          "success_repeat": 1,
+          "train_seed_pool": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "heldout_seed_pool": [
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "max_steps": 96
+        },
+        "train_config": {
+          "train_steps": 0,
+          "batch_size": 0,
+          "top_k": 0,
+          "tiny_retrain": false,
+          "full_retrain": false
+        },
+        "claim_policy": "canonical",
+        "note": "Reformulated action-causality matrix lane.",
+        "experiment_id": "RF2",
+        "coverage": {},
+        "cost": 1.0,
+        "lane_hash": "72b05ebbe3464667"
+      },
+      "rollout_summary": {
+        "rollout_count": 3,
+        "unique_success_rate": 0.0,
+        "attach_rate": 0.6666666666666666,
+        "mean_max_drawer_fraction": 0.2235214653717981,
+        "avg_episode_length": 96.0,
+        "success_count": 0
+      }
+    },
+    "RF2_orientation_sensitive_v1_random": {
+      "lane": {
+        "lane_id": "RF2_orientation_sensitive_v1_random",
+        "stage": "probe",
+        "env_contract_config": {
+          "secondary_camera_mode": "wrist_dynamic",
+          "enable_marker_overlay": false,
+          "calibration_mode": "none",
+          "interaction_mode": "orientation_sensitive_v1",
+          "state_mode": "m0_proxy",
+          "emit_orientation_telemetry": true,
+          "emit_camera_metadata": true,
+          "canonical_lane": true
+        },
+        "interventions": {
+          "rotation_source": "random",
+          "reformulation_profile": "minimal_contract_repair_v1"
+        },
+        "dataset_config": {
+          "unique_data_budget": null,
+          "success_repeat": 1,
+          "train_seed_pool": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6
+          ],
+          "heldout_seed_pool": [
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "max_steps": 96
+        },
+        "train_config": {
+          "train_steps": 0,
+          "batch_size": 0,
+          "top_k": 0,
+          "tiny_retrain": false,
+          "full_retrain": false
+        },
+        "claim_policy": "canonical",
+        "note": "Reformulated action-causality matrix lane.",
+        "experiment_id": "RF2",
+        "coverage": {},
+        "cost": 1.0,
+        "lane_hash": "245a660f06ed327c"
+      },
+      "rollout_summary": {
+        "rollout_count": 3,
+        "unique_success_rate": 0.0,
+        "attach_rate": 0.0,
+        "mean_max_drawer_fraction": 0.0,
+        "avg_episode_length": 96.0,
+        "success_count": 0
+      }
+    }
+  },
+  "orientation_causal_sensitivity": 0.2235214653717981,
+  "legacy_alignment_gap": 0.0,
+  "aligned_beats_random_under_sensitive": true,
+  "effect_size": 0.2235214653717981
+}

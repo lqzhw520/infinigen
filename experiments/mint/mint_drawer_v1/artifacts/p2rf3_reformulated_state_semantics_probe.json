@@ -1,0 +1,269 @@
+{
+  "experiment_id": "RF3",
+  "generated_at": "2026-04-12T01:10:31+08:00",
+  "passed": true,
+  "selected_state_mapping": "M_telemetry_v2",
+  "best_telemetry_candidate": "M_telemetry_v2",
+  "candidate_state_scores": {
+    "M0_proxy": {
+      "valid": true,
+      "overall_score": 0.6424154418513262,
+      "wasserstein": [
+        0.06561251929913735,
+        0.18497638180516324,
+        0.9353793580049382,
+        2.162587823130517,
+        1.8769001220432875,
+        0.5690665935897399,
+        0.6350744361151393,
+        0.02377894329635094
+      ],
+      "range_overlap": [
+        0.1039474222476636,
+        0.6043892378660861,
+        0.0,
+        0.0,
+        0.0,
+        0.07135938282068037,
+        0.009188967417933135,
+        0.19104597064325554
+      ],
+      "temporal_smoothness_gap": [
+        0.0004155058413743973,
+        0.022219786420464516,
+        0.0007067844271659851,
+        0.0311763733625412,
+        0.033455900847911835,
+        0.028432026505470276,
+        0.0728922113776207,
+        0.0049041081219911575
+      ],
+      "state_spec": {
+        "state_mode": "m0_proxy",
+        "shape": [
+          8
+        ],
+        "dim_names": [
+          "eef_pos_x_m",
+          "eef_pos_y_m",
+          "eef_pos_z_m",
+          "handle_rel_x_norm",
+          "handle_rel_y_norm",
+          "handle_rel_z_norm",
+          "drawer_fraction_signed",
+          "gripper_joint"
+        ],
+        "provenance": [
+          "observed",
+          "observed",
+          "observed",
+          "derived",
+          "derived",
+          "derived",
+          "derived",
+          "observed"
+        ],
+        "duplicate_dims": [],
+        "fraud_padding": false,
+        "all_dims_explained": true
+      },
+      "claim_policy": "diagnostic"
+    },
+    "M_pose": {
+      "valid": true,
+      "overall_score": 0.7115181736472691,
+      "wasserstein": [
+        0.06561251929913735,
+        0.18497638180516324,
+        0.9353793580049382,
+        2.131227903415502,
+        0.6391156115774258,
+        0.6838336790202504,
+        0.039083484569902245,
+        0.02377894329635094
+      ],
+      "range_overlap": [
+        0.1039474222476636,
+        0.6043892378660861,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.19104597064325554
+      ],
+      "temporal_smoothness_gap": [
+        0.0004155058413743973,
+        0.022219786420464516,
+        0.0007067844271659851,
+        0.10746495425701141,
+        0.1234726682305336,
+        0.04963379353284836,
+        0.0003247590793762356,
+        0.0049041081219911575
+      ],
+      "state_spec": {
+        "state_mode": "eef_pose_gripper",
+        "shape": [
+          8
+        ],
+        "dim_names": [
+          "eef_pos_x_m",
+          "eef_pos_y_m",
+          "eef_pos_z_m",
+          "eef_quat_x",
+          "eef_quat_y",
+          "eef_quat_z",
+          "eef_quat_w",
+          "gripper_joint"
+        ],
+        "provenance": [
+          "observed",
+          "observed",
+          "observed",
+          "observed",
+          "observed",
+          "observed",
+          "observed",
+          "observed"
+        ],
+        "duplicate_dims": [],
+        "fraud_padding": false,
+        "all_dims_explained": true
+      },
+      "claim_policy": "diagnostic"
+    },
+    "M_telemetry_v1": {
+      "valid": true,
+      "overall_score": 0.6048593291971706,
+      "wasserstein": [
+        0.06518671920514836,
+        0.19030447934867198,
+        0.943660447353344,
+        0.7314230570318707,
+        1.7412206232461538,
+        0.8828833492111896,
+        0.0637640397681533,
+        0.5645473010829454
+      ],
+      "range_overlap": [
+        0.1039474222476636,
+        0.6042952139249026,
+        0.0,
+        0.013064005494143337,
+        0.30766135420400575,
+        0.3825607476127903,
+        0.0,
+        0.0
+      ],
+      "temporal_smoothness_gap": [
+        0.0031036315485835075,
+        0.018812354654073715,
+        0.0011993832886219025,
+        0.031503692269325256,
+        0.4572407901287079,
+        0.011912304908037186,
+        0.004068995360285044,
+        0.06486055254936218
+      ],
+      "state_spec": {
+        "state_mode": "telemetry_candidate_v1",
+        "shape": [
+          8
+        ],
+        "dim_names": [
+          "eef_pos_x_m",
+          "eef_pos_y_m",
+          "eef_pos_z_m",
+          "eef_rotvec_x",
+          "eef_rotvec_y",
+          "eef_rotvec_z",
+          "gripper_joint",
+          "drawer_fraction_signed"
+        ],
+        "provenance": [
+          "observed",
+          "observed",
+          "observed",
+          "derived",
+          "derived",
+          "derived",
+          "observed",
+          "derived"
+        ],
+        "duplicate_dims": [],
+        "fraud_padding": false,
+        "all_dims_explained": true
+      },
+      "claim_policy": "canonical"
+    },
+    "M_telemetry_v2": {
+      "valid": true,
+      "overall_score": 0.5312923955179698,
+      "wasserstein": [
+        0.06518671920514836,
+        0.19030447934867198,
+        0.943660447353344,
+        0.7314230570318707,
+        1.7412206232461538,
+        0.8828833492111896,
+        0.16402891533415515,
+        0.5645473010829454
+      ],
+      "range_overlap": [
+        0.1039474222476636,
+        0.6042952139249026,
+        0.0,
+        0.013064005494143337,
+        0.30766135420400575,
+        0.3825607476127903,
+        0.0,
+        0.0
+      ],
+      "temporal_smoothness_gap": [
+        0.0031036315485835075,
+        0.018812354654073715,
+        0.0011993832886219025,
+        0.031503692269325256,
+        0.4572407901287079,
+        0.011912304908037186,
+        0.06687045097351074,
+        0.06486055254936218
+      ],
+      "state_spec": {
+        "state_mode": "telemetry_candidate_v2",
+        "shape": [
+          8
+        ],
+        "dim_names": [
+          "eef_pos_x_m",
+          "eef_pos_y_m",
+          "eef_pos_z_m",
+          "eef_rotvec_x",
+          "eef_rotvec_y",
+          "eef_rotvec_z",
+          "handle_distance_norm",
+          "drawer_fraction_signed"
+        ],
+        "provenance": [
+          "observed",
+          "observed",
+          "observed",
+          "derived",
+          "derived",
+          "derived",
+          "derived",
+          "derived"
+        ],
+        "duplicate_dims": [],
+        "fraud_padding": false,
+        "all_dims_explained": true
+      },
+      "claim_policy": "canonical"
+    }
+  },
+  "state_alignment_gain_vs_m0": 0.17297692286648592,
+  "telemetry_semantic_pass": true,
+  "strict_state_gate_ready": true,
+  "impossible": false
+}

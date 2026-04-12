@@ -1,0 +1,46 @@
+{
+  "cycle_id": "cycle_20260412_011110",
+  "generated_at": "2026-04-12T01:11:21+08:00",
+  "selected_experiments": [
+    "RF4",
+    "RF5",
+    "RF6"
+  ],
+  "completed_experiments": [
+    "RF0",
+    "RF3",
+    "RF1",
+    "RF2",
+    "RF4",
+    "RF5",
+    "RF6"
+  ],
+  "scientific_terminal_state": "BENCHMARK_ALIGNMENT_UNSUPPORTED_UNDER_CURRENT_FORMULATION",
+  "route_next_branch": "environment_reformulation",
+  "resource_snapshot": {
+    "policy": {
+      "AUTO_PROMOTE_SOVEREIGN": false,
+      "ALLOW_FULL_RETRAIN": false,
+      "ALLOW_NEW_CLAIM": false,
+      "RUN_MODE": "autonomous_cycle_phase"
+    },
+    "limits": {
+      "max_rollouts_per_experiment": 3,
+      "max_disk_growth_mb": 4096,
+      "retry_backoff_seconds": 5,
+      "max_retries": 2,
+      "max_cycles_per_run": 4,
+      "max_tiny_retrain_budget": 1
+    },
+    "disk_growth_mb": 0.082,
+    "completed_experiments": [
+      "RF0",
+      "RF3",
+      "RF1",
+      "RF2",
+      "RF4",
+      "RF5",
+      "RF6"
+    ]
+  }
+}

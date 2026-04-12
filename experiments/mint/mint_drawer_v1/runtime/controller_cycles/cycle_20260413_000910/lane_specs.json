@@ -1,27 +1,7 @@
 {
-  "generated_at": "2026-04-13T00:09:10+08:00",
-  "cycle_mode": "unattended_cycle",
-  "experiment_family": "RCA",
-  "cycles_completed": 4,
-  "completed_experiments": [
-    "RCA0",
-    "RCA1",
-    "RCA2",
-    "RCA3",
-    "RCA4",
-    "RCA5",
-    "RCA6",
-    "RCA7"
-  ],
-  "policy": {
-    "AUTO_PROMOTE_SOVEREIGN": false,
-    "ALLOW_FULL_RETRAIN": false,
-    "ALLOW_NEW_CLAIM": false,
-    "RUN_MODE": "autonomous_cycle_phase",
-    "EXPERIMENT_FAMILY": "RCA",
-    "CAP_STRONGEST_NEGATIVE": true,
-    "RESUME": false
-  },
+  "cycle_id": "cycle_20260413_000910",
+  "lane_family": "RCA",
+  "lane_specs": [],
   "resource_budget_snapshot": {
     "policy": {
       "AUTO_PROMOTE_SOVEREIGN": false,

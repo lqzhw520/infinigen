@@ -1,0 +1,391 @@
+{
+  "experiment_id": "RCA2",
+  "generated_at": "2026-04-13T00:07:30+08:00",
+  "passed": false,
+  "raw_canonical": {
+    "lane": {
+      "lane_id": "RCA2_visual_affordance_v3_raw_canonical",
+      "lane_family": "RCA",
+      "stage": "probe",
+      "env_contract_config": {
+        "secondary_camera_mode": "wrist_dynamic",
+        "enable_marker_overlay": false,
+        "calibration_mode": "none",
+        "interaction_mode": "legacy_translation_only",
+        "state_mode": "m0_proxy",
+        "render_profile": "visual_affordance_v3_raw_canonical",
+        "background_mode": "neutral_lowfreq_lab",
+        "lighting_profile": "front_key_handle_rim",
+        "material_policy": "legacy",
+        "camera_framing_profile": "macro_handle_centered",
+        "emit_orientation_telemetry": true,
+        "emit_camera_metadata": true,
+        "emit_handle_probe_metadata": true,
+        "canonical_lane": true
+      },
+      "interventions": {
+        "rotation_source": "zero",
+        "profile_id": "visual_affordance_v3_raw_canonical"
+      },
+      "dataset_config": {
+        "unique_data_budget": null,
+        "success_repeat": 1,
+        "train_seed_pool": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "heldout_seed_pool": [
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "max_steps": 96
+      },
+      "train_config": {
+        "train_steps": 0,
+        "batch_size": 0,
+        "top_k": 0,
+        "tiny_retrain": false,
+        "full_retrain": false
+      },
+      "claim_policy": "canonical",
+      "diagnostic_only": false,
+      "strongest_negative_capped": true,
+      "resource_budget_snapshot": {
+        "policy": {
+          "AUTO_PROMOTE_SOVEREIGN": false,
+          "ALLOW_FULL_RETRAIN": false,
+          "ALLOW_NEW_CLAIM": false,
+          "RUN_MODE": "autonomous_cycle_phase",
+          "EXPERIMENT_FAMILY": "RCA",
+          "CAP_STRONGEST_NEGATIVE": true,
+          "RESUME": false
+        },
+        "limits": {
+          "max_rollouts_per_experiment": 3,
+          "max_disk_growth_mb": 4096,
+          "retry_backoff_seconds": 5,
+          "max_retries": 2,
+          "max_cycles_per_run": 4,
+          "max_tiny_retrain_budget": 1
+        },
+        "disk_growth_mb": 0.003,
+        "completed_experiments": [
+          "RCA0",
+          "RCA1"
+        ]
+      },
+      "note": "True-measured raw canonical affordance baseline.",
+      "experiment_id": "RCA2",
+      "coverage": {},
+      "cost": 1.0,
+      "lane_hash": "aeb8823719230eb0"
+    },
+    "claim_policy": "canonical",
+    "diagnostic_only": false,
+    "secondary_camera_wrist_like": true,
+    "secondary_camera_residual_mean": 0.0,
+    "secondary_camera_residual_max": 0.0,
+    "marker_overlay_enabled": false,
+    "provenance_complete": true,
+    "target_stats": {
+      "sample_count": 24,
+      "mean_rgb": [
+        0.06413199752569199,
+        0.05283299833536148,
+        0.04151200130581856
+      ],
+      "std_rgb": [
+        0.16430999338626862,
+        0.1350879967212677,
+        0.10579700022935867
+      ],
+      "brightness_mean": 0.054948881560680916,
+      "edge_density_mean": 0.008619308471679688,
+      "entropy_mean": 0.8195597418344085
+    },
+    "gap": {
+      "brightness_gap": 0.410903,
+      "std_rgb_abs_gap": [
+        0.05917,
+        0.07064,
+        0.082425
+      ],
+      "edge_density_gap": 0.05529,
+      "entropy_gap": 6.101936
+    },
+    "weighted_visual_gap": 2.4770394000000007,
+    "visual_alignment_gain": 0.0,
+    "render_profile": "visual_affordance_v3_raw_canonical",
+    "background_mode": "neutral_lowfreq_lab",
+    "lighting_profile": "front_key_handle_rim",
+    "material_policy": "legacy",
+    "camera_framing_profile": "macro_handle_centered",
+    "probe_measurement_mode": "true_handle_mask",
+    "handle_bbox_primary": [
+      135,
+      102,
+      162,
+      131
+    ],
+    "handle_bbox_secondary": [
+      0,
+      0,
+      220,
+      256
+    ],
+    "handle_visibility_fraction": 1.0,
+    "handle_local_contrast": 0.0,
+    "handle_crop_entropy": 0.0,
+    "handle_area_ratio": 0.29153028826847255,
+    "handle_boundary_contrast": 0.07417119632159175,
+    "handle_edge_density": 0.011293267081497435,
+    "handle_local_std": 0.19031801807603727,
+    "legacy_handle_local_contrast": 0.003380234228888369,
+    "legacy_handle_crop_entropy": 0.015762502008951927,
+    "legacy_handle_bbox_secondary": [
+      58,
+      75,
+      94,
+      111
+    ],
+    "framing_score": 0.7736183586802876,
+    "camera_relativeness_residual": 0.0,
+    "perception_probe_mode": "crop_feature_proxy_v1",
+    "perception_probe_available": true,
+    "handle_patch_separability": 1.868692736168337,
+    "encoder_readability_pass": true,
+    "positive_count": 107,
+    "negative_count": 107,
+    "observation_contract_pass": true,
+    "visual_gate_breakdown": {
+      "baseline_weighted_visual_gap": 2.4770394000000007,
+      "lane_weighted_visual_gap": 2.4770394000000007,
+      "visual_alignment_gain": 0.0,
+      "framing_score": 0.7736183586802876,
+      "handle_visibility_fraction": 1.0,
+      "handle_local_contrast": 0.0,
+      "handle_crop_entropy": 0.0,
+      "handle_readability_score": 0.45472367173605754,
+      "perceptual_readability_score_v2": 0.30009801945483167,
+      "camera_relativeness_residual": 0.0,
+      "encoder_readability_pass": true
+    },
+    "g4b_local_breakdown": {
+      "handle_area_ratio": 0.859375,
+      "handle_boundary_contrast": 0.07417119632159175,
+      "handle_edge_density": 0.011293267081497435,
+      "handle_crop_entropy": 0.0,
+      "secondary_framing_score": 0.7736183586802876,
+      "local_affordance_readability_score_v3": 0.6570734357149571
+    },
+    "g4c_global_breakdown": {
+      "baseline_weighted_visual_gap": 2.4770394000000007,
+      "weighted_visual_gap": 2.4770394000000007,
+      "visual_alignment_gain": 0.0
+    }
+  },
+  "visual_affordance_v3_local_material_edge": {
+    "lane": {
+      "lane_id": "RCA2_visual_affordance_v3_local_material_edge",
+      "lane_family": "RCA",
+      "stage": "probe",
+      "env_contract_config": {
+        "secondary_camera_mode": "wrist_dynamic",
+        "enable_marker_overlay": false,
+        "calibration_mode": "none",
+        "interaction_mode": "legacy_translation_only",
+        "state_mode": "m0_proxy",
+        "render_profile": "visual_affordance_v3_local_material_edge",
+        "background_mode": "neutral_lowfreq_lab",
+        "lighting_profile": "front_key_handle_rim",
+        "material_policy": "handle_affordance_local",
+        "camera_framing_profile": "macro_handle_centered",
+        "emit_orientation_telemetry": true,
+        "emit_camera_metadata": true,
+        "emit_handle_probe_metadata": true,
+        "canonical_lane": true
+      },
+      "interventions": {
+        "rotation_source": "zero",
+        "profile_id": "visual_affordance_v3_local_material_edge"
+      },
+      "dataset_config": {
+        "unique_data_budget": null,
+        "success_repeat": 1,
+        "train_seed_pool": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "heldout_seed_pool": [
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "max_steps": 96
+      },
+      "train_config": {
+        "train_steps": 0,
+        "batch_size": 0,
+        "top_k": 0,
+        "tiny_retrain": false,
+        "full_retrain": false
+      },
+      "claim_policy": "canonical",
+      "diagnostic_only": false,
+      "strongest_negative_capped": true,
+      "resource_budget_snapshot": {
+        "policy": {
+          "AUTO_PROMOTE_SOVEREIGN": false,
+          "ALLOW_FULL_RETRAIN": false,
+          "ALLOW_NEW_CLAIM": false,
+          "RUN_MODE": "autonomous_cycle_phase",
+          "EXPERIMENT_FAMILY": "RCA",
+          "CAP_STRONGEST_NEGATIVE": true,
+          "RESUME": false
+        },
+        "limits": {
+          "max_rollouts_per_experiment": 3,
+          "max_disk_growth_mb": 4096,
+          "retry_backoff_seconds": 5,
+          "max_retries": 2,
+          "max_cycles_per_run": 4,
+          "max_tiny_retrain_budget": 1
+        },
+        "disk_growth_mb": 0.003,
+        "completed_experiments": [
+          "RCA0",
+          "RCA1"
+        ]
+      },
+      "note": "Local affordance visual attack only.",
+      "experiment_id": "RCA2",
+      "coverage": {},
+      "cost": 1.0,
+      "lane_hash": "36f69651620b45e3"
+    },
+    "claim_policy": "canonical",
+    "diagnostic_only": false,
+    "secondary_camera_wrist_like": true,
+    "secondary_camera_residual_mean": 0.0,
+    "secondary_camera_residual_max": 0.0,
+    "marker_overlay_enabled": false,
+    "provenance_complete": true,
+    "target_stats": {
+      "sample_count": 24,
+      "mean_rgb": [
+        0.08170399814844131,
+        0.07019300013780594,
+        0.05313799902796745
+      ],
+      "std_rgb": [
+        0.2035669982433319,
+        0.1757189929485321,
+        0.13255099952220917
+      ],
+      "brightness_mean": 0.07180760202844158,
+      "edge_density_mean": 0.006749471028645833,
+      "entropy_mean": 0.8864593963072229
+    },
+    "gap": {
+      "brightness_gap": 0.394044,
+      "std_rgb_abs_gap": [
+        0.019913,
+        0.030009,
+        0.055671
+      ],
+      "edge_density_gap": 0.05716,
+      "entropy_gap": 6.035036
+    },
+    "weighted_visual_gap": 2.4439179333333336,
+    "visual_alignment_gain": 0.0,
+    "render_profile": "visual_affordance_v3_local_material_edge",
+    "background_mode": "neutral_lowfreq_lab",
+    "lighting_profile": "front_key_handle_rim",
+    "material_policy": "handle_affordance_local",
+    "camera_framing_profile": "macro_handle_centered",
+    "probe_measurement_mode": "true_handle_mask",
+    "handle_bbox_primary": [
+      135,
+      102,
+      162,
+      131
+    ],
+    "handle_bbox_secondary": [
+      0,
+      0,
+      220,
+      256
+    ],
+    "handle_visibility_fraction": 1.0,
+    "handle_local_contrast": 0.0,
+    "handle_crop_entropy": 0.0,
+    "handle_area_ratio": 0.29153028826847255,
+    "handle_boundary_contrast": 0.06731398115984157,
+    "handle_edge_density": 0.011076365126583191,
+    "handle_local_std": 0.17772753735569635,
+    "legacy_handle_local_contrast": 0.002993463902357404,
+    "legacy_handle_crop_entropy": 0.015986420168749207,
+    "legacy_handle_bbox_secondary": [
+      58,
+      75,
+      94,
+      111
+    ],
+    "framing_score": 0.7736183586802876,
+    "camera_relativeness_residual": 0.0,
+    "perception_probe_mode": "crop_feature_proxy_v1",
+    "perception_probe_available": true,
+    "handle_patch_separability": 1.7352335304307258,
+    "encoder_readability_pass": true,
+    "positive_count": 107,
+    "negative_count": 107,
+    "observation_contract_pass": true,
+    "visual_gate_breakdown": {
+      "baseline_weighted_visual_gap": 2.4439179333333336,
+      "lane_weighted_visual_gap": 2.4439179333333336,
+      "visual_alignment_gain": 0.0,
+      "framing_score": 0.7736183586802876,
+      "handle_visibility_fraction": 1.0,
+      "handle_local_contrast": 0.0,
+      "handle_crop_entropy": 0.0,
+      "handle_readability_score": 0.45472367173605754,
+      "perceptual_readability_score_v2": 0.30009801945483167,
+      "camera_relativeness_residual": 0.0,
+      "encoder_readability_pass": true
+    },
+    "g4b_local_breakdown": {
+      "handle_area_ratio": 0.859375,
+      "handle_boundary_contrast": 0.06731398115984157,
+      "handle_edge_density": 0.011076365126583191,
+      "handle_crop_entropy": 0.0,
+      "secondary_framing_score": 0.7736183586802876,
+      "local_affordance_readability_score_v3": 0.6341986253017262
+    },
+    "g4c_global_breakdown": {
+      "baseline_weighted_visual_gap": 2.4439179333333336,
+      "weighted_visual_gap": 2.4439179333333336,
+      "visual_alignment_gain": 0.0
+    }
+  },
+  "local_affordance_score_gain": -0.022874810413230917,
+  "boundary_contrast_gain": -0.0068572151617501825,
+  "edge_density_gain": -0.0002169019549142434,
+  "entropy_gain": 0.0
+}

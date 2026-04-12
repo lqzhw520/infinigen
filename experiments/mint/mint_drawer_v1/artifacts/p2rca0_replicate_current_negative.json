@@ -1,0 +1,31 @@
+{
+  "experiment_id": "RCA0",
+  "generated_at": "2026-04-13T00:06:56+08:00",
+  "passed": true,
+  "legacy_summary": {
+    "rollout_count": 3,
+    "unique_success_rate": 0.3333333333333333,
+    "attach_rate": 0.6666666666666666,
+    "mean_max_drawer_fraction": 0.4965751629173072,
+    "avg_episode_length": 67.66666666666667,
+    "success_count": 1,
+    "orientation_causal_sensitivity": 0.004505517892539501
+  },
+  "strongest_negative_summary": {
+    "rollout_count": 3,
+    "unique_success_rate": 0.0,
+    "attach_rate": 0.6666666666666666,
+    "mean_max_drawer_fraction": 0.2235214653717981,
+    "avg_episode_length": 96.0,
+    "success_count": 0,
+    "orientation_causal_sensitivity": 0.0004124960396438837
+  },
+  "rollout_ceiling_lift": {
+    "score": -0.09180285773570283,
+    "delta_unique_success_rate": -0.3333333333333333,
+    "delta_attach_rate": 0.0,
+    "delta_mean_max_drawer_fraction": -0.2730536975455091,
+    "delta_avg_episode_length_ratio": 0.4187192118226599,
+    "delta_orientation_causal_sensitivity": 0.0
+  }
+}

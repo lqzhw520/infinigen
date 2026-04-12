@@ -1,0 +1,11 @@
+{
+  "actions": [
+    {
+      "id": "proposed_next_mainline",
+      "priority": 1,
+      "status": "pending",
+      "action": "environment_reformulation",
+      "why": "Local affordance readability still did not pass on true-handle measurement."
+    }
+  ]
+}

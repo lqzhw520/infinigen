@@ -53,7 +53,7 @@ def _controller_defaults() -> dict[str, object]:
 def parse_args() -> argparse.Namespace:
     defaults = _controller_defaults()
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--experiment-family", choices=["VR"], default=os.getenv("EXPERIMENT_FAMILY", "VR"))
+    parser.add_argument("--experiment-family", choices=["VR", "RCA"], default=os.getenv("EXPERIMENT_FAMILY", "RCA"))
     parser.add_argument("--cap-strongest-negative", dest="cap_strongest_negative", action="store_true", default=_env_bool("CAP_STRONGEST_NEGATIVE", True))
     parser.add_argument("--no-cap-strongest-negative", dest="cap_strongest_negative", action="store_false")
     parser.add_argument("--max-cycles", type=int, default=_env_int("MAX_CYCLES", 4))

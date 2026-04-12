@@ -1,0 +1,3178 @@
+{
+  "experiment_id": "RCA5",
+  "generated_at": "2026-04-13T00:08:37+08:00",
+  "passed": false,
+  "profiles": [
+    {
+      "profile_id": "visual_affordance_v3_raw_canonical",
+      "lane": {
+        "lane_id": "RCA5_visual_affordance_v3_raw_canonical",
+        "lane_family": "RCA",
+        "stage": "probe",
+        "env_contract_config": {
+          "secondary_camera_mode": "wrist_dynamic",
+          "enable_marker_overlay": false,
+          "calibration_mode": "none",
+          "interaction_mode": "legacy_translation_only",
+          "state_mode": "m0_proxy",
+          "render_profile": "visual_affordance_v3_raw_canonical",
+          "background_mode": "neutral_lowfreq_lab",
+          "lighting_profile": "front_key_handle_rim",
+          "material_policy": "legacy",
+          "camera_framing_profile": "macro_handle_centered",
+          "emit_orientation_telemetry": true,
+          "emit_camera_metadata": true,
+          "emit_handle_probe_metadata": true,
+          "canonical_lane": true
+        },
+        "interventions": {
+          "rotation_source": "zero",
+          "profile_id": "visual_affordance_v3_raw_canonical"
+        },
+        "dataset_config": {
+          "unique_data_budget": null,
+          "success_repeat": 1,
+          "train_seed_pool": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ],
+          "heldout_seed_pool": [
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "max_steps": 96
+        },
+        "train_config": {
+          "train_steps": 0,
+          "batch_size": 0,
+          "top_k": 0,
+          "tiny_retrain": false,
+          "full_retrain": false
+        },
+        "claim_policy": "canonical",
+        "diagnostic_only": false,
+        "strongest_negative_capped": true,
+        "resource_budget_snapshot": {
+          "policy": {
+            "AUTO_PROMOTE_SOVEREIGN": false,
+            "ALLOW_FULL_RETRAIN": false,
+            "ALLOW_NEW_CLAIM": false,
+            "RUN_MODE": "autonomous_cycle_phase",
+            "EXPERIMENT_FAMILY": "RCA",
+            "CAP_STRONGEST_NEGATIVE": true,
+            "RESUME": false
+          },
+          "limits": {
+            "max_rollouts_per_experiment": 3,
+            "max_disk_growth_mb": 4096,
+            "retry_backoff_seconds": 5,
+            "max_retries": 2,
+            "max_cycles_per_run": 4,
+            "max_tiny_retrain_budget": 1
+          },
+          "disk_growth_mb": 0.004,
+          "completed_experiments": [
+            "RCA0",
+            "RCA1",
+            "RCA2",
+            "RCA3",
+            "RCA4"
+          ]
+        },
+        "note": "Integrated RCA bundle comparison profile.",
+        "experiment_id": "RCA5",
+        "coverage": {},
+        "cost": 1.0,
+        "lane_hash": "a967b1c6bd9cca76"
+      },
+      "rollout_summary": {
+        "rollout_count": 3,
+        "unique_success_rate": 0.3333333333333333,
+        "attach_rate": 0.6666666666666666,
+        "mean_max_drawer_fraction": 0.4965751629173072,
+        "avg_episode_length": 67.66666666666667,
+        "success_count": 1,
+        "orientation_causal_sensitivity": 0.004505517892539501
+      },
+      "rollout_ceiling_lift": {
+        "score": 0.0,
+        "delta_unique_success_rate": 0.0,
+        "delta_attach_rate": 0.0,
+        "delta_mean_max_drawer_fraction": 0.0,
+        "delta_avg_episode_length_ratio": 0.0,
+        "delta_orientation_causal_sensitivity": 0.0
+      },
+      "state_report": {
+        "lane": {
+          "lane_id": "RCA5_visual_affordance_v3_raw_canonical",
+          "lane_family": "RCA",
+          "stage": "probe",
+          "env_contract_config": {
+            "secondary_camera_mode": "wrist_dynamic",
+            "enable_marker_overlay": false,
+            "calibration_mode": "none",
+            "interaction_mode": "legacy_translation_only",
+            "state_mode": "m0_proxy",
+            "render_profile": "visual_affordance_v3_raw_canonical",
+            "background_mode": "neutral_lowfreq_lab",
+            "lighting_profile": "front_key_handle_rim",
+            "material_policy": "legacy",
+            "camera_framing_profile": "macro_handle_centered",
+            "emit_orientation_telemetry": true,
+            "emit_camera_metadata": true,
+            "emit_handle_probe_metadata": true,
+            "canonical_lane": true
+          },
+          "interventions": {
+            "rotation_source": "zero",
+            "profile_id": "visual_affordance_v3_raw_canonical"
+          },
+          "dataset_config": {
+            "unique_data_budget": null,
+            "success_repeat": 1,
+            "train_seed_pool": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "heldout_seed_pool": [
+              11,
+              12,
+              13,
+              14,
+              15
+            ],
+            "max_steps": 96
+          },
+          "train_config": {
+            "train_steps": 0,
+            "batch_size": 0,
+            "top_k": 0,
+            "tiny_retrain": false,
+            "full_retrain": false
+          },
+          "claim_policy": "canonical",
+          "diagnostic_only": false,
+          "strongest_negative_capped": true,
+          "resource_budget_snapshot": {
+            "policy": {
+              "AUTO_PROMOTE_SOVEREIGN": false,
+              "ALLOW_FULL_RETRAIN": false,
+              "ALLOW_NEW_CLAIM": false,
+              "RUN_MODE": "autonomous_cycle_phase",
+              "EXPERIMENT_FAMILY": "RCA",
+              "CAP_STRONGEST_NEGATIVE": true,
+              "RESUME": false
+            },
+            "limits": {
+              "max_rollouts_per_experiment": 3,
+              "max_disk_growth_mb": 4096,
+              "retry_backoff_seconds": 5,
+              "max_retries": 2,
+              "max_cycles_per_run": 4,
+              "max_tiny_retrain_budget": 1
+            },
+            "disk_growth_mb": 0.004,
+            "completed_experiments": [
+              "RCA0",
+              "RCA1",
+              "RCA2",
+              "RCA3",
+              "RCA4"
+            ]
+          },
+          "note": "Integrated RCA bundle comparison profile.",
+          "experiment_id": "RCA5",
+          "coverage": {},
+          "cost": 1.0,
+          "lane_hash": "a967b1c6bd9cca76"
+        },
+        "state_spec": {
+          "state_mode": "m0_proxy",
+          "shape": [
+            8
+          ],
+          "dim_names": [
+            "eef_pos_x_m",
+            "eef_pos_y_m",
+            "eef_pos_z_m",
+            "handle_rel_x_norm",
+            "handle_rel_y_norm",
+            "handle_rel_z_norm",
+            "drawer_fraction_signed",
+            "gripper_joint"
+          ],
+          "provenance": [
+            "observed",
+            "observed",
+            "observed",
+            "derived",
+            "derived",
+            "derived",
+            "derived",
+            "observed"
+          ],
+          "duplicate_dims": [],
+          "fraud_padding": false,
+          "all_dims_explained": true
+        },
+        "overall_score": 0.6424154418513262,
+        "per_dim_wasserstein": [
+          0.06561251929913735,
+          0.18497638180516324,
+          0.9353793580049382,
+          2.162587823130517,
+          1.8769001220432875,
+          0.5690665935897399,
+          0.6350744361151393,
+          0.02377894329635094
+        ],
+        "per_dim_range_overlap": [
+          0.1039474222476636,
+          0.6043892378660861,
+          0.0,
+          0.0,
+          0.0,
+          0.07135938282068037,
+          0.009188967417933135,
+          0.19104597064325554
+        ],
+        "per_dim_smoothness_gap": [
+          0.0004155058413743973,
+          0.022219786420464516,
+          0.0007067844271659851,
+          0.0311763733625412,
+          0.033455900847911835,
+          0.028432026505470276,
+          0.0728922113776207,
+          0.0049041081219911575
+        ],
+        "valid": true,
+        "fraud_padding": false,
+        "all_dims_explained": true,
+        "state_mode": "m0_proxy"
+      },
+      "state_alignment_gain": 0.0,
+      "visual_report": {
+        "lane": {
+          "lane_id": "RCA5_visual_affordance_v3_raw_canonical",
+          "lane_family": "RCA",
+          "stage": "probe",
+          "env_contract_config": {
+            "secondary_camera_mode": "wrist_dynamic",
+            "enable_marker_overlay": false,
+            "calibration_mode": "none",
+            "interaction_mode": "legacy_translation_only",
+            "state_mode": "m0_proxy",
+            "render_profile": "visual_affordance_v3_raw_canonical",
+            "background_mode": "neutral_lowfreq_lab",
+            "lighting_profile": "front_key_handle_rim",
+            "material_policy": "legacy",
+            "camera_framing_profile": "macro_handle_centered",
+            "emit_orientation_telemetry": true,
+            "emit_camera_metadata": true,
+            "emit_handle_probe_metadata": true,
+            "canonical_lane": true
+          },
+          "interventions": {
+            "rotation_source": "zero",
+            "profile_id": "visual_affordance_v3_raw_canonical"
+          },
+          "dataset_config": {
+            "unique_data_budget": null,
+            "success_repeat": 1,
+            "train_seed_pool": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "heldout_seed_pool": [
+              11,
+              12,
+              13,
+              14,
+              15
+            ],
+            "max_steps": 96
+          },
+          "train_config": {
+            "train_steps": 0,
+            "batch_size": 0,
+            "top_k": 0,
+            "tiny_retrain": false,
+            "full_retrain": false
+          },
+          "claim_policy": "canonical",
+          "diagnostic_only": false,
+          "strongest_negative_capped": true,
+          "resource_budget_snapshot": {
+            "policy": {
+              "AUTO_PROMOTE_SOVEREIGN": false,
+              "ALLOW_FULL_RETRAIN": false,
+              "ALLOW_NEW_CLAIM": false,
+              "RUN_MODE": "autonomous_cycle_phase",
+              "EXPERIMENT_FAMILY": "RCA",
+              "CAP_STRONGEST_NEGATIVE": true,
+              "RESUME": false
+            },
+            "limits": {
+              "max_rollouts_per_experiment": 3,
+              "max_disk_growth_mb": 4096,
+              "retry_backoff_seconds": 5,
+              "max_retries": 2,
+              "max_cycles_per_run": 4,
+              "max_tiny_retrain_budget": 1
+            },
+            "disk_growth_mb": 0.004,
+            "completed_experiments": [
+              "RCA0",
+              "RCA1",
+              "RCA2",
+              "RCA3",
+              "RCA4"
+            ]
+          },
+          "note": "Integrated RCA bundle comparison profile.",
+          "experiment_id": "RCA5",
+          "coverage": {},
+          "cost": 1.0,
+          "lane_hash": "a967b1c6bd9cca76"
+        },
+        "claim_policy": "canonical",
+        "diagnostic_only": false,
+        "secondary_camera_wrist_like": true,
+        "secondary_camera_residual_mean": 0.0,
+        "secondary_camera_residual_max": 0.0,
+        "marker_overlay_enabled": false,
+        "provenance_complete": true,
+        "target_stats": {
+          "sample_count": 24,
+          "mean_rgb": [
+            0.06413199752569199,
+            0.05283299833536148,
+            0.04151200130581856
+          ],
+          "std_rgb": [
+            0.16430999338626862,
+            0.1350879967212677,
+            0.10579700022935867
+          ],
+          "brightness_mean": 0.054948881560680916,
+          "edge_density_mean": 0.008619308471679688,
+          "entropy_mean": 0.8195597418344085
+        },
+        "gap": {
+          "brightness_gap": 0.410903,
+          "std_rgb_abs_gap": [
+            0.05917,
+            0.07064,
+            0.082425
+          ],
+          "edge_density_gap": 0.05529,
+          "entropy_gap": 6.101936
+        },
+        "weighted_visual_gap": 2.4770394000000007,
+        "visual_alignment_gain": 0.0,
+        "render_profile": "visual_affordance_v3_raw_canonical",
+        "background_mode": "neutral_lowfreq_lab",
+        "lighting_profile": "front_key_handle_rim",
+        "material_policy": "legacy",
+        "camera_framing_profile": "macro_handle_centered",
+        "probe_measurement_mode": "true_handle_mask",
+        "handle_bbox_primary": [
+          135,
+          102,
+          163,
+          131
+        ],
+        "handle_bbox_secondary": [
+          0,
+          0,
+          220,
+          256
+        ],
+        "handle_visibility_fraction": 1.0,
+        "handle_local_contrast": 0.0,
+        "handle_crop_entropy": 0.0,
+        "handle_area_ratio": 0.2286119132206358,
+        "handle_boundary_contrast": 0.04087850644782949,
+        "handle_edge_density": 0.01797070263385472,
+        "handle_local_std": 0.20892732164277003,
+        "legacy_handle_local_contrast": 0.0017816998152268742,
+        "legacy_handle_crop_entropy": 0.00830831386678747,
+        "legacy_handle_bbox_secondary": [
+          58,
+          75,
+          94,
+          111
+        ],
+        "framing_score": 0.813860425959964,
+        "camera_relativeness_residual": 0.0,
+        "perception_probe_mode": "crop_feature_proxy_v1",
+        "perception_probe_available": true,
+        "handle_patch_separability": 1.6292324726539635,
+        "encoder_readability_pass": true,
+        "positive_count": 203,
+        "negative_count": 203,
+        "observation_contract_pass": true,
+        "visual_gate_breakdown": {
+          "baseline_weighted_visual_gap": 2.4770394000000007,
+          "lane_weighted_visual_gap": 2.4770394000000007,
+          "visual_alignment_gain": 0.0,
+          "framing_score": 0.813860425959964,
+          "handle_visibility_fraction": 1.0,
+          "handle_local_contrast": 0.0,
+          "handle_crop_entropy": 0.0,
+          "handle_readability_score": 0.4627720851919928,
+          "perceptual_readability_score_v2": 0.30452464685559605,
+          "camera_relativeness_residual": 0.0,
+          "encoder_readability_pass": true
+        },
+        "g4b_local_breakdown": {
+          "handle_area_ratio": 0.859375,
+          "handle_boundary_contrast": 0.04087850644782949,
+          "handle_edge_density": 0.01797070263385472,
+          "handle_crop_entropy": 0.0,
+          "secondary_framing_score": 0.813860425959964,
+          "local_affordance_readability_score_v3": 0.5975500168751653
+        },
+        "g4c_global_breakdown": {
+          "baseline_weighted_visual_gap": 2.4770394000000007,
+          "weighted_visual_gap": 2.4770394000000007,
+          "visual_alignment_gain": 0.0
+        }
+      },
+      "sensor_contract_gain": {
+        "score": 0.3720790638939946,
+        "wrist_relativeness_gain": 0.0,
+        "no_overlay_gain": 1.0,
+        "visual_alignment_gain": 0.0,
+        "framing_gain": 0.813860425959964
+      },
+      "sensor_perception_gain": 0.48481454038457994,
+      "local_rank_tuple": [
+        0.5975500168751653,
+        0.04087850644782949,
+        0.01797070263385472,
+        0.0,
+        0.0,
+        -2.4770394000000007,
+        0.0,
+        0.0,
+        0.3720790638939946
+      ]
+    },
+    {
+      "profile_id": "visual_affordance_v3_local_material_edge",
+      "lane": {
+        "lane_id": "RCA5_visual_affordance_v3_local_material_edge",
+        "lane_family": "RCA",
+        "stage": "probe",
+        "env_contract_config": {
+          "secondary_camera_mode": "wrist_dynamic",
+          "enable_marker_overlay": false,
+          "calibration_mode": "none",
+          "interaction_mode": "legacy_translation_only",
+          "state_mode": "m0_proxy",
+          "render_profile": "visual_affordance_v3_local_material_edge",
+          "background_mode": "neutral_lowfreq_lab",
+          "lighting_profile": "front_key_handle_rim",
+          "material_policy": "handle_affordance_local",
+          "camera_framing_profile": "macro_handle_centered",
+          "emit_orientation_telemetry": true,
+          "emit_camera_metadata": true,
+          "emit_handle_probe_metadata": true,
+          "canonical_lane": true
+        },
+        "interventions": {
+          "rotation_source": "zero",
+          "profile_id": "visual_affordance_v3_local_material_edge"
+        },
+        "dataset_config": {
+          "unique_data_budget": null,
+          "success_repeat": 1,
+          "train_seed_pool": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ],
+          "heldout_seed_pool": [
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "max_steps": 96
+        },
+        "train_config": {
+          "train_steps": 0,
+          "batch_size": 0,
+          "top_k": 0,
+          "tiny_retrain": false,
+          "full_retrain": false
+        },
+        "claim_policy": "canonical",
+        "diagnostic_only": false,
+        "strongest_negative_capped": true,
+        "resource_budget_snapshot": {
+          "policy": {
+            "AUTO_PROMOTE_SOVEREIGN": false,
+            "ALLOW_FULL_RETRAIN": false,
+            "ALLOW_NEW_CLAIM": false,
+            "RUN_MODE": "autonomous_cycle_phase",
+            "EXPERIMENT_FAMILY": "RCA",
+            "CAP_STRONGEST_NEGATIVE": true,
+            "RESUME": false
+          },
+          "limits": {
+            "max_rollouts_per_experiment": 3,
+            "max_disk_growth_mb": 4096,
+            "retry_backoff_seconds": 5,
+            "max_retries": 2,
+            "max_cycles_per_run": 4,
+            "max_tiny_retrain_budget": 1
+          },
+          "disk_growth_mb": 0.004,
+          "completed_experiments": [
+            "RCA0",
+            "RCA1",
+            "RCA2",
+            "RCA3",
+            "RCA4"
+          ]
+        },
+        "note": "Integrated RCA bundle comparison profile.",
+        "experiment_id": "RCA5",
+        "coverage": {},
+        "cost": 1.0,
+        "lane_hash": "9f474d8fbbbc2864"
+      },
+      "rollout_summary": {
+        "rollout_count": 3,
+        "unique_success_rate": 0.3333333333333333,
+        "attach_rate": 0.6666666666666666,
+        "mean_max_drawer_fraction": 0.4965751629173072,
+        "avg_episode_length": 67.66666666666667,
+        "success_count": 1,
+        "orientation_causal_sensitivity": 0.004505517892539501
+      },
+      "rollout_ceiling_lift": {
+        "score": 0.0,
+        "delta_unique_success_rate": 0.0,
+        "delta_attach_rate": 0.0,
+        "delta_mean_max_drawer_fraction": 0.0,
+        "delta_avg_episode_length_ratio": 0.0,
+        "delta_orientation_causal_sensitivity": 0.0
+      },
+      "state_report": {
+        "lane": {
+          "lane_id": "RCA5_visual_affordance_v3_local_material_edge",
+          "lane_family": "RCA",
+          "stage": "probe",
+          "env_contract_config": {
+            "secondary_camera_mode": "wrist_dynamic",
+            "enable_marker_overlay": false,
+            "calibration_mode": "none",
+            "interaction_mode": "legacy_translation_only",
+            "state_mode": "m0_proxy",
+            "render_profile": "visual_affordance_v3_local_material_edge",
+            "background_mode": "neutral_lowfreq_lab",
+            "lighting_profile": "front_key_handle_rim",
+            "material_policy": "handle_affordance_local",
+            "camera_framing_profile": "macro_handle_centered",
+            "emit_orientation_telemetry": true,
+            "emit_camera_metadata": true,
+            "emit_handle_probe_metadata": true,
+            "canonical_lane": true
+          },
+          "interventions": {
+            "rotation_source": "zero",
+            "profile_id": "visual_affordance_v3_local_material_edge"
+          },
+          "dataset_config": {
+            "unique_data_budget": null,
+            "success_repeat": 1,
+            "train_seed_pool": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "heldout_seed_pool": [
+              11,
+              12,
+              13,
+              14,
+              15
+            ],
+            "max_steps": 96
+          },
+          "train_config": {
+            "train_steps": 0,
+            "batch_size": 0,
+            "top_k": 0,
+            "tiny_retrain": false,
+            "full_retrain": false
+          },
+          "claim_policy": "canonical",
+          "diagnostic_only": false,
+          "strongest_negative_capped": true,
+          "resource_budget_snapshot": {
+            "policy": {
+              "AUTO_PROMOTE_SOVEREIGN": false,
+              "ALLOW_FULL_RETRAIN": false,
+              "ALLOW_NEW_CLAIM": false,
+              "RUN_MODE": "autonomous_cycle_phase",
+              "EXPERIMENT_FAMILY": "RCA",
+              "CAP_STRONGEST_NEGATIVE": true,
+              "RESUME": false
+            },
+            "limits": {
+              "max_rollouts_per_experiment": 3,
+              "max_disk_growth_mb": 4096,
+              "retry_backoff_seconds": 5,
+              "max_retries": 2,
+              "max_cycles_per_run": 4,
+              "max_tiny_retrain_budget": 1
+            },
+            "disk_growth_mb": 0.004,
+            "completed_experiments": [
+              "RCA0",
+              "RCA1",
+              "RCA2",
+              "RCA3",
+              "RCA4"
+            ]
+          },
+          "note": "Integrated RCA bundle comparison profile.",
+          "experiment_id": "RCA5",
+          "coverage": {},
+          "cost": 1.0,
+          "lane_hash": "9f474d8fbbbc2864"
+        },
+        "state_spec": {
+          "state_mode": "m0_proxy",
+          "shape": [
+            8
+          ],
+          "dim_names": [
+            "eef_pos_x_m",
+            "eef_pos_y_m",
+            "eef_pos_z_m",
+            "handle_rel_x_norm",
+            "handle_rel_y_norm",
+            "handle_rel_z_norm",
+            "drawer_fraction_signed",
+            "gripper_joint"
+          ],
+          "provenance": [
+            "observed",
+            "observed",
+            "observed",
+            "derived",
+            "derived",
+            "derived",
+            "derived",
+            "observed"
+          ],
+          "duplicate_dims": [],
+          "fraud_padding": false,
+          "all_dims_explained": true
+        },
+        "overall_score": 0.6424154418513262,
+        "per_dim_wasserstein": [
+          0.06561251929913735,
+          0.18497638180516324,
+          0.9353793580049382,
+          2.162587823130517,
+          1.8769001220432875,
+          0.5690665935897399,
+          0.6350744361151393,
+          0.02377894329635094
+        ],
+        "per_dim_range_overlap": [
+          0.1039474222476636,
+          0.6043892378660861,
+          0.0,
+          0.0,
+          0.0,
+          0.07135938282068037,
+          0.009188967417933135,
+          0.19104597064325554
+        ],
+        "per_dim_smoothness_gap": [
+          0.0004155058413743973,
+          0.022219786420464516,
+          0.0007067844271659851,
+          0.0311763733625412,
+          0.033455900847911835,
+          0.028432026505470276,
+          0.0728922113776207,
+          0.0049041081219911575
+        ],
+        "valid": true,
+        "fraud_padding": false,
+        "all_dims_explained": true,
+        "state_mode": "m0_proxy"
+      },
+      "state_alignment_gain": 0.0,
+      "visual_report": {
+        "lane": {
+          "lane_id": "RCA5_visual_affordance_v3_local_material_edge",
+          "lane_family": "RCA",
+          "stage": "probe",
+          "env_contract_config": {
+            "secondary_camera_mode": "wrist_dynamic",
+            "enable_marker_overlay": false,
+            "calibration_mode": "none",
+            "interaction_mode": "legacy_translation_only",
+            "state_mode": "m0_proxy",
+            "render_profile": "visual_affordance_v3_local_material_edge",
+            "background_mode": "neutral_lowfreq_lab",
+            "lighting_profile": "front_key_handle_rim",
+            "material_policy": "handle_affordance_local",
+            "camera_framing_profile": "macro_handle_centered",
+            "emit_orientation_telemetry": true,
+            "emit_camera_metadata": true,
+            "emit_handle_probe_metadata": true,
+            "canonical_lane": true
+          },
+          "interventions": {
+            "rotation_source": "zero",
+            "profile_id": "visual_affordance_v3_local_material_edge"
+          },
+          "dataset_config": {
+            "unique_data_budget": null,
+            "success_repeat": 1,
+            "train_seed_pool": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "heldout_seed_pool": [
+              11,
+              12,
+              13,
+              14,
+              15
+            ],
+            "max_steps": 96
+          },
+          "train_config": {
+            "train_steps": 0,
+            "batch_size": 0,
+            "top_k": 0,
+            "tiny_retrain": false,
+            "full_retrain": false
+          },
+          "claim_policy": "canonical",
+          "diagnostic_only": false,
+          "strongest_negative_capped": true,
+          "resource_budget_snapshot": {
+            "policy": {
+              "AUTO_PROMOTE_SOVEREIGN": false,
+              "ALLOW_FULL_RETRAIN": false,
+              "ALLOW_NEW_CLAIM": false,
+              "RUN_MODE": "autonomous_cycle_phase",
+              "EXPERIMENT_FAMILY": "RCA",
+              "CAP_STRONGEST_NEGATIVE": true,
+              "RESUME": false
+            },
+            "limits": {
+              "max_rollouts_per_experiment": 3,
+              "max_disk_growth_mb": 4096,
+              "retry_backoff_seconds": 5,
+              "max_retries": 2,
+              "max_cycles_per_run": 4,
+              "max_tiny_retrain_budget": 1
+            },
+            "disk_growth_mb": 0.004,
+            "completed_experiments": [
+              "RCA0",
+              "RCA1",
+              "RCA2",
+              "RCA3",
+              "RCA4"
+            ]
+          },
+          "note": "Integrated RCA bundle comparison profile.",
+          "experiment_id": "RCA5",
+          "coverage": {},
+          "cost": 1.0,
+          "lane_hash": "9f474d8fbbbc2864"
+        },
+        "claim_policy": "canonical",
+        "diagnostic_only": false,
+        "secondary_camera_wrist_like": true,
+        "secondary_camera_residual_mean": 0.0,
+        "secondary_camera_residual_max": 0.0,
+        "marker_overlay_enabled": false,
+        "provenance_complete": true,
+        "target_stats": {
+          "sample_count": 24,
+          "mean_rgb": [
+            0.08170399814844131,
+            0.07019300013780594,
+            0.05313799902796745
+          ],
+          "std_rgb": [
+            0.2035669982433319,
+            0.1757189929485321,
+            0.13255099952220917
+          ],
+          "brightness_mean": 0.07180760202844158,
+          "edge_density_mean": 0.006749471028645833,
+          "entropy_mean": 0.8864593963072229
+        },
+        "gap": {
+          "brightness_gap": 0.394044,
+          "std_rgb_abs_gap": [
+            0.019913,
+            0.030009,
+            0.055671
+          ],
+          "edge_density_gap": 0.05716,
+          "entropy_gap": 6.035036
+        },
+        "weighted_visual_gap": 2.4439179333333336,
+        "visual_alignment_gain": 0.013371392746787558,
+        "render_profile": "visual_affordance_v3_local_material_edge",
+        "background_mode": "neutral_lowfreq_lab",
+        "lighting_profile": "front_key_handle_rim",
+        "material_policy": "handle_affordance_local",
+        "camera_framing_profile": "macro_handle_centered",
+        "probe_measurement_mode": "true_handle_mask",
+        "handle_bbox_primary": [
+          135,
+          102,
+          163,
+          131
+        ],
+        "handle_bbox_secondary": [
+          0,
+          0,
+          220,
+          256
+        ],
+        "handle_visibility_fraction": 1.0,
+        "handle_local_contrast": 0.0,
+        "handle_crop_entropy": 0.0,
+        "handle_area_ratio": 0.2286119132206358,
+        "handle_boundary_contrast": 0.03723172137137197,
+        "handle_edge_density": 0.01615065045933189,
+        "handle_local_std": 0.19037839662898304,
+        "legacy_handle_local_contrast": 0.0015778356529667105,
+        "legacy_handle_crop_entropy": 0.008426339694857957,
+        "legacy_handle_bbox_secondary": [
+          58,
+          75,
+          94,
+          111
+        ],
+        "framing_score": 0.813860425959964,
+        "camera_relativeness_residual": 0.0,
+        "perception_probe_mode": "crop_feature_proxy_v1",
+        "perception_probe_available": true,
+        "handle_patch_separability": 1.5175163481204283,
+        "encoder_readability_pass": true,
+        "positive_count": 203,
+        "negative_count": 203,
+        "observation_contract_pass": true,
+        "visual_gate_breakdown": {
+          "baseline_weighted_visual_gap": 2.4770394000000007,
+          "lane_weighted_visual_gap": 2.4439179333333336,
+          "visual_alignment_gain": 0.013371392746787558,
+          "framing_score": 0.813860425959964,
+          "handle_visibility_fraction": 1.0,
+          "handle_local_contrast": 0.0,
+          "handle_crop_entropy": 0.0,
+          "handle_readability_score": 0.4627720851919928,
+          "perceptual_readability_score_v2": 0.31054177359165047,
+          "camera_relativeness_residual": 0.0,
+          "encoder_readability_pass": true
+        },
+        "g4b_local_breakdown": {
+          "handle_area_ratio": 0.859375,
+          "handle_boundary_contrast": 0.03723172137137197,
+          "handle_edge_density": 0.01615065045933189,
+          "handle_crop_entropy": 0.0,
+          "secondary_framing_score": 0.813860425959964,
+          "local_affordance_readability_score_v3": 0.5740201323477501
+        },
+        "g4c_global_breakdown": {
+          "baseline_weighted_visual_gap": 2.4770394000000007,
+          "weighted_visual_gap": 2.4439179333333336,
+          "visual_alignment_gain": 0.013371392746787558
+        }
+      },
+      "sensor_contract_gain": {
+        "score": 0.3747533424433521,
+        "wrist_relativeness_gain": 0.0,
+        "no_overlay_gain": 1.0,
+        "visual_alignment_gain": 0.013371392746787558,
+        "framing_gain": 0.813860425959964
+      },
+      "sensor_perception_gain": 0.4743867373955511,
+      "local_rank_tuple": [
+        0.5740201323477501,
+        0.03723172137137197,
+        0.01615065045933189,
+        0.0,
+        0.013371392746787558,
+        -2.4439179333333336,
+        0.0,
+        0.0,
+        0.3747533424433521
+      ]
+    },
+    {
+      "profile_id": "visual_affordance_v3_transition_contract",
+      "lane": {
+        "lane_id": "RCA5_visual_affordance_v3_transition_contract",
+        "lane_family": "RCA",
+        "stage": "probe",
+        "env_contract_config": {
+          "secondary_camera_mode": "wrist_dynamic",
+          "enable_marker_overlay": false,
+          "calibration_mode": "none",
+          "interaction_mode": "orientation_sensitive_v2_affordance_locked",
+          "state_mode": "m0_proxy",
+          "render_profile": "visual_affordance_v3_local_material_edge",
+          "background_mode": "neutral_lowfreq_lab",
+          "lighting_profile": "front_key_handle_rim",
+          "material_policy": "handle_affordance_local",
+          "camera_framing_profile": "macro_handle_centered",
+          "emit_orientation_telemetry": true,
+          "emit_camera_metadata": true,
+          "emit_handle_probe_metadata": true,
+          "canonical_lane": true
+        },
+        "interventions": {
+          "rotation_source": "aligned",
+          "profile_id": "visual_affordance_v3_transition_contract"
+        },
+        "dataset_config": {
+          "unique_data_budget": null,
+          "success_repeat": 1,
+          "train_seed_pool": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ],
+          "heldout_seed_pool": [
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "max_steps": 96
+        },
+        "train_config": {
+          "train_steps": 0,
+          "batch_size": 0,
+          "top_k": 0,
+          "tiny_retrain": false,
+          "full_retrain": false
+        },
+        "claim_policy": "canonical",
+        "diagnostic_only": false,
+        "strongest_negative_capped": true,
+        "resource_budget_snapshot": {
+          "policy": {
+            "AUTO_PROMOTE_SOVEREIGN": false,
+            "ALLOW_FULL_RETRAIN": false,
+            "ALLOW_NEW_CLAIM": false,
+            "RUN_MODE": "autonomous_cycle_phase",
+            "EXPERIMENT_FAMILY": "RCA",
+            "CAP_STRONGEST_NEGATIVE": true,
+            "RESUME": false
+          },
+          "limits": {
+            "max_rollouts_per_experiment": 3,
+            "max_disk_growth_mb": 4096,
+            "retry_backoff_seconds": 5,
+            "max_retries": 2,
+            "max_cycles_per_run": 4,
+            "max_tiny_retrain_budget": 1
+          },
+          "disk_growth_mb": 0.004,
+          "completed_experiments": [
+            "RCA0",
+            "RCA1",
+            "RCA2",
+            "RCA3",
+            "RCA4"
+          ]
+        },
+        "note": "Integrated RCA bundle comparison profile.",
+        "experiment_id": "RCA5",
+        "coverage": {},
+        "cost": 1.0,
+        "lane_hash": "0e013ddbceb7b116"
+      },
+      "rollout_summary": {
+        "rollout_count": 3,
+        "unique_success_rate": 0.0,
+        "attach_rate": 0.6666666666666666,
+        "mean_max_drawer_fraction": 0.1098877961462702,
+        "avg_episode_length": 96.0,
+        "success_count": 0,
+        "orientation_causal_sensitivity": 0.0002027788432314992
+      },
+      "rollout_ceiling_lift": {
+        "score": -0.11452959158080843,
+        "delta_unique_success_rate": -0.3333333333333333,
+        "delta_attach_rate": 0.0,
+        "delta_mean_max_drawer_fraction": -0.386687366771037,
+        "delta_avg_episode_length_ratio": 0.4187192118226599,
+        "delta_orientation_causal_sensitivity": 0.0
+      },
+      "state_report": {
+        "lane": {
+          "lane_id": "RCA5_visual_affordance_v3_transition_contract",
+          "lane_family": "RCA",
+          "stage": "probe",
+          "env_contract_config": {
+            "secondary_camera_mode": "wrist_dynamic",
+            "enable_marker_overlay": false,
+            "calibration_mode": "none",
+            "interaction_mode": "orientation_sensitive_v2_affordance_locked",
+            "state_mode": "m0_proxy",
+            "render_profile": "visual_affordance_v3_local_material_edge",
+            "background_mode": "neutral_lowfreq_lab",
+            "lighting_profile": "front_key_handle_rim",
+            "material_policy": "handle_affordance_local",
+            "camera_framing_profile": "macro_handle_centered",
+            "emit_orientation_telemetry": true,
+            "emit_camera_metadata": true,
+            "emit_handle_probe_metadata": true,
+            "canonical_lane": true
+          },
+          "interventions": {
+            "rotation_source": "aligned",
+            "profile_id": "visual_affordance_v3_transition_contract"
+          },
+          "dataset_config": {
+            "unique_data_budget": null,
+            "success_repeat": 1,
+            "train_seed_pool": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "heldout_seed_pool": [
+              11,
+              12,
+              13,
+              14,
+              15
+            ],
+            "max_steps": 96
+          },
+          "train_config": {
+            "train_steps": 0,
+            "batch_size": 0,
+            "top_k": 0,
+            "tiny_retrain": false,
+            "full_retrain": false
+          },
+          "claim_policy": "canonical",
+          "diagnostic_only": false,
+          "strongest_negative_capped": true,
+          "resource_budget_snapshot": {
+            "policy": {
+              "AUTO_PROMOTE_SOVEREIGN": false,
+              "ALLOW_FULL_RETRAIN": false,
+              "ALLOW_NEW_CLAIM": false,
+              "RUN_MODE": "autonomous_cycle_phase",
+              "EXPERIMENT_FAMILY": "RCA",
+              "CAP_STRONGEST_NEGATIVE": true,
+              "RESUME": false
+            },
+            "limits": {
+              "max_rollouts_per_experiment": 3,
+              "max_disk_growth_mb": 4096,
+              "retry_backoff_seconds": 5,
+              "max_retries": 2,
+              "max_cycles_per_run": 4,
+              "max_tiny_retrain_budget": 1
+            },
+            "disk_growth_mb": 0.004,
+            "completed_experiments": [
+              "RCA0",
+              "RCA1",
+              "RCA2",
+              "RCA3",
+              "RCA4"
+            ]
+          },
+          "note": "Integrated RCA bundle comparison profile.",
+          "experiment_id": "RCA5",
+          "coverage": {},
+          "cost": 1.0,
+          "lane_hash": "0e013ddbceb7b116"
+        },
+        "state_spec": {
+          "state_mode": "m0_proxy",
+          "shape": [
+            8
+          ],
+          "dim_names": [
+            "eef_pos_x_m",
+            "eef_pos_y_m",
+            "eef_pos_z_m",
+            "handle_rel_x_norm",
+            "handle_rel_y_norm",
+            "handle_rel_z_norm",
+            "drawer_fraction_signed",
+            "gripper_joint"
+          ],
+          "provenance": [
+            "observed",
+            "observed",
+            "observed",
+            "derived",
+            "derived",
+            "derived",
+            "derived",
+            "observed"
+          ],
+          "duplicate_dims": [],
+          "fraud_padding": false,
+          "all_dims_explained": true
+        },
+        "overall_score": 0.6583915787450481,
+        "per_dim_wasserstein": [
+          0.06518618597505456,
+          0.1901046086248549,
+          0.943650112673694,
+          2.1533454617144017,
+          1.5727875207543587,
+          0.5919970233525778,
+          0.8488384717137103,
+          0.02155046441741431
+        ],
+        "per_dim_range_overlap": [
+          0.1039474222476636,
+          0.6042952139249026,
+          0.0,
+          0.0,
+          0.0,
+          0.07135938282068037,
+          0.0,
+          0.19104597064325554
+        ],
+        "per_dim_smoothness_gap": [
+          0.0031036315485835075,
+          0.01879962533712387,
+          0.0011996608227491379,
+          0.043395139276981354,
+          0.05194146931171417,
+          0.014178074896335602,
+          0.03293244168162346,
+          0.020443767309188843
+        ],
+        "valid": true,
+        "fraud_padding": false,
+        "all_dims_explained": true,
+        "state_mode": "m0_proxy"
+      },
+      "state_alignment_gain": -0.024868855654654798,
+      "visual_report": {
+        "lane": {
+          "lane_id": "RCA5_visual_affordance_v3_transition_contract",
+          "lane_family": "RCA",
+          "stage": "probe",
+          "env_contract_config": {
+            "secondary_camera_mode": "wrist_dynamic",
+            "enable_marker_overlay": false,
+            "calibration_mode": "none",
+            "interaction_mode": "orientation_sensitive_v2_affordance_locked",
+            "state_mode": "m0_proxy",
+            "render_profile": "visual_affordance_v3_local_material_edge",
+            "background_mode": "neutral_lowfreq_lab",
+            "lighting_profile": "front_key_handle_rim",
+            "material_policy": "handle_affordance_local",
+            "camera_framing_profile": "macro_handle_centered",
+            "emit_orientation_telemetry": true,
+            "emit_camera_metadata": true,
+            "emit_handle_probe_metadata": true,
+            "canonical_lane": true
+          },
+          "interventions": {
+            "rotation_source": "aligned",
+            "profile_id": "visual_affordance_v3_transition_contract"
+          },
+          "dataset_config": {
+            "unique_data_budget": null,
+            "success_repeat": 1,
+            "train_seed_pool": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "heldout_seed_pool": [
+              11,
+              12,
+              13,
+              14,
+              15
+            ],
+            "max_steps": 96
+          },
+          "train_config": {
+            "train_steps": 0,
+            "batch_size": 0,
+            "top_k": 0,
+            "tiny_retrain": false,
+            "full_retrain": false
+          },
+          "claim_policy": "canonical",
+          "diagnostic_only": false,
+          "strongest_negative_capped": true,
+          "resource_budget_snapshot": {
+            "policy": {
+              "AUTO_PROMOTE_SOVEREIGN": false,
+              "ALLOW_FULL_RETRAIN": false,
+              "ALLOW_NEW_CLAIM": false,
+              "RUN_MODE": "autonomous_cycle_phase",
+              "EXPERIMENT_FAMILY": "RCA",
+              "CAP_STRONGEST_NEGATIVE": true,
+              "RESUME": false
+            },
+            "limits": {
+              "max_rollouts_per_experiment": 3,
+              "max_disk_growth_mb": 4096,
+              "retry_backoff_seconds": 5,
+              "max_retries": 2,
+              "max_cycles_per_run": 4,
+              "max_tiny_retrain_budget": 1
+            },
+            "disk_growth_mb": 0.004,
+            "completed_experiments": [
+              "RCA0",
+              "RCA1",
+              "RCA2",
+              "RCA3",
+              "RCA4"
+            ]
+          },
+          "note": "Integrated RCA bundle comparison profile.",
+          "experiment_id": "RCA5",
+          "coverage": {},
+          "cost": 1.0,
+          "lane_hash": "0e013ddbceb7b116"
+        },
+        "claim_policy": "canonical",
+        "diagnostic_only": false,
+        "secondary_camera_wrist_like": true,
+        "secondary_camera_residual_mean": 0.0,
+        "secondary_camera_residual_max": 0.0,
+        "marker_overlay_enabled": false,
+        "provenance_complete": true,
+        "target_stats": {
+          "sample_count": 24,
+          "mean_rgb": [
+            0.0720599964261055,
+            0.06220399960875511,
+            0.04702199995517731
+          ],
+          "std_rgb": [
+            0.1926400065422058,
+            0.1673469990491867,
+            0.12597699463367462
+          ],
+          "brightness_mean": 0.06353394252802032,
+          "edge_density_mean": 0.007769266764322917,
+          "entropy_mean": 0.8334691131541326
+        },
+        "gap": {
+          "brightness_gap": 0.402317,
+          "std_rgb_abs_gap": [
+            0.03084,
+            0.038381,
+            0.062245
+          ],
+          "edge_density_gap": 0.05614,
+          "entropy_gap": 6.088026
+        },
+        "weighted_visual_gap": 2.4664308000000004,
+        "visual_alignment_gain": 0.004282774024506941,
+        "render_profile": "visual_affordance_v3_local_material_edge",
+        "background_mode": "neutral_lowfreq_lab",
+        "lighting_profile": "front_key_handle_rim",
+        "material_policy": "handle_affordance_local",
+        "camera_framing_profile": "macro_handle_centered",
+        "probe_measurement_mode": "true_handle_mask",
+        "handle_bbox_primary": [
+          136,
+          102,
+          163,
+          131
+        ],
+        "handle_bbox_secondary": [
+          0,
+          0,
+          256,
+          256
+        ],
+        "handle_visibility_fraction": 1.0,
+        "handle_local_contrast": 0.0,
+        "handle_crop_entropy": 0.0,
+        "handle_area_ratio": 0.7217833201090494,
+        "handle_boundary_contrast": 0.01918668054634693,
+        "handle_edge_density": 0.0028346637528405983,
+        "handle_local_std": 0.037962814542514364,
+        "legacy_handle_local_contrast": 0.008369149389270065,
+        "legacy_handle_crop_entropy": 0.050988550478589,
+        "legacy_handle_bbox_secondary": [
+          51,
+          75,
+          87,
+          111
+        ],
+        "framing_score": 0.8937693130780205,
+        "camera_relativeness_residual": 0.0,
+        "perception_probe_mode": "crop_feature_proxy_v1",
+        "perception_probe_available": true,
+        "handle_patch_separability": 0.034262015141953144,
+        "encoder_readability_pass": false,
+        "positive_count": 288,
+        "negative_count": 288,
+        "observation_contract_pass": true,
+        "visual_gate_breakdown": {
+          "baseline_weighted_visual_gap": 2.4770394000000007,
+          "lane_weighted_visual_gap": 2.4664308000000004,
+          "visual_alignment_gain": 0.004282774024506941,
+          "framing_score": 0.8937693130780205,
+          "handle_visibility_fraction": 1.0,
+          "handle_local_contrast": 0.0,
+          "handle_crop_entropy": 0.0,
+          "handle_readability_score": 0.4787538626156041,
+          "perceptual_readability_score_v2": 0.2387176854746494,
+          "camera_relativeness_residual": 0.0,
+          "encoder_readability_pass": false
+        },
+        "g4b_local_breakdown": {
+          "handle_area_ratio": 1.0,
+          "handle_boundary_contrast": 0.01918668054634693,
+          "handle_edge_density": 0.0028346637528405983,
+          "handle_crop_entropy": 0.0,
+          "secondary_framing_score": 0.8937693130780205,
+          "local_affordance_readability_score_v3": 0.42885613505960485
+        },
+        "g4c_global_breakdown": {
+          "baseline_weighted_visual_gap": 2.4770394000000007,
+          "weighted_visual_gap": 2.4664308000000004,
+          "visual_alignment_gain": 0.004282774024506941
+        }
+      },
+      "sensor_contract_gain": {
+        "score": 0.3849219517666045,
+        "wrist_relativeness_gain": 0.0,
+        "no_overlay_gain": 1.0,
+        "visual_alignment_gain": 0.004282774024506941,
+        "framing_gain": 0.8937693130780205
+      },
+      "sensor_perception_gain": 0.40688904341310467,
+      "local_rank_tuple": [
+        0.42885613505960485,
+        0.01918668054634693,
+        0.0028346637528405983,
+        0.0,
+        0.004282774024506941,
+        -2.4664308000000004,
+        -0.11452959158080843,
+        -0.024868855654654798,
+        0.3849219517666045
+      ]
+    },
+    {
+      "profile_id": "visual_affordance_v3_plus_bundle",
+      "lane": {
+        "lane_id": "RCA5_visual_affordance_v3_plus_bundle",
+        "lane_family": "RCA",
+        "stage": "probe",
+        "env_contract_config": {
+          "secondary_camera_mode": "wrist_dynamic",
+          "enable_marker_overlay": false,
+          "calibration_mode": "none",
+          "interaction_mode": "orientation_sensitive_v2_affordance_locked",
+          "state_mode": "telemetry_candidate_v3_transition",
+          "render_profile": "visual_affordance_v3_plus_bundle",
+          "background_mode": "neutral_lowfreq_lab",
+          "lighting_profile": "front_key_handle_rim",
+          "material_policy": "handle_affordance_local",
+          "camera_framing_profile": "macro_handle_centered",
+          "emit_orientation_telemetry": true,
+          "emit_camera_metadata": true,
+          "emit_handle_probe_metadata": true,
+          "canonical_lane": true
+        },
+        "interventions": {
+          "rotation_source": "aligned",
+          "profile_id": "visual_affordance_v3_plus_bundle"
+        },
+        "dataset_config": {
+          "unique_data_budget": null,
+          "success_repeat": 1,
+          "train_seed_pool": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ],
+          "heldout_seed_pool": [
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "max_steps": 96
+        },
+        "train_config": {
+          "train_steps": 0,
+          "batch_size": 0,
+          "top_k": 0,
+          "tiny_retrain": false,
+          "full_retrain": false
+        },
+        "claim_policy": "canonical",
+        "diagnostic_only": false,
+        "strongest_negative_capped": true,
+        "resource_budget_snapshot": {
+          "policy": {
+            "AUTO_PROMOTE_SOVEREIGN": false,
+            "ALLOW_FULL_RETRAIN": false,
+            "ALLOW_NEW_CLAIM": false,
+            "RUN_MODE": "autonomous_cycle_phase",
+            "EXPERIMENT_FAMILY": "RCA",
+            "CAP_STRONGEST_NEGATIVE": true,
+            "RESUME": false
+          },
+          "limits": {
+            "max_rollouts_per_experiment": 3,
+            "max_disk_growth_mb": 4096,
+            "retry_backoff_seconds": 5,
+            "max_retries": 2,
+            "max_cycles_per_run": 4,
+            "max_tiny_retrain_budget": 1
+          },
+          "disk_growth_mb": 0.004,
+          "completed_experiments": [
+            "RCA0",
+            "RCA1",
+            "RCA2",
+            "RCA3",
+            "RCA4"
+          ]
+        },
+        "note": "Integrated RCA bundle comparison profile.",
+        "experiment_id": "RCA5",
+        "coverage": {},
+        "cost": 1.0,
+        "lane_hash": "1b600f5eecf3598b"
+      },
+      "rollout_summary": {
+        "rollout_count": 3,
+        "unique_success_rate": 0.0,
+        "attach_rate": 0.6666666666666666,
+        "mean_max_drawer_fraction": 0.1098877961462702,
+        "avg_episode_length": 96.0,
+        "success_count": 0,
+        "orientation_causal_sensitivity": 0.0002027788432314992
+      },
+      "rollout_ceiling_lift": {
+        "score": -0.11452959158080843,
+        "delta_unique_success_rate": -0.3333333333333333,
+        "delta_attach_rate": 0.0,
+        "delta_mean_max_drawer_fraction": -0.386687366771037,
+        "delta_avg_episode_length_ratio": 0.4187192118226599,
+        "delta_orientation_causal_sensitivity": 0.0
+      },
+      "state_report": {
+        "lane": {
+          "lane_id": "RCA5_visual_affordance_v3_plus_bundle",
+          "lane_family": "RCA",
+          "stage": "probe",
+          "env_contract_config": {
+            "secondary_camera_mode": "wrist_dynamic",
+            "enable_marker_overlay": false,
+            "calibration_mode": "none",
+            "interaction_mode": "orientation_sensitive_v2_affordance_locked",
+            "state_mode": "telemetry_candidate_v3_transition",
+            "render_profile": "visual_affordance_v3_plus_bundle",
+            "background_mode": "neutral_lowfreq_lab",
+            "lighting_profile": "front_key_handle_rim",
+            "material_policy": "handle_affordance_local",
+            "camera_framing_profile": "macro_handle_centered",
+            "emit_orientation_telemetry": true,
+            "emit_camera_metadata": true,
+            "emit_handle_probe_metadata": true,
+            "canonical_lane": true
+          },
+          "interventions": {
+            "rotation_source": "aligned",
+            "profile_id": "visual_affordance_v3_plus_bundle"
+          },
+          "dataset_config": {
+            "unique_data_budget": null,
+            "success_repeat": 1,
+            "train_seed_pool": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "heldout_seed_pool": [
+              11,
+              12,
+              13,
+              14,
+              15
+            ],
+            "max_steps": 96
+          },
+          "train_config": {
+            "train_steps": 0,
+            "batch_size": 0,
+            "top_k": 0,
+            "tiny_retrain": false,
+            "full_retrain": false
+          },
+          "claim_policy": "canonical",
+          "diagnostic_only": false,
+          "strongest_negative_capped": true,
+          "resource_budget_snapshot": {
+            "policy": {
+              "AUTO_PROMOTE_SOVEREIGN": false,
+              "ALLOW_FULL_RETRAIN": false,
+              "ALLOW_NEW_CLAIM": false,
+              "RUN_MODE": "autonomous_cycle_phase",
+              "EXPERIMENT_FAMILY": "RCA",
+              "CAP_STRONGEST_NEGATIVE": true,
+              "RESUME": false
+            },
+            "limits": {
+              "max_rollouts_per_experiment": 3,
+              "max_disk_growth_mb": 4096,
+              "retry_backoff_seconds": 5,
+              "max_retries": 2,
+              "max_cycles_per_run": 4,
+              "max_tiny_retrain_budget": 1
+            },
+            "disk_growth_mb": 0.004,
+            "completed_experiments": [
+              "RCA0",
+              "RCA1",
+              "RCA2",
+              "RCA3",
+              "RCA4"
+            ]
+          },
+          "note": "Integrated RCA bundle comparison profile.",
+          "experiment_id": "RCA5",
+          "coverage": {},
+          "cost": 1.0,
+          "lane_hash": "1b600f5eecf3598b"
+        },
+        "state_spec": {
+          "state_mode": "telemetry_candidate_v3_transition",
+          "shape": [
+            8
+          ],
+          "dim_names": [
+            "handle_rel_x_norm",
+            "handle_rel_y_norm",
+            "handle_rel_z_norm",
+            "drawer_fraction_signed",
+            "pull_alignment_cos",
+            "stable_attach",
+            "attach_streak_norm",
+            "contact_window_fraction"
+          ],
+          "provenance": [
+            "derived",
+            "derived",
+            "derived",
+            "derived",
+            "derived",
+            "derived",
+            "derived",
+            "derived"
+          ],
+          "duplicate_dims": [],
+          "fraud_padding": false,
+          "all_dims_explained": true
+        },
+        "overall_score": 0.5389370064468471,
+        "per_dim_wasserstein": [
+          0.06422222831786671,
+          0.22177060975683288,
+          1.1870237375506631,
+          2.9409828905593094,
+          1.238151801350959,
+          0.7185559012424726,
+          0.07335954535271057,
+          0.6401742057055534
+        ],
+        "per_dim_range_overlap": [
+          0.30114458613313627,
+          0.1054111798495236,
+          0.0,
+          0.0,
+          0.3554961324255332,
+          0.0,
+          0.010299170389771461,
+          0.0
+        ],
+        "per_dim_smoothness_gap": [
+          0.046870820224285126,
+          0.06786411255598068,
+          0.053636956959962845,
+          0.07420775294303894,
+          0.0886455625295639,
+          0.06842247396707535,
+          0.0930069163441658,
+          0.06773886829614639
+        ],
+        "valid": true,
+        "fraud_padding": false,
+        "all_dims_explained": true,
+        "state_mode": "telemetry_candidate_v3_transition"
+      },
+      "state_alignment_gain": 0.16107712963168008,
+      "visual_report": {
+        "lane": {
+          "lane_id": "RCA5_visual_affordance_v3_plus_bundle",
+          "lane_family": "RCA",
+          "stage": "probe",
+          "env_contract_config": {
+            "secondary_camera_mode": "wrist_dynamic",
+            "enable_marker_overlay": false,
+            "calibration_mode": "none",
+            "interaction_mode": "orientation_sensitive_v2_affordance_locked",
+            "state_mode": "telemetry_candidate_v3_transition",
+            "render_profile": "visual_affordance_v3_plus_bundle",
+            "background_mode": "neutral_lowfreq_lab",
+            "lighting_profile": "front_key_handle_rim",
+            "material_policy": "handle_affordance_local",
+            "camera_framing_profile": "macro_handle_centered",
+            "emit_orientation_telemetry": true,
+            "emit_camera_metadata": true,
+            "emit_handle_probe_metadata": true,
+            "canonical_lane": true
+          },
+          "interventions": {
+            "rotation_source": "aligned",
+            "profile_id": "visual_affordance_v3_plus_bundle"
+          },
+          "dataset_config": {
+            "unique_data_budget": null,
+            "success_repeat": 1,
+            "train_seed_pool": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "heldout_seed_pool": [
+              11,
+              12,
+              13,
+              14,
+              15
+            ],
+            "max_steps": 96
+          },
+          "train_config": {
+            "train_steps": 0,
+            "batch_size": 0,
+            "top_k": 0,
+            "tiny_retrain": false,
+            "full_retrain": false
+          },
+          "claim_policy": "canonical",
+          "diagnostic_only": false,
+          "strongest_negative_capped": true,
+          "resource_budget_snapshot": {
+            "policy": {
+              "AUTO_PROMOTE_SOVEREIGN": false,
+              "ALLOW_FULL_RETRAIN": false,
+              "ALLOW_NEW_CLAIM": false,
+              "RUN_MODE": "autonomous_cycle_phase",
+              "EXPERIMENT_FAMILY": "RCA",
+              "CAP_STRONGEST_NEGATIVE": true,
+              "RESUME": false
+            },
+            "limits": {
+              "max_rollouts_per_experiment": 3,
+              "max_disk_growth_mb": 4096,
+              "retry_backoff_seconds": 5,
+              "max_retries": 2,
+              "max_cycles_per_run": 4,
+              "max_tiny_retrain_budget": 1
+            },
+            "disk_growth_mb": 0.004,
+            "completed_experiments": [
+              "RCA0",
+              "RCA1",
+              "RCA2",
+              "RCA3",
+              "RCA4"
+            ]
+          },
+          "note": "Integrated RCA bundle comparison profile.",
+          "experiment_id": "RCA5",
+          "coverage": {},
+          "cost": 1.0,
+          "lane_hash": "1b600f5eecf3598b"
+        },
+        "claim_policy": "canonical",
+        "diagnostic_only": false,
+        "secondary_camera_wrist_like": true,
+        "secondary_camera_residual_mean": 0.0,
+        "secondary_camera_residual_max": 0.0,
+        "marker_overlay_enabled": false,
+        "provenance_complete": true,
+        "target_stats": {
+          "sample_count": 24,
+          "mean_rgb": [
+            0.0720599964261055,
+            0.06220399960875511,
+            0.04702199995517731
+          ],
+          "std_rgb": [
+            0.1926400065422058,
+            0.1673469990491867,
+            0.12597699463367462
+          ],
+          "brightness_mean": 0.06353394252802032,
+          "edge_density_mean": 0.007769266764322917,
+          "entropy_mean": 0.8334691131541326
+        },
+        "gap": {
+          "brightness_gap": 0.402317,
+          "std_rgb_abs_gap": [
+            0.03084,
+            0.038381,
+            0.062245
+          ],
+          "edge_density_gap": 0.05614,
+          "entropy_gap": 6.088026
+        },
+        "weighted_visual_gap": 2.4664308000000004,
+        "visual_alignment_gain": 0.004282774024506941,
+        "render_profile": "visual_affordance_v3_plus_bundle",
+        "background_mode": "neutral_lowfreq_lab",
+        "lighting_profile": "front_key_handle_rim",
+        "material_policy": "handle_affordance_local",
+        "camera_framing_profile": "macro_handle_centered",
+        "probe_measurement_mode": "true_handle_mask",
+        "handle_bbox_primary": [
+          136,
+          102,
+          163,
+          131
+        ],
+        "handle_bbox_secondary": [
+          0,
+          0,
+          256,
+          256
+        ],
+        "handle_visibility_fraction": 1.0,
+        "handle_local_contrast": 0.0,
+        "handle_crop_entropy": 0.0,
+        "handle_area_ratio": 0.7217833201090494,
+        "handle_boundary_contrast": 0.01918668054634693,
+        "handle_edge_density": 0.0028346637528405983,
+        "handle_local_std": 0.037962814542514364,
+        "legacy_handle_local_contrast": 0.008369149389270065,
+        "legacy_handle_crop_entropy": 0.050988550478589,
+        "legacy_handle_bbox_secondary": [
+          51,
+          75,
+          87,
+          111
+        ],
+        "framing_score": 0.8937693130780205,
+        "camera_relativeness_residual": 0.0,
+        "perception_probe_mode": "crop_feature_proxy_v1",
+        "perception_probe_available": true,
+        "handle_patch_separability": 0.034262015141953144,
+        "encoder_readability_pass": false,
+        "positive_count": 288,
+        "negative_count": 288,
+        "observation_contract_pass": true,
+        "visual_gate_breakdown": {
+          "baseline_weighted_visual_gap": 2.4770394000000007,
+          "lane_weighted_visual_gap": 2.4664308000000004,
+          "visual_alignment_gain": 0.004282774024506941,
+          "framing_score": 0.8937693130780205,
+          "handle_visibility_fraction": 1.0,
+          "handle_local_contrast": 0.0,
+          "handle_crop_entropy": 0.0,
+          "handle_readability_score": 0.4787538626156041,
+          "perceptual_readability_score_v2": 0.2387176854746494,
+          "camera_relativeness_residual": 0.0,
+          "encoder_readability_pass": false
+        },
+        "g4b_local_breakdown": {
+          "handle_area_ratio": 1.0,
+          "handle_boundary_contrast": 0.01918668054634693,
+          "handle_edge_density": 0.0028346637528405983,
+          "handle_crop_entropy": 0.0,
+          "secondary_framing_score": 0.8937693130780205,
+          "local_affordance_readability_score_v3": 0.42885613505960485
+        },
+        "g4c_global_breakdown": {
+          "baseline_weighted_visual_gap": 2.4770394000000007,
+          "weighted_visual_gap": 2.4664308000000004,
+          "visual_alignment_gain": 0.004282774024506941
+        }
+      },
+      "sensor_contract_gain": {
+        "score": 0.3849219517666045,
+        "wrist_relativeness_gain": 0.0,
+        "no_overlay_gain": 1.0,
+        "visual_alignment_gain": 0.004282774024506941,
+        "framing_gain": 0.8937693130780205
+      },
+      "sensor_perception_gain": 0.40688904341310467,
+      "local_rank_tuple": [
+        0.42885613505960485,
+        0.01918668054634693,
+        0.0028346637528405983,
+        0.0,
+        0.004282774024506941,
+        -2.4664308000000004,
+        -0.11452959158080843,
+        0.16107712963168008,
+        0.3849219517666045
+      ]
+    }
+  ],
+  "best_profile_id": "visual_affordance_v3_raw_canonical",
+  "best_profile": {
+    "profile_id": "visual_affordance_v3_raw_canonical",
+    "lane": {
+      "lane_id": "RCA5_visual_affordance_v3_raw_canonical",
+      "lane_family": "RCA",
+      "stage": "probe",
+      "env_contract_config": {
+        "secondary_camera_mode": "wrist_dynamic",
+        "enable_marker_overlay": false,
+        "calibration_mode": "none",
+        "interaction_mode": "legacy_translation_only",
+        "state_mode": "m0_proxy",
+        "render_profile": "visual_affordance_v3_raw_canonical",
+        "background_mode": "neutral_lowfreq_lab",
+        "lighting_profile": "front_key_handle_rim",
+        "material_policy": "legacy",
+        "camera_framing_profile": "macro_handle_centered",
+        "emit_orientation_telemetry": true,
+        "emit_camera_metadata": true,
+        "emit_handle_probe_metadata": true,
+        "canonical_lane": true
+      },
+      "interventions": {
+        "rotation_source": "zero",
+        "profile_id": "visual_affordance_v3_raw_canonical"
+      },
+      "dataset_config": {
+        "unique_data_budget": null,
+        "success_repeat": 1,
+        "train_seed_pool": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "heldout_seed_pool": [
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "max_steps": 96
+      },
+      "train_config": {
+        "train_steps": 0,
+        "batch_size": 0,
+        "top_k": 0,
+        "tiny_retrain": false,
+        "full_retrain": false
+      },
+      "claim_policy": "canonical",
+      "diagnostic_only": false,
+      "strongest_negative_capped": true,
+      "resource_budget_snapshot": {
+        "policy": {
+          "AUTO_PROMOTE_SOVEREIGN": false,
+          "ALLOW_FULL_RETRAIN": false,
+          "ALLOW_NEW_CLAIM": false,
+          "RUN_MODE": "autonomous_cycle_phase",
+          "EXPERIMENT_FAMILY": "RCA",
+          "CAP_STRONGEST_NEGATIVE": true,
+          "RESUME": false
+        },
+        "limits": {
+          "max_rollouts_per_experiment": 3,
+          "max_disk_growth_mb": 4096,
+          "retry_backoff_seconds": 5,
+          "max_retries": 2,
+          "max_cycles_per_run": 4,
+          "max_tiny_retrain_budget": 1
+        },
+        "disk_growth_mb": 0.004,
+        "completed_experiments": [
+          "RCA0",
+          "RCA1",
+          "RCA2",
+          "RCA3",
+          "RCA4"
+        ]
+      },
+      "note": "Integrated RCA bundle comparison profile.",
+      "experiment_id": "RCA5",
+      "coverage": {},
+      "cost": 1.0,
+      "lane_hash": "a967b1c6bd9cca76"
+    },
+    "rollout_summary": {
+      "rollout_count": 3,
+      "unique_success_rate": 0.3333333333333333,
+      "attach_rate": 0.6666666666666666,
+      "mean_max_drawer_fraction": 0.4965751629173072,
+      "avg_episode_length": 67.66666666666667,
+      "success_count": 1,
+      "orientation_causal_sensitivity": 0.004505517892539501
+    },
+    "rollout_ceiling_lift": {
+      "score": 0.0,
+      "delta_unique_success_rate": 0.0,
+      "delta_attach_rate": 0.0,
+      "delta_mean_max_drawer_fraction": 0.0,
+      "delta_avg_episode_length_ratio": 0.0,
+      "delta_orientation_causal_sensitivity": 0.0
+    },
+    "state_report": {
+      "lane": {
+        "lane_id": "RCA5_visual_affordance_v3_raw_canonical",
+        "lane_family": "RCA",
+        "stage": "probe",
+        "env_contract_config": {
+          "secondary_camera_mode": "wrist_dynamic",
+          "enable_marker_overlay": false,
+          "calibration_mode": "none",
+          "interaction_mode": "legacy_translation_only",
+          "state_mode": "m0_proxy",
+          "render_profile": "visual_affordance_v3_raw_canonical",
+          "background_mode": "neutral_lowfreq_lab",
+          "lighting_profile": "front_key_handle_rim",
+          "material_policy": "legacy",
+          "camera_framing_profile": "macro_handle_centered",
+          "emit_orientation_telemetry": true,
+          "emit_camera_metadata": true,
+          "emit_handle_probe_metadata": true,
+          "canonical_lane": true
+        },
+        "interventions": {
+          "rotation_source": "zero",
+          "profile_id": "visual_affordance_v3_raw_canonical"
+        },
+        "dataset_config": {
+          "unique_data_budget": null,
+          "success_repeat": 1,
+          "train_seed_pool": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ],
+          "heldout_seed_pool": [
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "max_steps": 96
+        },
+        "train_config": {
+          "train_steps": 0,
+          "batch_size": 0,
+          "top_k": 0,
+          "tiny_retrain": false,
+          "full_retrain": false
+        },
+        "claim_policy": "canonical",
+        "diagnostic_only": false,
+        "strongest_negative_capped": true,
+        "resource_budget_snapshot": {
+          "policy": {
+            "AUTO_PROMOTE_SOVEREIGN": false,
+            "ALLOW_FULL_RETRAIN": false,
+            "ALLOW_NEW_CLAIM": false,
+            "RUN_MODE": "autonomous_cycle_phase",
+            "EXPERIMENT_FAMILY": "RCA",
+            "CAP_STRONGEST_NEGATIVE": true,
+            "RESUME": false
+          },
+          "limits": {
+            "max_rollouts_per_experiment": 3,
+            "max_disk_growth_mb": 4096,
+            "retry_backoff_seconds": 5,
+            "max_retries": 2,
+            "max_cycles_per_run": 4,
+            "max_tiny_retrain_budget": 1
+          },
+          "disk_growth_mb": 0.004,
+          "completed_experiments": [
+            "RCA0",
+            "RCA1",
+            "RCA2",
+            "RCA3",
+            "RCA4"
+          ]
+        },
+        "note": "Integrated RCA bundle comparison profile.",
+        "experiment_id": "RCA5",
+        "coverage": {},
+        "cost": 1.0,
+        "lane_hash": "a967b1c6bd9cca76"
+      },
+      "state_spec": {
+        "state_mode": "m0_proxy",
+        "shape": [
+          8
+        ],
+        "dim_names": [
+          "eef_pos_x_m",
+          "eef_pos_y_m",
+          "eef_pos_z_m",
+          "handle_rel_x_norm",
+          "handle_rel_y_norm",
+          "handle_rel_z_norm",
+          "drawer_fraction_signed",
+          "gripper_joint"
+        ],
+        "provenance": [
+          "observed",
+          "observed",
+          "observed",
+          "derived",
+          "derived",
+          "derived",
+          "derived",
+          "observed"
+        ],
+        "duplicate_dims": [],
+        "fraud_padding": false,
+        "all_dims_explained": true
+      },
+      "overall_score": 0.6424154418513262,
+      "per_dim_wasserstein": [
+        0.06561251929913735,
+        0.18497638180516324,
+        0.9353793580049382,
+        2.162587823130517,
+        1.8769001220432875,
+        0.5690665935897399,
+        0.6350744361151393,
+        0.02377894329635094
+      ],
+      "per_dim_range_overlap": [
+        0.1039474222476636,
+        0.6043892378660861,
+        0.0,
+        0.0,
+        0.0,
+        0.07135938282068037,
+        0.009188967417933135,
+        0.19104597064325554
+      ],
+      "per_dim_smoothness_gap": [
+        0.0004155058413743973,
+        0.022219786420464516,
+        0.0007067844271659851,
+        0.0311763733625412,
+        0.033455900847911835,
+        0.028432026505470276,
+        0.0728922113776207,
+        0.0049041081219911575
+      ],
+      "valid": true,
+      "fraud_padding": false,
+      "all_dims_explained": true,
+      "state_mode": "m0_proxy"
+    },
+    "state_alignment_gain": 0.0,
+    "visual_report": {
+      "lane": {
+        "lane_id": "RCA5_visual_affordance_v3_raw_canonical",
+        "lane_family": "RCA",
+        "stage": "probe",
+        "env_contract_config": {
+          "secondary_camera_mode": "wrist_dynamic",
+          "enable_marker_overlay": false,
+          "calibration_mode": "none",
+          "interaction_mode": "legacy_translation_only",
+          "state_mode": "m0_proxy",
+          "render_profile": "visual_affordance_v3_raw_canonical",
+          "background_mode": "neutral_lowfreq_lab",
+          "lighting_profile": "front_key_handle_rim",
+          "material_policy": "legacy",
+          "camera_framing_profile": "macro_handle_centered",
+          "emit_orientation_telemetry": true,
+          "emit_camera_metadata": true,
+          "emit_handle_probe_metadata": true,
+          "canonical_lane": true
+        },
+        "interventions": {
+          "rotation_source": "zero",
+          "profile_id": "visual_affordance_v3_raw_canonical"
+        },
+        "dataset_config": {
+          "unique_data_budget": null,
+          "success_repeat": 1,
+          "train_seed_pool": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ],
+          "heldout_seed_pool": [
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "max_steps": 96
+        },
+        "train_config": {
+          "train_steps": 0,
+          "batch_size": 0,
+          "top_k": 0,
+          "tiny_retrain": false,
+          "full_retrain": false
+        },
+        "claim_policy": "canonical",
+        "diagnostic_only": false,
+        "strongest_negative_capped": true,
+        "resource_budget_snapshot": {
+          "policy": {
+            "AUTO_PROMOTE_SOVEREIGN": false,
+            "ALLOW_FULL_RETRAIN": false,
+            "ALLOW_NEW_CLAIM": false,
+            "RUN_MODE": "autonomous_cycle_phase",
+            "EXPERIMENT_FAMILY": "RCA",
+            "CAP_STRONGEST_NEGATIVE": true,
+            "RESUME": false
+          },
+          "limits": {
+            "max_rollouts_per_experiment": 3,
+            "max_disk_growth_mb": 4096,
+            "retry_backoff_seconds": 5,
+            "max_retries": 2,
+            "max_cycles_per_run": 4,
+            "max_tiny_retrain_budget": 1
+          },
+          "disk_growth_mb": 0.004,
+          "completed_experiments": [
+            "RCA0",
+            "RCA1",
+            "RCA2",
+            "RCA3",
+            "RCA4"
+          ]
+        },
+        "note": "Integrated RCA bundle comparison profile.",
+        "experiment_id": "RCA5",
+        "coverage": {},
+        "cost": 1.0,
+        "lane_hash": "a967b1c6bd9cca76"
+      },
+      "claim_policy": "canonical",
+      "diagnostic_only": false,
+      "secondary_camera_wrist_like": true,
+      "secondary_camera_residual_mean": 0.0,
+      "secondary_camera_residual_max": 0.0,
+      "marker_overlay_enabled": false,
+      "provenance_complete": true,
+      "target_stats": {
+        "sample_count": 24,
+        "mean_rgb": [
+          0.06413199752569199,
+          0.05283299833536148,
+          0.04151200130581856
+        ],
+        "std_rgb": [
+          0.16430999338626862,
+          0.1350879967212677,
+          0.10579700022935867
+        ],
+        "brightness_mean": 0.054948881560680916,
+        "edge_density_mean": 0.008619308471679688,
+        "entropy_mean": 0.8195597418344085
+      },
+      "gap": {
+        "brightness_gap": 0.410903,
+        "std_rgb_abs_gap": [
+          0.05917,
+          0.07064,
+          0.082425
+        ],
+        "edge_density_gap": 0.05529,
+        "entropy_gap": 6.101936
+      },
+      "weighted_visual_gap": 2.4770394000000007,
+      "visual_alignment_gain": 0.0,
+      "render_profile": "visual_affordance_v3_raw_canonical",
+      "background_mode": "neutral_lowfreq_lab",
+      "lighting_profile": "front_key_handle_rim",
+      "material_policy": "legacy",
+      "camera_framing_profile": "macro_handle_centered",
+      "probe_measurement_mode": "true_handle_mask",
+      "handle_bbox_primary": [
+        135,
+        102,
+        163,
+        131
+      ],
+      "handle_bbox_secondary": [
+        0,
+        0,
+        220,
+        256
+      ],
+      "handle_visibility_fraction": 1.0,
+      "handle_local_contrast": 0.0,
+      "handle_crop_entropy": 0.0,
+      "handle_area_ratio": 0.2286119132206358,
+      "handle_boundary_contrast": 0.04087850644782949,
+      "handle_edge_density": 0.01797070263385472,
+      "handle_local_std": 0.20892732164277003,
+      "legacy_handle_local_contrast": 0.0017816998152268742,
+      "legacy_handle_crop_entropy": 0.00830831386678747,
+      "legacy_handle_bbox_secondary": [
+        58,
+        75,
+        94,
+        111
+      ],
+      "framing_score": 0.813860425959964,
+      "camera_relativeness_residual": 0.0,
+      "perception_probe_mode": "crop_feature_proxy_v1",
+      "perception_probe_available": true,
+      "handle_patch_separability": 1.6292324726539635,
+      "encoder_readability_pass": true,
+      "positive_count": 203,
+      "negative_count": 203,
+      "observation_contract_pass": true,
+      "visual_gate_breakdown": {
+        "baseline_weighted_visual_gap": 2.4770394000000007,
+        "lane_weighted_visual_gap": 2.4770394000000007,
+        "visual_alignment_gain": 0.0,
+        "framing_score": 0.813860425959964,
+        "handle_visibility_fraction": 1.0,
+        "handle_local_contrast": 0.0,
+        "handle_crop_entropy": 0.0,
+        "handle_readability_score": 0.4627720851919928,
+        "perceptual_readability_score_v2": 0.30452464685559605,
+        "camera_relativeness_residual": 0.0,
+        "encoder_readability_pass": true
+      },
+      "g4b_local_breakdown": {
+        "handle_area_ratio": 0.859375,
+        "handle_boundary_contrast": 0.04087850644782949,
+        "handle_edge_density": 0.01797070263385472,
+        "handle_crop_entropy": 0.0,
+        "secondary_framing_score": 0.813860425959964,
+        "local_affordance_readability_score_v3": 0.5975500168751653
+      },
+      "g4c_global_breakdown": {
+        "baseline_weighted_visual_gap": 2.4770394000000007,
+        "weighted_visual_gap": 2.4770394000000007,
+        "visual_alignment_gain": 0.0
+      }
+    },
+    "sensor_contract_gain": {
+      "score": 0.3720790638939946,
+      "wrist_relativeness_gain": 0.0,
+      "no_overlay_gain": 1.0,
+      "visual_alignment_gain": 0.0,
+      "framing_gain": 0.813860425959964
+    },
+    "sensor_perception_gain": 0.48481454038457994,
+    "local_rank_tuple": [
+      0.5975500168751653,
+      0.04087850644782949,
+      0.01797070263385472,
+      0.0,
+      0.0,
+      -2.4770394000000007,
+      0.0,
+      0.0,
+      0.3720790638939946
+    ]
+  },
+  "state_audit": {
+    "selected_candidate_mode": "telemetry_candidate_v3_transition",
+    "selected_candidate_score": 0.5389370064468471,
+    "m0_proxy_score": 0.6583915787450481,
+    "eef_pose_gripper_score": 0.6131098412382743,
+    "state_alignment_gain": 0.1814339310443367,
+    "selected_candidate": {
+      "lane": {
+        "lane_id": "RCA4_state_telemetry_candidate_v3_transition",
+        "lane_family": "RCA",
+        "stage": "probe",
+        "env_contract_config": {
+          "secondary_camera_mode": "wrist_dynamic",
+          "enable_marker_overlay": false,
+          "calibration_mode": "none",
+          "interaction_mode": "orientation_sensitive_v2_affordance_locked",
+          "state_mode": "telemetry_candidate_v3_transition",
+          "render_profile": "visual_affordance_v3_plus_bundle",
+          "background_mode": "neutral_lowfreq_lab",
+          "lighting_profile": "front_key_handle_rim",
+          "material_policy": "handle_affordance_local",
+          "camera_framing_profile": "macro_handle_centered",
+          "emit_orientation_telemetry": true,
+          "emit_camera_metadata": true,
+          "emit_handle_probe_metadata": true,
+          "canonical_lane": true
+        },
+        "interventions": {
+          "rotation_source": "aligned",
+          "profile_id": "state_telemetry_candidate_v3_transition"
+        },
+        "dataset_config": {
+          "unique_data_budget": null,
+          "success_repeat": 1,
+          "train_seed_pool": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ],
+          "heldout_seed_pool": [
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "max_steps": 96
+        },
+        "train_config": {
+          "train_steps": 0,
+          "batch_size": 0,
+          "top_k": 0,
+          "tiny_retrain": false,
+          "full_retrain": false
+        },
+        "claim_policy": "canonical",
+        "diagnostic_only": false,
+        "strongest_negative_capped": true,
+        "resource_budget_snapshot": {
+          "policy": {
+            "AUTO_PROMOTE_SOVEREIGN": false,
+            "ALLOW_FULL_RETRAIN": false,
+            "ALLOW_NEW_CLAIM": false,
+            "RUN_MODE": "autonomous_cycle_phase",
+            "EXPERIMENT_FAMILY": "RCA",
+            "CAP_STRONGEST_NEGATIVE": true,
+            "RESUME": false
+          },
+          "limits": {
+            "max_rollouts_per_experiment": 3,
+            "max_disk_growth_mb": 4096,
+            "retry_backoff_seconds": 5,
+            "max_retries": 2,
+            "max_cycles_per_run": 4,
+            "max_tiny_retrain_budget": 1
+          },
+          "disk_growth_mb": 0.004,
+          "completed_experiments": [
+            "RCA0",
+            "RCA1",
+            "RCA2",
+            "RCA3"
+          ]
+        },
+        "note": "Transition-aware state semantics audit candidate.",
+        "experiment_id": "RCA4",
+        "coverage": {},
+        "cost": 1.0,
+        "lane_hash": "d1e69c9ccd3eb5b7"
+      },
+      "state_spec": {
+        "state_mode": "telemetry_candidate_v3_transition",
+        "shape": [
+          8
+        ],
+        "dim_names": [
+          "handle_rel_x_norm",
+          "handle_rel_y_norm",
+          "handle_rel_z_norm",
+          "drawer_fraction_signed",
+          "pull_alignment_cos",
+          "stable_attach",
+          "attach_streak_norm",
+          "contact_window_fraction"
+        ],
+        "provenance": [
+          "derived",
+          "derived",
+          "derived",
+          "derived",
+          "derived",
+          "derived",
+          "derived",
+          "derived"
+        ],
+        "duplicate_dims": [],
+        "fraud_padding": false,
+        "all_dims_explained": true
+      },
+      "overall_score": 0.5389370064468471,
+      "per_dim_wasserstein": [
+        0.06422222831786671,
+        0.22177060975683288,
+        1.1870237375506631,
+        2.9409828905593094,
+        1.238151801350959,
+        0.7185559012424726,
+        0.07335954535271057,
+        0.6401742057055534
+      ],
+      "per_dim_range_overlap": [
+        0.30114458613313627,
+        0.1054111798495236,
+        0.0,
+        0.0,
+        0.3554961324255332,
+        0.0,
+        0.010299170389771461,
+        0.0
+      ],
+      "per_dim_smoothness_gap": [
+        0.046870820224285126,
+        0.06786411255598068,
+        0.053636956959962845,
+        0.07420775294303894,
+        0.0886455625295639,
+        0.06842247396707535,
+        0.0930069163441658,
+        0.06773886829614639
+      ],
+      "valid": true,
+      "fraud_padding": false,
+      "all_dims_explained": true,
+      "state_mode": "telemetry_candidate_v3_transition"
+    },
+    "all_candidates": [
+      {
+        "lane": {
+          "lane_id": "RCA4_state_m0_proxy",
+          "lane_family": "RCA",
+          "stage": "probe",
+          "env_contract_config": {
+            "secondary_camera_mode": "wrist_dynamic",
+            "enable_marker_overlay": false,
+            "calibration_mode": "none",
+            "interaction_mode": "orientation_sensitive_v2_affordance_locked",
+            "state_mode": "m0_proxy",
+            "render_profile": "visual_affordance_v3_plus_bundle",
+            "background_mode": "neutral_lowfreq_lab",
+            "lighting_profile": "front_key_handle_rim",
+            "material_policy": "handle_affordance_local",
+            "camera_framing_profile": "macro_handle_centered",
+            "emit_orientation_telemetry": true,
+            "emit_camera_metadata": true,
+            "emit_handle_probe_metadata": true,
+            "canonical_lane": true
+          },
+          "interventions": {
+            "rotation_source": "aligned",
+            "profile_id": "state_m0_proxy"
+          },
+          "dataset_config": {
+            "unique_data_budget": null,
+            "success_repeat": 1,
+            "train_seed_pool": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "heldout_seed_pool": [
+              11,
+              12,
+              13,
+              14,
+              15
+            ],
+            "max_steps": 96
+          },
+          "train_config": {
+            "train_steps": 0,
+            "batch_size": 0,
+            "top_k": 0,
+            "tiny_retrain": false,
+            "full_retrain": false
+          },
+          "claim_policy": "diagnostic",
+          "diagnostic_only": true,
+          "strongest_negative_capped": true,
+          "resource_budget_snapshot": {
+            "policy": {
+              "AUTO_PROMOTE_SOVEREIGN": false,
+              "ALLOW_FULL_RETRAIN": false,
+              "ALLOW_NEW_CLAIM": false,
+              "RUN_MODE": "autonomous_cycle_phase",
+              "EXPERIMENT_FAMILY": "RCA",
+              "CAP_STRONGEST_NEGATIVE": true,
+              "RESUME": false
+            },
+            "limits": {
+              "max_rollouts_per_experiment": 3,
+              "max_disk_growth_mb": 4096,
+              "retry_backoff_seconds": 5,
+              "max_retries": 2,
+              "max_cycles_per_run": 4,
+              "max_tiny_retrain_budget": 1
+            },
+            "disk_growth_mb": 0.004,
+            "completed_experiments": [
+              "RCA0",
+              "RCA1",
+              "RCA2",
+              "RCA3"
+            ]
+          },
+          "note": "Transition-aware state semantics audit candidate.",
+          "experiment_id": "RCA4",
+          "coverage": {},
+          "cost": 1.0,
+          "lane_hash": "f9b537c347da709c"
+        },
+        "state_spec": {
+          "state_mode": "m0_proxy",
+          "shape": [
+            8
+          ],
+          "dim_names": [
+            "eef_pos_x_m",
+            "eef_pos_y_m",
+            "eef_pos_z_m",
+            "handle_rel_x_norm",
+            "handle_rel_y_norm",
+            "handle_rel_z_norm",
+            "drawer_fraction_signed",
+            "gripper_joint"
+          ],
+          "provenance": [
+            "observed",
+            "observed",
+            "observed",
+            "derived",
+            "derived",
+            "derived",
+            "derived",
+            "observed"
+          ],
+          "duplicate_dims": [],
+          "fraud_padding": false,
+          "all_dims_explained": true
+        },
+        "overall_score": 0.6583915787450481,
+        "per_dim_wasserstein": [
+          0.06518618597505456,
+          0.1901046086248549,
+          0.943650112673694,
+          2.1533454617144017,
+          1.5727875207543587,
+          0.5919970233525778,
+          0.8488384717137103,
+          0.02155046441741431
+        ],
+        "per_dim_range_overlap": [
+          0.1039474222476636,
+          0.6042952139249026,
+          0.0,
+          0.0,
+          0.0,
+          0.07135938282068037,
+          0.0,
+          0.19104597064325554
+        ],
+        "per_dim_smoothness_gap": [
+          0.0031036315485835075,
+          0.01879962533712387,
+          0.0011996608227491379,
+          0.043395139276981354,
+          0.05194146931171417,
+          0.014178074896335602,
+          0.03293244168162346,
+          0.020443767309188843
+        ],
+        "valid": true,
+        "fraud_padding": false,
+        "all_dims_explained": true,
+        "state_mode": "m0_proxy"
+      },
+      {
+        "lane": {
+          "lane_id": "RCA4_state_eef_pose_gripper",
+          "lane_family": "RCA",
+          "stage": "probe",
+          "env_contract_config": {
+            "secondary_camera_mode": "wrist_dynamic",
+            "enable_marker_overlay": false,
+            "calibration_mode": "none",
+            "interaction_mode": "orientation_sensitive_v2_affordance_locked",
+            "state_mode": "eef_pose_gripper",
+            "render_profile": "visual_affordance_v3_plus_bundle",
+            "background_mode": "neutral_lowfreq_lab",
+            "lighting_profile": "front_key_handle_rim",
+            "material_policy": "handle_affordance_local",
+            "camera_framing_profile": "macro_handle_centered",
+            "emit_orientation_telemetry": true,
+            "emit_camera_metadata": true,
+            "emit_handle_probe_metadata": true,
+            "canonical_lane": true
+          },
+          "interventions": {
+            "rotation_source": "aligned",
+            "profile_id": "state_eef_pose_gripper"
+          },
+          "dataset_config": {
+            "unique_data_budget": null,
+            "success_repeat": 1,
+            "train_seed_pool": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "heldout_seed_pool": [
+              11,
+              12,
+              13,
+              14,
+              15
+            ],
+            "max_steps": 96
+          },
+          "train_config": {
+            "train_steps": 0,
+            "batch_size": 0,
+            "top_k": 0,
+            "tiny_retrain": false,
+            "full_retrain": false
+          },
+          "claim_policy": "diagnostic",
+          "diagnostic_only": true,
+          "strongest_negative_capped": true,
+          "resource_budget_snapshot": {
+            "policy": {
+              "AUTO_PROMOTE_SOVEREIGN": false,
+              "ALLOW_FULL_RETRAIN": false,
+              "ALLOW_NEW_CLAIM": false,
+              "RUN_MODE": "autonomous_cycle_phase",
+              "EXPERIMENT_FAMILY": "RCA",
+              "CAP_STRONGEST_NEGATIVE": true,
+              "RESUME": false
+            },
+            "limits": {
+              "max_rollouts_per_experiment": 3,
+              "max_disk_growth_mb": 4096,
+              "retry_backoff_seconds": 5,
+              "max_retries": 2,
+              "max_cycles_per_run": 4,
+              "max_tiny_retrain_budget": 1
+            },
+            "disk_growth_mb": 0.004,
+            "completed_experiments": [
+              "RCA0",
+              "RCA1",
+              "RCA2",
+              "RCA3"
+            ]
+          },
+          "note": "Transition-aware state semantics audit candidate.",
+          "experiment_id": "RCA4",
+          "coverage": {},
+          "cost": 1.0,
+          "lane_hash": "3d88311b9534ea44"
+        },
+        "state_spec": {
+          "state_mode": "eef_pose_gripper",
+          "shape": [
+            8
+          ],
+          "dim_names": [
+            "eef_pos_x_m",
+            "eef_pos_y_m",
+            "eef_pos_z_m",
+            "eef_quat_x",
+            "eef_quat_y",
+            "eef_quat_z",
+            "eef_quat_w",
+            "gripper_joint"
+          ],
+          "provenance": [
+            "observed",
+            "observed",
+            "observed",
+            "observed",
+            "observed",
+            "observed",
+            "observed",
+            "observed"
+          ],
+          "duplicate_dims": [],
+          "fraud_padding": false,
+          "all_dims_explained": true
+        },
+        "overall_score": 0.6131098412382743,
+        "per_dim_wasserstein": [
+          0.06518618597505456,
+          0.1901046086248549,
+          0.943650112673694,
+          2.301456031788711,
+          1.0304723627687573,
+          0.5403741330921377,
+          0.5946767645300659,
+          0.02155046441741431
+        ],
+        "per_dim_range_overlap": [
+          0.1039474222476636,
+          0.6042952139249026,
+          0.0,
+          0.0,
+          0.523470262349788,
+          0.2971650983078115,
+          0.0072826145755967514,
+          0.19104597064325554
+        ],
+        "per_dim_smoothness_gap": [
+          0.0031036315485835075,
+          0.01879962533712387,
+          0.0011996608227491379,
+          0.045658085495233536,
+          0.03769272565841675,
+          0.024901041761040688,
+          0.06124284490942955,
+          0.020443767309188843
+        ],
+        "valid": true,
+        "fraud_padding": false,
+        "all_dims_explained": true,
+        "state_mode": "eef_pose_gripper"
+      },
+      {
+        "lane": {
+          "lane_id": "RCA4_state_telemetry_candidate_v2",
+          "lane_family": "RCA",
+          "stage": "probe",
+          "env_contract_config": {
+            "secondary_camera_mode": "wrist_dynamic",
+            "enable_marker_overlay": false,
+            "calibration_mode": "none",
+            "interaction_mode": "orientation_sensitive_v2_affordance_locked",
+            "state_mode": "telemetry_candidate_v2",
+            "render_profile": "visual_affordance_v3_plus_bundle",
+            "background_mode": "neutral_lowfreq_lab",
+            "lighting_profile": "front_key_handle_rim",
+            "material_policy": "handle_affordance_local",
+            "camera_framing_profile": "macro_handle_centered",
+            "emit_orientation_telemetry": true,
+            "emit_camera_metadata": true,
+            "emit_handle_probe_metadata": true,
+            "canonical_lane": true
+          },
+          "interventions": {
+            "rotation_source": "aligned",
+            "profile_id": "state_telemetry_candidate_v2"
+          },
+          "dataset_config": {
+            "unique_data_budget": null,
+            "success_repeat": 1,
+            "train_seed_pool": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "heldout_seed_pool": [
+              11,
+              12,
+              13,
+              14,
+              15
+            ],
+            "max_steps": 96
+          },
+          "train_config": {
+            "train_steps": 0,
+            "batch_size": 0,
+            "top_k": 0,
+            "tiny_retrain": false,
+            "full_retrain": false
+          },
+          "claim_policy": "canonical",
+          "diagnostic_only": false,
+          "strongest_negative_capped": true,
+          "resource_budget_snapshot": {
+            "policy": {
+              "AUTO_PROMOTE_SOVEREIGN": false,
+              "ALLOW_FULL_RETRAIN": false,
+              "ALLOW_NEW_CLAIM": false,
+              "RUN_MODE": "autonomous_cycle_phase",
+              "EXPERIMENT_FAMILY": "RCA",
+              "CAP_STRONGEST_NEGATIVE": true,
+              "RESUME": false
+            },
+            "limits": {
+              "max_rollouts_per_experiment": 3,
+              "max_disk_growth_mb": 4096,
+              "retry_backoff_seconds": 5,
+              "max_retries": 2,
+              "max_cycles_per_run": 4,
+              "max_tiny_retrain_budget": 1
+            },
+            "disk_growth_mb": 0.004,
+            "completed_experiments": [
+              "RCA0",
+              "RCA1",
+              "RCA2",
+              "RCA3"
+            ]
+          },
+          "note": "Transition-aware state semantics audit candidate.",
+          "experiment_id": "RCA4",
+          "coverage": {},
+          "cost": 1.0,
+          "lane_hash": "416d5a8731d64c82"
+        },
+        "state_spec": {
+          "state_mode": "telemetry_candidate_v2",
+          "shape": [
+            8
+          ],
+          "dim_names": [
+            "eef_pos_x_m",
+            "eef_pos_y_m",
+            "eef_pos_z_m",
+            "eef_rotvec_x",
+            "eef_rotvec_y",
+            "eef_rotvec_z",
+            "handle_distance_norm",
+            "drawer_fraction_signed"
+          ],
+          "provenance": [
+            "observed",
+            "observed",
+            "observed",
+            "derived",
+            "derived",
+            "derived",
+            "derived",
+            "derived"
+          ],
+          "duplicate_dims": [],
+          "fraud_padding": false,
+          "all_dims_explained": true
+        },
+        "overall_score": 0.554195075537046,
+        "per_dim_wasserstein": [
+          0.06518618597505456,
+          0.1901046086248549,
+          0.943650112673694,
+          0.7433964869170464,
+          1.7941671341469947,
+          0.9336704464944685,
+          0.11325688621668101,
+          0.7702752259861793
+        ],
+        "per_dim_range_overlap": [
+          0.1039474222476636,
+          0.6042952139249026,
+          0.0,
+          0.025900391922442912,
+          0.30766135420400575,
+          0.380006738472822,
+          0.005561929514854232,
+          0.0
+        ],
+        "per_dim_smoothness_gap": [
+          0.0031036315485835075,
+          0.01879962533712387,
+          0.0011996608227491379,
+          0.03170330822467804,
+          0.4573095738887787,
+          0.01233723759651184,
+          0.07060356438159943,
+          0.03292536735534668
+        ],
+        "valid": true,
+        "fraud_padding": false,
+        "all_dims_explained": true,
+        "state_mode": "telemetry_candidate_v2"
+      },
+      {
+        "lane": {
+          "lane_id": "RCA4_state_telemetry_candidate_v3_transition",
+          "lane_family": "RCA",
+          "stage": "probe",
+          "env_contract_config": {
+            "secondary_camera_mode": "wrist_dynamic",
+            "enable_marker_overlay": false,
+            "calibration_mode": "none",
+            "interaction_mode": "orientation_sensitive_v2_affordance_locked",
+            "state_mode": "telemetry_candidate_v3_transition",
+            "render_profile": "visual_affordance_v3_plus_bundle",
+            "background_mode": "neutral_lowfreq_lab",
+            "lighting_profile": "front_key_handle_rim",
+            "material_policy": "handle_affordance_local",
+            "camera_framing_profile": "macro_handle_centered",
+            "emit_orientation_telemetry": true,
+            "emit_camera_metadata": true,
+            "emit_handle_probe_metadata": true,
+            "canonical_lane": true
+          },
+          "interventions": {
+            "rotation_source": "aligned",
+            "profile_id": "state_telemetry_candidate_v3_transition"
+          },
+          "dataset_config": {
+            "unique_data_budget": null,
+            "success_repeat": 1,
+            "train_seed_pool": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "heldout_seed_pool": [
+              11,
+              12,
+              13,
+              14,
+              15
+            ],
+            "max_steps": 96
+          },
+          "train_config": {
+            "train_steps": 0,
+            "batch_size": 0,
+            "top_k": 0,
+            "tiny_retrain": false,
+            "full_retrain": false
+          },
+          "claim_policy": "canonical",
+          "diagnostic_only": false,
+          "strongest_negative_capped": true,
+          "resource_budget_snapshot": {
+            "policy": {
+              "AUTO_PROMOTE_SOVEREIGN": false,
+              "ALLOW_FULL_RETRAIN": false,
+              "ALLOW_NEW_CLAIM": false,
+              "RUN_MODE": "autonomous_cycle_phase",
+              "EXPERIMENT_FAMILY": "RCA",
+              "CAP_STRONGEST_NEGATIVE": true,
+              "RESUME": false
+            },
+            "limits": {
+              "max_rollouts_per_experiment": 3,
+              "max_disk_growth_mb": 4096,
+              "retry_backoff_seconds": 5,
+              "max_retries": 2,
+              "max_cycles_per_run": 4,
+              "max_tiny_retrain_budget": 1
+            },
+            "disk_growth_mb": 0.004,
+            "completed_experiments": [
+              "RCA0",
+              "RCA1",
+              "RCA2",
+              "RCA3"
+            ]
+          },
+          "note": "Transition-aware state semantics audit candidate.",
+          "experiment_id": "RCA4",
+          "coverage": {},
+          "cost": 1.0,
+          "lane_hash": "d1e69c9ccd3eb5b7"
+        },
+        "state_spec": {
+          "state_mode": "telemetry_candidate_v3_transition",
+          "shape": [
+            8
+          ],
+          "dim_names": [
+            "handle_rel_x_norm",
+            "handle_rel_y_norm",
+            "handle_rel_z_norm",
+            "drawer_fraction_signed",
+            "pull_alignment_cos",
+            "stable_attach",
+            "attach_streak_norm",
+            "contact_window_fraction"
+          ],
+          "provenance": [
+            "derived",
+            "derived",
+            "derived",
+            "derived",
+            "derived",
+            "derived",
+            "derived",
+            "derived"
+          ],
+          "duplicate_dims": [],
+          "fraud_padding": false,
+          "all_dims_explained": true
+        },
+        "overall_score": 0.5389370064468471,
+        "per_dim_wasserstein": [
+          0.06422222831786671,
+          0.22177060975683288,
+          1.1870237375506631,
+          2.9409828905593094,
+          1.238151801350959,
+          0.7185559012424726,
+          0.07335954535271057,
+          0.6401742057055534
+        ],
+        "per_dim_range_overlap": [
+          0.30114458613313627,
+          0.1054111798495236,
+          0.0,
+          0.0,
+          0.3554961324255332,
+          0.0,
+          0.010299170389771461,
+          0.0
+        ],
+        "per_dim_smoothness_gap": [
+          0.046870820224285126,
+          0.06786411255598068,
+          0.053636956959962845,
+          0.07420775294303894,
+          0.0886455625295639,
+          0.06842247396707535,
+          0.0930069163441658,
+          0.06773886829614639
+        ],
+        "valid": true,
+        "fraud_padding": false,
+        "all_dims_explained": true,
+        "state_mode": "telemetry_candidate_v3_transition"
+      }
+    ],
+    "impossible": false
+  }
+}

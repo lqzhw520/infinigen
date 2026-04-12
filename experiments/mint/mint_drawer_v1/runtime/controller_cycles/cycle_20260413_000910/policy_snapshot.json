@@ -1,0 +1,9 @@
+{
+  "AUTO_PROMOTE_SOVEREIGN": false,
+  "ALLOW_FULL_RETRAIN": false,
+  "ALLOW_NEW_CLAIM": false,
+  "RUN_MODE": "autonomous_cycle_phase",
+  "EXPERIMENT_FAMILY": "RCA",
+  "CAP_STRONGEST_NEGATIVE": true,
+  "RESUME": false
+}

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Pure metrics for the visual-fidelity root-cause controller."""
+"""Pure metrics for the integrated root-case controller."""
 
 from __future__ import annotations
 
@@ -12,6 +12,13 @@ import numpy as np
 CONTRAST_THRESHOLD = 0.08
 HANDLE_ENTROPY_REFERENCE = 4.0
 PERCEPTUAL_READABILITY_THRESHOLD = 0.55
+HANDLE_BOUNDARY_CONTRAST_THRESHOLD = 0.08
+HANDLE_EDGE_DENSITY_THRESHOLD = 0.03
+HANDLE_CROP_ENTROPY_THRESHOLD = 1.00
+HANDLE_AREA_RATIO_THRESHOLD = 0.01
+SECONDARY_FRAMING_THRESHOLD = 0.70
+LOCAL_AFFORDANCE_READABILITY_THRESHOLD = 0.60
+GLOBAL_VISUAL_ALIGNMENT_THRESHOLD = 0.10
 
 
 def _to_uint8(rgb: np.ndarray) -> np.ndarray:
@@ -29,7 +36,7 @@ def _entropy_from_gray(gray: np.ndarray) -> float:
     hist = np.bincount(gray.flatten(), minlength=256).astype(np.float64)
     hist /= max(hist.sum(), 1.0)
     nonzero = hist[hist > 0]
-    return float(-(nonzero * np.log2(nonzero)).sum())
+    return float(-(nonzero * np.log2(nonzero)).sum()) if len(nonzero) else 0.0
 
 
 def image_metrics(rgb: np.ndarray) -> dict[str, Any]:
@@ -100,6 +107,26 @@ def _bbox_area(bbox: list[int] | tuple[int, int, int, int] | None) -> int:
     return max(0, x1 - x0) * max(0, y1 - y0)
 
 
+def _trace_items(metadata_trace: list[dict[str, Any]] | dict[str, Any] | None) -> list[dict[str, Any]]:
+    if metadata_trace is None:
+        return []
+    if isinstance(metadata_trace, dict):
+        return [metadata_trace]
+    return list(metadata_trace)
+
+
+def _mean_trace_value(metadata_trace: list[dict[str, Any]] | dict[str, Any], key: str) -> float:
+    values = []
+    for item in _trace_items(metadata_trace):
+        probe = item.get("handle_probe_metadata") if isinstance(item, dict) and "handle_probe_metadata" in item else item
+        if not isinstance(probe, dict):
+            continue
+        value = probe.get(key)
+        if value is not None:
+            values.append(float(value))
+    return float(np.mean(values)) if values else 0.0
+
+
 def handle_bbox_from_rollout_metadata(rollout_metadata: dict[str, Any], key: str = "primary") -> list[int] | None:
     probe = rollout_metadata.get("handle_probe_metadata") or rollout_metadata or {}
     bbox = probe.get(f"handle_bbox_{key}")
@@ -113,39 +140,18 @@ def handle_bbox_from_rollout_metadata(rollout_metadata: dict[str, Any], key: str
 
 
 def handle_visibility_fraction(metadata_trace: list[dict[str, Any]] | dict[str, Any], key: str = "primary") -> float:
-    if isinstance(metadata_trace, dict):
-        metadata_trace = [metadata_trace]
-    values = []
-    for item in metadata_trace or []:
-        probe = item.get("handle_probe_metadata") or item or {}
-        value = probe.get(f"handle_visibility_fraction_{key}")
-        if value is not None:
-            values.append(float(value))
-    return float(np.mean(values)) if values else 0.0
+    return _mean_trace_value(metadata_trace, f"handle_visibility_fraction_{key}")
 
 
 def handle_local_contrast(metadata_trace: list[dict[str, Any]] | dict[str, Any], key: str = "primary") -> float:
-    if isinstance(metadata_trace, dict):
-        metadata_trace = [metadata_trace]
-    values = []
-    for item in metadata_trace or []:
-        probe = item.get("handle_probe_metadata") or item or {}
-        value = probe.get(f"handle_local_contrast_{key}")
-        if value is not None:
-            values.append(float(value))
-    return float(np.mean(values)) if values else 0.0
+    value = _mean_trace_value(metadata_trace, f"handle_local_contrast_{key}")
+    if value > 0.0:
+        return value
+    return _mean_trace_value(metadata_trace, f"handle_boundary_contrast_{key}")
 
 
 def handle_crop_entropy(metadata_trace: list[dict[str, Any]] | dict[str, Any], key: str = "primary") -> float:
-    if isinstance(metadata_trace, dict):
-        metadata_trace = [metadata_trace]
-    values = []
-    for item in metadata_trace or []:
-        probe = item.get("handle_probe_metadata") or item or {}
-        value = probe.get(f"handle_crop_entropy_{key}")
-        if value is not None:
-            values.append(float(value))
-    return float(np.mean(values)) if values else 0.0
+    return _mean_trace_value(metadata_trace, f"handle_crop_entropy_{key}")
 
 
 def handle_readability_score(
@@ -159,12 +165,7 @@ def handle_readability_score(
     contrast_term = float(np.clip(local_contrast / max(CONTRAST_THRESHOLD, 1e-6), 0.0, 1.0))
     entropy_term = float(np.clip(crop_entropy / max(HANDLE_ENTROPY_REFERENCE, 1e-6), 0.0, 1.0))
     framing_term = float(np.clip(framing_score, 0.0, 1.0))
-    return float(
-        0.30 * visibility_term
-        + 0.30 * contrast_term
-        + 0.20 * entropy_term
-        + 0.20 * framing_term
-    )
+    return float(0.30 * visibility_term + 0.30 * contrast_term + 0.20 * entropy_term + 0.20 * framing_term)
 
 
 def perceptual_readability_score_v2(
@@ -181,26 +182,86 @@ def perceptual_readability_score_v2(
     return float(score)
 
 
-def perceptual_readability_score(
+def handle_area_ratio(mask_bbox: list[int] | tuple[int, int, int, int] | None, image_shape: tuple[int, ...]) -> float:
+    if mask_bbox is None or len(image_shape) < 2:
+        return 0.0
+    h = max(int(image_shape[0]), 1)
+    w = max(int(image_shape[1]), 1)
+    return float(_bbox_area(mask_bbox) / float(h * w))
+
+
+def handle_boundary_contrast(mask_ring: np.ndarray, image: np.ndarray) -> float:
+    gray = _gray_uint8(image).astype(np.float32)
+    ring = np.asarray(mask_ring, dtype=bool)
+    if gray.shape[:2] != ring.shape or not ring.any():
+        return 0.0
+    dilated = cv2.dilate(ring.astype(np.uint8), np.ones((3, 3), dtype=np.uint8), iterations=1).astype(bool)
+    interior = ring
+    exterior = np.logical_and(dilated, np.logical_not(ring))
+    if not exterior.any():
+        exterior = np.logical_not(ring)
+    inside_mean = float(gray[interior].mean()) if interior.any() else 0.0
+    outside_mean = float(gray[exterior].mean()) if exterior.any() else 0.0
+    return float(abs(inside_mean - outside_mean) / 255.0)
+
+
+def handle_edge_density(mask_bbox_crop: np.ndarray) -> float:
+    crop = _to_uint8(mask_bbox_crop)
+    if crop.size == 0:
+        return 0.0
+    gray = _gray_uint8(crop)
+    edges = cv2.Canny(gray, 80, 160)
+    return float((edges > 0).mean())
+
+
+def handle_crop_entropy_from_crop(mask_bbox_crop: np.ndarray) -> float:
+    crop = _to_uint8(mask_bbox_crop)
+    if crop.size == 0:
+        return 0.0
+    return _entropy_from_gray(_gray_uint8(crop))
+
+
+def local_affordance_readability_score_v3(
     *,
-    visual_alignment_gain_value: float,
-    framing_score: float,
-    visibility_fraction: float,
-    local_contrast: float,
-    crop_entropy: float,
-    encoder_readability_pass: bool | None = None,
+    handle_area_ratio_value: float,
+    handle_boundary_contrast_value: float,
+    handle_edge_density_value: float,
+    handle_crop_entropy_value: float,
+    secondary_framing_score: float,
 ) -> float:
-    handle_score = handle_readability_score(
-        visibility_fraction=visibility_fraction,
-        local_contrast=local_contrast,
-        crop_entropy=crop_entropy,
-        framing_score=framing_score,
+    area_term = float(np.clip(handle_area_ratio_value / max(HANDLE_AREA_RATIO_THRESHOLD, 1e-6), 0.0, 1.0))
+    boundary_term = float(np.clip(handle_boundary_contrast_value / max(HANDLE_BOUNDARY_CONTRAST_THRESHOLD, 1e-6), 0.0, 1.0))
+    edge_term = float(np.clip(handle_edge_density_value / max(HANDLE_EDGE_DENSITY_THRESHOLD, 1e-6), 0.0, 1.0))
+    entropy_term = float(np.clip(handle_crop_entropy_value / max(HANDLE_CROP_ENTROPY_THRESHOLD, 1e-6), 0.0, 1.0))
+    framing_term = float(np.clip(secondary_framing_score / max(SECONDARY_FRAMING_THRESHOLD, 1e-6), 0.0, 1.0))
+    return float(0.20 * area_term + 0.25 * boundary_term + 0.20 * edge_term + 0.20 * entropy_term + 0.15 * framing_term)
+
+
+def local_affordance_gate_breakdown(
+    *,
+    handle_bbox: list[int] | tuple[int, int, int, int] | None,
+    image_shape: tuple[int, ...],
+    handle_boundary_contrast_value: float,
+    handle_edge_density_value: float,
+    handle_crop_entropy_value: float,
+    secondary_framing_score: float,
+) -> dict[str, Any]:
+    area_ratio = handle_area_ratio(handle_bbox, image_shape)
+    score = local_affordance_readability_score_v3(
+        handle_area_ratio_value=area_ratio,
+        handle_boundary_contrast_value=handle_boundary_contrast_value,
+        handle_edge_density_value=handle_edge_density_value,
+        handle_crop_entropy_value=handle_crop_entropy_value,
+        secondary_framing_score=secondary_framing_score,
     )
-    return perceptual_readability_score_v2(
-        visual_alignment_gain_value=visual_alignment_gain_value,
-        handle_readability_score_value=handle_score,
-        encoder_readability_pass=encoder_readability_pass,
-    )
+    return {
+        "handle_area_ratio": float(area_ratio),
+        "handle_boundary_contrast": float(handle_boundary_contrast_value),
+        "handle_edge_density": float(handle_edge_density_value),
+        "handle_crop_entropy": float(handle_crop_entropy_value),
+        "secondary_framing_score": float(secondary_framing_score),
+        "local_affordance_readability_score_v3": float(score),
+    }
 
 
 def visual_gate_breakdown(
@@ -247,10 +308,7 @@ def rollout_ceiling_lift(baseline: dict[str, Any], lane: dict[str, Any]) -> dict
     delta_mean_max_drawer_fraction = float(lane.get("mean_max_drawer_fraction", 0.0) - baseline.get("mean_max_drawer_fraction", 0.0))
     baseline_steps = max(float(baseline.get("avg_episode_length", 1.0)), 1e-6)
     delta_avg_episode_length_ratio = float(lane.get("avg_episode_length", 0.0) / baseline_steps - 1.0)
-    delta_orientation_causal_sensitivity = max(
-        0.0,
-        float(lane.get("orientation_causal_sensitivity", 0.0) - baseline.get("orientation_causal_sensitivity", 0.0)),
-    )
+    delta_orientation_causal_sensitivity = max(0.0, float(lane.get("orientation_causal_sensitivity", 0.0) - baseline.get("orientation_causal_sensitivity", 0.0)))
     score = (
         0.30 * delta_unique_success_rate
         + 0.25 * delta_attach_rate
@@ -273,19 +331,8 @@ def state_alignment_gain(baseline_score: float, lane_score: float) -> float:
     return float(1.0 - float(lane_score) / denom)
 
 
-def sensor_contract_gain(
-    *,
-    wrist_relativeness_gain: float,
-    no_overlay_gain: float,
-    visual_alignment_gain_value: float,
-    framing_gain: float,
-) -> dict[str, Any]:
-    score = (
-        0.40 * float(wrist_relativeness_gain)
-        + 0.25 * float(no_overlay_gain)
-        + 0.20 * float(visual_alignment_gain_value)
-        + 0.15 * float(framing_gain)
-    )
+def sensor_contract_gain(*, wrist_relativeness_gain: float, no_overlay_gain: float, visual_alignment_gain_value: float, framing_gain: float) -> dict[str, Any]:
+    score = 0.40 * float(wrist_relativeness_gain) + 0.25 * float(no_overlay_gain) + 0.20 * float(visual_alignment_gain_value) + 0.15 * float(framing_gain)
     return {
         "score": float(score),
         "wrist_relativeness_gain": float(wrist_relativeness_gain),
@@ -301,16 +348,8 @@ def contract_validity_score(*passes: bool) -> float:
     return float(np.mean(np.asarray([1.0 if x else 0.0 for x in passes], dtype=np.float32)))
 
 
-def contract_validity_score_v2(
-    *,
-    g0: bool,
-    g1: bool,
-    g2: bool,
-    g3: bool,
-    g4a: bool,
-    g4b: bool,
-) -> float:
-    return contract_validity_score(g0, g1, g2, g3, g4a, g4b)
+def contract_validity_score_v2(*, g0: bool, g1: bool, g2: bool, g3: bool, g4a: bool, g4b_local: bool, g4c_global: bool) -> float:
+    return contract_validity_score(g0, g1, g2, g3, g4a, g4b_local, g4c_global)
 
 
 def observation_contract_pass(lane_report: dict[str, Any]) -> bool:

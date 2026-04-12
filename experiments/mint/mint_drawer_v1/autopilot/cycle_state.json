@@ -1,15 +1,16 @@
 {
-  "updated_at": "2026-04-12T13:07:38+08:00",
-  "last_cycle_id": "cycle_20260412_130711",
+  "updated_at": "2026-04-13T00:09:10+08:00",
+  "last_cycle_id": "cycle_20260413_000910",
   "cycle_mode": "unattended_cycle",
   "completed_experiments": [
-    "VR0",
-    "VR1",
-    "VR2",
-    "VR3",
-    "VR4",
-    "VR5",
-    "VR6"
+    "RCA0",
+    "RCA1",
+    "RCA2",
+    "RCA3",
+    "RCA4",
+    "RCA5",
+    "RCA6",
+    "RCA7"
   ],
   "scientific_terminal_state": "MINIMAL_REPAIR_INSUFFICIENT",
   "route_next_branch": "environment_reformulation",

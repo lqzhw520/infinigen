@@ -1,0 +1,124 @@
+{
+  "G0_baseline_integrity": {
+    "gate_id": "G0_baseline_integrity",
+    "passed": true,
+    "summary": "Baseline healthy, parity not-primary-blocker, and authority readable.",
+    "blocking": true,
+    "details": {
+      "p1j_exists": true,
+      "p1l_exists": true,
+      "control_baseline_pass": true,
+      "control_pc_success": 100.0,
+      "parity_non_blocker": true,
+      "parity_decision": {
+        "official_success_delta": 0,
+        "official_drawer_delta": 0.009071191108088517,
+        "mujoco_success_delta": 0,
+        "mujoco_drawer_delta": 0.0,
+        "parity_blocker": false,
+        "interpretation": "n_action_steps parity is not the primary blocker under the current probe; later semantic gates may proceed."
+      },
+      "authority_readable": true
+    }
+  },
+  "G1_observation_contract": {
+    "gate_id": "G1_observation_contract",
+    "passed": true,
+    "summary": "Canonical observation contract requires wrist-like second camera, no overlay, no diagnostic texture, and full provenance.",
+    "blocking": true,
+    "details": {
+      "wrist_like": true,
+      "no_overlay": true,
+      "no_diagnostic_texture": true,
+      "provenance_complete": true
+    }
+  },
+  "G2_action_causality": {
+    "gate_id": "G2_action_causality",
+    "passed": true,
+    "summary": "Carry-forward action-causality evidence remains healthy and orientation-sensitive aligned rotation beats random.",
+    "blocking": true,
+    "details": {
+      "exists": true,
+      "passed": true,
+      "aligned_beats_random_under_sensitive": true,
+      "orientation_causal_sensitivity": 0.2235214653717981
+    }
+  },
+  "G3_state_semantics": {
+    "gate_id": "G3_state_semantics",
+    "passed": true,
+    "summary": "Selected transition-aware telemetry candidate must be lawful, fully explained, and materially beat M0/eef baselines.",
+    "blocking": true,
+    "details": {
+      "selected_candidate_mode": "telemetry_candidate_v3_transition",
+      "fraud_padding": false,
+      "all_dims_explained": true,
+      "state_alignment_gain": 0.1814339310443367,
+      "beats_m0_proxy": true,
+      "beats_eef_pose_gripper": true,
+      "impossible": false
+    }
+  },
+  "G4a_observation_semantics": {
+    "gate_id": "G4a_observation_semantics",
+    "passed": true,
+    "summary": "Observation semantics require canonical identity, wrist-like relativeness, and no diagnostic-only cues.",
+    "blocking": true,
+    "details": {
+      "no_overlay": true,
+      "no_diagnostic_texture": true,
+      "wrist_like_second_camera": true,
+      "provenance_complete": true,
+      "canonical_identity_explicit": true,
+      "camera_relativeness_residual": 0.0
+    }
+  },
+  "G4b_local_affordance_readability": {
+    "gate_id": "G4b_local_affordance_readability",
+    "passed": false,
+    "summary": "Local affordance readability is judged on true-handle measurement only.",
+    "blocking": true,
+    "details": {
+      "handle_area_ratio": 0.859375,
+      "handle_boundary_contrast": 0.04087850644782949,
+      "handle_edge_density": 0.01797070263385472,
+      "handle_crop_entropy": 0.0,
+      "secondary_framing_score": 0.813860425959964,
+      "local_affordance_readability_score_v3": 0.5975500168751653
+    }
+  },
+  "G4c_global_visual_canonicality": {
+    "gate_id": "G4c_global_visual_canonicality",
+    "passed": false,
+    "summary": "Global visual canonicality is judged separately from local affordance readability.",
+    "blocking": true,
+    "details": {
+      "baseline_weighted_visual_gap": 2.4770394000000007,
+      "weighted_visual_gap": 2.4770394000000007,
+      "visual_alignment_gain": 0.0
+    }
+  },
+  "G5_training_eligibility": {
+    "gate_id": "G5_training_eligibility",
+    "passed": false,
+    "summary": "Training eligibility depends on the new local/global upstream gates plus one substantive gain threshold.",
+    "blocking": true,
+    "details": {
+      "rollout_ceiling_lift": 0.0,
+      "state_alignment_gain": 0.0,
+      "sensor_perception_gain": 0.48481454038457994,
+      "canonical_lane": true
+    }
+  },
+  "contract_validity_score_v2": 0.7142857313156128,
+  "route_decision_preview": {
+    "scientific_terminal_state": "MINIMAL_REPAIR_INSUFFICIENT",
+    "route_next_branch": "environment_reformulation",
+    "why": "Local affordance readability still did not pass on true-handle measurement.",
+    "strongest_negative_capped": true,
+    "cap_active": true,
+    "h0_posterior": 0.2160154791648186,
+    "h6_posterior": 0.7774159401766432
+  }
+}

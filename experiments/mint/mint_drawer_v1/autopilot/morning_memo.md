@@ -1,26 +1,18 @@
-# Morning Memo
+# Morning Bundle
 
-Generated: 2026-04-12T01:11:22+08:00
-- scientific_terminal_state: BENCHMARK_ALIGNMENT_UNSUPPORTED_UNDER_CURRENT_FORMULATION
+1. Did stronger visual reformulation materially improve G4b? not yet
+2. Did any canonical lane become G5-eligible? no
+3. Is the correct scientific label still MINIMAL_REPAIR_INSUFFICIENT, or is stronger invalidation finally justified? MINIMAL_REPAIR_INSUFFICIENT
+4. Why does Stage B remain blocked, or why is it finally justified? Stage B remains blocked because G5 did not pass.
+
+## Key Results
 - route_next_branch: environment_reformulation
-
-## Answers
-1. reformulated profile materially reduced same-problem mismatch? yes
-2. any reformulated lane train-eligible? no
-3. correct next branch: environment_reformulation
-4. why Stage B justified now? not justified on the legacy formulation
-
-## Best Reformulation Signal
-- best_profile_id: reformulation_v0
-- rollout_ceiling_lift: -0.06945071119852303
-- state_alignment_gain: 0.17297692286648592
-- sensor_contract_gain: 0.8015688100101618
-
-## Hypotheses
-- H0_same_problem_identity: posterior=0.1152
-- H1_embodiment_causal_contract: posterior=0.7868
-- H2_state_representability: posterior=0.5545
-- H3_observation_visual_contract: posterior=0.8245
-- H4_unique_data_scale_only: posterior=0.2500
-- H5_optimization_only: posterior=0.1500
-- H6_environment_invalid_for_claim: posterior=0.9003
+- strongest_negative_capped: False
+- h0_posterior: 0.1494
+- h6_posterior: 0.7859
+- best_profile_id: visual_reformulation_v1_plus_bundle
+- best_rollout_ceiling_lift: -0.091803
+- best_state_alignment_gain: 0.172977
+- best_sensor_contract_gain: 0.352920
+- cycles_completed: 3
+- completed_experiments: VR0, VR1, VR2, VR3, VR4, VR5, VR6

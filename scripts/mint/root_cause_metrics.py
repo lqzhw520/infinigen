@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Pure metrics for the v2 root-cause controller."""
+"""Pure metrics for the visual-fidelity root-cause controller."""
 
 from __future__ import annotations
 
@@ -9,20 +9,38 @@ import cv2
 import numpy as np
 
 
-def image_metrics(rgb: np.ndarray) -> dict[str, Any]:
-    arr = rgb.astype(np.float32) / 255.0
-    flat = arr.reshape(-1, 3)
-    gray = cv2.cvtColor((arr * 255).astype(np.uint8), cv2.COLOR_RGB2GRAY)
-    edges = cv2.Canny(gray, 80, 160)
+CONTRAST_THRESHOLD = 0.08
+
+
+def _to_uint8(rgb: np.ndarray) -> np.ndarray:
+    arr = np.asarray(rgb)
+    if arr.dtype == np.uint8:
+        return arr
+    return np.clip(arr, 0, 255).astype(np.uint8)
+
+
+def _gray_uint8(rgb: np.ndarray) -> np.ndarray:
+    return cv2.cvtColor(_to_uint8(rgb), cv2.COLOR_RGB2GRAY)
+
+
+def _entropy_from_gray(gray: np.ndarray) -> float:
     hist = np.bincount(gray.flatten(), minlength=256).astype(np.float64)
     hist /= max(hist.sum(), 1.0)
     nonzero = hist[hist > 0]
+    return float(-(nonzero * np.log2(nonzero)).sum())
+
+
+def image_metrics(rgb: np.ndarray) -> dict[str, Any]:
+    arr = _to_uint8(rgb).astype(np.float32) / 255.0
+    flat = arr.reshape(-1, 3)
+    gray = _gray_uint8(rgb)
+    edges = cv2.Canny(gray, 80, 160)
     return {
         "mean_rgb": flat.mean(axis=0).round(6).tolist(),
         "std_rgb": flat.std(axis=0).round(6).tolist(),
         "brightness_mean": float(gray.mean() / 255.0),
         "edge_density_mean": float((edges > 0).mean()),
-        "entropy_mean": float(-(nonzero * np.log2(nonzero)).sum()),
+        "entropy_mean": _entropy_from_gray(gray),
     }
 
 
@@ -71,6 +89,117 @@ def weighted_visual_gap(gap_payload: dict[str, Any]) -> float:
 def visual_alignment_gain(baseline_gap_value: float, lane_gap_value: float) -> float:
     denom = max(float(baseline_gap_value), 1e-6)
     return float(1.0 - float(lane_gap_value) / denom)
+
+
+def _bbox_area(bbox: list[int] | tuple[int, int, int, int] | None) -> int:
+    if not bbox or len(bbox) != 4:
+        return 0
+    x0, y0, x1, y1 = [int(v) for v in bbox]
+    return max(0, x1 - x0) * max(0, y1 - y0)
+
+
+def handle_bbox_from_rollout_metadata(rollout_metadata: dict[str, Any], key: str = "primary") -> list[int] | None:
+    probe = rollout_metadata.get("handle_probe_metadata") or rollout_metadata or {}
+    bbox = probe.get(f"handle_bbox_{key}")
+    if bbox is not None:
+        return [int(v) for v in bbox]
+    camera_meta = rollout_metadata.get("camera_metadata") or {}
+    nested = (camera_meta.get(key) or {}).get("handle_bbox")
+    if nested is None:
+        return None
+    return [int(v) for v in nested]
+
+
+def handle_visibility_fraction(metadata_trace: list[dict[str, Any]] | dict[str, Any], key: str = "primary") -> float:
+    if isinstance(metadata_trace, dict):
+        metadata_trace = [metadata_trace]
+    values = []
+    for item in metadata_trace or []:
+        probe = item.get("handle_probe_metadata") or item or {}
+        value = probe.get(f"handle_visibility_fraction_{key}")
+        if value is not None:
+            values.append(float(value))
+    return float(np.mean(values)) if values else 0.0
+
+
+def handle_local_contrast(metadata_trace: list[dict[str, Any]] | dict[str, Any], key: str = "primary") -> float:
+    if isinstance(metadata_trace, dict):
+        metadata_trace = [metadata_trace]
+    values = []
+    for item in metadata_trace or []:
+        probe = item.get("handle_probe_metadata") or item or {}
+        value = probe.get(f"handle_local_contrast_{key}")
+        if value is not None:
+            values.append(float(value))
+    return float(np.mean(values)) if values else 0.0
+
+
+def handle_crop_entropy(metadata_trace: list[dict[str, Any]] | dict[str, Any], key: str = "primary") -> float:
+    if isinstance(metadata_trace, dict):
+        metadata_trace = [metadata_trace]
+    values = []
+    for item in metadata_trace or []:
+        probe = item.get("handle_probe_metadata") or item or {}
+        value = probe.get(f"handle_crop_entropy_{key}")
+        if value is not None:
+            values.append(float(value))
+    return float(np.mean(values)) if values else 0.0
+
+
+def perceptual_readability_score(
+    *,
+    visual_alignment_gain_value: float,
+    framing_score: float,
+    visibility_fraction: float,
+    local_contrast: float,
+    crop_entropy: float,
+    encoder_readability_pass: bool | None = None,
+) -> float:
+    score = (
+        0.25 * float(max(visual_alignment_gain_value, 0.0))
+        + 0.20 * float(np.clip(framing_score, 0.0, 1.0))
+        + 0.25 * float(np.clip(visibility_fraction, 0.0, 1.0))
+        + 0.20 * float(np.clip(local_contrast / max(CONTRAST_THRESHOLD, 1e-6), 0.0, 1.0))
+        + 0.10 * float(np.clip(crop_entropy / 4.0, 0.0, 1.0))
+    )
+    if encoder_readability_pass is False:
+        score *= 0.9
+    if encoder_readability_pass is True:
+        score = min(1.0, score + 0.05)
+    return float(score)
+
+
+def visual_gate_breakdown(
+    *,
+    baseline_weighted_visual_gap: float,
+    lane_weighted_visual_gap: float,
+    visual_alignment_gain_value: float,
+    framing_score: float,
+    visibility_fraction: float,
+    local_contrast: float,
+    crop_entropy: float,
+    camera_relativeness_residual: float | None,
+    encoder_readability_pass: bool | None = None,
+) -> dict[str, Any]:
+    return {
+        "baseline_weighted_visual_gap": float(baseline_weighted_visual_gap),
+        "lane_weighted_visual_gap": float(lane_weighted_visual_gap),
+        "visual_alignment_gain": float(visual_alignment_gain_value),
+        "framing_score": float(framing_score),
+        "handle_visibility_fraction": float(visibility_fraction),
+        "handle_local_contrast": float(local_contrast),
+        "handle_crop_entropy": float(crop_entropy),
+        "camera_relativeness_residual": None if camera_relativeness_residual is None else float(camera_relativeness_residual),
+        "encoder_readability_pass": encoder_readability_pass,
+        "perceptual_readability_score": perceptual_readability_score(
+            visual_alignment_gain_value=visual_alignment_gain_value,
+            framing_score=framing_score,
+            visibility_fraction=visibility_fraction,
+            local_contrast=local_contrast,
+            crop_entropy=crop_entropy,
+            encoder_readability_pass=encoder_readability_pass,
+        ),
+    }
 
 
 def rollout_ceiling_lift(baseline: dict[str, Any], lane: dict[str, Any]) -> dict[str, Any]:

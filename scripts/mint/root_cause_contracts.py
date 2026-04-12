@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Typed contracts and claim-boundary helpers for the v2 root-cause controller."""
+"""Typed contracts and claim-boundary helpers for the visual-fidelity root-cause controller."""
 
 from __future__ import annotations
 
@@ -16,6 +16,17 @@ from p1_execution_common import CURRENT_TRUTH_PATH, NEXT_ACTIONS_PATH, SOVEREIGN
 
 ClaimPolicy = Literal["canonical", "diagnostic", "new_claim_required"]
 LaneStage = Literal["probe", "control", "train"]
+ScientificTerminalState = Literal[
+    "ALIGNED_CANONICAL_LANE_FOUND",
+    "MINIMAL_REPAIR_INSUFFICIENT",
+    "BENCHMARK_ALIGNMENT_UNSUPPORTED_UNDER_CURRENT_FORMULATION",
+]
+RouteNextBranch = Literal[
+    "stay_current_branch",
+    "environment_reformulation",
+    "tiny_retrain_confirmation",
+    "claim_scope_revision",
+]
 
 CLAIM_BOUNDARY_PATH = SOVEREIGN_DIR / "claim_boundary.yaml"
 AUTOPILOT_DIR = CAMPAIGN_DIR / "autopilot"
@@ -24,6 +35,7 @@ HYPOTHESIS_BOARD_PATH = AUTOPILOT_DIR / "hypothesis_board.json"
 CONTROLLER_RUNTIME_DIR = RUNTIME_DIR / "controller_cycles"
 EXPERIMENT_REGISTRY_PATH = SOVEREIGN_DIR / "experiment_registry.jsonl"
 EVIDENCE_LEDGER_PATH = SOVEREIGN_DIR / "evidence_ledger.jsonl"
+DEVIATION_LOG_PATH = AUTOPILOT_DIR / "deviation_log.jsonl"
 
 
 @dataclass(frozen=True)
@@ -47,12 +59,16 @@ class TrainConfig:
 @dataclass(frozen=True)
 class LaneSpec:
     lane_id: str
+    lane_family: str
     stage: LaneStage
     env_contract_config: dict[str, Any]
     interventions: dict[str, Any] = field(default_factory=dict)
     dataset_config: DatasetConfig = field(default_factory=DatasetConfig)
     train_config: TrainConfig = field(default_factory=TrainConfig)
     claim_policy: ClaimPolicy = "diagnostic"
+    diagnostic_only: bool = False
+    strongest_negative_capped: bool = True
+    resource_budget_snapshot: dict[str, Any] = field(default_factory=dict)
     note: str = ""
     experiment_id: str = ""
     coverage: dict[str, float] = field(default_factory=dict)
@@ -71,13 +87,18 @@ class LaneSpec:
 @dataclass
 class LaneResult:
     lane_id: str
+    lane_family: str
     experiment_id: str
-    status: Literal["passed", "failed", "skipped"]
+    status: Literal["passed", "failed", "skipped", "blocked"]
     claim_policy: ClaimPolicy
+    diagnostic_only: bool
+    strongest_negative_capped: bool
     metrics: dict[str, Any]
     artifact_paths: list[str] = field(default_factory=list)
     summary: str = ""
     details: dict[str, Any] = field(default_factory=dict)
+    scientific_terminal_state: ScientificTerminalState | None = None
+    route_next_branch: RouteNextBranch | None = None
 
 
 @dataclass
@@ -109,8 +130,21 @@ class CycleSummary:
     ended_at: str | None
     selected_experiments: list[str]
     lane_ids: list[str]
-    terminal_state: str | None = None
+    lane_family: str = "VR"
+    scientific_terminal_state: ScientificTerminalState | None = None
+    route_next_branch: RouteNextBranch | None = None
     notes: list[str] = field(default_factory=list)
+
+
+@dataclass(frozen=True)
+class ControllerRoute:
+    scientific_terminal_state: ScientificTerminalState | None
+    route_next_branch: RouteNextBranch
+    why: str
+    strongest_negative_capped: bool = True
+    cap_active: bool = True
+    h0_posterior: float | None = None
+    h6_posterior: float | None = None
 
 
 def stable_config_hash(payload: Any) -> str:
@@ -144,14 +178,18 @@ def classify_claim_policy(boundary: dict[str, Any], lane: LaneSpec) -> tuple[Cla
     env = lane.env_contract_config
     if env.get("enable_marker_overlay"):
         violations.append("marker_overlay_enabled")
-    if env.get("calibration_mode") == "diagnostic_texture":
+    if env.get("calibration_mode") in {"diagnostic_texture", "legacy_bg_gain_bias"}:
         violations.append("diagnostic_texture_as_canonical")
-    if env.get("secondary_camera_mode") != "wrist_dynamic" and lane.claim_policy == "canonical":
+    if lane.claim_policy == "canonical" and env.get("secondary_camera_mode") != "wrist_dynamic":
         violations.append("non_wrist_secondary_camera_for_benchmark_claim")
-    state_mode = env.get("state_mode")
-    if state_mode == "control_like" or state_mode == "duplicated_padding":
+    if env.get("image_size") not in (None, 256):
+        violations.append("changed_resolution")
+    state_spec = env.get("state_spec") or {}
+    if state_spec.get("fraud_padding") or env.get("state_mode") in {"control_like", "duplicated_padding"}:
         violations.append("duplicated_state_dims_for_shape_only")
-    if not lane.claim_policy == "canonical":
+    if lane.diagnostic_only:
+        violations.append("diagnostic_only_lane")
+    if lane.claim_policy != "canonical":
         return lane.claim_policy, violations
     if violations:
         return "new_claim_required", violations

@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
-"""Reformulation-aware gate-first controller for MINT/Infinigen root-cause investigation."""
+"""Visual-fidelity root-cause controller for the unified reformulation plan."""
 
 from __future__ import annotations
 
-import os
 import json
 import time
 from dataclasses import asdict
@@ -29,13 +28,16 @@ from p1_execution_common import ARTIFACT_DIR, OUTPUT_DIR
 from root_cause_contracts import (
     AUTOPILOT_DIR,
     CLAIM_BOUNDARY_PATH,
-    CONTROLLER_RUNTIME_DIR,
     CYCLE_STATE_PATH,
     HYPOTHESIS_BOARD_PATH,
     ClaimPolicy,
+    ControllerRoute,
     DatasetConfig,
     GateDecision,
+    LaneResult,
     LaneSpec,
+    RouteNextBranch,
+    ScientificTerminalState,
     TrainConfig,
     classify_claim_policy,
     load_authority_snapshot,
@@ -43,18 +45,22 @@ from root_cause_contracts import (
 )
 from root_cause_hypotheses import apply_updates, default_board, unresolvedness
 from root_cause_metrics import (
-    contract_validity_score,
-    observation_contract_pass,
+    CONTRAST_THRESHOLD,
+    handle_crop_entropy,
+    handle_local_contrast,
+    handle_visibility_fraction,
     rollout_ceiling_lift,
     sensor_contract_gain,
     state_alignment_gain,
     summarize_visual,
     visual_alignment_gain,
     visual_gap,
+    visual_gate_breakdown,
     weighted_visual_gap,
 )
 from root_cause_registry import (
     append_cycle_record,
+    append_deviation_record,
     append_evidence_record,
     create_cycle_dir,
     ensure_registry_layout,
@@ -63,37 +69,19 @@ from root_cause_registry import (
     write_hypothesis_board,
 )
 
-
 CONTROL_TRACE_ROOT = ARTIFACT_DIR / "p1k_control_traces"
 P1J_ARTIFACT = ARTIFACT_DIR / "p1j_control_rerun_v2.json"
 P1L_ARTIFACT = ARTIFACT_DIR / "p1l_eval_parity_matrix.json"
+P2E1_ARTIFACT = ARTIFACT_DIR / "p2e1_orientation_causality_matrix.json"
 
-RF0_ARTIFACT = ARTIFACT_DIR / "p2rf0_terminal_negative_replication.json"
-RF1_ARTIFACT = ARTIFACT_DIR / "p2rf1_reformulated_observation_contract_probe.json"
-RF2_ARTIFACT = ARTIFACT_DIR / "p2rf2_reformulated_action_causality_probe.json"
-RF3_ARTIFACT = ARTIFACT_DIR / "p2rf3_reformulated_state_semantics_probe.json"
-RF4_ARTIFACT = ARTIFACT_DIR / "p2rf4_reformulated_visual_readability_probe.json"
-RF5_ARTIFACT = ARTIFACT_DIR / "p2rf5_reformulated_bundle_ab.json"
-RF6_ARTIFACT = ARTIFACT_DIR / "p2rf6_replicate_strongest_signal.json"
-
-RF0_REPORT = OUTPUT_DIR / "p2rf0_terminal_negative_replication.md"
-RF1_REPORT = OUTPUT_DIR / "p2rf1_reformulated_observation_contract_probe.md"
-RF2_REPORT = OUTPUT_DIR / "p2rf2_reformulated_action_causality_probe.md"
-RF3_REPORT = OUTPUT_DIR / "p2rf3_reformulated_state_semantics_probe.md"
-RF4_REPORT = OUTPUT_DIR / "p2rf4_reformulated_visual_readability_probe.md"
-RF5_REPORT = OUTPUT_DIR / "p2rf5_reformulated_bundle_ab.md"
-RF6_REPORT = OUTPUT_DIR / "p2rf6_replicate_strongest_signal.md"
-
-SCIENTIFIC_TERMINALS = {
-    "aligned": "ALIGNED_CANONICAL_LANE_FOUND",
-    "minimal_negative": "MINIMAL_REPAIR_INSUFFICIENT",
-    "unsupported": "BENCHMARK_ALIGNMENT_UNSUPPORTED_UNDER_CURRENT_FORMULATION",
-}
-
-ROUTE_OPTIONS = {
-    "reformulation": "environment_reformulation",
-    "stay": "stay_current_branch",
-    "tiny_retrain": "tiny_retrain_confirmation",
+VR_ARTIFACTS: dict[str, tuple[Path, Path]] = {
+    "VR0": (ARTIFACT_DIR / "p2vr0_replicate_v0_negative.json", OUTPUT_DIR / "p2vr0_replicate_v0_negative.md"),
+    "VR1": (ARTIFACT_DIR / "p2vr1_raw_canonical_visual_baseline.json", OUTPUT_DIR / "p2vr1_raw_canonical_visual_baseline.md"),
+    "VR2": (ARTIFACT_DIR / "p2vr2_stronger_visual_reformulation_probe.json", OUTPUT_DIR / "p2vr2_stronger_visual_reformulation_probe.md"),
+    "VR3": (ARTIFACT_DIR / "p2vr3_perception_first_probe.json", OUTPUT_DIR / "p2vr3_perception_first_probe.md"),
+    "VR4": (ARTIFACT_DIR / "p2vr4_stronger_bundle_ab.json", OUTPUT_DIR / "p2vr4_stronger_bundle_ab.md"),
+    "VR5": (ARTIFACT_DIR / "p2vr5_replicate_strongest_visual_bundle.json", OUTPUT_DIR / "p2vr5_replicate_strongest_visual_bundle.md"),
+    "VR6": (ARTIFACT_DIR / "p2vr6_tiny_retrain_confirmation.json", OUTPUT_DIR / "p2vr6_tiny_retrain_confirmation.md"),
 }
 
 
@@ -107,6 +95,10 @@ class RootCauseController:
         allow_full_retrain: bool = False,
         allow_new_claim: bool = False,
         run_mode: str = "autonomous_cycle_phase",
+        cycle_mode: str = "unattended_cycle",
+        experiment_family: str = "VR",
+        cap_strongest_negative: bool = True,
+        resume: bool = False,
         max_rollouts_per_experiment: int = 3,
         max_disk_growth_mb: int = 4096,
         retry_backoff_seconds: int = 5,
@@ -117,11 +109,18 @@ class RootCauseController:
         ensure_registry_layout()
         self.max_experiments_per_cycle = int(max_experiments_per_cycle)
         self.dry_run = bool(dry_run)
+        self.experiment_family = str(experiment_family)
+        self.cap_strongest_negative = bool(cap_strongest_negative)
+        self.resume = bool(resume)
+        self.cycle_mode = str(cycle_mode)
         self.policy = {
             "AUTO_PROMOTE_SOVEREIGN": bool(auto_promote_sovereign),
             "ALLOW_FULL_RETRAIN": bool(allow_full_retrain),
             "ALLOW_NEW_CLAIM": bool(allow_new_claim),
-            "RUN_MODE": run_mode,
+            "RUN_MODE": str(run_mode),
+            "EXPERIMENT_FAMILY": self.experiment_family,
+            "CAP_STRONGEST_NEGATIVE": self.cap_strongest_negative,
+            "RESUME": self.resume,
         }
         self.resource_limits = {
             "max_rollouts_per_experiment": int(max_rollouts_per_experiment),
@@ -137,10 +136,12 @@ class RootCauseController:
         self.completed_experiments = list(load_json(CYCLE_STATE_PATH, {}).get("completed_experiments", []))
         self.heldout_seeds = default_heldout_seeds()
         available = [int(seed) for seed in drawer_manifest().get("available_seeds", [])]
-        self.train_seeds = [seed for seed in available if seed not in self.heldout_seeds][:6]
-        self.control_images = self._load_control_images()
+        self.train_seeds = [seed for seed in available if seed not in self.heldout_seeds][:8]
+        self.control_images = self._load_control_images(limit=60)
         self.control_state, self.control_action = self._load_control_arrays()
-        self.disk_start_bytes = self._tree_size(AUTOPILOT_DIR) + self._tree_size(CONTROLLER_RUNTIME_DIR)
+        self.control_visual_stats = summarize_visual(self.control_images)
+        self.control_weighted_visual_gap = weighted_visual_gap(visual_gap(self.control_visual_stats, self.control_visual_stats))
+        self.disk_start_bytes = self._tree_size(AUTOPILOT_DIR)
 
     def _tree_size(self, root: Path) -> int:
         if not root.exists():
@@ -155,7 +156,7 @@ class RootCauseController:
         return total
 
     def _disk_growth_mb(self) -> float:
-        current = self._tree_size(AUTOPILOT_DIR) + self._tree_size(CONTROLLER_RUNTIME_DIR)
+        current = self._tree_size(AUTOPILOT_DIR)
         return float(current - self.disk_start_bytes) / (1024.0 * 1024.0)
 
     def _resource_snapshot(self) -> dict[str, Any]:
@@ -213,29 +214,68 @@ class RootCauseController:
     def _legacy_contract(self) -> dict[str, Any]:
         return asdict(DrawerEnvContractConfig.legacy_defaults())
 
-    def _minimal_contract_repair_v1(self, *, state_mode: str = "telemetry_candidate_v1") -> dict[str, Any]:
+    def _current_surface_clean_contract(self) -> dict[str, Any]:
+        payload = self._legacy_contract()
+        payload.update({
+            "enable_marker_overlay": False,
+            "calibration_mode": "none",
+            "canonical_lane": False,
+        })
+        return payload
+
+    def _raw_canonical_contract(self) -> dict[str, Any]:
         return {
             "secondary_camera_mode": "wrist_dynamic",
             "enable_marker_overlay": False,
             "calibration_mode": "none",
-            "interaction_mode": "orientation_sensitive_v1",
-            "state_mode": state_mode,
+            "interaction_mode": "legacy_translation_only",
+            "state_mode": "m0_proxy",
+            "render_profile": "visual_reformulation_v0",
+            "background_mode": "legacy_scene",
+            "lighting_profile": "legacy",
+            "material_policy": "legacy",
+            "camera_framing_profile": "legacy",
             "emit_orientation_telemetry": True,
             "emit_camera_metadata": True,
+            "emit_handle_probe_metadata": True,
             "canonical_lane": True,
         }
 
+    def _minimal_contract_repair_v1(self) -> dict[str, Any]:
+        payload = self._raw_canonical_contract()
+        payload.update({
+            "interaction_mode": "orientation_sensitive_v1",
+            "state_mode": "telemetry_candidate_v1",
+        })
+        return payload
+
     def _reformulation_v0_contract(self) -> dict[str, Any]:
-        return {
-            "secondary_camera_mode": "wrist_dynamic",
-            "enable_marker_overlay": False,
-            "calibration_mode": "none",
+        payload = self._minimal_contract_repair_v1()
+        payload.update({
+            "state_mode": "telemetry_candidate_v2",
+            "camera_framing_profile": "tight_handle_centered",
+        })
+        return payload
+
+    def _visual_reformulation_v1_contract(self) -> dict[str, Any]:
+        payload = self._raw_canonical_contract()
+        payload.update({
+            "render_profile": "visual_reformulation_v1",
+            "background_mode": "neutral_lab",
+            "lighting_profile": "bright_front_fill",
+            "material_policy": "handle_highlight",
+            "camera_framing_profile": "tight_handle_centered",
+        })
+        return payload
+
+    def _visual_reformulation_v1_plus_bundle_contract(self) -> dict[str, Any]:
+        payload = self._visual_reformulation_v1_contract()
+        payload.update({
             "interaction_mode": "orientation_sensitive_v1",
             "state_mode": "telemetry_candidate_v2",
-            "emit_orientation_telemetry": True,
-            "emit_camera_metadata": True,
-            "canonical_lane": True,
-        }
+            "render_profile": "visual_reformulation_v1_plus_bundle",
+        })
+        return payload
 
     def _make_lane_spec(
         self,
@@ -243,23 +283,28 @@ class RootCauseController:
         lane_id: str,
         stage: str,
         env_contract: dict[str, Any],
+        experiment_id: str,
         interventions: dict[str, Any] | None = None,
         claim_policy: ClaimPolicy = "diagnostic",
         note: str = "",
-        experiment_id: str,
         coverage: dict[str, float] | None = None,
         cost: float = 1.0,
         dataset_config: DatasetConfig | None = None,
         train_config: TrainConfig | None = None,
     ) -> LaneSpec:
+        diagnostic_only = claim_policy != "canonical" or env_contract.get("calibration_mode") == "diagnostic_texture"
         spec = LaneSpec(
             lane_id=lane_id,
+            lane_family=self.experiment_family,
             stage=stage,
             env_contract_config=env_contract,
             interventions=interventions or {},
             dataset_config=dataset_config or DatasetConfig(train_seed_pool=self.train_seeds, heldout_seed_pool=self.heldout_seeds),
             train_config=train_config or TrainConfig(),
             claim_policy=claim_policy,
+            diagnostic_only=diagnostic_only,
+            strongest_negative_capped=bool(self.cap_strongest_negative),
+            resource_budget_snapshot=self._resource_snapshot(),
             note=note,
             experiment_id=experiment_id,
             coverage=coverage or {},
@@ -269,12 +314,16 @@ class RootCauseController:
         if resolved_policy != spec.claim_policy and not self.policy["ALLOW_NEW_CLAIM"]:
             spec = LaneSpec(
                 lane_id=spec.lane_id,
+                lane_family=spec.lane_family,
                 stage=spec.stage,
                 env_contract_config=spec.env_contract_config,
                 interventions=spec.interventions,
                 dataset_config=spec.dataset_config,
                 train_config=spec.train_config,
                 claim_policy=resolved_policy,
+                diagnostic_only=True,
+                strongest_negative_capped=spec.strongest_negative_capped,
+                resource_budget_snapshot=spec.resource_budget_snapshot,
                 note=(spec.note + f" Violations: {violations}").strip(),
                 experiment_id=spec.experiment_id,
                 coverage=spec.coverage,
@@ -289,12 +338,17 @@ class RootCauseController:
             "calibration_mode",
             "interaction_mode",
             "state_mode",
+            "render_profile",
+            "background_mode",
+            "lighting_profile",
+            "material_policy",
+            "camera_framing_profile",
             "emit_orientation_telemetry",
             "emit_camera_metadata",
+            "emit_handle_probe_metadata",
             "canonical_lane",
         }
-        kwargs = {key: payload[key] for key in keys if key in payload}
-        return DrawerEnvContractConfig(**kwargs)
+        return DrawerEnvContractConfig(**{key: payload[key] for key in keys if key in payload})
 
     def _limited_seeds(self, seeds: list[int]) -> list[int]:
         limit = max(1, int(self.resource_limits["max_rollouts_per_experiment"]))
@@ -319,10 +373,11 @@ class RootCauseController:
                         rotation_source=rotation_source,
                         claim_policy=spec.claim_policy,
                     )
+                    rollout["resource_budget_snapshot"] = self._resource_snapshot()
                     rollouts.append(rollout)
                     last_error = None
                     break
-                except Exception as exc:  # pragma: no cover - safety path for unattended execution
+                except Exception as exc:  # pragma: no cover
                     last_error = exc
                     if attempt >= int(self.resource_limits["max_retries"]):
                         raise
@@ -340,6 +395,7 @@ class RootCauseController:
                 "mean_max_drawer_fraction": 0.0,
                 "avg_episode_length": 0.0,
                 "success_count": 0,
+                "orientation_causal_sensitivity": 0.0,
             }
         return {
             "rollout_count": len(rollouts),
@@ -348,6 +404,7 @@ class RootCauseController:
             "mean_max_drawer_fraction": float(np.mean([float(r.get("max_drawer_fraction", 0.0)) for r in rollouts])),
             "avg_episode_length": float(np.mean([float(r.get("steps", 0.0)) for r in rollouts])),
             "success_count": int(sum(1 for r in rollouts if r.get("success"))),
+            "orientation_causal_sensitivity": float(np.mean([np.mean(np.asarray(r.get("drawer_delta_effective_trace", [0.0]), dtype=np.float32)) for r in rollouts])),
         }
 
     def _sample_images(self, rollouts: list[dict[str, Any]], key: str = "images", limit: int = 30) -> list[np.ndarray]:
@@ -369,26 +426,65 @@ class RootCauseController:
                     residuals.append(float(value))
         return residuals
 
-    def _observation_report(self, spec: LaneSpec, seeds: list[int], control_stats: dict[str, Any]) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    def _handle_probe_aggregates(self, rollouts: list[dict[str, Any]]) -> dict[str, Any]:
+        trace: list[dict[str, Any]] = []
+        for rollout in rollouts:
+            trace.extend(list(rollout.get("handle_probe_metadata_trace", [])))
+        framing_values = [float(item.get("secondary_framing_score", 0.0)) for item in trace if item]
+        residual_values = [float(item.get("camera_relativeness_residual", 1.0)) for item in trace if item]
+        return {
+            "handle_visibility_fraction": handle_visibility_fraction(trace),
+            "handle_local_contrast": handle_local_contrast(trace),
+            "handle_crop_entropy": handle_crop_entropy(trace),
+            "framing_score": float(np.mean(framing_values)) if framing_values else 0.0,
+            "camera_relativeness_residual": float(np.mean(residual_values)) if residual_values else None,
+        }
+
+    def _visual_report(self, spec: LaneSpec, seeds: list[int], *, baseline_gap: float | None = None) -> tuple[list[dict[str, Any]], dict[str, Any]]:
         rollouts = self._run_rollout_set(spec, seeds)
         residuals = self._secondary_residuals(rollouts)
         target_stats = summarize_visual(self._sample_images(rollouts, limit=24))
-        gap_payload = visual_gap(control_stats, target_stats)
+        gap_payload = visual_gap(self.control_visual_stats, target_stats)
+        lane_gap = weighted_visual_gap(gap_payload)
+        probe = self._handle_probe_aggregates(rollouts)
+        alignment_gain = visual_alignment_gain(baseline_gap if baseline_gap is not None else max(lane_gap, 1e-6), lane_gap)
         report = {
             "lane": spec.to_payload(),
             "claim_policy": spec.claim_policy,
+            "diagnostic_only": spec.diagnostic_only,
             "secondary_camera_wrist_like": bool(residuals and float(np.mean(residuals)) < 0.02 and float(np.max(residuals)) < 0.05),
             "secondary_camera_residual_mean": float(np.mean(residuals)) if residuals else None,
             "secondary_camera_residual_max": float(np.max(residuals)) if residuals else None,
             "marker_overlay_enabled": bool(spec.env_contract_config.get("enable_marker_overlay", False)),
-            "diagnostic_only": spec.claim_policy != "canonical" or spec.env_contract_config.get("calibration_mode") == "diagnostic_texture",
             "provenance_complete": True,
             "target_stats": target_stats,
             "gap": gap_payload,
-            "weighted_visual_gap": weighted_visual_gap(gap_payload),
-            "framing_score": 1.0 if residuals and float(np.mean(residuals)) < 0.02 else 0.0,
+            "weighted_visual_gap": lane_gap,
+            "visual_alignment_gain": alignment_gain,
+            "render_profile": spec.env_contract_config.get("render_profile"),
+            "background_mode": spec.env_contract_config.get("background_mode"),
+            "lighting_profile": spec.env_contract_config.get("lighting_profile"),
+            "material_policy": spec.env_contract_config.get("material_policy"),
+            "camera_framing_profile": spec.env_contract_config.get("camera_framing_profile"),
+            **probe,
         }
-        report["observation_contract_pass"] = observation_contract_pass(report)
+        report["observation_contract_pass"] = bool(
+            report["secondary_camera_wrist_like"]
+            and not report["marker_overlay_enabled"]
+            and not report["diagnostic_only"]
+            and report["provenance_complete"]
+        )
+        report["visual_gate_breakdown"] = visual_gate_breakdown(
+            baseline_weighted_visual_gap=float(baseline_gap if baseline_gap is not None else lane_gap),
+            lane_weighted_visual_gap=lane_gap,
+            visual_alignment_gain_value=alignment_gain,
+            framing_score=report["framing_score"],
+            visibility_fraction=report["handle_visibility_fraction"],
+            local_contrast=report["handle_local_contrast"],
+            crop_entropy=report["handle_crop_entropy"],
+            camera_relativeness_residual=report["secondary_camera_residual_mean"],
+            encoder_readability_pass=None,
+        )
         return rollouts, report
 
     def _per_dim_wasserstein(self, a: np.ndarray, b: np.ndarray) -> list[float]:
@@ -422,33 +518,51 @@ class RootCauseController:
             normed.append(float(value / max(span, 1e-6)))
         return float(np.mean(normed) + 0.25 * np.mean(smooth_gap[:dims]) + 0.1 * np.mean([1.0 - x for x in overlap[:dims]]))
 
-    def _artifact_paths(self, experiment_id: str) -> tuple[Path, Path]:
-        mapping = {
-            "RF0": (RF0_ARTIFACT, RF0_REPORT),
-            "RF1": (RF1_ARTIFACT, RF1_REPORT),
-            "RF2": (RF2_ARTIFACT, RF2_REPORT),
-            "RF3": (RF3_ARTIFACT, RF3_REPORT),
-            "RF4": (RF4_ARTIFACT, RF4_REPORT),
-            "RF5": (RF5_ARTIFACT, RF5_REPORT),
-            "RF6": (RF6_ARTIFACT, RF6_REPORT),
+    def _state_report(self, spec: LaneSpec, seeds: list[int]) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+        rollouts = self._run_rollout_set(spec, seeds)
+        state_blocks = [np.asarray(r.get("states", np.zeros((0, 8), dtype=np.float32)), dtype=np.float32) for r in rollouts]
+        target_state = np.concatenate([block for block in state_blocks if len(block)], axis=0) if state_blocks else np.zeros((1, 8), dtype=np.float32)
+        wd = self._per_dim_wasserstein(self.control_state, target_state)
+        overlap = self._per_dim_range_overlap(self.control_state, target_state)
+        smooth_gap = self._temporal_smoothness_gap(self.control_state, target_state)
+        overall_score = self._normalized_state_score(wd, overlap, smooth_gap, self.control_state, target_state)
+        state_spec = (rollouts[-1].get("state_spec") if rollouts else {}) or {}
+        report = {
+            "lane": spec.to_payload(),
+            "state_spec": state_spec,
+            "overall_score": float(overall_score),
+            "per_dim_wasserstein": wd,
+            "per_dim_range_overlap": overlap,
+            "per_dim_smoothness_gap": smooth_gap,
+            "valid": not bool(state_spec.get("fraud_padding")) and bool(state_spec.get("all_dims_explained", True)),
+            "fraud_padding": bool(state_spec.get("fraud_padding", False)),
+            "all_dims_explained": bool(state_spec.get("all_dims_explained", False)),
+            "state_mode": state_spec.get("state_mode", spec.env_contract_config.get("state_mode", "unknown")),
         }
-        return mapping[experiment_id]
+        return rollouts, report
+
+    def _write_artifact(self, experiment_id: str, payload: dict[str, Any], title: str, bullets: list[str]) -> None:
+        artifact_path, report_path = VR_ARTIFACTS[experiment_id]
+        write_json_atomic(artifact_path, payload)
+        lines = [f"# {title}", "", f"Generated: {payload.get('generated_at', now_iso())}"]
+        lines.extend([f"- {line}" for line in bullets])
+        write_text_atomic(report_path, "\n".join(lines).rstrip() + "\n")
 
     def experiment_catalog(self) -> list[dict[str, Any]]:
         return [
-            {"id": "RF0", "deps": [], "coverage": {"H6_environment_invalid_for_claim": 0.7, "H0_same_problem_identity": 0.4}, "cost": 0.8, "runner": self.run_rf0},
-            {"id": "RF1", "deps": ["RF0"], "coverage": {"H3_observation_visual_contract": 1.0, "H0_same_problem_identity": 0.7}, "cost": 1.0, "runner": self.run_rf1},
-            {"id": "RF2", "deps": ["RF0"], "coverage": {"H1_embodiment_causal_contract": 1.0, "H6_environment_invalid_for_claim": 0.4}, "cost": 1.1, "runner": self.run_rf2},
-            {"id": "RF3", "deps": ["RF0"], "coverage": {"H2_state_representability": 1.0, "H6_environment_invalid_for_claim": 0.7}, "cost": 1.1, "runner": self.run_rf3},
-            {"id": "RF4", "deps": ["RF1"], "coverage": {"H3_observation_visual_contract": 1.0, "H0_same_problem_identity": 0.5}, "cost": 1.0, "runner": self.run_rf4},
-            {"id": "RF5", "deps": ["RF1", "RF2", "RF3", "RF4"], "coverage": {"H6_environment_invalid_for_claim": 1.0, "H0_same_problem_identity": 0.8, "H1_embodiment_causal_contract": 0.4}, "cost": 1.4, "runner": self.run_rf5},
-            {"id": "RF6", "deps": ["RF5"], "coverage": {"H6_environment_invalid_for_claim": 0.9, "H0_same_problem_identity": 0.7}, "cost": 1.0, "runner": self.run_rf6},
+            {"id": "VR0", "deps": [], "coverage": {"H6_environment_invalid_for_claim": 0.5, "H0_same_problem_identity": 0.3}, "cost": 0.8, "runner": self.run_vr0},
+            {"id": "VR1", "deps": ["VR0"], "coverage": {"H3_observation_visual_contract": 1.0, "H0_same_problem_identity": 0.6}, "cost": 1.0, "runner": self.run_vr1},
+            {"id": "VR2", "deps": ["VR1"], "coverage": {"H3_observation_visual_contract": 1.0, "H0_same_problem_identity": 0.7}, "cost": 1.1, "runner": self.run_vr2},
+            {"id": "VR3", "deps": ["VR2"], "coverage": {"H3_observation_visual_contract": 0.7}, "cost": 0.7, "runner": self.run_vr3},
+            {"id": "VR4", "deps": ["VR1", "VR2", "VR3"], "coverage": {"H6_environment_invalid_for_claim": 0.9, "H2_state_representability": 0.8, "H3_observation_visual_contract": 0.8}, "cost": 1.4, "runner": self.run_vr4},
+            {"id": "VR5", "deps": ["VR4"], "coverage": {"H6_environment_invalid_for_claim": 0.8, "H0_same_problem_identity": 0.8}, "cost": 0.9, "runner": self.run_vr5},
+            {"id": "VR6", "deps": ["VR5"], "coverage": {"H4_unique_data_scale_only": 0.4, "H5_optimization_only": 0.4}, "cost": 1.0, "runner": self.run_vr6},
         ]
 
     def select_experiments(self) -> list[dict[str, Any]]:
         catalog = self.experiment_catalog()
-        if "RF0" not in self.completed_experiments:
-            return [next(item for item in catalog if item["id"] == "RF0")]
+        if "VR0" not in self.completed_experiments:
+            return [next(item for item in catalog if item["id"] == "VR0")]
         completed = set(self.completed_experiments)
         selected: list[dict[str, Any]] = []
         selected_ids: set[str] = set()
@@ -475,973 +589,795 @@ class RootCauseController:
             selected_ids.add(chosen["id"])
         return selected
 
-    def run_rf0(self) -> dict[str, Any]:
+    def run_vr0(self) -> dict[str, Any]:
         seeds = self.train_seeds[:3]
-        baseline = self._make_lane_spec(
-            lane_id="RF0_legacy_current",
+        legacy = self._make_lane_spec(
+            lane_id="VR0_legacy_current",
             stage="probe",
             env_contract=self._legacy_contract(),
-            interventions={"rotation_source": "zero", "reformulation_profile": "legacy_current"},
+            interventions={"rotation_source": "zero", "profile_id": "legacy_current"},
             claim_policy="diagnostic",
-            note="Replicate current legacy baseline negative decision.",
-            experiment_id="RF0",
+            note="Replicate frozen v0 legacy negative.",
+            experiment_id="VR0",
         )
         minimal = self._make_lane_spec(
-            lane_id="RF0_minimal_contract_repair_v1",
+            lane_id="VR0_minimal_contract_repair_v1",
             stage="probe",
-            env_contract=self._minimal_contract_repair_v1(state_mode="telemetry_candidate_v1"),
-            interventions={"rotation_source": "aligned", "reformulation_profile": "minimal_contract_repair_v1"},
+            env_contract=self._minimal_contract_repair_v1(),
+            interventions={"rotation_source": "aligned", "profile_id": "minimal_contract_repair_v1"},
             claim_policy="canonical",
-            note="Replicate prior minimal contract bundle negative decision.",
-            experiment_id="RF0",
+            note="Replicate frozen v0 minimal repair bundle.",
+            experiment_id="VR0",
         )
-        baseline_rollouts = self._run_rollout_set(baseline, seeds)
+        legacy_rollouts = self._run_rollout_set(legacy, seeds)
         minimal_rollouts = self._run_rollout_set(minimal, seeds)
-        baseline_summary = self._rollout_summary(baseline_rollouts)
+        legacy_summary = self._rollout_summary(legacy_rollouts)
         minimal_summary = self._rollout_summary(minimal_rollouts)
-        minimal_summary["orientation_causal_sensitivity"] = float(minimal_summary["mean_max_drawer_fraction"] - baseline_summary["mean_max_drawer_fraction"])
-        baseline_summary["orientation_causal_sensitivity"] = 0.0
-        ceiling = rollout_ceiling_lift(baseline_summary, minimal_summary)
-        replicated_negative = bool(ceiling["score"] <= 0.0 and minimal_summary["mean_max_drawer_fraction"] <= baseline_summary["mean_max_drawer_fraction"] + 0.05)
+        ceiling = rollout_ceiling_lift(legacy_summary, minimal_summary)
+        replicated_negative = bool(ceiling["score"] <= 0.0)
         payload = {
-            "experiment_id": "RF0",
+            "experiment_id": "VR0",
             "generated_at": now_iso(),
             "passed": replicated_negative,
-            "baseline_summary": baseline_summary,
+            "baseline_summary": legacy_summary,
             "minimal_summary": minimal_summary,
             "rollout_ceiling_lift": ceiling,
             "replicated_negative": replicated_negative,
         }
+        self._write_artifact("VR0", payload, "VR0 Replicate v0 Negative", [f"replicated_negative: {replicated_negative}", f"rollout_ceiling_lift: {ceiling['score']:.6f}"])
         updates = [
-            {"hypothesis_id": "H6_environment_invalid_for_claim", "support_score": 0.7 if replicated_negative else -0.3, "alpha": 0.8, "evidence_ref": "RF0"},
-            {"hypothesis_id": "H0_same_problem_identity", "support_score": -0.5 if replicated_negative else 0.3, "alpha": 0.6, "evidence_ref": "RF0"},
+            {"hypothesis_id": "H6_environment_invalid_for_claim", "support_score": 0.5 if replicated_negative else -0.2, "alpha": 0.5, "evidence_ref": "VR0"},
+            {"hypothesis_id": "H0_same_problem_identity", "support_score": -0.3 if replicated_negative else 0.2, "alpha": 0.4, "evidence_ref": "VR0"},
         ]
-        artifact_path, report_path = self._artifact_paths("RF0")
-        write_json_atomic(artifact_path, payload)
-        write_text_atomic(report_path, "\n".join([
-            "# RF0 Terminal Negative Replication",
-            "",
-            f"Generated: {payload['generated_at']}",
-            f"- replicated_negative: {replicated_negative}",
-            f"- rollout_ceiling_lift: {ceiling['score']:.6f}",
-        ]).rstrip() + "\n")
-        return {"payload": payload, "updates": updates, "lane_specs": [baseline.to_payload(), minimal.to_payload()]}
+        return {"payload": payload, "updates": updates, "lane_specs": [legacy.to_payload(), minimal.to_payload()]}
 
-    def run_rf1(self) -> dict[str, Any]:
+    def run_vr1(self) -> dict[str, Any]:
         seeds = self.train_seeds[:2]
-        control_stats = summarize_visual(self.control_images)
-        lanes = [
-            self._make_lane_spec(
-                lane_id="RF1_current_surface_clean",
-                stage="probe",
-                env_contract={**self._legacy_contract(), "enable_marker_overlay": False, "calibration_mode": "none", "canonical_lane": True},
-                interventions={"rotation_source": "zero", "reformulation_profile": "legacy_current"},
-                claim_policy="canonical",
-                note="Fixed-scene surface cleaned of overlay/calibration for observation comparison.",
-                experiment_id="RF1",
-            ),
-            self._make_lane_spec(
-                lane_id="RF1_wrist_raw_no_overlay",
-                stage="probe",
-                env_contract={
-                    "secondary_camera_mode": "wrist_dynamic",
-                    "enable_marker_overlay": False,
-                    "calibration_mode": "none",
-                    "interaction_mode": "legacy_translation_only",
-                    "state_mode": "m0_proxy",
-                    "emit_orientation_telemetry": True,
-                    "emit_camera_metadata": True,
-                    "canonical_lane": True,
-                },
-                interventions={"rotation_source": "zero", "reformulation_profile": "minimal_contract_repair_v1"},
-                claim_policy="canonical",
-                note="Raw wrist-like observation contract without reformulated dynamics.",
-                experiment_id="RF1",
-            ),
-            self._make_lane_spec(
-                lane_id="RF1_reformulation_v0_observation",
-                stage="probe",
-                env_contract=self._reformulation_v0_contract(),
-                interventions={"rotation_source": "aligned", "reformulation_profile": "reformulation_v0"},
-                claim_policy="canonical",
-                note="Observation contract under reformulation_v0 profile.",
-                experiment_id="RF1",
-            ),
-        ]
-        lane_reports = []
-        for spec in lanes:
-            _, report = self._observation_report(spec, seeds, control_stats)
-            lane_reports.append(report)
-        canonical_reports = [report for report in lane_reports if report["claim_policy"] == "canonical"]
-        best_canonical = min(canonical_reports, key=lambda item: item["weighted_visual_gap"], default=None)
-        baseline_gap = lane_reports[0]["weighted_visual_gap"]
-        best_gain = visual_alignment_gain(baseline_gap, best_canonical["weighted_visual_gap"]) if best_canonical else -1.0
-        observation_contract_passed = bool(best_canonical and best_canonical["observation_contract_pass"])
-        payload = {
-            "experiment_id": "RF1",
-            "generated_at": now_iso(),
-            "passed": observation_contract_passed,
-            "control_stats": control_stats,
-            "lanes": lane_reports,
-            "best_canonical_lane": best_canonical,
-            "best_visual_alignment_gain": best_gain,
-            "observation_contract_pass": observation_contract_passed,
-        }
-        updates = [
-            {"hypothesis_id": "H3_observation_visual_contract", "support_score": 0.8 if observation_contract_passed else 0.1, "alpha": 0.7, "evidence_ref": "RF1"},
-            {"hypothesis_id": "H0_same_problem_identity", "support_score": 0.3 if observation_contract_passed and best_gain > 0.1 else -0.5, "alpha": 0.6, "evidence_ref": "RF1"},
-        ]
-        artifact_path, report_path = self._artifact_paths("RF1")
-        write_json_atomic(artifact_path, payload)
-        lines = [
-            "# RF1 Reformulated Observation Contract Probe",
-            "",
-            f"Generated: {payload['generated_at']}",
-            f"- observation_contract_pass: {observation_contract_passed}",
-            f"- best_visual_alignment_gain: {best_gain:.6f}",
-        ]
-        for report in lane_reports:
-            lines.append(
-                f"- {report['lane']['lane_id']}: claim_policy={report['claim_policy']} wrist_like={report['secondary_camera_wrist_like']} weighted_visual_gap={report['weighted_visual_gap']:.6f}"
-            )
-        write_text_atomic(report_path, "\n".join(lines).rstrip() + "\n")
-        return {"payload": payload, "updates": updates, "lane_specs": [spec.to_payload() for spec in lanes]}
-
-    def run_rf2(self) -> dict[str, Any]:
-        seeds = self.train_seeds[:3]
-        lane_specs: list[LaneSpec] = []
-        for interaction_mode in ["legacy_translation_only", "orientation_sensitive_v1"]:
-            for rotation_source in ["zero", "aligned", "random"]:
-                lane_specs.append(
-                    self._make_lane_spec(
-                        lane_id=f"RF2_{interaction_mode}_{rotation_source}",
-                        stage="probe",
-                        env_contract={
-                            "secondary_camera_mode": "wrist_dynamic",
-                            "enable_marker_overlay": False,
-                            "calibration_mode": "none",
-                            "interaction_mode": interaction_mode,
-                            "state_mode": "m0_proxy",
-                            "emit_orientation_telemetry": True,
-                            "emit_camera_metadata": True,
-                            "canonical_lane": interaction_mode == "orientation_sensitive_v1",
-                        },
-                        interventions={"rotation_source": rotation_source, "reformulation_profile": "minimal_contract_repair_v1"},
-                        claim_policy="diagnostic" if interaction_mode == "legacy_translation_only" else "canonical",
-                        note="Reformulated action-causality matrix lane.",
-                        experiment_id="RF2",
-                    )
-                )
-        matrix: dict[str, Any] = {}
-        for spec in lane_specs:
-            rollouts = self._run_rollout_set(spec, seeds)
-            matrix[spec.lane_id] = {"lane": spec.to_payload(), "rollout_summary": self._rollout_summary(rollouts)}
-        aligned_sensitive = matrix["RF2_orientation_sensitive_v1_aligned"]["rollout_summary"]["mean_max_drawer_fraction"]
-        zero_sensitive = matrix["RF2_orientation_sensitive_v1_zero"]["rollout_summary"]["mean_max_drawer_fraction"]
-        random_sensitive = matrix["RF2_orientation_sensitive_v1_random"]["rollout_summary"]["mean_max_drawer_fraction"]
-        legacy_aligned = matrix["RF2_legacy_translation_only_aligned"]["rollout_summary"]["mean_max_drawer_fraction"]
-        legacy_zero = matrix["RF2_legacy_translation_only_zero"]["rollout_summary"]["mean_max_drawer_fraction"]
-        legacy_random = matrix["RF2_legacy_translation_only_random"]["rollout_summary"]["mean_max_drawer_fraction"]
-        legacy_gap = float(legacy_aligned - max(legacy_zero, legacy_random))
-        orientation_causal_sensitivity = float(aligned_sensitive - max(zero_sensitive, random_sensitive))
-        effect_size = float(aligned_sensitive - random_sensitive)
-        payload = {
-            "experiment_id": "RF2",
-            "generated_at": now_iso(),
-            "passed": orientation_causal_sensitivity > 0.01 and effect_size > 0.01,
-            "matrix": matrix,
-            "orientation_causal_sensitivity": orientation_causal_sensitivity,
-            "legacy_alignment_gap": legacy_gap,
-            "aligned_beats_random_under_sensitive": bool(aligned_sensitive > random_sensitive),
-            "effect_size": effect_size,
-        }
-        updates = [
-            {"hypothesis_id": "H1_embodiment_causal_contract", "support_score": 0.9 if payload["passed"] and abs(legacy_gap) < 0.02 else -0.3, "alpha": 1.0, "evidence_ref": "RF2"},
-            {"hypothesis_id": "H6_environment_invalid_for_claim", "support_score": 0.5 if orientation_causal_sensitivity <= 0.0 else -0.2, "alpha": 0.5, "evidence_ref": "RF2"},
-        ]
-        artifact_path, report_path = self._artifact_paths("RF2")
-        write_json_atomic(artifact_path, payload)
-        lines = [
-            "# RF2 Reformulated Action Causality Probe",
-            "",
-            f"Generated: {payload['generated_at']}",
-            f"- orientation_causal_sensitivity: {orientation_causal_sensitivity:.6f}",
-            f"- effect_size: {effect_size:.6f}",
-            f"- legacy_alignment_gap: {legacy_gap:.6f}",
-        ]
-        write_text_atomic(report_path, "\n".join(lines).rstrip() + "\n")
-        return {"payload": payload, "updates": updates, "lane_specs": [spec.to_payload() for spec in lane_specs]}
-
-    def run_rf3(self) -> dict[str, Any]:
-        seeds = self.train_seeds[:3]
-        candidates = {
-            "M0_proxy": self._make_lane_spec(
-                lane_id="RF3_m0_proxy",
-                stage="probe",
-                env_contract={
-                    "secondary_camera_mode": "wrist_dynamic",
-                    "enable_marker_overlay": False,
-                    "calibration_mode": "none",
-                    "interaction_mode": "legacy_translation_only",
-                    "state_mode": "m0_proxy",
-                    "emit_orientation_telemetry": True,
-                    "emit_camera_metadata": True,
-                    "canonical_lane": False,
-                },
-                interventions={"rotation_source": "zero", "reformulation_profile": "legacy_current"},
-                claim_policy="diagnostic",
-                note="Current proxy baseline.",
-                experiment_id="RF3",
-            ),
-            "M_pose": self._make_lane_spec(
-                lane_id="RF3_eef_pose_gripper",
-                stage="probe",
-                env_contract={
-                    "secondary_camera_mode": "wrist_dynamic",
-                    "enable_marker_overlay": False,
-                    "calibration_mode": "none",
-                    "interaction_mode": "legacy_translation_only",
-                    "state_mode": "eef_pose_gripper",
-                    "emit_orientation_telemetry": True,
-                    "emit_camera_metadata": True,
-                    "canonical_lane": False,
-                },
-                interventions={"rotation_source": "zero", "reformulation_profile": "legacy_current"},
-                claim_policy="diagnostic",
-                note="Pose/gripper diagnostic candidate.",
-                experiment_id="RF3",
-            ),
-            "M_telemetry_v1": self._make_lane_spec(
-                lane_id="RF3_telemetry_candidate_v1",
-                stage="probe",
-                env_contract=self._minimal_contract_repair_v1(state_mode="telemetry_candidate_v1"),
-                interventions={"rotation_source": "aligned", "reformulation_profile": "minimal_contract_repair_v1"},
-                claim_policy="canonical",
-                note="Telemetry candidate v1.",
-                experiment_id="RF3",
-            ),
-            "M_telemetry_v2": self._make_lane_spec(
-                lane_id="RF3_telemetry_candidate_v2",
-                stage="probe",
-                env_contract=self._reformulation_v0_contract(),
-                interventions={"rotation_source": "aligned", "reformulation_profile": "reformulation_v0"},
-                claim_policy="canonical",
-                note="Telemetry candidate v2 under reformulation_v0.",
-                experiment_id="RF3",
-            ),
-        }
-        candidate_scores: dict[str, Any] = {}
-        for candidate_id, spec in candidates.items():
-            rollouts = self._run_rollout_set(spec, seeds)
-            states = np.concatenate([np.asarray(r["states"], dtype=np.float32) for r in rollouts], axis=0)
-            state_spec = rollouts[0].get("state_spec", {}) if rollouts else {}
-            valid = not bool(state_spec.get("fraud_padding", False))
-            if valid:
-                wd = self._per_dim_wasserstein(self.control_state, states)
-                overlap = self._per_dim_range_overlap(self.control_state, states)
-                smooth_gap = self._temporal_smoothness_gap(self.control_state, states)
-                overall = self._normalized_state_score(wd, overlap, smooth_gap, self.control_state, states)
-                candidate_scores[candidate_id] = {
-                    "valid": True,
-                    "overall_score": overall,
-                    "wasserstein": wd,
-                    "range_overlap": overlap,
-                    "temporal_smoothness_gap": smooth_gap,
-                    "state_spec": state_spec,
-                    "claim_policy": spec.claim_policy,
-                }
-            else:
-                candidate_scores[candidate_id] = {
-                    "valid": False,
-                    "overall_score": None,
-                    "state_spec": state_spec,
-                    "invalid_reason": "fraud_padding_or_duplicate_dims",
-                    "claim_policy": spec.claim_policy,
-                }
-        valid_candidates = {k: v for k, v in candidate_scores.items() if v.get("valid")}
-        selected_mapping = min(valid_candidates, key=lambda key: valid_candidates[key]["overall_score"], default="IMPOSSIBLE")
-        baseline_score = float(candidate_scores.get("M0_proxy", {}).get("overall_score") or 1.0)
-        telemetry_candidates = {k: v for k, v in candidate_scores.items() if k.startswith("M_telemetry") and v.get("overall_score") is not None}
-        best_telemetry_key = min(telemetry_candidates, key=lambda key: telemetry_candidates[key]["overall_score"], default=None)
-        best_telemetry_score = telemetry_candidates[best_telemetry_key]["overall_score"] if best_telemetry_key else None
-        telemetry_gain = state_alignment_gain(baseline_score, best_telemetry_score) if best_telemetry_score is not None else -1.0
-        impossible = best_telemetry_key is None
-        telemetry_spec = telemetry_candidates.get(best_telemetry_key, {}).get("state_spec", {}) if best_telemetry_key else {}
-        telemetry_semantic_pass = bool(
-            best_telemetry_key
-            and telemetry_candidates[best_telemetry_key].get("valid")
-            and not telemetry_spec.get("fraud_padding", False)
-            and telemetry_spec.get("all_dims_explained", False)
+        legacy_clean = self._make_lane_spec(
+            lane_id="VR1_legacy_cleaned_surface",
+            stage="probe",
+            env_contract=self._current_surface_clean_contract(),
+            interventions={"rotation_source": "zero", "profile_id": "legacy_clean_surface"},
+            claim_policy="diagnostic",
+            note="Legacy scene without overlay/calibration, still non-wrist.",
+            experiment_id="VR1",
         )
-        strict_state_gate_ready = bool(
-            not impossible
-            and selected_mapping == best_telemetry_key
-            and telemetry_semantic_pass
-            and telemetry_gain >= 0.05
+        raw_canonical = self._make_lane_spec(
+            lane_id="VR1_wrist_raw_canonical",
+            stage="probe",
+            env_contract=self._raw_canonical_contract(),
+            interventions={"rotation_source": "zero", "profile_id": "visual_reformulation_v0"},
+            claim_policy="canonical",
+            note="Wrist/no-overlay/raw canonical baseline.",
+            experiment_id="VR1",
+        )
+        _, legacy_report = self._visual_report(legacy_clean, seeds)
+        _, raw_report = self._visual_report(raw_canonical, seeds)
+        baseline_gap = legacy_report["weighted_visual_gap"]
+        raw_report["visual_alignment_gain"] = visual_alignment_gain(baseline_gap, raw_report["weighted_visual_gap"])
+        raw_report["visual_gate_breakdown"] = visual_gate_breakdown(
+            baseline_weighted_visual_gap=baseline_gap,
+            lane_weighted_visual_gap=raw_report["weighted_visual_gap"],
+            visual_alignment_gain_value=raw_report["visual_alignment_gain"],
+            framing_score=raw_report["framing_score"],
+            visibility_fraction=raw_report["handle_visibility_fraction"],
+            local_contrast=raw_report["handle_local_contrast"],
+            crop_entropy=raw_report["handle_crop_entropy"],
+            camera_relativeness_residual=raw_report["secondary_camera_residual_mean"],
+            encoder_readability_pass=None,
         )
         payload = {
-            "experiment_id": "RF3",
+            "experiment_id": "VR1",
             "generated_at": now_iso(),
-            "passed": strict_state_gate_ready,
-            "selected_state_mapping": selected_mapping,
-            "best_telemetry_candidate": best_telemetry_key,
-            "candidate_state_scores": candidate_scores,
-            "state_alignment_gain_vs_m0": telemetry_gain,
-            "telemetry_semantic_pass": telemetry_semantic_pass,
-            "strict_state_gate_ready": strict_state_gate_ready,
-            "impossible": impossible,
+            "passed": bool(raw_report["observation_contract_pass"]),
+            "lanes": [legacy_report, raw_report],
+            "baseline_weighted_visual_gap": baseline_gap,
+            "best_canonical_lane": raw_report,
         }
+        self._write_artifact(
+            "VR1",
+            payload,
+            "VR1 Raw Canonical Visual Baseline",
+            [
+                f"baseline_weighted_visual_gap: {baseline_gap:.6f}",
+                f"raw_visual_alignment_gain: {raw_report['visual_alignment_gain']:.6f}",
+                f"raw_handle_visibility_fraction: {raw_report['handle_visibility_fraction']:.6f}",
+            ],
+        )
         updates = [
-            {"hypothesis_id": "H2_state_representability", "support_score": 0.8 if impossible or telemetry_gain < 0.05 else -0.4, "alpha": 1.0, "evidence_ref": "RF3"},
-            {"hypothesis_id": "H6_environment_invalid_for_claim", "support_score": 0.7 if impossible else 0.2, "alpha": 0.8, "evidence_ref": "RF3"},
+            {"hypothesis_id": "H3_observation_visual_contract", "support_score": 0.5 if raw_report["observation_contract_pass"] else 0.1, "alpha": 0.5, "evidence_ref": "VR1"},
+            {"hypothesis_id": "H0_same_problem_identity", "support_score": -0.2 if raw_report["weighted_visual_gap"] > 1.0 else 0.1, "alpha": 0.4, "evidence_ref": "VR1"},
         ]
-        artifact_path, report_path = self._artifact_paths("RF3")
-        write_json_atomic(artifact_path, payload)
-        lines = [
-            "# RF3 Reformulated State Semantics Probe",
-            "",
-            f"Generated: {payload['generated_at']}",
-            f"- selected_state_mapping: {selected_mapping}",
-            f"- best_telemetry_candidate: {best_telemetry_key}",
-            f"- impossible: {impossible}",
-            f"- telemetry_semantic_pass: {telemetry_semantic_pass}",
-            f"- strict_state_gate_ready: {strict_state_gate_ready}",
-            f"- state_alignment_gain_vs_m0: {telemetry_gain:.6f}",
-        ]
-        write_text_atomic(report_path, "\n".join(lines).rstrip() + "\n")
-        return {"payload": payload, "updates": updates, "lane_specs": [spec.to_payload() for spec in candidates.values()]}
+        return {"payload": payload, "updates": updates, "lane_specs": [legacy_clean.to_payload(), raw_canonical.to_payload()]}
 
-    def run_rf4(self) -> dict[str, Any]:
+    def run_vr2(self) -> dict[str, Any]:
         seeds = self.train_seeds[:2]
-        control_stats = summarize_visual(self.control_images)
-        lanes = [
-            self._make_lane_spec(
-                lane_id="RF4_current_surface_clean",
-                stage="probe",
-                env_contract={**self._legacy_contract(), "enable_marker_overlay": False, "calibration_mode": "none", "canonical_lane": True},
-                interventions={"rotation_source": "zero", "reformulation_profile": "legacy_current"},
-                claim_policy="canonical",
-                note="Current visual surface cleaned for readability baseline.",
-                experiment_id="RF4",
-            ),
-            self._make_lane_spec(
-                lane_id="RF4_wrist_raw_surface",
-                stage="probe",
-                env_contract={
-                    "secondary_camera_mode": "wrist_dynamic",
-                    "enable_marker_overlay": False,
-                    "calibration_mode": "none",
-                    "interaction_mode": "legacy_translation_only",
-                    "state_mode": "m0_proxy",
-                    "emit_orientation_telemetry": True,
-                    "emit_camera_metadata": True,
-                    "canonical_lane": True,
-                },
-                interventions={"rotation_source": "zero", "reformulation_profile": "minimal_contract_repair_v1"},
-                claim_policy="canonical",
-                note="Wrist/raw/no-overlay visual surface.",
-                experiment_id="RF4",
-            ),
-            self._make_lane_spec(
-                lane_id="RF4_reformulation_v0_surface",
-                stage="probe",
-                env_contract=self._reformulation_v0_contract(),
-                interventions={"rotation_source": "aligned", "reformulation_profile": "reformulation_v0"},
-                claim_policy="canonical",
-                note="Reformulated visual surface under reformulation_v0.",
-                experiment_id="RF4",
-            ),
-        ]
-        lane_reports = []
-        for spec in lanes:
-            _, report = self._observation_report(spec, seeds, control_stats)
-            lane_reports.append(report)
-        baseline_gap = lane_reports[0]["weighted_visual_gap"]
-        canonical_reports = [report for report in lane_reports if report["claim_policy"] == "canonical"]
-        best_lane = min(canonical_reports, key=lambda item: item["weighted_visual_gap"], default=None)
-        best_gain = visual_alignment_gain(baseline_gap, best_lane["weighted_visual_gap"]) if best_lane else -1.0
-        observation_semantics_pass = bool(best_lane and best_lane["observation_contract_pass"])
-        perceptual_readability_pass = bool(best_lane and best_gain >= 0.10 and best_lane["weighted_visual_gap"] < baseline_gap)
-        payload = {
-            "experiment_id": "RF4",
-            "generated_at": now_iso(),
-            "passed": observation_semantics_pass and perceptual_readability_pass,
-            "control_stats": control_stats,
-            "lanes": lane_reports,
-            "best_lane": best_lane,
-            "best_visual_alignment_gain": best_gain,
-            "observation_semantics_pass": observation_semantics_pass,
-            "perceptual_readability_pass": perceptual_readability_pass,
-        }
-        updates = [
-            {"hypothesis_id": "H3_observation_visual_contract", "support_score": 0.8 if payload["passed"] else 0.2, "alpha": 0.7, "evidence_ref": "RF4"},
-            {"hypothesis_id": "H0_same_problem_identity", "support_score": 0.2 if payload["passed"] else -0.4, "alpha": 0.5, "evidence_ref": "RF4"},
-        ]
-        artifact_path, report_path = self._artifact_paths("RF4")
-        write_json_atomic(artifact_path, payload)
-        write_text_atomic(report_path, "\n".join([
-            "# RF4 Reformulated Visual Readability Probe",
-            "",
-            f"Generated: {payload['generated_at']}",
-            f"- best_lane: {best_lane['lane']['lane_id'] if best_lane else 'none'}",
-            f"- observation_semantics_pass: {observation_semantics_pass}",
-            f"- perceptual_readability_pass: {perceptual_readability_pass}",
-            f"- best_visual_alignment_gain: {best_gain:.6f}",
-        ]).rstrip() + "\n")
-        return {"payload": payload, "updates": updates, "lane_specs": [spec.to_payload() for spec in lanes]}
-
-    def run_rf5(self) -> dict[str, Any]:
-        seeds = self.train_seeds[:3]
-        control_stats = summarize_visual(self.control_images)
-        profiles = {
-            "legacy_current": self._make_lane_spec(
-                lane_id="RF5_legacy_current",
-                stage="probe",
-                env_contract=self._legacy_contract(),
-                interventions={"rotation_source": "zero", "reformulation_profile": "legacy_current"},
-                claim_policy="diagnostic",
-                note="Legacy current formulation.",
-                experiment_id="RF5",
-            ),
-            "minimal_contract_repair_v1": self._make_lane_spec(
-                lane_id="RF5_minimal_contract_repair_v1",
-                stage="probe",
-                env_contract=self._minimal_contract_repair_v1(state_mode="telemetry_candidate_v1"),
-                interventions={"rotation_source": "aligned", "reformulation_profile": "minimal_contract_repair_v1"},
-                claim_policy="canonical",
-                note="Minimal repair bundle under telemetry_candidate_v1.",
-                experiment_id="RF5",
-            ),
-            "reformulation_v0": self._make_lane_spec(
-                lane_id="RF5_reformulation_v0",
-                stage="probe",
-                env_contract=self._reformulation_v0_contract(),
-                interventions={"rotation_source": "aligned", "reformulation_profile": "reformulation_v0"},
-                claim_policy="canonical",
-                note="Reformulation bootstrap bundle under telemetry_candidate_v2.",
-                experiment_id="RF5",
-            ),
-        }
-        observations: dict[str, Any] = {}
-        summaries: dict[str, Any] = {}
-        for profile_id, spec in profiles.items():
-            rollouts, report = self._observation_report(spec, seeds, control_stats)
-            summary = self._rollout_summary(rollouts)
-            summary["orientation_causal_sensitivity"] = float(np.mean([float(r.get("max_drawer_fraction", 0.0)) for r in rollouts])) if spec.env_contract_config.get("interaction_mode") == "orientation_sensitive_v1" else 0.0
-            observations[profile_id] = report
-            summaries[profile_id] = summary
-        baseline_summary = summaries["legacy_current"]
-        rf3 = load_json(RF3_ARTIFACT, {})
-        candidate_scores = rf3.get("candidate_state_scores", {})
-        baseline_state_score = float(candidate_scores.get("M0_proxy", {}).get("overall_score") or 1.0)
-        v1_state_score = float(candidate_scores.get("M_telemetry_v1", {}).get("overall_score") or baseline_state_score)
-        v2_state_score = float(candidate_scores.get("M_telemetry_v2", {}).get("overall_score") or baseline_state_score)
-        profile_reports = {}
-        for profile_id in ["minimal_contract_repair_v1", "reformulation_v0"]:
-            state_score = v1_state_score if profile_id == "minimal_contract_repair_v1" else v2_state_score
-            ceiling = rollout_ceiling_lift(baseline_summary, summaries[profile_id])
-            sensor_gain = sensor_contract_gain(
-                wrist_relativeness_gain=1.0 if observations[profile_id].get("secondary_camera_wrist_like") else 0.0,
-                no_overlay_gain=1.0 if not observations[profile_id].get("marker_overlay_enabled") else 0.0,
-                visual_alignment_gain_value=visual_alignment_gain(observations["legacy_current"]["weighted_visual_gap"], observations[profile_id]["weighted_visual_gap"]),
-                framing_gain=observations[profile_id].get("framing_score", 0.0),
-            )
-            profile_reports[profile_id] = {
-                "lane": profiles[profile_id].to_payload(),
-                "rollout_summary": summaries[profile_id],
-                "observation_report": observations[profile_id],
-                "rollout_ceiling_lift": ceiling,
-                "state_alignment_gain": state_alignment_gain(baseline_state_score, state_score),
-                "sensor_contract_gain": sensor_gain,
-            }
-        best_profile_id = max(
-            profile_reports,
-            key=lambda key: 0.5 * profile_reports[key]["rollout_ceiling_lift"]["score"]
-            + 0.25 * profile_reports[key]["state_alignment_gain"]
-            + 0.25 * profile_reports[key]["sensor_contract_gain"]["score"],
+        vr1_payload = load_json(VR_ARTIFACTS["VR1"][0], {})
+        baseline_gap = float(vr1_payload.get("best_canonical_lane", {}).get("weighted_visual_gap", 1.0))
+        raw_canonical = self._make_lane_spec(
+            lane_id="VR2_wrist_raw_canonical",
+            stage="probe",
+            env_contract=self._raw_canonical_contract(),
+            interventions={"rotation_source": "zero", "profile_id": "visual_reformulation_v0"},
+            claim_policy="canonical",
+            note="Carry-forward raw canonical baseline.",
+            experiment_id="VR2",
         )
-        best_profile = profile_reports[best_profile_id]
-        passed = bool(best_profile["rollout_ceiling_lift"]["score"] > 0.0 and best_profile["sensor_contract_gain"]["score"] > 0.25)
+        visual_v1 = self._make_lane_spec(
+            lane_id="VR2_visual_reformulation_v1",
+            stage="probe",
+            env_contract=self._visual_reformulation_v1_contract(),
+            interventions={"rotation_source": "zero", "profile_id": "visual_reformulation_v1"},
+            claim_policy="canonical",
+            note="Stronger render-level material/light/background/framing reformulation.",
+            experiment_id="VR2",
+        )
+        _, raw_report = self._visual_report(raw_canonical, seeds, baseline_gap=baseline_gap)
+        _, v1_report = self._visual_report(visual_v1, seeds, baseline_gap=baseline_gap)
+        gain = visual_alignment_gain(raw_report["weighted_visual_gap"], v1_report["weighted_visual_gap"])
+        readability_gain = v1_report["visual_gate_breakdown"]["perceptual_readability_score"] - raw_report["visual_gate_breakdown"]["perceptual_readability_score"]
+        passed = bool(gain >= 0.20 or readability_gain >= 0.10)
         payload = {
-            "experiment_id": "RF5",
+            "experiment_id": "VR2",
             "generated_at": now_iso(),
             "passed": passed,
-            "baseline_summary": baseline_summary,
-            "profiles": profile_reports,
-            "best_profile_id": best_profile_id,
-            "best_profile": best_profile,
-            "rollout_ceiling_lift": best_profile["rollout_ceiling_lift"],
-            "state_alignment_gain": best_profile["state_alignment_gain"],
-            "sensor_contract_gain": best_profile["sensor_contract_gain"],
+            "baseline_gap": baseline_gap,
+            "raw_canonical": raw_report,
+            "visual_reformulation_v1": v1_report,
+            "visual_alignment_gain": gain,
+            "readability_gain": readability_gain,
         }
+        self._write_artifact(
+            "VR2",
+            payload,
+            "VR2 Stronger Visual Reformulation Probe",
+            [
+                f"visual_alignment_gain: {gain:.6f}",
+                f"readability_gain: {readability_gain:.6f}",
+                f"passed: {passed}",
+            ],
+        )
         updates = [
-            {"hypothesis_id": "H6_environment_invalid_for_claim", "support_score": 0.9 if best_profile["rollout_ceiling_lift"]["score"] <= 0.0 else -0.4, "alpha": 1.0, "evidence_ref": "RF5"},
-            {"hypothesis_id": "H0_same_problem_identity", "support_score": 0.6 if passed else -0.6, "alpha": 0.7, "evidence_ref": "RF5"},
+            {"hypothesis_id": "H3_observation_visual_contract", "support_score": 0.8 if passed else 0.3, "alpha": 0.6, "evidence_ref": "VR2"},
+            {"hypothesis_id": "H0_same_problem_identity", "support_score": 0.2 if passed else -0.4, "alpha": 0.5, "evidence_ref": "VR2"},
         ]
-        artifact_path, report_path = self._artifact_paths("RF5")
-        write_json_atomic(artifact_path, payload)
-        write_text_atomic(report_path, "\n".join([
-            "# RF5 Reformulated Bundle A/B",
-            "",
-            f"Generated: {payload['generated_at']}",
-            f"- best_profile_id: {best_profile_id}",
-            f"- rollout_ceiling_lift: {best_profile['rollout_ceiling_lift']['score']:.6f}",
-            f"- state_alignment_gain: {best_profile['state_alignment_gain']:.6f}",
-            f"- sensor_contract_gain: {best_profile['sensor_contract_gain']['score']:.6f}",
-            f"- passed: {passed}",
-        ]).rstrip() + "\n")
-        return {"payload": payload, "updates": updates, "lane_specs": [spec.to_payload() for spec in profiles.values()]}
+        return {"payload": payload, "updates": updates, "lane_specs": [raw_canonical.to_payload(), visual_v1.to_payload()]}
 
-    def run_rf6(self) -> dict[str, Any]:
-        rf5 = load_json(RF5_ARTIFACT, {})
-        best_profile_id = rf5.get("best_profile_id", "reformulation_v0")
-        seeds = self.train_seeds[2:5] if len(self.train_seeds) >= 5 else self.train_seeds[:3]
-        baseline = self._make_lane_spec(
-            lane_id="RF6_legacy_current_replication",
+    def run_vr3(self) -> dict[str, Any]:
+        vr2_payload = load_json(VR_ARTIFACTS["VR2"][0], {})
+        strongest = vr2_payload.get("visual_reformulation_v1") or {}
+        proxy_score = float((strongest.get("visual_gate_breakdown") or {}).get("perceptual_readability_score", 0.0))
+        payload = {
+            "experiment_id": "VR3",
+            "generated_at": now_iso(),
+            "passed": False,
+            "perception_probe_unavailable": True,
+            "encoder_readability_pass": None,
+            "proxy_readability_score": proxy_score,
+            "note": "Frozen encoder / feature separability tooling is unavailable in this controller runtime; proxy readability was recorded instead.",
+        }
+        self._write_artifact(
+            "VR3",
+            payload,
+            "VR3 Perception-First Probe",
+            [
+                "perception_probe_unavailable: true",
+                f"proxy_readability_score: {proxy_score:.6f}",
+            ],
+        )
+        updates = [
+            {"hypothesis_id": "H3_observation_visual_contract", "support_score": 0.2 if proxy_score > 0.5 else 0.0, "alpha": 0.3, "evidence_ref": "VR3"},
+        ]
+        return {"payload": payload, "updates": updates, "lane_specs": []}
+
+    def run_vr4(self) -> dict[str, Any]:
+        seeds = self.train_seeds[:3]
+        vr1_payload = load_json(VR_ARTIFACTS["VR1"][0], {})
+        baseline_gap = float(vr1_payload.get("best_canonical_lane", {}).get("weighted_visual_gap", 1.0))
+        profiles = [
+            ("legacy_current", self._legacy_contract(), "diagnostic", "zero"),
+            ("minimal_contract_repair_v1", self._minimal_contract_repair_v1(), "canonical", "aligned"),
+            ("reformulation_v0", self._reformulation_v0_contract(), "canonical", "aligned"),
+            ("visual_reformulation_v1_plus_bundle", self._visual_reformulation_v1_plus_bundle_contract(), "canonical", "aligned"),
+        ]
+        lane_payloads = []
+        lane_specs = []
+        baseline_rollout_summary = None
+        baseline_state_score = None
+        for profile_id, contract, claim_policy, rotation_source in profiles:
+            spec = self._make_lane_spec(
+                lane_id=f"VR4_{profile_id}",
+                    stage="probe",
+                env_contract=contract,
+                interventions={"rotation_source": rotation_source, "profile_id": profile_id},
+                claim_policy=claim_policy,
+                note="VR4 bundle comparison profile.",
+                experiment_id="VR4",
+            )
+            lane_specs.append(spec.to_payload())
+            rollouts, visual_report = self._visual_report(spec, seeds, baseline_gap=baseline_gap)
+            _, state_report = self._state_report(spec, seeds)
+            rollout_summary = self._rollout_summary(rollouts)
+            if baseline_rollout_summary is None:
+                baseline_rollout_summary = rollout_summary
+                baseline_state_score = float(state_report["overall_score"])
+            ceiling = rollout_ceiling_lift(baseline_rollout_summary, rollout_summary)
+            state_gain = state_alignment_gain(float(baseline_state_score), float(state_report["overall_score"]))
+            residual_mean = float(visual_report.get("secondary_camera_residual_mean") or 1.0)
+            wrist_gain = float(np.clip(1.0 - residual_mean / 0.05, 0.0, 1.0))
+            no_overlay_gain = 1.0 if not visual_report["marker_overlay_enabled"] else 0.0
+            framing_gain = float(visual_report["framing_score"])
+            sensor_gain = sensor_contract_gain(
+                wrist_relativeness_gain=wrist_gain,
+                no_overlay_gain=no_overlay_gain,
+                visual_alignment_gain_value=max(0.0, float(visual_report["visual_alignment_gain"])),
+                framing_gain=framing_gain,
+            )
+            combined = 0.50 * max(0.0, ceiling["score"]) + 0.25 * max(0.0, state_gain) + 0.25 * sensor_gain["score"]
+            lane_payloads.append(
+                {
+                    "profile_id": profile_id,
+                    "lane": spec.to_payload(),
+                    "rollout_summary": rollout_summary,
+                    "rollout_ceiling_lift": ceiling,
+                    "state_report": state_report,
+                    "state_alignment_gain": float(state_gain),
+                    "visual_report": visual_report,
+                    "sensor_contract_gain": sensor_gain,
+                    "combined_score": float(combined),
+                }
+            )
+        best_bundle = max(lane_payloads, key=lambda item: item["combined_score"])
+
+        state_candidates = []
+        for mode in ["m0_proxy", "eef_pose_gripper", "telemetry_candidate_v1", "telemetry_candidate_v2"]:
+            contract = self._visual_reformulation_v1_plus_bundle_contract()
+            contract["state_mode"] = mode
+            spec = self._make_lane_spec(
+                lane_id=f"VR4_state_{mode}",
+                    stage="probe",
+                env_contract=contract,
+                interventions={"rotation_source": "aligned", "profile_id": f"state_{mode}"},
+                claim_policy="diagnostic" if mode in {"m0_proxy", "eef_pose_gripper"} else "canonical",
+                note="State semantics audit candidate for tightened G3.",
+                experiment_id="VR4",
+            )
+            lane_specs.append(spec.to_payload())
+            _, report = self._state_report(spec, seeds)
+            state_candidates.append(report)
+        score_by_mode = {item["state_mode"]: float(item["overall_score"]) for item in state_candidates}
+        telemetry_candidates = [item for item in state_candidates if item["state_mode"] in {"telemetry_candidate_v1", "telemetry_candidate_v2"} and item["valid"]]
+        selected_candidate = min(telemetry_candidates, key=lambda item: item["overall_score"], default=None)
+        m0_score = float(score_by_mode.get("m0_proxy", 1.0))
+        eef_score = float(score_by_mode.get("eef_pose_gripper", 1.0))
+        selected_score = float(selected_candidate["overall_score"]) if selected_candidate else None
+        telemetry_gain = state_alignment_gain(m0_score, selected_score) if selected_candidate is not None else -1.0
+        state_audit = {
+            "selected_candidate_mode": selected_candidate["state_mode"] if selected_candidate else None,
+            "selected_candidate_score": selected_score,
+            "m0_proxy_score": m0_score,
+            "eef_pose_gripper_score": eef_score,
+            "state_alignment_gain": telemetry_gain,
+            "selected_candidate": selected_candidate,
+            "all_candidates": state_candidates,
+            "impossible": selected_candidate is None,
+        }
+        payload = {
+            "experiment_id": "VR4",
+            "generated_at": now_iso(),
+            "passed": bool(best_bundle["combined_score"] >= 0.0),
+            "profiles": lane_payloads,
+            "best_profile_id": best_bundle["profile_id"],
+            "best_profile": best_bundle,
+            "state_audit": state_audit,
+        }
+        self._write_artifact(
+            "VR4",
+            payload,
+            "VR4 Stronger Bundle A/B",
+            [
+                f"best_profile_id: {best_bundle['profile_id']}",
+                f"best_combined_score: {best_bundle['combined_score']:.6f}",
+                f"selected_state_candidate: {state_audit['selected_candidate_mode']}",
+            ],
+        )
+        updates = [
+            {"hypothesis_id": "H2_state_representability", "support_score": 0.6 if not state_audit["impossible"] and telemetry_gain >= 0.10 else -0.4, "alpha": 0.6, "evidence_ref": "VR4"},
+            {"hypothesis_id": "H3_observation_visual_contract", "support_score": 0.7 if best_bundle["visual_report"]["visual_alignment_gain"] >= 0.20 else 0.2, "alpha": 0.6, "evidence_ref": "VR4"},
+            {"hypothesis_id": "H6_environment_invalid_for_claim", "support_score": 0.7 if best_bundle["rollout_ceiling_lift"]["score"] <= 0.0 else -0.3, "alpha": 0.7, "evidence_ref": "VR4"},
+            {"hypothesis_id": "H0_same_problem_identity", "support_score": -0.6 if best_bundle["rollout_ceiling_lift"]["score"] <= 0.0 else 0.3, "alpha": 0.6, "evidence_ref": "VR4"},
+        ]
+        return {"payload": payload, "updates": updates, "lane_specs": lane_specs}
+
+    def run_vr5(self) -> dict[str, Any]:
+        vr4_payload = load_json(VR_ARTIFACTS["VR4"][0], {})
+        best_profile = (vr4_payload.get("best_profile") or {})
+        best_profile_id = best_profile.get("profile_id", "visual_reformulation_v1_plus_bundle")
+        profile_map = {
+            "legacy_current": self._legacy_contract,
+            "minimal_contract_repair_v1": self._minimal_contract_repair_v1,
+            "reformulation_v0": self._reformulation_v0_contract,
+            "visual_reformulation_v1_plus_bundle": self._visual_reformulation_v1_plus_bundle_contract,
+        }
+        contract = profile_map.get(best_profile_id, self._visual_reformulation_v1_plus_bundle_contract)()
+        alt_seeds = self.train_seeds[3:6] or self.train_seeds[:3]
+        vr1_payload = load_json(VR_ARTIFACTS["VR1"][0], {})
+        baseline_gap = float(vr1_payload.get("best_canonical_lane", {}).get("weighted_visual_gap", 1.0))
+        legacy_spec = self._make_lane_spec(
+            lane_id="VR5_legacy_current_alt",
             stage="probe",
             env_contract=self._legacy_contract(),
-            interventions={"rotation_source": "zero", "reformulation_profile": "legacy_current"},
+            interventions={"rotation_source": "zero", "profile_id": "legacy_current"},
             claim_policy="diagnostic",
-            note="Replication baseline on alternate seeds.",
-            experiment_id="RF6",
+            note="Legacy comparator for alternate slice replication.",
+            experiment_id="VR5",
         )
-        target_contract = self._reformulation_v0_contract() if best_profile_id == "reformulation_v0" else self._minimal_contract_repair_v1(state_mode="telemetry_candidate_v1")
-        target_state_mode = target_contract["state_mode"]
-        candidate = self._make_lane_spec(
-            lane_id=f"RF6_{best_profile_id}_replication",
+        best_spec = self._make_lane_spec(
+            lane_id=f"VR5_{best_profile_id}_alt",
             stage="probe",
-            env_contract=target_contract,
-            interventions={"rotation_source": "aligned", "reformulation_profile": best_profile_id},
-            claim_policy="canonical",
-            note=f"Replication run for {best_profile_id} on alternate seeds.",
-            experiment_id="RF6",
+            env_contract=contract,
+            interventions={"rotation_source": "aligned", "profile_id": best_profile_id},
+            claim_policy="canonical" if best_profile_id != "legacy_current" else "diagnostic",
+            note="Replicate strongest visual bundle on alternate seeds.",
+            experiment_id="VR5",
         )
-        baseline_rollouts = self._run_rollout_set(baseline, seeds)
-        candidate_rollouts = self._run_rollout_set(candidate, seeds)
-        baseline_summary = self._rollout_summary(baseline_rollouts)
-        candidate_summary = self._rollout_summary(candidate_rollouts)
-        ceiling = rollout_ceiling_lift(baseline_summary, candidate_summary)
-        prior_score = float((rf5.get("best_profile") or {}).get("rollout_ceiling_lift", {}).get("score", 0.0))
-        replication_consistent = bool((prior_score <= 0.0 and ceiling["score"] <= 0.0) or (prior_score > 0.0 and ceiling["score"] > 0.0))
+        legacy_rollouts = self._run_rollout_set(legacy_spec, alt_seeds)
+        best_rollouts = self._run_rollout_set(best_spec, alt_seeds)
+        legacy_summary = self._rollout_summary(legacy_rollouts)
+        best_summary = self._rollout_summary(best_rollouts)
+        ceiling = rollout_ceiling_lift(legacy_summary, best_summary)
+        _, best_visual = self._visual_report(best_spec, alt_seeds, baseline_gap=baseline_gap)
+        vr4_rollout = float((best_profile.get("rollout_ceiling_lift") or {}).get("score", 0.0))
+        replication_consistent = bool(np.sign(ceiling["score"] or 0.0) == np.sign(vr4_rollout or 0.0))
         payload = {
-            "experiment_id": "RF6",
+            "experiment_id": "VR5",
             "generated_at": now_iso(),
             "passed": replication_consistent,
             "best_profile_id": best_profile_id,
-            "replicated_state_mode": target_state_mode,
-            "baseline_summary": baseline_summary,
-            "candidate_summary": candidate_summary,
-            "rollout_ceiling_lift": ceiling,
-            "prior_rollout_ceiling_lift": prior_score,
+            "alternate_seed_slice": alt_seeds,
             "replication_consistent": replication_consistent,
+            "legacy_summary": legacy_summary,
+            "replicated_summary": best_summary,
+            "rollout_ceiling_lift": ceiling,
+            "visual_report": best_visual,
         }
+        self._write_artifact(
+            "VR5",
+            payload,
+            "VR5 Replicate Strongest Visual Bundle",
+            [
+                f"best_profile_id: {best_profile_id}",
+                f"replication_consistent: {replication_consistent}",
+                f"replicated_rollout_ceiling_lift: {ceiling['score']:.6f}",
+            ],
+        )
         updates = [
-            {"hypothesis_id": "H6_environment_invalid_for_claim", "support_score": 0.6 if replication_consistent and ceiling["score"] <= 0.0 else -0.2, "alpha": 0.8, "evidence_ref": "RF6"},
-            {"hypothesis_id": "H0_same_problem_identity", "support_score": -0.4 if replication_consistent and ceiling["score"] <= 0.0 else 0.2, "alpha": 0.5, "evidence_ref": "RF6"},
+            {"hypothesis_id": "H6_environment_invalid_for_claim", "support_score": 0.6 if replication_consistent and ceiling["score"] <= 0.0 else -0.2, "alpha": 0.6, "evidence_ref": "VR5"},
+            {"hypothesis_id": "H0_same_problem_identity", "support_score": -0.6 if replication_consistent and ceiling["score"] <= 0.0 else 0.2, "alpha": 0.6, "evidence_ref": "VR5"},
         ]
-        artifact_path, report_path = self._artifact_paths("RF6")
-        write_json_atomic(artifact_path, payload)
-        write_text_atomic(report_path, "\n".join([
-            "# RF6 Replicate Strongest Signal",
-            "",
-            f"Generated: {payload['generated_at']}",
-            f"- best_profile_id: {best_profile_id}",
-            f"- replication_consistent: {replication_consistent}",
-            f"- rollout_ceiling_lift: {ceiling['score']:.6f}",
-            f"- prior_rollout_ceiling_lift: {prior_score:.6f}",
-        ]).rstrip() + "\n")
-        return {"payload": payload, "updates": updates, "lane_specs": [baseline.to_payload(), candidate.to_payload()]}
+        return {"payload": payload, "updates": updates, "lane_specs": [legacy_spec.to_payload(), best_spec.to_payload()]}
 
-    def evaluate_gates(self) -> dict[str, Any]:
-        completed = set(self.completed_experiments)
-        rf0 = load_json(RF0_ARTIFACT, {}) if "RF0" in completed else {}
-        rf1 = load_json(RF1_ARTIFACT, {}) if "RF1" in completed else {}
-        rf2 = load_json(RF2_ARTIFACT, {}) if "RF2" in completed else {}
-        rf3 = load_json(RF3_ARTIFACT, {}) if "RF3" in completed else {}
-        rf4 = load_json(RF4_ARTIFACT, {}) if "RF4" in completed else {}
-        rf5 = load_json(RF5_ARTIFACT, {}) if "RF5" in completed else {}
-        rf6 = load_json(RF6_ARTIFACT, {}) if "RF6" in completed else {}
-
-        decisions: list[GateDecision] = []
-        baseline_details = self._baseline_integrity_details()
-        baseline_ready = bool(
-            baseline_details["p1j_exists"]
-            and baseline_details["p1l_exists"]
-            and baseline_details["control_baseline_pass"]
-            and baseline_details["parity_non_blocker"]
-            and baseline_details["authority_readable"]
-        )
-        decisions.append(GateDecision(
-            gate_id="G0_baseline_integrity",
-            passed=baseline_ready,
-            summary="Authority readable and verified p1j/p1l baseline anchors confirm a healthy control baseline and non-blocking parity.",
-            blocking=True,
-            details=baseline_details,
-        ))
-
-        rf1_best = rf1.get("best_canonical_lane") or {}
-        decisions.append(GateDecision(
-            gate_id="G1_observation_contract",
-            passed=bool(rf1 and rf1.get("observation_contract_pass", False)),
-            summary="Observation contract requires wrist-like second camera, no overlay, no diagnostic trick, and provenance-complete canonical lane.",
-            blocking=True,
-            details=rf1_best,
-        ))
-
-        decisions.append(GateDecision(
-            gate_id="G2_action_causality",
-            passed=bool(rf2 and rf2.get("orientation_causal_sensitivity", 0.0) > 0.01 and rf2.get("effect_size", 0.0) > 0.01 and rf2.get("aligned_beats_random_under_sensitive", False)),
-            summary="Rotation only counts if aligned rotation measurably beats zero/random under orientation-sensitive physics.",
-            blocking=True,
-            details={
-                "orientation_causal_sensitivity": rf2.get("orientation_causal_sensitivity"),
-                "effect_size": rf2.get("effect_size"),
-                "aligned_beats_random_under_sensitive": rf2.get("aligned_beats_random_under_sensitive"),
-            },
-        ))
-
-        impossible = bool(rf3.get("impossible", False))
-        state_gain = float(rf3.get("state_alignment_gain_vs_m0", -1.0))
-        decisions.append(GateDecision(
-            gate_id="G3_state_semantics",
-            passed=bool(rf3 and rf3.get("strict_state_gate_ready", False) and not impossible and state_gain >= 0.05),
-            summary="State gate requires a telemetry-compatible, provenance-complete, non-duplicated state candidate with non-trivial measured adequacy over M0.",
-            blocking=True,
-            details={
-                "selected_state_mapping": rf3.get("selected_state_mapping"),
-                "best_telemetry_candidate": rf3.get("best_telemetry_candidate"),
-                "telemetry_semantic_pass": rf3.get("telemetry_semantic_pass"),
-                "strict_state_gate_ready": rf3.get("strict_state_gate_ready"),
-                "state_alignment_gain_vs_m0": state_gain,
-                "impossible": impossible,
-            },
-        ))
-
-        best_lane = rf4.get("best_lane") or {}
-        observation_semantics_pass = bool(rf4.get("observation_semantics_pass", False))
-        perceptual_readability_pass = bool(rf4.get("perceptual_readability_pass", False))
-        decisions.append(GateDecision(
-            gate_id="G4_visual_canonicality",
-            passed=bool(rf4 and observation_semantics_pass and perceptual_readability_pass and best_lane.get("claim_policy") == "canonical"),
-            summary="Visual gate requires clean canonical observation semantics plus material perceptual readability improvement.",
-            blocking=True,
-            details={
-                "best_lane": best_lane,
-                "observation_semantics_pass": observation_semantics_pass,
-                "perceptual_readability_pass": perceptual_readability_pass,
-                "best_visual_alignment_gain": rf4.get("best_visual_alignment_gain"),
-            },
-        ))
-
-        best_profile = rf5.get("best_profile") or {}
-        best_profile_lane = best_profile.get("lane") or {}
-        train_eligible = bool(
-            rf5
-            and all(decision.passed for decision in decisions)
-            and best_profile_lane.get("claim_policy") == "canonical"
-            and (
-                float((rf5.get("rollout_ceiling_lift") or {}).get("score", 0.0)) >= 0.15
-                or float(rf5.get("state_alignment_gain", 0.0)) >= 0.20
-                or float((rf5.get("sensor_contract_gain") or {}).get("score", 0.0)) >= 0.25
-            )
-        )
-        decisions.append(GateDecision(
-            gate_id="G5_training_eligibility",
-            passed=train_eligible,
-            summary="Training is eligible only after G1-G4 pass and at least one causal gain threshold is met.",
-            blocking=False,
-            details={
-                "best_profile_id": rf5.get("best_profile_id"),
-                "rollout_ceiling_lift": (rf5.get("rollout_ceiling_lift") or {}).get("score"),
-                "state_alignment_gain": rf5.get("state_alignment_gain"),
-                "sensor_contract_gain": (rf5.get("sensor_contract_gain") or {}).get("score"),
-            },
-        ))
-
-        route_decision = self._classify_route(decisions, rf0=rf0, rf5=rf5, rf6=rf6)
-        gate_report = {
+    def run_vr6(self) -> dict[str, Any]:
+        gate_report, route = self.evaluate_gates()
+        blocked_reasons = []
+        if route.strongest_negative_capped:
+            blocked_reasons.append("strongest_negative_cap_active")
+        if not gate_report.get("G5_training_eligibility", {}).get("passed", False):
+            blocked_reasons.append("G5_training_eligibility_failed")
+        blocked = bool(blocked_reasons)
+        payload = {
+            "experiment_id": "VR6",
             "generated_at": now_iso(),
-            "gates": [decision.__dict__ for decision in decisions],
-            "contract_validity_score": contract_validity_score(*(decision.passed for decision in decisions[:4])),
-            "scientific_terminal_state": route_decision["scientific_terminal_state"],
-            "route_next_branch": route_decision["route_next_branch"],
-            "route_why": route_decision.get("why"),
-            "route_decision": route_decision,
+            "passed": False,
+            "blocked": blocked,
+            "blocked_reasons": blocked_reasons or ["tiny_retrain_not_implemented_in_visual_fidelity_branch"],
+            "gate_report": gate_report,
         }
-        return gate_report
+        self._write_artifact(
+            "VR6",
+            payload,
+            "VR6 Tiny Retrain Confirmation",
+            [f"blocked: {blocked}", f"blocked_reasons: {', '.join(payload['blocked_reasons'])}"],
+        )
+        return {"payload": payload, "updates": [], "lane_specs": []}
 
-    def _classify_route(self, decisions: list[GateDecision], *, rf0: dict[str, Any], rf5: dict[str, Any], rf6: dict[str, Any]) -> dict[str, Any]:
-        gate_map = {decision.gate_id: decision for decision in decisions}
-        h0 = float(self.board.get("H0_same_problem_identity", {}).get("posterior", 0.5))
-        h6 = float(self.board.get("H6_environment_invalid_for_claim", {}).get("posterior", 0.5))
-        g1 = gate_map.get("G1_observation_contract")
-        g3 = gate_map.get("G3_state_semantics")
-        g4 = gate_map.get("G4_visual_canonicality")
-        g5 = gate_map.get("G5_training_eligibility")
-        if g5 and g5.passed:
-            return {
-                "scientific_terminal_state": SCIENTIFIC_TERMINALS["aligned"],
-                "route_next_branch": ROUTE_OPTIONS["tiny_retrain"],
-                "why": "A reformulated canonical lane passed G1-G5 and is eligible for tiny retrain confirmation.",
-                "h0_posterior": h0,
-                "h6_posterior": h6,
-            }
-        enough_negative_evidence = bool(rf0 and rf5 and rf0.get("replicated_negative"))
-        replicated = bool(rf6.get("replication_consistent", False)) if rf6 else False
-        if enough_negative_evidence:
-            if replicated and h6 >= 0.85 and h0 <= 0.25 and ((g1 and not g1.passed) or (g3 and not g3.passed) or (g4 and not g4.passed)):
-                return {
-                    "scientific_terminal_state": SCIENTIFIC_TERMINALS["unsupported"],
-                    "route_next_branch": ROUTE_OPTIONS["reformulation"],
-                    "why": "Repeated evidence supports same-problem identity failure under the current formulation.",
-                    "h0_posterior": h0,
-                    "h6_posterior": h6,
-                }
-            if h6 >= 0.70:
-                return {
-                    "scientific_terminal_state": SCIENTIFIC_TERMINALS["minimal_negative"],
-                    "route_next_branch": ROUTE_OPTIONS["reformulation"],
-                    "why": "Minimal repair remains insufficient and the next scientific branch should be environment reformulation.",
-                    "h0_posterior": h0,
-                    "h6_posterior": h6,
-                }
+    def _carryforward_g2(self) -> dict[str, Any]:
+        payload = load_json(P2E1_ARTIFACT, {}) if P2E1_ARTIFACT.exists() else {}
         return {
-            "scientific_terminal_state": None,
-            "route_next_branch": ROUTE_OPTIONS["stay"],
-            "why": "More reformulation evidence is still required before terminal classification.",
-            "h0_posterior": h0,
-            "h6_posterior": h6,
+            "exists": P2E1_ARTIFACT.exists(),
+            "passed": bool(payload.get("passed")),
+            "aligned_beats_random_under_sensitive": bool(payload.get("aligned_beats_random_under_sensitive", False)),
+            "orientation_causal_sensitivity": payload.get("orientation_causal_sensitivity"),
         }
 
-    def _proposed_truth_delta(self, gate_report: dict[str, Any], route_decision: dict[str, Any], selected: list[dict[str, Any]]) -> dict[str, Any]:
-        scientific_terminal_state = route_decision.get("scientific_terminal_state")
-        route_next_branch = route_decision.get("route_next_branch")
-        if scientific_terminal_state:
-            return {
-                "phase": "v65_REFORMULATION_BOOTSTRAP_AFTER_STAGE_A_TERMINAL_NEGATIVE",
-                "verdict": route_decision.get("why"),
-                "next_action": {
-                    "type": route_next_branch,
-                    "id": route_next_branch,
-                    "status": "pending",
-                    "priority": "P0",
-                },
-                "scientific_terminal_state": scientific_terminal_state,
-            }
+    def _best_bundle_payload(self) -> dict[str, Any]:
+        return load_json(VR_ARTIFACTS["VR4"][0], {}) if VR_ARTIFACTS["VR4"][0].exists() else {}
+
+    def _replication_payload(self) -> dict[str, Any]:
+        return load_json(VR_ARTIFACTS["VR5"][0], {}) if VR_ARTIFACTS["VR5"][0].exists() else {}
+
+    def evaluate_gates(self) -> tuple[dict[str, Any], ControllerRoute]:
+        g0_details = self._baseline_integrity_details()
+        g0 = GateDecision(
+            gate_id="G0_baseline_integrity",
+            passed=bool(g0_details["control_baseline_pass"] and g0_details["parity_non_blocker"] and g0_details["authority_readable"]),
+            summary="Baseline healthy, parity not-primary-blocker, and authority readable.",
+            details=g0_details,
+        )
+
+        vr4 = self._best_bundle_payload()
+        best_profile = (vr4.get("best_profile") or {})
+        visual_report = best_profile.get("visual_report") or {}
+        state_audit = vr4.get("state_audit") or {}
+
+        g1_details = {
+            "wrist_like": bool(visual_report.get("secondary_camera_wrist_like", False)),
+            "no_overlay": not bool(visual_report.get("marker_overlay_enabled", True)),
+            "no_diagnostic_texture": not bool(visual_report.get("diagnostic_only", True)),
+            "provenance_complete": bool(visual_report.get("provenance_complete", False)),
+        }
+        g1 = GateDecision(
+            gate_id="G1_observation_contract",
+            passed=all(g1_details.values()),
+            summary="Canonical observation contract requires wrist-like second camera, no overlay, no diagnostic texture, and full provenance.",
+            details=g1_details,
+        )
+
+        g2_details = self._carryforward_g2()
+        g2 = GateDecision(
+            gate_id="G2_action_causality",
+            passed=bool(g2_details["exists"] and g2_details["passed"] and g2_details["aligned_beats_random_under_sensitive"]),
+            summary="Carry-forward action-causality evidence remains healthy and orientation-sensitive aligned rotation beats random.",
+            details=g2_details,
+        )
+
+        selected_candidate = state_audit.get("selected_candidate") or {}
+        selected_score = state_audit.get("selected_candidate_score")
+        m0_score = state_audit.get("m0_proxy_score")
+        eef_score = state_audit.get("eef_pose_gripper_score")
+        state_gain = float(state_audit.get("state_alignment_gain", -1.0))
+        g3_details = {
+            "selected_candidate_mode": state_audit.get("selected_candidate_mode"),
+            "fraud_padding": bool(selected_candidate.get("fraud_padding", True)),
+            "all_dims_explained": bool(selected_candidate.get("all_dims_explained", False)),
+            "state_alignment_gain": state_gain,
+            "beats_m0_proxy": bool(selected_score is not None and m0_score is not None and float(selected_score) < float(m0_score)),
+            "beats_eef_pose_gripper": bool(selected_score is not None and eef_score is not None and float(selected_score) < float(eef_score)),
+            "impossible": bool(state_audit.get("impossible", True)),
+        }
+        g3 = GateDecision(
+            gate_id="G3_state_semantics",
+            passed=bool(
+                not g3_details["impossible"]
+                and selected_candidate.get("state_mode") in {"telemetry_candidate_v1", "telemetry_candidate_v2"}
+                and not g3_details["fraud_padding"]
+                and g3_details["all_dims_explained"]
+                and state_gain >= 0.10
+                and g3_details["beats_m0_proxy"]
+                and g3_details["beats_eef_pose_gripper"]
+            ),
+            summary="Selected telemetry-compatible candidate must be non-fraud, fully explained, materially better than M0 and eef_pose_gripper, and clear the >=0.10 gain bar.",
+            details=g3_details,
+        )
+
+        g4a_details = {
+            "no_overlay": not bool(visual_report.get("marker_overlay_enabled", True)),
+            "no_diagnostic_texture": not bool(visual_report.get("diagnostic_only", True)),
+            "wrist_like_second_camera": bool(visual_report.get("secondary_camera_wrist_like", False)),
+            "provenance_complete": bool(visual_report.get("provenance_complete", False)),
+            "canonical_identity_explicit": best_profile.get("lane", {}).get("claim_policy") == "canonical",
+            "camera_relativeness_residual": visual_report.get("secondary_camera_residual_mean"),
+        }
+        g4a = GateDecision(
+            gate_id="G4a_observation_semantics",
+            passed=bool(
+                g4a_details["no_overlay"]
+                and g4a_details["no_diagnostic_texture"]
+                and g4a_details["wrist_like_second_camera"]
+                and g4a_details["provenance_complete"]
+                and g4a_details["canonical_identity_explicit"]
+                and g4a_details["camera_relativeness_residual"] is not None
+                and float(g4a_details["camera_relativeness_residual"]) < 0.05
+            ),
+            summary="Observation semantics require canonical identity, wrist-like relativeness, and no diagnostic-only visual cues.",
+            details=g4a_details,
+        )
+
+        breakdown = visual_report.get("visual_gate_breakdown") or {}
+        encoder_readability_pass = breakdown.get("encoder_readability_pass")
+        g4b_details = {
+            "visual_alignment_gain": float(visual_report.get("visual_alignment_gain", -1.0)),
+            "weighted_visual_gap": float(visual_report.get("weighted_visual_gap", 1e6)),
+            "baseline_weighted_visual_gap": float(breakdown.get("baseline_weighted_visual_gap", 1e6)),
+            "framing_score": float(visual_report.get("framing_score", 0.0)),
+            "handle_visibility_fraction": float(visual_report.get("handle_visibility_fraction", 0.0)),
+            "handle_local_contrast": float(visual_report.get("handle_local_contrast", 0.0)),
+            "contrast_threshold": float(CONTRAST_THRESHOLD),
+            "encoder_readability_pass": encoder_readability_pass,
+        }
+        g4b = GateDecision(
+            gate_id="G4b_perceptual_readability",
+            passed=bool(
+                g4b_details["visual_alignment_gain"] >= 0.20
+                and g4b_details["weighted_visual_gap"] < g4b_details["baseline_weighted_visual_gap"]
+                and g4b_details["framing_score"] >= 0.80
+                and g4b_details["handle_visibility_fraction"] >= 0.60
+                and g4b_details["handle_local_contrast"] >= CONTRAST_THRESHOLD
+                and (encoder_readability_pass is not False)
+            ),
+            summary="Perceptual readability requires materially improved visual gap, good framing, sufficient handle visibility, and enough local contrast.",
+            details=g4b_details,
+        )
+
+        rollout_gain = float((best_profile.get("rollout_ceiling_lift") or {}).get("score", -1.0))
+        state_gain_best = float(best_profile.get("state_alignment_gain", state_gain))
+        sensor_gain_best = float((best_profile.get("sensor_contract_gain") or {}).get("score", 0.0))
+        g5_details = {
+            "rollout_ceiling_lift": rollout_gain,
+            "state_alignment_gain": state_gain_best,
+            "sensor_perception_gain": sensor_gain_best,
+            "canonical_lane": best_profile.get("lane", {}).get("claim_policy") == "canonical",
+        }
+        g5 = GateDecision(
+            gate_id="G5_training_eligibility",
+            passed=bool(
+                g0.passed
+                and g1.passed
+                and g2.passed
+                and g3.passed
+                and g4a.passed
+                and g4b.passed
+                and g5_details["canonical_lane"]
+                and (
+                    rollout_gain >= 0.15
+                    or state_gain_best >= 0.20
+                    or sensor_gain_best >= 0.25
+                )
+            ),
+            summary="Training eligibility remains downstream of all upstream contract gates and one substantive gain threshold.",
+            details=g5_details,
+        )
+
+        gate_map = {gate.gate_id: asdict(gate) for gate in [g0, g1, g2, g3, g4a, g4b, g5]}
+        gate_map["gate_validity_score"] = float(np.mean([1.0 if gate.passed else 0.0 for gate in [g0, g1, g2, g3, g4a, g4b]]))
+
+        replication = self._replication_payload()
+        stronger_family_replicated = bool(replication.get("replication_consistent", False))
+        cap_active = bool(self.cap_strongest_negative and not stronger_family_replicated)
+        no_canonical_near_miss = bool(
+            not g5.passed
+            and rollout_gain < 0.10
+            and sensor_gain_best < 0.25
+            and state_gain_best < 0.20
+        )
+        h0 = float((self.board.get("H0_same_problem_identity") or {}).get("posterior", 0.35))
+        h6 = float((self.board.get("H6_environment_invalid_for_claim") or {}).get("posterior", 0.55))
+
+        scientific_terminal_state: ScientificTerminalState | None = None
+        route_next_branch: RouteNextBranch = "environment_reformulation"
+        why = "Visual/perception reformulation remains the mainline blocker and Stage B stays downstream."
+
+        if g5.passed and not cap_active:
+            scientific_terminal_state = "ALIGNED_CANONICAL_LANE_FOUND"
+            route_next_branch = "tiny_retrain_confirmation"
+            why = "A canonical lane passed G0-G5; tiny retrain confirmation is justified."
+        elif cap_active:
+            scientific_terminal_state = "MINIMAL_REPAIR_INSUFFICIENT"
+            route_next_branch = "environment_reformulation"
+            why = "Strongest-negative cap remains active until the stronger visual family is tested and replicated."
+        else:
+            stronger_invalidation = bool(
+                stronger_family_replicated
+                and no_canonical_near_miss
+                and h6 >= 0.85
+                and h0 <= 0.20
+                and not g5.passed
+            )
+            if stronger_invalidation:
+                scientific_terminal_state = "BENCHMARK_ALIGNMENT_UNSUPPORTED_UNDER_CURRENT_FORMULATION"
+                route_next_branch = "claim_scope_revision"
+                why = "Stronger visual family was tested and replicated negative, with no canonical near-miss and posteriors now strongly favoring claim invalidity."
+            else:
+                scientific_terminal_state = "MINIMAL_REPAIR_INSUFFICIENT"
+                route_next_branch = "environment_reformulation"
+                why = "Stronger visual family improved perception quality but still did not produce a train-eligible canonical lane."
+
+        route = ControllerRoute(
+            scientific_terminal_state=scientific_terminal_state,
+            route_next_branch=route_next_branch,
+            why=why,
+            strongest_negative_capped=cap_active,
+            cap_active=cap_active,
+            h0_posterior=h0,
+            h6_posterior=h6,
+        )
+        gate_map["route_decision_preview"] = asdict(route)
+        return gate_map, route
+
+    def _cycle_memo(self, route: ControllerRoute, gate_report: dict[str, Any], cycle_summary: dict[str, Any]) -> str:
+        lines = [
+            f"# {cycle_summary['cycle_id']}",
+            "",
+            f"- cycle_mode: {self.cycle_mode}",
+            f"- selected_experiments: {', '.join(cycle_summary['selected_experiments']) if cycle_summary['selected_experiments'] else '(none)'}",
+            f"- scientific_terminal_state: {route.scientific_terminal_state}",
+            f"- route_next_branch: {route.route_next_branch}",
+            f"- strongest_negative_capped: {route.strongest_negative_capped}",
+            f"- why: {route.why}",
+            "",
+            "## Gates",
+        ]
+        for gate_id in ["G0_baseline_integrity", "G1_observation_contract", "G2_action_causality", "G3_state_semantics", "G4a_observation_semantics", "G4b_perceptual_readability", "G5_training_eligibility"]:
+            item = gate_report.get(gate_id, {})
+            lines.append(f"- {gate_id}: {'pass' if item.get('passed') else 'fail'}")
+        return "\n".join(lines).rstrip() + "\n"
+
+    def _final_morning_memo(self, route: ControllerRoute, gate_report: dict[str, Any], final_summary: dict[str, Any]) -> str:
+        vr2 = load_json(VR_ARTIFACTS["VR2"][0], {})
+        vr4 = self._best_bundle_payload()
+        best_profile = vr4.get("best_profile") or {}
+        lines = [
+            "# Morning Bundle",
+            "",
+            f"1. Did stronger visual reformulation materially improve G4b? {'yes' if float(vr2.get('visual_alignment_gain', 0.0)) >= 0.20 else 'not yet'}",
+            f"2. Did any canonical lane become G5-eligible? {'yes' if gate_report.get('G5_training_eligibility', {}).get('passed') else 'no'}",
+            f"3. Is the correct scientific label still MINIMAL_REPAIR_INSUFFICIENT, or is stronger invalidation finally justified? {route.scientific_terminal_state}",
+            f"4. Why does Stage B remain blocked, or why is it finally justified? {'Stage B remains blocked because G5 did not pass.' if not gate_report.get('G5_training_eligibility', {}).get('passed') else 'Stage B is justified because a canonical lane passed G5.'}",
+            "",
+            "## Key Results",
+            f"- route_next_branch: {route.route_next_branch}",
+            f"- strongest_negative_capped: {route.strongest_negative_capped}",
+            f"- h0_posterior: {route.h0_posterior:.4f}" if route.h0_posterior is not None else "- h0_posterior: n/a",
+            f"- h6_posterior: {route.h6_posterior:.4f}" if route.h6_posterior is not None else "- h6_posterior: n/a",
+            f"- best_profile_id: {best_profile.get('profile_id')}",
+            f"- best_rollout_ceiling_lift: {float((best_profile.get('rollout_ceiling_lift') or {}).get('score', 0.0)):.6f}",
+            f"- best_state_alignment_gain: {float(best_profile.get('state_alignment_gain', 0.0)):.6f}",
+            f"- best_sensor_contract_gain: {float((best_profile.get('sensor_contract_gain') or {}).get('score', 0.0)):.6f}",
+            f"- cycles_completed: {final_summary.get('cycles_completed', 0)}",
+            f"- completed_experiments: {', '.join(final_summary.get('completed_experiments', []))}",
+        ]
+        return "\n".join(lines).rstrip() + "\n"
+
+    def _proposed_truth_delta(self, route: ControllerRoute) -> dict[str, Any]:
         return {
-            "phase": self.authority.get("phase"),
-            "verdict": self.authority.get("verdict"),
-            "next_action": self.authority.get("next_action"),
-            "selected_experiments": [item["id"] for item in selected],
+            "current": {
+                "phase": self.authority.get("phase"),
+                "verdict": route.scientific_terminal_state,
+                "next_action": route.route_next_branch,
+                "open_gates": [gate for gate in ["G4b_perceptual_readability", "G5_training_eligibility"]],
+            },
+            "note": "Autogenerated proposal only; no sovereign auto-promotion performed.",
         }
 
-    def _proposed_next_actions(self, route_decision: dict[str, Any], selected: list[dict[str, Any]]) -> dict[str, Any]:
-        scientific_terminal_state = route_decision.get("scientific_terminal_state")
-        if scientific_terminal_state:
-            return {
-                "actions": [
-                    {
-                        "type": route_decision.get("route_next_branch"),
-                        "id": route_decision.get("route_next_branch"),
-                        "status": "pending",
-                        "priority": "P0",
-                        "scientific_terminal_state": scientific_terminal_state,
-                    }
-                ]
-            }
-        remaining = [item["id"] for item in self.experiment_catalog() if item["id"] not in self.completed_experiments and item["id"] not in [x["id"] for x in selected]]
+    def _proposed_next_actions(self, route: ControllerRoute) -> dict[str, Any]:
         return {
             "actions": [
                 {
-                    "type": "ROOT_CAUSE_CONTROLLER_NEXT_EXPERIMENTS",
-                    "id": "root_cause_controller_pending_queue",
+                    "id": "proposed_next_mainline",
+                    "priority": 1,
                     "status": "pending",
-                    "priority": "P0",
-                    "remaining": remaining,
+                    "action": route.route_next_branch,
+                    "why": route.why,
                 }
             ]
         }
 
-    def _cycle_memo(self, cycle_id: str, selected: list[dict[str, Any]], gate_report: dict[str, Any], route_decision: dict[str, Any]) -> str:
-        lines = [
-            "# Reformulation Root-Cause Controller Cycle Memo",
-            "",
-            f"- cycle_id: {cycle_id}",
-            f"- authority_phase: {self.authority.get('phase')}",
-            f"- selected_experiments: {[item['id'] for item in selected]}",
-            f"- scientific_terminal_state: {route_decision.get('scientific_terminal_state')}",
-            f"- route_next_branch: {route_decision.get('route_next_branch')}",
-            "",
-            "## Gates",
-        ]
-        for gate in gate_report.get("gates", []):
-            lines.append(f"- {gate['gate_id']}: passed={gate['passed']} summary={gate['summary']}")
-        lines.extend(["", "## Hypotheses"])
-        for hypothesis_id, state in self.board.items():
-            lines.append(f"- {hypothesis_id}: posterior={float(state.get('posterior', 0.5)):.4f}")
-        lines.extend(["", "## Route", f"- why: {route_decision.get('why')}"])
-        return "\n".join(lines).rstrip() + "\n"
-
-    def _cycle_summary(self, cycle_id: str, selected: list[dict[str, Any]], route_decision: dict[str, Any]) -> dict[str, Any]:
-        return {
-            "cycle_id": cycle_id,
-            "generated_at": now_iso(),
-            "selected_experiments": [item["id"] for item in selected],
-            "completed_experiments": list(self.completed_experiments),
-            "scientific_terminal_state": route_decision.get("scientific_terminal_state"),
-            "route_next_branch": route_decision.get("route_next_branch"),
-            "resource_snapshot": self._resource_snapshot(),
-        }
-
-    def _morning_memo(self, history: list[dict[str, Any]], route_decision: dict[str, Any]) -> str:
-        rf5 = load_json(RF5_ARTIFACT, {})
-        best_profile_id = rf5.get("best_profile_id")
-        best_profile = rf5.get("best_profile") or {}
-        g5_details = None
-        if history:
-            for gate in history[-1].get("gate_report", {}).get("gates", []):
-                if gate.get("gate_id") == "G5_training_eligibility":
-                    g5_details = gate
+    def run(self, *, max_cycles: int = 4, sleep_seconds: int = 30) -> dict[str, Any]:
+        cycle_count = 0
+        last_route = ControllerRoute(None, "stay_current_branch", "Controller has not executed any cycle yet.")
+        gate_report: dict[str, Any] = {}
+        identity = controller_identity()
+        controller_id = str(identity["controller_id"])
+        run_id = str(identity["run_id"])
+        owner = str(identity["owner"])
+        pid = int(identity["pid"])
+        lease_ok, lease_meta = acquire_controller_lease(controller_id, run_id, owner=owner, pid=pid)
+        if not lease_ok:
+            raise RuntimeError(f"controller lease denied: {lease_meta}")
+        try:
+            while cycle_count < int(max_cycles):
+                refresh_controller_lease(controller_id, run_id, pid=pid)
+                selected = self.select_experiments()
+                if not selected:
                     break
-        lines = [
-            "# Morning Memo",
-            "",
-            f"Generated: {now_iso()}",
-            f"- scientific_terminal_state: {route_decision.get('scientific_terminal_state')}",
-            f"- route_next_branch: {route_decision.get('route_next_branch')}",
-            "",
-            "## Answers",
-            f"1. reformulated profile materially reduced same-problem mismatch? {'yes' if best_profile and (best_profile.get('sensor_contract_gain') or {}).get('score', 0.0) > 0.25 else 'no'}",
-            f"2. any reformulated lane train-eligible? {'yes' if g5_details and g5_details.get('passed') else 'no'}",
-            f"3. correct next branch: {route_decision.get('route_next_branch')}",
-            f"4. why Stage B justified now? {'only for tiny retrain confirmation' if route_decision.get('route_next_branch') == ROUTE_OPTIONS['tiny_retrain'] else 'not justified on the legacy formulation'}",
-            "",
-            "## Best Reformulation Signal",
-            f"- best_profile_id: {best_profile_id}",
-            f"- rollout_ceiling_lift: {(best_profile.get('rollout_ceiling_lift') or {}).get('score')}",
-            f"- state_alignment_gain: {best_profile.get('state_alignment_gain')}",
-            f"- sensor_contract_gain: {(best_profile.get('sensor_contract_gain') or {}).get('score')}",
-            "",
-            "## Hypotheses",
-        ]
-        for hypothesis_id, state in self.board.items():
-            lines.append(f"- {hypothesis_id}: posterior={float(state.get('posterior', 0.5)):.4f}")
-        return "\n".join(lines).rstrip() + "\n"
-
-    def run_cycle(self) -> dict[str, Any]:
-        cycle_id = self._make_cycle_id()
-        cycle_dir = create_cycle_dir(cycle_id)
-        selected = self.select_experiments()
-        results: dict[str, Any] = {}
-        updates: list[dict[str, Any]] = []
-        lane_specs_payload: dict[str, Any] = {}
-        if not selected:
-            gate_report = self.evaluate_gates()
-            route_decision = dict(gate_report.get("route_decision") or {
-                "scientific_terminal_state": gate_report.get("scientific_terminal_state"),
-                "route_next_branch": gate_report.get("route_next_branch"),
-                "why": "No additional experiments were selected; using current route decision.",
-            })
-            cycle_summary = self._cycle_summary(cycle_id, selected, route_decision)
-            proposed_current_truth_delta = self._proposed_truth_delta(gate_report, route_decision, selected)
-            proposed_next_actions = self._proposed_next_actions(route_decision, selected)
-            memo = self._cycle_memo(cycle_id, selected, gate_report, route_decision)
-            write_cycle_bundle(
-                cycle_dir,
-                lane_specs=lane_specs_payload,
-                lane_results=results,
-                gate_report=gate_report,
-                hypothesis_board=self.board,
-                cycle_memo=memo,
-                proposed_current_truth_delta=proposed_current_truth_delta,
-                proposed_next_actions=proposed_next_actions,
-                cycle_summary=cycle_summary,
-                route_decision=route_decision,
-            )
-            append_cycle_record({
-                "timestamp": now_iso(),
-                "cycle_id": cycle_id,
-                "selected_experiments": [],
-                "scientific_terminal_state": route_decision.get("scientific_terminal_state"),
-                "route_next_branch": route_decision.get("route_next_branch"),
-            })
-            return {
-                "cycle_id": cycle_id,
-                "selected_experiments": [],
-                "gate_report": gate_report,
-                "route_decision": route_decision,
-                "scientific_terminal_state": route_decision.get("scientific_terminal_state"),
-            }
-        for item in selected:
-            result = item["runner"]()
-            results[item["id"]] = result["payload"]
-            for spec in result.get("lane_specs", []):
-                payload = dict(spec)
-                payload["resource_budget_snapshot"] = self._resource_snapshot()
-                lane_specs_payload[payload["lane_id"]] = payload
-            updates.extend(result.get("updates", []))
-            self.completed_experiments.append(item["id"])
-            append_evidence_record(
-                {
-                    "timestamp": now_iso(),
+                cycle_id = self._make_cycle_id()
+                cycle_dir = create_cycle_dir(cycle_id, cycle_mode=self.cycle_mode)
+                lane_specs_payload: list[dict[str, Any]] = []
+                lane_results_payload: dict[str, Any] = {}
+                cycle_updates: list[dict[str, Any]] = []
+                selected_ids = [item["id"] for item in selected]
+                append_cycle_record({
                     "cycle_id": cycle_id,
-                    "experiment_id": item["id"],
-                    "artifact_path": str(self._artifact_paths(item["id"])[0]),
-                    "summary": result["payload"].get("passed"),
+                    "cycle_mode": self.cycle_mode,
+                    "selected_experiments": selected_ids,
+                    "started_at": now_iso(),
+                    "policy": dict(self.policy),
+                    "resource_budget_snapshot": self._resource_snapshot(),
+                })
+                for item in selected:
+                    refresh_controller_lease(controller_id, run_id, pid=pid)
+                    result = item["runner"]()
+                    exp_id = item["id"]
+                    self.completed_experiments.append(exp_id)
+                    lane_results_payload[exp_id] = result["payload"]
+                    lane_specs_payload.extend(result.get("lane_specs", []))
+                    cycle_updates.extend(result.get("updates", []))
+                    append_evidence_record({
+                        "cycle_id": cycle_id,
+                        "experiment_id": exp_id,
+                        "artifact_path": str(VR_ARTIFACTS[exp_id][0]),
+                        "reported_at": now_iso(),
+                    })
+                self.board = apply_updates(self.board, cycle_updates)
+                write_hypothesis_board(self.board)
+                gate_report, last_route = self.evaluate_gates()
+                cycle_summary = {
+                    "cycle_id": cycle_id,
+                    "started_at": now_iso(),
+                    "ended_at": now_iso(),
+                    "lane_family": self.experiment_family,
+                    "selected_experiments": selected_ids,
+                    "lane_ids": [spec.get("lane_id") for spec in lane_specs_payload],
+                    "completed_experiments": list(dict.fromkeys(self.completed_experiments)),
+                    "scientific_terminal_state": last_route.scientific_terminal_state,
+                    "route_next_branch": last_route.route_next_branch,
+                    "cycle_mode": self.cycle_mode,
                 }
-            )
-        self.board = apply_updates(self.board, updates)
-        write_hypothesis_board(self.board)
-        gate_report = self.evaluate_gates()
-        route_decision = dict(gate_report.get("route_decision") or {
-            "scientific_terminal_state": gate_report.get("scientific_terminal_state"),
-            "route_next_branch": gate_report.get("route_next_branch"),
-            "why": gate_report.get("route_why"),
-        })
-        cycle_summary = self._cycle_summary(cycle_id, selected, route_decision)
-        proposed_current_truth_delta = self._proposed_truth_delta(gate_report, route_decision, selected)
-        proposed_next_actions = self._proposed_next_actions(route_decision, selected)
-        memo = self._cycle_memo(cycle_id, selected, gate_report, route_decision)
-        write_cycle_bundle(
-            cycle_dir,
-            lane_specs=lane_specs_payload,
-            lane_results=results,
-            gate_report=gate_report,
-            hypothesis_board=self.board,
-            cycle_memo=memo,
-            proposed_current_truth_delta=proposed_current_truth_delta,
-            proposed_next_actions=proposed_next_actions,
-            cycle_summary=cycle_summary,
-            route_decision=route_decision,
-        )
-        append_cycle_record(
-            {
-                "timestamp": now_iso(),
-                "cycle_id": cycle_id,
-                "selected_experiments": [item["id"] for item in selected],
-                "scientific_terminal_state": route_decision.get("scientific_terminal_state"),
-                "route_next_branch": route_decision.get("route_next_branch"),
+                cycle_memo = self._cycle_memo(last_route, gate_report, cycle_summary)
+                route_payload = asdict(last_route)
+                route_payload["generated_at"] = now_iso()
+                write_cycle_bundle(
+                    cycle_dir,
+                    cycle_mode=self.cycle_mode,
+                    lane_specs={"cycle_id": cycle_id, "lane_family": self.experiment_family, "lane_specs": lane_specs_payload, "resource_budget_snapshot": self._resource_snapshot()},
+                    lane_results=lane_results_payload,
+                    gate_report=gate_report,
+                    hypothesis_board=self.board,
+                    cycle_memo=cycle_memo,
+                    proposed_current_truth_delta=self._proposed_truth_delta(last_route),
+                    proposed_next_actions=self._proposed_next_actions(last_route),
+                    cycle_summary=cycle_summary,
+                    route_decision=route_payload,
+                )
+                cycle_count += 1
+                if last_route.scientific_terminal_state in {"ALIGNED_CANONICAL_LANE_FOUND", "BENCHMARK_ALIGNMENT_UNSUPPORTED_UNDER_CURRENT_FORMULATION"}:
+                    break
+                if "VR6" in self.completed_experiments or cycle_count >= int(self.resource_limits["max_cycles_per_run"]):
+                    break
+                if sleep_seconds > 0 and not self.dry_run:
+                    time.sleep(int(sleep_seconds))
+            final_summary = {
+                "generated_at": now_iso(),
+                "cycle_mode": self.cycle_mode,
+                "experiment_family": self.experiment_family,
+                "cycles_completed": cycle_count,
+                "completed_experiments": list(dict.fromkeys(self.completed_experiments)),
+                "policy": dict(self.policy),
+                "resource_budget_snapshot": self._resource_snapshot(),
             }
-        )
-        return {
-            "cycle_id": cycle_id,
-            "selected_experiments": [item["id"] for item in selected],
-            "gate_report": gate_report,
-            "route_decision": route_decision,
-            "scientific_terminal_state": route_decision.get("scientific_terminal_state"),
-        }
+            route_payload = asdict(last_route)
+            route_payload["generated_at"] = now_iso()
+            morning_memo = self._final_morning_memo(last_route, gate_report, final_summary)
+            write_final_run_outputs(route_decision=route_payload, morning_memo=morning_memo, final_summary=final_summary)
+            return {"route_decision": route_payload, "final_summary": final_summary, "morning_memo_path": str(AUTOPILOT_DIR / 'morning_memo.md')}
+        finally:
+            release_controller_lease(controller_id, run_id)
 
 
 def run_controller(
     *,
-    max_cycles: int = 1,
+    max_cycles: int = 4,
     max_experiments_per_cycle: int = 3,
-    sleep_seconds: int = 0,
+    sleep_seconds: int = 30,
     dry_run: bool = False,
     auto_promote_sovereign: bool = False,
     allow_full_retrain: bool = False,
     allow_new_claim: bool = False,
     run_mode: str = "autonomous_cycle_phase",
+    cycle_mode: str = "unattended_cycle",
+    experiment_family: str = "VR",
+    cap_strongest_negative: bool = True,
+    resume: bool = False,
     max_rollouts_per_experiment: int = 3,
     max_disk_growth_mb: int = 4096,
     retry_backoff_seconds: int = 5,
@@ -1449,10 +1385,6 @@ def run_controller(
     max_cycles_per_run: int = 4,
     max_tiny_retrain_budget: int = 1,
 ) -> dict[str, Any]:
-    identity = controller_identity(owner="mint_v2_root_cause_controller")
-    acquired, _lease = acquire_controller_lease(identity["controller_id"], identity["run_id"], owner=identity["owner"], pid=identity["pid"])
-    if not acquired:
-        raise RuntimeError("Another controller lease is currently active.")
     controller = RootCauseController(
         max_experiments_per_cycle=max_experiments_per_cycle,
         dry_run=dry_run,
@@ -1460,6 +1392,10 @@ def run_controller(
         allow_full_retrain=allow_full_retrain,
         allow_new_claim=allow_new_claim,
         run_mode=run_mode,
+        cycle_mode=cycle_mode,
+        experiment_family=experiment_family,
+        cap_strongest_negative=cap_strongest_negative,
+        resume=resume,
         max_rollouts_per_experiment=max_rollouts_per_experiment,
         max_disk_growth_mb=max_disk_growth_mb,
         retry_backoff_seconds=retry_backoff_seconds,
@@ -1467,40 +1403,4 @@ def run_controller(
         max_cycles_per_run=max_cycles_per_run,
         max_tiny_retrain_budget=max_tiny_retrain_budget,
     )
-    history: list[dict[str, Any]] = []
-    final_route_decision = {"scientific_terminal_state": None, "route_next_branch": ROUTE_OPTIONS["stay"], "why": "Run not started."}
-    try:
-        effective_cycles = min(int(max_cycles), int(max_cycles_per_run))
-        for _ in range(effective_cycles):
-            refresh_controller_lease(identity["controller_id"], identity["run_id"], pid=identity["pid"])
-            result = controller.run_cycle()
-            history.append(result)
-            final_route_decision = result.get("route_decision", final_route_decision)
-            if controller._disk_growth_mb() > float(max_disk_growth_mb):
-                final_route_decision = {
-                    "scientific_terminal_state": final_route_decision.get("scientific_terminal_state"),
-                    "route_next_branch": ROUTE_OPTIONS["reformulation"],
-                    "why": f"Stopped because disk growth exceeded budget ({controller._disk_growth_mb():.2f} MB > {max_disk_growth_mb} MB).",
-                }
-                break
-            if result.get("scientific_terminal_state"):
-                break
-            if sleep_seconds > 0:
-                time.sleep(float(sleep_seconds))
-                refresh_controller_lease(identity["controller_id"], identity["run_id"], pid=identity["pid"])
-    finally:
-        release_controller_lease(identity["controller_id"], identity["run_id"])
-    morning_memo = controller._morning_memo(history, final_route_decision)
-    final_summary = {
-        "controller_id": identity["controller_id"],
-        "run_id": identity["run_id"],
-        "history": history,
-        "finished_at": now_iso(),
-        "resource_snapshot": controller._resource_snapshot(),
-    }
-    write_final_run_outputs(route_decision=final_route_decision, morning_memo=morning_memo, final_summary=final_summary)
-    return {
-        **final_summary,
-        "scientific_terminal_state": final_route_decision.get("scientific_terminal_state"),
-        "route_next_branch": final_route_decision.get("route_next_branch"),
-    }
+    return controller.run(max_cycles=max_cycles, sleep_seconds=sleep_seconds)

@@ -1,0 +1,35 @@
+{
+  "cycle_id": "cycle_20260412_115443",
+  "started_at": "2026-04-12T11:55:09+08:00",
+  "ended_at": "2026-04-12T11:55:09+08:00",
+  "lane_family": "VR",
+  "selected_experiments": [
+    "VR4",
+    "VR5",
+    "VR6"
+  ],
+  "lane_ids": [
+    "VR4_legacy_current",
+    "VR4_minimal_contract_repair_v1",
+    "VR4_reformulation_v0",
+    "VR4_visual_reformulation_v1_plus_bundle",
+    "VR4_state_m0_proxy",
+    "VR4_state_eef_pose_gripper",
+    "VR4_state_telemetry_candidate_v1",
+    "VR4_state_telemetry_candidate_v2",
+    "VR5_legacy_current_alt",
+    "VR5_visual_reformulation_v1_plus_bundle_alt"
+  ],
+  "completed_experiments": [
+    "VR0",
+    "VR1",
+    "VR2",
+    "VR3",
+    "VR4",
+    "VR5",
+    "VR6"
+  ],
+  "scientific_terminal_state": "MINIMAL_REPAIR_INSUFFICIENT",
+  "route_next_branch": "environment_reformulation",
+  "cycle_mode": "unattended_cycle"
+}

@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Append-only registry helpers for the reformulation-aware root-cause controller."""
+"""Append-only registry helpers for the visual-fidelity root-cause controller."""
 
 from __future__ import annotations
 
 import json
+import shutil
 from pathlib import Path
 from typing import Any
 
@@ -12,11 +13,11 @@ from root_cause_contracts import (
     AUTOPILOT_DIR,
     CONTROLLER_RUNTIME_DIR,
     CYCLE_STATE_PATH,
+    DEVIATION_LOG_PATH,
     EVIDENCE_LEDGER_PATH,
     EXPERIMENT_REGISTRY_PATH,
     HYPOTHESIS_BOARD_PATH,
 )
-
 
 MORNING_MEMO_PATH = AUTOPILOT_DIR / "morning_memo.md"
 FINAL_ROUTE_PATH = AUTOPILOT_DIR / "route_decision.json"
@@ -38,12 +39,14 @@ def ensure_registry_layout() -> None:
     CONTROLLER_RUNTIME_DIR.mkdir(parents=True, exist_ok=True)
     EXPERIMENT_REGISTRY_PATH.parent.mkdir(parents=True, exist_ok=True)
     EVIDENCE_LEDGER_PATH.parent.mkdir(parents=True, exist_ok=True)
+    DEVIATION_LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
 
 
-def create_cycle_dir(cycle_id: str) -> Path:
+def create_cycle_dir(cycle_id: str, *, cycle_mode: str = "unattended_cycle") -> Path:
     ensure_registry_layout()
     cycle_dir = CONTROLLER_RUNTIME_DIR / cycle_id
     cycle_dir.mkdir(parents=True, exist_ok=True)
+    write_json_atomic(cycle_dir / "cycle_mode.json", {"cycle_id": cycle_id, "cycle_mode": cycle_mode, "created_at": now_iso()})
     return cycle_dir
 
 
@@ -55,6 +58,18 @@ def append_evidence_record(payload: dict[str, Any]) -> None:
     _append_jsonl_atomic(EVIDENCE_LEDGER_PATH, payload)
 
 
+def append_deviation_record(*, message: str, scientific_semantics_changed: bool = False, details: dict[str, Any] | None = None) -> None:
+    _append_jsonl_atomic(
+        DEVIATION_LOG_PATH,
+        {
+            "recorded_at": now_iso(),
+            "message": message,
+            "scientific_semantics_changed": bool(scientific_semantics_changed),
+            "details": details or {},
+        },
+    )
+
+
 def write_cycle_state(payload: dict[str, Any]) -> None:
     write_json_atomic(CYCLE_STATE_PATH, payload)
 
@@ -63,9 +78,30 @@ def write_hypothesis_board(payload: dict[str, Any]) -> None:
     write_json_atomic(HYPOTHESIS_BOARD_PATH, payload)
 
 
+def archive_controller_state(*, reason: str) -> str:
+    ensure_registry_layout()
+    archive_dir = AUTOPILOT_DIR / "resets" / now_iso().replace(":", "").replace("+", "_")
+    archive_dir.mkdir(parents=True, exist_ok=True)
+    moved: list[str] = []
+    for path in (CYCLE_STATE_PATH, HYPOTHESIS_BOARD_PATH):
+        if path.exists():
+            target = archive_dir / path.name
+            shutil.move(str(path), str(target))
+            moved.append(path.name)
+    summary = {
+        "archived_at": now_iso(),
+        "reason": reason,
+        "archive_dir": str(archive_dir),
+        "moved": moved,
+    }
+    write_json_atomic(archive_dir / "reset_summary.json", summary)
+    return str(archive_dir)
+
+
 def write_cycle_bundle(
     cycle_dir: Path,
     *,
+    cycle_mode: str,
     lane_specs: dict[str, Any],
     lane_results: dict[str, Any],
     gate_report: dict[str, Any],
@@ -82,6 +118,7 @@ def write_cycle_bundle(
     write_json_atomic(cycle_dir / "hypothesis_board.json", hypothesis_board)
     write_json_atomic(cycle_dir / "cycle_summary.json", cycle_summary)
     write_json_atomic(cycle_dir / "route_decision.json", route_decision)
+    write_json_atomic(cycle_dir / "cycle_mode.json", {"cycle_id": cycle_dir.name, "cycle_mode": cycle_mode, "updated_at": now_iso()})
     write_text_atomic(cycle_dir / "cycle_memo.md", cycle_memo)
     write_json_atomic(cycle_dir / "proposed_current_truth_delta.json", proposed_current_truth_delta)
     write_json_atomic(cycle_dir / "proposed_next_actions.json", proposed_next_actions)
@@ -89,10 +126,12 @@ def write_cycle_bundle(
         {
             "updated_at": now_iso(),
             "last_cycle_id": cycle_dir.name,
+            "cycle_mode": cycle_mode,
             "completed_experiments": cycle_summary.get("completed_experiments", []),
             "scientific_terminal_state": route_decision.get("scientific_terminal_state"),
             "route_next_branch": route_decision.get("route_next_branch"),
-            "terminal_state": route_decision.get("route_next_branch"),
+            "terminal_state": route_decision.get("scientific_terminal_state"),
+            "strongest_negative_capped": route_decision.get("strongest_negative_capped", True),
         }
     )
 

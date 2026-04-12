@@ -1,0 +1,11 @@
+{
+  "actions": [
+    {
+      "id": "proposed_next_mainline",
+      "priority": 1,
+      "status": "pending",
+      "action": "environment_reformulation",
+      "why": "Stronger visual family improved perception quality but still did not produce a train-eligible canonical lane."
+    }
+  ]
+}

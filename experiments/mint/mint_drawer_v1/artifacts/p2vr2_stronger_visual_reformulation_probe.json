@@ -1,0 +1,300 @@
+{
+  "experiment_id": "VR2",
+  "generated_at": "2026-04-12T11:54:13+08:00",
+  "passed": false,
+  "baseline_gap": 2.6026269333333336,
+  "raw_canonical": {
+    "lane": {
+      "lane_id": "VR2_wrist_raw_canonical",
+      "lane_family": "VR",
+      "stage": "probe",
+      "env_contract_config": {
+        "secondary_camera_mode": "wrist_dynamic",
+        "enable_marker_overlay": false,
+        "calibration_mode": "none",
+        "interaction_mode": "legacy_translation_only",
+        "state_mode": "m0_proxy",
+        "render_profile": "visual_reformulation_v0",
+        "background_mode": "legacy_scene",
+        "lighting_profile": "legacy",
+        "material_policy": "legacy",
+        "camera_framing_profile": "legacy",
+        "emit_orientation_telemetry": true,
+        "emit_camera_metadata": true,
+        "emit_handle_probe_metadata": true,
+        "canonical_lane": true
+      },
+      "interventions": {
+        "rotation_source": "zero",
+        "profile_id": "visual_reformulation_v0"
+      },
+      "dataset_config": {
+        "unique_data_budget": null,
+        "success_repeat": 1,
+        "train_seed_pool": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "heldout_seed_pool": [
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "max_steps": 96
+      },
+      "train_config": {
+        "train_steps": 0,
+        "batch_size": 0,
+        "top_k": 0,
+        "tiny_retrain": false,
+        "full_retrain": false
+      },
+      "claim_policy": "canonical",
+      "diagnostic_only": false,
+      "strongest_negative_capped": true,
+      "resource_budget_snapshot": {
+        "policy": {
+          "AUTO_PROMOTE_SOVEREIGN": false,
+          "ALLOW_FULL_RETRAIN": false,
+          "ALLOW_NEW_CLAIM": false,
+          "RUN_MODE": "autonomous_cycle_phase",
+          "EXPERIMENT_FAMILY": "VR",
+          "CAP_STRONGEST_NEGATIVE": true,
+          "RESUME": false
+        },
+        "limits": {
+          "max_rollouts_per_experiment": 3,
+          "max_disk_growth_mb": 4096,
+          "retry_backoff_seconds": 5,
+          "max_retries": 2,
+          "max_cycles_per_run": 4,
+          "max_tiny_retrain_budget": 1
+        },
+        "disk_growth_mb": 0.003,
+        "completed_experiments": [
+          "VR0",
+          "VR1"
+        ]
+      },
+      "note": "Carry-forward raw canonical baseline.",
+      "experiment_id": "VR2",
+      "coverage": {},
+      "cost": 1.0,
+      "lane_hash": "c1fcd8fdd0be0906"
+    },
+    "claim_policy": "canonical",
+    "diagnostic_only": false,
+    "secondary_camera_wrist_like": true,
+    "secondary_camera_residual_mean": 0.0,
+    "secondary_camera_residual_max": 0.0,
+    "marker_overlay_enabled": false,
+    "provenance_complete": true,
+    "target_stats": {
+      "sample_count": 24,
+      "mean_rgb": [
+        0.021083999425172806,
+        0.017712999135255814,
+        0.014028999954462051
+      ],
+      "std_rgb": [
+        0.07034099847078323,
+        0.059098001569509506,
+        0.04682699963450432
+      ],
+      "brightness_mean": 0.018304408453648387,
+      "edge_density_mean": 0.007045745849609375,
+      "entropy_mean": 0.5453182342293129
+    },
+    "gap": {
+      "brightness_gap": 0.447547,
+      "std_rgb_abs_gap": [
+        0.153139,
+        0.14663,
+        0.141395
+      ],
+      "edge_density_gap": 0.056863,
+      "entropy_gap": 6.376177
+    },
+    "weighted_visual_gap": 2.6026269333333336,
+    "visual_alignment_gain": 0.0,
+    "render_profile": "visual_reformulation_v0",
+    "background_mode": "legacy_scene",
+    "lighting_profile": "legacy",
+    "material_policy": "legacy",
+    "camera_framing_profile": "legacy",
+    "handle_visibility_fraction": 1.0,
+    "handle_local_contrast": 0.10261589282611924,
+    "handle_crop_entropy": 1.3564995147094792,
+    "framing_score": 0.621077515118197,
+    "camera_relativeness_residual": 0.0,
+    "observation_contract_pass": true,
+    "visual_gate_breakdown": {
+      "baseline_weighted_visual_gap": 2.6026269333333336,
+      "lane_weighted_visual_gap": 2.6026269333333336,
+      "visual_alignment_gain": 0.0,
+      "framing_score": 0.621077515118197,
+      "handle_visibility_fraction": 1.0,
+      "handle_local_contrast": 0.10261589282611924,
+      "handle_crop_entropy": 1.3564995147094792,
+      "camera_relativeness_residual": 0.0,
+      "encoder_readability_pass": null,
+      "perceptual_readability_score": 0.6081279908913763
+    }
+  },
+  "visual_reformulation_v1": {
+    "lane": {
+      "lane_id": "VR2_visual_reformulation_v1",
+      "lane_family": "VR",
+      "stage": "probe",
+      "env_contract_config": {
+        "secondary_camera_mode": "wrist_dynamic",
+        "enable_marker_overlay": false,
+        "calibration_mode": "none",
+        "interaction_mode": "legacy_translation_only",
+        "state_mode": "m0_proxy",
+        "render_profile": "visual_reformulation_v1",
+        "background_mode": "neutral_lab",
+        "lighting_profile": "bright_front_fill",
+        "material_policy": "handle_highlight",
+        "camera_framing_profile": "tight_handle_centered",
+        "emit_orientation_telemetry": true,
+        "emit_camera_metadata": true,
+        "emit_handle_probe_metadata": true,
+        "canonical_lane": true
+      },
+      "interventions": {
+        "rotation_source": "zero",
+        "profile_id": "visual_reformulation_v1"
+      },
+      "dataset_config": {
+        "unique_data_budget": null,
+        "success_repeat": 1,
+        "train_seed_pool": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "heldout_seed_pool": [
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "max_steps": 96
+      },
+      "train_config": {
+        "train_steps": 0,
+        "batch_size": 0,
+        "top_k": 0,
+        "tiny_retrain": false,
+        "full_retrain": false
+      },
+      "claim_policy": "canonical",
+      "diagnostic_only": false,
+      "strongest_negative_capped": true,
+      "resource_budget_snapshot": {
+        "policy": {
+          "AUTO_PROMOTE_SOVEREIGN": false,
+          "ALLOW_FULL_RETRAIN": false,
+          "ALLOW_NEW_CLAIM": false,
+          "RUN_MODE": "autonomous_cycle_phase",
+          "EXPERIMENT_FAMILY": "VR",
+          "CAP_STRONGEST_NEGATIVE": true,
+          "RESUME": false
+        },
+        "limits": {
+          "max_rollouts_per_experiment": 3,
+          "max_disk_growth_mb": 4096,
+          "retry_backoff_seconds": 5,
+          "max_retries": 2,
+          "max_cycles_per_run": 4,
+          "max_tiny_retrain_budget": 1
+        },
+        "disk_growth_mb": 0.003,
+        "completed_experiments": [
+          "VR0",
+          "VR1"
+        ]
+      },
+      "note": "Stronger render-level material/light/background/framing reformulation.",
+      "experiment_id": "VR2",
+      "coverage": {},
+      "cost": 1.0,
+      "lane_hash": "3c35f948bc491e50"
+    },
+    "claim_policy": "canonical",
+    "diagnostic_only": false,
+    "secondary_camera_wrist_like": true,
+    "secondary_camera_residual_mean": 0.0,
+    "secondary_camera_residual_max": 0.0,
+    "marker_overlay_enabled": false,
+    "provenance_complete": true,
+    "target_stats": {
+      "sample_count": 24,
+      "mean_rgb": [
+        0.09211800247430801,
+        0.07295499742031097,
+        0.054235998541116714
+      ],
+      "std_rgb": [
+        0.22091500461101532,
+        0.17627499997615814,
+        0.13544900715351105
+      ],
+      "brightness_mean": 0.07656754138422948,
+      "edge_density_mean": 0.0095062255859375,
+      "entropy_mean": 0.937149141627902
+    },
+    "gap": {
+      "brightness_gap": 0.389284,
+      "std_rgb_abs_gap": [
+        0.002565,
+        0.029453,
+        0.052773
+      ],
+      "edge_density_gap": 0.054403,
+      "entropy_gap": 5.984346
+    },
+    "weighted_visual_gap": 2.421152333333333,
+    "visual_alignment_gain": 0.0697274732985167,
+    "render_profile": "visual_reformulation_v1",
+    "background_mode": "neutral_lab",
+    "lighting_profile": "bright_front_fill",
+    "material_policy": "handle_highlight",
+    "camera_framing_profile": "tight_handle_centered",
+    "handle_visibility_fraction": 1.0,
+    "handle_local_contrast": 0.0,
+    "handle_crop_entropy": 0.0,
+    "framing_score": 0.621077515118197,
+    "camera_relativeness_residual": 0.0,
+    "observation_contract_pass": true,
+    "visual_gate_breakdown": {
+      "baseline_weighted_visual_gap": 2.6026269333333336,
+      "lane_weighted_visual_gap": 2.421152333333333,
+      "visual_alignment_gain": 0.0697274732985167,
+      "framing_score": 0.621077515118197,
+      "handle_visibility_fraction": 1.0,
+      "handle_local_contrast": 0.0,
+      "handle_crop_entropy": 0.0,
+      "camera_relativeness_residual": 0.0,
+      "encoder_readability_pass": null,
+      "perceptual_readability_score": 0.39164737134826855
+    }
+  },
+  "visual_alignment_gain": 0.0697274732985167,
+  "readability_gain": -0.2164806195431077
+}

@@ -42,6 +42,11 @@ SecondaryCameraMode = Literal["legacy_fixed_scene", "wrist_dynamic"]
 CalibrationMode = Literal["none", "legacy_bg_gain_bias", "diagnostic_texture"]
 InteractionMode = Literal["legacy_translation_only", "orientation_sensitive_v1"]
 StateMode = Literal["m0_proxy", "eef_pose_gripper", "telemetry_candidate_v1", "telemetry_candidate_v2"]
+RenderProfile = Literal["legacy_surface", "visual_reformulation_v0", "visual_reformulation_v1", "visual_reformulation_v1_plus_bundle"]
+BackgroundMode = Literal["legacy_scene", "neutral_lab", "high_contrast_lab"]
+LightingProfile = Literal["legacy", "bright_front_fill"]
+MaterialPolicy = Literal["legacy", "handle_highlight"]
+CameraFramingProfile = Literal["legacy", "tight_handle_centered"]
 RotationSource = Literal["zero", "aligned", "random"]
 
 
@@ -154,8 +159,14 @@ class DrawerEnvContractConfig:
     calibration_mode: CalibrationMode = "none"
     interaction_mode: InteractionMode = "legacy_translation_only"
     state_mode: StateMode = "m0_proxy"
+    render_profile: RenderProfile = "legacy_surface"
+    background_mode: BackgroundMode = "legacy_scene"
+    lighting_profile: LightingProfile = "legacy"
+    material_policy: MaterialPolicy = "legacy"
+    camera_framing_profile: CameraFramingProfile = "legacy"
     emit_orientation_telemetry: bool = True
     emit_camera_metadata: bool = True
+    emit_handle_probe_metadata: bool = True
     canonical_lane: bool = True
 
     @classmethod
@@ -166,8 +177,14 @@ class DrawerEnvContractConfig:
             calibration_mode="legacy_bg_gain_bias",
             interaction_mode="legacy_translation_only",
             state_mode="m0_proxy",
+            render_profile="legacy_surface",
+            background_mode="legacy_scene",
+            lighting_profile="legacy",
+            material_policy="legacy",
+            camera_framing_profile="legacy",
             emit_orientation_telemetry=True,
             emit_camera_metadata=True,
+            emit_handle_probe_metadata=True,
             canonical_lane=False,
         )
 
@@ -187,6 +204,7 @@ class MuJoCoRobotObservation:
     visual_mode_report: dict[str, Any] | None = None
     state_spec: dict[str, Any] | None = None
     orientation_telemetry: dict[str, Any] | None = None
+    handle_probe_metadata: dict[str, Any] | None = None
     claim_policy: str = "diagnostic"
 
     def __getitem__(self, key: str) -> Any:
@@ -242,8 +260,14 @@ class DrawerRobotEnvMuJoCo:
         self._home_pos = self.scene_center + np.array([0.15, 0.0, 0.12], dtype=np.float32)
         self._home_quat = np.array([0.0, 1.0, 0.0, 0.0], dtype=np.float32)
         self._rng = np.random.default_rng(self.seed)
+        self._original_geom_rgba = np.asarray(self.model.geom_rgba, dtype=np.float32).copy()
+        self._original_headlight_ambient = np.asarray(self.model.vis.headlight.ambient, dtype=np.float32).copy()
+        self._original_headlight_diffuse = np.asarray(self.model.vis.headlight.diffuse, dtype=np.float32).copy()
+        self._original_headlight_specular = np.asarray(self.model.vis.headlight.specular, dtype=np.float32).copy()
+        self._original_haze_rgba = np.asarray(self.model.vis.rgba.haze, dtype=np.float32).copy()
         self._last_camera_metadata: dict[str, Any] = {}
         self._last_visual_mode_report: dict[str, Any] = {}
+        self._last_handle_probe_metadata: dict[str, Any] = {}
         self._last_orientation_info = self._default_orientation_info()
         self._last_claim_policy = self.claim_policy()
         self.reset()
@@ -262,7 +286,7 @@ class DrawerRobotEnvMuJoCo:
             return "diagnostic"
         if self.contract.enable_marker_overlay:
             return "new_claim_required"
-        if self.contract.calibration_mode == "diagnostic_texture":
+        if self.contract.calibration_mode != "none":
             return "new_claim_required"
         if self.contract.secondary_camera_mode != "wrist_dynamic":
             return "new_claim_required"
@@ -343,6 +367,10 @@ class DrawerRobotEnvMuJoCo:
         return out
 
     def _background_rgb(self, secondary: bool) -> np.ndarray:
+        if self.contract.background_mode == "neutral_lab":
+            return np.asarray([214, 207, 198], dtype=np.uint8)
+        if self.contract.background_mode == "high_contrast_lab":
+            return np.asarray([236, 233, 228], dtype=np.uint8) if secondary else np.asarray([208, 204, 198], dtype=np.uint8)
         mean = SECONDARY_BG_MEAN if secondary else PRIMARY_BG_MEAN
         return np.clip(mean * 255.0, 0.0, 255.0).astype(np.uint8)
 
@@ -373,6 +401,46 @@ class DrawerRobotEnvMuJoCo:
         blur = cv2.GaussianBlur(merged, (0, 0), 1.1)
         sharpened = cv2.addWeighted(merged, 1.65, blur, -0.65, 0)
         return np.clip(sharpened, 0, 255).astype(np.uint8)
+
+    def _apply_visual_profile(self) -> None:
+        self.model.geom_rgba[:] = self._original_geom_rgba
+        self.model.vis.headlight.ambient[:] = self._original_headlight_ambient
+        self.model.vis.headlight.diffuse[:] = self._original_headlight_diffuse
+        self.model.vis.headlight.specular[:] = self._original_headlight_specular
+        self.model.vis.rgba.haze[:] = self._original_haze_rgba
+
+        handle = self._handle_center_world()
+        if self.contract.camera_framing_profile == "tight_handle_centered":
+            primary_lookat = 0.70 * handle + 0.30 * self.scene_center
+            self.cam_primary.lookat[:] = primary_lookat.tolist()
+            self.cam_primary.distance = float(self.scene_extent * 1.25)
+            self.cam_primary.azimuth = 168.0
+            self.cam_primary.elevation = -18.0
+        else:
+            self.cam_primary.lookat[:] = self.scene_center.tolist()
+            self.cam_primary.distance = float(self.scene_extent * 1.85)
+            self.cam_primary.azimuth = 180.0
+            self.cam_primary.elevation = -28.0
+
+        if self.contract.background_mode == "neutral_lab":
+            self.model.vis.rgba.haze[:] = np.asarray([0.84, 0.82, 0.79, 1.0], dtype=np.float32)
+        elif self.contract.background_mode == "high_contrast_lab":
+            self.model.vis.rgba.haze[:] = np.asarray([0.90, 0.89, 0.86, 1.0], dtype=np.float32)
+
+        if self.contract.lighting_profile == "bright_front_fill":
+            self.model.vis.headlight.ambient[:] = np.asarray([0.55, 0.55, 0.55], dtype=np.float32)
+            self.model.vis.headlight.diffuse[:] = np.asarray([0.70, 0.70, 0.70], dtype=np.float32)
+            self.model.vis.headlight.specular[:] = np.asarray([0.20, 0.20, 0.20], dtype=np.float32)
+
+        if self.contract.material_policy == "handle_highlight":
+            centers = np.asarray(self.data.geom_xpos, dtype=np.float32)
+            if len(centers):
+                distances = np.linalg.norm(centers - handle[None, :], axis=1)
+                nearest = int(np.argmin(distances))
+                self.model.geom_rgba[:] = np.clip(self.model.geom_rgba[:] * np.asarray([0.95, 0.95, 0.95, 1.0], dtype=np.float32), 0.0, 1.0)
+                self.model.geom_rgba[nearest, :4] = np.asarray([0.86, 0.54, 0.24, 1.0], dtype=np.float32)
+                near_mask = distances < 0.12
+                self.model.geom_rgba[near_mask, :3] = np.clip(self.model.geom_rgba[near_mask, :3] * 1.10, 0.0, 1.0)
 
     def _render(self, camera) -> np.ndarray:
         self.renderer.update_scene(self.data, camera=camera)
@@ -426,7 +494,69 @@ class DrawerRobotEnvMuJoCo:
         relative[:3, 3] = WRIST_CAM_OFFSET_LOCAL.astype(np.float32)
         return self._camera_pose_metadata("secondary", self.cam_secondary, cam_pos_world, lookat_world, relative_transform=relative)
 
+    def _handle_bbox_for_camera(self, key: str) -> list[int]:
+        center = self._handle_center_world()
+        if key == "primary":
+            u, v = self._project_primary(center)
+            half_w, half_h = 16, 16
+        else:
+            u, v = self._project_secondary(center)
+            half_w, half_h = 18, 18
+        x0 = max(0, int(u - half_w))
+        y0 = max(0, int(v - half_h))
+        x1 = min(self.image_size, int(u + half_w))
+        y1 = min(self.image_size, int(v + half_h))
+        return [x0, y0, x1, y1]
+
+    def _crop_statistics(self, image: np.ndarray, bbox: list[int]) -> tuple[float, float, float]:
+        x0, y0, x1, y1 = bbox
+        crop = image[y0:y1, x0:x1]
+        target_area = max((x1 - x0) * (y1 - y0), 1)
+        visibility = float(crop.shape[0] * crop.shape[1]) / float(target_area)
+        if crop.size == 0:
+            return visibility, 0.0, 0.0
+        gray = crop.mean(axis=2).astype(np.uint8)
+        contrast = float(gray.std() / 255.0)
+        hist = np.bincount(gray.reshape(-1), minlength=256).astype(np.float64)
+        hist /= max(hist.sum(), 1.0)
+        nonzero = hist[hist > 0]
+        entropy = float(-(nonzero * np.log2(nonzero)).sum()) if len(nonzero) else 0.0
+        return visibility, contrast, entropy
+
+    def _compute_handle_probe_metadata(self, primary: np.ndarray, secondary: np.ndarray, secondary_meta: dict[str, Any]) -> dict[str, Any]:
+        bbox_primary = self._handle_bbox_for_camera("primary")
+        bbox_secondary = self._handle_bbox_for_camera("secondary")
+        vis_primary, contrast_primary, entropy_primary = self._crop_statistics(primary, bbox_primary)
+        vis_secondary, contrast_secondary, entropy_secondary = self._crop_statistics(secondary, bbox_secondary)
+        residual_value = secondary_meta.get("eef_cam_relativeness_residual")
+        residual = float(1.0 if residual_value is None else residual_value)
+        center_x = (bbox_secondary[0] + bbox_secondary[2]) / 2.0
+        center_y = (bbox_secondary[1] + bbox_secondary[3]) / 2.0
+        framing_residual = float(np.mean([abs(center_x / max(self.image_size - 1, 1) - 0.5), abs(center_y / max(self.image_size - 1, 1) - 0.5)]))
+        secondary_framing_score = float(np.clip(1.0 - 2.2 * framing_residual, 0.0, 1.0))
+        return {
+            "handle_bbox_primary": bbox_primary,
+            "handle_bbox_secondary": bbox_secondary,
+            "handle_visibility_fraction_primary": float(vis_primary),
+            "handle_visibility_fraction_secondary": float(vis_secondary),
+            "handle_visibility_fraction": float((vis_primary + vis_secondary) / 2.0),
+            "handle_local_contrast_primary": float(contrast_primary),
+            "handle_local_contrast_secondary": float(contrast_secondary),
+            "handle_local_contrast": float(max(contrast_primary, contrast_secondary)),
+            "handle_crop_entropy_primary": float(entropy_primary),
+            "handle_crop_entropy_secondary": float(entropy_secondary),
+            "handle_crop_entropy": float(max(entropy_primary, entropy_secondary)),
+            "secondary_framing_score": secondary_framing_score,
+            "camera_relativeness_residual": residual,
+            "render_profile": self.contract.render_profile,
+            "background_mode": self.contract.background_mode,
+            "lighting_profile": self.contract.lighting_profile,
+            "material_policy": self.contract.material_policy,
+            "camera_framing_profile": self.contract.camera_framing_profile,
+        }
+
     def _observe_images(self) -> tuple[np.ndarray, np.ndarray]:
+        self._apply_visual_profile()
         primary_eye = _camera_eye_from_lookat(self.cam_primary.lookat.copy(), self.cam_primary.distance, self.cam_primary.azimuth, self.cam_primary.elevation)
         primary_meta = self._camera_pose_metadata("primary", self.cam_primary, primary_eye, self.cam_primary.lookat.copy())
         secondary_meta = self._set_secondary_camera()
@@ -440,6 +570,7 @@ class DrawerRobotEnvMuJoCo:
             img1 = self._overlay_marker(img1, self._project_primary(self.eef_pos), color)
             img2 = self._overlay_marker(img2, self._project_secondary(self.eef_pos), color)
 
+        handle_probe = self._compute_handle_probe_metadata(img1, img2, secondary_meta) if self.contract.emit_handle_probe_metadata else {}
         self._last_camera_metadata = {
             "primary": _json_ready(primary_meta),
             "secondary": _json_ready(secondary_meta),
@@ -451,8 +582,14 @@ class DrawerRobotEnvMuJoCo:
             "enable_marker_overlay": bool(self.contract.enable_marker_overlay),
             "calibration_mode": self.contract.calibration_mode,
             "secondary_camera_mode": self.contract.secondary_camera_mode,
+            "render_profile": self.contract.render_profile,
+            "background_mode": self.contract.background_mode,
+            "lighting_profile": self.contract.lighting_profile,
+            "material_policy": self.contract.material_policy,
+            "camera_framing_profile": self.contract.camera_framing_profile,
             "diagnostic_only": (not self.contract.canonical_lane) or self.contract.calibration_mode == "diagnostic_texture",
         }
+        self._last_handle_probe_metadata = _json_ready(handle_probe)
         self._last_claim_policy = self.claim_policy()
         return img1, img2
 
@@ -590,6 +727,7 @@ class DrawerRobotEnvMuJoCo:
             visual_mode_report=_json_ready(self._last_visual_mode_report),
             state_spec=_json_ready(self.state_spec()),
             orientation_telemetry=_json_ready(self._last_orientation_info),
+            handle_probe_metadata=_json_ready(self._last_handle_probe_metadata),
             claim_policy=self._last_claim_policy,
         )
 
@@ -608,6 +746,7 @@ class DrawerRobotEnvMuJoCo:
         self._attached = False
         self._max_drawer_fraction = self._drawer_fraction()
         self._last_orientation_info = self._default_orientation_info()
+        self._last_handle_probe_metadata = {}
         self._last_claim_policy = self.claim_policy()
         return self.observe()
 
@@ -845,6 +984,7 @@ def build_robot_rollout(
     orientation_gate_trace, drawer_delta_raw_trace, drawer_delta_effective_trace = [], [], []
     orientation_error_trace = []
     camera_metadata_trace = []
+    handle_probe_metadata_trace = []
     ever_attached = False
     attach_step = None
     success = False
@@ -859,6 +999,7 @@ def build_robot_rollout(
             abs_drawer.append(float(obs.drawer_fraction))
             eef_quat_trace.append(np.asarray(obs.eef_quat, dtype=np.float32).copy())
             camera_metadata_trace.append(_json_ready(obs.camera_metadata or {}))
+            handle_probe_metadata_trace.append(_json_ready(obs.handle_probe_metadata or {}))
 
             handle = env._handle_center_world()
             pregrasp_target = handle - axis * 0.04 + np.array([0.0, 0.0, 0.03], dtype=np.float32)
@@ -931,6 +1072,7 @@ def build_robot_rollout(
     state_spec = obs.state_spec or env.state_spec()
     visual_mode_report = obs.visual_mode_report or {}
     camera_metadata = obs.camera_metadata or {}
+    handle_probe_metadata = obs.handle_probe_metadata or {}
     rollout_claim_policy = claim_policy or obs.claim_policy or env.claim_policy()
     rollout = {
         "seed": seed,
@@ -987,8 +1129,11 @@ def build_robot_rollout(
         "visual_mode_report": _json_ready(visual_mode_report),
         "camera_metadata": _json_ready(camera_metadata),
         "camera_metadata_trace": _json_ready(camera_metadata_trace),
+        "handle_probe_metadata": _json_ready(handle_probe_metadata),
+        "handle_probe_metadata_trace": _json_ready(handle_probe_metadata_trace),
         "claim_policy": rollout_claim_policy,
         "orientation_telemetry": _json_ready(env._last_orientation_info),
+        "resource_budget_snapshot": {},
         "raw_unique_frames": int(len(actions)),
         "effective_training_frames": int(len(actions)),
     }
@@ -1036,8 +1181,11 @@ def save_robot_rollout(path: Path, rollout: dict[str, Any]) -> None:
         "visual_mode_report": rollout.get("visual_mode_report", {}),
         "camera_metadata": rollout.get("camera_metadata", {}),
         "camera_metadata_trace": rollout.get("camera_metadata_trace", []),
+        "handle_probe_metadata": rollout.get("handle_probe_metadata", {}),
+        "handle_probe_metadata_trace": rollout.get("handle_probe_metadata_trace", []),
         "claim_policy": rollout.get("claim_policy", "diagnostic"),
         "orientation_telemetry": rollout.get("orientation_telemetry", {}),
+        "resource_budget_snapshot": rollout.get("resource_budget_snapshot", {}),
         "raw_unique_frames": rollout.get("raw_unique_frames", rollout["steps"]),
         "effective_training_frames": rollout.get("effective_training_frames", rollout["steps"]),
     }

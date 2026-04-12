@@ -17,7 +17,7 @@ DEFAULT_HYPOTHESES = [
         prior=0.35,
         posterior=0.35,
         importance=1.0,
-        next_best_test="E0",
+        next_best_test="VR1",
     ),
     HypothesisState(
         id="H1_embodiment_causal_contract",
@@ -25,7 +25,7 @@ DEFAULT_HYPOTHESES = [
         prior=0.60,
         posterior=0.60,
         importance=1.0,
-        next_best_test="E1",
+        next_best_test="VR2",
     ),
     HypothesisState(
         id="H2_state_representability",
@@ -33,7 +33,7 @@ DEFAULT_HYPOTHESES = [
         prior=0.65,
         posterior=0.65,
         importance=0.95,
-        next_best_test="E2",
+        next_best_test="VR3",
     ),
     HypothesisState(
         id="H3_observation_visual_contract",
@@ -49,7 +49,7 @@ DEFAULT_HYPOTHESES = [
         prior=0.25,
         posterior=0.25,
         importance=0.70,
-        next_best_test="E5",
+        next_best_test="VR6",
     ),
     HypothesisState(
         id="H5_optimization_only",
@@ -57,7 +57,7 @@ DEFAULT_HYPOTHESES = [
         prior=0.15,
         posterior=0.15,
         importance=0.60,
-        next_best_test="E6",
+        next_best_test="VR6",
     ),
     HypothesisState(
         id="H6_environment_invalid_for_claim",
@@ -65,7 +65,7 @@ DEFAULT_HYPOTHESES = [
         prior=0.55,
         posterior=0.55,
         importance=1.0,
-        next_best_test="E4",
+        next_best_test="VR5",
     ),
 ]
 

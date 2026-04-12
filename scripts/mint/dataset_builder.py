@@ -105,6 +105,8 @@ def _rollout_provenance(meta: dict[str, Any], n_frames: int) -> dict[str, Any]:
         "state_spec": state_spec,
         "calibration_mode": visual_mode_report.get("calibration_mode", contract_config.get("calibration_mode", "unknown")),
         "secondary_camera_mode": visual_mode_report.get("secondary_camera_mode", contract_config.get("secondary_camera_mode", "unknown")),
+        "render_profile": visual_mode_report.get("render_profile", contract_config.get("render_profile", "legacy_surface")),
+        "resource_budget_snapshot": meta.get("resource_budget_snapshot", {}),
         "visual_mode_report": visual_mode_report,
     }
 
@@ -166,6 +168,7 @@ def build_dataset_from_rollouts(
     effective_training_frame_total = 0
     claim_policies: set[str] = set()
     state_modes: set[str] = set()
+    render_profiles: set[str] = set()
     success_repeats: set[int] = set()
 
     for npz_path in rollout_paths:
@@ -182,6 +185,7 @@ def build_dataset_from_rollouts(
         effective_training_frame_total += int(provenance["effective_training_frames"])
         claim_policies.add(str(provenance["claim_policy"]))
         state_modes.add(str(provenance["state_mode"]))
+        render_profiles.add(str(provenance.get("render_profile", "legacy_surface")))
         success_repeats.add(int(provenance["success_repeat"]))
 
         for idx in range(n_frames):
@@ -225,6 +229,7 @@ def build_dataset_from_rollouts(
         "effective_frame_count": int(frame_count),
         "claim_policies": sorted(claim_policies),
         "state_modes": sorted(state_modes),
+        "render_profiles": sorted(render_profiles),
         "success_repeat_values": sorted(success_repeats),
         "records": provenance_records,
     }
@@ -249,6 +254,7 @@ def build_dataset_from_rollouts(
         "effective_frame_count": int(frame_count),
         "claim_policies": sorted(claim_policies),
         "state_modes": sorted(state_modes),
+        "render_profiles": sorted(render_profiles),
         "success_repeat_values": sorted(success_repeats),
         "provenance_path": str(provenance_path),
     }

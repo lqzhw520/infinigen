@@ -1,0 +1,187 @@
+{
+  "experiment_id": "VR5",
+  "generated_at": "2026-04-12T11:55:08+08:00",
+  "passed": true,
+  "best_profile_id": "visual_reformulation_v1_plus_bundle",
+  "alternate_seed_slice": [
+    4,
+    5,
+    6
+  ],
+  "replication_consistent": true,
+  "legacy_summary": {
+    "rollout_count": 3,
+    "unique_success_rate": 0.6666666666666666,
+    "attach_rate": 1.0,
+    "mean_max_drawer_fraction": 0.6666666666666666,
+    "avg_episode_length": 38.333333333333336,
+    "success_count": 2,
+    "orientation_causal_sensitivity": 0.016114065423607826
+  },
+  "replicated_summary": {
+    "rollout_count": 3,
+    "unique_success_rate": 0.0,
+    "attach_rate": 1.0,
+    "mean_max_drawer_fraction": 0.0,
+    "avg_episode_length": 96.0,
+    "success_count": 0,
+    "orientation_causal_sensitivity": 0.0
+  },
+  "rollout_ceiling_lift": {
+    "score": -0.10768115942028988,
+    "delta_unique_success_rate": -0.6666666666666666,
+    "delta_attach_rate": 0.0,
+    "delta_mean_max_drawer_fraction": -0.6666666666666666,
+    "delta_avg_episode_length_ratio": 1.5043478260869563,
+    "delta_orientation_causal_sensitivity": 0.0
+  },
+  "visual_report": {
+    "lane": {
+      "lane_id": "VR5_visual_reformulation_v1_plus_bundle_alt",
+      "lane_family": "VR",
+      "stage": "probe",
+      "env_contract_config": {
+        "secondary_camera_mode": "wrist_dynamic",
+        "enable_marker_overlay": false,
+        "calibration_mode": "none",
+        "interaction_mode": "orientation_sensitive_v1",
+        "state_mode": "telemetry_candidate_v2",
+        "render_profile": "visual_reformulation_v1_plus_bundle",
+        "background_mode": "neutral_lab",
+        "lighting_profile": "bright_front_fill",
+        "material_policy": "handle_highlight",
+        "camera_framing_profile": "tight_handle_centered",
+        "emit_orientation_telemetry": true,
+        "emit_camera_metadata": true,
+        "emit_handle_probe_metadata": true,
+        "canonical_lane": true
+      },
+      "interventions": {
+        "rotation_source": "aligned",
+        "profile_id": "visual_reformulation_v1_plus_bundle"
+      },
+      "dataset_config": {
+        "unique_data_budget": null,
+        "success_repeat": 1,
+        "train_seed_pool": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "heldout_seed_pool": [
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "max_steps": 96
+      },
+      "train_config": {
+        "train_steps": 0,
+        "batch_size": 0,
+        "top_k": 0,
+        "tiny_retrain": false,
+        "full_retrain": false
+      },
+      "claim_policy": "canonical",
+      "diagnostic_only": false,
+      "strongest_negative_capped": true,
+      "resource_budget_snapshot": {
+        "policy": {
+          "AUTO_PROMOTE_SOVEREIGN": false,
+          "ALLOW_FULL_RETRAIN": false,
+          "ALLOW_NEW_CLAIM": false,
+          "RUN_MODE": "autonomous_cycle_phase",
+          "EXPERIMENT_FAMILY": "VR",
+          "CAP_STRONGEST_NEGATIVE": true,
+          "RESUME": false
+        },
+        "limits": {
+          "max_rollouts_per_experiment": 3,
+          "max_disk_growth_mb": 4096,
+          "retry_backoff_seconds": 5,
+          "max_retries": 2,
+          "max_cycles_per_run": 4,
+          "max_tiny_retrain_budget": 1
+        },
+        "disk_growth_mb": 0.003,
+        "completed_experiments": [
+          "VR0",
+          "VR1",
+          "VR2",
+          "VR3",
+          "VR4"
+        ]
+      },
+      "note": "Replicate strongest visual bundle on alternate seeds.",
+      "experiment_id": "VR5",
+      "coverage": {},
+      "cost": 1.0,
+      "lane_hash": "476d91ecc30e80ab"
+    },
+    "claim_policy": "canonical",
+    "diagnostic_only": false,
+    "secondary_camera_wrist_like": true,
+    "secondary_camera_residual_mean": 0.0,
+    "secondary_camera_residual_max": 0.0,
+    "marker_overlay_enabled": false,
+    "provenance_complete": true,
+    "target_stats": {
+      "sample_count": 24,
+      "mean_rgb": [
+        0.06868299841880798,
+        0.0555340014398098,
+        0.0425259992480278
+      ],
+      "std_rgb": [
+        0.18993599712848663,
+        0.15411999821662903,
+        0.120169997215271
+      ],
+      "brightness_mean": 0.05796030081954657,
+      "edge_density_mean": 0.008697509765625,
+      "entropy_mean": 0.8324058535216764
+    },
+    "gap": {
+      "brightness_gap": 0.407891,
+      "std_rgb_abs_gap": [
+        0.033544,
+        0.051608,
+        0.068052
+      ],
+      "edge_density_gap": 0.055212,
+      "entropy_gap": 6.089089
+    },
+    "weighted_visual_gap": 2.4679340000000005,
+    "visual_alignment_gain": 0.05175268556866275,
+    "render_profile": "visual_reformulation_v1_plus_bundle",
+    "background_mode": "neutral_lab",
+    "lighting_profile": "bright_front_fill",
+    "material_policy": "handle_highlight",
+    "camera_framing_profile": "tight_handle_centered",
+    "handle_visibility_fraction": 1.0,
+    "handle_local_contrast": 0.0,
+    "handle_crop_entropy": 0.0,
+    "framing_score": 0.6405228758169934,
+    "camera_relativeness_residual": 0.0,
+    "observation_contract_pass": true,
+    "visual_gate_breakdown": {
+      "baseline_weighted_visual_gap": 2.6026269333333336,
+      "lane_weighted_visual_gap": 2.4679340000000005,
+      "visual_alignment_gain": 0.05175268556866275,
+      "framing_score": 0.6405228758169934,
+      "handle_visibility_fraction": 1.0,
+      "handle_local_contrast": 0.0,
+      "handle_crop_entropy": 0.0,
+      "camera_relativeness_residual": 0.0,
+      "encoder_readability_pass": null,
+      "perceptual_readability_score": 0.39104274655556437
+    }
+  }
+}

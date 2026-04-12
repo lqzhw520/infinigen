@@ -103,9 +103,14 @@ def _rollout_provenance(meta: dict[str, Any], n_frames: int) -> dict[str, Any]:
         "contract_config": contract_config,
         "state_mode": state_spec.get("state_mode", contract_config.get("state_mode", "unknown")),
         "state_spec": state_spec,
+        "diagnostic_only": bool(visual_mode_report.get("diagnostic_only", False)),
         "calibration_mode": visual_mode_report.get("calibration_mode", contract_config.get("calibration_mode", "unknown")),
         "secondary_camera_mode": visual_mode_report.get("secondary_camera_mode", contract_config.get("secondary_camera_mode", "unknown")),
         "render_profile": visual_mode_report.get("render_profile", contract_config.get("render_profile", "legacy_surface")),
+        "background_mode": visual_mode_report.get("background_mode", contract_config.get("background_mode", "unknown")),
+        "lighting_profile": visual_mode_report.get("lighting_profile", contract_config.get("lighting_profile", "unknown")),
+        "material_policy": visual_mode_report.get("material_policy", contract_config.get("material_policy", "unknown")),
+        "camera_framing_profile": visual_mode_report.get("camera_framing_profile", contract_config.get("camera_framing_profile", "unknown")),
         "resource_budget_snapshot": meta.get("resource_budget_snapshot", {}),
         "visual_mode_report": visual_mode_report,
     }
@@ -169,6 +174,10 @@ def build_dataset_from_rollouts(
     claim_policies: set[str] = set()
     state_modes: set[str] = set()
     render_profiles: set[str] = set()
+    background_modes: set[str] = set()
+    lighting_profiles: set[str] = set()
+    material_policies: set[str] = set()
+    camera_framing_profiles: set[str] = set()
     success_repeats: set[int] = set()
 
     for npz_path in rollout_paths:
@@ -186,6 +195,10 @@ def build_dataset_from_rollouts(
         claim_policies.add(str(provenance["claim_policy"]))
         state_modes.add(str(provenance["state_mode"]))
         render_profiles.add(str(provenance.get("render_profile", "legacy_surface")))
+        background_modes.add(str(provenance.get("background_mode", "unknown")))
+        lighting_profiles.add(str(provenance.get("lighting_profile", "unknown")))
+        material_policies.add(str(provenance.get("material_policy", "unknown")))
+        camera_framing_profiles.add(str(provenance.get("camera_framing_profile", "unknown")))
         success_repeats.add(int(provenance["success_repeat"]))
 
         for idx in range(n_frames):
@@ -230,6 +243,10 @@ def build_dataset_from_rollouts(
         "claim_policies": sorted(claim_policies),
         "state_modes": sorted(state_modes),
         "render_profiles": sorted(render_profiles),
+        "background_modes": sorted(background_modes),
+        "lighting_profiles": sorted(lighting_profiles),
+        "material_policies": sorted(material_policies),
+        "camera_framing_profiles": sorted(camera_framing_profiles),
         "success_repeat_values": sorted(success_repeats),
         "records": provenance_records,
     }
@@ -255,6 +272,10 @@ def build_dataset_from_rollouts(
         "claim_policies": sorted(claim_policies),
         "state_modes": sorted(state_modes),
         "render_profiles": sorted(render_profiles),
+        "background_modes": sorted(background_modes),
+        "lighting_profiles": sorted(lighting_profiles),
+        "material_policies": sorted(material_policies),
+        "camera_framing_profiles": sorted(camera_framing_profiles),
         "success_repeat_values": sorted(success_repeats),
         "provenance_path": str(provenance_path),
     }

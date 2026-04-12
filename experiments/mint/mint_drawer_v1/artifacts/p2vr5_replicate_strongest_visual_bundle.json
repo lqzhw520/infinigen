@@ -1,8 +1,8 @@
 {
   "experiment_id": "VR5",
-  "generated_at": "2026-04-12T11:55:08+08:00",
+  "generated_at": "2026-04-12T13:07:37+08:00",
   "passed": true,
-  "best_profile_id": "visual_reformulation_v1_plus_bundle",
+  "best_profile_id": "visual_reformulation_v2_plus_bundle",
   "alternate_seed_slice": [
     4,
     5,
@@ -37,7 +37,7 @@
   },
   "visual_report": {
     "lane": {
-      "lane_id": "VR5_visual_reformulation_v1_plus_bundle_alt",
+      "lane_id": "VR5_visual_reformulation_v2_plus_bundle_alt",
       "lane_family": "VR",
       "stage": "probe",
       "env_contract_config": {
@@ -46,8 +46,8 @@
         "calibration_mode": "none",
         "interaction_mode": "orientation_sensitive_v1",
         "state_mode": "telemetry_candidate_v2",
-        "render_profile": "visual_reformulation_v1_plus_bundle",
-        "background_mode": "neutral_lab",
+        "render_profile": "visual_reformulation_v2_plus_bundle",
+        "background_mode": "high_contrast_lab",
         "lighting_profile": "bright_front_fill",
         "material_policy": "handle_highlight",
         "camera_framing_profile": "tight_handle_centered",
@@ -58,7 +58,7 @@
       },
       "interventions": {
         "rotation_source": "aligned",
-        "profile_id": "visual_reformulation_v1_plus_bundle"
+        "profile_id": "visual_reformulation_v2_plus_bundle"
       },
       "dataset_config": {
         "unique_data_budget": null,
@@ -110,7 +110,7 @@
           "max_cycles_per_run": 4,
           "max_tiny_retrain_budget": 1
         },
-        "disk_growth_mb": 0.003,
+        "disk_growth_mb": 0.004,
         "completed_experiments": [
           "VR0",
           "VR1",
@@ -123,7 +123,7 @@
       "experiment_id": "VR5",
       "coverage": {},
       "cost": 1.0,
-      "lane_hash": "476d91ecc30e80ab"
+      "lane_hash": "eb0cb5868d4a6d14"
     },
     "claim_policy": "canonical",
     "diagnostic_only": false,
@@ -135,33 +135,33 @@
     "target_stats": {
       "sample_count": 24,
       "mean_rgb": [
-        0.06868299841880798,
-        0.0555340014398098,
-        0.0425259992480278
+        0.0749489963054657,
+        0.05965600162744522,
+        0.041057001799345016
       ],
       "std_rgb": [
-        0.18993599712848663,
-        0.15411999821662903,
-        0.120169997215271
+        0.2018360048532486,
+        0.15891599655151367,
+        0.11410699784755707
       ],
-      "brightness_mean": 0.05796030081954657,
-      "edge_density_mean": 0.008697509765625,
-      "entropy_mean": 0.8324058535216764
+      "brightness_mean": 0.062086516735600485,
+      "edge_density_mean": 0.008148193359375,
+      "entropy_mean": 0.8770471229716166
     },
     "gap": {
-      "brightness_gap": 0.407891,
+      "brightness_gap": 0.403765,
       "std_rgb_abs_gap": [
-        0.033544,
-        0.051608,
-        0.068052
+        0.021644,
+        0.046812,
+        0.074115
       ],
-      "edge_density_gap": 0.055212,
-      "entropy_gap": 6.089089
+      "edge_density_gap": 0.055761,
+      "entropy_gap": 6.044448
     },
-    "weighted_visual_gap": 2.4679340000000005,
-    "visual_alignment_gain": 0.05175268556866275,
-    "render_profile": "visual_reformulation_v1_plus_bundle",
-    "background_mode": "neutral_lab",
+    "weighted_visual_gap": 2.4495883333333333,
+    "visual_alignment_gain": 0.058801589286557876,
+    "render_profile": "visual_reformulation_v2_plus_bundle",
+    "background_mode": "high_contrast_lab",
     "lighting_profile": "bright_front_fill",
     "material_policy": "handle_highlight",
     "camera_framing_profile": "tight_handle_centered",
@@ -173,15 +173,16 @@
     "observation_contract_pass": true,
     "visual_gate_breakdown": {
       "baseline_weighted_visual_gap": 2.6026269333333336,
-      "lane_weighted_visual_gap": 2.4679340000000005,
-      "visual_alignment_gain": 0.05175268556866275,
+      "lane_weighted_visual_gap": 2.4495883333333333,
+      "visual_alignment_gain": 0.058801589286557876,
       "framing_score": 0.6405228758169934,
       "handle_visibility_fraction": 1.0,
       "handle_local_contrast": 0.0,
       "handle_crop_entropy": 0.0,
+      "handle_readability_score": 0.42810457516339867,
+      "perceptual_readability_score_v2": 0.2619182315188203,
       "camera_relativeness_residual": 0.0,
-      "encoder_readability_pass": null,
-      "perceptual_readability_score": 0.39104274655556437
+      "encoder_readability_pass": null
     }
   }
 }

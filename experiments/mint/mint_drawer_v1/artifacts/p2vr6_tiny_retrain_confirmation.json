@@ -1,6 +1,6 @@
 {
   "experiment_id": "VR6",
-  "generated_at": "2026-04-12T11:55:08+08:00",
+  "generated_at": "2026-04-12T13:07:38+08:00",
   "passed": false,
   "blocked": true,
   "blocked_reasons": [
@@ -85,15 +85,18 @@
     "G4b_perceptual_readability": {
       "gate_id": "G4b_perceptual_readability",
       "passed": false,
-      "summary": "Perceptual readability requires materially improved visual gap, good framing, sufficient handle visibility, and enough local contrast.",
+      "summary": "Perceptual readability requires materially improved visual gap, strong handle readability, good framing, sufficient visibility, and enough local contrast.",
       "blocking": true,
       "details": {
-        "visual_alignment_gain": 0.0730674576896716,
-        "weighted_visual_gap": 2.4124596000000005,
+        "visual_alignment_gain": 0.07815644419161738,
+        "weighted_visual_gap": 2.3992148666666666,
         "baseline_weighted_visual_gap": 2.6026269333333336,
         "framing_score": 0.5887132352941176,
         "handle_visibility_fraction": 1.0,
         "handle_local_contrast": 0.0,
+        "handle_crop_entropy": 0.0,
+        "handle_readability_score": 0.4177426470588235,
+        "perceptual_readability_score_v2": 0.2649288557685808,
         "contrast_threshold": 0.08,
         "encoder_readability_pass": null
       }
@@ -106,17 +109,17 @@
       "details": {
         "rollout_ceiling_lift": -0.09180285773570283,
         "state_alignment_gain": 0.17297692286648592,
-        "sensor_perception_gain": 0.35292047683205197,
+        "sensor_perception_gain": 0.3539382741324411,
         "canonical_lane": true
       }
     },
-    "gate_validity_score": 0.8333333333333334,
+    "contract_validity_score_v2": 0.8333333134651184,
     "route_decision_preview": {
       "scientific_terminal_state": "MINIMAL_REPAIR_INSUFFICIENT",
       "route_next_branch": "environment_reformulation",
-      "why": "Stronger visual family improved perception quality but still did not produce a train-eligible canonical lane.",
-      "strongest_negative_capped": false,
-      "cap_active": false,
+      "why": "Strongest-negative cap remains active for this cycle; stronger visual/perception reformulation still did not produce a train-eligible canonical lane.",
+      "strongest_negative_capped": true,
+      "cap_active": true,
       "h0_posterior": 0.26521459333494296,
       "h6_posterior": 0.610798685966569
     }

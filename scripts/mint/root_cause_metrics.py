@@ -10,6 +10,8 @@ import numpy as np
 
 
 CONTRAST_THRESHOLD = 0.08
+HANDLE_ENTROPY_REFERENCE = 4.0
+PERCEPTUAL_READABILITY_THRESHOLD = 0.55
 
 
 def _to_uint8(rgb: np.ndarray) -> np.ndarray:
@@ -146,6 +148,39 @@ def handle_crop_entropy(metadata_trace: list[dict[str, Any]] | dict[str, Any], k
     return float(np.mean(values)) if values else 0.0
 
 
+def handle_readability_score(
+    *,
+    visibility_fraction: float,
+    local_contrast: float,
+    crop_entropy: float,
+    framing_score: float,
+) -> float:
+    visibility_term = float(np.clip(visibility_fraction, 0.0, 1.0))
+    contrast_term = float(np.clip(local_contrast / max(CONTRAST_THRESHOLD, 1e-6), 0.0, 1.0))
+    entropy_term = float(np.clip(crop_entropy / max(HANDLE_ENTROPY_REFERENCE, 1e-6), 0.0, 1.0))
+    framing_term = float(np.clip(framing_score, 0.0, 1.0))
+    return float(
+        0.30 * visibility_term
+        + 0.30 * contrast_term
+        + 0.20 * entropy_term
+        + 0.20 * framing_term
+    )
+
+
+def perceptual_readability_score_v2(
+    *,
+    visual_alignment_gain_value: float,
+    handle_readability_score_value: float,
+    encoder_readability_pass: bool | None = None,
+) -> float:
+    score = 0.45 * float(max(visual_alignment_gain_value, 0.0)) + 0.55 * float(np.clip(handle_readability_score_value, 0.0, 1.0))
+    if encoder_readability_pass is False:
+        score *= 0.9
+    elif encoder_readability_pass is True:
+        score = min(1.0, score + 0.05)
+    return float(score)
+
+
 def perceptual_readability_score(
     *,
     visual_alignment_gain_value: float,
@@ -155,18 +190,17 @@ def perceptual_readability_score(
     crop_entropy: float,
     encoder_readability_pass: bool | None = None,
 ) -> float:
-    score = (
-        0.25 * float(max(visual_alignment_gain_value, 0.0))
-        + 0.20 * float(np.clip(framing_score, 0.0, 1.0))
-        + 0.25 * float(np.clip(visibility_fraction, 0.0, 1.0))
-        + 0.20 * float(np.clip(local_contrast / max(CONTRAST_THRESHOLD, 1e-6), 0.0, 1.0))
-        + 0.10 * float(np.clip(crop_entropy / 4.0, 0.0, 1.0))
+    handle_score = handle_readability_score(
+        visibility_fraction=visibility_fraction,
+        local_contrast=local_contrast,
+        crop_entropy=crop_entropy,
+        framing_score=framing_score,
     )
-    if encoder_readability_pass is False:
-        score *= 0.9
-    if encoder_readability_pass is True:
-        score = min(1.0, score + 0.05)
-    return float(score)
+    return perceptual_readability_score_v2(
+        visual_alignment_gain_value=visual_alignment_gain_value,
+        handle_readability_score_value=handle_score,
+        encoder_readability_pass=encoder_readability_pass,
+    )
 
 
 def visual_gate_breakdown(
@@ -181,6 +215,17 @@ def visual_gate_breakdown(
     camera_relativeness_residual: float | None,
     encoder_readability_pass: bool | None = None,
 ) -> dict[str, Any]:
+    handle_score = handle_readability_score(
+        visibility_fraction=visibility_fraction,
+        local_contrast=local_contrast,
+        crop_entropy=crop_entropy,
+        framing_score=framing_score,
+    )
+    readability_score = perceptual_readability_score_v2(
+        visual_alignment_gain_value=visual_alignment_gain_value,
+        handle_readability_score_value=handle_score,
+        encoder_readability_pass=encoder_readability_pass,
+    )
     return {
         "baseline_weighted_visual_gap": float(baseline_weighted_visual_gap),
         "lane_weighted_visual_gap": float(lane_weighted_visual_gap),
@@ -189,16 +234,10 @@ def visual_gate_breakdown(
         "handle_visibility_fraction": float(visibility_fraction),
         "handle_local_contrast": float(local_contrast),
         "handle_crop_entropy": float(crop_entropy),
+        "handle_readability_score": float(handle_score),
+        "perceptual_readability_score_v2": float(readability_score),
         "camera_relativeness_residual": None if camera_relativeness_residual is None else float(camera_relativeness_residual),
         "encoder_readability_pass": encoder_readability_pass,
-        "perceptual_readability_score": perceptual_readability_score(
-            visual_alignment_gain_value=visual_alignment_gain_value,
-            framing_score=framing_score,
-            visibility_fraction=visibility_fraction,
-            local_contrast=local_contrast,
-            crop_entropy=crop_entropy,
-            encoder_readability_pass=encoder_readability_pass,
-        ),
     }
 
 
@@ -260,6 +299,18 @@ def contract_validity_score(*passes: bool) -> float:
     if not passes:
         return 0.0
     return float(np.mean(np.asarray([1.0 if x else 0.0 for x in passes], dtype=np.float32)))
+
+
+def contract_validity_score_v2(
+    *,
+    g0: bool,
+    g1: bool,
+    g2: bool,
+    g3: bool,
+    g4a: bool,
+    g4b: bool,
+) -> float:
+    return contract_validity_score(g0, g1, g2, g3, g4a, g4b)
 
 
 def observation_contract_pass(lane_report: dict[str, Any]) -> bool:

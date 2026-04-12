@@ -1,6 +1,6 @@
 {
   "experiment_id": "VR4",
-  "generated_at": "2026-04-12T11:55:03+08:00",
+  "generated_at": "2026-04-12T13:07:32+08:00",
   "passed": true,
   "profiles": [
     {
@@ -79,7 +79,7 @@
             "max_cycles_per_run": 4,
             "max_tiny_retrain_budget": 1
           },
-          "disk_growth_mb": 0.003,
+          "disk_growth_mb": 0.004,
           "completed_experiments": [
             "VR0",
             "VR1",
@@ -91,7 +91,7 @@
         "experiment_id": "VR4",
         "coverage": {},
         "cost": 1.0,
-        "lane_hash": "011496006d568249"
+        "lane_hash": "11df5164ad448fb9"
       },
       "rollout_summary": {
         "rollout_count": 3,
@@ -185,7 +185,7 @@
               "max_cycles_per_run": 4,
               "max_tiny_retrain_budget": 1
             },
-            "disk_growth_mb": 0.003,
+            "disk_growth_mb": 0.004,
             "completed_experiments": [
               "VR0",
               "VR1",
@@ -197,7 +197,7 @@
           "experiment_id": "VR4",
           "coverage": {},
           "cost": 1.0,
-          "lane_hash": "011496006d568249"
+          "lane_hash": "11df5164ad448fb9"
         },
         "state_spec": {
           "state_mode": "m0_proxy",
@@ -340,7 +340,7 @@
               "max_cycles_per_run": 4,
               "max_tiny_retrain_budget": 1
             },
-            "disk_growth_mb": 0.003,
+            "disk_growth_mb": 0.004,
             "completed_experiments": [
               "VR0",
               "VR1",
@@ -352,7 +352,7 @@
           "experiment_id": "VR4",
           "coverage": {},
           "cost": 1.0,
-          "lane_hash": "011496006d568249"
+          "lane_hash": "11df5164ad448fb9"
         },
         "claim_policy": "diagnostic",
         "diagnostic_only": true,
@@ -408,9 +408,10 @@
           "handle_visibility_fraction": 1.0,
           "handle_local_contrast": 0.061153473431442285,
           "handle_crop_entropy": 1.0041829615322133,
+          "handle_readability_score": 0.6927799163692754,
+          "perceptual_readability_score_v2": 0.381768168669391,
           "camera_relativeness_residual": 1.0698586532047816,
-          "encoder_readability_pass": null,
-          "perceptual_readability_score": 0.5416441753562724
+          "encoder_readability_pass": null
         }
       },
       "sensor_contract_gain": {
@@ -434,7 +435,7 @@
           "calibration_mode": "none",
           "interaction_mode": "orientation_sensitive_v1",
           "state_mode": "telemetry_candidate_v1",
-          "render_profile": "visual_reformulation_v0",
+          "render_profile": "visual_reformulation_v1_raw_canonical",
           "background_mode": "legacy_scene",
           "lighting_profile": "legacy",
           "material_policy": "legacy",
@@ -498,7 +499,7 @@
             "max_cycles_per_run": 4,
             "max_tiny_retrain_budget": 1
           },
-          "disk_growth_mb": 0.003,
+          "disk_growth_mb": 0.004,
           "completed_experiments": [
             "VR0",
             "VR1",
@@ -510,7 +511,7 @@
         "experiment_id": "VR4",
         "coverage": {},
         "cost": 1.0,
-        "lane_hash": "535c2ac011c73382"
+        "lane_hash": "44649976d97e8ada"
       },
       "rollout_summary": {
         "rollout_count": 3,
@@ -540,7 +541,7 @@
             "calibration_mode": "none",
             "interaction_mode": "orientation_sensitive_v1",
             "state_mode": "telemetry_candidate_v1",
-            "render_profile": "visual_reformulation_v0",
+            "render_profile": "visual_reformulation_v1_raw_canonical",
             "background_mode": "legacy_scene",
             "lighting_profile": "legacy",
             "material_policy": "legacy",
@@ -604,7 +605,7 @@
               "max_cycles_per_run": 4,
               "max_tiny_retrain_budget": 1
             },
-            "disk_growth_mb": 0.003,
+            "disk_growth_mb": 0.004,
             "completed_experiments": [
               "VR0",
               "VR1",
@@ -616,7 +617,7 @@
           "experiment_id": "VR4",
           "coverage": {},
           "cost": 1.0,
-          "lane_hash": "535c2ac011c73382"
+          "lane_hash": "44649976d97e8ada"
         },
         "state_spec": {
           "state_mode": "telemetry_candidate_v1",
@@ -695,7 +696,7 @@
             "calibration_mode": "none",
             "interaction_mode": "orientation_sensitive_v1",
             "state_mode": "telemetry_candidate_v1",
-            "render_profile": "visual_reformulation_v0",
+            "render_profile": "visual_reformulation_v1_raw_canonical",
             "background_mode": "legacy_scene",
             "lighting_profile": "legacy",
             "material_policy": "legacy",
@@ -759,7 +760,7 @@
               "max_cycles_per_run": 4,
               "max_tiny_retrain_budget": 1
             },
-            "disk_growth_mb": 0.003,
+            "disk_growth_mb": 0.004,
             "completed_experiments": [
               "VR0",
               "VR1",
@@ -771,7 +772,7 @@
           "experiment_id": "VR4",
           "coverage": {},
           "cost": 1.0,
-          "lane_hash": "535c2ac011c73382"
+          "lane_hash": "44649976d97e8ada"
         },
         "claim_policy": "canonical",
         "diagnostic_only": false,
@@ -808,7 +809,7 @@
         },
         "weighted_visual_gap": 2.5779700000000005,
         "visual_alignment_gain": 0.0094738638940286,
-        "render_profile": "visual_reformulation_v0",
+        "render_profile": "visual_reformulation_v1_raw_canonical",
         "background_mode": "legacy_scene",
         "lighting_profile": "legacy",
         "material_policy": "legacy",
@@ -827,9 +828,10 @@
           "handle_visibility_fraction": 1.0,
           "handle_local_contrast": 0.07704114483429442,
           "handle_crop_entropy": 1.3422370215702735,
+          "handle_readability_score": 0.7737587912659413,
+          "perceptual_readability_score_v2": 0.4298305739485806,
           "camera_relativeness_residual": 0.0,
-          "encoder_readability_pass": null,
-          "perceptual_readability_score": 0.5962699006573235
+          "encoder_readability_pass": null
         }
       },
       "sensor_contract_gain": {
@@ -840,425 +842,6 @@
         "framing_gain": 0.5887132352941176
       },
       "combined_score": 0.09966563640154578
-    },
-    {
-      "profile_id": "reformulation_v0",
-      "lane": {
-        "lane_id": "VR4_reformulation_v0",
-        "lane_family": "VR",
-        "stage": "probe",
-        "env_contract_config": {
-          "secondary_camera_mode": "wrist_dynamic",
-          "enable_marker_overlay": false,
-          "calibration_mode": "none",
-          "interaction_mode": "orientation_sensitive_v1",
-          "state_mode": "telemetry_candidate_v2",
-          "render_profile": "visual_reformulation_v0",
-          "background_mode": "legacy_scene",
-          "lighting_profile": "legacy",
-          "material_policy": "legacy",
-          "camera_framing_profile": "tight_handle_centered",
-          "emit_orientation_telemetry": true,
-          "emit_camera_metadata": true,
-          "emit_handle_probe_metadata": true,
-          "canonical_lane": true
-        },
-        "interventions": {
-          "rotation_source": "aligned",
-          "profile_id": "reformulation_v0"
-        },
-        "dataset_config": {
-          "unique_data_budget": null,
-          "success_repeat": 1,
-          "train_seed_pool": [
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8
-          ],
-          "heldout_seed_pool": [
-            11,
-            12,
-            13,
-            14,
-            15
-          ],
-          "max_steps": 96
-        },
-        "train_config": {
-          "train_steps": 0,
-          "batch_size": 0,
-          "top_k": 0,
-          "tiny_retrain": false,
-          "full_retrain": false
-        },
-        "claim_policy": "canonical",
-        "diagnostic_only": false,
-        "strongest_negative_capped": true,
-        "resource_budget_snapshot": {
-          "policy": {
-            "AUTO_PROMOTE_SOVEREIGN": false,
-            "ALLOW_FULL_RETRAIN": false,
-            "ALLOW_NEW_CLAIM": false,
-            "RUN_MODE": "autonomous_cycle_phase",
-            "EXPERIMENT_FAMILY": "VR",
-            "CAP_STRONGEST_NEGATIVE": true,
-            "RESUME": false
-          },
-          "limits": {
-            "max_rollouts_per_experiment": 3,
-            "max_disk_growth_mb": 4096,
-            "retry_backoff_seconds": 5,
-            "max_retries": 2,
-            "max_cycles_per_run": 4,
-            "max_tiny_retrain_budget": 1
-          },
-          "disk_growth_mb": 0.003,
-          "completed_experiments": [
-            "VR0",
-            "VR1",
-            "VR2",
-            "VR3"
-          ]
-        },
-        "note": "VR4 bundle comparison profile.",
-        "experiment_id": "VR4",
-        "coverage": {},
-        "cost": 1.0,
-        "lane_hash": "aaadab7d0778cff7"
-      },
-      "rollout_summary": {
-        "rollout_count": 3,
-        "unique_success_rate": 0.0,
-        "attach_rate": 0.6666666666666666,
-        "mean_max_drawer_fraction": 0.2235214653717981,
-        "avg_episode_length": 96.0,
-        "success_count": 0,
-        "orientation_causal_sensitivity": 0.0004124960396438837
-      },
-      "rollout_ceiling_lift": {
-        "score": -0.09180285773570283,
-        "delta_unique_success_rate": -0.3333333333333333,
-        "delta_attach_rate": 0.0,
-        "delta_mean_max_drawer_fraction": -0.2730536975455091,
-        "delta_avg_episode_length_ratio": 0.4187192118226599,
-        "delta_orientation_causal_sensitivity": 0.0
-      },
-      "state_report": {
-        "lane": {
-          "lane_id": "VR4_reformulation_v0",
-          "lane_family": "VR",
-          "stage": "probe",
-          "env_contract_config": {
-            "secondary_camera_mode": "wrist_dynamic",
-            "enable_marker_overlay": false,
-            "calibration_mode": "none",
-            "interaction_mode": "orientation_sensitive_v1",
-            "state_mode": "telemetry_candidate_v2",
-            "render_profile": "visual_reformulation_v0",
-            "background_mode": "legacy_scene",
-            "lighting_profile": "legacy",
-            "material_policy": "legacy",
-            "camera_framing_profile": "tight_handle_centered",
-            "emit_orientation_telemetry": true,
-            "emit_camera_metadata": true,
-            "emit_handle_probe_metadata": true,
-            "canonical_lane": true
-          },
-          "interventions": {
-            "rotation_source": "aligned",
-            "profile_id": "reformulation_v0"
-          },
-          "dataset_config": {
-            "unique_data_budget": null,
-            "success_repeat": 1,
-            "train_seed_pool": [
-              1,
-              2,
-              3,
-              4,
-              5,
-              6,
-              7,
-              8
-            ],
-            "heldout_seed_pool": [
-              11,
-              12,
-              13,
-              14,
-              15
-            ],
-            "max_steps": 96
-          },
-          "train_config": {
-            "train_steps": 0,
-            "batch_size": 0,
-            "top_k": 0,
-            "tiny_retrain": false,
-            "full_retrain": false
-          },
-          "claim_policy": "canonical",
-          "diagnostic_only": false,
-          "strongest_negative_capped": true,
-          "resource_budget_snapshot": {
-            "policy": {
-              "AUTO_PROMOTE_SOVEREIGN": false,
-              "ALLOW_FULL_RETRAIN": false,
-              "ALLOW_NEW_CLAIM": false,
-              "RUN_MODE": "autonomous_cycle_phase",
-              "EXPERIMENT_FAMILY": "VR",
-              "CAP_STRONGEST_NEGATIVE": true,
-              "RESUME": false
-            },
-            "limits": {
-              "max_rollouts_per_experiment": 3,
-              "max_disk_growth_mb": 4096,
-              "retry_backoff_seconds": 5,
-              "max_retries": 2,
-              "max_cycles_per_run": 4,
-              "max_tiny_retrain_budget": 1
-            },
-            "disk_growth_mb": 0.003,
-            "completed_experiments": [
-              "VR0",
-              "VR1",
-              "VR2",
-              "VR3"
-            ]
-          },
-          "note": "VR4 bundle comparison profile.",
-          "experiment_id": "VR4",
-          "coverage": {},
-          "cost": 1.0,
-          "lane_hash": "aaadab7d0778cff7"
-        },
-        "state_spec": {
-          "state_mode": "telemetry_candidate_v2",
-          "shape": [
-            8
-          ],
-          "dim_names": [
-            "eef_pos_x_m",
-            "eef_pos_y_m",
-            "eef_pos_z_m",
-            "eef_rotvec_x",
-            "eef_rotvec_y",
-            "eef_rotvec_z",
-            "handle_distance_norm",
-            "drawer_fraction_signed"
-          ],
-          "provenance": [
-            "observed",
-            "observed",
-            "observed",
-            "derived",
-            "derived",
-            "derived",
-            "derived",
-            "derived"
-          ],
-          "duplicate_dims": [],
-          "fraud_padding": false,
-          "all_dims_explained": true
-        },
-        "overall_score": 0.5312923955179698,
-        "per_dim_wasserstein": [
-          0.06518671920514836,
-          0.19030447934867198,
-          0.943660447353344,
-          0.7314230570318707,
-          1.7412206232461538,
-          0.8828833492111896,
-          0.16402891533415515,
-          0.5645473010829454
-        ],
-        "per_dim_range_overlap": [
-          0.1039474222476636,
-          0.6042952139249026,
-          0.0,
-          0.013064005494143337,
-          0.30766135420400575,
-          0.3825607476127903,
-          0.0,
-          0.0
-        ],
-        "per_dim_smoothness_gap": [
-          0.0031036315485835075,
-          0.018812354654073715,
-          0.0011993832886219025,
-          0.031503692269325256,
-          0.4572407901287079,
-          0.011912304908037186,
-          0.06687045097351074,
-          0.06486055254936218
-        ],
-        "valid": true,
-        "fraud_padding": false,
-        "all_dims_explained": true,
-        "state_mode": "telemetry_candidate_v2"
-      },
-      "state_alignment_gain": 0.17297692286648592,
-      "visual_report": {
-        "lane": {
-          "lane_id": "VR4_reformulation_v0",
-          "lane_family": "VR",
-          "stage": "probe",
-          "env_contract_config": {
-            "secondary_camera_mode": "wrist_dynamic",
-            "enable_marker_overlay": false,
-            "calibration_mode": "none",
-            "interaction_mode": "orientation_sensitive_v1",
-            "state_mode": "telemetry_candidate_v2",
-            "render_profile": "visual_reformulation_v0",
-            "background_mode": "legacy_scene",
-            "lighting_profile": "legacy",
-            "material_policy": "legacy",
-            "camera_framing_profile": "tight_handle_centered",
-            "emit_orientation_telemetry": true,
-            "emit_camera_metadata": true,
-            "emit_handle_probe_metadata": true,
-            "canonical_lane": true
-          },
-          "interventions": {
-            "rotation_source": "aligned",
-            "profile_id": "reformulation_v0"
-          },
-          "dataset_config": {
-            "unique_data_budget": null,
-            "success_repeat": 1,
-            "train_seed_pool": [
-              1,
-              2,
-              3,
-              4,
-              5,
-              6,
-              7,
-              8
-            ],
-            "heldout_seed_pool": [
-              11,
-              12,
-              13,
-              14,
-              15
-            ],
-            "max_steps": 96
-          },
-          "train_config": {
-            "train_steps": 0,
-            "batch_size": 0,
-            "top_k": 0,
-            "tiny_retrain": false,
-            "full_retrain": false
-          },
-          "claim_policy": "canonical",
-          "diagnostic_only": false,
-          "strongest_negative_capped": true,
-          "resource_budget_snapshot": {
-            "policy": {
-              "AUTO_PROMOTE_SOVEREIGN": false,
-              "ALLOW_FULL_RETRAIN": false,
-              "ALLOW_NEW_CLAIM": false,
-              "RUN_MODE": "autonomous_cycle_phase",
-              "EXPERIMENT_FAMILY": "VR",
-              "CAP_STRONGEST_NEGATIVE": true,
-              "RESUME": false
-            },
-            "limits": {
-              "max_rollouts_per_experiment": 3,
-              "max_disk_growth_mb": 4096,
-              "retry_backoff_seconds": 5,
-              "max_retries": 2,
-              "max_cycles_per_run": 4,
-              "max_tiny_retrain_budget": 1
-            },
-            "disk_growth_mb": 0.003,
-            "completed_experiments": [
-              "VR0",
-              "VR1",
-              "VR2",
-              "VR3"
-            ]
-          },
-          "note": "VR4 bundle comparison profile.",
-          "experiment_id": "VR4",
-          "coverage": {},
-          "cost": 1.0,
-          "lane_hash": "aaadab7d0778cff7"
-        },
-        "claim_policy": "canonical",
-        "diagnostic_only": false,
-        "secondary_camera_wrist_like": true,
-        "secondary_camera_residual_mean": 0.0,
-        "secondary_camera_residual_max": 0.0,
-        "marker_overlay_enabled": false,
-        "provenance_complete": true,
-        "target_stats": {
-          "sample_count": 24,
-          "mean_rgb": [
-            0.029343999922275543,
-            0.024598000571131706,
-            0.019571999087929726
-          ],
-          "std_rgb": [
-            0.07752399891614914,
-            0.06475500017404556,
-            0.05169900134205818
-          ],
-          "brightness_mean": 0.0254758498247932,
-          "edge_density_mean": 0.008292516072591146,
-          "entropy_mean": 0.9095806446181326
-        },
-        "gap": {
-          "brightness_gap": 0.440376,
-          "std_rgb_abs_gap": [
-            0.145956,
-            0.140973,
-            0.136523
-          ],
-          "edge_density_gap": 0.055617,
-          "entropy_gap": 6.011915
-        },
-        "weighted_visual_gap": 2.455242933333334,
-        "visual_alignment_gain": 0.056628938290143926,
-        "render_profile": "visual_reformulation_v0",
-        "background_mode": "legacy_scene",
-        "lighting_profile": "legacy",
-        "material_policy": "legacy",
-        "camera_framing_profile": "tight_handle_centered",
-        "handle_visibility_fraction": 1.0,
-        "handle_local_contrast": 0.0,
-        "handle_crop_entropy": 0.0,
-        "framing_score": 0.5887132352941176,
-        "camera_relativeness_residual": 0.0,
-        "observation_contract_pass": true,
-        "visual_gate_breakdown": {
-          "baseline_weighted_visual_gap": 2.6026269333333336,
-          "lane_weighted_visual_gap": 2.455242933333334,
-          "visual_alignment_gain": 0.056628938290143926,
-          "framing_score": 0.5887132352941176,
-          "handle_visibility_fraction": 1.0,
-          "handle_local_contrast": 0.0,
-          "handle_crop_entropy": 0.0,
-          "camera_relativeness_residual": 0.0,
-          "encoder_readability_pass": null,
-          "perceptual_readability_score": 0.3818998816313595
-        }
-      },
-      "sensor_contract_gain": {
-        "score": 0.3496327729521464,
-        "wrist_relativeness_gain": 0.0,
-        "no_overlay_gain": 1.0,
-        "visual_alignment_gain": 0.056628938290143926,
-        "framing_gain": 0.5887132352941176
-      },
-      "combined_score": 0.1306524239546581
     },
     {
       "profile_id": "visual_reformulation_v1_plus_bundle",
@@ -1336,7 +919,7 @@
             "max_cycles_per_run": 4,
             "max_tiny_retrain_budget": 1
           },
-          "disk_growth_mb": 0.003,
+          "disk_growth_mb": 0.004,
           "completed_experiments": [
             "VR0",
             "VR1",
@@ -1348,7 +931,7 @@
         "experiment_id": "VR4",
         "coverage": {},
         "cost": 1.0,
-        "lane_hash": "78c89c76a4dfd924"
+        "lane_hash": "293e5dc453b2ac84"
       },
       "rollout_summary": {
         "rollout_count": 3,
@@ -1442,7 +1025,7 @@
               "max_cycles_per_run": 4,
               "max_tiny_retrain_budget": 1
             },
-            "disk_growth_mb": 0.003,
+            "disk_growth_mb": 0.004,
             "completed_experiments": [
               "VR0",
               "VR1",
@@ -1454,7 +1037,7 @@
           "experiment_id": "VR4",
           "coverage": {},
           "cost": 1.0,
-          "lane_hash": "78c89c76a4dfd924"
+          "lane_hash": "293e5dc453b2ac84"
         },
         "state_spec": {
           "state_mode": "telemetry_candidate_v2",
@@ -1597,7 +1180,7 @@
               "max_cycles_per_run": 4,
               "max_tiny_retrain_budget": 1
             },
-            "disk_growth_mb": 0.003,
+            "disk_growth_mb": 0.004,
             "completed_experiments": [
               "VR0",
               "VR1",
@@ -1609,7 +1192,7 @@
           "experiment_id": "VR4",
           "coverage": {},
           "cost": 1.0,
-          "lane_hash": "78c89c76a4dfd924"
+          "lane_hash": "293e5dc453b2ac84"
         },
         "claim_policy": "canonical",
         "diagnostic_only": false,
@@ -1621,31 +1204,31 @@
         "target_stats": {
           "sample_count": 24,
           "mean_rgb": [
-            0.08628600090742111,
-            0.06836900115013123,
-            0.050926998257637024
+            0.08291999995708466,
+            0.06542199850082397,
+            0.04842400178313255
           ],
           "std_rgb": [
-            0.21229800581932068,
-            0.16917799413204193,
-            0.12987999618053436
+            0.20840099453926086,
+            0.16535499691963196,
+            0.1264140009880066
           ],
-          "brightness_mean": 0.07175864674686606,
-          "edge_density_mean": 0.010543187459309896,
-          "entropy_mean": 0.9613911155335565
+          "brightness_mean": 0.06874471427568422,
+          "edge_density_mean": 0.010246912638346354,
+          "entropy_mean": 0.941654379716122
         },
         "gap": {
-          "brightness_gap": 0.394093,
+          "brightness_gap": 0.397107,
           "std_rgb_abs_gap": [
-            0.011182,
-            0.03655,
-            0.058342
+            0.015079,
+            0.040373,
+            0.061808
           ],
-          "edge_density_gap": 0.053366,
-          "entropy_gap": 5.960104
+          "edge_density_gap": 0.053662,
+          "entropy_gap": 5.979841
         },
-        "weighted_visual_gap": 2.4124596000000005,
-        "visual_alignment_gain": 0.0730674576896716,
+        "weighted_visual_gap": 2.421218533333333,
+        "visual_alignment_gain": 0.06970203745938353,
         "render_profile": "visual_reformulation_v1_plus_bundle",
         "background_mode": "neutral_lab",
         "lighting_profile": "bright_front_fill",
@@ -1659,138 +1242,31 @@
         "observation_contract_pass": true,
         "visual_gate_breakdown": {
           "baseline_weighted_visual_gap": 2.6026269333333336,
-          "lane_weighted_visual_gap": 2.4124596000000005,
-          "visual_alignment_gain": 0.0730674576896716,
+          "lane_weighted_visual_gap": 2.421218533333333,
+          "visual_alignment_gain": 0.06970203745938353,
           "framing_score": 0.5887132352941176,
           "handle_visibility_fraction": 1.0,
           "handle_local_contrast": 0.0,
           "handle_crop_entropy": 0.0,
+          "handle_readability_score": 0.4177426470588235,
+          "perceptual_readability_score_v2": 0.26112437273907557,
           "camera_relativeness_residual": 0.0,
-          "encoder_readability_pass": null,
-          "perceptual_readability_score": 0.3860095114812414
+          "encoder_readability_pass": null
         }
       },
       "sensor_contract_gain": {
-        "score": 0.35292047683205197,
+        "score": 0.3522473927859943,
         "wrist_relativeness_gain": 0.0,
         "no_overlay_gain": 1.0,
-        "visual_alignment_gain": 0.0730674576896716,
+        "visual_alignment_gain": 0.06970203745938353,
         "framing_gain": 0.5887132352941176
       },
-      "combined_score": 0.13147434992463447
-    }
-  ],
-  "best_profile_id": "visual_reformulation_v1_plus_bundle",
-  "best_profile": {
-    "profile_id": "visual_reformulation_v1_plus_bundle",
-    "lane": {
-      "lane_id": "VR4_visual_reformulation_v1_plus_bundle",
-      "lane_family": "VR",
-      "stage": "probe",
-      "env_contract_config": {
-        "secondary_camera_mode": "wrist_dynamic",
-        "enable_marker_overlay": false,
-        "calibration_mode": "none",
-        "interaction_mode": "orientation_sensitive_v1",
-        "state_mode": "telemetry_candidate_v2",
-        "render_profile": "visual_reformulation_v1_plus_bundle",
-        "background_mode": "neutral_lab",
-        "lighting_profile": "bright_front_fill",
-        "material_policy": "handle_highlight",
-        "camera_framing_profile": "tight_handle_centered",
-        "emit_orientation_telemetry": true,
-        "emit_camera_metadata": true,
-        "emit_handle_probe_metadata": true,
-        "canonical_lane": true
-      },
-      "interventions": {
-        "rotation_source": "aligned",
-        "profile_id": "visual_reformulation_v1_plus_bundle"
-      },
-      "dataset_config": {
-        "unique_data_budget": null,
-        "success_repeat": 1,
-        "train_seed_pool": [
-          1,
-          2,
-          3,
-          4,
-          5,
-          6,
-          7,
-          8
-        ],
-        "heldout_seed_pool": [
-          11,
-          12,
-          13,
-          14,
-          15
-        ],
-        "max_steps": 96
-      },
-      "train_config": {
-        "train_steps": 0,
-        "batch_size": 0,
-        "top_k": 0,
-        "tiny_retrain": false,
-        "full_retrain": false
-      },
-      "claim_policy": "canonical",
-      "diagnostic_only": false,
-      "strongest_negative_capped": true,
-      "resource_budget_snapshot": {
-        "policy": {
-          "AUTO_PROMOTE_SOVEREIGN": false,
-          "ALLOW_FULL_RETRAIN": false,
-          "ALLOW_NEW_CLAIM": false,
-          "RUN_MODE": "autonomous_cycle_phase",
-          "EXPERIMENT_FAMILY": "VR",
-          "CAP_STRONGEST_NEGATIVE": true,
-          "RESUME": false
-        },
-        "limits": {
-          "max_rollouts_per_experiment": 3,
-          "max_disk_growth_mb": 4096,
-          "retry_backoff_seconds": 5,
-          "max_retries": 2,
-          "max_cycles_per_run": 4,
-          "max_tiny_retrain_budget": 1
-        },
-        "disk_growth_mb": 0.003,
-        "completed_experiments": [
-          "VR0",
-          "VR1",
-          "VR2",
-          "VR3"
-        ]
-      },
-      "note": "VR4 bundle comparison profile.",
-      "experiment_id": "VR4",
-      "coverage": {},
-      "cost": 1.0,
-      "lane_hash": "78c89c76a4dfd924"
+      "combined_score": 0.13130607891312007
     },
-    "rollout_summary": {
-      "rollout_count": 3,
-      "unique_success_rate": 0.0,
-      "attach_rate": 0.6666666666666666,
-      "mean_max_drawer_fraction": 0.2235214653717981,
-      "avg_episode_length": 96.0,
-      "success_count": 0,
-      "orientation_causal_sensitivity": 0.0004124960396438837
-    },
-    "rollout_ceiling_lift": {
-      "score": -0.09180285773570283,
-      "delta_unique_success_rate": -0.3333333333333333,
-      "delta_attach_rate": 0.0,
-      "delta_mean_max_drawer_fraction": -0.2730536975455091,
-      "delta_avg_episode_length_ratio": 0.4187192118226599,
-      "delta_orientation_causal_sensitivity": 0.0
-    },
-    "state_report": {
+    {
+      "profile_id": "visual_reformulation_v2_plus_bundle",
       "lane": {
-        "lane_id": "VR4_visual_reformulation_v1_plus_bundle",
+        "lane_id": "VR4_visual_reformulation_v2_plus_bundle",
         "lane_family": "VR",
         "stage": "probe",
         "env_contract_config": {
@@ -1799,8 +1275,8 @@
           "calibration_mode": "none",
           "interaction_mode": "orientation_sensitive_v1",
           "state_mode": "telemetry_candidate_v2",
-          "render_profile": "visual_reformulation_v1_plus_bundle",
-          "background_mode": "neutral_lab",
+          "render_profile": "visual_reformulation_v2_plus_bundle",
+          "background_mode": "high_contrast_lab",
           "lighting_profile": "bright_front_fill",
           "material_policy": "handle_highlight",
           "camera_framing_profile": "tight_handle_centered",
@@ -1811,7 +1287,7 @@
         },
         "interventions": {
           "rotation_source": "aligned",
-          "profile_id": "visual_reformulation_v1_plus_bundle"
+          "profile_id": "visual_reformulation_v2_plus_bundle"
         },
         "dataset_config": {
           "unique_data_budget": null,
@@ -1863,7 +1339,7 @@
             "max_cycles_per_run": 4,
             "max_tiny_retrain_budget": 1
           },
-          "disk_growth_mb": 0.003,
+          "disk_growth_mb": 0.004,
           "completed_experiments": [
             "VR0",
             "VR1",
@@ -1875,7 +1351,535 @@
         "experiment_id": "VR4",
         "coverage": {},
         "cost": 1.0,
-        "lane_hash": "78c89c76a4dfd924"
+        "lane_hash": "c9136c354db76c72"
+      },
+      "rollout_summary": {
+        "rollout_count": 3,
+        "unique_success_rate": 0.0,
+        "attach_rate": 0.6666666666666666,
+        "mean_max_drawer_fraction": 0.2235214653717981,
+        "avg_episode_length": 96.0,
+        "success_count": 0,
+        "orientation_causal_sensitivity": 0.0004124960396438837
+      },
+      "rollout_ceiling_lift": {
+        "score": -0.09180285773570283,
+        "delta_unique_success_rate": -0.3333333333333333,
+        "delta_attach_rate": 0.0,
+        "delta_mean_max_drawer_fraction": -0.2730536975455091,
+        "delta_avg_episode_length_ratio": 0.4187192118226599,
+        "delta_orientation_causal_sensitivity": 0.0
+      },
+      "state_report": {
+        "lane": {
+          "lane_id": "VR4_visual_reformulation_v2_plus_bundle",
+          "lane_family": "VR",
+          "stage": "probe",
+          "env_contract_config": {
+            "secondary_camera_mode": "wrist_dynamic",
+            "enable_marker_overlay": false,
+            "calibration_mode": "none",
+            "interaction_mode": "orientation_sensitive_v1",
+            "state_mode": "telemetry_candidate_v2",
+            "render_profile": "visual_reformulation_v2_plus_bundle",
+            "background_mode": "high_contrast_lab",
+            "lighting_profile": "bright_front_fill",
+            "material_policy": "handle_highlight",
+            "camera_framing_profile": "tight_handle_centered",
+            "emit_orientation_telemetry": true,
+            "emit_camera_metadata": true,
+            "emit_handle_probe_metadata": true,
+            "canonical_lane": true
+          },
+          "interventions": {
+            "rotation_source": "aligned",
+            "profile_id": "visual_reformulation_v2_plus_bundle"
+          },
+          "dataset_config": {
+            "unique_data_budget": null,
+            "success_repeat": 1,
+            "train_seed_pool": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "heldout_seed_pool": [
+              11,
+              12,
+              13,
+              14,
+              15
+            ],
+            "max_steps": 96
+          },
+          "train_config": {
+            "train_steps": 0,
+            "batch_size": 0,
+            "top_k": 0,
+            "tiny_retrain": false,
+            "full_retrain": false
+          },
+          "claim_policy": "canonical",
+          "diagnostic_only": false,
+          "strongest_negative_capped": true,
+          "resource_budget_snapshot": {
+            "policy": {
+              "AUTO_PROMOTE_SOVEREIGN": false,
+              "ALLOW_FULL_RETRAIN": false,
+              "ALLOW_NEW_CLAIM": false,
+              "RUN_MODE": "autonomous_cycle_phase",
+              "EXPERIMENT_FAMILY": "VR",
+              "CAP_STRONGEST_NEGATIVE": true,
+              "RESUME": false
+            },
+            "limits": {
+              "max_rollouts_per_experiment": 3,
+              "max_disk_growth_mb": 4096,
+              "retry_backoff_seconds": 5,
+              "max_retries": 2,
+              "max_cycles_per_run": 4,
+              "max_tiny_retrain_budget": 1
+            },
+            "disk_growth_mb": 0.004,
+            "completed_experiments": [
+              "VR0",
+              "VR1",
+              "VR2",
+              "VR3"
+            ]
+          },
+          "note": "VR4 bundle comparison profile.",
+          "experiment_id": "VR4",
+          "coverage": {},
+          "cost": 1.0,
+          "lane_hash": "c9136c354db76c72"
+        },
+        "state_spec": {
+          "state_mode": "telemetry_candidate_v2",
+          "shape": [
+            8
+          ],
+          "dim_names": [
+            "eef_pos_x_m",
+            "eef_pos_y_m",
+            "eef_pos_z_m",
+            "eef_rotvec_x",
+            "eef_rotvec_y",
+            "eef_rotvec_z",
+            "handle_distance_norm",
+            "drawer_fraction_signed"
+          ],
+          "provenance": [
+            "observed",
+            "observed",
+            "observed",
+            "derived",
+            "derived",
+            "derived",
+            "derived",
+            "derived"
+          ],
+          "duplicate_dims": [],
+          "fraud_padding": false,
+          "all_dims_explained": true
+        },
+        "overall_score": 0.5312923955179698,
+        "per_dim_wasserstein": [
+          0.06518671920514836,
+          0.19030447934867198,
+          0.943660447353344,
+          0.7314230570318707,
+          1.7412206232461538,
+          0.8828833492111896,
+          0.16402891533415515,
+          0.5645473010829454
+        ],
+        "per_dim_range_overlap": [
+          0.1039474222476636,
+          0.6042952139249026,
+          0.0,
+          0.013064005494143337,
+          0.30766135420400575,
+          0.3825607476127903,
+          0.0,
+          0.0
+        ],
+        "per_dim_smoothness_gap": [
+          0.0031036315485835075,
+          0.018812354654073715,
+          0.0011993832886219025,
+          0.031503692269325256,
+          0.4572407901287079,
+          0.011912304908037186,
+          0.06687045097351074,
+          0.06486055254936218
+        ],
+        "valid": true,
+        "fraud_padding": false,
+        "all_dims_explained": true,
+        "state_mode": "telemetry_candidate_v2"
+      },
+      "state_alignment_gain": 0.17297692286648592,
+      "visual_report": {
+        "lane": {
+          "lane_id": "VR4_visual_reformulation_v2_plus_bundle",
+          "lane_family": "VR",
+          "stage": "probe",
+          "env_contract_config": {
+            "secondary_camera_mode": "wrist_dynamic",
+            "enable_marker_overlay": false,
+            "calibration_mode": "none",
+            "interaction_mode": "orientation_sensitive_v1",
+            "state_mode": "telemetry_candidate_v2",
+            "render_profile": "visual_reformulation_v2_plus_bundle",
+            "background_mode": "high_contrast_lab",
+            "lighting_profile": "bright_front_fill",
+            "material_policy": "handle_highlight",
+            "camera_framing_profile": "tight_handle_centered",
+            "emit_orientation_telemetry": true,
+            "emit_camera_metadata": true,
+            "emit_handle_probe_metadata": true,
+            "canonical_lane": true
+          },
+          "interventions": {
+            "rotation_source": "aligned",
+            "profile_id": "visual_reformulation_v2_plus_bundle"
+          },
+          "dataset_config": {
+            "unique_data_budget": null,
+            "success_repeat": 1,
+            "train_seed_pool": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "heldout_seed_pool": [
+              11,
+              12,
+              13,
+              14,
+              15
+            ],
+            "max_steps": 96
+          },
+          "train_config": {
+            "train_steps": 0,
+            "batch_size": 0,
+            "top_k": 0,
+            "tiny_retrain": false,
+            "full_retrain": false
+          },
+          "claim_policy": "canonical",
+          "diagnostic_only": false,
+          "strongest_negative_capped": true,
+          "resource_budget_snapshot": {
+            "policy": {
+              "AUTO_PROMOTE_SOVEREIGN": false,
+              "ALLOW_FULL_RETRAIN": false,
+              "ALLOW_NEW_CLAIM": false,
+              "RUN_MODE": "autonomous_cycle_phase",
+              "EXPERIMENT_FAMILY": "VR",
+              "CAP_STRONGEST_NEGATIVE": true,
+              "RESUME": false
+            },
+            "limits": {
+              "max_rollouts_per_experiment": 3,
+              "max_disk_growth_mb": 4096,
+              "retry_backoff_seconds": 5,
+              "max_retries": 2,
+              "max_cycles_per_run": 4,
+              "max_tiny_retrain_budget": 1
+            },
+            "disk_growth_mb": 0.004,
+            "completed_experiments": [
+              "VR0",
+              "VR1",
+              "VR2",
+              "VR3"
+            ]
+          },
+          "note": "VR4 bundle comparison profile.",
+          "experiment_id": "VR4",
+          "coverage": {},
+          "cost": 1.0,
+          "lane_hash": "c9136c354db76c72"
+        },
+        "claim_policy": "canonical",
+        "diagnostic_only": false,
+        "secondary_camera_wrist_like": true,
+        "secondary_camera_residual_mean": 0.0,
+        "secondary_camera_residual_max": 0.0,
+        "marker_overlay_enabled": false,
+        "provenance_complete": true,
+        "target_stats": {
+          "sample_count": 24,
+          "mean_rgb": [
+            0.09668000042438507,
+            0.07513099908828735,
+            0.04636700078845024
+          ],
+          "std_rgb": [
+            0.23306900262832642,
+            0.17914800345897675,
+            0.11859799921512604
+          ],
+          "brightness_mean": 0.07827267615623723,
+          "edge_density_mean": 0.010637919108072916,
+          "entropy_mean": 0.9943611147536515
+        },
+        "gap": {
+          "brightness_gap": 0.387579,
+          "std_rgb_abs_gap": [
+            0.009589,
+            0.02658,
+            0.069624
+          ],
+          "edge_density_gap": 0.053271,
+          "entropy_gap": 5.927134
+        },
+        "weighted_visual_gap": 2.3992148666666666,
+        "visual_alignment_gain": 0.07815644419161738,
+        "render_profile": "visual_reformulation_v2_plus_bundle",
+        "background_mode": "high_contrast_lab",
+        "lighting_profile": "bright_front_fill",
+        "material_policy": "handle_highlight",
+        "camera_framing_profile": "tight_handle_centered",
+        "handle_visibility_fraction": 1.0,
+        "handle_local_contrast": 0.0,
+        "handle_crop_entropy": 0.0,
+        "framing_score": 0.5887132352941176,
+        "camera_relativeness_residual": 0.0,
+        "observation_contract_pass": true,
+        "visual_gate_breakdown": {
+          "baseline_weighted_visual_gap": 2.6026269333333336,
+          "lane_weighted_visual_gap": 2.3992148666666666,
+          "visual_alignment_gain": 0.07815644419161738,
+          "framing_score": 0.5887132352941176,
+          "handle_visibility_fraction": 1.0,
+          "handle_local_contrast": 0.0,
+          "handle_crop_entropy": 0.0,
+          "handle_readability_score": 0.4177426470588235,
+          "perceptual_readability_score_v2": 0.2649288557685808,
+          "camera_relativeness_residual": 0.0,
+          "encoder_readability_pass": null
+        }
+      },
+      "sensor_contract_gain": {
+        "score": 0.3539382741324411,
+        "wrist_relativeness_gain": 0.0,
+        "no_overlay_gain": 1.0,
+        "visual_alignment_gain": 0.07815644419161738,
+        "framing_gain": 0.5887132352941176
+      },
+      "combined_score": 0.13172879924973174
+    }
+  ],
+  "best_profile_id": "visual_reformulation_v2_plus_bundle",
+  "best_profile": {
+    "profile_id": "visual_reformulation_v2_plus_bundle",
+    "lane": {
+      "lane_id": "VR4_visual_reformulation_v2_plus_bundle",
+      "lane_family": "VR",
+      "stage": "probe",
+      "env_contract_config": {
+        "secondary_camera_mode": "wrist_dynamic",
+        "enable_marker_overlay": false,
+        "calibration_mode": "none",
+        "interaction_mode": "orientation_sensitive_v1",
+        "state_mode": "telemetry_candidate_v2",
+        "render_profile": "visual_reformulation_v2_plus_bundle",
+        "background_mode": "high_contrast_lab",
+        "lighting_profile": "bright_front_fill",
+        "material_policy": "handle_highlight",
+        "camera_framing_profile": "tight_handle_centered",
+        "emit_orientation_telemetry": true,
+        "emit_camera_metadata": true,
+        "emit_handle_probe_metadata": true,
+        "canonical_lane": true
+      },
+      "interventions": {
+        "rotation_source": "aligned",
+        "profile_id": "visual_reformulation_v2_plus_bundle"
+      },
+      "dataset_config": {
+        "unique_data_budget": null,
+        "success_repeat": 1,
+        "train_seed_pool": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "heldout_seed_pool": [
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "max_steps": 96
+      },
+      "train_config": {
+        "train_steps": 0,
+        "batch_size": 0,
+        "top_k": 0,
+        "tiny_retrain": false,
+        "full_retrain": false
+      },
+      "claim_policy": "canonical",
+      "diagnostic_only": false,
+      "strongest_negative_capped": true,
+      "resource_budget_snapshot": {
+        "policy": {
+          "AUTO_PROMOTE_SOVEREIGN": false,
+          "ALLOW_FULL_RETRAIN": false,
+          "ALLOW_NEW_CLAIM": false,
+          "RUN_MODE": "autonomous_cycle_phase",
+          "EXPERIMENT_FAMILY": "VR",
+          "CAP_STRONGEST_NEGATIVE": true,
+          "RESUME": false
+        },
+        "limits": {
+          "max_rollouts_per_experiment": 3,
+          "max_disk_growth_mb": 4096,
+          "retry_backoff_seconds": 5,
+          "max_retries": 2,
+          "max_cycles_per_run": 4,
+          "max_tiny_retrain_budget": 1
+        },
+        "disk_growth_mb": 0.004,
+        "completed_experiments": [
+          "VR0",
+          "VR1",
+          "VR2",
+          "VR3"
+        ]
+      },
+      "note": "VR4 bundle comparison profile.",
+      "experiment_id": "VR4",
+      "coverage": {},
+      "cost": 1.0,
+      "lane_hash": "c9136c354db76c72"
+    },
+    "rollout_summary": {
+      "rollout_count": 3,
+      "unique_success_rate": 0.0,
+      "attach_rate": 0.6666666666666666,
+      "mean_max_drawer_fraction": 0.2235214653717981,
+      "avg_episode_length": 96.0,
+      "success_count": 0,
+      "orientation_causal_sensitivity": 0.0004124960396438837
+    },
+    "rollout_ceiling_lift": {
+      "score": -0.09180285773570283,
+      "delta_unique_success_rate": -0.3333333333333333,
+      "delta_attach_rate": 0.0,
+      "delta_mean_max_drawer_fraction": -0.2730536975455091,
+      "delta_avg_episode_length_ratio": 0.4187192118226599,
+      "delta_orientation_causal_sensitivity": 0.0
+    },
+    "state_report": {
+      "lane": {
+        "lane_id": "VR4_visual_reformulation_v2_plus_bundle",
+        "lane_family": "VR",
+        "stage": "probe",
+        "env_contract_config": {
+          "secondary_camera_mode": "wrist_dynamic",
+          "enable_marker_overlay": false,
+          "calibration_mode": "none",
+          "interaction_mode": "orientation_sensitive_v1",
+          "state_mode": "telemetry_candidate_v2",
+          "render_profile": "visual_reformulation_v2_plus_bundle",
+          "background_mode": "high_contrast_lab",
+          "lighting_profile": "bright_front_fill",
+          "material_policy": "handle_highlight",
+          "camera_framing_profile": "tight_handle_centered",
+          "emit_orientation_telemetry": true,
+          "emit_camera_metadata": true,
+          "emit_handle_probe_metadata": true,
+          "canonical_lane": true
+        },
+        "interventions": {
+          "rotation_source": "aligned",
+          "profile_id": "visual_reformulation_v2_plus_bundle"
+        },
+        "dataset_config": {
+          "unique_data_budget": null,
+          "success_repeat": 1,
+          "train_seed_pool": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ],
+          "heldout_seed_pool": [
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "max_steps": 96
+        },
+        "train_config": {
+          "train_steps": 0,
+          "batch_size": 0,
+          "top_k": 0,
+          "tiny_retrain": false,
+          "full_retrain": false
+        },
+        "claim_policy": "canonical",
+        "diagnostic_only": false,
+        "strongest_negative_capped": true,
+        "resource_budget_snapshot": {
+          "policy": {
+            "AUTO_PROMOTE_SOVEREIGN": false,
+            "ALLOW_FULL_RETRAIN": false,
+            "ALLOW_NEW_CLAIM": false,
+            "RUN_MODE": "autonomous_cycle_phase",
+            "EXPERIMENT_FAMILY": "VR",
+            "CAP_STRONGEST_NEGATIVE": true,
+            "RESUME": false
+          },
+          "limits": {
+            "max_rollouts_per_experiment": 3,
+            "max_disk_growth_mb": 4096,
+            "retry_backoff_seconds": 5,
+            "max_retries": 2,
+            "max_cycles_per_run": 4,
+            "max_tiny_retrain_budget": 1
+          },
+          "disk_growth_mb": 0.004,
+          "completed_experiments": [
+            "VR0",
+            "VR1",
+            "VR2",
+            "VR3"
+          ]
+        },
+        "note": "VR4 bundle comparison profile.",
+        "experiment_id": "VR4",
+        "coverage": {},
+        "cost": 1.0,
+        "lane_hash": "c9136c354db76c72"
       },
       "state_spec": {
         "state_mode": "telemetry_candidate_v2",
@@ -1945,7 +1949,7 @@
     "state_alignment_gain": 0.17297692286648592,
     "visual_report": {
       "lane": {
-        "lane_id": "VR4_visual_reformulation_v1_plus_bundle",
+        "lane_id": "VR4_visual_reformulation_v2_plus_bundle",
         "lane_family": "VR",
         "stage": "probe",
         "env_contract_config": {
@@ -1954,8 +1958,8 @@
           "calibration_mode": "none",
           "interaction_mode": "orientation_sensitive_v1",
           "state_mode": "telemetry_candidate_v2",
-          "render_profile": "visual_reformulation_v1_plus_bundle",
-          "background_mode": "neutral_lab",
+          "render_profile": "visual_reformulation_v2_plus_bundle",
+          "background_mode": "high_contrast_lab",
           "lighting_profile": "bright_front_fill",
           "material_policy": "handle_highlight",
           "camera_framing_profile": "tight_handle_centered",
@@ -1966,7 +1970,7 @@
         },
         "interventions": {
           "rotation_source": "aligned",
-          "profile_id": "visual_reformulation_v1_plus_bundle"
+          "profile_id": "visual_reformulation_v2_plus_bundle"
         },
         "dataset_config": {
           "unique_data_budget": null,
@@ -2018,7 +2022,7 @@
             "max_cycles_per_run": 4,
             "max_tiny_retrain_budget": 1
           },
-          "disk_growth_mb": 0.003,
+          "disk_growth_mb": 0.004,
           "completed_experiments": [
             "VR0",
             "VR1",
@@ -2030,7 +2034,7 @@
         "experiment_id": "VR4",
         "coverage": {},
         "cost": 1.0,
-        "lane_hash": "78c89c76a4dfd924"
+        "lane_hash": "c9136c354db76c72"
       },
       "claim_policy": "canonical",
       "diagnostic_only": false,
@@ -2042,33 +2046,33 @@
       "target_stats": {
         "sample_count": 24,
         "mean_rgb": [
-          0.08628600090742111,
-          0.06836900115013123,
-          0.050926998257637024
+          0.09668000042438507,
+          0.07513099908828735,
+          0.04636700078845024
         ],
         "std_rgb": [
-          0.21229800581932068,
-          0.16917799413204193,
-          0.12987999618053436
+          0.23306900262832642,
+          0.17914800345897675,
+          0.11859799921512604
         ],
-        "brightness_mean": 0.07175864674686606,
-        "edge_density_mean": 0.010543187459309896,
-        "entropy_mean": 0.9613911155335565
+        "brightness_mean": 0.07827267615623723,
+        "edge_density_mean": 0.010637919108072916,
+        "entropy_mean": 0.9943611147536515
       },
       "gap": {
-        "brightness_gap": 0.394093,
+        "brightness_gap": 0.387579,
         "std_rgb_abs_gap": [
-          0.011182,
-          0.03655,
-          0.058342
+          0.009589,
+          0.02658,
+          0.069624
         ],
-        "edge_density_gap": 0.053366,
-        "entropy_gap": 5.960104
+        "edge_density_gap": 0.053271,
+        "entropy_gap": 5.927134
       },
-      "weighted_visual_gap": 2.4124596000000005,
-      "visual_alignment_gain": 0.0730674576896716,
-      "render_profile": "visual_reformulation_v1_plus_bundle",
-      "background_mode": "neutral_lab",
+      "weighted_visual_gap": 2.3992148666666666,
+      "visual_alignment_gain": 0.07815644419161738,
+      "render_profile": "visual_reformulation_v2_plus_bundle",
+      "background_mode": "high_contrast_lab",
       "lighting_profile": "bright_front_fill",
       "material_policy": "handle_highlight",
       "camera_framing_profile": "tight_handle_centered",
@@ -2080,25 +2084,26 @@
       "observation_contract_pass": true,
       "visual_gate_breakdown": {
         "baseline_weighted_visual_gap": 2.6026269333333336,
-        "lane_weighted_visual_gap": 2.4124596000000005,
-        "visual_alignment_gain": 0.0730674576896716,
+        "lane_weighted_visual_gap": 2.3992148666666666,
+        "visual_alignment_gain": 0.07815644419161738,
         "framing_score": 0.5887132352941176,
         "handle_visibility_fraction": 1.0,
         "handle_local_contrast": 0.0,
         "handle_crop_entropy": 0.0,
+        "handle_readability_score": 0.4177426470588235,
+        "perceptual_readability_score_v2": 0.2649288557685808,
         "camera_relativeness_residual": 0.0,
-        "encoder_readability_pass": null,
-        "perceptual_readability_score": 0.3860095114812414
+        "encoder_readability_pass": null
       }
     },
     "sensor_contract_gain": {
-      "score": 0.35292047683205197,
+      "score": 0.3539382741324411,
       "wrist_relativeness_gain": 0.0,
       "no_overlay_gain": 1.0,
-      "visual_alignment_gain": 0.0730674576896716,
+      "visual_alignment_gain": 0.07815644419161738,
       "framing_gain": 0.5887132352941176
     },
-    "combined_score": 0.13147434992463447
+    "combined_score": 0.13172879924973174
   },
   "state_audit": {
     "selected_candidate_mode": "telemetry_candidate_v2",
@@ -2117,8 +2122,8 @@
           "calibration_mode": "none",
           "interaction_mode": "orientation_sensitive_v1",
           "state_mode": "telemetry_candidate_v2",
-          "render_profile": "visual_reformulation_v1_plus_bundle",
-          "background_mode": "neutral_lab",
+          "render_profile": "visual_reformulation_v2_plus_bundle",
+          "background_mode": "high_contrast_lab",
           "lighting_profile": "bright_front_fill",
           "material_policy": "handle_highlight",
           "camera_framing_profile": "tight_handle_centered",
@@ -2181,7 +2186,7 @@
             "max_cycles_per_run": 4,
             "max_tiny_retrain_budget": 1
           },
-          "disk_growth_mb": 0.003,
+          "disk_growth_mb": 0.004,
           "completed_experiments": [
             "VR0",
             "VR1",
@@ -2193,7 +2198,7 @@
         "experiment_id": "VR4",
         "coverage": {},
         "cost": 1.0,
-        "lane_hash": "8bb09b2f2b05fe58"
+        "lane_hash": "e4fac78c2427cef6"
       },
       "state_spec": {
         "state_mode": "telemetry_candidate_v2",
@@ -2272,8 +2277,8 @@
             "calibration_mode": "none",
             "interaction_mode": "orientation_sensitive_v1",
             "state_mode": "m0_proxy",
-            "render_profile": "visual_reformulation_v1_plus_bundle",
-            "background_mode": "neutral_lab",
+            "render_profile": "visual_reformulation_v2_plus_bundle",
+            "background_mode": "high_contrast_lab",
             "lighting_profile": "bright_front_fill",
             "material_policy": "handle_highlight",
             "camera_framing_profile": "tight_handle_centered",
@@ -2336,7 +2341,7 @@
               "max_cycles_per_run": 4,
               "max_tiny_retrain_budget": 1
             },
-            "disk_growth_mb": 0.003,
+            "disk_growth_mb": 0.004,
             "completed_experiments": [
               "VR0",
               "VR1",
@@ -2348,7 +2353,7 @@
           "experiment_id": "VR4",
           "coverage": {},
           "cost": 1.0,
-          "lane_hash": "e90ff0e01d5c50a3"
+          "lane_hash": "48792349356d3dbf"
         },
         "state_spec": {
           "state_mode": "m0_proxy",
@@ -2426,8 +2431,8 @@
             "calibration_mode": "none",
             "interaction_mode": "orientation_sensitive_v1",
             "state_mode": "eef_pose_gripper",
-            "render_profile": "visual_reformulation_v1_plus_bundle",
-            "background_mode": "neutral_lab",
+            "render_profile": "visual_reformulation_v2_plus_bundle",
+            "background_mode": "high_contrast_lab",
             "lighting_profile": "bright_front_fill",
             "material_policy": "handle_highlight",
             "camera_framing_profile": "tight_handle_centered",
@@ -2490,7 +2495,7 @@
               "max_cycles_per_run": 4,
               "max_tiny_retrain_budget": 1
             },
-            "disk_growth_mb": 0.003,
+            "disk_growth_mb": 0.004,
             "completed_experiments": [
               "VR0",
               "VR1",
@@ -2502,7 +2507,7 @@
           "experiment_id": "VR4",
           "coverage": {},
           "cost": 1.0,
-          "lane_hash": "016a5f71a96ceb22"
+          "lane_hash": "82c336aeb0566adc"
         },
         "state_spec": {
           "state_mode": "eef_pose_gripper",
@@ -2580,8 +2585,8 @@
             "calibration_mode": "none",
             "interaction_mode": "orientation_sensitive_v1",
             "state_mode": "telemetry_candidate_v1",
-            "render_profile": "visual_reformulation_v1_plus_bundle",
-            "background_mode": "neutral_lab",
+            "render_profile": "visual_reformulation_v2_plus_bundle",
+            "background_mode": "high_contrast_lab",
             "lighting_profile": "bright_front_fill",
             "material_policy": "handle_highlight",
             "camera_framing_profile": "tight_handle_centered",
@@ -2644,7 +2649,7 @@
               "max_cycles_per_run": 4,
               "max_tiny_retrain_budget": 1
             },
-            "disk_growth_mb": 0.003,
+            "disk_growth_mb": 0.004,
             "completed_experiments": [
               "VR0",
               "VR1",
@@ -2656,7 +2661,7 @@
           "experiment_id": "VR4",
           "coverage": {},
           "cost": 1.0,
-          "lane_hash": "f15a01a83bd5fa02"
+          "lane_hash": "1f152bb5229171b2"
         },
         "state_spec": {
           "state_mode": "telemetry_candidate_v1",
@@ -2734,8 +2739,8 @@
             "calibration_mode": "none",
             "interaction_mode": "orientation_sensitive_v1",
             "state_mode": "telemetry_candidate_v2",
-            "render_profile": "visual_reformulation_v1_plus_bundle",
-            "background_mode": "neutral_lab",
+            "render_profile": "visual_reformulation_v2_plus_bundle",
+            "background_mode": "high_contrast_lab",
             "lighting_profile": "bright_front_fill",
             "material_policy": "handle_highlight",
             "camera_framing_profile": "tight_handle_centered",
@@ -2798,7 +2803,7 @@
               "max_cycles_per_run": 4,
               "max_tiny_retrain_budget": 1
             },
-            "disk_growth_mb": 0.003,
+            "disk_growth_mb": 0.004,
             "completed_experiments": [
               "VR0",
               "VR1",
@@ -2810,7 +2815,7 @@
           "experiment_id": "VR4",
           "coverage": {},
           "cost": 1.0,
-          "lane_hash": "8bb09b2f2b05fe58"
+          "lane_hash": "e4fac78c2427cef6"
         },
         "state_spec": {
           "state_mode": "telemetry_candidate_v2",

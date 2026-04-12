@@ -42,7 +42,7 @@ SecondaryCameraMode = Literal["legacy_fixed_scene", "wrist_dynamic"]
 CalibrationMode = Literal["none", "legacy_bg_gain_bias", "diagnostic_texture"]
 InteractionMode = Literal["legacy_translation_only", "orientation_sensitive_v1"]
 StateMode = Literal["m0_proxy", "eef_pose_gripper", "telemetry_candidate_v1", "telemetry_candidate_v2"]
-RenderProfile = Literal["legacy_surface", "visual_reformulation_v0", "visual_reformulation_v1", "visual_reformulation_v1_plus_bundle"]
+RenderProfile = Literal["legacy_surface", "visual_reformulation_v0", "visual_reformulation_v1", "visual_reformulation_v1_raw_canonical", "visual_reformulation_v1_plus_bundle", "visual_reformulation_v2_material_light_bg", "visual_reformulation_v2_plus_bundle"]
 BackgroundMode = Literal["legacy_scene", "neutral_lab", "high_contrast_lab"]
 LightingProfile = Literal["legacy", "bright_front_fill"]
 MaterialPolicy = Literal["legacy", "handle_highlight"]
@@ -410,12 +410,13 @@ class DrawerRobotEnvMuJoCo:
         self.model.vis.rgba.haze[:] = self._original_haze_rgba
 
         handle = self._handle_center_world()
+        v2_profile = self.contract.render_profile in {"visual_reformulation_v2_material_light_bg", "visual_reformulation_v2_plus_bundle"}
         if self.contract.camera_framing_profile == "tight_handle_centered":
-            primary_lookat = 0.70 * handle + 0.30 * self.scene_center
+            primary_lookat = 0.74 * handle + 0.26 * self.scene_center
             self.cam_primary.lookat[:] = primary_lookat.tolist()
-            self.cam_primary.distance = float(self.scene_extent * 1.25)
-            self.cam_primary.azimuth = 168.0
-            self.cam_primary.elevation = -18.0
+            self.cam_primary.distance = float(self.scene_extent * (1.08 if v2_profile else 1.25))
+            self.cam_primary.azimuth = 166.0 if v2_profile else 168.0
+            self.cam_primary.elevation = -15.0 if v2_profile else -18.0
         else:
             self.cam_primary.lookat[:] = self.scene_center.tolist()
             self.cam_primary.distance = float(self.scene_extent * 1.85)
@@ -425,22 +426,26 @@ class DrawerRobotEnvMuJoCo:
         if self.contract.background_mode == "neutral_lab":
             self.model.vis.rgba.haze[:] = np.asarray([0.84, 0.82, 0.79, 1.0], dtype=np.float32)
         elif self.contract.background_mode == "high_contrast_lab":
-            self.model.vis.rgba.haze[:] = np.asarray([0.90, 0.89, 0.86, 1.0], dtype=np.float32)
+            self.model.vis.rgba.haze[:] = np.asarray([0.96, 0.95, 0.93, 1.0], dtype=np.float32) if v2_profile else np.asarray([0.90, 0.89, 0.86, 1.0], dtype=np.float32)
 
         if self.contract.lighting_profile == "bright_front_fill":
-            self.model.vis.headlight.ambient[:] = np.asarray([0.55, 0.55, 0.55], dtype=np.float32)
-            self.model.vis.headlight.diffuse[:] = np.asarray([0.70, 0.70, 0.70], dtype=np.float32)
-            self.model.vis.headlight.specular[:] = np.asarray([0.20, 0.20, 0.20], dtype=np.float32)
+            self.model.vis.headlight.ambient[:] = np.asarray([0.62, 0.62, 0.62], dtype=np.float32) if v2_profile else np.asarray([0.55, 0.55, 0.55], dtype=np.float32)
+            self.model.vis.headlight.diffuse[:] = np.asarray([0.82, 0.82, 0.82], dtype=np.float32) if v2_profile else np.asarray([0.70, 0.70, 0.70], dtype=np.float32)
+            self.model.vis.headlight.specular[:] = np.asarray([0.26, 0.26, 0.26], dtype=np.float32) if v2_profile else np.asarray([0.20, 0.20, 0.20], dtype=np.float32)
 
         if self.contract.material_policy == "handle_highlight":
             centers = np.asarray(self.data.geom_xpos, dtype=np.float32)
             if len(centers):
                 distances = np.linalg.norm(centers - handle[None, :], axis=1)
                 nearest = int(np.argmin(distances))
-                self.model.geom_rgba[:] = np.clip(self.model.geom_rgba[:] * np.asarray([0.95, 0.95, 0.95, 1.0], dtype=np.float32), 0.0, 1.0)
-                self.model.geom_rgba[nearest, :4] = np.asarray([0.86, 0.54, 0.24, 1.0], dtype=np.float32)
-                near_mask = distances < 0.12
-                self.model.geom_rgba[near_mask, :3] = np.clip(self.model.geom_rgba[near_mask, :3] * 1.10, 0.0, 1.0)
+                scale = np.asarray([0.78, 0.78, 0.78, 1.0], dtype=np.float32) if v2_profile else np.asarray([0.95, 0.95, 0.95, 1.0], dtype=np.float32)
+                self.model.geom_rgba[:] = np.clip(self.model.geom_rgba[:] * scale, 0.0, 1.0)
+                self.model.geom_rgba[nearest, :4] = np.asarray([0.98, 0.66, 0.16, 1.0], dtype=np.float32) if v2_profile else np.asarray([0.86, 0.54, 0.24, 1.0], dtype=np.float32)
+                near_mask = distances < (0.16 if v2_profile else 0.12)
+                if v2_profile:
+                    self.model.geom_rgba[near_mask, :3] = np.clip(self.model.geom_rgba[near_mask, :3] * 1.35, 0.0, 1.0)
+                else:
+                    self.model.geom_rgba[near_mask, :3] = np.clip(self.model.geom_rgba[near_mask, :3] * 1.10, 0.0, 1.0)
 
     def _render(self, camera) -> np.ndarray:
         self.renderer.update_scene(self.data, camera=camera)

@@ -1,0 +1,11 @@
+{
+  "actions": [
+    {
+      "id": "proposed_next_mainline",
+      "priority": 1,
+      "status": "pending",
+      "action": "environment_reformulation",
+      "why": "Strongest-negative cap remains active for this cycle; stronger visual/perception reformulation still did not produce a train-eligible canonical lane."
+    }
+  ]
+}

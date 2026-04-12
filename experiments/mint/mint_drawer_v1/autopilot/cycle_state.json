@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-04-12T11:55:09+08:00",
-  "last_cycle_id": "cycle_20260412_115443",
+  "updated_at": "2026-04-12T13:07:38+08:00",
+  "last_cycle_id": "cycle_20260412_130711",
   "cycle_mode": "unattended_cycle",
   "completed_experiments": [
     "VR0",
@@ -14,5 +14,5 @@
   "scientific_terminal_state": "MINIMAL_REPAIR_INSUFFICIENT",
   "route_next_branch": "environment_reformulation",
   "terminal_state": "MINIMAL_REPAIR_INSUFFICIENT",
-  "strongest_negative_capped": false
+  "strongest_negative_capped": true
 }

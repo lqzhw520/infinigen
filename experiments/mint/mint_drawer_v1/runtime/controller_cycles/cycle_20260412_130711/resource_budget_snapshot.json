@@ -1,0 +1,29 @@
+{
+  "policy": {
+    "AUTO_PROMOTE_SOVEREIGN": false,
+    "ALLOW_FULL_RETRAIN": false,
+    "ALLOW_NEW_CLAIM": false,
+    "RUN_MODE": "autonomous_cycle_phase",
+    "EXPERIMENT_FAMILY": "VR",
+    "CAP_STRONGEST_NEGATIVE": true,
+    "RESUME": false
+  },
+  "limits": {
+    "max_rollouts_per_experiment": 3,
+    "max_disk_growth_mb": 4096,
+    "retry_backoff_seconds": 5,
+    "max_retries": 2,
+    "max_cycles_per_run": 4,
+    "max_tiny_retrain_budget": 1
+  },
+  "disk_growth_mb": 0.004,
+  "completed_experiments": [
+    "VR0",
+    "VR1",
+    "VR2",
+    "VR3",
+    "VR4",
+    "VR5",
+    "VR6"
+  ]
+}

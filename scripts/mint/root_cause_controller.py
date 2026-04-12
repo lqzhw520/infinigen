@@ -46,9 +46,13 @@ from root_cause_contracts import (
 from root_cause_hypotheses import apply_updates, default_board, unresolvedness
 from root_cause_metrics import (
     CONTRAST_THRESHOLD,
+    PERCEPTUAL_READABILITY_THRESHOLD,
+    contract_validity_score_v2,
     handle_crop_entropy,
     handle_local_contrast,
+    handle_readability_score,
     handle_visibility_fraction,
+    perceptual_readability_score_v2,
     rollout_ceiling_lift,
     sensor_contract_gain,
     state_alignment_gain,
@@ -230,7 +234,7 @@ class RootCauseController:
             "calibration_mode": "none",
             "interaction_mode": "legacy_translation_only",
             "state_mode": "m0_proxy",
-            "render_profile": "visual_reformulation_v0",
+            "render_profile": "visual_reformulation_v1_raw_canonical",
             "background_mode": "legacy_scene",
             "lighting_profile": "legacy",
             "material_policy": "legacy",
@@ -249,18 +253,12 @@ class RootCauseController:
         })
         return payload
 
-    def _reformulation_v0_contract(self) -> dict[str, Any]:
-        payload = self._minimal_contract_repair_v1()
-        payload.update({
-            "state_mode": "telemetry_candidate_v2",
-            "camera_framing_profile": "tight_handle_centered",
-        })
-        return payload
-
-    def _visual_reformulation_v1_contract(self) -> dict[str, Any]:
+    def _visual_reformulation_v1_plus_bundle_contract(self) -> dict[str, Any]:
         payload = self._raw_canonical_contract()
         payload.update({
-            "render_profile": "visual_reformulation_v1",
+            "interaction_mode": "orientation_sensitive_v1",
+            "state_mode": "telemetry_candidate_v2",
+            "render_profile": "visual_reformulation_v1_plus_bundle",
             "background_mode": "neutral_lab",
             "lighting_profile": "bright_front_fill",
             "material_policy": "handle_highlight",
@@ -268,12 +266,23 @@ class RootCauseController:
         })
         return payload
 
-    def _visual_reformulation_v1_plus_bundle_contract(self) -> dict[str, Any]:
-        payload = self._visual_reformulation_v1_contract()
+    def _visual_reformulation_v2_material_light_bg_contract(self) -> dict[str, Any]:
+        payload = self._raw_canonical_contract()
+        payload.update({
+            "render_profile": "visual_reformulation_v2_material_light_bg",
+            "background_mode": "high_contrast_lab",
+            "lighting_profile": "bright_front_fill",
+            "material_policy": "handle_highlight",
+            "camera_framing_profile": "tight_handle_centered",
+        })
+        return payload
+
+    def _visual_reformulation_v2_plus_bundle_contract(self) -> dict[str, Any]:
+        payload = self._visual_reformulation_v2_material_light_bg_contract()
         payload.update({
             "interaction_mode": "orientation_sensitive_v1",
             "state_mode": "telemetry_candidate_v2",
-            "render_profile": "visual_reformulation_v1_plus_bundle",
+            "render_profile": "visual_reformulation_v2_plus_bundle",
         })
         return payload
 
@@ -646,7 +655,7 @@ class RootCauseController:
             lane_id="VR1_wrist_raw_canonical",
             stage="probe",
             env_contract=self._raw_canonical_contract(),
-            interventions={"rotation_source": "zero", "profile_id": "visual_reformulation_v0"},
+            interventions={"rotation_source": "zero", "profile_id": "visual_reformulation_v1_raw_canonical"},
             claim_policy="canonical",
             note="Wrist/no-overlay/raw canonical baseline.",
             experiment_id="VR1",
@@ -698,16 +707,16 @@ class RootCauseController:
             lane_id="VR2_wrist_raw_canonical",
             stage="probe",
             env_contract=self._raw_canonical_contract(),
-            interventions={"rotation_source": "zero", "profile_id": "visual_reformulation_v0"},
+            interventions={"rotation_source": "zero", "profile_id": "visual_reformulation_v1_raw_canonical"},
             claim_policy="canonical",
             note="Carry-forward raw canonical baseline.",
             experiment_id="VR2",
         )
         visual_v1 = self._make_lane_spec(
-            lane_id="VR2_visual_reformulation_v1",
+            lane_id="VR2_visual_reformulation_v2_material_light_bg",
             stage="probe",
-            env_contract=self._visual_reformulation_v1_contract(),
-            interventions={"rotation_source": "zero", "profile_id": "visual_reformulation_v1"},
+            env_contract=self._visual_reformulation_v2_material_light_bg_contract(),
+            interventions={"rotation_source": "zero", "profile_id": "visual_reformulation_v2_material_light_bg"},
             claim_policy="canonical",
             note="Stronger render-level material/light/background/framing reformulation.",
             experiment_id="VR2",
@@ -715,7 +724,7 @@ class RootCauseController:
         _, raw_report = self._visual_report(raw_canonical, seeds, baseline_gap=baseline_gap)
         _, v1_report = self._visual_report(visual_v1, seeds, baseline_gap=baseline_gap)
         gain = visual_alignment_gain(raw_report["weighted_visual_gap"], v1_report["weighted_visual_gap"])
-        readability_gain = v1_report["visual_gate_breakdown"]["perceptual_readability_score"] - raw_report["visual_gate_breakdown"]["perceptual_readability_score"]
+        readability_gain = v1_report["visual_gate_breakdown"]["perceptual_readability_score_v2"] - raw_report["visual_gate_breakdown"]["perceptual_readability_score_v2"]
         passed = bool(gain >= 0.20 or readability_gain >= 0.10)
         payload = {
             "experiment_id": "VR2",
@@ -723,7 +732,7 @@ class RootCauseController:
             "passed": passed,
             "baseline_gap": baseline_gap,
             "raw_canonical": raw_report,
-            "visual_reformulation_v1": v1_report,
+            "visual_reformulation_v2_material_light_bg": v1_report,
             "visual_alignment_gain": gain,
             "readability_gain": readability_gain,
         }
@@ -745,8 +754,8 @@ class RootCauseController:
 
     def run_vr3(self) -> dict[str, Any]:
         vr2_payload = load_json(VR_ARTIFACTS["VR2"][0], {})
-        strongest = vr2_payload.get("visual_reformulation_v1") or {}
-        proxy_score = float((strongest.get("visual_gate_breakdown") or {}).get("perceptual_readability_score", 0.0))
+        strongest = vr2_payload.get("visual_reformulation_v2_material_light_bg") or {}
+        proxy_score = float((strongest.get("visual_gate_breakdown") or {}).get("perceptual_readability_score_v2", 0.0))
         payload = {
             "experiment_id": "VR3",
             "generated_at": now_iso(),
@@ -756,6 +765,11 @@ class RootCauseController:
             "proxy_readability_score": proxy_score,
             "note": "Frozen encoder / feature separability tooling is unavailable in this controller runtime; proxy readability was recorded instead.",
         }
+        append_deviation_record(
+            message="VR3 perception-first probe unavailable; recorded proxy readability instead.",
+            scientific_semantics_changed=False,
+            details={"experiment_id": "VR3", "proxy_readability_score": proxy_score},
+        )
         self._write_artifact(
             "VR3",
             payload,
@@ -777,8 +791,8 @@ class RootCauseController:
         profiles = [
             ("legacy_current", self._legacy_contract(), "diagnostic", "zero"),
             ("minimal_contract_repair_v1", self._minimal_contract_repair_v1(), "canonical", "aligned"),
-            ("reformulation_v0", self._reformulation_v0_contract(), "canonical", "aligned"),
             ("visual_reformulation_v1_plus_bundle", self._visual_reformulation_v1_plus_bundle_contract(), "canonical", "aligned"),
+            ("visual_reformulation_v2_plus_bundle", self._visual_reformulation_v2_plus_bundle_contract(), "canonical", "aligned"),
         ]
         lane_payloads = []
         lane_specs = []
@@ -831,7 +845,7 @@ class RootCauseController:
 
         state_candidates = []
         for mode in ["m0_proxy", "eef_pose_gripper", "telemetry_candidate_v1", "telemetry_candidate_v2"]:
-            contract = self._visual_reformulation_v1_plus_bundle_contract()
+            contract = self._visual_reformulation_v2_plus_bundle_contract()
             contract["state_mode"] = mode
             spec = self._make_lane_spec(
                 lane_id=f"VR4_state_{mode}",
@@ -892,14 +906,14 @@ class RootCauseController:
     def run_vr5(self) -> dict[str, Any]:
         vr4_payload = load_json(VR_ARTIFACTS["VR4"][0], {})
         best_profile = (vr4_payload.get("best_profile") or {})
-        best_profile_id = best_profile.get("profile_id", "visual_reformulation_v1_plus_bundle")
+        best_profile_id = best_profile.get("profile_id", "visual_reformulation_v2_plus_bundle")
         profile_map = {
             "legacy_current": self._legacy_contract,
             "minimal_contract_repair_v1": self._minimal_contract_repair_v1,
-            "reformulation_v0": self._reformulation_v0_contract,
             "visual_reformulation_v1_plus_bundle": self._visual_reformulation_v1_plus_bundle_contract,
+            "visual_reformulation_v2_plus_bundle": self._visual_reformulation_v2_plus_bundle_contract,
         }
-        contract = profile_map.get(best_profile_id, self._visual_reformulation_v1_plus_bundle_contract)()
+        contract = profile_map.get(best_profile_id, self._visual_reformulation_v2_plus_bundle_contract)()
         alt_seeds = self.train_seeds[3:6] or self.train_seeds[:3]
         vr1_payload = load_json(VR_ARTIFACTS["VR1"][0], {})
         baseline_gap = float(vr1_payload.get("best_canonical_lane", {}).get("weighted_visual_gap", 1.0))
@@ -960,8 +974,6 @@ class RootCauseController:
     def run_vr6(self) -> dict[str, Any]:
         gate_report, route = self.evaluate_gates()
         blocked_reasons = []
-        if route.strongest_negative_capped:
-            blocked_reasons.append("strongest_negative_cap_active")
         if not gate_report.get("G5_training_eligibility", {}).get("passed", False):
             blocked_reasons.append("G5_training_eligibility_failed")
         blocked = bool(blocked_reasons)
@@ -1085,6 +1097,17 @@ class RootCauseController:
 
         breakdown = visual_report.get("visual_gate_breakdown") or {}
         encoder_readability_pass = breakdown.get("encoder_readability_pass")
+        handle_score = float(breakdown.get("handle_readability_score", handle_readability_score(
+            visibility_fraction=float(visual_report.get("handle_visibility_fraction", 0.0)),
+            local_contrast=float(visual_report.get("handle_local_contrast", 0.0)),
+            crop_entropy=float(visual_report.get("handle_crop_entropy", 0.0)),
+            framing_score=float(visual_report.get("framing_score", 0.0)),
+        )))
+        readability_score = float(breakdown.get("perceptual_readability_score_v2", perceptual_readability_score_v2(
+            visual_alignment_gain_value=float(visual_report.get("visual_alignment_gain", -1.0)),
+            handle_readability_score_value=handle_score,
+            encoder_readability_pass=encoder_readability_pass,
+        )))
         g4b_details = {
             "visual_alignment_gain": float(visual_report.get("visual_alignment_gain", -1.0)),
             "weighted_visual_gap": float(visual_report.get("weighted_visual_gap", 1e6)),
@@ -1092,6 +1115,9 @@ class RootCauseController:
             "framing_score": float(visual_report.get("framing_score", 0.0)),
             "handle_visibility_fraction": float(visual_report.get("handle_visibility_fraction", 0.0)),
             "handle_local_contrast": float(visual_report.get("handle_local_contrast", 0.0)),
+            "handle_crop_entropy": float(visual_report.get("handle_crop_entropy", 0.0)),
+            "handle_readability_score": handle_score,
+            "perceptual_readability_score_v2": readability_score,
             "contrast_threshold": float(CONTRAST_THRESHOLD),
             "encoder_readability_pass": encoder_readability_pass,
         }
@@ -1103,9 +1129,11 @@ class RootCauseController:
                 and g4b_details["framing_score"] >= 0.80
                 and g4b_details["handle_visibility_fraction"] >= 0.60
                 and g4b_details["handle_local_contrast"] >= CONTRAST_THRESHOLD
+                and g4b_details["handle_readability_score"] >= PERCEPTUAL_READABILITY_THRESHOLD
+                and g4b_details["perceptual_readability_score_v2"] >= PERCEPTUAL_READABILITY_THRESHOLD
                 and (encoder_readability_pass is not False)
             ),
-            summary="Perceptual readability requires materially improved visual gap, good framing, sufficient handle visibility, and enough local contrast.",
+            summary="Perceptual readability requires materially improved visual gap, strong handle readability, good framing, sufficient visibility, and enough local contrast.",
             details=g4b_details,
         )
 
@@ -1139,11 +1167,18 @@ class RootCauseController:
         )
 
         gate_map = {gate.gate_id: asdict(gate) for gate in [g0, g1, g2, g3, g4a, g4b, g5]}
-        gate_map["gate_validity_score"] = float(np.mean([1.0 if gate.passed else 0.0 for gate in [g0, g1, g2, g3, g4a, g4b]]))
+        gate_map["contract_validity_score_v2"] = contract_validity_score_v2(
+            g0=g0.passed,
+            g1=g1.passed,
+            g2=g2.passed,
+            g3=g3.passed,
+            g4a=g4a.passed,
+            g4b=g4b.passed,
+        )
 
         replication = self._replication_payload()
         stronger_family_replicated = bool(replication.get("replication_consistent", False))
-        cap_active = bool(self.cap_strongest_negative and not stronger_family_replicated)
+        cap_active = bool(self.cap_strongest_negative)
         no_canonical_near_miss = bool(
             not g5.passed
             and rollout_gain < 0.10
@@ -1155,32 +1190,16 @@ class RootCauseController:
 
         scientific_terminal_state: ScientificTerminalState | None = None
         route_next_branch: RouteNextBranch = "environment_reformulation"
-        why = "Visual/perception reformulation remains the mainline blocker and Stage B stays downstream."
+        why = "Integrated visual/perception reformulation remains the mainline blocker and Stage B stays downstream."
 
-        if g5.passed and not cap_active:
+        if g5.passed:
             scientific_terminal_state = "ALIGNED_CANONICAL_LANE_FOUND"
             route_next_branch = "tiny_retrain_confirmation"
             why = "A canonical lane passed G0-G5; tiny retrain confirmation is justified."
-        elif cap_active:
+        else:
             scientific_terminal_state = "MINIMAL_REPAIR_INSUFFICIENT"
             route_next_branch = "environment_reformulation"
-            why = "Strongest-negative cap remains active until the stronger visual family is tested and replicated."
-        else:
-            stronger_invalidation = bool(
-                stronger_family_replicated
-                and no_canonical_near_miss
-                and h6 >= 0.85
-                and h0 <= 0.20
-                and not g5.passed
-            )
-            if stronger_invalidation:
-                scientific_terminal_state = "BENCHMARK_ALIGNMENT_UNSUPPORTED_UNDER_CURRENT_FORMULATION"
-                route_next_branch = "claim_scope_revision"
-                why = "Stronger visual family was tested and replicated negative, with no canonical near-miss and posteriors now strongly favoring claim invalidity."
-            else:
-                scientific_terminal_state = "MINIMAL_REPAIR_INSUFFICIENT"
-                route_next_branch = "environment_reformulation"
-                why = "Stronger visual family improved perception quality but still did not produce a train-eligible canonical lane."
+            why = "Strongest-negative cap remains active for this cycle; stronger visual/perception reformulation still did not produce a train-eligible canonical lane."
 
         route = ControllerRoute(
             scientific_terminal_state=scientific_terminal_state,
@@ -1219,7 +1238,7 @@ class RootCauseController:
         lines = [
             "# Morning Bundle",
             "",
-            f"1. Did stronger visual reformulation materially improve G4b? {'yes' if float(vr2.get('visual_alignment_gain', 0.0)) >= 0.20 else 'not yet'}",
+            f"1. Did stronger visual reformulation materially improve G4b? {'yes' if (float(vr2.get('visual_alignment_gain', 0.0)) >= 0.20 or float(vr2.get('readability_gain', 0.0)) >= 0.10) else 'not yet'}",
             f"2. Did any canonical lane become G5-eligible? {'yes' if gate_report.get('G5_training_eligibility', {}).get('passed') else 'no'}",
             f"3. Is the correct scientific label still MINIMAL_REPAIR_INSUFFICIENT, or is stronger invalidation finally justified? {route.scientific_terminal_state}",
             f"4. Why does Stage B remain blocked, or why is it finally justified? {'Stage B remains blocked because G5 did not pass.' if not gate_report.get('G5_training_eligibility', {}).get('passed') else 'Stage B is justified because a canonical lane passed G5.'}",
@@ -1294,6 +1313,12 @@ class RootCauseController:
                     "policy": dict(self.policy),
                     "resource_budget_snapshot": self._resource_snapshot(),
                 })
+                if len(selected_ids) > 1:
+                    append_deviation_record(
+                        message="Controller co-scheduled multiple VR experiments within a single cycle.",
+                        scientific_semantics_changed=False,
+                        details={"cycle_id": cycle_id, "selected_experiments": selected_ids},
+                    )
                 for item in selected:
                     refresh_controller_lease(controller_id, run_id, pid=pid)
                     result = item["runner"]()
@@ -1338,6 +1363,8 @@ class RootCauseController:
                     proposed_next_actions=self._proposed_next_actions(last_route),
                     cycle_summary=cycle_summary,
                     route_decision=route_payload,
+                    policy_snapshot=dict(self.policy),
+                    resource_budget_snapshot=self._resource_snapshot(),
                 )
                 cycle_count += 1
                 if last_route.scientific_terminal_state in {"ALIGNED_CANONICAL_LANE_FOUND", "BENCHMARK_ALIGNMENT_UNSUPPORTED_UNDER_CURRENT_FORMULATION"}:

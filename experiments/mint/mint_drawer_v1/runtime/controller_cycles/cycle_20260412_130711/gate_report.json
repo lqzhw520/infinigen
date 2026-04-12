@@ -1,0 +1,118 @@
+{
+  "G0_baseline_integrity": {
+    "gate_id": "G0_baseline_integrity",
+    "passed": true,
+    "summary": "Baseline healthy, parity not-primary-blocker, and authority readable.",
+    "blocking": true,
+    "details": {
+      "p1j_exists": true,
+      "p1l_exists": true,
+      "control_baseline_pass": true,
+      "control_pc_success": 100.0,
+      "parity_non_blocker": true,
+      "parity_decision": {
+        "official_success_delta": 0,
+        "official_drawer_delta": 0.009071191108088517,
+        "mujoco_success_delta": 0,
+        "mujoco_drawer_delta": 0.0,
+        "parity_blocker": false,
+        "interpretation": "n_action_steps parity is not the primary blocker under the current probe; later semantic gates may proceed."
+      },
+      "authority_readable": true
+    }
+  },
+  "G1_observation_contract": {
+    "gate_id": "G1_observation_contract",
+    "passed": true,
+    "summary": "Canonical observation contract requires wrist-like second camera, no overlay, no diagnostic texture, and full provenance.",
+    "blocking": true,
+    "details": {
+      "wrist_like": true,
+      "no_overlay": true,
+      "no_diagnostic_texture": true,
+      "provenance_complete": true
+    }
+  },
+  "G2_action_causality": {
+    "gate_id": "G2_action_causality",
+    "passed": true,
+    "summary": "Carry-forward action-causality evidence remains healthy and orientation-sensitive aligned rotation beats random.",
+    "blocking": true,
+    "details": {
+      "exists": true,
+      "passed": true,
+      "aligned_beats_random_under_sensitive": true,
+      "orientation_causal_sensitivity": 0.2235214653717981
+    }
+  },
+  "G3_state_semantics": {
+    "gate_id": "G3_state_semantics",
+    "passed": true,
+    "summary": "Selected telemetry-compatible candidate must be non-fraud, fully explained, materially better than M0 and eef_pose_gripper, and clear the >=0.10 gain bar.",
+    "blocking": true,
+    "details": {
+      "selected_candidate_mode": "telemetry_candidate_v2",
+      "fraud_padding": false,
+      "all_dims_explained": true,
+      "state_alignment_gain": 0.15166292468394127,
+      "beats_m0_proxy": true,
+      "beats_eef_pose_gripper": true,
+      "impossible": false
+    }
+  },
+  "G4a_observation_semantics": {
+    "gate_id": "G4a_observation_semantics",
+    "passed": true,
+    "summary": "Observation semantics require canonical identity, wrist-like relativeness, and no diagnostic-only visual cues.",
+    "blocking": true,
+    "details": {
+      "no_overlay": true,
+      "no_diagnostic_texture": true,
+      "wrist_like_second_camera": true,
+      "provenance_complete": true,
+      "canonical_identity_explicit": true,
+      "camera_relativeness_residual": 0.0
+    }
+  },
+  "G4b_perceptual_readability": {
+    "gate_id": "G4b_perceptual_readability",
+    "passed": false,
+    "summary": "Perceptual readability requires materially improved visual gap, strong handle readability, good framing, sufficient visibility, and enough local contrast.",
+    "blocking": true,
+    "details": {
+      "visual_alignment_gain": 0.07815644419161738,
+      "weighted_visual_gap": 2.3992148666666666,
+      "baseline_weighted_visual_gap": 2.6026269333333336,
+      "framing_score": 0.5887132352941176,
+      "handle_visibility_fraction": 1.0,
+      "handle_local_contrast": 0.0,
+      "handle_crop_entropy": 0.0,
+      "handle_readability_score": 0.4177426470588235,
+      "perceptual_readability_score_v2": 0.2649288557685808,
+      "contrast_threshold": 0.08,
+      "encoder_readability_pass": null
+    }
+  },
+  "G5_training_eligibility": {
+    "gate_id": "G5_training_eligibility",
+    "passed": false,
+    "summary": "Training eligibility remains downstream of all upstream contract gates and one substantive gain threshold.",
+    "blocking": true,
+    "details": {
+      "rollout_ceiling_lift": -0.09180285773570283,
+      "state_alignment_gain": 0.17297692286648592,
+      "sensor_perception_gain": 0.3539382741324411,
+      "canonical_lane": true
+    }
+  },
+  "contract_validity_score_v2": 0.8333333134651184,
+  "route_decision_preview": {
+    "scientific_terminal_state": "MINIMAL_REPAIR_INSUFFICIENT",
+    "route_next_branch": "environment_reformulation",
+    "why": "Strongest-negative cap remains active for this cycle; stronger visual/perception reformulation still did not produce a train-eligible canonical lane.",
+    "strongest_negative_capped": true,
+    "cap_active": true,
+    "h0_posterior": 0.1494350140405261,
+    "h6_posterior": 0.7859478383510325
+  }
+}

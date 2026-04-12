@@ -7,12 +7,12 @@
 
 ## Key Results
 - route_next_branch: environment_reformulation
-- strongest_negative_capped: False
+- strongest_negative_capped: True
 - h0_posterior: 0.1494
 - h6_posterior: 0.7859
-- best_profile_id: visual_reformulation_v1_plus_bundle
+- best_profile_id: visual_reformulation_v2_plus_bundle
 - best_rollout_ceiling_lift: -0.091803
 - best_state_alignment_gain: 0.172977
-- best_sensor_contract_gain: 0.352920
+- best_sensor_contract_gain: 0.353938
 - cycles_completed: 3
 - completed_experiments: VR0, VR1, VR2, VR3, VR4, VR5, VR6

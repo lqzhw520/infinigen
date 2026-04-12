@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-12T11:55:09+08:00",
+  "generated_at": "2026-04-12T13:07:38+08:00",
   "cycle_mode": "unattended_cycle",
   "experiment_family": "VR",
   "cycles_completed": 3,
@@ -39,7 +39,7 @@
       "max_cycles_per_run": 4,
       "max_tiny_retrain_budget": 1
     },
-    "disk_growth_mb": 0.003,
+    "disk_growth_mb": 0.004,
     "completed_experiments": [
       "VR0",
       "VR1",

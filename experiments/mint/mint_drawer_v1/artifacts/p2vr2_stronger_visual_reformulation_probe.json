@@ -1,6 +1,6 @@
 {
   "experiment_id": "VR2",
-  "generated_at": "2026-04-12T11:54:13+08:00",
+  "generated_at": "2026-04-12T13:07:10+08:00",
   "passed": false,
   "baseline_gap": 2.6026269333333336,
   "raw_canonical": {
@@ -14,7 +14,7 @@
         "calibration_mode": "none",
         "interaction_mode": "legacy_translation_only",
         "state_mode": "m0_proxy",
-        "render_profile": "visual_reformulation_v0",
+        "render_profile": "visual_reformulation_v1_raw_canonical",
         "background_mode": "legacy_scene",
         "lighting_profile": "legacy",
         "material_policy": "legacy",
@@ -26,7 +26,7 @@
       },
       "interventions": {
         "rotation_source": "zero",
-        "profile_id": "visual_reformulation_v0"
+        "profile_id": "visual_reformulation_v1_raw_canonical"
       },
       "dataset_config": {
         "unique_data_budget": null,
@@ -88,7 +88,7 @@
       "experiment_id": "VR2",
       "coverage": {},
       "cost": 1.0,
-      "lane_hash": "c1fcd8fdd0be0906"
+      "lane_hash": "63a0737f7c941263"
     },
     "claim_policy": "canonical",
     "diagnostic_only": false,
@@ -125,7 +125,7 @@
     },
     "weighted_visual_gap": 2.6026269333333336,
     "visual_alignment_gain": 0.0,
-    "render_profile": "visual_reformulation_v0",
+    "render_profile": "visual_reformulation_v1_raw_canonical",
     "background_mode": "legacy_scene",
     "lighting_profile": "legacy",
     "material_policy": "legacy",
@@ -144,14 +144,15 @@
       "handle_visibility_fraction": 1.0,
       "handle_local_contrast": 0.10261589282611924,
       "handle_crop_entropy": 1.3564995147094792,
+      "handle_readability_score": 0.7920404787591133,
+      "perceptual_readability_score_v2": 0.43562226331751236,
       "camera_relativeness_residual": 0.0,
-      "encoder_readability_pass": null,
-      "perceptual_readability_score": 0.6081279908913763
+      "encoder_readability_pass": null
     }
   },
-  "visual_reformulation_v1": {
+  "visual_reformulation_v2_material_light_bg": {
     "lane": {
-      "lane_id": "VR2_visual_reformulation_v1",
+      "lane_id": "VR2_visual_reformulation_v2_material_light_bg",
       "lane_family": "VR",
       "stage": "probe",
       "env_contract_config": {
@@ -160,8 +161,8 @@
         "calibration_mode": "none",
         "interaction_mode": "legacy_translation_only",
         "state_mode": "m0_proxy",
-        "render_profile": "visual_reformulation_v1",
-        "background_mode": "neutral_lab",
+        "render_profile": "visual_reformulation_v2_material_light_bg",
+        "background_mode": "high_contrast_lab",
         "lighting_profile": "bright_front_fill",
         "material_policy": "handle_highlight",
         "camera_framing_profile": "tight_handle_centered",
@@ -172,7 +173,7 @@
       },
       "interventions": {
         "rotation_source": "zero",
-        "profile_id": "visual_reformulation_v1"
+        "profile_id": "visual_reformulation_v2_material_light_bg"
       },
       "dataset_config": {
         "unique_data_budget": null,
@@ -234,7 +235,7 @@
       "experiment_id": "VR2",
       "coverage": {},
       "cost": 1.0,
-      "lane_hash": "3c35f948bc491e50"
+      "lane_hash": "c181c4925cf7e55e"
     },
     "claim_policy": "canonical",
     "diagnostic_only": false,
@@ -246,33 +247,33 @@
     "target_stats": {
       "sample_count": 24,
       "mean_rgb": [
-        0.09211800247430801,
-        0.07295499742031097,
-        0.054235998541116714
+        0.1046999990940094,
+        0.08115600049495697,
+        0.05016700178384781
       ],
       "std_rgb": [
-        0.22091500461101532,
-        0.17627499997615814,
-        0.13544900715351105
+        0.24297399818897247,
+        0.18638600409030914,
+        0.12455999851226807
       ],
-      "brightness_mean": 0.07656754138422948,
-      "edge_density_mean": 0.0095062255859375,
-      "entropy_mean": 0.937149141627902
+      "brightness_mean": 0.08463197595932903,
+      "edge_density_mean": 0.00804901123046875,
+      "entropy_mean": 0.9858371144587957
     },
     "gap": {
-      "brightness_gap": 0.389284,
+      "brightness_gap": 0.381219,
       "std_rgb_abs_gap": [
-        0.002565,
-        0.029453,
-        0.052773
+        0.019494,
+        0.019342,
+        0.063662
       ],
-      "edge_density_gap": 0.054403,
-      "entropy_gap": 5.984346
+      "edge_density_gap": 0.05586,
+      "entropy_gap": 5.935658
     },
-    "weighted_visual_gap": 2.421152333333333,
-    "visual_alignment_gain": 0.0697274732985167,
-    "render_profile": "visual_reformulation_v1",
-    "background_mode": "neutral_lab",
+    "weighted_visual_gap": 2.4034404,
+    "visual_alignment_gain": 0.07653287944662279,
+    "render_profile": "visual_reformulation_v2_material_light_bg",
+    "background_mode": "high_contrast_lab",
     "lighting_profile": "bright_front_fill",
     "material_policy": "handle_highlight",
     "camera_framing_profile": "tight_handle_centered",
@@ -284,17 +285,18 @@
     "observation_contract_pass": true,
     "visual_gate_breakdown": {
       "baseline_weighted_visual_gap": 2.6026269333333336,
-      "lane_weighted_visual_gap": 2.421152333333333,
-      "visual_alignment_gain": 0.0697274732985167,
+      "lane_weighted_visual_gap": 2.4034404,
+      "visual_alignment_gain": 0.07653287944662279,
       "framing_score": 0.621077515118197,
       "handle_visibility_fraction": 1.0,
       "handle_local_contrast": 0.0,
       "handle_crop_entropy": 0.0,
+      "handle_readability_score": 0.4242155030236394,
+      "perceptual_readability_score_v2": 0.26775832241398195,
       "camera_relativeness_residual": 0.0,
-      "encoder_readability_pass": null,
-      "perceptual_readability_score": 0.39164737134826855
+      "encoder_readability_pass": null
     }
   },
-  "visual_alignment_gain": 0.0697274732985167,
-  "readability_gain": -0.2164806195431077
+  "visual_alignment_gain": 0.07653287944662279,
+  "readability_gain": -0.1678639409035304
 }

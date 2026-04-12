@@ -33,6 +33,20 @@ def _append_jsonl_atomic(path: Path, payload: dict[str, Any]) -> None:
     write_text_atomic(path, "\n".join(lines).rstrip() + "\n")
 
 
+def _read_jsonl(path: Path) -> list[dict[str, Any]]:
+    if not path.exists():
+        return []
+    payloads: list[dict[str, Any]] = []
+    for line in path.read_text().splitlines():
+        if not line.strip():
+            continue
+        try:
+            payloads.append(json.loads(line))
+        except json.JSONDecodeError:
+            payloads.append({"raw": line})
+    return payloads
+
+
 def ensure_registry_layout() -> None:
     ensure_dirs()
     AUTOPILOT_DIR.mkdir(parents=True, exist_ok=True)
@@ -111,13 +125,19 @@ def write_cycle_bundle(
     proposed_next_actions: dict[str, Any],
     cycle_summary: dict[str, Any],
     route_decision: dict[str, Any],
+    policy_snapshot: dict[str, Any],
+    resource_budget_snapshot: dict[str, Any],
 ) -> None:
+    deviation_log = _read_jsonl(DEVIATION_LOG_PATH)
     write_json_atomic(cycle_dir / "lane_specs.json", lane_specs)
     write_json_atomic(cycle_dir / "lane_results.json", lane_results)
     write_json_atomic(cycle_dir / "gate_report.json", gate_report)
     write_json_atomic(cycle_dir / "hypothesis_board.json", hypothesis_board)
     write_json_atomic(cycle_dir / "cycle_summary.json", cycle_summary)
     write_json_atomic(cycle_dir / "route_decision.json", route_decision)
+    write_json_atomic(cycle_dir / "policy_snapshot.json", policy_snapshot)
+    write_json_atomic(cycle_dir / "resource_budget_snapshot.json", resource_budget_snapshot)
+    write_json_atomic(cycle_dir / "deviation_log.json", {"records": deviation_log})
     write_json_atomic(cycle_dir / "cycle_mode.json", {"cycle_id": cycle_dir.name, "cycle_mode": cycle_mode, "updated_at": now_iso()})
     write_text_atomic(cycle_dir / "cycle_memo.md", cycle_memo)
     write_json_atomic(cycle_dir / "proposed_current_truth_delta.json", proposed_current_truth_delta)

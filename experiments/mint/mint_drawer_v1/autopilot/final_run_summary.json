@@ -1,17 +1,11 @@
 {
-  "generated_at": "2026-04-13T00:09:10+08:00",
+  "generated_at": "2026-04-13T17:14:30+08:00",
   "cycle_mode": "unattended_cycle",
   "experiment_family": "RCA",
-  "cycles_completed": 4,
+  "cycles_completed": 2,
   "completed_experiments": [
     "RCA0",
-    "RCA1",
-    "RCA2",
-    "RCA3",
-    "RCA4",
-    "RCA5",
-    "RCA6",
-    "RCA7"
+    "RCA1"
   ],
   "policy": {
     "AUTO_PROMOTE_SOVEREIGN": false,
@@ -19,6 +13,26 @@
     "ALLOW_NEW_CLAIM": false,
     "RUN_MODE": "autonomous_cycle_phase",
     "EXPERIMENT_FAMILY": "RCA",
+    "SELECTOR_MODE": "frozen_v5_pro",
+    "SEED_SPLIT_A": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "SEED_SPLIT_B": [
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "TRUTHFUL_MEASUREMENT_REQUIRED": true,
+    "PERCEPTION_PROBE_MODE": "policy_encoder_v1",
     "CAP_STRONGEST_NEGATIVE": true,
     "RESUME": false
   },
@@ -29,6 +43,26 @@
       "ALLOW_NEW_CLAIM": false,
       "RUN_MODE": "autonomous_cycle_phase",
       "EXPERIMENT_FAMILY": "RCA",
+      "SELECTOR_MODE": "frozen_v5_pro",
+      "SEED_SPLIT_A": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "SEED_SPLIT_B": [
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "TRUTHFUL_MEASUREMENT_REQUIRED": true,
+      "PERCEPTION_PROBE_MODE": "policy_encoder_v1",
       "CAP_STRONGEST_NEGATIVE": true,
       "RESUME": false
     },
@@ -37,19 +71,13 @@
       "max_disk_growth_mb": 4096,
       "retry_backoff_seconds": 5,
       "max_retries": 2,
-      "max_cycles_per_run": 4,
+      "max_cycles_per_run": 8,
       "max_tiny_retrain_budget": 1
     },
-    "disk_growth_mb": 0.004,
+    "disk_growth_mb": 0.003,
     "completed_experiments": [
       "RCA0",
-      "RCA1",
-      "RCA2",
-      "RCA3",
-      "RCA4",
-      "RCA5",
-      "RCA6",
-      "RCA7"
+      "RCA1"
     ]
   }
 }

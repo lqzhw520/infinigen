@@ -1,10 +1,10 @@
 {
-  "scientific_terminal_state": "MINIMAL_REPAIR_INSUFFICIENT",
-  "route_next_branch": "environment_reformulation",
-  "why": "Local affordance readability still did not pass on true-handle measurement.",
+  "scientific_terminal_state": null,
+  "route_next_branch": "stay_current_branch",
+  "why": "Invalid run under frozen root-cause object: truthful_measurement_unavailable",
   "strongest_negative_capped": true,
   "cap_active": true,
-  "h0_posterior": 0.2160154791648186,
-  "h6_posterior": 0.7774159401766432,
-  "generated_at": "2026-04-13T00:09:10+08:00"
+  "h0_posterior": 0.35,
+  "h6_posterior": 0.55,
+  "generated_at": "2026-04-13T17:14:30+08:00"
 }

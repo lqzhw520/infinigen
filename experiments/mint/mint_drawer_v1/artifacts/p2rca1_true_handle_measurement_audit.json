@@ -1,29 +1,36 @@
 {
   "experiment_id": "RCA1",
-  "generated_at": "2026-04-13T00:07:28+08:00",
-  "passed": true,
-  "measurement_mode": "true_handle_mask",
-  "legacy_measurement_mode": "heuristic_projection",
+  "generated_at": "2026-04-13T17:14:29+08:00",
+  "selector_mode": "frozen_v5_pro",
+  "baseline_cell_id": "V0T0S0",
+  "frozen_matrix_hash": "abf3c0ae9bc6b1c6",
+  "measurement_truthful_available": false,
+  "measurement_truth_tier": "semantic_geom",
+  "measurement_backend": "segmentation_render",
+  "truthful_mask_area_ratio_secondary": 0.04932464743560215,
+  "truthful_bbox_area_ratio_secondary": 0.07426402253924676,
+  "truthful_bbox_over_mask_ratio_secondary": 13.906976744186046,
+  "proxy_bbox_area_ratio_secondary": 0.019775390625,
+  "truthful_proxy_iou_secondary": 0.0,
+  "truthful_proxy_centroid_delta_px": 108.06132507324219,
   "true_handle_bbox_secondary": [
     0,
-    0,
-    220,
+    143,
+    172,
     256
   ],
-  "legacy_handle_bbox_secondary": [
-    58,
-    75,
-    94,
-    111
+  "proxy_handle_bbox_secondary": [
+    57,
+    74,
+    93,
+    110
   ],
-  "true_handle_boundary_contrast": 0.07417119632159175,
-  "legacy_handle_local_contrast": 0.003380234228888369,
-  "true_handle_crop_entropy": 0.0,
-  "legacy_handle_crop_entropy": 0.015762502008951927,
   "materially_different": true,
+  "invalid_run": true,
+  "representative_overlay_images": [],
   "lane_report": {
     "lane": {
-      "lane_id": "RCA1_true_measurement_audit",
+      "lane_id": "RCA1_V0T0S0",
       "lane_family": "RCA",
       "stage": "probe",
       "env_contract_config": {
@@ -40,11 +47,15 @@
         "emit_orientation_telemetry": true,
         "emit_camera_metadata": true,
         "emit_handle_probe_metadata": true,
-        "canonical_lane": true
+        "canonical_lane": true,
+        "measurement_mode": "truthful_handle_semantic",
+        "measurement_fallback_policy": "forbid",
+        "emit_measurement_debug": false
       },
       "interventions": {
         "rotation_source": "zero",
-        "profile_id": "visual_affordance_v3_raw_canonical"
+        "profile_id": "V0T0S0",
+        "cell_id": "V0T0S0"
       },
       "dataset_config": {
         "unique_data_budget": null,
@@ -85,6 +96,26 @@
           "ALLOW_NEW_CLAIM": false,
           "RUN_MODE": "autonomous_cycle_phase",
           "EXPERIMENT_FAMILY": "RCA",
+          "SELECTOR_MODE": "frozen_v5_pro",
+          "SEED_SPLIT_A": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ],
+          "SEED_SPLIT_B": [
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "TRUTHFUL_MEASUREMENT_REQUIRED": true,
+          "PERCEPTION_PROBE_MODE": "policy_encoder_v1",
           "CAP_STRONGEST_NEGATIVE": true,
           "RESUME": false
         },
@@ -93,7 +124,7 @@
           "max_disk_growth_mb": 4096,
           "retry_backoff_seconds": 5,
           "max_retries": 2,
-          "max_cycles_per_run": 4,
+          "max_cycles_per_run": 8,
           "max_tiny_retrain_budget": 1
         },
         "disk_growth_mb": 0.003,
@@ -101,11 +132,11 @@
           "RCA0"
         ]
       },
-      "note": "Audit heuristic vs true handle measurement on same lane.",
+      "note": "Truthful measurement audit on frozen baseline.",
       "experiment_id": "RCA1",
       "coverage": {},
       "cost": 1.0,
-      "lane_hash": "8643bc44c5cfcf4a"
+      "lane_hash": "368221520fb1185a"
     },
     "claim_policy": "canonical",
     "diagnostic_only": false,
@@ -147,63 +178,124 @@
     "lighting_profile": "front_key_handle_rim",
     "material_policy": "legacy",
     "camera_framing_profile": "macro_handle_centered",
-    "probe_measurement_mode": "true_handle_mask",
+    "probe_measurement_mode": "truthful_handle_semantic",
+    "measurement_backend": "segmentation_render",
+    "measurement_truth_tier": "semantic_geom",
+    "measurement_truthful": false,
+    "measurement_warning_flags": [
+      "isolated_render_empty_mask",
+      "segmentation_empty_mask",
+      "truthful_measurement_required_no_fallback"
+    ],
+    "handle_geom_ids": [
+      5,
+      6,
+      8
+    ],
+    "handle_geom_names": [
+      "drawer_handle_collision"
+    ],
     "handle_bbox_primary": [
-      135,
-      102,
       162,
-      131
+      132,
+      241,
+      256
     ],
     "handle_bbox_secondary": [
       0,
-      0,
-      220,
+      143,
+      172,
       256
     ],
-    "handle_visibility_fraction": 1.0,
-    "handle_local_contrast": 0.0,
-    "handle_crop_entropy": 0.0,
-    "handle_area_ratio": 0.29153028826847255,
-    "handle_boundary_contrast": 0.07417119632159175,
-    "handle_edge_density": 0.011293267081497435,
-    "handle_local_std": 0.19031801807603727,
-    "legacy_handle_local_contrast": 0.003380234228888369,
-    "legacy_handle_crop_entropy": 0.015762502008951927,
-    "legacy_handle_bbox_secondary": [
-      58,
-      75,
-      94,
-      111
-    ],
-    "framing_score": 0.7736183586802876,
+    "handle_mask_nonzero_pixels_primary": 1361,
+    "handle_mask_nonzero_pixels_secondary": 3233,
+    "handle_mask_area_ratio_primary": 0.020768579447044515,
+    "handle_mask_area_ratio_secondary": 0.04932464743560215,
+    "handle_bbox_area_ratio_primary": 0.03914440802808078,
+    "handle_bbox_area_ratio_secondary": 0.07426402253924676,
+    "bbox_over_mask_ratio_primary": 9.700787401574804,
+    "bbox_over_mask_ratio_secondary": 13.906976744186046,
+    "handle_visibility_fraction": 0.485962058938149,
+    "handle_area_ratio": 0.04932464743560215,
+    "handle_boundary_contrast": 0.0839069343168913,
+    "handle_edge_density": 0.03573081513055348,
+    "handle_crop_entropy": 1.847712971476938,
+    "handle_local_std": 0.0669758494315651,
+    "handle_local_contrast": 0.0839069343168913,
+    "framing_score": 0.3185333352562542,
     "camera_relativeness_residual": 0.0,
-    "perception_probe_mode": "crop_feature_proxy_v1",
-    "perception_probe_available": true,
-    "handle_patch_separability": 1.868692736168337,
-    "encoder_readability_pass": true,
-    "positive_count": 107,
-    "negative_count": 107,
+    "legacy_probe_measurement_mode": "proxy_debug",
+    "legacy_handle_bbox_secondary": [
+      57,
+      74,
+      93,
+      110
+    ],
+    "legacy_handle_local_contrast": 0.0008530308077619233,
+    "legacy_handle_crop_entropy": 0.003977801214523246,
+    "perception_probe_mode": "policy_encoder_v1",
+    "perception_probe_available": false,
+    "handle_patch_separability": 0.0,
+    "encoder_readability_pass": null,
+    "positive_count": 325,
+    "negative_count": 424,
+    "warning_flags": [
+      "non_truthful_mask_in_probe_trace",
+      "policy_encoder_unavailable"
+    ],
+    "proxy_probe": {
+      "perception_probe_mode": "proxy_only",
+      "perception_probe_available": true,
+      "handle_patch_separability": 1.174180226242491,
+      "encoder_readability_pass": null,
+      "positive_count": 325,
+      "negative_count": 424,
+      "warning_flags": [
+        "non_truthful_mask_in_probe_trace"
+      ]
+    },
     "observation_contract_pass": true,
     "visual_gate_breakdown": {
       "baseline_weighted_visual_gap": 2.4770394000000007,
       "lane_weighted_visual_gap": 2.4770394000000007,
       "visual_alignment_gain": 0.0,
-      "framing_score": 0.7736183586802876,
-      "handle_visibility_fraction": 1.0,
-      "handle_local_contrast": 0.0,
-      "handle_crop_entropy": 0.0,
-      "handle_readability_score": 0.45472367173605754,
-      "perceptual_readability_score_v2": 0.30009801945483167,
+      "framing_score": 0.3185333352562542,
+      "handle_visibility_fraction": 0.485962058938149,
+      "handle_local_contrast": 0.0839069343168913,
+      "handle_crop_entropy": 1.847712971476938,
+      "handle_readability_score": 0.6018809333065424,
+      "perceptual_readability_score_v2": 0.33103451331859834,
       "camera_relativeness_residual": 0.0,
-      "encoder_readability_pass": true
+      "encoder_readability_pass": null
     },
     "g4b_local_breakdown": {
-      "handle_area_ratio": 0.859375,
-      "handle_boundary_contrast": 0.07417119632159175,
-      "handle_edge_density": 0.011293267081497435,
-      "handle_crop_entropy": 0.0,
-      "secondary_framing_score": 0.7736183586802876,
-      "local_affordance_readability_score_v3": 0.6570734357149571
+      "handle_mask_area_ratio": 0.0493316650390625,
+      "handle_area_ratio": 0.0493316650390625,
+      "handle_bbox_area_ratio_debug": 0.29656982421875,
+      "bbox_over_mask_ratio": 6.011753789050418,
+      "measurement_truthful_pass": false,
+      "bbox_inflation_flag": true,
+      "primitive_passes": {
+        "area": true,
+        "boundary": true,
+        "edge": true,
+        "entropy": true,
+        "framing": false
+      },
+      "all_primitives_pass": false,
+      "handle_boundary_contrast": 0.0839069343168913,
+      "handle_edge_density": 0.03573081513055348,
+      "handle_crop_entropy": 1.847712971476938,
+      "secondary_framing_score": 0.3185333352562542,
+      "local_score_rank_only": 0.9182571432691974,
+      "local_affordance_readability_score_v3": 0.9182571432691974,
+      "local_score_inflation_flag": true,
+      "measurement_truth_tier": "semantic_geom",
+      "measurement_warning_flags": [
+        "isolated_render_empty_mask",
+        "segmentation_empty_mask",
+        "truthful_measurement_required_no_fallback"
+      ]
     },
     "g4c_global_breakdown": {
       "baseline_weighted_visual_gap": 2.4770394000000007,

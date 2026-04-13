@@ -1,18 +1,23 @@
 # Morning Bundle
 
-1. Did true-handle measurement materially differ from heuristic measurement? yes
-2. Did the local-affordance bundle pass G4b_local? no
-3. If yes, did rollout still remain negative? no
-4. Does that falsify local-perceptual-dominance, or did the bundle still fail before that point? the bundle still failed before local-perceptual-dominance could be falsified
+1. Was truthful measurement available? no
+2. Did V1T0S0 beat V0T0S0 locally under truthful measurement? no
+3. What frozen matrix cell won RCA5? none
+4. Did RCA6 replicate positive rollout lift on split B? no
+5. Terminal interpretation: Invalid run under frozen root-cause object: truthful_measurement_unavailable
+
+## Gates
+- G4b_local_affordance_readability: fail
+- G4c_global_visual_canonicality: fail
+- G5_training_eligibility: fail
 
 ## Key Results
-- route_next_branch: environment_reformulation
+- route_next_branch: stay_current_branch
+- scientific_terminal_state: None
 - strongest_negative_capped: True
-- h0_posterior: 0.2160
-- h6_posterior: 0.7774
-- best_profile_id: visual_affordance_v3_raw_canonical
-- best_rollout_ceiling_lift: 0.000000
-- best_state_alignment_gain: 0.000000
-- best_sensor_perception_gain: 0.484815
-- cycles_completed: 4
-- completed_experiments: RCA0, RCA1, RCA2, RCA3, RCA4, RCA5, RCA6, RCA7
+- baseline_cell_id: V0T0S0
+- frozen_matrix_hash: abf3c0ae9bc6b1c6
+- best_cell_id: none
+- replicated_rollout_ceiling_lift: 0.000000
+- cycles_completed: 2
+- completed_experiments: RCA0, RCA1

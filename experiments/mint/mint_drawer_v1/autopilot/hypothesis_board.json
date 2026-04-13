@@ -2,15 +2,11 @@
   "H0_same_problem_identity": {
     "id": "H0_same_problem_identity",
     "description": "Current environment is still close enough to the upstream benchmark-alignment claim.",
-    "prior": 0.2613354218405914,
-    "posterior": 0.2160154791648186,
+    "prior": 0.35,
+    "posterior": 0.35,
     "importance": 1.0,
     "supporting_experiments": [],
-    "contradicting_experiments": [
-      "RCA0",
-      "RCA5",
-      "RCA6"
-    ],
+    "contradicting_experiments": [],
     "next_best_test": "VR1",
     "status": "active"
   },
@@ -29,11 +25,9 @@
     "id": "H2_state_representability",
     "description": "Primary blocker is unresolved or impossible control-compatible state representability under the current embodiment.",
     "prior": 0.65,
-    "posterior": 0.7269175326946722,
+    "posterior": 0.65,
     "importance": 0.95,
-    "supporting_experiments": [
-      "RCA4"
-    ],
+    "supporting_experiments": [],
     "contradicting_experiments": [],
     "next_best_test": "VR3",
     "status": "active"
@@ -41,14 +35,10 @@
   "H3_observation_visual_contract": {
     "id": "H3_observation_visual_contract",
     "description": "Observation contract and visual semantics are a strong co-blocker.",
-    "prior": 0.7421738243692261,
-    "posterior": 0.7644616040830952,
+    "prior": 0.7,
+    "posterior": 0.7,
     "importance": 0.95,
-    "supporting_experiments": [
-      "RCA1",
-      "RCA2",
-      "RCA5"
-    ],
+    "supporting_experiments": [],
     "contradicting_experiments": [],
     "next_best_test": "E0",
     "status": "active"
@@ -78,14 +68,10 @@
   "H6_environment_invalid_for_claim": {
     "id": "H6_environment_invalid_for_claim",
     "description": "Current environment formulation is insufficient for the benchmark-alignment claim.",
-    "prior": 0.7090285611716185,
-    "posterior": 0.7774159401766432,
+    "prior": 0.55,
+    "posterior": 0.55,
     "importance": 1.0,
-    "supporting_experiments": [
-      "RCA0",
-      "RCA5",
-      "RCA6"
-    ],
+    "supporting_experiments": [],
     "contradicting_experiments": [],
     "next_best_test": "VR5",
     "status": "active"

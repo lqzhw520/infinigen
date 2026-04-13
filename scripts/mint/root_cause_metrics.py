@@ -19,6 +19,7 @@ HANDLE_AREA_RATIO_THRESHOLD = 0.01
 SECONDARY_FRAMING_THRESHOLD = 0.70
 LOCAL_AFFORDANCE_READABILITY_THRESHOLD = 0.60
 GLOBAL_VISUAL_ALIGNMENT_THRESHOLD = 0.10
+BBOX_OVER_MASK_RATIO_MAX = 1.60
 
 
 def _to_uint8(rgb: np.ndarray) -> np.ndarray:
@@ -182,12 +183,31 @@ def perceptual_readability_score_v2(
     return float(score)
 
 
-def handle_area_ratio(mask_bbox: list[int] | tuple[int, int, int, int] | None, image_shape: tuple[int, ...]) -> float:
+def handle_mask_area_ratio(mask_nonzero_pixels: int | float, image_shape: tuple[int, ...]) -> float:
+    if len(image_shape) < 2:
+        return 0.0
+    h = max(int(image_shape[0]), 1)
+    w = max(int(image_shape[1]), 1)
+    return float(max(float(mask_nonzero_pixels), 0.0) / float(h * w))
+
+
+def handle_bbox_area_ratio_debug(mask_bbox: list[int] | tuple[int, int, int, int] | None, image_shape: tuple[int, ...]) -> float:
     if mask_bbox is None or len(image_shape) < 2:
         return 0.0
     h = max(int(image_shape[0]), 1)
     w = max(int(image_shape[1]), 1)
     return float(_bbox_area(mask_bbox) / float(h * w))
+
+
+def handle_area_ratio(mask_bbox: list[int] | tuple[int, int, int, int] | None, image_shape: tuple[int, ...]) -> float:
+    return handle_bbox_area_ratio_debug(mask_bbox, image_shape)
+
+
+def bbox_over_mask_ratio(mask_bbox: list[int] | tuple[int, int, int, int] | None, mask_nonzero_pixels: int | float) -> float:
+    bbox_area = float(_bbox_area(mask_bbox))
+    if bbox_area <= 0.0 or float(mask_nonzero_pixels) <= 0.0:
+        return 0.0
+    return float(bbox_area / max(float(mask_nonzero_pixels), 1.0))
 
 
 def handle_boundary_contrast(mask_ring: np.ndarray, image: np.ndarray) -> float:
@@ -237,30 +257,88 @@ def local_affordance_readability_score_v3(
     return float(0.20 * area_term + 0.25 * boundary_term + 0.20 * edge_term + 0.20 * entropy_term + 0.15 * framing_term)
 
 
-def local_affordance_gate_breakdown(
+def local_affordance_primitives_v5(
     *,
+    mask_nonzero_pixels: int | float,
     handle_bbox: list[int] | tuple[int, int, int, int] | None,
     image_shape: tuple[int, ...],
     handle_boundary_contrast_value: float,
     handle_edge_density_value: float,
     handle_crop_entropy_value: float,
     secondary_framing_score: float,
+    measurement_truthful: bool,
 ) -> dict[str, Any]:
-    area_ratio = handle_area_ratio(handle_bbox, image_shape)
-    score = local_affordance_readability_score_v3(
-        handle_area_ratio_value=area_ratio,
+    mask_area = handle_mask_area_ratio(mask_nonzero_pixels, image_shape)
+    bbox_area_debug = handle_bbox_area_ratio_debug(handle_bbox, image_shape)
+    bbox_over_mask = bbox_over_mask_ratio(handle_bbox, mask_nonzero_pixels)
+    primitive_passes = {
+        "area": bool(mask_area >= HANDLE_AREA_RATIO_THRESHOLD),
+        "boundary": bool(float(handle_boundary_contrast_value) >= HANDLE_BOUNDARY_CONTRAST_THRESHOLD),
+        "edge": bool(float(handle_edge_density_value) >= HANDLE_EDGE_DENSITY_THRESHOLD),
+        "entropy": bool(float(handle_crop_entropy_value) >= HANDLE_CROP_ENTROPY_THRESHOLD),
+        "framing": bool(float(secondary_framing_score) >= SECONDARY_FRAMING_THRESHOLD),
+    }
+    bbox_inflation_flag = bool(bbox_over_mask > BBOX_OVER_MASK_RATIO_MAX) if bbox_over_mask > 0.0 else False
+    return {
+        "handle_mask_area_ratio": float(mask_area),
+        "handle_bbox_area_ratio_debug": float(bbox_area_debug),
+        "bbox_over_mask_ratio": float(bbox_over_mask),
+        "measurement_truthful_pass": bool(measurement_truthful),
+        "bbox_inflation_flag": bool(bbox_inflation_flag),
+        "primitive_passes": primitive_passes,
+        "all_primitives_pass": bool(all(primitive_passes.values())),
+    }
+
+
+def local_affordance_gate_breakdown(
+    *,
+    mask_nonzero_pixels: int | float,
+    handle_bbox: list[int] | tuple[int, int, int, int] | None,
+    image_shape: tuple[int, ...],
+    handle_boundary_contrast_value: float,
+    handle_edge_density_value: float,
+    handle_crop_entropy_value: float,
+    secondary_framing_score: float,
+    measurement_truthful: bool,
+    truth_tier: str | None = None,
+    warning_flags: list[str] | None = None,
+) -> dict[str, Any]:
+    primitives = local_affordance_primitives_v5(
+        mask_nonzero_pixels=mask_nonzero_pixels,
+        handle_bbox=handle_bbox,
+        image_shape=image_shape,
+        handle_boundary_contrast_value=handle_boundary_contrast_value,
+        handle_edge_density_value=handle_edge_density_value,
+        handle_crop_entropy_value=handle_crop_entropy_value,
+        secondary_framing_score=secondary_framing_score,
+        measurement_truthful=measurement_truthful,
+    )
+    rank_only = local_affordance_readability_score_v3(
+        handle_area_ratio_value=primitives["handle_mask_area_ratio"],
         handle_boundary_contrast_value=handle_boundary_contrast_value,
         handle_edge_density_value=handle_edge_density_value,
         handle_crop_entropy_value=handle_crop_entropy_value,
         secondary_framing_score=secondary_framing_score,
     )
+    inflation_flag = bool(rank_only >= LOCAL_AFFORDANCE_READABILITY_THRESHOLD and not primitives["all_primitives_pass"])
     return {
-        "handle_area_ratio": float(area_ratio),
+        "handle_mask_area_ratio": float(primitives["handle_mask_area_ratio"]),
+        "handle_area_ratio": float(primitives["handle_mask_area_ratio"]),
+        "handle_bbox_area_ratio_debug": float(primitives["handle_bbox_area_ratio_debug"]),
+        "bbox_over_mask_ratio": float(primitives["bbox_over_mask_ratio"]),
+        "measurement_truthful_pass": bool(primitives["measurement_truthful_pass"]),
+        "bbox_inflation_flag": bool(primitives["bbox_inflation_flag"]),
+        "primitive_passes": dict(primitives["primitive_passes"]),
+        "all_primitives_pass": bool(primitives["all_primitives_pass"]),
         "handle_boundary_contrast": float(handle_boundary_contrast_value),
         "handle_edge_density": float(handle_edge_density_value),
         "handle_crop_entropy": float(handle_crop_entropy_value),
         "secondary_framing_score": float(secondary_framing_score),
-        "local_affordance_readability_score_v3": float(score),
+        "local_score_rank_only": float(rank_only),
+        "local_affordance_readability_score_v3": float(rank_only),
+        "local_score_inflation_flag": bool(inflation_flag),
+        "measurement_truth_tier": truth_tier,
+        "measurement_warning_flags": list(warning_flags or []),
     }
 
 

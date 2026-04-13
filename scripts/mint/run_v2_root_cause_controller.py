@@ -34,17 +34,29 @@ def _env_int(name: str, default: int) -> int:
     return int(value)
 
 
+def _env_str(name: str, default: str) -> str:
+    value = os.getenv(name)
+    if value is None or not value.strip():
+        return str(default)
+    return value.strip()
+
+
+def _parse_seed_split(value: str) -> list[int]:
+    raw = [item.strip() for item in str(value).split(',') if item.strip()]
+    return [int(item) for item in raw]
+
+
 def _controller_defaults() -> dict[str, object]:
     boundary = load_claim_boundary(CLAIM_BOUNDARY_PATH)
-    defaults = boundary.get("controller_defaults") or {}
+    defaults = boundary.get('controller_defaults') or {}
     return {
-        "auto_promote_sovereign": bool(defaults.get("auto_promote_sovereign", False)),
-        "allow_full_retrain": bool(defaults.get("allow_full_retrain", False)),
-        "allow_new_claim": bool(defaults.get("allow_new_claim", False)),
-        "run_mode": str(
+        'auto_promote_sovereign': bool(defaults.get('auto_promote_sovereign', False)),
+        'allow_full_retrain': bool(defaults.get('allow_full_retrain', False)),
+        'allow_new_claim': bool(defaults.get('allow_new_claim', False)),
+        'run_mode': str(
             defaults.get(
-                "default_run_mode",
-                "autonomous_cycle_phase" if defaults.get("autonomous_cycle_phase", True) else "manual_build_phase",
+                'default_run_mode',
+                'autonomous_cycle_phase' if defaults.get('autonomous_cycle_phase', True) else 'manual_build_phase',
             )
         ),
     }
@@ -53,45 +65,54 @@ def _controller_defaults() -> dict[str, object]:
 def parse_args() -> argparse.Namespace:
     defaults = _controller_defaults()
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--experiment-family", choices=["VR", "RCA"], default=os.getenv("EXPERIMENT_FAMILY", "RCA"))
-    parser.add_argument("--cap-strongest-negative", dest="cap_strongest_negative", action="store_true", default=_env_bool("CAP_STRONGEST_NEGATIVE", True))
-    parser.add_argument("--no-cap-strongest-negative", dest="cap_strongest_negative", action="store_false")
-    parser.add_argument("--max-cycles", type=int, default=_env_int("MAX_CYCLES", 4))
-    parser.add_argument("--max-experiments-per-cycle", type=int, default=_env_int("MAX_EXPERIMENTS_PER_CYCLE", 3))
-    parser.add_argument("--sleep-seconds", type=int, default=_env_int("SLEEP_SECONDS", 30))
-    parser.add_argument("--max-rollouts-per-experiment", type=int, default=_env_int("MAX_ROLLOUTS_PER_EXPERIMENT", 3))
-    parser.add_argument("--max-disk-growth-mb", type=int, default=_env_int("MAX_DISK_GROWTH_MB", 4096))
-    parser.add_argument("--retry-backoff-seconds", type=int, default=_env_int("RETRY_BACKOFF_SECONDS", 5))
-    parser.add_argument("--max-retries", type=int, default=_env_int("MAX_RETRIES", 2))
-    parser.add_argument("--max-cycles-per-run", type=int, default=_env_int("MAX_CYCLES_PER_RUN", 4))
-    parser.add_argument("--max-tiny-retrain-budget", type=int, default=_env_int("MAX_TINY_RETRAIN_BUDGET", 1))
-    parser.add_argument("--dry-run", action="store_true")
-    parser.add_argument("--reset-state", action="store_true")
-    parser.add_argument("--resume", action="store_true")
-    parser.add_argument("--cycle-mode", choices=["dry_run", "preflight", "unattended_cycle", "soak_rehearsal"], default=None)
-    parser.add_argument("--auto-promote-sovereign", dest="auto_promote_sovereign", action="store_true", default=_env_bool("AUTO_PROMOTE_SOVEREIGN", bool(defaults["auto_promote_sovereign"])))
-    parser.add_argument("--no-auto-promote-sovereign", dest="auto_promote_sovereign", action="store_false")
-    parser.add_argument("--allow-full-retrain", dest="allow_full_retrain", action="store_true", default=_env_bool("ALLOW_FULL_RETRAIN", bool(defaults["allow_full_retrain"])))
-    parser.add_argument("--disallow-full-retrain", dest="allow_full_retrain", action="store_false")
-    parser.add_argument("--allow-new-claim", dest="allow_new_claim", action="store_true", default=_env_bool("ALLOW_NEW_CLAIM", bool(defaults["allow_new_claim"])))
-    parser.add_argument("--disallow-new-claim", dest="allow_new_claim", action="store_false")
-    parser.add_argument("--run-mode", choices=["manual_build_phase", "autonomous_cycle_phase"], default=os.getenv("RUN_MODE", str(defaults["run_mode"])))
-    return parser.parse_args()
+    parser.add_argument('--experiment-family', choices=['VR', 'RCA'], default=os.getenv('EXPERIMENT_FAMILY', 'RCA'))
+    parser.add_argument('--selector-mode', choices=['adaptive', 'frozen_v5_pro'], default=_env_str('SELECTOR_MODE', 'adaptive'))
+    parser.add_argument('--seed-split-a', default=_env_str('SEED_SPLIT_A', '1,2,3,4,5,6,7,8'))
+    parser.add_argument('--seed-split-b', default=_env_str('SEED_SPLIT_B', '11,12,13,14,15'))
+    parser.add_argument('--truthful-measurement-required', dest='truthful_measurement_required', action='store_true', default=_env_bool('TRUTHFUL_MEASUREMENT_REQUIRED', False))
+    parser.add_argument('--allow-nontruthful-measurement', dest='truthful_measurement_required', action='store_false')
+    parser.add_argument('--perception-probe-mode', choices=['policy_encoder_v1', 'proxy_only'], default=_env_str('PERCEPTION_PROBE_MODE', 'policy_encoder_v1'))
+    parser.add_argument('--cap-strongest-negative', dest='cap_strongest_negative', action='store_true', default=_env_bool('CAP_STRONGEST_NEGATIVE', True))
+    parser.add_argument('--no-cap-strongest-negative', dest='cap_strongest_negative', action='store_false')
+    parser.add_argument('--max-cycles', type=int, default=_env_int('MAX_CYCLES', 4))
+    parser.add_argument('--max-experiments-per-cycle', type=int, default=_env_int('MAX_EXPERIMENTS_PER_CYCLE', 3))
+    parser.add_argument('--sleep-seconds', type=int, default=_env_int('SLEEP_SECONDS', 30))
+    parser.add_argument('--max-rollouts-per-experiment', type=int, default=_env_int('MAX_ROLLOUTS_PER_EXPERIMENT', 3))
+    parser.add_argument('--max-disk-growth-mb', type=int, default=_env_int('MAX_DISK_GROWTH_MB', 4096))
+    parser.add_argument('--retry-backoff-seconds', type=int, default=_env_int('RETRY_BACKOFF_SECONDS', 5))
+    parser.add_argument('--max-retries', type=int, default=_env_int('MAX_RETRIES', 2))
+    parser.add_argument('--max-cycles-per-run', type=int, default=_env_int('MAX_CYCLES_PER_RUN', 8))
+    parser.add_argument('--max-tiny-retrain-budget', type=int, default=_env_int('MAX_TINY_RETRAIN_BUDGET', 1))
+    parser.add_argument('--dry-run', action='store_true')
+    parser.add_argument('--reset-state', action='store_true')
+    parser.add_argument('--resume', action='store_true')
+    parser.add_argument('--cycle-mode', choices=['dry_run', 'preflight', 'unattended_cycle', 'soak_rehearsal'], default=None)
+    parser.add_argument('--auto-promote-sovereign', dest='auto_promote_sovereign', action='store_true', default=_env_bool('AUTO_PROMOTE_SOVEREIGN', bool(defaults['auto_promote_sovereign'])))
+    parser.add_argument('--no-auto-promote-sovereign', dest='auto_promote_sovereign', action='store_false')
+    parser.add_argument('--allow-full-retrain', dest='allow_full_retrain', action='store_true', default=_env_bool('ALLOW_FULL_RETRAIN', bool(defaults['allow_full_retrain'])))
+    parser.add_argument('--disallow-full-retrain', dest='allow_full_retrain', action='store_false')
+    parser.add_argument('--allow-new-claim', dest='allow_new_claim', action='store_true', default=_env_bool('ALLOW_NEW_CLAIM', bool(defaults['allow_new_claim'])))
+    parser.add_argument('--disallow-new-claim', dest='allow_new_claim', action='store_false')
+    parser.add_argument('--run-mode', choices=['manual_build_phase', 'autonomous_cycle_phase'], default=os.getenv('RUN_MODE', str(defaults['run_mode'])))
+    args = parser.parse_args()
+    args.seed_split_a = _parse_seed_split(args.seed_split_a)
+    args.seed_split_b = _parse_seed_split(args.seed_split_b)
+    return args
 
 
 def _resolve_cycle_mode(args: argparse.Namespace) -> str:
     if args.cycle_mode:
         return args.cycle_mode
     if args.dry_run:
-        return "dry_run"
-    if args.run_mode == "manual_build_phase":
-        return "preflight"
-    return "unattended_cycle"
+        return 'dry_run'
+    if args.run_mode == 'manual_build_phase':
+        return 'preflight'
+    return 'unattended_cycle'
 
 
 def main() -> int:
     args = parse_args()
-    reset_archive = archive_controller_state(reason="cli_reset_state") if args.reset_state else None
+    reset_archive = archive_controller_state(reason='cli_reset_state') if args.reset_state else None
     cycle_mode = _resolve_cycle_mode(args)
     payload = run_controller(
         max_cycles=args.max_cycles,
@@ -104,6 +125,11 @@ def main() -> int:
         run_mode=args.run_mode,
         cycle_mode=cycle_mode,
         experiment_family=args.experiment_family,
+        selector_mode=args.selector_mode,
+        seed_split_a=args.seed_split_a,
+        seed_split_b=args.seed_split_b,
+        truthful_measurement_required=args.truthful_measurement_required,
+        perception_probe_mode=args.perception_probe_mode,
         cap_strongest_negative=args.cap_strongest_negative,
         resume=args.resume,
         max_rollouts_per_experiment=args.max_rollouts_per_experiment,
@@ -114,11 +140,11 @@ def main() -> int:
         max_tiny_retrain_budget=args.max_tiny_retrain_budget,
     )
     if reset_archive is not None:
-        payload["reset_archive"] = reset_archive
-    payload["cycle_mode"] = cycle_mode
+        payload['reset_archive'] = reset_archive
+    payload['cycle_mode'] = cycle_mode
     print(json.dumps(payload, indent=2, ensure_ascii=False))
     return 0
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     raise SystemExit(main())

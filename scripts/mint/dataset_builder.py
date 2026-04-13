@@ -94,6 +94,7 @@ def _rollout_provenance(meta: dict[str, Any], n_frames: int) -> dict[str, Any]:
     contract_config = meta.get("contract_config") or {}
     state_spec = meta.get("state_spec") or {}
     visual_mode_report = meta.get("visual_mode_report") or {}
+    handle_probe = meta.get("handle_probe_metadata") or {}
     return {
         "seed": meta.get("seed"),
         "claim_policy": meta.get("claim_policy", "unspecified"),
@@ -111,6 +112,20 @@ def _rollout_provenance(meta: dict[str, Any], n_frames: int) -> dict[str, Any]:
         "lighting_profile": visual_mode_report.get("lighting_profile", contract_config.get("lighting_profile", "unknown")),
         "material_policy": visual_mode_report.get("material_policy", contract_config.get("material_policy", "unknown")),
         "camera_framing_profile": visual_mode_report.get("camera_framing_profile", contract_config.get("camera_framing_profile", "unknown")),
+        "measurement_mode": handle_probe.get("probe_measurement_mode", contract_config.get("measurement_mode", "unknown")),
+        "measurement_backend": handle_probe.get("measurement_backend", "unknown"),
+        "measurement_truth_tier": handle_probe.get("measurement_truth_tier", "unknown"),
+        "measurement_truthful": bool(handle_probe.get("measurement_truthful", False)),
+        "measurement_warning_flags": handle_probe.get("measurement_warning_flags", []),
+        "handle_geom_ids": handle_probe.get("handle_geom_ids", []),
+        "handle_geom_names": handle_probe.get("handle_geom_names", []),
+        "handle_mask_area_ratio_primary": handle_probe.get("handle_mask_area_ratio_primary", 0.0),
+        "handle_mask_area_ratio_secondary": handle_probe.get("handle_mask_area_ratio_secondary", 0.0),
+        "bbox_over_mask_ratio_primary": handle_probe.get("bbox_over_mask_ratio_primary", 0.0),
+        "bbox_over_mask_ratio_secondary": handle_probe.get("bbox_over_mask_ratio_secondary", 0.0),
+        "selector_mode": meta.get("selector_mode", "adaptive"),
+        "baseline_cell_id": meta.get("baseline_cell_id"),
+        "frozen_matrix_hash": meta.get("frozen_matrix_hash"),
         "resource_budget_snapshot": meta.get("resource_budget_snapshot", {}),
         "visual_mode_report": visual_mode_report,
     }

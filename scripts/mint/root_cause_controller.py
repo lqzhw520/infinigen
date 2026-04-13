@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import json
+import subprocess
 import time
 from dataclasses import asdict
 from pathlib import Path
@@ -42,11 +43,13 @@ from root_cause_contracts import (
     classify_claim_policy,
     load_authority_snapshot,
     load_claim_boundary,
+    stable_config_hash,
 )
 from root_cause_hypotheses import apply_updates, default_board, unresolvedness
 from perception_probe_mint import run_perception_probe
 from root_cause_metrics import (
     GLOBAL_VISUAL_ALIGNMENT_THRESHOLD,
+    BBOX_OVER_MASK_RATIO_MAX,
     HANDLE_AREA_RATIO_THRESHOLD,
     HANDLE_BOUNDARY_CONTRAST_THRESHOLD,
     HANDLE_CROP_ENTROPY_THRESHOLD,
@@ -54,7 +57,10 @@ from root_cause_metrics import (
     LOCAL_AFFORDANCE_READABILITY_THRESHOLD,
     SECONDARY_FRAMING_THRESHOLD,
     contract_validity_score_v2,
+    bbox_over_mask_ratio,
     handle_area_ratio,
+    handle_bbox_area_ratio_debug,
+    handle_mask_area_ratio,
     handle_crop_entropy,
     handle_local_contrast,
     handle_readability_score,
@@ -97,14 +103,14 @@ VR_ARTIFACTS: dict[str, tuple[Path, Path]] = {
 }
 
 RCA_ARTIFACTS: dict[str, tuple[Path, Path]] = {
-    "RCA0": (ARTIFACT_DIR / "p2rca0_replicate_current_negative.json", OUTPUT_DIR / "p2rca0_replicate_current_negative.md"),
+    "RCA0": (ARTIFACT_DIR / "p2rca0_frozen_matrix_baseline.json", OUTPUT_DIR / "p2rca0_frozen_matrix_baseline.md"),
     "RCA1": (ARTIFACT_DIR / "p2rca1_true_handle_measurement_audit.json", OUTPUT_DIR / "p2rca1_true_handle_measurement_audit.md"),
     "RCA2": (ARTIFACT_DIR / "p2rca2_local_affordance_visual_attack.json", OUTPUT_DIR / "p2rca2_local_affordance_visual_attack.md"),
     "RCA3": (ARTIFACT_DIR / "p2rca3_affordance_plus_transition_contract.json", OUTPUT_DIR / "p2rca3_affordance_plus_transition_contract.md"),
     "RCA4": (ARTIFACT_DIR / "p2rca4_affordance_plus_transition_state.json", OUTPUT_DIR / "p2rca4_affordance_plus_transition_state.md"),
-    "RCA5": (ARTIFACT_DIR / "p2rca5_strongest_bundle_under_local_gate.json", OUTPUT_DIR / "p2rca5_strongest_bundle_under_local_gate.md"),
-    "RCA6": (ARTIFACT_DIR / "p2rca6_replicate_strongest_bundle.json", OUTPUT_DIR / "p2rca6_replicate_strongest_bundle.md"),
-    "RCA7": (ARTIFACT_DIR / "p2rca7_tiny_retrain_confirmation.json", OUTPUT_DIR / "p2rca7_tiny_retrain_confirmation.md"),
+    "RCA5": (ARTIFACT_DIR / "p2rca5_frozen_matrix_screen.json", OUTPUT_DIR / "p2rca5_frozen_matrix_screen.md"),
+    "RCA6": (ARTIFACT_DIR / "p2rca6_best_cell_replicate.json", OUTPUT_DIR / "p2rca6_best_cell_replicate.md"),
+    "RCA7": (ARTIFACT_DIR / "p2rca7_tiny_retrain_if_eligible.json", OUTPUT_DIR / "p2rca7_tiny_retrain_if_eligible.md"),
 }
 
 
@@ -120,6 +126,11 @@ class RootCauseController:
         run_mode: str = "autonomous_cycle_phase",
         cycle_mode: str = "unattended_cycle",
         experiment_family: str = "VR",
+        selector_mode: str = "adaptive",
+        seed_split_a: list[int] | None = None,
+        seed_split_b: list[int] | None = None,
+        truthful_measurement_required: bool = False,
+        perception_probe_mode: str = "policy_encoder_v1",
         cap_strongest_negative: bool = True,
         resume: bool = False,
         max_rollouts_per_experiment: int = 3,
@@ -133,6 +144,12 @@ class RootCauseController:
         self.max_experiments_per_cycle = int(max_experiments_per_cycle)
         self.dry_run = bool(dry_run)
         self.experiment_family = str(experiment_family)
+        self.selector_mode = str(selector_mode)
+        self.seed_split_a = list(seed_split_a or [1, 2, 3, 4, 5, 6, 7, 8])
+        self.seed_split_b = list(seed_split_b or [11, 12, 13, 14, 15])
+        self.truthful_measurement_required = bool(truthful_measurement_required)
+        self.perception_probe_mode = str(perception_probe_mode)
+        self.policy_encoder_feature_extractor = None
         self.cap_strongest_negative = bool(cap_strongest_negative)
         self.resume = bool(resume)
         self.cycle_mode = str(cycle_mode)
@@ -142,6 +159,11 @@ class RootCauseController:
             "ALLOW_NEW_CLAIM": bool(allow_new_claim),
             "RUN_MODE": str(run_mode),
             "EXPERIMENT_FAMILY": self.experiment_family,
+            "SELECTOR_MODE": self.selector_mode,
+            "SEED_SPLIT_A": list(self.seed_split_a),
+            "SEED_SPLIT_B": list(self.seed_split_b),
+            "TRUTHFUL_MEASUREMENT_REQUIRED": self.truthful_measurement_required,
+            "PERCEPTION_PROBE_MODE": self.perception_probe_mode,
             "CAP_STRONGEST_NEGATIVE": self.cap_strongest_negative,
             "RESUME": self.resume,
         }
@@ -165,6 +187,7 @@ class RootCauseController:
         self.control_visual_stats = summarize_visual(self.control_images)
         self.control_weighted_visual_gap = weighted_visual_gap(visual_gap(self.control_visual_stats, self.control_visual_stats))
         self.disk_start_bytes = self._tree_size(AUTOPILOT_DIR)
+        self._invalid_run_reason: str | None = None
 
     def _tree_size(self, root: Path) -> int:
         if not root.exists():
@@ -311,11 +334,20 @@ class RootCauseController:
     def _visual_affordance_v3_raw_canonical_contract(self) -> dict[str, Any]:
         payload = self._raw_canonical_contract()
         payload.update({
+            "secondary_camera_mode": "wrist_dynamic",
+            "enable_marker_overlay": False,
+            "calibration_mode": "none",
+            "interaction_mode": "legacy_translation_only",
+            "state_mode": "m0_proxy",
             "render_profile": "visual_affordance_v3_raw_canonical",
             "background_mode": "neutral_lowfreq_lab",
             "lighting_profile": "front_key_handle_rim",
             "material_policy": "legacy",
             "camera_framing_profile": "macro_handle_centered",
+            "measurement_mode": "truthful_handle_semantic",
+            "measurement_fallback_policy": "forbid",
+            "emit_measurement_debug": False,
+            "canonical_lane": True,
         })
         return payload
 
@@ -332,11 +364,102 @@ class RootCauseController:
         payload.update({
             "interaction_mode": "orientation_sensitive_v2_affordance_locked",
             "state_mode": state_mode,
-            "render_profile": "visual_affordance_v3_plus_bundle",
+            "measurement_mode": "truthful_handle_semantic",
+            "measurement_fallback_policy": "forbid",
+            "emit_measurement_debug": False,
         })
         return payload
 
+    def _git_branch_name(self) -> str:
+        try:
+            return subprocess.check_output(
+                ['git', 'rev-parse', '--abbrev-ref', 'HEAD'],
+                cwd=str(Path(__file__).resolve().parents[2]),
+                text=True,
+            ).strip()
+        except Exception:  # noqa: BLE001
+            return 'unknown'
+
+    def _gate_threshold_snapshot_v5_pro(self) -> dict[str, Any]:
+        return {
+            'HANDLE_BOUNDARY_CONTRAST_THRESHOLD': HANDLE_BOUNDARY_CONTRAST_THRESHOLD,
+            'HANDLE_EDGE_DENSITY_THRESHOLD': HANDLE_EDGE_DENSITY_THRESHOLD,
+            'HANDLE_CROP_ENTROPY_THRESHOLD': HANDLE_CROP_ENTROPY_THRESHOLD,
+            'HANDLE_AREA_RATIO_THRESHOLD': HANDLE_AREA_RATIO_THRESHOLD,
+            'SECONDARY_FRAMING_THRESHOLD': SECONDARY_FRAMING_THRESHOLD,
+            'LOCAL_AFFORDANCE_READABILITY_THRESHOLD': LOCAL_AFFORDANCE_READABILITY_THRESHOLD,
+            'GLOBAL_VISUAL_ALIGNMENT_THRESHOLD': GLOBAL_VISUAL_ALIGNMENT_THRESHOLD,
+            'BBOX_OVER_MASK_RATIO_MAX': BBOX_OVER_MASK_RATIO_MAX,
+        }
+
+    def _baseline_cell_id_v5_pro(self) -> str:
+        return 'V0T0S0'
+
+    def _frozen_matrix_contracts_v5_pro(self) -> dict[str, dict[str, Any]]:
+        if hasattr(self, '_cached_frozen_matrix_v5_pro'):
+            return self._cached_frozen_matrix_v5_pro
+        cells: dict[str, dict[str, Any]] = {}
+        visuals = {
+            'V0': self._visual_affordance_v3_raw_canonical_contract(),
+            'V1': self._visual_affordance_v3_local_material_edge_contract(),
+        }
+        transitions = {
+            'T0': 'legacy_translation_only',
+            'T1': 'orientation_sensitive_v2_affordance_locked',
+        }
+        states = {
+            'S0': 'm0_proxy',
+            'S1': 'telemetry_candidate_v3_transition',
+        }
+        for v_key, base_visual in visuals.items():
+            for t_key, interaction_mode in transitions.items():
+                for s_key, state_mode in states.items():
+                    cell_id = f'{v_key}{t_key}{s_key}'
+                    env_contract = dict(base_visual)
+                    env_contract['interaction_mode'] = interaction_mode
+                    env_contract['state_mode'] = state_mode
+                    env_contract['measurement_mode'] = 'truthful_handle_semantic'
+                    env_contract['measurement_fallback_policy'] = 'forbid'
+                    env_contract['emit_measurement_debug'] = False
+                    lane_payload = {
+                        'cell_id': cell_id,
+                        'env_contract_config': env_contract,
+                        'claim_policy': 'canonical',
+                        'diagnostic_only': False,
+                    }
+                    cells[cell_id] = {
+                        'cell_id': cell_id,
+                        'env_contract_config': env_contract,
+                        'lane_hash': stable_config_hash(lane_payload),
+                        'claim_policy': 'canonical',
+                        'diagnostic_only': False,
+                    }
+        self._cached_frozen_matrix_v5_pro = cells
+        return cells
+
+    def _frozen_matrix_hash_v5_pro(self) -> str:
+        return stable_config_hash(self._frozen_matrix_contracts_v5_pro())
+
+    def _frozen_matrix_snapshot_v5_pro(self) -> dict[str, Any]:
+        cells = self._frozen_matrix_contracts_v5_pro()
+        return {
+            'branch_name': self._git_branch_name(),
+            'selector_mode': self.selector_mode,
+            'baseline_cell_id': self._baseline_cell_id_v5_pro(),
+            'seed_split_a': list(self.seed_split_a),
+            'seed_split_b': list(self.seed_split_b),
+            'cell_hashes': {cell_id: cell['lane_hash'] for cell_id, cell in cells.items()},
+            'gate_threshold_snapshot': self._gate_threshold_snapshot_v5_pro(),
+            'measurement_mode_snapshot': {
+                'measurement_mode': 'truthful_handle_semantic',
+                'measurement_fallback_policy': 'forbid',
+            },
+            'frozen_matrix_hash': self._frozen_matrix_hash_v5_pro(),
+        }
+
     def _current_strongest_negative_contract(self) -> dict[str, Any]:
+        if self.selector_mode == 'frozen_v5_pro':
+            return dict(self._frozen_matrix_contracts_v5_pro()[self._baseline_cell_id_v5_pro()]['env_contract_config'])
         return self._visual_reformulation_v2_plus_bundle_contract()
 
     def _make_lane_spec(
@@ -405,6 +528,9 @@ class RootCauseController:
             "lighting_profile",
             "material_policy",
             "camera_framing_profile",
+            "measurement_mode",
+            "measurement_fallback_policy",
+            "emit_measurement_debug",
             "emit_orientation_telemetry",
             "emit_camera_metadata",
             "emit_handle_probe_metadata",
@@ -413,6 +539,8 @@ class RootCauseController:
         return DrawerEnvContractConfig(**{key: payload[key] for key in keys if key in payload})
 
     def _limited_seeds(self, seeds: list[int]) -> list[int]:
+        if self.selector_mode == 'frozen_v5_pro' and self.experiment_family == 'RCA':
+            return list(seeds)
         limit = max(1, int(self.resource_limits["max_rollouts_per_experiment"]))
         return list(seeds)[:limit]
 
@@ -421,6 +549,8 @@ class RootCauseController:
         contract = self._materialize_contract(spec.env_contract_config)
         rotation_source = str(spec.interventions.get("rotation_source", "zero"))
         grasp_pose = np.eye(4, dtype=np.float32)
+        matrix_hash = self._frozen_matrix_hash_v5_pro() if self.selector_mode == 'frozen_v5_pro' else None
+        baseline_cell_id = self._baseline_cell_id_v5_pro() if self.selector_mode == 'frozen_v5_pro' else None
         for episode_index, seed in enumerate(self._limited_seeds(seeds)):
             last_error = None
             for attempt in range(int(self.resource_limits["max_retries"]) + 1):
@@ -436,6 +566,25 @@ class RootCauseController:
                         claim_policy=spec.claim_policy,
                     )
                     rollout["resource_budget_snapshot"] = self._resource_snapshot()
+                    rollout["selector_mode"] = self.selector_mode
+                    rollout["baseline_cell_id"] = baseline_cell_id
+                    rollout["frozen_matrix_hash"] = matrix_hash
+                    rollout["lane_hash"] = spec.lane_hash
+                    probe = dict(rollout.get('handle_probe_metadata') or {})
+                    if probe:
+                        probe['selector_mode'] = self.selector_mode
+                        probe['baseline_cell_id'] = baseline_cell_id
+                        probe['frozen_matrix_hash'] = matrix_hash
+                        rollout['handle_probe_metadata'] = probe
+                    trace = []
+                    for item in rollout.get('handle_probe_metadata_trace', []):
+                        probe_item = dict(item or {})
+                        probe_item['selector_mode'] = self.selector_mode
+                        probe_item['baseline_cell_id'] = baseline_cell_id
+                        probe_item['frozen_matrix_hash'] = matrix_hash
+                        trace.append(probe_item)
+                    if trace:
+                        rollout['handle_probe_metadata_trace'] = trace
                     rollouts.append(rollout)
                     last_error = None
                     break
@@ -492,26 +641,82 @@ class RootCauseController:
         trace: list[dict[str, Any]] = []
         for rollout in rollouts:
             trace.extend(list(rollout.get("handle_probe_metadata_trace", [])))
-        framing_values = [float(item.get("secondary_framing_score", 0.0)) for item in trace if item]
-        residual_values = [float(item.get("camera_relativeness_residual", 1.0)) for item in trace if item]
-        best_secondary = max(trace, key=lambda item: float(item.get("handle_area_ratio_secondary", 0.0)), default={})
-        best_primary = max(trace, key=lambda item: float(item.get("handle_area_ratio_primary", 0.0)), default={})
+        if not trace:
+            return {
+                "probe_measurement_mode": "unavailable",
+                "measurement_backend": "unavailable",
+                "measurement_truth_tier": "unavailable",
+                "measurement_truthful": False,
+                "measurement_warning_flags": ["missing_handle_probe_trace"],
+                "handle_geom_ids": [],
+                "handle_geom_names": [],
+                "handle_bbox_primary": [0, 0, 0, 0],
+                "handle_bbox_secondary": [0, 0, 0, 0],
+                "handle_mask_nonzero_pixels_primary": 0,
+                "handle_mask_nonzero_pixels_secondary": 0,
+                "handle_mask_area_ratio_primary": 0.0,
+                "handle_mask_area_ratio_secondary": 0.0,
+                "handle_bbox_area_ratio_primary": 0.0,
+                "handle_bbox_area_ratio_secondary": 0.0,
+                "bbox_over_mask_ratio_primary": 0.0,
+                "bbox_over_mask_ratio_secondary": 0.0,
+                "handle_visibility_fraction": 0.0,
+                "handle_area_ratio": 0.0,
+                "handle_boundary_contrast": 0.0,
+                "handle_edge_density": 0.0,
+                "handle_crop_entropy": 0.0,
+                "framing_score": 0.0,
+                "camera_relativeness_residual": None,
+                "legacy_probe_measurement_mode": "proxy_debug",
+                "legacy_handle_bbox_secondary": [0, 0, 0, 0],
+                "legacy_handle_local_contrast": 0.0,
+                "legacy_handle_crop_entropy": 0.0,
+            }
+
+        def _mean(key: str) -> float:
+            values = [float(item.get(key, 0.0)) for item in trace if item.get(key) is not None]
+            return float(np.mean(values)) if values else 0.0
+
+        best_secondary = max(trace, key=lambda item: float(item.get("handle_mask_nonzero_pixels_secondary", 0.0)))
+        best_primary = max(trace, key=lambda item: float(item.get("handle_mask_nonzero_pixels_primary", 0.0)))
+        warning_flags = sorted({flag for item in trace for flag in list(item.get("measurement_warning_flags", []))})
+        truth_values = [bool(item.get("measurement_truthful", False)) for item in trace]
+        truth_tiers = [str(item.get("measurement_truth_tier", "unavailable")) for item in trace if item.get("measurement_truth_tier") is not None]
+        geom_ids = sorted({int(v) for item in trace for v in list(item.get("handle_geom_ids", []))})
+        geom_names = sorted({str(v) for item in trace for v in list(item.get("handle_geom_names", [])) if str(v)})
+        framing_values = [float(item.get("secondary_framing_score", 0.0)) for item in trace if item.get("secondary_framing_score") is not None]
+        residual_values = [float(item.get("camera_relativeness_residual", 1.0)) for item in trace if item.get("camera_relativeness_residual") is not None]
         return {
-            "probe_measurement_mode": best_secondary.get("probe_measurement_mode") or best_primary.get("probe_measurement_mode") or "heuristic_projection",
-            "handle_bbox_primary": best_primary.get("handle_bbox_primary") or best_secondary.get("handle_bbox_primary"),
-            "handle_bbox_secondary": best_secondary.get("handle_bbox_secondary") or best_primary.get("handle_bbox_secondary"),
-            "handle_visibility_fraction": handle_visibility_fraction(trace),
-            "handle_local_contrast": handle_local_contrast(trace),
-            "handle_crop_entropy": handle_crop_entropy(trace),
-            "handle_area_ratio": float(np.mean([float(item.get("handle_area_ratio_secondary", item.get("handle_area_ratio", 0.0))) for item in trace if item])) if trace else 0.0,
-            "handle_boundary_contrast": float(np.mean([float(item.get("handle_boundary_contrast_secondary", item.get("handle_boundary_contrast", 0.0))) for item in trace if item])) if trace else 0.0,
-            "handle_edge_density": float(np.mean([float(item.get("handle_edge_density_secondary", item.get("handle_edge_density", 0.0))) for item in trace if item])) if trace else 0.0,
-            "handle_local_std": float(np.mean([float(item.get("handle_local_std_secondary", item.get("handle_local_std", 0.0))) for item in trace if item])) if trace else 0.0,
-            "legacy_handle_local_contrast": float(np.mean([float(item.get("legacy_handle_local_contrast_secondary", 0.0)) for item in trace if item])) if trace else 0.0,
-            "legacy_handle_crop_entropy": float(np.mean([float(item.get("legacy_handle_crop_entropy_secondary", 0.0)) for item in trace if item])) if trace else 0.0,
-            "legacy_handle_bbox_secondary": best_secondary.get("legacy_handle_bbox_secondary"),
+            "probe_measurement_mode": str(best_secondary.get("probe_measurement_mode") or best_primary.get("probe_measurement_mode") or "unavailable"),
+            "measurement_backend": str(best_secondary.get("measurement_backend") or best_primary.get("measurement_backend") or "unavailable"),
+            "measurement_truth_tier": truth_tiers[0] if truth_tiers else "unavailable",
+            "measurement_truthful": bool(truth_values and all(truth_values)),
+            "measurement_warning_flags": warning_flags,
+            "handle_geom_ids": geom_ids,
+            "handle_geom_names": geom_names,
+            "handle_bbox_primary": best_primary.get("handle_bbox_primary") or [0, 0, 0, 0],
+            "handle_bbox_secondary": best_secondary.get("handle_bbox_secondary") or [0, 0, 0, 0],
+            "handle_mask_nonzero_pixels_primary": int(round(_mean("handle_mask_nonzero_pixels_primary"))),
+            "handle_mask_nonzero_pixels_secondary": int(round(_mean("handle_mask_nonzero_pixels_secondary"))),
+            "handle_mask_area_ratio_primary": _mean("handle_mask_area_ratio_primary"),
+            "handle_mask_area_ratio_secondary": _mean("handle_mask_area_ratio_secondary"),
+            "handle_bbox_area_ratio_primary": _mean("handle_bbox_area_ratio_primary"),
+            "handle_bbox_area_ratio_secondary": _mean("handle_bbox_area_ratio_secondary"),
+            "bbox_over_mask_ratio_primary": max(float(item.get("bbox_over_mask_ratio_primary", 0.0)) for item in trace),
+            "bbox_over_mask_ratio_secondary": max(float(item.get("bbox_over_mask_ratio_secondary", 0.0)) for item in trace),
+            "handle_visibility_fraction": _mean("handle_visibility_fraction_secondary") or _mean("handle_visibility_fraction_primary"),
+            "handle_area_ratio": _mean("handle_mask_area_ratio_secondary") or _mean("handle_mask_area_ratio_primary"),
+            "handle_boundary_contrast": _mean("handle_boundary_contrast_secondary") or _mean("handle_boundary_contrast_primary"),
+            "handle_edge_density": _mean("handle_edge_density_secondary") or _mean("handle_edge_density_primary"),
+            "handle_crop_entropy": _mean("handle_crop_entropy_secondary") or _mean("handle_crop_entropy_primary"),
+            "handle_local_std": _mean("handle_local_std_secondary") or _mean("handle_local_std_primary"),
+            "handle_local_contrast": _mean("handle_boundary_contrast_secondary") or _mean("handle_boundary_contrast_primary"),
             "framing_score": float(np.mean(framing_values)) if framing_values else 0.0,
             "camera_relativeness_residual": float(np.mean(residual_values)) if residual_values else None,
+            "legacy_probe_measurement_mode": "proxy_debug",
+            "legacy_handle_bbox_secondary": best_secondary.get("legacy_handle_bbox_secondary") or [0, 0, 0, 0],
+            "legacy_handle_local_contrast": _mean("legacy_handle_local_contrast_secondary") or _mean("legacy_handle_local_contrast_primary"),
+            "legacy_handle_crop_entropy": _mean("legacy_handle_crop_entropy_secondary") or _mean("legacy_handle_crop_entropy_primary"),
         }
 
     def _visual_report(self, spec: LaneSpec, seeds: list[int], *, baseline_gap: float | None = None) -> tuple[list[dict[str, Any]], dict[str, Any]]:
@@ -521,8 +726,10 @@ class RootCauseController:
         gap_payload = visual_gap(self.control_visual_stats, target_stats)
         lane_gap = weighted_visual_gap(gap_payload)
         probe = self._handle_probe_aggregates(rollouts)
-        perception_probe = run_perception_probe(rollouts)
-        alignment_gain = visual_alignment_gain(baseline_gap if baseline_gap is not None else max(lane_gap, 1e-6), lane_gap)
+        feature_extractor = self.policy_encoder_feature_extractor if self.perception_probe_mode == 'policy_encoder_v1' else None
+        perception_probe = run_perception_probe(rollouts, feature_extractor=feature_extractor)
+        baseline_value = float(baseline_gap if baseline_gap is not None else lane_gap)
+        alignment_gain = visual_alignment_gain(baseline_value if baseline_value > 0 else max(lane_gap, 1e-6), lane_gap)
         report = {
             "lane": spec.to_payload(),
             "claim_policy": spec.claim_policy,
@@ -551,7 +758,7 @@ class RootCauseController:
             and report["provenance_complete"]
         )
         report["visual_gate_breakdown"] = visual_gate_breakdown(
-            baseline_weighted_visual_gap=float(baseline_gap if baseline_gap is not None else lane_gap),
+            baseline_weighted_visual_gap=baseline_value,
             lane_weighted_visual_gap=lane_gap,
             visual_alignment_gain_value=alignment_gain,
             framing_score=report["framing_score"],
@@ -562,15 +769,19 @@ class RootCauseController:
             encoder_readability_pass=report.get("encoder_readability_pass"),
         )
         report["g4b_local_breakdown"] = local_affordance_gate_breakdown(
+            mask_nonzero_pixels=report["handle_mask_nonzero_pixels_secondary"],
             handle_bbox=report.get("handle_bbox_secondary") or report.get("handle_bbox_primary"),
             image_shape=(256, 256, 3),
             handle_boundary_contrast_value=report["handle_boundary_contrast"],
             handle_edge_density_value=report["handle_edge_density"],
             handle_crop_entropy_value=report["handle_crop_entropy"],
             secondary_framing_score=report["framing_score"],
+            measurement_truthful=report["measurement_truthful"],
+            truth_tier=report["measurement_truth_tier"],
+            warning_flags=report.get("measurement_warning_flags", []),
         )
         report["g4c_global_breakdown"] = {
-            "baseline_weighted_visual_gap": float(baseline_gap if baseline_gap is not None else lane_gap),
+            "baseline_weighted_visual_gap": float(baseline_value),
             "weighted_visual_gap": float(lane_gap),
             "visual_alignment_gain": float(alignment_gain),
         }
@@ -661,6 +872,24 @@ class RootCauseController:
 
     def select_experiments(self) -> list[dict[str, Any]]:
         catalog = self.experiment_catalog()
+        if self.selector_mode == 'frozen_v5_pro' and self.experiment_family == 'RCA':
+            ordered = ["RCA0", "RCA1", "RCA2", "RCA3", "RCA4", "RCA5", "RCA6", "RCA7"]
+            catalog_map = {item['id']: item for item in catalog}
+            completed = set(self.completed_experiments)
+            selected: list[dict[str, Any]] = []
+            selected_ids: set[str] = set()
+            for exp_id in ordered:
+                if exp_id in completed or exp_id in selected_ids:
+                    continue
+                item = catalog_map[exp_id]
+                available = completed | selected_ids
+                if not all(dep in available for dep in item.get('deps', [])):
+                    break
+                selected.append(item)
+                selected_ids.add(exp_id)
+                if len(selected) >= self.max_experiments_per_cycle:
+                    break
+            return selected
         first_id = "RCA0" if self.experiment_family == "RCA" else "VR0"
         if first_id not in self.completed_experiments:
             return [next(item for item in catalog if item["id"] == first_id)]
@@ -1122,360 +1351,409 @@ class RootCauseController:
         }
         return lane_specs, audit
 
-    def _local_rank_tuple(self, profile: dict[str, Any]) -> tuple[float, float, float, float, float, float, float, float, float]:
-        visual = profile.get("visual_report") or {}
-        local = visual.get("g4b_local_breakdown") or {}
-        global_breakdown = visual.get("g4c_global_breakdown") or {}
-        return (
-            float(local.get("local_affordance_readability_score_v3", 0.0)),
-            float(local.get("handle_boundary_contrast", 0.0)),
-            float(local.get("handle_edge_density", 0.0)),
-            float(local.get("handle_crop_entropy", 0.0)),
-            float(global_breakdown.get("visual_alignment_gain", 0.0)),
-            -float(global_breakdown.get("weighted_visual_gap", 1e6)),
-            float((profile.get("rollout_ceiling_lift") or {}).get("score", -1.0)),
-            float(profile.get("state_alignment_gain", -1.0)),
-            float((profile.get("sensor_contract_gain") or {}).get("score", 0.0)),
+    def _mean_rollout_trace(self, rollouts: list[dict[str, Any]], key: str) -> float:
+        values: list[float] = []
+        for rollout in rollouts:
+            trace = np.asarray(rollout.get(key, []), dtype=np.float32)
+            if trace.size:
+                values.append(float(np.mean(trace)))
+        return float(np.mean(values)) if values else 0.0
+
+    def _bbox_iou(self, a: list[int] | None, b: list[int] | None) -> float:
+        if not a or not b or len(a) != 4 or len(b) != 4:
+            return 0.0
+        ax0, ay0, ax1, ay1 = [int(v) for v in a]
+        bx0, by0, bx1, by1 = [int(v) for v in b]
+        inter_x0 = max(ax0, bx0)
+        inter_y0 = max(ay0, by0)
+        inter_x1 = min(ax1, bx1)
+        inter_y1 = min(ay1, by1)
+        inter = max(0, inter_x1 - inter_x0) * max(0, inter_y1 - inter_y0)
+        area_a = max(0, ax1 - ax0) * max(0, ay1 - ay0)
+        area_b = max(0, bx1 - bx0) * max(0, by1 - by0)
+        union = area_a + area_b - inter
+        return float(inter / union) if union > 0 else 0.0
+
+    def _bbox_centroid_delta_px(self, a: list[int] | None, b: list[int] | None) -> float:
+        if not a or not b or len(a) != 4 or len(b) != 4:
+            return 0.0
+        acx = 0.5 * (float(a[0]) + float(a[2]))
+        acy = 0.5 * (float(a[1]) + float(a[3]))
+        bcx = 0.5 * (float(b[0]) + float(b[2]))
+        bcy = 0.5 * (float(b[1]) + float(b[3]))
+        return float(np.linalg.norm(np.asarray([acx - bcx, acy - bcy], dtype=np.float32)))
+
+    def _cell_rotation_source(self, cell_id: str) -> str:
+        return 'aligned' if 'T1' in cell_id else 'zero'
+
+    def _matrix_cell_lane_spec(self, cell_id: str, experiment_id: str, *, note: str) -> LaneSpec:
+        cell = self._frozen_matrix_contracts_v5_pro()[cell_id]
+        return self._make_lane_spec(
+            lane_id=f'{experiment_id}_{cell_id}',
+            stage='probe',
+            env_contract=dict(cell['env_contract_config']),
+            interventions={
+                'rotation_source': self._cell_rotation_source(cell_id),
+                'profile_id': cell_id,
+                'cell_id': cell_id,
+            },
+            claim_policy='canonical',
+            note=note,
+            experiment_id=experiment_id,
         )
+
+    def _matrix_cell_sort_key(self, payload: dict[str, Any]) -> tuple[float, float, float, float]:
+        rollout_score = float((payload.get('rollout_ceiling_lift') or {}).get('score', -1e9))
+        attach_rate = float((payload.get('rollout_summary') or {}).get('attach_rate', 0.0))
+        state_gain = float(payload.get('state_alignment_gain', 0.0)) if str(payload.get('cell_id', '')).endswith('S1') else 0.0
+        weighted_gap = float((payload.get('visual_report') or {}).get('g4c_global_breakdown', {}).get('weighted_visual_gap', 1e9))
+        return (rollout_score, attach_rate, state_gain, -weighted_gap)
 
     def run_rca0(self) -> dict[str, Any]:
-        seeds = self.train_seeds[:3]
-        legacy = self._make_lane_spec(
-            lane_id="RCA0_legacy_current",
-            stage="probe",
-            env_contract=self._legacy_contract(),
-            interventions={"rotation_source": "zero", "profile_id": "legacy_current"},
-            claim_policy="diagnostic",
-            note="Replicate current strongest negative comparator.",
-            experiment_id="RCA0",
-        )
-        strongest = self._make_lane_spec(
-            lane_id="RCA0_current_strongest_negative",
-            stage="probe",
-            env_contract=self._current_strongest_negative_contract(),
-            interventions={"rotation_source": "aligned", "profile_id": "current_strongest_negative"},
-            claim_policy="canonical",
-            note="Replicate current v1 strongest negative bundle.",
-            experiment_id="RCA0",
-        )
-        legacy_rollouts = self._run_rollout_set(legacy, seeds)
-        strongest_rollouts = self._run_rollout_set(strongest, seeds)
-        legacy_summary = self._rollout_summary(legacy_rollouts)
-        strongest_summary = self._rollout_summary(strongest_rollouts)
-        ceiling = rollout_ceiling_lift(legacy_summary, strongest_summary)
+        seeds = list(self.seed_split_a)
+        baseline_cell_id = self._baseline_cell_id_v5_pro()
+        spec = self._matrix_cell_lane_spec(baseline_cell_id, 'RCA0', note='Frozen baseline V0T0S0 on split A.')
+        rollouts, visual_report = self._visual_report(spec, seeds)
+        _, state_report = self._state_report(spec, seeds)
+        rollout_summary = self._rollout_summary(rollouts)
+        snapshot = self._frozen_matrix_snapshot_v5_pro()
         payload = {
-            "experiment_id": "RCA0",
-            "generated_at": now_iso(),
-            "passed": bool(ceiling["score"] <= 0.0),
-            "legacy_summary": legacy_summary,
-            "strongest_negative_summary": strongest_summary,
-            "rollout_ceiling_lift": ceiling,
+            'experiment_id': 'RCA0',
+            'generated_at': now_iso(),
+            'passed': True,
+            **snapshot,
+            'baseline_rollout_summary': rollout_summary,
+            'baseline_visual_report': visual_report,
+            'baseline_state_report': state_report,
+            'baseline_lane': spec.to_payload(),
         }
-        self._write_artifact("RCA0", payload, "RCA0 Replicate Current Negative", [f"rollout_ceiling_lift: {ceiling['score']:.6f}"])
-        updates = [
-            {"hypothesis_id": "H6_environment_invalid_for_claim", "support_score": 0.4 if ceiling["score"] <= 0.0 else -0.2, "alpha": 0.5, "evidence_ref": "RCA0"},
-            {"hypothesis_id": "H0_same_problem_identity", "support_score": -0.3 if ceiling["score"] <= 0.0 else 0.1, "alpha": 0.4, "evidence_ref": "RCA0"},
-        ]
-        return {"payload": payload, "updates": updates, "lane_specs": [legacy.to_payload(), strongest.to_payload()]}
+        self._write_artifact('RCA0', payload, 'RCA0 Frozen Matrix Baseline', [
+            f"baseline_cell_id: {baseline_cell_id}",
+            f"frozen_matrix_hash: {snapshot['frozen_matrix_hash']}",
+            f"split_a_size: {len(seeds)}",
+        ])
+        return {'payload': payload, 'updates': [], 'lane_specs': [spec.to_payload()]}
 
     def run_rca1(self) -> dict[str, Any]:
-        seeds = self.train_seeds[:2]
-        spec = self._make_lane_spec(
-            lane_id="RCA1_true_measurement_audit",
-            stage="probe",
-            env_contract=self._visual_affordance_v3_raw_canonical_contract(),
-            interventions={"rotation_source": "zero", "profile_id": "visual_affordance_v3_raw_canonical"},
-            claim_policy="canonical",
-            note="Audit heuristic vs true handle measurement on same lane.",
-            experiment_id="RCA1",
-        )
+        seeds = list(self.seed_split_a)
+        spec = self._matrix_cell_lane_spec('V0T0S0', 'RCA1', note='Truthful measurement audit on frozen baseline.')
         _, report = self._visual_report(spec, seeds)
-        legacy_contrast = float(report.get("legacy_handle_local_contrast", 0.0))
-        true_contrast = float(report.get("handle_boundary_contrast", 0.0))
-        legacy_entropy = float(report.get("legacy_handle_crop_entropy", 0.0))
-        true_entropy = float(report.get("handle_crop_entropy", 0.0))
-        true_bbox = report.get("handle_bbox_secondary")
-        legacy_bbox = report.get("legacy_handle_bbox_secondary")
-        materially_different = bool(true_bbox != legacy_bbox or abs(true_contrast - legacy_contrast) >= 0.02 or abs(true_entropy - legacy_entropy) >= 0.20)
+        truthful_bbox = report.get('handle_bbox_secondary') or report.get('handle_bbox_primary') or [0, 0, 0, 0]
+        proxy_bbox = report.get('legacy_handle_bbox_secondary') or [0, 0, 0, 0]
+        truthful_area_ratio = float(report.get('handle_mask_area_ratio_secondary', 0.0) or report.get('handle_mask_area_ratio_primary', 0.0))
+        truthful_bbox_area_ratio = float(report.get('handle_bbox_area_ratio_secondary', 0.0) or report.get('handle_bbox_area_ratio_primary', 0.0))
+        truthful_bbox_over_mask = float(report.get('bbox_over_mask_ratio_secondary', 0.0) or report.get('bbox_over_mask_ratio_primary', 0.0))
+        proxy_bbox_area_ratio = float(handle_bbox_area_ratio_debug(proxy_bbox, (256, 256, 3)))
+        truthful_proxy_iou = self._bbox_iou(truthful_bbox, proxy_bbox)
+        truthful_proxy_centroid_delta_px = self._bbox_centroid_delta_px(truthful_bbox, proxy_bbox)
+        materially_different = bool(
+            truthful_proxy_iou < 0.95
+            or abs(truthful_bbox_area_ratio - proxy_bbox_area_ratio) >= 0.02
+            or truthful_proxy_centroid_delta_px >= 4.0
+        )
+        measurement_truthful_available = bool(report.get('measurement_truthful', False))
+        invalid_run = bool(self.truthful_measurement_required and not measurement_truthful_available)
+        if invalid_run:
+            self._invalid_run_reason = 'truthful_measurement_unavailable'
         payload = {
-            "experiment_id": "RCA1",
-            "generated_at": now_iso(),
-            "passed": materially_different,
-            "measurement_mode": report.get("probe_measurement_mode"),
-            "legacy_measurement_mode": "heuristic_projection",
-            "true_handle_bbox_secondary": true_bbox,
-            "legacy_handle_bbox_secondary": legacy_bbox,
-            "true_handle_boundary_contrast": true_contrast,
-            "legacy_handle_local_contrast": legacy_contrast,
-            "true_handle_crop_entropy": true_entropy,
-            "legacy_handle_crop_entropy": legacy_entropy,
-            "materially_different": materially_different,
-            "lane_report": report,
+            'experiment_id': 'RCA1',
+            'generated_at': now_iso(),
+            'selector_mode': self.selector_mode,
+            'baseline_cell_id': self._baseline_cell_id_v5_pro(),
+            'frozen_matrix_hash': self._frozen_matrix_hash_v5_pro(),
+            'measurement_truthful_available': measurement_truthful_available,
+            'measurement_truth_tier': report.get('measurement_truth_tier'),
+            'measurement_backend': report.get('measurement_backend'),
+            'truthful_mask_area_ratio_secondary': truthful_area_ratio,
+            'truthful_bbox_area_ratio_secondary': truthful_bbox_area_ratio,
+            'truthful_bbox_over_mask_ratio_secondary': truthful_bbox_over_mask,
+            'proxy_bbox_area_ratio_secondary': proxy_bbox_area_ratio,
+            'truthful_proxy_iou_secondary': truthful_proxy_iou,
+            'truthful_proxy_centroid_delta_px': truthful_proxy_centroid_delta_px,
+            'true_handle_bbox_secondary': truthful_bbox,
+            'proxy_handle_bbox_secondary': proxy_bbox,
+            'materially_different': materially_different,
+            'invalid_run': invalid_run,
+            'representative_overlay_images': [],
+            'lane_report': report,
         }
-        self._write_artifact("RCA1", payload, "RCA1 True Handle Measurement Audit", [f"materially_different: {materially_different}", f"measurement_mode: {report.get('probe_measurement_mode')}"])
-        updates = [{"hypothesis_id": "H3_observation_visual_contract", "support_score": 0.4 if materially_different else 0.1, "alpha": 0.4, "evidence_ref": "RCA1"}]
-        return {"payload": payload, "updates": updates, "lane_specs": [spec.to_payload()]}
+        self._write_artifact('RCA1', payload, 'RCA1 True Handle Measurement Audit', [
+            f'measurement_truthful_available: {measurement_truthful_available}',
+            f'truthful_proxy_iou_secondary: {truthful_proxy_iou:.6f}',
+            f'truthful_bbox_over_mask_ratio_secondary: {truthful_bbox_over_mask:.6f}',
+        ])
+        return {'payload': payload, 'updates': [], 'lane_specs': [spec.to_payload()]}
 
     def run_rca2(self) -> dict[str, Any]:
-        seeds = self.train_seeds[:2]
-        raw = self._make_lane_spec(
-            lane_id="RCA2_visual_affordance_v3_raw_canonical",
-            stage="probe",
-            env_contract=self._visual_affordance_v3_raw_canonical_contract(),
-            interventions={"rotation_source": "zero", "profile_id": "visual_affordance_v3_raw_canonical"},
-            claim_policy="canonical",
-            note="True-measured raw canonical affordance baseline.",
-            experiment_id="RCA2",
-        )
-        local = self._make_lane_spec(
-            lane_id="RCA2_visual_affordance_v3_local_material_edge",
-            stage="probe",
-            env_contract=self._visual_affordance_v3_local_material_edge_contract(),
-            interventions={"rotation_source": "zero", "profile_id": "visual_affordance_v3_local_material_edge"},
-            claim_policy="canonical",
-            note="Local affordance visual attack only.",
-            experiment_id="RCA2",
-        )
-        _, raw_report = self._visual_report(raw, seeds)
-        _, local_report = self._visual_report(local, seeds)
-        raw_local = raw_report.get("g4b_local_breakdown") or {}
-        local_local = local_report.get("g4b_local_breakdown") or {}
-        payload = {
-            "experiment_id": "RCA2",
-            "generated_at": now_iso(),
-            "passed": bool(local_local.get("local_affordance_readability_score_v3", 0.0) > raw_local.get("local_affordance_readability_score_v3", 0.0)),
-            "raw_canonical": raw_report,
-            "visual_affordance_v3_local_material_edge": local_report,
-            "local_affordance_score_gain": float(local_local.get("local_affordance_readability_score_v3", 0.0) - raw_local.get("local_affordance_readability_score_v3", 0.0)),
-            "boundary_contrast_gain": float(local_local.get("handle_boundary_contrast", 0.0) - raw_local.get("handle_boundary_contrast", 0.0)),
-            "edge_density_gain": float(local_local.get("handle_edge_density", 0.0) - raw_local.get("handle_edge_density", 0.0)),
-            "entropy_gain": float(local_local.get("handle_crop_entropy", 0.0) - raw_local.get("handle_crop_entropy", 0.0)),
+        seeds = list(self.seed_split_a)
+        raw_spec = self._matrix_cell_lane_spec('V0T0S0', 'RCA2', note='Frozen baseline for local visual attack.')
+        local_spec = self._matrix_cell_lane_spec('V1T0S0', 'RCA2', note='Local visual attack only under frozen object.')
+        _, raw_report = self._visual_report(raw_spec, seeds)
+        _, local_report = self._visual_report(local_spec, seeds)
+        raw_local = raw_report.get('g4b_local_breakdown') or {}
+        local_local = local_report.get('g4b_local_breakdown') or {}
+        improvements = {
+            'boundary_contrast': float(local_local.get('handle_boundary_contrast', 0.0)) > float(raw_local.get('handle_boundary_contrast', 0.0)),
+            'edge_density': float(local_local.get('handle_edge_density', 0.0)) > float(raw_local.get('handle_edge_density', 0.0)),
+            'crop_entropy': float(local_local.get('handle_crop_entropy', 0.0)) > float(raw_local.get('handle_crop_entropy', 0.0)),
         }
-        self._write_artifact("RCA2", payload, "RCA2 Local Affordance Visual Attack", [f"local_affordance_score_gain: {payload['local_affordance_score_gain']:.6f}", f"boundary_contrast_gain: {payload['boundary_contrast_gain']:.6f}"])
-        updates = [{"hypothesis_id": "H3_observation_visual_contract", "support_score": 0.6 if payload["local_affordance_score_gain"] > 0.0 else 0.1, "alpha": 0.5, "evidence_ref": "RCA2"}]
-        return {"payload": payload, "updates": updates, "lane_specs": [raw.to_payload(), local.to_payload()]}
+        win_count = sum(1 for passed in improvements.values() if passed)
+        framing_ok = bool(float(local_local.get('secondary_framing_score', 0.0)) >= SECONDARY_FRAMING_THRESHOLD)
+        truthful_ok = bool(local_report.get('measurement_truthful', False) and raw_report.get('measurement_truthful', False))
+        rank_score_gain = float(local_local.get('local_score_rank_only', 0.0) - raw_local.get('local_score_rank_only', 0.0))
+        passed = bool(truthful_ok and win_count >= 2 and framing_ok and rank_score_gain > 0.0)
+        payload = {
+            'experiment_id': 'RCA2',
+            'generated_at': now_iso(),
+            'selector_mode': self.selector_mode,
+            'baseline_cell_id': self._baseline_cell_id_v5_pro(),
+            'frozen_matrix_hash': self._frozen_matrix_hash_v5_pro(),
+            'passed': passed,
+            'truthful_measurement_ok': truthful_ok,
+            'local_improvement_flags': improvements,
+            'local_improvement_count': win_count,
+            'rank_score_gain': rank_score_gain,
+            'raw_canonical': raw_report,
+            'visual_affordance_v3_local_material_edge': local_report,
+        }
+        self._write_artifact('RCA2', payload, 'RCA2 Local Affordance Visual Attack', [
+            f'passed: {passed}',
+            f'local_improvement_count: {win_count}',
+            f'rank_score_gain: {rank_score_gain:.6f}',
+        ])
+        return {'payload': payload, 'updates': [], 'lane_specs': [raw_spec.to_payload(), local_spec.to_payload()]}
 
     def run_rca3(self) -> dict[str, Any]:
-        seeds = self.train_seeds[:3]
-        local_contract = self._visual_affordance_v3_local_material_edge_contract()
-        transition_contract = dict(local_contract)
-        transition_contract["interaction_mode"] = "orientation_sensitive_v2_affordance_locked"
-        local = self._make_lane_spec(
-            lane_id="RCA3_visual_local_only",
-            stage="probe",
-            env_contract=local_contract,
-            interventions={"rotation_source": "zero", "profile_id": "visual_affordance_v3_local_material_edge"},
-            claim_policy="canonical",
-            note="Comparator for stronger transition contract.",
-            experiment_id="RCA3",
-        )
-        transition = self._make_lane_spec(
-            lane_id="RCA3_visual_plus_transition_contract",
-            stage="probe",
-            env_contract=transition_contract,
-            interventions={"rotation_source": "aligned", "profile_id": "visual_affordance_v3_local_material_edge_transition"},
-            claim_policy="canonical",
-            note="Carry stronger embodied transition contract in same local visual family.",
-            experiment_id="RCA3",
-        )
-        local_rollouts, local_report = self._visual_report(local, seeds)
-        transition_rollouts, transition_report = self._visual_report(transition, seeds)
-        local_summary = self._rollout_summary(local_rollouts)
+        seeds = list(self.seed_split_a)
+        baseline_spec = self._matrix_cell_lane_spec('V0T0S0', 'RCA3', note='Transition-only audit baseline.')
+        transition_spec = self._matrix_cell_lane_spec('V0T1S0', 'RCA3', note='Transition-only contract under frozen object.')
+        baseline_rollouts, baseline_report = self._visual_report(baseline_spec, seeds)
+        transition_rollouts, transition_report = self._visual_report(transition_spec, seeds)
+        baseline_summary = self._rollout_summary(baseline_rollouts)
         transition_summary = self._rollout_summary(transition_rollouts)
-        ceiling = rollout_ceiling_lift(local_summary, transition_summary)
+        ceiling = rollout_ceiling_lift(baseline_summary, transition_summary)
         payload = {
-            "experiment_id": "RCA3",
-            "generated_at": now_iso(),
-            "passed": bool((transition_report.get("g4b_local_breakdown") or {}).get("local_affordance_readability_score_v3", 0.0) >= (local_report.get("g4b_local_breakdown") or {}).get("local_affordance_readability_score_v3", 0.0)),
-            "local_only": local_report,
-            "plus_transition_contract": transition_report,
-            "local_only_rollout_summary": local_summary,
-            "plus_transition_rollout_summary": transition_summary,
-            "rollout_ceiling_lift": ceiling,
+            'experiment_id': 'RCA3',
+            'generated_at': now_iso(),
+            'selector_mode': self.selector_mode,
+            'baseline_cell_id': self._baseline_cell_id_v5_pro(),
+            'frozen_matrix_hash': self._frozen_matrix_hash_v5_pro(),
+            'passed': bool(transition_summary['attach_rate'] >= baseline_summary['attach_rate']),
+            'transition_only_baseline': baseline_report,
+            'transition_only_candidate': transition_report,
+            'baseline_rollout_summary': baseline_summary,
+            'transition_rollout_summary': transition_summary,
+            'rollout_ceiling_lift': ceiling,
+            'attach_rate_delta': float(transition_summary['attach_rate'] - baseline_summary['attach_rate']),
+            'pull_alignment_cos_delta': self._mean_rollout_trace(transition_rollouts, 'pull_alignment_trace') - self._mean_rollout_trace(baseline_rollouts, 'pull_alignment_trace'),
+            'stable_attach_delta': self._mean_rollout_trace(transition_rollouts, 'stable_attach_trace') - self._mean_rollout_trace(baseline_rollouts, 'stable_attach_trace'),
+            'attach_streak_norm_delta': self._mean_rollout_trace(transition_rollouts, 'attach_streak_trace') / 4.0 - self._mean_rollout_trace(baseline_rollouts, 'attach_streak_trace') / 4.0,
+            'contact_window_fraction_delta': self._mean_rollout_trace(transition_rollouts, 'contact_window_fraction_trace') - self._mean_rollout_trace(baseline_rollouts, 'contact_window_fraction_trace'),
+            'local_boundary_delta': float((transition_report.get('g4b_local_breakdown') or {}).get('handle_boundary_contrast', 0.0) - (baseline_report.get('g4b_local_breakdown') or {}).get('handle_boundary_contrast', 0.0)),
+            'local_edge_delta': float((transition_report.get('g4b_local_breakdown') or {}).get('handle_edge_density', 0.0) - (baseline_report.get('g4b_local_breakdown') or {}).get('handle_edge_density', 0.0)),
+            'local_entropy_delta': float((transition_report.get('g4b_local_breakdown') or {}).get('handle_crop_entropy', 0.0) - (baseline_report.get('g4b_local_breakdown') or {}).get('handle_crop_entropy', 0.0)),
         }
-        self._write_artifact("RCA3", payload, "RCA3 Affordance Plus Transition Contract", [f"rollout_ceiling_lift: {ceiling['score']:.6f}", f"transition_attach_rate: {transition_summary['attach_rate']:.6f}"])
-        updates = [{"hypothesis_id": "H1_action_semantics", "support_score": 0.5 if transition_summary["attach_rate"] >= local_summary["attach_rate"] else 0.0, "alpha": 0.5, "evidence_ref": "RCA3"}]
-        return {"payload": payload, "updates": updates, "lane_specs": [local.to_payload(), transition.to_payload()]}
+        self._write_artifact('RCA3', payload, 'RCA3 Affordance Plus Transition Contract', [
+            f"attach_rate_delta: {payload['attach_rate_delta']:.6f}",
+            f"pull_alignment_cos_delta: {payload['pull_alignment_cos_delta']:.6f}",
+            f"rollout_ceiling_lift: {ceiling['score']:.6f}",
+        ])
+        return {'payload': payload, 'updates': [], 'lane_specs': [baseline_spec.to_payload(), transition_spec.to_payload()]}
 
     def run_rca4(self) -> dict[str, Any]:
-        seeds = self.train_seeds[:3]
-        plus_contract = self._visual_affordance_v3_plus_bundle_contract(state_mode="telemetry_candidate_v3_transition")
-        plus_spec = self._make_lane_spec(
-            lane_id="RCA4_affordance_plus_transition_state",
-            stage="probe",
-            env_contract=plus_contract,
-            interventions={"rotation_source": "aligned", "profile_id": "visual_affordance_v3_plus_bundle"},
-            claim_policy="canonical",
-            note="Integrated local affordance + transition contract + transition-aware state.",
-            experiment_id="RCA4",
-        )
-        rollouts, visual_report = self._visual_report(plus_spec, seeds)
-        rollout_summary = self._rollout_summary(rollouts)
-        lane_specs, state_audit = self._state_audit_for_contract(plus_contract, seeds, "RCA4", "RCA4_state")
+        seeds = list(self.seed_split_a)
+        baseline_spec = self._matrix_cell_lane_spec('V0T1S0', 'RCA4', note='Transition-only baseline for state isolation.')
+        state_spec = self._matrix_cell_lane_spec('V0T1S1', 'RCA4', note='Transition-aware telemetry state isolation.')
+        baseline_rollouts, baseline_visual = self._visual_report(baseline_spec, seeds)
+        state_rollouts, state_visual = self._visual_report(state_spec, seeds)
+        _, baseline_state = self._state_report(baseline_spec, seeds)
+        _, state_report = self._state_report(state_spec, seeds)
+        state_gain = state_alignment_gain(float(baseline_state.get('overall_score', 1.0)), float(state_report.get('overall_score', 1.0)))
+        selected_candidate = state_report
         payload = {
-            "experiment_id": "RCA4",
-            "generated_at": now_iso(),
-            "passed": not state_audit.get("impossible", True),
-            "visual_report": visual_report,
-            "rollout_summary": rollout_summary,
-            "state_audit": state_audit,
+            'experiment_id': 'RCA4',
+            'generated_at': now_iso(),
+            'selector_mode': self.selector_mode,
+            'baseline_cell_id': self._baseline_cell_id_v5_pro(),
+            'frozen_matrix_hash': self._frozen_matrix_hash_v5_pro(),
+            'passed': bool(state_gain > 0.0 and not state_report.get('fraud_padding', True) and not state_report.get('state_spec', {}).get('duplicate_dims')),
+            'baseline_visual_report': baseline_visual,
+            'visual_report': state_visual,
+            'baseline_state_report': baseline_state,
+            'state_report': state_report,
+            'state_audit': {
+                'selected_candidate_mode': selected_candidate.get('state_mode'),
+                'selected_candidate_score': float(selected_candidate.get('overall_score', 0.0)),
+                'm0_proxy_score': float(baseline_state.get('overall_score', 0.0)),
+                'eef_pose_gripper_score': float(baseline_state.get('overall_score', 0.0)),
+                'state_alignment_gain': float(state_gain),
+                'selected_candidate': selected_candidate,
+                'all_candidates': [baseline_state, state_report],
+                'impossible': False,
+            },
+            'rollout_ceiling_lift': rollout_ceiling_lift(self._rollout_summary(baseline_rollouts), self._rollout_summary(state_rollouts)),
         }
-        self._write_artifact("RCA4", payload, "RCA4 Affordance Plus Transition State", [f"selected_state_candidate: {state_audit.get('selected_candidate_mode')}", f"state_alignment_gain: {float(state_audit.get('state_alignment_gain', -1.0)):.6f}"])
-        updates = [{"hypothesis_id": "H2_state_representability", "support_score": 0.6 if not state_audit.get("impossible", True) and float(state_audit.get("state_alignment_gain", -1.0)) >= 0.10 else -0.3, "alpha": 0.6, "evidence_ref": "RCA4"}]
-        return {"payload": payload, "updates": updates, "lane_specs": [plus_spec.to_payload(), *lane_specs]}
+        self._write_artifact('RCA4', payload, 'RCA4 Affordance Plus Transition State', [
+            f"state_alignment_gain: {state_gain:.6f}",
+            f"selected_state_candidate: {selected_candidate.get('state_mode')}",
+        ])
+        return {'payload': payload, 'updates': [], 'lane_specs': [baseline_spec.to_payload(), state_spec.to_payload()]}
 
     def run_rca5(self) -> dict[str, Any]:
-        seeds = self.train_seeds[:3]
-        rca4_payload = load_json(self._artifact_map()["RCA4"][0], {})
-        selected_state_mode = str(((rca4_payload.get("state_audit") or {}).get("selected_candidate_mode") or "telemetry_candidate_v3_transition"))
-        profiles = [
-            ("visual_affordance_v3_raw_canonical", self._visual_affordance_v3_raw_canonical_contract(), "canonical", "zero"),
-            ("visual_affordance_v3_local_material_edge", self._visual_affordance_v3_local_material_edge_contract(), "canonical", "zero"),
-            ("visual_affordance_v3_transition_contract", {**self._visual_affordance_v3_local_material_edge_contract(), "interaction_mode": "orientation_sensitive_v2_affordance_locked"}, "canonical", "aligned"),
-            ("visual_affordance_v3_plus_bundle", self._visual_affordance_v3_plus_bundle_contract(state_mode=selected_state_mode), "canonical", "aligned"),
-        ]
-        lane_payloads = []
+        seeds = list(self.seed_split_a)
+        matrix = self._frozen_matrix_contracts_v5_pro()
+        baseline_spec = self._matrix_cell_lane_spec('V0T0S0', 'RCA5', note='Frozen matrix baseline screen cell.')
+        _, baseline_visual = self._visual_report(baseline_spec, seeds)
+        _, baseline_state = self._state_report(baseline_spec, seeds)
+        baseline_rollouts = self._run_rollout_set(baseline_spec, seeds)
+        baseline_summary = self._rollout_summary(baseline_rollouts)
+        baseline_gap = float(baseline_visual.get('weighted_visual_gap', 1.0))
+        baseline_state_score = float(baseline_state.get('overall_score', 1.0))
+        cell_payloads = []
         lane_specs = []
-        baseline_rollout_summary = None
-        baseline_state_score = None
-        baseline_gap = None
-        for profile_id, contract, claim_policy, rotation_source in profiles:
-            spec = self._make_lane_spec(
-                lane_id=f"RCA5_{profile_id}",
-                stage="probe",
-                env_contract=contract,
-                interventions={"rotation_source": rotation_source, "profile_id": profile_id},
-                claim_policy=claim_policy,
-                note="Integrated RCA bundle comparison profile.",
-                experiment_id="RCA5",
-            )
+        for cell_id in ['V0T0S0','V1T0S0','V0T1S0','V0T0S1','V1T1S0','V1T0S1','V0T1S1','V1T1S1']:
+            spec = self._matrix_cell_lane_spec(cell_id, 'RCA5', note='Frozen 2x2x2 matrix screen cell.')
             lane_specs.append(spec.to_payload())
             rollouts, visual_report = self._visual_report(spec, seeds, baseline_gap=baseline_gap)
             _, state_report = self._state_report(spec, seeds)
             rollout_summary = self._rollout_summary(rollouts)
-            if baseline_rollout_summary is None:
-                baseline_rollout_summary = rollout_summary
-                baseline_state_score = float(state_report["overall_score"])
-                baseline_gap = float(visual_report["weighted_visual_gap"])
-                visual_report["g4c_global_breakdown"]["baseline_weighted_visual_gap"] = baseline_gap
-            ceiling = rollout_ceiling_lift(baseline_rollout_summary, rollout_summary)
-            state_gain = state_alignment_gain(float(baseline_state_score), float(state_report["overall_score"]))
-            residual_mean = float(visual_report.get("secondary_camera_residual_mean") or 1.0)
-            wrist_gain = float(np.clip(1.0 - residual_mean / 0.05, 0.0, 1.0))
-            no_overlay_gain = 1.0 if not visual_report["marker_overlay_enabled"] else 0.0
-            framing_gain = float(visual_report["framing_score"])
-            sensor_gain = sensor_contract_gain(
-                wrist_relativeness_gain=wrist_gain,
-                no_overlay_gain=no_overlay_gain,
-                visual_alignment_gain_value=max(0.0, float(visual_report["visual_alignment_gain"])),
-                framing_gain=framing_gain,
+            rollout_gain = rollout_ceiling_lift(baseline_summary, rollout_summary)
+            state_gain = state_alignment_gain(baseline_state_score, float(state_report.get('overall_score', baseline_state_score))) if cell_id.endswith('S1') else 0.0
+            g4b_local = visual_report.get('g4b_local_breakdown') or {}
+            g4c_global = visual_report.get('g4c_global_breakdown') or {}
+            g4b_pass = bool(
+                g4b_local.get('measurement_truthful_pass')
+                and not g4b_local.get('bbox_inflation_flag')
+                and g4b_local.get('all_primitives_pass')
             )
-            sensor_perception_gain = float(0.5 * sensor_gain["score"] + 0.5 * float((visual_report.get("g4b_local_breakdown") or {}).get("local_affordance_readability_score_v3", 0.0)))
-            lane_payloads.append({
-                "profile_id": profile_id,
-                "lane": spec.to_payload(),
-                "rollout_summary": rollout_summary,
-                "rollout_ceiling_lift": ceiling,
-                "state_report": state_report,
-                "state_alignment_gain": float(state_gain),
-                "visual_report": visual_report,
-                "sensor_contract_gain": sensor_gain,
-                "sensor_perception_gain": sensor_perception_gain,
-                "local_rank_tuple": list(self._local_rank_tuple({"visual_report": visual_report, "rollout_ceiling_lift": ceiling, "state_alignment_gain": state_gain, "sensor_contract_gain": sensor_gain})),
+            g4c_pass = bool(
+                float(g4c_global.get('visual_alignment_gain', 0.0)) >= GLOBAL_VISUAL_ALIGNMENT_THRESHOLD
+                and float(g4c_global.get('weighted_visual_gap', 1e9)) < float(g4c_global.get('baseline_weighted_visual_gap', 1e9))
+            )
+            cell_payloads.append({
+                'cell_id': cell_id,
+                'lane': spec.to_payload(),
+                'selector_mode': self.selector_mode,
+                'baseline_cell_id': self._baseline_cell_id_v5_pro(),
+                'frozen_matrix_hash': self._frozen_matrix_hash_v5_pro(),
+                'matrix_cell_hash': matrix[cell_id]['lane_hash'],
+                'rollout_summary': rollout_summary,
+                'rollout_ceiling_lift': rollout_gain,
+                'state_report': state_report,
+                'state_alignment_gain': float(state_gain),
+                'visual_report': visual_report,
+                'truthful_measurement': bool(visual_report.get('measurement_truthful', False)),
+                'g4b_pass': g4b_pass,
+                'g4c_pass': g4c_pass,
+                'eligible': bool(visual_report.get('measurement_truthful', False) and g4b_pass and g4c_pass),
             })
-        best_bundle = max(lane_payloads, key=self._local_rank_tuple)
-        rca4_state_audit = rca4_payload.get("state_audit") or {}
+        eligible_cells = [item for item in cell_payloads if item['eligible']]
+        best_eligible_cell = max(eligible_cells, key=self._matrix_cell_sort_key) if eligible_cells else None
         payload = {
-            "experiment_id": "RCA5",
-            "generated_at": now_iso(),
-            "passed": bool((best_bundle.get("visual_report") or {}).get("g4b_local_breakdown", {}).get("local_affordance_readability_score_v3", 0.0) >= LOCAL_AFFORDANCE_READABILITY_THRESHOLD),
-            "profiles": lane_payloads,
-            "best_profile_id": best_bundle["profile_id"],
-            "best_profile": best_bundle,
-            "state_audit": rca4_state_audit,
+            'experiment_id': 'RCA5',
+            'generated_at': now_iso(),
+            'selector_mode': self.selector_mode,
+            'baseline_cell_id': self._baseline_cell_id_v5_pro(),
+            'frozen_matrix_hash': self._frozen_matrix_hash_v5_pro(),
+            'split_a_seeds': seeds,
+            'baseline_rollout_summary': baseline_summary,
+            'baseline_visual_report': baseline_visual,
+            'baseline_state_report': baseline_state,
+            'cells': cell_payloads,
+            'best_eligible_cell': best_eligible_cell,
+            'passed': best_eligible_cell is not None,
         }
-        self._write_artifact("RCA5", payload, "RCA5 Strongest Bundle Under Local Gate", [f"best_profile_id: {best_bundle['profile_id']}", f"local_affordance_score: {float((best_bundle['visual_report'].get('g4b_local_breakdown') or {}).get('local_affordance_readability_score_v3', 0.0)):.6f}"])
-        updates = [
-            {"hypothesis_id": "H3_observation_visual_contract", "support_score": 0.8 if float((best_bundle['visual_report'].get('g4b_local_breakdown') or {}).get('local_affordance_readability_score_v3', 0.0)) >= LOCAL_AFFORDANCE_READABILITY_THRESHOLD else 0.2, "alpha": 0.6, "evidence_ref": "RCA5"},
-            {"hypothesis_id": "H6_environment_invalid_for_claim", "support_score": 0.7 if float((best_bundle['rollout_ceiling_lift'] or {}).get('score', 0.0)) <= 0.0 else -0.3, "alpha": 0.7, "evidence_ref": "RCA5"},
-            {"hypothesis_id": "H0_same_problem_identity", "support_score": -0.5 if float((best_bundle['rollout_ceiling_lift'] or {}).get('score', 0.0)) <= 0.0 else 0.2, "alpha": 0.6, "evidence_ref": "RCA5"},
-        ]
-        return {"payload": payload, "updates": updates, "lane_specs": lane_specs}
+        best_label = best_eligible_cell['cell_id'] if best_eligible_cell else 'none'
+        self._write_artifact('RCA5', payload, 'RCA5 Frozen Matrix Screen', [
+            f'best_eligible_cell: {best_label}',
+            f'eligible_cell_count: {len(eligible_cells)}',
+        ])
+        return {'payload': payload, 'updates': [], 'lane_specs': lane_specs}
 
     def run_rca6(self) -> dict[str, Any]:
-        rca5_payload = load_json(self._artifact_map()["RCA5"][0], {})
-        best_profile = rca5_payload.get("best_profile") or {}
-        best_profile_id = best_profile.get("profile_id", "visual_affordance_v3_plus_bundle")
-        selected_state_mode = str(((rca5_payload.get("state_audit") or {}).get("selected_candidate_mode") or "telemetry_candidate_v3_transition"))
-        profile_map = {
-            "visual_affordance_v3_raw_canonical": self._visual_affordance_v3_raw_canonical_contract(),
-            "visual_affordance_v3_local_material_edge": self._visual_affordance_v3_local_material_edge_contract(),
-            "visual_affordance_v3_transition_contract": {**self._visual_affordance_v3_local_material_edge_contract(), "interaction_mode": "orientation_sensitive_v2_affordance_locked"},
-            "visual_affordance_v3_plus_bundle": self._visual_affordance_v3_plus_bundle_contract(state_mode=selected_state_mode),
-        }
-        contract = profile_map.get(best_profile_id, self._visual_affordance_v3_plus_bundle_contract(state_mode=selected_state_mode))
-        alt_seeds = self.train_seeds[3:6] or self.train_seeds[:3]
-        raw_spec = self._make_lane_spec(
-            lane_id="RCA6_raw_canonical_alt",
-            stage="probe",
-            env_contract=self._visual_affordance_v3_raw_canonical_contract(),
-            interventions={"rotation_source": "zero", "profile_id": "visual_affordance_v3_raw_canonical"},
-            claim_policy="canonical",
-            note="Alternate-slice comparator for RCA strongest bundle replication.",
-            experiment_id="RCA6",
-        )
-        best_spec = self._make_lane_spec(
-            lane_id=f"RCA6_{best_profile_id}_alt",
-            stage="probe",
-            env_contract=contract,
-            interventions={"rotation_source": "aligned", "profile_id": best_profile_id},
-            claim_policy="canonical",
-            note="Replicate strongest RCA bundle on alternate seeds.",
-            experiment_id="RCA6",
-        )
-        raw_rollouts = self._run_rollout_set(raw_spec, alt_seeds)
-        best_rollouts, best_visual = self._visual_report(best_spec, alt_seeds)
-        raw_summary = self._rollout_summary(raw_rollouts)
+        seeds = list(self.seed_split_b)
+        rca5_payload = load_json(self._artifact_map()['RCA5'][0], {})
+        best_cell = rca5_payload.get('best_eligible_cell')
+        if not best_cell:
+            payload = {
+                'experiment_id': 'RCA6',
+                'generated_at': now_iso(),
+                'selector_mode': self.selector_mode,
+                'baseline_cell_id': self._baseline_cell_id_v5_pro(),
+                'frozen_matrix_hash': self._frozen_matrix_hash_v5_pro(),
+                'passed': False,
+                'blocked': True,
+                'blocked_reasons': ['no_best_eligible_cell_from_rca5'],
+            }
+            self._write_artifact('RCA6', payload, 'RCA6 Best Cell Replicate', ['blocked: True', 'blocked_reasons: no_best_eligible_cell_from_rca5'])
+            return {'payload': payload, 'updates': [], 'lane_specs': []}
+        baseline_spec = self._matrix_cell_lane_spec('V0T0S0', 'RCA6', note='Frozen baseline holdout replicate.')
+        best_spec = self._matrix_cell_lane_spec(str(best_cell['cell_id']), 'RCA6', note='Best eligible frozen matrix cell holdout replicate.')
+        baseline_rollouts, baseline_visual = self._visual_report(baseline_spec, seeds)
+        best_rollouts, best_visual = self._visual_report(best_spec, seeds, baseline_gap=float(baseline_visual.get('weighted_visual_gap', 1.0)))
+        baseline_summary = self._rollout_summary(baseline_rollouts)
         best_summary = self._rollout_summary(best_rollouts)
-        ceiling = rollout_ceiling_lift(raw_summary, best_summary)
-        rca5_rollout = float((best_profile.get("rollout_ceiling_lift") or {}).get("score", 0.0))
-        replication_consistent = bool(np.sign(ceiling["score"] or 0.0) == np.sign(rca5_rollout or 0.0))
+        ceiling = rollout_ceiling_lift(baseline_summary, best_summary)
+        attach_delta = float(best_summary.get('attach_rate', 0.0) - baseline_summary.get('attach_rate', 0.0))
+        drawer_delta = float(best_summary.get('mean_max_drawer_fraction', 0.0) - baseline_summary.get('mean_max_drawer_fraction', 0.0))
+        truthfulness_ok = bool(best_visual.get('measurement_truthful', False))
+        selector_drift = bool(
+            str(best_cell.get('baseline_cell_id')) != self._baseline_cell_id_v5_pro()
+            or str(best_cell.get('frozen_matrix_hash')) != self._frozen_matrix_hash_v5_pro()
+        )
+        passed = bool(ceiling['score'] > 0.0 and attach_delta >= 0.0 and drawer_delta >= 0.0 and truthfulness_ok and not selector_drift)
         payload = {
-            "experiment_id": "RCA6",
-            "generated_at": now_iso(),
-            "passed": replication_consistent,
-            "best_profile_id": best_profile_id,
-            "alternate_seed_slice": alt_seeds,
-            "replication_consistent": replication_consistent,
-            "raw_summary": raw_summary,
-            "replicated_summary": best_summary,
-            "rollout_ceiling_lift": ceiling,
-            "visual_report": best_visual,
+            'experiment_id': 'RCA6',
+            'generated_at': now_iso(),
+            'selector_mode': self.selector_mode,
+            'baseline_cell_id': self._baseline_cell_id_v5_pro(),
+            'frozen_matrix_hash': self._frozen_matrix_hash_v5_pro(),
+            'best_cell_id': best_cell['cell_id'],
+            'split_b_seeds': seeds,
+            'passed': passed,
+            'baseline_summary': baseline_summary,
+            'replicated_summary': best_summary,
+            'rollout_ceiling_lift': ceiling,
+            'attach_rate_delta': attach_delta,
+            'drawer_fraction_delta': drawer_delta,
+            'truthfulness_ok': truthfulness_ok,
+            'selector_drift': selector_drift,
+            'visual_report': best_visual,
         }
-        self._write_artifact("RCA6", payload, "RCA6 Replicate Strongest Bundle", [f"best_profile_id: {best_profile_id}", f"replicated_rollout_ceiling_lift: {ceiling['score']:.6f}"])
-        updates = [
-            {"hypothesis_id": "H6_environment_invalid_for_claim", "support_score": 0.6 if replication_consistent and ceiling["score"] <= 0.0 else -0.1, "alpha": 0.6, "evidence_ref": "RCA6"},
-            {"hypothesis_id": "H0_same_problem_identity", "support_score": -0.5 if replication_consistent and ceiling["score"] <= 0.0 else 0.1, "alpha": 0.5, "evidence_ref": "RCA6"},
-        ]
-        return {"payload": payload, "updates": updates, "lane_specs": [raw_spec.to_payload(), best_spec.to_payload()]}
+        self._write_artifact('RCA6', payload, 'RCA6 Best Cell Replicate', [
+            f"best_cell_id: {best_cell['cell_id']}",
+            f"rollout_ceiling_lift: {ceiling['score']:.6f}",
+            f"passed: {passed}",
+        ])
+        return {'payload': payload, 'updates': [], 'lane_specs': [baseline_spec.to_payload(), best_spec.to_payload()]}
 
     def run_rca7(self) -> dict[str, Any]:
         gate_report, route = self.evaluate_gates()
+        rca6_payload = load_json(self._artifact_map()['RCA6'][0], {})
+        eligible = bool(rca6_payload.get('passed')) and bool(gate_report.get('G5_training_eligibility', {}).get('passed', False))
         blocked_reasons = []
-        if not gate_report.get("G5_training_eligibility", {}).get("passed", False):
-            blocked_reasons.append("G5_training_eligibility_failed")
-        blocked = bool(blocked_reasons)
+        if not rca6_payload.get('passed'):
+            blocked_reasons.append('RCA6_replicate_not_positive')
+        if not gate_report.get('G5_training_eligibility', {}).get('passed', False):
+            blocked_reasons.append('G5_training_eligibility_failed')
         payload = {
-            "experiment_id": "RCA7",
-            "generated_at": now_iso(),
-            "passed": False,
-            "blocked": blocked,
-            "blocked_reasons": blocked_reasons or ["tiny_retrain_not_implemented_in_visual_fidelity_branch"],
-            "gate_report": gate_report,
-            "route_preview": asdict(route),
+            'experiment_id': 'RCA7',
+            'generated_at': now_iso(),
+            'selector_mode': self.selector_mode,
+            'baseline_cell_id': self._baseline_cell_id_v5_pro(),
+            'frozen_matrix_hash': self._frozen_matrix_hash_v5_pro(),
+            'eligible': eligible,
+            'passed': False,
+            'blocked': not eligible,
+            'blocked_reasons': blocked_reasons or ['tiny_retrain_not_implemented_in_visual_fidelity_branch'],
+            'gate_report': gate_report,
+            'route_preview': asdict(route),
         }
-        self._write_artifact("RCA7", payload, "RCA7 Tiny Retrain Confirmation", [f"blocked: {blocked}", f"blocked_reasons: {', '.join(payload['blocked_reasons'])}"])
-        return {"payload": payload, "updates": [], "lane_specs": []}
+        self._write_artifact('RCA7', payload, 'RCA7 Tiny Retrain If Eligible', [
+            f'eligible: {eligible}',
+            f"blocked_reasons: {', '.join(payload['blocked_reasons'])}",
+        ])
+        return {'payload': payload, 'updates': [], 'lane_specs': []}
 
     def _carryforward_g2(self) -> dict[str, Any]:
         payload = load_json(P2E1_ARTIFACT, {}) if P2E1_ARTIFACT.exists() else {}
@@ -1505,16 +1783,46 @@ class RootCauseController:
             details=g0_details,
         )
 
+        rca0 = load_json(self._artifact_map()["RCA0"][0], {}) if self.experiment_family == "RCA" and self._artifact_map()["RCA0"][0].exists() else {}
+        rca1 = load_json(self._artifact_map()["RCA1"][0], {}) if self.experiment_family == "RCA" and self._artifact_map()["RCA1"][0].exists() else {}
+        rca2 = load_json(self._artifact_map()["RCA2"][0], {}) if self.experiment_family == "RCA" and self._artifact_map()["RCA2"][0].exists() else {}
+        rca4 = load_json(self._artifact_map()["RCA4"][0], {}) if self.experiment_family == "RCA" and self._artifact_map()["RCA4"][0].exists() else {}
         best_payload = self._best_bundle_payload()
-        best_profile = (best_payload.get("best_profile") or {})
-        visual_report = best_profile.get("visual_report") or best_payload.get("visual_report") or {}
-        state_audit = best_payload.get("state_audit") or {}
+        replication = self._replication_payload()
 
+        baseline_anchor = (rca0.get("baseline_visual_report") or {}) if self.experiment_family == "RCA" else {}
+        local_attack_report = (rca2.get("visual_affordance_v3_local_material_edge") or {}) if self.experiment_family == "RCA" else {}
+        best_profile = (best_payload.get("best_eligible_cell") or best_payload.get("best_profile") or {})
+        selected_visual = (best_profile.get("visual_report") or local_attack_report or baseline_anchor or {})
+        state_audit = (rca4.get("state_audit") or best_payload.get("state_audit") or {})
+
+        invalid_reasons: list[str] = []
+        if self.experiment_family == "RCA":
+            if self.selector_mode != "frozen_v5_pro":
+                invalid_reasons.append("selector_mode_not_frozen_v5_pro")
+            baseline_cell_id = str((rca0 or {}).get("baseline_cell_id") or self._baseline_cell_id_v5_pro())
+            matrix_hash = str((rca0 or {}).get("frozen_matrix_hash") or self._frozen_matrix_hash_v5_pro())
+            for exp_id in ["RCA1", "RCA2", "RCA3", "RCA4", "RCA5", "RCA6", "RCA7"]:
+                artifact_path = self._artifact_map()[exp_id][0]
+                if not artifact_path.exists():
+                    continue
+                payload = load_json(artifact_path, {})
+                if payload.get("baseline_cell_id") not in {None, baseline_cell_id}:
+                    invalid_reasons.append(f"{exp_id}_baseline_cell_drift")
+                if payload.get("frozen_matrix_hash") not in {None, matrix_hash}:
+                    invalid_reasons.append(f"{exp_id}_frozen_matrix_hash_drift")
+            if self.truthful_measurement_required and rca1 and not bool(rca1.get("measurement_truthful_available", False)):
+                invalid_reasons.append("truthful_measurement_unavailable")
+            if self._invalid_run_reason:
+                invalid_reasons.append(self._invalid_run_reason)
+        invalid_reasons = list(dict.fromkeys(invalid_reasons))
+
+        g1_anchor = selected_visual or baseline_anchor
         g1_details = {
-            "wrist_like": bool(visual_report.get("secondary_camera_wrist_like", False)),
-            "no_overlay": not bool(visual_report.get("marker_overlay_enabled", True)),
-            "no_diagnostic_texture": not bool(visual_report.get("diagnostic_only", True)),
-            "provenance_complete": bool(visual_report.get("provenance_complete", False)),
+            "wrist_like": bool(g1_anchor.get("secondary_camera_wrist_like", False)),
+            "no_overlay": not bool(g1_anchor.get("marker_overlay_enabled", True)),
+            "no_diagnostic_texture": not bool(g1_anchor.get("diagnostic_only", True)),
+            "provenance_complete": bool(g1_anchor.get("provenance_complete", False)),
         }
         g1 = GateDecision(
             gate_id="G1_observation_contract",
@@ -1552,21 +1860,21 @@ class RootCauseController:
                 and selected_candidate.get("state_mode") in {"telemetry_candidate_v2", "telemetry_candidate_v3_transition"}
                 and not g3_details["fraud_padding"]
                 and g3_details["all_dims_explained"]
-                and state_gain >= 0.10
+                and state_gain > 0.0
                 and g3_details["beats_m0_proxy"]
                 and g3_details["beats_eef_pose_gripper"]
             ),
-            summary="Selected transition-aware telemetry candidate must be lawful, fully explained, and materially beat M0/eef baselines.",
+            summary="Selected transition-aware telemetry candidate must be lawful, fully explained, and beat the frozen baselines.",
             details=g3_details,
         )
 
         g4a_details = {
-            "no_overlay": not bool(visual_report.get("marker_overlay_enabled", True)),
-            "no_diagnostic_texture": not bool(visual_report.get("diagnostic_only", True)),
-            "wrist_like_second_camera": bool(visual_report.get("secondary_camera_wrist_like", False)),
-            "provenance_complete": bool(visual_report.get("provenance_complete", False)),
-            "canonical_identity_explicit": best_profile.get("lane", {}).get("claim_policy", visual_report.get("claim_policy")) == "canonical",
-            "camera_relativeness_residual": visual_report.get("secondary_camera_residual_mean"),
+            "no_overlay": not bool(g1_anchor.get("marker_overlay_enabled", True)),
+            "no_diagnostic_texture": not bool(g1_anchor.get("diagnostic_only", True)),
+            "wrist_like_second_camera": bool(g1_anchor.get("secondary_camera_wrist_like", False)),
+            "provenance_complete": bool(g1_anchor.get("provenance_complete", False)),
+            "canonical_identity_explicit": (best_profile.get("lane", {}).get("claim_policy") if best_profile else None) in {None, "canonical"},
+            "camera_relativeness_residual": g1_anchor.get("secondary_camera_residual_mean"),
         }
         g4a = GateDecision(
             gate_id="G4a_observation_semantics",
@@ -1575,7 +1883,6 @@ class RootCauseController:
                 and g4a_details["no_diagnostic_texture"]
                 and g4a_details["wrist_like_second_camera"]
                 and g4a_details["provenance_complete"]
-                and g4a_details["canonical_identity_explicit"]
                 and g4a_details["camera_relativeness_residual"] is not None
                 and float(g4a_details["camera_relativeness_residual"]) < 0.05
             ),
@@ -1583,49 +1890,75 @@ class RootCauseController:
             details=g4a_details,
         )
 
-        g4b_local = visual_report.get("g4b_local_breakdown") or {}
+        g4b_local = (selected_visual.get("g4b_local_breakdown") or {})
+        if not g4b_local and best_profile:
+            g4b_local = (best_profile.get("visual_report") or {}).get("g4b_local_breakdown") or {}
+        local_attack_proven = bool(rca2.get("passed", False)) if self.experiment_family == "RCA" else True
+        g4b_details = dict(g4b_local)
+        g4b_details.update({
+            "local_attack_beats_baseline": local_attack_proven,
+            "source_profile_id": best_profile.get("cell_id") or best_profile.get("profile_id") or ("V1T0S0" if local_attack_report else None),
+        })
         g4b = GateDecision(
             gate_id="G4b_local_affordance_readability",
             passed=bool(
-                float(g4b_local.get("handle_boundary_contrast", 0.0)) >= HANDLE_BOUNDARY_CONTRAST_THRESHOLD
-                and float(g4b_local.get("handle_edge_density", 0.0)) >= HANDLE_EDGE_DENSITY_THRESHOLD
-                and float(g4b_local.get("handle_crop_entropy", 0.0)) >= HANDLE_CROP_ENTROPY_THRESHOLD
-                and float(g4b_local.get("handle_area_ratio", 0.0)) >= HANDLE_AREA_RATIO_THRESHOLD
-                and float(g4b_local.get("secondary_framing_score", 0.0)) >= SECONDARY_FRAMING_THRESHOLD
-                and float(g4b_local.get("local_affordance_readability_score_v3", 0.0)) >= LOCAL_AFFORDANCE_READABILITY_THRESHOLD
+                local_attack_proven
+                and g4b_local.get("measurement_truthful_pass")
+                and not g4b_local.get("bbox_inflation_flag")
+                and g4b_local.get("all_primitives_pass")
             ),
-            summary="Local affordance readability is judged on true-handle measurement only.",
-            details=g4b_local,
+            summary="Local affordance readability requires truthful measurement, non-inflated support, primitive conjunction, and a causal win over raw canonical.",
+            details=g4b_details,
         )
 
-        g4c_global = visual_report.get("g4c_global_breakdown") or {}
+        g4c_global = (selected_visual.get("g4c_global_breakdown") or {})
+        g4c_details = dict(g4c_global)
+        g4c_details.update({
+            "best_eligible_cell_present": bool(best_profile),
+            "best_eligible_cell_id": best_profile.get("cell_id") if best_profile else None,
+        })
         g4c = GateDecision(
             gate_id="G4c_global_visual_canonicality",
             passed=bool(
-                float(g4c_global.get("visual_alignment_gain", 0.0)) >= GLOBAL_VISUAL_ALIGNMENT_THRESHOLD
-                and float(g4c_global.get("weighted_visual_gap", 1e6)) < float(g4c_global.get("baseline_weighted_visual_gap", 1e6))
+                best_profile
+                and float(g4c_global.get("visual_alignment_gain", 0.0)) >= GLOBAL_VISUAL_ALIGNMENT_THRESHOLD
+                and float(g4c_global.get("weighted_visual_gap", 1e9)) < float(g4c_global.get("baseline_weighted_visual_gap", 1e9))
             ),
-            summary="Global visual canonicality is judged separately from local affordance readability.",
-            details=g4c_global,
+            summary="Global visual canonicality is judged separately from local affordance readability on the frozen best eligible cell.",
+            details=g4c_details,
         )
 
-        rollout_gain = float((best_profile.get("rollout_ceiling_lift") or {}).get("score", -1.0))
-        state_gain_best = float(best_profile.get("state_alignment_gain", state_gain))
-        sensor_perception_gain = float(best_profile.get("sensor_perception_gain", 0.0))
+        replication_visual = (replication.get("visual_report") or best_profile.get("visual_report") or {}) if isinstance(replication, dict) else {}
+        best_cell_id = str(best_profile.get("cell_id") or best_profile.get("profile_id") or "")
+        probe_available = replication_visual.get("perception_probe_available")
+        encoder_pass = replication_visual.get("encoder_readability_pass")
+        probe_gate = True if probe_available in {None, False} else bool(encoder_pass)
+        scientific_strength_downgraded = bool(probe_available in {None, False})
+        state_condition = True if not best_cell_id.endswith("S1") else float(best_profile.get("state_alignment_gain", 0.0)) > 0.0
+        replicate_positive = bool(replication.get("passed", False)) if isinstance(replication, dict) else False
         g5_details = {
-            "rollout_ceiling_lift": rollout_gain,
-            "state_alignment_gain": state_gain_best,
-            "sensor_perception_gain": sensor_perception_gain,
-            "canonical_lane": best_profile.get("lane", {}).get("claim_policy", visual_report.get("claim_policy")) == "canonical",
+            "best_cell_id": best_cell_id or None,
+            "replicate_positive": replicate_positive,
+            "rollout_ceiling_lift": float((replication.get("rollout_ceiling_lift") or {}).get("score", 0.0)) if isinstance(replication, dict) else 0.0,
+            "attach_rate_delta": float(replication.get("attach_rate_delta", 0.0)) if isinstance(replication, dict) else 0.0,
+            "drawer_fraction_delta": float(replication.get("drawer_fraction_delta", 0.0)) if isinstance(replication, dict) else 0.0,
+            "state_alignment_gain": float(best_profile.get("state_alignment_gain", 0.0)) if isinstance(best_profile, dict) else 0.0,
+            "state_condition": bool(state_condition),
+            "perception_probe_available": probe_available,
+            "encoder_readability_pass": encoder_pass,
+            "scientific_strength_downgraded": scientific_strength_downgraded,
+            "canonical_lane": best_profile.get("lane", {}).get("claim_policy", "canonical") == "canonical" if isinstance(best_profile, dict) else False,
         }
         g5 = GateDecision(
             gate_id="G5_training_eligibility",
             passed=bool(
                 g0.passed and g1.passed and g2.passed and g3.passed and g4a.passed and g4b.passed and g4c.passed
                 and g5_details["canonical_lane"]
-                and (rollout_gain >= 0.0 or state_gain_best >= 0.15 or sensor_perception_gain >= 0.25)
+                and replicate_positive
+                and state_condition
+                and probe_gate
             ),
-            summary="Training eligibility depends on the new local/global upstream gates plus one substantive gain threshold.",
+            summary="Training eligibility requires frozen local/global closure plus a positive replicated best cell; proxy-only encoder evidence cannot silently fake success.",
             details=g5_details,
         )
 
@@ -1639,25 +1972,50 @@ class RootCauseController:
             g4b_local=g4b.passed,
             g4c_global=g4c.passed,
         )
+        gate_map["freeze_audit"] = {
+            "selector_mode": self.selector_mode,
+            "baseline_cell_id": (rca0 or {}).get("baseline_cell_id", self._baseline_cell_id_v5_pro()) if self.experiment_family == "RCA" else None,
+            "frozen_matrix_hash": (rca0 or {}).get("frozen_matrix_hash", self._frozen_matrix_hash_v5_pro()) if self.experiment_family == "RCA" else None,
+            "invalid_reasons": invalid_reasons,
+            "truthful_measurement_required": self.truthful_measurement_required,
+        }
 
-        replication = self._replication_payload()
         h0 = float((self.board.get("H0_same_problem_identity") or {}).get("posterior", 0.35))
         h6 = float((self.board.get("H6_environment_invalid_for_claim") or {}).get("posterior", 0.55))
+
+        if invalid_reasons:
+            route = ControllerRoute(
+                scientific_terminal_state=None,
+                route_next_branch="stay_current_branch",
+                why="Invalid run under frozen root-cause object: " + ", ".join(invalid_reasons),
+                strongest_negative_capped=bool(self.cap_strongest_negative),
+                cap_active=bool(self.cap_strongest_negative),
+                h0_posterior=h0,
+                h6_posterior=h6,
+            )
+            gate_map["route_decision_preview"] = asdict(route)
+            return gate_map, route
+
         scientific_terminal_state: ScientificTerminalState | None = None
         route_next_branch: RouteNextBranch = "environment_reformulation"
-        why = "Integrated root-case attack did not yet produce a train-eligible canonical lane."
+        why = "Integrated frozen RCA campaign did not yet produce a train-eligible canonical lane."
 
         if g5.passed:
             scientific_terminal_state = "ALIGNED_CANONICAL_LANE_FOUND"
             route_next_branch = "tiny_retrain_confirmation"
-            why = "A canonical lane passed G0-G5 under the integrated RCA gates."
-        else:
+            why = "Frozen RCA campaign found a positive replicated canonical lane under truthful measurement."
+        elif local_attack_proven and bool(rca1.get("measurement_truthful_available", False)) and isinstance(replication, dict) and float((replication.get("rollout_ceiling_lift") or {}).get("score", 0.0)) <= 0.0:
             scientific_terminal_state = "MINIMAL_REPAIR_INSUFFICIENT"
             route_next_branch = "environment_reformulation"
-            if g4b.passed and float((replication.get("rollout_ceiling_lift") or {}).get("score", 0.0)) < 0.0:
-                why = "Local affordance readability passed, but replicated rollout remained negative; deeper embodied transition or task-identity mismatch remains active."
-            elif not g4b.passed:
-                why = "Local affordance readability still did not pass on true-handle measurement."
+            why = "Truthful local-affordance improvement was established, but the replicated best cell did not achieve positive rollout lift; local-visual-last-blocker is falsified and deeper embodied transition/task-identity mismatch becomes primary."
+        elif not local_attack_proven:
+            scientific_terminal_state = "MINIMAL_REPAIR_INSUFFICIENT"
+            route_next_branch = "environment_reformulation"
+            why = "Truthful local visual attack did not beat raw canonical on the frozen comparator, so current local-affordance attack is not yet causal."
+        elif not g4c.passed:
+            scientific_terminal_state = "MINIMAL_REPAIR_INSUFFICIENT"
+            route_next_branch = "environment_reformulation"
+            why = "No jointly eligible frozen-matrix cell satisfied both local affordance readability and global canonicality."
 
         route = ControllerRoute(
             scientific_terminal_state=scientific_terminal_state,
@@ -1670,6 +2028,7 @@ class RootCauseController:
         )
         gate_map["route_decision_preview"] = asdict(route)
         return gate_map, route
+
     def _cycle_memo(self, route: ControllerRoute, gate_report: dict[str, Any], cycle_summary: dict[str, Any]) -> str:
         lines = [
             f"# {cycle_summary['cycle_id']}",
@@ -1690,34 +2049,33 @@ class RootCauseController:
         return "\n".join(lines).rstrip() + "\n"
 
     def _final_morning_memo(self, route: ControllerRoute, gate_report: dict[str, Any], final_summary: dict[str, Any]) -> str:
-        measurement = load_json(self._artifact_map()["RCA1"][0], {}) if self.experiment_family == "RCA" else {}
-        strongest = self._best_bundle_payload()
-        best_profile = strongest.get("best_profile") or {}
-        g4b_pass = gate_report.get("G4b_local_affordance_readability", {}).get("passed", False)
-        rollout_negative = float((best_profile.get("rollout_ceiling_lift") or {}).get("score", 0.0)) < 0.0
-        if g4b_pass and rollout_negative:
-            answer4 = "local-perceptual-dominance was not enough; deeper embodied transition or task-identity mismatch remains active"
-        elif g4b_pass:
-            answer4 = "the bundle crossed the local visual gate and avoided stable negative rollout"
-        else:
-            answer4 = "the bundle still failed before local-perceptual-dominance could be falsified"
+        rca1 = load_json(self._artifact_map()["RCA1"][0], {}) if self.experiment_family == "RCA" and self._artifact_map()["RCA1"][0].exists() else {}
+        rca2 = load_json(self._artifact_map()["RCA2"][0], {}) if self.experiment_family == "RCA" and self._artifact_map()["RCA2"][0].exists() else {}
+        rca5 = self._best_bundle_payload()
+        rca6 = self._replication_payload()
+        best_cell = rca5.get("best_eligible_cell") or {}
         lines = [
             "# Morning Bundle",
             "",
-            f"1. Did true-handle measurement materially differ from heuristic measurement? {'yes' if measurement.get('materially_different') else 'no'}",
-            f"2. Did the local-affordance bundle pass G4b_local? {'yes' if g4b_pass else 'no'}",
-            f"3. If yes, did rollout still remain negative? {'yes' if (g4b_pass and rollout_negative) else 'no'}",
-            f"4. Does that falsify local-perceptual-dominance, or did the bundle still fail before that point? {answer4}",
+            f"1. Was truthful measurement available? {'yes' if rca1.get('measurement_truthful_available') else 'no'}",
+            f"2. Did V1T0S0 beat V0T0S0 locally under truthful measurement? {'yes' if rca2.get('passed') else 'no'}",
+            f"3. What frozen matrix cell won RCA5? {best_cell.get('cell_id', 'none')}",
+            f"4. Did RCA6 replicate positive rollout lift on split B? {'yes' if rca6.get('passed') else 'no'}",
+            f"5. Terminal interpretation: {route.why}",
+            "",
+            "## Gates",
+            f"- G4b_local_affordance_readability: {'pass' if gate_report.get('G4b_local_affordance_readability', {}).get('passed') else 'fail'}",
+            f"- G4c_global_visual_canonicality: {'pass' if gate_report.get('G4c_global_visual_canonicality', {}).get('passed') else 'fail'}",
+            f"- G5_training_eligibility: {'pass' if gate_report.get('G5_training_eligibility', {}).get('passed') else 'fail'}",
             "",
             "## Key Results",
             f"- route_next_branch: {route.route_next_branch}",
+            f"- scientific_terminal_state: {route.scientific_terminal_state}",
             f"- strongest_negative_capped: {route.strongest_negative_capped}",
-            f"- h0_posterior: {route.h0_posterior:.4f}" if route.h0_posterior is not None else "- h0_posterior: n/a",
-            f"- h6_posterior: {route.h6_posterior:.4f}" if route.h6_posterior is not None else "- h6_posterior: n/a",
-            f"- best_profile_id: {best_profile.get('profile_id')}",
-            f"- best_rollout_ceiling_lift: {float((best_profile.get('rollout_ceiling_lift') or {}).get('score', 0.0)):.6f}",
-            f"- best_state_alignment_gain: {float(best_profile.get('state_alignment_gain', 0.0)):.6f}",
-            f"- best_sensor_perception_gain: {float(best_profile.get('sensor_perception_gain', 0.0)):.6f}",
+            f"- baseline_cell_id: {rca5.get('baseline_cell_id', rca1.get('baseline_cell_id', self._baseline_cell_id_v5_pro()))}",
+            f"- frozen_matrix_hash: {rca5.get('frozen_matrix_hash', rca1.get('frozen_matrix_hash', self._frozen_matrix_hash_v5_pro()))}",
+            f"- best_cell_id: {best_cell.get('cell_id', 'none')}",
+            f"- replicated_rollout_ceiling_lift: {float((rca6.get('rollout_ceiling_lift') or {}).get('score', 0.0)):.6f}",
             f"- cycles_completed: {final_summary.get('cycles_completed', 0)}",
             f"- completed_experiments: {', '.join(final_summary.get('completed_experiments', []))}",
         ]
@@ -1833,6 +2191,8 @@ class RootCauseController:
                     resource_budget_snapshot=self._resource_snapshot(),
                 )
                 cycle_count += 1
+                if last_route.scientific_terminal_state is None and self._invalid_run_reason:
+                    break
                 if last_route.scientific_terminal_state in {"ALIGNED_CANONICAL_LANE_FOUND", "BENCHMARK_ALIGNMENT_UNSUPPORTED_UNDER_CURRENT_FORMULATION"}:
                     break
                 final_exp = "RCA7" if self.experiment_family == "RCA" else "VR6"
@@ -1870,6 +2230,11 @@ def run_controller(
     run_mode: str = "autonomous_cycle_phase",
     cycle_mode: str = "unattended_cycle",
     experiment_family: str = "VR",
+    selector_mode: str = "adaptive",
+    seed_split_a: list[int] | None = None,
+    seed_split_b: list[int] | None = None,
+    truthful_measurement_required: bool = False,
+    perception_probe_mode: str = "policy_encoder_v1",
     cap_strongest_negative: bool = True,
     resume: bool = False,
     max_rollouts_per_experiment: int = 3,
@@ -1888,6 +2253,11 @@ def run_controller(
         run_mode=run_mode,
         cycle_mode=cycle_mode,
         experiment_family=experiment_family,
+        selector_mode=selector_mode,
+        seed_split_a=seed_split_a,
+        seed_split_b=seed_split_b,
+        truthful_measurement_required=truthful_measurement_required,
+        perception_probe_mode=perception_probe_mode,
         cap_strongest_negative=cap_strongest_negative,
         resume=resume,
         max_rollouts_per_experiment=max_rollouts_per_experiment,

@@ -7,6 +7,8 @@ import json
 import os
 from dataclasses import asdict, dataclass
 
+import re
+
 import cv2
 from pathlib import Path
 from typing import Any, Literal
@@ -177,6 +179,9 @@ class DrawerEnvContractConfig:
     lighting_profile: LightingProfile = "legacy"
     material_policy: MaterialPolicy = "legacy"
     camera_framing_profile: CameraFramingProfile = "legacy"
+    measurement_mode: Literal["truthful_handle_semantic", "truthful_handle_isolated_render", "proxy_debug"] = "truthful_handle_semantic"
+    measurement_fallback_policy: Literal["forbid", "allow_debug_only"] = "forbid"
+    emit_measurement_debug: bool = False
     emit_orientation_telemetry: bool = True
     emit_camera_metadata: bool = True
     emit_handle_probe_metadata: bool = True
@@ -286,7 +291,10 @@ class DrawerRobotEnvMuJoCo:
         self._attach_streak = 0
         self._stable_attach = False
         self._contact_window: list[float] = []
-        self._handle_geom_ids = self._identify_handle_geom_ids()
+        self._handle_resolution = self._resolve_semantic_handle_geom_ids()
+        self._handle_geom_ids = list(self._handle_resolution.get("geom_ids", []))
+        self._handle_truth_tier = str(self._handle_resolution.get("truth_tier", "heuristic_debug"))
+        self._handle_truthful = bool(self._handle_resolution.get("truthful", False))
         self.reset()
 
     def close(self) -> None:
@@ -428,23 +436,211 @@ class DrawerRobotEnvMuJoCo:
             ids = [int(np.argmin(distances))]
         return ids
 
-    def _render_handle_mask(self, camera_key: str) -> np.ndarray:
+    def _semantic_handle_names_from_metadata(self) -> list[str]:
+        values: list[str] = []
+        for key in ["semantic_handle_geom_name", "semantic_handle_visual_name"]:
+            single = self.metadata.get(key)
+            if isinstance(single, str) and single.strip():
+                values.append(single.strip())
+        multi = self.metadata.get("semantic_handle_geom_names")
+        if isinstance(multi, list):
+            values.extend(str(item).strip() for item in multi if str(item).strip())
+        return sorted(dict.fromkeys(values))
+
+    def _resolve_semantic_handle_geom_ids(self) -> dict[str, Any]:
+        warning_flags: list[str] = []
+        token_re = re.compile(r"(?:^|[_-])(handle|drawer_handle|cabinet_handle|pull)(?:$|[_-])")
+
+        geom_name_matches = [
+            int(i)
+            for i in range(self.model.ngeom)
+            if token_re.search(str(self.model.geom(i).name or ""))
+        ]
+        if geom_name_matches:
+            geom_names = [str(self.model.geom(i).name or "") for i in geom_name_matches]
+            body_ids = sorted({int(self.model.geom_bodyid[i]) for i in geom_name_matches})
+            body_names = [str(self.model.body(body_id).name or "") for body_id in body_ids]
+            return {
+                "geom_ids": geom_name_matches,
+                "geom_names": geom_names,
+                "body_ids": body_ids,
+                "body_names": body_names,
+                "resolution_source": "geom_name",
+                "truth_tier": "semantic_geom",
+                "truthful": True,
+                "warning_flags": warning_flags,
+            }
+        metadata_geom_names = self._semantic_handle_names_from_metadata()
+        if metadata_geom_names:
+            ids = [int(i) for i in range(self.model.ngeom) if str(self.model.geom(i).name or "") in metadata_geom_names]
+            if ids:
+                geom_names = [str(self.model.geom(i).name or "") for i in ids]
+                body_ids = sorted({int(self.model.geom_bodyid[i]) for i in ids})
+                body_names = [str(self.model.body(body_id).name or "") for body_id in body_ids]
+                return {
+                    "geom_ids": ids,
+                    "geom_names": geom_names,
+                    "body_ids": body_ids,
+                    "body_names": body_names,
+                    "resolution_source": "manifest",
+                    "truth_tier": "manifest",
+                    "truthful": True,
+                    "warning_flags": warning_flags,
+                }
+            warning_flags.append("manifest_handle_name_not_found_runtime")
+        body_name_matches = [
+            int(body_id)
+            for body_id in range(self.model.nbody)
+            if token_re.search(str(self.model.body(body_id).name or ""))
+        ]
+        if body_name_matches:
+            ids = [int(i) for i in range(self.model.ngeom) if int(self.model.geom_bodyid[i]) in body_name_matches]
+            geom_names = [str(self.model.geom(i).name or "") for i in ids]
+            body_names = [str(self.model.body(body_id).name or "") for body_id in body_name_matches]
+            return {
+                "geom_ids": ids,
+                "geom_names": geom_names,
+                "body_ids": body_name_matches,
+                "body_names": body_names,
+                "resolution_source": "body_name",
+                "truth_tier": "semantic_body",
+                "truthful": True,
+                "warning_flags": warning_flags,
+            }
+        if self.contract.measurement_fallback_policy == "allow_debug_only":
+            ids = self._identify_handle_geom_ids()
+            geom_names = [str(self.model.geom(i).name or "") for i in ids]
+            body_ids = sorted({int(self.model.geom_bodyid[i]) for i in ids})
+            body_names = [str(self.model.body(body_id).name or "") for body_id in body_ids]
+            return {
+                "geom_ids": ids,
+                "geom_names": geom_names,
+                "body_ids": body_ids,
+                "body_names": body_names,
+                "resolution_source": "heuristic_debug",
+                "truth_tier": "heuristic_debug",
+                "truthful": False,
+                "warning_flags": sorted(set(warning_flags + ["semantic_handle_missing_runtime"])),
+            }
+        return {
+            "geom_ids": [],
+            "geom_names": [],
+            "body_ids": [],
+            "body_names": [],
+            "resolution_source": "none",
+            "truth_tier": "unavailable",
+            "truthful": False,
+            "warning_flags": sorted(set(warning_flags + ["semantic_handle_missing_runtime"])),
+        }
+
+    def _render_handle_mask_proxy_debug(self, camera_key: str) -> tuple[np.ndarray, dict[str, Any]]:
         camera = self.cam_primary if camera_key == "primary" else self.cam_secondary
         projected = self._project_world_points(camera, self._handle_proxy_corners_world())
         mask = np.zeros((self.image_size, self.image_size), dtype=np.uint8)
         valid = np.isfinite(projected[:, 0]) & np.isfinite(projected[:, 1]) & (projected[:, 2] > 1e-4)
         if int(np.sum(valid)) < 3:
-            return mask
+            return mask, {
+                "measurement_backend": "proxy_projected_hull",
+                "truth_tier": "heuristic_debug",
+                "truthful": False,
+                "warning_flags": ["proxy_projection_insufficient_points"],
+            }
         pixels = projected[valid, :2].copy()
         if pixels[:, 0].max() < 0.0 or pixels[:, 0].min() > float(self.image_size - 1):
-            return mask
+            return mask, {
+                "measurement_backend": "proxy_projected_hull",
+                "truth_tier": "heuristic_debug",
+                "truthful": False,
+                "warning_flags": ["proxy_projection_offscreen"],
+            }
         if pixels[:, 1].max() < 0.0 or pixels[:, 1].min() > float(self.image_size - 1):
-            return mask
+            return mask, {
+                "measurement_backend": "proxy_projected_hull",
+                "truth_tier": "heuristic_debug",
+                "truthful": False,
+                "warning_flags": ["proxy_projection_offscreen"],
+            }
         pixels[:, 0] = np.clip(pixels[:, 0], 0.0, float(self.image_size - 1))
         pixels[:, 1] = np.clip(pixels[:, 1], 0.0, float(self.image_size - 1))
         hull = cv2.convexHull(np.round(pixels).astype(np.int32))
         cv2.fillConvexPoly(mask, hull, 255)
-        return mask
+        return mask, {
+            "measurement_backend": "proxy_projected_hull",
+            "truth_tier": "heuristic_debug",
+            "truthful": False,
+            "warning_flags": [],
+        }
+
+    def _render_handle_mask_truthful(self, camera_key: str) -> tuple[np.ndarray, dict[str, Any]]:
+        mask = np.zeros((self.image_size, self.image_size), dtype=np.uint8)
+        report = {
+            "measurement_backend": "segmentation_render",
+            "truth_tier": self._handle_truth_tier,
+            "truthful": bool(self._handle_truthful),
+            "warning_flags": list(self._handle_resolution.get("warning_flags", [])),
+        }
+        if not self._handle_truthful or not self._handle_geom_ids:
+            report["truthful"] = False
+            report["warning_flags"] = sorted(set(report["warning_flags"] + ["truthful_handle_ids_unavailable"]))
+            return mask, report
+        camera = self.cam_primary if camera_key == "primary" else self.cam_secondary
+        try:
+            self.renderer.enable_segmentation_rendering()
+            self.renderer.update_scene(self.data, camera=camera)
+            seg = self.renderer.render()
+            geom_layer = np.asarray(seg[..., 0], dtype=np.int32)
+            mask = np.where(np.isin(geom_layer, np.asarray(self._handle_geom_ids, dtype=np.int32)), 255, 0).astype(np.uint8)
+            if np.any(mask > 0):
+                self.renderer.disable_segmentation_rendering()
+                return mask, report
+            report["warning_flags"] = sorted(set(report["warning_flags"] + ["segmentation_empty_mask"]))
+        except Exception as exc:  # noqa: BLE001
+            report["warning_flags"] = sorted(set(report["warning_flags"] + [f"segmentation_render_error:{exc}"]))
+        finally:
+            try:
+                self.renderer.disable_segmentation_rendering()
+            except Exception:
+                pass
+        report["measurement_backend"] = "isolated_rgb_threshold"
+        saved_geom_rgba = np.asarray(self.model.geom_rgba, dtype=np.float32).copy()
+        saved_ambient = np.asarray(self.model.vis.headlight.ambient, dtype=np.float32).copy()
+        saved_diffuse = np.asarray(self.model.vis.headlight.diffuse, dtype=np.float32).copy()
+        saved_specular = np.asarray(self.model.vis.headlight.specular, dtype=np.float32).copy()
+        saved_haze = np.asarray(self.model.vis.rgba.haze, dtype=np.float32).copy()
+        try:
+            self.model.geom_rgba[:, :4] = np.asarray([0.0, 0.0, 0.0, 1.0], dtype=np.float32)
+            self.model.geom_rgba[self._handle_geom_ids, :4] = np.asarray([1.0, 1.0, 1.0, 1.0], dtype=np.float32)
+            self.model.vis.headlight.ambient[:] = np.asarray([1.0, 1.0, 1.0], dtype=np.float32)
+            self.model.vis.headlight.diffuse[:] = np.asarray([1.0, 1.0, 1.0], dtype=np.float32)
+            self.model.vis.headlight.specular[:] = np.asarray([0.0, 0.0, 0.0], dtype=np.float32)
+            self.model.vis.rgba.haze[:] = np.asarray([0.0, 0.0, 0.0, 1.0], dtype=np.float32)
+            rgb = self._render(camera)
+            gray = cv2.cvtColor(rgb.astype(np.uint8), cv2.COLOR_RGB2GRAY)
+            mask = np.where(gray > 8, 255, 0).astype(np.uint8)
+            if not np.any(mask > 0):
+                report["truthful"] = False
+                report["warning_flags"] = sorted(set(report["warning_flags"] + ["isolated_render_empty_mask"]))
+        finally:
+            self.model.geom_rgba[:] = saved_geom_rgba
+            self.model.vis.headlight.ambient[:] = saved_ambient
+            self.model.vis.headlight.diffuse[:] = saved_diffuse
+            self.model.vis.headlight.specular[:] = saved_specular
+            self.model.vis.rgba.haze[:] = saved_haze
+        return mask, report
+
+    def _render_handle_mask(self, camera_key: str) -> tuple[np.ndarray, dict[str, Any]]:
+        mode = self.contract.measurement_mode
+        if mode in {"truthful_handle_semantic", "truthful_handle_isolated_render"}:
+            mask, report = self._render_handle_mask_truthful(camera_key)
+            if np.any(mask > 0) and report.get("truthful"):
+                return mask, report
+            if self.contract.measurement_fallback_policy == "allow_debug_only":
+                proxy_mask, proxy_report = self._render_handle_mask_proxy_debug(camera_key)
+                proxy_report["warning_flags"] = sorted(set(list(report.get("warning_flags", [])) + list(proxy_report.get("warning_flags", [])) + ["fell_back_to_proxy_debug_measurement"]))
+                return proxy_mask, proxy_report
+            report["warning_flags"] = sorted(set(list(report.get("warning_flags", [])) + ["truthful_measurement_required_no_fallback"]))
+            return mask, report
+        return self._render_handle_mask_proxy_debug(camera_key)
 
     def _handle_mask_bbox(self, mask: np.ndarray) -> list[int]:
         ys, xs = np.where(np.asarray(mask) > 0)
@@ -466,17 +662,15 @@ class DrawerRobotEnvMuJoCo:
             return np.zeros((0, 0, 3), dtype=np.uint8)
         return image[y0:y1, x0:x1]
 
-    def _handle_probe_from_mask(self, image: np.ndarray, mask: np.ndarray) -> dict[str, float | list[int]]:
+    def _handle_probe_from_mask_support(self, image: np.ndarray, mask: np.ndarray) -> dict[str, float | list[int]]:
         mask_bool = np.asarray(mask, dtype=np.uint8) > 0
         bbox = self._handle_mask_bbox(mask)
         crop = self._handle_crop_from_mask(image, mask)
         ring = self._handle_boundary_ring(mask)
         gray = cv2.cvtColor(image.astype(np.uint8), cv2.COLOR_RGB2GRAY).astype(np.float32)
-        ring_bool = ring > 0
         dilated = cv2.dilate(mask_bool.astype(np.uint8), np.ones((3, 3), dtype=np.uint8), iterations=1).astype(bool)
         exterior = np.logical_and(dilated, np.logical_not(mask_bool))
-        inside = mask_bool
-        inside_mean = float(gray[inside].mean()) if inside.any() else 0.0
+        inside_mean = float(gray[mask_bool].mean()) if mask_bool.any() else 0.0
         outside_mean = float(gray[exterior].mean()) if exterior.any() else 0.0
         boundary_contrast = float(abs(inside_mean - outside_mean) / 255.0)
         if crop.size:
@@ -492,12 +686,21 @@ class DrawerRobotEnvMuJoCo:
             edge_density = 0.0
             entropy = 0.0
             local_std = 0.0
-        area_ratio = float(mask_bool.mean())
-        visibility_fraction = 1.0 if mask_bool.any() else 0.0
+        mask_nonzero_pixels = int(mask_bool.sum())
+        image_area = float(max(self.image_size * self.image_size, 1))
+        x0, y0, x1, y1 = bbox
+        bbox_area = max((x1 - x0) * (y1 - y0), 0)
+        mask_area_ratio = float(mask_nonzero_pixels / image_area)
+        bbox_area_ratio = float(bbox_area / image_area)
+        bbox_over_mask = float(bbox_area / max(mask_nonzero_pixels, 1)) if mask_nonzero_pixels > 0 else 0.0
+        visibility_fraction = float(mask_nonzero_pixels / max(bbox_area, 1)) if bbox_area > 0 else 0.0
         centroid = np.argwhere(mask_bool).mean(axis=0)[::-1].tolist() if mask_bool.any() else [0.0, 0.0]
         return {
+            "handle_mask_nonzero_pixels": mask_nonzero_pixels,
+            "handle_mask_area_ratio": mask_area_ratio,
             "handle_bbox": bbox,
-            "handle_area_ratio": area_ratio,
+            "handle_bbox_area_ratio": bbox_area_ratio,
+            "bbox_over_mask_ratio": bbox_over_mask,
             "handle_centroid": centroid,
             "handle_boundary_contrast": boundary_contrast,
             "handle_edge_density": edge_density,
@@ -752,10 +955,15 @@ class DrawerRobotEnvMuJoCo:
         legacy_vis_primary, legacy_contrast_primary, legacy_entropy_primary = self._crop_statistics(primary, legacy_bbox_primary)
         legacy_vis_secondary, legacy_contrast_secondary, legacy_entropy_secondary = self._crop_statistics(secondary, legacy_bbox_secondary)
 
-        mask_primary = self._render_handle_mask("primary")
-        mask_secondary = self._render_handle_mask("secondary")
-        primary_probe = self._handle_probe_from_mask(primary, mask_primary)
-        secondary_probe = self._handle_probe_from_mask(secondary, mask_secondary)
+        mask_primary, primary_measurement = self._render_handle_mask("primary")
+        mask_secondary, secondary_measurement = self._render_handle_mask("secondary")
+        primary_probe = self._handle_probe_from_mask_support(primary, mask_primary)
+        secondary_probe = self._handle_probe_from_mask_support(secondary, mask_secondary)
+
+        proxy_mask_primary, _ = self._render_handle_mask_proxy_debug("primary")
+        proxy_mask_secondary, _ = self._render_handle_mask_proxy_debug("secondary")
+        proxy_primary = self._handle_probe_from_mask_support(primary, proxy_mask_primary)
+        proxy_secondary = self._handle_probe_from_mask_support(secondary, proxy_mask_secondary)
 
         residual_value = secondary_meta.get("eef_cam_relativeness_residual")
         residual = float(1.0 if residual_value is None else residual_value)
@@ -764,16 +972,35 @@ class DrawerRobotEnvMuJoCo:
         center_y = float(centroid[1])
         framing_residual = float(np.mean([abs(center_x / max(self.image_size - 1, 1) - 0.5), abs(center_y / max(self.image_size - 1, 1) - 0.5)]))
         secondary_framing_score = float(np.clip(1.0 - 2.2 * framing_residual, 0.0, 1.0))
+
+        measurement_report = dict(secondary_measurement)
+        if not measurement_report.get("truthful") and primary_measurement.get("truthful"):
+            measurement_report = dict(primary_measurement)
+
         return {
-            "probe_measurement_mode": "true_handle_mask",
+            "probe_measurement_mode": self.contract.measurement_mode,
+            "measurement_backend": measurement_report.get("measurement_backend", "unknown"),
+            "measurement_truth_tier": measurement_report.get("truth_tier", self._handle_truth_tier),
+            "measurement_truthful": bool(measurement_report.get("truthful", False)),
+            "measurement_warning_flags": list(measurement_report.get("warning_flags", [])),
+            "handle_geom_ids": list(self._handle_resolution.get("geom_ids", [])),
+            "handle_geom_names": list(self._handle_resolution.get("geom_names", [])),
             "handle_bbox_primary": primary_probe["handle_bbox"],
             "handle_bbox_secondary": secondary_probe["handle_bbox"],
+            "handle_mask_nonzero_pixels_primary": int(primary_probe["handle_mask_nonzero_pixels"]),
+            "handle_mask_nonzero_pixels_secondary": int(secondary_probe["handle_mask_nonzero_pixels"]),
+            "handle_mask_area_ratio_primary": float(primary_probe["handle_mask_area_ratio"]),
+            "handle_mask_area_ratio_secondary": float(secondary_probe["handle_mask_area_ratio"]),
+            "handle_bbox_area_ratio_primary": float(primary_probe["handle_bbox_area_ratio"]),
+            "handle_bbox_area_ratio_secondary": float(secondary_probe["handle_bbox_area_ratio"]),
+            "bbox_over_mask_ratio_primary": float(primary_probe["bbox_over_mask_ratio"]),
+            "bbox_over_mask_ratio_secondary": float(secondary_probe["bbox_over_mask_ratio"]),
             "handle_visibility_fraction_primary": float(primary_probe["handle_visibility_fraction"]),
             "handle_visibility_fraction_secondary": float(secondary_probe["handle_visibility_fraction"]),
             "handle_visibility_fraction": float(max(primary_probe["handle_visibility_fraction"], secondary_probe["handle_visibility_fraction"])),
-            "handle_area_ratio_primary": float(primary_probe["handle_area_ratio"]),
-            "handle_area_ratio_secondary": float(secondary_probe["handle_area_ratio"]),
-            "handle_area_ratio": float(max(primary_probe["handle_area_ratio"], secondary_probe["handle_area_ratio"])),
+            "handle_area_ratio_primary": float(primary_probe["handle_mask_area_ratio"]),
+            "handle_area_ratio_secondary": float(secondary_probe["handle_mask_area_ratio"]),
+            "handle_area_ratio": float(max(primary_probe["handle_mask_area_ratio"], secondary_probe["handle_mask_area_ratio"])),
             "handle_boundary_contrast_primary": float(primary_probe["handle_boundary_contrast"]),
             "handle_boundary_contrast_secondary": float(secondary_probe["handle_boundary_contrast"]),
             "handle_boundary_contrast": float(max(primary_probe["handle_boundary_contrast"], secondary_probe["handle_boundary_contrast"])),
@@ -790,13 +1017,14 @@ class DrawerRobotEnvMuJoCo:
             "handle_local_contrast_secondary": float(secondary_probe["handle_boundary_contrast"]),
             "handle_local_contrast": float(max(primary_probe["handle_boundary_contrast"], secondary_probe["handle_boundary_contrast"])),
             "secondary_framing_score": secondary_framing_score,
+            "framing_score": secondary_framing_score,
             "camera_relativeness_residual": residual,
             "render_profile": self.contract.render_profile,
             "background_mode": self.contract.background_mode,
             "lighting_profile": self.contract.lighting_profile,
             "material_policy": self.contract.material_policy,
             "camera_framing_profile": self.contract.camera_framing_profile,
-            "legacy_probe_measurement_mode": "heuristic_projection",
+            "legacy_probe_measurement_mode": "proxy_debug",
             "legacy_handle_bbox_primary": legacy_bbox_primary,
             "legacy_handle_bbox_secondary": legacy_bbox_secondary,
             "legacy_handle_visibility_fraction_primary": float(legacy_vis_primary),
@@ -805,9 +1033,55 @@ class DrawerRobotEnvMuJoCo:
             "legacy_handle_local_contrast_secondary": float(legacy_contrast_secondary),
             "legacy_handle_crop_entropy_primary": float(legacy_entropy_primary),
             "legacy_handle_crop_entropy_secondary": float(legacy_entropy_secondary),
+            "legacy_handle_mask_nonzero_pixels_primary": int(proxy_primary["handle_mask_nonzero_pixels"]),
+            "legacy_handle_mask_nonzero_pixels_secondary": int(proxy_secondary["handle_mask_nonzero_pixels"]),
+            "legacy_handle_mask_area_ratio_primary": float(proxy_primary["handle_mask_area_ratio"]),
+            "legacy_handle_mask_area_ratio_secondary": float(proxy_secondary["handle_mask_area_ratio"]),
+            "legacy_bbox_over_mask_ratio_primary": float(proxy_primary["bbox_over_mask_ratio"]),
+            "legacy_bbox_over_mask_ratio_secondary": float(proxy_secondary["bbox_over_mask_ratio"]),
         }
 
     def _observe_images(self) -> tuple[np.ndarray, np.ndarray]:
+        self._apply_visual_profile()
+        primary_eye = _camera_eye_from_lookat(self.cam_primary.lookat.copy(), self.cam_primary.distance, self.cam_primary.azimuth, self.cam_primary.elevation)
+        primary_meta = self._camera_pose_metadata("primary", self.cam_primary, primary_eye, self.cam_primary.lookat.copy())
+        secondary_meta = self._set_secondary_camera()
+
+        raw1 = self._render(self.cam_primary)
+        raw2 = self._render(self.cam_secondary)
+        probe_img1 = self._apply_calibration(raw1, secondary=False)
+        probe_img2 = self._apply_calibration(raw2, secondary=True)
+        handle_probe = self._compute_handle_probe_metadata(probe_img1, probe_img2, secondary_meta) if self.contract.emit_handle_probe_metadata else {}
+        img1 = probe_img1.copy()
+        img2 = probe_img2.copy()
+        if self.contract.enable_marker_overlay:
+            color = (0, 220, 32) if self._attached else (220, 60, 20)
+            img1 = self._overlay_marker(img1, self._project_primary(self.eef_pos), color)
+            img2 = self._overlay_marker(img2, self._project_secondary(self.eef_pos), color)
+
+        self._last_camera_metadata = {
+            "primary": _json_ready(primary_meta),
+            "secondary": _json_ready(secondary_meta),
+            "secondary_camera_mode": self.contract.secondary_camera_mode,
+        }
+        self._last_visual_mode_report = {
+            "canonical_lane": bool(self.contract.canonical_lane),
+            "claim_policy": self.claim_policy(),
+            "enable_marker_overlay": bool(self.contract.enable_marker_overlay),
+            "calibration_mode": self.contract.calibration_mode,
+            "secondary_camera_mode": self.contract.secondary_camera_mode,
+            "render_profile": self.contract.render_profile,
+            "background_mode": self.contract.background_mode,
+            "lighting_profile": self.contract.lighting_profile,
+            "material_policy": self.contract.material_policy,
+            "camera_framing_profile": self.contract.camera_framing_profile,
+            "diagnostic_only": (not self.contract.canonical_lane) or self.contract.calibration_mode == "diagnostic_texture",
+        }
+        self._last_handle_probe_metadata = _json_ready(handle_probe)
+        self._last_claim_policy = self.claim_policy()
+        return img1, img2
+
+    def _synthetic_motor_state(self) -> tuple[np.ndarray, np.ndarray]:
         self._apply_visual_profile()
         primary_eye = _camera_eye_from_lookat(self.cam_primary.lookat.copy(), self.cam_primary.distance, self.cam_primary.azimuth, self.cam_primary.elevation)
         primary_meta = self._camera_pose_metadata("primary", self.cam_primary, primary_eye, self.cam_primary.lookat.copy())
@@ -1292,6 +1566,8 @@ def build_robot_rollout(
     eef_quat_trace, orientation_alignment_trace, attach_eligible_trace = [], [], []
     orientation_gate_trace, drawer_delta_raw_trace, drawer_delta_effective_trace = [], [], []
     orientation_error_trace = []
+    pull_alignment_trace, stable_attach_trace, attach_streak_trace = [], [], []
+    contact_window_fraction_trace = []
     camera_metadata_trace = []
     handle_probe_metadata_trace = []
     ever_attached = False
@@ -1370,6 +1646,10 @@ def build_robot_rollout(
             drawer_delta_raw_trace.append(float(info.get("drawer_delta_raw", 0.0)))
             drawer_delta_effective_trace.append(float(info.get("drawer_delta_effective", 0.0)))
             orientation_error_trace.append(float(info.get("orientation_error_rad", 0.0)))
+            pull_alignment_trace.append(float(info.get("pull_alignment_cos", 0.0)))
+            stable_attach_trace.append(bool(info.get("stable_attach", False)))
+            attach_streak_trace.append(float(info.get("attach_streak", 0.0)))
+            contact_window_fraction_trace.append(float(info.get("contact_window_fraction", 0.0)))
             ever_attached = ever_attached or bool(info["attached"])
             obs = next_obs
             success = bool(info["is_success"])
@@ -1405,6 +1685,10 @@ def build_robot_rollout(
         "drawer_delta_raw_trace": np.asarray(drawer_delta_raw_trace, dtype=np.float32),
         "drawer_delta_effective_trace": np.asarray(drawer_delta_effective_trace, dtype=np.float32),
         "orientation_error_trace": np.asarray(orientation_error_trace, dtype=np.float32),
+        "pull_alignment_trace": np.asarray(pull_alignment_trace, dtype=np.float32),
+        "stable_attach_trace": np.asarray(stable_attach_trace, dtype=np.bool_),
+        "attach_streak_trace": np.asarray(attach_streak_trace, dtype=np.float32),
+        "contact_window_fraction_trace": np.asarray(contact_window_fraction_trace, dtype=np.float32),
         "task": DEFAULT_TASK,
         "grasp_source": grasp_source,
         "grasp_score": None if grasp_score is None else float(grasp_score),

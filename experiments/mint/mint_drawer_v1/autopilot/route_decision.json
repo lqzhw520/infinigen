@@ -1,10 +1,10 @@
 {
-  "scientific_terminal_state": null,
-  "route_next_branch": "stay_current_branch",
-  "why": "Invalid run under frozen root-cause object: truthful_measurement_unavailable",
+  "scientific_terminal_state": "MINIMAL_REPAIR_INSUFFICIENT",
+  "route_next_branch": "environment_reformulation",
+  "why": "Truthful local-affordance improvement was established, but the replicated best cell did not achieve positive rollout lift; local-visual-last-blocker is falsified and deeper embodied transition/task-identity mismatch becomes primary.",
   "strongest_negative_capped": true,
   "cap_active": true,
   "h0_posterior": 0.35,
   "h6_posterior": 0.55,
-  "generated_at": "2026-04-13T21:08:51+08:00"
+  "generated_at": "2026-04-13T23:53:32+08:00"
 }

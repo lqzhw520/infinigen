@@ -653,10 +653,14 @@ class RootCauseController:
                 "measurement_truthful": False,
                 "measurement_warning_flags": ["missing_handle_probe_trace"],
                 "manifest_handle_entity_unique": False,
+                "runtime_visible_handle_mapping_source": "unresolved",
+                "runtime_visible_handle_mapping_unique": False,
                 "runtime_handle_visual_geom_mapping_unique": False,
                 "runtime_handle_collision_geom_mapping_unique": False,
                 "duplicate_runtime_geom_name_flag": False,
                 "unnamed_runtime_geom_flag": False,
+                "resolved_runtime_visible_handle_geom_ids": [],
+                "resolved_runtime_visible_handle_geom_names": [],
                 "resolved_handle_visual_geom_ids": [],
                 "resolved_handle_visual_geom_names": [],
                 "resolved_handle_collision_geom_ids": [],
@@ -719,7 +723,14 @@ class RootCauseController:
 
         best_secondary = max(trace, key=lambda item: float(item.get("handle_mask_nonzero_pixels_secondary", 0.0)))
         best_primary = max(trace, key=lambda item: float(item.get("handle_mask_nonzero_pixels_primary", 0.0)))
-        warning_flags = sorted({flag for item in trace for flag in list(item.get("measurement_warning_flags", []))})
+        warning_flags = sorted({
+            flag
+            for item in trace
+            for flag in list(item.get("measurement_warning_flags", []))
+            if flag != "truthful_measurement_required_no_fallback"
+        })
+        resolved_runtime_visible_handle_geom_ids = sorted({int(v) for item in trace for v in list(item.get("resolved_runtime_visible_handle_geom_ids", []))})
+        resolved_runtime_visible_handle_geom_names = sorted({str(v) for item in trace for v in list(item.get("resolved_runtime_visible_handle_geom_names", [])) if str(v)})
         resolved_handle_visual_geom_ids = sorted({int(v) for item in trace for v in list(item.get("resolved_handle_visual_geom_ids", []))})
         resolved_handle_visual_geom_names = sorted({str(v) for item in trace for v in list(item.get("resolved_handle_visual_geom_names", [])) if str(v)})
         resolved_handle_collision_geom_ids = sorted({int(v) for item in trace for v in list(item.get("resolved_handle_collision_geom_ids", []))})
@@ -738,16 +749,20 @@ class RootCauseController:
             "measurement_truth_tier": str(best_secondary.get("measurement_truth_tier") or best_primary.get("measurement_truth_tier") or "manifest_entity_unverified"),
             "measurement_warning_flags": warning_flags,
             "manifest_handle_entity_unique": _all_bool("manifest_handle_entity_unique"),
+            "runtime_visible_handle_mapping_source": str(best_secondary.get("runtime_visible_handle_mapping_source") or best_primary.get("runtime_visible_handle_mapping_source") or "unresolved"),
+            "runtime_visible_handle_mapping_unique": _all_bool("runtime_visible_handle_mapping_unique"),
             "runtime_handle_visual_geom_mapping_unique": _all_bool("runtime_handle_visual_geom_mapping_unique"),
             "runtime_handle_collision_geom_mapping_unique": _all_bool("runtime_handle_collision_geom_mapping_unique"),
             "duplicate_runtime_geom_name_flag": any(bool(item.get("duplicate_runtime_geom_name_flag", False)) for item in trace),
             "unnamed_runtime_geom_flag": any(bool(item.get("unnamed_runtime_geom_flag", False)) for item in trace),
+            "resolved_runtime_visible_handle_geom_ids": resolved_runtime_visible_handle_geom_ids,
+            "resolved_runtime_visible_handle_geom_names": resolved_runtime_visible_handle_geom_names,
             "resolved_handle_visual_geom_ids": resolved_handle_visual_geom_ids,
             "resolved_handle_visual_geom_names": resolved_handle_visual_geom_names,
             "resolved_handle_collision_geom_ids": resolved_handle_collision_geom_ids,
             "resolved_handle_collision_geom_names": resolved_handle_collision_geom_names,
-            "handle_geom_ids": sorted(set(resolved_handle_visual_geom_ids + resolved_handle_collision_geom_ids)),
-            "handle_geom_names": sorted(set(resolved_handle_visual_geom_names + resolved_handle_collision_geom_names)),
+            "handle_geom_ids": sorted(set(resolved_runtime_visible_handle_geom_ids)),
+            "handle_geom_names": sorted(set(resolved_runtime_visible_handle_geom_names)),
             "semantic_mapping_hash": semantic_mapping_hashes[0] if semantic_mapping_hashes else "",
             "segmentation_mask_nonzero_primary": int(round(_mean("segmentation_mask_nonzero_primary"))),
             "segmentation_mask_nonzero_secondary": int(round(_mean("segmentation_mask_nonzero_secondary"))),
@@ -755,8 +770,8 @@ class RootCauseController:
             "isolated_mask_nonzero_secondary": int(round(_mean("isolated_mask_nonzero_secondary"))),
             "segmentation_mask_support_rate_secondary": support_seg_secondary,
             "isolated_mask_support_rate_secondary": support_iso_secondary,
-            "segmentation_isolated_iou_secondary": _min_value("segmentation_isolated_iou_secondary", 0.0),
-            "segmentation_isolated_centroid_delta_px_secondary": _max_value("segmentation_isolated_centroid_delta_px_secondary", float("inf")),
+            "segmentation_isolated_iou_secondary": _mean("segmentation_isolated_iou_secondary"),
+            "segmentation_isolated_centroid_delta_px_secondary": _mean("segmentation_isolated_centroid_delta_px_secondary"),
             "handle_bbox_primary": best_primary.get("handle_bbox_primary") or [0, 0, 0, 0],
             "handle_bbox_secondary": best_secondary.get("handle_bbox_secondary") or [0, 0, 0, 0],
             "handle_mask_nonzero_pixels_primary": int(round(_mean("handle_mask_nonzero_pixels_primary"))),
@@ -783,7 +798,10 @@ class RootCauseController:
         }
         report["measurement_truthful"] = truthful_measurement_acceptance_v1(report)
         if not report["measurement_truthful"]:
-            report["measurement_truth_tier"] = "manifest_entity_unverified"
+            report["measurement_warning_flags"] = sorted(set(list(report.get("measurement_warning_flags", [])) + ["truthful_measurement_required_no_fallback"]))
+        report["measurement_truth_tier"] = (
+            "manifest_entity_verified" if report["measurement_truthful"] else "manifest_entity_unverified"
+        )
         return report
 
     def _visual_report(self, spec: LaneSpec, seeds: list[int], *, baseline_gap: float | None = None) -> tuple[list[dict[str, Any]], dict[str, Any]]:
@@ -1533,6 +1551,8 @@ class RootCauseController:
             'measurement_backend': report.get('measurement_backend'),
             'measurement_verifier': report.get('measurement_verifier'),
             'manifest_handle_entity_unique': report.get('manifest_handle_entity_unique'),
+            'runtime_visible_handle_mapping_source': report.get('runtime_visible_handle_mapping_source'),
+            'runtime_visible_handle_mapping_unique': report.get('runtime_visible_handle_mapping_unique'),
             'runtime_handle_visual_geom_mapping_unique': report.get('runtime_handle_visual_geom_mapping_unique'),
             'runtime_handle_collision_geom_mapping_unique': report.get('runtime_handle_collision_geom_mapping_unique'),
             'duplicate_runtime_geom_name_flag': report.get('duplicate_runtime_geom_name_flag'),

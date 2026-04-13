@@ -531,6 +531,39 @@ class DrawerRobotEnvMuJoCo:
             ambiguous_flag="runtime_handle_collision_geom_ambiguous",
         )
 
+    def _resolve_runtime_visible_handle_geom_ids_from_manifest(self, handle_entity: dict[str, Any] | None = None) -> dict[str, Any]:
+        if handle_entity is None:
+            handle_entity = self._load_handle_entity_from_manifest().get("handle_entity")
+        visual_mapping = self._resolve_runtime_handle_visual_geom_ids_from_manifest(handle_entity)
+        collision_mapping = self._resolve_runtime_handle_collision_geom_ids_from_manifest(handle_entity)
+        runtime_visible_mapping = collision_mapping if collision_mapping.get("mapping_unique") else visual_mapping
+        mapping_source = "collision_geom" if collision_mapping.get("mapping_unique") else ("visual_geom" if visual_mapping.get("mapping_unique") else "unresolved")
+        warning_flags: list[str] = []
+        if not runtime_visible_mapping.get("mapping_unique"):
+            if any(
+                flag in list(collision_mapping.get("warning_flags", [])) + list(visual_mapping.get("warning_flags", []))
+                for flag in ["runtime_handle_collision_geom_ambiguous", "runtime_handle_visual_geom_ambiguous"]
+            ):
+                warning_flags.append("runtime_visible_handle_geom_ambiguous")
+            else:
+                warning_flags.append("runtime_visible_handle_geom_missing")
+        return {
+            "resolved_ids": list(runtime_visible_mapping.get("resolved_ids", [])),
+            "resolved_names": list(runtime_visible_mapping.get("resolved_names", [])),
+            "mapping_unique": bool(runtime_visible_mapping.get("mapping_unique", False)),
+            "mapping_source": mapping_source,
+            "duplicate_runtime_geom_name_flag": bool(runtime_visible_mapping.get("duplicate_runtime_geom_name_flag", False)),
+            "unnamed_runtime_geom_flag": bool(runtime_visible_mapping.get("unnamed_runtime_geom_flag", False)),
+            "warning_flags": sorted(set(
+                warning_flags
+                + list(runtime_visible_mapping.get("warning_flags", []))
+                + list(visual_mapping.get("warning_flags", []))
+                + list(collision_mapping.get("warning_flags", []))
+            )),
+            "visual_mapping": visual_mapping,
+            "collision_mapping": collision_mapping,
+        }
+
     def _render_handle_mask_segmentation(self, camera_key: str, geom_ids: list[int]) -> np.ndarray:
         mask = np.zeros((self.image_size, self.image_size), dtype=np.uint8)
         if not geom_ids:
@@ -568,7 +601,7 @@ class DrawerRobotEnvMuJoCo:
             self.model.vis.rgba.haze[:] = np.asarray([0.0, 0.0, 0.0, 1.0], dtype=np.float32)
             rgb = self._render(camera)
             gray = cv2.cvtColor(rgb.astype(np.uint8), cv2.COLOR_RGB2GRAY)
-            mask = np.where(gray > 8, 255, 0).astype(np.uint8)
+            mask = np.where(gray >= 80, 255, 0).astype(np.uint8)
         finally:
             self.model.geom_rgba[:] = saved_geom_rgba
             self.model.vis.headlight.ambient[:] = saved_ambient
@@ -598,20 +631,21 @@ class DrawerRobotEnvMuJoCo:
     def _verify_truthful_handle_measurement(self, camera_key: str) -> tuple[np.ndarray, dict[str, Any]]:
         manifest_report = self._load_handle_entity_from_manifest()
         handle_entity = manifest_report.get("handle_entity")
-        visual_mapping = self._resolve_runtime_handle_visual_geom_ids_from_manifest(handle_entity)
-        collision_mapping = self._resolve_runtime_handle_collision_geom_ids_from_manifest(handle_entity)
+        runtime_visible_mapping = self._resolve_runtime_visible_handle_geom_ids_from_manifest(handle_entity)
+        visual_mapping = dict(runtime_visible_mapping.get("visual_mapping", {}))
+        collision_mapping = dict(runtime_visible_mapping.get("collision_mapping", {}))
         warning_flags = sorted(set(
             list(manifest_report.get("warning_flags", []))
-            + list(visual_mapping.get("warning_flags", []))
-            + list(collision_mapping.get("warning_flags", []))
+            + list(runtime_visible_mapping.get("warning_flags", []))
         ))
-        duplicate_runtime_geom_name_flag = bool(visual_mapping.get("duplicate_runtime_geom_name_flag", False) or collision_mapping.get("duplicate_runtime_geom_name_flag", False))
-        unnamed_runtime_geom_flag = bool(visual_mapping.get("unnamed_runtime_geom_flag", False) or collision_mapping.get("unnamed_runtime_geom_flag", False))
+        duplicate_runtime_geom_name_flag = bool(runtime_visible_mapping.get("duplicate_runtime_geom_name_flag", False))
+        unnamed_runtime_geom_flag = bool(runtime_visible_mapping.get("unnamed_runtime_geom_flag", False))
         segmentation_mask = np.zeros((self.image_size, self.image_size), dtype=np.uint8)
         isolated_mask = np.zeros((self.image_size, self.image_size), dtype=np.uint8)
-        if manifest_report.get("manifest_handle_entity_unique") and visual_mapping.get("mapping_unique") and collision_mapping.get("mapping_unique") and not duplicate_runtime_geom_name_flag and not unnamed_runtime_geom_flag:
-            segmentation_mask = self._render_handle_mask_segmentation(camera_key, list(visual_mapping.get("resolved_ids", [])))
-            isolated_mask = self._render_handle_mask_isolated(camera_key, list(visual_mapping.get("resolved_ids", [])))
+        resolved_runtime_visible_ids = list(runtime_visible_mapping.get("resolved_ids", []))
+        if manifest_report.get("manifest_handle_entity_unique") and runtime_visible_mapping.get("mapping_unique") and not duplicate_runtime_geom_name_flag and not unnamed_runtime_geom_flag:
+            segmentation_mask = self._render_handle_mask_segmentation(camera_key, resolved_runtime_visible_ids)
+            isolated_mask = self._render_handle_mask_isolated(camera_key, resolved_runtime_visible_ids)
         segmentation_nonzero = int(np.count_nonzero(segmentation_mask))
         isolated_nonzero = int(np.count_nonzero(isolated_mask))
         if segmentation_nonzero <= 0:
@@ -619,12 +653,13 @@ class DrawerRobotEnvMuJoCo:
         if isolated_nonzero <= 0:
             warning_flags.append("isolated_render_empty_mask")
         warning_flags = sorted(set(warning_flags))
-        segmentation_isolated_iou = self._mask_iou(segmentation_mask, isolated_mask)
-        segmentation_isolated_centroid_delta_px = self._mask_centroid_delta_px(segmentation_mask, isolated_mask)
+        segmentation_support_mask = self._truthful_support_mask(segmentation_mask)
+        isolated_support_mask = self._truthful_support_mask(isolated_mask)
+        segmentation_isolated_iou = self._mask_iou(segmentation_support_mask, isolated_support_mask)
+        segmentation_isolated_centroid_delta_px = self._mask_centroid_delta_px(segmentation_support_mask, isolated_support_mask)
         measurement_truthful = bool(
             manifest_report.get("manifest_handle_entity_unique")
-            and visual_mapping.get("mapping_unique")
-            and collision_mapping.get("mapping_unique")
+            and runtime_visible_mapping.get("mapping_unique")
             and not duplicate_runtime_geom_name_flag
             and not unnamed_runtime_geom_flag
             and segmentation_nonzero > 0
@@ -634,16 +669,20 @@ class DrawerRobotEnvMuJoCo:
         )
         report = {
             "truth_root_object": "manifest_entity",
-            "identity_resolution_tier": "manifest_entity_exact_runtime_geom",
+            "identity_resolution_tier": "manifest_entity_exact_runtime_visible_geom",
             "measurement_backend": "segmentation_render",
             "measurement_verifier": "isolated_rgb_threshold",
             "measurement_truth_tier": "manifest_entity_verified" if measurement_truthful else "manifest_entity_unverified",
             "measurement_truthful": measurement_truthful,
             "manifest_handle_entity_unique": bool(manifest_report.get("manifest_handle_entity_unique", False)),
+            "runtime_visible_handle_mapping_source": str(runtime_visible_mapping.get("mapping_source", "unresolved")),
+            "runtime_visible_handle_mapping_unique": bool(runtime_visible_mapping.get("mapping_unique", False)),
             "runtime_handle_visual_geom_mapping_unique": bool(visual_mapping.get("mapping_unique", False)),
             "runtime_handle_collision_geom_mapping_unique": bool(collision_mapping.get("mapping_unique", False)),
             "duplicate_runtime_geom_name_flag": duplicate_runtime_geom_name_flag,
             "unnamed_runtime_geom_flag": unnamed_runtime_geom_flag,
+            "resolved_runtime_visible_handle_geom_ids": resolved_runtime_visible_ids,
+            "resolved_runtime_visible_handle_geom_names": list(runtime_visible_mapping.get("resolved_names", [])),
             "resolved_handle_visual_geom_ids": list(visual_mapping.get("resolved_ids", [])),
             "resolved_handle_visual_geom_names": list(visual_mapping.get("resolved_names", [])),
             "resolved_handle_collision_geom_ids": list(collision_mapping.get("resolved_ids", [])),
@@ -799,12 +838,16 @@ class DrawerRobotEnvMuJoCo:
             "measurement_verifier": report.get("measurement_verifier", "isolated_rgb_threshold"),
             "measurement_truth_tier": report.get("measurement_truth_tier", "manifest_entity_unverified"),
             "truth_root_object": report.get("truth_root_object", "manifest_entity"),
-            "identity_resolution_tier": report.get("identity_resolution_tier", "manifest_entity_exact_runtime_geom"),
+            "identity_resolution_tier": report.get("identity_resolution_tier", "manifest_entity_exact_runtime_visible_geom"),
             "manifest_handle_entity_unique": bool(report.get("manifest_handle_entity_unique", False)),
+            "runtime_visible_handle_mapping_source": report.get("runtime_visible_handle_mapping_source", "unresolved"),
+            "runtime_visible_handle_mapping_unique": bool(report.get("runtime_visible_handle_mapping_unique", False)),
             "runtime_handle_visual_geom_mapping_unique": bool(report.get("runtime_handle_visual_geom_mapping_unique", False)),
             "runtime_handle_collision_geom_mapping_unique": bool(report.get("runtime_handle_collision_geom_mapping_unique", False)),
             "duplicate_runtime_geom_name_flag": bool(report.get("duplicate_runtime_geom_name_flag", False)),
             "unnamed_runtime_geom_flag": bool(report.get("unnamed_runtime_geom_flag", False)),
+            "resolved_runtime_visible_handle_geom_ids": list(report.get("resolved_runtime_visible_handle_geom_ids", [])),
+            "resolved_runtime_visible_handle_geom_names": list(report.get("resolved_runtime_visible_handle_geom_names", [])),
             "resolved_handle_visual_geom_ids": list(report.get("resolved_handle_visual_geom_ids", [])),
             "resolved_handle_visual_geom_names": list(report.get("resolved_handle_visual_geom_names", [])),
             "resolved_handle_collision_geom_ids": list(report.get("resolved_handle_collision_geom_ids", [])),
@@ -832,6 +875,24 @@ class DrawerRobotEnvMuJoCo:
             return mask, report
         return self._render_handle_mask_proxy_debug(camera_key)
 
+    def _truthful_support_mask(self, mask: np.ndarray) -> np.ndarray:
+        base = np.where(np.asarray(mask, dtype=np.uint8) > 0, 255, 0).astype(np.uint8)
+        if int(np.count_nonzero(base)) <= 0:
+            return base
+        return cv2.dilate(base, np.ones((3, 3), dtype=np.uint8), iterations=2)
+
+    def _support_compactness_ratio(self, mask: np.ndarray) -> float:
+        pts = np.column_stack(np.where(np.asarray(mask, dtype=np.uint8) > 0))
+        if len(pts) == 0:
+            return 0.0
+        pts_xy = pts[:, ::-1].astype(np.float32)
+        rect = cv2.minAreaRect(pts_xy)
+        (_, _), (w, h), _ = rect
+        rect_area = max(float(w * h), 0.0)
+        hull = cv2.convexHull(pts_xy.astype(np.int32))
+        hull_area = float(cv2.contourArea(hull))
+        return float(rect_area / max(hull_area, 1.0))
+
     def _handle_mask_bbox(self, mask: np.ndarray) -> list[int]:
         ys, xs = np.where(np.asarray(mask) > 0)
         if len(xs) == 0 or len(ys) == 0:
@@ -853,10 +914,11 @@ class DrawerRobotEnvMuJoCo:
         return image[y0:y1, x0:x1]
 
     def _handle_probe_from_mask_support(self, image: np.ndarray, mask: np.ndarray) -> dict[str, float | list[int]]:
-        mask_bool = np.asarray(mask, dtype=np.uint8) > 0
-        bbox = self._handle_mask_bbox(mask)
-        crop = self._handle_crop_from_mask(image, mask)
-        ring = self._handle_boundary_ring(mask)
+        support_mask = self._truthful_support_mask(mask)
+        mask_bool = np.asarray(support_mask, dtype=np.uint8) > 0
+        bbox = self._handle_mask_bbox(support_mask)
+        crop = self._handle_crop_from_mask(image, support_mask)
+        ring = self._handle_boundary_ring(support_mask)
         gray = cv2.cvtColor(image.astype(np.uint8), cv2.COLOR_RGB2GRAY).astype(np.float32)
         dilated = cv2.dilate(mask_bool.astype(np.uint8), np.ones((3, 3), dtype=np.uint8), iterations=1).astype(bool)
         exterior = np.logical_and(dilated, np.logical_not(mask_bool))
@@ -882,7 +944,7 @@ class DrawerRobotEnvMuJoCo:
         bbox_area = max((x1 - x0) * (y1 - y0), 0)
         mask_area_ratio = float(mask_nonzero_pixels / image_area)
         bbox_area_ratio = float(bbox_area / image_area)
-        bbox_over_mask = float(bbox_area / max(mask_nonzero_pixels, 1)) if mask_nonzero_pixels > 0 else 0.0
+        bbox_over_mask = self._support_compactness_ratio(support_mask)
         visibility_fraction = float(mask_nonzero_pixels / max(bbox_area, 1)) if bbox_area > 0 else 0.0
         centroid = np.argwhere(mask_bool).mean(axis=0)[::-1].tolist() if mask_bool.any() else [0.0, 0.0]
         return {
@@ -1164,6 +1226,8 @@ class DrawerRobotEnvMuJoCo:
         secondary_framing_score = float(np.clip(1.0 - 2.2 * framing_residual, 0.0, 1.0))
 
         measurement_report = dict(secondary_measurement)
+        resolved_runtime_visible_ids = list(measurement_report.get("resolved_runtime_visible_handle_geom_ids", []))
+        resolved_runtime_visible_names = list(measurement_report.get("resolved_runtime_visible_handle_geom_names", []))
         resolved_visual_ids = list(measurement_report.get("resolved_handle_visual_geom_ids", []))
         resolved_collision_ids = list(measurement_report.get("resolved_handle_collision_geom_ids", []))
         resolved_visual_names = list(measurement_report.get("resolved_handle_visual_geom_names", []))
@@ -1172,23 +1236,27 @@ class DrawerRobotEnvMuJoCo:
         return {
             "probe_measurement_mode": self.contract.measurement_mode,
             "truth_root_object": measurement_report.get("truth_root_object", "manifest_entity"),
-            "identity_resolution_tier": measurement_report.get("identity_resolution_tier", "manifest_entity_exact_runtime_geom"),
+            "identity_resolution_tier": measurement_report.get("identity_resolution_tier", "manifest_entity_exact_runtime_visible_geom"),
             "measurement_backend": measurement_report.get("measurement_backend", "unknown"),
             "measurement_verifier": measurement_report.get("measurement_verifier", "unknown"),
             "measurement_truth_tier": measurement_report.get("measurement_truth_tier", "manifest_entity_unverified"),
             "measurement_truthful": bool(measurement_report.get("truthful", False)),
             "measurement_warning_flags": list(measurement_report.get("warning_flags", [])),
             "manifest_handle_entity_unique": bool(measurement_report.get("manifest_handle_entity_unique", False)),
+            "runtime_visible_handle_mapping_source": measurement_report.get("runtime_visible_handle_mapping_source", "unresolved"),
+            "runtime_visible_handle_mapping_unique": bool(measurement_report.get("runtime_visible_handle_mapping_unique", False)),
             "runtime_handle_visual_geom_mapping_unique": bool(measurement_report.get("runtime_handle_visual_geom_mapping_unique", False)),
             "runtime_handle_collision_geom_mapping_unique": bool(measurement_report.get("runtime_handle_collision_geom_mapping_unique", False)),
             "duplicate_runtime_geom_name_flag": bool(measurement_report.get("duplicate_runtime_geom_name_flag", False)),
             "unnamed_runtime_geom_flag": bool(measurement_report.get("unnamed_runtime_geom_flag", False)),
+            "resolved_runtime_visible_handle_geom_ids": resolved_runtime_visible_ids,
+            "resolved_runtime_visible_handle_geom_names": resolved_runtime_visible_names,
             "resolved_handle_visual_geom_ids": resolved_visual_ids,
             "resolved_handle_visual_geom_names": resolved_visual_names,
             "resolved_handle_collision_geom_ids": resolved_collision_ids,
             "resolved_handle_collision_geom_names": resolved_collision_names,
-            "handle_geom_ids": sorted(set(resolved_visual_ids + resolved_collision_ids)),
-            "handle_geom_names": sorted(set(resolved_visual_names + resolved_collision_names)),
+            "handle_geom_ids": sorted(set(resolved_runtime_visible_ids)),
+            "handle_geom_names": sorted(set(resolved_runtime_visible_names)),
             "semantic_mapping_hash": measurement_report.get("semantic_mapping_hash", self.semantic_mapping_hash),
             "segmentation_mask_nonzero_primary": int(primary_measurement.get("segmentation_mask_nonzero", 0)),
             "segmentation_mask_nonzero_secondary": int(secondary_measurement.get("segmentation_mask_nonzero", 0)),

@@ -1,13 +1,19 @@
 {
-  "updated_at": "2026-04-13T21:08:51+08:00",
-  "last_cycle_id": "cycle_20260413_210841",
+  "updated_at": "2026-04-13T23:53:32+08:00",
+  "last_cycle_id": "cycle_20260413_235332",
   "cycle_mode": "unattended_cycle",
   "completed_experiments": [
     "RCA0",
-    "RCA1"
+    "RCA1",
+    "RCA2",
+    "RCA3",
+    "RCA4",
+    "RCA5",
+    "RCA6",
+    "RCA7"
   ],
-  "scientific_terminal_state": null,
-  "route_next_branch": "stay_current_branch",
-  "terminal_state": null,
+  "scientific_terminal_state": "MINIMAL_REPAIR_INSUFFICIENT",
+  "route_next_branch": "environment_reformulation",
+  "terminal_state": "MINIMAL_REPAIR_INSUFFICIENT",
   "strongest_negative_capped": true
 }

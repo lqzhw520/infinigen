@@ -1,10 +1,13 @@
 {
   "experiment_id": "RCA3",
-  "generated_at": "2026-04-13T00:07:35+08:00",
-  "passed": false,
-  "local_only": {
+  "generated_at": "2026-04-13T23:46:46+08:00",
+  "selector_mode": "frozen_v5_pro",
+  "baseline_cell_id": "V0T0S0",
+  "frozen_matrix_hash": "bf4c25a43849c91d",
+  "passed": true,
+  "transition_only_baseline": {
     "lane": {
-      "lane_id": "RCA3_visual_local_only",
+      "lane_id": "RCA3_V0T0S0",
       "lane_family": "RCA",
       "stage": "probe",
       "env_contract_config": {
@@ -13,19 +16,23 @@
         "calibration_mode": "none",
         "interaction_mode": "legacy_translation_only",
         "state_mode": "m0_proxy",
-        "render_profile": "visual_affordance_v3_local_material_edge",
+        "render_profile": "visual_affordance_v3_raw_canonical",
         "background_mode": "neutral_lowfreq_lab",
         "lighting_profile": "front_key_handle_rim",
-        "material_policy": "handle_affordance_local",
+        "material_policy": "legacy",
         "camera_framing_profile": "macro_handle_centered",
         "emit_orientation_telemetry": true,
         "emit_camera_metadata": true,
         "emit_handle_probe_metadata": true,
-        "canonical_lane": true
+        "canonical_lane": true,
+        "measurement_mode": "truthful_handle_manifest_v1",
+        "measurement_fallback_policy": "forbid",
+        "emit_measurement_debug": false
       },
       "interventions": {
         "rotation_source": "zero",
-        "profile_id": "visual_affordance_v3_local_material_edge"
+        "profile_id": "V0T0S0",
+        "cell_id": "V0T0S0"
       },
       "dataset_config": {
         "unique_data_budget": null,
@@ -66,6 +73,26 @@
           "ALLOW_NEW_CLAIM": false,
           "RUN_MODE": "autonomous_cycle_phase",
           "EXPERIMENT_FAMILY": "RCA",
+          "SELECTOR_MODE": "frozen_v5_pro",
+          "SEED_SPLIT_A": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ],
+          "SEED_SPLIT_B": [
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "TRUTHFUL_MEASUREMENT_REQUIRED": true,
+          "PERCEPTION_PROBE_MODE": "policy_encoder_v1",
           "CAP_STRONGEST_NEGATIVE": true,
           "RESUME": false
         },
@@ -74,7 +101,7 @@
           "max_disk_growth_mb": 4096,
           "retry_backoff_seconds": 5,
           "max_retries": 2,
-          "max_cycles_per_run": 4,
+          "max_cycles_per_run": 8,
           "max_tiny_retrain_budget": 1
         },
         "disk_growth_mb": 0.003,
@@ -84,11 +111,11 @@
           "RCA2"
         ]
       },
-      "note": "Comparator for stronger transition contract.",
+      "note": "Transition-only audit baseline.",
       "experiment_id": "RCA3",
       "coverage": {},
       "cost": 1.0,
-      "lane_hash": "645c76848439b60a"
+      "lane_hash": "2425204aa2639a55"
     },
     "claim_policy": "canonical",
     "diagnostic_only": false,
@@ -100,103 +127,263 @@
     "target_stats": {
       "sample_count": 24,
       "mean_rgb": [
-        0.08170399814844131,
-        0.07019300013780594,
-        0.05313799902796745
+        0.10053499788045883,
+        0.09928300231695175,
+        0.09669899940490723
       ],
       "std_rgb": [
-        0.2035669982433319,
-        0.1757189929485321,
-        0.13255099952220917
+        0.2017109990119934,
+        0.19886399805545807,
+        0.19333000481128693
       ],
-      "brightness_mean": 0.07180760202844158,
-      "edge_density_mean": 0.006749471028645833,
-      "entropy_mean": 0.8864593963072229
+      "brightness_mean": 0.0992907355813419,
+      "edge_density_mean": 0.008544921875,
+      "entropy_mean": 1.182984578504752
     },
     "gap": {
-      "brightness_gap": 0.394044,
+      "brightness_gap": 0.366561,
       "std_rgb_abs_gap": [
-        0.019913,
-        0.030009,
-        0.055671
+        0.021769,
+        0.006864,
+        0.005108
       ],
-      "edge_density_gap": 0.05716,
-      "entropy_gap": 6.035036
+      "edge_density_gap": 0.055364,
+      "entropy_gap": 5.738511
     },
-    "weighted_visual_gap": 2.4439179333333336,
+    "weighted_visual_gap": 2.3197994000000004,
     "visual_alignment_gain": 0.0,
-    "render_profile": "visual_affordance_v3_local_material_edge",
+    "render_profile": "visual_affordance_v3_raw_canonical",
     "background_mode": "neutral_lowfreq_lab",
     "lighting_profile": "front_key_handle_rim",
-    "material_policy": "handle_affordance_local",
+    "material_policy": "legacy",
     "camera_framing_profile": "macro_handle_centered",
-    "probe_measurement_mode": "true_handle_mask",
-    "handle_bbox_primary": [
-      135,
-      102,
-      163,
-      131
+    "probe_measurement_mode": "truthful_handle_manifest_v1",
+    "truth_root_object": "manifest_entity",
+    "identity_resolution_tier": "manifest_entity_exact_runtime_visible_geom",
+    "measurement_backend": "segmentation_render",
+    "measurement_verifier": "isolated_rgb_threshold",
+    "measurement_truth_tier": "manifest_entity_verified",
+    "measurement_warning_flags": [
+      "runtime_handle_visual_geom_missing"
     ],
-    "handle_bbox_secondary": [
-      0,
-      0,
-      220,
+    "manifest_handle_entity_unique": true,
+    "runtime_visible_handle_mapping_source": "collision_geom",
+    "runtime_visible_handle_mapping_unique": true,
+    "runtime_handle_visual_geom_mapping_unique": false,
+    "runtime_handle_collision_geom_mapping_unique": true,
+    "duplicate_runtime_geom_name_flag": false,
+    "unnamed_runtime_geom_flag": false,
+    "resolved_runtime_visible_handle_geom_ids": [
+      14,
+      15,
+      16,
+      17,
+      18,
+      23,
+      26,
+      27,
+      28,
+      29,
+      30,
+      36,
+      37,
+      39,
+      42,
+      46,
+      47,
+      50,
+      57,
+      67
+    ],
+    "resolved_runtime_visible_handle_geom_names": [
+      "drawer_handle_collision_0_0",
+      "drawer_handle_collision_1_0",
+      "drawer_handle_collision_2_0",
+      "drawer_handle_collision_3_0",
+      "drawer_handle_collision_4_0",
+      "drawer_handle_collision_5_0"
+    ],
+    "resolved_handle_visual_geom_ids": [],
+    "resolved_handle_visual_geom_names": [],
+    "resolved_handle_collision_geom_ids": [
+      14,
+      15,
+      16,
+      17,
+      18,
+      23,
+      26,
+      27,
+      28,
+      29,
+      30,
+      36,
+      37,
+      39,
+      42,
+      46,
+      47,
+      50,
+      57,
+      67
+    ],
+    "resolved_handle_collision_geom_names": [
+      "drawer_handle_collision_0_0",
+      "drawer_handle_collision_1_0",
+      "drawer_handle_collision_2_0",
+      "drawer_handle_collision_3_0",
+      "drawer_handle_collision_4_0",
+      "drawer_handle_collision_5_0"
+    ],
+    "handle_geom_ids": [
+      14,
+      15,
+      16,
+      17,
+      18,
+      23,
+      26,
+      27,
+      28,
+      29,
+      30,
+      36,
+      37,
+      39,
+      42,
+      46,
+      47,
+      50,
+      57,
+      67
+    ],
+    "handle_geom_names": [
+      "drawer_handle_collision_0_0",
+      "drawer_handle_collision_1_0",
+      "drawer_handle_collision_2_0",
+      "drawer_handle_collision_3_0",
+      "drawer_handle_collision_4_0",
+      "drawer_handle_collision_5_0"
+    ],
+    "semantic_mapping_hash": "01b47b602042a22b9c57159d25aa696172ee0a7208412378fa2d32218d5f5138",
+    "segmentation_mask_nonzero_primary": 54,
+    "segmentation_mask_nonzero_secondary": 141,
+    "isolated_mask_nonzero_primary": 58,
+    "isolated_mask_nonzero_secondary": 151,
+    "segmentation_mask_support_rate_secondary": 1.0,
+    "isolated_mask_support_rate_secondary": 1.0,
+    "segmentation_isolated_iou_secondary": 0.9451486826565568,
+    "segmentation_isolated_centroid_delta_px_secondary": 0.47815794693228364,
+    "handle_bbox_primary": [
+      79,
+      191,
+      157,
       256
     ],
-    "handle_visibility_fraction": 1.0,
-    "handle_local_contrast": 0.0,
-    "handle_crop_entropy": 0.0,
-    "handle_area_ratio": 0.2286119132206358,
-    "handle_boundary_contrast": 0.03723172137137197,
-    "handle_edge_density": 0.01615065045933189,
-    "handle_local_std": 0.19037839662898304,
-    "legacy_handle_local_contrast": 0.0015778356529667105,
-    "legacy_handle_crop_entropy": 0.008426339694857957,
-    "legacy_handle_bbox_secondary": [
-      58,
-      75,
-      94,
-      111
+    "handle_bbox_secondary": [
+      71,
+      163,
+      185,
+      207
     ],
-    "framing_score": 0.813860425959964,
+    "handle_mask_nonzero_pixels_primary": 200,
+    "handle_mask_nonzero_pixels_secondary": 389,
+    "handle_mask_area_ratio_primary": 0.00304412841796875,
+    "handle_mask_area_ratio_secondary": 0.005938808123270671,
+    "handle_bbox_area_ratio_primary": 0.03675270080566406,
+    "handle_bbox_area_ratio_secondary": 0.04788994789123535,
+    "bbox_over_mask_ratio_primary": 1.6611570247933884,
+    "bbox_over_mask_ratio_secondary": 1.1173567903883286,
+    "handle_visibility_fraction": 0.24243001404219722,
+    "handle_area_ratio": 0.005938808123270671,
+    "handle_boundary_contrast": 0.01928560577966029,
+    "handle_edge_density": 0.03896028043405932,
+    "handle_crop_entropy": 1.1618636040049048,
+    "handle_local_std": 0.033758109147994646,
+    "handle_local_contrast": 0.01928560577966029,
+    "framing_score": 0.8317606543086319,
     "camera_relativeness_residual": 0.0,
-    "perception_probe_mode": "crop_feature_proxy_v1",
-    "perception_probe_available": true,
-    "handle_patch_separability": 1.5175163481204283,
-    "encoder_readability_pass": true,
-    "positive_count": 203,
-    "negative_count": 203,
+    "legacy_probe_measurement_mode": "proxy_debug",
+    "legacy_handle_bbox_secondary": [
+      109,
+      58,
+      145,
+      94
+    ],
+    "legacy_handle_local_contrast": 0.005433864101141307,
+    "legacy_handle_crop_entropy": 0.04419616575589858,
+    "measurement_truthful": true,
+    "perception_probe_mode": "policy_encoder_v1",
+    "perception_probe_available": false,
+    "handle_patch_separability": 0.0,
+    "encoder_readability_pass": null,
+    "positive_count": 768,
+    "negative_count": 768,
+    "warning_flags": [
+      "non_truthful_mask_in_probe_trace",
+      "policy_encoder_unavailable"
+    ],
+    "proxy_probe": {
+      "perception_probe_mode": "proxy_only",
+      "perception_probe_available": true,
+      "handle_patch_separability": 1.0243819543550732,
+      "encoder_readability_pass": null,
+      "positive_count": 768,
+      "negative_count": 768,
+      "warning_flags": [
+        "non_truthful_mask_in_probe_trace"
+      ]
+    },
     "observation_contract_pass": true,
     "visual_gate_breakdown": {
-      "baseline_weighted_visual_gap": 2.4439179333333336,
-      "lane_weighted_visual_gap": 2.4439179333333336,
+      "baseline_weighted_visual_gap": 2.3197994000000004,
+      "lane_weighted_visual_gap": 2.3197994000000004,
       "visual_alignment_gain": 0.0,
-      "framing_score": 0.813860425959964,
-      "handle_visibility_fraction": 1.0,
-      "handle_local_contrast": 0.0,
-      "handle_crop_entropy": 0.0,
-      "handle_readability_score": 0.4627720851919928,
-      "perceptual_readability_score_v2": 0.30452464685559605,
+      "framing_score": 0.8317606543086319,
+      "handle_visibility_fraction": 0.24243001404219722,
+      "handle_local_contrast": 0.01928560577966029,
+      "handle_crop_entropy": 1.1618636040049048,
+      "handle_readability_score": 0.3694953369483569,
+      "perceptual_readability_score_v2": 0.2032224353215963,
       "camera_relativeness_residual": 0.0,
-      "encoder_readability_pass": true
+      "encoder_readability_pass": null
     },
     "g4b_local_breakdown": {
-      "handle_area_ratio": 0.859375,
-      "handle_boundary_contrast": 0.03723172137137197,
-      "handle_edge_density": 0.01615065045933189,
-      "handle_crop_entropy": 0.0,
-      "secondary_framing_score": 0.813860425959964,
-      "local_affordance_readability_score_v3": 0.5740201323477501
+      "handle_mask_area_ratio": 0.0059356689453125,
+      "handle_area_ratio": 0.0059356689453125,
+      "handle_bbox_area_ratio_debug": 0.0765380859375,
+      "bbox_over_mask_ratio": 12.894601542416453,
+      "measurement_truthful_pass": true,
+      "bbox_inflation_flag": true,
+      "primitive_passes": {
+        "area": false,
+        "boundary": false,
+        "edge": true,
+        "entropy": true,
+        "framing": true
+      },
+      "all_primitives_pass": false,
+      "handle_boundary_contrast": 0.01928560577966029,
+      "handle_edge_density": 0.03896028043405932,
+      "handle_crop_entropy": 1.1618636040049048,
+      "secondary_framing_score": 0.8317606543086319,
+      "local_score_rank_only": 0.7289808969676884,
+      "local_affordance_readability_score_v3": 0.7289808969676884,
+      "local_score_inflation_flag": true,
+      "measurement_truth_tier": "manifest_entity_verified",
+      "measurement_warning_flags": [
+        "runtime_handle_visual_geom_missing"
+      ]
     },
     "g4c_global_breakdown": {
-      "baseline_weighted_visual_gap": 2.4439179333333336,
-      "weighted_visual_gap": 2.4439179333333336,
+      "baseline_weighted_visual_gap": 2.3197994000000004,
+      "weighted_visual_gap": 2.3197994000000004,
       "visual_alignment_gain": 0.0
     }
   },
-  "plus_transition_contract": {
+  "transition_only_candidate": {
     "lane": {
-      "lane_id": "RCA3_visual_plus_transition_contract",
+      "lane_id": "RCA3_V0T1S0",
       "lane_family": "RCA",
       "stage": "probe",
       "env_contract_config": {
@@ -205,19 +392,23 @@
         "calibration_mode": "none",
         "interaction_mode": "orientation_sensitive_v2_affordance_locked",
         "state_mode": "m0_proxy",
-        "render_profile": "visual_affordance_v3_local_material_edge",
+        "render_profile": "visual_affordance_v3_raw_canonical",
         "background_mode": "neutral_lowfreq_lab",
         "lighting_profile": "front_key_handle_rim",
-        "material_policy": "handle_affordance_local",
+        "material_policy": "legacy",
         "camera_framing_profile": "macro_handle_centered",
         "emit_orientation_telemetry": true,
         "emit_camera_metadata": true,
         "emit_handle_probe_metadata": true,
-        "canonical_lane": true
+        "canonical_lane": true,
+        "measurement_mode": "truthful_handle_manifest_v1",
+        "measurement_fallback_policy": "forbid",
+        "emit_measurement_debug": false
       },
       "interventions": {
         "rotation_source": "aligned",
-        "profile_id": "visual_affordance_v3_local_material_edge_transition"
+        "profile_id": "V0T1S0",
+        "cell_id": "V0T1S0"
       },
       "dataset_config": {
         "unique_data_budget": null,
@@ -258,6 +449,26 @@
           "ALLOW_NEW_CLAIM": false,
           "RUN_MODE": "autonomous_cycle_phase",
           "EXPERIMENT_FAMILY": "RCA",
+          "SELECTOR_MODE": "frozen_v5_pro",
+          "SEED_SPLIT_A": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ],
+          "SEED_SPLIT_B": [
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "TRUTHFUL_MEASUREMENT_REQUIRED": true,
+          "PERCEPTION_PROBE_MODE": "policy_encoder_v1",
           "CAP_STRONGEST_NEGATIVE": true,
           "RESUME": false
         },
@@ -266,7 +477,7 @@
           "max_disk_growth_mb": 4096,
           "retry_backoff_seconds": 5,
           "max_retries": 2,
-          "max_cycles_per_run": 4,
+          "max_cycles_per_run": 8,
           "max_tiny_retrain_budget": 1
         },
         "disk_growth_mb": 0.003,
@@ -276,11 +487,11 @@
           "RCA2"
         ]
       },
-      "note": "Carry stronger embodied transition contract in same local visual family.",
+      "note": "Transition-only contract under frozen object.",
       "experiment_id": "RCA3",
       "coverage": {},
       "cost": 1.0,
-      "lane_hash": "56243ab64201c02a"
+      "lane_hash": "bc51d3356254b8fa"
     },
     "claim_policy": "canonical",
     "diagnostic_only": false,
@@ -292,124 +503,292 @@
     "target_stats": {
       "sample_count": 24,
       "mean_rgb": [
-        0.0720599964261055,
-        0.06220399960875511,
-        0.04702199995517731
+        0.10053499788045883,
+        0.09928300231695175,
+        0.09669899940490723
       ],
       "std_rgb": [
-        0.1926400065422058,
-        0.1673469990491867,
-        0.12597699463367462
+        0.2017109990119934,
+        0.19886399805545807,
+        0.19333000481128693
       ],
-      "brightness_mean": 0.06353394252802032,
-      "edge_density_mean": 0.007769266764322917,
-      "entropy_mean": 0.8334691131541326
+      "brightness_mean": 0.0992907355813419,
+      "edge_density_mean": 0.008544921875,
+      "entropy_mean": 1.182984578504752
     },
     "gap": {
-      "brightness_gap": 0.402317,
+      "brightness_gap": 0.366561,
       "std_rgb_abs_gap": [
-        0.03084,
-        0.038381,
-        0.062245
+        0.021769,
+        0.006864,
+        0.005108
       ],
-      "edge_density_gap": 0.05614,
-      "entropy_gap": 6.088026
+      "edge_density_gap": 0.055364,
+      "entropy_gap": 5.738511
     },
-    "weighted_visual_gap": 2.4664308000000004,
+    "weighted_visual_gap": 2.3197994000000004,
     "visual_alignment_gain": 0.0,
-    "render_profile": "visual_affordance_v3_local_material_edge",
+    "render_profile": "visual_affordance_v3_raw_canonical",
     "background_mode": "neutral_lowfreq_lab",
     "lighting_profile": "front_key_handle_rim",
-    "material_policy": "handle_affordance_local",
+    "material_policy": "legacy",
     "camera_framing_profile": "macro_handle_centered",
-    "probe_measurement_mode": "true_handle_mask",
-    "handle_bbox_primary": [
-      136,
-      102,
-      163,
-      131
+    "probe_measurement_mode": "truthful_handle_manifest_v1",
+    "truth_root_object": "manifest_entity",
+    "identity_resolution_tier": "manifest_entity_exact_runtime_visible_geom",
+    "measurement_backend": "segmentation_render",
+    "measurement_verifier": "isolated_rgb_threshold",
+    "measurement_truth_tier": "manifest_entity_verified",
+    "measurement_warning_flags": [
+      "runtime_handle_visual_geom_missing"
     ],
-    "handle_bbox_secondary": [
-      0,
-      0,
-      256,
+    "manifest_handle_entity_unique": true,
+    "runtime_visible_handle_mapping_source": "collision_geom",
+    "runtime_visible_handle_mapping_unique": true,
+    "runtime_handle_visual_geom_mapping_unique": false,
+    "runtime_handle_collision_geom_mapping_unique": true,
+    "duplicate_runtime_geom_name_flag": false,
+    "unnamed_runtime_geom_flag": false,
+    "resolved_runtime_visible_handle_geom_ids": [
+      14,
+      15,
+      16,
+      17,
+      18,
+      23,
+      26,
+      27,
+      28,
+      29,
+      30,
+      36,
+      37,
+      39,
+      42,
+      46,
+      47,
+      50,
+      57,
+      67
+    ],
+    "resolved_runtime_visible_handle_geom_names": [
+      "drawer_handle_collision_0_0",
+      "drawer_handle_collision_1_0",
+      "drawer_handle_collision_2_0",
+      "drawer_handle_collision_3_0",
+      "drawer_handle_collision_4_0",
+      "drawer_handle_collision_5_0"
+    ],
+    "resolved_handle_visual_geom_ids": [],
+    "resolved_handle_visual_geom_names": [],
+    "resolved_handle_collision_geom_ids": [
+      14,
+      15,
+      16,
+      17,
+      18,
+      23,
+      26,
+      27,
+      28,
+      29,
+      30,
+      36,
+      37,
+      39,
+      42,
+      46,
+      47,
+      50,
+      57,
+      67
+    ],
+    "resolved_handle_collision_geom_names": [
+      "drawer_handle_collision_0_0",
+      "drawer_handle_collision_1_0",
+      "drawer_handle_collision_2_0",
+      "drawer_handle_collision_3_0",
+      "drawer_handle_collision_4_0",
+      "drawer_handle_collision_5_0"
+    ],
+    "handle_geom_ids": [
+      14,
+      15,
+      16,
+      17,
+      18,
+      23,
+      26,
+      27,
+      28,
+      29,
+      30,
+      36,
+      37,
+      39,
+      42,
+      46,
+      47,
+      50,
+      57,
+      67
+    ],
+    "handle_geom_names": [
+      "drawer_handle_collision_0_0",
+      "drawer_handle_collision_1_0",
+      "drawer_handle_collision_2_0",
+      "drawer_handle_collision_3_0",
+      "drawer_handle_collision_4_0",
+      "drawer_handle_collision_5_0"
+    ],
+    "semantic_mapping_hash": "01b47b602042a22b9c57159d25aa696172ee0a7208412378fa2d32218d5f5138",
+    "segmentation_mask_nonzero_primary": 54,
+    "segmentation_mask_nonzero_secondary": 156,
+    "isolated_mask_nonzero_primary": 58,
+    "isolated_mask_nonzero_secondary": 165,
+    "segmentation_mask_support_rate_secondary": 1.0,
+    "isolated_mask_support_rate_secondary": 1.0,
+    "segmentation_isolated_iou_secondary": 0.9664002830431837,
+    "segmentation_isolated_centroid_delta_px_secondary": 0.322506847888306,
+    "handle_bbox_primary": [
+      79,
+      191,
+      157,
       256
     ],
-    "handle_visibility_fraction": 1.0,
-    "handle_local_contrast": 0.0,
-    "handle_crop_entropy": 0.0,
-    "handle_area_ratio": 0.7217833201090494,
-    "handle_boundary_contrast": 0.01918668054634693,
-    "handle_edge_density": 0.0028346637528405983,
-    "handle_local_std": 0.037962814542514364,
-    "legacy_handle_local_contrast": 0.008369149389270065,
-    "legacy_handle_crop_entropy": 0.050988550478589,
-    "legacy_handle_bbox_secondary": [
-      51,
-      75,
-      87,
-      111
+    "handle_bbox_secondary": [
+      67,
+      167,
+      189,
+      215
     ],
-    "framing_score": 0.8937693130780205,
+    "handle_mask_nonzero_pixels_primary": 200,
+    "handle_mask_nonzero_pixels_secondary": 418,
+    "handle_mask_area_ratio_primary": 0.00304412841796875,
+    "handle_mask_area_ratio_secondary": 0.006370703379313151,
+    "handle_bbox_area_ratio_primary": 0.03675270080566406,
+    "handle_bbox_area_ratio_secondary": 0.05568969249725342,
+    "bbox_over_mask_ratio_primary": 1.6611570247933884,
+    "bbox_over_mask_ratio_secondary": 1.1252492296537973,
+    "handle_visibility_fraction": 0.2350527925001119,
+    "handle_area_ratio": 0.006370703379313151,
+    "handle_boundary_contrast": 0.0073381446934992975,
+    "handle_edge_density": 0.03625213091912264,
+    "handle_crop_entropy": 1.1322243656926783,
+    "handle_local_std": 0.029492735702288487,
+    "handle_local_contrast": 0.0073381446934992975,
+    "framing_score": 0.7540554343870695,
     "camera_relativeness_residual": 0.0,
-    "perception_probe_mode": "crop_feature_proxy_v1",
-    "perception_probe_available": true,
-    "handle_patch_separability": 0.034262015141953144,
-    "encoder_readability_pass": false,
-    "positive_count": 288,
-    "negative_count": 288,
+    "legacy_probe_measurement_mode": "proxy_debug",
+    "legacy_handle_bbox_secondary": [
+      109,
+      58,
+      145,
+      94
+    ],
+    "legacy_handle_local_contrast": 0.010004336737241423,
+    "legacy_handle_crop_entropy": 0.037172551082446825,
+    "measurement_truthful": true,
+    "perception_probe_mode": "policy_encoder_v1",
+    "perception_probe_available": false,
+    "handle_patch_separability": 0.0,
+    "encoder_readability_pass": null,
+    "positive_count": 768,
+    "negative_count": 768,
+    "warning_flags": [
+      "non_truthful_mask_in_probe_trace",
+      "policy_encoder_unavailable"
+    ],
+    "proxy_probe": {
+      "perception_probe_mode": "proxy_only",
+      "perception_probe_available": true,
+      "handle_patch_separability": 0.9641908694579409,
+      "encoder_readability_pass": null,
+      "positive_count": 768,
+      "negative_count": 768,
+      "warning_flags": [
+        "non_truthful_mask_in_probe_trace"
+      ]
+    },
     "observation_contract_pass": true,
     "visual_gate_breakdown": {
-      "baseline_weighted_visual_gap": 2.4664308000000004,
-      "lane_weighted_visual_gap": 2.4664308000000004,
+      "baseline_weighted_visual_gap": 2.3197994000000004,
+      "lane_weighted_visual_gap": 2.3197994000000004,
       "visual_alignment_gain": 0.0,
-      "framing_score": 0.8937693130780205,
-      "handle_visibility_fraction": 1.0,
-      "handle_local_contrast": 0.0,
-      "handle_crop_entropy": 0.0,
-      "handle_readability_score": 0.4787538626156041,
-      "perceptual_readability_score_v2": 0.23698316199472405,
+      "framing_score": 0.7540554343870695,
+      "handle_visibility_fraction": 0.2350527925001119,
+      "handle_local_contrast": 0.0073381446934992975,
+      "handle_crop_entropy": 1.1322243656926783,
+      "handle_readability_score": 0.30545618551270376,
+      "perceptual_readability_score_v2": 0.1680009020319871,
       "camera_relativeness_residual": 0.0,
-      "encoder_readability_pass": false
+      "encoder_readability_pass": null
     },
     "g4b_local_breakdown": {
-      "handle_area_ratio": 1.0,
-      "handle_boundary_contrast": 0.01918668054634693,
-      "handle_edge_density": 0.0028346637528405983,
-      "handle_crop_entropy": 0.0,
-      "secondary_framing_score": 0.8937693130780205,
-      "local_affordance_readability_score_v3": 0.42885613505960485
+      "handle_mask_area_ratio": 0.006378173828125,
+      "handle_area_ratio": 0.006378173828125,
+      "handle_bbox_area_ratio_debug": 0.08935546875,
+      "bbox_over_mask_ratio": 14.009569377990431,
+      "measurement_truthful_pass": true,
+      "bbox_inflation_flag": true,
+      "primitive_passes": {
+        "area": false,
+        "boundary": false,
+        "edge": true,
+        "entropy": true,
+        "framing": true
+      },
+      "all_primitives_pass": false,
+      "handle_boundary_contrast": 0.0073381446934992975,
+      "handle_edge_density": 0.03625213091912264,
+      "handle_crop_entropy": 1.1322243656926783,
+      "secondary_framing_score": 0.7540554343870695,
+      "local_score_rank_only": 0.7004951787296854,
+      "local_affordance_readability_score_v3": 0.7004951787296854,
+      "local_score_inflation_flag": true,
+      "measurement_truth_tier": "manifest_entity_verified",
+      "measurement_warning_flags": [
+        "runtime_handle_visual_geom_missing"
+      ]
     },
     "g4c_global_breakdown": {
-      "baseline_weighted_visual_gap": 2.4664308000000004,
-      "weighted_visual_gap": 2.4664308000000004,
+      "baseline_weighted_visual_gap": 2.3197994000000004,
+      "weighted_visual_gap": 2.3197994000000004,
       "visual_alignment_gain": 0.0
     }
   },
-  "local_only_rollout_summary": {
-    "rollout_count": 3,
-    "unique_success_rate": 0.3333333333333333,
-    "attach_rate": 0.6666666666666666,
-    "mean_max_drawer_fraction": 0.4965751629173072,
-    "avg_episode_length": 67.66666666666667,
-    "success_count": 1,
-    "orientation_causal_sensitivity": 0.004505517892539501
-  },
-  "plus_transition_rollout_summary": {
-    "rollout_count": 3,
+  "baseline_rollout_summary": {
+    "rollout_count": 8,
     "unique_success_rate": 0.0,
-    "attach_rate": 0.6666666666666666,
-    "mean_max_drawer_fraction": 0.1098877961462702,
+    "attach_rate": 0.0,
+    "mean_max_drawer_fraction": 0.0,
     "avg_episode_length": 96.0,
     "success_count": 0,
-    "orientation_causal_sensitivity": 0.0002027788432314992
+    "orientation_causal_sensitivity": 0.0
+  },
+  "transition_rollout_summary": {
+    "rollout_count": 8,
+    "unique_success_rate": 0.0,
+    "attach_rate": 0.0,
+    "mean_max_drawer_fraction": 0.0,
+    "avg_episode_length": 96.0,
+    "success_count": 0,
+    "orientation_causal_sensitivity": 0.0
   },
   "rollout_ceiling_lift": {
-    "score": -0.11452959158080843,
-    "delta_unique_success_rate": -0.3333333333333333,
+    "score": 0.0,
+    "delta_unique_success_rate": 0.0,
     "delta_attach_rate": 0.0,
-    "delta_mean_max_drawer_fraction": -0.386687366771037,
-    "delta_avg_episode_length_ratio": 0.4187192118226599,
+    "delta_mean_max_drawer_fraction": 0.0,
+    "delta_avg_episode_length_ratio": 0.0,
     "delta_orientation_causal_sensitivity": 0.0
-  }
+  },
+  "attach_rate_delta": 0.0,
+  "pull_alignment_cos_delta": 0.6101582050323486,
+  "stable_attach_delta": 0.0,
+  "attach_streak_norm_delta": 0.0,
+  "contact_window_fraction_delta": 0.0,
+  "local_boundary_delta": -0.011947461086160991,
+  "local_edge_delta": -0.0027081495149366835,
+  "local_entropy_delta": -0.02963923831222659
 }

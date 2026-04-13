@@ -1,10 +1,13 @@
 {
   "experiment_id": "RCA4",
-  "generated_at": "2026-04-13T00:08:19+08:00",
-  "passed": true,
-  "visual_report": {
+  "generated_at": "2026-04-13T23:47:56+08:00",
+  "selector_mode": "frozen_v5_pro",
+  "baseline_cell_id": "V0T0S0",
+  "frozen_matrix_hash": "bf4c25a43849c91d",
+  "passed": false,
+  "baseline_visual_report": {
     "lane": {
-      "lane_id": "RCA4_affordance_plus_transition_state",
+      "lane_id": "RCA4_V0T1S0",
       "lane_family": "RCA",
       "stage": "probe",
       "env_contract_config": {
@@ -12,20 +15,24 @@
         "enable_marker_overlay": false,
         "calibration_mode": "none",
         "interaction_mode": "orientation_sensitive_v2_affordance_locked",
-        "state_mode": "telemetry_candidate_v3_transition",
-        "render_profile": "visual_affordance_v3_plus_bundle",
+        "state_mode": "m0_proxy",
+        "render_profile": "visual_affordance_v3_raw_canonical",
         "background_mode": "neutral_lowfreq_lab",
         "lighting_profile": "front_key_handle_rim",
-        "material_policy": "handle_affordance_local",
+        "material_policy": "legacy",
         "camera_framing_profile": "macro_handle_centered",
         "emit_orientation_telemetry": true,
         "emit_camera_metadata": true,
         "emit_handle_probe_metadata": true,
-        "canonical_lane": true
+        "canonical_lane": true,
+        "measurement_mode": "truthful_handle_manifest_v1",
+        "measurement_fallback_policy": "forbid",
+        "emit_measurement_debug": false
       },
       "interventions": {
         "rotation_source": "aligned",
-        "profile_id": "visual_affordance_v3_plus_bundle"
+        "profile_id": "V0T1S0",
+        "cell_id": "V0T1S0"
       },
       "dataset_config": {
         "unique_data_budget": null,
@@ -66,6 +73,26 @@
           "ALLOW_NEW_CLAIM": false,
           "RUN_MODE": "autonomous_cycle_phase",
           "EXPERIMENT_FAMILY": "RCA",
+          "SELECTOR_MODE": "frozen_v5_pro",
+          "SEED_SPLIT_A": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ],
+          "SEED_SPLIT_B": [
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "TRUTHFUL_MEASUREMENT_REQUIRED": true,
+          "PERCEPTION_PROBE_MODE": "policy_encoder_v1",
           "CAP_STRONGEST_NEGATIVE": true,
           "RESUME": false
         },
@@ -74,10 +101,10 @@
           "max_disk_growth_mb": 4096,
           "retry_backoff_seconds": 5,
           "max_retries": 2,
-          "max_cycles_per_run": 4,
+          "max_cycles_per_run": 8,
           "max_tiny_retrain_budget": 1
         },
-        "disk_growth_mb": 0.004,
+        "disk_growth_mb": 0.003,
         "completed_experiments": [
           "RCA0",
           "RCA1",
@@ -85,11 +112,11 @@
           "RCA3"
         ]
       },
-      "note": "Integrated local affordance + transition contract + transition-aware state.",
+      "note": "Transition-only baseline for state isolation.",
       "experiment_id": "RCA4",
       "coverage": {},
       "cost": 1.0,
-      "lane_hash": "df8d4df974e305cf"
+      "lane_hash": "3d974962145ced4c"
     },
     "claim_policy": "canonical",
     "diagnostic_only": false,
@@ -101,118 +128,1002 @@
     "target_stats": {
       "sample_count": 24,
       "mean_rgb": [
-        0.0720599964261055,
-        0.06220399960875511,
-        0.04702199995517731
+        0.10053499788045883,
+        0.09928300231695175,
+        0.09669899940490723
       ],
       "std_rgb": [
-        0.1926400065422058,
-        0.1673469990491867,
-        0.12597699463367462
+        0.2017109990119934,
+        0.19886399805545807,
+        0.19333000481128693
       ],
-      "brightness_mean": 0.06353394252802032,
-      "edge_density_mean": 0.007769266764322917,
-      "entropy_mean": 0.8334691131541326
+      "brightness_mean": 0.0992907355813419,
+      "edge_density_mean": 0.008544921875,
+      "entropy_mean": 1.182984578504752
     },
     "gap": {
-      "brightness_gap": 0.402317,
+      "brightness_gap": 0.366561,
       "std_rgb_abs_gap": [
-        0.03084,
-        0.038381,
-        0.062245
+        0.021769,
+        0.006864,
+        0.005108
       ],
-      "edge_density_gap": 0.05614,
-      "entropy_gap": 6.088026
+      "edge_density_gap": 0.055364,
+      "entropy_gap": 5.738511
     },
-    "weighted_visual_gap": 2.4664308000000004,
+    "weighted_visual_gap": 2.3197994000000004,
     "visual_alignment_gain": 0.0,
-    "render_profile": "visual_affordance_v3_plus_bundle",
+    "render_profile": "visual_affordance_v3_raw_canonical",
     "background_mode": "neutral_lowfreq_lab",
     "lighting_profile": "front_key_handle_rim",
-    "material_policy": "handle_affordance_local",
+    "material_policy": "legacy",
     "camera_framing_profile": "macro_handle_centered",
-    "probe_measurement_mode": "true_handle_mask",
-    "handle_bbox_primary": [
-      136,
-      102,
-      163,
-      131
+    "probe_measurement_mode": "truthful_handle_manifest_v1",
+    "truth_root_object": "manifest_entity",
+    "identity_resolution_tier": "manifest_entity_exact_runtime_visible_geom",
+    "measurement_backend": "segmentation_render",
+    "measurement_verifier": "isolated_rgb_threshold",
+    "measurement_truth_tier": "manifest_entity_verified",
+    "measurement_warning_flags": [
+      "runtime_handle_visual_geom_missing"
     ],
-    "handle_bbox_secondary": [
-      0,
-      0,
-      256,
+    "manifest_handle_entity_unique": true,
+    "runtime_visible_handle_mapping_source": "collision_geom",
+    "runtime_visible_handle_mapping_unique": true,
+    "runtime_handle_visual_geom_mapping_unique": false,
+    "runtime_handle_collision_geom_mapping_unique": true,
+    "duplicate_runtime_geom_name_flag": false,
+    "unnamed_runtime_geom_flag": false,
+    "resolved_runtime_visible_handle_geom_ids": [
+      14,
+      15,
+      16,
+      17,
+      18,
+      23,
+      26,
+      27,
+      28,
+      29,
+      30,
+      36,
+      37,
+      39,
+      42,
+      46,
+      47,
+      50,
+      57,
+      67
+    ],
+    "resolved_runtime_visible_handle_geom_names": [
+      "drawer_handle_collision_0_0",
+      "drawer_handle_collision_1_0",
+      "drawer_handle_collision_2_0",
+      "drawer_handle_collision_3_0",
+      "drawer_handle_collision_4_0",
+      "drawer_handle_collision_5_0"
+    ],
+    "resolved_handle_visual_geom_ids": [],
+    "resolved_handle_visual_geom_names": [],
+    "resolved_handle_collision_geom_ids": [
+      14,
+      15,
+      16,
+      17,
+      18,
+      23,
+      26,
+      27,
+      28,
+      29,
+      30,
+      36,
+      37,
+      39,
+      42,
+      46,
+      47,
+      50,
+      57,
+      67
+    ],
+    "resolved_handle_collision_geom_names": [
+      "drawer_handle_collision_0_0",
+      "drawer_handle_collision_1_0",
+      "drawer_handle_collision_2_0",
+      "drawer_handle_collision_3_0",
+      "drawer_handle_collision_4_0",
+      "drawer_handle_collision_5_0"
+    ],
+    "handle_geom_ids": [
+      14,
+      15,
+      16,
+      17,
+      18,
+      23,
+      26,
+      27,
+      28,
+      29,
+      30,
+      36,
+      37,
+      39,
+      42,
+      46,
+      47,
+      50,
+      57,
+      67
+    ],
+    "handle_geom_names": [
+      "drawer_handle_collision_0_0",
+      "drawer_handle_collision_1_0",
+      "drawer_handle_collision_2_0",
+      "drawer_handle_collision_3_0",
+      "drawer_handle_collision_4_0",
+      "drawer_handle_collision_5_0"
+    ],
+    "semantic_mapping_hash": "01b47b602042a22b9c57159d25aa696172ee0a7208412378fa2d32218d5f5138",
+    "segmentation_mask_nonzero_primary": 54,
+    "segmentation_mask_nonzero_secondary": 156,
+    "isolated_mask_nonzero_primary": 58,
+    "isolated_mask_nonzero_secondary": 165,
+    "segmentation_mask_support_rate_secondary": 1.0,
+    "isolated_mask_support_rate_secondary": 1.0,
+    "segmentation_isolated_iou_secondary": 0.9664002830431837,
+    "segmentation_isolated_centroid_delta_px_secondary": 0.322506847888306,
+    "handle_bbox_primary": [
+      79,
+      191,
+      157,
       256
     ],
-    "handle_visibility_fraction": 1.0,
-    "handle_local_contrast": 0.0,
-    "handle_crop_entropy": 0.0,
-    "handle_area_ratio": 0.7217833201090494,
-    "handle_boundary_contrast": 0.01918668054634693,
-    "handle_edge_density": 0.0028346637528405983,
-    "handle_local_std": 0.037962814542514364,
-    "legacy_handle_local_contrast": 0.008369149389270065,
-    "legacy_handle_crop_entropy": 0.050988550478589,
-    "legacy_handle_bbox_secondary": [
-      51,
-      75,
-      87,
-      111
+    "handle_bbox_secondary": [
+      67,
+      167,
+      189,
+      215
     ],
-    "framing_score": 0.8937693130780205,
+    "handle_mask_nonzero_pixels_primary": 200,
+    "handle_mask_nonzero_pixels_secondary": 418,
+    "handle_mask_area_ratio_primary": 0.00304412841796875,
+    "handle_mask_area_ratio_secondary": 0.006370703379313151,
+    "handle_bbox_area_ratio_primary": 0.03675270080566406,
+    "handle_bbox_area_ratio_secondary": 0.05568969249725342,
+    "bbox_over_mask_ratio_primary": 1.6611570247933884,
+    "bbox_over_mask_ratio_secondary": 1.1252492296537973,
+    "handle_visibility_fraction": 0.2350527925001119,
+    "handle_area_ratio": 0.006370703379313151,
+    "handle_boundary_contrast": 0.0073381446934992975,
+    "handle_edge_density": 0.03625213091912264,
+    "handle_crop_entropy": 1.1322243656926783,
+    "handle_local_std": 0.029492735702288487,
+    "handle_local_contrast": 0.0073381446934992975,
+    "framing_score": 0.7540554343870695,
     "camera_relativeness_residual": 0.0,
-    "perception_probe_mode": "crop_feature_proxy_v1",
-    "perception_probe_available": true,
-    "handle_patch_separability": 0.034262015141953144,
-    "encoder_readability_pass": false,
-    "positive_count": 288,
-    "negative_count": 288,
+    "legacy_probe_measurement_mode": "proxy_debug",
+    "legacy_handle_bbox_secondary": [
+      109,
+      58,
+      145,
+      94
+    ],
+    "legacy_handle_local_contrast": 0.010004336737241423,
+    "legacy_handle_crop_entropy": 0.037172551082446825,
+    "measurement_truthful": true,
+    "perception_probe_mode": "policy_encoder_v1",
+    "perception_probe_available": false,
+    "handle_patch_separability": 0.0,
+    "encoder_readability_pass": null,
+    "positive_count": 768,
+    "negative_count": 768,
+    "warning_flags": [
+      "non_truthful_mask_in_probe_trace",
+      "policy_encoder_unavailable"
+    ],
+    "proxy_probe": {
+      "perception_probe_mode": "proxy_only",
+      "perception_probe_available": true,
+      "handle_patch_separability": 0.9641908694579409,
+      "encoder_readability_pass": null,
+      "positive_count": 768,
+      "negative_count": 768,
+      "warning_flags": [
+        "non_truthful_mask_in_probe_trace"
+      ]
+    },
     "observation_contract_pass": true,
     "visual_gate_breakdown": {
-      "baseline_weighted_visual_gap": 2.4664308000000004,
-      "lane_weighted_visual_gap": 2.4664308000000004,
+      "baseline_weighted_visual_gap": 2.3197994000000004,
+      "lane_weighted_visual_gap": 2.3197994000000004,
       "visual_alignment_gain": 0.0,
-      "framing_score": 0.8937693130780205,
-      "handle_visibility_fraction": 1.0,
-      "handle_local_contrast": 0.0,
-      "handle_crop_entropy": 0.0,
-      "handle_readability_score": 0.4787538626156041,
-      "perceptual_readability_score_v2": 0.23698316199472405,
+      "framing_score": 0.7540554343870695,
+      "handle_visibility_fraction": 0.2350527925001119,
+      "handle_local_contrast": 0.0073381446934992975,
+      "handle_crop_entropy": 1.1322243656926783,
+      "handle_readability_score": 0.30545618551270376,
+      "perceptual_readability_score_v2": 0.1680009020319871,
       "camera_relativeness_residual": 0.0,
-      "encoder_readability_pass": false
+      "encoder_readability_pass": null
     },
     "g4b_local_breakdown": {
-      "handle_area_ratio": 1.0,
-      "handle_boundary_contrast": 0.01918668054634693,
-      "handle_edge_density": 0.0028346637528405983,
-      "handle_crop_entropy": 0.0,
-      "secondary_framing_score": 0.8937693130780205,
-      "local_affordance_readability_score_v3": 0.42885613505960485
+      "handle_mask_area_ratio": 0.006378173828125,
+      "handle_area_ratio": 0.006378173828125,
+      "handle_bbox_area_ratio_debug": 0.08935546875,
+      "bbox_over_mask_ratio": 14.009569377990431,
+      "measurement_truthful_pass": true,
+      "bbox_inflation_flag": true,
+      "primitive_passes": {
+        "area": false,
+        "boundary": false,
+        "edge": true,
+        "entropy": true,
+        "framing": true
+      },
+      "all_primitives_pass": false,
+      "handle_boundary_contrast": 0.0073381446934992975,
+      "handle_edge_density": 0.03625213091912264,
+      "handle_crop_entropy": 1.1322243656926783,
+      "secondary_framing_score": 0.7540554343870695,
+      "local_score_rank_only": 0.7004951787296854,
+      "local_affordance_readability_score_v3": 0.7004951787296854,
+      "local_score_inflation_flag": true,
+      "measurement_truth_tier": "manifest_entity_verified",
+      "measurement_warning_flags": [
+        "runtime_handle_visual_geom_missing"
+      ]
     },
     "g4c_global_breakdown": {
-      "baseline_weighted_visual_gap": 2.4664308000000004,
-      "weighted_visual_gap": 2.4664308000000004,
+      "baseline_weighted_visual_gap": 2.3197994000000004,
+      "weighted_visual_gap": 2.3197994000000004,
       "visual_alignment_gain": 0.0
     }
   },
-  "rollout_summary": {
-    "rollout_count": 3,
-    "unique_success_rate": 0.0,
-    "attach_rate": 0.6666666666666666,
-    "mean_max_drawer_fraction": 0.1098877961462702,
-    "avg_episode_length": 96.0,
-    "success_count": 0,
-    "orientation_causal_sensitivity": 0.0002027788432314992
+  "visual_report": {
+    "lane": {
+      "lane_id": "RCA4_V0T1S1",
+      "lane_family": "RCA",
+      "stage": "probe",
+      "env_contract_config": {
+        "secondary_camera_mode": "wrist_dynamic",
+        "enable_marker_overlay": false,
+        "calibration_mode": "none",
+        "interaction_mode": "orientation_sensitive_v2_affordance_locked",
+        "state_mode": "telemetry_candidate_v3_transition",
+        "render_profile": "visual_affordance_v3_raw_canonical",
+        "background_mode": "neutral_lowfreq_lab",
+        "lighting_profile": "front_key_handle_rim",
+        "material_policy": "legacy",
+        "camera_framing_profile": "macro_handle_centered",
+        "emit_orientation_telemetry": true,
+        "emit_camera_metadata": true,
+        "emit_handle_probe_metadata": true,
+        "canonical_lane": true,
+        "measurement_mode": "truthful_handle_manifest_v1",
+        "measurement_fallback_policy": "forbid",
+        "emit_measurement_debug": false
+      },
+      "interventions": {
+        "rotation_source": "aligned",
+        "profile_id": "V0T1S1",
+        "cell_id": "V0T1S1"
+      },
+      "dataset_config": {
+        "unique_data_budget": null,
+        "success_repeat": 1,
+        "train_seed_pool": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "heldout_seed_pool": [
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "max_steps": 96
+      },
+      "train_config": {
+        "train_steps": 0,
+        "batch_size": 0,
+        "top_k": 0,
+        "tiny_retrain": false,
+        "full_retrain": false
+      },
+      "claim_policy": "canonical",
+      "diagnostic_only": false,
+      "strongest_negative_capped": true,
+      "resource_budget_snapshot": {
+        "policy": {
+          "AUTO_PROMOTE_SOVEREIGN": false,
+          "ALLOW_FULL_RETRAIN": false,
+          "ALLOW_NEW_CLAIM": false,
+          "RUN_MODE": "autonomous_cycle_phase",
+          "EXPERIMENT_FAMILY": "RCA",
+          "SELECTOR_MODE": "frozen_v5_pro",
+          "SEED_SPLIT_A": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ],
+          "SEED_SPLIT_B": [
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "TRUTHFUL_MEASUREMENT_REQUIRED": true,
+          "PERCEPTION_PROBE_MODE": "policy_encoder_v1",
+          "CAP_STRONGEST_NEGATIVE": true,
+          "RESUME": false
+        },
+        "limits": {
+          "max_rollouts_per_experiment": 3,
+          "max_disk_growth_mb": 4096,
+          "retry_backoff_seconds": 5,
+          "max_retries": 2,
+          "max_cycles_per_run": 8,
+          "max_tiny_retrain_budget": 1
+        },
+        "disk_growth_mb": 0.003,
+        "completed_experiments": [
+          "RCA0",
+          "RCA1",
+          "RCA2",
+          "RCA3"
+        ]
+      },
+      "note": "Transition-aware telemetry state isolation.",
+      "experiment_id": "RCA4",
+      "coverage": {},
+      "cost": 1.0,
+      "lane_hash": "eb811f645ebb98bd"
+    },
+    "claim_policy": "canonical",
+    "diagnostic_only": false,
+    "secondary_camera_wrist_like": true,
+    "secondary_camera_residual_mean": 0.0,
+    "secondary_camera_residual_max": 0.0,
+    "marker_overlay_enabled": false,
+    "provenance_complete": true,
+    "target_stats": {
+      "sample_count": 24,
+      "mean_rgb": [
+        0.10053499788045883,
+        0.09928300231695175,
+        0.09669899940490723
+      ],
+      "std_rgb": [
+        0.2017109990119934,
+        0.19886399805545807,
+        0.19333000481128693
+      ],
+      "brightness_mean": 0.0992907355813419,
+      "edge_density_mean": 0.008544921875,
+      "entropy_mean": 1.182984578504752
+    },
+    "gap": {
+      "brightness_gap": 0.366561,
+      "std_rgb_abs_gap": [
+        0.021769,
+        0.006864,
+        0.005108
+      ],
+      "edge_density_gap": 0.055364,
+      "entropy_gap": 5.738511
+    },
+    "weighted_visual_gap": 2.3197994000000004,
+    "visual_alignment_gain": 0.0,
+    "render_profile": "visual_affordance_v3_raw_canonical",
+    "background_mode": "neutral_lowfreq_lab",
+    "lighting_profile": "front_key_handle_rim",
+    "material_policy": "legacy",
+    "camera_framing_profile": "macro_handle_centered",
+    "probe_measurement_mode": "truthful_handle_manifest_v1",
+    "truth_root_object": "manifest_entity",
+    "identity_resolution_tier": "manifest_entity_exact_runtime_visible_geom",
+    "measurement_backend": "segmentation_render",
+    "measurement_verifier": "isolated_rgb_threshold",
+    "measurement_truth_tier": "manifest_entity_verified",
+    "measurement_warning_flags": [
+      "runtime_handle_visual_geom_missing"
+    ],
+    "manifest_handle_entity_unique": true,
+    "runtime_visible_handle_mapping_source": "collision_geom",
+    "runtime_visible_handle_mapping_unique": true,
+    "runtime_handle_visual_geom_mapping_unique": false,
+    "runtime_handle_collision_geom_mapping_unique": true,
+    "duplicate_runtime_geom_name_flag": false,
+    "unnamed_runtime_geom_flag": false,
+    "resolved_runtime_visible_handle_geom_ids": [
+      14,
+      15,
+      16,
+      17,
+      18,
+      23,
+      26,
+      27,
+      28,
+      29,
+      30,
+      36,
+      37,
+      39,
+      42,
+      46,
+      47,
+      50,
+      57,
+      67
+    ],
+    "resolved_runtime_visible_handle_geom_names": [
+      "drawer_handle_collision_0_0",
+      "drawer_handle_collision_1_0",
+      "drawer_handle_collision_2_0",
+      "drawer_handle_collision_3_0",
+      "drawer_handle_collision_4_0",
+      "drawer_handle_collision_5_0"
+    ],
+    "resolved_handle_visual_geom_ids": [],
+    "resolved_handle_visual_geom_names": [],
+    "resolved_handle_collision_geom_ids": [
+      14,
+      15,
+      16,
+      17,
+      18,
+      23,
+      26,
+      27,
+      28,
+      29,
+      30,
+      36,
+      37,
+      39,
+      42,
+      46,
+      47,
+      50,
+      57,
+      67
+    ],
+    "resolved_handle_collision_geom_names": [
+      "drawer_handle_collision_0_0",
+      "drawer_handle_collision_1_0",
+      "drawer_handle_collision_2_0",
+      "drawer_handle_collision_3_0",
+      "drawer_handle_collision_4_0",
+      "drawer_handle_collision_5_0"
+    ],
+    "handle_geom_ids": [
+      14,
+      15,
+      16,
+      17,
+      18,
+      23,
+      26,
+      27,
+      28,
+      29,
+      30,
+      36,
+      37,
+      39,
+      42,
+      46,
+      47,
+      50,
+      57,
+      67
+    ],
+    "handle_geom_names": [
+      "drawer_handle_collision_0_0",
+      "drawer_handle_collision_1_0",
+      "drawer_handle_collision_2_0",
+      "drawer_handle_collision_3_0",
+      "drawer_handle_collision_4_0",
+      "drawer_handle_collision_5_0"
+    ],
+    "semantic_mapping_hash": "01b47b602042a22b9c57159d25aa696172ee0a7208412378fa2d32218d5f5138",
+    "segmentation_mask_nonzero_primary": 54,
+    "segmentation_mask_nonzero_secondary": 156,
+    "isolated_mask_nonzero_primary": 58,
+    "isolated_mask_nonzero_secondary": 165,
+    "segmentation_mask_support_rate_secondary": 1.0,
+    "isolated_mask_support_rate_secondary": 1.0,
+    "segmentation_isolated_iou_secondary": 0.9664002830431837,
+    "segmentation_isolated_centroid_delta_px_secondary": 0.322506847888306,
+    "handle_bbox_primary": [
+      79,
+      191,
+      157,
+      256
+    ],
+    "handle_bbox_secondary": [
+      67,
+      167,
+      189,
+      215
+    ],
+    "handle_mask_nonzero_pixels_primary": 200,
+    "handle_mask_nonzero_pixels_secondary": 418,
+    "handle_mask_area_ratio_primary": 0.00304412841796875,
+    "handle_mask_area_ratio_secondary": 0.006370703379313151,
+    "handle_bbox_area_ratio_primary": 0.03675270080566406,
+    "handle_bbox_area_ratio_secondary": 0.05568969249725342,
+    "bbox_over_mask_ratio_primary": 1.6611570247933884,
+    "bbox_over_mask_ratio_secondary": 1.1252492296537973,
+    "handle_visibility_fraction": 0.2350527925001119,
+    "handle_area_ratio": 0.006370703379313151,
+    "handle_boundary_contrast": 0.0073381446934992975,
+    "handle_edge_density": 0.03625213091912264,
+    "handle_crop_entropy": 1.1322243656926783,
+    "handle_local_std": 0.029492735702288487,
+    "handle_local_contrast": 0.0073381446934992975,
+    "framing_score": 0.7540554343870695,
+    "camera_relativeness_residual": 0.0,
+    "legacy_probe_measurement_mode": "proxy_debug",
+    "legacy_handle_bbox_secondary": [
+      109,
+      58,
+      145,
+      94
+    ],
+    "legacy_handle_local_contrast": 0.010004336737241423,
+    "legacy_handle_crop_entropy": 0.037172551082446825,
+    "measurement_truthful": true,
+    "perception_probe_mode": "policy_encoder_v1",
+    "perception_probe_available": false,
+    "handle_patch_separability": 0.0,
+    "encoder_readability_pass": null,
+    "positive_count": 768,
+    "negative_count": 768,
+    "warning_flags": [
+      "non_truthful_mask_in_probe_trace",
+      "policy_encoder_unavailable"
+    ],
+    "proxy_probe": {
+      "perception_probe_mode": "proxy_only",
+      "perception_probe_available": true,
+      "handle_patch_separability": 0.9641908694579409,
+      "encoder_readability_pass": null,
+      "positive_count": 768,
+      "negative_count": 768,
+      "warning_flags": [
+        "non_truthful_mask_in_probe_trace"
+      ]
+    },
+    "observation_contract_pass": true,
+    "visual_gate_breakdown": {
+      "baseline_weighted_visual_gap": 2.3197994000000004,
+      "lane_weighted_visual_gap": 2.3197994000000004,
+      "visual_alignment_gain": 0.0,
+      "framing_score": 0.7540554343870695,
+      "handle_visibility_fraction": 0.2350527925001119,
+      "handle_local_contrast": 0.0073381446934992975,
+      "handle_crop_entropy": 1.1322243656926783,
+      "handle_readability_score": 0.30545618551270376,
+      "perceptual_readability_score_v2": 0.1680009020319871,
+      "camera_relativeness_residual": 0.0,
+      "encoder_readability_pass": null
+    },
+    "g4b_local_breakdown": {
+      "handle_mask_area_ratio": 0.006378173828125,
+      "handle_area_ratio": 0.006378173828125,
+      "handle_bbox_area_ratio_debug": 0.08935546875,
+      "bbox_over_mask_ratio": 14.009569377990431,
+      "measurement_truthful_pass": true,
+      "bbox_inflation_flag": true,
+      "primitive_passes": {
+        "area": false,
+        "boundary": false,
+        "edge": true,
+        "entropy": true,
+        "framing": true
+      },
+      "all_primitives_pass": false,
+      "handle_boundary_contrast": 0.0073381446934992975,
+      "handle_edge_density": 0.03625213091912264,
+      "handle_crop_entropy": 1.1322243656926783,
+      "secondary_framing_score": 0.7540554343870695,
+      "local_score_rank_only": 0.7004951787296854,
+      "local_affordance_readability_score_v3": 0.7004951787296854,
+      "local_score_inflation_flag": true,
+      "measurement_truth_tier": "manifest_entity_verified",
+      "measurement_warning_flags": [
+        "runtime_handle_visual_geom_missing"
+      ]
+    },
+    "g4c_global_breakdown": {
+      "baseline_weighted_visual_gap": 2.3197994000000004,
+      "weighted_visual_gap": 2.3197994000000004,
+      "visual_alignment_gain": 0.0
+    }
+  },
+  "baseline_state_report": {
+    "lane": {
+      "lane_id": "RCA4_V0T1S0",
+      "lane_family": "RCA",
+      "stage": "probe",
+      "env_contract_config": {
+        "secondary_camera_mode": "wrist_dynamic",
+        "enable_marker_overlay": false,
+        "calibration_mode": "none",
+        "interaction_mode": "orientation_sensitive_v2_affordance_locked",
+        "state_mode": "m0_proxy",
+        "render_profile": "visual_affordance_v3_raw_canonical",
+        "background_mode": "neutral_lowfreq_lab",
+        "lighting_profile": "front_key_handle_rim",
+        "material_policy": "legacy",
+        "camera_framing_profile": "macro_handle_centered",
+        "emit_orientation_telemetry": true,
+        "emit_camera_metadata": true,
+        "emit_handle_probe_metadata": true,
+        "canonical_lane": true,
+        "measurement_mode": "truthful_handle_manifest_v1",
+        "measurement_fallback_policy": "forbid",
+        "emit_measurement_debug": false
+      },
+      "interventions": {
+        "rotation_source": "aligned",
+        "profile_id": "V0T1S0",
+        "cell_id": "V0T1S0"
+      },
+      "dataset_config": {
+        "unique_data_budget": null,
+        "success_repeat": 1,
+        "train_seed_pool": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "heldout_seed_pool": [
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "max_steps": 96
+      },
+      "train_config": {
+        "train_steps": 0,
+        "batch_size": 0,
+        "top_k": 0,
+        "tiny_retrain": false,
+        "full_retrain": false
+      },
+      "claim_policy": "canonical",
+      "diagnostic_only": false,
+      "strongest_negative_capped": true,
+      "resource_budget_snapshot": {
+        "policy": {
+          "AUTO_PROMOTE_SOVEREIGN": false,
+          "ALLOW_FULL_RETRAIN": false,
+          "ALLOW_NEW_CLAIM": false,
+          "RUN_MODE": "autonomous_cycle_phase",
+          "EXPERIMENT_FAMILY": "RCA",
+          "SELECTOR_MODE": "frozen_v5_pro",
+          "SEED_SPLIT_A": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ],
+          "SEED_SPLIT_B": [
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "TRUTHFUL_MEASUREMENT_REQUIRED": true,
+          "PERCEPTION_PROBE_MODE": "policy_encoder_v1",
+          "CAP_STRONGEST_NEGATIVE": true,
+          "RESUME": false
+        },
+        "limits": {
+          "max_rollouts_per_experiment": 3,
+          "max_disk_growth_mb": 4096,
+          "retry_backoff_seconds": 5,
+          "max_retries": 2,
+          "max_cycles_per_run": 8,
+          "max_tiny_retrain_budget": 1
+        },
+        "disk_growth_mb": 0.003,
+        "completed_experiments": [
+          "RCA0",
+          "RCA1",
+          "RCA2",
+          "RCA3"
+        ]
+      },
+      "note": "Transition-only baseline for state isolation.",
+      "experiment_id": "RCA4",
+      "coverage": {},
+      "cost": 1.0,
+      "lane_hash": "3d974962145ced4c"
+    },
+    "state_spec": {
+      "state_mode": "m0_proxy",
+      "shape": [
+        8
+      ],
+      "dim_names": [
+        "eef_pos_x_m",
+        "eef_pos_y_m",
+        "eef_pos_z_m",
+        "handle_rel_x_norm",
+        "handle_rel_y_norm",
+        "handle_rel_z_norm",
+        "drawer_fraction_signed",
+        "gripper_joint"
+      ],
+      "provenance": [
+        "observed",
+        "observed",
+        "observed",
+        "derived",
+        "derived",
+        "derived",
+        "derived",
+        "observed"
+      ],
+      "duplicate_dims": [],
+      "fraud_padding": false,
+      "all_dims_explained": true
+    },
+    "overall_score": 0.7450779187549594,
+    "per_dim_wasserstein": [
+      0.21960338592069467,
+      0.049891903161863524,
+      0.22479764089355847,
+      1.131227903415502,
+      1.3081766586569714,
+      1.6838336790202502,
+      1.0390834845699022,
+      0.04047976120512624
+    ],
+    "per_dim_range_overlap": [
+      0.24947287118774317,
+      3.659981561669477e-09,
+      0.00355695937613204,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "per_dim_smoothness_gap": [
+      0.005032125860452652,
+      0.0036670842673629522,
+      0.011629943735897541,
+      0.10746495425701141,
+      0.1234726682305336,
+      0.04963379353284836,
+      0.0003247590793762356,
+      0.00033183256164193153
+    ],
+    "valid": true,
+    "fraud_padding": false,
+    "all_dims_explained": true,
+    "state_mode": "m0_proxy"
+  },
+  "state_report": {
+    "lane": {
+      "lane_id": "RCA4_V0T1S1",
+      "lane_family": "RCA",
+      "stage": "probe",
+      "env_contract_config": {
+        "secondary_camera_mode": "wrist_dynamic",
+        "enable_marker_overlay": false,
+        "calibration_mode": "none",
+        "interaction_mode": "orientation_sensitive_v2_affordance_locked",
+        "state_mode": "telemetry_candidate_v3_transition",
+        "render_profile": "visual_affordance_v3_raw_canonical",
+        "background_mode": "neutral_lowfreq_lab",
+        "lighting_profile": "front_key_handle_rim",
+        "material_policy": "legacy",
+        "camera_framing_profile": "macro_handle_centered",
+        "emit_orientation_telemetry": true,
+        "emit_camera_metadata": true,
+        "emit_handle_probe_metadata": true,
+        "canonical_lane": true,
+        "measurement_mode": "truthful_handle_manifest_v1",
+        "measurement_fallback_policy": "forbid",
+        "emit_measurement_debug": false
+      },
+      "interventions": {
+        "rotation_source": "aligned",
+        "profile_id": "V0T1S1",
+        "cell_id": "V0T1S1"
+      },
+      "dataset_config": {
+        "unique_data_budget": null,
+        "success_repeat": 1,
+        "train_seed_pool": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "heldout_seed_pool": [
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "max_steps": 96
+      },
+      "train_config": {
+        "train_steps": 0,
+        "batch_size": 0,
+        "top_k": 0,
+        "tiny_retrain": false,
+        "full_retrain": false
+      },
+      "claim_policy": "canonical",
+      "diagnostic_only": false,
+      "strongest_negative_capped": true,
+      "resource_budget_snapshot": {
+        "policy": {
+          "AUTO_PROMOTE_SOVEREIGN": false,
+          "ALLOW_FULL_RETRAIN": false,
+          "ALLOW_NEW_CLAIM": false,
+          "RUN_MODE": "autonomous_cycle_phase",
+          "EXPERIMENT_FAMILY": "RCA",
+          "SELECTOR_MODE": "frozen_v5_pro",
+          "SEED_SPLIT_A": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ],
+          "SEED_SPLIT_B": [
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "TRUTHFUL_MEASUREMENT_REQUIRED": true,
+          "PERCEPTION_PROBE_MODE": "policy_encoder_v1",
+          "CAP_STRONGEST_NEGATIVE": true,
+          "RESUME": false
+        },
+        "limits": {
+          "max_rollouts_per_experiment": 3,
+          "max_disk_growth_mb": 4096,
+          "retry_backoff_seconds": 5,
+          "max_retries": 2,
+          "max_cycles_per_run": 8,
+          "max_tiny_retrain_budget": 1
+        },
+        "disk_growth_mb": 0.003,
+        "completed_experiments": [
+          "RCA0",
+          "RCA1",
+          "RCA2",
+          "RCA3"
+        ]
+      },
+      "note": "Transition-aware telemetry state isolation.",
+      "experiment_id": "RCA4",
+      "coverage": {},
+      "cost": 1.0,
+      "lane_hash": "eb811f645ebb98bd"
+    },
+    "state_spec": {
+      "state_mode": "telemetry_candidate_v3_transition",
+      "shape": [
+        8
+      ],
+      "dim_names": [
+        "handle_rel_x_norm",
+        "handle_rel_y_norm",
+        "handle_rel_z_norm",
+        "drawer_fraction_signed",
+        "pull_alignment_cos",
+        "stable_attach",
+        "attach_streak_norm",
+        "contact_window_fraction"
+      ],
+      "provenance": [
+        "derived",
+        "derived",
+        "derived",
+        "derived",
+        "derived",
+        "derived",
+        "derived",
+        "derived"
+      ],
+      "duplicate_dims": [],
+      "fraud_padding": false,
+      "all_dims_explained": true
+    },
+    "overall_score": 0.7617451463540609,
+    "per_dim_wasserstein": [
+      1.0401300651805747,
+      0.04989190266089958,
+      0.09518708188299069,
+      3.1312279034155024,
+      0.7069602484498854,
+      0.6838336790202504,
+      0.039083484569902245,
+      0.03947976115762879
+    ],
+    "per_dim_range_overlap": [
+      0.0,
+      2.0333230140691866e-08,
+      0.0,
+      0.0,
+      0.30415330333260604,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "per_dim_smoothness_gap": [
+      0.017198992893099785,
+      0.0036670840345323086,
+      0.01017491053789854,
+      0.10746495425701141,
+      0.013372190296649933,
+      0.04963379353284836,
+      0.0003247590793762356,
+      0.00033183256164193153
+    ],
+    "valid": true,
+    "fraud_padding": false,
+    "all_dims_explained": true,
+    "state_mode": "telemetry_candidate_v3_transition"
   },
   "state_audit": {
     "selected_candidate_mode": "telemetry_candidate_v3_transition",
-    "selected_candidate_score": 0.5389370064468471,
-    "m0_proxy_score": 0.6583915787450481,
-    "eef_pose_gripper_score": 0.6131098412382743,
-    "state_alignment_gain": 0.1814339310443367,
+    "selected_candidate_score": 0.7617451463540609,
+    "m0_proxy_score": 0.7450779187549594,
+    "eef_pose_gripper_score": 0.7450779187549594,
+    "state_alignment_gain": -0.022369777951482872,
     "selected_candidate": {
       "lane": {
-        "lane_id": "RCA4_state_telemetry_candidate_v3_transition",
+        "lane_id": "RCA4_V0T1S1",
         "lane_family": "RCA",
         "stage": "probe",
         "env_contract_config": {
@@ -221,19 +1132,23 @@
           "calibration_mode": "none",
           "interaction_mode": "orientation_sensitive_v2_affordance_locked",
           "state_mode": "telemetry_candidate_v3_transition",
-          "render_profile": "visual_affordance_v3_plus_bundle",
+          "render_profile": "visual_affordance_v3_raw_canonical",
           "background_mode": "neutral_lowfreq_lab",
           "lighting_profile": "front_key_handle_rim",
-          "material_policy": "handle_affordance_local",
+          "material_policy": "legacy",
           "camera_framing_profile": "macro_handle_centered",
           "emit_orientation_telemetry": true,
           "emit_camera_metadata": true,
           "emit_handle_probe_metadata": true,
-          "canonical_lane": true
+          "canonical_lane": true,
+          "measurement_mode": "truthful_handle_manifest_v1",
+          "measurement_fallback_policy": "forbid",
+          "emit_measurement_debug": false
         },
         "interventions": {
           "rotation_source": "aligned",
-          "profile_id": "state_telemetry_candidate_v3_transition"
+          "profile_id": "V0T1S1",
+          "cell_id": "V0T1S1"
         },
         "dataset_config": {
           "unique_data_budget": null,
@@ -274,6 +1189,26 @@
             "ALLOW_NEW_CLAIM": false,
             "RUN_MODE": "autonomous_cycle_phase",
             "EXPERIMENT_FAMILY": "RCA",
+            "SELECTOR_MODE": "frozen_v5_pro",
+            "SEED_SPLIT_A": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "SEED_SPLIT_B": [
+              11,
+              12,
+              13,
+              14,
+              15
+            ],
+            "TRUTHFUL_MEASUREMENT_REQUIRED": true,
+            "PERCEPTION_PROBE_MODE": "policy_encoder_v1",
             "CAP_STRONGEST_NEGATIVE": true,
             "RESUME": false
           },
@@ -282,10 +1217,10 @@
             "max_disk_growth_mb": 4096,
             "retry_backoff_seconds": 5,
             "max_retries": 2,
-            "max_cycles_per_run": 4,
+            "max_cycles_per_run": 8,
             "max_tiny_retrain_budget": 1
           },
-          "disk_growth_mb": 0.004,
+          "disk_growth_mb": 0.003,
           "completed_experiments": [
             "RCA0",
             "RCA1",
@@ -293,11 +1228,11 @@
             "RCA3"
           ]
         },
-        "note": "Transition-aware state semantics audit candidate.",
+        "note": "Transition-aware telemetry state isolation.",
         "experiment_id": "RCA4",
         "coverage": {},
         "cost": 1.0,
-        "lane_hash": "d1e69c9ccd3eb5b7"
+        "lane_hash": "eb811f645ebb98bd"
       },
       "state_spec": {
         "state_mode": "telemetry_candidate_v3_transition",
@@ -328,36 +1263,36 @@
         "fraud_padding": false,
         "all_dims_explained": true
       },
-      "overall_score": 0.5389370064468471,
+      "overall_score": 0.7617451463540609,
       "per_dim_wasserstein": [
-        0.06422222831786671,
-        0.22177060975683288,
-        1.1870237375506631,
-        2.9409828905593094,
-        1.238151801350959,
-        0.7185559012424726,
-        0.07335954535271057,
-        0.6401742057055534
+        1.0401300651805747,
+        0.04989190266089958,
+        0.09518708188299069,
+        3.1312279034155024,
+        0.7069602484498854,
+        0.6838336790202504,
+        0.039083484569902245,
+        0.03947976115762879
       ],
       "per_dim_range_overlap": [
-        0.30114458613313627,
-        0.1054111798495236,
+        0.0,
+        2.0333230140691866e-08,
         0.0,
         0.0,
-        0.3554961324255332,
+        0.30415330333260604,
         0.0,
-        0.010299170389771461,
+        0.0,
         0.0
       ],
       "per_dim_smoothness_gap": [
-        0.046870820224285126,
-        0.06786411255598068,
-        0.053636956959962845,
-        0.07420775294303894,
-        0.0886455625295639,
-        0.06842247396707535,
-        0.0930069163441658,
-        0.06773886829614639
+        0.017198992893099785,
+        0.0036670840345323086,
+        0.01017491053789854,
+        0.10746495425701141,
+        0.013372190296649933,
+        0.04963379353284836,
+        0.0003247590793762356,
+        0.00033183256164193153
       ],
       "valid": true,
       "fraud_padding": false,
@@ -367,7 +1302,7 @@
     "all_candidates": [
       {
         "lane": {
-          "lane_id": "RCA4_state_m0_proxy",
+          "lane_id": "RCA4_V0T1S0",
           "lane_family": "RCA",
           "stage": "probe",
           "env_contract_config": {
@@ -376,19 +1311,23 @@
             "calibration_mode": "none",
             "interaction_mode": "orientation_sensitive_v2_affordance_locked",
             "state_mode": "m0_proxy",
-            "render_profile": "visual_affordance_v3_plus_bundle",
+            "render_profile": "visual_affordance_v3_raw_canonical",
             "background_mode": "neutral_lowfreq_lab",
             "lighting_profile": "front_key_handle_rim",
-            "material_policy": "handle_affordance_local",
+            "material_policy": "legacy",
             "camera_framing_profile": "macro_handle_centered",
             "emit_orientation_telemetry": true,
             "emit_camera_metadata": true,
             "emit_handle_probe_metadata": true,
-            "canonical_lane": true
+            "canonical_lane": true,
+            "measurement_mode": "truthful_handle_manifest_v1",
+            "measurement_fallback_policy": "forbid",
+            "emit_measurement_debug": false
           },
           "interventions": {
             "rotation_source": "aligned",
-            "profile_id": "state_m0_proxy"
+            "profile_id": "V0T1S0",
+            "cell_id": "V0T1S0"
           },
           "dataset_config": {
             "unique_data_budget": null,
@@ -419,8 +1358,8 @@
             "tiny_retrain": false,
             "full_retrain": false
           },
-          "claim_policy": "diagnostic",
-          "diagnostic_only": true,
+          "claim_policy": "canonical",
+          "diagnostic_only": false,
           "strongest_negative_capped": true,
           "resource_budget_snapshot": {
             "policy": {
@@ -429,6 +1368,26 @@
               "ALLOW_NEW_CLAIM": false,
               "RUN_MODE": "autonomous_cycle_phase",
               "EXPERIMENT_FAMILY": "RCA",
+              "SELECTOR_MODE": "frozen_v5_pro",
+              "SEED_SPLIT_A": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "SEED_SPLIT_B": [
+                11,
+                12,
+                13,
+                14,
+                15
+              ],
+              "TRUTHFUL_MEASUREMENT_REQUIRED": true,
+              "PERCEPTION_PROBE_MODE": "policy_encoder_v1",
               "CAP_STRONGEST_NEGATIVE": true,
               "RESUME": false
             },
@@ -437,10 +1396,10 @@
               "max_disk_growth_mb": 4096,
               "retry_backoff_seconds": 5,
               "max_retries": 2,
-              "max_cycles_per_run": 4,
+              "max_cycles_per_run": 8,
               "max_tiny_retrain_budget": 1
             },
-            "disk_growth_mb": 0.004,
+            "disk_growth_mb": 0.003,
             "completed_experiments": [
               "RCA0",
               "RCA1",
@@ -448,11 +1407,11 @@
               "RCA3"
             ]
           },
-          "note": "Transition-aware state semantics audit candidate.",
+          "note": "Transition-only baseline for state isolation.",
           "experiment_id": "RCA4",
           "coverage": {},
           "cost": 1.0,
-          "lane_hash": "f9b537c347da709c"
+          "lane_hash": "3d974962145ced4c"
         },
         "state_spec": {
           "state_mode": "m0_proxy",
@@ -483,36 +1442,36 @@
           "fraud_padding": false,
           "all_dims_explained": true
         },
-        "overall_score": 0.6583915787450481,
+        "overall_score": 0.7450779187549594,
         "per_dim_wasserstein": [
-          0.06518618597505456,
-          0.1901046086248549,
-          0.943650112673694,
-          2.1533454617144017,
-          1.5727875207543587,
-          0.5919970233525778,
-          0.8488384717137103,
-          0.02155046441741431
+          0.21960338592069467,
+          0.049891903161863524,
+          0.22479764089355847,
+          1.131227903415502,
+          1.3081766586569714,
+          1.6838336790202502,
+          1.0390834845699022,
+          0.04047976120512624
         ],
         "per_dim_range_overlap": [
-          0.1039474222476636,
-          0.6042952139249026,
+          0.24947287118774317,
+          3.659981561669477e-09,
+          0.00355695937613204,
           0.0,
           0.0,
           0.0,
-          0.07135938282068037,
           0.0,
-          0.19104597064325554
+          0.0
         ],
         "per_dim_smoothness_gap": [
-          0.0031036315485835075,
-          0.01879962533712387,
-          0.0011996608227491379,
-          0.043395139276981354,
-          0.05194146931171417,
-          0.014178074896335602,
-          0.03293244168162346,
-          0.020443767309188843
+          0.005032125860452652,
+          0.0036670842673629522,
+          0.011629943735897541,
+          0.10746495425701141,
+          0.1234726682305336,
+          0.04963379353284836,
+          0.0003247590793762356,
+          0.00033183256164193153
         ],
         "valid": true,
         "fraud_padding": false,
@@ -521,315 +1480,7 @@
       },
       {
         "lane": {
-          "lane_id": "RCA4_state_eef_pose_gripper",
-          "lane_family": "RCA",
-          "stage": "probe",
-          "env_contract_config": {
-            "secondary_camera_mode": "wrist_dynamic",
-            "enable_marker_overlay": false,
-            "calibration_mode": "none",
-            "interaction_mode": "orientation_sensitive_v2_affordance_locked",
-            "state_mode": "eef_pose_gripper",
-            "render_profile": "visual_affordance_v3_plus_bundle",
-            "background_mode": "neutral_lowfreq_lab",
-            "lighting_profile": "front_key_handle_rim",
-            "material_policy": "handle_affordance_local",
-            "camera_framing_profile": "macro_handle_centered",
-            "emit_orientation_telemetry": true,
-            "emit_camera_metadata": true,
-            "emit_handle_probe_metadata": true,
-            "canonical_lane": true
-          },
-          "interventions": {
-            "rotation_source": "aligned",
-            "profile_id": "state_eef_pose_gripper"
-          },
-          "dataset_config": {
-            "unique_data_budget": null,
-            "success_repeat": 1,
-            "train_seed_pool": [
-              1,
-              2,
-              3,
-              4,
-              5,
-              6,
-              7,
-              8
-            ],
-            "heldout_seed_pool": [
-              11,
-              12,
-              13,
-              14,
-              15
-            ],
-            "max_steps": 96
-          },
-          "train_config": {
-            "train_steps": 0,
-            "batch_size": 0,
-            "top_k": 0,
-            "tiny_retrain": false,
-            "full_retrain": false
-          },
-          "claim_policy": "diagnostic",
-          "diagnostic_only": true,
-          "strongest_negative_capped": true,
-          "resource_budget_snapshot": {
-            "policy": {
-              "AUTO_PROMOTE_SOVEREIGN": false,
-              "ALLOW_FULL_RETRAIN": false,
-              "ALLOW_NEW_CLAIM": false,
-              "RUN_MODE": "autonomous_cycle_phase",
-              "EXPERIMENT_FAMILY": "RCA",
-              "CAP_STRONGEST_NEGATIVE": true,
-              "RESUME": false
-            },
-            "limits": {
-              "max_rollouts_per_experiment": 3,
-              "max_disk_growth_mb": 4096,
-              "retry_backoff_seconds": 5,
-              "max_retries": 2,
-              "max_cycles_per_run": 4,
-              "max_tiny_retrain_budget": 1
-            },
-            "disk_growth_mb": 0.004,
-            "completed_experiments": [
-              "RCA0",
-              "RCA1",
-              "RCA2",
-              "RCA3"
-            ]
-          },
-          "note": "Transition-aware state semantics audit candidate.",
-          "experiment_id": "RCA4",
-          "coverage": {},
-          "cost": 1.0,
-          "lane_hash": "3d88311b9534ea44"
-        },
-        "state_spec": {
-          "state_mode": "eef_pose_gripper",
-          "shape": [
-            8
-          ],
-          "dim_names": [
-            "eef_pos_x_m",
-            "eef_pos_y_m",
-            "eef_pos_z_m",
-            "eef_quat_x",
-            "eef_quat_y",
-            "eef_quat_z",
-            "eef_quat_w",
-            "gripper_joint"
-          ],
-          "provenance": [
-            "observed",
-            "observed",
-            "observed",
-            "observed",
-            "observed",
-            "observed",
-            "observed",
-            "observed"
-          ],
-          "duplicate_dims": [],
-          "fraud_padding": false,
-          "all_dims_explained": true
-        },
-        "overall_score": 0.6131098412382743,
-        "per_dim_wasserstein": [
-          0.06518618597505456,
-          0.1901046086248549,
-          0.943650112673694,
-          2.301456031788711,
-          1.0304723627687573,
-          0.5403741330921377,
-          0.5946767645300659,
-          0.02155046441741431
-        ],
-        "per_dim_range_overlap": [
-          0.1039474222476636,
-          0.6042952139249026,
-          0.0,
-          0.0,
-          0.523470262349788,
-          0.2971650983078115,
-          0.0072826145755967514,
-          0.19104597064325554
-        ],
-        "per_dim_smoothness_gap": [
-          0.0031036315485835075,
-          0.01879962533712387,
-          0.0011996608227491379,
-          0.045658085495233536,
-          0.03769272565841675,
-          0.024901041761040688,
-          0.06124284490942955,
-          0.020443767309188843
-        ],
-        "valid": true,
-        "fraud_padding": false,
-        "all_dims_explained": true,
-        "state_mode": "eef_pose_gripper"
-      },
-      {
-        "lane": {
-          "lane_id": "RCA4_state_telemetry_candidate_v2",
-          "lane_family": "RCA",
-          "stage": "probe",
-          "env_contract_config": {
-            "secondary_camera_mode": "wrist_dynamic",
-            "enable_marker_overlay": false,
-            "calibration_mode": "none",
-            "interaction_mode": "orientation_sensitive_v2_affordance_locked",
-            "state_mode": "telemetry_candidate_v2",
-            "render_profile": "visual_affordance_v3_plus_bundle",
-            "background_mode": "neutral_lowfreq_lab",
-            "lighting_profile": "front_key_handle_rim",
-            "material_policy": "handle_affordance_local",
-            "camera_framing_profile": "macro_handle_centered",
-            "emit_orientation_telemetry": true,
-            "emit_camera_metadata": true,
-            "emit_handle_probe_metadata": true,
-            "canonical_lane": true
-          },
-          "interventions": {
-            "rotation_source": "aligned",
-            "profile_id": "state_telemetry_candidate_v2"
-          },
-          "dataset_config": {
-            "unique_data_budget": null,
-            "success_repeat": 1,
-            "train_seed_pool": [
-              1,
-              2,
-              3,
-              4,
-              5,
-              6,
-              7,
-              8
-            ],
-            "heldout_seed_pool": [
-              11,
-              12,
-              13,
-              14,
-              15
-            ],
-            "max_steps": 96
-          },
-          "train_config": {
-            "train_steps": 0,
-            "batch_size": 0,
-            "top_k": 0,
-            "tiny_retrain": false,
-            "full_retrain": false
-          },
-          "claim_policy": "canonical",
-          "diagnostic_only": false,
-          "strongest_negative_capped": true,
-          "resource_budget_snapshot": {
-            "policy": {
-              "AUTO_PROMOTE_SOVEREIGN": false,
-              "ALLOW_FULL_RETRAIN": false,
-              "ALLOW_NEW_CLAIM": false,
-              "RUN_MODE": "autonomous_cycle_phase",
-              "EXPERIMENT_FAMILY": "RCA",
-              "CAP_STRONGEST_NEGATIVE": true,
-              "RESUME": false
-            },
-            "limits": {
-              "max_rollouts_per_experiment": 3,
-              "max_disk_growth_mb": 4096,
-              "retry_backoff_seconds": 5,
-              "max_retries": 2,
-              "max_cycles_per_run": 4,
-              "max_tiny_retrain_budget": 1
-            },
-            "disk_growth_mb": 0.004,
-            "completed_experiments": [
-              "RCA0",
-              "RCA1",
-              "RCA2",
-              "RCA3"
-            ]
-          },
-          "note": "Transition-aware state semantics audit candidate.",
-          "experiment_id": "RCA4",
-          "coverage": {},
-          "cost": 1.0,
-          "lane_hash": "416d5a8731d64c82"
-        },
-        "state_spec": {
-          "state_mode": "telemetry_candidate_v2",
-          "shape": [
-            8
-          ],
-          "dim_names": [
-            "eef_pos_x_m",
-            "eef_pos_y_m",
-            "eef_pos_z_m",
-            "eef_rotvec_x",
-            "eef_rotvec_y",
-            "eef_rotvec_z",
-            "handle_distance_norm",
-            "drawer_fraction_signed"
-          ],
-          "provenance": [
-            "observed",
-            "observed",
-            "observed",
-            "derived",
-            "derived",
-            "derived",
-            "derived",
-            "derived"
-          ],
-          "duplicate_dims": [],
-          "fraud_padding": false,
-          "all_dims_explained": true
-        },
-        "overall_score": 0.554195075537046,
-        "per_dim_wasserstein": [
-          0.06518618597505456,
-          0.1901046086248549,
-          0.943650112673694,
-          0.7433964869170464,
-          1.7941671341469947,
-          0.9336704464944685,
-          0.11325688621668101,
-          0.7702752259861793
-        ],
-        "per_dim_range_overlap": [
-          0.1039474222476636,
-          0.6042952139249026,
-          0.0,
-          0.025900391922442912,
-          0.30766135420400575,
-          0.380006738472822,
-          0.005561929514854232,
-          0.0
-        ],
-        "per_dim_smoothness_gap": [
-          0.0031036315485835075,
-          0.01879962533712387,
-          0.0011996608227491379,
-          0.03170330822467804,
-          0.4573095738887787,
-          0.01233723759651184,
-          0.07060356438159943,
-          0.03292536735534668
-        ],
-        "valid": true,
-        "fraud_padding": false,
-        "all_dims_explained": true,
-        "state_mode": "telemetry_candidate_v2"
-      },
-      {
-        "lane": {
-          "lane_id": "RCA4_state_telemetry_candidate_v3_transition",
+          "lane_id": "RCA4_V0T1S1",
           "lane_family": "RCA",
           "stage": "probe",
           "env_contract_config": {
@@ -838,19 +1489,23 @@
             "calibration_mode": "none",
             "interaction_mode": "orientation_sensitive_v2_affordance_locked",
             "state_mode": "telemetry_candidate_v3_transition",
-            "render_profile": "visual_affordance_v3_plus_bundle",
+            "render_profile": "visual_affordance_v3_raw_canonical",
             "background_mode": "neutral_lowfreq_lab",
             "lighting_profile": "front_key_handle_rim",
-            "material_policy": "handle_affordance_local",
+            "material_policy": "legacy",
             "camera_framing_profile": "macro_handle_centered",
             "emit_orientation_telemetry": true,
             "emit_camera_metadata": true,
             "emit_handle_probe_metadata": true,
-            "canonical_lane": true
+            "canonical_lane": true,
+            "measurement_mode": "truthful_handle_manifest_v1",
+            "measurement_fallback_policy": "forbid",
+            "emit_measurement_debug": false
           },
           "interventions": {
             "rotation_source": "aligned",
-            "profile_id": "state_telemetry_candidate_v3_transition"
+            "profile_id": "V0T1S1",
+            "cell_id": "V0T1S1"
           },
           "dataset_config": {
             "unique_data_budget": null,
@@ -891,6 +1546,26 @@
               "ALLOW_NEW_CLAIM": false,
               "RUN_MODE": "autonomous_cycle_phase",
               "EXPERIMENT_FAMILY": "RCA",
+              "SELECTOR_MODE": "frozen_v5_pro",
+              "SEED_SPLIT_A": [
+                1,
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8
+              ],
+              "SEED_SPLIT_B": [
+                11,
+                12,
+                13,
+                14,
+                15
+              ],
+              "TRUTHFUL_MEASUREMENT_REQUIRED": true,
+              "PERCEPTION_PROBE_MODE": "policy_encoder_v1",
               "CAP_STRONGEST_NEGATIVE": true,
               "RESUME": false
             },
@@ -899,10 +1574,10 @@
               "max_disk_growth_mb": 4096,
               "retry_backoff_seconds": 5,
               "max_retries": 2,
-              "max_cycles_per_run": 4,
+              "max_cycles_per_run": 8,
               "max_tiny_retrain_budget": 1
             },
-            "disk_growth_mb": 0.004,
+            "disk_growth_mb": 0.003,
             "completed_experiments": [
               "RCA0",
               "RCA1",
@@ -910,11 +1585,11 @@
               "RCA3"
             ]
           },
-          "note": "Transition-aware state semantics audit candidate.",
+          "note": "Transition-aware telemetry state isolation.",
           "experiment_id": "RCA4",
           "coverage": {},
           "cost": 1.0,
-          "lane_hash": "d1e69c9ccd3eb5b7"
+          "lane_hash": "eb811f645ebb98bd"
         },
         "state_spec": {
           "state_mode": "telemetry_candidate_v3_transition",
@@ -945,36 +1620,36 @@
           "fraud_padding": false,
           "all_dims_explained": true
         },
-        "overall_score": 0.5389370064468471,
+        "overall_score": 0.7617451463540609,
         "per_dim_wasserstein": [
-          0.06422222831786671,
-          0.22177060975683288,
-          1.1870237375506631,
-          2.9409828905593094,
-          1.238151801350959,
-          0.7185559012424726,
-          0.07335954535271057,
-          0.6401742057055534
+          1.0401300651805747,
+          0.04989190266089958,
+          0.09518708188299069,
+          3.1312279034155024,
+          0.7069602484498854,
+          0.6838336790202504,
+          0.039083484569902245,
+          0.03947976115762879
         ],
         "per_dim_range_overlap": [
-          0.30114458613313627,
-          0.1054111798495236,
+          0.0,
+          2.0333230140691866e-08,
           0.0,
           0.0,
-          0.3554961324255332,
+          0.30415330333260604,
           0.0,
-          0.010299170389771461,
+          0.0,
           0.0
         ],
         "per_dim_smoothness_gap": [
-          0.046870820224285126,
-          0.06786411255598068,
-          0.053636956959962845,
-          0.07420775294303894,
-          0.0886455625295639,
-          0.06842247396707535,
-          0.0930069163441658,
-          0.06773886829614639
+          0.017198992893099785,
+          0.0036670840345323086,
+          0.01017491053789854,
+          0.10746495425701141,
+          0.013372190296649933,
+          0.04963379353284836,
+          0.0003247590793762356,
+          0.00033183256164193153
         ],
         "valid": true,
         "fraud_padding": false,
@@ -983,5 +1658,13 @@
       }
     ],
     "impossible": false
+  },
+  "rollout_ceiling_lift": {
+    "score": 0.0,
+    "delta_unique_success_rate": 0.0,
+    "delta_attach_rate": 0.0,
+    "delta_mean_max_drawer_fraction": 0.0,
+    "delta_avg_episode_length_ratio": 0.0,
+    "delta_orientation_causal_sensitivity": 0.0
   }
 }

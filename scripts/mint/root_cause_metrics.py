@@ -20,6 +20,25 @@ SECONDARY_FRAMING_THRESHOLD = 0.70
 LOCAL_AFFORDANCE_READABILITY_THRESHOLD = 0.60
 GLOBAL_VISUAL_ALIGNMENT_THRESHOLD = 0.10
 BBOX_OVER_MASK_RATIO_MAX = 1.60
+TRUTHFUL_SEGMENTATION_SUPPORT_RATE_MIN = 0.80
+TRUTHFUL_ISOLATED_SUPPORT_RATE_MIN = 0.80
+TRUTHFUL_SEGMENTATION_ISOLATED_IOU_MIN = 0.90
+TRUTHFUL_SEGMENTATION_ISOLATED_CENTROID_DELTA_MAX_PX = 4.0
+
+TRUTHFUL_MEASUREMENT_FATAL_WARNINGS = {
+    "manifest_handle_entity_missing",
+    "manifest_handle_entity_nonunique",
+    "runtime_handle_visual_geom_missing",
+    "runtime_handle_collision_geom_missing",
+    "runtime_handle_visual_geom_ambiguous",
+    "runtime_handle_collision_geom_ambiguous",
+    "runtime_handle_geom_name_duplicate",
+    "runtime_handle_geom_name_unnamed",
+    "segmentation_empty_mask",
+    "isolated_render_empty_mask",
+    "truthful_measurement_required_no_fallback",
+    "fell_back_to_proxy_debug_measurement",
+}
 
 
 def _to_uint8(rgb: np.ndarray) -> np.ndarray:
@@ -255,6 +274,26 @@ def local_affordance_readability_score_v3(
     entropy_term = float(np.clip(handle_crop_entropy_value / max(HANDLE_CROP_ENTROPY_THRESHOLD, 1e-6), 0.0, 1.0))
     framing_term = float(np.clip(secondary_framing_score / max(SECONDARY_FRAMING_THRESHOLD, 1e-6), 0.0, 1.0))
     return float(0.20 * area_term + 0.25 * boundary_term + 0.20 * edge_term + 0.20 * entropy_term + 0.15 * framing_term)
+
+
+def truthful_measurement_acceptance_v1(report: dict) -> bool:
+    warnings = set(report.get("measurement_warning_flags", []))
+    return bool(
+        report.get("manifest_handle_entity_unique", False)
+        and report.get("runtime_handle_visual_geom_mapping_unique", False)
+        and report.get("runtime_handle_collision_geom_mapping_unique", False)
+        and not report.get("duplicate_runtime_geom_name_flag", False)
+        and not report.get("unnamed_runtime_geom_flag", False)
+        and report.get("measurement_backend") == "segmentation_render"
+        and report.get("measurement_verifier") == "isolated_rgb_threshold"
+        and report.get("measurement_truth_tier") == "manifest_entity_verified"
+        and float(report.get("segmentation_mask_support_rate_secondary", 0.0)) >= TRUTHFUL_SEGMENTATION_SUPPORT_RATE_MIN
+        and float(report.get("isolated_mask_support_rate_secondary", 0.0)) >= TRUTHFUL_ISOLATED_SUPPORT_RATE_MIN
+        and float(report.get("segmentation_isolated_iou_secondary", 0.0)) >= TRUTHFUL_SEGMENTATION_ISOLATED_IOU_MIN
+        and float(report.get("segmentation_isolated_centroid_delta_px_secondary", float("inf"))) <= TRUTHFUL_SEGMENTATION_ISOLATED_CENTROID_DELTA_MAX_PX
+        and float(report.get("bbox_over_mask_ratio_secondary", float("inf"))) <= BBOX_OVER_MASK_RATIO_MAX
+        and warnings.isdisjoint(TRUTHFUL_MEASUREMENT_FATAL_WARNINGS)
+    )
 
 
 def local_affordance_primitives_v5(

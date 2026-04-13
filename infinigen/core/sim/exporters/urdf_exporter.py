@@ -20,6 +20,7 @@ import numpy as np
 import trimesh
 
 import infinigen.core.sim.exporters.utils as exputils
+from infinigen.core import surface
 from infinigen.core.sim.exporters.base import (
     JointType,
     PathItem,
@@ -71,6 +72,90 @@ class URDFBuilder(SimBuilder):
         reparsed = xml.dom.minidom.parseString(rough_string)
         return reparsed.toprettyxml(indent="  ")
 
+    def _initialize_semantic_mapping(self, exporter: str) -> None:
+        semantic_entities = list(self.metadata.get("semantic_entities", []))
+        self.semantic_mapping = {
+            "schema_version": 1,
+            "asset_name": str(self.metadata.get("asset_name", "unknown")),
+            "exporter": exporter,
+            "entities": [],
+        }
+        self._semantic_entities_by_label = {}
+        for entity in semantic_entities:
+            record = {
+                "entity_uid": str(entity.get("entity_uid", "")).strip(),
+                "part_label": str(entity.get("part_label", "")).strip(),
+                "entity_kind": str(entity.get("entity_kind", "generic_part")).strip(),
+                "resolution_policy": str(entity.get("resolution_policy", "exact_geom_name_set")).strip(),
+                "exported_visual_geom_names": [],
+                "exported_collision_geom_names": [],
+                "exported_visual_mesh_files": [],
+                "exported_collision_mesh_files": [],
+            }
+            if record["entity_uid"]:
+                self.semantic_mapping["entities"].append(record)
+            if record["part_label"]:
+                self._semantic_entities_by_label[record["part_label"]] = record
+
+    def _primary_part_label(self, geometry: bpy.types.Object) -> str:
+        labels = self._get_labels(geometry)
+        if len(labels) == 0:
+            return "geom"
+        labels_w_counts = []
+        for lab in sorted(labels):
+            if lab not in set([n.name for n in geometry.data.attributes]):
+                continue
+            vert = int(sum(surface.read_attr_data(geometry, lab)))
+            labels_w_counts.append((vert, lab))
+        if not labels_w_counts:
+            return sorted(labels)[0]
+        min_count = min(count for count, _ in labels_w_counts)
+        min_labels = sorted(label for count, label in labels_w_counts if count == min_count)
+        return min_labels[0]
+
+    def _next_export_names(self, primary_part_label: str, collision_count: int) -> tuple[str, list[str]]:
+        asset_idx = self.asset_freq[primary_part_label]
+        self.asset_freq[primary_part_label] += 1
+        visual_name = f"{primary_part_label}_visual_{asset_idx}"
+        collision_names = [f"{primary_part_label}_collision_{asset_idx}_{col_idx}" for col_idx in range(collision_count)]
+        return visual_name, collision_names
+
+    def _rename_exported_asset(self, asset_path: Path, desired_stem: str) -> Path:
+        desired_path = asset_path.with_name(f"{desired_stem}{asset_path.suffix}")
+        if asset_path == desired_path:
+            return asset_path
+        if desired_path.exists():
+            desired_path.unlink()
+        asset_path.replace(desired_path)
+        return desired_path
+
+    def _register_semantic_mapping(self, primary_part_label: str, visual_name: str, collision_names: list[str], visasset_path: Path, colasset_paths: list[Path]) -> None:
+        record = self._semantic_entities_by_label.get(primary_part_label)
+        if not record:
+            return
+        record["exported_visual_geom_names"].append(visual_name)
+        record["exported_visual_mesh_files"].append(f"assets/{visasset_path.name}")
+        for collision_name, colasset_path in zip(collision_names, colasset_paths):
+            record["exported_collision_geom_names"].append(collision_name)
+            record["exported_collision_mesh_files"].append(f"assets/{colasset_path.name}")
+
+    def _validate_semantic_mapping(self) -> None:
+        if str(self.metadata.get("asset_name", "")) != "drawer":
+            return
+        handle_entities = [e for e in self.semantic_mapping.get("entities", []) if e.get("entity_uid") == "drawer_handle"]
+        if len(handle_entities) != 1:
+            raise ValueError("drawer_handle entity missing or nonunique in semantic_mapping")
+        handle = handle_entities[0]
+        visual_names = list(handle.get("exported_visual_geom_names", []))
+        collision_names = list(handle.get("exported_collision_geom_names", []))
+        all_names = visual_names + collision_names
+        if not visual_names:
+            raise ValueError("drawer_handle visual geom names are empty")
+        if any(not str(name).strip() for name in all_names):
+            raise ValueError("drawer_handle exported geom names contain empty strings")
+        if len(all_names) != len(set(all_names)):
+            raise ValueError("drawer_handle exported geom names are duplicate")
+
     def _initialize_urdf(self) -> ET.Element:
         """
         Initializes an URDF file required to construct an asset.
@@ -91,6 +176,7 @@ class URDFBuilder(SimBuilder):
         image_res: int = 512,
     ):
         super().build(blend_obj, metadata)
+        self._initialize_semantic_mapping("urdf")
 
         # construct a skeleton for the rigid body
         root, _ = self._construct_rigid_body_skeleton(kinematic_root)
@@ -160,14 +246,14 @@ class URDFBuilder(SimBuilder):
         
         for asset in root.assets:
             # export the mesh and set the filename
-            visasset_path, colasset_paths, mesh = self._get_mesh(
+            visasset_path, colasset_paths, mesh, visual_name, collision_names = self._get_mesh(
                 asset.attribs, visual_only=visual_only, image_res=image_res
             )
             if not mesh:
                 continue
 
             # add all the assets for the given link
-            visual = create_element("visual")
+            visual = create_element("visual", name=visual_name)
             visual_origin = create_element("origin", xyz="0.0 0.0 0.0")
             geometry = create_element("geometry")
             mesh_element = create_element("mesh")
@@ -226,8 +312,8 @@ class URDFBuilder(SimBuilder):
             collision_refs = []
             collision_paths = []
             if not visual_only:
-                for colasset_path in colasset_paths:
-                    collision = create_element("collision")
+                for col_idx, colasset_path in enumerate(colasset_paths):
+                    collision = create_element("collision", name=collision_names[col_idx])
                     collision_origin = create_element("origin", xyz="0.0 0.0 0.0")
                     geometry = create_element("geometry")
                     mesh_element = create_element("mesh")
@@ -472,32 +558,34 @@ class URDFBuilder(SimBuilder):
 
         # return None is the asset it not a proper volume
         if exputils.is_2d(mesh):
-            return None, None, None
+            return None, None, None, None, None
 
-        labels = self._get_labels(mesh)
-        if len(labels) == 0:
-            asset_name = "geom"
-        else:
-            asset_name = "_".join(list(labels))
-        unique_name = f"{asset_name}_{self.asset_freq[asset_name]}"
-        self.asset_freq[asset_name] += 1
+        primary_part_label = self._primary_part_label(mesh)
 
         # export the asset
         geometry_center = exputils.get_aabb_center(mesh)
+        preview_name = f"{primary_part_label}_visual_{self.asset_freq[primary_part_label]}"
         export_paths = export_sim_ready(
             mesh,
             output_folder=self.assets_dir,
             image_res=image_res,
             translation=-geometry_center,
             separate_asset_dirs=False,
-            name=unique_name,
+            name=preview_name,
             visual_only=visual_only,
         )
 
+        visual_name, collision_names = self._next_export_names(primary_part_label, 0 if visual_only else len(export_paths["collision"]))
         visasset_path = export_paths["visual"][0]
-        colasset_paths = export_paths["collision"]
+        if visasset_path.stem != visual_name:
+            visasset_path = self._rename_exported_asset(visasset_path, visual_name)
+        colasset_paths = []
+        for col_idx, colasset_path in enumerate(export_paths["collision"]):
+            renamed_colasset_path = self._rename_exported_asset(colasset_path, collision_names[col_idx])
+            colasset_paths.append(renamed_colasset_path)
 
-        return visasset_path, colasset_paths, mesh
+        self._register_semantic_mapping(primary_part_label, visual_name, collision_names, visasset_path, colasset_paths)
+        return visasset_path, colasset_paths, mesh, visual_name, collision_names
 
 
 def export(
@@ -514,6 +602,8 @@ def export(
     """Export function for the MJCF file format."""
     # parse the provided blueprint and set the object export directory
     asset_name, kinematic_root, metadata = exputils.parse_sim_blueprint(sim_blueprint)
+    metadata["asset_name"] = asset_name
+    metadata["semantic_entities"] = list(sim_blueprint.get("semantic_entities", []))
 
     # create export directories
     obj_export_dir = export_dir / asset_name / str(seed)
@@ -541,18 +631,21 @@ def export(
     if get_raw_output:
         return builder.urdf, metadata
 
+    builder._validate_semantic_mapping()
+
     # save the urdf
-    urdf_path, metadata_path = save(
+    urdf_path, semantic_mapping_path = save(
         fname=asset_name,
         export_dir=obj_export_dir,
         contents=builder.urdf,
         metadata=metadata,
+        semantic_mapping=builder.semantic_mapping,
     )
 
-    return urdf_path, metadata_path
+    return urdf_path, semantic_mapping_path
 
 
-def save(fname: str, export_dir: Path, contents: ET.Element, metadata: Dict) -> None:
+def save(fname: str, export_dir: Path, contents: ET.Element, metadata: Dict, semantic_mapping: Dict) -> None:
     """Save the URDF contents."""
     urdf_path = export_dir / f"{fname}.urdf"
     with open(urdf_path, "w") as f:
@@ -565,4 +658,8 @@ def save(fname: str, export_dir: Path, contents: ET.Element, metadata: Dict) -> 
     with open(metadata_path, "w") as f:
         json.dump(metadata, f, indent=4)
 
-    return urdf_path, metadata_path
+    semantic_mapping_path = export_dir / "semantic_mapping.json"
+    with open(semantic_mapping_path, "w") as f:
+        json.dump(semantic_mapping, f, indent=4)
+
+    return urdf_path, semantic_mapping_path

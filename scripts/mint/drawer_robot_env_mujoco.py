@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 from dataclasses import asdict, dataclass
@@ -22,7 +23,7 @@ os.environ.setdefault("MUJOCO_GL", "egl")
 os.environ.setdefault("PYOPENGL_PLATFORM", "egl")
 
 PROJECT_ROOT = Path("/mnt/afs2/zhuhaowu/infinigen")
-DRAWER_ROOT = PROJECT_ROOT / "sim_exports" / "urdf" / "drawerbox"
+DRAWER_ROOT = PROJECT_ROOT / "sim_exports" / "urdf" / "drawer"
 
 TRANSLATION_SCALE_M = 0.03
 ROTATION_SCALE_RAD = 0.25
@@ -70,7 +71,7 @@ def drawer_dir(seed: int) -> Path:
 
 
 def drawer_assets_available(seeds: list[int]) -> bool:
-    return all((drawer_dir(seed) / "drawerbox.urdf").exists() for seed in seeds)
+    return all((drawer_dir(seed) / "drawer.urdf").exists() for seed in seeds)
 
 
 def drawer_manifest() -> dict[str, Any]:
@@ -80,10 +81,11 @@ def drawer_manifest() -> dict[str, Any]:
     }
 
 
-def _load_assets(seed: int) -> tuple[str, dict[str, bytes], dict[str, Any]]:
+def _load_assets(seed: int) -> tuple[str, dict[str, bytes], dict[str, Any], dict[str, Any], str]:
     seed_dir = drawer_dir(seed)
-    urdf_path = seed_dir / "drawerbox.urdf"
+    urdf_path = seed_dir / "drawer.urdf"
     metadata_path = seed_dir / "metadata.json"
+    semantic_mapping_path = seed_dir / "semantic_mapping.json"
     urdf_text = urdf_path.read_text()
     assets: dict[str, bytes] = {}
     assets_dir = seed_dir / "assets"
@@ -91,13 +93,21 @@ def _load_assets(seed: int) -> tuple[str, dict[str, bytes], dict[str, Any]]:
         for asset_path in sorted(assets_dir.iterdir()):
             if asset_path.is_file():
                 assets[asset_path.name] = asset_path.read_bytes()
-    metadata = {}
+    metadata: dict[str, Any] = {}
     if metadata_path.exists():
         try:
             metadata = json.loads(metadata_path.read_text())
         except json.JSONDecodeError:
             metadata = {}
-    return urdf_text, assets, metadata
+    semantic_mapping: dict[str, Any] = {}
+    semantic_mapping_hash = ""
+    if semantic_mapping_path.exists():
+        semantic_mapping_hash = hashlib.sha256(semantic_mapping_path.read_bytes()).hexdigest()
+        try:
+            semantic_mapping = json.loads(semantic_mapping_path.read_text())
+        except json.JSONDecodeError:
+            semantic_mapping = {}
+    return urdf_text, assets, metadata, semantic_mapping, semantic_mapping_hash
 
 
 def _make_camera(lookat: np.ndarray, distance: float, azimuth: float, elevation: float):
@@ -179,7 +189,7 @@ class DrawerEnvContractConfig:
     lighting_profile: LightingProfile = "legacy"
     material_policy: MaterialPolicy = "legacy"
     camera_framing_profile: CameraFramingProfile = "legacy"
-    measurement_mode: Literal["truthful_handle_semantic", "truthful_handle_isolated_render", "proxy_debug"] = "truthful_handle_semantic"
+    measurement_mode: Literal["truthful_handle_manifest_v1", "proxy_debug"] = "truthful_handle_manifest_v1"
     measurement_fallback_policy: Literal["forbid", "allow_debug_only"] = "forbid"
     emit_measurement_debug: bool = False
     emit_orientation_telemetry: bool = True
@@ -241,7 +251,7 @@ class DrawerRobotEnvMuJoCo:
     ):
         import mujoco
 
-        urdf_text, assets, metadata = _load_assets(seed)
+        urdf_text, assets, metadata, semantic_mapping, semantic_mapping_hash = _load_assets(seed)
         self.model = mujoco.MjModel.from_xml_string(urdf_text, assets)
         self.data = mujoco.MjData(self.model)
         self.gl_context = mujoco.GLContext(image_size, image_size)
@@ -249,6 +259,8 @@ class DrawerRobotEnvMuJoCo:
         self.renderer = mujoco.Renderer(self.model, height=image_size, width=image_size)
         self.seed = int(seed)
         self.metadata = metadata
+        self.semantic_mapping = semantic_mapping
+        self.semantic_mapping_hash = semantic_mapping_hash
         self.image_size = int(image_size)
         self.max_steps = int(max_steps)
         self.task = DEFAULT_TASK
@@ -291,10 +303,7 @@ class DrawerRobotEnvMuJoCo:
         self._attach_streak = 0
         self._stable_attach = False
         self._contact_window: list[float] = []
-        self._handle_resolution = self._resolve_semantic_handle_geom_ids()
-        self._handle_geom_ids = list(self._handle_resolution.get("geom_ids", []))
-        self._handle_truth_tier = str(self._handle_resolution.get("truth_tier", "heuristic_debug"))
-        self._handle_truthful = bool(self._handle_resolution.get("truthful", False))
+        self._legacy_handle_resolution = self._resolve_semantic_handle_geom_ids()
         self.reset()
 
     def close(self) -> None:
@@ -436,6 +445,218 @@ class DrawerRobotEnvMuJoCo:
             ids = [int(np.argmin(distances))]
         return ids
 
+    def _load_semantic_mapping(self) -> dict[str, Any]:
+        return dict(self.semantic_mapping or {})
+
+    def _load_handle_entity_from_manifest(self) -> dict[str, Any]:
+        semantic_mapping = self._load_semantic_mapping()
+        entities = list(semantic_mapping.get("entities", [])) if isinstance(semantic_mapping, dict) else []
+        handle_entities = [entity for entity in entities if str(entity.get("entity_uid", "")).strip() == "drawer_handle"]
+        warning_flags: list[str] = []
+        if len(handle_entities) == 0:
+            warning_flags.append("manifest_handle_entity_missing")
+        elif len(handle_entities) > 1:
+            warning_flags.append("manifest_handle_entity_nonunique")
+        return {
+            "handle_entity": handle_entities[0] if len(handle_entities) == 1 else None,
+            "manifest_handle_entity_unique": len(handle_entities) == 1,
+            "warning_flags": warning_flags,
+        }
+
+    def _resolve_runtime_geom_ids_from_exact_names(self, expected_names: list[str], *, missing_flag: str, ambiguous_flag: str) -> dict[str, Any]:
+        warning_flags: list[str] = []
+        expected = [str(name).strip() for name in expected_names if str(name).strip()]
+        resolved_ids: list[int] = []
+        resolved_names: list[str] = []
+        if not expected:
+            warning_flags.append(missing_flag)
+            return {
+                "resolved_ids": [],
+                "resolved_names": [],
+                "mapping_unique": False,
+                "duplicate_runtime_geom_name_flag": False,
+                "unnamed_runtime_geom_flag": False,
+                "warning_flags": warning_flags,
+            }
+        for expected_name in expected:
+            matches = [int(i) for i in range(self.model.ngeom) if str(self.model.geom(i).name or "") == expected_name]
+            if len(matches) == 0:
+                warning_flags.append(missing_flag)
+                continue
+            if len(matches) > 1:
+                warning_flags.append(ambiguous_flag)
+                continue
+            resolved_ids.append(matches[0])
+            resolved_names.append(expected_name)
+        duplicate_runtime_geom_name_flag = len(resolved_names) != len(set(resolved_names))
+        unnamed_runtime_geom_flag = any(not str(name).strip() for name in resolved_names)
+        if duplicate_runtime_geom_name_flag:
+            warning_flags.append("runtime_handle_geom_name_duplicate")
+        if unnamed_runtime_geom_flag:
+            warning_flags.append("runtime_handle_geom_name_unnamed")
+        mapping_unique = (
+            len(expected) > 0
+            and len(resolved_ids) == len(expected)
+            and missing_flag not in warning_flags
+            and ambiguous_flag not in warning_flags
+            and not duplicate_runtime_geom_name_flag
+            and not unnamed_runtime_geom_flag
+        )
+        return {
+            "resolved_ids": resolved_ids,
+            "resolved_names": resolved_names,
+            "mapping_unique": bool(mapping_unique),
+            "duplicate_runtime_geom_name_flag": bool(duplicate_runtime_geom_name_flag),
+            "unnamed_runtime_geom_flag": bool(unnamed_runtime_geom_flag),
+            "warning_flags": sorted(set(warning_flags)),
+        }
+
+    def _resolve_runtime_handle_visual_geom_ids_from_manifest(self, handle_entity: dict[str, Any] | None = None) -> dict[str, Any]:
+        if handle_entity is None:
+            handle_entity = self._load_handle_entity_from_manifest().get("handle_entity")
+        expected_names = list((handle_entity or {}).get("exported_visual_geom_names", []))
+        return self._resolve_runtime_geom_ids_from_exact_names(
+            expected_names,
+            missing_flag="runtime_handle_visual_geom_missing",
+            ambiguous_flag="runtime_handle_visual_geom_ambiguous",
+        )
+
+    def _resolve_runtime_handle_collision_geom_ids_from_manifest(self, handle_entity: dict[str, Any] | None = None) -> dict[str, Any]:
+        if handle_entity is None:
+            handle_entity = self._load_handle_entity_from_manifest().get("handle_entity")
+        expected_names = list((handle_entity or {}).get("exported_collision_geom_names", []))
+        return self._resolve_runtime_geom_ids_from_exact_names(
+            expected_names,
+            missing_flag="runtime_handle_collision_geom_missing",
+            ambiguous_flag="runtime_handle_collision_geom_ambiguous",
+        )
+
+    def _render_handle_mask_segmentation(self, camera_key: str, geom_ids: list[int]) -> np.ndarray:
+        mask = np.zeros((self.image_size, self.image_size), dtype=np.uint8)
+        if not geom_ids:
+            return mask
+        camera = self.cam_primary if camera_key == "primary" else self.cam_secondary
+        try:
+            self.renderer.enable_segmentation_rendering()
+            self.renderer.update_scene(self.data, camera=camera)
+            seg = self.renderer.render()
+            geom_layer = np.asarray(seg[..., 0], dtype=np.int32)
+            mask = np.where(np.isin(geom_layer, np.asarray(geom_ids, dtype=np.int32)), 255, 0).astype(np.uint8)
+        finally:
+            try:
+                self.renderer.disable_segmentation_rendering()
+            except Exception:
+                pass
+        return mask
+
+    def _render_handle_mask_isolated(self, camera_key: str, geom_ids: list[int]) -> np.ndarray:
+        mask = np.zeros((self.image_size, self.image_size), dtype=np.uint8)
+        if not geom_ids:
+            return mask
+        camera = self.cam_primary if camera_key == "primary" else self.cam_secondary
+        saved_geom_rgba = np.asarray(self.model.geom_rgba, dtype=np.float32).copy()
+        saved_ambient = np.asarray(self.model.vis.headlight.ambient, dtype=np.float32).copy()
+        saved_diffuse = np.asarray(self.model.vis.headlight.diffuse, dtype=np.float32).copy()
+        saved_specular = np.asarray(self.model.vis.headlight.specular, dtype=np.float32).copy()
+        saved_haze = np.asarray(self.model.vis.rgba.haze, dtype=np.float32).copy()
+        try:
+            self.model.geom_rgba[:, :4] = np.asarray([0.0, 0.0, 0.0, 1.0], dtype=np.float32)
+            self.model.geom_rgba[np.asarray(geom_ids, dtype=np.int32), :4] = np.asarray([1.0, 1.0, 1.0, 1.0], dtype=np.float32)
+            self.model.vis.headlight.ambient[:] = np.asarray([1.0, 1.0, 1.0], dtype=np.float32)
+            self.model.vis.headlight.diffuse[:] = np.asarray([1.0, 1.0, 1.0], dtype=np.float32)
+            self.model.vis.headlight.specular[:] = np.asarray([0.0, 0.0, 0.0], dtype=np.float32)
+            self.model.vis.rgba.haze[:] = np.asarray([0.0, 0.0, 0.0, 1.0], dtype=np.float32)
+            rgb = self._render(camera)
+            gray = cv2.cvtColor(rgb.astype(np.uint8), cv2.COLOR_RGB2GRAY)
+            mask = np.where(gray > 8, 255, 0).astype(np.uint8)
+        finally:
+            self.model.geom_rgba[:] = saved_geom_rgba
+            self.model.vis.headlight.ambient[:] = saved_ambient
+            self.model.vis.headlight.diffuse[:] = saved_diffuse
+            self.model.vis.headlight.specular[:] = saved_specular
+            self.model.vis.rgba.haze[:] = saved_haze
+        return mask
+
+    def _mask_iou(self, mask_a: np.ndarray, mask_b: np.ndarray) -> float:
+        a = np.asarray(mask_a, dtype=np.uint8) > 0
+        b = np.asarray(mask_b, dtype=np.uint8) > 0
+        union = np.logical_or(a, b).sum()
+        if union <= 0:
+            return 0.0
+        intersection = np.logical_and(a, b).sum()
+        return float(intersection / max(union, 1))
+
+    def _mask_centroid_delta_px(self, mask_a: np.ndarray, mask_b: np.ndarray) -> float:
+        a = np.argwhere(np.asarray(mask_a, dtype=np.uint8) > 0)
+        b = np.argwhere(np.asarray(mask_b, dtype=np.uint8) > 0)
+        if len(a) == 0 or len(b) == 0:
+            return float(max(self.image_size, 1))
+        ca = a.mean(axis=0)
+        cb = b.mean(axis=0)
+        return float(np.linalg.norm(ca - cb))
+
+    def _verify_truthful_handle_measurement(self, camera_key: str) -> tuple[np.ndarray, dict[str, Any]]:
+        manifest_report = self._load_handle_entity_from_manifest()
+        handle_entity = manifest_report.get("handle_entity")
+        visual_mapping = self._resolve_runtime_handle_visual_geom_ids_from_manifest(handle_entity)
+        collision_mapping = self._resolve_runtime_handle_collision_geom_ids_from_manifest(handle_entity)
+        warning_flags = sorted(set(
+            list(manifest_report.get("warning_flags", []))
+            + list(visual_mapping.get("warning_flags", []))
+            + list(collision_mapping.get("warning_flags", []))
+        ))
+        duplicate_runtime_geom_name_flag = bool(visual_mapping.get("duplicate_runtime_geom_name_flag", False) or collision_mapping.get("duplicate_runtime_geom_name_flag", False))
+        unnamed_runtime_geom_flag = bool(visual_mapping.get("unnamed_runtime_geom_flag", False) or collision_mapping.get("unnamed_runtime_geom_flag", False))
+        segmentation_mask = np.zeros((self.image_size, self.image_size), dtype=np.uint8)
+        isolated_mask = np.zeros((self.image_size, self.image_size), dtype=np.uint8)
+        if manifest_report.get("manifest_handle_entity_unique") and visual_mapping.get("mapping_unique") and collision_mapping.get("mapping_unique") and not duplicate_runtime_geom_name_flag and not unnamed_runtime_geom_flag:
+            segmentation_mask = self._render_handle_mask_segmentation(camera_key, list(visual_mapping.get("resolved_ids", [])))
+            isolated_mask = self._render_handle_mask_isolated(camera_key, list(visual_mapping.get("resolved_ids", [])))
+        segmentation_nonzero = int(np.count_nonzero(segmentation_mask))
+        isolated_nonzero = int(np.count_nonzero(isolated_mask))
+        if segmentation_nonzero <= 0:
+            warning_flags.append("segmentation_empty_mask")
+        if isolated_nonzero <= 0:
+            warning_flags.append("isolated_render_empty_mask")
+        warning_flags = sorted(set(warning_flags))
+        segmentation_isolated_iou = self._mask_iou(segmentation_mask, isolated_mask)
+        segmentation_isolated_centroid_delta_px = self._mask_centroid_delta_px(segmentation_mask, isolated_mask)
+        measurement_truthful = bool(
+            manifest_report.get("manifest_handle_entity_unique")
+            and visual_mapping.get("mapping_unique")
+            and collision_mapping.get("mapping_unique")
+            and not duplicate_runtime_geom_name_flag
+            and not unnamed_runtime_geom_flag
+            and segmentation_nonzero > 0
+            and isolated_nonzero > 0
+            and segmentation_isolated_iou >= 0.90
+            and segmentation_isolated_centroid_delta_px <= 4.0
+        )
+        report = {
+            "truth_root_object": "manifest_entity",
+            "identity_resolution_tier": "manifest_entity_exact_runtime_geom",
+            "measurement_backend": "segmentation_render",
+            "measurement_verifier": "isolated_rgb_threshold",
+            "measurement_truth_tier": "manifest_entity_verified" if measurement_truthful else "manifest_entity_unverified",
+            "measurement_truthful": measurement_truthful,
+            "manifest_handle_entity_unique": bool(manifest_report.get("manifest_handle_entity_unique", False)),
+            "runtime_handle_visual_geom_mapping_unique": bool(visual_mapping.get("mapping_unique", False)),
+            "runtime_handle_collision_geom_mapping_unique": bool(collision_mapping.get("mapping_unique", False)),
+            "duplicate_runtime_geom_name_flag": duplicate_runtime_geom_name_flag,
+            "unnamed_runtime_geom_flag": unnamed_runtime_geom_flag,
+            "resolved_handle_visual_geom_ids": list(visual_mapping.get("resolved_ids", [])),
+            "resolved_handle_visual_geom_names": list(visual_mapping.get("resolved_names", [])),
+            "resolved_handle_collision_geom_ids": list(collision_mapping.get("resolved_ids", [])),
+            "resolved_handle_collision_geom_names": list(collision_mapping.get("resolved_names", [])),
+            "segmentation_mask_nonzero": segmentation_nonzero,
+            "isolated_mask_nonzero": isolated_nonzero,
+            "segmentation_isolated_iou": float(segmentation_isolated_iou),
+            "segmentation_isolated_centroid_delta_px": float(segmentation_isolated_centroid_delta_px),
+            "measurement_warning_flags": warning_flags,
+            "semantic_mapping_hash": self.semantic_mapping_hash,
+        }
+        return segmentation_mask, report
+
     def _semantic_handle_names_from_metadata(self) -> list[str]:
         values: list[str] = []
         for key in ["semantic_handle_geom_name", "semantic_handle_visual_name"]:
@@ -572,67 +793,36 @@ class DrawerRobotEnvMuJoCo:
         }
 
     def _render_handle_mask_truthful(self, camera_key: str) -> tuple[np.ndarray, dict[str, Any]]:
-        mask = np.zeros((self.image_size, self.image_size), dtype=np.uint8)
-        report = {
-            "measurement_backend": "segmentation_render",
-            "truth_tier": self._handle_truth_tier,
-            "truthful": bool(self._handle_truthful),
-            "warning_flags": list(self._handle_resolution.get("warning_flags", [])),
+        mask, report = self._verify_truthful_handle_measurement(camera_key)
+        return mask, {
+            "measurement_backend": report.get("measurement_backend", "segmentation_render"),
+            "measurement_verifier": report.get("measurement_verifier", "isolated_rgb_threshold"),
+            "measurement_truth_tier": report.get("measurement_truth_tier", "manifest_entity_unverified"),
+            "truth_root_object": report.get("truth_root_object", "manifest_entity"),
+            "identity_resolution_tier": report.get("identity_resolution_tier", "manifest_entity_exact_runtime_geom"),
+            "manifest_handle_entity_unique": bool(report.get("manifest_handle_entity_unique", False)),
+            "runtime_handle_visual_geom_mapping_unique": bool(report.get("runtime_handle_visual_geom_mapping_unique", False)),
+            "runtime_handle_collision_geom_mapping_unique": bool(report.get("runtime_handle_collision_geom_mapping_unique", False)),
+            "duplicate_runtime_geom_name_flag": bool(report.get("duplicate_runtime_geom_name_flag", False)),
+            "unnamed_runtime_geom_flag": bool(report.get("unnamed_runtime_geom_flag", False)),
+            "resolved_handle_visual_geom_ids": list(report.get("resolved_handle_visual_geom_ids", [])),
+            "resolved_handle_visual_geom_names": list(report.get("resolved_handle_visual_geom_names", [])),
+            "resolved_handle_collision_geom_ids": list(report.get("resolved_handle_collision_geom_ids", [])),
+            "resolved_handle_collision_geom_names": list(report.get("resolved_handle_collision_geom_names", [])),
+            "segmentation_mask_nonzero": int(report.get("segmentation_mask_nonzero", 0)),
+            "isolated_mask_nonzero": int(report.get("isolated_mask_nonzero", 0)),
+            "segmentation_isolated_iou": float(report.get("segmentation_isolated_iou", 0.0)),
+            "segmentation_isolated_centroid_delta_px": float(report.get("segmentation_isolated_centroid_delta_px", float(max(self.image_size, 1)))),
+            "semantic_mapping_hash": report.get("semantic_mapping_hash", self.semantic_mapping_hash),
+            "truthful": bool(report.get("measurement_truthful", False)),
+            "warning_flags": list(report.get("measurement_warning_flags", [])),
         }
-        if not self._handle_truthful or not self._handle_geom_ids:
-            report["truthful"] = False
-            report["warning_flags"] = sorted(set(report["warning_flags"] + ["truthful_handle_ids_unavailable"]))
-            return mask, report
-        camera = self.cam_primary if camera_key == "primary" else self.cam_secondary
-        try:
-            self.renderer.enable_segmentation_rendering()
-            self.renderer.update_scene(self.data, camera=camera)
-            seg = self.renderer.render()
-            geom_layer = np.asarray(seg[..., 0], dtype=np.int32)
-            mask = np.where(np.isin(geom_layer, np.asarray(self._handle_geom_ids, dtype=np.int32)), 255, 0).astype(np.uint8)
-            if np.any(mask > 0):
-                self.renderer.disable_segmentation_rendering()
-                return mask, report
-            report["warning_flags"] = sorted(set(report["warning_flags"] + ["segmentation_empty_mask"]))
-        except Exception as exc:  # noqa: BLE001
-            report["warning_flags"] = sorted(set(report["warning_flags"] + [f"segmentation_render_error:{exc}"]))
-        finally:
-            try:
-                self.renderer.disable_segmentation_rendering()
-            except Exception:
-                pass
-        report["measurement_backend"] = "isolated_rgb_threshold"
-        saved_geom_rgba = np.asarray(self.model.geom_rgba, dtype=np.float32).copy()
-        saved_ambient = np.asarray(self.model.vis.headlight.ambient, dtype=np.float32).copy()
-        saved_diffuse = np.asarray(self.model.vis.headlight.diffuse, dtype=np.float32).copy()
-        saved_specular = np.asarray(self.model.vis.headlight.specular, dtype=np.float32).copy()
-        saved_haze = np.asarray(self.model.vis.rgba.haze, dtype=np.float32).copy()
-        try:
-            self.model.geom_rgba[:, :4] = np.asarray([0.0, 0.0, 0.0, 1.0], dtype=np.float32)
-            self.model.geom_rgba[self._handle_geom_ids, :4] = np.asarray([1.0, 1.0, 1.0, 1.0], dtype=np.float32)
-            self.model.vis.headlight.ambient[:] = np.asarray([1.0, 1.0, 1.0], dtype=np.float32)
-            self.model.vis.headlight.diffuse[:] = np.asarray([1.0, 1.0, 1.0], dtype=np.float32)
-            self.model.vis.headlight.specular[:] = np.asarray([0.0, 0.0, 0.0], dtype=np.float32)
-            self.model.vis.rgba.haze[:] = np.asarray([0.0, 0.0, 0.0, 1.0], dtype=np.float32)
-            rgb = self._render(camera)
-            gray = cv2.cvtColor(rgb.astype(np.uint8), cv2.COLOR_RGB2GRAY)
-            mask = np.where(gray > 8, 255, 0).astype(np.uint8)
-            if not np.any(mask > 0):
-                report["truthful"] = False
-                report["warning_flags"] = sorted(set(report["warning_flags"] + ["isolated_render_empty_mask"]))
-        finally:
-            self.model.geom_rgba[:] = saved_geom_rgba
-            self.model.vis.headlight.ambient[:] = saved_ambient
-            self.model.vis.headlight.diffuse[:] = saved_diffuse
-            self.model.vis.headlight.specular[:] = saved_specular
-            self.model.vis.rgba.haze[:] = saved_haze
-        return mask, report
 
     def _render_handle_mask(self, camera_key: str) -> tuple[np.ndarray, dict[str, Any]]:
         mode = self.contract.measurement_mode
-        if mode in {"truthful_handle_semantic", "truthful_handle_isolated_render"}:
+        if mode == "truthful_handle_manifest_v1":
             mask, report = self._render_handle_mask_truthful(camera_key)
-            if np.any(mask > 0) and report.get("truthful"):
+            if report.get("truthful"):
                 return mask, report
             if self.contract.measurement_fallback_policy == "allow_debug_only":
                 proxy_mask, proxy_report = self._render_handle_mask_proxy_debug(camera_key)
@@ -974,17 +1164,44 @@ class DrawerRobotEnvMuJoCo:
         secondary_framing_score = float(np.clip(1.0 - 2.2 * framing_residual, 0.0, 1.0))
 
         measurement_report = dict(secondary_measurement)
-        if not measurement_report.get("truthful") and primary_measurement.get("truthful"):
-            measurement_report = dict(primary_measurement)
+        resolved_visual_ids = list(measurement_report.get("resolved_handle_visual_geom_ids", []))
+        resolved_collision_ids = list(measurement_report.get("resolved_handle_collision_geom_ids", []))
+        resolved_visual_names = list(measurement_report.get("resolved_handle_visual_geom_names", []))
+        resolved_collision_names = list(measurement_report.get("resolved_handle_collision_geom_names", []))
 
         return {
             "probe_measurement_mode": self.contract.measurement_mode,
+            "truth_root_object": measurement_report.get("truth_root_object", "manifest_entity"),
+            "identity_resolution_tier": measurement_report.get("identity_resolution_tier", "manifest_entity_exact_runtime_geom"),
             "measurement_backend": measurement_report.get("measurement_backend", "unknown"),
-            "measurement_truth_tier": measurement_report.get("truth_tier", self._handle_truth_tier),
+            "measurement_verifier": measurement_report.get("measurement_verifier", "unknown"),
+            "measurement_truth_tier": measurement_report.get("measurement_truth_tier", "manifest_entity_unverified"),
             "measurement_truthful": bool(measurement_report.get("truthful", False)),
             "measurement_warning_flags": list(measurement_report.get("warning_flags", [])),
-            "handle_geom_ids": list(self._handle_resolution.get("geom_ids", [])),
-            "handle_geom_names": list(self._handle_resolution.get("geom_names", [])),
+            "manifest_handle_entity_unique": bool(measurement_report.get("manifest_handle_entity_unique", False)),
+            "runtime_handle_visual_geom_mapping_unique": bool(measurement_report.get("runtime_handle_visual_geom_mapping_unique", False)),
+            "runtime_handle_collision_geom_mapping_unique": bool(measurement_report.get("runtime_handle_collision_geom_mapping_unique", False)),
+            "duplicate_runtime_geom_name_flag": bool(measurement_report.get("duplicate_runtime_geom_name_flag", False)),
+            "unnamed_runtime_geom_flag": bool(measurement_report.get("unnamed_runtime_geom_flag", False)),
+            "resolved_handle_visual_geom_ids": resolved_visual_ids,
+            "resolved_handle_visual_geom_names": resolved_visual_names,
+            "resolved_handle_collision_geom_ids": resolved_collision_ids,
+            "resolved_handle_collision_geom_names": resolved_collision_names,
+            "handle_geom_ids": sorted(set(resolved_visual_ids + resolved_collision_ids)),
+            "handle_geom_names": sorted(set(resolved_visual_names + resolved_collision_names)),
+            "semantic_mapping_hash": measurement_report.get("semantic_mapping_hash", self.semantic_mapping_hash),
+            "segmentation_mask_nonzero_primary": int(primary_measurement.get("segmentation_mask_nonzero", 0)),
+            "segmentation_mask_nonzero_secondary": int(secondary_measurement.get("segmentation_mask_nonzero", 0)),
+            "isolated_mask_nonzero_primary": int(primary_measurement.get("isolated_mask_nonzero", 0)),
+            "isolated_mask_nonzero_secondary": int(secondary_measurement.get("isolated_mask_nonzero", 0)),
+            "segmentation_mask_support_primary": float(1.0 if int(primary_measurement.get("segmentation_mask_nonzero", 0)) > 0 else 0.0),
+            "segmentation_mask_support_secondary": float(1.0 if int(secondary_measurement.get("segmentation_mask_nonzero", 0)) > 0 else 0.0),
+            "isolated_mask_support_primary": float(1.0 if int(primary_measurement.get("isolated_mask_nonzero", 0)) > 0 else 0.0),
+            "isolated_mask_support_secondary": float(1.0 if int(secondary_measurement.get("isolated_mask_nonzero", 0)) > 0 else 0.0),
+            "segmentation_isolated_iou_primary": float(primary_measurement.get("segmentation_isolated_iou", 0.0)),
+            "segmentation_isolated_iou_secondary": float(secondary_measurement.get("segmentation_isolated_iou", 0.0)),
+            "segmentation_isolated_centroid_delta_px_primary": float(primary_measurement.get("segmentation_isolated_centroid_delta_px", float(max(self.image_size, 1)))),
+            "segmentation_isolated_centroid_delta_px_secondary": float(secondary_measurement.get("segmentation_isolated_centroid_delta_px", float(max(self.image_size, 1)))),
             "handle_bbox_primary": primary_probe["handle_bbox"],
             "handle_bbox_secondary": secondary_probe["handle_bbox"],
             "handle_mask_nonzero_pixels_primary": int(primary_probe["handle_mask_nonzero_pixels"]),

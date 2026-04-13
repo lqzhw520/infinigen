@@ -67,6 +67,7 @@ from root_cause_metrics import (
     handle_visibility_fraction,
     local_affordance_gate_breakdown,
     perceptual_readability_score_v2,
+    truthful_measurement_acceptance_v1,
     rollout_ceiling_lift,
     sensor_contract_gain,
     state_alignment_gain,
@@ -344,7 +345,7 @@ class RootCauseController:
             "lighting_profile": "front_key_handle_rim",
             "material_policy": "legacy",
             "camera_framing_profile": "macro_handle_centered",
-            "measurement_mode": "truthful_handle_semantic",
+            "measurement_mode": "truthful_handle_manifest_v1",
             "measurement_fallback_policy": "forbid",
             "emit_measurement_debug": False,
             "canonical_lane": True,
@@ -364,7 +365,7 @@ class RootCauseController:
         payload.update({
             "interaction_mode": "orientation_sensitive_v2_affordance_locked",
             "state_mode": state_mode,
-            "measurement_mode": "truthful_handle_semantic",
+            "measurement_mode": "truthful_handle_manifest_v1",
             "measurement_fallback_policy": "forbid",
             "emit_measurement_debug": False,
         })
@@ -418,7 +419,7 @@ class RootCauseController:
                     env_contract = dict(base_visual)
                     env_contract['interaction_mode'] = interaction_mode
                     env_contract['state_mode'] = state_mode
-                    env_contract['measurement_mode'] = 'truthful_handle_semantic'
+                    env_contract['measurement_mode'] = 'truthful_handle_manifest_v1'
                     env_contract['measurement_fallback_policy'] = 'forbid'
                     env_contract['emit_measurement_debug'] = False
                     lane_payload = {
@@ -451,7 +452,7 @@ class RootCauseController:
             'cell_hashes': {cell_id: cell['lane_hash'] for cell_id, cell in cells.items()},
             'gate_threshold_snapshot': self._gate_threshold_snapshot_v5_pro(),
             'measurement_mode_snapshot': {
-                'measurement_mode': 'truthful_handle_semantic',
+                'measurement_mode': 'truthful_handle_manifest_v1',
                 'measurement_fallback_policy': 'forbid',
             },
             'frozen_matrix_hash': self._frozen_matrix_hash_v5_pro(),
@@ -642,14 +643,35 @@ class RootCauseController:
         for rollout in rollouts:
             trace.extend(list(rollout.get("handle_probe_metadata_trace", [])))
         if not trace:
-            return {
+            report = {
                 "probe_measurement_mode": "unavailable",
+                "truth_root_object": "manifest_entity",
+                "identity_resolution_tier": "manifest_entity_exact_runtime_geom",
                 "measurement_backend": "unavailable",
-                "measurement_truth_tier": "unavailable",
+                "measurement_verifier": "unavailable",
+                "measurement_truth_tier": "manifest_entity_unverified",
                 "measurement_truthful": False,
                 "measurement_warning_flags": ["missing_handle_probe_trace"],
+                "manifest_handle_entity_unique": False,
+                "runtime_handle_visual_geom_mapping_unique": False,
+                "runtime_handle_collision_geom_mapping_unique": False,
+                "duplicate_runtime_geom_name_flag": False,
+                "unnamed_runtime_geom_flag": False,
+                "resolved_handle_visual_geom_ids": [],
+                "resolved_handle_visual_geom_names": [],
+                "resolved_handle_collision_geom_ids": [],
+                "resolved_handle_collision_geom_names": [],
                 "handle_geom_ids": [],
                 "handle_geom_names": [],
+                "semantic_mapping_hash": "",
+                "segmentation_mask_nonzero_primary": 0,
+                "segmentation_mask_nonzero_secondary": 0,
+                "isolated_mask_nonzero_primary": 0,
+                "isolated_mask_nonzero_secondary": 0,
+                "segmentation_mask_support_rate_secondary": 0.0,
+                "isolated_mask_support_rate_secondary": 0.0,
+                "segmentation_isolated_iou_secondary": 0.0,
+                "segmentation_isolated_centroid_delta_px_secondary": float("inf"),
                 "handle_bbox_primary": [0, 0, 0, 0],
                 "handle_bbox_secondary": [0, 0, 0, 0],
                 "handle_mask_nonzero_pixels_primary": 0,
@@ -672,28 +694,69 @@ class RootCauseController:
                 "legacy_handle_local_contrast": 0.0,
                 "legacy_handle_crop_entropy": 0.0,
             }
+            report["measurement_truthful"] = truthful_measurement_acceptance_v1(report)
+            return report
 
         def _mean(key: str) -> float:
             values = [float(item.get(key, 0.0)) for item in trace if item.get(key) is not None]
             return float(np.mean(values)) if values else 0.0
 
+        def _mean_bool(key: str) -> float:
+            values = [1.0 if bool(item.get(key, False)) else 0.0 for item in trace if key in item]
+            return float(np.mean(values)) if values else 0.0
+
+        def _all_bool(key: str) -> bool:
+            values = [bool(item.get(key, False)) for item in trace if key in item]
+            return bool(values and all(values))
+
+        def _min_value(key: str, default: float = 0.0) -> float:
+            values = [float(item.get(key, default)) for item in trace if item.get(key) is not None]
+            return float(min(values)) if values else float(default)
+
+        def _max_value(key: str, default: float = 0.0) -> float:
+            values = [float(item.get(key, default)) for item in trace if item.get(key) is not None]
+            return float(max(values)) if values else float(default)
+
         best_secondary = max(trace, key=lambda item: float(item.get("handle_mask_nonzero_pixels_secondary", 0.0)))
         best_primary = max(trace, key=lambda item: float(item.get("handle_mask_nonzero_pixels_primary", 0.0)))
         warning_flags = sorted({flag for item in trace for flag in list(item.get("measurement_warning_flags", []))})
-        truth_values = [bool(item.get("measurement_truthful", False)) for item in trace]
-        truth_tiers = [str(item.get("measurement_truth_tier", "unavailable")) for item in trace if item.get("measurement_truth_tier") is not None]
-        geom_ids = sorted({int(v) for item in trace for v in list(item.get("handle_geom_ids", []))})
-        geom_names = sorted({str(v) for item in trace for v in list(item.get("handle_geom_names", [])) if str(v)})
+        resolved_handle_visual_geom_ids = sorted({int(v) for item in trace for v in list(item.get("resolved_handle_visual_geom_ids", []))})
+        resolved_handle_visual_geom_names = sorted({str(v) for item in trace for v in list(item.get("resolved_handle_visual_geom_names", [])) if str(v)})
+        resolved_handle_collision_geom_ids = sorted({int(v) for item in trace for v in list(item.get("resolved_handle_collision_geom_ids", []))})
+        resolved_handle_collision_geom_names = sorted({str(v) for item in trace for v in list(item.get("resolved_handle_collision_geom_names", [])) if str(v)})
         framing_values = [float(item.get("secondary_framing_score", 0.0)) for item in trace if item.get("secondary_framing_score") is not None]
         residual_values = [float(item.get("camera_relativeness_residual", 1.0)) for item in trace if item.get("camera_relativeness_residual") is not None]
-        return {
+        support_seg_secondary = float(np.mean([1.0 if float(item.get("segmentation_mask_nonzero_secondary", 0.0)) > 0 else 0.0 for item in trace]))
+        support_iso_secondary = float(np.mean([1.0 if float(item.get("isolated_mask_nonzero_secondary", 0.0)) > 0 else 0.0 for item in trace]))
+        semantic_mapping_hashes = [str(item.get("semantic_mapping_hash", "")) for item in trace if item.get("semantic_mapping_hash")]
+        report = {
             "probe_measurement_mode": str(best_secondary.get("probe_measurement_mode") or best_primary.get("probe_measurement_mode") or "unavailable"),
+            "truth_root_object": str(best_secondary.get("truth_root_object") or best_primary.get("truth_root_object") or "manifest_entity"),
+            "identity_resolution_tier": str(best_secondary.get("identity_resolution_tier") or best_primary.get("identity_resolution_tier") or "manifest_entity_exact_runtime_geom"),
             "measurement_backend": str(best_secondary.get("measurement_backend") or best_primary.get("measurement_backend") or "unavailable"),
-            "measurement_truth_tier": truth_tiers[0] if truth_tiers else "unavailable",
-            "measurement_truthful": bool(truth_values and all(truth_values)),
+            "measurement_verifier": str(best_secondary.get("measurement_verifier") or best_primary.get("measurement_verifier") or "unavailable"),
+            "measurement_truth_tier": str(best_secondary.get("measurement_truth_tier") or best_primary.get("measurement_truth_tier") or "manifest_entity_unverified"),
             "measurement_warning_flags": warning_flags,
-            "handle_geom_ids": geom_ids,
-            "handle_geom_names": geom_names,
+            "manifest_handle_entity_unique": _all_bool("manifest_handle_entity_unique"),
+            "runtime_handle_visual_geom_mapping_unique": _all_bool("runtime_handle_visual_geom_mapping_unique"),
+            "runtime_handle_collision_geom_mapping_unique": _all_bool("runtime_handle_collision_geom_mapping_unique"),
+            "duplicate_runtime_geom_name_flag": any(bool(item.get("duplicate_runtime_geom_name_flag", False)) for item in trace),
+            "unnamed_runtime_geom_flag": any(bool(item.get("unnamed_runtime_geom_flag", False)) for item in trace),
+            "resolved_handle_visual_geom_ids": resolved_handle_visual_geom_ids,
+            "resolved_handle_visual_geom_names": resolved_handle_visual_geom_names,
+            "resolved_handle_collision_geom_ids": resolved_handle_collision_geom_ids,
+            "resolved_handle_collision_geom_names": resolved_handle_collision_geom_names,
+            "handle_geom_ids": sorted(set(resolved_handle_visual_geom_ids + resolved_handle_collision_geom_ids)),
+            "handle_geom_names": sorted(set(resolved_handle_visual_geom_names + resolved_handle_collision_geom_names)),
+            "semantic_mapping_hash": semantic_mapping_hashes[0] if semantic_mapping_hashes else "",
+            "segmentation_mask_nonzero_primary": int(round(_mean("segmentation_mask_nonzero_primary"))),
+            "segmentation_mask_nonzero_secondary": int(round(_mean("segmentation_mask_nonzero_secondary"))),
+            "isolated_mask_nonzero_primary": int(round(_mean("isolated_mask_nonzero_primary"))),
+            "isolated_mask_nonzero_secondary": int(round(_mean("isolated_mask_nonzero_secondary"))),
+            "segmentation_mask_support_rate_secondary": support_seg_secondary,
+            "isolated_mask_support_rate_secondary": support_iso_secondary,
+            "segmentation_isolated_iou_secondary": _min_value("segmentation_isolated_iou_secondary", 0.0),
+            "segmentation_isolated_centroid_delta_px_secondary": _max_value("segmentation_isolated_centroid_delta_px_secondary", float("inf")),
             "handle_bbox_primary": best_primary.get("handle_bbox_primary") or [0, 0, 0, 0],
             "handle_bbox_secondary": best_secondary.get("handle_bbox_secondary") or [0, 0, 0, 0],
             "handle_mask_nonzero_pixels_primary": int(round(_mean("handle_mask_nonzero_pixels_primary"))),
@@ -702,8 +765,8 @@ class RootCauseController:
             "handle_mask_area_ratio_secondary": _mean("handle_mask_area_ratio_secondary"),
             "handle_bbox_area_ratio_primary": _mean("handle_bbox_area_ratio_primary"),
             "handle_bbox_area_ratio_secondary": _mean("handle_bbox_area_ratio_secondary"),
-            "bbox_over_mask_ratio_primary": max(float(item.get("bbox_over_mask_ratio_primary", 0.0)) for item in trace),
-            "bbox_over_mask_ratio_secondary": max(float(item.get("bbox_over_mask_ratio_secondary", 0.0)) for item in trace),
+            "bbox_over_mask_ratio_primary": _max_value("bbox_over_mask_ratio_primary", 0.0),
+            "bbox_over_mask_ratio_secondary": _max_value("bbox_over_mask_ratio_secondary", 0.0),
             "handle_visibility_fraction": _mean("handle_visibility_fraction_secondary") or _mean("handle_visibility_fraction_primary"),
             "handle_area_ratio": _mean("handle_mask_area_ratio_secondary") or _mean("handle_mask_area_ratio_primary"),
             "handle_boundary_contrast": _mean("handle_boundary_contrast_secondary") or _mean("handle_boundary_contrast_primary"),
@@ -718,6 +781,10 @@ class RootCauseController:
             "legacy_handle_local_contrast": _mean("legacy_handle_local_contrast_secondary") or _mean("legacy_handle_local_contrast_primary"),
             "legacy_handle_crop_entropy": _mean("legacy_handle_crop_entropy_secondary") or _mean("legacy_handle_crop_entropy_primary"),
         }
+        report["measurement_truthful"] = truthful_measurement_acceptance_v1(report)
+        if not report["measurement_truthful"]:
+            report["measurement_truth_tier"] = "manifest_entity_unverified"
+        return report
 
     def _visual_report(self, spec: LaneSpec, seeds: list[int], *, baseline_gap: float | None = None) -> tuple[list[dict[str, Any]], dict[str, Any]]:
         rollouts = self._run_rollout_set(spec, seeds)
@@ -1451,7 +1518,7 @@ class RootCauseController:
             or abs(truthful_bbox_area_ratio - proxy_bbox_area_ratio) >= 0.02
             or truthful_proxy_centroid_delta_px >= 4.0
         )
-        measurement_truthful_available = bool(report.get('measurement_truthful', False))
+        measurement_truthful_available = truthful_measurement_acceptance_v1(report)
         invalid_run = bool(self.truthful_measurement_required and not measurement_truthful_available)
         if invalid_run:
             self._invalid_run_reason = 'truthful_measurement_unavailable'
@@ -1464,6 +1531,17 @@ class RootCauseController:
             'measurement_truthful_available': measurement_truthful_available,
             'measurement_truth_tier': report.get('measurement_truth_tier'),
             'measurement_backend': report.get('measurement_backend'),
+            'measurement_verifier': report.get('measurement_verifier'),
+            'manifest_handle_entity_unique': report.get('manifest_handle_entity_unique'),
+            'runtime_handle_visual_geom_mapping_unique': report.get('runtime_handle_visual_geom_mapping_unique'),
+            'runtime_handle_collision_geom_mapping_unique': report.get('runtime_handle_collision_geom_mapping_unique'),
+            'duplicate_runtime_geom_name_flag': report.get('duplicate_runtime_geom_name_flag'),
+            'unnamed_runtime_geom_flag': report.get('unnamed_runtime_geom_flag'),
+            'segmentation_mask_support_rate_secondary': report.get('segmentation_mask_support_rate_secondary'),
+            'isolated_mask_support_rate_secondary': report.get('isolated_mask_support_rate_secondary'),
+            'segmentation_isolated_iou_secondary': report.get('segmentation_isolated_iou_secondary'),
+            'segmentation_isolated_centroid_delta_px_secondary': report.get('segmentation_isolated_centroid_delta_px_secondary'),
+            'semantic_mapping_hash': report.get('semantic_mapping_hash'),
             'truthful_mask_area_ratio_secondary': truthful_area_ratio,
             'truthful_bbox_area_ratio_secondary': truthful_bbox_area_ratio,
             'truthful_bbox_over_mask_ratio_secondary': truthful_bbox_over_mask,

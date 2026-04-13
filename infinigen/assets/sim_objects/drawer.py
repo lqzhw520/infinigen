@@ -392,8 +392,18 @@ def nodegroup_drawer_door(nw: NodeWrangler):
 
     reroute_15 = nw.new_node(Nodes.Reroute, input_kwargs={"Input": transform_geometry})
 
+    drawer_front_metadata = nw.new_node(
+        nodegroup_add_jointed_geometry_metadata().name,
+        input_kwargs={"Geometry": set_material, "Label": "drawer_door"},
+    )
+
+    handle_metadata = nw.new_node(
+        nodegroup_add_jointed_geometry_metadata().name,
+        input_kwargs={"Geometry": reroute_15, "Label": "drawer_handle"},
+    )
+
     join_geometry = nw.new_node(
-        Nodes.JoinGeometry, input_kwargs={"Geometry": [set_material, reroute_15]}
+        Nodes.JoinGeometry, input_kwargs={"Geometry": [drawer_front_metadata, handle_metadata]}
     )
 
     group_output = nw.new_node(
@@ -763,12 +773,6 @@ def geometry_nodes(nw: NodeWrangler):
         },
         label="drawer_door",
     )
-
-    add_jointed_geometry_metadata_001 = nw.new_node(
-        nodegroup_add_jointed_geometry_metadata_001().name,
-        input_kwargs={"Geometry": drawer_door, "Label": "drawer_door"},
-    )
-
     separate_xyz = nw.new_node(Nodes.SeparateXYZ, input_kwargs={"Vector": reroute_7})
 
     reroute = nw.new_node(
@@ -788,7 +792,7 @@ def geometry_nodes(nw: NodeWrangler):
         input_kwargs={
             "Joint Label": "drawer_slider",
             "Parent": add_jointed_geometry_metadata,
-            "Child": add_jointed_geometry_metadata_001,
+            "Child": drawer_door,
             "Axis": (1.0000, 0.0000, 0.0000),
             "Max": subtract,
         },

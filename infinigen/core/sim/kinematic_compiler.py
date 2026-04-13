@@ -35,6 +35,36 @@ def get_string_input(node: bpy.types.Node, input_name: str) -> str:
     return str_val
 
 
+def get_semantic_entities(node_tree: bpy.types.NodeTree):
+    """Gets explicit export-side semantic entities from metadata nodes."""
+    label_counts = defaultdict(int)
+    q = [node_tree]
+    seen = set()
+    while q:
+        nt = q.pop(0)
+        if nt in seen:
+            continue
+        seen.add(nt)
+        for node in nt.nodes:
+            if utils.is_node_group(node) and "joint" not in node.node_tree.name.lower():
+                q.append(node.node_tree)
+            if utils.is_add_metadata(node):
+                label = get_string_input(node, "Label").strip()
+                if label:
+                    label_counts[label] += 1
+
+    entities = []
+    if label_counts.get("drawer_handle", 0) > 0:
+        entities.append({
+            "entity_uid": "drawer_handle",
+            "part_label": "drawer_handle",
+            "entity_kind": "affordance_handle",
+            "resolution_policy": "exact_geom_name_set",
+            "occurrence_count": int(label_counts["drawer_handle"]),
+        })
+    return entities
+
+
 def get_labels(node_tree: bpy.types.NodeTree):
     """
     Gets and updates all the labels for the parts of the asset
@@ -310,7 +340,8 @@ def compile(obj: bpy.types.Object) -> Dict:
     # Assuming there is only one modifier for now
     # TODO: fix this to allow for multiple modifiers
     labels = get_labels(mods[-1].node_group)
+    semantic_entities = get_semantic_entities(mods[-1].node_group)
 
-    kinematic_info = {"graph": graph, "metadata": metadata, "labels": labels}
+    kinematic_info = {"graph": graph, "metadata": metadata, "labels": labels, "semantic_entities": semantic_entities}
 
     return kinematic_info

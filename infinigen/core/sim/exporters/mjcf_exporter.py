@@ -62,6 +62,90 @@ class MJCFBuilder(SimBuilder):
         reparsed = xml.dom.minidom.parseString(rough_string)
         return reparsed.toprettyxml(indent="  ")
 
+    def _initialize_semantic_mapping(self, exporter: str) -> None:
+        semantic_entities = list(self.metadata.get("semantic_entities", []))
+        self.semantic_mapping = {
+            "schema_version": 1,
+            "asset_name": str(self.metadata.get("asset_name", "unknown")),
+            "exporter": exporter,
+            "entities": [],
+        }
+        self._semantic_entities_by_label = {}
+        for entity in semantic_entities:
+            record = {
+                "entity_uid": str(entity.get("entity_uid", "")).strip(),
+                "part_label": str(entity.get("part_label", "")).strip(),
+                "entity_kind": str(entity.get("entity_kind", "generic_part")).strip(),
+                "resolution_policy": str(entity.get("resolution_policy", "exact_geom_name_set")).strip(),
+                "exported_visual_geom_names": [],
+                "exported_collision_geom_names": [],
+                "exported_visual_mesh_files": [],
+                "exported_collision_mesh_files": [],
+            }
+            if record["entity_uid"]:
+                self.semantic_mapping["entities"].append(record)
+            if record["part_label"]:
+                self._semantic_entities_by_label[record["part_label"]] = record
+
+    def _primary_part_label(self, geometry: bpy.types.Object) -> str:
+        labels = self._get_labels(geometry)
+        if len(labels) == 0:
+            return "geom"
+        labels_w_counts = []
+        for lab in sorted(labels):
+            if lab not in set([n.name for n in geometry.data.attributes]):
+                continue
+            vert = int(sum(surface.read_attr_data(geometry, lab)))
+            labels_w_counts.append((vert, lab))
+        if not labels_w_counts:
+            return sorted(labels)[0]
+        min_count = min(count for count, _ in labels_w_counts)
+        min_labels = sorted(label for count, label in labels_w_counts if count == min_count)
+        return min_labels[0]
+
+    def _next_export_names(self, primary_part_label: str, collision_count: int) -> tuple[str, list[str]]:
+        asset_idx = self.asset_freq[primary_part_label]
+        self.asset_freq[primary_part_label] += 1
+        visual_name = f"{primary_part_label}_visual_{asset_idx}"
+        collision_names = [f"{primary_part_label}_collision_{asset_idx}_{col_idx}" for col_idx in range(collision_count)]
+        return visual_name, collision_names
+
+    def _rename_exported_asset(self, asset_path: Path, desired_stem: str) -> Path:
+        desired_path = asset_path.with_name(f"{desired_stem}{asset_path.suffix}")
+        if asset_path == desired_path:
+            return asset_path
+        if desired_path.exists():
+            desired_path.unlink()
+        asset_path.replace(desired_path)
+        return desired_path
+
+    def _register_semantic_mapping(self, primary_part_label: str, visual_name: str, collision_names: list[str], visasset_path: Path, colasset_paths: list[Path]) -> None:
+        record = self._semantic_entities_by_label.get(primary_part_label)
+        if not record:
+            return
+        record["exported_visual_geom_names"].append(visual_name)
+        record["exported_visual_mesh_files"].append(f"assets/{visasset_path.name}")
+        for collision_name, colasset_path in zip(collision_names, colasset_paths):
+            record["exported_collision_geom_names"].append(collision_name)
+            record["exported_collision_mesh_files"].append(f"assets/{colasset_path.name}")
+
+    def _validate_semantic_mapping(self) -> None:
+        if str(self.metadata.get("asset_name", "")) != "drawer":
+            return
+        handle_entities = [e for e in self.semantic_mapping.get("entities", []) if e.get("entity_uid") == "drawer_handle"]
+        if len(handle_entities) != 1:
+            raise ValueError("drawer_handle entity missing or nonunique in semantic_mapping")
+        handle = handle_entities[0]
+        visual_names = list(handle.get("exported_visual_geom_names", []))
+        collision_names = list(handle.get("exported_collision_geom_names", []))
+        all_names = visual_names + collision_names
+        if not visual_names:
+            raise ValueError("drawer_handle visual geom names are empty")
+        if any(not str(name).strip() for name in all_names):
+            raise ValueError("drawer_handle exported geom names contain empty strings")
+        if len(all_names) != len(set(all_names)):
+            raise ValueError("drawer_handle exported geom names are duplicate")
+
     def _initialize_mjcf(self) -> ET.Element:
         """
         Initializes an MJCF file required to construct an asset.
@@ -100,6 +184,7 @@ class MJCFBuilder(SimBuilder):
         image_res: int = 512,
     ):
         super().build(blend_obj, metadata)
+        self._initialize_semantic_mapping("mjcf")
 
         if not visual_only:
             self.compiler.set("inertiagrouprange", "0 0")
@@ -226,36 +311,24 @@ class MJCFBuilder(SimBuilder):
         )
         if exputils.is_2d(asset):
             return None, None, None
-        labels = self._get_labels(asset)
-
-        if len(labels) == 0:
-            asset_name = "geom"
-        else:
-            # Check for case where some have equal because meta-meta-joint
-            labels_w_counts = []
-            for lab in labels:
-                vert = sum(surface.read_attr_data(self.blend_obj, lab))
-                labels_w_counts.append((lab, vert))
-            min_count = min(labels_w_counts, key=lambda x: x[1])[1]
-            min_labels = [
-                label for label, count in labels_w_counts if count == min_count
-            ]
-            asset_name = min_labels[0]
-
-        unique_name = f"{asset_name}_{self.asset_freq[asset_name]}"
-        self.asset_freq[asset_name] += 1
+        primary_part_label = self._primary_part_label(asset)
 
         # export the asset
         geometry_center = exputils.get_aabb_center(asset)
+        preview_name = f"{primary_part_label}_visual_{self.asset_freq[primary_part_label]}"
         export_paths = export_sim_ready(
             asset,
             output_folder=self.assets_dir,
             image_res=image_res,
             translation=-geometry_center,
-            name=unique_name,
+            name=preview_name,
             visual_only=visual_only,
             zaxis=zaxis,
         )
+        visual_name, collision_names = self._next_export_names(primary_part_label, 0 if visual_only else len(export_paths["collision"]))
+        visasset_path = export_paths["visual"][0]
+        if visasset_path.stem != visual_name:
+            visasset_path = self._rename_exported_asset(visasset_path, visual_name)
 
         mesh_temp = asset.to_mesh()
         bm = bmesh.new()
@@ -266,9 +339,8 @@ class MJCFBuilder(SimBuilder):
         bm.free()
 
         # add the visual asset to the list of assets in the scene
-        visasset_path = export_paths["visual"][0]
         self._add_asset(
-            asset_name=unique_name,
+            asset_name=visual_name,
             asset_path=visasset_path,
             asset_type="visual",
             has_material=not skipBake(asset),
@@ -281,9 +353,9 @@ class MJCFBuilder(SimBuilder):
         # create and link a geom for the asset
         visgeom = create_element(
             "geom",
-            name=unique_name,
+            name=visual_name,
             type="mesh",
-            mesh=unique_name,
+            mesh=visual_name,
             group="1",
             contype="0",
             conaffinity="0",
@@ -291,17 +363,19 @@ class MJCFBuilder(SimBuilder):
             density=f"{mat_physics['density']}",
         )
         if not skipBake(asset):
-            visgeom.set("material", f"{unique_name}_mat")
+            visgeom.set("material", f"{visual_name}_mat")
         body.append(visgeom)
 
         colgeoms = []
+        final_collision_paths = []
         if not visual_only:
             # add the collision asset to the list of assets in the scene
-            for colasset_path in export_paths["collision"]:
-                colasset_name = colasset_path.stem
+            for col_idx, colasset_path in enumerate(export_paths["collision"]):
+                colasset_name = collision_names[col_idx]
+                renamed_colasset_path = self._rename_exported_asset(colasset_path, colasset_name)
                 self._add_asset(
                     asset_name=colasset_name,
-                    asset_path=colasset_path,
+                    asset_path=renamed_colasset_path,
                     asset_type="collision",
                     has_material=False,
                 )
@@ -320,7 +394,9 @@ class MJCFBuilder(SimBuilder):
                 )
                 body.append(colgeom)
                 colgeoms.append(colgeom)
+                final_collision_paths.append(renamed_colasset_path)
 
+        self._register_semantic_mapping(primary_part_label, visual_name, collision_names, visasset_path, final_collision_paths)
         return visgeom, colgeoms, asset
 
     def _add_asset(
@@ -461,6 +537,8 @@ def export(
     """Export function for the MJCF file format."""
     # parse the provided blueprint and set the object export directory
     asset_name, kinematic_root, metadata = exputils.parse_sim_blueprint(sim_blueprint)
+    metadata["asset_name"] = asset_name
+    metadata["semantic_entities"] = list(sim_blueprint.get("semantic_entities", []))
 
     # create export directories
     obj_export_dir = export_dir / asset_name / str(seed)
@@ -502,18 +580,21 @@ def export(
     if get_raw_output:
         return builder.mujoco, metadata
 
+    builder._validate_semantic_mapping()
+
     # save the mjcf
-    mjcf_path, metadata_path = save(
+    mjcf_path, semantic_mapping_path = save(
         fname=asset_name,
         export_dir=obj_export_dir,
         contents=builder.mujoco,
         metadata=metadata,
+        semantic_mapping=builder.semantic_mapping,
     )
 
-    return mjcf_path, metadata_path
+    return mjcf_path, semantic_mapping_path
 
 
-def save(fname: str, export_dir: Path, contents: ET.Element, metadata: Dict) -> None:
+def save(fname: str, export_dir: Path, contents: ET.Element, metadata: Dict, semantic_mapping: Dict) -> None:
     """Save the MJCF contents."""
     mjcf_path = export_dir / f"{fname}.xml"
     with open(mjcf_path, "w") as f:
@@ -526,4 +607,8 @@ def save(fname: str, export_dir: Path, contents: ET.Element, metadata: Dict) -> 
     with open(metadata_path, "w") as f:
         json.dump(metadata, f, indent=4)
 
-    return mjcf_path, metadata_path
+    semantic_mapping_path = export_dir / "semantic_mapping.json"
+    with open(semantic_mapping_path, "w") as f:
+        json.dump(semantic_mapping, f, indent=4)
+
+    return mjcf_path, semantic_mapping_path

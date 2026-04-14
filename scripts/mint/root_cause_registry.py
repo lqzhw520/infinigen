@@ -127,6 +127,9 @@ def write_cycle_bundle(
     route_decision: dict[str, Any],
     policy_snapshot: dict[str, Any],
     resource_budget_snapshot: dict[str, Any],
+    controller_id: str | None = None,
+    run_id: str | None = None,
+    cycle_count: int | None = None,
 ) -> None:
     deviation_log = _read_jsonl(DEVIATION_LOG_PATH)
     write_json_atomic(cycle_dir / "lane_specs.json", lane_specs)
@@ -145,6 +148,9 @@ def write_cycle_bundle(
     write_cycle_state(
         {
             "updated_at": now_iso(),
+            "controller_id": controller_id,
+            "run_id": run_id,
+            "cycle_count": int(cycle_count) if cycle_count is not None else None,
             "last_cycle_id": cycle_dir.name,
             "cycle_mode": cycle_mode,
             "completed_experiments": cycle_summary.get("completed_experiments", []),
@@ -152,6 +158,9 @@ def write_cycle_bundle(
             "route_next_branch": route_decision.get("route_next_branch"),
             "terminal_state": route_decision.get("scientific_terminal_state"),
             "strongest_negative_capped": route_decision.get("strongest_negative_capped", True),
+            "last_route_decision_path": str(cycle_dir / "route_decision.json"),
+            "last_gate_report_path": str(cycle_dir / "gate_report.json"),
+            "last_cycle_summary_path": str(cycle_dir / "cycle_summary.json"),
         }
     )
 

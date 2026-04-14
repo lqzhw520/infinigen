@@ -1,6 +1,9 @@
 {
-  "updated_at": "2026-04-14T13:49:18+08:00",
-  "last_cycle_id": "cycle_20260414_134515",
+  "updated_at": "2026-04-14T15:11:35+08:00",
+  "controller_id": "mint_auto_review_loop:app-f579a77287b849d893b1bbc511952fd6-587b4c6d5b-jlznh:214227",
+  "run_id": "mint_auto_review_loop:20260414T150740:214227",
+  "cycle_count": 1,
+  "last_cycle_id": "cycle_20260414_150740",
   "cycle_mode": "unattended_cycle",
   "completed_experiments": [
     "RCA0",
@@ -15,5 +18,8 @@
   "scientific_terminal_state": "TS_CANONICAL_POSITIVE_ESTABLISHED",
   "route_next_branch": "tiny_retrain_confirmation",
   "terminal_state": "TS_CANONICAL_POSITIVE_ESTABLISHED",
-  "strongest_negative_capped": true
+  "strongest_negative_capped": true,
+  "last_route_decision_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/runtime/controller_cycles/cycle_20260414_150740/route_decision.json",
+  "last_gate_report_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/runtime/controller_cycles/cycle_20260414_150740/gate_report.json",
+  "last_cycle_summary_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/runtime/controller_cycles/cycle_20260414_150740/cycle_summary.json"
 }

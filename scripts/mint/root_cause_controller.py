@@ -2645,6 +2645,9 @@ class RootCauseController:
                     route_decision=route_payload,
                     policy_snapshot=dict(self.policy),
                     resource_budget_snapshot=self._resource_snapshot(),
+                    controller_id=controller_id,
+                    run_id=run_id,
+                    cycle_count=cycle_count + 1,
                 )
                 cycle_count += 1
                 if last_route.scientific_terminal_state is None and self._invalid_run_reason:

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-04-14T13:49:18+08:00",
+  "generated_at": "2026-04-14T15:11:35+08:00",
   "cycle_mode": "unattended_cycle",
   "experiment_family": "RCA",
   "cycles_completed": 1,
@@ -80,7 +80,7 @@
       "max_cycles_per_run": 8,
       "max_tiny_retrain_budget": 1
     },
-    "disk_growth_mb": 0.003,
+    "disk_growth_mb": 0.004,
     "completed_experiments": [
       "RCA0",
       "RCA1",

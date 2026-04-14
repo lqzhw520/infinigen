@@ -1,0 +1,18 @@
+{
+  "gate": "g9_sim_eval",
+  "training_mode": "tiny_retrain_confirmation",
+  "canonical_train_cell": "V1cT2S0",
+  "best_train_state_mode": "S0",
+  "heldout_eval_run": false,
+  "claim_supported": false,
+  "verdict": "train_probe_not_confirmed",
+  "reason": "Train probe failed; held-out eval skipped by v7 stop rule",
+  "trend_passed": false,
+  "held_out_seeds": [
+    11,
+    12,
+    13,
+    14,
+    15
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "confirmation_mode": "tiny_retrain_confirmation",
+  "source_branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "terminal_commit": "5aaf117b66902219ac997082763fb4e2ea8891b3",
+  "canonical_train_cell": "V1cT2S0",
+  "best_train_state_mode": "S0",
+  "dataset_valid": true,
+  "train_summary_available": true,
+  "train_probe_passed": false,
+  "heldout_eval_run": false,
+  "claim_supported": false,
+  "final_verdict": "train_probe_not_confirmed",
+  "scientific_terminal_state": "TINY_RETRAIN_NOT_CONFIRMED_ON_TRAIN_PROBE",
+  "checkpoint_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/tiny_retrain/V1cT2S0/checkpoints/001000/pretrained_model",
+  "train_steps": 1000,
+  "train_seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "heldout_seeds": [
+    11,
+    12,
+    13,
+    14,
+    15
+  ]
+}

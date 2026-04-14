@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 import shutil
 from pathlib import Path
@@ -37,6 +38,135 @@ LIBERO_KEY_RENAME = {
     "state": "observation.state",
     "actions": "action",
 }
+
+STATE_MODE_ALIAS = {
+    "S0": "m0_proxy",
+    "S1": "telemetry_candidate_v3_transition",
+    "S2": "telemetry_candidate_v4_task_identity",
+}
+
+
+def _nested_rollout_value(meta: dict[str, Any], key: str, default: Any = None) -> Any:
+    if key in meta and meta.get(key) is not None:
+        return meta.get(key)
+    state_spec = meta.get("state_spec") or {}
+    contract_config = meta.get("contract_config") or {}
+    handle_probe = meta.get("handle_probe_metadata") or {}
+    orientation = meta.get("orientation_telemetry") or {}
+    if key == "state_mode":
+        return state_spec.get("state_mode", contract_config.get("state_mode", default))
+    if key == "interaction_mode":
+        return contract_config.get("interaction_mode", default)
+    if key == "measurement_truthful":
+        return handle_probe.get("measurement_truthful", default)
+    if key == "measurement_truth_tier":
+        return handle_probe.get("measurement_truth_tier", default)
+    if key == "measurement_backend":
+        return handle_probe.get("measurement_backend", default)
+    if key == "measurement_verifier":
+        return handle_probe.get("measurement_verifier", default)
+    if key == "runtime_visible_handle_mapping_source":
+        return handle_probe.get("runtime_visible_handle_mapping_source", default)
+    if key == "runtime_handle_anchor_valid":
+        return orientation.get("runtime_handle_anchor_valid", default)
+    return default
+
+
+def validate_rollout_for_canonical_training(meta: dict, plan: dict) -> tuple[bool, str]:
+    expected_cell = str(plan.get("canonical_train_cell"))
+    expected_transition = str(plan.get("best_transition_cell"))
+    expected_state_mode = str(plan.get("best_train_state_mode"))
+    expected_state_name = STATE_MODE_ALIAS.get(expected_state_mode, expected_state_mode)
+    seed = meta.get("seed")
+    strict_metrics = meta.get("strict_metrics") or {}
+    strict_success = bool(strict_metrics.get("strict_success"))
+    success_ok = strict_success or (bool(meta.get("success")) and bool(meta.get("strict_success_version")))
+    checks = [
+        (str(meta.get("canonical_train_cell")) == expected_cell, "canonical_train_cell_mismatch"),
+        (str(meta.get("best_transition_cell")) == expected_transition, "best_transition_cell_mismatch"),
+        (str(meta.get("best_train_state_mode")) == expected_state_mode, "best_train_state_mode_mismatch"),
+        (str(meta.get("selector_mode")) == str(plan.get("selector_mode")), "selector_mode_mismatch"),
+        (bool(_nested_rollout_value(meta, "measurement_truthful", False)) is True, "measurement_not_truthful"),
+        (str(_nested_rollout_value(meta, "measurement_truth_tier", "")) == str(plan.get("measurement_truth_tier")), "measurement_truth_tier_mismatch"),
+        (str(_nested_rollout_value(meta, "measurement_backend", "")) == str(plan.get("measurement_backend")), "measurement_backend_mismatch"),
+        (str(_nested_rollout_value(meta, "measurement_verifier", "")) == str(plan.get("measurement_verifier")), "measurement_verifier_mismatch"),
+        (str(_nested_rollout_value(meta, "runtime_visible_handle_mapping_source", "")) == str(plan.get("runtime_visible_handle_mapping_source")), "runtime_visible_handle_mapping_source_mismatch"),
+        (bool(_nested_rollout_value(meta, "runtime_handle_anchor_valid", False)) is True, "runtime_handle_anchor_invalid"),
+        (str(_nested_rollout_value(meta, "interaction_mode", "")) == "orientation_sensitive_v3_task_identity_locked", "interaction_mode_mismatch"),
+        (str(_nested_rollout_value(meta, "state_mode", "")) == expected_state_name, "state_mode_mismatch"),
+        (int(seed) in [int(x) for x in plan.get("train_seeds", [])] if seed is not None else False, "seed_not_in_train_split"),
+        (int(seed) not in [int(x) for x in plan.get("heldout_seeds", [])] if seed is not None else False, "seed_in_heldout_split"),
+        (success_ok, "not_success_or_strict_success"),
+    ]
+    for passed, reason in checks:
+        if not passed:
+            return False, reason
+    return True, "ok"
+
+
+def validate_built_dataset_provenance(dataset_root: Path, plan: dict) -> dict:
+    provenance_path = dataset_root / "meta" / "provenance.json"
+    report = {
+        "dataset_root": str(dataset_root),
+        "dataset_repo_id": plan.get("dataset_repo_id"),
+        "canonical_train_cell": plan.get("canonical_train_cell"),
+        "best_train_state_mode": plan.get("best_train_state_mode"),
+        "train_seed_count": len(plan.get("train_seeds", [])),
+        "used_successful_seed_count": 0,
+        "used_rollout_count": 0,
+        "effective_frame_count": 0,
+        "rejected_rollout_count": 0,
+        "provenance_hash": None,
+        "dataset_valid": False,
+        "errors": [],
+    }
+    if not provenance_path.exists():
+        report["errors"].append("provenance_missing")
+        return report
+    raw = provenance_path.read_bytes()
+    report["provenance_hash"] = hashlib.sha256(raw).hexdigest()
+    provenance = json.loads(raw.decode("utf-8"))
+    records = provenance.get("records", [])
+    train_seeds = {int(x) for x in plan.get("train_seeds", [])}
+    heldout_seeds = {int(x) for x in plan.get("heldout_seeds", [])}
+    unique_successful_seeds = {int(x) for x in provenance.get("unique_successful_seeds", [])}
+    canonical_values = {rec.get("canonical_train_cell") for rec in records if rec.get("canonical_train_cell") is not None}
+    transition_values = {rec.get("best_transition_cell") for rec in records if rec.get("best_transition_cell") is not None}
+    state_values = {rec.get("best_train_state_mode") for rec in records if rec.get("best_train_state_mode") is not None}
+    measurement_backends = {rec.get("measurement_backend") for rec in records if rec.get("measurement_backend") is not None}
+    measurement_verifiers = {rec.get("measurement_verifier") for rec in records if rec.get("measurement_verifier") is not None}
+    runtime_anchor_values = [bool(rec.get("runtime_handle_anchor_valid", False)) for rec in records]
+    runtime_anchor_valid_rate = float(sum(1 for x in runtime_anchor_values if x) / len(runtime_anchor_values)) if runtime_anchor_values else 0.0
+    report.update({
+        "used_successful_seed_count": len(unique_successful_seeds),
+        "used_rollout_count": len(records),
+        "effective_frame_count": int(provenance.get("effective_frame_count", 0) or 0),
+        "unique_successful_seeds": sorted(unique_successful_seeds),
+        "claim_policies": provenance.get("claim_policies", []),
+        "state_modes": provenance.get("state_modes", []),
+        "measurement_backends": sorted(x for x in measurement_backends if x is not None),
+        "measurement_verifiers": sorted(x for x in measurement_verifiers if x is not None),
+        "runtime_handle_anchor_valid_rate": runtime_anchor_valid_rate,
+    })
+    checks = [
+        (canonical_values == {plan.get("canonical_train_cell")}, "canonical_train_cell_not_unique"),
+        (transition_values == {plan.get("best_transition_cell")}, "best_transition_cell_not_unique"),
+        (state_values == {plan.get("best_train_state_mode")}, "best_train_state_mode_not_unique"),
+        (set(provenance.get("state_modes", [])) == {STATE_MODE_ALIAS.get(str(plan.get("best_train_state_mode")), str(plan.get("best_train_state_mode")))}, "state_modes_not_unique"),
+        (set(provenance.get("claim_policies", [])) == {"canonical"}, "claim_policy_not_canonical"),
+        (bool(unique_successful_seeds), "no_successful_seeds"),
+        (unique_successful_seeds.issubset(train_seeds), "successful_seeds_not_subset_of_train"),
+        (unique_successful_seeds.isdisjoint(heldout_seeds), "successful_seeds_overlap_heldout"),
+        (report["effective_frame_count"] > 0, "effective_frame_count_nonpositive"),
+        (measurement_backends == {plan.get("measurement_backend")}, "measurement_backend_inconsistent"),
+        (measurement_verifiers == {plan.get("measurement_verifier")}, "measurement_verifier_inconsistent"),
+        (runtime_anchor_valid_rate == 1.0 or all(runtime_anchor_values), "runtime_handle_anchor_not_fully_valid"),
+    ]
+    for passed, reason in checks:
+        if not passed:
+            report["errors"].append(reason)
+    report["dataset_valid"] = not report["errors"]
+    return report
 
 
 def dataset_integrity(root: Path, repo_id: str) -> dict:

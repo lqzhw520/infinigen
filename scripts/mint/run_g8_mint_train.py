@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""G8: Fine-tune MINT on the current canonical tiny-retrain dataset only."""
+"""G8: Tiny retrain confirmation on the canonical V1cT2S0 dataset."""
 
 from __future__ import annotations
 
@@ -9,57 +9,113 @@ import shutil
 import subprocess
 import time
 from pathlib import Path
+from typing import Any
 
-from mint_common import ARTIFACT_DIR, DATASET_DIR, DATASET_REPO_ID, OUTPUT_DIR, find_latest_checkpoint
-from tiny_retrain_mainline import dataset_guard, expected_training_targets
+from dataset_builder import validate_built_dataset_provenance
+from mint_common import (
+    ARTIFACT_DIR,
+    PROJECT_ROOT,
+    TINY_RETRAIN_DATASET_BUILD_PATH,
+    TINY_RETRAIN_OUTPUT_DIR,
+    TINY_RETRAIN_PLAN_PATH,
+    find_latest_checkpoint,
+    load_json,
+)
 
 ARTIFACT = ARTIFACT_DIR / "g8_train_summary.json"
 LOG_PATH = ARTIFACT_DIR / "g8_train.log"
-TRAIN_OUTPUT_DIR = OUTPUT_DIR / "g8_mint_train"
 MINT_CKPT = "/mnt/afs2/zhuhaowu/infinigen/external/MINT/checkpoints/MINT-libero"
 TOKENIZER_PATH = "/mnt/afs2/zhuhaowu/infinigen/external/MINT/checkpoints/MINT-tokenizer-libero"
 
 
+def _resolve_repo_path(value: str | Path) -> Path:
+    path = Path(value)
+    return path if path.is_absolute() else (PROJECT_ROOT / path)
+
+
+def load_active_tiny_retrain_plan() -> dict:
+    plan = load_json(TINY_RETRAIN_PLAN_PATH, {})
+    if not plan:
+        raise SystemExit(f"Missing active tiny retrain plan: {TINY_RETRAIN_PLAN_PATH}")
+    return plan
+
+
+def validate_training_dataset_against_plan(plan: dict) -> dict[str, Any]:
+    dataset_build = load_json(TINY_RETRAIN_DATASET_BUILD_PATH, {})
+    if not dataset_build:
+        raise SystemExit(f"Missing dataset build artifact: {TINY_RETRAIN_DATASET_BUILD_PATH}")
+    if not bool(dataset_build.get("dataset_valid", False)):
+        raise SystemExit("Dataset build artifact is present but dataset_valid is false")
+    if str(dataset_build.get("canonical_train_cell")) != str(plan.get("canonical_train_cell")):
+        raise SystemExit("Dataset build canonical_train_cell does not match active plan")
+    if str(dataset_build.get("best_train_state_mode")) != str(plan.get("best_train_state_mode")):
+        raise SystemExit("Dataset build best_train_state_mode does not match active plan")
+    dataset_root = _resolve_repo_path(plan["dataset_root"])
+    provenance = validate_built_dataset_provenance(dataset_root, plan)
+    if not provenance.get("dataset_valid"):
+        raise SystemExit(f"Dataset provenance validation failed: {provenance.get('errors', [])}")
+    return {
+        "dataset_build": dataset_build,
+        "dataset_provenance": provenance,
+    }
+
+
 def run() -> bool:
-    expected = expected_training_targets()
-    guard_ok, guard_report = dataset_guard(expected)
-    if not guard_ok:
+    plan = load_active_tiny_retrain_plan()
+    if str(plan.get("canonical_train_cell")) != "V1cT2S0":
+        raise SystemExit("Active tiny retrain plan canonical_train_cell is not V1cT2S0")
+    if str(plan.get("best_train_state_mode")) != "S0":
+        raise SystemExit("Active tiny retrain plan best_train_state_mode is not S0")
+
+    try:
+        dataset_report = validate_training_dataset_against_plan(plan)
+    except SystemExit as exc:
         result = {
             "gate": "g8_mint_train",
+            "training_mode": "tiny_retrain_confirmation",
+            "canonical_train_cell": plan.get("canonical_train_cell"),
+            "best_train_state_mode": plan.get("best_train_state_mode"),
+            "dataset_validated": False,
+            "dataset_provenance_hash": None,
+            "train_seeds": plan.get("train_seeds", []),
+            "heldout_seeds": plan.get("heldout_seeds", []),
             "passed": False,
             "returncode": None,
             "elapsed_sec": 0.0,
-            "steps_requested": int(os.environ.get("MINT_TRAIN_STEPS", "1000")),
-            "batch_size": int(os.environ.get("MINT_TRAIN_BATCH_SIZE", "8")),
+            "steps_requested": int(plan.get("train_steps", 1000)),
+            "batch_size": int(plan.get("batch_size", 8)),
             "steps_completed": 0,
             "checkpoint_path": None,
-            "train_output_dir": str(TRAIN_OUTPUT_DIR),
+            "train_output_dir": str(_resolve_repo_path(plan.get("train_output_dir", TINY_RETRAIN_OUTPUT_DIR / "V1cT2S0"))),
             "loss_samples": [],
             "stdout_tail": "",
-            "stderr_tail": "",
-            "preflight": guard_report,
+            "stderr_tail": str(exc),
             "timestamp": time.time(),
         }
         ARTIFACT.write_text(json.dumps(result, indent=2))
         print(json.dumps(result, indent=2))
         return False
 
-    train_steps = int(os.environ.get("MINT_TRAIN_STEPS", "1000"))
-    batch_size = int(os.environ.get("MINT_TRAIN_BATCH_SIZE", "8"))
-    save_freq = int(os.environ.get("MINT_TRAIN_SAVE_FREQ", str(train_steps)))
-    if TRAIN_OUTPUT_DIR.exists():
-        shutil.rmtree(TRAIN_OUTPUT_DIR)
+    train_steps = int(os.environ.get("MINT_TRAIN_STEPS", str(plan.get("train_steps", 1000))))
+    batch_size = int(os.environ.get("MINT_TRAIN_BATCH_SIZE", str(plan.get("batch_size", 8))))
+    save_freq = int(os.environ.get("MINT_TRAIN_SAVE_FREQ", str(plan.get("save_freq", train_steps))))
+    dataset_root = _resolve_repo_path(plan["dataset_root"])
+    repo_id = str(plan["dataset_repo_id"])
+    train_output_dir = _resolve_repo_path(plan.get("train_output_dir", TINY_RETRAIN_OUTPUT_DIR / "V1cT2S0"))
+    if train_output_dir.exists():
+        shutil.rmtree(train_output_dir)
+    train_output_dir.parent.mkdir(parents=True, exist_ok=True)
 
     train_cmd = os.environ.get("MINT_TRAIN_CMD", "lerobot-train")
     cmd = [
         train_cmd,
-        f"--dataset.repo_id={DATASET_REPO_ID}",
-        f"--dataset.root={DATASET_DIR}",
+        f"--dataset.repo_id={repo_id}",
+        f"--dataset.root={dataset_root}",
         "--policy.type=mint",
-        f"--policy.repo_id={DATASET_REPO_ID}_mint_ft",
+        f"--policy.repo_id={repo_id}_mint_ft",
         "--policy.push_to_hub=false",
-        f"--output_dir={TRAIN_OUTPUT_DIR}",
-        "--job_name=mint_drawer_ft",
+        f"--output_dir={train_output_dir}",
+        "--job_name=tiny_retrain_confirmation",
         f"--policy.pretrained_path={MINT_CKPT}",
         f"--policy.vqvae_name_or_path={TOKENIZER_PATH}",
         "--policy.compile_model=false",
@@ -70,6 +126,7 @@ def run() -> bool:
         f"--batch_size={batch_size}",
         "--policy.device=cuda",
     ]
+
     start = time.time()
     env = os.environ.copy()
     env["PYTHONUNBUFFERED"] = "1"
@@ -84,6 +141,13 @@ def run() -> bool:
         elapsed = time.time() - start
         result = {
             "gate": "g8_mint_train",
+            "training_mode": "tiny_retrain_confirmation",
+            "canonical_train_cell": plan.get("canonical_train_cell"),
+            "best_train_state_mode": plan.get("best_train_state_mode"),
+            "dataset_validated": True,
+            "dataset_provenance_hash": dataset_report["dataset_provenance"].get("provenance_hash"),
+            "train_seeds": plan.get("train_seeds", []),
+            "heldout_seeds": plan.get("heldout_seeds", []),
             "passed": False,
             "returncode": None,
             "elapsed_sec": round(elapsed, 1),
@@ -91,11 +155,11 @@ def run() -> bool:
             "batch_size": batch_size,
             "steps_completed": 0,
             "checkpoint_path": None,
-            "train_output_dir": str(TRAIN_OUTPUT_DIR),
+            "train_output_dir": str(train_output_dir),
             "loss_samples": [],
             "stdout_tail": "",
             "stderr_tail": str(exc),
-            "preflight": {**guard_report, "train_cmd": train_cmd, "train_cmd_found": False},
+            "train_cmd": train_cmd,
             "timestamp": time.time(),
         }
         ARTIFACT.write_text(json.dumps(result, indent=2))
@@ -104,22 +168,29 @@ def run() -> bool:
 
     elapsed = time.time() - start
     log_tail = LOG_PATH.read_text(errors="ignore")[-6000:] if LOG_PATH.exists() else ""
-    checkpoint_path = find_latest_checkpoint(TRAIN_OUTPUT_DIR)
+    checkpoint_path = find_latest_checkpoint(train_output_dir)
     loss_lines = [line.strip() for line in log_tail.splitlines() if "loss" in line.lower()]
     result = {
         "gate": "g8_mint_train",
-        "passed": checkpoint_path is not None and (returncode == 0 or "push_model_to_hub" in log_tail or "ConnectionError" in log_tail),
+        "training_mode": "tiny_retrain_confirmation",
+        "canonical_train_cell": plan.get("canonical_train_cell"),
+        "best_train_state_mode": plan.get("best_train_state_mode"),
+        "dataset_validated": True,
+        "dataset_provenance_hash": dataset_report["dataset_provenance"].get("provenance_hash"),
+        "train_seeds": plan.get("train_seeds", []),
+        "heldout_seeds": plan.get("heldout_seeds", []),
+        "passed": checkpoint_path is not None and returncode == 0,
         "returncode": returncode,
         "elapsed_sec": round(elapsed, 1),
         "steps_requested": train_steps,
         "batch_size": batch_size,
         "steps_completed": train_steps if checkpoint_path is not None else 0,
         "checkpoint_path": str(checkpoint_path) if checkpoint_path else None,
-        "train_output_dir": str(TRAIN_OUTPUT_DIR),
+        "train_output_dir": str(train_output_dir),
         "loss_samples": loss_lines[-10:],
         "stdout_tail": log_tail,
         "stderr_tail": "",
-        "preflight": {**guard_report, "train_cmd": train_cmd, "train_cmd_found": True},
+        "dataset_build": dataset_report["dataset_build"],
         "timestamp": time.time(),
     }
     ARTIFACT.write_text(json.dumps(result, indent=2))

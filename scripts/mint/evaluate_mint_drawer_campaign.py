@@ -354,20 +354,22 @@ def evaluate_policy_set(
 
 
 def evaluate_campaign(
-    finetuned_path: str,
+    finetuned_path: str | Path,
     *,
-    dataset_root: Path = DATASET_DIR,
+    dataset_root: str | Path = DATASET_DIR,
     repo_id: str = DATASET_REPO_ID,
+    held_out_seeds: list[int] | None = None,
+    episodes_per_seed: int = 3,
 ) -> tuple[dict, dict]:
     action_contract = load_json(ACTIVE_ACTION_CONTRACT_PATH, {})
-    episodes_per_seed = 3
+    seeds = [int(seed) for seed in (held_out_seeds if held_out_seeds is not None else DEFAULT_HELD_OUT_SEEDS)]
     comparison, records = evaluate_policy_set(
-        finetuned_path=finetuned_path,
-        seeds=DEFAULT_HELD_OUT_SEEDS,
-        dataset_root=dataset_root,
+        finetuned_path=str(finetuned_path),
+        seeds=seeds,
+        dataset_root=Path(dataset_root),
         repo_id=repo_id,
         action_contract=action_contract,
-        episodes_per_seed=episodes_per_seed,
+        episodes_per_seed=int(episodes_per_seed),
     )
     verdict = (
         "claim_supported"
@@ -382,9 +384,9 @@ def evaluate_campaign(
     )
     return {
         "verdict": verdict,
-        "held_out_seeds": DEFAULT_HELD_OUT_SEEDS,
+        "held_out_seeds": seeds,
         "eval_max_steps": 96,
-        "episodes_per_seed": episodes_per_seed,
+        "episodes_per_seed": int(episodes_per_seed),
         "comparison": comparison,
         "strongest_true_claim": strongest_true_claim,
     }, records

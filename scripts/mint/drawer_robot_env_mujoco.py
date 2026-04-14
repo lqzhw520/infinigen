@@ -2370,5 +2370,17 @@ def save_robot_rollout(path: Path, rollout: dict[str, Any]) -> None:
         "best_transition_cell": rollout.get("best_transition_cell"),
         "canonical_train_cell": rollout.get("canonical_train_cell"),
         "best_train_state_mode": rollout.get("best_train_state_mode"),
+        "strict_success_version": rollout.get("strict_success_version"),
+        "strict_metrics": rollout.get("strict_metrics", {}),
+        "measurement_truthful": rollout.get("measurement_truthful"),
+        "measurement_truth_tier": rollout.get("measurement_truth_tier"),
+        "measurement_backend": rollout.get("measurement_backend"),
+        "measurement_verifier": rollout.get("measurement_verifier"),
+        "runtime_visible_handle_mapping_source": rollout.get("runtime_visible_handle_mapping_source"),
+        "runtime_handle_anchor_valid": rollout.get("runtime_handle_anchor_valid"),
+        "interaction_mode": rollout.get("interaction_mode"),
+        "state_mode": rollout.get("state_mode"),
+        "train_seeds": rollout.get("train_seeds", []),
+        "heldout_seeds": rollout.get("heldout_seeds", []),
     }
     write_text_atomic(path.with_suffix(".json"), json.dumps(_json_ready(meta), indent=2, ensure_ascii=False) + "\n")

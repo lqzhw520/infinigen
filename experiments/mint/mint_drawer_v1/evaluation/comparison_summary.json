@@ -3,6 +3,11 @@
   "training_mode": "tiny_retrain_confirmation",
   "canonical_train_cell": "V1cT2S0",
   "best_train_state_mode": "S0",
+  "evaluation_backend": "mujoco",
+  "evaluation_env_family": "canonical_cell_runtime",
+  "evaluation_cell_id": "V1cT2S0",
+  "evaluation_state_mode_name": "m0_proxy",
+  "evaluation_interaction_mode": "orientation_sensitive_v3_task_identity_locked",
   "heldout_eval_run": false,
   "claim_supported": false,
   "verdict": "train_probe_not_confirmed",
@@ -14,5 +19,7 @@
     13,
     14,
     15
-  ]
+  ],
+  "episodes_per_seed": 3,
+  "eval_max_steps": 96
 }

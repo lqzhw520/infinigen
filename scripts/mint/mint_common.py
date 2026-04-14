@@ -104,6 +104,20 @@ DEFAULT_PYTHON = "python3"
 DEFAULT_CONDA_RUN = "/root/anaconda3/bin/conda run --no-capture-output"
 
 
+def tiny_retrain_backend_defaults() -> dict[str, Any]:
+    return {
+        "evaluation_backend": "mujoco",
+        "evaluation_env_family": "canonical_cell_runtime",
+        "evaluation_state_mode_name": "m0_proxy",
+        "evaluation_interaction_mode": "orientation_sensitive_v3_task_identity_locked",
+        "evaluation_probe_episodes_per_seed": 3,
+        "evaluation_heldout_episodes_per_seed": 3,
+        "evaluation_max_steps": 96,
+        "evaluation_image_size": 256,
+        "evaluation_rotation_source": "zero",
+    }
+
+
 def now_iso() -> str:
     return datetime.now().astimezone().isoformat(timespec="seconds")
 

@@ -7,7 +7,7 @@ import json
 import time
 from pathlib import Path
 
-from evaluate_mint_drawer_campaign import evaluate_train_probe
+from evaluate_mint_drawer_campaign_mujoco import evaluate_train_probe
 from mint_common import (
     ARTIFACT_DIR,
     PROJECT_ROOT,
@@ -55,7 +55,12 @@ def run() -> bool:
         seeds=probe_seeds,
         dataset_root=dataset_root,
         repo_id=str(plan["dataset_repo_id"]),
-        max_steps=96,
+        canonical_train_cell=str(plan.get("evaluation_cell_id") or plan.get("canonical_train_cell")),
+        best_train_state_mode=str(plan.get("best_train_state_mode")),
+        episodes_per_seed=int(plan.get("evaluation_probe_episodes_per_seed", 3)),
+        max_steps=int(plan.get("evaluation_max_steps", 96)),
+        image_size=int(plan.get("evaluation_image_size", 256)),
+        evaluation_backend=str(plan.get("evaluation_backend", "mujoco")),
     )
     ft = summary["summary"]["finetuned_mint"]
     pt = summary["summary"]["pretrained_mint"]
@@ -69,6 +74,12 @@ def run() -> bool:
         **summary,
         "training_mode": "tiny_retrain_confirmation",
         "canonical_train_cell": plan.get("canonical_train_cell"),
+        "best_train_state_mode": plan.get("best_train_state_mode"),
+        "evaluation_backend": plan.get("evaluation_backend"),
+        "evaluation_env_family": plan.get("evaluation_env_family"),
+        "evaluation_cell_id": plan.get("evaluation_cell_id"),
+        "evaluation_state_mode_name": plan.get("evaluation_state_mode_name"),
+        "evaluation_interaction_mode": plan.get("evaluation_interaction_mode"),
         "probe_seeds": probe_seeds,
         "min_success_gain": min_success_gain,
         "min_finetuned_successes": min_finetuned_successes,
@@ -80,6 +91,12 @@ def run() -> bool:
         "gate": "g8_train_seed_probe",
         "training_mode": "tiny_retrain_confirmation",
         "canonical_train_cell": plan.get("canonical_train_cell"),
+        "best_train_state_mode": plan.get("best_train_state_mode"),
+        "evaluation_backend": plan.get("evaluation_backend"),
+        "evaluation_env_family": plan.get("evaluation_env_family"),
+        "evaluation_cell_id": plan.get("evaluation_cell_id"),
+        "evaluation_state_mode_name": plan.get("evaluation_state_mode_name"),
+        "evaluation_interaction_mode": plan.get("evaluation_interaction_mode"),
         "probe_seeds": probe_seeds,
         "min_success_gain": min_success_gain,
         "min_finetuned_successes": min_finetuned_successes,

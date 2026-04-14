@@ -110,6 +110,7 @@ experiments/mint/mint_drawer_v1/outputs_*/
 experiments/mint/mint_drawer_v1/runtime/*.log
 experiments/mint/mint_drawer_v1/dataset/
 experiments/mint/mint_drawer_v1/videos/
+experiments/mint/mint_drawer_v1/autopilot/resets/
 # Backup files created by editors/scripts
 *.bak_*
 **/.DS_Store

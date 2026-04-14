@@ -7,7 +7,7 @@ import json
 import time
 from pathlib import Path
 
-from evaluate_mint_drawer_campaign import evaluate_campaign, render_report
+from evaluate_mint_drawer_campaign_mujoco import evaluate_campaign, render_report
 from mint_common import EVAL_DIR, PROJECT_ROOT, TINY_RETRAIN_PLAN_PATH, load_json
 
 ARTIFACT = EVAL_DIR / "g9_eval_rollouts.json"
@@ -43,14 +43,24 @@ def run() -> bool:
         checkpoint_path,
         dataset_root=_resolve_repo_path(plan["dataset_root"]),
         repo_id=str(plan["dataset_repo_id"]),
-        held_out_seeds=heldout_seeds,
-        episodes_per_seed=3,
+        heldout_seeds=heldout_seeds,
+        canonical_train_cell=str(plan.get("evaluation_cell_id") or plan.get("canonical_train_cell")),
+        best_train_state_mode=str(plan.get("best_train_state_mode")),
+        episodes_per_seed=int(plan.get("evaluation_heldout_episodes_per_seed", 3)),
+        max_steps=int(plan.get("evaluation_max_steps", 96)),
+        image_size=int(plan.get("evaluation_image_size", 256)),
+        evaluation_backend=str(plan.get("evaluation_backend", "mujoco")),
     )
     summary.update({
         "gate": "g9_sim_eval",
         "training_mode": "tiny_retrain_confirmation",
         "canonical_train_cell": plan.get("canonical_train_cell"),
         "best_train_state_mode": plan.get("best_train_state_mode"),
+        "evaluation_backend": plan.get("evaluation_backend"),
+        "evaluation_env_family": plan.get("evaluation_env_family"),
+        "evaluation_cell_id": plan.get("evaluation_cell_id"),
+        "evaluation_state_mode_name": plan.get("evaluation_state_mode_name"),
+        "evaluation_interaction_mode": plan.get("evaluation_interaction_mode"),
         "heldout_eval_run": True,
         "claim_supported": summary.get("verdict") == "claim_supported",
         "timestamp": time.time(),

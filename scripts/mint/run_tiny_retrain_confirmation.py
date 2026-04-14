@@ -28,6 +28,7 @@ from mint_common import (
     TINY_RETRAIN_PLAN_PATH,
     TINY_RETRAIN_SUMMARY_PATH,
     load_json,
+    tiny_retrain_backend_defaults,
     write_json_atomic,
 )
 from tiny_retrain_mainline import (
@@ -122,6 +123,7 @@ def materialize_active_tiny_retrain_plan(artifacts: dict) -> dict:
     ready = assert_terminal_ready(artifacts)
     branch = _git(["git", "rev-parse", "--abbrev-ref", "HEAD"])
     head = _git(["git", "rev-parse", "HEAD"])
+    backend_defaults = tiny_retrain_backend_defaults()
     plan = {
         "plan_version": "tiny_retrain_confirmation_v1",
         "source_branch": branch,
@@ -147,6 +149,8 @@ def materialize_active_tiny_retrain_plan(artifacts: dict) -> dict:
         "measurement_backend": ready["measurement_backend"],
         "measurement_verifier": ready["measurement_verifier"],
         "runtime_visible_handle_mapping_source": ready["runtime_visible_handle_mapping_source"],
+        **backend_defaults,
+        "evaluation_cell_id": ready["canonical_train_cell"],
         "train_steps": 1000,
         "batch_size": 8,
         "save_freq": 1000,
@@ -271,12 +275,19 @@ def write_skipped_heldout_eval_summary(plan: dict, probe_summary: dict) -> dict:
         "training_mode": "tiny_retrain_confirmation",
         "canonical_train_cell": plan.get("canonical_train_cell"),
         "best_train_state_mode": plan.get("best_train_state_mode"),
+        "evaluation_backend": plan.get("evaluation_backend"),
+        "evaluation_env_family": plan.get("evaluation_env_family"),
+        "evaluation_cell_id": plan.get("evaluation_cell_id"),
+        "evaluation_state_mode_name": plan.get("evaluation_state_mode_name"),
+        "evaluation_interaction_mode": plan.get("evaluation_interaction_mode"),
         "heldout_eval_run": False,
         "claim_supported": False,
         "verdict": "train_probe_not_confirmed",
         "reason": "Train probe failed; held-out eval skipped by v7 stop rule",
         "trend_passed": bool(probe_summary.get("trend_passed", False)),
         "held_out_seeds": plan.get("heldout_seeds", []),
+        "episodes_per_seed": int(plan.get("evaluation_heldout_episodes_per_seed", 3)),
+        "eval_max_steps": int(plan.get("evaluation_max_steps", 96)),
     }
     write_json_atomic(G9_SUMMARY_PATH, summary)
     G9_REPORT_PATH.write_text("# Held-out Eval Skipped\n\nTrain probe did not pass, so held-out eval was not executed under v7.\n")
@@ -289,6 +300,8 @@ def write_execution_memo(plan: dict, dataset_summary: dict, summary: dict) -> No
         "",
         f"- dataset 是否只来自 `V1cT2S0`：{'是' if dataset_summary.get('canonical_train_cell') == 'V1cT2S0' else '否'}",
         f"- 是否严格使用 `S0`：{'是' if plan.get('best_train_state_mode') == 'S0' else '否'}",
+        f"- probe/eval backend 是否锁到 MuJoCo：{'是' if summary.get('evaluation_backend') == 'mujoco' else '否'}",
+        f"- parity 状态：`{summary.get('confirmation_status')}`",
         f"- 是否只用 train seeds `[1..8]`：{'是' if plan.get('train_seeds') == [1,2,3,4,5,6,7,8] else '否'}",
         f"- held-out eval 是否只用 `[11..15]`：{'是' if plan.get('heldout_seeds') == [11,12,13,14,15] and summary.get('heldout_eval_run') else '未运行'}",
         f"- 最终 verdict：`{summary.get('final_verdict')}`",
@@ -315,6 +328,9 @@ def write_tiny_retrain_confirmation_summary(
     else:
         final_verdict = "scientific_not_supported"
         scientific_terminal_state = None
+
+    current_backend = str((eval_summary or {}).get("evaluation_backend") or probe_summary.get("evaluation_backend") or "")
+    parity_invalidated = bool((probe_summary or eval_summary) and current_backend != "mujoco")
     summary = {
         "confirmation_mode": "tiny_retrain_confirmation",
         "source_branch": plan.get("source_branch"),
@@ -332,7 +348,18 @@ def write_tiny_retrain_confirmation_summary(
         "train_steps": int(plan.get("train_steps", 1000)),
         "train_seeds": plan.get("train_seeds", []),
         "heldout_seeds": plan.get("heldout_seeds", []),
+        "evaluation_backend": current_backend or plan.get("evaluation_backend"),
+        "evaluation_env_family": plan.get("evaluation_env_family"),
+        "evaluation_cell_id": plan.get("evaluation_cell_id"),
+        "evaluation_state_mode_name": plan.get("evaluation_state_mode_name"),
+        "evaluation_interaction_mode": plan.get("evaluation_interaction_mode"),
     }
+    if parity_invalidated:
+        summary["confirmation_status"] = "parity_invalidated"
+        summary["parity_backend"] = current_backend or "pybullet_legacy"
+    elif current_backend == "mujoco":
+        summary["confirmation_status"] = "parity_repaired"
+        summary["parity_backend"] = "mujoco"
     if heldout_eval_run and eval_summary:
         comparison = eval_summary.get("comparison", {})
         summary.update({

@@ -2362,5 +2362,13 @@ def save_robot_rollout(path: Path, rollout: dict[str, Any]) -> None:
         "resource_budget_snapshot": rollout.get("resource_budget_snapshot", {}),
         "raw_unique_frames": rollout.get("raw_unique_frames", rollout["steps"]),
         "effective_training_frames": rollout.get("effective_training_frames", rollout["steps"]),
+        "selector_mode": rollout.get("selector_mode"),
+        "baseline_cell_id": rollout.get("baseline_cell_id"),
+        "ts_baseline_cell_id": rollout.get("ts_baseline_cell_id"),
+        "frozen_matrix_hash": rollout.get("frozen_matrix_hash"),
+        "lane_hash": rollout.get("lane_hash"),
+        "best_transition_cell": rollout.get("best_transition_cell"),
+        "canonical_train_cell": rollout.get("canonical_train_cell"),
+        "best_train_state_mode": rollout.get("best_train_state_mode"),
     }
     write_text_atomic(path.with_suffix(".json"), json.dumps(_json_ready(meta), indent=2, ensure_ascii=False) + "\n")

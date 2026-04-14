@@ -1,0 +1,609 @@
+{
+  "experiment_id": "RCA5",
+  "generated_at": "2026-04-14T13:48:55+08:00",
+  "selector_mode": "frozen_v5_pro",
+  "baseline_cell_id": "V0T0S0",
+  "ts_baseline_cell_id": "V1cT0S0",
+  "frozen_matrix_hash": "2fd03522cca6be9d",
+  "split_a_seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "measurement_truthful_available": true,
+  "v1c_carrier_canonical_ready": true,
+  "baseline_rollout_summary": {
+    "rollout_count": 8,
+    "unique_success_rate": 0.0,
+    "attach_rate": 0.0,
+    "mean_max_drawer_fraction": 0.0,
+    "avg_episode_length": 96.0,
+    "success_count": 0,
+    "orientation_causal_sensitivity": 0.0,
+    "phase_locked_rate": 0.0,
+    "mean_effective_pull_progress": 0.0,
+    "runtime_handle_anchor_valid_rate": 0.0,
+    "detach_reason_histogram": {}
+  },
+  "transition_cells": [
+    {
+      "cell_id": "V1cT0S0",
+      "lane": {
+        "lane_id": "RCA5_V1cT0S0",
+        "lane_family": "RCA",
+        "stage": "probe",
+        "env_contract_config": {
+          "secondary_camera_mode": "wrist_dynamic",
+          "enable_marker_overlay": false,
+          "calibration_mode": "none",
+          "interaction_mode": "legacy_translation_only",
+          "state_mode": "m0_proxy",
+          "render_profile": "visual_affordance_v3_local_material_edge",
+          "background_mode": "neutral_lowfreq_lab",
+          "lighting_profile": "front_key_handle_rim",
+          "material_policy": "handle_affordance_local",
+          "camera_framing_profile": "macro_handle_centered",
+          "emit_orientation_telemetry": true,
+          "emit_camera_metadata": true,
+          "emit_handle_probe_metadata": true,
+          "canonical_lane": true,
+          "measurement_mode": "truthful_handle_manifest_v1",
+          "measurement_fallback_policy": "forbid",
+          "emit_measurement_debug": false
+        },
+        "interventions": {
+          "rotation_source": "zero",
+          "profile_id": "V1cT0S0",
+          "cell_id": "V1cT0S0"
+        },
+        "dataset_config": {
+          "unique_data_budget": null,
+          "success_repeat": 1,
+          "train_seed_pool": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ],
+          "heldout_seed_pool": [
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "max_steps": 96
+        },
+        "train_config": {
+          "train_steps": 0,
+          "batch_size": 0,
+          "top_k": 0,
+          "tiny_retrain": false,
+          "full_retrain": false
+        },
+        "claim_policy": "canonical",
+        "diagnostic_only": false,
+        "strongest_negative_capped": true,
+        "resource_budget_snapshot": {
+          "policy": {
+            "AUTO_PROMOTE_SOVEREIGN": false,
+            "ALLOW_FULL_RETRAIN": false,
+            "ALLOW_NEW_CLAIM": false,
+            "RUN_MODE": "autonomous_cycle_phase",
+            "EXPERIMENT_FAMILY": "RCA",
+            "SELECTOR_MODE": "frozen_v5_pro",
+            "SEED_SPLIT_A": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "SEED_SPLIT_B": [
+              11,
+              12,
+              13,
+              14,
+              15
+            ],
+            "TRUTHFUL_MEASUREMENT_REQUIRED": true,
+            "PERCEPTION_PROBE_MODE": "policy_encoder_v1",
+            "CAP_STRONGEST_NEGATIVE": true,
+            "RESUME": false
+          },
+          "limits": {
+            "max_rollouts_per_experiment": 3,
+            "max_disk_growth_mb": 4096,
+            "retry_backoff_seconds": 5,
+            "max_retries": 2,
+            "max_cycles_per_run": 8,
+            "max_tiny_retrain_budget": 1
+          },
+          "disk_growth_mb": 0.0,
+          "completed_experiments": [
+            "RCA0",
+            "RCA1",
+            "RCA2",
+            "RCA3",
+            "RCA4"
+          ]
+        },
+        "note": "Transition-cell screen under frozen canonical carrier.",
+        "experiment_id": "RCA5",
+        "coverage": {},
+        "cost": 1.0,
+        "lane_hash": "5d3b08eb0cf4faa1"
+      },
+      "rollout_summary": {
+        "rollout_count": 8,
+        "unique_success_rate": 0.0,
+        "attach_rate": 0.0,
+        "mean_max_drawer_fraction": 0.0,
+        "avg_episode_length": 96.0,
+        "success_count": 0,
+        "orientation_causal_sensitivity": 0.0,
+        "phase_locked_rate": 0.0,
+        "mean_effective_pull_progress": 0.0,
+        "runtime_handle_anchor_valid_rate": 0.0,
+        "detach_reason_histogram": {}
+      },
+      "rollout_ceiling_lift": {
+        "score": 0.0,
+        "delta_unique_success_rate": 0.0,
+        "delta_attach_rate": 0.0,
+        "delta_mean_max_drawer_fraction": 0.0,
+        "delta_phase_locked_rate": 0.0,
+        "delta_mean_effective_pull_progress": 0.0,
+        "delta_avg_episode_length_ratio": 0.0,
+        "delta_orientation_causal_sensitivity": 0.0
+      },
+      "delta_mean_max_drawer_fraction": 0.0,
+      "phase_locked_rate": 0.0,
+      "mean_effective_pull_progress": 0.0
+    },
+    {
+      "cell_id": "V1cT1S0",
+      "lane": {
+        "lane_id": "RCA5_V1cT1S0",
+        "lane_family": "RCA",
+        "stage": "probe",
+        "env_contract_config": {
+          "secondary_camera_mode": "wrist_dynamic",
+          "enable_marker_overlay": false,
+          "calibration_mode": "none",
+          "interaction_mode": "orientation_sensitive_v2_affordance_locked",
+          "state_mode": "m0_proxy",
+          "render_profile": "visual_affordance_v3_local_material_edge",
+          "background_mode": "neutral_lowfreq_lab",
+          "lighting_profile": "front_key_handle_rim",
+          "material_policy": "handle_affordance_local",
+          "camera_framing_profile": "macro_handle_centered",
+          "emit_orientation_telemetry": true,
+          "emit_camera_metadata": true,
+          "emit_handle_probe_metadata": true,
+          "canonical_lane": true,
+          "measurement_mode": "truthful_handle_manifest_v1",
+          "measurement_fallback_policy": "forbid",
+          "emit_measurement_debug": false
+        },
+        "interventions": {
+          "rotation_source": "aligned",
+          "profile_id": "V1cT1S0",
+          "cell_id": "V1cT1S0"
+        },
+        "dataset_config": {
+          "unique_data_budget": null,
+          "success_repeat": 1,
+          "train_seed_pool": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ],
+          "heldout_seed_pool": [
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "max_steps": 96
+        },
+        "train_config": {
+          "train_steps": 0,
+          "batch_size": 0,
+          "top_k": 0,
+          "tiny_retrain": false,
+          "full_retrain": false
+        },
+        "claim_policy": "canonical",
+        "diagnostic_only": false,
+        "strongest_negative_capped": true,
+        "resource_budget_snapshot": {
+          "policy": {
+            "AUTO_PROMOTE_SOVEREIGN": false,
+            "ALLOW_FULL_RETRAIN": false,
+            "ALLOW_NEW_CLAIM": false,
+            "RUN_MODE": "autonomous_cycle_phase",
+            "EXPERIMENT_FAMILY": "RCA",
+            "SELECTOR_MODE": "frozen_v5_pro",
+            "SEED_SPLIT_A": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "SEED_SPLIT_B": [
+              11,
+              12,
+              13,
+              14,
+              15
+            ],
+            "TRUTHFUL_MEASUREMENT_REQUIRED": true,
+            "PERCEPTION_PROBE_MODE": "policy_encoder_v1",
+            "CAP_STRONGEST_NEGATIVE": true,
+            "RESUME": false
+          },
+          "limits": {
+            "max_rollouts_per_experiment": 3,
+            "max_disk_growth_mb": 4096,
+            "retry_backoff_seconds": 5,
+            "max_retries": 2,
+            "max_cycles_per_run": 8,
+            "max_tiny_retrain_budget": 1
+          },
+          "disk_growth_mb": 0.0,
+          "completed_experiments": [
+            "RCA0",
+            "RCA1",
+            "RCA2",
+            "RCA3",
+            "RCA4"
+          ]
+        },
+        "note": "Transition-cell screen under frozen canonical carrier.",
+        "experiment_id": "RCA5",
+        "coverage": {},
+        "cost": 1.0,
+        "lane_hash": "370c7b24e42d850c"
+      },
+      "rollout_summary": {
+        "rollout_count": 8,
+        "unique_success_rate": 0.0,
+        "attach_rate": 0.0,
+        "mean_max_drawer_fraction": 0.0,
+        "avg_episode_length": 96.0,
+        "success_count": 0,
+        "orientation_causal_sensitivity": 0.0,
+        "phase_locked_rate": 0.0,
+        "mean_effective_pull_progress": 0.0,
+        "runtime_handle_anchor_valid_rate": 0.0,
+        "detach_reason_histogram": {}
+      },
+      "rollout_ceiling_lift": {
+        "score": 0.0,
+        "delta_unique_success_rate": 0.0,
+        "delta_attach_rate": 0.0,
+        "delta_mean_max_drawer_fraction": 0.0,
+        "delta_phase_locked_rate": 0.0,
+        "delta_mean_effective_pull_progress": 0.0,
+        "delta_avg_episode_length_ratio": 0.0,
+        "delta_orientation_causal_sensitivity": 0.0
+      },
+      "delta_mean_max_drawer_fraction": 0.0,
+      "phase_locked_rate": 0.0,
+      "mean_effective_pull_progress": 0.0
+    },
+    {
+      "cell_id": "V1cT2S0",
+      "lane": {
+        "lane_id": "RCA5_V1cT2S0",
+        "lane_family": "RCA",
+        "stage": "probe",
+        "env_contract_config": {
+          "secondary_camera_mode": "wrist_dynamic",
+          "enable_marker_overlay": false,
+          "calibration_mode": "none",
+          "interaction_mode": "orientation_sensitive_v3_task_identity_locked",
+          "state_mode": "m0_proxy",
+          "render_profile": "visual_affordance_v3_local_material_edge",
+          "background_mode": "neutral_lowfreq_lab",
+          "lighting_profile": "front_key_handle_rim",
+          "material_policy": "handle_affordance_local",
+          "camera_framing_profile": "macro_handle_centered",
+          "emit_orientation_telemetry": true,
+          "emit_camera_metadata": true,
+          "emit_handle_probe_metadata": true,
+          "canonical_lane": true,
+          "measurement_mode": "truthful_handle_manifest_v1",
+          "measurement_fallback_policy": "forbid",
+          "emit_measurement_debug": false
+        },
+        "interventions": {
+          "rotation_source": "aligned",
+          "profile_id": "V1cT2S0",
+          "cell_id": "V1cT2S0"
+        },
+        "dataset_config": {
+          "unique_data_budget": null,
+          "success_repeat": 1,
+          "train_seed_pool": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ],
+          "heldout_seed_pool": [
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "max_steps": 96
+        },
+        "train_config": {
+          "train_steps": 0,
+          "batch_size": 0,
+          "top_k": 0,
+          "tiny_retrain": false,
+          "full_retrain": false
+        },
+        "claim_policy": "canonical",
+        "diagnostic_only": false,
+        "strongest_negative_capped": true,
+        "resource_budget_snapshot": {
+          "policy": {
+            "AUTO_PROMOTE_SOVEREIGN": false,
+            "ALLOW_FULL_RETRAIN": false,
+            "ALLOW_NEW_CLAIM": false,
+            "RUN_MODE": "autonomous_cycle_phase",
+            "EXPERIMENT_FAMILY": "RCA",
+            "SELECTOR_MODE": "frozen_v5_pro",
+            "SEED_SPLIT_A": [
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8
+            ],
+            "SEED_SPLIT_B": [
+              11,
+              12,
+              13,
+              14,
+              15
+            ],
+            "TRUTHFUL_MEASUREMENT_REQUIRED": true,
+            "PERCEPTION_PROBE_MODE": "policy_encoder_v1",
+            "CAP_STRONGEST_NEGATIVE": true,
+            "RESUME": false
+          },
+          "limits": {
+            "max_rollouts_per_experiment": 3,
+            "max_disk_growth_mb": 4096,
+            "retry_backoff_seconds": 5,
+            "max_retries": 2,
+            "max_cycles_per_run": 8,
+            "max_tiny_retrain_budget": 1
+          },
+          "disk_growth_mb": 0.0,
+          "completed_experiments": [
+            "RCA0",
+            "RCA1",
+            "RCA2",
+            "RCA3",
+            "RCA4"
+          ]
+        },
+        "note": "Transition-cell screen under frozen canonical carrier.",
+        "experiment_id": "RCA5",
+        "coverage": {},
+        "cost": 1.0,
+        "lane_hash": "ab10522af87d8cdf"
+      },
+      "rollout_summary": {
+        "rollout_count": 8,
+        "unique_success_rate": 0.75,
+        "attach_rate": 1.0,
+        "mean_max_drawer_fraction": 0.7633914617491679,
+        "avg_episode_length": 49.875,
+        "success_count": 6,
+        "orientation_causal_sensitivity": 0.011088771745562553,
+        "phase_locked_rate": 0.29925109818577766,
+        "mean_effective_pull_progress": 0.0018481285878806375,
+        "runtime_handle_anchor_valid_rate": 1.0,
+        "detach_reason_histogram": {}
+      },
+      "rollout_ceiling_lift": {
+        "score": 0.4243282728987338,
+        "delta_unique_success_rate": 0.75,
+        "delta_attach_rate": 1.0,
+        "delta_mean_max_drawer_fraction": 0.7633914617491679,
+        "delta_phase_locked_rate": 0.29925109818577766,
+        "delta_mean_effective_pull_progress": 0.0018481285878806375,
+        "delta_avg_episode_length_ratio": -0.48046875,
+        "delta_orientation_causal_sensitivity": 0.011088771745562553
+      },
+      "delta_mean_max_drawer_fraction": 0.7633914617491679,
+      "phase_locked_rate": 0.29925109818577766,
+      "mean_effective_pull_progress": 0.0018481285878806375
+    }
+  ],
+  "best_transition_cell": "V1cT2S0",
+  "best_transition_payload": {
+    "cell_id": "V1cT2S0",
+    "lane": {
+      "lane_id": "RCA5_V1cT2S0",
+      "lane_family": "RCA",
+      "stage": "probe",
+      "env_contract_config": {
+        "secondary_camera_mode": "wrist_dynamic",
+        "enable_marker_overlay": false,
+        "calibration_mode": "none",
+        "interaction_mode": "orientation_sensitive_v3_task_identity_locked",
+        "state_mode": "m0_proxy",
+        "render_profile": "visual_affordance_v3_local_material_edge",
+        "background_mode": "neutral_lowfreq_lab",
+        "lighting_profile": "front_key_handle_rim",
+        "material_policy": "handle_affordance_local",
+        "camera_framing_profile": "macro_handle_centered",
+        "emit_orientation_telemetry": true,
+        "emit_camera_metadata": true,
+        "emit_handle_probe_metadata": true,
+        "canonical_lane": true,
+        "measurement_mode": "truthful_handle_manifest_v1",
+        "measurement_fallback_policy": "forbid",
+        "emit_measurement_debug": false
+      },
+      "interventions": {
+        "rotation_source": "aligned",
+        "profile_id": "V1cT2S0",
+        "cell_id": "V1cT2S0"
+      },
+      "dataset_config": {
+        "unique_data_budget": null,
+        "success_repeat": 1,
+        "train_seed_pool": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "heldout_seed_pool": [
+          11,
+          12,
+          13,
+          14,
+          15
+        ],
+        "max_steps": 96
+      },
+      "train_config": {
+        "train_steps": 0,
+        "batch_size": 0,
+        "top_k": 0,
+        "tiny_retrain": false,
+        "full_retrain": false
+      },
+      "claim_policy": "canonical",
+      "diagnostic_only": false,
+      "strongest_negative_capped": true,
+      "resource_budget_snapshot": {
+        "policy": {
+          "AUTO_PROMOTE_SOVEREIGN": false,
+          "ALLOW_FULL_RETRAIN": false,
+          "ALLOW_NEW_CLAIM": false,
+          "RUN_MODE": "autonomous_cycle_phase",
+          "EXPERIMENT_FAMILY": "RCA",
+          "SELECTOR_MODE": "frozen_v5_pro",
+          "SEED_SPLIT_A": [
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ],
+          "SEED_SPLIT_B": [
+            11,
+            12,
+            13,
+            14,
+            15
+          ],
+          "TRUTHFUL_MEASUREMENT_REQUIRED": true,
+          "PERCEPTION_PROBE_MODE": "policy_encoder_v1",
+          "CAP_STRONGEST_NEGATIVE": true,
+          "RESUME": false
+        },
+        "limits": {
+          "max_rollouts_per_experiment": 3,
+          "max_disk_growth_mb": 4096,
+          "retry_backoff_seconds": 5,
+          "max_retries": 2,
+          "max_cycles_per_run": 8,
+          "max_tiny_retrain_budget": 1
+        },
+        "disk_growth_mb": 0.0,
+        "completed_experiments": [
+          "RCA0",
+          "RCA1",
+          "RCA2",
+          "RCA3",
+          "RCA4"
+        ]
+      },
+      "note": "Transition-cell screen under frozen canonical carrier.",
+      "experiment_id": "RCA5",
+      "coverage": {},
+      "cost": 1.0,
+      "lane_hash": "ab10522af87d8cdf"
+    },
+    "rollout_summary": {
+      "rollout_count": 8,
+      "unique_success_rate": 0.75,
+      "attach_rate": 1.0,
+      "mean_max_drawer_fraction": 0.7633914617491679,
+      "avg_episode_length": 49.875,
+      "success_count": 6,
+      "orientation_causal_sensitivity": 0.011088771745562553,
+      "phase_locked_rate": 0.29925109818577766,
+      "mean_effective_pull_progress": 0.0018481285878806375,
+      "runtime_handle_anchor_valid_rate": 1.0,
+      "detach_reason_histogram": {}
+    },
+    "rollout_ceiling_lift": {
+      "score": 0.4243282728987338,
+      "delta_unique_success_rate": 0.75,
+      "delta_attach_rate": 1.0,
+      "delta_mean_max_drawer_fraction": 0.7633914617491679,
+      "delta_phase_locked_rate": 0.29925109818577766,
+      "delta_mean_effective_pull_progress": 0.0018481285878806375,
+      "delta_avg_episode_length_ratio": -0.48046875,
+      "delta_orientation_causal_sensitivity": 0.011088771745562553
+    },
+    "delta_mean_max_drawer_fraction": 0.7633914617491679,
+    "phase_locked_rate": 0.29925109818577766,
+    "mean_effective_pull_progress": 0.0018481285878806375
+  },
+  "best_train_state_mode": "S0",
+  "best_train_state_name": "m0_proxy",
+  "canonical_train_cell": "V1cT2S0",
+  "preferred_canonical_train_cell": "V1cT2S2",
+  "passed": true
+}

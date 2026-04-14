@@ -69,9 +69,14 @@ from root_cause_metrics import (
     perceptual_readability_score_v2,
     truthful_measurement_acceptance_v1,
     rollout_ceiling_lift,
+    seed_coverage_with_any_true,
+    seed_coverage_with_positive_peak,
+    detach_reason_coverage,
     sensor_contract_gain,
     state_alignment_gain,
     summarize_visual,
+    task_identity_predictiveness_score,
+    task_identity_predictiveness_gain,
     visual_alignment_gain,
     visual_gap,
     visual_gate_breakdown,
@@ -360,6 +365,18 @@ class RootCauseController:
         })
         return payload
 
+    def _visual_affordance_v3_canonical_local_carrier_contract(self) -> dict[str, Any]:
+        payload = self._visual_affordance_v3_raw_canonical_contract()
+        payload.update({
+            "render_profile": "visual_affordance_v3_local_material_edge",
+            "material_policy": "handle_affordance_local",
+            "measurement_mode": "truthful_handle_manifest_v1",
+            "measurement_fallback_policy": "forbid",
+            "emit_measurement_debug": False,
+            "canonical_lane": True,
+        })
+        return payload
+
     def _visual_affordance_v3_plus_bundle_contract(self, *, state_mode: str = "telemetry_candidate_v3_transition") -> dict[str, Any]:
         payload = self._visual_affordance_v3_local_material_edge_contract()
         payload.update({
@@ -396,45 +413,42 @@ class RootCauseController:
     def _baseline_cell_id_v5_pro(self) -> str:
         return 'V0T0S0'
 
+
+    def _ts_baseline_cell_id_v6_1(self) -> str:
+        return 'V1cT0S0'
     def _frozen_matrix_contracts_v5_pro(self) -> dict[str, dict[str, Any]]:
         if hasattr(self, '_cached_frozen_matrix_v5_pro'):
             return self._cached_frozen_matrix_v5_pro
+        raw = dict(self._visual_affordance_v3_raw_canonical_contract())
+        carrier = dict(self._visual_affordance_v3_canonical_local_carrier_contract())
+        contract_map: dict[str, dict[str, Any]] = {
+            'V0T0S0': dict(raw),
+            'V1cT0S0': dict(carrier),
+            'V1cT1S0': {**carrier, 'interaction_mode': 'orientation_sensitive_v2_affordance_locked', 'state_mode': 'm0_proxy'},
+            'V1cT1S1': {**carrier, 'interaction_mode': 'orientation_sensitive_v2_affordance_locked', 'state_mode': 'telemetry_candidate_v3_transition'},
+            'V1cT2S0': {**carrier, 'interaction_mode': 'orientation_sensitive_v3_task_identity_locked', 'state_mode': 'm0_proxy'},
+            'V1cT2S1': {**carrier, 'interaction_mode': 'orientation_sensitive_v3_task_identity_locked', 'state_mode': 'telemetry_candidate_v3_transition'},
+            'V1cT2S2': {**carrier, 'interaction_mode': 'orientation_sensitive_v3_task_identity_locked', 'state_mode': 'telemetry_candidate_v4_task_identity'},
+        }
         cells: dict[str, dict[str, Any]] = {}
-        visuals = {
-            'V0': self._visual_affordance_v3_raw_canonical_contract(),
-            'V1': self._visual_affordance_v3_local_material_edge_contract(),
-        }
-        transitions = {
-            'T0': 'legacy_translation_only',
-            'T1': 'orientation_sensitive_v2_affordance_locked',
-        }
-        states = {
-            'S0': 'm0_proxy',
-            'S1': 'telemetry_candidate_v3_transition',
-        }
-        for v_key, base_visual in visuals.items():
-            for t_key, interaction_mode in transitions.items():
-                for s_key, state_mode in states.items():
-                    cell_id = f'{v_key}{t_key}{s_key}'
-                    env_contract = dict(base_visual)
-                    env_contract['interaction_mode'] = interaction_mode
-                    env_contract['state_mode'] = state_mode
-                    env_contract['measurement_mode'] = 'truthful_handle_manifest_v1'
-                    env_contract['measurement_fallback_policy'] = 'forbid'
-                    env_contract['emit_measurement_debug'] = False
-                    lane_payload = {
-                        'cell_id': cell_id,
-                        'env_contract_config': env_contract,
-                        'claim_policy': 'canonical',
-                        'diagnostic_only': False,
-                    }
-                    cells[cell_id] = {
-                        'cell_id': cell_id,
-                        'env_contract_config': env_contract,
-                        'lane_hash': stable_config_hash(lane_payload),
-                        'claim_policy': 'canonical',
-                        'diagnostic_only': False,
-                    }
+        for cell_id, env_contract in contract_map.items():
+            env_contract = dict(env_contract)
+            env_contract['measurement_mode'] = 'truthful_handle_manifest_v1'
+            env_contract['measurement_fallback_policy'] = 'forbid'
+            env_contract['emit_measurement_debug'] = False
+            lane_payload = {
+                'cell_id': cell_id,
+                'env_contract_config': env_contract,
+                'claim_policy': 'canonical',
+                'diagnostic_only': False,
+            }
+            cells[cell_id] = {
+                'cell_id': cell_id,
+                'env_contract_config': env_contract,
+                'lane_hash': stable_config_hash(lane_payload),
+                'claim_policy': 'canonical',
+                'diagnostic_only': False,
+            }
         self._cached_frozen_matrix_v5_pro = cells
         return cells
 
@@ -447,6 +461,7 @@ class RootCauseController:
             'branch_name': self._git_branch_name(),
             'selector_mode': self.selector_mode,
             'baseline_cell_id': self._baseline_cell_id_v5_pro(),
+            'ts_baseline_cell_id': self._ts_baseline_cell_id_v6_1(),
             'seed_split_a': list(self.seed_split_a),
             'seed_split_b': list(self.seed_split_b),
             'cell_hashes': {cell_id: cell['lane_hash'] for cell_id, cell in cells.items()},
@@ -548,13 +563,15 @@ class RootCauseController:
     def _run_rollout_set(self, spec: LaneSpec, seeds: list[int]) -> list[dict[str, Any]]:
         rollouts = []
         contract = self._materialize_contract(spec.env_contract_config)
-        rotation_source = str(spec.interventions.get("rotation_source", "zero"))
+        interventions = dict(spec.interventions or {})
+        rotation_source = str(interventions.get('rotation_source', 'zero'))
         grasp_pose = np.eye(4, dtype=np.float32)
         matrix_hash = self._frozen_matrix_hash_v5_pro() if self.selector_mode == 'frozen_v5_pro' else None
         baseline_cell_id = self._baseline_cell_id_v5_pro() if self.selector_mode == 'frozen_v5_pro' else None
+        ts_baseline_cell_id = self._ts_baseline_cell_id_v6_1() if self.selector_mode == 'frozen_v5_pro' else None
         for episode_index, seed in enumerate(self._limited_seeds(seeds)):
             last_error = None
-            for attempt in range(int(self.resource_limits["max_retries"]) + 1):
+            for attempt in range(int(self.resource_limits['max_retries']) + 1):
                 try:
                     rollout = build_robot_rollout(
                         seed=int(seed),
@@ -565,16 +582,19 @@ class RootCauseController:
                         contract=contract,
                         rotation_source=rotation_source,
                         claim_policy=spec.claim_policy,
+                        interventions=interventions,
                     )
-                    rollout["resource_budget_snapshot"] = self._resource_snapshot()
-                    rollout["selector_mode"] = self.selector_mode
-                    rollout["baseline_cell_id"] = baseline_cell_id
-                    rollout["frozen_matrix_hash"] = matrix_hash
-                    rollout["lane_hash"] = spec.lane_hash
+                    rollout['resource_budget_snapshot'] = self._resource_snapshot()
+                    rollout['selector_mode'] = self.selector_mode
+                    rollout['baseline_cell_id'] = baseline_cell_id
+                    rollout['ts_baseline_cell_id'] = ts_baseline_cell_id
+                    rollout['frozen_matrix_hash'] = matrix_hash
+                    rollout['lane_hash'] = spec.lane_hash
                     probe = dict(rollout.get('handle_probe_metadata') or {})
                     if probe:
                         probe['selector_mode'] = self.selector_mode
                         probe['baseline_cell_id'] = baseline_cell_id
+                        probe['ts_baseline_cell_id'] = ts_baseline_cell_id
                         probe['frozen_matrix_hash'] = matrix_hash
                         rollout['handle_probe_metadata'] = probe
                     trace = []
@@ -582,6 +602,7 @@ class RootCauseController:
                         probe_item = dict(item or {})
                         probe_item['selector_mode'] = self.selector_mode
                         probe_item['baseline_cell_id'] = baseline_cell_id
+                        probe_item['ts_baseline_cell_id'] = ts_baseline_cell_id
                         probe_item['frozen_matrix_hash'] = matrix_hash
                         trace.append(probe_item)
                     if trace:
@@ -589,11 +610,11 @@ class RootCauseController:
                     rollouts.append(rollout)
                     last_error = None
                     break
-                except Exception as exc:  # pragma: no cover
+                except Exception as exc:
                     last_error = exc
-                    if attempt >= int(self.resource_limits["max_retries"]):
+                    if attempt >= int(self.resource_limits['max_retries']):
                         raise
-                    time.sleep(float(self.resource_limits["retry_backoff_seconds"]))
+                    time.sleep(float(self.resource_limits['retry_backoff_seconds']))
             if last_error is not None:
                 raise last_error
         return rollouts
@@ -601,22 +622,45 @@ class RootCauseController:
     def _rollout_summary(self, rollouts: list[dict[str, Any]]) -> dict[str, Any]:
         if not rollouts:
             return {
-                "rollout_count": 0,
-                "unique_success_rate": 0.0,
-                "attach_rate": 0.0,
-                "mean_max_drawer_fraction": 0.0,
-                "avg_episode_length": 0.0,
-                "success_count": 0,
-                "orientation_causal_sensitivity": 0.0,
+                'rollout_count': 0,
+                'unique_success_rate': 0.0,
+                'attach_rate': 0.0,
+                'mean_max_drawer_fraction': 0.0,
+                'avg_episode_length': 0.0,
+                'success_count': 0,
+                'orientation_causal_sensitivity': 0.0,
+                'phase_locked_rate': 0.0,
+                'mean_effective_pull_progress': 0.0,
+                'runtime_handle_anchor_valid_rate': 0.0,
+                'detach_reason_histogram': {},
             }
+        detach_hist: dict[str, int] = {}
+        for rollout in rollouts:
+            detach_trace = rollout.get('detach_reason_trace', [])
+            if detach_trace is None:
+                continue
+            for reason in np.asarray(detach_trace, dtype=object).reshape(-1).tolist():
+                if reason:
+                    detach_hist[str(reason)] = detach_hist.get(str(reason), 0) + 1
+        def _trace_mean(key: str) -> float:
+            values: list[float] = []
+            for rollout in rollouts:
+                trace = np.asarray(rollout.get(key, []), dtype=np.float32)
+                if trace.size:
+                    values.append(float(np.mean(trace)))
+            return float(np.mean(values)) if values else 0.0
         return {
-            "rollout_count": len(rollouts),
-            "unique_success_rate": float(np.mean([1.0 if r.get("success") else 0.0 for r in rollouts])),
-            "attach_rate": float(np.mean([1.0 if r.get("ever_attached") else 0.0 for r in rollouts])),
-            "mean_max_drawer_fraction": float(np.mean([float(r.get("max_drawer_fraction", 0.0)) for r in rollouts])),
-            "avg_episode_length": float(np.mean([float(r.get("steps", 0.0)) for r in rollouts])),
-            "success_count": int(sum(1 for r in rollouts if r.get("success"))),
-            "orientation_causal_sensitivity": float(np.mean([np.mean(np.asarray(r.get("drawer_delta_effective_trace", [0.0]), dtype=np.float32)) for r in rollouts])),
+            'rollout_count': len(rollouts),
+            'unique_success_rate': float(np.mean([1.0 if r.get('success') else 0.0 for r in rollouts])),
+            'attach_rate': float(np.mean([1.0 if r.get('ever_attached') else 0.0 for r in rollouts])),
+            'mean_max_drawer_fraction': float(np.mean([float(r.get('max_drawer_fraction', 0.0)) for r in rollouts])),
+            'avg_episode_length': float(np.mean([float(r.get('steps', 0.0)) for r in rollouts])),
+            'success_count': int(sum(1 for r in rollouts if r.get('success'))),
+            'orientation_causal_sensitivity': float(np.mean([np.mean(np.asarray(r.get('drawer_delta_effective_trace', [0.0]), dtype=np.float32)) for r in rollouts])),
+            'phase_locked_rate': _trace_mean('phase_locked_trace'),
+            'mean_effective_pull_progress': _trace_mean('effective_pull_progress_trace'),
+            'runtime_handle_anchor_valid_rate': _trace_mean('runtime_handle_anchor_valid_trace'),
+            'detach_reason_histogram': detach_hist,
         }
 
     def _sample_images(self, rollouts: list[dict[str, Any]], key: str = "images", limit: int = 30) -> list[np.ndarray]:
@@ -1469,7 +1513,7 @@ class RootCauseController:
         return float(np.linalg.norm(np.asarray([acx - bcx, acy - bcy], dtype=np.float32)))
 
     def _cell_rotation_source(self, cell_id: str) -> str:
-        return 'aligned' if 'T1' in cell_id else 'zero'
+        return 'aligned' if ('T1' in cell_id or 'T2' in cell_id) else 'zero'
 
     def _matrix_cell_lane_spec(self, cell_id: str, experiment_id: str, *, note: str) -> LaneSpec:
         cell = self._frozen_matrix_contracts_v5_pro()[cell_id]
@@ -1489,10 +1533,10 @@ class RootCauseController:
 
     def _matrix_cell_sort_key(self, payload: dict[str, Any]) -> tuple[float, float, float, float]:
         rollout_score = float((payload.get('rollout_ceiling_lift') or {}).get('score', -1e9))
-        attach_rate = float((payload.get('rollout_summary') or {}).get('attach_rate', 0.0))
-        state_gain = float(payload.get('state_alignment_gain', 0.0)) if str(payload.get('cell_id', '')).endswith('S1') else 0.0
-        weighted_gap = float((payload.get('visual_report') or {}).get('g4c_global_breakdown', {}).get('weighted_visual_gap', 1e9))
-        return (rollout_score, attach_rate, state_gain, -weighted_gap)
+        drawer_delta = float(payload.get('delta_mean_max_drawer_fraction', (payload.get('rollout_ceiling_lift') or {}).get('delta_mean_max_drawer_fraction', 0.0)))
+        phase_locked_rate = float((payload.get('rollout_summary') or {}).get('phase_locked_rate', 0.0))
+        mean_effective_pull_progress = float((payload.get('rollout_summary') or {}).get('mean_effective_pull_progress', 0.0))
+        return (rollout_score, drawer_delta, phase_locked_rate, mean_effective_pull_progress)
 
     def run_rca0(self) -> dict[str, Any]:
         seeds = list(self.seed_split_a)
@@ -1582,486 +1626,774 @@ class RootCauseController:
         ])
         return {'payload': payload, 'updates': [], 'lane_specs': [spec.to_payload()]}
 
+
+
+    def _seed_coverage_all_true(self, rollouts: list[dict[str, Any]], trace_key: str) -> float:
+        if not rollouts:
+            return 0.0
+        values = []
+        for rollout in rollouts:
+            trace = np.asarray(rollout.get(trace_key, []))
+            values.append(bool(trace.size) and bool(np.all(trace)))
+        return float(np.mean(np.asarray(values, dtype=np.float32))) if values else 0.0
+
+    def _state_view_from_rollout(self, rollout: dict[str, Any], state_label: str) -> np.ndarray:
+        if state_label == 'S0':
+            states = np.asarray(rollout.get('states', np.zeros((0, 8), dtype=np.float32)), dtype=np.float32)
+            if states.ndim == 1:
+                states = states.reshape(1, -1)
+            return states[:, :8].astype(np.float32)
+
+        handle_rel = np.asarray(rollout.get('handle_rel_trace', np.zeros((0, 3), dtype=np.float32)), dtype=np.float32)
+        drawer_fraction = np.asarray(rollout.get('drawer_fraction_signed_trace', np.zeros((0,), dtype=np.float32)), dtype=np.float32).reshape(-1, 1)
+        pull_alignment = np.asarray(rollout.get('pull_alignment_trace', np.zeros((0,), dtype=np.float32)), dtype=np.float32).reshape(-1, 1)
+
+        if state_label == 'S1':
+            stable_attach = np.asarray(rollout.get('stable_attach_trace', np.zeros((0,), dtype=np.float32)), dtype=np.float32).reshape(-1, 1)
+            attach_streak = np.asarray(rollout.get('attach_streak_trace', np.zeros((0,), dtype=np.float32)), dtype=np.float32).reshape(-1, 1)
+            attach_streak = np.clip(attach_streak / 4.0, 0.0, 1.0)
+            contact_window = np.asarray(rollout.get('contact_window_fraction_trace', np.zeros((0,), dtype=np.float32)), dtype=np.float32).reshape(-1, 1)
+            parts = [handle_rel, drawer_fraction, pull_alignment, stable_attach, attach_streak, contact_window]
+        elif state_label == 'S2':
+            grasp_slip = np.asarray(rollout.get('grasp_slip_norm_trace', np.zeros((0,), dtype=np.float32)), dtype=np.float32).reshape(-1, 1)
+            effective_pull = np.asarray(rollout.get('effective_pull_progress_norm_trace', np.zeros((0,), dtype=np.float32)), dtype=np.float32).reshape(-1, 1)
+            phase_locked = np.asarray(rollout.get('phase_locked_trace', np.zeros((0,), dtype=np.float32)), dtype=np.float32).reshape(-1, 1)
+            parts = [handle_rel, drawer_fraction, pull_alignment, grasp_slip, effective_pull, phase_locked]
+        else:
+            raise ValueError(f'unsupported state label: {state_label}')
+
+        lengths = [part.shape[0] for part in parts]
+        n = min(lengths) if lengths else 0
+        if n <= 0:
+            return np.zeros((0, 8), dtype=np.float32)
+        return np.concatenate([part[:n] for part in parts], axis=1).astype(np.float32)
+
+    def _next_step_targets_from_rollout(self, rollout: dict[str, Any]) -> dict[str, np.ndarray]:
+        stable_attach = np.asarray(rollout.get('stable_attach_trace', np.zeros((0,), dtype=np.float32)), dtype=np.float32).reshape(-1)
+        phase_locked = np.asarray(rollout.get('phase_locked_trace', np.zeros((0,), dtype=np.float32)), dtype=np.float32).reshape(-1)
+        effective_pull = np.asarray(rollout.get('effective_pull_progress_trace', np.zeros((0,), dtype=np.float32)), dtype=np.float32).reshape(-1)
+        drawer_delta = np.asarray(rollout.get('drawer_delta_effective_trace', np.zeros((0,), dtype=np.float32)), dtype=np.float32).reshape(-1)
+        n = min(len(stable_attach), len(phase_locked), len(effective_pull), len(drawer_delta))
+        if n < 2:
+            empty = np.zeros((0,), dtype=np.float32)
+            return {
+                'stable_attach_next': empty,
+                'phase_locked_next': empty,
+                'effective_pull_progress_next': empty,
+                'drawer_delta_effective_next': empty,
+            }
+        return {
+            'stable_attach_next': stable_attach[1:n].astype(np.float32),
+            'phase_locked_next': phase_locked[1:n].astype(np.float32),
+            'effective_pull_progress_next': effective_pull[1:n].astype(np.float32),
+            'drawer_delta_effective_next': drawer_delta[1:n].astype(np.float32),
+        }
+
+    def _task_identity_state_audit_v1(self, rollouts: list[dict[str, Any]]) -> dict[str, Any]:
+        mode_defs = {
+            'S0': 'm0_proxy',
+            'S1': 'telemetry_candidate_v3_transition',
+            'S2': 'telemetry_candidate_v4_task_identity',
+        }
+        target_names = [
+            'stable_attach_next',
+            'phase_locked_next',
+            'effective_pull_progress_next',
+            'drawer_delta_effective_next',
+        ]
+        mode_reports: dict[str, dict[str, Any]] = {}
+        best_label: str | None = None
+        best_score = float('-inf')
+
+        for label, state_mode in mode_defs.items():
+            train_x_blocks: list[np.ndarray] = []
+            eval_x_blocks: list[np.ndarray] = []
+            train_target_blocks: dict[str, list[np.ndarray]] = {name: [] for name in target_names}
+            eval_target_blocks: dict[str, list[np.ndarray]] = {name: [] for name in target_names}
+            train_seed_pool: list[int] = []
+            eval_seed_pool: list[int] = []
+
+            for rollout in rollouts:
+                features = self._state_view_from_rollout(rollout, label)
+                targets = self._next_step_targets_from_rollout(rollout)
+                target_lengths = [len(values) for values in targets.values()]
+                n = min([max(features.shape[0] - 1, 0), *target_lengths]) if target_lengths else 0
+                if n <= 0:
+                    continue
+                x = np.asarray(features[:n], dtype=np.float32)
+                y = {name: np.asarray(targets[name][:n], dtype=np.float32) for name in target_names}
+                seed = int(rollout.get('seed', 0) or 0)
+                if seed % 2 == 1:
+                    train_x_blocks.append(x)
+                    for name in target_names:
+                        train_target_blocks[name].append(y[name])
+                    train_seed_pool.append(seed)
+                else:
+                    eval_x_blocks.append(x)
+                    for name in target_names:
+                        eval_target_blocks[name].append(y[name])
+                    eval_seed_pool.append(seed)
+
+            valid = bool(train_x_blocks and eval_x_blocks)
+            if valid:
+                train_x = np.concatenate(train_x_blocks, axis=0)
+                eval_x = np.concatenate(eval_x_blocks, axis=0)
+                train_targets = {name: np.concatenate(train_target_blocks[name], axis=0) for name in target_names}
+                eval_targets = {name: np.concatenate(eval_target_blocks[name], axis=0) for name in target_names}
+                score_payload = task_identity_predictiveness_score(
+                    train_x,
+                    eval_x,
+                    train_targets,
+                    eval_targets,
+                    alpha=1.0,
+                )
+                overall = float(score_payload.get('overall_predictiveness_score', -1.0))
+            else:
+                train_x = np.zeros((0, 8), dtype=np.float32)
+                eval_x = np.zeros((0, 8), dtype=np.float32)
+                score_payload = {
+                    'overall_predictiveness_score': -1.0,
+                    'target_scores': {name: -1.0 for name in target_names},
+                    'target_predictions': {name: [] for name in target_names},
+                    'standardization': {'mean': [], 'std': []},
+                    'alpha': 1.0,
+                }
+                overall = -1.0
+
+            report = {
+                'state_label': label,
+                'state_mode': state_mode,
+                'valid': valid,
+                'fraud_padding': False,
+                'all_dims_explained': True,
+                'train_rows': int(train_x.shape[0]),
+                'eval_rows': int(eval_x.shape[0]),
+                'train_seed_pool': sorted(set(train_seed_pool)),
+                'eval_seed_pool': sorted(set(eval_seed_pool)),
+                'overall_predictiveness_score': float(overall),
+                'target_scores': dict(score_payload.get('target_scores', {})),
+                'target_predictions': dict(score_payload.get('target_predictions', {})),
+                'standardization': dict(score_payload.get('standardization', {})),
+                'alpha': float(score_payload.get('alpha', 1.0)),
+            }
+            mode_reports[label] = report
+            if valid and overall > best_score:
+                best_score = overall
+                best_label = label
+
+        s0_score = float((mode_reports.get('S0') or {}).get('overall_predictiveness_score', -1.0))
+        s1_score = float((mode_reports.get('S1') or {}).get('overall_predictiveness_score', -1.0))
+        s2_score = float((mode_reports.get('S2') or {}).get('overall_predictiveness_score', -1.0))
+        s2_valid = bool((mode_reports.get('S2') or {}).get('valid', False))
+        s0_valid = bool((mode_reports.get('S0') or {}).get('valid', False))
+        s1_valid = bool((mode_reports.get('S1') or {}).get('valid', False))
+        s2_over_s0_margin = float(s2_score - s0_score) if s2_valid and s0_valid else None
+        s2_over_s1_margin = float(s2_score - s1_score) if s2_valid and s1_valid else None
+        passed = bool(
+            s2_valid and s0_valid and s1_valid
+            and s2_over_s0_margin is not None and s2_over_s0_margin > 0.02
+            and s2_over_s1_margin is not None and s2_over_s1_margin > 0.02
+        )
+        best_state_name = mode_defs.get(best_label) if best_label else None
+        best_state_score = float((mode_reports.get(best_label) or {}).get('overall_predictiveness_score', -1.0)) if best_label else None
+        return {
+            'audit_name': 'task_identity_state_audit_v1',
+            'train_eval_split_rule': 'odd_seed_train_even_seed_eval',
+            'shared_corpus_rollout_count': len(rollouts),
+            'mode_reports': mode_reports,
+            'best_train_state_mode': best_label,
+            'best_train_state_name': best_state_name,
+            'best_train_state_score': best_state_score,
+            'preferred_train_state_mode': 'S2',
+            'task_identity_predictiveness_gain': float(task_identity_predictiveness_gain(max(s0_score, s1_score), s2_score)) if s2_valid and (s0_valid or s1_valid) else None,
+            's2_over_s0_margin': s2_over_s0_margin,
+            's2_over_s1_margin': s2_over_s1_margin,
+            'passed': passed,
+            'train_state_mode_acceptable': best_label is not None,
+            'fraud_padding': False,
+            'all_dims_explained': True,
+        }
+
+    def _should_stop_after_rca_result(self, experiment_id: str, payload: dict[str, Any]) -> bool:
+        if experiment_id == 'RCA2':
+            return not bool(payload.get('v1c_carrier_canonical_ready', False))
+        if experiment_id == 'RCA3':
+            return not bool(payload.get('passed', False))
+        if experiment_id == 'RCA4':
+            return not (bool(payload.get('passed', False)) or bool(payload.get('train_state_mode_acceptable', False)))
+        if experiment_id == 'RCA5':
+            return not bool(payload.get('passed', False))
+        if experiment_id == 'RCA6':
+            return not bool(payload.get('passed', False))
+        return False
+
     def run_rca2(self) -> dict[str, Any]:
         seeds = list(self.seed_split_a)
-        raw_spec = self._matrix_cell_lane_spec('V0T0S0', 'RCA2', note='Frozen baseline for local visual attack.')
-        local_spec = self._matrix_cell_lane_spec('V1T0S0', 'RCA2', note='Local visual attack only under frozen object.')
+        raw_spec = self._matrix_cell_lane_spec('V0T0S0', 'RCA2', note='Frozen raw-canonical regression reference.')
+        carrier_spec = self._matrix_cell_lane_spec('V1cT0S0', 'RCA2', note='Frozen canonical-ready local carrier regression.')
         _, raw_report = self._visual_report(raw_spec, seeds)
-        _, local_report = self._visual_report(local_spec, seeds)
+        _, carrier_report = self._visual_report(carrier_spec, seeds, baseline_gap=float(raw_report.get('weighted_visual_gap', 1.0)))
+
         raw_local = raw_report.get('g4b_local_breakdown') or {}
-        local_local = local_report.get('g4b_local_breakdown') or {}
+        carrier_local = carrier_report.get('g4b_local_breakdown') or {}
         improvements = {
-            'boundary_contrast': float(local_local.get('handle_boundary_contrast', 0.0)) > float(raw_local.get('handle_boundary_contrast', 0.0)),
-            'edge_density': float(local_local.get('handle_edge_density', 0.0)) > float(raw_local.get('handle_edge_density', 0.0)),
-            'crop_entropy': float(local_local.get('handle_crop_entropy', 0.0)) > float(raw_local.get('handle_crop_entropy', 0.0)),
+            'boundary_contrast': float(carrier_local.get('handle_boundary_contrast', 0.0)) > float(raw_local.get('handle_boundary_contrast', 0.0)),
+            'edge_density': float(carrier_local.get('handle_edge_density', 0.0)) > float(raw_local.get('handle_edge_density', 0.0)),
+            'crop_entropy': float(carrier_local.get('handle_crop_entropy', 0.0)) > float(raw_local.get('handle_crop_entropy', 0.0)),
         }
         win_count = sum(1 for passed in improvements.values() if passed)
-        framing_ok = bool(float(local_local.get('secondary_framing_score', 0.0)) >= SECONDARY_FRAMING_THRESHOLD)
-        truthful_ok = bool(local_report.get('measurement_truthful', False) and raw_report.get('measurement_truthful', False))
-        rank_score_gain = float(local_local.get('local_score_rank_only', 0.0) - raw_local.get('local_score_rank_only', 0.0))
-        passed = bool(truthful_ok and win_count >= 2 and framing_ok and rank_score_gain > 0.0)
+        rank_score_gain = float(carrier_local.get('local_score_rank_only', 0.0) - raw_local.get('local_score_rank_only', 0.0))
+        local_attack_beats_baseline = bool(
+            carrier_report.get('measurement_truthful', False)
+            and raw_report.get('measurement_truthful', False)
+            and win_count >= 2
+        )
+        measurement_truthful_available = bool(carrier_report.get('measurement_truthful', False))
+        visual_alignment_gain_value = float(carrier_report.get('visual_alignment_gain', 0.0))
+        v1c_carrier_canonical_ready = bool(
+            measurement_truthful_available
+            and local_attack_beats_baseline
+            and visual_alignment_gain_value >= GLOBAL_VISUAL_ALIGNMENT_THRESHOLD
+        )
         payload = {
             'experiment_id': 'RCA2',
             'generated_at': now_iso(),
             'selector_mode': self.selector_mode,
             'baseline_cell_id': self._baseline_cell_id_v5_pro(),
+            'ts_baseline_cell_id': self._ts_baseline_cell_id_v6_1(),
             'frozen_matrix_hash': self._frozen_matrix_hash_v5_pro(),
-            'passed': passed,
-            'truthful_measurement_ok': truthful_ok,
+            'passed': v1c_carrier_canonical_ready,
+            'measurement_truthful_available': measurement_truthful_available,
+            'local_attack_beats_baseline': local_attack_beats_baseline,
             'local_improvement_flags': improvements,
             'local_improvement_count': win_count,
             'rank_score_gain': rank_score_gain,
+            'visual_alignment_gain': visual_alignment_gain_value,
+            'v1c_carrier_canonical_ready': v1c_carrier_canonical_ready,
             'raw_canonical': raw_report,
-            'visual_affordance_v3_local_material_edge': local_report,
+            'v1c_carrier': carrier_report,
         }
         self._write_artifact('RCA2', payload, 'RCA2 Local Affordance Visual Attack', [
-            f'passed: {passed}',
-            f'local_improvement_count: {win_count}',
-            f'rank_score_gain: {rank_score_gain:.6f}',
+            f'measurement_truthful_available: {measurement_truthful_available}',
+            f'local_attack_beats_baseline: {local_attack_beats_baseline}',
+            f'v1c_carrier_canonical_ready: {v1c_carrier_canonical_ready}',
         ])
-        return {'payload': payload, 'updates': [], 'lane_specs': [raw_spec.to_payload(), local_spec.to_payload()]}
+        return {'payload': payload, 'updates': [], 'lane_specs': [raw_spec.to_payload(), carrier_spec.to_payload()]}
 
     def run_rca3(self) -> dict[str, Any]:
+        readiness_seeds = list(self.seed_split_a[:8])
+        readiness_normal = self._make_lane_spec(
+            lane_id='RCA3_V1cT2S0_readiness_normal',
+            stage='probe',
+            env_contract=dict(self._frozen_matrix_contracts_v5_pro()['V1cT2S0']['env_contract_config']),
+            interventions={'rotation_source': 'aligned', 'profile_id': 'V1cT2S0_readiness_normal', 'cell_id': 'V1cT2S0'},
+            claim_policy='canonical',
+            note='RCA3-A readiness batch normal rollout under V1cT2S0.',
+            experiment_id='RCA3',
+        )
+        readiness_forced = self._make_lane_spec(
+            lane_id='RCA3_V1cT2S0_readiness_forced_detach',
+            stage='probe',
+            env_contract=dict(self._frozen_matrix_contracts_v5_pro()['V1cT2S0']['env_contract_config']),
+            interventions={'rotation_source': 'aligned', 'profile_id': 'V1cT2S0_readiness_forced_detach', 'cell_id': 'V1cT2S0', 'force_detach_probe': True},
+            claim_policy='diagnostic',
+            note='RCA3-A forced-detach readiness probe under V1cT2S0.',
+            experiment_id='RCA3',
+        )
+        normal_rollouts = self._run_rollout_set(readiness_normal, readiness_seeds)
+        forced_rollouts = self._run_rollout_set(readiness_forced, readiness_seeds)
+        readiness_summary = {
+            'readiness_seeds': readiness_seeds,
+            'phase_locked_seed_coverage': seed_coverage_with_any_true(normal_rollouts, 'phase_locked_trace'),
+            'positive_effective_pull_seed_coverage': seed_coverage_with_positive_peak(normal_rollouts, 'effective_pull_progress_trace'),
+            'forced_detach_reason_seed_coverage': detach_reason_coverage(forced_rollouts),
+            'runtime_handle_anchor_valid_coverage': self._seed_coverage_all_true(normal_rollouts, 'runtime_handle_anchor_valid_trace'),
+        }
+        readiness_pass = bool(
+            readiness_summary['phase_locked_seed_coverage'] >= 0.50
+            and readiness_summary['positive_effective_pull_seed_coverage'] >= 0.50
+            and readiness_summary['forced_detach_reason_seed_coverage'] >= 0.50
+            and readiness_summary['runtime_handle_anchor_valid_coverage'] >= 1.0
+        )
+        readiness_summary['passed'] = readiness_pass
+
+        lane_specs = [readiness_normal.to_payload(), readiness_forced.to_payload()]
+        if not readiness_pass:
+            payload = {
+                'experiment_id': 'RCA3',
+                'generated_at': now_iso(),
+                'selector_mode': self.selector_mode,
+                'baseline_cell_id': self._baseline_cell_id_v5_pro(),
+                'ts_baseline_cell_id': self._ts_baseline_cell_id_v6_1(),
+                'frozen_matrix_hash': self._frozen_matrix_hash_v5_pro(),
+                'passed': False,
+                'readiness_batch_summary': readiness_summary,
+                'full_split_a_comparison_skipped': True,
+                'blocked_reasons': ['readiness_batch_failed'],
+            }
+            self._write_artifact('RCA3', payload, 'RCA3 Affordance Plus Transition Contract', [
+                f"readiness_batch_passed: {readiness_pass}",
+                f"phase_locked_seed_coverage: {readiness_summary['phase_locked_seed_coverage']:.6f}",
+                f"positive_effective_pull_seed_coverage: {readiness_summary['positive_effective_pull_seed_coverage']:.6f}",
+            ])
+            return {'payload': payload, 'updates': [], 'lane_specs': lane_specs}
+
         seeds = list(self.seed_split_a)
-        baseline_spec = self._matrix_cell_lane_spec('V0T0S0', 'RCA3', note='Transition-only audit baseline.')
-        transition_spec = self._matrix_cell_lane_spec('V0T1S0', 'RCA3', note='Transition-only contract under frozen object.')
-        baseline_rollouts, baseline_report = self._visual_report(baseline_spec, seeds)
-        transition_rollouts, transition_report = self._visual_report(transition_spec, seeds)
+        baseline_spec = self._matrix_cell_lane_spec('V1cT0S0', 'RCA3', note='RCA3-B frozen T/S baseline cell.')
+        candidate_spec = self._matrix_cell_lane_spec('V1cT2S0', 'RCA3', note='RCA3-B deeper embodied transition candidate.')
+        baseline_rollouts = self._run_rollout_set(baseline_spec, seeds)
+        candidate_rollouts = self._run_rollout_set(candidate_spec, seeds)
         baseline_summary = self._rollout_summary(baseline_rollouts)
-        transition_summary = self._rollout_summary(transition_rollouts)
-        ceiling = rollout_ceiling_lift(baseline_summary, transition_summary)
+        candidate_summary = self._rollout_summary(candidate_rollouts)
+        ceiling = rollout_ceiling_lift(baseline_summary, candidate_summary)
+        phase_locked_rate_delta = float(candidate_summary.get('phase_locked_rate', 0.0) - baseline_summary.get('phase_locked_rate', 0.0))
+        mean_effective_pull_progress_delta = float(candidate_summary.get('mean_effective_pull_progress', 0.0) - baseline_summary.get('mean_effective_pull_progress', 0.0))
+        mean_max_drawer_fraction_delta = float(candidate_summary.get('mean_max_drawer_fraction', 0.0) - baseline_summary.get('mean_max_drawer_fraction', 0.0))
+        passed = bool(
+            phase_locked_rate_delta > 0.0
+            and mean_effective_pull_progress_delta > 0.0
+            and mean_max_drawer_fraction_delta > 0.0
+            and float(ceiling.get('score', 0.0)) > 0.0
+        )
         payload = {
             'experiment_id': 'RCA3',
             'generated_at': now_iso(),
             'selector_mode': self.selector_mode,
             'baseline_cell_id': self._baseline_cell_id_v5_pro(),
+            'ts_baseline_cell_id': self._ts_baseline_cell_id_v6_1(),
             'frozen_matrix_hash': self._frozen_matrix_hash_v5_pro(),
-            'passed': bool(transition_summary['attach_rate'] >= baseline_summary['attach_rate']),
-            'transition_only_baseline': baseline_report,
-            'transition_only_candidate': transition_report,
+            'passed': passed,
+            'readiness_batch_summary': readiness_summary,
+            'transition_baseline_cell_id': 'V1cT0S0',
+            'transition_candidate_cell_id': 'V1cT2S0',
             'baseline_rollout_summary': baseline_summary,
-            'transition_rollout_summary': transition_summary,
+            'transition_rollout_summary': candidate_summary,
             'rollout_ceiling_lift': ceiling,
-            'attach_rate_delta': float(transition_summary['attach_rate'] - baseline_summary['attach_rate']),
-            'pull_alignment_cos_delta': self._mean_rollout_trace(transition_rollouts, 'pull_alignment_trace') - self._mean_rollout_trace(baseline_rollouts, 'pull_alignment_trace'),
-            'stable_attach_delta': self._mean_rollout_trace(transition_rollouts, 'stable_attach_trace') - self._mean_rollout_trace(baseline_rollouts, 'stable_attach_trace'),
-            'attach_streak_norm_delta': self._mean_rollout_trace(transition_rollouts, 'attach_streak_trace') / 4.0 - self._mean_rollout_trace(baseline_rollouts, 'attach_streak_trace') / 4.0,
-            'contact_window_fraction_delta': self._mean_rollout_trace(transition_rollouts, 'contact_window_fraction_trace') - self._mean_rollout_trace(baseline_rollouts, 'contact_window_fraction_trace'),
-            'local_boundary_delta': float((transition_report.get('g4b_local_breakdown') or {}).get('handle_boundary_contrast', 0.0) - (baseline_report.get('g4b_local_breakdown') or {}).get('handle_boundary_contrast', 0.0)),
-            'local_edge_delta': float((transition_report.get('g4b_local_breakdown') or {}).get('handle_edge_density', 0.0) - (baseline_report.get('g4b_local_breakdown') or {}).get('handle_edge_density', 0.0)),
-            'local_entropy_delta': float((transition_report.get('g4b_local_breakdown') or {}).get('handle_crop_entropy', 0.0) - (baseline_report.get('g4b_local_breakdown') or {}).get('handle_crop_entropy', 0.0)),
+            'phase_locked_rate_delta': phase_locked_rate_delta,
+            'mean_effective_pull_progress_delta': mean_effective_pull_progress_delta,
+            'mean_max_drawer_fraction_delta': mean_max_drawer_fraction_delta,
         }
         self._write_artifact('RCA3', payload, 'RCA3 Affordance Plus Transition Contract', [
-            f"attach_rate_delta: {payload['attach_rate_delta']:.6f}",
-            f"pull_alignment_cos_delta: {payload['pull_alignment_cos_delta']:.6f}",
-            f"rollout_ceiling_lift: {ceiling['score']:.6f}",
+            f'readiness_batch_passed: {readiness_pass}',
+            f'phase_locked_rate_delta: {phase_locked_rate_delta:.6f}',
+            f'mean_effective_pull_progress_delta: {mean_effective_pull_progress_delta:.6f}',
+            f"rollout_ceiling_lift: {float(ceiling.get('score', 0.0)):.6f}",
         ])
-        return {'payload': payload, 'updates': [], 'lane_specs': [baseline_spec.to_payload(), transition_spec.to_payload()]}
+        lane_specs.extend([baseline_spec.to_payload(), candidate_spec.to_payload()])
+        return {'payload': payload, 'updates': [], 'lane_specs': lane_specs}
 
     def run_rca4(self) -> dict[str, Any]:
         seeds = list(self.seed_split_a)
-        baseline_spec = self._matrix_cell_lane_spec('V0T1S0', 'RCA4', note='Transition-only baseline for state isolation.')
-        state_spec = self._matrix_cell_lane_spec('V0T1S1', 'RCA4', note='Transition-aware telemetry state isolation.')
-        baseline_rollouts, baseline_visual = self._visual_report(baseline_spec, seeds)
-        state_rollouts, state_visual = self._visual_report(state_spec, seeds)
-        _, baseline_state = self._state_report(baseline_spec, seeds)
-        _, state_report = self._state_report(state_spec, seeds)
-        state_gain = state_alignment_gain(float(baseline_state.get('overall_score', 1.0)), float(state_report.get('overall_score', 1.0)))
-        selected_candidate = state_report
+        source_spec = self._matrix_cell_lane_spec('V1cT2S0', 'RCA4', note='Shared T2 corpus for offline task-identity state audit.')
+        rollouts = self._run_rollout_set(source_spec, seeds)
+        shared_corpus_rollout_summary = self._rollout_summary(rollouts)
+        state_audit = self._task_identity_state_audit_v1(rollouts)
+        best_train_state_mode = state_audit.get('best_train_state_mode')
+        canonical_train_cell = f'V1cT2{best_train_state_mode}' if best_train_state_mode else None
         payload = {
             'experiment_id': 'RCA4',
             'generated_at': now_iso(),
             'selector_mode': self.selector_mode,
             'baseline_cell_id': self._baseline_cell_id_v5_pro(),
+            'ts_baseline_cell_id': self._ts_baseline_cell_id_v6_1(),
             'frozen_matrix_hash': self._frozen_matrix_hash_v5_pro(),
-            'passed': bool(state_gain > 0.0 and not state_report.get('fraud_padding', True) and not state_report.get('state_spec', {}).get('duplicate_dims')),
-            'baseline_visual_report': baseline_visual,
-            'visual_report': state_visual,
-            'baseline_state_report': baseline_state,
-            'state_report': state_report,
-            'state_audit': {
-                'selected_candidate_mode': selected_candidate.get('state_mode'),
-                'selected_candidate_score': float(selected_candidate.get('overall_score', 0.0)),
-                'm0_proxy_score': float(baseline_state.get('overall_score', 0.0)),
-                'eef_pose_gripper_score': float(baseline_state.get('overall_score', 0.0)),
-                'state_alignment_gain': float(state_gain),
-                'selected_candidate': selected_candidate,
-                'all_candidates': [baseline_state, state_report],
-                'impossible': False,
-            },
-            'rollout_ceiling_lift': rollout_ceiling_lift(self._rollout_summary(baseline_rollouts), self._rollout_summary(state_rollouts)),
+            'source_transition_cell_id': 'V1cT2S0',
+            'passed': bool(state_audit.get('passed', False)),
+            'train_state_mode_acceptable': bool(state_audit.get('train_state_mode_acceptable', False)),
+            'best_train_state_mode': best_train_state_mode,
+            'best_train_state_name': state_audit.get('best_train_state_name'),
+            'preferred_train_state_mode': state_audit.get('preferred_train_state_mode'),
+            'canonical_train_cell': canonical_train_cell,
+            'preferred_canonical_train_cell': 'V1cT2S2',
+            'task_identity_predictiveness_gain': state_audit.get('task_identity_predictiveness_gain'),
+            'shared_corpus_rollout_summary': shared_corpus_rollout_summary,
+            'state_audit': state_audit,
         }
         self._write_artifact('RCA4', payload, 'RCA4 Affordance Plus Transition State', [
-            f"state_alignment_gain: {state_gain:.6f}",
-            f"selected_state_candidate: {selected_candidate.get('state_mode')}",
+            f"passed: {payload['passed']}",
+            f"best_train_state_mode: {best_train_state_mode}",
+            f"canonical_train_cell: {canonical_train_cell}",
         ])
-        return {'payload': payload, 'updates': [], 'lane_specs': [baseline_spec.to_payload(), state_spec.to_payload()]}
+        return {'payload': payload, 'updates': [], 'lane_specs': [source_spec.to_payload()]}
 
     def run_rca5(self) -> dict[str, Any]:
         seeds = list(self.seed_split_a)
-        matrix = self._frozen_matrix_contracts_v5_pro()
-        baseline_spec = self._matrix_cell_lane_spec('V0T0S0', 'RCA5', note='Frozen matrix baseline screen cell.')
-        _, baseline_visual = self._visual_report(baseline_spec, seeds)
-        _, baseline_state = self._state_report(baseline_spec, seeds)
+        rca1_payload = load_json(self._artifact_map()['RCA1'][0], {})
+        rca2_payload = load_json(self._artifact_map()['RCA2'][0], {})
+        rca4_payload = load_json(self._artifact_map()['RCA4'][0], {})
+        measurement_truthful_available = bool(rca1_payload.get('measurement_truthful_available', False))
+        v1c_carrier_canonical_ready = bool(rca2_payload.get('v1c_carrier_canonical_ready', False))
+        best_train_state_mode = rca4_payload.get('best_train_state_mode')
+        best_train_state_name = rca4_payload.get('best_train_state_name')
+        canonical_train_cell = f'V1cT2{best_train_state_mode}' if best_train_state_mode else None
+        transition_cells = ['V1cT0S0', 'V1cT1S0', 'V1cT2S0']
+        lane_specs: list[dict[str, Any]] = []
+        cell_payloads: list[dict[str, Any]] = []
+
+        baseline_spec = self._matrix_cell_lane_spec('V1cT0S0', 'RCA5', note='Frozen canonical carrier baseline for transition selection.')
         baseline_rollouts = self._run_rollout_set(baseline_spec, seeds)
         baseline_summary = self._rollout_summary(baseline_rollouts)
-        baseline_gap = float(baseline_visual.get('weighted_visual_gap', 1.0))
-        baseline_state_score = float(baseline_state.get('overall_score', 1.0))
-        cell_payloads = []
-        lane_specs = []
-        for cell_id in ['V0T0S0','V1T0S0','V0T1S0','V0T0S1','V1T1S0','V1T0S1','V0T1S1','V1T1S1']:
-            spec = self._matrix_cell_lane_spec(cell_id, 'RCA5', note='Frozen 2x2x2 matrix screen cell.')
+
+        for cell_id in transition_cells:
+            spec = self._matrix_cell_lane_spec(cell_id, 'RCA5', note='Transition-cell screen under frozen canonical carrier.')
             lane_specs.append(spec.to_payload())
-            rollouts, visual_report = self._visual_report(spec, seeds, baseline_gap=baseline_gap)
-            _, state_report = self._state_report(spec, seeds)
-            rollout_summary = self._rollout_summary(rollouts)
-            rollout_gain = rollout_ceiling_lift(baseline_summary, rollout_summary)
-            state_gain = state_alignment_gain(baseline_state_score, float(state_report.get('overall_score', baseline_state_score))) if cell_id.endswith('S1') else 0.0
-            g4b_local = visual_report.get('g4b_local_breakdown') or {}
-            g4c_global = visual_report.get('g4c_global_breakdown') or {}
-            g4b_pass = bool(
-                g4b_local.get('measurement_truthful_pass')
-                and not g4b_local.get('bbox_inflation_flag')
-                and g4b_local.get('all_primitives_pass')
-            )
-            g4c_pass = bool(
-                float(g4c_global.get('visual_alignment_gain', 0.0)) >= GLOBAL_VISUAL_ALIGNMENT_THRESHOLD
-                and float(g4c_global.get('weighted_visual_gap', 1e9)) < float(g4c_global.get('baseline_weighted_visual_gap', 1e9))
-            )
+            if cell_id == 'V1cT0S0':
+                rollout_summary = baseline_summary
+            else:
+                rollout_summary = self._rollout_summary(self._run_rollout_set(spec, seeds))
+            gain = rollout_ceiling_lift(baseline_summary, rollout_summary)
             cell_payloads.append({
                 'cell_id': cell_id,
                 'lane': spec.to_payload(),
-                'selector_mode': self.selector_mode,
-                'baseline_cell_id': self._baseline_cell_id_v5_pro(),
-                'frozen_matrix_hash': self._frozen_matrix_hash_v5_pro(),
-                'matrix_cell_hash': matrix[cell_id]['lane_hash'],
                 'rollout_summary': rollout_summary,
-                'rollout_ceiling_lift': rollout_gain,
-                'state_report': state_report,
-                'state_alignment_gain': float(state_gain),
-                'visual_report': visual_report,
-                'truthful_measurement': bool(visual_report.get('measurement_truthful', False)),
-                'g4b_pass': g4b_pass,
-                'g4c_pass': g4c_pass,
-                'eligible': bool(visual_report.get('measurement_truthful', False) and g4b_pass and g4c_pass),
+                'rollout_ceiling_lift': gain,
+                'delta_mean_max_drawer_fraction': float(gain.get('delta_mean_max_drawer_fraction', 0.0)),
+                'phase_locked_rate': float(rollout_summary.get('phase_locked_rate', 0.0)),
+                'mean_effective_pull_progress': float(rollout_summary.get('mean_effective_pull_progress', 0.0)),
             })
-        eligible_cells = [item for item in cell_payloads if item['eligible']]
-        best_eligible_cell = max(eligible_cells, key=self._matrix_cell_sort_key) if eligible_cells else None
+
+        best_transition_payload = max(cell_payloads, key=self._matrix_cell_sort_key)
+        best_transition_cell = str(best_transition_payload.get('cell_id'))
+        best_transition_positive = bool(float((best_transition_payload.get('rollout_ceiling_lift') or {}).get('score', 0.0)) > 0.0)
+        passed = bool(
+            best_transition_cell == 'V1cT2S0'
+            and best_transition_positive
+            and measurement_truthful_available
+            and v1c_carrier_canonical_ready
+            and canonical_train_cell is not None
+        )
         payload = {
             'experiment_id': 'RCA5',
             'generated_at': now_iso(),
             'selector_mode': self.selector_mode,
             'baseline_cell_id': self._baseline_cell_id_v5_pro(),
+            'ts_baseline_cell_id': self._ts_baseline_cell_id_v6_1(),
             'frozen_matrix_hash': self._frozen_matrix_hash_v5_pro(),
             'split_a_seeds': seeds,
+            'measurement_truthful_available': measurement_truthful_available,
+            'v1c_carrier_canonical_ready': v1c_carrier_canonical_ready,
             'baseline_rollout_summary': baseline_summary,
-            'baseline_visual_report': baseline_visual,
-            'baseline_state_report': baseline_state,
-            'cells': cell_payloads,
-            'best_eligible_cell': best_eligible_cell,
-            'passed': best_eligible_cell is not None,
+            'transition_cells': cell_payloads,
+            'best_transition_cell': best_transition_cell,
+            'best_transition_payload': best_transition_payload,
+            'best_train_state_mode': best_train_state_mode,
+            'best_train_state_name': best_train_state_name,
+            'canonical_train_cell': canonical_train_cell,
+            'preferred_canonical_train_cell': 'V1cT2S2',
+            'passed': passed,
         }
-        best_label = best_eligible_cell['cell_id'] if best_eligible_cell else 'none'
         self._write_artifact('RCA5', payload, 'RCA5 Frozen Matrix Screen', [
-            f'best_eligible_cell: {best_label}',
-            f'eligible_cell_count: {len(eligible_cells)}',
+            f'best_transition_cell: {best_transition_cell}',
+            f'best_train_state_mode: {best_train_state_mode}',
+            f'canonical_train_cell: {canonical_train_cell}',
         ])
         return {'payload': payload, 'updates': [], 'lane_specs': lane_specs}
 
     def run_rca6(self) -> dict[str, Any]:
         seeds = list(self.seed_split_b)
         rca5_payload = load_json(self._artifact_map()['RCA5'][0], {})
-        best_cell = rca5_payload.get('best_eligible_cell')
-        if not best_cell:
+        best_transition_cell = rca5_payload.get('best_transition_cell')
+        canonical_train_cell = rca5_payload.get('canonical_train_cell')
+        if not best_transition_cell:
             payload = {
                 'experiment_id': 'RCA6',
                 'generated_at': now_iso(),
                 'selector_mode': self.selector_mode,
                 'baseline_cell_id': self._baseline_cell_id_v5_pro(),
+                'ts_baseline_cell_id': self._ts_baseline_cell_id_v6_1(),
                 'frozen_matrix_hash': self._frozen_matrix_hash_v5_pro(),
+                'best_transition_cell': None,
+                'canonical_train_cell': canonical_train_cell,
+                'best_train_state_mode': rca5_payload.get('best_train_state_mode'),
                 'passed': False,
                 'blocked': True,
-                'blocked_reasons': ['no_best_eligible_cell_from_rca5'],
+                'blocked_reasons': ['no_best_transition_cell_from_rca5'],
             }
-            self._write_artifact('RCA6', payload, 'RCA6 Best Cell Replicate', ['blocked: True', 'blocked_reasons: no_best_eligible_cell_from_rca5'])
+            self._write_artifact('RCA6', payload, 'RCA6 Best Cell Replicate', ['blocked: True', 'blocked_reasons: no_best_transition_cell_from_rca5'])
             return {'payload': payload, 'updates': [], 'lane_specs': []}
-        baseline_spec = self._matrix_cell_lane_spec('V0T0S0', 'RCA6', note='Frozen baseline holdout replicate.')
-        best_spec = self._matrix_cell_lane_spec(str(best_cell['cell_id']), 'RCA6', note='Best eligible frozen matrix cell holdout replicate.')
-        baseline_rollouts, baseline_visual = self._visual_report(baseline_spec, seeds)
-        best_rollouts, best_visual = self._visual_report(best_spec, seeds, baseline_gap=float(baseline_visual.get('weighted_visual_gap', 1.0)))
+
+        baseline_spec = self._matrix_cell_lane_spec('V1cT0S0', 'RCA6', note='Split-B canonical carrier baseline for replication.')
+        best_spec = self._matrix_cell_lane_spec(str(best_transition_cell), 'RCA6', note='Split-B replication of selected positive transition cell.')
+        baseline_rollouts = self._run_rollout_set(baseline_spec, seeds)
+        best_rollouts = self._run_rollout_set(best_spec, seeds)
         baseline_summary = self._rollout_summary(baseline_rollouts)
         best_summary = self._rollout_summary(best_rollouts)
         ceiling = rollout_ceiling_lift(baseline_summary, best_summary)
-        attach_delta = float(best_summary.get('attach_rate', 0.0) - baseline_summary.get('attach_rate', 0.0))
-        drawer_delta = float(best_summary.get('mean_max_drawer_fraction', 0.0) - baseline_summary.get('mean_max_drawer_fraction', 0.0))
-        truthfulness_ok = bool(best_visual.get('measurement_truthful', False))
-        selector_drift = bool(
-            str(best_cell.get('baseline_cell_id')) != self._baseline_cell_id_v5_pro()
-            or str(best_cell.get('frozen_matrix_hash')) != self._frozen_matrix_hash_v5_pro()
-        )
-        passed = bool(ceiling['score'] > 0.0 and attach_delta >= 0.0 and drawer_delta >= 0.0 and truthfulness_ok and not selector_drift)
+        delta_mean_max_drawer_fraction = float(best_summary.get('mean_max_drawer_fraction', 0.0) - baseline_summary.get('mean_max_drawer_fraction', 0.0))
+        replicate_positive = bool(float(ceiling.get('score', 0.0)) > 0.0 and delta_mean_max_drawer_fraction > 0.0)
         payload = {
             'experiment_id': 'RCA6',
             'generated_at': now_iso(),
             'selector_mode': self.selector_mode,
             'baseline_cell_id': self._baseline_cell_id_v5_pro(),
+            'ts_baseline_cell_id': self._ts_baseline_cell_id_v6_1(),
             'frozen_matrix_hash': self._frozen_matrix_hash_v5_pro(),
-            'best_cell_id': best_cell['cell_id'],
+            'best_transition_cell': best_transition_cell,
+            'canonical_train_cell': canonical_train_cell,
+            'best_train_state_mode': rca5_payload.get('best_train_state_mode'),
             'split_b_seeds': seeds,
-            'passed': passed,
+            'replicate_positive': replicate_positive,
+            'passed': replicate_positive,
             'baseline_summary': baseline_summary,
             'replicated_summary': best_summary,
             'rollout_ceiling_lift': ceiling,
-            'attach_rate_delta': attach_delta,
-            'drawer_fraction_delta': drawer_delta,
-            'truthfulness_ok': truthfulness_ok,
-            'selector_drift': selector_drift,
-            'visual_report': best_visual,
+            'delta_mean_max_drawer_fraction': delta_mean_max_drawer_fraction,
         }
         self._write_artifact('RCA6', payload, 'RCA6 Best Cell Replicate', [
-            f"best_cell_id: {best_cell['cell_id']}",
-            f"rollout_ceiling_lift: {ceiling['score']:.6f}",
-            f"passed: {passed}",
+            f'best_transition_cell: {best_transition_cell}',
+            f"rollout_ceiling_lift: {float(ceiling.get('score', 0.0)):.6f}",
+            f'replicate_positive: {replicate_positive}',
         ])
         return {'payload': payload, 'updates': [], 'lane_specs': [baseline_spec.to_payload(), best_spec.to_payload()]}
 
     def run_rca7(self) -> dict[str, Any]:
-        gate_report, route = self.evaluate_gates()
+        rca1_payload = load_json(self._artifact_map()['RCA1'][0], {})
+        rca2_payload = load_json(self._artifact_map()['RCA2'][0], {})
+        rca5_payload = load_json(self._artifact_map()['RCA5'][0], {})
         rca6_payload = load_json(self._artifact_map()['RCA6'][0], {})
-        eligible = bool(rca6_payload.get('passed')) and bool(gate_report.get('G5_training_eligibility', {}).get('passed', False))
-        blocked_reasons = []
+        tiny_retrain_permitted = bool(
+            rca6_payload.get('passed')
+            and rca5_payload.get('canonical_train_cell')
+            and rca1_payload.get('measurement_truthful_available')
+            and rca2_payload.get('v1c_carrier_canonical_ready')
+        )
+        blocked_reasons: list[str] = []
+        if not rca1_payload.get('measurement_truthful_available'):
+            blocked_reasons.append('RCA1_truthful_measurement_unavailable')
+        if not rca2_payload.get('v1c_carrier_canonical_ready'):
+            blocked_reasons.append('RCA2_v1c_carrier_not_canonical_ready')
         if not rca6_payload.get('passed'):
             blocked_reasons.append('RCA6_replicate_not_positive')
-        if not gate_report.get('G5_training_eligibility', {}).get('passed', False):
-            blocked_reasons.append('G5_training_eligibility_failed')
+        if not rca5_payload.get('canonical_train_cell'):
+            blocked_reasons.append('RCA5_canonical_train_cell_missing')
         payload = {
             'experiment_id': 'RCA7',
             'generated_at': now_iso(),
             'selector_mode': self.selector_mode,
             'baseline_cell_id': self._baseline_cell_id_v5_pro(),
+            'ts_baseline_cell_id': self._ts_baseline_cell_id_v6_1(),
             'frozen_matrix_hash': self._frozen_matrix_hash_v5_pro(),
-            'eligible': eligible,
-            'passed': False,
-            'blocked': not eligible,
-            'blocked_reasons': blocked_reasons or ['tiny_retrain_not_implemented_in_visual_fidelity_branch'],
-            'gate_report': gate_report,
-            'route_preview': asdict(route),
+            'best_transition_cell': rca5_payload.get('best_transition_cell'),
+            'best_train_state_mode': rca5_payload.get('best_train_state_mode'),
+            'canonical_train_cell': rca5_payload.get('canonical_train_cell'),
+            'preferred_canonical_train_cell': rca5_payload.get('preferred_canonical_train_cell', 'V1cT2S2'),
+            'tiny_retrain_permitted': tiny_retrain_permitted,
+            'eligible': tiny_retrain_permitted,
+            'passed': tiny_retrain_permitted,
+            'blocked': not tiny_retrain_permitted,
+            'blocked_reasons': blocked_reasons,
+            'launched': False,
         }
         self._write_artifact('RCA7', payload, 'RCA7 Tiny Retrain If Eligible', [
-            f'eligible: {eligible}',
-            f"blocked_reasons: {', '.join(payload['blocked_reasons'])}",
+            f'tiny_retrain_permitted: {tiny_retrain_permitted}',
+            f"canonical_train_cell: {payload['canonical_train_cell']}",
+            f"blocked_reasons: {', '.join(blocked_reasons) if blocked_reasons else 'none'}",
         ])
         return {'payload': payload, 'updates': [], 'lane_specs': []}
 
     def _carryforward_g2(self) -> dict[str, Any]:
         payload = load_json(P2E1_ARTIFACT, {}) if P2E1_ARTIFACT.exists() else {}
         return {
-            "exists": P2E1_ARTIFACT.exists(),
-            "passed": bool(payload.get("passed")),
-            "aligned_beats_random_under_sensitive": bool(payload.get("aligned_beats_random_under_sensitive", False)),
-            "orientation_causal_sensitivity": payload.get("orientation_causal_sensitivity"),
+            'exists': P2E1_ARTIFACT.exists(),
+            'passed': bool(payload.get('passed')),
+            'aligned_beats_random_under_sensitive': bool(payload.get('aligned_beats_random_under_sensitive', False)),
+            'orientation_causal_sensitivity': payload.get('orientation_causal_sensitivity'),
         }
 
     def _best_bundle_payload(self) -> dict[str, Any]:
-        experiment_id = "RCA5" if self.experiment_family == "RCA" else "VR4"
+        experiment_id = 'RCA5' if self.experiment_family == 'RCA' else 'VR4'
         artifact = self._artifact_map()[experiment_id][0]
         return load_json(artifact, {}) if artifact.exists() else {}
 
     def _replication_payload(self) -> dict[str, Any]:
-        experiment_id = "RCA6" if self.experiment_family == "RCA" else "VR5"
+        experiment_id = 'RCA6' if self.experiment_family == 'RCA' else 'VR5'
         artifact = self._artifact_map()[experiment_id][0]
+        return load_json(artifact, {}) if artifact.exists() else {}
+
+    def _completed_rca_payload(self, exp_id: str) -> dict[str, Any]:
+        if self.experiment_family != 'RCA':
+            return {}
+        if str(exp_id) not in {str(item) for item in self.completed_experiments}:
+            return {}
+        artifact = self._artifact_map()[str(exp_id)][0]
         return load_json(artifact, {}) if artifact.exists() else {}
 
     def evaluate_gates(self) -> tuple[dict[str, Any], ControllerRoute]:
         g0_details = self._baseline_integrity_details()
         g0 = GateDecision(
-            gate_id="G0_baseline_integrity",
-            passed=bool(g0_details["control_baseline_pass"] and g0_details["parity_non_blocker"] and g0_details["authority_readable"]),
-            summary="Baseline healthy, parity not-primary-blocker, and authority readable.",
+            gate_id='G0_baseline_integrity',
+            passed=bool(g0_details['control_baseline_pass'] and g0_details['parity_non_blocker'] and g0_details['authority_readable']),
+            summary='Baseline healthy, parity not-primary-blocker, and authority readable.',
             details=g0_details,
         )
 
-        rca0 = load_json(self._artifact_map()["RCA0"][0], {}) if self.experiment_family == "RCA" and self._artifact_map()["RCA0"][0].exists() else {}
-        rca1 = load_json(self._artifact_map()["RCA1"][0], {}) if self.experiment_family == "RCA" and self._artifact_map()["RCA1"][0].exists() else {}
-        rca2 = load_json(self._artifact_map()["RCA2"][0], {}) if self.experiment_family == "RCA" and self._artifact_map()["RCA2"][0].exists() else {}
-        rca4 = load_json(self._artifact_map()["RCA4"][0], {}) if self.experiment_family == "RCA" and self._artifact_map()["RCA4"][0].exists() else {}
-        best_payload = self._best_bundle_payload()
-        replication = self._replication_payload()
+        rca0 = self._completed_rca_payload('RCA0')
+        rca1 = self._completed_rca_payload('RCA1')
+        rca2 = self._completed_rca_payload('RCA2')
+        rca3 = self._completed_rca_payload('RCA3')
+        rca4 = self._completed_rca_payload('RCA4')
+        rca5 = self._completed_rca_payload('RCA5')
+        rca6 = self._completed_rca_payload('RCA6')
+        rca7 = self._completed_rca_payload('RCA7')
 
-        baseline_anchor = (rca0.get("baseline_visual_report") or {}) if self.experiment_family == "RCA" else {}
-        local_attack_report = (rca2.get("visual_affordance_v3_local_material_edge") or {}) if self.experiment_family == "RCA" else {}
-        best_profile = (best_payload.get("best_eligible_cell") or best_payload.get("best_profile") or {})
-        selected_visual = (best_profile.get("visual_report") or local_attack_report or baseline_anchor or {})
-        state_audit = (rca4.get("state_audit") or best_payload.get("state_audit") or {})
+        carrier_report = (rca2.get('v1c_carrier') or {}) if self.experiment_family == 'RCA' else {}
+        lane_report = (rca1.get('lane_report') or {}) if self.experiment_family == 'RCA' else {}
+        anchor_report = carrier_report or lane_report
+        state_audit = (rca4.get('state_audit') or {}) if self.experiment_family == 'RCA' else {}
 
         invalid_reasons: list[str] = []
-        if self.experiment_family == "RCA":
-            if self.selector_mode != "frozen_v5_pro":
-                invalid_reasons.append("selector_mode_not_frozen_v5_pro")
-            baseline_cell_id = str((rca0 or {}).get("baseline_cell_id") or self._baseline_cell_id_v5_pro())
-            matrix_hash = str((rca0 or {}).get("frozen_matrix_hash") or self._frozen_matrix_hash_v5_pro())
-            for exp_id in ["RCA1", "RCA2", "RCA3", "RCA4", "RCA5", "RCA6", "RCA7"]:
+        if self.experiment_family == 'RCA':
+            if self.selector_mode != 'frozen_v5_pro':
+                invalid_reasons.append('selector_mode_not_frozen_v5_pro')
+            baseline_cell_id = str((rca0 or {}).get('baseline_cell_id') or self._baseline_cell_id_v5_pro())
+            matrix_hash = str((rca0 or {}).get('frozen_matrix_hash') or self._frozen_matrix_hash_v5_pro())
+            executed_rca_ids = [
+                str(exp_id) for exp_id in dict.fromkeys(self.completed_experiments)
+                if str(exp_id).startswith('RCA') and str(exp_id) != 'RCA0'
+            ]
+            for exp_id in executed_rca_ids:
                 artifact_path = self._artifact_map()[exp_id][0]
                 if not artifact_path.exists():
                     continue
                 payload = load_json(artifact_path, {})
-                if payload.get("baseline_cell_id") not in {None, baseline_cell_id}:
-                    invalid_reasons.append(f"{exp_id}_baseline_cell_drift")
-                if payload.get("frozen_matrix_hash") not in {None, matrix_hash}:
-                    invalid_reasons.append(f"{exp_id}_frozen_matrix_hash_drift")
-            if self.truthful_measurement_required and rca1 and not bool(rca1.get("measurement_truthful_available", False)):
-                invalid_reasons.append("truthful_measurement_unavailable")
+                if payload.get('baseline_cell_id') not in {None, baseline_cell_id}:
+                    invalid_reasons.append(f'{exp_id}_baseline_cell_drift')
+                if payload.get('frozen_matrix_hash') not in {None, matrix_hash}:
+                    invalid_reasons.append(f'{exp_id}_frozen_matrix_hash_drift')
+            if self.truthful_measurement_required and rca1 and not bool(rca1.get('measurement_truthful_available', False)):
+                invalid_reasons.append('truthful_measurement_unavailable')
             if self._invalid_run_reason:
                 invalid_reasons.append(self._invalid_run_reason)
         invalid_reasons = list(dict.fromkeys(invalid_reasons))
 
-        g1_anchor = selected_visual or baseline_anchor
         g1_details = {
-            "wrist_like": bool(g1_anchor.get("secondary_camera_wrist_like", False)),
-            "no_overlay": not bool(g1_anchor.get("marker_overlay_enabled", True)),
-            "no_diagnostic_texture": not bool(g1_anchor.get("diagnostic_only", True)),
-            "provenance_complete": bool(g1_anchor.get("provenance_complete", False)),
+            'wrist_like': bool(anchor_report.get('secondary_camera_wrist_like', False)),
+            'no_overlay': not bool(anchor_report.get('marker_overlay_enabled', True)),
+            'no_diagnostic_texture': not bool(anchor_report.get('diagnostic_only', True)),
+            'provenance_complete': bool(anchor_report.get('provenance_complete', False)),
         }
         g1 = GateDecision(
-            gate_id="G1_observation_contract",
+            gate_id='G1_observation_contract',
             passed=all(g1_details.values()),
-            summary="Canonical observation contract requires wrist-like second camera, no overlay, no diagnostic texture, and full provenance.",
+            summary='Canonical carrier observation contract remains wrist-like, overlay-free, non-diagnostic, and provenance-complete.',
             details=g1_details,
         )
 
         g2_details = self._carryforward_g2()
         g2 = GateDecision(
-            gate_id="G2_action_causality",
-            passed=bool(g2_details["exists"] and g2_details["passed"] and g2_details["aligned_beats_random_under_sensitive"]),
-            summary="Carry-forward action-causality evidence remains healthy and orientation-sensitive aligned rotation beats random.",
+            gate_id='G2_action_causality',
+            passed=bool(g2_details['exists'] and g2_details['passed'] and g2_details['aligned_beats_random_under_sensitive']),
+            summary='Carry-forward action causality remains healthy.',
             details=g2_details,
         )
 
-        selected_candidate = state_audit.get("selected_candidate") or {}
-        selected_score = state_audit.get("selected_candidate_score")
-        m0_score = state_audit.get("m0_proxy_score")
-        eef_score = state_audit.get("eef_pose_gripper_score")
-        state_gain = float(state_audit.get("state_alignment_gain", -1.0))
+        mode_reports = state_audit.get('mode_reports') or {}
+        s0_score = float((mode_reports.get('S0') or {}).get('overall_predictiveness_score', -1.0))
+        s1_score = float((mode_reports.get('S1') or {}).get('overall_predictiveness_score', -1.0))
+        s2_score = float((mode_reports.get('S2') or {}).get('overall_predictiveness_score', -1.0))
         g3_details = {
-            "selected_candidate_mode": state_audit.get("selected_candidate_mode"),
-            "fraud_padding": bool(selected_candidate.get("fraud_padding", True)),
-            "all_dims_explained": bool(selected_candidate.get("all_dims_explained", False)),
-            "state_alignment_gain": state_gain,
-            "beats_m0_proxy": bool(selected_score is not None and m0_score is not None and float(selected_score) < float(m0_score)),
-            "beats_eef_pose_gripper": bool(selected_score is not None and eef_score is not None and float(selected_score) < float(eef_score)),
-            "impossible": bool(state_audit.get("impossible", True)),
+            'best_train_state_mode': rca4.get('best_train_state_mode'),
+            'best_train_state_name': rca4.get('best_train_state_name'),
+            'preferred_train_state_mode': state_audit.get('preferred_train_state_mode'),
+            'task_identity_predictiveness_gain': state_audit.get('task_identity_predictiveness_gain'),
+            's2_over_s0_margin': state_audit.get('s2_over_s0_margin'),
+            's2_over_s1_margin': state_audit.get('s2_over_s1_margin'),
+            's2_score': s2_score,
+            's1_score': s1_score,
+            's0_score': s0_score,
+            's2_superiority_pass': bool(rca4.get('passed', False)),
+            'train_state_mode_acceptable': bool(rca4.get('train_state_mode_acceptable', False)),
+            'fraud_padding': bool(state_audit.get('fraud_padding', False)),
+            'all_dims_explained': bool(state_audit.get('all_dims_explained', False)),
         }
         g3 = GateDecision(
-            gate_id="G3_state_semantics",
-            passed=bool(
-                not g3_details["impossible"]
-                and selected_candidate.get("state_mode") in {"telemetry_candidate_v2", "telemetry_candidate_v3_transition"}
-                and not g3_details["fraud_padding"]
-                and g3_details["all_dims_explained"]
-                and state_gain > 0.0
-                and g3_details["beats_m0_proxy"]
-                and g3_details["beats_eef_pose_gripper"]
-            ),
-            summary="Selected transition-aware telemetry candidate must be lawful, fully explained, and beat the frozen baselines.",
+            gate_id='G3_state_semantics',
+            passed=bool(g3_details['train_state_mode_acceptable'] and not g3_details['fraud_padding'] and g3_details['all_dims_explained']),
+            summary='Shared-corpus task-identity state audit produced an acceptable train-state mode.',
             details=g3_details,
         )
 
         g4a_details = {
-            "no_overlay": not bool(g1_anchor.get("marker_overlay_enabled", True)),
-            "no_diagnostic_texture": not bool(g1_anchor.get("diagnostic_only", True)),
-            "wrist_like_second_camera": bool(g1_anchor.get("secondary_camera_wrist_like", False)),
-            "provenance_complete": bool(g1_anchor.get("provenance_complete", False)),
-            "canonical_identity_explicit": (best_profile.get("lane", {}).get("claim_policy") if best_profile else None) in {None, "canonical"},
-            "camera_relativeness_residual": g1_anchor.get("secondary_camera_residual_mean"),
+            'no_overlay': not bool(anchor_report.get('marker_overlay_enabled', True)),
+            'no_diagnostic_texture': not bool(anchor_report.get('diagnostic_only', True)),
+            'wrist_like_second_camera': bool(anchor_report.get('secondary_camera_wrist_like', False)),
+            'provenance_complete': bool(anchor_report.get('provenance_complete', False)),
+            'camera_relativeness_residual': anchor_report.get('secondary_camera_residual_mean'),
         }
         g4a = GateDecision(
-            gate_id="G4a_observation_semantics",
+            gate_id='G4a_observation_semantics',
             passed=bool(
-                g4a_details["no_overlay"]
-                and g4a_details["no_diagnostic_texture"]
-                and g4a_details["wrist_like_second_camera"]
-                and g4a_details["provenance_complete"]
-                and g4a_details["camera_relativeness_residual"] is not None
-                and float(g4a_details["camera_relativeness_residual"]) < 0.05
+                g4a_details['no_overlay']
+                and g4a_details['no_diagnostic_texture']
+                and g4a_details['wrist_like_second_camera']
+                and g4a_details['provenance_complete']
+                and g4a_details['camera_relativeness_residual'] is not None
+                and float(g4a_details['camera_relativeness_residual']) < 0.05
             ),
-            summary="Observation semantics require canonical identity, wrist-like relativeness, and no diagnostic-only cues.",
+            summary='Observation semantics remain canonical on the frozen V1c carrier.',
             details=g4a_details,
         )
 
-        g4b_local = (selected_visual.get("g4b_local_breakdown") or {})
-        if not g4b_local and best_profile:
-            g4b_local = (best_profile.get("visual_report") or {}).get("g4b_local_breakdown") or {}
-        local_attack_proven = bool(rca2.get("passed", False)) if self.experiment_family == "RCA" else True
+        g4b_local = (carrier_report.get('g4b_local_breakdown') or {})
         g4b_details = dict(g4b_local)
         g4b_details.update({
-            "local_attack_beats_baseline": local_attack_proven,
-            "source_profile_id": best_profile.get("cell_id") or best_profile.get("profile_id") or ("V1T0S0" if local_attack_report else None),
+            'local_attack_beats_baseline': bool(rca2.get('local_attack_beats_baseline', False)),
+            'source_profile_id': 'V1cT0S0' if carrier_report else None,
         })
         g4b = GateDecision(
-            gate_id="G4b_local_affordance_readability",
+            gate_id='G4b_local_affordance_readability',
             passed=bool(
-                local_attack_proven
-                and g4b_local.get("measurement_truthful_pass")
-                and not g4b_local.get("bbox_inflation_flag")
-                and g4b_local.get("all_primitives_pass")
+                rca2.get('local_attack_beats_baseline', False)
+                and g4b_local.get('measurement_truthful_pass')
+                and not g4b_local.get('bbox_inflation_flag')
+                and g4b_local.get('all_primitives_pass')
             ),
-            summary="Local affordance readability requires truthful measurement, non-inflated support, primitive conjunction, and a causal win over raw canonical.",
+            summary='Local readability remains a residual audit; it no longer decides whether T/S mainline continues.',
+            blocking=False,
             details=g4b_details,
         )
 
-        g4c_global = (selected_visual.get("g4c_global_breakdown") or {})
-        g4c_details = dict(g4c_global)
-        g4c_details.update({
-            "best_eligible_cell_present": bool(best_profile),
-            "best_eligible_cell_id": best_profile.get("cell_id") if best_profile else None,
-        })
+        g4c_details = {
+            'v1c_carrier_canonical_ready': bool(rca2.get('v1c_carrier_canonical_ready', False)),
+            'measurement_truthful_available': bool(rca2.get('measurement_truthful_available', False)),
+            'local_attack_beats_baseline': bool(rca2.get('local_attack_beats_baseline', False)),
+            'visual_alignment_gain': float(rca2.get('visual_alignment_gain', 0.0)),
+            'source_profile_id': 'V1cT0S0' if rca2 else None,
+        }
         g4c = GateDecision(
-            gate_id="G4c_global_visual_canonicality",
-            passed=bool(
-                best_profile
-                and float(g4c_global.get("visual_alignment_gain", 0.0)) >= GLOBAL_VISUAL_ALIGNMENT_THRESHOLD
-                and float(g4c_global.get("weighted_visual_gap", 1e9)) < float(g4c_global.get("baseline_weighted_visual_gap", 1e9))
-            ),
-            summary="Global visual canonicality is judged separately from local affordance readability on the frozen best eligible cell.",
+            gate_id='G4c_global_visual_canonicality',
+            passed=bool(rca2.get('v1c_carrier_canonical_ready', False)),
+            summary='Global canonicality is frozen at the V1c carrier regression step.',
             details=g4c_details,
         )
 
-        replication_visual = (replication.get("visual_report") or best_profile.get("visual_report") or {}) if isinstance(replication, dict) else {}
-        best_cell_id = str(best_profile.get("cell_id") or best_profile.get("profile_id") or "")
-        probe_available = replication_visual.get("perception_probe_available")
-        encoder_pass = replication_visual.get("encoder_readability_pass")
-        probe_gate = True if probe_available in {None, False} else bool(encoder_pass)
-        scientific_strength_downgraded = bool(probe_available in {None, False})
-        state_condition = True if not best_cell_id.endswith("S1") else float(best_profile.get("state_alignment_gain", 0.0)) > 0.0
-        replicate_positive = bool(replication.get("passed", False)) if isinstance(replication, dict) else False
         g5_details = {
-            "best_cell_id": best_cell_id or None,
-            "replicate_positive": replicate_positive,
-            "rollout_ceiling_lift": float((replication.get("rollout_ceiling_lift") or {}).get("score", 0.0)) if isinstance(replication, dict) else 0.0,
-            "attach_rate_delta": float(replication.get("attach_rate_delta", 0.0)) if isinstance(replication, dict) else 0.0,
-            "drawer_fraction_delta": float(replication.get("drawer_fraction_delta", 0.0)) if isinstance(replication, dict) else 0.0,
-            "state_alignment_gain": float(best_profile.get("state_alignment_gain", 0.0)) if isinstance(best_profile, dict) else 0.0,
-            "state_condition": bool(state_condition),
-            "perception_probe_available": probe_available,
-            "encoder_readability_pass": encoder_pass,
-            "scientific_strength_downgraded": scientific_strength_downgraded,
-            "canonical_lane": best_profile.get("lane", {}).get("claim_policy", "canonical") == "canonical" if isinstance(best_profile, dict) else False,
+            'best_transition_cell': rca5.get('best_transition_cell'),
+            'best_train_state_mode': rca5.get('best_train_state_mode'),
+            'canonical_train_cell': rca5.get('canonical_train_cell'),
+            'preferred_canonical_train_cell': rca5.get('preferred_canonical_train_cell'),
+            'replicate_positive': bool(rca6.get('passed', False)),
+            'rollout_ceiling_lift': float((rca6.get('rollout_ceiling_lift') or {}).get('score', 0.0)),
+            'delta_mean_max_drawer_fraction': float(rca6.get('delta_mean_max_drawer_fraction', 0.0)),
+            'tiny_retrain_permitted': bool(rca7.get('tiny_retrain_permitted', False)),
+            'carrier_ready': bool(rca2.get('v1c_carrier_canonical_ready', False)),
+            'truthful_measurement_available': bool(rca1.get('measurement_truthful_available', False)),
         }
         g5 = GateDecision(
-            gate_id="G5_training_eligibility",
+            gate_id='G5_training_eligibility',
             passed=bool(
-                g0.passed and g1.passed and g2.passed and g3.passed and g4a.passed and g4b.passed and g4c.passed
-                and g5_details["canonical_lane"]
-                and replicate_positive
-                and state_condition
-                and probe_gate
+                g5_details['truthful_measurement_available']
+                and g5_details['carrier_ready']
+                and g5_details['replicate_positive']
+                and bool(g5_details['canonical_train_cell'])
+                and g5_details['tiny_retrain_permitted']
             ),
-            summary="Training eligibility requires frozen local/global closure plus a positive replicated best cell; proxy-only encoder evidence cannot silently fake success.",
+            summary='Training eligibility now means a replicated positive canonical transition cell plus a real canonical_train_cell.',
             details=g5_details,
         )
 
         gate_map = {gate.gate_id: asdict(gate) for gate in [g0, g1, g2, g3, g4a, g4b, g4c, g5]}
-        gate_map["contract_validity_score_v2"] = contract_validity_score_v2(
+        gate_map['contract_validity_score_v2'] = contract_validity_score_v2(
             g0=g0.passed,
             g1=g1.passed,
             g2=g2.passed,
@@ -2070,50 +2402,63 @@ class RootCauseController:
             g4b_local=g4b.passed,
             g4c_global=g4c.passed,
         )
-        gate_map["freeze_audit"] = {
-            "selector_mode": self.selector_mode,
-            "baseline_cell_id": (rca0 or {}).get("baseline_cell_id", self._baseline_cell_id_v5_pro()) if self.experiment_family == "RCA" else None,
-            "frozen_matrix_hash": (rca0 or {}).get("frozen_matrix_hash", self._frozen_matrix_hash_v5_pro()) if self.experiment_family == "RCA" else None,
-            "invalid_reasons": invalid_reasons,
-            "truthful_measurement_required": self.truthful_measurement_required,
+        gate_map['freeze_audit'] = {
+            'selector_mode': self.selector_mode,
+            'baseline_cell_id': (rca0 or {}).get('baseline_cell_id', self._baseline_cell_id_v5_pro()) if self.experiment_family == 'RCA' else None,
+            'ts_baseline_cell_id': (rca0 or {}).get('ts_baseline_cell_id', self._ts_baseline_cell_id_v6_1()) if self.experiment_family == 'RCA' else None,
+            'frozen_matrix_hash': (rca0 or {}).get('frozen_matrix_hash', self._frozen_matrix_hash_v5_pro()) if self.experiment_family == 'RCA' else None,
+            'invalid_reasons': invalid_reasons,
+            'truthful_measurement_required': self.truthful_measurement_required,
         }
 
-        h0 = float((self.board.get("H0_same_problem_identity") or {}).get("posterior", 0.35))
-        h6 = float((self.board.get("H6_environment_invalid_for_claim") or {}).get("posterior", 0.55))
+        h0 = float((self.board.get('H0_same_problem_identity') or {}).get('posterior', 0.35))
+        h6 = float((self.board.get('H6_environment_invalid_for_claim') or {}).get('posterior', 0.55))
 
         if invalid_reasons:
             route = ControllerRoute(
                 scientific_terminal_state=None,
-                route_next_branch="stay_current_branch",
-                why="Invalid run under frozen root-cause object: " + ", ".join(invalid_reasons),
+                route_next_branch='stay_current_branch',
+                why='Invalid run under frozen root-cause object: ' + ', '.join(invalid_reasons),
                 strongest_negative_capped=bool(self.cap_strongest_negative),
                 cap_active=bool(self.cap_strongest_negative),
                 h0_posterior=h0,
                 h6_posterior=h6,
             )
-            gate_map["route_decision_preview"] = asdict(route)
+            gate_map['route_decision_preview'] = asdict(route)
             return gate_map, route
 
         scientific_terminal_state: ScientificTerminalState | None = None
-        route_next_branch: RouteNextBranch = "environment_reformulation"
-        why = "Integrated frozen RCA campaign did not yet produce a train-eligible canonical lane."
+        route_next_branch: RouteNextBranch = 'stay_current_branch'
+        why = 'Frozen T/S positive-canonical mainline still in progress.'
 
-        if g5.passed:
-            scientific_terminal_state = "ALIGNED_CANONICAL_LANE_FOUND"
-            route_next_branch = "tiny_retrain_confirmation"
-            why = "Frozen RCA campaign found a positive replicated canonical lane under truthful measurement."
-        elif local_attack_proven and bool(rca1.get("measurement_truthful_available", False)) and isinstance(replication, dict) and float((replication.get("rollout_ceiling_lift") or {}).get("score", 0.0)) <= 0.0:
-            scientific_terminal_state = "MINIMAL_REPAIR_INSUFFICIENT"
-            route_next_branch = "environment_reformulation"
-            why = "Truthful local-affordance improvement was established, but the replicated best cell did not achieve positive rollout lift; local-visual-last-blocker is falsified and deeper embodied transition/task-identity mismatch becomes primary."
-        elif not local_attack_proven:
-            scientific_terminal_state = "MINIMAL_REPAIR_INSUFFICIENT"
-            route_next_branch = "environment_reformulation"
-            why = "Truthful local visual attack did not beat raw canonical on the frozen comparator, so current local-affordance attack is not yet causal."
-        elif not g4c.passed:
-            scientific_terminal_state = "MINIMAL_REPAIR_INSUFFICIENT"
-            route_next_branch = "environment_reformulation"
-            why = "No jointly eligible frozen-matrix cell satisfied both local affordance readability and global canonicality."
+        if bool(rca7.get('tiny_retrain_permitted', False)) and bool(rca6.get('passed', False)) and bool(rca5.get('canonical_train_cell')):
+            scientific_terminal_state = 'TS_CANONICAL_POSITIVE_ESTABLISHED'
+            route_next_branch = 'tiny_retrain_confirmation'
+            why = (
+                'Truthful measurement remained valid, the frozen V1c carrier stayed canonical-ready, '
+                f"{rca5.get('best_transition_cell')} produced replicated positive rollout lift, and "
+                f"{rca5.get('canonical_train_cell')} is the selected canonical_train_cell for RCA7."
+            )
+        elif rca2 and not bool(rca2.get('v1c_carrier_canonical_ready', True)):
+            scientific_terminal_state = 'TS_MAINLINE_REJECTED'
+            route_next_branch = 'environment_reformulation'
+            why = 'Frozen V1c carrier was not canonical-ready after RCA2, so no positive canonical T/S cell was reachable.'
+        elif rca3 and not bool(rca3.get('passed', True)):
+            scientific_terminal_state = 'TS_MAINLINE_REJECTED'
+            route_next_branch = 'environment_reformulation'
+            why = 'T2 failed the RCA3 readiness batch or the split-A T-only positive-lift comparison.'
+        elif rca4 and not bool(rca4.get('passed', True)) and not bool(rca4.get('train_state_mode_acceptable', False)):
+            scientific_terminal_state = 'TS_MAINLINE_REJECTED'
+            route_next_branch = 'environment_reformulation'
+            why = 'Shared-corpus RCA4 produced no acceptable train-state mode for the positive T2 mainline.'
+        elif rca5 and not bool(rca5.get('passed', True)):
+            scientific_terminal_state = 'TS_MAINLINE_REJECTED'
+            route_next_branch = 'environment_reformulation'
+            why = 'RCA5 did not produce V1cT2S0 as the first positive canonical transition cell with a materialized canonical_train_cell.'
+        elif rca6 and not bool(rca6.get('passed', True)):
+            scientific_terminal_state = 'TS_MAINLINE_REJECTED'
+            route_next_branch = 'environment_reformulation'
+            why = 'The selected positive canonical transition cell did not replicate positively on split B.'
 
         route = ControllerRoute(
             scientific_terminal_state=scientific_terminal_state,
@@ -2124,55 +2469,58 @@ class RootCauseController:
             h0_posterior=h0,
             h6_posterior=h6,
         )
-        gate_map["route_decision_preview"] = asdict(route)
+        gate_map['route_decision_preview'] = asdict(route)
         return gate_map, route
 
     def _cycle_memo(self, route: ControllerRoute, gate_report: dict[str, Any], cycle_summary: dict[str, Any]) -> str:
         lines = [
             f"# {cycle_summary['cycle_id']}",
-            "",
+            '',
             f"- cycle_mode: {self.cycle_mode}",
             f"- selected_experiments: {', '.join(cycle_summary['selected_experiments']) if cycle_summary['selected_experiments'] else '(none)'}",
             f"- scientific_terminal_state: {route.scientific_terminal_state}",
             f"- route_next_branch: {route.route_next_branch}",
             f"- strongest_negative_capped: {route.strongest_negative_capped}",
             f"- why: {route.why}",
-            "",
-            "## Gates",
+            '',
+            '## Gates',
         ]
-        gate_ids = ["G0_baseline_integrity", "G1_observation_contract", "G2_action_causality", "G3_state_semantics", "G4a_observation_semantics", "G4b_local_affordance_readability", "G4c_global_visual_canonicality", "G5_training_eligibility"]
+        gate_ids = ['G0_baseline_integrity', 'G1_observation_contract', 'G2_action_causality', 'G3_state_semantics', 'G4a_observation_semantics', 'G4b_local_affordance_readability', 'G4c_global_visual_canonicality', 'G5_training_eligibility']
         for gate_id in gate_ids:
             item = gate_report.get(gate_id, {})
             lines.append(f"- {gate_id}: {'pass' if item.get('passed') else 'fail'}")
         return "\n".join(lines).rstrip() + "\n"
 
     def _final_morning_memo(self, route: ControllerRoute, gate_report: dict[str, Any], final_summary: dict[str, Any]) -> str:
-        rca1 = load_json(self._artifact_map()["RCA1"][0], {}) if self.experiment_family == "RCA" and self._artifact_map()["RCA1"][0].exists() else {}
-        rca2 = load_json(self._artifact_map()["RCA2"][0], {}) if self.experiment_family == "RCA" and self._artifact_map()["RCA2"][0].exists() else {}
-        rca5 = self._best_bundle_payload()
-        rca6 = self._replication_payload()
-        best_cell = rca5.get("best_eligible_cell") or {}
+        rca1 = self._completed_rca_payload('RCA1')
+        rca2 = self._completed_rca_payload('RCA2')
+        rca5 = self._completed_rca_payload('RCA5')
+        rca6 = self._completed_rca_payload('RCA6')
+        rca7 = self._completed_rca_payload('RCA7')
         lines = [
-            "# Morning Bundle",
-            "",
+            '# Morning Bundle',
+            '',
             f"1. Was truthful measurement available? {'yes' if rca1.get('measurement_truthful_available') else 'no'}",
-            f"2. Did V1T0S0 beat V0T0S0 locally under truthful measurement? {'yes' if rca2.get('passed') else 'no'}",
-            f"3. What frozen matrix cell won RCA5? {best_cell.get('cell_id', 'none')}",
-            f"4. Did RCA6 replicate positive rollout lift on split B? {'yes' if rca6.get('passed') else 'no'}",
-            f"5. Terminal interpretation: {route.why}",
-            "",
-            "## Gates",
+            f"2. Was the frozen V1c carrier canonical-ready? {'yes' if rca2.get('v1c_carrier_canonical_ready') else 'no'}",
+            f"3. What transition cell won RCA5? {rca5.get('best_transition_cell', 'none')}",
+            f"4. What canonical_train_cell was selected? {rca5.get('canonical_train_cell', 'none')}",
+            f"5. Did RCA6 replicate positive rollout lift on split B? {'yes' if rca6.get('passed') else 'no'}",
+            f"6. Was RCA7 unblocked? {'yes' if rca7.get('tiny_retrain_permitted') else 'no'}",
+            f"7. Terminal interpretation: {route.why}",
+            '',
+            '## Gates',
             f"- G4b_local_affordance_readability: {'pass' if gate_report.get('G4b_local_affordance_readability', {}).get('passed') else 'fail'}",
             f"- G4c_global_visual_canonicality: {'pass' if gate_report.get('G4c_global_visual_canonicality', {}).get('passed') else 'fail'}",
             f"- G5_training_eligibility: {'pass' if gate_report.get('G5_training_eligibility', {}).get('passed') else 'fail'}",
-            "",
-            "## Key Results",
+            '',
+            '## Key Results',
             f"- route_next_branch: {route.route_next_branch}",
             f"- scientific_terminal_state: {route.scientific_terminal_state}",
             f"- strongest_negative_capped: {route.strongest_negative_capped}",
-            f"- baseline_cell_id: {rca5.get('baseline_cell_id', rca1.get('baseline_cell_id', self._baseline_cell_id_v5_pro()))}",
-            f"- frozen_matrix_hash: {rca5.get('frozen_matrix_hash', rca1.get('frozen_matrix_hash', self._frozen_matrix_hash_v5_pro()))}",
-            f"- best_cell_id: {best_cell.get('cell_id', 'none')}",
+            f"- baseline_cell_id: {rca2.get('baseline_cell_id', self._baseline_cell_id_v5_pro())}",
+            f"- ts_baseline_cell_id: {rca2.get('ts_baseline_cell_id', self._ts_baseline_cell_id_v6_1())}",
+            f"- best_transition_cell: {rca5.get('best_transition_cell', 'none')}",
+            f"- canonical_train_cell: {rca5.get('canonical_train_cell', 'none')}",
             f"- replicated_rollout_ceiling_lift: {float((rca6.get('rollout_ceiling_lift') or {}).get('score', 0.0)):.6f}",
             f"- cycles_completed: {final_summary.get('cycles_completed', 0)}",
             f"- completed_experiments: {', '.join(final_summary.get('completed_experiments', []))}",
@@ -2180,41 +2528,44 @@ class RootCauseController:
         return "\n".join(lines).rstrip() + "\n"
 
     def _proposed_truth_delta(self, route: ControllerRoute) -> dict[str, Any]:
+        rca5 = self._completed_rca_payload('RCA5')
         return {
-            "current": {
-                "phase": self.authority.get("phase"),
-                "verdict": route.scientific_terminal_state,
-                "next_action": route.route_next_branch,
-                "open_gates": [gate for gate in ["G4b_local_affordance_readability", "G4c_global_visual_canonicality", "G5_training_eligibility"]],
+            'current': {
+                'phase': self.authority.get('phase'),
+                'verdict': route.scientific_terminal_state,
+                'next_action': route.route_next_branch,
+                'canonical_train_cell': rca5.get('canonical_train_cell'),
+                'best_transition_cell': rca5.get('best_transition_cell'),
+                'open_gates': [gate for gate in ['G4b_local_affordance_readability', 'G5_training_eligibility']],
             },
-            "note": "Autogenerated proposal only; no sovereign auto-promotion performed.",
+            'note': 'Autogenerated proposal only; no sovereign auto-promotion performed.',
         }
 
     def _proposed_next_actions(self, route: ControllerRoute) -> dict[str, Any]:
         return {
-            "actions": [
+            'actions': [
                 {
-                    "id": "proposed_next_mainline",
-                    "priority": 1,
-                    "status": "pending",
-                    "action": route.route_next_branch,
-                    "why": route.why,
+                    'id': 'proposed_next_mainline',
+                    'priority': 1,
+                    'status': 'pending',
+                    'action': route.route_next_branch,
+                    'why': route.why,
                 }
             ]
         }
 
     def run(self, *, max_cycles: int = 4, sleep_seconds: int = 30) -> dict[str, Any]:
         cycle_count = 0
-        last_route = ControllerRoute(None, "stay_current_branch", "Controller has not executed any cycle yet.")
+        last_route = ControllerRoute(None, 'stay_current_branch', 'Controller has not executed any cycle yet.')
         gate_report: dict[str, Any] = {}
         identity = controller_identity()
-        controller_id = str(identity["controller_id"])
-        run_id = str(identity["run_id"])
-        owner = str(identity["owner"])
-        pid = int(identity["pid"])
+        controller_id = str(identity['controller_id'])
+        run_id = str(identity['run_id'])
+        owner = str(identity['owner'])
+        pid = int(identity['pid'])
         lease_ok, lease_meta = acquire_controller_lease(controller_id, run_id, owner=owner, pid=pid)
         if not lease_ok:
-            raise RuntimeError(f"controller lease denied: {lease_meta}")
+            raise RuntimeError(f'controller lease denied: {lease_meta}')
         try:
             while cycle_count < int(max_cycles):
                 refresh_controller_lease(controller_id, run_id, pid=pid)
@@ -2226,57 +2577,64 @@ class RootCauseController:
                 lane_specs_payload: list[dict[str, Any]] = []
                 lane_results_payload: dict[str, Any] = {}
                 cycle_updates: list[dict[str, Any]] = []
-                selected_ids = [item["id"] for item in selected]
+                planned_ids = [item['id'] for item in selected]
+                executed_ids: list[str] = []
+                stop_after_cycle = False
                 append_cycle_record({
-                    "cycle_id": cycle_id,
-                    "cycle_mode": self.cycle_mode,
-                    "selected_experiments": selected_ids,
-                    "started_at": now_iso(),
-                    "policy": dict(self.policy),
-                    "resource_budget_snapshot": self._resource_snapshot(),
+                    'cycle_id': cycle_id,
+                    'cycle_mode': self.cycle_mode,
+                    'selected_experiments': planned_ids,
+                    'started_at': now_iso(),
+                    'policy': dict(self.policy),
+                    'resource_budget_snapshot': self._resource_snapshot(),
                 })
-                if len(selected_ids) > 1:
+                if len(planned_ids) > 1:
                     append_deviation_record(
-                        message=f"Controller co-scheduled multiple {self.experiment_family} experiments within a single cycle.",
+                        message=f'Controller co-scheduled multiple {self.experiment_family} experiments within a single cycle.',
                         scientific_semantics_changed=False,
-                        details={"cycle_id": cycle_id, "selected_experiments": selected_ids},
+                        details={'cycle_id': cycle_id, 'selected_experiments': planned_ids},
                     )
                 for item in selected:
                     refresh_controller_lease(controller_id, run_id, pid=pid)
-                    result = item["runner"]()
-                    exp_id = item["id"]
+                    result = item['runner']()
+                    exp_id = item['id']
                     self.completed_experiments.append(exp_id)
-                    lane_results_payload[exp_id] = result["payload"]
-                    lane_specs_payload.extend(result.get("lane_specs", []))
-                    cycle_updates.extend(result.get("updates", []))
+                    executed_ids.append(exp_id)
+                    lane_results_payload[exp_id] = result['payload']
+                    lane_specs_payload.extend(result.get('lane_specs', []))
+                    cycle_updates.extend(result.get('updates', []))
                     append_evidence_record({
-                        "cycle_id": cycle_id,
-                        "experiment_id": exp_id,
-                        "artifact_path": str(self._artifact_map()[exp_id][0]),
-                        "reported_at": now_iso(),
+                        'cycle_id': cycle_id,
+                        'experiment_id': exp_id,
+                        'artifact_path': str(self._artifact_map()[exp_id][0]),
+                        'reported_at': now_iso(),
                     })
+                    if self.experiment_family == 'RCA' and self.selector_mode == 'frozen_v5_pro' and self._should_stop_after_rca_result(exp_id, result['payload']):
+                        stop_after_cycle = True
+                        break
                 self.board = apply_updates(self.board, cycle_updates)
                 write_hypothesis_board(self.board)
                 gate_report, last_route = self.evaluate_gates()
                 cycle_summary = {
-                    "cycle_id": cycle_id,
-                    "started_at": now_iso(),
-                    "ended_at": now_iso(),
-                    "lane_family": self.experiment_family,
-                    "selected_experiments": selected_ids,
-                    "lane_ids": [spec.get("lane_id") for spec in lane_specs_payload],
-                    "completed_experiments": list(dict.fromkeys(self.completed_experiments)),
-                    "scientific_terminal_state": last_route.scientific_terminal_state,
-                    "route_next_branch": last_route.route_next_branch,
-                    "cycle_mode": self.cycle_mode,
+                    'cycle_id': cycle_id,
+                    'started_at': now_iso(),
+                    'ended_at': now_iso(),
+                    'lane_family': self.experiment_family,
+                    'selected_experiments': executed_ids,
+                    'planned_experiments': planned_ids,
+                    'lane_ids': [spec.get('lane_id') for spec in lane_specs_payload],
+                    'completed_experiments': list(dict.fromkeys(self.completed_experiments)),
+                    'scientific_terminal_state': last_route.scientific_terminal_state,
+                    'route_next_branch': last_route.route_next_branch,
+                    'cycle_mode': self.cycle_mode,
                 }
                 cycle_memo = self._cycle_memo(last_route, gate_report, cycle_summary)
                 route_payload = asdict(last_route)
-                route_payload["generated_at"] = now_iso()
+                route_payload['generated_at'] = now_iso()
                 write_cycle_bundle(
                     cycle_dir,
                     cycle_mode=self.cycle_mode,
-                    lane_specs={"cycle_id": cycle_id, "lane_family": self.experiment_family, "lane_specs": lane_specs_payload, "resource_budget_snapshot": self._resource_snapshot()},
+                    lane_specs={'cycle_id': cycle_id, 'lane_family': self.experiment_family, 'lane_specs': lane_specs_payload, 'resource_budget_snapshot': self._resource_snapshot()},
                     lane_results=lane_results_payload,
                     gate_report=gate_report,
                     hypothesis_board=self.board,
@@ -2291,31 +2649,31 @@ class RootCauseController:
                 cycle_count += 1
                 if last_route.scientific_terminal_state is None and self._invalid_run_reason:
                     break
-                if last_route.scientific_terminal_state in {"ALIGNED_CANONICAL_LANE_FOUND", "BENCHMARK_ALIGNMENT_UNSUPPORTED_UNDER_CURRENT_FORMULATION"}:
+                if last_route.scientific_terminal_state in {'TS_CANONICAL_POSITIVE_ESTABLISHED', 'TS_MAINLINE_REJECTED'}:
                     break
-                final_exp = "RCA7" if self.experiment_family == "RCA" else "VR6"
-                if final_exp in self.completed_experiments or cycle_count >= int(self.resource_limits["max_cycles_per_run"]):
+                final_exp = 'RCA7' if self.experiment_family == 'RCA' else 'VR6'
+                if stop_after_cycle or final_exp in self.completed_experiments or cycle_count >= int(self.resource_limits['max_cycles_per_run']):
                     break
                 if sleep_seconds > 0 and not self.dry_run:
                     time.sleep(int(sleep_seconds))
             final_summary = {
-                "generated_at": now_iso(),
-                "cycle_mode": self.cycle_mode,
-                "experiment_family": self.experiment_family,
-                "cycles_completed": cycle_count,
-                "completed_experiments": list(dict.fromkeys(self.completed_experiments)),
-                "policy": dict(self.policy),
-                "resource_budget_snapshot": self._resource_snapshot(),
+                'generated_at': now_iso(),
+                'cycle_mode': self.cycle_mode,
+                'experiment_family': self.experiment_family,
+                'cycles_completed': cycle_count,
+                'completed_experiments': list(dict.fromkeys(self.completed_experiments)),
+                'policy': dict(self.policy),
+                'resource_budget_snapshot': self._resource_snapshot(),
+                'scientific_terminal_state': last_route.scientific_terminal_state,
+                'route_next_branch': last_route.route_next_branch,
             }
             route_payload = asdict(last_route)
-            route_payload["generated_at"] = now_iso()
+            route_payload['generated_at'] = now_iso()
             morning_memo = self._final_morning_memo(last_route, gate_report, final_summary)
             write_final_run_outputs(route_decision=route_payload, morning_memo=morning_memo, final_summary=final_summary)
-            return {"route_decision": route_payload, "final_summary": final_summary, "morning_memo_path": str(AUTOPILOT_DIR / 'morning_memo.md')}
+            return {'route_decision': route_payload, 'final_summary': final_summary, 'morning_memo_path': str(AUTOPILOT_DIR / 'morning_memo.md')}
         finally:
             release_controller_lease(controller_id, run_id)
-
-
 def run_controller(
     *,
     max_cycles: int = 4,

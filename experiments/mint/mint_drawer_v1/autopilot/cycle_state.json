@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-04-13T23:53:32+08:00",
-  "last_cycle_id": "cycle_20260413_235332",
+  "updated_at": "2026-04-14T13:49:18+08:00",
+  "last_cycle_id": "cycle_20260414_134515",
   "cycle_mode": "unattended_cycle",
   "completed_experiments": [
     "RCA0",
@@ -12,8 +12,8 @@
     "RCA6",
     "RCA7"
   ],
-  "scientific_terminal_state": "MINIMAL_REPAIR_INSUFFICIENT",
-  "route_next_branch": "environment_reformulation",
-  "terminal_state": "MINIMAL_REPAIR_INSUFFICIENT",
+  "scientific_terminal_state": "TS_CANONICAL_POSITIVE_ESTABLISHED",
+  "route_next_branch": "tiny_retrain_confirmation",
+  "terminal_state": "TS_CANONICAL_POSITIVE_ESTABLISHED",
   "strongest_negative_capped": true
 }

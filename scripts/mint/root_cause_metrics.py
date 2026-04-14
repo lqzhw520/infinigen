@@ -380,6 +380,127 @@ def local_affordance_gate_breakdown(
     }
 
 
+
+
+def seed_coverage_with_any_true(rollouts: list[dict[str, Any]], trace_key: str) -> float:
+    if not rollouts:
+        return 0.0
+    values = []
+    for rollout in rollouts:
+        trace = np.asarray(rollout.get(trace_key, []))
+        values.append(bool(trace.size and np.any(trace)))
+    return float(np.mean(np.asarray(values, dtype=np.float32))) if values else 0.0
+
+
+def seed_coverage_with_positive_peak(rollouts: list[dict[str, Any]], trace_key: str) -> float:
+    if not rollouts:
+        return 0.0
+    values = []
+    for rollout in rollouts:
+        trace = np.asarray(rollout.get(trace_key, []), dtype=np.float32)
+        values.append(bool(trace.size and float(np.max(trace)) > 0.0))
+    return float(np.mean(np.asarray(values, dtype=np.float32))) if values else 0.0
+
+
+def detach_reason_coverage(rollouts: list[dict[str, Any]], trace_key: str = "detach_reason_trace") -> float:
+    if not rollouts:
+        return 0.0
+    values = []
+    for rollout in rollouts:
+        trace = rollout.get(trace_key, [])
+        if trace is None:
+            values.append(False)
+            continue
+        flat = np.asarray(trace, dtype=object).reshape(-1).tolist()
+        values.append(any(bool(item) for item in flat))
+    return float(np.mean(np.asarray(values, dtype=np.float32))) if values else 0.0
+
+
+def _train_only_standardize(train_x: np.ndarray, eval_x: np.ndarray) -> tuple[np.ndarray, np.ndarray, dict[str, Any]]:
+    train = np.asarray(train_x, dtype=np.float32)
+    eval_ = np.asarray(eval_x, dtype=np.float32)
+    mean = np.mean(train, axis=0, keepdims=True)
+    std = np.std(train, axis=0, keepdims=True)
+    std = np.where(std < 1e-6, 1.0, std)
+    return (train - mean) / std, (eval_ - mean) / std, {"mean": mean.astype(np.float32), "std": std.astype(np.float32)}
+
+
+def _ridge_fit_predict(train_x: np.ndarray, train_y: np.ndarray, eval_x: np.ndarray, alpha: float = 1.0) -> tuple[np.ndarray, np.ndarray]:
+    x_train = np.asarray(train_x, dtype=np.float32)
+    y_train = np.asarray(train_y, dtype=np.float32).reshape(-1, 1)
+    x_eval = np.asarray(eval_x, dtype=np.float32)
+    ones_train = np.ones((x_train.shape[0], 1), dtype=np.float32)
+    ones_eval = np.ones((x_eval.shape[0], 1), dtype=np.float32)
+    x_train_aug = np.concatenate([x_train, ones_train], axis=1)
+    x_eval_aug = np.concatenate([x_eval, ones_eval], axis=1)
+    eye = np.eye(x_train_aug.shape[1], dtype=np.float32)
+    eye[-1, -1] = 0.0
+    coef = np.linalg.solve(x_train_aug.T @ x_train_aug + float(alpha) * eye, x_train_aug.T @ y_train)
+    train_pred = (x_train_aug @ coef).reshape(-1)
+    eval_pred = (x_eval_aug @ coef).reshape(-1)
+    return train_pred.astype(np.float32), eval_pred.astype(np.float32)
+
+
+def _brier_skill_score(train_y: np.ndarray, eval_y: np.ndarray, eval_pred: np.ndarray) -> float:
+    train_target = np.asarray(train_y, dtype=np.float32).reshape(-1)
+    eval_target = np.asarray(eval_y, dtype=np.float32).reshape(-1)
+    pred = np.clip(np.asarray(eval_pred, dtype=np.float32).reshape(-1), 0.0, 1.0)
+    brier = float(np.mean((pred - eval_target) ** 2))
+    prevalence = float(np.mean(train_target)) if train_target.size else 0.0
+    ref = float(np.mean((prevalence - eval_target) ** 2)) if eval_target.size else 0.0
+    if ref < 1e-8:
+        return 1.0 if brier < 1e-8 else 0.0
+    return float(1.0 - brier / ref)
+
+
+def _r2_score(eval_y: np.ndarray, eval_pred: np.ndarray) -> float:
+    target = np.asarray(eval_y, dtype=np.float32).reshape(-1)
+    pred = np.asarray(eval_pred, dtype=np.float32).reshape(-1)
+    ss_res = float(np.sum((target - pred) ** 2))
+    target_mean = float(np.mean(target)) if target.size else 0.0
+    ss_tot = float(np.sum((target - target_mean) ** 2))
+    if ss_tot < 1e-8:
+        return 1.0 if ss_res < 1e-8 else 0.0
+    return float(1.0 - ss_res / ss_tot)
+
+
+def task_identity_predictiveness_score(
+    train_x: np.ndarray,
+    eval_x: np.ndarray,
+    train_targets: dict[str, np.ndarray],
+    eval_targets: dict[str, np.ndarray],
+    *,
+    alpha: float = 1.0,
+) -> dict[str, Any]:
+    train_std, eval_std, standardization = _train_only_standardize(train_x, eval_x)
+    target_scores: dict[str, float] = {}
+    target_predictions: dict[str, list[float]] = {}
+    for name, train_y in train_targets.items():
+        eval_y = eval_targets[name]
+        _, eval_pred = _ridge_fit_predict(train_std, train_y, eval_std, alpha=float(alpha))
+        if name in {"stable_attach_next", "phase_locked_next"}:
+            score = _brier_skill_score(train_y, eval_y, eval_pred)
+        else:
+            score = _r2_score(eval_y, eval_pred)
+        target_scores[name] = float(score)
+        target_predictions[name] = np.asarray(eval_pred, dtype=np.float32).tolist()
+    overall = float(np.mean(list(target_scores.values()))) if target_scores else 0.0
+    return {
+        "overall_predictiveness_score": overall,
+        "target_scores": target_scores,
+        "target_predictions": target_predictions,
+        "standardization": {
+            "mean": np.asarray(standardization["mean"], dtype=np.float32).reshape(-1).tolist(),
+            "std": np.asarray(standardization["std"], dtype=np.float32).reshape(-1).tolist(),
+        },
+        "alpha": float(alpha),
+    }
+
+
+def task_identity_predictiveness_gain(baseline_score: float, lane_score: float) -> float:
+    return float(lane_score - baseline_score)
+
+
 def visual_gate_breakdown(
     *,
     baseline_weighted_visual_gap: float,
@@ -422,21 +543,27 @@ def rollout_ceiling_lift(baseline: dict[str, Any], lane: dict[str, Any]) -> dict
     delta_unique_success_rate = float(lane.get("unique_success_rate", 0.0) - baseline.get("unique_success_rate", 0.0))
     delta_attach_rate = float(lane.get("attach_rate", 0.0) - baseline.get("attach_rate", 0.0))
     delta_mean_max_drawer_fraction = float(lane.get("mean_max_drawer_fraction", 0.0) - baseline.get("mean_max_drawer_fraction", 0.0))
+    delta_phase_locked_rate = float(lane.get("phase_locked_rate", 0.0) - baseline.get("phase_locked_rate", 0.0))
+    delta_mean_effective_pull_progress = float(lane.get("mean_effective_pull_progress", 0.0) - baseline.get("mean_effective_pull_progress", 0.0))
     baseline_steps = max(float(baseline.get("avg_episode_length", 1.0)), 1e-6)
     delta_avg_episode_length_ratio = float(lane.get("avg_episode_length", 0.0) / baseline_steps - 1.0)
     delta_orientation_causal_sensitivity = max(0.0, float(lane.get("orientation_causal_sensitivity", 0.0) - baseline.get("orientation_causal_sensitivity", 0.0)))
     score = (
-        0.30 * delta_unique_success_rate
-        + 0.25 * delta_attach_rate
+        0.22 * delta_unique_success_rate
+        + 0.10 * delta_attach_rate
         + 0.20 * delta_mean_max_drawer_fraction
-        + 0.15 * delta_avg_episode_length_ratio
-        + 0.10 * delta_orientation_causal_sensitivity
+        + 0.18 * delta_phase_locked_rate
+        + 0.15 * delta_mean_effective_pull_progress
+        + 0.10 * delta_avg_episode_length_ratio
+        + 0.05 * delta_orientation_causal_sensitivity
     )
     return {
         "score": float(score),
         "delta_unique_success_rate": delta_unique_success_rate,
         "delta_attach_rate": delta_attach_rate,
         "delta_mean_max_drawer_fraction": delta_mean_max_drawer_fraction,
+        "delta_phase_locked_rate": delta_phase_locked_rate,
+        "delta_mean_effective_pull_progress": delta_mean_effective_pull_progress,
         "delta_avg_episode_length_ratio": delta_avg_episode_length_ratio,
         "delta_orientation_causal_sensitivity": delta_orientation_causal_sensitivity,
     }

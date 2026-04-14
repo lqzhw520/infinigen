@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-04-13T23:53:32+08:00",
+  "generated_at": "2026-04-14T13:49:18+08:00",
   "cycle_mode": "unattended_cycle",
   "experiment_family": "RCA",
-  "cycles_completed": 8,
+  "cycles_completed": 1,
   "completed_experiments": [
     "RCA0",
     "RCA1",
@@ -91,5 +91,7 @@
       "RCA6",
       "RCA7"
     ]
-  }
+  },
+  "scientific_terminal_state": "TS_CANONICAL_POSITIVE_ESTABLISHED",
+  "route_next_branch": "tiny_retrain_confirmation"
 }

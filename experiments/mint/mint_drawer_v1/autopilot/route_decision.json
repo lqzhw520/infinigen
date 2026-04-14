@@ -1,10 +1,10 @@
 {
-  "scientific_terminal_state": "MINIMAL_REPAIR_INSUFFICIENT",
-  "route_next_branch": "environment_reformulation",
-  "why": "Truthful local-affordance improvement was established, but the replicated best cell did not achieve positive rollout lift; local-visual-last-blocker is falsified and deeper embodied transition/task-identity mismatch becomes primary.",
+  "scientific_terminal_state": "TS_CANONICAL_POSITIVE_ESTABLISHED",
+  "route_next_branch": "tiny_retrain_confirmation",
+  "why": "Truthful measurement remained valid, the frozen V1c carrier stayed canonical-ready, V1cT2S0 produced replicated positive rollout lift, and V1cT2S0 is the selected canonical_train_cell for RCA7.",
   "strongest_negative_capped": true,
   "cap_active": true,
   "h0_posterior": 0.35,
   "h6_posterior": 0.55,
-  "generated_at": "2026-04-13T23:53:32+08:00"
+  "generated_at": "2026-04-14T13:49:18+08:00"
 }

@@ -1,0 +1,18 @@
+{
+  "experiment_id": "RCA7",
+  "generated_at": "2026-04-14T13:49:17+08:00",
+  "selector_mode": "frozen_v5_pro",
+  "baseline_cell_id": "V0T0S0",
+  "ts_baseline_cell_id": "V1cT0S0",
+  "frozen_matrix_hash": "2fd03522cca6be9d",
+  "best_transition_cell": "V1cT2S0",
+  "best_train_state_mode": "S0",
+  "canonical_train_cell": "V1cT2S0",
+  "preferred_canonical_train_cell": "V1cT2S2",
+  "tiny_retrain_permitted": true,
+  "eligible": true,
+  "passed": true,
+  "blocked": false,
+  "blocked_reasons": [],
+  "launched": false
+}

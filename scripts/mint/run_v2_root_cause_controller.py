@@ -112,6 +112,9 @@ def _resolve_cycle_mode(args: argparse.Namespace) -> str:
 
 def main() -> int:
     args = parse_args()
+    if args.experiment_family == 'RCA':
+        args.selector_mode = 'frozen_v5_pro'
+        args.truthful_measurement_required = True
     reset_archive = archive_controller_state(reason='cli_reset_state') if args.reset_state else None
     cycle_mode = _resolve_cycle_mode(args)
     payload = run_controller(

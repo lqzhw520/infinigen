@@ -45,8 +45,8 @@ ROT_ACTION_CLIP = np.array([0.35, 0.45, 0.45], dtype=np.float32)
 
 SecondaryCameraMode = Literal["legacy_fixed_scene", "wrist_dynamic"]
 CalibrationMode = Literal["none", "legacy_bg_gain_bias", "diagnostic_texture"]
-InteractionMode = Literal["legacy_translation_only", "orientation_sensitive_v1", "orientation_sensitive_v2_affordance_locked"]
-StateMode = Literal["m0_proxy", "eef_pose_gripper", "telemetry_candidate_v1", "telemetry_candidate_v2", "telemetry_candidate_v3_transition"]
+InteractionMode = Literal["legacy_translation_only", "orientation_sensitive_v1", "orientation_sensitive_v2_affordance_locked", "orientation_sensitive_v3_task_identity_locked"]
+StateMode = Literal["m0_proxy", "eef_pose_gripper", "telemetry_candidate_v1", "telemetry_candidate_v2", "telemetry_candidate_v3_transition", "telemetry_candidate_v4_task_identity"]
 RenderProfile = Literal[
     "legacy_surface",
     "visual_reformulation_v0",
@@ -285,9 +285,15 @@ class DrawerRobotEnvMuJoCo:
         self._attached = False
         self._max_drawer_fraction = 0.0
         self._motion_axis = self._joint_axis_world()
-        self._workspace_low = self.scene_center + np.array([-0.30, -0.25, -0.10], dtype=np.float32)
-        self._workspace_high = self.scene_center + np.array([0.35, 0.25, 0.30], dtype=np.float32)
-        self._home_pos = self.scene_center + np.array([0.15, 0.0, 0.12], dtype=np.float32)
+        handle_center = self._handle_center_world()
+        default_workspace_low = self.scene_center + np.array([-0.30, -0.25, -0.10], dtype=np.float32)
+        default_workspace_high = self.scene_center + np.array([0.35, 0.25, 0.30], dtype=np.float32)
+        handle_workspace_low = handle_center + np.array([-0.28, -0.25, -0.12], dtype=np.float32)
+        handle_workspace_high = handle_center + np.array([0.18, 0.25, 0.20], dtype=np.float32)
+        self._workspace_low = np.minimum(default_workspace_low, handle_workspace_low).astype(np.float32)
+        self._workspace_high = np.maximum(default_workspace_high, handle_workspace_high).astype(np.float32)
+        preferred_home = handle_center - self._motion_axis * 0.18 + np.array([0.0, 0.0, 0.12], dtype=np.float32)
+        self._home_pos = np.clip(preferred_home, self._workspace_low + 0.02, self._workspace_high - 0.02).astype(np.float32)
         self._home_quat = np.array([0.0, 1.0, 0.0, 0.0], dtype=np.float32)
         self._rng = np.random.default_rng(self.seed)
         self._original_geom_rgba = np.asarray(self.model.geom_rgba, dtype=np.float32).copy()
@@ -303,6 +309,16 @@ class DrawerRobotEnvMuJoCo:
         self._attach_streak = 0
         self._stable_attach = False
         self._contact_window: list[float] = []
+        self._orientation_break_streak = 0
+        self._slip_break_streak = 0
+        self._reverse_pull_streak = 0
+        self._anchor_handle_offset_world: np.ndarray | None = None
+        self._anchor_eef_pull_progress = 0.0
+        self._prev_pull_progress = 0.0
+        self._runtime_visible_handle_geom_ids: list[int] = []
+        self._runtime_handle_anchor_valid = False
+        self._runtime_handle_anchor_world = self._handle_center_world().copy()
+        self._last_detach_reason: str | None = None
         self._legacy_handle_resolution = self._resolve_semantic_handle_geom_ids()
         self.reset()
 
@@ -345,6 +361,15 @@ class DrawerRobotEnvMuJoCo:
             "open_orientation_weight": 1.0,
             "orientation_error_rad": 0.0,
             "contact_window_fraction": 0.0,
+            "runtime_handle_anchor_world": [0.0, 0.0, 0.0],
+            "runtime_handle_anchor_valid": False,
+            "phase_locked": False,
+            "raw_grasp_slip": 0.0,
+            "grasp_slip_norm": 0.0,
+            "pull_progress": 0.0,
+            "pull_increment": 0.0,
+            "effective_pull_progress": 0.0,
+            "detach_reason": None,
         }
 
     def _joint_axis_world(self) -> np.ndarray:
@@ -398,6 +423,127 @@ class DrawerRobotEnvMuJoCo:
         width_axis = _normalize(width_axis, np.array([1.0, 0.0, 0.0], dtype=np.float32))
         height_axis = _normalize(np.cross(depth_axis, width_axis), WORLD_UP)
         return width_axis, depth_axis, height_axis
+
+    def _runtime_visible_handle_anchor_world(self) -> np.ndarray:
+        ids = list(getattr(self, "_runtime_visible_handle_geom_ids", []) or [])
+        if not ids:
+            raise RuntimeError("runtime_visible_handle_anchor_unavailable")
+        centers = np.asarray(self.data.geom_xpos[ids], dtype=np.float32)
+        radii = np.asarray(self.model.geom_rbound[ids], dtype=np.float32)
+        weights = np.clip(radii, 1e-4, None)
+        return np.average(centers, axis=0, weights=weights).astype(np.float32)
+
+    def _visual_profile_handle_anchor_world(self) -> np.ndarray:
+        try:
+            return self._runtime_visible_handle_anchor_world()
+        except Exception:
+            return self._handle_center_world()
+
+    def _runtime_visible_handle_highlight_ids(self) -> list[int]:
+        ids = [int(idx) for idx in list(getattr(self, "_runtime_visible_handle_geom_ids", []) or [])]
+        return sorted(dict.fromkeys(idx for idx in ids if 0 <= idx < int(self.model.ngeom)))
+
+    def _interaction_handle_target_world(self) -> tuple[np.ndarray, bool]:
+        if self.contract.interaction_mode == "orientation_sensitive_v3_task_identity_locked":
+            try:
+                anchor = self._runtime_visible_handle_anchor_world()
+                return anchor.astype(np.float32), True
+            except Exception:
+                return np.asarray(self.eef_pos, dtype=np.float32).copy(), False
+        return self._handle_center_world(), False
+
+    def _task_identity_transition_update(
+        self,
+        *,
+        prev_pos: np.ndarray,
+        close_cmd: bool,
+        dist_to_handle: float,
+        attach_eligible: bool,
+        orientation_alignment_cos: float,
+        pull_alignment_cos: float,
+        runtime_handle_anchor_world: np.ndarray,
+        runtime_handle_anchor_valid: bool,
+    ) -> dict[str, Any]:
+        drawer_gain = 6.0
+        detach_reason: str | None = None
+        if attach_eligible:
+            self._attach_streak += 1
+        else:
+            self._attach_streak = 0
+        entering_stable_attach = (not self._stable_attach) and self._attach_streak >= 3
+        if entering_stable_attach:
+            self._stable_attach = True
+            self._attached = True
+            self._anchor_handle_offset_world = runtime_handle_anchor_world - self.eef_pos
+            self._anchor_eef_pull_progress = float(np.dot(self.eef_pos, self._motion_axis))
+            self._prev_pull_progress = 0.0
+            self._orientation_break_streak = 0
+            self._slip_break_streak = 0
+            self._reverse_pull_streak = 0
+        raw_grasp_slip = 0.0
+        grasp_slip_norm = 0.0
+        pull_progress = 0.0
+        raw_pull_delta = 0.0
+        pull_increment = 0.0
+        if self._stable_attach and self._anchor_handle_offset_world is not None:
+            raw_grasp_slip = float(np.linalg.norm((runtime_handle_anchor_world - self.eef_pos) - self._anchor_handle_offset_world))
+            pull_progress = float(np.dot(self.eef_pos, self._motion_axis) - self._anchor_eef_pull_progress)
+            raw_pull_delta = float(pull_progress - self._prev_pull_progress)
+            pull_increment = max(0.0, raw_pull_delta)
+            self._prev_pull_progress = pull_progress
+            grasp_slip_norm = float(np.clip(raw_grasp_slip / 0.04, 0.0, 1.0))
+        orientation_weight = float(np.clip((orientation_alignment_cos - 0.45) / 0.35, 0.0, 1.0))
+        slip_weight = float(np.clip(1.0 - raw_grasp_slip / 0.03, 0.0, 1.0))
+        phase_locked = bool(self._stable_attach and close_cmd and orientation_alignment_cos >= 0.60 and raw_grasp_slip <= 0.03)
+        effective_pull_progress = float(pull_increment * orientation_weight * slip_weight)
+        drawer_delta_raw = float(np.dot(self.eef_pos - prev_pos, self._motion_axis)) * drawer_gain
+        drawer_delta_effective = float(effective_pull_progress * drawer_gain) if phase_locked else 0.0
+        if self._stable_attach:
+            self._orientation_break_streak = self._orientation_break_streak + 1 if orientation_alignment_cos < 0.45 else 0
+            self._slip_break_streak = self._slip_break_streak + 1 if raw_grasp_slip > 0.04 else 0
+            self._reverse_pull_streak = self._reverse_pull_streak + 1 if raw_pull_delta < 0.0 else 0
+            if not close_cmd:
+                detach_reason = 'open_cmd'
+            elif dist_to_handle > DETACH_THRESHOLD_M:
+                detach_reason = 'distance'
+            elif self._orientation_break_streak >= 2:
+                detach_reason = 'orientation_break'
+            elif self._slip_break_streak >= 2:
+                detach_reason = 'slip_break'
+            elif self._reverse_pull_streak >= 2:
+                detach_reason = 'reverse_pull'
+        if detach_reason is not None:
+            self._attached = False
+            self._stable_attach = False
+            self._attach_streak = 0
+            self._orientation_break_streak = 0
+            self._slip_break_streak = 0
+            self._reverse_pull_streak = 0
+            self._anchor_handle_offset_world = None
+            self._anchor_eef_pull_progress = 0.0
+            self._prev_pull_progress = 0.0
+            drawer_delta_effective = 0.0
+            phase_locked = False
+        else:
+            self._attached = bool(self._stable_attach)
+        self._runtime_handle_anchor_world = runtime_handle_anchor_world.astype(np.float32)
+        self._runtime_handle_anchor_valid = bool(runtime_handle_anchor_valid)
+        self._last_detach_reason = detach_reason
+        return {
+            'drawer_delta_raw': float(drawer_delta_raw),
+            'drawer_delta_effective': float(drawer_delta_effective),
+            'open_orientation_weight': float(orientation_weight),
+            'pull_alignment_cos': float(pull_alignment_cos),
+            'runtime_handle_anchor_world': runtime_handle_anchor_world.astype(np.float32),
+            'runtime_handle_anchor_valid': bool(runtime_handle_anchor_valid),
+            'phase_locked': bool(phase_locked),
+            'raw_grasp_slip': float(raw_grasp_slip),
+            'grasp_slip_norm': float(grasp_slip_norm),
+            'pull_progress': float(pull_progress),
+            'pull_increment': float(pull_increment),
+            'effective_pull_progress': float(effective_pull_progress),
+            'detach_reason': detach_reason,
+        }
 
     def _handle_proxy_corners_world(self) -> np.ndarray:
         center = self._handle_center_world()
@@ -995,10 +1141,25 @@ class DrawerRobotEnvMuJoCo:
         mean = SECONDARY_BG_MEAN if secondary else PRIMARY_BG_MEAN
         return np.clip(mean * 255.0, 0.0, 255.0).astype(np.uint8)
 
+    def _apply_profile_postprocess(self, image: np.ndarray, *, secondary: bool) -> np.ndarray:
+        import cv2
+
+        base = image.astype(np.uint8)
+        if self.contract.render_profile != "visual_affordance_v3_local_material_edge":
+            return base
+        lab = cv2.cvtColor(base, cv2.COLOR_RGB2LAB)
+        l_chan, a_chan, b_chan = cv2.split(lab)
+        clahe = cv2.createCLAHE(clipLimit=2.2 if secondary else 2.4, tileGridSize=(8, 8))
+        l_enh = clahe.apply(l_chan)
+        merged = cv2.cvtColor(cv2.merge([l_enh, a_chan, b_chan]), cv2.COLOR_LAB2RGB)
+        blur = cv2.GaussianBlur(merged, (0, 0), 1.0 if secondary else 1.1)
+        sharpened = cv2.addWeighted(merged, 1.34 if secondary else 1.40, blur, -0.34 if secondary else -0.40, 0)
+        return np.clip(sharpened, 0, 255).astype(np.uint8)
+
     def _apply_calibration(self, image: np.ndarray, *, secondary: bool) -> np.ndarray:
         mode = self.contract.calibration_mode
         if mode == "none":
-            return image.astype(np.uint8)
+            return self._apply_profile_postprocess(image, secondary=secondary)
         if mode == "diagnostic_texture":
             return self._apply_diagnostic_texture(image, secondary=secondary)
         out = image.astype(np.float32)
@@ -1008,7 +1169,7 @@ class DrawerRobotEnvMuJoCo:
         gain = 1.18 if secondary else 1.22
         bias = 6.0 if secondary else 10.0
         out = out * gain + bias
-        return np.clip(out, 0.0, 255.0).astype(np.uint8)
+        return self._apply_profile_postprocess(np.clip(out, 0.0, 255.0).astype(np.uint8), secondary=secondary)
 
     def _apply_diagnostic_texture(self, image: np.ndarray, *, secondary: bool) -> np.ndarray:
         import cv2
@@ -1031,6 +1192,7 @@ class DrawerRobotEnvMuJoCo:
         self.model.vis.rgba.haze[:] = self._original_haze_rgba
 
         handle = self._handle_center_world()
+        handle_ids = self._runtime_visible_handle_highlight_ids()
         v2_profile = self.contract.render_profile in {"visual_reformulation_v2_material_light_bg", "visual_reformulation_v2_plus_bundle"}
         v3_profile = self.contract.render_profile in {"visual_affordance_v3_raw_canonical", "visual_affordance_v3_local_material_edge", "visual_affordance_v3_plus_bundle"}
         if self.contract.camera_framing_profile == "macro_handle_centered":
@@ -1070,18 +1232,25 @@ class DrawerRobotEnvMuJoCo:
         if self.contract.material_policy == "handle_affordance_local":
             centers = np.asarray(self.data.geom_xpos, dtype=np.float32)
             if len(centers):
-                distances = np.linalg.norm(centers - handle[None, :], axis=1)
-                nearest = int(np.argmin(distances))
-                self.model.geom_rgba[:, :3] = np.clip(self.model.geom_rgba[:, :3] * 0.78, 0.0, 1.0)
-                self.model.geom_rgba[nearest, :4] = np.asarray([0.90, 0.80, 0.60, 1.0], dtype=np.float32)
+                if handle_ids:
+                    highlight_ids = np.asarray(handle_ids, dtype=np.int32)
+                else:
+                    distances = np.linalg.norm(centers - handle[None, :], axis=1)
+                    highlight_ids = np.asarray([int(np.argmin(distances))], dtype=np.int32)
+                self.model.geom_rgba[:, :3] = np.clip(self.model.geom_rgba[:, :3] * 0.88, 0.0, 1.0)
+                self.model.geom_rgba[highlight_ids, :4] = np.asarray([0.90, 0.80, 0.60, 1.0], dtype=np.float32)
         elif self.contract.material_policy == "handle_highlight":
             centers = np.asarray(self.data.geom_xpos, dtype=np.float32)
             if len(centers):
-                distances = np.linalg.norm(centers - handle[None, :], axis=1)
-                nearest = int(np.argmin(distances))
+                if handle_ids:
+                    highlight_ids = np.asarray(handle_ids, dtype=np.int32)
+                    distances = np.min(np.linalg.norm(centers[:, None, :] - centers[highlight_ids][None, :, :], axis=2), axis=1)
+                else:
+                    distances = np.linalg.norm(centers - handle[None, :], axis=1)
+                    highlight_ids = np.asarray([int(np.argmin(distances))], dtype=np.int32)
                 scale = np.asarray([0.78, 0.78, 0.78, 1.0], dtype=np.float32) if v2_profile else np.asarray([0.95, 0.95, 0.95, 1.0], dtype=np.float32)
                 self.model.geom_rgba[:] = np.clip(self.model.geom_rgba[:] * scale, 0.0, 1.0)
-                self.model.geom_rgba[nearest, :4] = np.asarray([0.98, 0.66, 0.16, 1.0], dtype=np.float32) if v2_profile else np.asarray([0.86, 0.54, 0.24, 1.0], dtype=np.float32)
+                self.model.geom_rgba[highlight_ids, :4] = np.asarray([0.98, 0.66, 0.16, 1.0], dtype=np.float32) if v2_profile else np.asarray([0.86, 0.54, 0.24, 1.0], dtype=np.float32)
                 near_mask = distances < (0.16 if v2_profile else 0.12)
                 if v2_profile:
                     self.model.geom_rgba[near_mask, :3] = np.clip(self.model.geom_rgba[near_mask, :3] * 1.35, 0.0, 1.0)
@@ -1415,9 +1584,9 @@ class DrawerRobotEnvMuJoCo:
         mode = self.contract.state_mode
         if mode == "m0_proxy":
             dim_names = [
-                "eef_pos_x_m",
-                "eef_pos_y_m",
-                "eef_pos_z_m",
+                "eef_pos_x",
+                "eef_pos_y",
+                "eef_pos_z",
                 "handle_rel_x_norm",
                 "handle_rel_y_norm",
                 "handle_rel_z_norm",
@@ -1427,52 +1596,29 @@ class DrawerRobotEnvMuJoCo:
             provenance = ["observed", "observed", "observed", "derived", "derived", "derived", "derived", "observed"]
         elif mode == "eef_pose_gripper":
             dim_names = [
-                "eef_pos_x_m",
-                "eef_pos_y_m",
-                "eef_pos_z_m",
-                "eef_quat_x",
-                "eef_quat_y",
-                "eef_quat_z",
-                "eef_quat_w",
-                "gripper_joint",
+                "eef_pos_x", "eef_pos_y", "eef_pos_z", "eef_quat_x", "eef_quat_y", "eef_quat_z", "eef_quat_w", "gripper_joint",
             ]
             provenance = ["observed"] * 8
         elif mode == "telemetry_candidate_v1":
             dim_names = [
-                "eef_pos_x_m",
-                "eef_pos_y_m",
-                "eef_pos_z_m",
-                "eef_rotvec_x",
-                "eef_rotvec_y",
-                "eef_rotvec_z",
-                "gripper_joint",
-                "drawer_fraction_signed",
+                "eef_pos_x", "eef_pos_y", "eef_pos_z", "eef_rotvec_x", "eef_rotvec_y", "eef_rotvec_z", "gripper_joint", "drawer_fraction_signed",
             ]
             provenance = ["observed", "observed", "observed", "derived", "derived", "derived", "observed", "derived"]
         elif mode == "telemetry_candidate_v2":
             dim_names = [
-                "eef_pos_x_m",
-                "eef_pos_y_m",
-                "eef_pos_z_m",
-                "eef_rotvec_x",
-                "eef_rotvec_y",
-                "eef_rotvec_z",
-                "handle_distance_norm",
-                "drawer_fraction_signed",
+                "eef_pos_x", "eef_pos_y", "eef_pos_z", "eef_rotvec_x", "eef_rotvec_y", "eef_rotvec_z", "handle_distance_norm", "drawer_fraction_signed",
             ]
             provenance = ["observed", "observed", "observed", "derived", "derived", "derived", "derived", "derived"]
+        elif mode == "telemetry_candidate_v4_task_identity":
+            dim_names = [
+                "handle_rel_x_norm", "handle_rel_y_norm", "handle_rel_z_norm", "drawer_fraction_signed", "pull_alignment_cos", "grasp_slip_norm", "effective_pull_progress_norm", "phase_locked",
+            ]
+            provenance = ["derived"] * 8
         else:
             dim_names = [
-                "handle_rel_x_norm",
-                "handle_rel_y_norm",
-                "handle_rel_z_norm",
-                "drawer_fraction_signed",
-                "pull_alignment_cos",
-                "stable_attach",
-                "attach_streak_norm",
-                "contact_window_fraction",
+                "handle_rel_x_norm", "handle_rel_y_norm", "handle_rel_z_norm", "drawer_fraction_signed", "pull_alignment_cos", "stable_attach", "attach_streak_norm", "contact_window_fraction",
             ]
-            provenance = ["derived", "derived", "derived", "derived", "derived", "derived", "derived", "derived"]
+            provenance = ["derived"] * 8
         duplicate_dims = sorted({name for name in dim_names if dim_names.count(name) > 1})
         return {
             "state_mode": mode,
@@ -1487,60 +1633,64 @@ class DrawerRobotEnvMuJoCo:
     def _state_vector(self) -> np.ndarray:
         mode = self.contract.state_mode
         if mode == "m0_proxy":
-            state = np.concatenate(
-                [
-                    self.eef_pos.astype(np.float32),
-                    self._synthetic_motor_state(),
-                    np.array([self.gripper_joint], dtype=np.float32),
-                ]
-            )
+            state = np.concatenate([
+                self.eef_pos.astype(np.float32),
+                self._synthetic_motor_state(),
+                np.array([self.gripper_joint], dtype=np.float32),
+            ])
             return state.astype(np.float32)
         if mode == "eef_pose_gripper":
-            state = np.concatenate(
-                [
-                    self.eef_pos.astype(np.float32),
-                    np.asarray(self.eef_quat, dtype=np.float32),
-                    np.array([self.gripper_joint], dtype=np.float32),
-                ]
-            )
+            state = np.concatenate([
+                self.eef_pos.astype(np.float32),
+                np.asarray(self.eef_quat, dtype=np.float32),
+                np.array([self.gripper_joint], dtype=np.float32),
+            ])
             return state.astype(np.float32)
         rotvec = R.from_quat(np.asarray(self.eef_quat, dtype=np.float32)).as_rotvec().astype(np.float32)
         if mode == "telemetry_candidate_v1":
-            state = np.concatenate(
-                [
-                    self.eef_pos.astype(np.float32),
-                    rotvec,
-                    np.array([self.gripper_joint, self._drawer_fraction_signed()], dtype=np.float32),
-                ]
-            )
+            state = np.concatenate([
+                self.eef_pos.astype(np.float32),
+                rotvec,
+                np.array([self.gripper_joint, self._drawer_fraction_signed()], dtype=np.float32),
+            ])
             return state.astype(np.float32)
-        handle = self._handle_center_world()
+        handle, _ = self._interaction_handle_target_world()
         handle_rel = np.clip((handle - self.eef_pos) / np.array([0.22, 0.18, 0.14], dtype=np.float32), -1.0, 1.0)
         if mode == "telemetry_candidate_v2":
             handle_distance = float(np.linalg.norm(handle - self.eef_pos))
             handle_distance_norm = np.clip(handle_distance / 0.35, 0.0, 1.0)
-            state = np.concatenate(
-                [
-                    self.eef_pos.astype(np.float32),
-                    rotvec,
-                    np.array([handle_distance_norm, self._drawer_fraction_signed()], dtype=np.float32),
-                ]
-            )
+            state = np.concatenate([
+                self.eef_pos.astype(np.float32),
+                rotvec,
+                np.array([handle_distance_norm, self._drawer_fraction_signed()], dtype=np.float32),
+            ])
             return state.astype(np.float32)
         info = self._last_orientation_info or self._default_orientation_info()
         attach_streak_norm = float(np.clip(float(info.get("attach_streak", 0.0)) / 4.0, 0.0, 1.0))
-        state = np.concatenate(
-            [
+        if mode == "telemetry_candidate_v4_task_identity":
+            joint_span = max(float(self.joint_range[1] - self.joint_range[0]), 1e-6)
+            effective_pull_progress_norm = float(np.clip(float(info.get("effective_pull_progress", 0.0)) / joint_span, 0.0, 1.0))
+            state = np.concatenate([
                 handle_rel.astype(np.float32),
                 np.array([
                     self._drawer_fraction_signed(),
                     float(info.get("pull_alignment_cos", 0.0)),
-                    1.0 if bool(info.get("stable_attach", False)) else 0.0,
-                    attach_streak_norm,
-                    float(np.clip(info.get("contact_window_fraction", 0.0), 0.0, 1.0)),
+                    float(np.clip(info.get("grasp_slip_norm", 0.0), 0.0, 1.0)),
+                    effective_pull_progress_norm,
+                    1.0 if bool(info.get("phase_locked", False)) else 0.0,
                 ], dtype=np.float32),
-            ]
-        )
+            ])
+            return state.astype(np.float32)
+        state = np.concatenate([
+            handle_rel.astype(np.float32),
+            np.array([
+                self._drawer_fraction_signed(),
+                float(info.get("pull_alignment_cos", 0.0)),
+                1.0 if bool(info.get("stable_attach", False)) else 0.0,
+                attach_streak_norm,
+                float(np.clip(info.get("contact_window_fraction", 0.0), 0.0, 1.0)),
+            ], dtype=np.float32),
+        ])
         return state.astype(np.float32)
 
     def observe(self) -> MuJoCoRobotObservation:
@@ -1579,6 +1729,32 @@ class DrawerRobotEnvMuJoCo:
         self._attach_streak = 0
         self._stable_attach = False
         self._contact_window = []
+        self._orientation_break_streak = 0
+        self._slip_break_streak = 0
+        self._reverse_pull_streak = 0
+        self._anchor_handle_offset_world = None
+        self._anchor_eef_pull_progress = 0.0
+        self._prev_pull_progress = 0.0
+        self._runtime_visible_handle_geom_ids = []
+        self._runtime_handle_anchor_valid = False
+        self._runtime_handle_anchor_world = self._handle_center_world().copy()
+        manifest_report = self._load_handle_entity_from_manifest()
+        runtime_visible_mapping = self._resolve_runtime_visible_handle_geom_ids_from_manifest(manifest_report.get("handle_entity"))
+        resolved_runtime_visible_ids = [int(idx) for idx in list(runtime_visible_mapping.get("resolved_ids", []))]
+        mapping_valid = bool(
+            manifest_report.get("manifest_handle_entity_unique")
+            and runtime_visible_mapping.get("mapping_unique")
+            and not runtime_visible_mapping.get("duplicate_runtime_geom_name_flag", False)
+            and not runtime_visible_mapping.get("unnamed_runtime_geom_flag", False)
+        )
+        if mapping_valid and resolved_runtime_visible_ids:
+            self._runtime_visible_handle_geom_ids = resolved_runtime_visible_ids
+            try:
+                self._runtime_handle_anchor_world = self._runtime_visible_handle_anchor_world()
+                self._runtime_handle_anchor_valid = True
+            except Exception:
+                self._runtime_handle_anchor_valid = False
+        self._last_detach_reason = None
         self._max_drawer_fraction = self._drawer_fraction()
         self._last_orientation_info = self._default_orientation_info()
         self._last_handle_probe_metadata = {}
@@ -1643,7 +1819,7 @@ class DrawerRobotEnvMuJoCo:
         self.eef_quat = (R.from_quat(delta_quat) * R.from_quat(self.eef_quat)).as_quat().astype(np.float32)
         self.gripper_joint = GRIPPER_CLOSED if close_cmd else GRIPPER_OPEN
 
-        handle = self._handle_center_world()
+        handle, runtime_handle_anchor_valid = self._interaction_handle_target_world()
         dist_to_handle = float(np.linalg.norm(self.eef_pos - handle))
         distance_pass = dist_to_handle <= ATTACH_THRESHOLD_M
         orientation_alignment_cos = 1.0
@@ -1654,15 +1830,15 @@ class DrawerRobotEnvMuJoCo:
         pull_alignment_cos = 0.0
         approach_alignment_cos = 0.0
 
-        if self.contract.interaction_mode in {"orientation_sensitive_v1", "orientation_sensitive_v2_affordance_locked"}:
+        if self.contract.interaction_mode in {"orientation_sensitive_v1", "orientation_sensitive_v2_affordance_locked", "orientation_sensitive_v3_task_identity_locked"}:
             local_pull_axis = np.array([1.0, 0.0, 0.0], dtype=np.float32)
             pull_axis_world = R.from_quat(np.asarray(self.eef_quat, dtype=np.float32)).apply(local_pull_axis).astype(np.float32)
             pull_axis_world = _normalize(pull_axis_world, WORLD_X)
             orientation_alignment_cos = float(np.clip(np.dot(pull_axis_world, self._motion_axis), -1.0, 1.0))
             pull_alignment_cos = orientation_alignment_cos
             orientation_error_rad = float(np.arccos(np.clip(orientation_alignment_cos, -1.0, 1.0)))
-            attach_cos_threshold = 0.55
-            open_cos_threshold = 0.65
+            attach_cos_threshold = 0.60 if self.contract.interaction_mode == "orientation_sensitive_v3_task_identity_locked" else 0.55
+            open_cos_threshold = 0.60 if self.contract.interaction_mode == "orientation_sensitive_v3_task_identity_locked" else 0.65
             orientation_gate_passed = orientation_alignment_cos >= attach_cos_threshold
             orientation_weight = float(np.clip((orientation_alignment_cos - open_cos_threshold) / max(1e-6, 1.0 - open_cos_threshold), 0.0, 1.0))
 
@@ -1670,14 +1846,52 @@ class DrawerRobotEnvMuJoCo:
             approach_dir = _normalize(delta_pos, WORLD_X)
             desired_dir = _normalize(handle - prev_pos, WORLD_X)
             approach_alignment_cos = float(np.clip(np.dot(approach_dir, desired_dir), -1.0, 1.0))
-        approach_gate_passed = approach_alignment_cos >= 0.15 if self.contract.interaction_mode == "orientation_sensitive_v2_affordance_locked" else True
+        if self.contract.interaction_mode == "orientation_sensitive_v3_task_identity_locked":
+            approach_gate_passed = approach_alignment_cos >= 0.25
+        elif self.contract.interaction_mode == "orientation_sensitive_v2_affordance_locked":
+            approach_gate_passed = approach_alignment_cos >= 0.15
+        else:
+            approach_gate_passed = True
         attach_eligible = bool(close_cmd and distance_pass and orientation_gate_passed and approach_gate_passed)
 
         self._contact_window.append(1.0 if distance_pass else 0.0)
         self._contact_window = self._contact_window[-6:]
         contact_window_fraction = float(np.mean(self._contact_window)) if self._contact_window else 0.0
 
-        if self.contract.interaction_mode == "orientation_sensitive_v2_affordance_locked":
+        phase_locked = False
+        raw_grasp_slip = 0.0
+        grasp_slip_norm = 0.0
+        pull_progress = 0.0
+        pull_increment = 0.0
+        effective_pull_progress = 0.0
+        detach_reason = None
+        drawer_delta_raw = 0.0
+        drawer_delta_effective = 0.0
+
+        if self.contract.interaction_mode == "orientation_sensitive_v3_task_identity_locked":
+            transition = self._task_identity_transition_update(
+                prev_pos=prev_pos,
+                close_cmd=close_cmd,
+                dist_to_handle=dist_to_handle,
+                attach_eligible=attach_eligible,
+                orientation_alignment_cos=orientation_alignment_cos,
+                pull_alignment_cos=pull_alignment_cos,
+                runtime_handle_anchor_world=handle,
+                runtime_handle_anchor_valid=runtime_handle_anchor_valid,
+            )
+            drawer_delta_raw = float(transition['drawer_delta_raw'])
+            drawer_delta_effective = float(transition['drawer_delta_effective'])
+            orientation_weight = float(transition['open_orientation_weight'])
+            phase_locked = bool(transition['phase_locked'])
+            raw_grasp_slip = float(transition['raw_grasp_slip'])
+            grasp_slip_norm = float(transition['grasp_slip_norm'])
+            pull_progress = float(transition['pull_progress'])
+            pull_increment = float(transition['pull_increment'])
+            effective_pull_progress = float(transition['effective_pull_progress'])
+            detach_reason = transition['detach_reason']
+            handle = np.asarray(transition['runtime_handle_anchor_world'], dtype=np.float32)
+            runtime_handle_anchor_valid = bool(transition['runtime_handle_anchor_valid'])
+        elif self.contract.interaction_mode == "orientation_sensitive_v2_affordance_locked":
             if attach_eligible:
                 self._attach_streak += 1
             else:
@@ -1688,20 +1902,23 @@ class DrawerRobotEnvMuJoCo:
                 self._attached = False
                 self._stable_attach = False
                 self._attach_streak = 0
+                detach_reason = 'legacy_detach'
         else:
             if not self._attached and attach_eligible:
                 self._attached = True
             if self._attached and (not close_cmd or dist_to_handle > DETACH_THRESHOLD_M):
                 self._attached = False
+                detach_reason = 'legacy_detach'
             self._stable_attach = bool(self._attached)
             self._attach_streak = 1 if self._attached else 0
 
-        drawer_delta_raw = 0.0
-        drawer_delta_effective = 0.0
-        if self._attached:
-            drawer_delta_raw = float(np.dot(self.eef_pos - prev_pos, self._motion_axis)) * 6.0
-            drawer_delta_effective = drawer_delta_raw if self.contract.interaction_mode == "legacy_translation_only" else drawer_delta_raw * orientation_weight
-            low, high = self.joint_range.tolist()
+        if self.contract.interaction_mode != "orientation_sensitive_v3_task_identity_locked":
+            if self._attached:
+                drawer_delta_raw = float(np.dot(self.eef_pos - prev_pos, self._motion_axis)) * 6.0
+                drawer_delta_effective = drawer_delta_raw if self.contract.interaction_mode == "legacy_translation_only" else drawer_delta_raw * orientation_weight
+            phase_locked = bool(self._stable_attach and self.contract.interaction_mode == "orientation_sensitive_v2_affordance_locked")
+        low, high = self.joint_range.tolist()
+        if abs(drawer_delta_effective) > 0.0:
             self.data.qpos[self.joint_idx] = np.clip(float(self.data.qpos[self.joint_idx]) + drawer_delta_effective, low, high)
         mujoco.mj_forward(self.model, self.data)
         self._step_count += 1
@@ -1720,6 +1937,15 @@ class DrawerRobotEnvMuJoCo:
             "open_orientation_weight": float(orientation_weight),
             "orientation_error_rad": float(orientation_error_rad),
             "contact_window_fraction": float(contact_window_fraction),
+            "runtime_handle_anchor_world": handle.astype(np.float32),
+            "runtime_handle_anchor_valid": bool(runtime_handle_anchor_valid),
+            "phase_locked": bool(phase_locked),
+            "raw_grasp_slip": float(raw_grasp_slip),
+            "grasp_slip_norm": float(grasp_slip_norm),
+            "pull_progress": float(pull_progress),
+            "pull_increment": float(pull_increment),
+            "effective_pull_progress": float(effective_pull_progress),
+            "detach_reason": detach_reason,
         }
         obs = self.observe()
         self._max_drawer_fraction = max(self._max_drawer_fraction, obs.drawer_fraction)
@@ -1729,6 +1955,7 @@ class DrawerRobotEnvMuJoCo:
         info = {
             "is_success": success,
             "drawer_fraction": obs.drawer_fraction,
+            "drawer_fraction_signed": self._drawer_fraction_signed(),
             "attached": self._attached,
             "dist_to_handle": dist_to_handle,
             "step_count": self._step_count,
@@ -1748,6 +1975,15 @@ class DrawerRobotEnvMuJoCo:
             "open_orientation_weight": float(orientation_weight),
             "orientation_error_rad": float(orientation_error_rad),
             "contact_window_fraction": float(contact_window_fraction),
+            "runtime_handle_anchor_world": handle.tolist(),
+            "runtime_handle_anchor_valid": bool(runtime_handle_anchor_valid),
+            "phase_locked": bool(phase_locked),
+            "raw_grasp_slip": float(raw_grasp_slip),
+            "grasp_slip_norm": float(grasp_slip_norm),
+            "pull_progress": float(pull_progress),
+            "pull_increment": float(pull_increment),
+            "effective_pull_progress": float(effective_pull_progress),
+            "detach_reason": detach_reason,
             "claim_policy": self.claim_policy(),
             "camera_metadata": _json_ready(self._last_camera_metadata),
             "visual_mode_report": _json_ready(self._last_visual_mode_report),
@@ -1779,15 +2015,18 @@ def _safe_normalize(vec: np.ndarray, fallback: np.ndarray) -> np.ndarray:
 
 
 def _target_quat(current_pos: np.ndarray, target_pos: np.ndarray, motion_axis: np.ndarray) -> np.ndarray:
-    z_axis = _safe_normalize(target_pos - current_pos, WORLD_UP)
     motion = _safe_normalize(motion_axis, WORLD_X)
-    x_axis = motion - np.dot(motion, z_axis) * z_axis
-    x_axis = _safe_normalize(x_axis, np.cross(WORLD_UP, z_axis) if abs(float(np.dot(WORLD_UP, z_axis))) < 0.95 else WORLD_X)
-    if float(np.linalg.norm(x_axis)) < 1e-6:
-        x_axis = WORLD_X.copy()
-    y_axis = _safe_normalize(np.cross(z_axis, x_axis), np.cross(z_axis, WORLD_X))
-    x_axis = _safe_normalize(np.cross(y_axis, z_axis), x_axis)
-    rot = np.stack([x_axis, y_axis, z_axis], axis=1)
+    approach = _safe_normalize(target_pos - current_pos, WORLD_UP)
+    z_hint = WORLD_UP.copy()
+    if abs(float(np.dot(motion, z_hint))) > 0.90:
+        z_hint = approach
+    y_axis = np.cross(z_hint, motion)
+    if float(np.linalg.norm(y_axis)) < 1e-6:
+        y_axis = np.cross(approach, motion)
+    y_axis = _safe_normalize(y_axis, np.array([0.0, 1.0, 0.0], dtype=np.float32))
+    z_axis = _safe_normalize(np.cross(motion, y_axis), WORLD_UP)
+    y_axis = _safe_normalize(np.cross(z_axis, motion), y_axis)
+    rot = np.stack([motion, y_axis, z_axis], axis=1)
     return R.from_matrix(rot).as_quat().astype(np.float32)
 
 
@@ -1833,17 +2072,20 @@ def build_robot_rollout(
     contract: DrawerEnvContractConfig | None = None,
     rotation_source: RotationSource = "zero",
     claim_policy: str | None = None,
+    interventions: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     env = DrawerRobotEnvMuJoCo(seed=seed, image_size=image_size, max_steps=max_steps, contract=contract)
     obs = env.reset()
     axis = env._motion_axis
-    handle = env._handle_center_world()
+    handle, _ = env._interaction_handle_target_world()
     pregrasp_pose = _pose_from_point(handle, axis, offset=0.04, z_lift=0.03)
     grasp_pose = np.asarray(grasp_pose_world, dtype=np.float32).copy()
     grasp_pose[:3, 3] = handle
     open_fraction = float(np.clip(pull_open_fraction, 0.75, 0.95))
     retreat_target = handle + axis * 0.16 + np.array([0.0, 0.0, 0.05], dtype=np.float32)
     rng = np.random.default_rng(seed + episode_index)
+    intervention_cfg = dict(interventions or {})
+    force_detach_probe = bool(intervention_cfg.get('force_detach_probe', False))
 
     images, images2, states, actions, rewards = [], [], [], [], []
     abs_drawer, next_drawer, attached_trace, handle_distance_trace = [], [], [], []
@@ -1855,10 +2097,18 @@ def build_robot_rollout(
     contact_window_fraction_trace = []
     camera_metadata_trace = []
     handle_probe_metadata_trace = []
+    runtime_handle_anchor_valid_trace, runtime_handle_anchor_world_trace = [], []
+    phase_locked_trace, raw_grasp_slip_trace, grasp_slip_norm_trace = [], [], []
+    pull_progress_trace, pull_increment_trace, effective_pull_progress_trace = [], [], []
+    effective_pull_progress_norm_trace, detach_reason_trace = [], []
+    handle_rel_trace, drawer_fraction_signed_trace = [], []
     ever_attached = False
     attach_step = None
     success = False
     close_hold_steps = 0
+    stable_attach_run = 0
+    force_detach_steps_remaining = 0
+    joint_span = max(float(env.joint_range[1] - env.joint_range[0]), 1e-6)
 
     phase = "pregrasp"
     try:
@@ -1871,7 +2121,7 @@ def build_robot_rollout(
             camera_metadata_trace.append(_json_ready(obs.camera_metadata or {}))
             handle_probe_metadata_trace.append(_json_ready(obs.handle_probe_metadata or {}))
 
-            handle = env._handle_center_world()
+            handle, _ = env._interaction_handle_target_world()
             pregrasp_target = handle - axis * 0.04 + np.array([0.0, 0.0, 0.03], dtype=np.float32)
             contact_target = handle + np.array([0.0, 0.0, 0.005], dtype=np.float32)
             pull_target = handle + axis * 0.03 + np.array([0.0, 0.0, 0.005], dtype=np.float32)
@@ -1896,6 +2146,10 @@ def build_robot_rollout(
             elif phase == "pull" and obs.drawer_fraction >= open_fraction:
                 phase = "retreat"
 
+            stable_attach_run = stable_attach_run + 1 if bool(env._stable_attach) else 0
+            if force_detach_probe and force_detach_steps_remaining <= 0 and stable_attach_run >= 2:
+                force_detach_steps_remaining = 2
+
             if phase == "pregrasp":
                 target_pos, close, speed = pregrasp_target, False, 0.65
             elif phase == "contact":
@@ -1918,10 +2172,25 @@ def build_robot_rollout(
                 rng=rng,
                 phase=phase,
             )
+            phase_label = phase
+            if force_detach_steps_remaining > 0:
+                action = _script_action(
+                    obs.eef_pos,
+                    contact_target,
+                    False,
+                    speed=0.20,
+                    current_quat=obs.eef_quat,
+                    motion_axis=env._motion_axis,
+                    rotation_source="random",
+                    rng=rng,
+                    phase="forced_detach",
+                )
+                force_detach_steps_remaining -= 1
+                phase_label = 'forced_detach'
             next_obs, reward, done, info = env.step(action)
             actions.append(action.copy())
             rewards.append(float(reward))
-            phase_labels.append(phase)
+            phase_labels.append(phase_label)
             attached_trace.append(bool(info["attached"]))
             handle_distance_trace.append(float(info["dist_to_handle"]))
             next_drawer.append(float(next_obs.drawer_fraction))
@@ -1935,6 +2204,20 @@ def build_robot_rollout(
             stable_attach_trace.append(bool(info.get("stable_attach", False)))
             attach_streak_trace.append(float(info.get("attach_streak", 0.0)))
             contact_window_fraction_trace.append(float(info.get("contact_window_fraction", 0.0)))
+            runtime_handle_anchor_valid_trace.append(bool(info.get("runtime_handle_anchor_valid", False)))
+            runtime_handle_anchor_world_trace.append(np.asarray(info.get("runtime_handle_anchor_world", [0.0, 0.0, 0.0]), dtype=np.float32))
+            phase_locked_trace.append(bool(info.get("phase_locked", False)))
+            raw_grasp_slip_trace.append(float(info.get("raw_grasp_slip", 0.0)))
+            grasp_slip_norm_trace.append(float(info.get("grasp_slip_norm", 0.0)))
+            pull_progress_trace.append(float(info.get("pull_progress", 0.0)))
+            pull_increment_trace.append(float(info.get("pull_increment", 0.0)))
+            effective_pull_progress = float(info.get("effective_pull_progress", 0.0))
+            effective_pull_progress_trace.append(effective_pull_progress)
+            effective_pull_progress_norm_trace.append(float(np.clip(effective_pull_progress / joint_span, 0.0, 1.0)))
+            detach_reason_trace.append(info.get("detach_reason"))
+            handle_rel = np.clip((handle - obs.eef_pos) / np.array([0.22, 0.18, 0.14], dtype=np.float32), -1.0, 1.0)
+            handle_rel_trace.append(handle_rel.astype(np.float32))
+            drawer_fraction_signed_trace.append(float(info.get("drawer_fraction_signed", 0.0)))
             ever_attached = ever_attached or bool(info["attached"])
             obs = next_obs
             success = bool(info["is_success"])
@@ -1974,6 +2257,18 @@ def build_robot_rollout(
         "stable_attach_trace": np.asarray(stable_attach_trace, dtype=np.bool_),
         "attach_streak_trace": np.asarray(attach_streak_trace, dtype=np.float32),
         "contact_window_fraction_trace": np.asarray(contact_window_fraction_trace, dtype=np.float32),
+        "runtime_handle_anchor_valid_trace": np.asarray(runtime_handle_anchor_valid_trace, dtype=np.bool_),
+        "runtime_handle_anchor_world_trace": np.asarray(runtime_handle_anchor_world_trace, dtype=np.float32),
+        "phase_locked_trace": np.asarray(phase_locked_trace, dtype=np.bool_),
+        "raw_grasp_slip_trace": np.asarray(raw_grasp_slip_trace, dtype=np.float32),
+        "grasp_slip_norm_trace": np.asarray(grasp_slip_norm_trace, dtype=np.float32),
+        "pull_progress_trace": np.asarray(pull_progress_trace, dtype=np.float32),
+        "pull_increment_trace": np.asarray(pull_increment_trace, dtype=np.float32),
+        "effective_pull_progress_trace": np.asarray(effective_pull_progress_trace, dtype=np.float32),
+        "effective_pull_progress_norm_trace": np.asarray(effective_pull_progress_norm_trace, dtype=np.float32),
+        "detach_reason_trace": np.asarray(detach_reason_trace, dtype=object),
+        "handle_rel_trace": np.asarray(handle_rel_trace, dtype=np.float32),
+        "drawer_fraction_signed_trace": np.asarray(drawer_fraction_signed_trace, dtype=np.float32),
         "task": DEFAULT_TASK,
         "grasp_source": grasp_source,
         "grasp_score": None if grasp_score is None else float(grasp_score),
@@ -2001,6 +2296,7 @@ def build_robot_rollout(
             "backend": "mujoco",
             "robot_in_loop": True,
             "interaction_mode": env.contract.interaction_mode,
+            "interventions": intervention_cfg,
         },
         "contract_config": env.contract_payload(),
         "state_spec": _json_ready(state_spec),

@@ -1,18 +1,22 @@
 {
   "experiment_id": "RCA2",
-  "generated_at": "2026-04-13T23:46:11+08:00",
+  "generated_at": "2026-04-14T13:46:47+08:00",
   "selector_mode": "frozen_v5_pro",
   "baseline_cell_id": "V0T0S0",
-  "frozen_matrix_hash": "bf4c25a43849c91d",
+  "ts_baseline_cell_id": "V1cT0S0",
+  "frozen_matrix_hash": "2fd03522cca6be9d",
   "passed": true,
-  "truthful_measurement_ok": true,
+  "measurement_truthful_available": true,
+  "local_attack_beats_baseline": true,
   "local_improvement_flags": {
     "boundary_contrast": true,
-    "edge_density": false,
+    "edge_density": true,
     "crop_entropy": true
   },
-  "local_improvement_count": 2,
-  "rank_score_gain": 0.004099468317102062,
+  "local_improvement_count": 3,
+  "rank_score_gain": 0.0,
+  "visual_alignment_gain": 0.13898494843993847,
+  "v1c_carrier_canonical_ready": true,
   "raw_canonical": {
     "lane": {
       "lane_id": "RCA2_V0T0S0",
@@ -112,17 +116,17 @@
           "max_cycles_per_run": 8,
           "max_tiny_retrain_budget": 1
         },
-        "disk_growth_mb": 0.003,
+        "disk_growth_mb": 0.0,
         "completed_experiments": [
           "RCA0",
           "RCA1"
         ]
       },
-      "note": "Frozen baseline for local visual attack.",
+      "note": "Frozen raw-canonical regression reference.",
       "experiment_id": "RCA2",
       "coverage": {},
       "cost": 1.0,
-      "lane_hash": "23604db1582b770e"
+      "lane_hash": "be15855f002b18b9"
     },
     "claim_policy": "canonical",
     "diagnostic_only": false,
@@ -274,13 +278,13 @@
     ],
     "semantic_mapping_hash": "01b47b602042a22b9c57159d25aa696172ee0a7208412378fa2d32218d5f5138",
     "segmentation_mask_nonzero_primary": 54,
-    "segmentation_mask_nonzero_secondary": 141,
+    "segmentation_mask_nonzero_secondary": 176,
     "isolated_mask_nonzero_primary": 58,
-    "isolated_mask_nonzero_secondary": 151,
+    "isolated_mask_nonzero_secondary": 188,
     "segmentation_mask_support_rate_secondary": 1.0,
     "isolated_mask_support_rate_secondary": 1.0,
-    "segmentation_isolated_iou_secondary": 0.9451486826565568,
-    "segmentation_isolated_centroid_delta_px_secondary": 0.47815794693228364,
+    "segmentation_isolated_iou_secondary": 0.959069451930929,
+    "segmentation_isolated_centroid_delta_px_secondary": 0.2926735358725247,
     "handle_bbox_primary": [
       79,
       191,
@@ -288,27 +292,27 @@
       256
     ],
     "handle_bbox_secondary": [
-      71,
+      66,
       163,
-      185,
-      207
+      190,
+      189
     ],
     "handle_mask_nonzero_pixels_primary": 200,
-    "handle_mask_nonzero_pixels_secondary": 389,
+    "handle_mask_nonzero_pixels_secondary": 453,
     "handle_mask_area_ratio_primary": 0.00304412841796875,
-    "handle_mask_area_ratio_secondary": 0.005938808123270671,
+    "handle_mask_area_ratio_secondary": 0.006916364034016927,
     "handle_bbox_area_ratio_primary": 0.03675270080566406,
-    "handle_bbox_area_ratio_secondary": 0.04788994789123535,
+    "handle_bbox_area_ratio_secondary": 0.04135974248250326,
     "bbox_over_mask_ratio_primary": 1.6611570247933884,
-    "bbox_over_mask_ratio_secondary": 1.1173567903883286,
-    "handle_visibility_fraction": 0.24243001404219722,
-    "handle_area_ratio": 0.005938808123270671,
-    "handle_boundary_contrast": 0.01928560577966029,
-    "handle_edge_density": 0.03896028043405932,
-    "handle_crop_entropy": 1.1618636040049048,
-    "handle_local_std": 0.033758109147994646,
-    "handle_local_contrast": 0.01928560577966029,
-    "framing_score": 0.8317606543086319,
+    "bbox_over_mask_ratio_secondary": 1.1425520555258943,
+    "handle_visibility_fraction": 0.25713203213962704,
+    "handle_area_ratio": 0.006916364034016927,
+    "handle_boundary_contrast": 0.10665254737037459,
+    "handle_edge_density": 0.07878243944822348,
+    "handle_crop_entropy": 1.480038422149413,
+    "handle_local_std": 0.08869674046864828,
+    "handle_local_contrast": 0.10665254737037459,
+    "framing_score": 0.6858028967016588,
     "camera_relativeness_residual": 0.0,
     "legacy_probe_measurement_mode": "proxy_debug",
     "legacy_handle_bbox_secondary": [
@@ -317,8 +321,8 @@
       145,
       94
     ],
-    "legacy_handle_local_contrast": 0.005433864101141307,
-    "legacy_handle_crop_entropy": 0.04419616575589858,
+    "legacy_handle_local_contrast": 0.0033939264821374222,
+    "legacy_handle_crop_entropy": 0.035850209593213354,
     "measurement_truthful": true,
     "perception_probe_mode": "policy_encoder_v1",
     "perception_probe_available": false,
@@ -333,7 +337,7 @@
     "proxy_probe": {
       "perception_probe_mode": "proxy_only",
       "perception_probe_available": true,
-      "handle_patch_separability": 1.0243819543550732,
+      "handle_patch_separability": 0.47814120617520023,
       "encoder_readability_pass": null,
       "positive_count": 768,
       "negative_count": 768,
@@ -346,36 +350,36 @@
       "baseline_weighted_visual_gap": 2.3197994000000004,
       "lane_weighted_visual_gap": 2.3197994000000004,
       "visual_alignment_gain": 0.0,
-      "framing_score": 0.8317606543086319,
-      "handle_visibility_fraction": 0.24243001404219722,
-      "handle_local_contrast": 0.01928560577966029,
-      "handle_crop_entropy": 1.1618636040049048,
-      "handle_readability_score": 0.3694953369483569,
-      "perceptual_readability_score_v2": 0.2032224353215963,
+      "framing_score": 0.6858028967016588,
+      "handle_visibility_fraction": 0.25713203213962704,
+      "handle_local_contrast": 0.10665254737037459,
+      "handle_crop_entropy": 1.480038422149413,
+      "handle_readability_score": 0.5883021100896906,
+      "perceptual_readability_score_v2": 0.32356616054932985,
       "camera_relativeness_residual": 0.0,
       "encoder_readability_pass": null
     },
     "g4b_local_breakdown": {
-      "handle_mask_area_ratio": 0.0059356689453125,
-      "handle_area_ratio": 0.0059356689453125,
-      "handle_bbox_area_ratio_debug": 0.0765380859375,
-      "bbox_over_mask_ratio": 12.894601542416453,
+      "handle_mask_area_ratio": 0.0069122314453125,
+      "handle_area_ratio": 0.0069122314453125,
+      "handle_bbox_area_ratio_debug": 0.0491943359375,
+      "bbox_over_mask_ratio": 7.116997792494481,
       "measurement_truthful_pass": true,
       "bbox_inflation_flag": true,
       "primitive_passes": {
         "area": false,
-        "boundary": false,
+        "boundary": true,
         "edge": true,
         "entropy": true,
-        "framing": true
+        "framing": false
       },
       "all_primitives_pass": false,
-      "handle_boundary_contrast": 0.01928560577966029,
-      "handle_edge_density": 0.03896028043405932,
-      "handle_crop_entropy": 1.1618636040049048,
-      "secondary_framing_score": 0.8317606543086319,
-      "local_score_rank_only": 0.7289808969676884,
-      "local_affordance_readability_score_v3": 0.7289808969676884,
+      "handle_boundary_contrast": 0.10665254737037459,
+      "handle_edge_density": 0.07878243944822348,
+      "handle_crop_entropy": 1.480038422149413,
+      "secondary_framing_score": 0.6858028967016588,
+      "local_score_rank_only": 0.9352023924851768,
+      "local_affordance_readability_score_v3": 0.9352023924851768,
       "local_score_inflation_flag": true,
       "measurement_truth_tier": "manifest_entity_verified",
       "measurement_warning_flags": [
@@ -388,9 +392,9 @@
       "visual_alignment_gain": 0.0
     }
   },
-  "visual_affordance_v3_local_material_edge": {
+  "v1c_carrier": {
     "lane": {
-      "lane_id": "RCA2_V1T0S0",
+      "lane_id": "RCA2_V1cT0S0",
       "lane_family": "RCA",
       "stage": "probe",
       "env_contract_config": {
@@ -414,8 +418,8 @@
       },
       "interventions": {
         "rotation_source": "zero",
-        "profile_id": "V1T0S0",
-        "cell_id": "V1T0S0"
+        "profile_id": "V1cT0S0",
+        "cell_id": "V1cT0S0"
       },
       "dataset_config": {
         "unique_data_budget": null,
@@ -487,17 +491,17 @@
           "max_cycles_per_run": 8,
           "max_tiny_retrain_budget": 1
         },
-        "disk_growth_mb": 0.003,
+        "disk_growth_mb": 0.0,
         "completed_experiments": [
           "RCA0",
           "RCA1"
         ]
       },
-      "note": "Local visual attack only under frozen object.",
+      "note": "Frozen canonical-ready local carrier regression.",
       "experiment_id": "RCA2",
       "coverage": {},
       "cost": 1.0,
-      "lane_hash": "724f14309bd5701e"
+      "lane_hash": "76623336b3ef5702"
     },
     "claim_policy": "canonical",
     "diagnostic_only": false,
@@ -509,31 +513,31 @@
     "target_stats": {
       "sample_count": 24,
       "mean_rgb": [
-        0.12635399401187897,
-        0.12037800252437592,
-        0.10239999741315842
+        0.1210860013961792,
+        0.12058699876070023,
+        0.11754299700260162
       ],
       "std_rgb": [
-        0.2502230107784271,
-        0.24023300409317017,
-        0.20102399587631226
+        0.21337099373340607,
+        0.21151000261306763,
+        0.20514799654483795
       ],
-      "brightness_mean": 0.11999170639935662,
-      "edge_density_mean": 0.0106658935546875,
-      "entropy_mean": 1.1938042637478825
+      "brightness_mean": 0.1202917360791973,
+      "edge_density_mean": 0.0128631591796875,
+      "entropy_mean": 1.9845548500739583
     },
     "gap": {
-      "brightness_gap": 0.34586,
+      "brightness_gap": 0.34556,
       "std_rgb_abs_gap": [
-        0.026743,
-        0.034505,
-        0.012802
+        0.010109,
+        0.005782,
+        0.016926
       ],
-      "edge_density_gap": 0.053243,
-      "entropy_gap": 5.727691
+      "edge_density_gap": 0.051046,
+      "entropy_gap": 4.93694
     },
-    "weighted_visual_gap": 2.3173102666666665,
-    "visual_alignment_gain": 0.0,
+    "weighted_visual_gap": 1.9973822,
+    "visual_alignment_gain": 0.13898494843993847,
     "render_profile": "visual_affordance_v3_local_material_edge",
     "background_mode": "neutral_lowfreq_lab",
     "lighting_profile": "front_key_handle_rim",
@@ -649,13 +653,13 @@
     ],
     "semantic_mapping_hash": "01b47b602042a22b9c57159d25aa696172ee0a7208412378fa2d32218d5f5138",
     "segmentation_mask_nonzero_primary": 54,
-    "segmentation_mask_nonzero_secondary": 141,
+    "segmentation_mask_nonzero_secondary": 176,
     "isolated_mask_nonzero_primary": 58,
-    "isolated_mask_nonzero_secondary": 151,
+    "isolated_mask_nonzero_secondary": 188,
     "segmentation_mask_support_rate_secondary": 1.0,
     "isolated_mask_support_rate_secondary": 1.0,
-    "segmentation_isolated_iou_secondary": 0.9451486826565568,
-    "segmentation_isolated_centroid_delta_px_secondary": 0.47815794693228364,
+    "segmentation_isolated_iou_secondary": 0.959069451930929,
+    "segmentation_isolated_centroid_delta_px_secondary": 0.2926735358725247,
     "handle_bbox_primary": [
       79,
       191,
@@ -663,27 +667,27 @@
       256
     ],
     "handle_bbox_secondary": [
-      71,
+      66,
       163,
-      185,
-      207
+      190,
+      189
     ],
     "handle_mask_nonzero_pixels_primary": 200,
-    "handle_mask_nonzero_pixels_secondary": 389,
+    "handle_mask_nonzero_pixels_secondary": 453,
     "handle_mask_area_ratio_primary": 0.00304412841796875,
-    "handle_mask_area_ratio_secondary": 0.005938808123270671,
+    "handle_mask_area_ratio_secondary": 0.006916364034016927,
     "handle_bbox_area_ratio_primary": 0.03675270080566406,
-    "handle_bbox_area_ratio_secondary": 0.04788994789123535,
+    "handle_bbox_area_ratio_secondary": 0.04135974248250326,
     "bbox_over_mask_ratio_primary": 1.6611570247933884,
-    "bbox_over_mask_ratio_secondary": 1.1173567903883286,
-    "handle_visibility_fraction": 0.24243001404219722,
-    "handle_area_ratio": 0.005938808123270671,
-    "handle_boundary_contrast": 0.020597435641132925,
-    "handle_edge_density": 0.0345232830105568,
-    "handle_crop_entropy": 1.1975382992029868,
-    "handle_local_std": 0.042369288369473256,
-    "handle_local_contrast": 0.020597435641132925,
-    "framing_score": 0.8317606543086319,
+    "bbox_over_mask_ratio_secondary": 1.1425520555258943,
+    "handle_visibility_fraction": 0.25713203213962704,
+    "handle_area_ratio": 0.006916364034016927,
+    "handle_boundary_contrast": 0.23732903032910588,
+    "handle_edge_density": 0.08745231156702077,
+    "handle_crop_entropy": 3.609879199836542,
+    "handle_local_std": 0.18379409260337878,
+    "handle_local_contrast": 0.23732903032910588,
+    "framing_score": 0.6858028967016588,
     "camera_relativeness_residual": 0.0,
     "legacy_probe_measurement_mode": "proxy_debug",
     "legacy_handle_bbox_secondary": [
@@ -692,8 +696,8 @@
       145,
       94
     ],
-    "legacy_handle_local_contrast": 0.008046982538892905,
-    "legacy_handle_crop_entropy": 0.04419616575589858,
+    "legacy_handle_local_contrast": 0.00383709545759872,
+    "legacy_handle_crop_entropy": 0.0819147144181416,
     "measurement_truthful": true,
     "perception_probe_mode": "policy_encoder_v1",
     "perception_probe_available": false,
@@ -708,7 +712,7 @@
     "proxy_probe": {
       "perception_probe_mode": "proxy_only",
       "perception_probe_available": true,
-      "handle_patch_separability": 0.9147865312404957,
+      "handle_patch_separability": 0.4627521596764732,
       "encoder_readability_pass": null,
       "positive_count": 768,
       "negative_count": 768,
@@ -718,39 +722,39 @@
     },
     "observation_contract_pass": true,
     "visual_gate_breakdown": {
-      "baseline_weighted_visual_gap": 2.3173102666666665,
-      "lane_weighted_visual_gap": 2.3173102666666665,
-      "visual_alignment_gain": 0.0,
-      "framing_score": 0.8317606543086319,
-      "handle_visibility_fraction": 0.24243001404219722,
-      "handle_local_contrast": 0.020597435641132925,
-      "handle_crop_entropy": 1.1975382992029868,
-      "handle_readability_score": 0.37619843368878336,
-      "perceptual_readability_score_v2": 0.20690913852883086,
+      "baseline_weighted_visual_gap": 2.3197994000000004,
+      "lane_weighted_visual_gap": 1.9973822,
+      "visual_alignment_gain": 0.13898494843993847,
+      "framing_score": 0.6858028967016588,
+      "handle_visibility_fraction": 0.25713203213962704,
+      "handle_local_contrast": 0.23732903032910588,
+      "handle_crop_entropy": 3.609879199836542,
+      "handle_readability_score": 0.6947941489740469,
+      "perceptual_readability_score_v2": 0.4446800087336981,
       "camera_relativeness_residual": 0.0,
       "encoder_readability_pass": null
     },
     "g4b_local_breakdown": {
-      "handle_mask_area_ratio": 0.0059356689453125,
-      "handle_area_ratio": 0.0059356689453125,
-      "handle_bbox_area_ratio_debug": 0.0765380859375,
-      "bbox_over_mask_ratio": 12.894601542416453,
+      "handle_mask_area_ratio": 0.0069122314453125,
+      "handle_area_ratio": 0.0069122314453125,
+      "handle_bbox_area_ratio_debug": 0.0491943359375,
+      "bbox_over_mask_ratio": 7.116997792494481,
       "measurement_truthful_pass": true,
       "bbox_inflation_flag": true,
       "primitive_passes": {
         "area": false,
-        "boundary": false,
+        "boundary": true,
         "edge": true,
         "entropy": true,
-        "framing": true
+        "framing": false
       },
       "all_primitives_pass": false,
-      "handle_boundary_contrast": 0.020597435641132925,
-      "handle_edge_density": 0.0345232830105568,
-      "handle_crop_entropy": 1.1975382992029868,
-      "secondary_framing_score": 0.8317606543086319,
-      "local_score_rank_only": 0.7330803652847905,
-      "local_affordance_readability_score_v3": 0.7330803652847905,
+      "handle_boundary_contrast": 0.23732903032910588,
+      "handle_edge_density": 0.08745231156702077,
+      "handle_crop_entropy": 3.609879199836542,
+      "secondary_framing_score": 0.6858028967016588,
+      "local_score_rank_only": 0.9352023924851768,
+      "local_affordance_readability_score_v3": 0.9352023924851768,
       "local_score_inflation_flag": true,
       "measurement_truth_tier": "manifest_entity_verified",
       "measurement_warning_flags": [
@@ -758,9 +762,9 @@
       ]
     },
     "g4c_global_breakdown": {
-      "baseline_weighted_visual_gap": 2.3173102666666665,
-      "weighted_visual_gap": 2.3173102666666665,
-      "visual_alignment_gain": 0.0
+      "baseline_weighted_visual_gap": 2.3197994000000004,
+      "weighted_visual_gap": 1.9973822,
+      "visual_alignment_gain": 0.13898494843993847
     }
   }
 }

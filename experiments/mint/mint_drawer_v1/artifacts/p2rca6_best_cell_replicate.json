@@ -1,0 +1,57 @@
+{
+  "experiment_id": "RCA6",
+  "generated_at": "2026-04-14T13:49:17+08:00",
+  "selector_mode": "frozen_v5_pro",
+  "baseline_cell_id": "V0T0S0",
+  "ts_baseline_cell_id": "V1cT0S0",
+  "frozen_matrix_hash": "2fd03522cca6be9d",
+  "best_transition_cell": "V1cT2S0",
+  "canonical_train_cell": "V1cT2S0",
+  "best_train_state_mode": "S0",
+  "split_b_seeds": [
+    11,
+    12,
+    13,
+    14,
+    15
+  ],
+  "replicate_positive": true,
+  "passed": true,
+  "baseline_summary": {
+    "rollout_count": 5,
+    "unique_success_rate": 0.0,
+    "attach_rate": 0.0,
+    "mean_max_drawer_fraction": 0.0,
+    "avg_episode_length": 96.0,
+    "success_count": 0,
+    "orientation_causal_sensitivity": 0.0,
+    "phase_locked_rate": 0.0,
+    "mean_effective_pull_progress": 0.0,
+    "runtime_handle_anchor_valid_rate": 0.0,
+    "detach_reason_histogram": {}
+  },
+  "replicated_summary": {
+    "rollout_count": 5,
+    "unique_success_rate": 0.6,
+    "attach_rate": 1.0,
+    "mean_max_drawer_fraction": 0.6856871456960887,
+    "avg_episode_length": 59.6,
+    "success_count": 3,
+    "orientation_causal_sensitivity": 0.008448468521237373,
+    "phase_locked_rate": 0.2179272398352623,
+    "mean_effective_pull_progress": 0.0014080779830692336,
+    "runtime_handle_anchor_valid_rate": 1.0,
+    "detach_reason_histogram": {}
+  },
+  "rollout_ceiling_lift": {
+    "score": 0.3710813007664206,
+    "delta_unique_success_rate": 0.6,
+    "delta_attach_rate": 1.0,
+    "delta_mean_max_drawer_fraction": 0.6856871456960887,
+    "delta_phase_locked_rate": 0.2179272398352623,
+    "delta_mean_effective_pull_progress": 0.0014080779830692336,
+    "delta_avg_episode_length_ratio": -0.37916666666666665,
+    "delta_orientation_causal_sensitivity": 0.008448468521237373
+  },
+  "delta_mean_max_drawer_fraction": 0.6856871456960887
+}

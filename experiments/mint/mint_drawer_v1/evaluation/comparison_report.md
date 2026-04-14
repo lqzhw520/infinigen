@@ -1,3 +1,3 @@
 # Held-out Eval Skipped
 
-Train probe did not pass, so held-out eval was not executed under v7.
+Trainability bridge was not established under MuJoCo parity; held-out eval skipped.

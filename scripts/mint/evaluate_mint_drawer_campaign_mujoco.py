@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""MuJoCo-native tiny retrain probe/eval helpers for canonical V1cT2S0."""
+"""MuJoCo-native tiny retrain probe/eval helpers for canonical V1cT2 runtime."""
 
 from __future__ import annotations
 
 import statistics
 from collections import Counter
+from dataclasses import replace
 from functools import lru_cache
 from pathlib import Path
 
@@ -23,12 +24,20 @@ from strict_success import STRICT_SUCCESS_VERSION, evaluate_strict_success
 MINT_CKPT = "/mnt/afs2/zhuhaowu/infinigen/external/MINT/checkpoints/MINT-libero"
 DEFAULT_EVAL_IMAGE_SIZE = 256
 EXPECTED_CANONICAL_TRAIN_CELL = "V1cT2S0"
-EXPECTED_BEST_TRAIN_STATE_MODE = "S0"
-EXPECTED_STATE_MODE_NAME = "m0_proxy"
+EXPECTED_SOURCE_BEST_TRAIN_STATE_MODE = "S0"
+STATE_MODE_ALIAS = {
+    "S0": "m0_proxy",
+    "S1": "telemetry_candidate_v3_transition",
+    "S2": "telemetry_candidate_v4_task_identity",
+}
 EXPECTED_INTERACTION_MODE = "orientation_sensitive_v3_task_identity_locked"
 EXPECTED_RUNTIME_MAPPING_SOURCE = "collision_geom"
 EXPECTED_EVALUATION_BACKEND = "mujoco"
 EXPECTED_ENV_FAMILY = "canonical_cell_runtime"
+
+
+def _resolve_active_state_mode_name(active_train_state_mode: str, active_state_mode_name: str | None = None) -> str:
+    return str(active_state_mode_name or STATE_MODE_ALIAS.get(str(active_train_state_mode), str(active_train_state_mode)))
 
 
 def _load_policy(path: str, dataset_root: Path, repo_id: str):
@@ -37,35 +46,29 @@ def _load_policy(path: str, dataset_root: Path, repo_id: str):
     from lerobot_policy_mint.modeling_mint import MINTPolicy
 
     dataset = LeRobotDataset(repo_id=repo_id, root=dataset_root, revision="main")
-    policy = MINTPolicy.from_pretrained(
-        path, local_files_only=True, dataset_stats=dataset.meta.stats
-    )
+    policy = MINTPolicy.from_pretrained(path, local_files_only=True, dataset_stats=dataset.meta.stats)
     policy.eval()
     if hasattr(policy.model, "direct_grip_head"):
         policy.model.direct_grip_head = policy.model.direct_grip_head.to(dtype=torch.float32)
     preprocessor, postprocessor = make_pre_post_processors(
-        policy.config, pretrained_path=path, dataset_stats=dataset.meta.stats
+        policy.config,
+        pretrained_path=path,
+        dataset_stats=dataset.meta.stats,
     )
     return policy, preprocessor, postprocessor
 
 
 def _obs_to_batch(obs) -> dict:
     return {
-        "observation.images.image": torch.from_numpy(obs.image)
-        .permute(2, 0, 1)
-        .to(torch.float32)
-        / 255.0,
-        "observation.images.image2": torch.from_numpy(obs.image2)
-        .permute(2, 0, 1)
-        .to(torch.float32)
-        / 255.0,
+        "observation.images.image": torch.from_numpy(obs.image).permute(2, 0, 1).to(torch.float32) / 255.0,
+        "observation.images.image2": torch.from_numpy(obs.image2).permute(2, 0, 1).to(torch.float32) / 255.0,
         "observation.state": torch.from_numpy(obs.state.astype(np.float32)),
         "task": obs.task,
     }
 
 
-@lru_cache(maxsize=4)
-def _canonical_contract(evaluation_cell_id: str):
+@lru_cache(maxsize=8)
+def _canonical_contract(evaluation_cell_id: str, active_state_mode_name: str):
     controller = RootCauseController(
         max_experiments_per_cycle=1,
         dry_run=False,
@@ -81,24 +84,37 @@ def _canonical_contract(evaluation_cell_id: str):
         note="Tiny retrain parity probe/eval on canonical MuJoCo cell.",
     )
     contract = controller._materialize_contract(spec.env_contract_config)
+    if str(contract.state_mode) != str(active_state_mode_name):
+        contract = replace(contract, state_mode=str(active_state_mode_name))
     return contract
 
 
-def _parity_expectation(canonical_train_cell: str, best_train_state_mode: str, evaluation_backend: str) -> dict[str, str]:
+def _parity_expectation(
+    canonical_train_cell: str,
+    source_best_train_state_mode: str,
+    active_train_state_mode: str,
+    active_state_mode_name: str,
+    evaluation_backend: str,
+) -> dict[str, str]:
     expected = {
         "evaluation_backend": str(evaluation_backend),
         "canonical_train_cell": str(canonical_train_cell),
-        "best_train_state_mode": str(best_train_state_mode),
-        "state_mode_name": EXPECTED_STATE_MODE_NAME,
+        "source_best_train_state_mode": str(source_best_train_state_mode),
+        "active_train_state_mode": str(active_train_state_mode),
+        "state_mode_name": str(active_state_mode_name),
         "interaction_mode": EXPECTED_INTERACTION_MODE,
         "runtime_visible_handle_mapping_source": EXPECTED_RUNTIME_MAPPING_SOURCE,
     }
     if expected["evaluation_backend"] != EXPECTED_EVALUATION_BACKEND:
         raise ValueError(f"Unsupported evaluation backend: {expected['evaluation_backend']}")
     if expected["canonical_train_cell"] != EXPECTED_CANONICAL_TRAIN_CELL:
-        raise ValueError(f"MuJoCo parity evaluator is frozen to {EXPECTED_CANONICAL_TRAIN_CELL}, got {expected['canonical_train_cell']}")
-    if expected["best_train_state_mode"] != EXPECTED_BEST_TRAIN_STATE_MODE:
-        raise ValueError(f"MuJoCo parity evaluator is frozen to {EXPECTED_BEST_TRAIN_STATE_MODE}, got {expected['best_train_state_mode']}")
+        raise ValueError(
+            f"MuJoCo parity evaluator is frozen to {EXPECTED_CANONICAL_TRAIN_CELL}, got {expected['canonical_train_cell']}"
+        )
+    if expected["source_best_train_state_mode"] != EXPECTED_SOURCE_BEST_TRAIN_STATE_MODE:
+        raise ValueError(
+            f"MuJoCo parity evaluator is frozen to source_best_train_state_mode={EXPECTED_SOURCE_BEST_TRAIN_STATE_MODE}, got {expected['source_best_train_state_mode']}"
+        )
     return expected
 
 
@@ -166,11 +182,20 @@ def rollout_policy(
     max_steps: int = 96,
     image_size: int = DEFAULT_EVAL_IMAGE_SIZE,
     canonical_train_cell: str = EXPECTED_CANONICAL_TRAIN_CELL,
-    best_train_state_mode: str = EXPECTED_BEST_TRAIN_STATE_MODE,
+    source_best_train_state_mode: str = EXPECTED_SOURCE_BEST_TRAIN_STATE_MODE,
+    active_train_state_mode: str = EXPECTED_SOURCE_BEST_TRAIN_STATE_MODE,
+    active_state_mode_name: str | None = None,
     evaluation_backend: str = EXPECTED_EVALUATION_BACKEND,
 ) -> dict:
-    expected = _parity_expectation(canonical_train_cell, best_train_state_mode, evaluation_backend)
-    contract = _canonical_contract(canonical_train_cell)
+    resolved_state_mode_name = _resolve_active_state_mode_name(active_train_state_mode, active_state_mode_name)
+    expected = _parity_expectation(
+        canonical_train_cell,
+        source_best_train_state_mode,
+        active_train_state_mode,
+        resolved_state_mode_name,
+        evaluation_backend,
+    )
+    contract = _canonical_contract(canonical_train_cell, resolved_state_mode_name)
     env = DrawerRobotEnvMuJoCo(
         seed=seed,
         image_size=int(image_size),
@@ -253,9 +278,7 @@ def rollout_policy(
         non_zero_action_ratio = 0.0
         total_eef_motion = 0.0
         if raw_action_trace:
-            non_zero_action_ratio = float(
-                np.mean([float(np.abs(action).max() > 0.01) for action in raw_action_trace])
-            )
+            non_zero_action_ratio = float(np.mean([float(np.abs(action).max() > 0.01) for action in raw_action_trace]))
         if len(eef_pos_trace) > 1:
             eef_arr = np.asarray(eef_pos_trace, dtype=np.float32)
             total_eef_motion = float(np.sum(np.linalg.norm(np.diff(eef_arr, axis=0), axis=1)))
@@ -305,7 +328,9 @@ def rollout_policy(
             "evaluation_env_family": EXPECTED_ENV_FAMILY,
             "evaluation_cell_id": canonical_train_cell,
             "canonical_train_cell": canonical_train_cell,
-            "best_train_state_mode": best_train_state_mode,
+            "source_best_train_state_mode": source_best_train_state_mode,
+            "best_train_state_mode": source_best_train_state_mode,
+            "active_train_state_mode": active_train_state_mode,
             "state_mode_name": str(contract.state_mode),
             "interaction_mode": str(contract.interaction_mode),
             "measurement_truthful": bool(last_probe.get("measurement_truthful", False)),
@@ -316,7 +341,6 @@ def rollout_policy(
         return record
     finally:
         env.close()
-
 
 
 def aggregate(records: list[dict]) -> dict:
@@ -373,7 +397,6 @@ def aggregate(records: list[dict]) -> dict:
     return result
 
 
-
 def evaluate_policy_set(
     *,
     finetuned_path: str,
@@ -385,11 +408,14 @@ def evaluate_policy_set(
     episodes_per_seed: int = 1,
     image_size: int = DEFAULT_EVAL_IMAGE_SIZE,
     canonical_train_cell: str = EXPECTED_CANONICAL_TRAIN_CELL,
-    best_train_state_mode: str = EXPECTED_BEST_TRAIN_STATE_MODE,
+    source_best_train_state_mode: str = EXPECTED_SOURCE_BEST_TRAIN_STATE_MODE,
+    active_train_state_mode: str = EXPECTED_SOURCE_BEST_TRAIN_STATE_MODE,
+    active_state_mode_name: str | None = None,
     evaluation_backend: str = EXPECTED_EVALUATION_BACKEND,
 ) -> tuple[dict, dict]:
     pretrained_bundle = _load_policy(MINT_CKPT, dataset_root, repo_id)
     finetuned_bundle = _load_policy(finetuned_path, dataset_root, repo_id)
+    resolved_state_mode_name = _resolve_active_state_mode_name(active_train_state_mode, active_state_mode_name)
 
     records: dict[str, list[dict]] = {"pretrained_mint": [], "finetuned_mint": []}
     if include_random:
@@ -405,7 +431,9 @@ def evaluate_policy_set(
                     max_steps=max_steps,
                     image_size=image_size,
                     canonical_train_cell=canonical_train_cell,
-                    best_train_state_mode=best_train_state_mode,
+                    source_best_train_state_mode=source_best_train_state_mode,
+                    active_train_state_mode=active_train_state_mode,
+                    active_state_mode_name=resolved_state_mode_name,
                     evaluation_backend=evaluation_backend,
                 )
                 item["eval_attempt"] = attempt_idx
@@ -418,7 +446,9 @@ def evaluate_policy_set(
                 max_steps=max_steps,
                 image_size=image_size,
                 canonical_train_cell=canonical_train_cell,
-                best_train_state_mode=best_train_state_mode,
+                source_best_train_state_mode=source_best_train_state_mode,
+                active_train_state_mode=active_train_state_mode,
+                active_state_mode_name=resolved_state_mode_name,
                 evaluation_backend=evaluation_backend,
             )
             item["eval_attempt"] = attempt_idx
@@ -431,14 +461,15 @@ def evaluate_policy_set(
                 max_steps=max_steps,
                 image_size=image_size,
                 canonical_train_cell=canonical_train_cell,
-                best_train_state_mode=best_train_state_mode,
+                source_best_train_state_mode=source_best_train_state_mode,
+                active_train_state_mode=active_train_state_mode,
+                active_state_mode_name=resolved_state_mode_name,
                 evaluation_backend=evaluation_backend,
             )
             item["eval_attempt"] = attempt_idx
             records["finetuned_mint"].append(item)
     comparison = {name: aggregate(items) for name, items in records.items()}
     return comparison, records
-
 
 
 def evaluate_campaign(
@@ -452,10 +483,13 @@ def evaluate_campaign(
     max_steps: int = 96,
     image_size: int = DEFAULT_EVAL_IMAGE_SIZE,
     canonical_train_cell: str = EXPECTED_CANONICAL_TRAIN_CELL,
-    best_train_state_mode: str = EXPECTED_BEST_TRAIN_STATE_MODE,
+    source_best_train_state_mode: str = EXPECTED_SOURCE_BEST_TRAIN_STATE_MODE,
+    active_train_state_mode: str = EXPECTED_SOURCE_BEST_TRAIN_STATE_MODE,
+    active_state_mode_name: str | None = None,
     evaluation_backend: str = EXPECTED_EVALUATION_BACKEND,
 ) -> tuple[dict, dict]:
     seeds = [int(seed) for seed in (heldout_seeds if heldout_seeds is not None else held_out_seeds if held_out_seeds is not None else DEFAULT_HELD_OUT_SEEDS)]
+    resolved_state_mode_name = _resolve_active_state_mode_name(active_train_state_mode, active_state_mode_name)
     comparison, records = evaluate_policy_set(
         finetuned_path=str(finetuned_path),
         seeds=seeds,
@@ -466,7 +500,9 @@ def evaluate_campaign(
         episodes_per_seed=int(episodes_per_seed),
         image_size=int(image_size),
         canonical_train_cell=canonical_train_cell,
-        best_train_state_mode=best_train_state_mode,
+        source_best_train_state_mode=source_best_train_state_mode,
+        active_train_state_mode=active_train_state_mode,
+        active_state_mode_name=resolved_state_mode_name,
         evaluation_backend=evaluation_backend,
     )
     verdict = "claim_supported" if comparison["finetuned_mint"]["success_rate"] > comparison["pretrained_mint"]["success_rate"] else "scientific_not_supported"
@@ -482,11 +518,13 @@ def evaluate_campaign(
         "episodes_per_seed": int(episodes_per_seed),
         "evaluation_backend": evaluation_backend,
         "canonical_train_cell": canonical_train_cell,
-        "best_train_state_mode": best_train_state_mode,
+        "source_best_train_state_mode": source_best_train_state_mode,
+        "best_train_state_mode": source_best_train_state_mode,
+        "active_train_state_mode": active_train_state_mode,
+        "active_state_mode_name": resolved_state_mode_name,
         "comparison": comparison,
         "strongest_true_claim": strongest_true_claim,
     }, records
-
 
 
 def evaluate_train_probe(
@@ -499,10 +537,13 @@ def evaluate_train_probe(
     episodes_per_seed: int = 1,
     image_size: int = DEFAULT_EVAL_IMAGE_SIZE,
     canonical_train_cell: str = EXPECTED_CANONICAL_TRAIN_CELL,
-    best_train_state_mode: str = EXPECTED_BEST_TRAIN_STATE_MODE,
+    source_best_train_state_mode: str = EXPECTED_SOURCE_BEST_TRAIN_STATE_MODE,
+    active_train_state_mode: str = EXPECTED_SOURCE_BEST_TRAIN_STATE_MODE,
+    active_state_mode_name: str | None = None,
     evaluation_backend: str = EXPECTED_EVALUATION_BACKEND,
 ) -> tuple[dict, dict]:
     probe_seeds = [int(seed) for seed in (seeds or DEFAULT_TRAIN_SEEDS)]
+    resolved_state_mode_name = _resolve_active_state_mode_name(active_train_state_mode, active_state_mode_name)
     comparison, records = evaluate_policy_set(
         finetuned_path=finetuned_path,
         seeds=probe_seeds,
@@ -513,7 +554,9 @@ def evaluate_train_probe(
         episodes_per_seed=int(episodes_per_seed),
         image_size=int(image_size),
         canonical_train_cell=canonical_train_cell,
-        best_train_state_mode=best_train_state_mode,
+        source_best_train_state_mode=source_best_train_state_mode,
+        active_train_state_mode=active_train_state_mode,
+        active_state_mode_name=resolved_state_mode_name,
         evaluation_backend=evaluation_backend,
     )
     return {
@@ -522,11 +565,13 @@ def evaluate_train_probe(
         "episodes_per_seed": int(episodes_per_seed),
         "evaluation_backend": evaluation_backend,
         "canonical_train_cell": canonical_train_cell,
-        "best_train_state_mode": best_train_state_mode,
+        "source_best_train_state_mode": source_best_train_state_mode,
+        "best_train_state_mode": source_best_train_state_mode,
+        "active_train_state_mode": active_train_state_mode,
+        "active_state_mode_name": resolved_state_mode_name,
         "summary": comparison,
         "records": records,
     }, records
-
 
 
 def render_report(summary: dict, *, title: str = "# MINT Drawer Robot-Trajectory Sim Evaluation (MuJoCo)") -> str:
@@ -538,6 +583,7 @@ def render_report(summary: dict, *, title: str = "# MINT Drawer Robot-Trajectory
         f"**Held-out Seeds**: `{summary['held_out_seeds']}`",
         f"**Eval Max Steps**: `{summary.get('eval_max_steps', 96)}`",
         f"**Evaluation Backend**: `{summary.get('evaluation_backend', EXPECTED_EVALUATION_BACKEND)}`",
+        f"**Active State Mode**: `{summary.get('active_train_state_mode', EXPECTED_SOURCE_BEST_TRAIN_STATE_MODE)}` / `{summary.get('active_state_mode_name')}`",
         "",
         "| Policy | Success Rate | Grasp Success | Pull Distance | Time to Completion | Episodes |",
         "| --- | ---: | ---: | ---: | ---: | ---: |",

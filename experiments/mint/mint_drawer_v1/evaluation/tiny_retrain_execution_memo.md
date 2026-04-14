@@ -1,9 +1,13 @@
 # Tiny Retrain Execution Memo
 
-- dataset 是否只来自 `V1cT2S0`：是
-- 是否严格使用 `S0`：是
-- probe/eval backend 是否锁到 MuJoCo：是
-- parity 状态：`parity_repaired`
-- 是否只用 train seeds `[1..8]`：是
-- held-out eval 是否只用 `[11..15]`：未运行
-- 最终 verdict：`train_probe_not_confirmed`
+- source canonical cell: `V1cT2S0`
+- source best train state: `S0`
+- final verdict: `TINY_RETRAIN_NOT_ESTABLISHED_AFTER_S0_S2`
+- scientific terminal state: `TINY_RETRAIN_NOT_ESTABLISHED_AFTER_S0_S2`
+- stages executed: `['s0_honest_bridge_run', 's2_honest_bridge_run']`
+
+## Loop History
+- `s0_honest_bridge_run` / `honest` / active `S0`
+  dataset_valid=`False` train_passed=`False` trend_passed=`False` attach_bridge_pass=`False` verdict=`trainability_bridge_not_established`
+- `s2_honest_bridge_run` / `honest` / active `S2`
+  dataset_valid=`False` train_passed=`False` trend_passed=`False` attach_bridge_pass=`False` verdict=`trainability_bridge_not_established`

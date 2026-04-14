@@ -9,13 +9,7 @@ from pathlib import Path
 from typing import Any
 
 from evaluate_mint_drawer_campaign_mujoco import evaluate_train_probe
-from mint_common import (
-    ARTIFACT_DIR,
-    PROJECT_ROOT,
-    TINY_RETRAIN_PLAN_PATH,
-    load_json,
-    write_json_atomic,
-)
+from mint_common import ARTIFACT_DIR, PROJECT_ROOT, TINY_RETRAIN_PLAN_PATH, load_json, write_json_atomic
 
 ARTIFACT = ARTIFACT_DIR / "g8_train_seed_probe.json"
 G8_ARTIFACT = ARTIFACT_DIR / "g8_train_summary.json"
@@ -24,6 +18,22 @@ G8_ARTIFACT = ARTIFACT_DIR / "g8_train_summary.json"
 def _resolve_repo_path(value: str | Path) -> Path:
     path = Path(value)
     return path if path.is_absolute() else (PROJECT_ROOT / path)
+
+
+def _source_canonical_train_cell(plan: dict[str, Any]) -> str:
+    return str(plan.get("source_canonical_train_cell") or plan.get("canonical_train_cell") or "")
+
+
+def _source_best_train_state_mode(plan: dict[str, Any]) -> str:
+    return str(plan.get("source_best_train_state_mode") or plan.get("best_train_state_mode") or "")
+
+
+def _active_train_state_mode(plan: dict[str, Any]) -> str:
+    return str(plan.get("active_train_state_mode") or _source_best_train_state_mode(plan))
+
+
+def _active_state_mode_name(plan: dict[str, Any]) -> str:
+    return str(plan.get("active_state_mode_name") or _active_train_state_mode(plan))
 
 
 def _bridge_delta(ft: dict[str, Any], pt: dict[str, Any]) -> dict[str, float]:
@@ -49,8 +59,10 @@ def _build_outputs(plan: dict[str, Any], checkpoint_path: str, checkpoint_step: 
         seeds=probe_seeds,
         dataset_root=dataset_root,
         repo_id=str(plan["dataset_repo_id"]),
-        canonical_train_cell=str(plan.get("evaluation_cell_id") or plan.get("canonical_train_cell")),
-        best_train_state_mode=str(plan.get("best_train_state_mode")),
+        canonical_train_cell=str(plan.get("evaluation_cell_id") or _source_canonical_train_cell(plan)),
+        source_best_train_state_mode=_source_best_train_state_mode(plan),
+        active_train_state_mode=_active_train_state_mode(plan),
+        active_state_mode_name=_active_state_mode_name(plan),
         episodes_per_seed=int(plan.get("evaluation_probe_episodes_per_seed", 3)),
         max_steps=int(plan.get("evaluation_max_steps", 96)),
         image_size=int(plan.get("evaluation_image_size", 256)),
@@ -63,30 +75,27 @@ def _build_outputs(plan: dict[str, Any], checkpoint_path: str, checkpoint_step: 
     success_gain = float(ft["success_rate"] - pt["success_rate"])
     trend_passed = bool(success_gain >= min_success_gain and ft["successes"] >= min_finetuned_successes)
     attach_bridge_pass = bool(
-        (
-            float(ft.get("ever_stable_attach_fraction", 0.0))
-            >= float(pt.get("ever_stable_attach_fraction", 0.0)) + 0.10
-        )
+        (float(ft.get("ever_stable_attach_fraction", 0.0)) >= float(pt.get("ever_stable_attach_fraction", 0.0)) + 0.10)
+        or (float(ft.get("grasp_success_rate", 0.0)) >= float(pt.get("grasp_success_rate", 0.0)) + 0.10)
         or (
-            float(ft.get("grasp_success_rate", 0.0))
-            >= float(pt.get("grasp_success_rate", 0.0)) + 0.10
-        )
-        or (
-            float(ft.get("attach_eligible_rate_mean", 0.0))
-            >= float(pt.get("attach_eligible_rate_mean", 0.0)) + 0.10
-            and float(ft.get("distance_pass_rate_mean", 0.0))
-            >= float(pt.get("distance_pass_rate_mean", 0.0)) + 0.10
+            float(ft.get("attach_eligible_rate_mean", 0.0)) >= float(pt.get("attach_eligible_rate_mean", 0.0)) + 0.10
+            and float(ft.get("distance_pass_rate_mean", 0.0)) >= float(pt.get("distance_pass_rate_mean", 0.0)) + 0.10
         )
     )
     summary_payload = {
         **summary,
         "training_mode": "tiny_retrain_confirmation",
-        "canonical_train_cell": plan.get("canonical_train_cell"),
-        "best_train_state_mode": plan.get("best_train_state_mode"),
+        "source_canonical_train_cell": _source_canonical_train_cell(plan),
+        "source_best_train_state_mode": _source_best_train_state_mode(plan),
+        "canonical_train_cell": _source_canonical_train_cell(plan),
+        "best_train_state_mode": _source_best_train_state_mode(plan),
+        "active_train_state_mode": _active_train_state_mode(plan),
+        "active_state_mode_name": _active_state_mode_name(plan),
+        "bridge_stage": plan.get("bridge_stage"),
+        "bridge_attempt": plan.get("bridge_attempt"),
         "evaluation_backend": plan.get("evaluation_backend"),
         "evaluation_env_family": plan.get("evaluation_env_family"),
         "evaluation_cell_id": plan.get("evaluation_cell_id"),
-        "evaluation_state_mode_name": plan.get("evaluation_state_mode_name"),
         "evaluation_interaction_mode": plan.get("evaluation_interaction_mode"),
         "probe_seeds": probe_seeds,
         "checkpoint_path": checkpoint_path,
@@ -103,12 +112,17 @@ def _build_outputs(plan: dict[str, Any], checkpoint_path: str, checkpoint_step: 
     result = {
         "gate": "g8_train_seed_probe",
         "training_mode": "tiny_retrain_confirmation",
-        "canonical_train_cell": plan.get("canonical_train_cell"),
-        "best_train_state_mode": plan.get("best_train_state_mode"),
+        "source_canonical_train_cell": _source_canonical_train_cell(plan),
+        "source_best_train_state_mode": _source_best_train_state_mode(plan),
+        "canonical_train_cell": _source_canonical_train_cell(plan),
+        "best_train_state_mode": _source_best_train_state_mode(plan),
+        "active_train_state_mode": _active_train_state_mode(plan),
+        "active_state_mode_name": _active_state_mode_name(plan),
+        "bridge_stage": plan.get("bridge_stage"),
+        "bridge_attempt": plan.get("bridge_attempt"),
         "evaluation_backend": plan.get("evaluation_backend"),
         "evaluation_env_family": plan.get("evaluation_env_family"),
         "evaluation_cell_id": plan.get("evaluation_cell_id"),
-        "evaluation_state_mode_name": plan.get("evaluation_state_mode_name"),
         "evaluation_interaction_mode": plan.get("evaluation_interaction_mode"),
         "probe_seeds": probe_seeds,
         "checkpoint_path": checkpoint_path,
@@ -145,7 +159,8 @@ def run(
         result = {
             "gate": "g8_train_seed_probe",
             "training_mode": "tiny_retrain_confirmation",
-            "canonical_train_cell": plan.get("canonical_train_cell"),
+            "source_canonical_train_cell": _source_canonical_train_cell(plan),
+            "active_train_state_mode": _active_train_state_mode(plan),
             "probe_seeds": plan.get("train_seeds", []),
             "min_success_gain": float(plan.get("train_probe_min_success_gain", 0.15)),
             "min_finetuned_successes": int(plan.get("train_probe_min_successes", 2)),

@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import statistics
+from collections import Counter
 from functools import lru_cache
 from pathlib import Path
 
@@ -109,6 +110,52 @@ def _validate_record_parity(record: dict, expected: dict[str, str]) -> None:
         raise RuntimeError("Parity violation: measurement_truthful is false")
 
 
+def _rate(trace) -> float:
+    if not trace:
+        return 0.0
+    return float(np.mean(np.asarray(trace, dtype=np.float32)))
+
+
+def _peak(trace) -> float:
+    if not trace:
+        return 0.0
+    arr = np.asarray(trace, dtype=np.float32).reshape(-1)
+    return float(np.max(arr)) if arr.size else 0.0
+
+
+def _min_value(trace) -> float:
+    if not trace:
+        return 0.0
+    arr = np.asarray(trace, dtype=np.float32).reshape(-1)
+    return float(np.min(arr)) if arr.size else 0.0
+
+
+def _dominant_detach_reason(trace: list[str]) -> str:
+    values = [str(item) for item in trace if str(item)]
+    if not values:
+        return "none"
+    return Counter(values).most_common(1)[0][0]
+
+
+def _dominant_failure_mode(metrics: dict) -> str:
+    if float(metrics.get("close_cmd_rate_mean", 0.0)) < 0.20:
+        return "never_close"
+    if float(metrics.get("distance_pass_rate_mean", 0.0)) < 0.05:
+        return "never_reach_attach_distance"
+    if float(metrics.get("orientation_gate_pass_rate_mean", 0.0)) < 0.05:
+        return "orientation_gate_miss"
+    if float(metrics.get("approach_gate_pass_rate_mean", 0.0)) < 0.05:
+        return "approach_gate_miss"
+    if float(metrics.get("ever_attach_eligible_fraction", 0.0)) > 0.0 and float(metrics.get("ever_stable_attach_fraction", 0.0)) == 0.0:
+        return "attach_not_stabilized"
+    if float(metrics.get("ever_stable_attach_fraction", 0.0)) > 0.0 and float(metrics.get("ever_phase_locked_fraction", 0.0)) == 0.0:
+        return "stable_attach_without_phase_lock"
+    if float(metrics.get("ever_phase_locked_fraction", 0.0)) > 0.0 and float(metrics.get("grasp_success_rate", 0.0)) == 0.0:
+        return "phase_locked_without_grasp"
+    if float(metrics.get("grasp_success_rate", 0.0)) > 0.0 and float(metrics.get("success_rate", 0.0)) == 0.0:
+        return "grasp_without_open"
+    return "no_improvement"
+
 
 def rollout_policy(
     seed: int,
@@ -145,6 +192,18 @@ def rollout_policy(
     attached_trace: list[bool] = []
     eef_pos_trace: list[np.ndarray] = []
     raw_action_trace: list[np.ndarray] = []
+    close_cmd_trace: list[bool] = []
+    dist_to_handle_trace: list[float] = []
+    attach_gate_distance_passed_trace: list[bool] = []
+    orientation_alignment_cos_trace: list[float] = []
+    attach_gate_orientation_passed_trace: list[bool] = []
+    attach_gate_approach_passed_trace: list[bool] = []
+    attach_eligible_trace: list[bool] = []
+    stable_attach_trace: list[bool] = []
+    phase_locked_trace: list[bool] = []
+    effective_pull_progress_trace: list[float] = []
+    drawer_delta_effective_trace: list[float] = []
+    detach_reason_trace: list[str] = []
     last_probe = dict(obs.handle_probe_metadata or {})
     try:
         for steps in range(1, int(max_steps) + 1):
@@ -160,12 +219,24 @@ def rollout_policy(
                 action = post(action)
                 action = action.squeeze(0).detach().cpu().numpy().astype(np.float32)
             raw_action_trace.append(action.copy())
+            close_cmd_trace.append(float(action[6]) < 0.0)
             obs, _, done, info = env.step(action)
             last_probe = dict(obs.handle_probe_metadata or {})
             pull_distance = max(pull_distance, float(info.get("drawer_fraction", 0.0)))
             grasp_success = grasp_success or bool(info.get("attached", False))
             drawer_trace.append(float(info.get("drawer_fraction", 0.0)))
             attached_trace.append(bool(info.get("attached", False)))
+            dist_to_handle_trace.append(float(info.get("dist_to_handle", 0.0)))
+            attach_gate_distance_passed_trace.append(bool(info.get("attach_gate_distance_passed", False)))
+            orientation_alignment_cos_trace.append(float(info.get("orientation_alignment_cos", 0.0)))
+            attach_gate_orientation_passed_trace.append(bool(info.get("attach_gate_orientation_passed", False)))
+            attach_gate_approach_passed_trace.append(bool(info.get("attach_gate_approach_passed", False)))
+            attach_eligible_trace.append(bool(info.get("attach_eligible", False)))
+            stable_attach_trace.append(bool(info.get("stable_attach", False)))
+            phase_locked_trace.append(bool(info.get("phase_locked", False)))
+            effective_pull_progress_trace.append(float(info.get("effective_pull_progress", 0.0)))
+            drawer_delta_effective_trace.append(float(info.get("drawer_delta_effective", 0.0)))
+            detach_reason_trace.append(str(info.get("detach_reason") or ""))
             strict = evaluate_strict_success(
                 np.asarray(drawer_trace, dtype=np.float32),
                 np.asarray(attached_trace, dtype=bool),
@@ -202,6 +273,33 @@ def rollout_policy(
             "total_eef_motion": float(total_eef_motion),
             "drawer_trace": drawer_trace,
             "attached_trace": attached_trace,
+            "close_cmd_trace": [bool(item) for item in close_cmd_trace],
+            "dist_to_handle_trace": [float(item) for item in dist_to_handle_trace],
+            "attach_gate_distance_passed_trace": [bool(item) for item in attach_gate_distance_passed_trace],
+            "orientation_alignment_cos_trace": [float(item) for item in orientation_alignment_cos_trace],
+            "attach_gate_orientation_passed_trace": [bool(item) for item in attach_gate_orientation_passed_trace],
+            "attach_gate_approach_passed_trace": [bool(item) for item in attach_gate_approach_passed_trace],
+            "attach_eligible_trace": [bool(item) for item in attach_eligible_trace],
+            "stable_attach_trace": [bool(item) for item in stable_attach_trace],
+            "phase_locked_trace": [bool(item) for item in phase_locked_trace],
+            "effective_pull_progress_trace": [float(item) for item in effective_pull_progress_trace],
+            "drawer_delta_effective_trace": [float(item) for item in drawer_delta_effective_trace],
+            "detach_reason_trace": [str(item) for item in detach_reason_trace],
+            "close_cmd_rate": _rate(close_cmd_trace),
+            "min_dist_to_handle": _min_value(dist_to_handle_trace),
+            "distance_pass_rate": _rate(attach_gate_distance_passed_trace),
+            "orientation_alignment_cos_max": _peak(orientation_alignment_cos_trace),
+            "orientation_gate_pass_rate": _rate(attach_gate_orientation_passed_trace),
+            "approach_gate_pass_rate": _rate(attach_gate_approach_passed_trace),
+            "attach_eligible_rate": _rate(attach_eligible_trace),
+            "stable_attach_rate": _rate(stable_attach_trace),
+            "phase_locked_rate": _rate(phase_locked_trace),
+            "effective_pull_progress_peak": _peak(effective_pull_progress_trace),
+            "drawer_delta_effective_peak": _peak(drawer_delta_effective_trace),
+            "ever_attach_eligible": bool(any(attach_eligible_trace)),
+            "ever_stable_attach": bool(any(stable_attach_trace)),
+            "ever_phase_locked": bool(any(phase_locked_trace)),
+            "dominant_detach_reason": _dominant_detach_reason(detach_reason_trace),
             "env_image_size": int(image_size),
             "evaluation_backend": EXPECTED_EVALUATION_BACKEND,
             "evaluation_env_family": EXPECTED_ENV_FAMILY,
@@ -253,11 +351,25 @@ def aggregate(records: list[dict]) -> dict:
         "successes": int(sum(successes)),
         "successful_seed_count": int(sum(1 for metrics in per_seed.values() if metrics["successes"] > 0)),
         "per_seed": per_seed,
+        "close_cmd_rate_mean": float(statistics.mean(item.get("close_cmd_rate", 0.0) for item in records)) if records else 0.0,
+        "min_dist_to_handle_mean": float(statistics.mean(item.get("min_dist_to_handle", 0.0) for item in records)) if records else 0.0,
+        "distance_pass_rate_mean": float(statistics.mean(item.get("distance_pass_rate", 0.0) for item in records)) if records else 0.0,
+        "orientation_gate_pass_rate_mean": float(statistics.mean(item.get("orientation_gate_pass_rate", 0.0) for item in records)) if records else 0.0,
+        "approach_gate_pass_rate_mean": float(statistics.mean(item.get("approach_gate_pass_rate", 0.0) for item in records)) if records else 0.0,
+        "attach_eligible_rate_mean": float(statistics.mean(item.get("attach_eligible_rate", 0.0) for item in records)) if records else 0.0,
+        "stable_attach_rate_mean": float(statistics.mean(item.get("stable_attach_rate", 0.0) for item in records)) if records else 0.0,
+        "phase_locked_rate_mean": float(statistics.mean(item.get("phase_locked_rate", 0.0) for item in records)) if records else 0.0,
+        "effective_pull_progress_peak_mean": float(statistics.mean(item.get("effective_pull_progress_peak", 0.0) for item in records)) if records else 0.0,
+        "drawer_delta_effective_peak_mean": float(statistics.mean(item.get("drawer_delta_effective_peak", 0.0) for item in records)) if records else 0.0,
+        "ever_attach_eligible_fraction": float(statistics.mean(1.0 if item.get("ever_attach_eligible", False) else 0.0 for item in records)) if records else 0.0,
+        "ever_stable_attach_fraction": float(statistics.mean(1.0 if item.get("ever_stable_attach", False) else 0.0 for item in records)) if records else 0.0,
+        "ever_phase_locked_fraction": float(statistics.mean(1.0 if item.get("ever_phase_locked", False) else 0.0 for item in records)) if records else 0.0,
     }
     if non_zero_ratios:
         result["non_zero_action_ratio_mean"] = float(statistics.mean(non_zero_ratios))
     if eef_motions:
         result["total_eef_motion_mean"] = float(statistics.mean(eef_motions))
+    result["dominant_failure_mode"] = _dominant_failure_mode(result)
     return result
 
 
@@ -437,5 +549,4 @@ def render_report(summary: dict, *, title: str = "# MINT Drawer Robot-Trajectory
         lines.append(
             f"| {name} | {payload['success_rate']:.3f} | {payload['grasp_success_rate']:.3f} | {payload['pull_distance_mean']:.3f} | {payload['time_to_completion_mean']:.2f} | {payload['n_episodes']} |"
         )
-    lines.extend(["", "## Strongest True Claim", "", summary["strongest_true_claim"], ""])
     return "\n".join(lines)

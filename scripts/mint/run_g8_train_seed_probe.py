@@ -6,14 +6,15 @@ from __future__ import annotations
 import json
 import time
 from pathlib import Path
+from typing import Any
 
 from evaluate_mint_drawer_campaign_mujoco import evaluate_train_probe
 from mint_common import (
     ARTIFACT_DIR,
     PROJECT_ROOT,
-    TINY_RETRAIN_EVAL_DIR,
     TINY_RETRAIN_PLAN_PATH,
     load_json,
+    write_json_atomic,
 )
 
 ARTIFACT = ARTIFACT_DIR / "g8_train_seed_probe.json"
@@ -25,29 +26,22 @@ def _resolve_repo_path(value: str | Path) -> Path:
     return path if path.is_absolute() else (PROJECT_ROOT / path)
 
 
-def run() -> bool:
-    plan = load_json(TINY_RETRAIN_PLAN_PATH, {})
-    if not plan:
-        raise SystemExit(f"Missing active tiny retrain plan: {TINY_RETRAIN_PLAN_PATH}")
-    g8 = load_json(G8_ARTIFACT, {})
-    checkpoint_path = g8.get("checkpoint_path")
-    if not checkpoint_path:
-        result = {
-            "gate": "g8_train_seed_probe",
-            "training_mode": "tiny_retrain_confirmation",
-            "canonical_train_cell": plan.get("canonical_train_cell"),
-            "probe_seeds": plan.get("train_seeds", []),
-            "min_success_gain": float(plan.get("train_probe_min_success_gain", 0.15)),
-            "min_finetuned_successes": int(plan.get("train_probe_min_successes", 2)),
-            "trend_passed": False,
-            "passed": False,
-            "error": "Missing fine-tuned checkpoint",
-            "timestamp": time.time(),
-        }
-        ARTIFACT.write_text(json.dumps(result, indent=2))
-        print(json.dumps(result, indent=2))
-        return False
+def _bridge_delta(ft: dict[str, Any], pt: dict[str, Any]) -> dict[str, float]:
+    keys = [
+        "close_cmd_rate_mean",
+        "distance_pass_rate_mean",
+        "orientation_gate_pass_rate_mean",
+        "approach_gate_pass_rate_mean",
+        "attach_eligible_rate_mean",
+        "stable_attach_rate_mean",
+        "phase_locked_rate_mean",
+        "grasp_success_rate",
+        "success_rate",
+    ]
+    return {key: float(ft.get(key, 0.0)) - float(pt.get(key, 0.0)) for key in keys}
 
+
+def _build_outputs(plan: dict[str, Any], checkpoint_path: str, checkpoint_step: int | None) -> tuple[dict[str, Any], dict[str, Any]]:
     probe_seeds = [int(seed) for seed in plan.get("train_seeds", [])]
     dataset_root = _resolve_repo_path(plan["dataset_root"])
     summary, _ = evaluate_train_probe(
@@ -68,8 +62,22 @@ def run() -> bool:
     min_finetuned_successes = int(plan.get("train_probe_min_successes", 2))
     success_gain = float(ft["success_rate"] - pt["success_rate"])
     trend_passed = bool(success_gain >= min_success_gain and ft["successes"] >= min_finetuned_successes)
-    summary_path = _resolve_repo_path(plan["evaluation_dir"]) / "train_seed_probe.json"
-    summary_path.parent.mkdir(parents=True, exist_ok=True)
+    attach_bridge_pass = bool(
+        (
+            float(ft.get("ever_stable_attach_fraction", 0.0))
+            >= float(pt.get("ever_stable_attach_fraction", 0.0)) + 0.10
+        )
+        or (
+            float(ft.get("grasp_success_rate", 0.0))
+            >= float(pt.get("grasp_success_rate", 0.0)) + 0.10
+        )
+        or (
+            float(ft.get("attach_eligible_rate_mean", 0.0))
+            >= float(pt.get("attach_eligible_rate_mean", 0.0)) + 0.10
+            and float(ft.get("distance_pass_rate_mean", 0.0))
+            >= float(pt.get("distance_pass_rate_mean", 0.0)) + 0.10
+        )
+    )
     summary_payload = {
         **summary,
         "training_mode": "tiny_retrain_confirmation",
@@ -81,12 +89,17 @@ def run() -> bool:
         "evaluation_state_mode_name": plan.get("evaluation_state_mode_name"),
         "evaluation_interaction_mode": plan.get("evaluation_interaction_mode"),
         "probe_seeds": probe_seeds,
+        "checkpoint_path": checkpoint_path,
+        "checkpoint_step": checkpoint_step,
         "min_success_gain": min_success_gain,
         "min_finetuned_successes": min_finetuned_successes,
         "success_gain": success_gain,
         "trend_passed": trend_passed,
+        "attach_bridge_pass": attach_bridge_pass,
+        "pretrained_dominant_failure_mode": pt.get("dominant_failure_mode"),
+        "finetuned_dominant_failure_mode": ft.get("dominant_failure_mode"),
+        "bridge_delta": _bridge_delta(ft, pt),
     }
-    summary_path.write_text(json.dumps(summary_payload, indent=2))
     result = {
         "gate": "g8_train_seed_probe",
         "training_mode": "tiny_retrain_confirmation",
@@ -98,19 +111,70 @@ def run() -> bool:
         "evaluation_state_mode_name": plan.get("evaluation_state_mode_name"),
         "evaluation_interaction_mode": plan.get("evaluation_interaction_mode"),
         "probe_seeds": probe_seeds,
+        "checkpoint_path": checkpoint_path,
+        "checkpoint_step": checkpoint_step,
         "min_success_gain": min_success_gain,
         "min_finetuned_successes": min_finetuned_successes,
         "success_gain": success_gain,
         "trend_passed": trend_passed,
+        "attach_bridge_pass": attach_bridge_pass,
+        "pretrained_dominant_failure_mode": pt.get("dominant_failure_mode"),
+        "finetuned_dominant_failure_mode": ft.get("dominant_failure_mode"),
+        "bridge_delta": _bridge_delta(ft, pt),
         "passed": trend_passed,
         **summary,
-        "summary_path": str(summary_path),
         "timestamp": time.time(),
     }
-    ARTIFACT.write_text(json.dumps(result, indent=2))
-    print(json.dumps(result, indent=2))
-    return bool(result["passed"])
+    return summary_payload, result
+
+
+def run(
+    *,
+    checkpoint_path_override: str | None = None,
+    checkpoint_step: int | None = None,
+    artifact_path_override: str | Path | None = None,
+    summary_path_override: str | Path | None = None,
+    write_outputs: bool = True,
+) -> dict[str, Any]:
+    plan = load_json(TINY_RETRAIN_PLAN_PATH, {})
+    if not plan:
+        raise SystemExit(f"Missing active tiny retrain plan: {TINY_RETRAIN_PLAN_PATH}")
+    g8 = load_json(G8_ARTIFACT, {})
+    checkpoint_path = checkpoint_path_override or g8.get("checkpoint_path")
+    if not checkpoint_path:
+        result = {
+            "gate": "g8_train_seed_probe",
+            "training_mode": "tiny_retrain_confirmation",
+            "canonical_train_cell": plan.get("canonical_train_cell"),
+            "probe_seeds": plan.get("train_seeds", []),
+            "min_success_gain": float(plan.get("train_probe_min_success_gain", 0.15)),
+            "min_finetuned_successes": int(plan.get("train_probe_min_successes", 2)),
+            "trend_passed": False,
+            "attach_bridge_pass": False,
+            "passed": False,
+            "error": "Missing fine-tuned checkpoint",
+            "checkpoint_path": None,
+            "checkpoint_step": checkpoint_step,
+            "timestamp": time.time(),
+        }
+        if write_outputs:
+            artifact_path = Path(artifact_path_override) if artifact_path_override else ARTIFACT
+            write_json_atomic(artifact_path, result)
+            print(json.dumps(result, indent=2))
+        return result
+
+    summary_payload, result = _build_outputs(plan, str(checkpoint_path), checkpoint_step)
+    if write_outputs:
+        summary_path = Path(summary_path_override) if summary_path_override else (_resolve_repo_path(plan["evaluation_dir"]) / "train_seed_probe.json")
+        artifact_path = Path(artifact_path_override) if artifact_path_override else ARTIFACT
+        summary_path.parent.mkdir(parents=True, exist_ok=True)
+        write_json_atomic(summary_path, summary_payload)
+        result["summary_path"] = str(summary_path)
+        write_json_atomic(artifact_path, result)
+        print(json.dumps(result, indent=2))
+    return result
 
 
 if __name__ == "__main__":
-    raise SystemExit(0 if run() else 1)
+    payload = run()
+    raise SystemExit(0 if payload.get("passed") else 1)

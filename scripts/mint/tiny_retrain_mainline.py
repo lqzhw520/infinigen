@@ -28,8 +28,8 @@ RCA5_ARTIFACT = ARTIFACT_DIR / "p2rca5_frozen_matrix_screen.json"
 RCA7_ARTIFACT = ARTIFACT_DIR / "p2rca7_tiny_retrain_if_eligible.json"
 DEFAULT_ROLLOUT_SOURCE_DIR = ARTIFACT_DIR / "g6_canonical_train_rollouts"
 MATERIALIZATION_ARTIFACT = ARTIFACT_DIR / "g6_canonical_rollout_materialization.json"
-MIN_TRAIN_EPISODES = 12
-DEFAULT_EPISODES_PER_SEED = 3
+MIN_TRAIN_EPISODES = 48
+DEFAULT_EPISODES_PER_SEED = 12
 TERMINAL_COMMIT = "5aaf117b66902219ac997082763fb4e2ea8891b3"
 STATE_MODE_MAP = {
     "S0": "m0_proxy",
@@ -272,14 +272,19 @@ def materialize_canonical_train_rollouts(
 
     report.update({
         'attempted_rollouts': attempted_rollouts,
+        'expected_attempted_rollouts': 96,
         'saved_rollouts': saved_rollouts,
         'successful_seed_count': len(successful_seeds),
         'successful_seeds': sorted(successful_seeds),
         'saved_files': saved_files,
         'records': records,
-        'passed': bool(saved_rollouts >= MIN_TRAIN_EPISODES),
+        'passed': bool(
+            attempted_rollouts == 96
+            and saved_rollouts >= MIN_TRAIN_EPISODES
+            and len(successful_seeds) >= 6
+        ),
     })
     if not report['passed']:
-        report['error'] = 'Insufficient successful canonical rollouts to build a tiny-retrain dataset'
+        report['error'] = 'insufficient_canonical_bridge_data'
     MATERIALIZATION_ARTIFACT.write_text(json.dumps(report, indent=2))
     return report

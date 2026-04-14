@@ -28,7 +28,7 @@ def run() -> bool:
         raise SystemExit(f"Missing active tiny retrain plan: {TINY_RETRAIN_PLAN_PATH}")
     g8 = load_json(G8_ARTIFACT, {})
     probe = load_json(TRAIN_PROBE_ARTIFACT, {})
-    checkpoint_path = g8.get("checkpoint_path")
+    checkpoint_path = probe.get("selected_bridge_checkpoint") or g8.get("checkpoint_path")
     if str(plan.get("canonical_train_cell")) != "V1cT2S0":
         raise SystemExit("Active tiny retrain plan canonical_train_cell is not V1cT2S0")
     if str(plan.get("best_train_state_mode")) != "S0":
@@ -63,6 +63,8 @@ def run() -> bool:
         "evaluation_interaction_mode": plan.get("evaluation_interaction_mode"),
         "heldout_eval_run": True,
         "claim_supported": summary.get("verdict") == "claim_supported",
+        "selected_bridge_checkpoint": probe.get("selected_bridge_checkpoint"),
+        "selected_checkpoint_step": probe.get("selected_checkpoint_step"),
         "timestamp": time.time(),
     })
     EVAL_DIR.mkdir(parents=True, exist_ok=True)

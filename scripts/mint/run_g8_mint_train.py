@@ -89,6 +89,10 @@ def run() -> bool:
         result = {
             "gate": "g8_mint_train",
             "training_mode": "tiny_retrain_confirmation",
+            "run_instance_id": plan.get("run_instance_id"),
+            "plan_version": plan.get("plan_version"),
+            "source_base_commit": plan.get("source_base_commit"),
+            "working_head_commit": plan.get("working_head_commit"),
             "source_canonical_train_cell": _source_canonical_train_cell(plan),
             "source_best_train_state_mode": _source_best_train_state_mode(plan),
             "active_train_state_mode": _active_train_state_mode(plan),
@@ -198,6 +202,10 @@ def run() -> bool:
     result = {
         "gate": "g8_mint_train",
         "training_mode": "tiny_retrain_confirmation",
+        "run_instance_id": plan.get("run_instance_id"),
+        "plan_version": plan.get("plan_version"),
+        "source_base_commit": plan.get("source_base_commit"),
+        "working_head_commit": plan.get("working_head_commit"),
         "source_canonical_train_cell": _source_canonical_train_cell(plan),
         "source_best_train_state_mode": _source_best_train_state_mode(plan),
         "active_train_state_mode": _active_train_state_mode(plan),

@@ -45,12 +45,16 @@ def run() -> bool:
         raise SystemExit(f"Missing active tiny retrain plan: {TINY_RETRAIN_PLAN_PATH}")
     g8 = load_json(G8_ARTIFACT, {})
     probe = load_json(TRAIN_PROBE_ARTIFACT, {})
+    if str(g8.get("run_instance_id") or "") != str(plan.get("run_instance_id") or ""):
+        raise SystemExit("G8 train summary run_instance_id does not match active plan")
+    if str(probe.get("run_instance_id") or "") != str(plan.get("run_instance_id") or ""):
+        raise SystemExit("Train probe run_instance_id does not match active plan")
     checkpoint_path = probe.get("selected_bridge_checkpoint") or g8.get("checkpoint_path")
     if _source_canonical_train_cell(plan) != "V1cT2S0":
         raise SystemExit("Active tiny retrain plan source_canonical_train_cell is not V1cT2S0")
     if not checkpoint_path:
         raise SystemExit("Missing fine-tuned checkpoint for held-out eval")
-    if not probe or not bool(probe.get("trend_passed", False)):
+    if not probe or not bool(probe.get("train_probe_claim_pass", probe.get("trend_passed", False))):
         raise SystemExit("Train probe did not pass; held-out eval must not run")
 
     heldout_seeds = [int(seed) for seed in plan.get("heldout_seeds", [])]
@@ -72,6 +76,10 @@ def run() -> bool:
         {
             "gate": "g9_sim_eval",
             "training_mode": "tiny_retrain_confirmation",
+            "run_instance_id": plan.get("run_instance_id"),
+            "plan_version": plan.get("plan_version"),
+            "source_base_commit": plan.get("source_base_commit"),
+            "working_head_commit": plan.get("working_head_commit"),
             "source_canonical_train_cell": _source_canonical_train_cell(plan),
             "source_best_train_state_mode": _source_best_train_state_mode(plan),
             "canonical_train_cell": _source_canonical_train_cell(plan),

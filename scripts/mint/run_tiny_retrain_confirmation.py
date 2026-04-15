@@ -1,14 +1,19 @@
 #!/usr/bin/env python3
-"""Bounded v8.2 tiny retrain bridge completion loop."""
+"""Bounded v8.3 tiny retrain bridge completion loop."""
 
 from __future__ import annotations
 
 import argparse
 import json
+import os
 import subprocess
+import uuid
 from collections import Counter, defaultdict
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+
+import numpy as np
 
 from dataset_builder import (
     build_dataset_from_rollouts,
@@ -32,7 +37,16 @@ from mint_common import (
     tiny_retrain_backend_defaults,
     write_json_atomic,
 )
-from tiny_retrain_mainline import DEFAULT_ROLLOUT_SOURCE_DIR, MATERIALIZATION_ARTIFACT, TERMINAL_COMMIT, materialize_canonical_train_rollouts
+from strict_success import evaluate_strict_success
+from tiny_retrain_mainline import (
+    DEFAULT_ROLLOUT_SOURCE_DIR,
+    MATERIALIZATION_ARTIFACT,
+    STRICT_UTILITY_VERSION,
+    TEACHER_FINGERPRINT_VERSION,
+    TERMINAL_COMMIT,
+    TRUTH_UTILITY_VERSION,
+    materialize_canonical_train_rollouts,
+)
 
 ROUTE_DECISION_PATH = CAMPAIGN_DIR / "autopilot" / "route_decision.json"
 FINAL_RUN_SUMMARY_PATH = CAMPAIGN_DIR / "autopilot" / "final_run_summary.json"
@@ -50,6 +64,12 @@ G8_PROBE_PATH = ARTIFACT_DIR / "g8_train_seed_probe.json"
 G9_SUMMARY_PATH = EVAL_DIR / "comparison_summary.json"
 G9_REPORT_PATH = EVAL_DIR / "comparison_report.md"
 EXECUTION_MEMO_PATH = EVAL_DIR / "tiny_retrain_execution_memo.md"
+G6_TEACHER_READINESS_CONTRACT_PATH = ARTIFACT_DIR / "g6_teacher_readiness_contract.json"
+G6_STRICT_SEMANTICS_ALIGNMENT_PATH = ARTIFACT_DIR / "g6_strict_semantics_alignment.json"
+EXECUTION_ANCHOR_PATH = ARTIFACT_DIR / "v8_3_execution_anchor.json"
+
+PLAN_VERSION = "tiny_retrain_confirmation_v8_3"
+SOURCE_BASE_COMMIT = "20a6498065922b91ceb9030674971bd08082ae6f"
 
 HONEST_EPISODES_PER_SEED = 12
 HONEST_MIN_TRAIN_EPISODES = 48
@@ -74,6 +94,133 @@ def _resolve_repo_path(value: str | Path) -> Path:
 
 def _git(cmd: list[str]) -> str:
     return subprocess.check_output(cmd, cwd=PROJECT_ROOT, text=True).strip()
+
+
+def _generate_run_instance_id(head: str) -> str:
+    env_override = str(os.environ.get("MINT_RUN_INSTANCE_ID") or "").strip()
+    if env_override:
+        return env_override
+    stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    return f"v83_{stamp}_{str(head)[:8]}_{uuid.uuid4().hex[:8]}"
+
+
+def _load_execution_anchor() -> dict[str, Any]:
+    return load_json(EXECUTION_ANCHOR_PATH, {})
+
+
+def _resolve_run_instance_id(branch: str, head: str) -> str:
+    anchor = _load_execution_anchor()
+    if (
+        anchor.get("plan_version") == PLAN_VERSION
+        and anchor.get("source_base_commit") == SOURCE_BASE_COMMIT
+        and anchor.get("working_head_commit") == head
+        and anchor.get("source_branch") == branch
+        and str(anchor.get("run_instance_id") or "").strip()
+    ):
+        return str(anchor["run_instance_id"])
+    return _generate_run_instance_id(head)
+
+
+def _write_execution_anchor(plan: dict[str, Any]) -> dict[str, Any]:
+    anchor = {
+        "anchor_version": "v8_3_execution_anchor_v1",
+        "remote_host": "ssh infinigen-cursor",
+        "repo_root": str(PROJECT_ROOT),
+        "plan_version": plan.get("plan_version"),
+        "run_instance_id": plan.get("run_instance_id"),
+        "source_branch": plan.get("source_branch"),
+        "working_head_commit": plan.get("working_head_commit"),
+        "source_base_commit": plan.get("source_base_commit"),
+        "source_canonical_train_cell": plan.get("source_canonical_train_cell"),
+        "source_best_train_state_mode": plan.get("source_best_train_state_mode"),
+        "backend": plan.get("evaluation_backend"),
+        "interaction_mode": plan.get("evaluation_interaction_mode"),
+        "teacher_truth_gate": plan.get("teacher_truth_gate"),
+        "strict_utility_version": plan.get("strict_utility_version"),
+        "truth_utility_version": plan.get("truth_utility_version"),
+        "teacher_fingerprint_version": plan.get("teacher_fingerprint_version"),
+        "execution_model": "remote_a800_authoritative",
+        "codebase_analysis_mode": "direct_remote_repo_audit_fallback",
+    }
+    write_json_atomic(EXECUTION_ANCHOR_PATH, anchor)
+    return anchor
+
+
+def _artifact_matches_plan(payload: dict[str, Any], plan: dict[str, Any]) -> bool:
+    if not payload:
+        return False
+    checks = [
+        str(payload.get("run_instance_id") or "") == str(plan.get("run_instance_id") or ""),
+        str(payload.get("plan_version") or "") == str(plan.get("plan_version") or ""),
+        str(payload.get("source_base_commit") or "") == str(plan.get("source_base_commit") or ""),
+        str(payload.get("teacher_truth_gate") or "") == str(plan.get("teacher_truth_gate") or ""),
+        str(payload.get("active_train_state_mode") or "") == str(plan.get("active_train_state_mode") or ""),
+        str(payload.get("source_canonical_train_cell") or "") == str(plan.get("source_canonical_train_cell") or ""),
+    ]
+    return all(checks)
+
+
+def _strict_alignment_entry(npz_path: Path) -> dict[str, Any]:
+    meta_path = npz_path.with_suffix(".json")
+    meta = load_json(meta_path, {})
+    if not meta_path.exists():
+        return {
+            "npz_path": str(npz_path),
+            "aligned": False,
+            "reason": "missing_meta_json",
+        }
+    with np.load(npz_path, allow_pickle=True) as data:
+        drawer_key = "next_drawer_fractions" if "next_drawer_fractions" in data else "absolute_drawer_fraction"
+        drawer_trace = np.asarray(data[drawer_key], dtype=np.float32).reshape(-1)
+        attached_trace = np.asarray(data["attached_trace"], dtype=bool).reshape(-1) if "attached_trace" in data else np.zeros_like(drawer_trace, dtype=bool)
+    eval_metrics = evaluate_strict_success(drawer_trace, attached_trace)
+    teacher_metrics = dict(meta.get("strict_metrics") or {})
+    aligned = bool(
+        teacher_metrics
+        and bool(teacher_metrics.get("strict_success", False)) == bool(eval_metrics.get("strict_success", False))
+        and int(teacher_metrics.get("attach_persistence", 0) or 0) == int(eval_metrics.get("attach_persistence", 0) or 0)
+        and abs(float(teacher_metrics.get("post_attach_drawer_delta", 0.0) or 0.0) - float(eval_metrics.get("post_attach_drawer_delta", 0.0) or 0.0)) <= 1e-6
+        and abs(float(teacher_metrics.get("max_drawer_fraction", 0.0) or 0.0) - float(eval_metrics.get("max_drawer_fraction", 0.0) or 0.0)) <= 1e-6
+    )
+    return {
+        "npz_path": str(npz_path),
+        "meta_path": str(meta_path),
+        "drawer_trace_source": drawer_key,
+        "teacher_replay": {
+            "max_post_step_drawer_fraction": float(teacher_metrics.get("max_drawer_fraction", 0.0) or 0.0),
+            "attach_persistence": int(teacher_metrics.get("attach_persistence", 0) or 0),
+            "post_attach_drawer_delta": float(teacher_metrics.get("post_attach_drawer_delta", 0.0) or 0.0),
+            "strict_success": bool(teacher_metrics.get("strict_success", False)),
+        },
+        "eval_replay": {
+            "max_post_step_drawer_fraction": float(eval_metrics.get("max_drawer_fraction", 0.0) or 0.0),
+            "attach_persistence": int(eval_metrics.get("attach_persistence", 0) or 0),
+            "post_attach_drawer_delta": float(eval_metrics.get("post_attach_drawer_delta", 0.0) or 0.0),
+            "strict_success": bool(eval_metrics.get("strict_success", False)),
+        },
+        "aligned": aligned,
+        "strict_success_version": meta.get("strict_success_version"),
+    }
+
+
+def _write_strict_semantics_alignment(paths: list[Path], plan: dict[str, Any]) -> dict[str, Any]:
+    entries = [_strict_alignment_entry(path) for path in sorted(paths)]
+    report = {
+        "gate": "g6_strict_semantics_alignment",
+        "run_instance_id": plan.get("run_instance_id"),
+        "plan_version": plan.get("plan_version"),
+        "source_base_commit": plan.get("source_base_commit"),
+        "source_canonical_train_cell": plan.get("source_canonical_train_cell"),
+        "source_best_train_state_mode": plan.get("source_best_train_state_mode"),
+        "active_train_state_mode": plan.get("active_train_state_mode"),
+        "strict_utility_version": plan.get("strict_utility_version"),
+        "paired_rollout_count": len(entries),
+        "aligned_rollout_count": int(sum(1 for item in entries if bool(item.get("aligned", False)))),
+        "passed": bool(entries) and all(bool(item.get("aligned", False)) for item in entries),
+        "entries": entries,
+    }
+    write_json_atomic(G6_STRICT_SEMANTICS_ALIGNMENT_PATH, report)
+    return report
 
 
 def _active_state_mode_name(active_train_state_mode: str) -> str:
@@ -161,6 +308,7 @@ def materialize_stage_plan(
     ready = assert_terminal_ready(artifacts)
     branch = _git(["git", "rev-parse", "--abbrev-ref", "HEAD"])
     head = _git(["git", "rev-parse", "HEAD"])
+    run_instance_id = _resolve_run_instance_id(branch, head)
     backend_defaults = tiny_retrain_backend_defaults()
     source_cell = ready["source_canonical_train_cell"]
     active_state_mode_name = _active_state_mode_name(active_train_state_mode)
@@ -168,9 +316,12 @@ def materialize_stage_plan(
     train_output_dir = _stage_train_output_dir(source_cell, active_train_state_mode, bridge_attempt)
     evaluation_dir = _stage_evaluation_dir(source_cell, active_train_state_mode, bridge_attempt)
     plan = {
-        "plan_version": "tiny_retrain_confirmation_v8_2",
+        "plan_version": PLAN_VERSION,
+        "run_instance_id": run_instance_id,
         "source_branch": branch,
         "source_commit": head,
+        "working_head_commit": head,
+        "source_base_commit": SOURCE_BASE_COMMIT,
         "terminal_commit": TERMINAL_COMMIT,
         "scientific_terminal_state": "TS_CANONICAL_POSITIVE_ESTABLISHED",
         "route_next_branch": "tiny_retrain_confirmation",
@@ -209,9 +360,13 @@ def materialize_stage_plan(
         "train_probe_min_successes": 2,
         "episodes_per_seed": episodes_per_seed,
         "min_train_episodes": min_train_episodes,
-        "teacher_truth_gate": "trace_window_v1",
+        "teacher_truth_gate": "trace_window_v2",
         "authoritative_truth_field": "measurement_truthful_for_training",
+        "strict_utility_version": STRICT_UTILITY_VERSION,
+        "truth_utility_version": TRUTH_UTILITY_VERSION,
+        "teacher_fingerprint_version": TEACHER_FINGERPRINT_VERSION,
     }
+    _write_execution_anchor(plan)
     write_json_atomic(TINY_RETRAIN_PLAN_PATH, plan)
     return plan
 
@@ -248,9 +403,16 @@ def _load_validated_rollout_paths(paths: list[Path], plan: dict[str, Any]) -> tu
                     "npz_path": str(npz_path),
                     "reason": reason,
                     "seed": meta.get("seed"),
+                    "run_instance_id": meta.get("run_instance_id"),
+                    "plan_version": meta.get("plan_version"),
+                    "teacher_episode_class": meta.get("teacher_episode_class"),
+                    "teacher_fingerprint": meta.get("teacher_fingerprint"),
                     "measurement_truthful_for_training": meta.get("measurement_truthful_for_training"),
                     "teacher_truth_adjudication": meta.get("teacher_truth_adjudication"),
                     "teacher_truthful_window_frame_count": meta.get("teacher_truthful_window_frame_count"),
+                    "truthful_window_ratio": meta.get("truthful_window_ratio"),
+                    "truthful_window_longest_interior_gap": meta.get("truthful_window_longest_interior_gap"),
+                    "truthful_window_tail_truthful_count_last6": meta.get("truthful_window_tail_truthful_count_last6"),
                     "bridge_in_truthful_window": meta.get("bridge_in_truthful_window"),
                     "final_snapshot_measurement_truthful": meta.get("final_snapshot_measurement_truthful"),
                     "final_snapshot_measurement_truth_tier": meta.get("final_snapshot_measurement_truth_tier"),
@@ -269,6 +431,61 @@ def _rejected_rollout_summary(rejected: list[dict[str, Any]]) -> tuple[dict[str,
     return dict(counts), {reason: sorted(values) for reason, values in seeds_by_reason.items()}
 
 
+def _teacher_readiness_contract(dataset_report: dict[str, Any], plan: dict[str, Any]) -> dict[str, Any]:
+    accepted_seed_coverage = {int(x) for x in dataset_report.get("accepted_seed_coverage", [])}
+    near_strict_seed_coverage = {int(x) for x in dataset_report.get("near_strict_seed_coverage", [])}
+    strict_alignment = load_json(G6_STRICT_SEMANTICS_ALIGNMENT_PATH, {})
+    clauses = {
+        "source_canonical_train_cell_frozen": str(plan.get("source_canonical_train_cell")) == "V1cT2S0",
+        "truthful_accepted_train_seeds_ge_6": len(accepted_seed_coverage) >= 6,
+        "accepted_unique_teacher_families_ge_18": int(dataset_report.get("accepted_unique_teacher_family_count", 0) or 0) >= 18,
+        "strict_unique_teacher_families_ge_8": int(dataset_report.get("strict_unique_teacher_family_count", 0) or 0) >= 8,
+        "near_strict_unique_teacher_families_ge_6": int(dataset_report.get("near_strict_unique_teacher_family_count", 0) or 0) >= 6,
+        "seed2_has_deterministic_near_strict": 2 in near_strict_seed_coverage or 2 in accepted_seed_coverage,
+        "seed4_has_deterministic_near_strict": 4 in near_strict_seed_coverage or 4 in accepted_seed_coverage,
+        "seed3_has_accepted_truthful_bridge": 3 in accepted_seed_coverage,
+        "strict_semantics_aligned": bool(strict_alignment.get("passed", False)),
+        "duplicate_inflation_not_authoritative": int(dataset_report.get("accepted_unique_teacher_family_count", 0) or 0) <= int(dataset_report.get("used_rollout_count", 0) or 0),
+    }
+    report = {
+        "gate": "g6_teacher_readiness_contract",
+        "run_instance_id": plan.get("run_instance_id"),
+        "plan_version": plan.get("plan_version"),
+        "source_base_commit": plan.get("source_base_commit"),
+        "source_canonical_train_cell": plan.get("source_canonical_train_cell"),
+        "source_best_train_state_mode": plan.get("source_best_train_state_mode"),
+        "active_train_state_mode": plan.get("active_train_state_mode"),
+        "accepted_seed_coverage": sorted(accepted_seed_coverage),
+        "near_strict_seed_coverage": sorted(near_strict_seed_coverage),
+        "accepted_unique_teacher_family_count": int(dataset_report.get("accepted_unique_teacher_family_count", 0) or 0),
+        "strict_unique_teacher_family_count": int(dataset_report.get("strict_unique_teacher_family_count", 0) or 0),
+        "near_strict_unique_teacher_family_count": int(dataset_report.get("near_strict_unique_teacher_family_count", 0) or 0),
+        "teacher_episode_class_counts": dict(dataset_report.get("teacher_episode_class_counts") or {}),
+        "strict_semantics_alignment": strict_alignment,
+        "clauses": clauses,
+        "passed": all(bool(v) for v in clauses.values()),
+    }
+    write_json_atomic(G6_TEACHER_READINESS_CONTRACT_PATH, report)
+    return report
+
+
+def _write_failed_teacher_readiness_contract(plan: dict[str, Any], reason: str) -> dict[str, Any]:
+    report = {
+        "gate": "g6_teacher_readiness_contract",
+        "run_instance_id": plan.get("run_instance_id"),
+        "plan_version": plan.get("plan_version"),
+        "source_base_commit": plan.get("source_base_commit"),
+        "source_canonical_train_cell": plan.get("source_canonical_train_cell"),
+        "source_best_train_state_mode": plan.get("source_best_train_state_mode"),
+        "active_train_state_mode": plan.get("active_train_state_mode"),
+        "clauses": {},
+        "passed": False,
+        "failure_reason": reason,
+    }
+    write_json_atomic(G6_TEACHER_READINESS_CONTRACT_PATH, report)
+    return report
+
+
 def build_or_refresh_canonical_dataset(plan: dict[str, Any]) -> dict[str, Any]:
     sources_checked: list[str] = []
     candidate_paths: set[Path] = set()
@@ -282,8 +499,10 @@ def build_or_refresh_canonical_dataset(plan: dict[str, Any]) -> dict[str, Any]:
         candidate_paths.update(DEFAULT_ROLLOUT_SOURCE_DIR.glob("*.npz"))
 
     materialization = load_json(MATERIALIZATION_ARTIFACT, {})
+    existing_dataset_report = load_json(TINY_RETRAIN_DATASET_BUILD_PATH, {})
     expected_attempted_rollouts = len(plan.get("train_seeds", [])) * int(plan.get("episodes_per_seed", HONEST_EPISODES_PER_SEED))
     min_train_episodes = int(plan.get("min_train_episodes", HONEST_MIN_TRAIN_EPISODES))
+
     valid_rollouts, rejected = _load_validated_rollout_paths(sorted(candidate_paths), plan)
     unique_valid_seeds = {
         int(json.loads(path.with_suffix(".json").read_text()).get("seed"))
@@ -291,17 +510,23 @@ def build_or_refresh_canonical_dataset(plan: dict[str, Any]) -> dict[str, Any]:
         if path.with_suffix(".json").exists()
     }
     materialization_ready = bool(
-        materialization.get("passed")
+        _artifact_matches_plan(materialization, plan)
+        and materialization.get("passed")
         and int(materialization.get("attempted_rollouts", 0)) == expected_attempted_rollouts
         and int(materialization.get("saved_rollouts", 0)) >= min_train_episodes
         and int(materialization.get("successful_seed_count", 0)) >= 6
         and str(materialization.get("active_train_state_mode")) == str(plan.get("active_train_state_mode"))
     )
-    need_refresh = (
-        len(valid_rollouts) < min_train_episodes
-        or len(unique_valid_seeds) < 6
-        or not materialization_ready
+    existing_dataset_reusable = bool(
+        _artifact_matches_plan(existing_dataset_report, plan)
+        and bool(existing_dataset_report.get("dataset_valid", False))
+        and bool(existing_dataset_report.get("teacher_readiness_passed", False))
+        and int(existing_dataset_report.get("valid_rollout_count", 0) or 0) >= min_train_episodes
+        and int(existing_dataset_report.get("valid_seed_count", 0) or 0) >= 6
+        and materialization_ready
     )
+    need_refresh = not existing_dataset_reusable
+
     if need_refresh:
         materialization = materialize_canonical_train_rollouts(
             DEFAULT_ROLLOUT_SOURCE_DIR,
@@ -314,20 +539,38 @@ def build_or_refresh_canonical_dataset(plan: dict[str, Any]) -> dict[str, Any]:
             for path in valid_rollouts
             if path.with_suffix(".json").exists()
         }
+        materialization_ready = bool(
+            _artifact_matches_plan(materialization, plan)
+            and materialization.get("passed")
+            and int(materialization.get("attempted_rollouts", 0)) == expected_attempted_rollouts
+            and int(materialization.get("saved_rollouts", 0)) >= min_train_episodes
+            and int(materialization.get("successful_seed_count", 0)) >= 6
+            and str(materialization.get("active_train_state_mode")) == str(plan.get("active_train_state_mode"))
+        )
+
+    alignment_source_paths = sorted(DEFAULT_ROLLOUT_SOURCE_DIR.glob("*.npz")) if DEFAULT_ROLLOUT_SOURCE_DIR.exists() else sorted(candidate_paths)
+    strict_alignment_report = _write_strict_semantics_alignment(alignment_source_paths, plan)
     rejected_by_reason, rejected_seeds_by_reason = _rejected_rollout_summary(rejected)
     raw_saved_rollout_count = int(materialization.get("saved_rollouts", 0) or 0)
     raw_successful_seed_count = int(materialization.get("successful_seed_count", 0) or 0)
 
     dataset_root = _resolve_repo_path(plan["dataset_root"])
     failure_common = {
+        "run_instance_id": plan.get("run_instance_id"),
+        "plan_version": plan.get("plan_version"),
+        "source_base_commit": plan.get("source_base_commit"),
+        "working_head_commit": plan.get("working_head_commit"),
         "dataset_root": str(dataset_root),
         "dataset_repo_id": str(plan["dataset_repo_id"]),
         "source_canonical_train_cell": plan.get("source_canonical_train_cell"),
         "source_best_train_state_mode": plan.get("source_best_train_state_mode"),
         "active_train_state_mode": plan.get("active_train_state_mode"),
         "active_state_mode_name": plan.get("active_state_mode_name"),
-        "teacher_truth_gate": "trace_window_v1",
+        "teacher_truth_gate": str(plan.get("teacher_truth_gate") or "trace_window_v2"),
         "authoritative_truth_field": "measurement_truthful_for_training",
+        "strict_utility_version": plan.get("strict_utility_version"),
+        "truth_utility_version": plan.get("truth_utility_version"),
+        "teacher_fingerprint_version": plan.get("teacher_fingerprint_version"),
         "raw_saved_rollout_count": raw_saved_rollout_count,
         "raw_successful_seed_count": raw_successful_seed_count,
         "valid_rollout_count": len(valid_rollouts),
@@ -337,39 +580,34 @@ def build_or_refresh_canonical_dataset(plan: dict[str, Any]) -> dict[str, Any]:
         "rejected_by_reason": rejected_by_reason,
         "rejected_seeds_by_reason": rejected_seeds_by_reason,
         "sources_checked": sources_checked,
+        "materialization_ready": materialization_ready,
+        "need_refresh": need_refresh,
         "materialization": materialization,
         "used_rollout_paths": [str(path) for path in valid_rollouts],
+        "strict_semantics_alignment": strict_alignment_report,
     }
 
-    if not valid_rollouts:
+    def _finalize_failure(error: str) -> dict[str, Any]:
+        readiness_report = _write_failed_teacher_readiness_contract(plan, error)
         failure_report = {
             **failure_common,
             "dataset_valid": False,
-            "error": "no_valid_canonical_rollouts_after_validation",
+            "teacher_readiness_passed": False,
+            "teacher_readiness_contract": readiness_report,
+            "error": error,
         }
         write_json_atomic(REJECTED_ROLLOUTS_PATH, {"rejected_rollouts": rejected})
         write_json_atomic(TINY_RETRAIN_DATASET_BUILD_PATH, failure_report)
-        raise SystemExit("No valid canonical rollouts remain after validation")
+        return failure_report
+
+    if not valid_rollouts:
+        return _finalize_failure("no_valid_canonical_rollouts_after_validation")
 
     if raw_saved_rollout_count < min_train_episodes or raw_successful_seed_count < 6:
-        failure_report = {
-            **failure_common,
-            "dataset_valid": False,
-            "error": "insufficient_canonical_bridge_data",
-        }
-        write_json_atomic(REJECTED_ROLLOUTS_PATH, {"rejected_rollouts": rejected})
-        write_json_atomic(TINY_RETRAIN_DATASET_BUILD_PATH, failure_report)
-        raise SystemExit("Canonical rollout materialization failed readiness thresholds")
+        return _finalize_failure("insufficient_canonical_bridge_data")
 
     if len(valid_rollouts) < min_train_episodes or len(unique_valid_seeds) < 6:
-        failure_report = {
-            **failure_common,
-            "dataset_valid": False,
-            "error": "insufficient_trace_truth_adjudicated_bridge_data_after_validation",
-        }
-        write_json_atomic(REJECTED_ROLLOUTS_PATH, {"rejected_rollouts": rejected})
-        write_json_atomic(TINY_RETRAIN_DATASET_BUILD_PATH, failure_report)
-        raise SystemExit("Canonical dataset build failed post-validation truth-window thresholds")
+        return _finalize_failure("insufficient_trace_truth_adjudicated_bridge_data_after_validation")
 
     payload = build_dataset_from_rollouts(valid_rollouts, dataset_root, str(plan["dataset_repo_id"]))
     provenance_report = validate_built_dataset_provenance(dataset_root, plan)
@@ -381,10 +619,19 @@ def build_or_refresh_canonical_dataset(plan: dict[str, Any]) -> dict[str, Any]:
         "dataset_valid": bool(provenance_report.get("dataset_valid", False)),
         "integrity": payload.get("integrity", {}),
     }
+    if not build_report.get("dataset_valid", False):
+        readiness_report = _write_failed_teacher_readiness_contract(plan, "dataset_validation_failed")
+        build_report["teacher_readiness_contract"] = readiness_report
+        build_report["teacher_readiness_passed"] = False
+        write_json_atomic(REJECTED_ROLLOUTS_PATH, {"rejected_rollouts": rejected})
+        write_json_atomic(TINY_RETRAIN_DATASET_BUILD_PATH, build_report)
+        return build_report
+
+    readiness_report = _teacher_readiness_contract(build_report, plan)
+    build_report["teacher_readiness_contract"] = readiness_report
+    build_report["teacher_readiness_passed"] = bool(readiness_report.get("passed", False))
     write_json_atomic(REJECTED_ROLLOUTS_PATH, {"rejected_rollouts": rejected})
     write_json_atomic(TINY_RETRAIN_DATASET_BUILD_PATH, build_report)
-    if not build_report.get("dataset_valid"):
-        raise SystemExit(f"Canonical dataset build failed validation: {build_report.get('errors', [])}")
     return build_report
 
 
@@ -392,7 +639,10 @@ def launch_tiny_retrain(plan: dict[str, Any]) -> dict[str, Any]:
     from run_g8_mint_train import run as run_train
 
     run_train()
-    return load_json(G8_SUMMARY_PATH, {})
+    summary = load_json(G8_SUMMARY_PATH, {})
+    if str(summary.get("run_instance_id") or "") != str(plan.get("run_instance_id") or ""):
+        raise SystemExit("G8 train summary run_instance_id does not match active plan")
+    return summary
 
 
 def _checkpoint_probe_sweep_path(plan: dict[str, Any]) -> Path:
@@ -404,20 +654,24 @@ def _checkpoint_path_for_step(train_output_dir: Path, step: int) -> Path | None:
     return candidate if candidate.exists() else None
 
 
-def _checkpoint_rank_key(result: dict[str, Any]) -> tuple[float, float, float, float, float, int]:
-    ft = (result.get("summary") or {}).get("finetuned_mint", {})
+def _checkpoint_rank_key(result: dict[str, Any]) -> tuple[int, float, float, float, float, float, int]:
     return (
-        float(ft.get("success_rate", 0.0)),
-        float(ft.get("grasp_success_rate", 0.0)),
-        float(ft.get("ever_stable_attach_fraction", 0.0)),
-        float(ft.get("attach_eligible_rate_mean", 0.0)),
-        float(ft.get("phase_locked_rate_mean", 0.0)),
-        int(result.get("checkpoint_step") or 0),
+        1 if bool(result.get("trend_passed", False)) else 0,
+        float(result.get("success_gain", 0.0)),
+        float((result.get("summary") or {}).get("finetuned_mint", {}).get("successes", 0) - (result.get("summary") or {}).get("pretrained_mint", {}).get("successes", 0)),
+        float(result.get("stable_attach_gain", 0.0)),
+        float(result.get("phase_locked_gain", 0.0)),
+        float(result.get("max_drawer_fraction_gain", 0.0)),
+        -int(result.get("checkpoint_step") or 0),
     )
 
 
 def _selected_probe_summary_payload(selected: dict[str, Any], plan: dict[str, Any]) -> dict[str, Any]:
     return {
+        "run_instance_id": plan.get("run_instance_id"),
+        "plan_version": plan.get("plan_version"),
+        "source_base_commit": plan.get("source_base_commit"),
+        "working_head_commit": plan.get("working_head_commit"),
         "eval_max_steps": int(plan.get("evaluation_max_steps", 96)),
         "train_seeds": [int(seed) for seed in plan.get("train_seeds", [])],
         "episodes_per_seed": int(plan.get("evaluation_probe_episodes_per_seed", 3)),
@@ -440,7 +694,13 @@ def _selected_probe_summary_payload(selected: dict[str, Any], plan: dict[str, An
         "min_success_gain": float(plan.get("train_probe_min_success_gain", 0.15)),
         "min_finetuned_successes": int(plan.get("train_probe_min_successes", 2)),
         "success_gain": float(selected.get("success_gain", 0.0)),
+        "ever_attached_rate_gain": float(selected.get("ever_attached_rate_gain", 0.0)),
+        "stable_attach_gain": float(selected.get("stable_attach_gain", 0.0)),
+        "phase_locked_gain": float(selected.get("phase_locked_gain", 0.0)),
+        "max_drawer_fraction_gain": float(selected.get("max_drawer_fraction_gain", 0.0)),
+        "attached_seed_count": int(selected.get("attached_seed_count", 0)),
         "trend_passed": bool(selected.get("trend_passed", False)),
+        "train_probe_claim_pass": bool(selected.get("train_probe_claim_pass", selected.get("trend_passed", False))),
         "attach_bridge_pass": bool(selected.get("attach_bridge_pass", False)),
         "pretrained_dominant_failure_mode": selected.get("pretrained_dominant_failure_mode"),
         "finetuned_dominant_failure_mode": selected.get("finetuned_dominant_failure_mode"),
@@ -479,12 +739,20 @@ def run_train_probe(plan: dict[str, Any], train_summary: dict[str, Any]) -> dict
         raise SystemExit("No checkpoint probe results were produced")
     selected = max(checkpoint_results, key=_checkpoint_rank_key)
     selected_probe = dict(selected)
+    selected_probe["run_instance_id"] = plan.get("run_instance_id")
+    selected_probe["plan_version"] = plan.get("plan_version")
+    selected_probe["source_base_commit"] = plan.get("source_base_commit")
+    selected_probe["working_head_commit"] = plan.get("working_head_commit")
     selected_probe["selected_bridge_checkpoint"] = selected.get("checkpoint_path")
     selected_probe["selected_checkpoint_step"] = selected.get("checkpoint_step")
     selected_probe["summary_path"] = str(_resolve_repo_path(plan["evaluation_dir"]) / "train_seed_probe.json")
     sweep_payload = {
         "gate": "g8_checkpoint_probe_sweep",
         "training_mode": "tiny_retrain_confirmation",
+        "run_instance_id": plan.get("run_instance_id"),
+        "plan_version": plan.get("plan_version"),
+        "source_base_commit": plan.get("source_base_commit"),
+        "working_head_commit": plan.get("working_head_commit"),
         "source_canonical_train_cell": plan.get("source_canonical_train_cell"),
         "source_best_train_state_mode": plan.get("source_best_train_state_mode"),
         "active_train_state_mode": plan.get("active_train_state_mode"),
@@ -500,7 +768,13 @@ def run_train_probe(plan: dict[str, Any], train_summary: dict[str, Any]) -> dict
         "selected_bridge_checkpoint": selected.get("checkpoint_path"),
         "selected_checkpoint_step": selected.get("checkpoint_step"),
         "trend_passed": bool(selected.get("trend_passed", False)),
+        "train_probe_claim_pass": bool(selected.get("train_probe_claim_pass", selected.get("trend_passed", False))),
         "attach_bridge_pass": bool(selected.get("attach_bridge_pass", False)),
+        "ever_attached_rate_gain": float(selected.get("ever_attached_rate_gain", 0.0)),
+        "stable_attach_gain": float(selected.get("stable_attach_gain", 0.0)),
+        "phase_locked_gain": float(selected.get("phase_locked_gain", 0.0)),
+        "max_drawer_fraction_gain": float(selected.get("max_drawer_fraction_gain", 0.0)),
+        "attached_seed_count": int(selected.get("attached_seed_count", 0)),
         "pretrained_dominant_failure_mode": selected.get("pretrained_dominant_failure_mode"),
         "finetuned_dominant_failure_mode": selected.get("finetuned_dominant_failure_mode"),
     }
@@ -513,7 +787,7 @@ def run_train_probe(plan: dict[str, Any], train_summary: dict[str, Any]) -> dict
 def run_heldout_eval(plan: dict[str, Any], train_summary: dict[str, Any], probe_summary: dict[str, Any]) -> dict[str, Any] | None:
     from run_g9_sim_eval import run as run_eval
 
-    if not bool(probe_summary.get("trend_passed", False)):
+    if not bool(probe_summary.get("train_probe_claim_pass", probe_summary.get("trend_passed", False))):
         return None
     if not bool(train_summary.get("passed", False)):
         raise SystemExit("Cannot run held-out eval without a passed train summary")
@@ -532,6 +806,10 @@ def write_skipped_heldout_eval_summary(plan: dict[str, Any], probe_summary: dict
     summary = {
         "gate": "g9_sim_eval",
         "training_mode": "tiny_retrain_confirmation",
+        "run_instance_id": plan.get("run_instance_id"),
+        "plan_version": plan.get("plan_version"),
+        "source_base_commit": plan.get("source_base_commit"),
+        "working_head_commit": plan.get("working_head_commit"),
         "source_canonical_train_cell": plan.get("source_canonical_train_cell"),
         "source_best_train_state_mode": plan.get("source_best_train_state_mode"),
         "canonical_train_cell": plan.get("source_canonical_train_cell"),
@@ -568,6 +846,8 @@ def write_execution_memo(summary: dict[str, Any]) -> None:
         "",
         f"- source canonical cell: `{summary.get('source_canonical_train_cell')}`",
         f"- source best train state: `{summary.get('source_best_train_state_mode')}`",
+        f"- run instance id: `{summary.get('run_instance_id')}`",
+        f"- source base commit: `{summary.get('source_base_commit')}`",
         f"- final verdict: `{summary.get('final_verdict')}`",
         f"- scientific terminal state: `{summary.get('scientific_terminal_state')}`",
         f"- stages executed: `{summary.get('stages_executed')}`",
@@ -592,7 +872,7 @@ def _build_stage_summary(
     eval_summary: dict[str, Any] | None,
 ) -> dict[str, Any]:
     train_passed = bool(train_summary.get("passed", False))
-    train_probe_passed = bool(probe_summary.get("trend_passed", False))
+    train_probe_passed = bool(probe_summary.get("train_probe_claim_pass", probe_summary.get("trend_passed", False)))
     attach_bridge_pass = bool(probe_summary.get("attach_bridge_pass", False))
     heldout_eval_run = bool(eval_summary and eval_summary.get("heldout_eval_run", False))
     claim_supported = bool(heldout_eval_run and eval_summary and eval_summary.get("verdict") == "claim_supported")
@@ -605,6 +885,10 @@ def _build_stage_summary(
     return {
         "bridge_stage": plan.get("bridge_stage"),
         "bridge_attempt": plan.get("bridge_attempt"),
+        "run_instance_id": plan.get("run_instance_id"),
+        "plan_version": plan.get("plan_version"),
+        "source_base_commit": plan.get("source_base_commit"),
+        "working_head_commit": plan.get("working_head_commit"),
         "source_branch": plan.get("source_branch"),
         "source_commit": plan.get("source_commit"),
         "source_canonical_train_cell": plan.get("source_canonical_train_cell"),
@@ -655,15 +939,16 @@ def _run_stage(
         save_freq=save_freq,
         checkpoint_probe_steps=checkpoint_probe_steps,
     )
-    try:
-        dataset_summary = build_or_refresh_canonical_dataset(plan)
-    except SystemExit as exc:
-        dataset_summary = load_json(TINY_RETRAIN_DATASET_BUILD_PATH, {})
+    dataset_summary = build_or_refresh_canonical_dataset(plan)
+    if not bool(dataset_summary.get("dataset_valid", False)) or not bool(dataset_summary.get("teacher_readiness_passed", False)):
         train_summary = {
             "gate": "g8_mint_train",
             "passed": False,
             "error": "dataset_prepare_failed",
-            "reason": str(exc),
+            "reason": str(dataset_summary.get("error") or "dataset_prepare_failed"),
+            "run_instance_id": plan.get("run_instance_id"),
+            "plan_version": plan.get("plan_version"),
+            "source_base_commit": plan.get("source_base_commit"),
             "source_canonical_train_cell": plan.get("source_canonical_train_cell"),
             "source_best_train_state_mode": plan.get("source_best_train_state_mode"),
             "active_train_state_mode": plan.get("active_train_state_mode"),
@@ -697,7 +982,7 @@ def _run_stage(
         )
         return _build_stage_summary(plan, dataset_summary, train_summary, probe_summary, eval_summary)
     probe_summary = run_train_probe(plan, train_summary)
-    if bool(probe_summary.get("trend_passed", False)):
+    if bool(probe_summary.get("train_probe_claim_pass", probe_summary.get("trend_passed", False))):
         eval_summary = run_heldout_eval(plan, train_summary, probe_summary)
     else:
         eval_summary = write_skipped_heldout_eval_summary(plan, probe_summary)
@@ -707,7 +992,11 @@ def _run_stage(
 def _write_loop_summary(history: list[dict[str, Any]], final_verdict: str, scientific_terminal_state: str | None) -> dict[str, Any]:
     last = history[-1] if history else {}
     summary = {
-        "confirmation_mode": "tiny_retrain_completion_loop_v8_2",
+        "confirmation_mode": "tiny_retrain_completion_loop_v8_3",
+        "run_instance_id": last.get("run_instance_id"),
+        "plan_version": last.get("plan_version"),
+        "source_base_commit": last.get("source_base_commit"),
+        "working_head_commit": last.get("working_head_commit"),
         "source_branch": last.get("source_branch"),
         "source_commit": last.get("source_commit"),
         "terminal_commit": TERMINAL_COMMIT,
@@ -739,6 +1028,36 @@ def _write_loop_summary(history: list[dict[str, Any]], final_verdict: str, scien
 def run_completion_loop() -> dict[str, Any]:
     artifacts = load_terminal_artifacts()
     history: list[dict[str, Any]] = []
+    prepare_plan, prepare_dataset = _phase_prepare()
+    if not bool(prepare_dataset.get("dataset_valid", False)) or not bool(prepare_dataset.get("teacher_readiness_passed", False)):
+        history.append(
+            {
+                "bridge_stage": "truth_gate_alignment_s0_prepare",
+                "bridge_attempt": "honest",
+                "run_instance_id": prepare_plan.get("run_instance_id"),
+                "plan_version": prepare_plan.get("plan_version"),
+                "source_base_commit": prepare_plan.get("source_base_commit"),
+                "working_head_commit": prepare_plan.get("working_head_commit"),
+                "source_branch": prepare_plan.get("source_branch"),
+                "source_commit": prepare_plan.get("source_commit"),
+                "source_canonical_train_cell": prepare_plan.get("source_canonical_train_cell", "V1cT2S0"),
+                "source_best_train_state_mode": prepare_plan.get("source_best_train_state_mode", "S0"),
+                "active_train_state_mode": prepare_plan.get("active_train_state_mode", "S0"),
+                "active_state_mode_name": prepare_plan.get("active_state_mode_name"),
+                "dataset_valid": bool(prepare_dataset.get("dataset_valid", False)),
+                "train_passed": False,
+                "train_probe_passed": False,
+                "attach_bridge_pass": False,
+                "heldout_eval_run": False,
+                "claim_supported": False,
+                "stage_verdict": "TEACHER_READINESS_NOT_ESTABLISHED",
+                "dataset_summary": prepare_dataset,
+                "train_summary": {},
+                "probe_summary": {},
+                "eval_summary": {},
+            }
+        )
+        return _write_loop_summary(history, "TEACHER_READINESS_NOT_ESTABLISHED", "TEACHER_READINESS_NOT_ESTABLISHED")
 
     s0_honest = _run_stage(
         artifacts,
@@ -830,7 +1149,7 @@ def main() -> int:
     if args.phase == "prepare":
         plan, dataset_summary = _phase_prepare()
         print(json.dumps({"phase": "prepare", "plan": plan, "dataset_summary": dataset_summary}, indent=2))
-        return 0
+        return 0 if (dataset_summary.get("dataset_valid") and dataset_summary.get("teacher_readiness_passed")) else 1
 
     plan = load_json(TINY_RETRAIN_PLAN_PATH, {})
     dataset_summary = load_json(TINY_RETRAIN_DATASET_BUILD_PATH, {})
@@ -841,6 +1160,9 @@ def main() -> int:
     if args.phase == "train":
         if not plan or not dataset_summary:
             plan, dataset_summary = _phase_prepare()
+        if not bool(dataset_summary.get("dataset_valid", False)) or not bool(dataset_summary.get("teacher_readiness_passed", False)):
+            print(json.dumps(dataset_summary, indent=2))
+            return 1
         train_summary = launch_tiny_retrain(plan)
         print(json.dumps(train_summary, indent=2))
         return 0 if train_summary.get("passed") else 1

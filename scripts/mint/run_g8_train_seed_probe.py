@@ -38,6 +38,7 @@ def _active_state_mode_name(plan: dict[str, Any]) -> str:
 
 def _bridge_delta(ft: dict[str, Any], pt: dict[str, Any]) -> dict[str, float]:
     keys = [
+        "ever_attached_rate",
         "close_cmd_rate_mean",
         "distance_pass_rate_mean",
         "orientation_gate_pass_rate_mean",
@@ -45,6 +46,7 @@ def _bridge_delta(ft: dict[str, Any], pt: dict[str, Any]) -> dict[str, float]:
         "attach_eligible_rate_mean",
         "stable_attach_rate_mean",
         "phase_locked_rate_mean",
+        "max_drawer_fraction_mean",
         "grasp_success_rate",
         "success_rate",
     ]
@@ -73,18 +75,36 @@ def _build_outputs(plan: dict[str, Any], checkpoint_path: str, checkpoint_step: 
     min_success_gain = float(plan.get("train_probe_min_success_gain", 0.15))
     min_finetuned_successes = int(plan.get("train_probe_min_successes", 2))
     success_gain = float(ft["success_rate"] - pt["success_rate"])
-    trend_passed = bool(success_gain >= min_success_gain and ft["successes"] >= min_finetuned_successes)
+    ever_attached_rate_gain = float(
+        ft.get("ever_attached_rate", ft.get("grasp_success_rate", 0.0))
+        - pt.get("ever_attached_rate", pt.get("grasp_success_rate", 0.0))
+    )
+    stable_attach_gain = float(ft.get("ever_stable_attach_fraction", 0.0) - pt.get("ever_stable_attach_fraction", 0.0))
+    phase_locked_gain = float(ft.get("phase_locked_rate_mean", 0.0) - pt.get("phase_locked_rate_mean", 0.0))
+    max_drawer_fraction_gain = float(
+        ft.get("max_drawer_fraction_mean", ft.get("pull_distance_mean", 0.0))
+        - pt.get("max_drawer_fraction_mean", pt.get("pull_distance_mean", 0.0))
+    )
+    attached_seed_count = int(ft.get("attached_seed_count", 0))
+    trend_passed = bool(
+        success_gain >= min_success_gain
+        and int(ft["successes"]) >= int(pt.get("successes", 0)) + min_finetuned_successes
+        and float(ft["success_rate"]) >= 0.20
+    )
     attach_bridge_pass = bool(
-        (float(ft.get("ever_stable_attach_fraction", 0.0)) >= float(pt.get("ever_stable_attach_fraction", 0.0)) + 0.10)
-        or (float(ft.get("grasp_success_rate", 0.0)) >= float(pt.get("grasp_success_rate", 0.0)) + 0.10)
-        or (
-            float(ft.get("attach_eligible_rate_mean", 0.0)) >= float(pt.get("attach_eligible_rate_mean", 0.0)) + 0.10
-            and float(ft.get("distance_pass_rate_mean", 0.0)) >= float(pt.get("distance_pass_rate_mean", 0.0)) + 0.10
-        )
+        ever_attached_rate_gain >= 0.25
+        and stable_attach_gain >= 0.20
+        and phase_locked_gain >= 0.10
+        and max_drawer_fraction_gain >= 0.10
+        and attached_seed_count >= 4
     )
     summary_payload = {
         **summary,
         "training_mode": "tiny_retrain_confirmation",
+        "run_instance_id": plan.get("run_instance_id"),
+        "plan_version": plan.get("plan_version"),
+        "source_base_commit": plan.get("source_base_commit"),
+        "working_head_commit": plan.get("working_head_commit"),
         "source_canonical_train_cell": _source_canonical_train_cell(plan),
         "source_best_train_state_mode": _source_best_train_state_mode(plan),
         "canonical_train_cell": _source_canonical_train_cell(plan),
@@ -103,7 +123,13 @@ def _build_outputs(plan: dict[str, Any], checkpoint_path: str, checkpoint_step: 
         "min_success_gain": min_success_gain,
         "min_finetuned_successes": min_finetuned_successes,
         "success_gain": success_gain,
+        "ever_attached_rate_gain": ever_attached_rate_gain,
+        "stable_attach_gain": stable_attach_gain,
+        "phase_locked_gain": phase_locked_gain,
+        "max_drawer_fraction_gain": max_drawer_fraction_gain,
+        "attached_seed_count": attached_seed_count,
         "trend_passed": trend_passed,
+        "train_probe_claim_pass": trend_passed,
         "attach_bridge_pass": attach_bridge_pass,
         "pretrained_dominant_failure_mode": pt.get("dominant_failure_mode"),
         "finetuned_dominant_failure_mode": ft.get("dominant_failure_mode"),
@@ -112,6 +138,10 @@ def _build_outputs(plan: dict[str, Any], checkpoint_path: str, checkpoint_step: 
     result = {
         "gate": "g8_train_seed_probe",
         "training_mode": "tiny_retrain_confirmation",
+        "run_instance_id": plan.get("run_instance_id"),
+        "plan_version": plan.get("plan_version"),
+        "source_base_commit": plan.get("source_base_commit"),
+        "working_head_commit": plan.get("working_head_commit"),
         "source_canonical_train_cell": _source_canonical_train_cell(plan),
         "source_best_train_state_mode": _source_best_train_state_mode(plan),
         "canonical_train_cell": _source_canonical_train_cell(plan),
@@ -130,12 +160,18 @@ def _build_outputs(plan: dict[str, Any], checkpoint_path: str, checkpoint_step: 
         "min_success_gain": min_success_gain,
         "min_finetuned_successes": min_finetuned_successes,
         "success_gain": success_gain,
+        "ever_attached_rate_gain": ever_attached_rate_gain,
+        "stable_attach_gain": stable_attach_gain,
+        "phase_locked_gain": phase_locked_gain,
+        "max_drawer_fraction_gain": max_drawer_fraction_gain,
+        "attached_seed_count": attached_seed_count,
         "trend_passed": trend_passed,
+        "train_probe_claim_pass": trend_passed,
         "attach_bridge_pass": attach_bridge_pass,
         "pretrained_dominant_failure_mode": pt.get("dominant_failure_mode"),
         "finetuned_dominant_failure_mode": ft.get("dominant_failure_mode"),
         "bridge_delta": _bridge_delta(ft, pt),
-        "passed": trend_passed,
+        "passed": bool(trend_passed or attach_bridge_pass),
         **summary,
         "timestamp": time.time(),
     }
@@ -154,11 +190,17 @@ def run(
     if not plan:
         raise SystemExit(f"Missing active tiny retrain plan: {TINY_RETRAIN_PLAN_PATH}")
     g8 = load_json(G8_ARTIFACT, {})
+    if g8 and str(g8.get("run_instance_id") or "") != str(plan.get("run_instance_id") or ""):
+        raise SystemExit("G8 train summary run_instance_id does not match active plan")
     checkpoint_path = checkpoint_path_override or g8.get("checkpoint_path")
     if not checkpoint_path:
         result = {
             "gate": "g8_train_seed_probe",
             "training_mode": "tiny_retrain_confirmation",
+            "run_instance_id": plan.get("run_instance_id"),
+            "plan_version": plan.get("plan_version"),
+            "source_base_commit": plan.get("source_base_commit"),
+            "working_head_commit": plan.get("working_head_commit"),
             "source_canonical_train_cell": _source_canonical_train_cell(plan),
             "active_train_state_mode": _active_train_state_mode(plan),
             "probe_seeds": plan.get("train_seeds", []),
@@ -166,6 +208,11 @@ def run(
             "min_finetuned_successes": int(plan.get("train_probe_min_successes", 2)),
             "trend_passed": False,
             "attach_bridge_pass": False,
+            "ever_attached_rate_gain": 0.0,
+            "stable_attach_gain": 0.0,
+            "phase_locked_gain": 0.0,
+            "max_drawer_fraction_gain": 0.0,
+            "attached_seed_count": 0,
             "passed": False,
             "error": "Missing fine-tuned checkpoint",
             "checkpoint_path": None,

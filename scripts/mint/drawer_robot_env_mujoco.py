@@ -19,8 +19,13 @@ from scipy.spatial.transform import Rotation as R
 
 from mint_common import write_text_atomic
 
-os.environ.setdefault("MUJOCO_GL", "egl")
-os.environ.setdefault("PYOPENGL_PLATFORM", "egl")
+if os.environ.get("DISPLAY"):
+    os.environ.setdefault("MUJOCO_GL", "egl")
+    os.environ.setdefault("PYOPENGL_PLATFORM", "egl")
+else:
+    os.environ.setdefault("MUJOCO_GL", "osmesa")
+    if os.environ.get("MUJOCO_GL") == "osmesa" and os.environ.get("PYOPENGL_PLATFORM") in {None, "", "egl"}:
+        os.environ["PYOPENGL_PLATFORM"] = "osmesa"
 
 PROJECT_ROOT = Path("/mnt/afs2/zhuhaowu/infinigen")
 DRAWER_ROOT = PROJECT_ROOT / "sim_exports" / "urdf" / "drawer"
@@ -2041,6 +2046,7 @@ def _script_action(
     rotation_source: RotationSource = "zero",
     rng: np.random.Generator | None = None,
     phase: str = "pull",
+    orientation_gain: float = 1.0,
 ) -> np.ndarray:
     delta = np.zeros(7, dtype=np.float32)
     pos_err = target_pos - current_pos
@@ -2051,12 +2057,76 @@ def _script_action(
         target_rot = R.from_quat(target_quat)
         rotvec = (target_rot * current_rot.inv()).as_rotvec().astype(np.float32)
         phase_gain = 0.55 if phase in {"pregrasp", "contact"} else (0.85 if phase == "close" else 1.0)
-        delta[3:6] = np.clip((rotvec / max(ROTATION_SCALE_RAD, 1e-6)) * phase_gain, -ROT_ACTION_CLIP, ROT_ACTION_CLIP)
+        delta[3:6] = np.clip((rotvec / max(ROTATION_SCALE_RAD, 1e-6)) * phase_gain * float(orientation_gain), -ROT_ACTION_CLIP, ROT_ACTION_CLIP)
     elif rotation_source == "random":
         rand = (rng or np.random.default_rng()).normal(loc=0.0, scale=CONTROL_ROT_STD).astype(np.float32)
         delta[3:6] = np.clip(rand / max(ROTATION_SCALE_RAD, 1e-6), -ROT_ACTION_CLIP, ROT_ACTION_CLIP)
     delta[6] = -1.0 if close else 1.0
     return delta.astype(np.float32)
+
+
+def _apply_assay_warm_start(env: DrawerRobotEnvMuJoCo, warm_start_kind: str | None) -> tuple[MuJoCoRobotObservation, str]:
+    kind = str(warm_start_kind or "").strip().lower()
+    if not kind:
+        return env.observe(), "pregrasp"
+
+    handle, runtime_handle_anchor_valid = env._interaction_handle_target_world()
+    axis = env._motion_axis.astype(np.float32)
+    contact_target = handle + np.array([0.0, 0.0, 0.005], dtype=np.float32)
+    staged_contact_target = handle - axis * 0.008 + np.array([0.0, 0.0, 0.005], dtype=np.float32)
+    pull_target = handle + axis * 0.03 + np.array([0.0, 0.0, 0.005], dtype=np.float32)
+    aligned_quat = _target_quat(staged_contact_target, pull_target, axis)
+
+    env.eef_pos = (staged_contact_target if kind == "contact_aligned" else contact_target).astype(np.float32)
+    env.eef_quat = aligned_quat.astype(np.float32)
+    env.gripper_joint = GRIPPER_CLOSED
+    env._contact_window = [1.0] * 6
+    env._runtime_handle_anchor_world = handle.astype(np.float32)
+    env._runtime_handle_anchor_valid = bool(runtime_handle_anchor_valid)
+    env._last_detach_reason = None
+
+    if kind == "contact_aligned":
+        env._attached = False
+        env._stable_attach = False
+        env._attach_streak = 2
+        env._anchor_handle_offset_world = None
+        env._anchor_eef_pull_progress = 0.0
+        env._prev_pull_progress = 0.0
+        env._orientation_break_streak = 0
+        env._slip_break_streak = 0
+        env._reverse_pull_streak = 0
+        return env.observe(), "close"
+
+    if kind == "attached_phase_locked":
+        env._attached = True
+        env._stable_attach = True
+        env._attach_streak = 3
+        env._anchor_handle_offset_world = (handle - env.eef_pos).astype(np.float32)
+        env._anchor_eef_pull_progress = float(np.dot(env.eef_pos, env._motion_axis))
+        env._prev_pull_progress = 0.0
+        env._orientation_break_streak = 0
+        env._slip_break_streak = 0
+        env._reverse_pull_streak = 0
+        return env.observe(), "phase_lock_settle"
+
+    raise ValueError(f"unsupported_assay_warm_start_kind={warm_start_kind}")
+
+
+def _opening_servo_offsets(base_offset: float) -> list[float]:
+    raw = [
+        max(0.01, base_offset * 0.5),
+        max(0.02, base_offset),
+        max(0.04, base_offset * 1.5),
+        max(0.06, base_offset * 2.0),
+        max(0.08, base_offset * 2.5),
+        max(0.10, base_offset * 3.0),
+    ]
+    offsets: list[float] = []
+    for value in raw:
+        clipped = round(float(np.clip(value, 0.01, 0.14)), 4)
+        if not offsets or abs(clipped - offsets[-1]) > 1e-6:
+            offsets.append(clipped)
+    return offsets or [0.02, 0.04, 0.06, 0.08, 0.10]
 
 
 def build_robot_rollout(
@@ -2073,6 +2143,7 @@ def build_robot_rollout(
     rotation_source: RotationSource = "zero",
     claim_policy: str | None = None,
     interventions: dict[str, Any] | None = None,
+    assay_warm_start_kind: str | None = None,
 ) -> dict[str, Any]:
     env = DrawerRobotEnvMuJoCo(seed=seed, image_size=image_size, max_steps=max_steps, contract=contract)
     obs = env.reset()
@@ -2086,6 +2157,11 @@ def build_robot_rollout(
     rng = np.random.default_rng(seed + episode_index)
     intervention_cfg = dict(interventions or {})
     force_detach_probe = bool(intervention_cfg.get('force_detach_probe', False))
+    close_settle_steps = max(0, int(intervention_cfg.get("close_settle_steps", 4) or 0))
+    pull_speed = float(intervention_cfg.get("pull_speed", 0.30) or 0.30)
+    pull_target_offset = float(intervention_cfg.get("pull_target_offset_along_axis", 0.03) or 0.03)
+    micro_retract_before_pull = max(0.0, float(intervention_cfg.get("micro_retract_before_pull", 0.0) or 0.0))
+    orientation_hold_gain = float(intervention_cfg.get("orientation_hold_gain", 1.0) or 1.0)
 
     images, images2, states, actions, rewards = [], [], [], [], []
     abs_drawer, next_drawer, attached_trace, handle_distance_trace = [], [], [], []
@@ -2106,11 +2182,25 @@ def build_robot_rollout(
     attach_step = None
     success = False
     close_hold_steps = 0
+    micro_retract_phase_steps = 0
+    micro_retract_done = micro_retract_before_pull <= 0.0
     stable_attach_run = 0
     force_detach_steps_remaining = 0
     joint_span = max(float(env.joint_range[1] - env.joint_range[0]), 1e-6)
+    opening_servo_stage_idx = 0
+    opening_servo_offsets = _opening_servo_offsets(pull_target_offset)
+    opening_hold_steps = 0
+    opening_positive_streak = 0
+    opening_stall_steps = 0
+    opening_reacquire_count = 0
+    phase_lock_settle_steps = 0
+    last_drawer_delta_effective = 0.0
+    last_phase_locked = False
+    last_grasp_slip_norm = 0.0
 
     phase = "pregrasp"
+    if assay_warm_start_kind:
+        obs, phase = _apply_assay_warm_start(env, assay_warm_start_kind)
     try:
         for step_idx in range(max_steps):
             images.append(obs.image.copy())
@@ -2124,26 +2214,118 @@ def build_robot_rollout(
             handle, _ = env._interaction_handle_target_world()
             pregrasp_target = handle - axis * 0.04 + np.array([0.0, 0.0, 0.03], dtype=np.float32)
             contact_target = handle + np.array([0.0, 0.0, 0.005], dtype=np.float32)
-            pull_target = handle + axis * 0.03 + np.array([0.0, 0.0, 0.005], dtype=np.float32)
+            micro_retract_target = handle - axis * micro_retract_before_pull + np.array([0.0, 0.0, 0.005], dtype=np.float32)
+            pull_target = handle + axis * pull_target_offset + np.array([0.0, 0.0, 0.005], dtype=np.float32)
             retreat_target = handle + axis * 0.10 + np.array([0.0, 0.0, 0.05], dtype=np.float32)
 
             if env._attached and attach_step is None:
                 attach_step = step_idx
-            if env._attached and phase in {"pregrasp", "contact", "close"}:
-                phase = "pull"
+            if env._attached and phase in {"pregrasp", "contact"}:
+                phase = "phase_lock_settle"
+                phase_lock_settle_steps = 0
+                opening_servo_stage_idx = 0
+                opening_hold_steps = 0
+                opening_positive_streak = 0
+                opening_stall_steps = 0
             elif phase == "pregrasp" and np.linalg.norm(obs.eef_pos - pregrasp_target) < 0.02:
                 phase = "contact"
             elif phase == "contact" and np.linalg.norm(obs.eef_pos - handle) < 0.03:
                 phase = "close"
                 close_hold_steps = 0
+                micro_retract_phase_steps = 0
             elif phase == "close":
                 close_hold_steps += 1
-                if close_hold_steps >= 4:
-                    phase = "pull" if env._attached else "contact"
+                if close_settle_steps <= 0 or close_hold_steps >= close_settle_steps:
+                    if env._attached and not micro_retract_done and micro_retract_before_pull > 0.0:
+                        phase = "micro_retract"
+                        micro_retract_phase_steps = 0
+                    elif env._attached:
+                        phase = "phase_lock_settle"
+                        phase_lock_settle_steps = 0
+                        opening_servo_stage_idx = 0
+                        opening_hold_steps = 0
+                        opening_positive_streak = 0
+                        opening_stall_steps = 0
+                    else:
+                        phase = "contact"
                     close_hold_steps = 0
-            elif phase == "pull" and not env._attached:
+            elif phase == "micro_retract":
+                micro_retract_phase_steps += 1
+                if np.linalg.norm(obs.eef_pos - micro_retract_target) < 0.015 or micro_retract_phase_steps >= 2:
+                    micro_retract_done = True
+                    if env._attached:
+                        phase = "phase_lock_settle"
+                        phase_lock_settle_steps = 0
+                        opening_servo_stage_idx = 0
+                        opening_hold_steps = 0
+                        opening_positive_streak = 0
+                        opening_stall_steps = 0
+                    else:
+                        phase = "contact"
+            elif phase == "phase_lock_settle" and not env._attached:
                 phase = "contact"
-            elif phase == "pull" and obs.drawer_fraction >= open_fraction:
+            elif phase == "phase_lock_settle":
+                phase_lock_settle_steps += 1
+                if last_phase_locked and phase_lock_settle_steps >= 3:
+                    phase = "opening_ramp"
+                    opening_servo_stage_idx = 0
+                    opening_positive_streak = 0
+                    opening_hold_steps = 0
+                    opening_stall_steps = 0
+            elif phase == "opening_ramp" and not env._attached:
+                phase = "contact"
+            elif phase == "opening_ramp":
+                if obs.drawer_fraction >= open_fraction:
+                    phase = "retreat"
+                elif last_drawer_delta_effective > 1e-4:
+                    opening_positive_streak += 1
+                    opening_stall_steps = 0
+                    if opening_positive_streak >= 2:
+                        phase = "opening_hold"
+                        opening_hold_steps = 0
+                else:
+                    opening_positive_streak = 0
+                    opening_stall_steps += 1
+                    if opening_stall_steps >= 2:
+                        if opening_servo_stage_idx < len(opening_servo_offsets) - 1:
+                            opening_servo_stage_idx += 1
+                            opening_stall_steps = 0
+                        elif opening_reacquire_count < 1:
+                            opening_reacquire_count += 1
+                            phase = "reacquire"
+                            micro_retract_phase_steps = 0
+            elif phase == "opening_hold" and not env._attached:
+                phase = "contact"
+            elif phase == "opening_hold":
+                opening_hold_steps += 1
+                if obs.drawer_fraction >= open_fraction:
+                    phase = "retreat"
+                elif last_drawer_delta_effective > 1e-4:
+                    opening_stall_steps = 0
+                else:
+                    opening_stall_steps += 1
+                if opening_hold_steps >= 3 and opening_stall_steps >= 2:
+                    if opening_servo_stage_idx < len(opening_servo_offsets) - 1:
+                        opening_servo_stage_idx += 1
+                        opening_hold_steps = 0
+                        opening_positive_streak = 0
+                        opening_stall_steps = 0
+                        phase = "opening_ramp"
+                    elif opening_reacquire_count < 1:
+                        opening_reacquire_count += 1
+                        phase = "reacquire"
+                        micro_retract_phase_steps = 0
+            elif phase == "reacquire":
+                micro_retract_phase_steps += 1
+                if np.linalg.norm(obs.eef_pos - micro_retract_target) < 0.015 or micro_retract_phase_steps >= 2:
+                    if env._attached:
+                        phase = "phase_lock_settle"
+                        phase_lock_settle_steps = 0
+                        opening_positive_streak = 0
+                        opening_stall_steps = 0
+                    else:
+                        phase = "contact"
+            elif phase in {"phase_lock_settle", "opening_ramp", "opening_hold"} and obs.drawer_fraction >= open_fraction:
                 phase = "retreat"
 
             stable_attach_run = stable_attach_run + 1 if bool(env._stable_attach) else 0
@@ -2156,8 +2338,18 @@ def build_robot_rollout(
                 target_pos, close, speed = contact_target, False, 0.45
             elif phase == "close":
                 target_pos, close, speed = contact_target, True, 0.25
-            elif phase == "pull":
-                target_pos, close, speed = pull_target, True, 0.30
+            elif phase == "micro_retract":
+                target_pos, close, speed = micro_retract_target, True, 0.20
+            elif phase == "phase_lock_settle":
+                target_pos, close, speed = contact_target, True, 0.18
+            elif phase == "opening_ramp":
+                target_pos = handle + axis * opening_servo_offsets[opening_servo_stage_idx] + np.array([0.0, 0.0, 0.005], dtype=np.float32)
+                close, speed = True, max(0.16, min(pull_speed, 0.24))
+            elif phase == "opening_hold":
+                target_pos = handle + axis * opening_servo_offsets[opening_servo_stage_idx] + np.array([0.0, 0.0, 0.005], dtype=np.float32)
+                close, speed = True, max(0.10, min(pull_speed * 0.8, 0.20))
+            elif phase == "reacquire":
+                target_pos, close, speed = micro_retract_target, True, 0.18
             else:
                 target_pos, close, speed = retreat_target, False, 0.55
 
@@ -2171,6 +2363,7 @@ def build_robot_rollout(
                 rotation_source=rotation_source,
                 rng=rng,
                 phase=phase,
+                orientation_gain=orientation_hold_gain,
             )
             phase_label = phase
             if force_detach_steps_remaining > 0:
@@ -2184,6 +2377,7 @@ def build_robot_rollout(
                     rotation_source="random",
                     rng=rng,
                     phase="forced_detach",
+                    orientation_gain=1.0,
                 )
                 force_detach_steps_remaining -= 1
                 phase_label = 'forced_detach'
@@ -2198,7 +2392,8 @@ def build_robot_rollout(
             attach_eligible_trace.append(bool(info.get("attach_eligible", False)))
             orientation_gate_trace.append(bool(info.get("orientation_gate_passed", True)))
             drawer_delta_raw_trace.append(float(info.get("drawer_delta_raw", 0.0)))
-            drawer_delta_effective_trace.append(float(info.get("drawer_delta_effective", 0.0)))
+            last_drawer_delta_effective = float(info.get("drawer_delta_effective", 0.0))
+            drawer_delta_effective_trace.append(last_drawer_delta_effective)
             orientation_error_trace.append(float(info.get("orientation_error_rad", 0.0)))
             pull_alignment_trace.append(float(info.get("pull_alignment_cos", 0.0)))
             stable_attach_trace.append(bool(info.get("stable_attach", False)))
@@ -2206,9 +2401,11 @@ def build_robot_rollout(
             contact_window_fraction_trace.append(float(info.get("contact_window_fraction", 0.0)))
             runtime_handle_anchor_valid_trace.append(bool(info.get("runtime_handle_anchor_valid", False)))
             runtime_handle_anchor_world_trace.append(np.asarray(info.get("runtime_handle_anchor_world", [0.0, 0.0, 0.0]), dtype=np.float32))
-            phase_locked_trace.append(bool(info.get("phase_locked", False)))
+            last_phase_locked = bool(info.get("phase_locked", False))
+            phase_locked_trace.append(last_phase_locked)
             raw_grasp_slip_trace.append(float(info.get("raw_grasp_slip", 0.0)))
-            grasp_slip_norm_trace.append(float(info.get("grasp_slip_norm", 0.0)))
+            last_grasp_slip_norm = float(info.get("grasp_slip_norm", 0.0))
+            grasp_slip_norm_trace.append(last_grasp_slip_norm)
             pull_progress_trace.append(float(info.get("pull_progress", 0.0)))
             pull_increment_trace.append(float(info.get("pull_increment", 0.0)))
             effective_pull_progress = float(info.get("effective_pull_progress", 0.0))
@@ -2297,6 +2494,7 @@ def build_robot_rollout(
             "robot_in_loop": True,
             "interaction_mode": env.contract.interaction_mode,
             "interventions": intervention_cfg,
+            "assay_warm_start_kind": assay_warm_start_kind,
         },
         "contract_config": env.contract_payload(),
         "state_spec": _json_ready(state_spec),
@@ -2374,6 +2572,16 @@ def save_robot_rollout(path: Path, rollout: dict[str, Any]) -> None:
         "source_best_train_state_mode": rollout.get("source_best_train_state_mode"),
         "active_train_state_mode": rollout.get("active_train_state_mode"),
         "active_state_mode_name": rollout.get("active_state_mode_name"),
+        "run_instance_id": rollout.get("run_instance_id"),
+        "plan_version": rollout.get("plan_version"),
+        "source_base_commit": rollout.get("source_base_commit"),
+        "working_head_commit": rollout.get("working_head_commit"),
+        "bridge_stage": rollout.get("bridge_stage"),
+        "bridge_attempt": rollout.get("bridge_attempt"),
+        "strict_utility_version": rollout.get("strict_utility_version"),
+        "truth_utility_version": rollout.get("truth_utility_version"),
+        "teacher_fingerprint_version": rollout.get("teacher_fingerprint_version"),
+        "teacher_truth_gate": rollout.get("teacher_truth_gate"),
         "strict_success_version": rollout.get("strict_success_version"),
         "strict_metrics": rollout.get("strict_metrics", {}),
         "measurement_truthful": rollout.get("measurement_truthful"),
@@ -2383,7 +2591,12 @@ def save_robot_rollout(path: Path, rollout: dict[str, Any]) -> None:
         "measurement_truthful_for_training": rollout.get("measurement_truthful_for_training"),
         "teacher_truth_adjudication": rollout.get("teacher_truth_adjudication"),
         "teacher_truthful_window_frame_count": rollout.get("teacher_truthful_window_frame_count"),
+        "truthful_window_ratio": rollout.get("truthful_window_ratio"),
+        "truthful_window_longest_interior_gap": rollout.get("truthful_window_longest_interior_gap"),
+        "truthful_window_tail_truthful_count_last6": rollout.get("truthful_window_tail_truthful_count_last6"),
         "bridge_in_truthful_window": rollout.get("bridge_in_truthful_window"),
+        "teacher_episode_class": rollout.get("teacher_episode_class"),
+        "teacher_fingerprint": rollout.get("teacher_fingerprint"),
         "final_snapshot_measurement_truthful": rollout.get("final_snapshot_measurement_truthful"),
         "final_snapshot_measurement_truth_tier": rollout.get("final_snapshot_measurement_truth_tier"),
         "canonical_training_truth": rollout.get("canonical_training_truth", {}),

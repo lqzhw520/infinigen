@@ -7,6 +7,7 @@ import json
 import os
 import shutil
 import time
+import hashlib
 from dataclasses import replace
 from pathlib import Path
 from typing import Any
@@ -34,6 +35,9 @@ DEFAULT_EPISODES_PER_SEED = 12
 MIN_SUCCESSFUL_SEEDS = 6
 TRUTHFUL_WINDOW_MIN_FRAMES = 16
 TERMINAL_COMMIT = "5aaf117b66902219ac997082763fb4e2ea8891b3"
+STRICT_UTILITY_VERSION = STRICT_SUCCESS_VERSION
+TRUTH_UTILITY_VERSION = "trace_window_v2"
+TEACHER_FINGERPRINT_VERSION = "v8_3_fingerprint_v1"
 STATE_MODE_MAP = {
     "S0": "m0_proxy",
     "S1": "telemetry_candidate_v3_transition",
@@ -157,7 +161,10 @@ def dataset_guard(expected: dict[str, Any]) -> tuple[bool, dict[str, Any]]:
 
 
 def _strict_rollout_summary(rollout: dict[str, Any]) -> dict[str, Any]:
-    drawer_trace = np.asarray(rollout.get("absolute_drawer_fraction", []), dtype=np.float32).reshape(-1)
+    drawer_trace = np.asarray(
+        rollout.get("next_drawer_fractions", rollout.get("absolute_drawer_fraction", [])),
+        dtype=np.float32,
+    ).reshape(-1)
     attached_trace = np.asarray(rollout.get("attached_trace", []), dtype=bool).reshape(-1)
     if drawer_trace.size:
         strict = evaluate_strict_success(drawer_trace, attached_trace)
@@ -184,13 +191,37 @@ def _contiguous_true_runs(mask: np.ndarray) -> list[tuple[int, int]]:
     return runs
 
 
-def _canonical_training_truth_summary(rollout: dict[str, Any]) -> dict[str, Any]:
-    trace = list(rollout.get("handle_probe_metadata_trace") or [])
-    n_frames = len(trace)
-    truthful_mask = np.asarray(
-        [bool((item or {}).get("measurement_truthful", False)) for item in trace],
-        dtype=bool,
-    )
+def _mask_empty_probe(item: dict[str, Any]) -> bool:
+    seg_present = "segmentation_mask_support_rate_secondary" in item
+    iso_present = "isolated_mask_support_rate_secondary" in item
+    seg_empty = seg_present and float(item.get("segmentation_mask_support_rate_secondary", 0.0) or 0.0) <= 0.0
+    iso_empty = iso_present and float(item.get("isolated_mask_support_rate_secondary", 0.0) or 0.0) <= 0.0
+    return bool(seg_empty or iso_empty)
+
+
+def _truth_gap_metrics(mask: np.ndarray, start: int, end: int) -> tuple[int, int, int]:
+    if end <= start:
+        return 0, 0, 0
+    window = mask[start:end]
+    truthful_ratio = float(window.mean()) if window.size else 0.0
+    longest_gap = 0
+    gap = 0
+    for idx, flag in enumerate(window.tolist()):
+        if flag:
+            gap = 0
+            continue
+        is_interior = idx > 0 and idx < (len(window) - 1)
+        if is_interior:
+            gap += 1
+            longest_gap = max(longest_gap, gap)
+        else:
+            gap = 0
+    tail = window[-6:] if window.size >= 6 else window
+    tail_truthful = int(np.sum(tail)) if tail.size else 0
+    return int(longest_gap), int(tail_truthful), int(round(truthful_ratio * 1000))
+
+
+def _bridge_interval(rollout: dict[str, Any], n_frames: int) -> tuple[int | None, int | None, np.ndarray]:
     phase_locked = np.zeros(n_frames, dtype=bool)
     raw_phase_locked = np.asarray(rollout.get("phase_locked_trace", []), dtype=np.float32).reshape(-1)
     if raw_phase_locked.size:
@@ -200,42 +231,79 @@ def _canonical_training_truth_summary(rollout: dict[str, Any]) -> dict[str, Any]
     if raw_pull.size:
         effective_pull[: min(n_frames, raw_pull.size)] = raw_pull[: min(n_frames, raw_pull.size)] > 0
     bridge_mask = np.logical_or(phase_locked, effective_pull)
-    qualifying_runs: list[tuple[int, int]] = []
-    for start, end in _contiguous_true_runs(truthful_mask):
-        if bool(np.any(bridge_mask[start:end])):
-            qualifying_runs.append((start, end))
-    best_run = max(qualifying_runs, key=lambda item: (item[1] - item[0], -item[0]), default=None)
-    runtime_handle_anchor_valid = bool(rollout.get("runtime_handle_anchor_valid", False))
+    if not bool(np.any(bridge_mask)):
+        return None, None, bridge_mask
+    indices = np.flatnonzero(bridge_mask)
+    return int(indices[0]), int(indices[-1] + 1), bridge_mask
+
+
+def _canonical_training_truth_summary(rollout: dict[str, Any]) -> dict[str, Any]:
+    trace = list(rollout.get("handle_probe_metadata_trace") or [])
+    n_frames = len(trace)
+    truthful_mask = np.asarray(
+        [bool((item or {}).get("measurement_truthful", False)) for item in trace],
+        dtype=bool,
+    )
+    anchor_trace = np.asarray(rollout.get("runtime_handle_anchor_valid_trace", []), dtype=bool).reshape(-1)
+    bridge_start, bridge_end, bridge_mask = _bridge_interval(rollout, n_frames)
+    runtime_handle_anchor_valid = bool(anchor_trace.any()) if anchor_trace.size else bool(rollout.get("runtime_handle_anchor_valid", False))
     final_probe = dict(rollout.get("handle_probe_metadata") or {})
+    mask_empty_count = int(sum(1 for item in trace if _mask_empty_probe(item or {})))
+    anchor_invalid_count = int(np.sum(~anchor_trace[:n_frames])) if anchor_trace.size else int(sum(1 for item in trace if not bool((item or {}).get("runtime_handle_anchor_valid", runtime_handle_anchor_valid))))
     summary: dict[str, Any] = {
-        "teacher_truth_adjudication": "trace_window_v1",
+        "teacher_truth_adjudication": "trace_window_v2",
         "truthful_step_count": int(truthful_mask.sum()),
         "truthful_step_ratio": float(float(truthful_mask.mean()) if truthful_mask.size else 0.0),
         "truthful_window_start": None,
         "truthful_window_end": None,
         "truthful_window_frame_count": 0,
+        "truthful_window_ratio": 0.0,
+        "truthful_window_longest_interior_gap": 0,
+        "truthful_window_tail_truthful_count_last6": 0,
         "bridge_in_truthful_window": False,
         "measurement_truthful_for_training": False,
         "runtime_handle_anchor_valid": runtime_handle_anchor_valid,
+        "truthful_window_interval_mask_empty": False,
+        "truthful_window_interval_anchor_invalid": False,
+        "bridge_start": bridge_start,
+        "bridge_end": None if bridge_end is None else int(max(bridge_end - 1, bridge_start or 0)),
+        "mask_empty_count": mask_empty_count,
+        "anchor_invalid_count": anchor_invalid_count,
         "final_snapshot_measurement_truthful": bool(final_probe.get("measurement_truthful", False)),
         "final_snapshot_measurement_truth_tier": final_probe.get("measurement_truth_tier"),
     }
-    if best_run is None:
+    if bridge_start is None or bridge_end is None or bridge_end <= bridge_start:
         return summary
-    start, end = best_run
-    window_count = int(end - start)
-    bridge_in_window = bool(np.any(bridge_mask[start:end]))
+    window_mask = truthful_mask[bridge_start:bridge_end]
+    window_count = int(bridge_end - bridge_start)
+    truthful_ratio = float(window_mask.mean()) if window_mask.size else 0.0
+    longest_gap, tail_truthful, _ = _truth_gap_metrics(truthful_mask, bridge_start, bridge_end)
+    interval_trace = trace[bridge_start:bridge_end]
+    interval_mask_empty = any(_mask_empty_probe(item or {}) for item in interval_trace)
+    interval_anchor_invalid = bool(np.any(~anchor_trace[bridge_start:bridge_end])) if anchor_trace.size else any(not bool((item or {}).get("runtime_handle_anchor_valid", runtime_handle_anchor_valid)) for item in interval_trace)
+    bridge_in_window = bool(np.any(bridge_mask[bridge_start:bridge_end]))
+    measurement_truthful_for_training = bool(
+        window_count >= TRUTHFUL_WINDOW_MIN_FRAMES
+        and truthful_ratio >= 0.80
+        and longest_gap <= 2
+        and tail_truthful >= min(5, window_count)
+        and bridge_in_window
+        and (not anchor_trace.size or runtime_handle_anchor_valid)
+        and not interval_mask_empty
+        and not interval_anchor_invalid
+    )
     summary.update(
         {
-            "truthful_window_start": int(start),
-            "truthful_window_end": int(end),
+            "truthful_window_start": int(bridge_start),
+            "truthful_window_end": int(bridge_end),
             "truthful_window_frame_count": window_count,
+            "truthful_window_ratio": truthful_ratio,
+            "truthful_window_longest_interior_gap": int(longest_gap),
+            "truthful_window_tail_truthful_count_last6": int(tail_truthful),
             "bridge_in_truthful_window": bridge_in_window,
-            "measurement_truthful_for_training": bool(
-                window_count >= TRUTHFUL_WINDOW_MIN_FRAMES
-                and bridge_in_window
-                and runtime_handle_anchor_valid
-            ),
+            "truthful_window_interval_mask_empty": bool(interval_mask_empty),
+            "truthful_window_interval_anchor_invalid": bool(interval_anchor_invalid),
+            "measurement_truthful_for_training": measurement_truthful_for_training,
         }
     )
     return summary
@@ -259,6 +327,41 @@ def _slice_rollout_to_training_window(rollout: dict[str, Any], start: int, end: 
     return sliced
 
 
+def _teacher_episode_class(rollout: dict[str, Any]) -> str:
+    strict = dict(rollout.get("strict_metrics") or {})
+    truth = dict(rollout.get("canonical_training_truth") or {})
+    truth_ok = bool(truth.get("measurement_truthful_for_training", False))
+    if bool(strict.get("strict_success", False)) and truth_ok:
+        return "strict_teacher"
+    near_ok = bool(
+        truth_ok
+        and bool(truth.get("runtime_handle_anchor_valid", False))
+        and bool(strict.get("ever_attached", False))
+        and int(strict.get("attach_persistence", 0) or 0) >= 3
+        and float(strict.get("post_attach_drawer_delta", 0.0) or 0.0) >= 0.35
+        and float(strict.get("max_drawer_fraction", 0.0) or 0.0) >= 0.85
+    )
+    return "near_strict_teacher" if near_ok else "rejected_teacher"
+
+
+def _teacher_fingerprint(rollout: dict[str, Any]) -> str:
+    strict = dict(rollout.get("strict_metrics") or {})
+    truth = dict(rollout.get("canonical_training_truth") or {})
+    phase_labels = [str(x) for x in rollout.get("phase_labels", [])]
+    phase_hash = hashlib.sha256("|".join(phase_labels).encode("utf-8")).hexdigest()[:16]
+    payload = {
+        "seed": int(rollout.get("seed", -1) or -1),
+        "first_attach_step": strict.get("first_attach_step"),
+        "attach_persistence": int(strict.get("attach_persistence", 0) or 0),
+        "max_drawer_fraction": round(float(strict.get("max_drawer_fraction", rollout.get("max_drawer_fraction", 0.0)) or 0.0), 4),
+        "truthful_window_frame_count": int(truth.get("truthful_window_frame_count", 0) or 0),
+        "phase_locked_rate": round(float(np.mean(np.asarray(rollout.get("phase_locked_trace", []), dtype=np.float32))) if len(rollout.get("phase_locked_trace", [])) else 0.0, 4),
+        "effective_pull_progress_peak": round(float(np.max(np.asarray(rollout.get("effective_pull_progress_trace", []), dtype=np.float32))) if len(rollout.get("effective_pull_progress_trace", [])) else 0.0, 4),
+        "phase_schedule_hash": phase_hash,
+    }
+    return json.dumps(payload, sort_keys=True)
+
+
 def _augment_rollout_metadata(controller: RootCauseController, rollout: dict[str, Any], spec, expected: dict[str, Any]) -> dict[str, Any]:
     matrix_hash = controller._frozen_matrix_hash_v5_pro() if controller.selector_mode == "frozen_v5_pro" else None
     baseline_cell_id = controller._baseline_cell_id_v5_pro() if controller.selector_mode == "frozen_v5_pro" else None
@@ -276,6 +379,16 @@ def _augment_rollout_metadata(controller: RootCauseController, rollout: dict[str
     rollout["source_best_train_state_mode"] = _plan_source_best_train_state_mode(expected)
     rollout["active_train_state_mode"] = _plan_active_train_state_mode(expected)
     rollout["active_state_mode_name"] = _plan_active_state_mode_name(expected)
+    rollout["run_instance_id"] = expected.get("run_instance_id")
+    rollout["plan_version"] = expected.get("plan_version")
+    rollout["source_base_commit"] = expected.get("source_base_commit")
+    rollout["working_head_commit"] = expected.get("working_head_commit")
+    rollout["bridge_stage"] = expected.get("bridge_stage")
+    rollout["bridge_attempt"] = expected.get("bridge_attempt")
+    rollout["strict_utility_version"] = expected.get("strict_utility_version", STRICT_UTILITY_VERSION)
+    rollout["truth_utility_version"] = expected.get("truth_utility_version", TRUTH_UTILITY_VERSION)
+    rollout["teacher_fingerprint_version"] = expected.get("teacher_fingerprint_version", TEACHER_FINGERPRINT_VERSION)
+    rollout["teacher_truth_gate"] = expected.get("teacher_truth_gate", TRUTH_UTILITY_VERSION)
     rollout["train_seeds"] = list(expected.get("train_seeds") or expected.get("training_seeds") or [])
     rollout["heldout_seeds"] = list(expected.get("heldout_seeds") or [])
 
@@ -293,7 +406,8 @@ def _augment_rollout_metadata(controller: RootCauseController, rollout: dict[str
     rollout["measurement_backend"] = probe.get("measurement_backend")
     rollout["measurement_verifier"] = probe.get("measurement_verifier")
     rollout["runtime_visible_handle_mapping_source"] = probe.get("runtime_visible_handle_mapping_source")
-    rollout["runtime_handle_anchor_valid"] = bool(orientation.get("runtime_handle_anchor_valid", False))
+    runtime_anchor_trace = np.asarray(rollout.get("runtime_handle_anchor_valid_trace", []), dtype=bool).reshape(-1)
+    rollout["runtime_handle_anchor_valid"] = bool(runtime_anchor_trace.any()) if runtime_anchor_trace.size else bool(orientation.get("runtime_handle_anchor_valid", False))
     rollout["interaction_mode"] = contract_config.get("interaction_mode")
     rollout["state_mode"] = state_spec.get("state_mode", contract_config.get("state_mode"))
     rollout["final_snapshot_measurement_truthful"] = bool(probe.get("measurement_truthful", False))
@@ -305,6 +419,11 @@ def _augment_rollout_metadata(controller: RootCauseController, rollout: dict[str
     rollout["teacher_truth_adjudication"] = truth_summary.get("teacher_truth_adjudication")
     rollout["teacher_truthful_window_frame_count"] = int(truth_summary.get("truthful_window_frame_count", 0) or 0)
     rollout["bridge_in_truthful_window"] = bool(truth_summary.get("bridge_in_truthful_window", False))
+    rollout["truthful_window_ratio"] = float(truth_summary.get("truthful_window_ratio", 0.0) or 0.0)
+    rollout["truthful_window_longest_interior_gap"] = int(truth_summary.get("truthful_window_longest_interior_gap", 0) or 0)
+    rollout["truthful_window_tail_truthful_count_last6"] = int(truth_summary.get("truthful_window_tail_truthful_count_last6", 0) or 0)
+    rollout["teacher_episode_class"] = _teacher_episode_class(rollout)
+    rollout["teacher_fingerprint"] = _teacher_fingerprint(rollout)
 
     if probe:
         probe["selector_mode"] = controller.selector_mode
@@ -352,7 +471,10 @@ def materialize_canonical_train_rollouts(
         "episodes_per_seed": episodes_per_seed,
         "min_train_episodes": min_train_episodes,
         "min_successful_seeds": MIN_SUCCESSFUL_SEEDS,
-        "teacher_truth_gate": "trace_window_v1",
+        "teacher_truth_gate": "trace_window_v2",
+        "strict_utility_version": expected.get("strict_utility_version", STRICT_UTILITY_VERSION),
+        "truth_utility_version": expected.get("truth_utility_version", TRUTH_UTILITY_VERSION),
+        "teacher_fingerprint_version": expected.get("teacher_fingerprint_version", TEACHER_FINGERPRINT_VERSION),
         "timestamp": time.time(),
     }
     if not bool(expected.get("tiny_retrain_permitted", True)):
@@ -421,14 +543,19 @@ def materialize_canonical_train_rollouts(
                 "measurement_truthful_for_training": bool(truth_summary.get("measurement_truthful_for_training", False)),
                 "teacher_truth_adjudication": truth_summary.get("teacher_truth_adjudication"),
                 "teacher_truthful_window_frame_count": int(truth_summary.get("truthful_window_frame_count", 0) or 0),
+                "truthful_window_ratio": float(truth_summary.get("truthful_window_ratio", 0.0) or 0.0),
+                "truthful_window_longest_interior_gap": int(truth_summary.get("truthful_window_longest_interior_gap", 0) or 0),
+                "truthful_window_tail_truthful_count_last6": int(truth_summary.get("truthful_window_tail_truthful_count_last6", 0) or 0),
                 "bridge_in_truthful_window": bool(truth_summary.get("bridge_in_truthful_window", False)),
+                "truthful_window_interval_mask_empty": bool(truth_summary.get("truthful_window_interval_mask_empty", False)),
+                "truthful_window_interval_anchor_invalid": bool(truth_summary.get("truthful_window_interval_anchor_invalid", False)),
                 "final_snapshot_measurement_truthful": bool(truth_summary.get("final_snapshot_measurement_truthful", False)),
                 "final_snapshot_measurement_truth_tier": truth_summary.get("final_snapshot_measurement_truth_tier"),
+                "teacher_episode_class": str(rollout.get("teacher_episode_class", "rejected_teacher")),
+                "teacher_fingerprint": str(rollout.get("teacher_fingerprint", "")),
             }
             records.append(record)
-            if not success:
-                continue
-            if not bool(truth_summary.get("measurement_truthful_for_training", False)):
+            if str(rollout.get("teacher_episode_class", "rejected_teacher")) not in {"strict_teacher", "near_strict_teacher"}:
                 continue
             start = truth_summary.get("truthful_window_start")
             end = truth_summary.get("truthful_window_end")

@@ -6,6 +6,7 @@ from __future__ import annotations
 import hashlib
 import json
 import shutil
+from collections import Counter
 from pathlib import Path
 from typing import Any
 
@@ -116,6 +117,18 @@ def _nested_rollout_value(meta: dict[str, Any], key: str, default: Any = None) -
         if meta.get("teacher_truthful_window_frame_count") is not None:
             return meta.get("teacher_truthful_window_frame_count")
         return training_truth.get("truthful_window_frame_count", default)
+    if key == "truthful_window_ratio":
+        if meta.get("truthful_window_ratio") is not None:
+            return meta.get("truthful_window_ratio")
+        return training_truth.get("truthful_window_ratio", default)
+    if key == "truthful_window_longest_interior_gap":
+        if meta.get("truthful_window_longest_interior_gap") is not None:
+            return meta.get("truthful_window_longest_interior_gap")
+        return training_truth.get("truthful_window_longest_interior_gap", default)
+    if key == "truthful_window_tail_truthful_count_last6":
+        if meta.get("truthful_window_tail_truthful_count_last6") is not None:
+            return meta.get("truthful_window_tail_truthful_count_last6")
+        return training_truth.get("truthful_window_tail_truthful_count_last6", default)
     if key == "bridge_in_truthful_window":
         if meta.get("bridge_in_truthful_window") is not None:
             return meta.get("bridge_in_truthful_window")
@@ -141,19 +154,38 @@ def validate_rollout_for_canonical_training(meta: dict[str, Any], plan: dict[str
     expected_source_state = _plan_source_best_train_state_mode(plan)
     expected_active_state = _plan_active_train_state_mode(plan)
     expected_active_state_name = _plan_active_state_mode_name(plan)
+    expected_run_instance_id = str(plan.get("run_instance_id") or "")
+    expected_plan_version = str(plan.get("plan_version") or "")
+    expected_source_base_commit = str(plan.get("source_base_commit") or "")
+    expected_teacher_truth_gate = str(plan.get("teacher_truth_gate") or "")
     seed = meta.get("seed")
     strict_metrics = meta.get("strict_metrics") or {}
-    strict_success = bool(strict_metrics.get("strict_success"))
-    success_ok = strict_success or (bool(meta.get("success")) and bool(meta.get("strict_success_version")))
+    teacher_episode_class_raw = meta.get("teacher_episode_class")
+    if teacher_episode_class_raw is None or not str(teacher_episode_class_raw).strip():
+        return False, "teacher_episode_class_missing"
+    teacher_episode_class = str(teacher_episode_class_raw)
+    teacher_fingerprint_raw = meta.get("teacher_fingerprint")
+    if teacher_fingerprint_raw is None or not str(teacher_fingerprint_raw).strip():
+        return False, "teacher_fingerprint_missing"
+    run_instance_id = meta.get("run_instance_id")
+    if expected_run_instance_id and (run_instance_id is None or not str(run_instance_id).strip()):
+        return False, "run_instance_id_missing"
     checks = [
+        ((not expected_run_instance_id) or str(run_instance_id) == expected_run_instance_id, "run_instance_id_mismatch"),
+        ((not expected_plan_version) or str(meta.get("plan_version") or "") == expected_plan_version, "plan_version_mismatch"),
+        ((not expected_source_base_commit) or str(meta.get("source_base_commit") or "") == expected_source_base_commit, "source_base_commit_mismatch"),
         (str(meta.get("source_canonical_train_cell") or meta.get("canonical_train_cell")) == expected_source_cell, "source_canonical_train_cell_mismatch"),
         (str(meta.get("best_transition_cell")) == expected_transition, "best_transition_cell_mismatch"),
         (str(meta.get("source_best_train_state_mode") or meta.get("best_train_state_mode")) == expected_source_state, "source_best_train_state_mode_mismatch"),
         (str(meta.get("active_train_state_mode") or meta.get("best_train_state_mode")) == expected_active_state, "active_train_state_mode_mismatch"),
         (str(meta.get("selector_mode")) == str(plan.get("selector_mode")), "selector_mode_mismatch"),
         (bool(_nested_rollout_value(meta, "measurement_truthful_for_training", False)) is True, "measurement_not_truthful"),
-        (str(_nested_rollout_value(meta, "teacher_truth_adjudication", "")) == "trace_window_v1", "teacher_truth_adjudication_mismatch"),
+        (str(_nested_rollout_value(meta, "teacher_truth_adjudication", "")) == "trace_window_v2", "teacher_truth_adjudication_mismatch"),
+        ((not expected_teacher_truth_gate) or str(meta.get("teacher_truth_gate") or _nested_rollout_value(meta, "teacher_truth_adjudication", "")) == expected_teacher_truth_gate, "teacher_truth_gate_mismatch"),
         (int(_nested_rollout_value(meta, "teacher_truthful_window_frame_count", 0) or 0) >= 16, "teacher_truthful_window_too_short"),
+        (float(_nested_rollout_value(meta, "truthful_window_ratio", 0.0) or 0.0) >= 0.80, "truthful_window_ratio_too_low"),
+        (int(_nested_rollout_value(meta, "truthful_window_longest_interior_gap", 0) or 0) <= 2, "truthful_window_gap_too_long"),
+        (int(_nested_rollout_value(meta, "truthful_window_tail_truthful_count_last6", 0) or 0) >= 5, "truthful_window_tail_not_stable"),
         (bool(_nested_rollout_value(meta, "bridge_in_truthful_window", False)) is True, "bridge_not_in_truthful_window"),
         (str(_nested_rollout_value(meta, "measurement_backend", "")) == str(plan.get("measurement_backend")), "measurement_backend_mismatch"),
         (str(_nested_rollout_value(meta, "measurement_verifier", "")) == str(plan.get("measurement_verifier")), "measurement_verifier_mismatch"),
@@ -163,7 +195,12 @@ def validate_rollout_for_canonical_training(meta: dict[str, Any], plan: dict[str
         (str(_nested_rollout_value(meta, "state_mode", "")) == expected_active_state_name, "state_mode_mismatch"),
         (int(seed) in [int(x) for x in plan.get("train_seeds", [])] if seed is not None else False, "seed_not_in_train_split"),
         (int(seed) not in [int(x) for x in plan.get("heldout_seeds", [])] if seed is not None else False, "seed_in_heldout_split"),
-        (success_ok, "not_success_or_strict_success"),
+        (teacher_episode_class in {"strict_teacher", "near_strict_teacher"}, "teacher_episode_class_not_accepted"),
+        (
+            bool(strict_metrics.get("strict_success"))
+            or teacher_episode_class == "near_strict_teacher",
+            "not_strict_or_near_strict_teacher",
+        ),
     ]
     for passed, reason in checks:
         if not passed:
@@ -180,6 +217,9 @@ def validate_built_dataset_provenance(dataset_root: Path, plan: dict[str, Any]) 
         "source_best_train_state_mode": _plan_source_best_train_state_mode(plan),
         "active_train_state_mode": _plan_active_train_state_mode(plan),
         "active_state_mode_name": _plan_active_state_mode_name(plan),
+        "run_instance_id": plan.get("run_instance_id"),
+        "plan_version": plan.get("plan_version"),
+        "source_base_commit": plan.get("source_base_commit"),
         "train_seed_count": len(plan.get("train_seeds", [])),
         "used_successful_seed_count": 0,
         "used_rollout_count": 0,
@@ -204,6 +244,12 @@ def validate_built_dataset_provenance(dataset_root: Path, plan: dict[str, Any]) 
     source_state_values = {rec.get("source_best_train_state_mode") or rec.get("best_train_state_mode") for rec in records if rec.get("source_best_train_state_mode") or rec.get("best_train_state_mode")}
     active_state_values = {rec.get("active_train_state_mode") for rec in records if rec.get("active_train_state_mode") is not None}
     state_mode_values = {rec.get("state_mode") for rec in records if rec.get("state_mode") is not None}
+    run_instance_values = {rec.get("run_instance_id") for rec in records if rec.get("run_instance_id")}
+    plan_version_values = {rec.get("plan_version") for rec in records if rec.get("plan_version")}
+    source_base_commit_values = {rec.get("source_base_commit") for rec in records if rec.get("source_base_commit")}
+    missing_run_instance_count = int(sum(1 for rec in records if not rec.get("run_instance_id")))
+    missing_plan_version_count = int(sum(1 for rec in records if not rec.get("plan_version")))
+    missing_source_base_commit_count = int(sum(1 for rec in records if not rec.get("source_base_commit")))
     state_dim_signatures = {tuple(rec.get("state_dim_names") or []) for rec in records if rec.get("state_dim_names")}
     measurement_backends = {rec.get("measurement_backend") for rec in records if rec.get("measurement_backend") is not None}
     measurement_verifiers = {rec.get("measurement_verifier") for rec in records if rec.get("measurement_verifier") is not None}
@@ -211,6 +257,23 @@ def validate_built_dataset_provenance(dataset_root: Path, plan: dict[str, Any]) 
     training_truth_flags = [bool(rec.get("measurement_truthful_for_training", False)) for rec in records]
     bridge_truth_flags = [bool(rec.get("bridge_in_truthful_window", False)) for rec in records]
     teacher_truth_adjudications = {rec.get("teacher_truth_adjudication") for rec in records if rec.get("teacher_truth_adjudication")}
+    teacher_episode_classes = [str(rec.get("teacher_episode_class", "rejected_teacher")) for rec in records]
+    teacher_fingerprints = [str(rec.get("teacher_fingerprint", "")) for rec in records if rec.get("teacher_fingerprint")]
+    unique_teacher_families = {fp for fp in teacher_fingerprints if fp}
+    accepted_records_missing_fingerprint = int(
+        sum(
+            1
+            for rec in records
+            if rec.get("teacher_episode_class") in {"strict_teacher", "near_strict_teacher"}
+            and not rec.get("teacher_fingerprint")
+        )
+    )
+    strict_family_count = len({rec.get("teacher_fingerprint") for rec in records if rec.get("teacher_episode_class") == "strict_teacher" and rec.get("teacher_fingerprint")})
+    near_strict_family_count = len({rec.get("teacher_fingerprint") for rec in records if rec.get("teacher_episode_class") == "near_strict_teacher" and rec.get("teacher_fingerprint")})
+    accepted_seed_coverage = sorted({int(rec.get("seed")) for rec in records if rec.get("seed") is not None and rec.get("teacher_episode_class") in {"strict_teacher", "near_strict_teacher"}})
+    strict_seed_coverage = sorted({int(rec.get("seed")) for rec in records if rec.get("seed") is not None and rec.get("teacher_episode_class") == "strict_teacher"})
+    near_strict_seed_coverage = sorted({int(rec.get("seed")) for rec in records if rec.get("seed") is not None and rec.get("teacher_episode_class") == "near_strict_teacher"})
+    truth_window_ratios = [float(rec.get("truthful_window_ratio", 0.0) or 0.0) for rec in records]
     runtime_anchor_valid_rate = float(sum(1 for x in runtime_anchor_values if x) / len(runtime_anchor_values)) if runtime_anchor_values else 0.0
     report.update(
         {
@@ -218,17 +281,38 @@ def validate_built_dataset_provenance(dataset_root: Path, plan: dict[str, Any]) 
             "used_rollout_count": len(records),
             "effective_frame_count": int(provenance.get("effective_frame_count", 0) or 0),
             "unique_successful_seeds": sorted(unique_successful_seeds),
+            "run_instance_values": sorted(str(x) for x in run_instance_values if x is not None),
+            "plan_version_values": sorted(str(x) for x in plan_version_values if x is not None),
+            "source_base_commit_values": sorted(str(x) for x in source_base_commit_values if x is not None),
+            "missing_run_instance_count": missing_run_instance_count,
+            "missing_plan_version_count": missing_plan_version_count,
+            "missing_source_base_commit_count": missing_source_base_commit_count,
             "claim_policies": provenance.get("claim_policies", []),
             "state_modes": provenance.get("state_modes", []),
             "state_dim_names": provenance.get("state_dim_names", []),
             "state_dim_signatures": [list(sig) for sig in sorted(state_dim_signatures)],
             "teacher_truth_adjudications": sorted(str(x) for x in teacher_truth_adjudications if x is not None),
+            "teacher_episode_class_counts": dict(Counter(teacher_episode_classes)),
+            "accepted_unique_teacher_family_count": len(unique_teacher_families),
+            "strict_unique_teacher_family_count": strict_family_count,
+            "near_strict_unique_teacher_family_count": near_strict_family_count,
+            "accepted_seed_coverage": accepted_seed_coverage,
+            "strict_seed_coverage": strict_seed_coverage,
+            "near_strict_seed_coverage": near_strict_seed_coverage,
+            "accepted_records_missing_fingerprint": accepted_records_missing_fingerprint,
+            "truthful_window_ratio_min": min(truth_window_ratios) if truth_window_ratios else 0.0,
             "measurement_backends": sorted(x for x in measurement_backends if x is not None),
             "measurement_verifiers": sorted(x for x in measurement_verifiers if x is not None),
             "runtime_handle_anchor_valid_rate": runtime_anchor_valid_rate,
         }
     )
     checks = [
+        (missing_run_instance_count == 0, "run_instance_id_missing"),
+        (missing_plan_version_count == 0, "plan_version_missing"),
+        (missing_source_base_commit_count == 0, "source_base_commit_missing"),
+        (run_instance_values == {plan.get("run_instance_id")}, "run_instance_id_not_unique"),
+        (plan_version_values == {plan.get("plan_version")}, "plan_version_not_unique"),
+        (source_base_commit_values == {plan.get("source_base_commit")}, "source_base_commit_not_unique"),
         (source_cells == {_plan_source_canonical_train_cell(plan)}, "source_canonical_train_cell_not_unique"),
         (transition_values == {plan.get("best_transition_cell")}, "best_transition_cell_not_unique"),
         (source_state_values == {_plan_source_best_train_state_mode(plan)}, "source_best_train_state_mode_not_unique"),
@@ -246,8 +330,10 @@ def validate_built_dataset_provenance(dataset_root: Path, plan: dict[str, Any]) 
         (measurement_verifiers == {plan.get("measurement_verifier")}, "measurement_verifier_inconsistent"),
         (runtime_anchor_valid_rate == 1.0 or all(runtime_anchor_values), "runtime_handle_anchor_not_fully_valid"),
         (all(training_truth_flags), "measurement_truthful_for_training_inconsistent"),
-        (teacher_truth_adjudications == {"trace_window_v1"}, "teacher_truth_adjudication_inconsistent"),
+        (teacher_truth_adjudications == {"trace_window_v2"}, "teacher_truth_adjudication_inconsistent"),
         (all(bridge_truth_flags), "bridge_not_in_truthful_window_inconsistent"),
+        (all(cls in {"strict_teacher", "near_strict_teacher"} for cls in teacher_episode_classes), "teacher_episode_class_inconsistent"),
+        (accepted_records_missing_fingerprint == 0, "teacher_fingerprint_missing_for_accepted_records"),
     ]
     for passed, reason in checks:
         if not passed:
@@ -344,6 +430,9 @@ def _rollout_provenance(meta: dict[str, Any], n_frames: int) -> dict[str, Any]:
         "measurement_truthful_for_training": bool(meta.get("measurement_truthful_for_training", canonical_training_truth.get("measurement_truthful_for_training", False))),
         "teacher_truth_adjudication": meta.get("teacher_truth_adjudication", canonical_training_truth.get("teacher_truth_adjudication")),
         "teacher_truthful_window_frame_count": int(meta.get("teacher_truthful_window_frame_count", canonical_training_truth.get("truthful_window_frame_count", 0)) or 0),
+        "truthful_window_ratio": float(meta.get("truthful_window_ratio", canonical_training_truth.get("truthful_window_ratio", 0.0)) or 0.0),
+        "truthful_window_longest_interior_gap": int(meta.get("truthful_window_longest_interior_gap", canonical_training_truth.get("truthful_window_longest_interior_gap", 0)) or 0),
+        "truthful_window_tail_truthful_count_last6": int(meta.get("truthful_window_tail_truthful_count_last6", canonical_training_truth.get("truthful_window_tail_truthful_count_last6", 0)) or 0),
         "bridge_in_truthful_window": bool(meta.get("bridge_in_truthful_window", canonical_training_truth.get("bridge_in_truthful_window", False))),
         "final_snapshot_measurement_truthful": bool(meta.get("final_snapshot_measurement_truthful", canonical_training_truth.get("final_snapshot_measurement_truthful", False))),
         "final_snapshot_measurement_truth_tier": meta.get("final_snapshot_measurement_truth_tier", canonical_training_truth.get("final_snapshot_measurement_truth_tier")),
@@ -378,9 +467,25 @@ def _rollout_provenance(meta: dict[str, Any], n_frames: int) -> dict[str, Any]:
         "source_best_train_state_mode": meta.get("source_best_train_state_mode", meta.get("best_train_state_mode")),
         "active_train_state_mode": meta.get("active_train_state_mode", meta.get("best_train_state_mode")),
         "active_state_mode_name": meta.get("active_state_mode_name", state_spec.get("state_mode", contract_config.get("state_mode", "unknown"))),
+        "run_instance_id": meta.get("run_instance_id"),
+        "plan_version": meta.get("plan_version"),
+        "source_base_commit": meta.get("source_base_commit"),
+        "working_head_commit": meta.get("working_head_commit"),
+        "strict_utility_version": meta.get("strict_utility_version"),
+        "truth_utility_version": meta.get("truth_utility_version"),
+        "teacher_fingerprint_version": meta.get("teacher_fingerprint_version"),
+        "teacher_truth_gate": meta.get("teacher_truth_gate"),
+        "bridge_stage": meta.get("bridge_stage"),
+        "bridge_attempt": meta.get("bridge_attempt"),
         "runtime_handle_anchor_valid": bool(meta.get("runtime_handle_anchor_valid", False)),
         "phase_locked_rate": float(meta.get("phase_locked_rate", 0.0) or 0.0),
         "mean_effective_pull_progress": float(meta.get("mean_effective_pull_progress", 0.0) or 0.0),
+        "teacher_episode_class": str(meta.get("teacher_episode_class") or ""),
+        "teacher_fingerprint": str(meta.get("teacher_fingerprint", "")),
+        "first_attach_step": strict_metrics.get("first_attach_step") if (strict_metrics := meta.get("strict_metrics") or {}) else None,
+        "attach_persistence": int(strict_metrics.get("attach_persistence", 0) or 0),
+        "post_attach_drawer_delta": float(strict_metrics.get("post_attach_drawer_delta", 0.0) or 0.0),
+        "max_drawer_fraction": float(strict_metrics.get("max_drawer_fraction", meta.get("max_drawer_fraction", 0.0)) or 0.0),
         "frozen_matrix_hash": meta.get("frozen_matrix_hash"),
         "resource_budget_snapshot": meta.get("resource_budget_snapshot", {}),
         "visual_mode_report": visual_mode_report,
@@ -467,6 +572,9 @@ def build_dataset_from_rollouts(
     source_best_states: set[str] = set()
     active_train_states: set[str] = set()
     teacher_truth_adjudications: set[str] = set()
+    run_instance_ids: set[str] = set()
+    plan_versions: set[str] = set()
+    source_base_commits: set[str] = set()
 
     for npz_path, meta in zip(rollout_paths, metas, strict=False):
         data = np.load(npz_path, allow_pickle=True)
@@ -490,6 +598,9 @@ def build_dataset_from_rollouts(
         source_best_states.add(str(provenance.get("source_best_train_state_mode") or ""))
         active_train_states.add(str(provenance.get("active_train_state_mode") or ""))
         teacher_truth_adjudications.add(str(provenance.get("teacher_truth_adjudication") or ""))
+        run_instance_ids.add(str(provenance.get("run_instance_id") or ""))
+        plan_versions.add(str(provenance.get("plan_version") or ""))
+        source_base_commits.add(str(provenance.get("source_base_commit") or ""))
 
         for idx in range(n_frames):
             raw_action = data["actions"][idx].astype(np.float32)
@@ -542,7 +653,15 @@ def build_dataset_from_rollouts(
         "source_canonical_train_cells": sorted(x for x in source_canonical_cells if x),
         "source_best_train_state_modes": sorted(x for x in source_best_states if x),
         "active_train_state_modes": sorted(x for x in active_train_states if x),
+        "run_instance_ids": sorted(x for x in run_instance_ids if x),
+        "plan_versions": sorted(x for x in plan_versions if x),
+        "source_base_commits": sorted(x for x in source_base_commits if x),
         "teacher_truth_adjudications": sorted(x for x in teacher_truth_adjudications if x),
+        "accepted_unique_teacher_families": sorted({rec.get("teacher_fingerprint") for rec in provenance_records if rec.get("teacher_episode_class") in {"strict_teacher", "near_strict_teacher"} and rec.get("teacher_fingerprint")}),
+        "accepted_unique_teacher_family_count": int(len({rec.get("teacher_fingerprint") for rec in provenance_records if rec.get("teacher_episode_class") in {"strict_teacher", "near_strict_teacher"} and rec.get("teacher_fingerprint")})),
+        "strict_unique_teacher_family_count": int(len({rec.get("teacher_fingerprint") for rec in provenance_records if rec.get("teacher_episode_class") == "strict_teacher" and rec.get("teacher_fingerprint")})),
+        "near_strict_unique_teacher_family_count": int(len({rec.get("teacher_fingerprint") for rec in provenance_records if rec.get("teacher_episode_class") == "near_strict_teacher" and rec.get("teacher_fingerprint")})),
+        "teacher_episode_class_counts": dict(Counter(str(rec.get("teacher_episode_class", "rejected_teacher")) for rec in provenance_records)),
         "records": provenance_records,
     }
     provenance_path = dataset_root / "meta" / "provenance.json"
@@ -576,6 +695,13 @@ def build_dataset_from_rollouts(
         "source_canonical_train_cells": sorted(x for x in source_canonical_cells if x),
         "source_best_train_state_modes": sorted(x for x in source_best_states if x),
         "active_train_state_modes": sorted(x for x in active_train_states if x),
+        "run_instance_ids": sorted(x for x in run_instance_ids if x),
+        "plan_versions": sorted(x for x in plan_versions if x),
+        "source_base_commits": sorted(x for x in source_base_commits if x),
         "teacher_truth_adjudications": sorted(x for x in teacher_truth_adjudications if x),
+        "accepted_unique_teacher_family_count": provenance_payload["accepted_unique_teacher_family_count"],
+        "strict_unique_teacher_family_count": provenance_payload["strict_unique_teacher_family_count"],
+        "near_strict_unique_teacher_family_count": provenance_payload["near_strict_unique_teacher_family_count"],
+        "teacher_episode_class_counts": provenance_payload["teacher_episode_class_counts"],
         "provenance_path": str(provenance_path),
     }

@@ -10,22 +10,30 @@ import os
 import subprocess
 import sys
 import time
-import traceback
 import uuid
 from contextlib import redirect_stdout
 from pathlib import Path
 from typing import Any, Callable
 
 import numpy as np
-
 from drawer_robot_env_mujoco import build_robot_rollout, save_robot_rollout
-from mint_common import ARTIFACT_DIR, PROJECT_ROOT, TINY_RETRAIN_PLAN_PATH, load_json, write_json_atomic
+from mint_common import (
+    ARTIFACT_DIR,
+    PROJECT_ROOT,
+    TINY_RETRAIN_PLAN_PATH,
+    load_json,
+    write_json_atomic,
+)
 from run_g6_teacher_recovery_probe import (
     ARTIFACT as G6_ARTIFACT,
+)
+from run_g6_teacher_recovery_probe import (
     HARD_SEEDS,
     REPEATS,
     _canonical_rollout_context,
     _default_plan,
+)
+from run_g6_teacher_recovery_probe import (
     run as run_g6_probe,
 )
 from run_tiny_retrain_confirmation import (
@@ -46,7 +54,6 @@ from run_tiny_retrain_confirmation import (
     HONEST_SAVE_FREQ,
     HONEST_TRAIN_STEPS,
     TINY_RETRAIN_DATASET_BUILD_PATH,
-    TINY_RETRAIN_SUMMARY_PATH,
     _run_stage,
     _write_loop_summary,
     _write_strict_semantics_alignment,
@@ -58,7 +65,24 @@ GOOD_SEEDS = [1, 5, 6, 7, 8]
 BRIDGE_SEED = 3
 AUTH_BRANCH = "feature/mint-env-reformulation-v1-visual-fidelity"
 AUTH_REPO_ROOT = "/mnt/afs2/zhuhaowu/infinigen"
-PHASE_ORDER = ["t0", "t1", "t2a", "t2b", "p1a", "p1b", "t3a", "t3b", "t4", "t5", "t6", "b0", "b1", "b2", "b3", "b4"]
+PHASE_ORDER = [
+    "t0",
+    "t1",
+    "t2a",
+    "t2b",
+    "p1a",
+    "p1b",
+    "t3a",
+    "t3b",
+    "t4",
+    "t5",
+    "t6",
+    "b0",
+    "b1",
+    "b2",
+    "b3",
+    "b4",
+]
 PHASE_ARTIFACTS = {
     "t0": ARTIFACT_DIR / "v84_t0_integrity.json",
     "t1": ARTIFACT_DIR / "v84_t1_strict_semantics.json",
@@ -121,7 +145,19 @@ def _new_run_id(head: str) -> str:
 
 
 def _authoritative_use(ctx: dict[str, Any], force_diagnostic: bool = False) -> str:
-    return "diagnostic_only" if (force_diagnostic or not bool(ctx["authoritative_mode"])) else "authoritative"
+    return (
+        "diagnostic_only"
+        if (force_diagnostic or not bool(ctx["authoritative_mode"]))
+        else "authoritative"
+    )
+
+
+def _none_or_int(value: Any, default: int = 0) -> int:
+    return int(default if value is None else value)
+
+
+def _none_or_float(value: Any, default: float = 0.0) -> float:
+    return float(default if value is None else value)
 
 
 def _capture_call(fn: Callable[..., Any], *args: Any, **kwargs: Any) -> tuple[Any, str]:
@@ -148,6 +184,10 @@ def _phase_result(
 ) -> dict[str, Any]:
     return {
         "phase": phase,
+        "run_id": ctx["run_id"],
+        "timestamp": now_iso(),
+        "branch": ctx["branch"],
+        "head_commit": ctx["head"],
         "status": status,
         "clauses": clauses,
         "failed_clauses": [key for key, passed in clauses.items() if not bool(passed)],
@@ -176,8 +216,18 @@ def _write_matrix(ctx: dict[str, Any]) -> None:
         ctx["phase_results"].get("t1", {}).get("status") == "PASS"
         and ctx["phase_results"].get("t2a", {}).get("status") == "PASS"
         and ctx["phase_results"].get("t2b", {}).get("status") == "PASS"
-        and bool(ctx["phase_results"].get("p1b", {}).get("evidence", {}).get("candidate_frontier_valid", False))
-        and bool(ctx["phase_results"].get("t3b", {}).get("clauses", {}).get("matched_superiority_over_t3a", False))
+        and bool(
+            ctx["phase_results"]
+            .get("p1b", {})
+            .get("evidence", {})
+            .get("candidate_frontier_valid", False)
+        )
+        and bool(
+            ctx["phase_results"]
+            .get("t3b", {})
+            .get("clauses", {})
+            .get("matched_superiority_over_t3a", False)
+        )
         and ctx["phase_results"].get("t4", {}).get("status") == "PASS"
     )
     teacher_readiness = bool(t6.get("status") == "PASS")
@@ -200,7 +250,9 @@ def _write_matrix(ctx: dict[str, Any]) -> None:
         "phase_results": ctx["phase_results"],
         "teacher_abstraction_sufficient_condition": teacher_abstraction,
         "teacher_readiness_sufficient_condition": teacher_readiness,
-        "authoritative_retrain_executed": bool(ctx.get("authoritative_retrain_executed", False)),
+        "authoritative_retrain_executed": bool(
+            ctx.get("authoritative_retrain_executed", False)
+        ),
         "final_verdict": ctx.get("final_verdict"),
         "final_failed_clauses": sorted(set(final_failed)),
         "final_rca_classes": sorted(set(final_rca)),
@@ -208,7 +260,13 @@ def _write_matrix(ctx: dict[str, Any]) -> None:
     _write_json(EVIDENCE_MATRIX_PATH, matrix)
 
 
-def _base_rollout_plan(ctx: dict[str, Any], *, bridge_stage: str, bridge_attempt: str, active_train_state_mode: str = "S0") -> dict[str, Any]:
+def _base_rollout_plan(
+    ctx: dict[str, Any],
+    *,
+    bridge_stage: str,
+    bridge_attempt: str,
+    active_train_state_mode: str = "S0",
+) -> dict[str, Any]:
     plan = {**_default_plan(), **load_json(TINY_RETRAIN_PLAN_PATH, {})}
     plan.update(
         {
@@ -218,7 +276,9 @@ def _base_rollout_plan(ctx: dict[str, Any], *, bridge_stage: str, bridge_attempt
             "source_canonical_train_cell": "V1cT2S0",
             "source_best_train_state_mode": "S0",
             "active_train_state_mode": active_train_state_mode,
-            "active_state_mode_name": STATE_MODE_NAME.get(active_train_state_mode, active_train_state_mode),
+            "active_state_mode_name": STATE_MODE_NAME.get(
+                active_train_state_mode, active_train_state_mode
+            ),
             "bridge_stage": bridge_stage,
             "bridge_attempt": bridge_attempt,
             "working_head_commit": ctx["head"],
@@ -245,19 +305,36 @@ def _best_record(records: list[dict[str, Any]]) -> dict[str, Any] | None:
         records,
         key=lambda rec: (
             _tier_rank(rec),
-            float(rec.get("max_drawer_fraction", 0.0)),
-            float(rec.get("post_attach_drawer_delta", 0.0)),
-            -int(rec.get("truthful_window_longest_interior_gap", 0) or 0),
+            _none_or_float(rec.get("max_drawer_fraction"), 0.0),
+            _none_or_float(rec.get("post_attach_drawer_delta"), 0.0),
+            -_none_or_int(rec.get("truthful_window_longest_interior_gap"), 0),
         ),
     )
 
 
-def _controller_record(rollout: dict[str, Any], *, seed: int, repeat_idx: int, controller_mode: str, max_steps: int, warm_start_kind: str | None, rollout_path: Path) -> dict[str, Any]:
+def _controller_record(
+    rollout: dict[str, Any],
+    *,
+    seed: int,
+    repeat_idx: int,
+    controller_mode: str,
+    max_steps: int,
+    warm_start_kind: str | None,
+    rollout_path: Path,
+) -> dict[str, Any]:
     strict = dict(rollout.get("strict_metrics") or {})
-    drawer = np.asarray(rollout.get("next_drawer_fractions", []), dtype=np.float32).reshape(-1)
-    phase_locked = np.asarray(rollout.get("phase_locked_trace", []), dtype=np.float32).reshape(-1)
-    eff = np.asarray(rollout.get("drawer_delta_effective_trace", []), dtype=np.float32).reshape(-1)
-    eff_pull = np.asarray(rollout.get("effective_pull_progress_trace", []), dtype=np.float32).reshape(-1)
+    drawer = np.asarray(
+        rollout.get("next_drawer_fractions", []), dtype=np.float32
+    ).reshape(-1)
+    phase_locked = np.asarray(
+        rollout.get("phase_locked_trace", []), dtype=np.float32
+    ).reshape(-1)
+    eff = np.asarray(
+        rollout.get("drawer_delta_effective_trace", []), dtype=np.float32
+    ).reshape(-1)
+    eff_pull = np.asarray(
+        rollout.get("effective_pull_progress_trace", []), dtype=np.float32
+    ).reshape(-1)
     return {
         "seed": int(seed),
         "repeat_idx": int(repeat_idx),
@@ -265,18 +342,34 @@ def _controller_record(rollout: dict[str, Any], *, seed: int, repeat_idx: int, c
         "warm_start_kind": warm_start_kind,
         "max_steps": int(max_steps),
         "rollout_path": str(rollout_path),
-        "teacher_episode_class": str(rollout.get("teacher_episode_class", "rejected_teacher")),
+        "teacher_episode_class": str(
+            rollout.get("teacher_episode_class", "rejected_teacher")
+        ),
         "teacher_fingerprint": str(rollout.get("teacher_fingerprint", "")),
         "strict_success": bool(strict.get("strict_success", False)),
-        "measurement_truthful_for_training": bool(rollout.get("measurement_truthful_for_training", False)),
-        "max_drawer_fraction": float(rollout.get("max_drawer_fraction", 0.0) or 0.0),
-        "post_attach_drawer_delta": float(strict.get("post_attach_drawer_delta", 0.0) or 0.0),
-        "attach_persistence": int(strict.get("attach_persistence", 0) or 0),
-        "truthful_window_longest_interior_gap": int(rollout.get("truthful_window_longest_interior_gap", 0) or 0),
-        "step_96_max_drawer_fraction": float(np.max(drawer[:96])) if drawer.size else 0.0,
-        "late_phase_drawer_delta_effective_sum": float(np.sum(np.clip(eff[96:], 0.0, None))) if eff.size > 96 else 0.0,
+        "measurement_truthful_for_training": bool(
+            rollout.get("measurement_truthful_for_training", False)
+        ),
+        "max_drawer_fraction": _none_or_float(rollout.get("max_drawer_fraction"), 0.0),
+        "post_attach_drawer_delta": _none_or_float(
+            strict.get("post_attach_drawer_delta"), 0.0
+        ),
+        "attach_persistence": _none_or_int(strict.get("attach_persistence"), 0),
+        "truthful_window_longest_interior_gap": _none_or_int(
+            rollout.get("truthful_window_longest_interior_gap"), 0
+        ),
+        "step_96_max_drawer_fraction": float(np.max(drawer[:96]))
+        if drawer.size
+        else 0.0,
+        "late_phase_drawer_delta_effective_sum": float(
+            np.sum(np.clip(eff[96:], 0.0, None))
+        )
+        if eff.size > 96
+        else 0.0,
         "phase_locked_rate": float(np.mean(phase_locked)) if phase_locked.size else 0.0,
-        "effective_pull_progress_peak": float(np.max(eff_pull)) if eff_pull.size else 0.0,
+        "effective_pull_progress_peak": float(np.max(eff_pull))
+        if eff_pull.size
+        else 0.0,
     }
 
 
@@ -290,7 +383,12 @@ def _run_controller_rollouts(
     active_train_state_mode: str = "S0",
     warm_start_kind: str | None = None,
 ) -> tuple[list[dict[str, Any]], list[str], str]:
-    expected = _base_rollout_plan(ctx, bridge_stage=f"v84_{phase}", bridge_attempt="always_continue", active_train_state_mode=active_train_state_mode)
+    expected = _base_rollout_plan(
+        ctx,
+        bridge_stage=f"v84_{phase}",
+        bridge_attempt="always_continue",
+        active_train_state_mode=active_train_state_mode,
+    )
     context = _canonical_rollout_context(expected)
     save_dir = ROLLOUT_ROOT / phase / active_train_state_mode.lower() / controller_mode
     save_dir.mkdir(parents=True, exist_ok=True)
@@ -311,8 +409,12 @@ def _run_controller_rollouts(
                 teacher_controller_mode=controller_mode,
                 pull_open_fraction=0.92,
             )
-            rollout = _augment_rollout_metadata(context["controller"], rollout, context["spec"], expected)
-            out_path = save_dir / f"seed_{int(seed):03d}_episode_{int(repeat_idx):02d}.npz"
+            rollout = _augment_rollout_metadata(
+                context["controller"], rollout, context["spec"], expected
+            )
+            out_path = (
+                save_dir / f"seed_{int(seed):03d}_episode_{int(repeat_idx):02d}.npz"
+            )
             save_robot_rollout(out_path, rollout)
             saved_paths.append(str(out_path))
             records.append(
@@ -329,7 +431,9 @@ def _run_controller_rollouts(
     return records, saved_paths, str(save_dir)
 
 
-def _per_seed_summary(records: list[dict[str, Any]], seeds: list[int]) -> dict[str, Any]:
+def _per_seed_summary(
+    records: list[dict[str, Any]], seeds: list[int]
+) -> dict[str, Any]:
     out: dict[str, Any] = {}
     for seed in seeds:
         seed_records = [item for item in records if int(item["seed"]) == int(seed)]
@@ -340,9 +444,26 @@ def _per_seed_summary(records: list[dict[str, Any]], seeds: list[int]) -> dict[s
             "best_teacher_tier": _tier_rank(best or {}),
             "has_accepted_teacher": any(_tier_rank(item) >= 1 for item in seed_records),
             "has_strict_teacher": any(_tier_rank(item) == 2 for item in seed_records),
-            "best_max_drawer_fraction": float(best.get("max_drawer_fraction", 0.0) or 0.0) if best else 0.0,
-            "best_post_attach_drawer_delta": float(best.get("post_attach_drawer_delta", 0.0) or 0.0) if best else 0.0,
-            "best_truth_gap": int(best.get("truthful_window_longest_interior_gap", 0) or 0) if best else None,
+            "best_max_drawer_fraction": _none_or_float(
+                best.get("max_drawer_fraction"), 0.0
+            )
+            if best
+            else 0.0,
+            "best_post_attach_drawer_delta": _none_or_float(
+                best.get("post_attach_drawer_delta"), 0.0
+            )
+            if best
+            else 0.0,
+            "best_truth_gap": _none_or_int(
+                best.get("truthful_window_longest_interior_gap"), 0
+            )
+            if best
+            else None,
+            "best_step_96_max_drawer_fraction": _none_or_float(
+                best.get("step_96_max_drawer_fraction"), 0.0
+            )
+            if best
+            else 0.0,
             "best_rollout_path": best.get("rollout_path") if best else None,
         }
     return out
@@ -353,7 +474,11 @@ def _accepted_records(records: list[dict[str, Any]]) -> list[dict[str, Any]]:
 
 
 def _rca_from_mapping(clauses: dict[str, bool], mapping: dict[str, str]) -> list[str]:
-    return [mapping[key] for key, passed in clauses.items() if (not passed and key in mapping)]
+    return [
+        mapping[key]
+        for key, passed in clauses.items()
+        if (not passed and key in mapping)
+    ]
 
 
 def _run_phase_t0(ctx: dict[str, Any]) -> dict[str, Any]:
@@ -367,7 +492,8 @@ def _run_phase_t0(ctx: dict[str, Any]) -> dict[str, Any]:
         "branch_ok": str(ctx["branch"]) == AUTH_BRANCH,
         "head_commit_recorded": bool(ctx["head"]),
         "conda_env_ok": "infinigen" in sys.executable,
-        "artifact_dir_writable": ARTIFACT_DIR.exists() and os.access(ARTIFACT_DIR, os.W_OK),
+        "artifact_dir_writable": ARTIFACT_DIR.exists()
+        and os.access(ARTIFACT_DIR, os.W_OK),
         "generate_persist_reload_validate_ok": reloaded == payload,
     }
     status = "PASS" if all(clauses.values()) else "ERROR"
@@ -400,14 +526,18 @@ def _run_phase_t0(ctx: dict[str, Any]) -> dict[str, Any]:
         continuation_input_source="remote_live_authority",
         input_artifacts=[],
         output_artifacts=[str(_phase_artifact_path("t0")), str(TEMP_T0_VALIDATE_PATH)],
-        bounded_terminal_if_finalized="T0_INTEGRITY_FATAL" if status == "ERROR" else None,
+        bounded_terminal_if_finalized="T0_INTEGRITY_FATAL"
+        if status == "ERROR"
+        else None,
         elapsed=time.time() - t0,
     )
 
 
 def _run_phase_t1(ctx: dict[str, Any]) -> dict[str, Any]:
     t0 = time.time()
-    plan = _base_rollout_plan(ctx, bridge_stage="v84_t1_semantics", bridge_attempt="alignment")
+    plan = _base_rollout_plan(
+        ctx, bridge_stage="v84_t1_semantics", bridge_attempt="alignment"
+    )
     paths = sorted(DEFAULT_ROLLOUT_SOURCE_DIR.glob("*.npz"))
     if paths:
         report = _write_strict_semantics_alignment(paths, plan)
@@ -425,7 +555,9 @@ def _run_phase_t1(ctx: dict[str, Any]) -> dict[str, Any]:
             ["strict_metric_mismatch"]
             if report.get("entries")
             else ["meta_npz_divergence"]
-        ) if not clauses["strict_semantics_aligned"] else [],
+        )
+        if not clauses["strict_semantics_aligned"]
+        else [],
         evidence={
             "paired_rollout_count": int(report.get("paired_rollout_count", len(paths))),
             "aligned_rollout_count": int(report.get("aligned_rollout_count", 0)),
@@ -434,8 +566,13 @@ def _run_phase_t1(ctx: dict[str, Any]) -> dict[str, Any]:
         },
         continuation_input_source=str(DEFAULT_ROLLOUT_SOURCE_DIR),
         input_artifacts=[str(path) for path in paths[:16]],
-        output_artifacts=[str(_phase_artifact_path("t1")), str(G6_STRICT_SEMANTICS_ALIGNMENT_PATH)],
-        bounded_terminal_if_finalized="STRICT_SEMANTICS_ALIGNMENT_NOT_ESTABLISHED" if not clauses["strict_semantics_aligned"] else None,
+        output_artifacts=[
+            str(_phase_artifact_path("t1")),
+            str(G6_STRICT_SEMANTICS_ALIGNMENT_PATH),
+        ],
+        bounded_terminal_if_finalized="STRICT_SEMANTICS_ALIGNMENT_NOT_ESTABLISHED"
+        if not clauses["strict_semantics_aligned"]
+        else None,
         elapsed=time.time() - t0,
     )
 
@@ -452,7 +589,9 @@ def _run_phase_t2a(ctx: dict[str, Any]) -> dict[str, Any]:
     t0 = time.time()
     g6 = _ensure_g6(ctx)
     t2a = dict(g6.get("t2a") or {})
-    seed_passes = {str(k): bool(v) for k, v in (t2a.get("t2a_seed_passes") or {}).items()}
+    seed_passes = {
+        str(k): bool(v) for k, v in (t2a.get("t2a_seed_passes") or {}).items()
+    }
     clauses = {
         "seed2_attach_entry_pass": bool(seed_passes.get("2", False)),
         "seed4_attach_entry_pass": bool(seed_passes.get("4", False)),
@@ -469,7 +608,10 @@ def _run_phase_t2a(ctx: dict[str, Any]) -> dict[str, Any]:
         phase="t2a",
         status="PASS" if all(clauses.values()) else "FAIL",
         clauses=clauses,
-        rca_classes=rca or (["seed_specific_geometry_sensitivity"] if not all(clauses.values()) else []),
+        rca_classes=rca
+        or (
+            ["seed_specific_geometry_sensitivity"] if not all(clauses.values()) else []
+        ),
         evidence={
             "t2a_passed": bool(t2a.get("t2a_passed", False)),
             "records": t2a.get("records", []),
@@ -478,7 +620,9 @@ def _run_phase_t2a(ctx: dict[str, Any]) -> dict[str, Any]:
         continuation_input_source=str(G6_ARTIFACT),
         input_artifacts=[str(G6_ARTIFACT)],
         output_artifacts=[str(_phase_artifact_path("t2a")), str(G6_ARTIFACT)],
-        bounded_terminal_if_finalized="ATTACH_ENTRY_NOT_ESTABLISHED" if not all(clauses.values()) else None,
+        bounded_terminal_if_finalized="ATTACH_ENTRY_NOT_ESTABLISHED"
+        if not all(clauses.values())
+        else None,
         elapsed=time.time() - t0,
     )
 
@@ -487,7 +631,9 @@ def _run_phase_t2b(ctx: dict[str, Any]) -> dict[str, Any]:
     t0 = time.time()
     g6 = _ensure_g6(ctx)
     t2b = dict(g6.get("t2b") or {})
-    seed_passes = {str(k): bool(v) for k, v in (t2b.get("t2b_seed_passes") or {}).items()}
+    seed_passes = {
+        str(k): bool(v) for k, v in (t2b.get("t2b_seed_passes") or {}).items()
+    }
     clauses = {
         "seed2_recovery_family_pass": bool(seed_passes.get("2", False)),
         "seed4_recovery_family_pass": bool(seed_passes.get("4", False)),
@@ -503,7 +649,8 @@ def _run_phase_t2b(ctx: dict[str, Any]) -> dict[str, Any]:
                 "seed2_recovery_family_pass": "recovery_expressivity_not_established",
                 "seed4_recovery_family_pass": "recovery_expressivity_not_established",
             },
-        ) or (["attached_phase_controller_ceiling"] if not all(clauses.values()) else []),
+        )
+        or (["attached_phase_controller_ceiling"] if not all(clauses.values()) else []),
         evidence={
             "t2b_passed": bool(t2b.get("t2b_passed", False)),
             "records": t2b.get("records", []),
@@ -513,7 +660,9 @@ def _run_phase_t2b(ctx: dict[str, Any]) -> dict[str, Any]:
         continuation_input_source=str(G6_ARTIFACT),
         input_artifacts=[str(G6_ARTIFACT)],
         output_artifacts=[str(_phase_artifact_path("t2b")), str(G6_ARTIFACT)],
-        bounded_terminal_if_finalized="RECOVERY_EXECUTABILITY_NOT_ESTABLISHED" if not all(clauses.values()) else None,
+        bounded_terminal_if_finalized="RECOVERY_EXECUTABILITY_NOT_ESTABLISHED"
+        if not all(clauses.values())
+        else None,
         elapsed=time.time() - t0,
     )
 
@@ -559,7 +708,15 @@ def _run_phase_p1b(ctx: dict[str, Any]) -> dict[str, Any]:
         p1a = _run_phase_p1a(ctx)
         _write_phase(ctx, p1a)
         baseline_seed_results = (p1a.get("evidence") or {}).get("seed_results", {})
-    baseline_best = {seed: float((baseline_seed_results.get(str(seed), {}) or {}).get("best_max_drawer_fraction", 0.0) or 0.0) for seed in HARD_SEEDS}
+    baseline_best = {
+        seed: float(
+            (baseline_seed_results.get(str(seed), {}) or {}).get(
+                "best_max_drawer_fraction", 0.0
+            )
+            or 0.0
+        )
+        for seed in HARD_SEEDS
+    }
     records, saved_paths, _ = _run_controller_rollouts(
         ctx,
         phase="p1b",
@@ -569,20 +726,45 @@ def _run_phase_p1b(ctx: dict[str, Any]) -> dict[str, Any]:
         warm_start_kind="attached_phase_locked",
     )
     seed_results = _per_seed_summary(records, list(HARD_SEEDS))
-    improvements = {str(seed): float(seed_results[str(seed)]["best_max_drawer_fraction"]) - baseline_best[int(seed)] for seed in map(str, HARD_SEEDS)}
-    clauses = {
-        "candidate_not_weaker_than_p1a": all(delta >= -1e-6 for delta in improvements.values()),
-        "candidate_strictly_better_than_p1a": any(delta > 1e-4 for delta in improvements.values()),
-        "both_seeds_ge_085": all(bool(seed_results[str(seed)]["best_max_drawer_fraction"] >= 0.85) for seed in HARD_SEEDS),
-        "at_least_one_seed_ge_090": any(bool(seed_results[str(seed)]["best_max_drawer_fraction"] >= 0.90) for seed in HARD_SEEDS),
+    improvements = {
+        str(seed): float(seed_results[str(seed)]["best_max_drawer_fraction"])
+        - baseline_best[int(seed)]
+        for seed in map(str, HARD_SEEDS)
     }
-    candidate_frontier_valid = bool(clauses["candidate_not_weaker_than_p1a"] and clauses["candidate_strictly_better_than_p1a"])
+    clauses = {
+        "candidate_not_weaker_than_p1a": all(
+            delta >= -1e-6 for delta in improvements.values()
+        ),
+        "candidate_strictly_better_than_p1a": any(
+            delta > 1e-4 for delta in improvements.values()
+        ),
+        "both_seeds_ge_085": all(
+            bool(seed_results[str(seed)]["best_max_drawer_fraction"] >= 0.85)
+            for seed in HARD_SEEDS
+        ),
+        "at_least_one_seed_ge_090": any(
+            bool(seed_results[str(seed)]["best_max_drawer_fraction"] >= 0.90)
+            for seed in HARD_SEEDS
+        ),
+    }
+    candidate_frontier_valid = bool(
+        clauses["candidate_not_weaker_than_p1a"]
+        and clauses["candidate_strictly_better_than_p1a"]
+    )
     if not candidate_frontier_valid:
         status = "DIAGNOSTIC"
         bounded = "PHASE1B_CANDIDATE_NOT_STRONGER_THAN_BASELINE"
     else:
-        status = "PASS" if (clauses["both_seeds_ge_085"] and clauses["at_least_one_seed_ge_090"]) else "FAIL"
-        bounded = None if status == "PASS" else "FIXED_GRASP_ACCEPTANCE_BAR_NOT_REACHED_IN_QUASISTATIC_ASSAY"
+        status = (
+            "PASS"
+            if (clauses["both_seeds_ge_085"] and clauses["at_least_one_seed_ge_090"])
+            else "FAIL"
+        )
+        bounded = (
+            None
+            if status == "PASS"
+            else "FIXED_GRASP_ACCEPTANCE_BAR_NOT_REACHED_IN_QUASISTATIC_ASSAY"
+        )
     evidence = {
         "seed_results": seed_results,
         "baseline_reference": baseline_best,
@@ -628,7 +810,20 @@ def _run_phase_t3a(ctx: dict[str, Any]) -> dict[str, Any]:
     clauses = {
         "seed2_near_strict": bool(seed_results["2"]["has_accepted_teacher"]),
         "seed4_near_strict": bool(seed_results["4"]["has_accepted_teacher"]),
-        "at_least_one_seed_strict": bool(seed_results["2"]["has_strict_teacher"] or seed_results["4"]["has_strict_teacher"]),
+        "at_least_one_seed_strict": bool(
+            seed_results["2"]["has_strict_teacher"]
+            or seed_results["4"]["has_strict_teacher"]
+        ),
+        "t3a_matches_frozen_v83_baseline": bool(
+            _none_or_float(
+                seed_results["2"].get("best_step_96_max_drawer_fraction"), 0.0
+            )
+            >= 0.54
+            and _none_or_float(
+                seed_results["4"].get("best_step_96_max_drawer_fraction"), 0.0
+            )
+            >= 0.45
+        ),
     }
     evidence = {
         "seed_results": seed_results,
@@ -653,14 +848,24 @@ def _run_phase_t3a(ctx: dict[str, Any]) -> dict[str, Any]:
         continuation_input_source="reset_matched_world_frame",
         input_artifacts=[],
         output_artifacts=[str(_phase_artifact_path("t3a")), *saved_paths],
-        bounded_terminal_if_finalized="WORLD_FRAME_MATCHED_HARD_SEED_REPAIR_NOT_ESTABLISHED" if not all(clauses.values()) else None,
+        bounded_terminal_if_finalized="WORLD_FRAME_MATCHED_HARD_SEED_REPAIR_NOT_ESTABLISHED"
+        if not all(clauses.values())
+        else None,
         elapsed=time.time() - t0,
     )
 
 
 def _seed_superiority(a: dict[str, Any], b: dict[str, Any]) -> int:
-    key_a = (int(a.get("best_teacher_tier", 0)), float(a.get("best_max_drawer_fraction", 0.0)), -int(a.get("best_truth_gap", 9999) or 9999))
-    key_b = (int(b.get("best_teacher_tier", 0)), float(b.get("best_max_drawer_fraction", 0.0)), -int(b.get("best_truth_gap", 9999) or 9999))
+    key_a = (
+        _none_or_int(a.get("best_teacher_tier"), 0),
+        _none_or_float(a.get("best_max_drawer_fraction"), 0.0),
+        -_none_or_int(a.get("best_truth_gap"), 9999),
+    )
+    key_b = (
+        _none_or_int(b.get("best_teacher_tier"), 0),
+        _none_or_float(b.get("best_max_drawer_fraction"), 0.0),
+        -_none_or_int(b.get("best_truth_gap"), 9999),
+    )
     return (key_a > key_b) - (key_a < key_b)
 
 
@@ -674,15 +879,31 @@ def _run_phase_t3b(ctx: dict[str, Any]) -> dict[str, Any]:
         max_steps=144,
     )
     seed_results = _per_seed_summary(records, list(HARD_SEEDS))
-    t3a_seed_results = (ctx["phase_results"].get("t3a", {}).get("evidence") or {}).get("seed_results", {})
+    t3a_seed_results = (ctx["phase_results"].get("t3a", {}).get("evidence") or {}).get(
+        "seed_results", {}
+    )
     superiority = {}
     for seed in map(str, HARD_SEEDS):
-        superiority[seed] = _seed_superiority(seed_results.get(seed, {}), t3a_seed_results.get(seed, {}))
+        superiority[seed] = _seed_superiority(
+            seed_results.get(seed, {}), t3a_seed_results.get(seed, {})
+        )
+    matched_reference_valid = bool(
+        (ctx["phase_results"].get("t3a", {}).get("clauses") or {}).get(
+            "t3a_matches_frozen_v83_baseline", False
+        )
+    )
     clauses = {
         "seed2_near_strict": bool(seed_results["2"]["has_accepted_teacher"]),
         "seed4_near_strict": bool(seed_results["4"]["has_accepted_teacher"]),
-        "at_least_one_seed_strict": bool(seed_results["2"]["has_strict_teacher"] or seed_results["4"]["has_strict_teacher"]),
-        "matched_superiority_over_t3a": bool(any(v > 0 for v in superiority.values()) and all(v >= 0 for v in superiority.values())),
+        "at_least_one_seed_strict": bool(
+            seed_results["2"]["has_strict_teacher"]
+            or seed_results["4"]["has_strict_teacher"]
+        ),
+        "matched_superiority_over_t3a": bool(
+            matched_reference_valid
+            and any(v > 0 for v in superiority.values())
+            and all(v >= 0 for v in superiority.values())
+        ),
     }
     accepted = _accepted_records(records)
     for item in accepted:
@@ -690,6 +911,7 @@ def _run_phase_t3b(ctx: dict[str, Any]) -> dict[str, Any]:
     evidence = {
         "seed_results": seed_results,
         "superiority_vs_t3a": superiority,
+        "matched_reference_valid": matched_reference_valid,
         "accepted_records": accepted,
         "saved_rollout_paths": saved_paths,
         "semantics_blocked": ctx.get("semantics_blocked", False),
@@ -712,7 +934,9 @@ def _run_phase_t3b(ctx: dict[str, Any]) -> dict[str, Any]:
         continuation_input_source=str(_phase_artifact_path("t3a")),
         input_artifacts=[str(_phase_artifact_path("t3a"))],
         output_artifacts=[str(_phase_artifact_path("t3b")), *saved_paths],
-        bounded_terminal_if_finalized="TEACHER_ABSTRACTION_NOT_ESTABLISHED" if not all(clauses.values()) else None,
+        bounded_terminal_if_finalized="TEACHER_ABSTRACTION_NOT_ESTABLISHED"
+        if not all(clauses.values())
+        else None,
         elapsed=time.time() - t0,
     )
 
@@ -731,14 +955,30 @@ def _run_phase_t4(ctx: dict[str, Any]) -> dict[str, Any]:
     accepted = _accepted_records(records)
     for item in accepted:
         ctx["accepted_rollouts"][str(item["rollout_path"])] = item
-    t3b_seed_results = (ctx["phase_results"].get("t3b", {}).get("evidence") or {}).get("seed_results", {})
+    t3b_seed_results = (ctx["phase_results"].get("t3b", {}).get("evidence") or {}).get(
+        "seed_results", {}
+    )
     seed2_best = t3b_seed_results.get("2", {}).get("best_record") or {}
     seed4_best = t3b_seed_results.get("4", {}).get("best_record") or {}
     clauses = {
-        "seed2_truth_pass": bool(seed2_best.get("measurement_truthful_for_training", False)),
-        "seed4_truth_gap_le_2": int(seed4_best.get("truthful_window_longest_interior_gap", 9999) or 9999) <= 2,
-        "seed3_bridge_not_regressed": bool(seed_results[str(BRIDGE_SEED)]["has_accepted_teacher"] and ((seed_results[str(BRIDGE_SEED)]["best_record"] or {}).get("measurement_truthful_for_training", False))),
-        "good_seed_acceptance_not_regressed": all(bool(seed_results[str(seed)]["has_accepted_teacher"]) for seed in GOOD_SEEDS),
+        "seed2_truth_pass": bool(
+            seed2_best.get("measurement_truthful_for_training", False)
+        ),
+        "seed4_truth_gap_le_2": _none_or_int(
+            seed4_best.get("truthful_window_longest_interior_gap"), 9999
+        )
+        <= 2,
+        "seed3_bridge_not_regressed": bool(
+            seed_results[str(BRIDGE_SEED)]["has_accepted_teacher"]
+            and (
+                (seed_results[str(BRIDGE_SEED)]["best_record"] or {}).get(
+                    "measurement_truthful_for_training", False
+                )
+            )
+        ),
+        "good_seed_acceptance_not_regressed": all(
+            bool(seed_results[str(seed)]["has_accepted_teacher"]) for seed in GOOD_SEEDS
+        ),
     }
     evidence = {
         "seed_results": seed_results,
@@ -764,7 +1004,9 @@ def _run_phase_t4(ctx: dict[str, Any]) -> dict[str, Any]:
         continuation_input_source=str(_phase_artifact_path("t3b")),
         input_artifacts=[str(_phase_artifact_path("t3b"))],
         output_artifacts=[str(_phase_artifact_path("t4")), *saved_paths],
-        bounded_terminal_if_finalized="HARD_SEED_REPAIR_CAUSES_GENERALIZATION_OR_TRUTH_REGRESSION" if not all(clauses.values()) else None,
+        bounded_terminal_if_finalized="HARD_SEED_REPAIR_CAUSES_GENERALIZATION_OR_TRUTH_REGRESSION"
+        if not all(clauses.values())
+        else None,
         elapsed=time.time() - t0,
     )
 
@@ -772,12 +1014,29 @@ def _run_phase_t4(ctx: dict[str, Any]) -> dict[str, Any]:
 def _run_phase_t5(ctx: dict[str, Any]) -> dict[str, Any]:
     t0 = time.time()
     accepted_records = list(ctx["accepted_rollouts"].values())
-    accepted_families = {str(item.get("teacher_fingerprint", "")) for item in accepted_records if str(item.get("teacher_fingerprint", ""))}
-    strict_families = {str(item.get("teacher_fingerprint", "")) for item in accepted_records if (_tier_rank(item) == 2 and str(item.get("teacher_fingerprint", "")))}
-    near_families = {str(item.get("teacher_fingerprint", "")) for item in accepted_records if (str(item.get("teacher_episode_class")) == "near_strict_teacher" and str(item.get("teacher_fingerprint", "")))}
+    accepted_families = {
+        str(item.get("teacher_fingerprint", ""))
+        for item in accepted_records
+        if str(item.get("teacher_fingerprint", ""))
+    }
+    strict_families = {
+        str(item.get("teacher_fingerprint", ""))
+        for item in accepted_records
+        if (_tier_rank(item) == 2 and str(item.get("teacher_fingerprint", "")))
+    }
+    near_families = {
+        str(item.get("teacher_fingerprint", ""))
+        for item in accepted_records
+        if (
+            str(item.get("teacher_episode_class")) == "near_strict_teacher"
+            and str(item.get("teacher_fingerprint", ""))
+        )
+    }
     per_seed_counts: dict[int, int] = {}
     for item in accepted_records:
-        per_seed_counts[int(item["seed"])] = per_seed_counts.get(int(item["seed"]), 0) + 1
+        per_seed_counts[int(item["seed"])] = (
+            per_seed_counts.get(int(item["seed"]), 0) + 1
+        )
     total = max(len(accepted_records), 1)
     max_share = max((count / total for count in per_seed_counts.values()), default=1.0)
     clauses = {
@@ -788,7 +1047,9 @@ def _run_phase_t5(ctx: dict[str, Any]) -> dict[str, Any]:
     }
     evidence = {
         "accepted_record_count": len(accepted_records),
-        "accepted_seed_coverage": sorted({int(item["seed"]) for item in accepted_records}),
+        "accepted_seed_coverage": sorted(
+            {int(item["seed"]) for item in accepted_records}
+        ),
         "accepted_unique_teacher_family_count": len(accepted_families),
         "strict_unique_teacher_family_count": len(strict_families),
         "near_strict_unique_teacher_family_count": len(near_families),
@@ -812,9 +1073,14 @@ def _run_phase_t5(ctx: dict[str, Any]) -> dict[str, Any]:
         ),
         evidence=evidence,
         continuation_input_source="accepted_rollout_corpus",
-        input_artifacts=[str(_phase_artifact_path("t3b")), str(_phase_artifact_path("t4"))],
+        input_artifacts=[
+            str(_phase_artifact_path("t3b")),
+            str(_phase_artifact_path("t4")),
+        ],
         output_artifacts=[str(_phase_artifact_path("t5"))],
-        bounded_terminal_if_finalized="TEACHER_DIVERSITY_NOT_ESTABLISHED" if not all(clauses.values()) else None,
+        bounded_terminal_if_finalized="TEACHER_DIVERSITY_NOT_ESTABLISHED"
+        if not all(clauses.values())
+        else None,
         elapsed=time.time() - t0,
     )
 
@@ -835,15 +1101,46 @@ def _run_phase_t6(ctx: dict[str, Any]) -> dict[str, Any]:
         "strict_semantics_aligned": t1.get("status") == "PASS",
         "t2a_passed": t2a.get("status") == "PASS",
         "t2b_passed": t2b.get("status") == "PASS",
-        "p1b_frontier_valid": bool((p1b.get("evidence") or {}).get("candidate_frontier_valid", False)),
-        "t3b_superior_to_t3a": bool((t3b.get("clauses") or {}).get("matched_superiority_over_t3a", False)),
-        "seed2_has_reset_accepted_teacher": bool((t3b_seed_results.get("2") or {}).get("has_accepted_teacher", False)),
-        "seed4_has_reset_accepted_teacher": bool((t3b_seed_results.get("4") or {}).get("has_accepted_teacher", False)),
-        "at_least_one_hard_seed_strict": bool((t3b_seed_results.get("2") or {}).get("has_strict_teacher", False) or (t3b_seed_results.get("4") or {}).get("has_strict_teacher", False)),
-        "seed3_has_accepted_truthful_bridge": bool((t4_seed_results.get(str(BRIDGE_SEED), {}) or {}).get("has_accepted_teacher", False) and (((t4_seed_results.get(str(BRIDGE_SEED), {}) or {}).get("best_record") or {}).get("measurement_truthful_for_training", False))),
-        "accepted_unique_teacher_families_ge_18": bool((t5.get("clauses") or {}).get("accepted_unique_teacher_families_ge_18", False)),
-        "strict_unique_teacher_families_ge_8": bool((t5.get("clauses") or {}).get("strict_unique_teacher_families_ge_8", False)),
-        "near_strict_unique_teacher_families_ge_6": bool((t5.get("clauses") or {}).get("near_strict_unique_teacher_families_ge_6", False)),
+        "p1b_frontier_valid": bool(
+            (p1b.get("evidence") or {}).get("candidate_frontier_valid", False)
+        ),
+        "t3b_superior_to_t3a": bool(
+            (t3b.get("clauses") or {}).get("matched_superiority_over_t3a", False)
+        ),
+        "seed2_has_reset_accepted_teacher": bool(
+            (t3b_seed_results.get("2") or {}).get("has_accepted_teacher", False)
+        ),
+        "seed4_has_reset_accepted_teacher": bool(
+            (t3b_seed_results.get("4") or {}).get("has_accepted_teacher", False)
+        ),
+        "at_least_one_hard_seed_strict": bool(
+            (t3b_seed_results.get("2") or {}).get("has_strict_teacher", False)
+            or (t3b_seed_results.get("4") or {}).get("has_strict_teacher", False)
+        ),
+        "seed3_has_accepted_truthful_bridge": bool(
+            (t4_seed_results.get(str(BRIDGE_SEED), {}) or {}).get(
+                "has_accepted_teacher", False
+            )
+            and (
+                (
+                    (t4_seed_results.get(str(BRIDGE_SEED), {}) or {}).get("best_record")
+                    or {}
+                ).get("measurement_truthful_for_training", False)
+            )
+        ),
+        "accepted_unique_teacher_families_ge_18": bool(
+            (t5.get("clauses") or {}).get(
+                "accepted_unique_teacher_families_ge_18", False
+            )
+        ),
+        "strict_unique_teacher_families_ge_8": bool(
+            (t5.get("clauses") or {}).get("strict_unique_teacher_families_ge_8", False)
+        ),
+        "near_strict_unique_teacher_families_ge_6": bool(
+            (t5.get("clauses") or {}).get(
+                "near_strict_unique_teacher_families_ge_6", False
+            )
+        ),
     }
     status = "PASS" if all(clauses.values()) else "FAIL"
     evidence = {
@@ -898,22 +1195,41 @@ def _run_phase_t6(ctx: dict[str, Any]) -> dict[str, Any]:
         ),
         evidence=evidence,
         continuation_input_source="phase_clause_matrix",
-        input_artifacts=[str(_phase_artifact_path(name)) for name in ["t1", "t2a", "t2b", "p1b", "t3b", "t4", "t5"]],
-        output_artifacts=[str(_phase_artifact_path("t6")), str(G6_TEACHER_READINESS_CONTRACT_PATH)],
-        bounded_terminal_if_finalized="TEACHER_READINESS_NOT_ESTABLISHED" if status != "PASS" else None,
+        input_artifacts=[
+            str(_phase_artifact_path(name))
+            for name in ["t1", "t2a", "t2b", "p1b", "t3b", "t4", "t5"]
+        ],
+        output_artifacts=[
+            str(_phase_artifact_path("t6")),
+            str(G6_TEACHER_READINESS_CONTRACT_PATH),
+        ],
+        bounded_terminal_if_finalized="TEACHER_READINESS_NOT_ESTABLISHED"
+        if status != "PASS"
+        else None,
         elapsed=time.time() - t0,
     )
 
 
-def _stage_phase_result(ctx: dict[str, Any], phase: str, stage_summary: dict[str, Any], *, diagnostic_only: bool) -> dict[str, Any]:
+def _stage_phase_result(
+    ctx: dict[str, Any],
+    phase: str,
+    stage_summary: dict[str, Any],
+    *,
+    diagnostic_only: bool,
+) -> dict[str, Any]:
     dataset_summary = dict(stage_summary.get("dataset_summary") or {})
     probe_summary = dict(stage_summary.get("probe_summary") or {})
     eval_summary = dict(stage_summary.get("eval_summary") or {})
     clauses = {
         "dataset_built": bool(stage_summary.get("dataset_valid", False)),
         "train_completed": bool(stage_summary.get("train_passed", False)),
-        "train_probe_executed": bool(stage_summary.get("train_passed", False) and probe_summary != {}),
-        "heldout_executed_if_probe_passed": (not bool(stage_summary.get("train_probe_passed", False))) or bool(stage_summary.get("heldout_eval_run", False)),
+        "train_probe_executed": bool(
+            stage_summary.get("train_passed", False) and probe_summary != {}
+        ),
+        "heldout_executed_if_probe_passed": (
+            not bool(stage_summary.get("train_probe_passed", False))
+        )
+        or bool(stage_summary.get("heldout_eval_run", False)),
     }
     rca: list[str] = []
     if not clauses["dataset_built"]:
@@ -924,7 +1240,9 @@ def _stage_phase_result(ctx: dict[str, Any], phase: str, stage_summary: dict[str
         rca.append("train_probe_no_signal")
     if not clauses["heldout_executed_if_probe_passed"]:
         rca.append("heldout_not_supported")
-    if bool(stage_summary.get("heldout_eval_run", False)) and not bool(stage_summary.get("claim_supported", False)):
+    if bool(stage_summary.get("heldout_eval_run", False)) and not bool(
+        stage_summary.get("claim_supported", False)
+    ):
         rca.append("heldout_fail_after_probe_pass")
     status = "PASS" if all(clauses.values()) else "FAIL"
     evidence = {
@@ -934,7 +1252,9 @@ def _stage_phase_result(ctx: dict[str, Any], phase: str, stage_summary: dict[str
         "train_probe_passed": bool(stage_summary.get("train_probe_passed", False)),
         "selected_bridge_checkpoint": stage_summary.get("selected_bridge_checkpoint"),
         "selected_checkpoint_step": stage_summary.get("selected_checkpoint_step"),
-        "unsupported_by_readiness_contract": bool(stage_summary.get("unsupported_by_readiness_contract", False)),
+        "unsupported_by_readiness_contract": bool(
+            stage_summary.get("unsupported_by_readiness_contract", False)
+        ),
         "dataset_summary": dataset_summary,
         "probe_summary": probe_summary,
         "eval_summary": eval_summary,
@@ -949,23 +1269,39 @@ def _stage_phase_result(ctx: dict[str, Any], phase: str, stage_summary: dict[str
         evidence=evidence,
         continuation_input_source="explicit_rollout_stage",
         input_artifacts=[str(_phase_artifact_path("t6"))],
-        output_artifacts=[str(_phase_artifact_path(phase)), str(TINY_RETRAIN_DATASET_BUILD_PATH), str(G8_SUMMARY_PATH), str(G8_PROBE_PATH), str(G9_SUMMARY_PATH)],
+        output_artifacts=[
+            str(_phase_artifact_path(phase)),
+            str(TINY_RETRAIN_DATASET_BUILD_PATH),
+            str(G8_SUMMARY_PATH),
+            str(G8_PROBE_PATH),
+            str(G9_SUMMARY_PATH),
+        ],
         force_diagnostic=diagnostic_only,
     )
 
 
-def _prepare_rollout_corpus(ctx: dict[str, Any], active_train_state_mode: str) -> list[Path]:
+def _prepare_rollout_corpus(
+    ctx: dict[str, Any], active_train_state_mode: str
+) -> list[Path]:
     if active_train_state_mode == "S0":
         return [Path(path) for path in sorted(ctx["accepted_rollouts"].keys())]
     if active_train_state_mode in ctx["cached_rollout_corpora"]:
-        return [Path(path) for path in ctx["cached_rollout_corpora"][active_train_state_mode]]
+        return [
+            Path(path)
+            for path in ctx["cached_rollout_corpora"][active_train_state_mode]
+        ]
     paths: list[Path] = []
     records = list(ctx["accepted_rollouts"].values())
     if not records:
         ctx["cached_rollout_corpora"][active_train_state_mode] = []
         return []
     for item in records:
-        expected = _base_rollout_plan(ctx, bridge_stage=f"v84_retrain_{active_train_state_mode.lower()}_corpus", bridge_attempt="materialize", active_train_state_mode=active_train_state_mode)
+        expected = _base_rollout_plan(
+            ctx,
+            bridge_stage=f"v84_retrain_{active_train_state_mode.lower()}_corpus",
+            bridge_attempt="materialize",
+            active_train_state_mode=active_train_state_mode,
+        )
         context = _canonical_rollout_context(expected)
         rollout = build_robot_rollout(
             seed=int(item["seed"]),
@@ -977,18 +1313,30 @@ def _prepare_rollout_corpus(ctx: dict[str, Any], active_train_state_mode: str) -
             claim_policy=context["claim_policy"],
             interventions=dict(context["base_interventions"]),
             assay_warm_start_kind=item.get("warm_start_kind"),
-            teacher_controller_mode=str(item.get("controller_mode", "interaction_frame_hybrid")),
+            teacher_controller_mode=str(
+                item.get("controller_mode", "interaction_frame_hybrid")
+            ),
             pull_open_fraction=0.92,
         )
-        rollout = _augment_rollout_metadata(context["controller"], rollout, context["spec"], expected)
-        if str(rollout.get("teacher_episode_class", "rejected_teacher")) not in {"strict_teacher", "near_strict_teacher"}:
+        rollout = _augment_rollout_metadata(
+            context["controller"], rollout, context["spec"], expected
+        )
+        if str(rollout.get("teacher_episode_class", "rejected_teacher")) not in {
+            "strict_teacher",
+            "near_strict_teacher",
+        }:
             continue
         out_dir = ROLLOUT_ROOT / "retrain" / active_train_state_mode.lower()
         out_dir.mkdir(parents=True, exist_ok=True)
-        out_path = out_dir / f"seed_{int(item['seed']):03d}_episode_{int(item['repeat_idx']):02d}_{str(item.get('controller_mode', 'controller'))}.npz"
+        out_path = (
+            out_dir
+            / f"seed_{int(item['seed']):03d}_episode_{int(item['repeat_idx']):02d}_{str(item.get('controller_mode', 'controller'))}.npz"
+        )
         save_robot_rollout(out_path, rollout)
         paths.append(out_path)
-    ctx["cached_rollout_corpora"][active_train_state_mode] = [str(path) for path in paths]
+    ctx["cached_rollout_corpora"][active_train_state_mode] = [
+        str(path) for path in paths
+    ]
     return paths
 
 
@@ -1028,21 +1376,22 @@ def _run_phase_b0(ctx: dict[str, Any]) -> dict[str, Any]:
     return result
 
 
-def _run_authoritative_stage(ctx: dict[str, Any], phase: str, *, active_train_state_mode: str, bridge_stage: str, bridge_attempt: str, episodes_per_seed: int, min_train_episodes: int, train_steps: int, save_freq: int, checkpoint_probe_steps: list[int]) -> dict[str, Any]:
+def _run_authoritative_stage(
+    ctx: dict[str, Any],
+    phase: str,
+    *,
+    active_train_state_mode: str,
+    bridge_stage: str,
+    bridge_attempt: str,
+    episodes_per_seed: int,
+    min_train_episodes: int,
+    train_steps: int,
+    save_freq: int,
+    checkpoint_probe_steps: list[int],
+) -> dict[str, Any]:
     t0 = time.time()
-    if ctx["phase_results"].get("t6", {}).get("status") != "PASS":
-        return _phase_result(
-            ctx,
-            phase=phase,
-            status="SKIPPED",
-            clauses={},
-            rca_classes=["teacher_readiness_not_established"],
-            evidence={"reason": "t6_failed"},
-            continuation_input_source=str(_phase_artifact_path("t6")),
-            input_artifacts=[str(_phase_artifact_path("t6"))],
-            output_artifacts=[str(_phase_artifact_path(phase))],
-            elapsed=time.time() - t0,
-        )
+    readiness_pass = ctx["phase_results"].get("t6", {}).get("status") == "PASS"
+    diagnostic_only = not readiness_pass
     os.environ["MINT_RUN_INSTANCE_ID"] = ctx["run_id"]
     stage_summary = _run_stage(
         load_terminal_artifacts(),
@@ -1054,12 +1403,15 @@ def _run_authoritative_stage(ctx: dict[str, Any], phase: str, *, active_train_st
         train_steps=train_steps,
         save_freq=save_freq,
         checkpoint_probe_steps=checkpoint_probe_steps,
-        require_teacher_readiness=True,
-        diagnostic_only=False,
+        require_teacher_readiness=readiness_pass,
+        diagnostic_only=diagnostic_only,
         explicit_rollout_paths=_prepare_rollout_corpus(ctx, active_train_state_mode),
     )
-    ctx["b_stage_history"].append(stage_summary)
-    result = _stage_phase_result(ctx, phase, stage_summary, diagnostic_only=False)
+    if not diagnostic_only:
+        ctx["b_stage_history"].append(stage_summary)
+    result = _stage_phase_result(
+        ctx, phase, stage_summary, diagnostic_only=diagnostic_only
+    )
     result["phase_elapsed_sec"] = round(float(time.time() - t0), 4)
     return result
 
@@ -1090,13 +1442,57 @@ def _run_named_phase(ctx: dict[str, Any], phase: str) -> dict[str, Any]:
     if phase == "b0":
         return _run_phase_b0(ctx)
     if phase == "b1":
-        return _run_authoritative_stage(ctx, "b1", active_train_state_mode="S0", bridge_stage="v84_b1_s0_honest", bridge_attempt="honest", episodes_per_seed=HONEST_EPISODES_PER_SEED, min_train_episodes=HONEST_MIN_TRAIN_EPISODES, train_steps=HONEST_TRAIN_STEPS, save_freq=HONEST_SAVE_FREQ, checkpoint_probe_steps=HONEST_PROBE_STEPS)
+        return _run_authoritative_stage(
+            ctx,
+            "b1",
+            active_train_state_mode="S0",
+            bridge_stage="v84_b1_s0_honest",
+            bridge_attempt="honest",
+            episodes_per_seed=HONEST_EPISODES_PER_SEED,
+            min_train_episodes=HONEST_MIN_TRAIN_EPISODES,
+            train_steps=HONEST_TRAIN_STEPS,
+            save_freq=HONEST_SAVE_FREQ,
+            checkpoint_probe_steps=HONEST_PROBE_STEPS,
+        )
     if phase == "b2":
-        return _run_authoritative_stage(ctx, "b2", active_train_state_mode="S0", bridge_stage="v84_b2_s0_amplification", bridge_attempt="amplification", episodes_per_seed=AMPLIFIED_EPISODES_PER_SEED, min_train_episodes=AMPLIFIED_MIN_TRAIN_EPISODES, train_steps=AMPLIFIED_TRAIN_STEPS, save_freq=AMPLIFIED_SAVE_FREQ, checkpoint_probe_steps=AMPLIFIED_PROBE_STEPS)
+        return _run_authoritative_stage(
+            ctx,
+            "b2",
+            active_train_state_mode="S0",
+            bridge_stage="v84_b2_s0_amplification",
+            bridge_attempt="amplification",
+            episodes_per_seed=AMPLIFIED_EPISODES_PER_SEED,
+            min_train_episodes=AMPLIFIED_MIN_TRAIN_EPISODES,
+            train_steps=AMPLIFIED_TRAIN_STEPS,
+            save_freq=AMPLIFIED_SAVE_FREQ,
+            checkpoint_probe_steps=AMPLIFIED_PROBE_STEPS,
+        )
     if phase == "b3":
-        return _run_authoritative_stage(ctx, "b3", active_train_state_mode="S2", bridge_stage="v84_b3_s2_honest", bridge_attempt="honest", episodes_per_seed=HONEST_EPISODES_PER_SEED, min_train_episodes=HONEST_MIN_TRAIN_EPISODES, train_steps=HONEST_TRAIN_STEPS, save_freq=HONEST_SAVE_FREQ, checkpoint_probe_steps=HONEST_PROBE_STEPS)
+        return _run_authoritative_stage(
+            ctx,
+            "b3",
+            active_train_state_mode="S2",
+            bridge_stage="v84_b3_s2_honest",
+            bridge_attempt="honest",
+            episodes_per_seed=HONEST_EPISODES_PER_SEED,
+            min_train_episodes=HONEST_MIN_TRAIN_EPISODES,
+            train_steps=HONEST_TRAIN_STEPS,
+            save_freq=HONEST_SAVE_FREQ,
+            checkpoint_probe_steps=HONEST_PROBE_STEPS,
+        )
     if phase == "b4":
-        return _run_authoritative_stage(ctx, "b4", active_train_state_mode="S2", bridge_stage="v84_b4_s2_amplification", bridge_attempt="amplification", episodes_per_seed=AMPLIFIED_EPISODES_PER_SEED, min_train_episodes=AMPLIFIED_MIN_TRAIN_EPISODES, train_steps=AMPLIFIED_TRAIN_STEPS, save_freq=AMPLIFIED_SAVE_FREQ, checkpoint_probe_steps=AMPLIFIED_PROBE_STEPS)
+        return _run_authoritative_stage(
+            ctx,
+            "b4",
+            active_train_state_mode="S2",
+            bridge_stage="v84_b4_s2_amplification",
+            bridge_attempt="amplification",
+            episodes_per_seed=AMPLIFIED_EPISODES_PER_SEED,
+            min_train_episodes=AMPLIFIED_MIN_TRAIN_EPISODES,
+            train_steps=AMPLIFIED_TRAIN_STEPS,
+            save_freq=AMPLIFIED_SAVE_FREQ,
+            checkpoint_probe_steps=AMPLIFIED_PROBE_STEPS,
+        )
     raise ValueError(f"unsupported phase: {phase}")
 
 
@@ -1108,6 +1504,16 @@ def _hydrate_context_from_artifacts(ctx: dict[str, Any], phases: list[str]) -> N
         payload = load_json(path, {})
         if not payload:
             raise SystemExit(f"Empty artifact required for resume: {path}")
+        payload_branch = payload.get("branch")
+        payload_head = payload.get("head_commit")
+        if payload_branch and str(payload_branch) != str(ctx["branch"]):
+            raise SystemExit(
+                f"Resume artifact branch mismatch for {phase}: {payload_branch} != {ctx['branch']}"
+            )
+        if payload_head and str(payload_head) != str(ctx["head"]):
+            raise SystemExit(
+                f"Resume artifact head mismatch for {phase}: {payload_head} != {ctx['head']}"
+            )
         ctx["phase_results"][phase] = payload
         if phase == "t1" and payload.get("status") != "PASS":
             ctx["semantics_blocked"] = True
@@ -1116,32 +1522,43 @@ def _hydrate_context_from_artifacts(ctx: dict[str, Any], phases: list[str]) -> N
                 if item.get("rollout_path"):
                     ctx["accepted_rollouts"][str(item["rollout_path"])] = item
         if phase in {"b1", "b2", "b3", "b4"}:
-            stage_summary = ((payload.get("evidence") or {}).get("stage_summary") or {})
+            stage_summary = (payload.get("evidence") or {}).get("stage_summary") or {}
             if stage_summary:
-                ctx["b_stage_history"].append(stage_summary)
-                ctx["authoritative_retrain_executed"] = True
+                if not bool(stage_summary.get("diagnostic_only", False)):
+                    ctx["b_stage_history"].append(stage_summary)
+                    ctx["authoritative_retrain_executed"] = True
 
 
 def _finalize(ctx: dict[str, Any]) -> None:
     t6_pass = ctx["phase_results"].get("t6", {}).get("status") == "PASS"
     if t6_pass and not ctx["b_stage_history"]:
         for phase in ["b1", "b2", "b3", "b4"]:
-            stage_summary = ((ctx["phase_results"].get(phase, {}).get("evidence") or {}).get("stage_summary") or {})
+            stage_summary = (
+                ctx["phase_results"].get(phase, {}).get("evidence") or {}
+            ).get("stage_summary") or {}
             if stage_summary:
                 ctx["b_stage_history"].append(stage_summary)
         if ctx["b_stage_history"]:
             ctx["authoritative_retrain_executed"] = True
     if t6_pass and ctx["b_stage_history"]:
-        if any(item.get("stage_verdict") == "claim_supported" for item in ctx["b_stage_history"]):
+        if any(
+            item.get("stage_verdict") == "claim_supported"
+            for item in ctx["b_stage_history"]
+        ):
             final_verdict = "claim_supported"
             scientific_terminal_state = None
-        elif any(item.get("stage_verdict") == "attach_bridge_established_not_claim_supported" for item in ctx["b_stage_history"]):
+        elif any(
+            item.get("stage_verdict") == "attach_bridge_established_not_claim_supported"
+            for item in ctx["b_stage_history"]
+        ):
             final_verdict = "attach_bridge_established_not_claim_supported"
             scientific_terminal_state = "attach_bridge_established_not_claim_supported"
         else:
             final_verdict = "TINY_RETRAIN_NOT_ESTABLISHED_AFTER_S0_S2"
             scientific_terminal_state = "TINY_RETRAIN_NOT_ESTABLISHED_AFTER_S0_S2"
-        _write_loop_summary(ctx["b_stage_history"], final_verdict, scientific_terminal_state)
+        _write_loop_summary(
+            ctx["b_stage_history"], final_verdict, scientific_terminal_state
+        )
         ctx["authoritative_retrain_executed"] = True
         ctx["final_verdict"] = final_verdict
     elif ctx["phase_results"].get("b0", {}).get("status") in {"PASS", "FAIL"}:
@@ -1158,7 +1575,9 @@ def _finalize(ctx: dict[str, Any]) -> None:
 
 
 def main() -> int:
-    parser = argparse.ArgumentParser(description="v8.4 always-continue evidence program")
+    parser = argparse.ArgumentParser(
+        description="v8.4 always-continue evidence program"
+    )
     parser.add_argument("--phase", choices=PHASE_ORDER + ["all"], default="all")
     parser.add_argument("--resume-from", choices=PHASE_ORDER)
     parser.add_argument("--authoritative-mode", type=_bool_arg, default=True)
@@ -1192,6 +1611,14 @@ def main() -> int:
         else:
             phases = list(PHASE_ORDER)
     else:
+        phase_idx = PHASE_ORDER.index(args.phase)
+        if args.resume_from:
+            start_idx = PHASE_ORDER.index(args.resume_from)
+            if start_idx > phase_idx:
+                raise SystemExit(
+                    f"resume-from phase {args.resume_from} occurs after requested phase {args.phase}"
+                )
+            _hydrate_context_from_artifacts(ctx, PHASE_ORDER[:phase_idx])
         phases = [args.phase]
 
     print("=" * 78)
@@ -1207,9 +1634,13 @@ def main() -> int:
     for phase in phases:
         result = _run_named_phase(ctx, phase)
         _write_phase(ctx, result)
-        print(f"[{phase}] status={result['status']} terminal={result.get('bounded_terminal_if_finalized')} failed={result.get('failed_clauses')}")
+        print(
+            f"[{phase}] status={result['status']} terminal={result.get('bounded_terminal_if_finalized')} failed={result.get('failed_clauses')}"
+        )
         if phase == "t0" and result["status"] == "ERROR":
-            ctx["final_verdict"] = result.get("bounded_terminal_if_finalized") or "T0_INTEGRITY_FATAL"
+            ctx["final_verdict"] = (
+                result.get("bounded_terminal_if_finalized") or "T0_INTEGRITY_FATAL"
+            )
             _write_matrix(ctx)
             return 1
 

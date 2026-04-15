@@ -635,6 +635,101 @@ def build_or_refresh_canonical_dataset(plan: dict[str, Any]) -> dict[str, Any]:
     return build_report
 
 
+def build_dataset_from_explicit_rollouts(
+    explicit_rollout_paths: list[Path],
+    plan: dict[str, Any],
+    *,
+    dataset_label: str = "explicit_rollout_dataset",
+) -> dict[str, Any]:
+    explicit_paths = sorted({Path(path) for path in explicit_rollout_paths})
+    valid_rollouts, rejected = _load_validated_rollout_paths(explicit_paths, plan)
+    unique_valid_seeds = {
+        int(json.loads(path.with_suffix(".json").read_text()).get("seed"))
+        for path in valid_rollouts
+        if path.with_suffix(".json").exists()
+    }
+    rejected_by_reason, rejected_seeds_by_reason = _rejected_rollout_summary(rejected)
+    dataset_root = _resolve_repo_path(plan["dataset_root"])
+    failure_common = {
+        "run_instance_id": plan.get("run_instance_id"),
+        "plan_version": plan.get("plan_version"),
+        "source_base_commit": plan.get("source_base_commit"),
+        "working_head_commit": plan.get("working_head_commit"),
+        "dataset_root": str(dataset_root),
+        "dataset_repo_id": str(plan["dataset_repo_id"]),
+        "source_canonical_train_cell": plan.get("source_canonical_train_cell"),
+        "source_best_train_state_mode": plan.get("source_best_train_state_mode"),
+        "active_train_state_mode": plan.get("active_train_state_mode"),
+        "active_state_mode_name": plan.get("active_state_mode_name"),
+        "teacher_truth_gate": str(plan.get("teacher_truth_gate") or "trace_window_v2"),
+        "authoritative_truth_field": "measurement_truthful_for_training",
+        "strict_utility_version": plan.get("strict_utility_version"),
+        "truth_utility_version": plan.get("truth_utility_version"),
+        "teacher_fingerprint_version": plan.get("teacher_fingerprint_version"),
+        "raw_saved_rollout_count": len(explicit_paths),
+        "raw_successful_seed_count": len({
+            int(json.loads(path.with_suffix(".json").read_text()).get("seed"))
+            for path in explicit_paths
+            if path.with_suffix(".json").exists() and json.loads(path.with_suffix(".json").read_text()).get("seed") is not None
+        }),
+        "valid_rollout_count": len(valid_rollouts),
+        "valid_seed_count": len(unique_valid_seeds),
+        "valid_seeds": sorted(unique_valid_seeds),
+        "rejected_rollout_count": len(rejected),
+        "rejected_by_reason": rejected_by_reason,
+        "rejected_seeds_by_reason": rejected_seeds_by_reason,
+        "sources_checked": [f"explicit:{len(explicit_paths)}"],
+        "materialization_ready": True,
+        "need_refresh": False,
+        "materialization": {"source": dataset_label, "explicit_rollout_count": len(explicit_paths)},
+        "used_rollout_paths": [str(path) for path in valid_rollouts],
+        "strict_semantics_alignment": load_json(G6_STRICT_SEMANTICS_ALIGNMENT_PATH, {}),
+        "dataset_source": dataset_label,
+    }
+
+    def _finalize_failure(error: str) -> dict[str, Any]:
+        readiness_report = _write_failed_teacher_readiness_contract(plan, error)
+        failure_report = {
+            **failure_common,
+            "dataset_valid": False,
+            "teacher_readiness_passed": False,
+            "teacher_readiness_contract": readiness_report,
+            "error": error,
+        }
+        write_json_atomic(REJECTED_ROLLOUTS_PATH, {"rejected_rollouts": rejected})
+        write_json_atomic(TINY_RETRAIN_DATASET_BUILD_PATH, failure_report)
+        return failure_report
+
+    if not valid_rollouts:
+        return _finalize_failure("no_valid_explicit_rollouts_after_validation")
+
+    payload = build_dataset_from_rollouts(valid_rollouts, dataset_root, str(plan["dataset_repo_id"]))
+    provenance_report = validate_built_dataset_provenance(dataset_root, plan)
+    build_report = {
+        **provenance_report,
+        **failure_common,
+        "dataset_root": str(dataset_root),
+        "dataset_repo_id": str(plan["dataset_repo_id"]),
+        "dataset_valid": bool(provenance_report.get("dataset_valid", False)),
+        "integrity": payload.get("integrity", {}),
+    }
+    if not build_report.get("dataset_valid", False):
+        readiness_report = _write_failed_teacher_readiness_contract(plan, "dataset_validation_failed")
+        build_report["teacher_readiness_contract"] = readiness_report
+        build_report["teacher_readiness_passed"] = False
+        write_json_atomic(REJECTED_ROLLOUTS_PATH, {"rejected_rollouts": rejected})
+        write_json_atomic(TINY_RETRAIN_DATASET_BUILD_PATH, build_report)
+        return build_report
+
+    readiness_report = _teacher_readiness_contract(build_report, plan)
+    build_report["teacher_readiness_contract"] = readiness_report
+    build_report["teacher_readiness_passed"] = bool(readiness_report.get("passed", False))
+    write_json_atomic(REJECTED_ROLLOUTS_PATH, {"rejected_rollouts": rejected})
+    write_json_atomic(TINY_RETRAIN_DATASET_BUILD_PATH, build_report)
+    return build_report
+
+
+
 def launch_tiny_retrain(plan: dict[str, Any]) -> dict[str, Any]:
     from run_g8_mint_train import run as run_train
 
@@ -870,6 +965,10 @@ def _build_stage_summary(
     train_summary: dict[str, Any],
     probe_summary: dict[str, Any],
     eval_summary: dict[str, Any] | None,
+    *,
+    diagnostic_only: bool = False,
+    require_teacher_readiness: bool = True,
+    unsupported_by_readiness_contract: bool = False,
 ) -> dict[str, Any]:
     train_passed = bool(train_summary.get("passed", False))
     train_probe_passed = bool(probe_summary.get("train_probe_claim_pass", probe_summary.get("trend_passed", False)))
@@ -905,6 +1004,10 @@ def _build_stage_summary(
         "heldout_eval_run": heldout_eval_run,
         "claim_supported": claim_supported,
         "stage_verdict": stage_verdict,
+        "diagnostic_only": bool(diagnostic_only),
+        "require_teacher_readiness": bool(require_teacher_readiness),
+        "unsupported_by_readiness_contract": bool(unsupported_by_readiness_contract),
+        "authoritative_use": "diagnostic_only" if diagnostic_only else "authoritative",
         "selected_bridge_checkpoint": probe_summary.get("selected_bridge_checkpoint") or train_summary.get("checkpoint_path"),
         "selected_checkpoint_step": probe_summary.get("selected_checkpoint_step"),
         "pretrained_dominant_failure_mode": probe_summary.get("pretrained_dominant_failure_mode"),
@@ -927,6 +1030,9 @@ def _run_stage(
     train_steps: int,
     save_freq: int,
     checkpoint_probe_steps: list[int],
+    require_teacher_readiness: bool = True,
+    diagnostic_only: bool = False,
+    explicit_rollout_paths: list[Path] | None = None,
 ) -> dict[str, Any]:
     plan = materialize_stage_plan(
         artifacts,
@@ -939,13 +1045,23 @@ def _run_stage(
         save_freq=save_freq,
         checkpoint_probe_steps=checkpoint_probe_steps,
     )
-    dataset_summary = build_or_refresh_canonical_dataset(plan)
-    if not bool(dataset_summary.get("dataset_valid", False)) or not bool(dataset_summary.get("teacher_readiness_passed", False)):
+    dataset_summary = (
+        build_dataset_from_explicit_rollouts(explicit_rollout_paths or [], plan, dataset_label=f"{bridge_stage}_{bridge_attempt}")
+        if explicit_rollout_paths is not None
+        else build_or_refresh_canonical_dataset(plan)
+    )
+    teacher_readiness_passed = bool(dataset_summary.get("teacher_readiness_passed", False))
+    dataset_valid = bool(dataset_summary.get("dataset_valid", False))
+    if (not dataset_valid) or (require_teacher_readiness and not teacher_readiness_passed):
+        failure_reason = str(
+            dataset_summary.get("error")
+            or ("teacher_readiness_not_established" if (dataset_valid and not teacher_readiness_passed) else "dataset_prepare_failed")
+        )
         train_summary = {
             "gate": "g8_mint_train",
             "passed": False,
-            "error": "dataset_prepare_failed",
-            "reason": str(dataset_summary.get("error") or "dataset_prepare_failed"),
+            "error": failure_reason,
+            "reason": failure_reason,
             "run_instance_id": plan.get("run_instance_id"),
             "plan_version": plan.get("plan_version"),
             "source_base_commit": plan.get("source_base_commit"),
@@ -961,10 +1077,19 @@ def _run_stage(
             "selected_bridge_checkpoint": None,
             "selected_checkpoint_step": None,
             "pretrained_dominant_failure_mode": None,
-            "finetuned_dominant_failure_mode": "dataset_prepare_failed",
+            "finetuned_dominant_failure_mode": failure_reason,
         }
         eval_summary = write_skipped_heldout_eval_summary(plan, probe_summary)
-        return _build_stage_summary(plan, dataset_summary, train_summary, probe_summary, eval_summary)
+        return _build_stage_summary(
+            plan,
+            dataset_summary,
+            train_summary,
+            probe_summary,
+            eval_summary,
+            diagnostic_only=diagnostic_only,
+            require_teacher_readiness=require_teacher_readiness,
+            unsupported_by_readiness_contract=bool((not require_teacher_readiness) and (not teacher_readiness_passed)),
+        )
 
     train_summary = launch_tiny_retrain(plan)
     if not bool(train_summary.get("passed", False)):
@@ -980,13 +1105,31 @@ def _run_stage(
                 "finetuned_dominant_failure_mode": "train_failed",
             },
         )
-        return _build_stage_summary(plan, dataset_summary, train_summary, probe_summary, eval_summary)
+        return _build_stage_summary(
+            plan,
+            dataset_summary,
+            train_summary,
+            probe_summary,
+            eval_summary,
+            diagnostic_only=diagnostic_only,
+            require_teacher_readiness=require_teacher_readiness,
+            unsupported_by_readiness_contract=bool((not require_teacher_readiness) and (not bool(dataset_summary.get("teacher_readiness_passed", False)))),
+        )
     probe_summary = run_train_probe(plan, train_summary)
     if bool(probe_summary.get("train_probe_claim_pass", probe_summary.get("trend_passed", False))):
         eval_summary = run_heldout_eval(plan, train_summary, probe_summary)
     else:
         eval_summary = write_skipped_heldout_eval_summary(plan, probe_summary)
-    return _build_stage_summary(plan, dataset_summary, train_summary, probe_summary, eval_summary)
+    return _build_stage_summary(
+        plan,
+        dataset_summary,
+        train_summary,
+        probe_summary,
+        eval_summary,
+        diagnostic_only=diagnostic_only,
+        require_teacher_readiness=require_teacher_readiness,
+        unsupported_by_readiness_contract=bool((not require_teacher_readiness) and (not bool(dataset_summary.get("teacher_readiness_passed", False)))),
+    )
 
 
 def _write_loop_summary(history: list[dict[str, Any]], final_verdict: str, scientific_terminal_state: str | None) -> dict[str, Any]:

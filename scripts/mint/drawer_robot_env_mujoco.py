@@ -2198,6 +2198,14 @@ def build_robot_rollout(
         opening_hold_stall_limit = 4
         opening_hold_min_steps = 5
         allow_reacquire = False
+    elif teacher_controller_mode in {"world_frame_matched", "interaction_frame_hybrid"}:
+        opening_servo_offsets = [0.03, 0.05, 0.07, 0.09, 0.11, 0.13]
+        ramp_speed = min(max(pull_speed, 0.16), 0.18)
+        hold_speed = min(max(pull_speed * 0.75, 0.10), 0.12)
+        opening_ramp_stall_limit = 2
+        opening_hold_stall_limit = 2
+        opening_hold_min_steps = 4
+        allow_reacquire = True
     else:
         ramp_speed = max(0.16, min(pull_speed, 0.24))
         hold_speed = max(0.10, min(pull_speed * 0.8, 0.20))
@@ -2348,6 +2356,21 @@ def build_robot_rollout(
             if force_detach_probe and force_detach_steps_remaining <= 0 and stable_attach_run >= 2:
                 force_detach_steps_remaining = 2
 
+            world_up = np.array([0.0, 0.0, 1.0], dtype=np.float32)
+            interaction_n = (handle - obs.eef_pos).astype(np.float32)
+            interaction_n = interaction_n - axis * float(np.dot(interaction_n, axis))
+            interaction_n_norm = float(np.linalg.norm(interaction_n))
+            if interaction_n_norm < 1e-4:
+                interaction_n = np.cross(axis, world_up).astype(np.float32)
+                interaction_n_norm = float(np.linalg.norm(interaction_n))
+            if interaction_n_norm < 1e-4:
+                interaction_n = np.cross(axis, np.array([1.0, 0.0, 0.0], dtype=np.float32)).astype(np.float32)
+                interaction_n_norm = float(np.linalg.norm(interaction_n))
+            if interaction_n_norm < 1e-6:
+                interaction_n = np.array([0.0, 1.0, 0.0], dtype=np.float32)
+                interaction_n_norm = 1.0
+            interaction_n = interaction_n / interaction_n_norm
+
             if phase == "pregrasp":
                 target_pos, close, speed = pregrasp_target, False, 0.65
             elif phase == "contact":
@@ -2357,15 +2380,27 @@ def build_robot_rollout(
             elif phase == "micro_retract":
                 target_pos, close, speed = micro_retract_target, True, 0.20
             elif phase == "phase_lock_settle":
-                target_pos, close, speed = contact_target, True, 0.18
+                if teacher_controller_mode == "interaction_frame_hybrid":
+                    target_pos = contact_target + interaction_n * 0.003
+                else:
+                    target_pos = contact_target
+                close, speed = True, 0.18
             elif phase == "opening_ramp":
                 target_pos = handle + axis * opening_servo_offsets[opening_servo_stage_idx] + np.array([0.0, 0.0, 0.005], dtype=np.float32)
+                if teacher_controller_mode == "interaction_frame_hybrid":
+                    target_pos = target_pos + interaction_n * 0.004
                 close, speed = True, ramp_speed
             elif phase == "opening_hold":
                 target_pos = handle + axis * opening_servo_offsets[opening_servo_stage_idx] + np.array([0.0, 0.0, 0.005], dtype=np.float32)
+                if teacher_controller_mode == "interaction_frame_hybrid":
+                    target_pos = target_pos + interaction_n * 0.003
                 close, speed = True, hold_speed
             elif phase == "reacquire":
-                target_pos, close, speed = micro_retract_target, True, 0.18
+                if teacher_controller_mode == "interaction_frame_hybrid":
+                    target_pos = micro_retract_target + interaction_n * 0.002
+                else:
+                    target_pos = micro_retract_target
+                close, speed = True, 0.18
             else:
                 target_pos, close, speed = retreat_target, False, 0.55
 

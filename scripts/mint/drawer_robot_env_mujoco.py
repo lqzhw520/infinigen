@@ -2144,6 +2144,7 @@ def build_robot_rollout(
     claim_policy: str | None = None,
     interventions: dict[str, Any] | None = None,
     assay_warm_start_kind: str | None = None,
+    teacher_controller_mode: str = "baseline",
 ) -> dict[str, Any]:
     env = DrawerRobotEnvMuJoCo(seed=seed, image_size=image_size, max_steps=max_steps, contract=contract)
     obs = env.reset()
@@ -2152,7 +2153,7 @@ def build_robot_rollout(
     pregrasp_pose = _pose_from_point(handle, axis, offset=0.04, z_lift=0.03)
     grasp_pose = np.asarray(grasp_pose_world, dtype=np.float32).copy()
     grasp_pose[:3, 3] = handle
-    open_fraction = float(np.clip(pull_open_fraction, 0.75, 0.95))
+    open_fraction = float(np.clip(pull_open_fraction, 0.75, 0.98 if teacher_controller_mode == "embodiment_bound_quasistatic" else 0.95))
     retreat_target = handle + axis * 0.16 + np.array([0.0, 0.0, 0.05], dtype=np.float32)
     rng = np.random.default_rng(seed + episode_index)
     intervention_cfg = dict(interventions or {})
@@ -2189,6 +2190,21 @@ def build_robot_rollout(
     joint_span = max(float(env.joint_range[1] - env.joint_range[0]), 1e-6)
     opening_servo_stage_idx = 0
     opening_servo_offsets = _opening_servo_offsets(pull_target_offset)
+    if teacher_controller_mode == "embodiment_bound_quasistatic":
+        opening_servo_offsets = [0.03, 0.05, 0.07, 0.09, 0.11, 0.13, 0.14]
+        ramp_speed = min(pull_speed, 0.12)
+        hold_speed = min(max(pull_speed * 0.75, 0.08), 0.10)
+        opening_ramp_stall_limit = 4
+        opening_hold_stall_limit = 4
+        opening_hold_min_steps = 5
+        allow_reacquire = False
+    else:
+        ramp_speed = max(0.16, min(pull_speed, 0.24))
+        hold_speed = max(0.10, min(pull_speed * 0.8, 0.20))
+        opening_ramp_stall_limit = 2
+        opening_hold_stall_limit = 2
+        opening_hold_min_steps = 3
+        allow_reacquire = True
     opening_hold_steps = 0
     opening_positive_streak = 0
     opening_stall_steps = 0
@@ -2286,11 +2302,11 @@ def build_robot_rollout(
                 else:
                     opening_positive_streak = 0
                     opening_stall_steps += 1
-                    if opening_stall_steps >= 2:
+                    if opening_stall_steps >= opening_ramp_stall_limit:
                         if opening_servo_stage_idx < len(opening_servo_offsets) - 1:
                             opening_servo_stage_idx += 1
                             opening_stall_steps = 0
-                        elif opening_reacquire_count < 1:
+                        elif allow_reacquire and opening_reacquire_count < 1:
                             opening_reacquire_count += 1
                             phase = "reacquire"
                             micro_retract_phase_steps = 0
@@ -2304,14 +2320,14 @@ def build_robot_rollout(
                     opening_stall_steps = 0
                 else:
                     opening_stall_steps += 1
-                if opening_hold_steps >= 3 and opening_stall_steps >= 2:
+                if opening_hold_steps >= opening_hold_min_steps and opening_stall_steps >= opening_hold_stall_limit:
                     if opening_servo_stage_idx < len(opening_servo_offsets) - 1:
                         opening_servo_stage_idx += 1
                         opening_hold_steps = 0
                         opening_positive_streak = 0
                         opening_stall_steps = 0
                         phase = "opening_ramp"
-                    elif opening_reacquire_count < 1:
+                    elif allow_reacquire and opening_reacquire_count < 1:
                         opening_reacquire_count += 1
                         phase = "reacquire"
                         micro_retract_phase_steps = 0
@@ -2344,10 +2360,10 @@ def build_robot_rollout(
                 target_pos, close, speed = contact_target, True, 0.18
             elif phase == "opening_ramp":
                 target_pos = handle + axis * opening_servo_offsets[opening_servo_stage_idx] + np.array([0.0, 0.0, 0.005], dtype=np.float32)
-                close, speed = True, max(0.16, min(pull_speed, 0.24))
+                close, speed = True, ramp_speed
             elif phase == "opening_hold":
                 target_pos = handle + axis * opening_servo_offsets[opening_servo_stage_idx] + np.array([0.0, 0.0, 0.005], dtype=np.float32)
-                close, speed = True, max(0.10, min(pull_speed * 0.8, 0.20))
+                close, speed = True, hold_speed
             elif phase == "reacquire":
                 target_pos, close, speed = micro_retract_target, True, 0.18
             else:
@@ -2495,6 +2511,7 @@ def build_robot_rollout(
             "interaction_mode": env.contract.interaction_mode,
             "interventions": intervention_cfg,
             "assay_warm_start_kind": assay_warm_start_kind,
+            "teacher_controller_mode": teacher_controller_mode,
         },
         "contract_config": env.contract_payload(),
         "state_spec": _json_ready(state_spec),
@@ -2508,6 +2525,7 @@ def build_robot_rollout(
         "resource_budget_snapshot": {},
         "raw_unique_frames": int(len(actions)),
         "effective_training_frames": int(len(actions)),
+        "teacher_controller_mode": teacher_controller_mode,
     }
     return rollout
 
@@ -2606,5 +2624,6 @@ def save_robot_rollout(path: Path, rollout: dict[str, Any]) -> None:
         "state_mode": rollout.get("state_mode"),
         "train_seeds": rollout.get("train_seeds", []),
         "heldout_seeds": rollout.get("heldout_seeds", []),
+        "teacher_controller_mode": rollout.get("teacher_controller_mode"),
     }
     write_text_atomic(path.with_suffix(".json"), json.dumps(_json_ready(meta), indent=2, ensure_ascii=False) + "\n")

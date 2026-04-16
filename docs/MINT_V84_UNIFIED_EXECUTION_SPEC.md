@@ -7,21 +7,21 @@
 - Authoritative sovereign for code: `fea75fb436b40bd5f854d7a74063b8ecff663cd4`
 - `external/MINT` head: `137b42d627c308d4fc1cb6b1f84e92a5a7892b74`
 
-**Canonical companion docs**
+**Canonical companion state snapshot**
 - `MINT_V84_SYSTEM_AUDIT_2026-04-16.md`
-- `MINT_V84_LINEA_T3B_REBUILD_EXECUTION_SPEC.md`
-- `MINT_V84_LINEB_TRUTH_CONTRACT_ALIGNMENT_EXECUTION_SPEC.md`
-- `MINT_V84_LINEC_RUNTIME_COMPATIBILITY_EXECUTION_SPEC.md`
 - `docs/contracts/truth_contract_v84.json`
 - `docs/contracts/runtime_compatibility_contract_v84.json`
 - `docs/contracts/acceptance_contract_v84.json`
 - `docs/contracts/teacher_frontier_reference_v84.json`
 - `docs/contracts/t3a_frozen_reference_v84.json`
 
-**Supersedes**
+**Supersedes and replaces as execution entrypoints**
 - `MINT_V84_BOUNDED_MAINLINE_EXECUTION_SPEC.md`
 - `MINT_V84_FULL_FIX_SPEC.md`
 - `MINT_V84_FULL_FIX_EXECUTION_PLAN.md`
+- `MINT_V84_LINEA_T3B_REBUILD_EXECUTION_SPEC.md`
+- `MINT_V84_LINEB_TRUTH_CONTRACT_ALIGNMENT_EXECUTION_SPEC.md`
+- `MINT_V84_LINEC_RUNTIME_COMPATIBILITY_EXECUTION_SPEC.md`
 
 **Authors**: Codex (Claude 4.6 Opus Max Thinking) + GPT-5.4 Pro Expert dual review
 **Date**: 2026-04-16
@@ -533,3 +533,69 @@ T3B-r4 执行完毕
 | `run_g8_runtime_compat_smoke.py` 行 97-100 | `passed` 条件收紧 | C | Smoke gate |
 | `run_g8_runtime_compat_smoke.py` 行 64-66 | checkpoint mismatch 完整记录 | C | Smoke gate |
 | `runtime_compatibility_contract_v84.json` | 对齐 Stage 3/4 smoke 目标 | C | Spec/implementation alignment |
+
+---
+
+## 8. Canonical Execution Order
+
+This document is the **only canonical execution spec** for current `v8.4`. The only other active document is `MINT_V84_SYSTEM_AUDIT_2026-04-16.md`, which is a state snapshot rather than an execution spec.
+
+### Step 0 — Sovereign synchronization
+1. Verify repo root, branch, top-level head, and `external/MINT` head.
+2. Verify contract hashes for acceptance, truth, frontier, runtime, and frozen `T3A` reference.
+3. Reject stale artifacts whose recorded head/contract hash does not match current sovereign.
+
+### Step 1 — Line A first, because it is still the primary scientific blocker
+1. Apply `T3B-r4` controller fixes only:
+   - Fix A: clear `hybrid_frame_*` after `reseat_once`
+   - Fix B: remove `reseat_once` from the freeze set
+   - Fix C: capture burst frame only on first `interaction_lock` entry
+2. Upgrade `T3B` verdict governance to frontier-closure language:
+   - `gap_closed_seed2_ge_0p7`
+   - `gap_closed_seed4_ge_0p7`
+   - `approaches_frontier_seed2`
+   - `approaches_frontier_seed4`
+3. Keep `T3A` fidelity exact against frozen reference.
+4. Run in this order only:
+   - `p1a`
+   - `p1b`
+   - `t3a`
+   - `t3b --resume-from t3a`
+5. Interpret only three Line A verdicts:
+   - `RESET_ABSTRACTION_STILL_PRIMARY`
+   - `RESET_TO_FRONTIER_CLOSED_BUT_FRONTIER_BELOW_ACCEPTANCE`
+   - `RESET_SUPPLY_RESTORED_AND_FRONTIER_REACHED`
+
+### Step 2 — Line B schema closure, only after Line A rerun
+1. Replace `teacher_predicate` reads with hard required `teacher_truth_predicate`.
+2. Remove fallback reads from truth contract lookup.
+3. Harden contract loading with required-key failures.
+4. Rerun `prepare` and verify:
+   - `dataset_valid = true`
+   - `errors = []`
+   - `teacher_truth_gate` comes from registry, not fallback
+
+### Step 3 — Line C smoke hardening
+1. Tighten smoke `passed` to `stage == image_features_resolved` only.
+2. Record checkpoint mismatch explicitly instead of hiding it behind `strict=False`.
+3. Extend smoke toward contract stages:
+   - image features
+   - forward one batch
+   - backward one step
+4. Only if wrapper/layout remains stable should checkpoint-remap work begin.
+
+### Step 4 — Integrated rerun gate
+Proceed to integrated rerun only if:
+- Line A no longer reports `RESET_ABSTRACTION_STILL_PRIMARY`
+- Line B is authoritatively aligned
+- Line C reaches its intended smoke stage without false pass semantics
+
+### Step 5 — Regime-pressure decision
+If Line A closes reset-to-frontier but the frozen frontier remains below acceptance, stop controller tweaking. The next object is not another controller variant but a **minimal grasp-family diversification frontier assay**.
+
+### Step 6 — Prohibitions
+- No new controller family beyond `T3B-r4` in this round
+- No acceptance relaxation
+- No fallback-based truth reads
+- No diagnostic artifact reuse across mismatched sovereign heads
+- No parallel execution specs outside this document

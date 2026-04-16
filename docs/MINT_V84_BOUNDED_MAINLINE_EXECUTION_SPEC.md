@@ -1,3 +1,10 @@
+Current authoritative status (head `06c50967c2bc027061c13ee7923d2af0fc3e210e` before this tranche):
+- `P1B` frozen as valid frontier: seed2 `0.6899748044108651`, seed4 `0.5679305979991468`.
+- `T3A` frozen-reference fidelity is now exact via contract-backed epsilon check.
+- `T3B` Line A rebuild remains active; two rebuild rounds still leave reset supply below both `T3A` and frozen frontier.
+- Line B now propagates `truth_contract_hash` through teacher -> dataset provenance -> readiness summaries.
+- Line C now has a dedicated smoke runner and wrapper adapter; current blocker is no longer `.model` access but config/checkpoint/runtime incompatibility evidence.
+
 # MINT v8.4 Bounded Mainline Execution Spec
 
 **Authority**

@@ -3,17 +3,16 @@
 
 from __future__ import annotations
 
+import hashlib
 import json
 import os
 import shutil
 import time
-import hashlib
 from dataclasses import replace
 from pathlib import Path
 from typing import Any
 
 import numpy as np
-
 from drawer_robot_env_mujoco import build_robot_rollout, save_robot_rollout
 from mint_common import (
     ARTIFACT_DIR,
@@ -21,6 +20,7 @@ from mint_common import (
     DATASET_REPO_ID,
     DEFAULT_HELD_OUT_SEEDS,
     DEFAULT_TRAIN_SEEDS,
+    PROJECT_ROOT,
     load_json,
 )
 from root_cause_controller import RootCauseController
@@ -38,11 +38,27 @@ TERMINAL_COMMIT = "5aaf117b66902219ac997082763fb4e2ea8891b3"
 STRICT_UTILITY_VERSION = STRICT_SUCCESS_VERSION
 TRUTH_UTILITY_VERSION = "trace_window_v2"
 TEACHER_FINGERPRINT_VERSION = "v8_3_fingerprint_v1"
+TRUTH_CONTRACT_PATH = PROJECT_ROOT / "docs" / "contracts" / "truth_contract_v84.json"
 STATE_MODE_MAP = {
     "S0": "m0_proxy",
     "S1": "telemetry_candidate_v3_transition",
     "S2": "telemetry_candidate_v4_task_identity",
 }
+
+
+def _truth_contract_payload() -> dict[str, Any]:
+    payload = load_json(TRUTH_CONTRACT_PATH, {})
+    if not payload:
+        raise RuntimeError(f"Missing truth contract payload: {TRUTH_CONTRACT_PATH}")
+    return payload
+
+
+def _truth_contract_hash(payload: dict[str, Any] | None = None) -> str:
+    payload = payload or _truth_contract_payload()
+    canonical = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode(
+        "utf-8"
+    )
+    return hashlib.sha256(canonical).hexdigest()
 
 
 def _seed_list(payload: dict[str, Any], primary: str, fallback: list[int]) -> list[int]:
@@ -57,11 +73,19 @@ def _seed_list(payload: dict[str, Any], primary: str, fallback: list[int]) -> li
 
 
 def _plan_source_canonical_train_cell(expected: dict[str, Any]) -> str:
-    return str(expected.get("source_canonical_train_cell") or expected.get("canonical_train_cell") or "")
+    return str(
+        expected.get("source_canonical_train_cell")
+        or expected.get("canonical_train_cell")
+        or ""
+    )
 
 
 def _plan_source_best_train_state_mode(expected: dict[str, Any]) -> str:
-    return str(expected.get("source_best_train_state_mode") or expected.get("best_train_state_mode") or "")
+    return str(
+        expected.get("source_best_train_state_mode")
+        or expected.get("best_train_state_mode")
+        or ""
+    )
 
 
 def _plan_active_train_state_mode(expected: dict[str, Any]) -> str:
@@ -71,7 +95,9 @@ def _plan_active_train_state_mode(expected: dict[str, Any]) -> str:
 
 def _plan_active_state_mode_name(expected: dict[str, Any]) -> str:
     active = _plan_active_train_state_mode(expected)
-    return str(expected.get("active_state_mode_name") or STATE_MODE_MAP.get(active, active))
+    return str(
+        expected.get("active_state_mode_name") or STATE_MODE_MAP.get(active, active)
+    )
 
 
 def _plan_dataset_root(expected: dict[str, Any]) -> Path:
@@ -88,8 +114,12 @@ def expected_training_targets() -> dict[str, Any]:
     split_a = _seed_list(rca5, "split_a_seeds", DEFAULT_TRAIN_SEEDS)
     split_b = _seed_list(rca5, "split_b_seeds", DEFAULT_HELD_OUT_SEEDS)
     seed_source = "rca5_split_a" if rca5.get("split_a_seeds") else "default_train_seeds"
-    source_best_state = str(rca5.get("best_train_state_mode") or rca7.get("best_train_state_mode") or "S0")
-    source_cell = str(rca5.get("canonical_train_cell") or rca7.get("canonical_train_cell") or "")
+    source_best_state = str(
+        rca5.get("best_train_state_mode") or rca7.get("best_train_state_mode") or "S0"
+    )
+    source_cell = str(
+        rca5.get("canonical_train_cell") or rca7.get("canonical_train_cell") or ""
+    )
     return {
         "best_transition_cell": rca5.get("best_transition_cell") or source_cell,
         "canonical_train_cell": source_cell,
@@ -97,13 +127,16 @@ def expected_training_targets() -> dict[str, Any]:
         "source_canonical_train_cell": source_cell,
         "source_best_train_state_mode": source_best_state,
         "active_train_state_mode": source_best_state,
-        "active_state_mode_name": STATE_MODE_MAP.get(source_best_state, source_best_state),
+        "active_state_mode_name": STATE_MODE_MAP.get(
+            source_best_state, source_best_state
+        ),
         "tiny_retrain_permitted": bool(rca7.get("tiny_retrain_permitted", False)),
         "training_seeds": split_a,
         "train_seeds": split_a,
         "heldout_seeds": split_b,
         "training_seed_source": seed_source,
-        "preferred_canonical_train_cell": rca5.get("preferred_canonical_train_cell") or rca7.get("preferred_canonical_train_cell"),
+        "preferred_canonical_train_cell": rca5.get("preferred_canonical_train_cell")
+        or rca7.get("preferred_canonical_train_cell"),
         "terminal_commit": TERMINAL_COMMIT,
     }
 
@@ -132,29 +165,67 @@ def dataset_guard(expected: dict[str, Any]) -> tuple[bool, dict[str, Any]]:
     source_state = _plan_source_best_train_state_mode(expected)
     active_state = _plan_active_train_state_mode(expected)
     active_state_name = _plan_active_state_mode_name(expected)
-    source_cells = sorted({rec.get("source_canonical_train_cell") or rec.get("canonical_train_cell") for rec in records if rec.get("source_canonical_train_cell") or rec.get("canonical_train_cell")})
-    transition_values = sorted({rec.get("best_transition_cell") for rec in records if rec.get("best_transition_cell") is not None})
-    source_state_values = sorted({rec.get("source_best_train_state_mode") or rec.get("best_train_state_mode") for rec in records if rec.get("source_best_train_state_mode") or rec.get("best_train_state_mode")})
-    active_state_values = sorted({rec.get("active_train_state_mode") for rec in records if rec.get("active_train_state_mode") is not None})
+    source_cells = sorted(
+        {
+            rec.get("source_canonical_train_cell") or rec.get("canonical_train_cell")
+            for rec in records
+            if rec.get("source_canonical_train_cell") or rec.get("canonical_train_cell")
+        }
+    )
+    transition_values = sorted(
+        {
+            rec.get("best_transition_cell")
+            for rec in records
+            if rec.get("best_transition_cell") is not None
+        }
+    )
+    source_state_values = sorted(
+        {
+            rec.get("source_best_train_state_mode") or rec.get("best_train_state_mode")
+            for rec in records
+            if rec.get("source_best_train_state_mode")
+            or rec.get("best_train_state_mode")
+        }
+    )
+    active_state_values = sorted(
+        {
+            rec.get("active_train_state_mode")
+            for rec in records
+            if rec.get("active_train_state_mode") is not None
+        }
+    )
     report["record_source_canonical_train_cells"] = source_cells
     report["record_best_transition_cells"] = transition_values
     report["record_source_best_train_state_modes"] = source_state_values
     report["record_active_train_state_modes"] = active_state_values
     report["expected_active_state_mode_name"] = active_state_name
     if not source_cells or source_cell not in source_cells:
-        report["error"] = "Dataset provenance is not bound to the selected source_canonical_train_cell"
+        report["error"] = (
+            "Dataset provenance is not bound to the selected source_canonical_train_cell"
+        )
         return False, report
-    if not transition_values or str(expected.get("best_transition_cell")) not in transition_values:
-        report["error"] = "Dataset provenance is not bound to the selected best_transition_cell"
+    if (
+        not transition_values
+        or str(expected.get("best_transition_cell")) not in transition_values
+    ):
+        report["error"] = (
+            "Dataset provenance is not bound to the selected best_transition_cell"
+        )
         return False, report
     if not source_state_values or source_state not in source_state_values:
-        report["error"] = "Dataset provenance is not bound to the selected source_best_train_state_mode"
+        report["error"] = (
+            "Dataset provenance is not bound to the selected source_best_train_state_mode"
+        )
         return False, report
     if not active_state_values or active_state not in active_state_values:
-        report["error"] = "Dataset provenance is not bound to the selected active_train_state_mode"
+        report["error"] = (
+            "Dataset provenance is not bound to the selected active_train_state_mode"
+        )
         return False, report
     if active_state_name not in set(provenance.get("state_modes", [])):
-        report["error"] = "Dataset state_modes do not include the expected active state mode"
+        report["error"] = (
+            "Dataset state_modes do not include the expected active state mode"
+        )
         return False, report
     report["passed_preflight"] = True
     return True, report
@@ -162,10 +233,14 @@ def dataset_guard(expected: dict[str, Any]) -> tuple[bool, dict[str, Any]]:
 
 def _strict_rollout_summary(rollout: dict[str, Any]) -> dict[str, Any]:
     drawer_trace = np.asarray(
-        rollout.get("next_drawer_fractions", rollout.get("absolute_drawer_fraction", [])),
+        rollout.get(
+            "next_drawer_fractions", rollout.get("absolute_drawer_fraction", [])
+        ),
         dtype=np.float32,
     ).reshape(-1)
-    attached_trace = np.asarray(rollout.get("attached_trace", []), dtype=bool).reshape(-1)
+    attached_trace = np.asarray(rollout.get("attached_trace", []), dtype=bool).reshape(
+        -1
+    )
     if drawer_trace.size:
         strict = evaluate_strict_success(drawer_trace, attached_trace)
     else:
@@ -194,8 +269,15 @@ def _contiguous_true_runs(mask: np.ndarray) -> list[tuple[int, int]]:
 def _mask_empty_probe(item: dict[str, Any]) -> bool:
     seg_present = "segmentation_mask_support_rate_secondary" in item
     iso_present = "isolated_mask_support_rate_secondary" in item
-    seg_empty = seg_present and float(item.get("segmentation_mask_support_rate_secondary", 0.0) or 0.0) <= 0.0
-    iso_empty = iso_present and float(item.get("isolated_mask_support_rate_secondary", 0.0) or 0.0) <= 0.0
+    seg_empty = (
+        seg_present
+        and float(item.get("segmentation_mask_support_rate_secondary", 0.0) or 0.0)
+        <= 0.0
+    )
+    iso_empty = (
+        iso_present
+        and float(item.get("isolated_mask_support_rate_secondary", 0.0) or 0.0) <= 0.0
+    )
     return bool(seg_empty or iso_empty)
 
 
@@ -221,15 +303,25 @@ def _truth_gap_metrics(mask: np.ndarray, start: int, end: int) -> tuple[int, int
     return int(longest_gap), int(tail_truthful), int(round(truthful_ratio * 1000))
 
 
-def _bridge_interval(rollout: dict[str, Any], n_frames: int) -> tuple[int | None, int | None, np.ndarray]:
+def _bridge_interval(
+    rollout: dict[str, Any], n_frames: int
+) -> tuple[int | None, int | None, np.ndarray]:
     phase_locked = np.zeros(n_frames, dtype=bool)
-    raw_phase_locked = np.asarray(rollout.get("phase_locked_trace", []), dtype=np.float32).reshape(-1)
+    raw_phase_locked = np.asarray(
+        rollout.get("phase_locked_trace", []), dtype=np.float32
+    ).reshape(-1)
     if raw_phase_locked.size:
-        phase_locked[: min(n_frames, raw_phase_locked.size)] = raw_phase_locked[: min(n_frames, raw_phase_locked.size)] > 0
+        phase_locked[: min(n_frames, raw_phase_locked.size)] = (
+            raw_phase_locked[: min(n_frames, raw_phase_locked.size)] > 0
+        )
     effective_pull = np.zeros(n_frames, dtype=bool)
-    raw_pull = np.asarray(rollout.get("effective_pull_progress_trace", []), dtype=np.float32).reshape(-1)
+    raw_pull = np.asarray(
+        rollout.get("effective_pull_progress_trace", []), dtype=np.float32
+    ).reshape(-1)
     if raw_pull.size:
-        effective_pull[: min(n_frames, raw_pull.size)] = raw_pull[: min(n_frames, raw_pull.size)] > 0
+        effective_pull[: min(n_frames, raw_pull.size)] = (
+            raw_pull[: min(n_frames, raw_pull.size)] > 0
+        )
     bridge_mask = np.logical_or(phase_locked, effective_pull)
     if not bool(np.any(bridge_mask)):
         return None, None, bridge_mask
@@ -244,16 +336,45 @@ def _canonical_training_truth_summary(rollout: dict[str, Any]) -> dict[str, Any]
         [bool((item or {}).get("measurement_truthful", False)) for item in trace],
         dtype=bool,
     )
-    anchor_trace = np.asarray(rollout.get("runtime_handle_anchor_valid_trace", []), dtype=bool).reshape(-1)
+    anchor_trace = np.asarray(
+        rollout.get("runtime_handle_anchor_valid_trace", []), dtype=bool
+    ).reshape(-1)
     bridge_start, bridge_end, bridge_mask = _bridge_interval(rollout, n_frames)
-    runtime_handle_anchor_valid = bool(anchor_trace.any()) if anchor_trace.size else bool(rollout.get("runtime_handle_anchor_valid", False))
+    runtime_handle_anchor_valid = (
+        bool(anchor_trace.any())
+        if anchor_trace.size
+        else bool(rollout.get("runtime_handle_anchor_valid", False))
+    )
     final_probe = dict(rollout.get("handle_probe_metadata") or {})
     mask_empty_count = int(sum(1 for item in trace if _mask_empty_probe(item or {})))
-    anchor_invalid_count = int(np.sum(~anchor_trace[:n_frames])) if anchor_trace.size else int(sum(1 for item in trace if not bool((item or {}).get("runtime_handle_anchor_valid", runtime_handle_anchor_valid))))
+    anchor_invalid_count = (
+        int(np.sum(~anchor_trace[:n_frames]))
+        if anchor_trace.size
+        else int(
+            sum(
+                1
+                for item in trace
+                if not bool(
+                    (item or {}).get(
+                        "runtime_handle_anchor_valid", runtime_handle_anchor_valid
+                    )
+                )
+            )
+        )
+    )
+    truth_contract = _truth_contract_payload()
+    bridge_score = 0.0
     summary: dict[str, Any] = {
-        "teacher_truth_adjudication": "trace_window_v2",
+        "teacher_truth_adjudication": str(
+            truth_contract.get("teacher_predicate") or "teacher_window_truth_v84"
+        ),
+        "truth_contract_path": str(TRUTH_CONTRACT_PATH),
+        "truth_contract_hash": _truth_contract_hash(truth_contract),
+        "truth_contract_root_object": truth_contract.get("truth_root_object"),
         "truthful_step_count": int(truthful_mask.sum()),
-        "truthful_step_ratio": float(float(truthful_mask.mean()) if truthful_mask.size else 0.0),
+        "truthful_step_ratio": float(
+            float(truthful_mask.mean()) if truthful_mask.size else 0.0
+        ),
         "truthful_window_start": None,
         "truthful_window_end": None,
         "truthful_window_frame_count": 0,
@@ -266,22 +387,51 @@ def _canonical_training_truth_summary(rollout: dict[str, Any]) -> dict[str, Any]
         "truthful_window_interval_mask_empty": False,
         "truthful_window_interval_anchor_invalid": False,
         "bridge_start": bridge_start,
-        "bridge_end": None if bridge_end is None else int(max(bridge_end - 1, bridge_start or 0)),
+        "bridge_end": None
+        if bridge_end is None
+        else int(max(bridge_end - 1, bridge_start or 0)),
+        "truthful_training_window_start": None,
+        "truthful_training_window_end": None,
+        "truthful_training_window_len": 0,
+        "truthful_training_window_contains_bridge": False,
+        "truthful_training_window_bridge_score": 0.0,
         "mask_empty_count": mask_empty_count,
         "anchor_invalid_count": anchor_invalid_count,
-        "final_snapshot_measurement_truthful": bool(final_probe.get("measurement_truthful", False)),
-        "final_snapshot_measurement_truth_tier": final_probe.get("measurement_truth_tier"),
+        "final_snapshot_measurement_truthful": bool(
+            final_probe.get("measurement_truthful", False)
+        ),
+        "final_snapshot_measurement_truth_tier": final_probe.get(
+            "measurement_truth_tier"
+        ),
     }
     if bridge_start is None or bridge_end is None or bridge_end <= bridge_start:
         return summary
     window_mask = truthful_mask[bridge_start:bridge_end]
     window_count = int(bridge_end - bridge_start)
     truthful_ratio = float(window_mask.mean()) if window_mask.size else 0.0
-    longest_gap, tail_truthful, _ = _truth_gap_metrics(truthful_mask, bridge_start, bridge_end)
+    longest_gap, tail_truthful, _ = _truth_gap_metrics(
+        truthful_mask, bridge_start, bridge_end
+    )
     interval_trace = trace[bridge_start:bridge_end]
     interval_mask_empty = any(_mask_empty_probe(item or {}) for item in interval_trace)
-    interval_anchor_invalid = bool(np.any(~anchor_trace[bridge_start:bridge_end])) if anchor_trace.size else any(not bool((item or {}).get("runtime_handle_anchor_valid", runtime_handle_anchor_valid)) for item in interval_trace)
+    interval_anchor_invalid = (
+        bool(np.any(~anchor_trace[bridge_start:bridge_end]))
+        if anchor_trace.size
+        else any(
+            not bool(
+                (item or {}).get(
+                    "runtime_handle_anchor_valid", runtime_handle_anchor_valid
+                )
+            )
+            for item in interval_trace
+        )
+    )
     bridge_in_window = bool(np.any(bridge_mask[bridge_start:bridge_end]))
+    bridge_score = (
+        float(np.mean(bridge_mask[bridge_start:bridge_end]))
+        if window_count > 0
+        else 0.0
+    )
     measurement_truthful_for_training = bool(
         window_count >= TRUTHFUL_WINDOW_MIN_FRAMES
         and truthful_ratio >= 0.80
@@ -304,16 +454,27 @@ def _canonical_training_truth_summary(rollout: dict[str, Any]) -> dict[str, Any]
             "truthful_window_interval_mask_empty": bool(interval_mask_empty),
             "truthful_window_interval_anchor_invalid": bool(interval_anchor_invalid),
             "measurement_truthful_for_training": measurement_truthful_for_training,
+            "truthful_training_window_start": int(bridge_start),
+            "truthful_training_window_end": int(bridge_end),
+            "truthful_training_window_len": window_count,
+            "truthful_training_window_contains_bridge": bridge_in_window,
+            "truthful_training_window_bridge_score": bridge_score,
         }
     )
     return summary
 
 
-def _slice_rollout_to_training_window(rollout: dict[str, Any], start: int, end: int) -> dict[str, Any]:
+def _slice_rollout_to_training_window(
+    rollout: dict[str, Any], start: int, end: int
+) -> dict[str, Any]:
     n_frames = int(len(rollout.get("actions", [])))
     sliced = dict(rollout)
     for key, value in list(rollout.items()):
-        if isinstance(value, np.ndarray) and value.ndim >= 1 and value.shape[0] == n_frames:
+        if (
+            isinstance(value, np.ndarray)
+            and value.ndim >= 1
+            and value.shape[0] == n_frames
+        ):
             sliced[key] = value[start:end]
         elif isinstance(value, list) and len(value) == n_frames:
             sliced[key] = value[start:end]
@@ -353,19 +514,67 @@ def _teacher_fingerprint(rollout: dict[str, Any]) -> str:
         "seed": int(rollout.get("seed", -1) or -1),
         "first_attach_step": strict.get("first_attach_step"),
         "attach_persistence": int(strict.get("attach_persistence", 0) or 0),
-        "max_drawer_fraction": round(float(strict.get("max_drawer_fraction", rollout.get("max_drawer_fraction", 0.0)) or 0.0), 4),
-        "truthful_window_frame_count": int(truth.get("truthful_window_frame_count", 0) or 0),
-        "phase_locked_rate": round(float(np.mean(np.asarray(rollout.get("phase_locked_trace", []), dtype=np.float32))) if len(rollout.get("phase_locked_trace", [])) else 0.0, 4),
-        "effective_pull_progress_peak": round(float(np.max(np.asarray(rollout.get("effective_pull_progress_trace", []), dtype=np.float32))) if len(rollout.get("effective_pull_progress_trace", [])) else 0.0, 4),
+        "max_drawer_fraction": round(
+            float(
+                strict.get(
+                    "max_drawer_fraction", rollout.get("max_drawer_fraction", 0.0)
+                )
+                or 0.0
+            ),
+            4,
+        ),
+        "truthful_window_frame_count": int(
+            truth.get("truthful_window_frame_count", 0) or 0
+        ),
+        "phase_locked_rate": round(
+            float(
+                np.mean(
+                    np.asarray(rollout.get("phase_locked_trace", []), dtype=np.float32)
+                )
+            )
+            if len(rollout.get("phase_locked_trace", []))
+            else 0.0,
+            4,
+        ),
+        "effective_pull_progress_peak": round(
+            float(
+                np.max(
+                    np.asarray(
+                        rollout.get("effective_pull_progress_trace", []),
+                        dtype=np.float32,
+                    )
+                )
+            )
+            if len(rollout.get("effective_pull_progress_trace", []))
+            else 0.0,
+            4,
+        ),
         "phase_schedule_hash": phase_hash,
     }
     return json.dumps(payload, sort_keys=True)
 
 
-def _augment_rollout_metadata(controller: RootCauseController, rollout: dict[str, Any], spec, expected: dict[str, Any]) -> dict[str, Any]:
-    matrix_hash = controller._frozen_matrix_hash_v5_pro() if controller.selector_mode == "frozen_v5_pro" else None
-    baseline_cell_id = controller._baseline_cell_id_v5_pro() if controller.selector_mode == "frozen_v5_pro" else None
-    ts_baseline_cell_id = controller._ts_baseline_cell_id_v6_1() if controller.selector_mode == "frozen_v5_pro" else None
+def _augment_rollout_metadata(
+    controller: RootCauseController,
+    rollout: dict[str, Any],
+    spec,
+    expected: dict[str, Any],
+) -> dict[str, Any]:
+    matrix_hash = (
+        controller._frozen_matrix_hash_v5_pro()
+        if controller.selector_mode == "frozen_v5_pro"
+        else None
+    )
+    baseline_cell_id = (
+        controller._baseline_cell_id_v5_pro()
+        if controller.selector_mode == "frozen_v5_pro"
+        else None
+    )
+    ts_baseline_cell_id = (
+        controller._ts_baseline_cell_id_v6_1()
+        if controller.selector_mode == "frozen_v5_pro"
+        else None
+    )
     rollout["resource_budget_snapshot"] = controller._resource_snapshot()
     rollout["selector_mode"] = controller.selector_mode
     rollout["baseline_cell_id"] = baseline_cell_id
@@ -376,7 +585,9 @@ def _augment_rollout_metadata(controller: RootCauseController, rollout: dict[str
     rollout["canonical_train_cell"] = _plan_source_canonical_train_cell(expected)
     rollout["best_train_state_mode"] = _plan_source_best_train_state_mode(expected)
     rollout["source_canonical_train_cell"] = _plan_source_canonical_train_cell(expected)
-    rollout["source_best_train_state_mode"] = _plan_source_best_train_state_mode(expected)
+    rollout["source_best_train_state_mode"] = _plan_source_best_train_state_mode(
+        expected
+    )
     rollout["active_train_state_mode"] = _plan_active_train_state_mode(expected)
     rollout["active_state_mode_name"] = _plan_active_state_mode_name(expected)
     rollout["run_instance_id"] = expected.get("run_instance_id")
@@ -385,11 +596,21 @@ def _augment_rollout_metadata(controller: RootCauseController, rollout: dict[str
     rollout["working_head_commit"] = expected.get("working_head_commit")
     rollout["bridge_stage"] = expected.get("bridge_stage")
     rollout["bridge_attempt"] = expected.get("bridge_attempt")
-    rollout["strict_utility_version"] = expected.get("strict_utility_version", STRICT_UTILITY_VERSION)
-    rollout["truth_utility_version"] = expected.get("truth_utility_version", TRUTH_UTILITY_VERSION)
-    rollout["teacher_fingerprint_version"] = expected.get("teacher_fingerprint_version", TEACHER_FINGERPRINT_VERSION)
-    rollout["teacher_truth_gate"] = expected.get("teacher_truth_gate", TRUTH_UTILITY_VERSION)
-    rollout["train_seeds"] = list(expected.get("train_seeds") or expected.get("training_seeds") or [])
+    rollout["strict_utility_version"] = expected.get(
+        "strict_utility_version", STRICT_UTILITY_VERSION
+    )
+    rollout["truth_utility_version"] = expected.get(
+        "truth_utility_version", TRUTH_UTILITY_VERSION
+    )
+    rollout["teacher_fingerprint_version"] = expected.get(
+        "teacher_fingerprint_version", TEACHER_FINGERPRINT_VERSION
+    )
+    rollout["teacher_truth_gate"] = expected.get(
+        "teacher_truth_gate", TRUTH_UTILITY_VERSION
+    )
+    rollout["train_seeds"] = list(
+        expected.get("train_seeds") or expected.get("training_seeds") or []
+    )
     rollout["heldout_seeds"] = list(expected.get("heldout_seeds") or [])
 
     strict = _strict_rollout_summary(rollout)
@@ -405,23 +626,56 @@ def _augment_rollout_metadata(controller: RootCauseController, rollout: dict[str
     rollout["measurement_truth_tier"] = probe.get("measurement_truth_tier")
     rollout["measurement_backend"] = probe.get("measurement_backend")
     rollout["measurement_verifier"] = probe.get("measurement_verifier")
-    rollout["runtime_visible_handle_mapping_source"] = probe.get("runtime_visible_handle_mapping_source")
-    runtime_anchor_trace = np.asarray(rollout.get("runtime_handle_anchor_valid_trace", []), dtype=bool).reshape(-1)
-    rollout["runtime_handle_anchor_valid"] = bool(runtime_anchor_trace.any()) if runtime_anchor_trace.size else bool(orientation.get("runtime_handle_anchor_valid", False))
+    rollout["runtime_visible_handle_mapping_source"] = probe.get(
+        "runtime_visible_handle_mapping_source"
+    )
+    runtime_anchor_trace = np.asarray(
+        rollout.get("runtime_handle_anchor_valid_trace", []), dtype=bool
+    ).reshape(-1)
+    rollout["runtime_handle_anchor_valid"] = (
+        bool(runtime_anchor_trace.any())
+        if runtime_anchor_trace.size
+        else bool(orientation.get("runtime_handle_anchor_valid", False))
+    )
     rollout["interaction_mode"] = contract_config.get("interaction_mode")
-    rollout["state_mode"] = state_spec.get("state_mode", contract_config.get("state_mode"))
-    rollout["final_snapshot_measurement_truthful"] = bool(probe.get("measurement_truthful", False))
-    rollout["final_snapshot_measurement_truth_tier"] = probe.get("measurement_truth_tier")
+    rollout["state_mode"] = state_spec.get(
+        "state_mode", contract_config.get("state_mode")
+    )
+    rollout["final_snapshot_measurement_truthful"] = bool(
+        probe.get("measurement_truthful", False)
+    )
+    rollout["final_snapshot_measurement_truth_tier"] = probe.get(
+        "measurement_truth_tier"
+    )
 
     truth_summary = _canonical_training_truth_summary(rollout)
     rollout["canonical_training_truth"] = truth_summary
-    rollout["measurement_truthful_for_training"] = bool(truth_summary.get("measurement_truthful_for_training", False))
-    rollout["teacher_truth_adjudication"] = truth_summary.get("teacher_truth_adjudication")
-    rollout["teacher_truthful_window_frame_count"] = int(truth_summary.get("truthful_window_frame_count", 0) or 0)
-    rollout["bridge_in_truthful_window"] = bool(truth_summary.get("bridge_in_truthful_window", False))
-    rollout["truthful_window_ratio"] = float(truth_summary.get("truthful_window_ratio", 0.0) or 0.0)
-    rollout["truthful_window_longest_interior_gap"] = int(truth_summary.get("truthful_window_longest_interior_gap", 0) or 0)
-    rollout["truthful_window_tail_truthful_count_last6"] = int(truth_summary.get("truthful_window_tail_truthful_count_last6", 0) or 0)
+    rollout["measurement_truthful_for_training"] = bool(
+        truth_summary.get("measurement_truthful_for_training", False)
+    )
+    rollout["teacher_truth_adjudication"] = truth_summary.get(
+        "teacher_truth_adjudication"
+    )
+    rollout["truth_contract_hash"] = truth_summary.get("truth_contract_hash")
+    rollout["truth_contract_path"] = truth_summary.get("truth_contract_path")
+    rollout["truth_contract_root_object"] = truth_summary.get(
+        "truth_contract_root_object"
+    )
+    rollout["teacher_truthful_window_frame_count"] = int(
+        truth_summary.get("truthful_window_frame_count", 0) or 0
+    )
+    rollout["bridge_in_truthful_window"] = bool(
+        truth_summary.get("bridge_in_truthful_window", False)
+    )
+    rollout["truthful_window_ratio"] = float(
+        truth_summary.get("truthful_window_ratio", 0.0) or 0.0
+    )
+    rollout["truthful_window_longest_interior_gap"] = int(
+        truth_summary.get("truthful_window_longest_interior_gap", 0) or 0
+    )
+    rollout["truthful_window_tail_truthful_count_last6"] = int(
+        truth_summary.get("truthful_window_tail_truthful_count_last6", 0) or 0
+    )
     rollout["teacher_episode_class"] = _teacher_episode_class(rollout)
     rollout["teacher_fingerprint"] = _teacher_fingerprint(rollout)
 
@@ -452,8 +706,20 @@ def materialize_canonical_train_rollouts(
 ) -> dict[str, Any]:
     expected = dict(expected or expected_training_targets())
     source_dir = Path(source_dir or DEFAULT_ROLLOUT_SOURCE_DIR)
-    train_seeds = [int(seed) for seed in (expected.get("train_seeds") or expected.get("training_seeds") or DEFAULT_TRAIN_SEEDS)]
-    episodes_per_seed = int(os.environ.get("MINT_G6_EPISODES_PER_SEED", str(expected.get("episodes_per_seed", DEFAULT_EPISODES_PER_SEED))))
+    train_seeds = [
+        int(seed)
+        for seed in (
+            expected.get("train_seeds")
+            or expected.get("training_seeds")
+            or DEFAULT_TRAIN_SEEDS
+        )
+    ]
+    episodes_per_seed = int(
+        os.environ.get(
+            "MINT_G6_EPISODES_PER_SEED",
+            str(expected.get("episodes_per_seed", DEFAULT_EPISODES_PER_SEED)),
+        )
+    )
     min_train_episodes = int(expected.get("min_train_episodes", MIN_TRAIN_EPISODES))
     active_train_state_mode = _plan_active_train_state_mode(expected)
     active_state_mode_name = _plan_active_state_mode_name(expected)
@@ -467,14 +733,28 @@ def materialize_canonical_train_rollouts(
         "active_train_state_mode": active_train_state_mode,
         "active_state_mode_name": active_state_mode_name,
         "train_seeds": train_seeds,
-        "heldout_seeds": [int(seed) for seed in (expected.get("heldout_seeds") or DEFAULT_HELD_OUT_SEEDS)],
+        "heldout_seeds": [
+            int(seed)
+            for seed in (expected.get("heldout_seeds") or DEFAULT_HELD_OUT_SEEDS)
+        ],
         "episodes_per_seed": episodes_per_seed,
         "min_train_episodes": min_train_episodes,
         "min_successful_seeds": MIN_SUCCESSFUL_SEEDS,
-        "teacher_truth_gate": "trace_window_v2",
-        "strict_utility_version": expected.get("strict_utility_version", STRICT_UTILITY_VERSION),
-        "truth_utility_version": expected.get("truth_utility_version", TRUTH_UTILITY_VERSION),
-        "teacher_fingerprint_version": expected.get("teacher_fingerprint_version", TEACHER_FINGERPRINT_VERSION),
+        "teacher_truth_gate": str(
+            _truth_contract_payload().get("teacher_predicate")
+            or "teacher_window_truth_v84"
+        ),
+        "truth_contract_path": str(TRUTH_CONTRACT_PATH),
+        "truth_contract_hash": _truth_contract_hash(),
+        "strict_utility_version": expected.get(
+            "strict_utility_version", STRICT_UTILITY_VERSION
+        ),
+        "truth_utility_version": expected.get(
+            "truth_utility_version", TRUTH_UTILITY_VERSION
+        ),
+        "teacher_fingerprint_version": expected.get(
+            "teacher_fingerprint_version", TEACHER_FINGERPRINT_VERSION
+        ),
         "timestamp": time.time(),
     }
     if not bool(expected.get("tiny_retrain_permitted", True)):
@@ -500,7 +780,11 @@ def materialize_canonical_train_rollouts(
         truthful_measurement_required=True,
         max_rollouts_per_experiment=max(3, episodes_per_seed),
     )
-    spec = controller._matrix_cell_lane_spec(source_canonical_train_cell, "G6", note="Tiny retrain canonical rollout materialization.")
+    spec = controller._matrix_cell_lane_spec(
+        source_canonical_train_cell,
+        "G6",
+        note="Tiny retrain canonical rollout materialization.",
+    )
     contract = controller._materialize_contract(spec.env_contract_config)
     if str(contract.state_mode) != active_state_mode_name:
         contract = replace(contract, state_mode=active_state_mode_name)
@@ -529,40 +813,83 @@ def materialize_canonical_train_rollouts(
             rollout = _augment_rollout_metadata(controller, rollout, spec, expected)
             truth_summary = dict(rollout.get("canonical_training_truth") or {})
             success = bool(rollout.get("success"))
-            phase_locked_trace = np.asarray(rollout.get("phase_locked_trace", []), dtype=np.float32).reshape(-1)
-            effective_pull_trace = np.asarray(rollout.get("effective_pull_progress_trace", []), dtype=np.float32).reshape(-1)
+            phase_locked_trace = np.asarray(
+                rollout.get("phase_locked_trace", []), dtype=np.float32
+            ).reshape(-1)
+            effective_pull_trace = np.asarray(
+                rollout.get("effective_pull_progress_trace", []), dtype=np.float32
+            ).reshape(-1)
             record = {
                 "seed": int(seed),
                 "episode_index": int(episode_index),
                 "success": success,
-                "strict_success": bool((rollout.get("strict_metrics") or {}).get("strict_success", False)),
+                "strict_success": bool(
+                    (rollout.get("strict_metrics") or {}).get("strict_success", False)
+                ),
                 "ever_attached": bool(rollout.get("ever_attached", False)),
-                "max_drawer_fraction": float(rollout.get("max_drawer_fraction", 0.0) or 0.0),
-                "phase_locked_rate": float(np.mean(phase_locked_trace)) if phase_locked_trace.size else 0.0,
-                "effective_pull_progress_peak": float(np.max(effective_pull_trace)) if effective_pull_trace.size else 0.0,
-                "measurement_truthful_for_training": bool(truth_summary.get("measurement_truthful_for_training", False)),
-                "teacher_truth_adjudication": truth_summary.get("teacher_truth_adjudication"),
-                "teacher_truthful_window_frame_count": int(truth_summary.get("truthful_window_frame_count", 0) or 0),
-                "truthful_window_ratio": float(truth_summary.get("truthful_window_ratio", 0.0) or 0.0),
-                "truthful_window_longest_interior_gap": int(truth_summary.get("truthful_window_longest_interior_gap", 0) or 0),
-                "truthful_window_tail_truthful_count_last6": int(truth_summary.get("truthful_window_tail_truthful_count_last6", 0) or 0),
-                "bridge_in_truthful_window": bool(truth_summary.get("bridge_in_truthful_window", False)),
-                "truthful_window_interval_mask_empty": bool(truth_summary.get("truthful_window_interval_mask_empty", False)),
-                "truthful_window_interval_anchor_invalid": bool(truth_summary.get("truthful_window_interval_anchor_invalid", False)),
-                "final_snapshot_measurement_truthful": bool(truth_summary.get("final_snapshot_measurement_truthful", False)),
-                "final_snapshot_measurement_truth_tier": truth_summary.get("final_snapshot_measurement_truth_tier"),
-                "teacher_episode_class": str(rollout.get("teacher_episode_class", "rejected_teacher")),
+                "max_drawer_fraction": float(
+                    rollout.get("max_drawer_fraction", 0.0) or 0.0
+                ),
+                "phase_locked_rate": float(np.mean(phase_locked_trace))
+                if phase_locked_trace.size
+                else 0.0,
+                "effective_pull_progress_peak": float(np.max(effective_pull_trace))
+                if effective_pull_trace.size
+                else 0.0,
+                "measurement_truthful_for_training": bool(
+                    truth_summary.get("measurement_truthful_for_training", False)
+                ),
+                "teacher_truth_adjudication": truth_summary.get(
+                    "teacher_truth_adjudication"
+                ),
+                "teacher_truthful_window_frame_count": int(
+                    truth_summary.get("truthful_window_frame_count", 0) or 0
+                ),
+                "truthful_window_ratio": float(
+                    truth_summary.get("truthful_window_ratio", 0.0) or 0.0
+                ),
+                "truthful_window_longest_interior_gap": int(
+                    truth_summary.get("truthful_window_longest_interior_gap", 0) or 0
+                ),
+                "truthful_window_tail_truthful_count_last6": int(
+                    truth_summary.get("truthful_window_tail_truthful_count_last6", 0)
+                    or 0
+                ),
+                "bridge_in_truthful_window": bool(
+                    truth_summary.get("bridge_in_truthful_window", False)
+                ),
+                "truthful_window_interval_mask_empty": bool(
+                    truth_summary.get("truthful_window_interval_mask_empty", False)
+                ),
+                "truthful_window_interval_anchor_invalid": bool(
+                    truth_summary.get("truthful_window_interval_anchor_invalid", False)
+                ),
+                "final_snapshot_measurement_truthful": bool(
+                    truth_summary.get("final_snapshot_measurement_truthful", False)
+                ),
+                "final_snapshot_measurement_truth_tier": truth_summary.get(
+                    "final_snapshot_measurement_truth_tier"
+                ),
+                "teacher_episode_class": str(
+                    rollout.get("teacher_episode_class", "rejected_teacher")
+                ),
                 "teacher_fingerprint": str(rollout.get("teacher_fingerprint", "")),
             }
             records.append(record)
-            if str(rollout.get("teacher_episode_class", "rejected_teacher")) not in {"strict_teacher", "near_strict_teacher"}:
+            if str(rollout.get("teacher_episode_class", "rejected_teacher")) not in {
+                "strict_teacher",
+                "near_strict_teacher",
+            }:
                 continue
             start = truth_summary.get("truthful_window_start")
             end = truth_summary.get("truthful_window_end")
             if start is None or end is None:
                 continue
             rollout = _slice_rollout_to_training_window(rollout, int(start), int(end))
-            out_path = source_dir / f"seed_{int(seed):03d}_episode_{int(episode_index):02d}.npz"
+            out_path = (
+                source_dir
+                / f"seed_{int(seed):03d}_episode_{int(episode_index):02d}.npz"
+            )
             save_robot_rollout(out_path, rollout)
             saved_rollouts += 1
             successful_seeds.add(int(seed))

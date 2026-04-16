@@ -1,5 +1,7 @@
 # MINT v8.4 Full-Fix Execution Plan
 
+**Current-state audit addendum**: See `/mnt/afs2/zhuhaowu/infinigen/docs/MINT_V84_SYSTEM_AUDIT_2026-04-16.md` for the latest authoritative state before applying this plan further.
+
 **Companion to**: `/mnt/afs2/zhuhaowu/infinigen/docs/MINT_V84_FULL_FIX_SPEC.md`
 
 This plan is the concrete implementation order for the full fix. The ordering matters because later phases depend on earlier correctness repairs.

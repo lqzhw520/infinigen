@@ -6,7 +6,9 @@
 - Host: `ssh -p 30017 root@10.210.0.88`
 - Repo: `/mnt/afs2/zhuhaowu/infinigen`
 - Branch: `feature/mint-env-reformulation-v1-visual-fidelity`
-- Current sovereign head for the latest validated `P1A/P1B`: `468fe31aa1e0f113f8e824e6d352ad16f89cb730`
+- Current sovereign head: `fea75fb436b40bd5f854d7a74063b8ecff663cd4`
+- Current `external/MINT` runtime adapter head: `137b42d627c308d4fc1cb6b1f84e92a5a7892b74`
+- Current authoritative Line A run id: `v84_20260416T090534Z_fea75fb4_66017839`
 
 **Companion docs**:
 - `/mnt/afs2/zhuhaowu/infinigen/docs/MINT_V84_FULL_FIX_SPEC.md`
@@ -15,6 +17,42 @@
 ---
 
 ## 1. Executive summary
+
+## 1A. Latest authoritative causal update
+
+After the most recent bounded iterations, the current state is:
+
+1. **Line B is materially aligned.**
+   - `run_tiny_retrain_confirmation.py --phase prepare` now yields `dataset_valid = true` and `errors = []`.
+   - `teacher_truth_gate`, `truth_contract_path`, and `truth_contract_hash` are now aligned through the active tiny-retrain plan, dataset provenance, and readiness summaries.
+
+2. **Line C has crossed the first-forward barrier.**
+   - `run_g8_runtime_compat_smoke.py` now reaches `stage = image_features_resolved`.
+   - The `.model` runtime-layout failure and the first vision-stack dtype mismatch are repaired.
+   - Remaining Line C risk is now narrower: config manual fallback plus large checkpoint `missing/unexpected keys`.
+
+3. **Line A has improved, but the remaining causal bottleneck is now sharper.**
+   - Current `T3B` reached: seed2 `0.4646884555833809`, seed4 `0.3862671700179796`.
+   - This materially improves over the earlier rebuilt `T3B` (`0.3811 / 0.3157`) and increases `attach_persistence` from `35/36` to `64/65`.
+   - `hybrid_open_hold` also grows from about `23` steps to `47/48` steps.
+
+4. **The remaining Line A problem is not just weaker per-step opening authority.**
+   - In open-phase only, current `T3B` mean step delta is already stronger than `T3A`.
+   - The failure is instead a **continuation failure**: after the first partially-open burst, `T3B` cannot reconnect attach/lock and resume a second opening burst.
+
+5. **Therefore the current Line A object is now more precise than `post-open hold / detach recovery`.**
+   - The active scientific object is:
+     > **reset-to-frontier continuation under partially-open geometry**
+   - Or equivalently:
+     > **half-open reattach / relock manifold under the current scripted fixed-grasp regime**
+
+This matters because even if Line A is further improved, the higher-level frontier-vs-acceptance pressure remains:
+- frozen `P1B` frontier: seed2 `0.6899748044108651`, seed4 `0.5679305979991468`
+- current acceptance: near `0.85`, strict `0.90`
+
+So the project is now split into two distinct upstream pressures:
+- **Line A pressure**: reset continuation still below frontier
+- **Regime pressure**: frontier itself remains below acceptance
 
 The central question is no longer “can the harness run?” or “can baseline MINT complete the test chain?”. Those have already been answered.
 

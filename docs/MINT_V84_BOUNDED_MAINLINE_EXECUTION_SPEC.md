@@ -1,7 +1,9 @@
 Current authoritative status:
+- Sovereign top-level head: `fea75fb436b40bd5f854d7a74063b8ecff663cd4`; `external/MINT` head: `137b42d627c308d4fc1cb6b1f84e92a5a7892b74`.
 - `P1B` remains frozen as the valid hard-seed frontier: seed2 `0.6899748044108651`, seed4 `0.5679305979991468`.
 - `T3A` frozen-reference fidelity remains exact via contract-backed epsilon checks.
 - `T3B` Line A rebuild remains active; round 3 materially narrows the reset gap (`0.465/0.386` vs prior `0.381/0.316`) and extends `hybrid_open_hold`/attach persistence, but reset supply still sits below both `T3A` and the frozen frontier.
+- Latest causal diagnosis: `T3B` is no longer mainly limited by per-step opening authority; it is limited by partially-open continuation, i.e. failing to reattach/relock and start a second opening burst after the first burst ends.
 - Line B now reaches `dataset_valid = true` with `errors = []`; `teacher_truth_gate`, `truth_contract_path`, and `truth_contract_hash` are now aligned through the active plan, dataset build, and readiness summaries.
 - Line C smoke now reaches `image_features_resolved`; the `.model` layout bug and the first image-feature dtype conflict are repaired, while config manual fallback and large checkpoint key mismatch remain active evidence.
 
@@ -10,7 +12,7 @@ Current authoritative status:
 **Authority**
 - Repo: `/mnt/afs2/zhuhaowu/infinigen`
 - Branch: `feature/mint-env-reformulation-v1-visual-fidelity`
-- Current sovereign review anchor: `511026e4942ad7446b08978e33e314ee1522b577`
+- Current sovereign review anchor: `fea75fb436b40bd5f854d7a74063b8ecff663cd4`
 - Current latest validated hard-seed frontier anchor: `468fe31aa1e0f113f8e824e6d352ad16f89cb730`
 
 **Primary companions**
@@ -36,8 +38,9 @@ The current authoritative interpretation is:
 2. The latest `P1B` is now a valid hard-seed frontier candidate.
 3. The latest `P1B` frontier remains below current acceptance.
 4. Reset results remain below the current frontier.
-5. Downstream readiness remains false, but should be treated as downstream until upstream is repaired.
-6. Runtime compatibility is independently broken and must not be conflated with teacher science.
+5. The most specific current Line A bottleneck is no longer generic detach; it is reset continuation under partially-open geometry.
+6. Downstream readiness remains false, but should be treated as downstream until upstream is repaired.
+7. Runtime compatibility has crossed first-forward, but remains independently at risk because checkpoint/layout compatibility is not fully closed.
 
 ---
 

@@ -1,12 +1,14 @@
 Current authoritative status:
+- Sovereign top-level head: `fea75fb436b40bd5f854d7a74063b8ecff663cd4`.
 - `P1B` is frozen and no longer an active redesign target.
 - `T3A` fidelity is contract-backed and currently exact relative to the frozen reference.
 - `T3B` rebuild round 3 improves materially over rounds 1-2: seed2/4 rise to `0.465/0.386`, `attach_persistence` rises to `64/65`, and `hybrid_open_hold` roughly doubles, but `matched_superiority_over_t3a` still fails and Line A remains unresolved.
+- The current causal diagnosis is now sharper: `T3B` open-phase step authority is already strong enough; the unresolved object is partially-open continuation, i.e. reattach/relock failure after the first opening burst.
 
 # MINT v8.4 Line A — T3B Rebuild Execution Spec
 
 **Question**
-> Can reset teachers on hard seeds approach the frozen hard-seed frontier under the current regime?
+> Can reset teachers on hard seeds approach the frozen hard-seed frontier under the current regime, specifically by restoring continuation after the first partially-open burst?
 
 ## Frozen objects
 - Freeze latest validated `P1B` as frontier reference.

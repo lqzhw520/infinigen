@@ -1,0 +1,16 @@
+{
+  "reference_name": "t3a_frozen_reference_v84",
+  "source_phase": "frozen_v83_x2_reset_baseline",
+  "source_head_commit": "cdf0157c5427f376c0ce006d959493edb9407846",
+  "source_artifact": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v84_t3a_matched_world_frame.json",
+  "fidelity_epsilon": 0.005,
+  "seeds": {
+    "2": {
+      "step_96_max_drawer_fraction": 0.539918839931488
+    },
+    "4": {
+      "step_96_max_drawer_fraction": 0.44551390409469604
+    }
+  },
+  "notes": "Frozen reset baseline reference for T3A fidelity checks."
+}

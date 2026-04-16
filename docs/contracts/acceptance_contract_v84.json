@@ -1,0 +1,8 @@
+{
+  "contract_name": "acceptance_contract_v84",
+  "version": "v84",
+  "near_strict_drawer_fraction_threshold": 0.85,
+  "strict_drawer_open_threshold": 0.90,
+  "strict_semantics_source": "v3_attached_open_contract",
+  "notes": "Thresholds are frozen for v8.4 bounded execution and must not be relaxed during Line A/B/C."
+}

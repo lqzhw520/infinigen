@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import io
 import json
 import os
@@ -105,6 +106,14 @@ EVIDENCE_MATRIX_PATH = ARTIFACT_DIR / "v84_evidence_matrix.json"
 ROLLOUT_ROOT = ARTIFACT_DIR / "v84_rollouts"
 TEMP_T0_VALIDATE_PATH = ARTIFACT_DIR / "v84_t0_generate_reload_validate.json"
 STATE_MODE_NAME = {"S0": "m0_proxy", "S2": "telemetry_candidate_v4_task_identity"}
+DOCS_CONTRACT_DIR = PROJECT_ROOT / "docs" / "contracts"
+ACCEPTANCE_CONTRACT_PATH = DOCS_CONTRACT_DIR / "acceptance_contract_v84.json"
+TRUTH_CONTRACT_PATH = DOCS_CONTRACT_DIR / "truth_contract_v84.json"
+RUNTIME_COMPAT_CONTRACT_PATH = (
+    DOCS_CONTRACT_DIR / "runtime_compatibility_contract_v84.json"
+)
+P1B_FROZEN_FRONTIER_PATH = DOCS_CONTRACT_DIR / "teacher_frontier_reference_v84.json"
+T3A_FROZEN_REFERENCE_PATH = DOCS_CONTRACT_DIR / "t3a_frozen_reference_v84.json"
 
 
 def _bool_arg(value: str | bool) -> bool:
@@ -129,6 +138,44 @@ def _json_ready(value: Any) -> Any:
 def _write_json(path: Path, payload: dict[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     write_json_atomic(path, _json_ready(payload))
+
+
+def _contract_payload(path: Path) -> dict[str, Any]:
+    payload = load_json(path, {})
+    if not payload:
+        raise SystemExit(f"Missing or empty contract payload: {path}")
+    return payload
+
+
+def _contract_hash(payload: dict[str, Any]) -> str:
+    canonical = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode(
+        "utf-8"
+    )
+    return hashlib.sha256(canonical).hexdigest()
+
+
+def _none_or_default(value: Any, default: Any) -> Any:
+    return default if value is None else value
+
+
+def _load_phase_contracts() -> dict[str, Any]:
+    acceptance = _contract_payload(ACCEPTANCE_CONTRACT_PATH)
+    truth = _contract_payload(TRUTH_CONTRACT_PATH)
+    runtime = _contract_payload(RUNTIME_COMPAT_CONTRACT_PATH)
+    frontier = _contract_payload(P1B_FROZEN_FRONTIER_PATH)
+    t3a_ref = _contract_payload(T3A_FROZEN_REFERENCE_PATH)
+    return {
+        "acceptance_contract": acceptance,
+        "acceptance_contract_hash": _contract_hash(acceptance),
+        "truth_contract": truth,
+        "truth_contract_hash": _contract_hash(truth),
+        "runtime_contract": runtime,
+        "runtime_contract_hash": _contract_hash(runtime),
+        "frozen_frontier": frontier,
+        "frozen_frontier_hash": _contract_hash(frontier),
+        "t3a_reference": t3a_ref,
+        "t3a_reference_hash": _contract_hash(t3a_ref),
+    }
 
 
 def _git(args: list[str]) -> str:
@@ -199,6 +246,11 @@ def _phase_result(
         "phase_elapsed_sec": round(float(elapsed), 4),
         "input_artifacts": input_artifacts,
         "output_artifacts": output_artifacts,
+        "acceptance_contract_hash": ctx["acceptance_contract_hash"],
+        "truth_contract_hash": ctx["truth_contract_hash"],
+        "runtime_contract_hash": ctx["runtime_contract_hash"],
+        "frozen_frontier_hash": ctx["frozen_frontier_hash"],
+        "t3a_reference_hash": ctx["t3a_reference_hash"],
     }
 
 
@@ -248,6 +300,13 @@ def _write_matrix(ctx: dict[str, Any]) -> None:
         "authoritative_mode": bool(ctx["authoritative_mode"]),
         "phase_order": PHASE_ORDER,
         "phase_results": ctx["phase_results"],
+        "acceptance_contract_hash": ctx["acceptance_contract_hash"],
+        "truth_contract_hash": ctx["truth_contract_hash"],
+        "runtime_contract_hash": ctx["runtime_contract_hash"],
+        "frozen_frontier_hash": ctx["frozen_frontier_hash"],
+        "t3a_reference_hash": ctx["t3a_reference_hash"],
+        "frozen_frontier_artifact": ctx["frozen_frontier"].get("source_artifact"),
+        "t3a_reference_artifact": ctx["t3a_reference"].get("source_artifact"),
         "teacher_abstraction_sufficient_condition": teacher_abstraction,
         "teacher_readiness_sufficient_condition": teacher_readiness,
         "authoritative_retrain_executed": bool(
@@ -807,6 +866,17 @@ def _run_phase_t3a(ctx: dict[str, Any]) -> dict[str, Any]:
         max_steps=144,
     )
     seed_results = _per_seed_summary(records, list(HARD_SEEDS))
+    ref = ctx["t3a_reference"]
+    ref_eps = float(_none_or_default(ref.get("fidelity_epsilon"), 0.005))
+    ref_seeds = ref.get("seeds", {})
+    seed2_err = abs(
+        _none_or_float(seed_results["2"].get("best_step_96_max_drawer_fraction"), 0.0)
+        - float(ref_seeds.get("2", {}).get("step_96_max_drawer_fraction", 0.0))
+    )
+    seed4_err = abs(
+        _none_or_float(seed_results["4"].get("best_step_96_max_drawer_fraction"), 0.0)
+        - float(ref_seeds.get("4", {}).get("step_96_max_drawer_fraction", 0.0))
+    )
     clauses = {
         "seed2_near_strict": bool(seed_results["2"]["has_accepted_teacher"]),
         "seed4_near_strict": bool(seed_results["4"]["has_accepted_teacher"]),
@@ -815,14 +885,7 @@ def _run_phase_t3a(ctx: dict[str, Any]) -> dict[str, Any]:
             or seed_results["4"]["has_strict_teacher"]
         ),
         "t3a_matches_frozen_v83_baseline": bool(
-            _none_or_float(
-                seed_results["2"].get("best_step_96_max_drawer_fraction"), 0.0
-            )
-            >= 0.54
-            and _none_or_float(
-                seed_results["4"].get("best_step_96_max_drawer_fraction"), 0.0
-            )
-            >= 0.45
+            seed2_err <= ref_eps and seed4_err <= ref_eps
         ),
     }
     evidence = {
@@ -830,6 +893,11 @@ def _run_phase_t3a(ctx: dict[str, Any]) -> dict[str, Any]:
         "accepted_records": _accepted_records(records),
         "saved_rollout_paths": saved_paths,
         "semantics_blocked": ctx.get("semantics_blocked", False),
+        "t3a_reference_artifact": ref.get("source_artifact"),
+        "t3a_reference_head": ref.get("source_head_commit"),
+        "t3a_reference_epsilon_abs": ref_eps,
+        "seed2_step96_abs_error": seed2_err,
+        "seed4_step96_abs_error": seed4_err,
     }
     return _phase_result(
         ctx,
@@ -908,6 +976,28 @@ def _run_phase_t3b(ctx: dict[str, Any]) -> dict[str, Any]:
     accepted = _accepted_records(records)
     for item in accepted:
         ctx["accepted_rollouts"][str(item["rollout_path"])] = item
+    frontier = ctx["frozen_frontier"]
+    frontier_seeds = frontier.get("seeds", {})
+    p1a_seed_results = (ctx["phase_results"].get("p1a", {}).get("evidence") or {}).get(
+        "seed_results", {}
+    )
+    frontier_gap = {}
+    frontier_gap_closed_fraction = {}
+    for seed in map(str, HARD_SEEDS):
+        frontier_best = float(
+            frontier_seeds.get(seed, {}).get("best_max_drawer_fraction", 0.0)
+        )
+        baseline_best = _none_or_float(
+            p1a_seed_results.get(seed, {}).get("best_max_drawer_fraction"), 0.0
+        )
+        observed_best = _none_or_float(
+            seed_results.get(seed, {}).get("best_max_drawer_fraction"), 0.0
+        )
+        frontier_gap[seed] = frontier_best - observed_best
+        denom = frontier_best - baseline_best
+        frontier_gap_closed_fraction[seed] = (
+            None if denom <= 0 else (observed_best - baseline_best) / denom
+        )
     evidence = {
         "seed_results": seed_results,
         "superiority_vs_t3a": superiority,
@@ -915,6 +1005,10 @@ def _run_phase_t3b(ctx: dict[str, Any]) -> dict[str, Any]:
         "accepted_records": accepted,
         "saved_rollout_paths": saved_paths,
         "semantics_blocked": ctx.get("semantics_blocked", False),
+        "frozen_frontier_artifact": frontier.get("source_artifact"),
+        "frozen_frontier_head": frontier.get("source_head_commit"),
+        "gap_to_frontier": frontier_gap,
+        "gap_closed_fraction": frontier_gap_closed_fraction,
     }
     return _phase_result(
         ctx,
@@ -1514,6 +1608,18 @@ def _hydrate_context_from_artifacts(ctx: dict[str, Any], phases: list[str]) -> N
             raise SystemExit(
                 f"Resume artifact head mismatch for {phase}: {payload_head} != {ctx['head']}"
             )
+        for key in [
+            "acceptance_contract_hash",
+            "truth_contract_hash",
+            "runtime_contract_hash",
+            "frozen_frontier_hash",
+            "t3a_reference_hash",
+        ]:
+            payload_value = payload.get(key)
+            if payload_value and str(payload_value) != str(ctx[key]):
+                raise SystemExit(
+                    f"Resume artifact {key} mismatch for {phase}: {payload_value} != {ctx[key]}"
+                )
         ctx["phase_results"][phase] = payload
         if phase == "t1" and payload.get("status") != "PASS":
             ctx["semantics_blocked"] = True
@@ -1585,6 +1691,7 @@ def main() -> int:
 
     branch = _git(["git", "branch", "--show-current"])
     head = _git(["git", "rev-parse", "HEAD"])
+    contracts = _load_phase_contracts()
     existing = load_json(EVIDENCE_MATRIX_PATH, {}) if args.resume_from else {}
     run_id = str(existing.get("run_id") or _new_run_id(head))
     ctx: dict[str, Any] = {
@@ -1600,6 +1707,7 @@ def main() -> int:
         "b_stage_history": [],
         "authoritative_retrain_executed": False,
         "final_verdict": None,
+        **contracts,
     }
     os.environ["MINT_RUN_INSTANCE_ID"] = run_id
 

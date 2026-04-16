@@ -1,0 +1,19 @@
+{
+  "reference_name": "teacher_frontier_reference_v84",
+  "source_phase": "p1b",
+  "source_head_commit": "468fe31aa1e0f113f8e824e6d352ad16f89cb730",
+  "source_artifact": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v84_phase1b_fixed_grasp_embodiment_bound.json",
+  "seeds": {
+    "2": {
+      "best_max_drawer_fraction": 0.6899748044108651,
+      "best_step_96_max_drawer_fraction": 0.6286667585372925,
+      "best_truth_gap": 0
+    },
+    "4": {
+      "best_max_drawer_fraction": 0.5679305979991468,
+      "best_step_96_max_drawer_fraction": 0.5174667835235596,
+      "best_truth_gap": 1
+    }
+  },
+  "notes": "Frozen hard-seed frontier reference for Line A."
+}

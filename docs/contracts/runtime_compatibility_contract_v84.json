@@ -1,0 +1,20 @@
+{
+  "contract_name": "runtime_compatibility_contract_v84",
+  "version": "v84",
+  "target_model_family": "PaliGemmaForConditionalGeneration",
+  "wrapper_entrypoint": "external/MINT/lerobot_policy_mint/src/lerobot_policy_mint/modeling_mint.py",
+  "smoke_tests": [
+    "import",
+    "processor_load",
+    "model_load",
+    "adapter_resolve",
+    "forward_one_batch",
+    "backward_one_step"
+  ],
+  "least_risk_hypothesis_order": [
+    "wrapper_layout_mismatch",
+    "package_version_mismatch",
+    "checkpoint_layout_mismatch",
+    "model_family_replacement_last"
+  ]
+}

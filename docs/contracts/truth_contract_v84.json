@@ -1,0 +1,15 @@
+{
+  "contract_name": "truth_contract_v84",
+  "version": "v84",
+  "truth_root_object": "runtime_visible_truthful_handle_support",
+  "teacher_truth_predicate": "teacher_window_truth_v84",
+  "dataset_truth_predicate": "teacher_window_truth_v84",
+  "probe_truth_predicate": "runtime_probe_truth_v84",
+  "claim_truth_predicate": "runtime_probe_truth_v84",
+  "allowed_fallbacks": [],
+  "forbidden_fallbacks": [
+    "proxy_handle_hull",
+    "top_level_summary_only_truth",
+    "legacy_truth_gap_sentinel"
+  ]
+}

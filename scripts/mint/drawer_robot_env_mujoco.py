@@ -3148,6 +3148,7 @@ def build_robot_rollout(
     handle_rel_trace, drawer_fraction_signed_trace = [], []
     controller_subphase_trace, controller_tangential_target_trace = [], []
     controller_preload_trace, controller_lock_score_trace = [], []
+    controller_binormal_target_trace = []
     controller_plateau_reason = None
     ever_attached = False
     attach_step = None
@@ -3213,6 +3214,17 @@ def build_robot_rollout(
     last_drawer_delta_effective = 0.0
     last_phase_locked = False
     last_grasp_slip_norm = 0.0
+    hybrid_s_t = 0.0
+    hybrid_s_n = 0.0035
+    hybrid_s_b = 0.0
+    hybrid_lock_score = 0.0
+    hybrid_lock_streak = 0
+    hybrid_positive_streak = 0
+    hybrid_no_progress_streak = 0
+    hybrid_high_slip_streak = 0
+    hybrid_reseat_used = False
+    hybrid_frame_n = None
+    hybrid_frame_b = None
 
     phase = "pregrasp"
     if assay_warm_start_kind:
@@ -3251,12 +3263,23 @@ def build_robot_rollout(
             if env._attached and attach_step is None:
                 attach_step = step_idx
             if env._attached and phase in {"pregrasp", "contact"}:
-                phase = "phase_lock_settle"
-                phase_lock_settle_steps = 0
-                opening_servo_stage_idx = 0
-                opening_hold_steps = 0
-                opening_positive_streak = 0
-                opening_stall_steps = 0
+                if teacher_controller_mode == "interaction_frame_hybrid":
+                    phase = "grasp_seat"
+                    hybrid_s_t = 0.0
+                    hybrid_s_n = 0.0035
+                    hybrid_s_b = 0.0
+                    hybrid_lock_score = 0.0
+                    hybrid_lock_streak = 0
+                    hybrid_positive_streak = 0
+                    hybrid_no_progress_streak = 0
+                    hybrid_high_slip_streak = 0
+                else:
+                    phase = "phase_lock_settle"
+                    phase_lock_settle_steps = 0
+                    opening_servo_stage_idx = 0
+                    opening_hold_steps = 0
+                    opening_positive_streak = 0
+                    opening_stall_steps = 0
             elif (
                 phase == "pregrasp"
                 and np.linalg.norm(obs.eef_pos - pregrasp_target) < 0.02
@@ -3277,12 +3300,19 @@ def build_robot_rollout(
                         phase = "micro_retract"
                         micro_retract_phase_steps = 0
                     elif env._attached:
-                        phase = "phase_lock_settle"
-                        phase_lock_settle_steps = 0
-                        opening_servo_stage_idx = 0
-                        opening_hold_steps = 0
-                        opening_positive_streak = 0
-                        opening_stall_steps = 0
+                        if teacher_controller_mode == "interaction_frame_hybrid":
+                            phase = "grasp_seat"
+                            hybrid_lock_streak = 0
+                            hybrid_positive_streak = 0
+                            hybrid_no_progress_streak = 0
+                            hybrid_high_slip_streak = 0
+                        else:
+                            phase = "phase_lock_settle"
+                            phase_lock_settle_steps = 0
+                            opening_servo_stage_idx = 0
+                            opening_hold_steps = 0
+                            opening_positive_streak = 0
+                            opening_stall_steps = 0
                     else:
                         phase = "contact"
                     close_hold_steps = 0
@@ -3294,14 +3324,150 @@ def build_robot_rollout(
                 ):
                     micro_retract_done = True
                     if env._attached:
-                        phase = "phase_lock_settle"
-                        phase_lock_settle_steps = 0
-                        opening_servo_stage_idx = 0
-                        opening_hold_steps = 0
-                        opening_positive_streak = 0
-                        opening_stall_steps = 0
+                        if teacher_controller_mode == "interaction_frame_hybrid":
+                            phase = "grasp_seat"
+                            hybrid_lock_streak = 0
+                            hybrid_positive_streak = 0
+                            hybrid_no_progress_streak = 0
+                            hybrid_high_slip_streak = 0
+                        else:
+                            phase = "phase_lock_settle"
+                            phase_lock_settle_steps = 0
+                            opening_servo_stage_idx = 0
+                            opening_hold_steps = 0
+                            opening_positive_streak = 0
+                            opening_stall_steps = 0
                     else:
                         phase = "contact"
+            elif phase == "grasp_seat" and not env._attached:
+                phase = "contact"
+            elif phase == "grasp_seat":
+                hybrid_lock_score = 0.65 * float(last_phase_locked) + 0.35 * (
+                    1.0 - min(last_grasp_slip_norm, 1.0)
+                )
+                if hybrid_lock_score >= 0.55:
+                    hybrid_lock_streak += 1
+                else:
+                    hybrid_lock_streak = 0
+                if hybrid_lock_streak >= 2:
+                    phase = "interaction_lock"
+                    hybrid_lock_streak = 0
+            elif phase == "interaction_lock" and not env._attached:
+                phase = "contact"
+            elif phase == "interaction_lock":
+                hybrid_lock_score = 0.70 * float(last_phase_locked) + 0.30 * (
+                    1.0 - min(last_grasp_slip_norm, 1.0)
+                )
+                if last_phase_locked and last_grasp_slip_norm <= 0.75:
+                    hybrid_lock_streak += 1
+                else:
+                    hybrid_lock_streak = 0
+                if hybrid_lock_streak >= phase_lock_required_steps:
+                    phase = (
+                        "hybrid_open_final"
+                        if hybrid_reseat_used
+                        else "hybrid_open_ramp"
+                    )
+                    hybrid_lock_streak = 0
+                    hybrid_positive_streak = 0
+                    hybrid_no_progress_streak = 0
+                    hybrid_high_slip_streak = 0
+                    hybrid_s_t = max(hybrid_s_t, 0.024)
+            elif phase == "hybrid_open_ramp" and not env._attached:
+                phase = "contact"
+            elif phase == "hybrid_open_ramp":
+                if obs.drawer_fraction >= open_fraction:
+                    phase = "retreat"
+                else:
+                    progress_ok = last_drawer_delta_effective > 1e-4
+                    slip_low = last_grasp_slip_norm <= 0.60
+                    slip_high = last_grasp_slip_norm > 0.75
+                    if last_phase_locked and slip_low and progress_ok:
+                        hybrid_positive_streak += 1
+                        hybrid_no_progress_streak = 0
+                        hybrid_high_slip_streak = 0
+                        hybrid_s_t = min(hybrid_s_t + 0.004, 0.10)
+                        hybrid_s_n = min(max(hybrid_s_n, 0.0035) + 0.0001, 0.0050)
+                        if hybrid_positive_streak >= 3:
+                            phase = "hybrid_open_hold"
+                    elif last_phase_locked and not slip_high:
+                        hybrid_positive_streak = 0
+                        hybrid_no_progress_streak += 1
+                        hybrid_high_slip_streak = 0
+                        if hybrid_no_progress_streak >= 3:
+                            hybrid_s_t = min(hybrid_s_t + 0.003, 0.10)
+                        if hybrid_no_progress_streak >= 6 and not hybrid_reseat_used:
+                            phase = "reseat_once"
+                            micro_retract_phase_steps = 0
+                            controller_plateau_reason = (
+                                "locked_no_progress_before_reseat"
+                            )
+                    else:
+                        hybrid_positive_streak = 0
+                        hybrid_no_progress_streak += 1
+                        if slip_high:
+                            hybrid_high_slip_streak += 1
+                            hybrid_s_n = min(hybrid_s_n + 0.0004, 0.0055)
+                        else:
+                            hybrid_high_slip_streak = 0
+                        if hybrid_high_slip_streak >= 3 and not hybrid_reseat_used:
+                            phase = "reseat_once"
+                            micro_retract_phase_steps = 0
+                            controller_plateau_reason = "high_slip_before_reseat"
+            elif phase == "hybrid_open_hold" and not env._attached:
+                phase = "contact"
+            elif phase == "hybrid_open_hold":
+                if obs.drawer_fraction >= open_fraction:
+                    phase = "retreat"
+                else:
+                    progress_ok = last_drawer_delta_effective > 1e-4
+                    slip_high = last_grasp_slip_norm > 0.75
+                    if progress_ok and last_phase_locked:
+                        hybrid_no_progress_streak = 0
+                        hybrid_high_slip_streak = 0
+                        hybrid_s_n = max(hybrid_s_n, 0.0035)
+                    else:
+                        hybrid_no_progress_streak += 1
+                        if slip_high:
+                            hybrid_high_slip_streak += 1
+                            hybrid_s_n = min(hybrid_s_n + 0.0006, 0.0075)
+                        else:
+                            hybrid_high_slip_streak = 0
+                        if hybrid_no_progress_streak >= 3:
+                            hybrid_s_t = min(hybrid_s_t + 0.004, 0.14)
+                            phase = "hybrid_open_ramp"
+                        if hybrid_high_slip_streak >= 3 and not hybrid_reseat_used:
+                            phase = "reseat_once"
+                            micro_retract_phase_steps = 0
+                            controller_plateau_reason = "hold_slip_before_reseat"
+            elif phase == "reseat_once":
+                micro_retract_phase_steps += 1
+                if (
+                    np.linalg.norm(obs.eef_pos - micro_retract_target) < 0.015
+                    or micro_retract_phase_steps >= 2
+                ):
+                    hybrid_reseat_used = True
+                    hybrid_lock_streak = 0
+                    hybrid_positive_streak = 0
+                    hybrid_no_progress_streak = 0
+                    hybrid_high_slip_streak = 0
+                    phase = "interaction_lock" if env._attached else "contact"
+            elif phase == "hybrid_open_final" and not env._attached:
+                phase = "contact"
+            elif phase == "hybrid_open_final":
+                if obs.drawer_fraction >= open_fraction:
+                    phase = "retreat"
+                else:
+                    progress_ok = last_drawer_delta_effective > 1e-4
+                    if last_phase_locked and progress_ok:
+                        hybrid_s_t = min(hybrid_s_t + 0.004, 0.145)
+                        hybrid_s_n = max(hybrid_s_n, 0.0035)
+                        hybrid_no_progress_streak = 0
+                    else:
+                        hybrid_no_progress_streak += 1
+                        hybrid_s_n = min(hybrid_s_n + 0.0002, 0.0055)
+                        if hybrid_no_progress_streak >= 5:
+                            controller_plateau_reason = "final_no_progress_after_reseat"
             elif phase == "phase_lock_settle" and not env._attached:
                 phase = "contact"
             elif phase == "phase_lock_settle":
@@ -3413,11 +3579,21 @@ def build_robot_rollout(
                     else:
                         phase = "contact"
             elif (
-                phase in {"phase_lock_settle", "opening_ramp", "opening_hold"}
+                phase
+                in {
+                    "phase_lock_settle",
+                    "opening_ramp",
+                    "opening_hold",
+                    "interaction_lock",
+                    "hybrid_open_ramp",
+                    "hybrid_open_hold",
+                    "hybrid_open_final",
+                }
                 and obs.drawer_fraction >= open_fraction
             ):
                 phase = "retreat"
 
+            stable_attach_run = stable_attach_run + 1 if bool(env._stable_attach) else 0
             stable_attach_run = stable_attach_run + 1 if bool(env._stable_attach) else 0
             if (
                 force_detach_probe
@@ -3442,6 +3618,29 @@ def build_robot_rollout(
                 interaction_n = np.array([0.0, 1.0, 0.0], dtype=np.float32)
                 interaction_n_norm = 1.0
             interaction_n = interaction_n / interaction_n_norm
+            interaction_b = np.cross(axis, interaction_n).astype(np.float32)
+            interaction_b_norm = float(np.linalg.norm(interaction_b))
+            if interaction_b_norm < 1e-6:
+                interaction_b = np.array([0.0, 0.0, 1.0], dtype=np.float32)
+                interaction_b_norm = 1.0
+            interaction_b = interaction_b / interaction_b_norm
+            if teacher_controller_mode == "interaction_frame_hybrid":
+                if phase in {"grasp_seat", "interaction_lock"} and env._attached:
+                    hybrid_frame_n = interaction_n.copy()
+                    hybrid_frame_b = interaction_b.copy()
+                elif (
+                    phase
+                    in {
+                        "hybrid_open_ramp",
+                        "hybrid_open_hold",
+                        "hybrid_open_final",
+                        "reseat_once",
+                    }
+                    and hybrid_frame_n is not None
+                    and hybrid_frame_b is not None
+                ):
+                    interaction_n = hybrid_frame_n.copy()
+                    interaction_b = hybrid_frame_b.copy()
             preload_mag = 0.0
             if teacher_controller_mode == "embodiment_bound_quasistatic":
                 slip_level = float(np.clip(last_grasp_slip_norm, 0.0, 1.0))
@@ -3453,9 +3652,7 @@ def build_robot_rollout(
                     + 0.001 * (1.0 - progress_gate),
                 )
             elif teacher_controller_mode == "interaction_frame_hybrid":
-                preload_mag = 0.0025 + 0.0025 * float(
-                    np.clip(last_grasp_slip_norm, 0.0, 1.0)
-                )
+                preload_mag = hybrid_s_n
 
             if phase == "pregrasp":
                 target_pos, close, speed = pregrasp_target, False, 0.65
@@ -3465,6 +3662,51 @@ def build_robot_rollout(
                 target_pos, close, speed = contact_target, True, 0.25
             elif phase == "micro_retract":
                 target_pos, close, speed = micro_retract_target, True, 0.20
+            elif phase == "grasp_seat":
+                target_pos = contact_target + interaction_n * max(preload_mag, 0.0035)
+                close, speed = True, 0.16
+            elif phase == "interaction_lock":
+                target_pos = (
+                    handle
+                    + axis * hybrid_s_t
+                    + interaction_n * max(preload_mag, 0.0035)
+                    + np.array([0.0, 0.0, 0.005], dtype=np.float32)
+                )
+                close, speed = True, 0.14
+            elif phase == "hybrid_open_ramp":
+                target_pos = (
+                    handle
+                    + axis * hybrid_s_t
+                    + interaction_n * preload_mag
+                    + interaction_b * hybrid_s_b
+                    + np.array([0.0, 0.0, 0.005], dtype=np.float32)
+                )
+                close, speed = True, ramp_speed
+            elif phase == "hybrid_open_hold":
+                target_pos = (
+                    handle
+                    + axis * hybrid_s_t
+                    + interaction_n * max(preload_mag - 0.0002, 0.0)
+                    + interaction_b * hybrid_s_b
+                    + np.array([0.0, 0.0, 0.005], dtype=np.float32)
+                )
+                close, speed = True, hold_speed
+            elif phase == "reseat_once":
+                target_pos = (
+                    micro_retract_target
+                    + interaction_n * max(preload_mag - 0.001, 0.0020)
+                    + interaction_b * hybrid_s_b
+                )
+                close, speed = True, 0.18
+            elif phase == "hybrid_open_final":
+                target_pos = (
+                    handle
+                    + axis * hybrid_s_t
+                    + interaction_n * preload_mag
+                    + interaction_b * hybrid_s_b
+                    + np.array([0.0, 0.0, 0.005], dtype=np.float32)
+                )
+                close, speed = True, hold_speed
             elif phase == "phase_lock_settle":
                 if teacher_controller_mode in {
                     "embodiment_bound_quasistatic",
@@ -3528,16 +3770,25 @@ def build_robot_rollout(
             )
             controller_subphase_trace.append(phase)
             controller_tangential_target_trace.append(
-                float(
-                    opening_servo_offsets[
-                        min(opening_servo_stage_idx, len(opening_servo_offsets) - 1)
-                    ]
+                float(hybrid_s_t)
+                if teacher_controller_mode == "interaction_frame_hybrid"
+                else (
+                    float(
+                        opening_servo_offsets[
+                            min(opening_servo_stage_idx, len(opening_servo_offsets) - 1)
+                        ]
+                    )
+                    if phase in {"opening_ramp", "opening_hold"}
+                    else 0.0
                 )
-                if phase in {"opening_ramp", "opening_hold"}
-                else 0.0
             )
             controller_preload_trace.append(float(preload_mag))
-            controller_lock_score_trace.append(1.0 if last_phase_locked else 0.0)
+            controller_lock_score_trace.append(
+                float(hybrid_lock_score)
+                if teacher_controller_mode == "interaction_frame_hybrid"
+                else (1.0 if last_phase_locked else 0.0)
+            )
+            controller_binormal_target_trace.append(float(hybrid_s_b))
             phase_label = phase
             if force_detach_steps_remaining > 0:
                 action = _script_action(
@@ -3763,7 +4014,7 @@ def build_robot_rollout(
             else np.asarray([], dtype=np.float32)
         ),
         "interaction_s_b_trace": (
-            np.zeros(len(controller_tangential_target_trace), dtype=np.float32)
+            np.asarray(controller_binormal_target_trace, dtype=np.float32)
             if teacher_controller_mode == "interaction_frame_hybrid"
             else np.asarray([], dtype=np.float32)
         ),

@@ -3149,6 +3149,11 @@ def build_robot_rollout(
     controller_subphase_trace, controller_tangential_target_trace = [], []
     controller_preload_trace, controller_lock_score_trace = [], []
     controller_binormal_target_trace = []
+    hybrid_frame_n_trace = []
+    hybrid_reseat_triggered = False
+    hybrid_reseat_phase_before = None
+    second_burst_started = False
+    second_burst_max_drawer_delta = 0.0
     controller_plateau_reason = None
     ever_attached = False
     attach_step = None
@@ -3363,11 +3368,14 @@ def build_robot_rollout(
                 else:
                     hybrid_lock_streak = 0
                 if hybrid_lock_streak >= phase_lock_required_steps:
-                    phase = (
+                    next_phase = (
                         "hybrid_open_final"
                         if hybrid_reseat_used
                         else "hybrid_open_ramp"
                     )
+                    if hybrid_reseat_used:
+                        second_burst_started = True
+                    phase = next_phase
                     hybrid_lock_streak = 0
                     hybrid_positive_streak = 0
                     hybrid_no_progress_streak = 0
@@ -3375,6 +3383,8 @@ def build_robot_rollout(
                     hybrid_s_t = max(hybrid_s_t, 0.020)
             elif phase == "hybrid_open_ramp" and not env._attached:
                 if not hybrid_reseat_used:
+                    hybrid_reseat_triggered = True
+                    hybrid_reseat_phase_before = "hybrid_open_ramp"
                     phase = "reseat_once"
                     micro_retract_phase_steps = 0
                     controller_plateau_reason = "detach_during_ramp"
@@ -3402,6 +3412,8 @@ def build_robot_rollout(
                         if hybrid_no_progress_streak >= 4:
                             hybrid_s_t = min(hybrid_s_t + 0.002, 0.095)
                         if hybrid_no_progress_streak >= 8 and not hybrid_reseat_used:
+                            hybrid_reseat_triggered = True
+                            hybrid_reseat_phase_before = "hybrid_open_ramp"
                             phase = "reseat_once"
                             micro_retract_phase_steps = 0
                             controller_plateau_reason = (
@@ -3416,11 +3428,15 @@ def build_robot_rollout(
                         else:
                             hybrid_high_slip_streak = 0
                         if hybrid_high_slip_streak >= 4 and not hybrid_reseat_used:
+                            hybrid_reseat_triggered = True
+                            hybrid_reseat_phase_before = "hybrid_open_ramp"
                             phase = "reseat_once"
                             micro_retract_phase_steps = 0
                             controller_plateau_reason = "high_slip_before_reseat"
             elif phase == "hybrid_open_hold" and not env._attached:
                 if not hybrid_reseat_used:
+                    hybrid_reseat_triggered = True
+                    hybrid_reseat_phase_before = "hybrid_open_hold"
                     phase = "reseat_once"
                     micro_retract_phase_steps = 0
                     controller_plateau_reason = "detach_during_hold"
@@ -3447,6 +3463,8 @@ def build_robot_rollout(
                             hybrid_s_t = min(hybrid_s_t + 0.004, 0.14)
                             phase = "hybrid_open_ramp"
                         if hybrid_high_slip_streak >= 4 and not hybrid_reseat_used:
+                            hybrid_reseat_triggered = True
+                            hybrid_reseat_phase_before = "hybrid_open_hold"
                             phase = "reseat_once"
                             micro_retract_phase_steps = 0
                             controller_plateau_reason = "hold_slip_before_reseat"
@@ -3461,6 +3479,8 @@ def build_robot_rollout(
                     hybrid_positive_streak = 0
                     hybrid_no_progress_streak = 0
                     hybrid_high_slip_streak = 0
+                    hybrid_frame_n = None
+                    hybrid_frame_b = None
                     phase = "interaction_lock" if env._attached else "contact"
             elif phase == "hybrid_open_final" and not env._attached:
                 phase = "contact"
@@ -3635,7 +3655,12 @@ def build_robot_rollout(
                 interaction_b_norm = 1.0
             interaction_b = interaction_b / interaction_b_norm
             if teacher_controller_mode == "interaction_frame_hybrid":
-                if phase in {"grasp_seat", "interaction_lock"} and env._attached:
+                if (
+                    phase == "interaction_lock"
+                    and env._attached
+                    and hybrid_frame_n is None
+                    and hybrid_frame_b is None
+                ):
                     hybrid_frame_n = interaction_n.copy()
                     hybrid_frame_b = interaction_b.copy()
                 elif (
@@ -3644,13 +3669,21 @@ def build_robot_rollout(
                         "hybrid_open_ramp",
                         "hybrid_open_hold",
                         "hybrid_open_final",
-                        "reseat_once",
                     }
                     and hybrid_frame_n is not None
                     and hybrid_frame_b is not None
                 ):
                     interaction_n = hybrid_frame_n.copy()
                     interaction_b = hybrid_frame_b.copy()
+            if teacher_controller_mode == "interaction_frame_hybrid":
+                hybrid_frame_n_trace.append(
+                    np.asarray(interaction_n, dtype=np.float32).copy()
+                )
+                if second_burst_started:
+                    second_burst_max_drawer_delta = max(
+                        second_burst_max_drawer_delta,
+                        max(last_drawer_delta_effective, 0.0),
+                    )
             preload_mag = 0.0
             if teacher_controller_mode == "embodiment_bound_quasistatic":
                 slip_level = float(np.clip(last_grasp_slip_norm, 0.0, 1.0))
@@ -4033,6 +4066,26 @@ def build_robot_rollout(
             if teacher_controller_mode == "interaction_frame_hybrid"
             else np.asarray([], dtype=np.float32)
         ),
+        "hybrid_frame_n_trace": (
+            np.asarray(hybrid_frame_n_trace, dtype=np.float32)
+            if teacher_controller_mode == "interaction_frame_hybrid"
+            else np.asarray([], dtype=np.float32)
+        ),
+        "hybrid_reseat_triggered": bool(hybrid_reseat_triggered)
+        if teacher_controller_mode == "interaction_frame_hybrid"
+        else False,
+        "hybrid_reseat_phase_before": hybrid_reseat_phase_before
+        if teacher_controller_mode == "interaction_frame_hybrid"
+        else None,
+        "second_burst_started": bool(second_burst_started)
+        if teacher_controller_mode == "interaction_frame_hybrid"
+        else False,
+        "second_burst_max_drawer_delta": float(second_burst_max_drawer_delta)
+        if teacher_controller_mode == "interaction_frame_hybrid"
+        else 0.0,
+        "continuation_plateau_reason": controller_plateau_reason
+        if teacher_controller_mode == "interaction_frame_hybrid"
+        else None,
         "reseat_reason": controller_plateau_reason
         if teacher_controller_mode == "interaction_frame_hybrid"
         else None,
@@ -4154,6 +4207,12 @@ def save_robot_rollout(path: Path, rollout: dict[str, Any]) -> None:
         "train_seeds": rollout.get("train_seeds", []),
         "heldout_seeds": rollout.get("heldout_seeds", []),
         "teacher_controller_mode": rollout.get("teacher_controller_mode"),
+        "hybrid_reseat_triggered": rollout.get("hybrid_reseat_triggered"),
+        "hybrid_reseat_phase_before": rollout.get("hybrid_reseat_phase_before"),
+        "second_burst_started": rollout.get("second_burst_started"),
+        "second_burst_max_drawer_delta": rollout.get("second_burst_max_drawer_delta"),
+        "continuation_plateau_reason": rollout.get("continuation_plateau_reason"),
+        "hybrid_frame_n_trace": rollout.get("hybrid_frame_n_trace", []),
     }
     write_text_atomic(
         path.with_suffix(".json"),

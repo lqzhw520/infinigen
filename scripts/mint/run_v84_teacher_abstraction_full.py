@@ -523,6 +523,25 @@ def _per_seed_summary(
             )
             if best
             else 0.0,
+            "best_hybrid_reseat_triggered": bool(
+                best.get("hybrid_reseat_triggered", False)
+            )
+            if best
+            else False,
+            "best_hybrid_reseat_phase_before": best.get("hybrid_reseat_phase_before")
+            if best
+            else None,
+            "best_second_burst_started": bool(best.get("second_burst_started", False))
+            if best
+            else False,
+            "best_second_burst_max_drawer_delta": _none_or_float(
+                best.get("second_burst_max_drawer_delta"), 0.0
+            )
+            if best
+            else 0.0,
+            "best_continuation_plateau_reason": best.get("continuation_plateau_reason")
+            if best
+            else None,
             "best_rollout_path": best.get("rollout_path") if best else None,
         }
     return out
@@ -960,7 +979,7 @@ def _run_phase_t3b(ctx: dict[str, Any]) -> dict[str, Any]:
             "t3a_matches_frozen_v83_baseline", False
         )
     )
-    clauses = {
+    legacy_clauses = {
         "seed2_near_strict": bool(seed_results["2"]["has_accepted_teacher"]),
         "seed4_near_strict": bool(seed_results["4"]["has_accepted_teacher"]),
         "at_least_one_seed_strict": bool(
@@ -998,6 +1017,36 @@ def _run_phase_t3b(ctx: dict[str, Any]) -> dict[str, Any]:
         frontier_gap_closed_fraction[seed] = (
             None if denom <= 0 else (observed_best - baseline_best) / denom
         )
+    frontier_clauses = {
+        "gap_closed_seed2_ge_0p7": _none_or_float(
+            frontier_gap_closed_fraction.get("2"), -1.0
+        )
+        >= 0.7,
+        "gap_closed_seed4_ge_0p7": _none_or_float(
+            frontier_gap_closed_fraction.get("4"), -1.0
+        )
+        >= 0.7,
+        "approaches_frontier_seed2": _none_or_float(frontier_gap.get("2"), 999.0)
+        <= 0.05,
+        "approaches_frontier_seed4": _none_or_float(frontier_gap.get("4"), 999.0)
+        <= 0.05,
+    }
+    clauses = {**legacy_clauses, **frontier_clauses}
+    reset_gap_closed = bool(
+        frontier_clauses["gap_closed_seed2_ge_0p7"]
+        and frontier_clauses["gap_closed_seed4_ge_0p7"]
+    )
+    approaches_frontier = bool(
+        frontier_clauses["approaches_frontier_seed2"]
+        and frontier_clauses["approaches_frontier_seed4"]
+    )
+    if reset_gap_closed or approaches_frontier:
+        if all(legacy_clauses.values()):
+            canonical_verdict = "RESET_SUPPLY_RESTORED_AND_FRONTIER_REACHED"
+        else:
+            canonical_verdict = "RESET_TO_FRONTIER_CLOSED_BUT_FRONTIER_BELOW_ACCEPTANCE"
+    else:
+        canonical_verdict = "RESET_ABSTRACTION_STILL_PRIMARY"
     evidence = {
         "seed_results": seed_results,
         "superiority_vs_t3a": superiority,
@@ -1009,28 +1058,40 @@ def _run_phase_t3b(ctx: dict[str, Any]) -> dict[str, Any]:
         "frozen_frontier_head": frontier.get("source_head_commit"),
         "gap_to_frontier": frontier_gap,
         "gap_closed_fraction": frontier_gap_closed_fraction,
+        "legacy_clauses": legacy_clauses,
+        "canonical_verdict": canonical_verdict,
     }
     return _phase_result(
         ctx,
         phase="t3b",
-        status="PASS" if all(clauses.values()) else "FAIL",
+        status=(
+            "PASS"
+            if canonical_verdict == "RESET_SUPPLY_RESTORED_AND_FRONTIER_REACHED"
+            else "FAIL"
+        ),
         clauses=clauses,
         rca_classes=_rca_from_mapping(
             clauses,
             {
-                "seed2_near_strict": "interaction_frame_improves_truth_but_not_opening",
-                "seed4_near_strict": "interaction_frame_improves_opening_but_not_truth",
-                "at_least_one_seed_strict": "strict_drawer_open_threshold_not_reached",
-                "matched_superiority_over_t3a": "interaction_frame_not_superior",
+                "seed2_near_strict": "continuation_failure_seed2_after_first_burst",
+                "seed4_near_strict": "continuation_failure_seed4_after_first_burst",
+                "at_least_one_seed_strict": "strict_threshold_not_reached",
+                "matched_superiority_over_t3a": "continuation_not_superior_to_world_frame",
+                "gap_closed_seed2_ge_0p7": "reset_gap_seed2_not_closed",
+                "gap_closed_seed4_ge_0p7": "reset_gap_seed4_not_closed",
+                "approaches_frontier_seed2": "frontier_gap_seed2_large",
+                "approaches_frontier_seed4": "frontier_gap_seed4_large",
             },
         ),
         evidence=evidence,
         continuation_input_source=str(_phase_artifact_path("t3a")),
         input_artifacts=[str(_phase_artifact_path("t3a"))],
         output_artifacts=[str(_phase_artifact_path("t3b")), *saved_paths],
-        bounded_terminal_if_finalized="TEACHER_ABSTRACTION_NOT_ESTABLISHED"
-        if not all(clauses.values())
-        else None,
+        bounded_terminal_if_finalized=(
+            None
+            if canonical_verdict == "RESET_SUPPLY_RESTORED_AND_FRONTIER_REACHED"
+            else canonical_verdict
+        ),
         elapsed=time.time() - t0,
     )
 

@@ -1,20 +1,28 @@
 {
   "contract_name": "runtime_compatibility_contract_v84",
   "version": "v84",
-  "target_model_family": "PaliGemmaForConditionalGeneration",
-  "wrapper_entrypoint": "external/MINT/lerobot_policy_mint/src/lerobot_policy_mint/modeling_mint.py",
+  "vendor_policy": "frozen",
+  "vendor_repo": "external/MINT",
+  "vendor_commit": "4eab5795345721001c412ff1ca2c886a11eab606",
+  "diagnostic_cli_wrapper_entrypoint": "scripts/mint/run_p1c7_official_libero_goal_drawer_baseline.py",
+  "authoritative_runtime_entrypoint": "scripts/mint/run_p1c10_release_runtime_matched_ab.py",
+  "authoritative_runtime_env": {
+    "python": "/root/anaconda3/envs/mint/bin/python",
+    "torch": "2.7.1+cu126",
+    "transformers": "4.53.3"
+  },
+  "historical_success_record": "experiments/mint/mint_drawer_v1/archive/historical_outputs_root/p1i_infinigen_mint_alignment_solution_plan.md",
   "smoke_tests": [
-    "import",
-    "processor_load",
-    "model_load",
-    "adapter_resolve",
-    "forward_one_batch",
-    "backward_one_step"
+    "vendor_head_verify",
+    "checkpoint_paths_verify",
+    "baseline_cli_construct",
+    "baseline_env_construct",
+    "vendor_import_under_baseline_pythonpath",
+    "historical_runtime_env_detect"
   ],
-  "least_risk_hypothesis_order": [
-    "wrapper_layout_mismatch",
-    "package_version_mismatch",
-    "checkpoint_layout_mismatch",
-    "model_family_replacement_last"
+  "prohibitions": [
+    "no_vendor_source_edits",
+    "no_vendor_internal_runtime_adapter_patching",
+    "no_divergence_from_historical_runtime_contract"
   ]
 }

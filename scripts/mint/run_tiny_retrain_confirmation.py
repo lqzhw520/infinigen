@@ -46,6 +46,7 @@ from tiny_retrain_mainline import (
     TRUTH_CONTRACT_PATH,
     TRUTH_UTILITY_VERSION,
     _truth_contract_hash,
+    _truth_contract_payload,
     materialize_canonical_train_rollouts,
 )
 
@@ -478,7 +479,12 @@ def materialize_stage_plan(
         "train_probe_min_successes": 2,
         "episodes_per_seed": episodes_per_seed,
         "min_train_episodes": min_train_episodes,
-        "teacher_truth_gate": "trace_window_v2",
+        "teacher_truth_gate": str(
+            _truth_contract_payload().get("teacher_predicate")
+            or "teacher_window_truth_v84"
+        ),
+        "truth_contract_path": str(TRUTH_CONTRACT_PATH),
+        "truth_contract_hash": _truth_contract_hash(),
         "authoritative_truth_field": "measurement_truthful_for_training",
         "strict_utility_version": STRICT_UTILITY_VERSION,
         "truth_utility_version": TRUTH_UTILITY_VERSION,

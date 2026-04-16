@@ -1,7 +1,8 @@
 Current authoritative status:
 - Wrapper adapter for top-level vs legacy PaliGemma image-feature access is implemented.
 - `scripts/mint/run_g8_runtime_compat_smoke.py` now exists and runs.
-- Current smoke evidence shows top-level layout is present, but config loading needs manual fallback and checkpoint/runtime mismatch is still active.
+- The authoritative smoke now reaches `image_features_resolved`; the earlier `.model` access failure and first vision-stack dtype conflict are repaired.
+- Active runtime evidence still shows `config_load_mode = manual_json_fallback` plus large missing/unexpected key counts, so checkpoint/runtime layout mismatch remains an open Line C object even though step-0 image-feature forward is no longer blocked.
 
 # MINT v8.4 Line C — Runtime Compatibility Execution Spec
 

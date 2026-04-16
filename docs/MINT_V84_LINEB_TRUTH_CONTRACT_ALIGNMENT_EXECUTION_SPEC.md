@@ -1,7 +1,8 @@
 Current authoritative status:
-- Contract registry files are now present under `docs/contracts/`.
-- `truth_contract_hash` and `truth_contract_path` are now propagated in teacher rollouts, dataset provenance, and readiness summaries.
-- Physical rollout slicing is still deferred; Line B is currently in the adjudicate/index phase, not the slice phase.
+- Contract registry files are present under `docs/contracts/`.
+- `truth_contract_hash` and `truth_contract_path` now persist through teacher rollouts, dataset provenance, readiness summaries, and the active tiny-retrain plan.
+- Authoritative `prepare` now returns `dataset_valid = true` and `errors = []`; the earlier `truth_contract_hash_mismatch` was traced to rollout sidecars dropping contract fields at save time and is now repaired.
+- Physical rollout slicing remains deferred; Line B is still in the adjudicate/index phase, not the slice phase.
 
 # MINT v8.4 Line B — Truth-Contract Alignment Execution Spec
 

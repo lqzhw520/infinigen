@@ -44,22 +44,21 @@
 
 ## 1. 当前全局状态
 
-### 1.1 三条线的真实状态（修正版）
+### 1.1 三条线的真实状态（current sovereign）
 
-#### Line B — **materially aligned，registry schema closure 仍是待落地修复**
+#### Line B — **authoritatively aligned，registry schema closure 已落地**
 
-行为层面已对齐（`dataset_valid=true`，`errors=[]`），但当前 sovereign 代码仍在使用 `teacher_predicate` + fallback；registry schema closure 已被定位（见 §3.2），但尚未进入 authoritative code。
+行为与 schema 现在都已对齐：`teacher_truth_predicate` 成为唯一 truth gate，旧 `teacher_predicate` fallback 已删除，`truth_contract_v84.json` 也显式禁止 legacy predicate keys。当前 `prepare` 复核结果为 `dataset_valid=true`、`errors=[]`、`teacher_truth_adjudications=["teacher_window_truth_v84"]`。
 
 #### Line C — **first-forward barrier crossed，smoke gate hardening 仍是待落地修复**
 
 本轮 smoke 到达 `image_features_resolved`，但当前 sovereign 代码仍把 `image_features_failed` 计为 passed，且 smoke 还未推进到 contract 所要求的 forward/backward stages（见 §4.2）。
 
-#### Line A — **scientific object 已收敛，verdict 逻辑和 controller 实现均未就位**
+#### Line A — **Step 1 已完成；reset pressure 已从 primary blocker 降级为 regime pressure 之前的闭环对象**
 
-最新 audit 把科学问题精化为 **reset-to-frontier continuation under partially-open geometry**。但：
-- `gap_to_frontier` 记录在 `evidence` 里，未进入 `clauses` verdict（GPT 发现）
-- RCA class 标签仍为旧的 `"interaction_frame_not_superior"` 等，未更新（GPT 发现）
-- controller 实现存在 `hybrid_frame_*` freeze bug，导致 second burst 无法 reattach（我定位）
+`T3B-r4` 已完成当前 bounded Step 1：`t3b` 在 authoritative rerun 中达到 strict teachers（seed2 `0.9131`，seed4 `0.9069`），并给出 `RESET_SUPPLY_RESTORED_AND_FRONTIER_REACHED`。当前 Line A 不再是“是否能跨过 reset continuation”的开放问题；剩余问题是：
+- phase summary 对 `second_burst_started / hybrid_reseat_triggered` 的 evidence propagation 仍有同步缺口
+- 更上层的 scientific pressure 已重新收束为 **frontier-vs-acceptance / regime pressure**
 
 ### 1.2 上游双压力（双方共同确认）
 
@@ -302,7 +301,7 @@ python scripts/mint/run_v84_teacher_abstraction_full.py --phase t3b --resume-fro
 
 ---
 
-## 3. Line B — Truth-Contract Schema Closure（GPT 定位；当前 sovereign 尚未落地）
+## 3. Line B — Truth-Contract Schema Closure（GPT 定位；已落地并复核）
 
 ### 3.1 Root Cause
 
@@ -366,7 +365,7 @@ def _require_contract_key(contract: dict, key: str) -> str:
 
 ### 3.3 Line B 阶段扩展
 
-当前 Line B 已 materally aligned（`dataset_valid=true`）。修复后升级为 **authoritatively aligned**：
+当前 Line B 已经从 materially aligned 升级为 **authoritatively aligned**。当前 sovereign 复核结果：
 
 | 阶段 | 状态 | 条件 |
 |------|------|------|
@@ -566,14 +565,15 @@ This document is the **only canonical execution spec** for current `v8.4`. The o
    - `RESET_TO_FRONTIER_CLOSED_BUT_FRONTIER_BELOW_ACCEPTANCE`
    - `RESET_SUPPLY_RESTORED_AND_FRONTIER_REACHED`
 
-### Step 2 — Line B schema closure, only after Line A rerun
-1. Replace `teacher_predicate` reads with hard required `teacher_truth_predicate`.
-2. Remove fallback reads from truth contract lookup.
-3. Harden contract loading with required-key failures.
-4. Rerun `prepare` and verify:
+### Step 2 — Line B schema closure
+Completed in sovereign. The required changes are now the baseline:
+1. `teacher_predicate` reads were replaced with hard required `teacher_truth_predicate`.
+2. Fallback reads were removed from truth contract lookup.
+3. Contract loading now hard-fails on missing required keys and on forbidden legacy predicate keys.
+4. `prepare` was rerun and verified:
    - `dataset_valid = true`
    - `errors = []`
-   - `teacher_truth_gate` comes from registry, not fallback
+   - `teacher_truth_gate = teacher_window_truth_v84` from registry, not fallback
 
 ### Step 3 — Line C smoke hardening
 1. Tighten smoke `passed` to `stage == image_features_resolved` only.

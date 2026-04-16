@@ -47,6 +47,7 @@ from tiny_retrain_mainline import (
     TRUTH_UTILITY_VERSION,
     _truth_contract_hash,
     _truth_contract_payload,
+    _truth_contract_required_str,
     materialize_canonical_train_rollouts,
 )
 
@@ -479,9 +480,8 @@ def materialize_stage_plan(
         "train_probe_min_successes": 2,
         "episodes_per_seed": episodes_per_seed,
         "min_train_episodes": min_train_episodes,
-        "teacher_truth_gate": str(
-            _truth_contract_payload().get("teacher_predicate")
-            or "teacher_window_truth_v84"
+        "teacher_truth_gate": _truth_contract_required_str(
+            _truth_contract_payload(), "teacher_truth_predicate"
         ),
         "truth_contract_path": str(TRUTH_CONTRACT_PATH),
         "truth_contract_hash": _truth_contract_hash(),
@@ -774,9 +774,7 @@ def build_or_refresh_canonical_dataset(plan: dict[str, Any]) -> dict[str, Any]:
         "source_best_train_state_mode": plan.get("source_best_train_state_mode"),
         "active_train_state_mode": plan.get("active_train_state_mode"),
         "active_state_mode_name": plan.get("active_state_mode_name"),
-        "teacher_truth_gate": str(
-            plan.get("teacher_truth_gate") or TRUTH_UTILITY_VERSION
-        ),
+        "teacher_truth_gate": str(plan["teacher_truth_gate"]),
         "truth_contract_path": str(
             plan.get("truth_contract_path") or TRUTH_CONTRACT_PATH
         ),
@@ -885,9 +883,7 @@ def build_dataset_from_explicit_rollouts(
         "source_best_train_state_mode": plan.get("source_best_train_state_mode"),
         "active_train_state_mode": plan.get("active_train_state_mode"),
         "active_state_mode_name": plan.get("active_state_mode_name"),
-        "teacher_truth_gate": str(
-            plan.get("teacher_truth_gate") or TRUTH_UTILITY_VERSION
-        ),
+        "teacher_truth_gate": str(plan["teacher_truth_gate"]),
         "truth_contract_path": str(
             plan.get("truth_contract_path") or TRUTH_CONTRACT_PATH
         ),

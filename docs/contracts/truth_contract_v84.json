@@ -10,6 +10,10 @@
   "forbidden_fallbacks": [
     "proxy_handle_hull",
     "top_level_summary_only_truth",
-    "legacy_truth_gap_sentinel"
+    "legacy_truth_gap_sentinel",
+    "teacher_predicate",
+    "dataset_predicate",
+    "probe_predicate",
+    "claim_predicate"
   ]
 }

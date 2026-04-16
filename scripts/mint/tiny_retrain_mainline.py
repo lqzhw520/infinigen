@@ -44,12 +44,58 @@ STATE_MODE_MAP = {
     "S1": "telemetry_candidate_v3_transition",
     "S2": "telemetry_candidate_v4_task_identity",
 }
+TRUTH_CONTRACT_REQUIRED_KEYS = (
+    "truth_root_object",
+    "teacher_truth_predicate",
+    "dataset_truth_predicate",
+    "probe_truth_predicate",
+    "claim_truth_predicate",
+    "allowed_fallbacks",
+    "forbidden_fallbacks",
+)
+TRUTH_CONTRACT_FORBIDDEN_KEYS = (
+    "teacher_predicate",
+    "dataset_predicate",
+    "probe_predicate",
+    "claim_predicate",
+)
+
+
+def _truth_contract_required_str(payload: dict[str, Any], key: str) -> str:
+    value = payload.get(key)
+    if not isinstance(value, str) or not value.strip():
+        raise RuntimeError(
+            f"Truth contract missing required string '{key}' in {TRUTH_CONTRACT_PATH}"
+        )
+    return value.strip()
 
 
 def _truth_contract_payload() -> dict[str, Any]:
     payload = load_json(TRUTH_CONTRACT_PATH, {})
     if not payload:
         raise RuntimeError(f"Missing truth contract payload: {TRUTH_CONTRACT_PATH}")
+    missing = [key for key in TRUTH_CONTRACT_REQUIRED_KEYS if key not in payload]
+    if missing:
+        raise RuntimeError(
+            f"Truth contract missing required keys {missing}: {TRUTH_CONTRACT_PATH}"
+        )
+    present_forbidden = [key for key in TRUTH_CONTRACT_FORBIDDEN_KEYS if key in payload]
+    if present_forbidden:
+        raise RuntimeError(
+            f"Truth contract contains forbidden legacy keys {present_forbidden}: {TRUTH_CONTRACT_PATH}"
+        )
+    forbidden_fallbacks = {
+        str(item).strip()
+        for item in (payload.get("forbidden_fallbacks") or [])
+        if str(item).strip()
+    }
+    missing_forbidden = [
+        key for key in TRUTH_CONTRACT_FORBIDDEN_KEYS if key not in forbidden_fallbacks
+    ]
+    if missing_forbidden:
+        raise RuntimeError(
+            f"Truth contract forbidden_fallbacks missing legacy keys {missing_forbidden}: {TRUTH_CONTRACT_PATH}"
+        )
     return payload
 
 
@@ -365,8 +411,8 @@ def _canonical_training_truth_summary(rollout: dict[str, Any]) -> dict[str, Any]
     truth_contract = _truth_contract_payload()
     bridge_score = 0.0
     summary: dict[str, Any] = {
-        "teacher_truth_adjudication": str(
-            truth_contract.get("teacher_predicate") or "teacher_window_truth_v84"
+        "teacher_truth_adjudication": _truth_contract_required_str(
+            truth_contract, "teacher_truth_predicate"
         ),
         "truth_contract_path": str(TRUTH_CONTRACT_PATH),
         "truth_contract_hash": _truth_contract_hash(truth_contract),
@@ -740,9 +786,8 @@ def materialize_canonical_train_rollouts(
         "episodes_per_seed": episodes_per_seed,
         "min_train_episodes": min_train_episodes,
         "min_successful_seeds": MIN_SUCCESSFUL_SEEDS,
-        "teacher_truth_gate": str(
-            _truth_contract_payload().get("teacher_predicate")
-            or "teacher_window_truth_v84"
+        "teacher_truth_gate": _truth_contract_required_str(
+            _truth_contract_payload(), "teacher_truth_predicate"
         ),
         "truth_contract_path": str(TRUTH_CONTRACT_PATH),
         "truth_contract_hash": _truth_contract_hash(),

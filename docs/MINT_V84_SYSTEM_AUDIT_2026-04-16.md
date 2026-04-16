@@ -21,23 +21,25 @@
 
 After the most recent bounded iterations, the current state is:
 
-1. **Line B is materially aligned.**
-   - `run_tiny_retrain_confirmation.py --phase prepare` now yields `dataset_valid = true` and `errors = []`.
-   - `teacher_truth_gate`, `truth_contract_path`, and `truth_contract_hash` are now aligned through the active tiny-retrain plan, dataset provenance, and readiness summaries.
+1. **Line B is authoritatively aligned.**
+   - `teacher_truth_predicate` is now the only contract-backed truth gate.
+   - `teacher_predicate` fallback reads were removed, required-key validation was added, and legacy predicate keys are now forbidden in `truth_contract_v84.json`.
+   - `run_tiny_retrain_confirmation.py --phase prepare` yields `dataset_valid = true`, `errors = []`, and `teacher_truth_adjudications = ["teacher_window_truth_v84"]`.
 
-2. **Line C has crossed the first-forward barrier.**
-   - `run_g8_runtime_compat_smoke.py` now reaches `stage = image_features_resolved`.
-   - The `.model` runtime-layout failure and the first vision-stack dtype mismatch are repaired.
-   - Remaining Line C risk is now narrower: config manual fallback plus large checkpoint `missing/unexpected keys`.
+2. **Line C has crossed the first-forward barrier, but smoke hardening is still pending.**
+   - `run_g8_runtime_compat_smoke.py` reaches `stage = image_features_resolved`.
+   - The `.model` runtime-layout failure and first vision-stack dtype mismatch are repaired.
+   - Remaining Line C risk is now narrower: config manual fallback plus large checkpoint `missing/unexpected keys`, and an over-broad smoke pass condition still needs tightening.
 
-3. **Line A has improved, but the remaining causal bottleneck is now sharper.**
-   - Current `T3B` reached: seed2 `0.4646884555833809`, seed4 `0.3862671700179796`.
-   - This materially improves over the earlier rebuilt `T3B` (`0.3811 / 0.3157`) and increases `attach_persistence` from `35/36` to `64/65`.
-   - `hybrid_open_hold` also grows from about `23` steps to `47/48` steps.
+3. **Line A Step 1 has now completed successfully.**
+   - Current authoritative `T3B` reaches strict teachers on both hard seeds: seed2 `0.9131260270582326`, seed4 `0.90689056499222`.
+   - `T3B` now reports `RESET_SUPPLY_RESTORED_AND_FRONTIER_REACHED` rather than `RESET_ABSTRACTION_STILL_PRIMARY`.
+   - `T3A` remains the bounded negative matched baseline (`0.5448 / 0.4498`), while frozen `P1B` remains the frontier reference (`0.6900 / 0.5679`).
 
-4. **The remaining Line A problem is not just weaker per-step opening authority.**
-   - In open-phase only, current `T3B` mean step delta is already stronger than `T3A`.
-   - The failure is instead a **continuation failure**: after the first partially-open burst, `T3B` cannot reconnect attach/lock and resume a second opening burst.
+4. **The remaining upstream scientific pressure is no longer reset continuation itself.**
+   - The controller-side second burst problem was closed by the bounded post-reseat grasp-seat stabilization patch.
+   - The remaining Line A cleanup is evidence propagation: phase-summary fields like `second_burst_started` and `hybrid_reseat_triggered` still lag the direct rollout sidecars.
+   - The next scientific pressure is therefore the higher-level regime question: what to conclude when reset supply is restored but frontier/acceptance pressure remains structurally important.
 
 5. **Therefore the current Line A object is now more precise than `post-open hold / detach recovery`.**
    - The active scientific object is:

@@ -3162,6 +3162,7 @@ def build_robot_rollout(
     opening_servo_offsets = _opening_servo_offsets(pull_target_offset)
     if teacher_controller_mode == "embodiment_bound_quasistatic":
         opening_servo_offsets = [
+            0.015,
             0.03,
             0.045,
             0.06,
@@ -3170,15 +3171,14 @@ def build_robot_rollout(
             0.105,
             0.12,
             0.135,
-            0.15,
         ]
-        ramp_speed = min(pull_speed, 0.10)
-        hold_speed = min(max(pull_speed * 0.70, 0.08), 0.09)
-        opening_ramp_stall_limit = 5
-        opening_hold_stall_limit = 6
-        opening_hold_min_steps = 6
+        ramp_speed = min(max(pull_speed, 0.12), 0.14)
+        hold_speed = min(max(pull_speed * 0.75, 0.09), 0.11)
+        opening_ramp_stall_limit = 4
+        opening_hold_stall_limit = 5
+        opening_hold_min_steps = 4
         allow_reacquire = False
-        phase_lock_required_steps = 5
+        phase_lock_required_steps = 3
     elif teacher_controller_mode == "world_frame_matched":
         opening_servo_offsets = _opening_servo_offsets(max(pull_target_offset, 0.03))
         ramp_speed = max(0.16, min(pull_speed, 0.24))
@@ -3323,20 +3323,42 @@ def build_robot_rollout(
                 elif last_drawer_delta_effective > 1e-4:
                     opening_positive_streak += 1
                     opening_stall_steps = 0
-                    if opening_positive_streak >= 2:
+                    if opening_positive_streak >= (
+                        3
+                        if teacher_controller_mode == "embodiment_bound_quasistatic"
+                        else 2
+                    ):
                         phase = "opening_hold"
                         opening_hold_steps = 0
                 else:
                     opening_positive_streak = 0
                     opening_stall_steps += 1
                     if opening_stall_steps >= opening_ramp_stall_limit:
-                        if opening_servo_stage_idx < len(opening_servo_offsets) - 1:
+                        if (
+                            teacher_controller_mode == "embodiment_bound_quasistatic"
+                            and last_phase_locked
+                            and last_grasp_slip_norm <= 0.60
+                            and opening_servo_stage_idx < len(opening_servo_offsets) - 1
+                        ):
+                            opening_servo_stage_idx += 1
+                            opening_stall_steps = 0
+                        elif (
+                            opening_servo_stage_idx < len(opening_servo_offsets) - 1
+                            and teacher_controller_mode
+                            != "embodiment_bound_quasistatic"
+                        ):
                             opening_servo_stage_idx += 1
                             opening_stall_steps = 0
                         elif allow_reacquire and opening_reacquire_count < 1:
                             opening_reacquire_count += 1
                             phase = "reacquire"
                             micro_retract_phase_steps = 0
+                        elif teacher_controller_mode == "embodiment_bound_quasistatic":
+                            controller_plateau_reason = (
+                                "no_progress_under_lock"
+                                if last_phase_locked
+                                else "lock_lost_before_progress"
+                            )
             elif phase == "opening_hold" and not env._attached:
                 phase = "contact"
             elif phase == "opening_hold":
@@ -3351,7 +3373,21 @@ def build_robot_rollout(
                     opening_hold_steps >= opening_hold_min_steps
                     and opening_stall_steps >= opening_hold_stall_limit
                 ):
-                    if opening_servo_stage_idx < len(opening_servo_offsets) - 1:
+                    if (
+                        teacher_controller_mode == "embodiment_bound_quasistatic"
+                        and last_phase_locked
+                        and last_grasp_slip_norm <= 0.60
+                        and opening_servo_stage_idx < len(opening_servo_offsets) - 1
+                    ):
+                        opening_servo_stage_idx += 1
+                        opening_hold_steps = 0
+                        opening_positive_streak = 0
+                        opening_stall_steps = 0
+                        phase = "opening_ramp"
+                    elif (
+                        opening_servo_stage_idx < len(opening_servo_offsets) - 1
+                        and teacher_controller_mode != "embodiment_bound_quasistatic"
+                    ):
                         opening_servo_stage_idx += 1
                         opening_hold_steps = 0
                         opening_positive_streak = 0
@@ -3361,6 +3397,8 @@ def build_robot_rollout(
                         opening_reacquire_count += 1
                         phase = "reacquire"
                         micro_retract_phase_steps = 0
+                    elif teacher_controller_mode == "embodiment_bound_quasistatic":
+                        controller_plateau_reason = "hold_stall_after_monotone_push"
             elif phase == "reacquire":
                 micro_retract_phase_steps += 1
                 if (
@@ -3406,8 +3444,13 @@ def build_robot_rollout(
             interaction_n = interaction_n / interaction_n_norm
             preload_mag = 0.0
             if teacher_controller_mode == "embodiment_bound_quasistatic":
-                preload_mag = 0.004 + 0.004 * float(
-                    np.clip(last_grasp_slip_norm, 0.0, 1.0)
+                slip_level = float(np.clip(last_grasp_slip_norm, 0.0, 1.0))
+                progress_gate = 1.0 if last_drawer_delta_effective > 1e-4 else 0.0
+                preload_mag = max(
+                    0.0,
+                    0.001
+                    + 0.003 * max(slip_level - 0.20, 0.0)
+                    + 0.001 * (1.0 - progress_gate),
                 )
             elif teacher_controller_mode == "interaction_frame_hybrid":
                 preload_mag = 0.0025 + 0.0025 * float(

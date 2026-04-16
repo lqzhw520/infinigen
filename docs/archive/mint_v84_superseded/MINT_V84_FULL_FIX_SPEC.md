@@ -1,3 +1,5 @@
+> **Superseded by** `docs/MINT_V84_UNIFIED_EXECUTION_SPEC.md`. Keep only for historical audit context.
+
 # MINT v8.4 Full-Fix Spec
 
 **Current-state audit addendum**: See `/mnt/afs2/zhuhaowu/infinigen/docs/MINT_V84_SYSTEM_AUDIT_2026-04-16.md` for the latest authoritative synthesis, current-vs-stale artifact boundaries, and battle questions.

@@ -1,3 +1,5 @@
+> **Superseded by** `docs/MINT_V84_UNIFIED_EXECUTION_SPEC.md`. Keep only for historical audit context.
+
 Current authoritative status:
 - Sovereign top-level head: `fea75fb436b40bd5f854d7a74063b8ecff663cd4`; `external/MINT` head: `137b42d627c308d4fc1cb6b1f84e92a5a7892b74`.
 - `P1B` remains frozen as the valid hard-seed frontier: seed2 `0.6899748044108651`, seed4 `0.5679305979991468`.

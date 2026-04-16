@@ -10,9 +10,11 @@
 - Current `external/MINT` runtime adapter head: `137b42d627c308d4fc1cb6b1f84e92a5a7892b74`
 - Current authoritative Line A run id: `v84_20260416T090534Z_fea75fb4_66017839`
 
-**Companion docs**:
-- `/mnt/afs2/zhuhaowu/infinigen/docs/MINT_V84_FULL_FIX_SPEC.md`
-- `/mnt/afs2/zhuhaowu/infinigen/docs/MINT_V84_FULL_FIX_EXECUTION_PLAN.md`
+**Canonical companion docs**:
+- `/mnt/afs2/zhuhaowu/infinigen/docs/MINT_V84_UNIFIED_EXECUTION_SPEC.md`
+- `/mnt/afs2/zhuhaowu/infinigen/docs/MINT_V84_LINEA_T3B_REBUILD_EXECUTION_SPEC.md`
+- `/mnt/afs2/zhuhaowu/infinigen/docs/MINT_V84_LINEB_TRUTH_CONTRACT_ALIGNMENT_EXECUTION_SPEC.md`
+- `/mnt/afs2/zhuhaowu/infinigen/docs/MINT_V84_LINEC_RUNTIME_COMPATIBILITY_EXECUTION_SPEC.md`
 
 ---
 

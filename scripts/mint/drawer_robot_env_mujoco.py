@@ -3228,6 +3228,7 @@ def build_robot_rollout(
     hybrid_no_progress_streak = 0
     hybrid_high_slip_streak = 0
     hybrid_reseat_used = False
+    hybrid_reseat_grasp_streak = 0
     hybrid_frame_n = None
     hybrid_frame_b = None
 
@@ -3278,6 +3279,7 @@ def build_robot_rollout(
                     hybrid_positive_streak = 0
                     hybrid_no_progress_streak = 0
                     hybrid_high_slip_streak = 0
+                    hybrid_reseat_grasp_streak = 0
                 else:
                     phase = "phase_lock_settle"
                     phase_lock_settle_steps = 0
@@ -3311,6 +3313,7 @@ def build_robot_rollout(
                             hybrid_positive_streak = 0
                             hybrid_no_progress_streak = 0
                             hybrid_high_slip_streak = 0
+                            hybrid_reseat_grasp_streak = 0
                         else:
                             phase = "phase_lock_settle"
                             phase_lock_settle_steps = 0
@@ -3335,6 +3338,7 @@ def build_robot_rollout(
                             hybrid_positive_streak = 0
                             hybrid_no_progress_streak = 0
                             hybrid_high_slip_streak = 0
+                            hybrid_reseat_grasp_streak = 0
                         else:
                             phase = "phase_lock_settle"
                             phase_lock_settle_steps = 0
@@ -3346,17 +3350,34 @@ def build_robot_rollout(
                         phase = "contact"
             elif phase == "grasp_seat" and not env._attached:
                 phase = "contact"
+                hybrid_reseat_grasp_streak = 0
             elif phase == "grasp_seat":
-                hybrid_lock_score = 0.65 * float(last_phase_locked) + 0.35 * (
-                    1.0 - min(last_grasp_slip_norm, 1.0)
-                )
-                if hybrid_lock_score >= 0.55:
-                    hybrid_lock_streak += 1
+                if hybrid_reseat_used:
+                    if (
+                        env._attached
+                        and last_phase_locked
+                        and last_grasp_slip_norm <= 0.85
+                    ):
+                        hybrid_reseat_grasp_streak += 1
+                    else:
+                        hybrid_reseat_grasp_streak = 0
+                    hybrid_lock_score = 0.75 * float(last_phase_locked) + 0.25 * (
+                        1.0 - min(last_grasp_slip_norm, 1.0)
+                    )
+                    if hybrid_reseat_grasp_streak >= 2:
+                        phase = "interaction_lock"
+                        hybrid_lock_streak = 0
                 else:
-                    hybrid_lock_streak = 0
-                if hybrid_lock_streak >= 2:
-                    phase = "interaction_lock"
-                    hybrid_lock_streak = 0
+                    hybrid_lock_score = 0.65 * float(last_phase_locked) + 0.35 * (
+                        1.0 - min(last_grasp_slip_norm, 1.0)
+                    )
+                    if hybrid_lock_score >= 0.55:
+                        hybrid_lock_streak += 1
+                    else:
+                        hybrid_lock_streak = 0
+                    if hybrid_lock_streak >= 2:
+                        phase = "interaction_lock"
+                        hybrid_lock_streak = 0
             elif phase == "interaction_lock" and not env._attached:
                 phase = "contact"
             elif phase == "interaction_lock":
@@ -3479,6 +3500,7 @@ def build_robot_rollout(
                     hybrid_positive_streak = 0
                     hybrid_no_progress_streak = 0
                     hybrid_high_slip_streak = 0
+                    hybrid_reseat_grasp_streak = 0
                     hybrid_frame_n = None
                     hybrid_frame_b = None
                     phase = "interaction_lock" if env._attached else "contact"
@@ -3706,8 +3728,14 @@ def build_robot_rollout(
             elif phase == "micro_retract":
                 target_pos, close, speed = micro_retract_target, True, 0.20
             elif phase == "grasp_seat":
-                target_pos = contact_target + interaction_n * max(preload_mag, 0.0035)
-                close, speed = True, 0.16
+                if hybrid_reseat_used:
+                    target_pos = obs.eef_pos + interaction_n * 0.0008
+                    close, speed = True, 0.10
+                else:
+                    target_pos = contact_target + interaction_n * max(
+                        preload_mag, 0.0035
+                    )
+                    close, speed = True, 0.16
             elif phase == "interaction_lock":
                 target_pos = (
                     handle

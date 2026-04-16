@@ -1,7 +1,7 @@
 Current authoritative status:
 - `P1B` is frozen and no longer an active redesign target.
 - `T3A` fidelity is contract-backed and currently exact relative to the frozen reference.
-- `T3B` rebuild round 1 and round 2 both fail `matched_superiority_over_t3a`; latest best values remain far below frontier, so Line A remains active and unresolved.
+- `T3B` rebuild round 3 improves materially over rounds 1-2: seed2/4 rise to `0.465/0.386`, `attach_persistence` rises to `64/65`, and `hybrid_open_hold` roughly doubles, but `matched_superiority_over_t3a` still fails and Line A remains unresolved.
 
 # MINT v8.4 Line A — T3B Rebuild Execution Spec
 

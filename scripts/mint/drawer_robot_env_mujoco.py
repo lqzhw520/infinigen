@@ -3190,14 +3190,14 @@ def build_robot_rollout(
         allow_reacquire = True
         phase_lock_required_steps = 3
     elif teacher_controller_mode == "interaction_frame_hybrid":
-        opening_servo_offsets = [0.03, 0.05, 0.07, 0.09, 0.11, 0.13]
-        ramp_speed = min(max(pull_speed, 0.16), 0.18)
-        hold_speed = min(max(pull_speed * 0.75, 0.10), 0.12)
-        opening_ramp_stall_limit = 2
-        opening_hold_stall_limit = 2
-        opening_hold_min_steps = 4
+        opening_servo_offsets = [0.024, 0.04, 0.056, 0.072, 0.088, 0.104]
+        ramp_speed = min(max(pull_speed, 0.13), 0.15)
+        hold_speed = min(max(pull_speed * 0.70, 0.085), 0.10)
+        opening_ramp_stall_limit = 3
+        opening_hold_stall_limit = 4
+        opening_hold_min_steps = 5
         allow_reacquire = True
-        phase_lock_required_steps = 4
+        phase_lock_required_steps = 3
     else:
         ramp_speed = max(0.16, min(pull_speed, 0.24))
         hold_speed = max(0.10, min(pull_speed * 0.8, 0.20))
@@ -3372,9 +3372,14 @@ def build_robot_rollout(
                     hybrid_positive_streak = 0
                     hybrid_no_progress_streak = 0
                     hybrid_high_slip_streak = 0
-                    hybrid_s_t = max(hybrid_s_t, 0.024)
+                    hybrid_s_t = max(hybrid_s_t, 0.020)
             elif phase == "hybrid_open_ramp" and not env._attached:
-                phase = "contact"
+                if not hybrid_reseat_used:
+                    phase = "reseat_once"
+                    micro_retract_phase_steps = 0
+                    controller_plateau_reason = "detach_during_ramp"
+                else:
+                    phase = "contact"
             elif phase == "hybrid_open_ramp":
                 if obs.drawer_fraction >= open_fraction:
                     phase = "retreat"
@@ -3386,17 +3391,17 @@ def build_robot_rollout(
                         hybrid_positive_streak += 1
                         hybrid_no_progress_streak = 0
                         hybrid_high_slip_streak = 0
-                        hybrid_s_t = min(hybrid_s_t + 0.004, 0.10)
-                        hybrid_s_n = min(max(hybrid_s_n, 0.0035) + 0.0001, 0.0050)
+                        hybrid_s_t = min(hybrid_s_t + 0.003, 0.095)
+                        hybrid_s_n = min(max(hybrid_s_n, 0.0035) + 0.00005, 0.0048)
                         if hybrid_positive_streak >= 3:
                             phase = "hybrid_open_hold"
                     elif last_phase_locked and not slip_high:
                         hybrid_positive_streak = 0
                         hybrid_no_progress_streak += 1
                         hybrid_high_slip_streak = 0
-                        if hybrid_no_progress_streak >= 3:
-                            hybrid_s_t = min(hybrid_s_t + 0.003, 0.10)
-                        if hybrid_no_progress_streak >= 6 and not hybrid_reseat_used:
+                        if hybrid_no_progress_streak >= 4:
+                            hybrid_s_t = min(hybrid_s_t + 0.002, 0.095)
+                        if hybrid_no_progress_streak >= 8 and not hybrid_reseat_used:
                             phase = "reseat_once"
                             micro_retract_phase_steps = 0
                             controller_plateau_reason = (
@@ -3407,15 +3412,20 @@ def build_robot_rollout(
                         hybrid_no_progress_streak += 1
                         if slip_high:
                             hybrid_high_slip_streak += 1
-                            hybrid_s_n = min(hybrid_s_n + 0.0004, 0.0055)
+                            hybrid_s_n = min(hybrid_s_n + 0.0003, 0.0060)
                         else:
                             hybrid_high_slip_streak = 0
-                        if hybrid_high_slip_streak >= 3 and not hybrid_reseat_used:
+                        if hybrid_high_slip_streak >= 4 and not hybrid_reseat_used:
                             phase = "reseat_once"
                             micro_retract_phase_steps = 0
                             controller_plateau_reason = "high_slip_before_reseat"
             elif phase == "hybrid_open_hold" and not env._attached:
-                phase = "contact"
+                if not hybrid_reseat_used:
+                    phase = "reseat_once"
+                    micro_retract_phase_steps = 0
+                    controller_plateau_reason = "detach_during_hold"
+                else:
+                    phase = "contact"
             elif phase == "hybrid_open_hold":
                 if obs.drawer_fraction >= open_fraction:
                     phase = "retreat"
@@ -3430,13 +3440,13 @@ def build_robot_rollout(
                         hybrid_no_progress_streak += 1
                         if slip_high:
                             hybrid_high_slip_streak += 1
-                            hybrid_s_n = min(hybrid_s_n + 0.0006, 0.0075)
+                            hybrid_s_n = min(hybrid_s_n + 0.0004, 0.0070)
                         else:
                             hybrid_high_slip_streak = 0
                         if hybrid_no_progress_streak >= 3:
                             hybrid_s_t = min(hybrid_s_t + 0.004, 0.14)
                             phase = "hybrid_open_ramp"
-                        if hybrid_high_slip_streak >= 3 and not hybrid_reseat_used:
+                        if hybrid_high_slip_streak >= 4 and not hybrid_reseat_used:
                             phase = "reseat_once"
                             micro_retract_phase_steps = 0
                             controller_plateau_reason = "hold_slip_before_reseat"

@@ -21,25 +21,26 @@
    - Truth-contract alignment is authoritative.
    - `prepare` is valid and no longer depends on legacy fallback predicate reads.
 
-### 1.2 What is now the active blocker
+### 1.2 What has now been cleared
 
-3. **Line C is the only active blocker.**
-   - But Line C must now be understood correctly.
-   - The active issue is not “keep editing MINT internals until runtime smoke passes”.
-   - The active issue is:
-
-> **reproduce the historically successful original MINT baseline on unmodified vendor code, then align Infinigen outside the vendor boundary**
+3. **Line C baseline-reproduction governance has been cleared for the current round.**
+   - The project is no longer blocked on ambiguous wrapper/env drift.
+   - The key fixes are now code-enforced, not just documented:
+     - `p1c10` child launches use `/root/anaconda3/envs/mint/bin/python`
+     - `p1c7` is marked `diagnostic_only`
+     - `g8_runtime_compat_smoke` is marked `preflight_only`
+     - `g8_authoritative_baseline_smoke` runs a real one-episode authoritative baseline check
+     - `g8_mint_train` requires both gates and launches `/root/anaconda3/envs/mint/bin/lerobot-train` explicitly
 
 Current live result under frozen vendor:
 - outer preflight passes
-- current `p1c7` in `infinigen` env fails with `.model` layout drift
-- current `p1c7` in historical `mint` env fails because the wrapper sends a CLI argument unsupported by that historical `lerobot-eval`
-- authoritative historical runtime reproduction via `run_p1c10_release_runtime_matched_ab.py --variant-run` on frozen vendor + `mint` env succeeds with `pc_success = 100.0`
+- authoritative one-episode baseline smoke passes with `pc_success = 100.0`
+- current `p1c7` in `infinigen` env is correctly classified as `environment_selection_drift` and no longer overrules baseline authority
+- current-sovereign `prepare` refreshed active plan / dataset provenance
+- current-sovereign one-step `g8` integrated smoke passes through dataset validation, baseline gates, and explicit train launcher execution
 
-So the current blocker is now sharper than before:
-- **current outer baseline wrapper / environment selection is misaligned**
-- vendor MINT itself is not the blocker
-- teacher data is not the current blocker
+So the current active object is no longer baseline reproduction governance.
+The next object is full train/probe/eval claim validation on top of the now-aligned baseline contract.
 
 ### 1.3 Historical anchor that remains authoritative
 
@@ -59,36 +60,34 @@ These commits remain in git history but are no longer canonical:
 
 ## 3. Updated causal conclusion
 
-The project state has shifted.
+The project state has shifted again.
 
 ### Old active blocker
-- hard-seed teacher rollout supply under the current regime
-
-### Current active blocker
 - outer baseline reproduction / invocation / environment mismatch relative to the already working vendor baseline
 
-This means the correct present-tense question is no longer “can MINT work?” or “can hard-seed teachers be supplied?”.
+### Current active object
+- downstream full train/probe/eval claim validation on top of the aligned frozen-vendor MINT baseline contract
 
-The correct question is now:
+This means the correct present-tense question is now:
 
-> **How do we make the current Infinigen harness reproduce and then consume the already-working frozen-vendor MINT baseline contract?**
+> **Given that frozen-vendor baseline reproduction is aligned, does the current Infinigen train/probe/eval flow deliver claim-supporting behavior under that contract?**
 
 ## 4. Immediate implications
 
 1. do **not** patch `external/MINT`
 2. do **not** reopen Line A or Line B as primary blockers
-3. do **fix** current wrapper/env drift outside vendor
+3. do **not** regress the newly aligned Line C gates back to ambient PATH or vendor-patching behavior
 4. do use the historical `mint` env + `p1c10` API path as the authoritative baseline reference
 5. do treat `p1c7` as a useful wrapper diagnostic, not the sole baseline authority
+6. do continue with full train/probe/eval validation on top of the aligned contract
 
 
-## 5. Current execution plan to align outer wrappers
+## 5. Current execution plan after Line C hardening
 
-1. Freeze the authoritative baseline identity at `p1c10 + mint env + frozen vendor`.
-2. Treat `p1c7` and `g8` smoke as diagnostic wrappers only.
-3. Remove ambient PATH assumptions from current wrappers.
-4. Make current wrappers explicitly delegate vendor MINT runtime to `/root/anaconda3/envs/mint/bin/python`.
-5. Align wrapper invocation with the historical API contract instead of reproducing a divergent CLI contract.
-6. Re-run the authoritative baseline first; then re-run the wrapper path; then re-enter integrated Infinigen flow.
+1. Keep the authoritative baseline identity frozen at `p1c10 + mint env + frozen vendor`.
+2. Keep `p1c7` diagnostic-only and `g8_runtime_compat_smoke` preflight-only.
+3. Keep `g8_authoritative_baseline_smoke` as the hard gate before integrated flow.
+4. Continue full train/probe/eval validation using the explicit `/root/anaconda3/envs/mint/bin/lerobot-train` launcher path.
+5. Treat any new failure beyond these gates as downstream train/probe/eval claim-validation work, not renewed baseline reproduction confusion.
 
-This plan is intentionally narrow: it fixes wrapper/env drift before reopening any data, controller, or vendor-runtime theories.
+This plan is intentionally narrow: baseline-governance drift has been cleared, so the remaining work is downstream validation rather than renewed wrapper theory churn.

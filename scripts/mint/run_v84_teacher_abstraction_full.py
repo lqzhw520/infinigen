@@ -979,6 +979,8 @@ def _run_phase_t3b(ctx: dict[str, Any]) -> dict[str, Any]:
             "t3a_matches_frozen_v83_baseline", False
         )
     )
+    # Legacy T3A-superiority clauses are retained only as historical support signals.
+    # Current mainline blocker governance should not reactivate Line A from these alone.
     legacy_clauses = {
         "seed2_near_strict": bool(seed_results["2"]["has_accepted_teacher"]),
         "seed4_near_strict": bool(seed_results["4"]["has_accepted_teacher"]),
@@ -1059,6 +1061,9 @@ def _run_phase_t3b(ctx: dict[str, Any]) -> dict[str, Any]:
         "gap_to_frontier": frontier_gap,
         "gap_closed_fraction": frontier_gap_closed_fraction,
         "legacy_clauses": legacy_clauses,
+        "legacy_clause_names": sorted(legacy_clauses.keys()),
+        "verdict_scope": "historical_lineA_support",
+        "current_active_blocker_eligible": False,
         "canonical_verdict": canonical_verdict,
     }
     return _phase_result(

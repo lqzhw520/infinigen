@@ -26,6 +26,8 @@ from mint_common import (
 ARTIFACT = ARTIFACT_DIR / "g8_train_summary.json"
 LOG_PATH = ARTIFACT_DIR / "g8_train.log"
 RUNTIME_SMOKE_ARTIFACT = ARTIFACT_DIR / "g8_runtime_compat_smoke.json"
+AUTHORITATIVE_BASELINE_SMOKE_ARTIFACT = ARTIFACT_DIR / "g8_authoritative_baseline_smoke.json"
+AUTHORITATIVE_MINT_TRAIN_CMD = "/root/anaconda3/envs/mint/bin/lerobot-train"
 MINT_CKPT = "/mnt/afs2/zhuhaowu/infinigen/external/MINT/checkpoints/MINT-libero"
 TOKENIZER_PATH = (
     "/mnt/afs2/zhuhaowu/infinigen/external/MINT/checkpoints/MINT-tokenizer-libero"
@@ -123,8 +125,22 @@ def _run_runtime_smoke_if_enabled() -> dict[str, Any]:
     return payload
 
 
+def _run_authoritative_baseline_smoke_if_enabled() -> dict[str, Any]:
+    smoke_cmd = [
+        sys.executable,
+        str(PROJECT_ROOT / "scripts" / "mint" / "run_g8_authoritative_baseline_smoke.py"),
+    ]
+    proc = subprocess.run(smoke_cmd, cwd=PROJECT_ROOT, text=True, capture_output=True)
+    payload = load_json(AUTHORITATIVE_BASELINE_SMOKE_ARTIFACT, {})
+    payload.setdefault("returncode", proc.returncode)
+    payload.setdefault("stdout_tail", proc.stdout[-4000:])
+    payload.setdefault("stderr_tail", proc.stderr[-4000:])
+    return payload
+
+
 def run() -> bool:
     runtime_smoke: dict[str, Any] = {}
+    authoritative_baseline_smoke: dict[str, Any] = {}
     plan = load_active_tiny_retrain_plan()
     if _source_canonical_train_cell(plan) != "V1cT2S0":
         raise SystemExit(
@@ -152,6 +168,7 @@ def run() -> bool:
             "train_seeds": plan.get("train_seeds", []),
             "heldout_seeds": plan.get("heldout_seeds", []),
             "runtime_smoke": runtime_smoke,
+            "authoritative_baseline_smoke": authoritative_baseline_smoke,
             "passed": False,
             "returncode": None,
             "elapsed_sec": 0.0,
@@ -174,6 +191,7 @@ def run() -> bool:
         return False
 
     runtime_smoke = _run_runtime_smoke_if_enabled()
+    authoritative_baseline_smoke = _run_authoritative_baseline_smoke_if_enabled()
     train_steps = int(
         os.environ.get("MINT_TRAIN_STEPS", str(plan.get("train_steps", 10000)))
     )
@@ -207,6 +225,7 @@ def run() -> bool:
                 "provenance_hash"
             ),
             "runtime_smoke": runtime_smoke,
+            "authoritative_baseline_smoke": authoritative_baseline_smoke,
             "train_seeds": plan.get("train_seeds", []),
             "heldout_seeds": plan.get("heldout_seeds", []),
             "passed": False,
@@ -225,11 +244,47 @@ def run() -> bool:
         ARTIFACT.write_text(json.dumps(result, indent=2))
         print(json.dumps(result, indent=2))
         return False
+    if not bool(authoritative_baseline_smoke.get("passed", False)):
+        result = {
+            "gate": "g8_mint_train",
+            "training_mode": "tiny_retrain_confirmation",
+            "run_instance_id": plan.get("run_instance_id"),
+            "plan_version": plan.get("plan_version"),
+            "source_base_commit": plan.get("source_base_commit"),
+            "working_head_commit": plan.get("working_head_commit"),
+            "source_canonical_train_cell": _source_canonical_train_cell(plan),
+            "source_best_train_state_mode": _source_best_train_state_mode(plan),
+            "active_train_state_mode": _active_train_state_mode(plan),
+            "active_state_mode_name": _active_state_mode_name(plan),
+            "bridge_stage": plan.get("bridge_stage"),
+            "bridge_attempt": plan.get("bridge_attempt"),
+            "dataset_validated": True,
+            "dataset_provenance_hash": dataset_report["dataset_provenance"].get("provenance_hash"),
+            "runtime_smoke": runtime_smoke,
+            "authoritative_baseline_smoke": authoritative_baseline_smoke,
+            "train_seeds": plan.get("train_seeds", []),
+            "heldout_seeds": plan.get("heldout_seeds", []),
+            "passed": False,
+            "returncode": None,
+            "elapsed_sec": 0.0,
+            "steps_requested": 0,
+            "batch_size": 0,
+            "steps_completed": 0,
+            "checkpoint_path": None,
+            "train_output_dir": str(train_output_dir),
+            "loss_samples": [],
+            "stdout_tail": "",
+            "stderr_tail": "authoritative_baseline_smoke_failed",
+            "timestamp": time.time(),
+        }
+        ARTIFACT.write_text(json.dumps(result, indent=2))
+        print(json.dumps(result, indent=2))
+        return False
     if train_output_dir.exists():
         shutil.rmtree(train_output_dir)
     train_output_dir.parent.mkdir(parents=True, exist_ok=True)
 
-    train_cmd = os.environ.get("MINT_TRAIN_CMD", "lerobot-train")
+    train_cmd = os.environ.get("MINT_TRAIN_CMD", AUTHORITATIVE_MINT_TRAIN_CMD)
     job_name = f"tiny_retrain_{_active_train_state_mode(plan).lower()}_{str(plan.get('bridge_attempt') or 'honest').lower()}"
     cmd = [
         train_cmd,
@@ -281,6 +336,7 @@ def run() -> bool:
             "train_seeds": plan.get("train_seeds", []),
             "heldout_seeds": plan.get("heldout_seeds", []),
             "runtime_smoke": runtime_smoke,
+            "authoritative_baseline_smoke": authoritative_baseline_smoke,
             "passed": False,
             "returncode": None,
             "elapsed_sec": round(elapsed, 1),
@@ -293,6 +349,8 @@ def run() -> bool:
             "stdout_tail": "",
             "stderr_tail": str(exc),
             "train_cmd": train_cmd,
+            "authoritative_train_cmd_expected": AUTHORITATIVE_MINT_TRAIN_CMD,
+            "authoritative_train_cmd_matches_expected": train_cmd == AUTHORITATIVE_MINT_TRAIN_CMD,
             "timestamp": time.time(),
         }
         ARTIFACT.write_text(json.dumps(result, indent=2))
@@ -324,6 +382,8 @@ def run() -> bool:
         ),
         "train_seeds": plan.get("train_seeds", []),
         "heldout_seeds": plan.get("heldout_seeds", []),
+        "runtime_smoke": runtime_smoke,
+        "authoritative_baseline_smoke": authoritative_baseline_smoke,
         "passed": checkpoint_path is not None and returncode == 0,
         "returncode": returncode,
         "elapsed_sec": round(elapsed, 1),
@@ -335,6 +395,9 @@ def run() -> bool:
         "loss_samples": loss_lines[-10:],
         "stdout_tail": log_tail,
         "stderr_tail": "",
+        "train_cmd": train_cmd,
+        "authoritative_train_cmd_expected": AUTHORITATIVE_MINT_TRAIN_CMD,
+        "authoritative_train_cmd_matches_expected": train_cmd == AUTHORITATIVE_MINT_TRAIN_CMD,
         "dataset_build": dataset_report["dataset_build"],
         "timestamp": time.time(),
     }

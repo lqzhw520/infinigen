@@ -9,7 +9,8 @@
   "authoritative_runtime_env": {
     "python": "/root/anaconda3/envs/mint/bin/python",
     "torch": "2.7.1+cu126",
-    "transformers": "4.53.3"
+    "transformers": "4.53.3",
+    "train_cmd": "/root/anaconda3/envs/mint/bin/lerobot-train"
   },
   "historical_success_record": "experiments/mint/mint_drawer_v1/archive/historical_outputs_root/p1i_infinigen_mint_alignment_solution_plan.md",
   "smoke_tests": [
@@ -24,5 +25,13 @@
     "no_vendor_source_edits",
     "no_vendor_internal_runtime_adapter_patching",
     "no_divergence_from_historical_runtime_contract"
+  ],
+  "preflight_entrypoint": "scripts/mint/run_g8_runtime_compat_smoke.py",
+  "authoritative_baseline_smoke_entrypoint": "scripts/mint/run_g8_authoritative_baseline_smoke.py",
+  "integration_gate_sequence": [
+    "preflight_only_runtime_smoke",
+    "authoritative_baseline_smoke",
+    "diagnostic_only_p1c7_wrapper",
+    "integrated_g8_train_gate"
   ]
 }

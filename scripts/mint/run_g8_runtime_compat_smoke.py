@@ -46,6 +46,9 @@ def main() -> int:
     started = time.time()
     report: dict[str, Any] = {
         "gate": "g8_runtime_compat_smoke",
+        "verdict_scope": "preflight_only",
+        "authoritative_override_allowed": False,
+        "deeper_runtime_compatibility_validated": False,
         "vendor_policy": "frozen",
         "vendor_repo": str(MINT_REPO),
         "expected_vendor_head": FROZEN_MINT_HEAD,

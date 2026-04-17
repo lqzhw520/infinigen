@@ -35,6 +35,7 @@ SEED = 42
 HEIGHT = 256
 WIDTH = 256
 N_ACTION_STEPS = 4
+AUTHORITATIVE_MINT_PYTHON = Path("/root/anaconda3/envs/mint/bin/python")
 
 
 def run(cmd: list[str], *, cwd: Path, env: dict[str, str] | None = None) -> subprocess.CompletedProcess[str]:
@@ -90,6 +91,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--label")
     parser.add_argument("--mint-src")
     parser.add_argument("--output-dir")
+    parser.add_argument("--n-episodes", type=int, default=N_EPISODES)
+    parser.add_argument("--seed", type=int, default=SEED)
     return parser.parse_args()
 
 
@@ -134,8 +137,8 @@ def child_main(args: argparse.Namespace) -> int:
             "task_suite": TASK_SUITE,
             "task_id": TASK_ID,
             "task_name": TASK_NAME,
-            "n_episodes": N_EPISODES,
-            "seed": SEED,
+            "n_episodes": int(args.n_episodes),
+            "seed": int(args.seed),
             "observation_height": HEIGHT,
             "observation_width": WIDTH,
             "n_action_steps": N_ACTION_STEPS,
@@ -226,11 +229,11 @@ def child_main(args: argparse.Namespace) -> int:
             env_postprocessor=env_postprocessor,
             preprocessor=preprocessor,
             postprocessor=postprocessor,
-            n_episodes=N_EPISODES,
-            max_episodes_rendered=N_EPISODES,
+            n_episodes=int(args.n_episodes),
+            max_episodes_rendered=int(args.n_episodes),
             videos_dir=output_dir / "videos" / f"{TASK_SUITE}_{TASK_ID}",
             return_episode_data=False,
-            start_seed=SEED,
+            start_seed=int(args.seed),
             max_parallel_tasks=1,
         )
         close_envs(envs)
@@ -255,12 +258,14 @@ def child_main(args: argparse.Namespace) -> int:
         return 1
 
 
-def run_variant(*, label: str, mint_src: Path) -> dict[str, Any]:
+def run_variant(*, label: str, mint_src: Path, n_episodes: int = N_EPISODES, seed: int = SEED) -> dict[str, Any]:
     output_dir = OUTPUT_BASE / label
     ensure_dir(output_dir)
     env = build_child_env(mint_src)
+    if not AUTHORITATIVE_MINT_PYTHON.exists():
+        raise RuntimeError(f"Authoritative MINT python missing: {AUTHORITATIVE_MINT_PYTHON}")
     command = [
-        sys.executable,
+        str(AUTHORITATIVE_MINT_PYTHON),
         str(Path(__file__).resolve()),
         "--variant-run",
         "--label",
@@ -269,6 +274,10 @@ def run_variant(*, label: str, mint_src: Path) -> dict[str, Any]:
         str(mint_src),
         "--output-dir",
         str(output_dir),
+        "--n-episodes",
+        str(int(n_episodes)),
+        "--seed",
+        str(int(seed)),
     ]
     started = time.time()
     proc = subprocess.run(command, cwd=PROJECT_ROOT, env=env, text=True, capture_output=True)
@@ -278,6 +287,9 @@ def run_variant(*, label: str, mint_src: Path) -> dict[str, Any]:
         "label": label,
         "mint_src": str(mint_src),
         "command": command,
+        "authoritative_python_expected": str(AUTHORITATIVE_MINT_PYTHON),
+        "authoritative_python_used": command[0],
+        "authoritative_python_matches_expected": command[0] == str(AUTHORITATIVE_MINT_PYTHON),
         "returncode": proc.returncode,
         "duration_s": duration_s,
         "stdout_tail": proc.stdout[-4000:],
@@ -312,7 +324,7 @@ def parent_main() -> int:
             "status": upstream["status"],
         },
         {
-            "label": "current_patched_b5eabd4_release_runtime",
+            "label": f"current_vendor_{patched_head[:7]}_release_runtime",
             "mint_src": PATCHED_MINT_SRC,
             "head": patched_head,
             "status": patched_status,
@@ -328,6 +340,7 @@ def parent_main() -> int:
         "runtime_target": {
             "conda_env": os.environ.get("CONDA_DEFAULT_ENV"),
             "python_executable": sys.executable,
+            "authoritative_python_expected": str(AUTHORITATIVE_MINT_PYTHON),
         },
         "fixed_conditions": {
             "checkpoint": str(MINT_CKPT),

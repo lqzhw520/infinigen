@@ -32,28 +32,23 @@ Completed.
 Truth-contract alignment is no longer the active blocker. The `teacher_truth_predicate` path is authoritative, `prepare` is valid, and schema fallback behavior has been closed.
 
 ### 1.3 Step 3 / Line C
-Active blocker, but now sharply defined.
+Completed for the current round as a code-enforced baseline-reproduction governance pass.
 
-The current Line C object is:
+The current Line C object was:
 
 > Reproduce the historically successful original MINT baseline contract on unmodified `external/MINT@4eab579`, then align Infinigen outside the vendor boundary only.
 
-Current live findings:
-- outer preflight on frozen vendor passes
-- the current `p1c7` CLI wrapper is **not** authoritative by itself
-- `p1c7` under current `infinigen` env fails with `.model` layout drift
-- `p1c7` under historical `mint` env fails earlier because the current wrapper sends a CLI argument (`--env.task_ids=[0]`) that the historical `lerobot-eval` does not accept
-- the authoritative historical runtime reproduction is instead:
-  - frozen vendor `external/MINT@4eab579`
-  - historical `mint` env (`python 3.12.13`, `torch 2.7.1+cu126`, `transformers 4.53.3`)
-  - `run_p1c10_release_runtime_matched_ab.py --variant-run`
-- that authoritative reproduction **passes 3/3 with pc_success=100.0**
+This has now been enforced in code and verified on the current sovereign:
+- `run_g8_runtime_compat_smoke.py` is explicitly `preflight_only`
+- `run_p1c10_release_runtime_matched_ab.py` now launches `--variant-run` children with `/root/anaconda3/envs/mint/bin/python`, not ambient `sys.executable`
+- `run_p1c7_official_libero_goal_drawer_baseline.py` is explicitly `diagnostic_only` and cannot override the authoritative verdict
+- `run_g8_authoritative_baseline_smoke.py` now runs a real one-episode authoritative baseline sanity on frozen vendor + historical `mint` env
+- that authoritative smoke passes with `pc_success=100.0`
+- `run_g8_mint_train.py` now requires both preflight and authoritative baseline smoke before training, and launches `lerobot-train` from `/root/anaconda3/envs/mint/bin/lerobot-train`
+- a current-sovereign one-step integrated `g8` smoke passes through dataset validation, preflight, authoritative baseline smoke, and train launcher execution
 
-Therefore the current Line C blocker is now precisely:
-- **our present outer baseline reproduction path is misaligned**
-- not a renewed Line A or Line B failure
-- not evidence that vendor MINT itself is broken
-- not permission to resume patching `external/MINT`
+Therefore Line C is no longer an unresolved wrapper/env drift blocker for this round.
+The next active object is downstream full train/probe/eval claim validation, not baseline reproduction governance.
 
 ## 2. Historical anchor that must not be forgotten
 
@@ -72,11 +67,11 @@ The following are already verified historical facts and remain authoritative:
 
 The current canonical object is:
 
-> **Keep vendor frozen, preserve solved Line A/B, and repair only the outer baseline reproduction / alignment path until it matches the historically successful MINT contract.**
+> **Keep vendor frozen, preserve solved Line A/B/C baseline-governance work, and proceed to downstream full train/probe/eval claim validation on top of the aligned baseline contract.**
 
 The current primary question is now:
 
-> **How do we make current Infinigen harnesses reproduce and then consume the already-working frozen-vendor MINT baseline contract, without editing vendor code?**
+> **Given that baseline reproduction governance is aligned, can the current Infinigen train/probe/eval flow support the scientific claim under the frozen-vendor MINT contract?**
 
 ## 4. Canonical execution order
 
@@ -93,7 +88,7 @@ The current primary question is now:
 ### Step 2 — Preserve completed upstream work
 1. Keep Line A results as solved for this round.
 2. Keep Line B results as solved for this round.
-3. Do not reopen `T3B`, truth-contract fallback, or old `P1B` debates while Line C is active.
+3. Do not reopen `T3B`, truth-contract fallback, old `P1B` debates, or vendor-runtime patching while downstream validation is active.
 
 ### Step 3 — Line C outer preflight
 Use `scripts/mint/run_g8_runtime_compat_smoke.py` only as an **outer preflight**. It must verify:
@@ -221,6 +216,13 @@ Only at this stage is it meaningful to debug batch/materialization/train-eval is
 - If authoritative baseline reproduction turns red again, stop and debug baseline reproduction only.
 - If authoritative baseline stays green while wrapper path stays red, do not touch vendor code; debug wrapper/env drift only.
 - If both baseline and wrapper path are green but Infinigen train/eval remains red, classify as outer data/method contract mismatch.
+
+### 5.6 Current round completion status
+- `run_g8_runtime_compat_smoke.py`: PASS (`verdict_scope = preflight_only`)
+- `run_g8_authoritative_baseline_smoke.py`: PASS (`pc_success = 100.0`, authoritative python matches expected)
+- `run_p1c7_official_libero_goal_drawer_baseline.py`: diagnostic-only, current `infinigen` env correctly classified as `environment_selection_drift`
+- `run_tiny_retrain_confirmation.py --phase prepare`: refreshed active plan and dataset provenance to current sovereign head
+- `run_g8_mint_train.py` minimal smoke (`steps=1`): PASS through explicit authoritative gates and explicit `/root/anaconda3/envs/mint/bin/lerobot-train` launcher
 
 ## 6. Decision table
 

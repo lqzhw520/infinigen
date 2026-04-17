@@ -770,6 +770,15 @@ def materialize_canonical_train_rollouts(
     active_train_state_mode = _plan_active_train_state_mode(expected)
     active_state_mode_name = _plan_active_state_mode_name(expected)
     source_canonical_train_cell = _plan_source_canonical_train_cell(expected)
+    teacher_controller_mode = str(
+        expected.get("teacher_controller_mode") or "interaction_frame_hybrid"
+    )
+    teacher_controller_max_steps = int(
+        expected.get("teacher_controller_max_steps") or 144
+    )
+    teacher_pull_open_fraction = float(
+        expected.get("teacher_pull_open_fraction") or 0.92
+    )
     report: dict[str, Any] = {
         "gate": "g6_canonical_rollout_materialization",
         "source_dir": str(source_dir),
@@ -786,6 +795,9 @@ def materialize_canonical_train_rollouts(
         "episodes_per_seed": episodes_per_seed,
         "min_train_episodes": min_train_episodes,
         "min_successful_seeds": MIN_SUCCESSFUL_SEEDS,
+        "teacher_controller_mode": teacher_controller_mode,
+        "teacher_controller_max_steps": teacher_controller_max_steps,
+        "teacher_pull_open_fraction": teacher_pull_open_fraction,
         "teacher_truth_gate": _truth_contract_required_str(
             _truth_contract_payload(), "teacher_truth_predicate"
         ),
@@ -848,12 +860,14 @@ def materialize_canonical_train_rollouts(
                 seed=int(seed),
                 grasp_pose_world=np.eye(4, dtype=np.float32),
                 episode_index=int(episode_index),
-                max_steps=int(spec.dataset_config.max_steps),
+                max_steps=teacher_controller_max_steps,
                 image_size=256,
                 contract=contract,
                 rotation_source=rotation_source,
                 claim_policy=spec.claim_policy,
                 interventions=interventions,
+                teacher_controller_mode=teacher_controller_mode,
+                pull_open_fraction=teacher_pull_open_fraction,
             )
             rollout = _augment_rollout_metadata(controller, rollout, spec, expected)
             truth_summary = dict(rollout.get("canonical_training_truth") or {})

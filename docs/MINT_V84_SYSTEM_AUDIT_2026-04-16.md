@@ -40,7 +40,8 @@ Current live result under frozen vendor:
 - current-sovereign one-step `g8` integrated smoke passes through dataset validation, baseline gates, and explicit train launcher execution
 
 So the current active object is no longer baseline reproduction governance.
-The next object is full train/probe/eval claim validation on top of the now-aligned baseline contract.
+A current-head downstream readiness sync has now also been completed: the rebuilt canonical dataset is valid, consumes `96` accepted strict rollouts across seeds `1..8`, and records `5196` effective frames under the current sovereign head. But `teacher_readiness_passed` remains `false`, specifically because `accepted_unique_teacher_families_ge_18` and `near_strict_unique_teacher_families_ge_6` still fail.
+The next object is therefore downstream readiness resolution, not immediate authoritative full train/probe/eval claim validation.
 
 ### 1.3 Historical anchor that remains authoritative
 
@@ -66,11 +67,11 @@ The project state has shifted again.
 - outer baseline reproduction / invocation / environment mismatch relative to the already working vendor baseline
 
 ### Current active object
-- downstream full train/probe/eval claim validation on top of the aligned frozen-vendor MINT baseline contract
+- downstream readiness resolution after current-head sync of Line A/B/C into canonical dataset materialization and readiness contract
 
 This means the correct present-tense question is now:
 
-> **Given that frozen-vendor baseline reproduction is aligned, does the current Infinigen train/probe/eval flow deliver claim-supporting behavior under that contract?**
+> **Given that frozen-vendor baseline reproduction is aligned and current-head downstream readiness has been refreshed, can teacher readiness be raised to authoritative `true`, or do diversity / near-strict clauses remain the limiting contract before claim-bearing train/probe/eval?**
 
 ## 4. Immediate implications
 
@@ -79,7 +80,7 @@ This means the correct present-tense question is now:
 3. do **not** regress the newly aligned Line C gates back to ambient PATH or vendor-patching behavior
 4. do use the historical `mint` env + `p1c10` API path as the authoritative baseline reference
 5. do treat `p1c7` as a useful wrapper diagnostic, not the sole baseline authority
-6. do continue with full train/probe/eval validation on top of the aligned contract
+6. do continue with full train/probe/eval only after checking whether the refreshed downstream readiness contract is authoritative `true`; otherwise any train/probe/eval run must be treated as diagnostic-only
 
 
 ## 5. Current execution plan after Line C hardening
@@ -87,7 +88,9 @@ This means the correct present-tense question is now:
 1. Keep the authoritative baseline identity frozen at `p1c10 + mint env + frozen vendor`.
 2. Keep `p1c7` diagnostic-only and `g8_runtime_compat_smoke` preflight-only.
 3. Keep `g8_authoritative_baseline_smoke` as the hard gate before integrated flow.
-4. Continue full train/probe/eval validation using the explicit `/root/anaconda3/envs/mint/bin/lerobot-train` launcher path.
-5. Treat any new failure beyond these gates as downstream train/probe/eval claim-validation work, not renewed baseline reproduction confusion.
+4. Refresh downstream readiness on the current sovereign head before interpreting any train/probe/eval run as authoritative.
+5. Use the explicit `/root/anaconda3/envs/mint/bin/lerobot-train` launcher path for any integrated run.
+6. If refreshed readiness is still false, treat any subsequent train/probe/eval run as diagnostic-only rather than claim-bearing.
+7. Treat any new failure beyond these gates as downstream readiness / trainability work, not renewed baseline reproduction confusion.
 
 This plan is intentionally narrow: baseline-governance drift has been cleared, so the remaining work is downstream validation rather than renewed wrapper theory churn.

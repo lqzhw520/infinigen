@@ -48,7 +48,8 @@ This has now been enforced in code and verified on the current sovereign:
 - a current-sovereign one-step integrated `g8` smoke passes through dataset validation, preflight, authoritative baseline smoke, and train launcher execution
 
 Therefore Line C is no longer an unresolved wrapper/env drift blocker for this round.
-The next active object is downstream full train/probe/eval claim validation, not baseline reproduction governance.
+A current-head downstream readiness sync has also now been rerun using `interaction_frame_hybrid` canonical teacher materialization. That sync produced a valid dataset on the current sovereign (`96` accepted strict rollouts across seeds `1..8`, `5196` effective frames), but `teacher_readiness_passed` remains `false`. The remaining failed clauses are `accepted_unique_teacher_families_ge_18` and `near_strict_unique_teacher_families_ge_6`.
+The next active object is therefore not immediate authoritative full train/probe/eval claim validation; it is downstream readiness resolution, with full-train runs treated as authoritative only if readiness is raised to `true`, and otherwise as diagnostic-only.
 
 ## 2. Historical anchor that must not be forgotten
 
@@ -67,11 +68,11 @@ The following are already verified historical facts and remain authoritative:
 
 The current canonical object is:
 
-> **Keep vendor frozen, preserve solved Line A/B/C baseline-governance work, and proceed to downstream full train/probe/eval claim validation on top of the aligned baseline contract.**
+> **Keep vendor frozen, preserve solved Line A/B/C baseline-governance work, and use the current-head downstream readiness sync to decide whether the next train/probe/eval run is authoritative or diagnostic.**
 
 The current primary question is now:
 
-> **Given that baseline reproduction governance is aligned, can the current Infinigen train/probe/eval flow support the scientific claim under the frozen-vendor MINT contract?**
+> **Given that baseline reproduction governance is aligned and current-head downstream readiness has been refreshed, can teacher readiness be raised to authoritative `true`, or do diversity / near-strict contract clauses remain the blocker for claim-bearing train/probe/eval?**
 
 ## 4. Canonical execution order
 
@@ -126,13 +127,22 @@ Permitted places:
 Forbidden place:
 - `external/MINT/*`
 
-### Step 6 — Integrated rerun gate
-Proceed to integrated rerun only if all are true:
+### Step 6 — Downstream readiness sync
+1. Re-materialize canonical train rollouts on the current sovereign head using the current solved `interaction_frame_hybrid` teacher controller.
+2. Rebuild the canonical dataset and rewrite the downstream readiness contract on that same sovereign identity.
+3. Record the synced result as authoritative only if `run_instance_id`, `working_head_commit`, and contract hashes all match the current head.
+
+### Step 7 — Integrated rerun gate
+Proceed to authoritative integrated rerun only if all are true:
 1. Line A remains solved
 2. Line B remains solved
 3. vendor-frozen Line C preflight passes
 4. authoritative historical baseline reproduction passes
 5. current outer wrapper path is aligned to that same baseline contract
+6. current-head downstream dataset is valid
+7. current-head `teacher_readiness_passed` is true
+
+If items 1-5 pass but item 7 fails, integrated train/probe/eval may still run, but only as `diagnostic_only`.
 
 ## 5. Detailed Line C Execution Plan
 

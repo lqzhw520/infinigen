@@ -1130,6 +1130,68 @@ def build_dataset_from_rollouts(
 
     dataset.finalize()
 
+    accepted_fingerprints = {
+        rec.get("teacher_fingerprint")
+        for rec in provenance_records
+        if rec.get("teacher_episode_class") in {"strict_teacher", "near_strict_teacher"}
+        and rec.get("teacher_fingerprint")
+    }
+    strict_fingerprints = {
+        rec.get("teacher_fingerprint")
+        for rec in provenance_records
+        if rec.get("teacher_episode_class") == "strict_teacher"
+        and rec.get("teacher_fingerprint")
+    }
+    near_strict_fingerprints = {
+        rec.get("teacher_fingerprint")
+        for rec in provenance_records
+        if rec.get("teacher_episode_class") == "near_strict_teacher"
+        and rec.get("teacher_fingerprint")
+    }
+    seeds_with_records = sorted(
+        {int(rec.get("seed")) for rec in provenance_records if rec.get("seed") is not None}
+    )
+    accepted_family_count_by_seed: dict[str, int] = {}
+    strict_family_count_by_seed: dict[str, int] = {}
+    near_strict_family_count_by_seed: dict[str, int] = {}
+    teacher_fingerprint_examples_by_seed: dict[str, list[str]] = {}
+    for seed in seeds_with_records:
+        seed_records = [rec for rec in provenance_records if rec.get("seed") is not None and int(rec.get("seed")) == seed]
+        accepted_seed_fps = sorted({
+            rec.get("teacher_fingerprint")
+            for rec in seed_records
+            if rec.get("teacher_episode_class") in {"strict_teacher", "near_strict_teacher"}
+            and rec.get("teacher_fingerprint")
+        })
+        strict_seed_fps = sorted({
+            rec.get("teacher_fingerprint")
+            for rec in seed_records
+            if rec.get("teacher_episode_class") == "strict_teacher"
+            and rec.get("teacher_fingerprint")
+        })
+        near_seed_fps = sorted({
+            rec.get("teacher_fingerprint")
+            for rec in seed_records
+            if rec.get("teacher_episode_class") == "near_strict_teacher"
+            and rec.get("teacher_fingerprint")
+        })
+        accepted_family_count_by_seed[str(seed)] = len(accepted_seed_fps)
+        strict_family_count_by_seed[str(seed)] = len(strict_seed_fps)
+        near_strict_family_count_by_seed[str(seed)] = len(near_seed_fps)
+        teacher_fingerprint_examples_by_seed[str(seed)] = accepted_seed_fps[:5]
+
+    family_diversity_notes: list[str] = []
+    if len(accepted_fingerprints) <= max(len(seeds_with_records), 1):
+        family_diversity_notes.append(
+            "accepted_family_count_is_close_to_seed_count"
+        )
+    if len(near_strict_fingerprints) == 0:
+        family_diversity_notes.append("near_strict_family_supply_absent")
+    if any(count <= 1 for count in accepted_family_count_by_seed.values()):
+        family_diversity_notes.append("at_least_one_seed_has_single_family_support")
+
+    family_collapse_suspected = bool(family_diversity_notes)
+
     provenance_payload = {
         "dataset_root": str(dataset_root),
         "repo_id": repo_id,
@@ -1158,46 +1220,16 @@ def build_dataset_from_rollouts(
         ),
         "truth_contract_hashes": sorted(x for x in truth_contract_hashes if x),
         "truth_contract_roots": sorted(x for x in truth_contract_roots if x),
-        "accepted_unique_teacher_families": sorted(
-            {
-                rec.get("teacher_fingerprint")
-                for rec in provenance_records
-                if rec.get("teacher_episode_class")
-                in {"strict_teacher", "near_strict_teacher"}
-                and rec.get("teacher_fingerprint")
-            }
-        ),
-        "accepted_unique_teacher_family_count": int(
-            len(
-                {
-                    rec.get("teacher_fingerprint")
-                    for rec in provenance_records
-                    if rec.get("teacher_episode_class")
-                    in {"strict_teacher", "near_strict_teacher"}
-                    and rec.get("teacher_fingerprint")
-                }
-            )
-        ),
-        "strict_unique_teacher_family_count": int(
-            len(
-                {
-                    rec.get("teacher_fingerprint")
-                    for rec in provenance_records
-                    if rec.get("teacher_episode_class") == "strict_teacher"
-                    and rec.get("teacher_fingerprint")
-                }
-            )
-        ),
-        "near_strict_unique_teacher_family_count": int(
-            len(
-                {
-                    rec.get("teacher_fingerprint")
-                    for rec in provenance_records
-                    if rec.get("teacher_episode_class") == "near_strict_teacher"
-                    and rec.get("teacher_fingerprint")
-                }
-            )
-        ),
+        "accepted_unique_teacher_families": sorted(accepted_fingerprints),
+        "accepted_unique_teacher_family_count": int(len(accepted_fingerprints)),
+        "strict_unique_teacher_family_count": int(len(strict_fingerprints)),
+        "near_strict_unique_teacher_family_count": int(len(near_strict_fingerprints)),
+        "accepted_family_count_by_seed": accepted_family_count_by_seed,
+        "strict_family_count_by_seed": strict_family_count_by_seed,
+        "near_strict_family_count_by_seed": near_strict_family_count_by_seed,
+        "teacher_fingerprint_examples_by_seed": teacher_fingerprint_examples_by_seed,
+        "family_collapse_suspected": family_collapse_suspected,
+        "family_diversity_notes": family_diversity_notes,
         "teacher_episode_class_counts": dict(
             Counter(
                 str(rec.get("teacher_episode_class", "rejected_teacher"))
@@ -1256,6 +1288,24 @@ def build_dataset_from_rollouts(
         ],
         "teacher_episode_class_counts": provenance_payload[
             "teacher_episode_class_counts"
+        ],
+        "accepted_family_count_by_seed": provenance_payload[
+            "accepted_family_count_by_seed"
+        ],
+        "strict_family_count_by_seed": provenance_payload[
+            "strict_family_count_by_seed"
+        ],
+        "near_strict_family_count_by_seed": provenance_payload[
+            "near_strict_family_count_by_seed"
+        ],
+        "teacher_fingerprint_examples_by_seed": provenance_payload[
+            "teacher_fingerprint_examples_by_seed"
+        ],
+        "family_collapse_suspected": provenance_payload[
+            "family_collapse_suspected"
+        ],
+        "family_diversity_notes": provenance_payload[
+            "family_diversity_notes"
         ],
         "provenance_path": str(provenance_path),
     }

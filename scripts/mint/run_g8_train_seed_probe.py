@@ -36,6 +36,16 @@ def _active_state_mode_name(plan: dict[str, Any]) -> str:
     return str(plan.get("active_state_mode_name") or _active_train_state_mode(plan))
 
 
+def _scope_fields(plan: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "execution_scope": str(plan.get("execution_scope") or "unspecified"),
+        "diagnostic_only": bool(plan.get("diagnostic_only", False)),
+        "claim_bearing": bool(plan.get("claim_bearing", False)),
+        "publication_scope": str(plan.get("publication_scope") or "unspecified"),
+        "result_scope": str(plan.get("result_scope") or "unspecified"),
+    }
+
+
 def _bridge_delta(ft: dict[str, Any], pt: dict[str, Any]) -> dict[str, float]:
     keys = [
         "ever_attached_rate",

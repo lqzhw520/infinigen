@@ -39,6 +39,16 @@ def _active_state_mode_name(plan: dict[str, Any]) -> str:
     return str(plan.get("active_state_mode_name") or _active_train_state_mode(plan))
 
 
+def _scope_fields(plan: dict[str, Any]) -> dict[str, Any]:
+    return {
+        "execution_scope": str(plan.get("execution_scope") or "unspecified"),
+        "diagnostic_only": bool(plan.get("diagnostic_only", False)),
+        "claim_bearing": bool(plan.get("claim_bearing", False)),
+        "publication_scope": str(plan.get("publication_scope") or "unspecified"),
+        "result_scope": str(plan.get("result_scope") or "unspecified"),
+    }
+
+
 def run() -> bool:
     plan = load_json(TINY_RETRAIN_PLAN_PATH, {})
     if not plan:
@@ -88,6 +98,7 @@ def run() -> bool:
             "active_state_mode_name": _active_state_mode_name(plan),
             "bridge_stage": plan.get("bridge_stage"),
             "bridge_attempt": plan.get("bridge_attempt"),
+            **_scope_fields(plan),
             "evaluation_backend": plan.get("evaluation_backend"),
             "evaluation_env_family": plan.get("evaluation_env_family"),
             "evaluation_cell_id": plan.get("evaluation_cell_id"),

@@ -779,10 +779,18 @@ def materialize_canonical_train_rollouts(
     teacher_pull_open_fraction = float(
         expected.get("teacher_pull_open_fraction") or 0.92
     )
+    stale_source_mismatch = bool(
+        str(expected.get("teacher_controller_mode") or teacher_controller_mode)
+        != teacher_controller_mode
+        or str(expected.get("source_canonical_train_cell") or source_canonical_train_cell)
+        != source_canonical_train_cell
+    )
     report: dict[str, Any] = {
         "gate": "g6_canonical_rollout_materialization",
         "source_dir": str(source_dir),
         **expected,
+        "run_instance_id": expected.get("run_instance_id"),
+        "working_head_commit": expected.get("working_head_commit"),
         "source_canonical_train_cell": source_canonical_train_cell,
         "source_best_train_state_mode": _plan_source_best_train_state_mode(expected),
         "active_train_state_mode": active_train_state_mode,
@@ -802,7 +810,11 @@ def materialize_canonical_train_rollouts(
             _truth_contract_payload(), "teacher_truth_predicate"
         ),
         "truth_contract_path": str(TRUTH_CONTRACT_PATH),
-        "truth_contract_hash": _truth_contract_hash(),
+        "truth_contract_hash": str(expected.get("truth_contract_hash") or _truth_contract_hash()),
+        "acceptance_contract_hash": str(expected.get("acceptance_contract_hash") or ""),
+        "source_canonical_train_cell": source_canonical_train_cell,
+        "source_best_train_state_mode": _plan_source_best_train_state_mode(expected),
+        "stale_source_mismatch": stale_source_mismatch,
         "strict_utility_version": expected.get(
             "strict_utility_version", STRICT_UTILITY_VERSION
         ),

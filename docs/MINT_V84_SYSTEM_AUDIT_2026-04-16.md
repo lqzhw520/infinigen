@@ -80,3 +80,15 @@ The correct question is now:
 3. do **fix** current wrapper/env drift outside vendor
 4. do use the historical `mint` env + `p1c10` API path as the authoritative baseline reference
 5. do treat `p1c7` as a useful wrapper diagnostic, not the sole baseline authority
+
+
+## 5. Current execution plan to align outer wrappers
+
+1. Freeze the authoritative baseline identity at `p1c10 + mint env + frozen vendor`.
+2. Treat `p1c7` and `g8` smoke as diagnostic wrappers only.
+3. Remove ambient PATH assumptions from current wrappers.
+4. Make current wrappers explicitly delegate vendor MINT runtime to `/root/anaconda3/envs/mint/bin/python`.
+5. Align wrapper invocation with the historical API contract instead of reproducing a divergent CLI contract.
+6. Re-run the authoritative baseline first; then re-run the wrapper path; then re-enter integrated Infinigen flow.
+
+This plan is intentionally narrow: it fixes wrapper/env drift before reopening any data, controller, or vendor-runtime theories.

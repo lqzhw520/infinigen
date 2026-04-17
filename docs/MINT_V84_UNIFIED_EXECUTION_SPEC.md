@@ -139,7 +139,90 @@ Proceed to integrated rerun only if all are true:
 4. authoritative historical baseline reproduction passes
 5. current outer wrapper path is aligned to that same baseline contract
 
-## 5. Decision table
+## 5. Detailed Line C Execution Plan
+
+### 5.1 Authoritative baseline identity
+The only authoritative baseline for Line C is now:
+- vendor: `external/MINT@4eab5795345721001c412ff1ca2c886a11eab606`
+- environment: `/root/anaconda3/envs/mint/bin/python`
+- runtime family: `python 3.12.13 / torch 2.7.1+cu126 / transformers 4.53.3`
+- invocation path: `run_p1c10_release_runtime_matched_ab.py --variant-run`
+- execution primitive: direct `eval_policy_all()` path, not the current `p1c7` CLI wrapper
+
+### 5.2 Non-authoritative paths
+The following are diagnostic only:
+- `run_p1c7_official_libero_goal_drawer_baseline.py`
+- `run_g8_runtime_compat_smoke.py`
+
+They may detect drift, but they may not overrule the authoritative baseline verdict when the authoritative baseline has already been reproduced successfully.
+
+### 5.3 Required outer-wrapper repair tasks
+
+#### Task C1 — Freeze baseline selection in code
+Update outer harnesses so they stop inferring the MINT runtime from ambient PATH.
+They must explicitly record and use:
+- `vendor_commit = 4eab579...`
+- `authoritative_python = /root/anaconda3/envs/mint/bin/python`
+- `authoritative_entrypoint = run_p1c10_release_runtime_matched_ab.py --variant-run`
+
+Target files:
+- `scripts/mint/run_g8_runtime_compat_smoke.py`
+- `scripts/mint/run_g8_mint_train.py`
+- any current wrapper that still assumes ambient `lerobot-eval`
+
+#### Task C2 — Split diagnostic CLI wrapper from authoritative runtime runner
+`p1c7` must be demoted to `diagnostic_only` in semantics.
+It should remain useful for checking:
+- command construction drift
+- PATH drift
+- CLI parser drift
+But it must not be treated as the final baseline verdict.
+
+The authoritative runner must stay aligned to the `p1c10` API path.
+If a dedicated single-purpose baseline runner is created later, it must reuse the same runtime contract as `p1c10`, not invent a third path.
+
+#### Task C3 — Eliminate current wrapper drift
+Repair the current outer wrapper so it no longer diverges from the historical successful contract in either of these ways:
+- wrong environment selection (`infinigen` env instead of `mint` env for vendor MINT runtime)
+- wrong invocation shape (`lerobot-eval` CLI arguments that do not match the historical parser contract)
+
+This means:
+- no ambient PATH reliance
+- no unconditional `--env.task_ids=[0]` assumption
+- no vendor-internal runtime probing as a substitute for baseline reproduction
+
+#### Task C4 — Rewire training/eval gates around the authoritative contract
+Any train/eval gate that currently uses Line C should first verify:
+1. authoritative vendor baseline is frozen
+2. authoritative runtime environment is available
+3. authoritative baseline reproduction is green
+Only after that may it proceed to Infinigen-specific data or retrain logic.
+
+This gate must live outside vendor code.
+
+#### Task C5 — Only then align Infinigen data consumption
+After Tasks C1-C4 are complete, the remaining question becomes:
+- can current Infinigen data, wrappers, and train/eval orchestration consume the already-working MINT baseline contract?
+
+Only at this stage is it meaningful to debug batch/materialization/train-eval issues.
+
+### 5.4 Strict execution order
+1. Keep Line A frozen as solved.
+2. Keep Line B frozen as solved.
+3. Keep `external/MINT` frozen at `4eab579`.
+4. Preserve `p1c10 + mint env + frozen vendor` as the authoritative baseline contract.
+5. Demote `p1c7` to diagnostic-only status in interpretation.
+6. Repair current outer wrappers so they delegate to the authoritative contract instead of re-implementing it.
+7. Re-run authoritative baseline reproduction.
+8. Re-run current wrapper path.
+9. Only if both are green, re-enter integrated Infinigen train/eval flow.
+
+### 5.5 Stop rules
+- If authoritative baseline reproduction turns red again, stop and debug baseline reproduction only.
+- If authoritative baseline stays green while wrapper path stays red, do not touch vendor code; debug wrapper/env drift only.
+- If both baseline and wrapper path are green but Infinigen train/eval remains red, classify as outer data/method contract mismatch.
+
+## 6. Decision table
 
 ### Case A
 - authoritative historical reproduction fails on frozen vendor
@@ -156,7 +239,7 @@ Proceed to integrated rerun only if all are true:
 - Verdict: **outer data/method/train-eval contract mismatch**
 - Action: fix batch construction, dataset contract, CLI orchestration, or checkpoint selection outside vendor
 
-## 6. Prohibitions
+## 7. Prohibitions
 
 1. No new edits under `external/MINT`.
 2. No new parallel execution specs.
@@ -164,7 +247,7 @@ Proceed to integrated rerun only if all are true:
 4. No reinterpreting Line A or Line B as current blockers unless new contradictory evidence is produced under the current sovereign identity.
 5. No vendor-internal runtime shims as the first response to Line C.
 
-## 7. Canonical files for this round
+## 8. Canonical files for this round
 
 - `/mnt/afs2/zhuhaowu/infinigen/docs/MINT_V84_UNIFIED_EXECUTION_SPEC.md`
 - `/mnt/afs2/zhuhaowu/infinigen/docs/MINT_V84_SYSTEM_AUDIT_2026-04-16.md`

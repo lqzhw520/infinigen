@@ -494,6 +494,22 @@ def validate_built_dataset_provenance(
             and not rec.get("teacher_fingerprint")
         )
     )
+    accepted_family_count_by_seed = dict(
+        provenance.get("accepted_family_count_by_seed") or {}
+    )
+    strict_family_count_by_seed = dict(
+        provenance.get("strict_family_count_by_seed") or {}
+    )
+    near_strict_family_count_by_seed = dict(
+        provenance.get("near_strict_family_count_by_seed") or {}
+    )
+    teacher_fingerprint_examples_by_seed = dict(
+        provenance.get("teacher_fingerprint_examples_by_seed") or {}
+    )
+    family_collapse_suspected = bool(
+        provenance.get("family_collapse_suspected", False)
+    )
+    family_diversity_notes = list(provenance.get("family_diversity_notes") or [])
     strict_family_count = len(
         {
             rec.get("teacher_fingerprint")
@@ -576,6 +592,12 @@ def validate_built_dataset_provenance(
             "accepted_unique_teacher_family_count": len(unique_teacher_families),
             "strict_unique_teacher_family_count": strict_family_count,
             "near_strict_unique_teacher_family_count": near_strict_family_count,
+            "accepted_family_count_by_seed": accepted_family_count_by_seed,
+            "strict_family_count_by_seed": strict_family_count_by_seed,
+            "near_strict_family_count_by_seed": near_strict_family_count_by_seed,
+            "teacher_fingerprint_examples_by_seed": teacher_fingerprint_examples_by_seed,
+            "family_collapse_suspected": family_collapse_suspected,
+            "family_diversity_notes": family_diversity_notes,
             "accepted_seed_coverage": accepted_seed_coverage,
             "strict_seed_coverage": strict_seed_coverage,
             "near_strict_seed_coverage": near_strict_seed_coverage,

@@ -101,3 +101,32 @@ At `G8`, enforce:
 - current vendor head matches sovereign snapshot
 - `docs_update_intent.json` exists and matches final scope
 - diagnostic runs cannot be narrated as claim-bearing
+
+## Executed First-Run Result (2026-04-18)
+The first full `v9` execution order has now been run to completion on the remote sovereign.
+
+Execution run identity:
+- execution head: `08a1235bc229a6f31e7c8f248d26df1af8fbc06d`
+- vendor head: `4eab5795345721001c412ff1ca2c886a11eab606`
+- run instance id: `v9_20260417T113557Z_08a1235b_df929974`
+
+Observed gate sequence:
+- `G0 PASS`
+- `G1 PASS`
+- `G2 PASS`
+- `G3 PASS`
+- `G4 DIAGNOSTIC_PASS`
+- `G5 PASS`
+- `G6 STOP`
+- `G7 DIAGNOSTIC_PASS`
+- `G8 DIAGNOSTIC_PASS`
+
+Observed final verdict:
+- `diagnostic_no_learning_signal_readiness_likely_causal`
+
+Observed interpretation:
+- train path is technically open
+- diagnostic train reached `10000` steps and wrote checkpoints
+- probe produced no attach-learning signal
+- held-out eval was correctly skipped under diagnostic-only scope
+- remaining readiness failures (`accepted_unique_teacher_families_ge_18`, `near_strict_unique_teacher_families_ge_6`) remain plausible causal blockers

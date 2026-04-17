@@ -4,12 +4,16 @@
 from __future__ import annotations
 
 import json
+import subprocess
 import time
 from pathlib import Path
 from typing import Any
 
-from evaluate_mint_drawer_campaign_mujoco import evaluate_campaign, render_report
+from evaluate_mint_drawer_campaign_mujoco import render_report
 from mint_common import EVAL_DIR, PROJECT_ROOT, TINY_RETRAIN_PLAN_PATH, load_json
+from run_p1c10_release_runtime_matched_ab import AUTHORITATIVE_MINT_PYTHON, PATCHED_MINT_SRC, build_child_env
+
+EVAL_SCRIPT = PROJECT_ROOT / "scripts" / "mint" / "evaluate_mint_drawer_campaign_mujoco.py"
 
 ARTIFACT = EVAL_DIR / "g9_eval_rollouts.json"
 SUMMARY_PATH = EVAL_DIR / "comparison_summary.json"
@@ -37,6 +41,59 @@ def _active_train_state_mode(plan: dict[str, Any]) -> str:
 
 def _active_state_mode_name(plan: dict[str, Any]) -> str:
     return str(plan.get("active_state_mode_name") or _active_train_state_mode(plan))
+
+
+def _run_authoritative_campaign(plan: dict[str, Any], checkpoint_path: str, heldout_seeds: list[int]) -> tuple[dict[str, Any], dict[str, Any]]:
+    if not AUTHORITATIVE_MINT_PYTHON.exists():
+        raise RuntimeError(f"Authoritative MINT python missing: {AUTHORITATIVE_MINT_PYTHON}")
+    eval_dir = _resolve_repo_path(plan["evaluation_dir"])
+    summary_path = eval_dir / "authoritative_campaign_summary.json"
+    records_path = eval_dir / "authoritative_campaign_records.json"
+    seeds_arg = ",".join(str(int(seed)) for seed in heldout_seeds)
+    cmd = [
+        str(AUTHORITATIVE_MINT_PYTHON),
+        str(EVAL_SCRIPT),
+        "--mode",
+        "campaign",
+        "--checkpoint-path",
+        str(checkpoint_path),
+        "--dataset-root",
+        str(_resolve_repo_path(plan["dataset_root"])),
+        "--repo-id",
+        str(plan["dataset_repo_id"]),
+        "--summary-path",
+        str(summary_path),
+        "--records-path",
+        str(records_path),
+        "--seeds",
+        seeds_arg,
+        "--max-steps",
+        str(int(plan.get("evaluation_max_steps", 96))),
+        "--episodes-per-seed",
+        str(int(plan.get("evaluation_heldout_episodes_per_seed", 3))),
+        "--image-size",
+        str(int(plan.get("evaluation_image_size", 256))),
+        "--canonical-train-cell",
+        str(plan.get("evaluation_cell_id") or _source_canonical_train_cell(plan)),
+        "--source-best-train-state-mode",
+        _source_best_train_state_mode(plan),
+        "--active-train-state-mode",
+        _active_train_state_mode(plan),
+        "--active-state-mode-name",
+        _active_state_mode_name(plan),
+        "--evaluation-backend",
+        str(plan.get("evaluation_backend", "mujoco")),
+    ]
+    env = build_child_env(PATCHED_MINT_SRC)
+    proc = subprocess.run(cmd, cwd=PROJECT_ROOT, env=env, text=True, capture_output=True)
+    if proc.returncode != 0:
+        raise RuntimeError(
+            "authoritative heldout campaign failed: "
+            f"stdout={proc.stdout[-2000:]} stderr={proc.stderr[-2000:]}"
+        )
+    return json.loads(summary_path.read_text()), json.loads(records_path.read_text())
+
+
 
 
 def _scope_fields(plan: dict[str, Any]) -> dict[str, Any]:
@@ -68,20 +125,7 @@ def run() -> bool:
         raise SystemExit("Train probe did not pass; held-out eval must not run")
 
     heldout_seeds = [int(seed) for seed in plan.get("heldout_seeds", [])]
-    summary, records = evaluate_campaign(
-        checkpoint_path,
-        dataset_root=_resolve_repo_path(plan["dataset_root"]),
-        repo_id=str(plan["dataset_repo_id"]),
-        heldout_seeds=heldout_seeds,
-        canonical_train_cell=str(plan.get("evaluation_cell_id") or _source_canonical_train_cell(plan)),
-        source_best_train_state_mode=_source_best_train_state_mode(plan),
-        active_train_state_mode=_active_train_state_mode(plan),
-        active_state_mode_name=_active_state_mode_name(plan),
-        episodes_per_seed=int(plan.get("evaluation_heldout_episodes_per_seed", 3)),
-        max_steps=int(plan.get("evaluation_max_steps", 96)),
-        image_size=int(plan.get("evaluation_image_size", 256)),
-        evaluation_backend=str(plan.get("evaluation_backend", "mujoco")),
-    )
+    summary, records = _run_authoritative_campaign(plan, str(checkpoint_path), heldout_seeds)
     summary.update(
         {
             "gate": "g9_sim_eval",

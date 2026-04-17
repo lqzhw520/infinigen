@@ -1,0 +1,31 @@
+{
+  "gate_id": "G4",
+  "gate_name": "readiness_interpretation",
+  "run_instance_id": "v9_20260417T113557Z_08a1235b_df929974",
+  "working_head_commit": "08a1235bc229a6f31e7c8f248d26df1af8fbc06d",
+  "vendor_head_commit": "4eab5795345721001c412ff1ca2c886a11eab606",
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "truth_contract_hash": "17ae4d1554899b843c80b064a2c5f3d6331b04dd169819ca5f2b0bfba729a6f6",
+  "acceptance_contract_hash": "3e63d1c21004dae9a8ded0c966f69112f59e340f7d0aada219eb66ac8facd53c",
+  "spec_doc_path": "/mnt/afs2/zhuhaowu/infinigen/docs/MINT_V84_DIAGNOSTIC_TINY_RETRAIN_GATE_EXECUTION_SPEC.md",
+  "spec_doc_hash": "03746d8d24b61a62a4d9695a3bfa6a2b105cafe77d936065e6552f5e8a0c387c",
+  "status": "DIAGNOSTIC_PASS",
+  "blocking_reasons": [],
+  "allowed_next_phases": [
+    "train"
+  ],
+  "timestamp_utc": "2026-04-17T11:48:27.642062Z",
+  "teacher_readiness_passed": false,
+  "failed_readiness_clauses": [
+    "accepted_unique_teacher_families_ge_18",
+    "near_strict_unique_teacher_families_ge_6"
+  ],
+  "execution_scope": "v9_gate_controlled_diagnostic",
+  "diagnostic_only": true,
+  "claim_bearing": false,
+  "publication_scope": "diagnostic_only",
+  "result_scope": "diagnostic_only",
+  "docs_update_intent_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/autopilot/docs_update_intent.json",
+  "publication_state_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/autopilot/publication_state.json",
+  "harness_state_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/autopilot/harness_state.json"
+}

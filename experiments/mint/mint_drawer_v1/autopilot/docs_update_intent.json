@@ -1,0 +1,11 @@
+{
+  "intent_version": "v9_docs_update_intent_v1",
+  "run_instance_id": "v9_20260417T113557Z_08a1235b_df929974",
+  "intent": "post_g8_diagnostic_report_sync",
+  "allowed_after_gate": "G8",
+  "publication_scope": "diagnostic_only",
+  "result_scope": "diagnostic_only",
+  "claim_bearing": false,
+  "canonical_doc_updates_allowed_before_g8": false,
+  "requested_addendum_behavior": "diagnostic_report_and_audit_sync_only"
+}

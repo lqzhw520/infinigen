@@ -1,0 +1,11 @@
+{
+  "state_version": "v9_publication_state_v1",
+  "run_instance_id": "v9_20260417T113557Z_08a1235b_df929974",
+  "execution_scope": "v9_gate_controlled_diagnostic",
+  "diagnostic_only": true,
+  "claim_bearing": false,
+  "publication_scope": "diagnostic_only",
+  "result_scope": "diagnostic_only",
+  "final_verdict": "diagnostic_no_learning_signal_readiness_likely_causal",
+  "claim_supported": false
+}

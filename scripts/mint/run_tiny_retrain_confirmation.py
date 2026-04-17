@@ -1814,7 +1814,10 @@ def _emit_prepare_gates(plan: dict[str, Any], dataset_summary: dict[str, Any]) -
     docs_intent = write_docs_update_intent({
         "run_instance_id": plan.get("run_instance_id"),
         "spec_doc_path": str((PROJECT_ROOT / 'docs' / 'MINT_V84_DIAGNOSTIC_TINY_RETRAIN_GATE_EXECUTION_SPEC.md')),
+        "intent": "defer_canonical_doc_updates_until_g8",
+        "allowed_after_gate": "G8",
         "publication_scope": plan.get("publication_scope"),
+        "result_scope": plan.get("result_scope"),
         "claim_bearing": bool(plan.get("claim_bearing", False)),
         "canonical_doc_updates_allowed_before_g8": False,
         "requested_addendum_behavior": "none",
@@ -1833,6 +1836,11 @@ def _emit_prepare_gates(plan: dict[str, Any], dataset_summary: dict[str, Any]) -
         "current_active_blocker": "diagnostic_tiny_retrain_gate" if g4_status != "STOP" else "prepare_stop",
         "g4_status": g4_status,
         "teacher_readiness_failed_clauses": failed_clauses,
+        "authoritative_baseline_launcher": "run_p1c10_release_runtime_matched_ab.py --variant-run via /root/anaconda3/envs/mint/bin/python",
+        "diagnostic_wrapper": "run_p1c7_official_libero_goal_drawer_baseline.py",
+        "runtime_preflight_gate": "run_g8_runtime_compat_smoke.py",
+        "probe_execution_backend": "authoritative_mint_subprocess",
+        "eval_execution_backend": "authoritative_mint_subprocess",
     })
     g4 = write_gate(
         "G4",
@@ -1933,6 +1941,7 @@ def _build_attach_bridge_summary(plan: dict[str, Any], probe_summary: dict[str, 
         "run_instance_id": plan.get("run_instance_id"),
         "working_head_commit": plan.get("working_head_commit"),
         **_scope_fields(plan),
+        "classification": None,
         "pretrained": pretrained,
         "finetuned": finetuned,
         "delta": delta,
@@ -1975,8 +1984,14 @@ def _build_family_conditioned_probe(plan: dict[str, Any], dataset_summary: dict[
         "run_instance_id": plan.get("run_instance_id"),
         "working_head_commit": plan.get("working_head_commit"),
         **_scope_fields(plan),
+        "classification": None,
+        "overall_best_checkpoint_step": int(probe_summary.get("checkpoint_step") or 0),
         "by_seed": by_seed,
         "hard_vs_rest": {
+            "hard_2_4": _seed_group_metrics({2, 4}),
+            "rest": _seed_group_metrics(set(all_seeds) - {2, 4}),
+        },
+        "hard_vs_rest_summary": {
             "hard_2_4": _seed_group_metrics({2, 4}),
             "rest": _seed_group_metrics(set(all_seeds) - {2, 4}),
         },
@@ -2004,6 +2019,12 @@ def _write_g6_gate(plan: dict[str, Any], dataset_summary: dict[str, Any], probe_
     classification = _classify_probe_signal(probe_summary, plan)
     attach_bridge_summary = _build_attach_bridge_summary(plan, probe_summary)
     family_conditioned_probe = _build_family_conditioned_probe(plan, dataset_summary, probe_summary)
+    attach_bridge_summary["classification"] = classification
+    write_json_atomic(G6_ATTACH_BRIDGE_SUMMARY_PATH, attach_bridge_summary)
+    family_conditioned_probe["classification"] = classification
+    family_conditioned_probe["overall_best_checkpoint_step"] = int(probe_summary.get("checkpoint_step") or 0)
+    family_conditioned_probe["hard_vs_rest_summary"] = family_conditioned_probe.get("hard_vs_rest")
+    write_json_atomic(G6_FAMILY_CONDITIONED_PROBE_PATH, family_conditioned_probe)
     status = {
         "claim_support_candidate": "AUTHORITATIVE_PASS" if bool(plan.get("claim_bearing", False)) else "DIAGNOSTIC_PASS",
         "diagnostic_learning_signal": "DIAGNOSTIC_PASS",
@@ -2122,6 +2143,32 @@ def _write_v9_finalize_summary(plan: dict[str, Any], dataset_summary: dict[str, 
         "docs_lock_manifest": docs_manifest,
     }
     write_json_atomic(TINY_RETRAIN_SUMMARY_PATH, summary)
+    docs_intent = write_docs_update_intent({
+        "run_instance_id": plan.get("run_instance_id"),
+        "intent": "post_g8_diagnostic_report_sync",
+        "allowed_after_gate": "G8",
+        "publication_scope": plan.get("publication_scope"),
+        "result_scope": plan.get("result_scope"),
+        "claim_bearing": bool(plan.get("claim_bearing", False)),
+        "canonical_doc_updates_allowed_before_g8": False,
+        "requested_addendum_behavior": "diagnostic_report_and_audit_sync_only",
+    })
+    harness_state = write_harness_state({
+        "run_instance_id": plan.get("run_instance_id"),
+        "line_a_state": "operational_freeze",
+        "line_b_state": "frozen",
+        "line_c_state": "frozen_vendor_baseline",
+        "current_active_blocker": "readiness_root_cause_analysis_after_no_learning_signal",
+        "g4_status": g4.get("status"),
+        "g6_status": g6.get("status"),
+        "final_verdict": final_verdict,
+        "teacher_readiness_failed_clauses": list(dataset_summary.get("teacher_readiness_failed_clauses") or []),
+        "authoritative_baseline_launcher": "run_p1c10_release_runtime_matched_ab.py --variant-run via /root/anaconda3/envs/mint/bin/python",
+        "diagnostic_wrapper": "run_p1c7_official_libero_goal_drawer_baseline.py",
+        "runtime_preflight_gate": "run_g8_runtime_compat_smoke.py",
+        "probe_execution_backend": "authoritative_mint_subprocess",
+        "eval_execution_backend": "authoritative_mint_subprocess",
+    })
     publication_state = write_publication_state({
         "run_instance_id": plan.get("run_instance_id"),
         **_scope_fields(plan),

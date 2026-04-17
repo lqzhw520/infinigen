@@ -390,6 +390,7 @@ def run() -> bool:
         "active_state_mode_name": _active_state_mode_name(plan),
         "bridge_stage": plan.get("bridge_stage"),
         "bridge_attempt": plan.get("bridge_attempt"),
+        **_scope_fields(plan),
         "dataset_validated": True,
         "dataset_provenance_hash": dataset_report["dataset_provenance"].get(
             "provenance_hash"

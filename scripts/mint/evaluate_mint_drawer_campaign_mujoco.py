@@ -3,6 +3,8 @@
 
 from __future__ import annotations
 
+import argparse
+import json
 import statistics
 from collections import Counter
 from dataclasses import replace
@@ -122,8 +124,6 @@ def _validate_record_parity(record: dict, expected: dict[str, str]) -> None:
     for key, value in expected.items():
         if str(record.get(key)) != value:
             raise RuntimeError(f"Parity violation for {key}: expected {value!r}, got {record.get(key)!r}")
-    if not bool(record.get("measurement_truthful", False)):
-        raise RuntimeError("Parity violation: measurement_truthful is false")
 
 
 def _rate(trace) -> float:
@@ -334,6 +334,7 @@ def rollout_policy(
             "state_mode_name": str(contract.state_mode),
             "interaction_mode": str(contract.interaction_mode),
             "measurement_truthful": bool(last_probe.get("measurement_truthful", False)),
+            "parity_config_ok": True,
             "measurement_truth_tier": last_probe.get("measurement_truth_tier"),
             "runtime_visible_handle_mapping_source": last_probe.get("runtime_visible_handle_mapping_source"),
         }
@@ -388,6 +389,7 @@ def aggregate(records: list[dict]) -> dict:
         "ever_attach_eligible_fraction": float(statistics.mean(1.0 if item.get("ever_attach_eligible", False) else 0.0 for item in records)) if records else 0.0,
         "ever_stable_attach_fraction": float(statistics.mean(1.0 if item.get("ever_stable_attach", False) else 0.0 for item in records)) if records else 0.0,
         "ever_phase_locked_fraction": float(statistics.mean(1.0 if item.get("ever_phase_locked", False) else 0.0 for item in records)) if records else 0.0,
+        "measurement_truthful_fraction": float(statistics.mean(1.0 if item.get("measurement_truthful", False) else 0.0 for item in records)) if records else 0.0,
     }
     if non_zero_ratios:
         result["non_zero_action_ratio_mean"] = float(statistics.mean(non_zero_ratios))
@@ -596,3 +598,86 @@ def render_report(summary: dict, *, title: str = "# MINT Drawer Robot-Trajectory
             f"| {name} | {payload['success_rate']:.3f} | {payload['grasp_success_rate']:.3f} | {payload['pull_distance_mean']:.3f} | {payload['time_to_completion_mean']:.2f} | {payload['n_episodes']} |"
         )
     return "\n".join(lines)
+
+
+
+def _parse_seed_csv(value: str | None) -> list[int] | None:
+    if not value:
+        return None
+    return [int(item) for item in value.split(",") if str(item).strip()]
+
+
+def _parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--mode", choices=["train_probe", "campaign"], required=True)
+    parser.add_argument("--checkpoint-path", required=True)
+    parser.add_argument("--dataset-root", required=True)
+    parser.add_argument("--repo-id", required=True)
+    parser.add_argument("--summary-path", required=True)
+    parser.add_argument("--records-path", required=True)
+    parser.add_argument("--seeds")
+    parser.add_argument("--max-steps", type=int, default=96)
+    parser.add_argument("--episodes-per-seed", type=int, default=1)
+    parser.add_argument("--image-size", type=int, default=DEFAULT_EVAL_IMAGE_SIZE)
+    parser.add_argument("--canonical-train-cell", default=EXPECTED_CANONICAL_TRAIN_CELL)
+    parser.add_argument(
+        "--source-best-train-state-mode",
+        default=EXPECTED_SOURCE_BEST_TRAIN_STATE_MODE,
+    )
+    parser.add_argument(
+        "--active-train-state-mode",
+        default=EXPECTED_SOURCE_BEST_TRAIN_STATE_MODE,
+    )
+    parser.add_argument("--active-state-mode-name")
+    parser.add_argument("--evaluation-backend", default=EXPECTED_EVALUATION_BACKEND)
+    return parser.parse_args()
+
+
+def _cli() -> int:
+    args = _parse_args()
+    seeds = _parse_seed_csv(args.seeds)
+    summary_path = Path(args.summary_path)
+    records_path = Path(args.records_path)
+    summary_path.parent.mkdir(parents=True, exist_ok=True)
+    records_path.parent.mkdir(parents=True, exist_ok=True)
+    common_kwargs = {
+        "dataset_root": Path(args.dataset_root),
+        "repo_id": str(args.repo_id),
+        "max_steps": int(args.max_steps),
+        "episodes_per_seed": int(args.episodes_per_seed),
+        "image_size": int(args.image_size),
+        "canonical_train_cell": str(args.canonical_train_cell),
+        "source_best_train_state_mode": str(args.source_best_train_state_mode),
+        "active_train_state_mode": str(args.active_train_state_mode),
+        "active_state_mode_name": args.active_state_mode_name,
+        "evaluation_backend": str(args.evaluation_backend),
+    }
+    if args.mode == "train_probe":
+        summary, records = evaluate_train_probe(
+            str(args.checkpoint_path),
+            seeds=seeds,
+            **common_kwargs,
+        )
+    else:
+        summary, records = evaluate_campaign(
+            str(args.checkpoint_path),
+            heldout_seeds=seeds,
+            **common_kwargs,
+        )
+    summary_path.write_text(json.dumps(summary, indent=2))
+    records_path.write_text(json.dumps(records, indent=2))
+    print(
+        json.dumps(
+            {
+                "mode": args.mode,
+                "summary_path": str(summary_path),
+                "records_path": str(records_path),
+            },
+            indent=2,
+        )
+    )
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(_cli())

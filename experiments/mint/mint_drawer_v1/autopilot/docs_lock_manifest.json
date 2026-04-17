@@ -1,0 +1,18 @@
+{
+  "lock_version": "v9_docs_lock_v1",
+  "timestamp_utc": "2026-04-17T11:48:27.167946Z",
+  "docs": [
+    {
+      "path": "/mnt/afs2/zhuhaowu/infinigen/docs/MINT_V84_DIAGNOSTIC_TINY_RETRAIN_GATE_EXECUTION_SPEC.md",
+      "sha256": "03746d8d24b61a62a4d9695a3bfa6a2b105cafe77d936065e6552f5e8a0c387c"
+    },
+    {
+      "path": "/mnt/afs2/zhuhaowu/infinigen/docs/MINT_V84_UNIFIED_EXECUTION_SPEC.md",
+      "sha256": "bcc031a39449abb1eef2d15a01ea92895e5b2806ec13bdeb7d7d2184ec01b0f9"
+    },
+    {
+      "path": "/mnt/afs2/zhuhaowu/infinigen/docs/MINT_V84_SYSTEM_AUDIT_2026-04-16.md",
+      "sha256": "cddfe27c0eb8414ee6a51506c124a7c891284149a6b803cf1b09812bf995bdbf"
+    }
+  ]
+}

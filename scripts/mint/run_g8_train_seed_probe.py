@@ -4,12 +4,15 @@
 from __future__ import annotations
 
 import json
+import subprocess
 import time
 from pathlib import Path
 from typing import Any
 
-from evaluate_mint_drawer_campaign_mujoco import evaluate_train_probe
 from mint_common import ARTIFACT_DIR, PROJECT_ROOT, TINY_RETRAIN_PLAN_PATH, load_json, write_json_atomic
+from run_p1c10_release_runtime_matched_ab import AUTHORITATIVE_MINT_PYTHON, PATCHED_MINT_SRC, build_child_env
+
+EVAL_SCRIPT = PROJECT_ROOT / "scripts" / "mint" / "evaluate_mint_drawer_campaign_mujoco.py"
 
 ARTIFACT = ARTIFACT_DIR / "g8_train_seed_probe.json"
 G8_ARTIFACT = ARTIFACT_DIR / "g8_train_summary.json"
@@ -46,6 +49,60 @@ def _scope_fields(plan: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+def _run_authoritative_train_probe(plan: dict[str, Any], checkpoint_path: str, checkpoint_step: int | None) -> dict[str, Any]:
+    if not AUTHORITATIVE_MINT_PYTHON.exists():
+        raise RuntimeError(f"Authoritative MINT python missing: {AUTHORITATIVE_MINT_PYTHON}")
+    eval_dir = _resolve_repo_path(plan["evaluation_dir"])
+    step_label = f"{int(checkpoint_step):06d}" if checkpoint_step is not None else "latest"
+    summary_path = eval_dir / f"authoritative_train_probe_{step_label}_summary.json"
+    records_path = eval_dir / f"authoritative_train_probe_{step_label}_records.json"
+    seeds_arg = ",".join(str(int(seed)) for seed in plan.get("train_seeds", []))
+    cmd = [
+        str(AUTHORITATIVE_MINT_PYTHON),
+        str(EVAL_SCRIPT),
+        "--mode",
+        "train_probe",
+        "--checkpoint-path",
+        str(checkpoint_path),
+        "--dataset-root",
+        str(_resolve_repo_path(plan["dataset_root"])),
+        "--repo-id",
+        str(plan["dataset_repo_id"]),
+        "--summary-path",
+        str(summary_path),
+        "--records-path",
+        str(records_path),
+        "--seeds",
+        seeds_arg,
+        "--max-steps",
+        str(int(plan.get("evaluation_max_steps", 96))),
+        "--episodes-per-seed",
+        str(int(plan.get("evaluation_probe_episodes_per_seed", 3))),
+        "--image-size",
+        str(int(plan.get("evaluation_image_size", 256))),
+        "--canonical-train-cell",
+        str(plan.get("evaluation_cell_id") or _source_canonical_train_cell(plan)),
+        "--source-best-train-state-mode",
+        _source_best_train_state_mode(plan),
+        "--active-train-state-mode",
+        _active_train_state_mode(plan),
+        "--active-state-mode-name",
+        _active_state_mode_name(plan),
+        "--evaluation-backend",
+        str(plan.get("evaluation_backend", "mujoco")),
+    ]
+    env = build_child_env(PATCHED_MINT_SRC)
+    proc = subprocess.run(cmd, cwd=PROJECT_ROOT, env=env, text=True, capture_output=True)
+    if proc.returncode != 0:
+        raise RuntimeError(
+            "authoritative train probe failed: "
+            f"stdout={proc.stdout[-2000:]} stderr={proc.stderr[-2000:]}"
+        )
+    return json.loads(summary_path.read_text())
+
+
+
+
 def _bridge_delta(ft: dict[str, Any], pt: dict[str, Any]) -> dict[str, float]:
     keys = [
         "ever_attached_rate",
@@ -66,20 +123,7 @@ def _bridge_delta(ft: dict[str, Any], pt: dict[str, Any]) -> dict[str, float]:
 def _build_outputs(plan: dict[str, Any], checkpoint_path: str, checkpoint_step: int | None) -> tuple[dict[str, Any], dict[str, Any]]:
     probe_seeds = [int(seed) for seed in plan.get("train_seeds", [])]
     dataset_root = _resolve_repo_path(plan["dataset_root"])
-    summary, _ = evaluate_train_probe(
-        checkpoint_path,
-        seeds=probe_seeds,
-        dataset_root=dataset_root,
-        repo_id=str(plan["dataset_repo_id"]),
-        canonical_train_cell=str(plan.get("evaluation_cell_id") or _source_canonical_train_cell(plan)),
-        source_best_train_state_mode=_source_best_train_state_mode(plan),
-        active_train_state_mode=_active_train_state_mode(plan),
-        active_state_mode_name=_active_state_mode_name(plan),
-        episodes_per_seed=int(plan.get("evaluation_probe_episodes_per_seed", 3)),
-        max_steps=int(plan.get("evaluation_max_steps", 96)),
-        image_size=int(plan.get("evaluation_image_size", 256)),
-        evaluation_backend=str(plan.get("evaluation_backend", "mujoco")),
-    )
+    summary = _run_authoritative_train_probe(plan, str(checkpoint_path), checkpoint_step)
     ft = summary["summary"]["finetuned_mint"]
     pt = summary["summary"]["pretrained_mint"]
     min_success_gain = float(plan.get("train_probe_min_success_gain", 0.15))
@@ -123,6 +167,7 @@ def _build_outputs(plan: dict[str, Any], checkpoint_path: str, checkpoint_step: 
         "active_state_mode_name": _active_state_mode_name(plan),
         "bridge_stage": plan.get("bridge_stage"),
         "bridge_attempt": plan.get("bridge_attempt"),
+        **_scope_fields(plan),
         "evaluation_backend": plan.get("evaluation_backend"),
         "evaluation_env_family": plan.get("evaluation_env_family"),
         "evaluation_cell_id": plan.get("evaluation_cell_id"),
@@ -160,6 +205,7 @@ def _build_outputs(plan: dict[str, Any], checkpoint_path: str, checkpoint_step: 
         "active_state_mode_name": _active_state_mode_name(plan),
         "bridge_stage": plan.get("bridge_stage"),
         "bridge_attempt": plan.get("bridge_attempt"),
+        **_scope_fields(plan),
         "evaluation_backend": plan.get("evaluation_backend"),
         "evaluation_env_family": plan.get("evaluation_env_family"),
         "evaluation_cell_id": plan.get("evaluation_cell_id"),

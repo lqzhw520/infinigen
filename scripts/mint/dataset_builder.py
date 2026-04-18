@@ -95,6 +95,14 @@ def _plan_dataset_selection_mode(plan: dict[str, Any]) -> str:
     return str(plan.get("dataset_selection_mode") or "claim_canonical")
 
 
+def _learning_support_family_key(rec: dict[str, Any]) -> str:
+    return str(
+        rec.get("effective_support_signature_v1")
+        or rec.get("learning_support_fingerprint")
+        or ""
+    )
+
+
 def _state_dim_names(meta: dict[str, Any]) -> list[str]:
     state_spec = meta.get("state_spec") or {}
     dim_names = [str(item) for item in (state_spec.get("dim_names") or []) if str(item)]
@@ -384,6 +392,11 @@ def validate_rollout_for_learning_support_training(
         learning_support_fingerprint_raw
     ).strip():
         return False, "learning_support_fingerprint_missing"
+    effective_support_signature_raw = meta.get("effective_support_signature_v1")
+    if effective_support_signature_raw is None or not str(
+        effective_support_signature_raw
+    ).strip():
+        return False, "effective_support_signature_missing"
     run_instance_id = meta.get("run_instance_id")
     if expected_run_instance_id and (
         run_instance_id is None or not str(run_instance_id).strip()
@@ -668,9 +681,9 @@ def validate_built_dataset_provenance(
         if rec.get("teacher_fingerprint")
     ]
     learning_support_fingerprints = [
-        str(rec.get("learning_support_fingerprint", ""))
+        _learning_support_family_key(rec)
         for rec in records
-        if rec.get("learning_support_fingerprint")
+        if _learning_support_family_key(rec)
     ]
     unique_teacher_families = {fp for fp in teacher_fingerprints if fp}
     unique_learning_support_families = {
@@ -1445,6 +1458,12 @@ def _rollout_provenance(meta: dict[str, Any], n_frames: int) -> dict[str, Any]:
         "learning_support_fingerprint_version": meta.get(
             "learning_support_fingerprint_version"
         ),
+        "effective_support_signature_v1": str(
+            meta.get("effective_support_signature_v1", "")
+        ),
+        "effective_support_signature_version": meta.get(
+            "effective_support_signature_version"
+        ),
         "first_attach_step": strict_metrics.get("first_attach_step")
         if (strict_metrics := meta.get("strict_metrics") or {})
         else None,
@@ -1636,11 +1655,11 @@ def build_dataset_from_rollouts(
         and rec.get("teacher_fingerprint")
     }
     learning_support_fingerprints = {
-        rec.get("learning_support_fingerprint")
+        _learning_support_family_key(rec)
         for rec in provenance_records
         if rec.get("learning_support_teacher_class")
         in {"strict_teacher", "near_strict_teacher", "learning_support_teacher"}
-        and rec.get("learning_support_fingerprint")
+        and _learning_support_family_key(rec)
     }
     seeds_with_records = sorted(
         {int(rec.get("seed")) for rec in provenance_records if rec.get("seed") is not None}
@@ -1675,10 +1694,10 @@ def build_dataset_from_rollouts(
             and rec.get("teacher_fingerprint")
         })
         learning_support_seed_fps = sorted({
-            rec.get("learning_support_fingerprint")
+            _learning_support_family_key(rec)
             for rec in seed_records
             if rec.get("learning_support_teacher_class") in {"strict_teacher", "near_strict_teacher", "learning_support_teacher"}
-            and rec.get("learning_support_fingerprint")
+            and _learning_support_family_key(rec)
         })
         accepted_family_count_by_seed[str(seed)] = len(accepted_seed_fps)
         strict_family_count_by_seed[str(seed)] = len(strict_seed_fps)

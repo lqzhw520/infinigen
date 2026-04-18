@@ -1,0 +1,13 @@
+{
+  "intent_version": "v11_docs_update_intent_v1",
+  "timestamp_utc": "2026-04-18T10:33:32.713524Z",
+  "run_instance_id": "v11_20260418T101620Z_dfa0ef0f_dc2d4581",
+  "spec_doc_path": "/mnt/afs2/zhuhaowu/infinigen/docs/MINT_V84_SUPPORT_FAMILY_COLLAPSE_REPAIR_SPEC.md",
+  "intent": "defer_v11_publication_until_g6",
+  "allowed_after_gate": "G6",
+  "publication_scope": "diagnostic_only",
+  "result_scope": "diagnostic_only",
+  "claim_bearing": false,
+  "canonical_doc_updates_allowed_before_g6": false,
+  "requested_addendum_behavior": "v11_execution_report_only"
+}

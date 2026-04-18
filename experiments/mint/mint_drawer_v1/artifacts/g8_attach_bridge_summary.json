@@ -1,0 +1,40 @@
+{
+  "gate": "g6_attach_bridge_summary",
+  "run_instance_id": "v11_20260418T101620Z_dfa0ef0f_dc2d4581",
+  "working_head_commit": "dfa0ef0f0acd9443dc010d019d25ad7eb78b40d6",
+  "execution_scope": "v11_support_family_diagnostic",
+  "diagnostic_only": true,
+  "claim_bearing": false,
+  "publication_scope": "diagnostic_only",
+  "result_scope": "diagnostic_only",
+  "classification": "diagnostic_learning_support_no_signal_after_support_family_fix",
+  "pretrained": {
+    "episode_count": 24,
+    "ever_attach_eligible_fraction": 0.0,
+    "ever_attached_rate": 0.0,
+    "stable_attach_rate": 0.0,
+    "phase_locked_rate": 0.0,
+    "effective_pull_progress_peak_mean": 0.0,
+    "max_drawer_fraction_mean": 0.0,
+    "strict_success_rate": 0.0
+  },
+  "finetuned": {
+    "episode_count": 24,
+    "ever_attach_eligible_fraction": 0.0,
+    "ever_attached_rate": 0.0,
+    "stable_attach_rate": 0.0,
+    "phase_locked_rate": 0.0,
+    "effective_pull_progress_peak_mean": 0.0,
+    "max_drawer_fraction_mean": 0.0,
+    "strict_success_rate": 0.0
+  },
+  "delta": {
+    "ever_attach_eligible_fraction": 0.0,
+    "ever_attached_rate": 0.0,
+    "stable_attach_rate": 0.0,
+    "phase_locked_rate": 0.0,
+    "effective_pull_progress_peak_mean": 0.0,
+    "max_drawer_fraction_mean": 0.0,
+    "strict_success_rate": 0.0
+  }
+}

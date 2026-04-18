@@ -1,0 +1,18 @@
+{
+  "lock_version": "v11_docs_lock_v1",
+  "timestamp_utc": "2026-04-18T10:33:32.189291Z",
+  "docs": [
+    {
+      "path": "/mnt/afs2/zhuhaowu/infinigen/docs/MINT_V84_SUPPORT_FAMILY_COLLAPSE_REPAIR_SPEC.md",
+      "sha256": "2742a69b592d2484a92ba0199e332c5d313b9a5a07e3729b3f90f5ac5efdfafa"
+    },
+    {
+      "path": "/mnt/afs2/zhuhaowu/infinigen/docs/MINT_V84_UNIFIED_EXECUTION_SPEC.md",
+      "sha256": "bcc031a39449abb1eef2d15a01ea92895e5b2806ec13bdeb7d7d2184ec01b0f9"
+    },
+    {
+      "path": "/mnt/afs2/zhuhaowu/infinigen/docs/MINT_V84_SYSTEM_AUDIT_2026-04-16.md",
+      "sha256": "6273f53313639a7d6856b41b9ebba721007a99c74f467b5fed9fe54d6d346a4f"
+    }
+  ]
+}

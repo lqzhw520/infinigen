@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""v10 learning-support tiny retrain gate runner."""
+"""v11 support-family diversification gate runner."""
 
 from __future__ import annotations
 
@@ -40,10 +40,13 @@ from mint_common import (
 from strict_success import evaluate_strict_success
 from tiny_retrain_mainline import (
     DEFAULT_ROLLOUT_SOURCE_DIR,
+    EFFECTIVE_SUPPORT_SIGNATURE_VERSION,
+    LEARNING_SUPPORT_FINGERPRINT_VERSION,
     LEARNING_SUPPORT_MATERIALIZATION_ARTIFACT,
     LEARNING_SUPPORT_ROLLOUT_SOURCE_DIR,
     MATERIALIZATION_ARTIFACT,
     STRICT_UTILITY_VERSION,
+    TEACHER_FAMILY_GRID_VERSION,
     TEACHER_FINGERPRINT_VERSION,
     TERMINAL_COMMIT,
     TRUTH_CONTRACT_PATH,
@@ -73,6 +76,7 @@ from tiny_retrain_gate_utils import (
     write_publication_state,
     write_sovereign_snapshot,
 )
+from run_v84_learning_support_family_audit import run as run_family_support_audit
 
 ROUTE_DECISION_PATH = CAMPAIGN_DIR / "autopilot" / "route_decision.json"
 FINAL_RUN_SUMMARY_PATH = CAMPAIGN_DIR / "autopilot" / "final_run_summary.json"
@@ -90,6 +94,13 @@ G8_PROBE_PATH = ARTIFACT_DIR / "g8_train_seed_probe.json"
 G9_SUMMARY_PATH = EVAL_DIR / "comparison_summary.json"
 G9_REPORT_PATH = EVAL_DIR / "comparison_report.md"
 EXECUTION_MEMO_PATH = EVAL_DIR / "tiny_retrain_execution_memo.md"
+G1_SUPPORT_FAMILY_AUDIT_PATH = (
+    ARTIFACT_DIR / "v11_learning_support_family_forensic_audit.json"
+)
+V10_GATES_DIR = CAMPAIGN_DIR / "autopilot" / "gates"
+V10_G3_GATE_PATH = V10_GATES_DIR / "G3_dataset_integrity.json"
+V10_G4_GATE_PATH = V10_GATES_DIR / "G4_readiness_interpretation.json"
+V10_G8_GATE_PATH = V10_GATES_DIR / "G8_publication_gate.json"
 G6_TEACHER_READINESS_CONTRACT_PATH = ARTIFACT_DIR / "g6_teacher_readiness_contract.json"
 G6_TRAINABILITY_SUPPORT_CONTRACT_PATH = (
     ARTIFACT_DIR / "g6_trainability_support_contract.json"
@@ -97,8 +108,8 @@ G6_TRAINABILITY_SUPPORT_CONTRACT_PATH = (
 G6_STRICT_SEMANTICS_ALIGNMENT_PATH = ARTIFACT_DIR / "g6_strict_semantics_alignment.json"
 EXECUTION_ANCHOR_PATH = ARTIFACT_DIR / "v8_3_execution_anchor.json"
 
-PLAN_VERSION = "tiny_retrain_confirmation_v10"
-SOURCE_BASE_COMMIT = "64d8bc0b2f27ab4d04880e665e680b2da085d535"
+PLAN_VERSION = "tiny_retrain_confirmation_v11"
+SOURCE_BASE_COMMIT = "dfa0ef0f0acd9443dc010d019d25ad7eb78b40d6"
 
 HONEST_EPISODES_PER_SEED = 12
 HONEST_MIN_TRAIN_EPISODES = 48
@@ -130,7 +141,7 @@ def _generate_run_instance_id(head: str) -> str:
     if env_override:
         return env_override
     stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-    return f"v10_{stamp}_{str(head)[:8]}_{uuid.uuid4().hex[:8]}"
+    return f"v11_{stamp}_{str(head)[:8]}_{uuid.uuid4().hex[:8]}"
 
 
 def _load_execution_anchor() -> dict[str, Any]:
@@ -190,6 +201,10 @@ def _artifact_matches_plan(payload: dict[str, Any], plan: dict[str, Any]) -> boo
         == str(plan.get("active_train_state_mode") or ""),
         str(payload.get("source_canonical_train_cell") or "")
         == str(plan.get("source_canonical_train_cell") or ""),
+        str(payload.get("support_family_repair_mode") or "")
+        == str(plan.get("support_family_repair_mode") or ""),
+        str(payload.get("teacher_family_grid_version") or "")
+        == str(plan.get("teacher_family_grid_version") or ""),
     ]
     return all(checks)
 
@@ -522,7 +537,10 @@ def materialize_stage_plan(
         "truth_utility_version": TRUTH_UTILITY_VERSION,
         "teacher_fingerprint_version": TEACHER_FINGERPRINT_VERSION,
         "learning_support_fingerprint_version": "v10_learning_support_fingerprint_v1",
-        "execution_scope": "pending_prepare",
+        "effective_support_signature_version": EFFECTIVE_SUPPORT_SIGNATURE_VERSION,
+        "support_family_repair_mode": "pending_audit",
+        "teacher_family_grid_version": TEACHER_FAMILY_GRID_VERSION,
+        "execution_scope": "v11_support_family_pending_prepare",
         "diagnostic_only": True,
         "claim_bearing": False,
         "publication_scope": "pending",
@@ -1320,9 +1338,10 @@ def _checkpoint_path_for_step(train_output_dir: Path, step: int) -> Path | None:
 def _checkpoint_rank_key(
     result: dict[str, Any],
 ) -> tuple[int, float, float, float, float, float, int]:
+    rank_vector = dict(result.get("attach_first_rank_vector") or {})
     return (
         1 if bool(result.get("attach_bridge_pass", False)) else 0,
-        float(result.get("ever_attach_eligible_fraction_gain", 0.0)),
+        float(rank_vector.get("ever_attach_eligible_fraction", 0.0)),
         float(result.get("ever_attached_rate_gain", 0.0)),
         float(result.get("stable_attach_gain", 0.0)),
         float(result.get("phase_locked_gain", 0.0)),
@@ -1667,7 +1686,7 @@ def _build_stage_summary(
         ),
         "dataset_summary": dataset_summary,
         "train_summary": train_summary,
-        "probe_summary": probe_summary,
+        "probe_summary": probe_summary_payload,
         "eval_summary": eval_summary or {},
     }
 
@@ -2260,23 +2279,57 @@ def _attach_bridge_metrics(records: list[dict[str, Any]]) -> dict[str, float]:
     }
 
 
+def _failure_mode_moves_later_than_attach_distance(
+    pretrained_mode: str | None, finetuned_mode: str | None
+) -> bool:
+    baseline = "never_reach_attach_distance"
+    if str(pretrained_mode or "") != baseline:
+        return False
+    later_modes = {
+        "never_reach_attach_orientation",
+        "never_reach_attach_approach",
+        "never_stabilize_attach",
+        "never_phase_lock",
+        "no_open_after_phase_lock",
+        "partial_open_only",
+        "success",
+    }
+    return str(finetuned_mode or "") in later_modes
+
+
 def _classify_probe_signal(probe_summary: dict[str, Any], plan: dict[str, Any]) -> str:
-    if bool(plan.get("claim_bearing", False)) and bool(probe_summary.get("train_probe_claim_pass", probe_summary.get("trend_passed", False))):
+    if bool(plan.get("claim_bearing", False)) and bool(
+        probe_summary.get(
+            "train_probe_claim_pass", probe_summary.get("trend_passed", False)
+        )
+    ):
         return "claim_support_candidate"
     if bool(probe_summary.get("attach_bridge_pass", False)):
         return "diagnostic_learning_support_signal_detected"
-    gains = [
-        float(probe_summary.get("ever_attach_eligible_fraction_gain", 0.0)),
-        float(probe_summary.get("success_gain", 0.0)),
-        float(probe_summary.get("ever_attached_rate_gain", 0.0)),
-        float(probe_summary.get("stable_attach_gain", 0.0)),
-        float(probe_summary.get("phase_locked_gain", 0.0)),
-        float(probe_summary.get("max_drawer_fraction_gain", 0.0)),
-    ]
+    gains = {
+        "ever_attach_eligible_fraction_gain": float(
+            probe_summary.get("ever_attach_eligible_fraction_gain", 0.0)
+        ),
+        "ever_attached_rate_gain": float(
+            probe_summary.get("ever_attached_rate_gain", 0.0)
+        ),
+        "stable_attach_gain": float(probe_summary.get("stable_attach_gain", 0.0)),
+        "phase_locked_gain": float(probe_summary.get("phase_locked_gain", 0.0)),
+    }
+    later_failure = _failure_mode_moves_later_than_attach_distance(
+        str(probe_summary.get("pretrained_dominant_failure_mode") or ""),
+        str(probe_summary.get("finetuned_dominant_failure_mode") or ""),
+    )
     return (
         "diagnostic_learning_support_signal_detected"
-        if any(x > 0.02 for x in gains)
-        else "diagnostic_learning_support_no_signal"
+        if (
+            gains["ever_attach_eligible_fraction_gain"] > 0.05
+            or gains["ever_attached_rate_gain"] > 0.05
+            or gains["stable_attach_gain"] > 0.03
+            or gains["phase_locked_gain"] > 0.03
+            or later_failure
+        )
+        else "diagnostic_learning_support_no_signal_after_support_family_fix"
     )
 
 
@@ -2301,8 +2354,16 @@ def _build_attach_bridge_summary(plan: dict[str, Any], probe_summary: dict[str, 
 
 def _build_family_conditioned_probe(plan: dict[str, Any], dataset_summary: dict[str, Any], probe_summary: dict[str, Any]) -> dict[str, Any]:
     records = dict(probe_summary.get("records") or {})
-    provenance = load_json(dataset_summary.get("provenance_path") or '', {}) if dataset_summary.get("provenance_path") else {}
-    provenance_records = list(provenance.get("records") or [])
+    provenance_records: list[dict[str, Any]] = []
+    provenance_path = str(dataset_summary.get("provenance_path") or "")
+    if provenance_path:
+        provenance = load_json(provenance_path, {})
+        provenance_records = list(provenance.get("records") or [])
+    if not provenance_records:
+        for path_str in list(dataset_summary.get("used_rollout_paths") or []):
+            meta_path = Path(path_str).with_suffix(".json")
+            if meta_path.exists():
+                provenance_records.append(load_json(meta_path, {}))
     pretrained_records = list(records.get("pretrained_mint") or [])
     finetuned_records = list(records.get("finetuned_mint") or [])
     by_seed = {}
@@ -2328,6 +2389,22 @@ def _build_family_conditioned_probe(plan: dict[str, Any], dataset_summary: dict[
     for fingerprint in fingerprints:
         seed_set = {int(rec.get("seed")) for rec in provenance_records if rec.get("seed") is not None and str(rec.get("teacher_fingerprint")) == fingerprint}
         by_teacher_fingerprint[fingerprint] = _seed_group_metrics(seed_set)
+    by_teacher_family_variant = {}
+    variants = sorted(
+        {
+            str(rec.get("teacher_family_variant"))
+            for rec in provenance_records
+            if rec.get("teacher_family_variant")
+        }
+    )
+    for variant in variants:
+        seed_set = {
+            int(rec.get("seed"))
+            for rec in provenance_records
+            if rec.get("seed") is not None
+            and str(rec.get("teacher_family_variant")) == variant
+        }
+        by_teacher_family_variant[variant] = _seed_group_metrics(seed_set)
     payload = {
         "gate": "g6_family_conditioned_probe",
         "run_instance_id": plan.get("run_instance_id"),
@@ -2346,6 +2423,7 @@ def _build_family_conditioned_probe(plan: dict[str, Any], dataset_summary: dict[
         },
         "by_teacher_episode_class": by_episode_class,
         "by_teacher_fingerprint": by_teacher_fingerprint,
+        "by_teacher_family_variant": by_teacher_family_variant,
     }
     write_json_atomic(G6_FAMILY_CONDITIONED_PROBE_PATH, payload)
     return payload
@@ -2377,7 +2455,7 @@ def _write_g6_gate(plan: dict[str, Any], dataset_summary: dict[str, Any], probe_
     status = {
         "claim_support_candidate": "AUTHORITATIVE_PASS" if bool(plan.get("claim_bearing", False)) else "DIAGNOSTIC_PASS",
         "diagnostic_learning_support_signal_detected": "DIAGNOSTIC_PASS",
-        "diagnostic_learning_support_no_signal": "STOP",
+        "diagnostic_learning_support_no_signal_after_support_family_fix": "STOP",
     }[classification]
     return write_gate(
         "G6",
@@ -2385,10 +2463,10 @@ def _write_g6_gate(plan: dict[str, Any], dataset_summary: dict[str, Any], probe_
         plan,
         status=status,
         blocking_reasons=[]
-        if classification != "diagnostic_learning_support_no_signal"
+        if classification != "diagnostic_learning_support_no_signal_after_support_family_fix"
         else ["no_learning_signal"],
         allowed_next_phases=["eval", "finalize"]
-        if classification != "diagnostic_learning_support_no_signal"
+        if classification != "diagnostic_learning_support_no_signal_after_support_family_fix"
         else ["finalize"],
         extra={
             **_scope_fields(plan),
@@ -2565,6 +2643,517 @@ def _write_v10_finalize_summary(plan: dict[str, Any], dataset_summary: dict[str,
     return summary, g8
 
 
+def _load_state() -> tuple[dict[str, Any], dict[str, Any], dict[str, Any], dict[str, Any], dict[str, Any]]:
+    return (
+        load_json(TINY_RETRAIN_PLAN_PATH, {}),
+        load_json(TINY_RETRAIN_DATASET_BUILD_PATH, {}),
+        load_json(G8_SUMMARY_PATH, {}),
+        load_json(G8_PROBE_PATH, {}),
+        load_json(G9_SUMMARY_PATH, {}),
+    )
+
+
+def _v10_gate_sync_reasons() -> list[str]:
+    reasons: list[str] = []
+    if _git(["git", "rev-parse", "--abbrev-ref", "HEAD"]) != "feature/mint-env-reformulation-v1-visual-fidelity":
+        reasons.append("branch_mismatch")
+    if _git(["git", "rev-parse", "HEAD:external/MINT"]) != "4eab5795345721001c412ff1ca2c886a11eab606":
+        reasons.append("vendor_head_mismatch")
+    g3 = load_json(V10_G3_GATE_PATH, {})
+    g4 = load_json(V10_G4_GATE_PATH, {})
+    if str(g3.get("status") or "") != "PASS":
+        reasons.append("v10_g3_not_pass")
+    if str(g4.get("status") or "") != "STOP":
+        reasons.append("v10_g4_not_stop")
+    expected_failed = {
+        "seed2_learning_support_families_ge_2",
+        "seed4_learning_support_families_ge_2",
+        "learning_support_unique_teacher_families_ge_12",
+    }
+    got_failed = {
+        str(x) for x in (g4.get("trainability_support_failed_clauses") or [])
+    }
+    if got_failed != expected_failed:
+        reasons.append("v10_trainability_failed_clause_mismatch")
+    return reasons
+
+
+def _support_family_branch_from_audit(audit: dict[str, Any]) -> str:
+    recommended = str(audit.get("recommended_next_action") or "")
+    if recommended == "fix_fingerprint_only":
+        return "G2A"
+    if recommended == "run_bounded_teacher_family_grid":
+        return "G2B"
+    return "STOP"
+
+
+def _prepare_stop_dataset_summary(
+    plan: dict[str, Any], audit: dict[str, Any], error: str
+) -> dict[str, Any]:
+    summary = {
+        "run_instance_id": plan.get("run_instance_id"),
+        "plan_version": plan.get("plan_version"),
+        "source_base_commit": plan.get("source_base_commit"),
+        "working_head_commit": plan.get("working_head_commit"),
+        "dataset_root": str(_resolve_repo_path(plan["dataset_root"])),
+        "dataset_repo_id": str(plan["dataset_repo_id"]),
+        "dataset_selection_mode": plan.get("dataset_selection_mode"),
+        "dataset_valid": False,
+        "claim_readiness_passed": False,
+        "trainability_support_passed": False,
+        "teacher_readiness_passed": False,
+        "teacher_readiness_failed_clauses": [],
+        "claim_readiness_failed_clauses": [],
+        "trainability_support_failed_clauses": [],
+        "error": error,
+        "family_forensic_audit": audit,
+    }
+    write_json_atomic(TINY_RETRAIN_DATASET_BUILD_PATH, summary)
+    return summary
+
+
+def _emit_prepare_gates_v11(
+    plan: dict[str, Any], audit: dict[str, Any], dataset_summary: dict[str, Any]
+) -> dict[str, Any]:
+    docs_manifest = write_docs_lock_manifest()
+    sovereign = write_sovereign_snapshot(plan)
+    g0_reasons = _v10_gate_sync_reasons()
+    g0 = write_gate(
+        "G0",
+        "sovereign_sync",
+        plan,
+        status="PASS" if not g0_reasons else "STOP",
+        blocking_reasons=g0_reasons,
+        allowed_next_phases=["prepare"] if not g0_reasons else [],
+        extra={
+            "sovereign_snapshot_path": str(SOVEREIGN_SNAPSHOT_PATH),
+            "v10_g3_gate_path": str(V10_G3_GATE_PATH),
+            "v10_g4_gate_path": str(V10_G4_GATE_PATH),
+            "v10_g8_gate_path": str(V10_G8_GATE_PATH),
+        },
+    )
+    g1_reasons = list(audit.get("parse_errors") or [])
+    recommended = str(audit.get("recommended_next_action") or "")
+    if recommended not in {
+        "fix_fingerprint_only",
+        "run_bounded_teacher_family_grid",
+        "cannot_decide_trace_missing",
+    }:
+        g1_reasons.append("recommended_next_action_invalid")
+    if recommended == "cannot_decide_trace_missing":
+        g1_reasons.append("cannot_decide_trace_missing")
+    g1 = write_gate(
+        "G1",
+        "family_collapse_forensic_audit",
+        plan,
+        status="PASS" if not g1_reasons else "STOP",
+        blocking_reasons=g1_reasons,
+        allowed_next_phases=["prepare"] if not g1_reasons else [],
+        extra={
+            "audit_artifact_path": str(G1_SUPPORT_FAMILY_AUDIT_PATH),
+            "recommended_next_action": recommended,
+            "recorded_learning_support_unique_family_count": audit.get(
+                "recorded_learning_support_unique_family_count"
+            ),
+            "effective_support_unique_family_count": audit.get(
+                "effective_support_unique_family_count"
+            ),
+            "seed2_effective_support_families": audit.get(
+                "seed2_effective_support_families"
+            ),
+            "seed4_effective_support_families": audit.get(
+                "seed4_effective_support_families"
+            ),
+        },
+    )
+    selected_branch = str(plan.get("support_family_repair_mode") or _support_family_branch_from_audit(audit))
+    g2 = write_gate(
+        selected_branch if selected_branch in {"G2A", "G2B"} else "G2",
+        "support_family_repair_branch",
+        plan,
+        status="PASS" if selected_branch in {"G2A", "G2B"} else "STOP",
+        blocking_reasons=[] if selected_branch in {"G2A", "G2B"} else ["trace_logging_insufficient"],
+        allowed_next_phases=["prepare"] if selected_branch in {"G2A", "G2B"} else [],
+        extra={
+            "selected_family_diversification_mode": selected_branch,
+            "audit_recommended_next_action": str(audit.get("recommended_next_action") or ""),
+            "support_family_repair_mode": plan.get("support_family_repair_mode"),
+            "teacher_family_grid_version": plan.get("teacher_family_grid_version"),
+        },
+    )
+    g3_reasons: list[str] = []
+    if not bool(dataset_summary.get("dataset_valid", False)):
+        g3_reasons.append(str(dataset_summary.get("error") or "dataset_invalid"))
+    if not bool(dataset_summary.get("trainability_support_passed", False)):
+        g3_reasons.extend(
+            str(x) for x in (dataset_summary.get("trainability_support_failed_clauses") or [])
+        )
+    g3 = write_gate(
+        "G3",
+        "dataset_rebuild",
+        plan,
+        status="PASS" if not g3_reasons else "STOP",
+        blocking_reasons=g3_reasons,
+        allowed_next_phases=["train"] if not g3_reasons else [],
+        extra={
+            "dataset_root": dataset_summary.get("dataset_root"),
+            "dataset_valid": bool(dataset_summary.get("dataset_valid", False)),
+            "trainability_support_passed": bool(
+                dataset_summary.get("trainability_support_passed", False)
+            ),
+            "claim_readiness_passed": bool(
+                dataset_summary.get("claim_readiness_passed", False)
+            ),
+            "learning_support_unique_teacher_family_count": dataset_summary.get(
+                "learning_support_unique_teacher_family_count"
+            ),
+            "learning_support_family_count_by_seed": dataset_summary.get(
+                "learning_support_family_count_by_seed"
+            ),
+            "learning_support_prebridge_frame_p50": dataset_summary.get(
+                "learning_support_prebridge_frame_p50"
+            ),
+            "attach_eligible_seed_coverage": dataset_summary.get(
+                "attach_eligible_seed_coverage"
+            ),
+        },
+    )
+    g4_status = "DIAGNOSTIC_PASS" if g3.get("status") == "PASS" else "STOP"
+    plan = _persist_plan_with_scope(plan, g4_status)
+    docs_intent = write_docs_update_intent(
+        {
+            "run_instance_id": plan.get("run_instance_id"),
+            "spec_doc_path": str(SPEC_DOC_PATH),
+            "intent": "defer_v11_publication_until_g6",
+            "allowed_after_gate": "G6",
+            "publication_scope": plan.get("publication_scope"),
+            "result_scope": plan.get("result_scope"),
+            "claim_bearing": False,
+            "canonical_doc_updates_allowed_before_g6": False,
+            "requested_addendum_behavior": "v11_execution_report_only",
+        }
+    )
+    publication_state = write_publication_state(
+        {
+            "run_instance_id": plan.get("run_instance_id"),
+            **_scope_fields(plan),
+            "selected_family_diversification_mode": selected_branch,
+            "final_verdict": None,
+        }
+    )
+    harness_state = write_harness_state(
+        {
+            "run_instance_id": plan.get("run_instance_id"),
+            "line_a_state": "operational_freeze",
+            "line_b_state": "frozen",
+            "line_c_state": "frozen_vendor_baseline",
+            "current_active_blocker": "support_family_collapse",
+            "selected_family_diversification_mode": selected_branch,
+            "trainability_support_failed_clauses": list(
+                dataset_summary.get("trainability_support_failed_clauses") or []
+            ),
+            "claim_readiness_failed_clauses": list(
+                dataset_summary.get("claim_readiness_failed_clauses") or []
+            ),
+        }
+    )
+    return {
+        "plan": plan,
+        "dataset_summary": dataset_summary,
+        "audit": audit,
+        "docs_manifest": docs_manifest,
+        "sovereign_snapshot": sovereign,
+        "publication_state": publication_state,
+        "harness_state": harness_state,
+        "docs_update_intent": docs_intent,
+        "gates": {"g0": g0, "g1": g1, "g2": g2, "g3": g3},
+    }
+
+
+def _phase_prepare_v11(dataset_selection_mode: str = "diagnostic_learning_support") -> tuple[dict[str, Any], dict[str, Any], dict[str, Any], dict[str, Any]]:
+    artifacts = load_terminal_artifacts()
+    plan = materialize_stage_plan(
+        artifacts,
+        active_train_state_mode="S0",
+        bridge_stage="v11_support_family_diversification_prepare",
+        bridge_attempt="diagnostic",
+        episodes_per_seed=HONEST_EPISODES_PER_SEED,
+        min_train_episodes=HONEST_MIN_TRAIN_EPISODES,
+        train_steps=HONEST_TRAIN_STEPS,
+        save_freq=HONEST_SAVE_FREQ,
+        checkpoint_probe_steps=HONEST_PROBE_STEPS,
+    )
+    plan["dataset_selection_mode"] = dataset_selection_mode
+    plan["authoritative_truth_field"] = "measurement_truthful_for_learning_support"
+    audit = run_family_support_audit(
+        LEARNING_SUPPORT_ROLLOUT_SOURCE_DIR, G1_SUPPORT_FAMILY_AUDIT_PATH
+    )
+    selected_branch = _support_family_branch_from_audit(audit)
+    if selected_branch == "G2A":
+        plan["support_family_repair_mode"] = "G2A"
+        plan["learning_support_fingerprint_version"] = (
+            EFFECTIVE_SUPPORT_SIGNATURE_VERSION
+        )
+    elif selected_branch == "G2B":
+        plan["support_family_repair_mode"] = "G2B"
+        plan["teacher_family_grid_version"] = TEACHER_FAMILY_GRID_VERSION
+    else:
+        plan["support_family_repair_mode"] = "STOP"
+    write_json_atomic(TINY_RETRAIN_PLAN_PATH, plan)
+    if selected_branch == "STOP":
+        dataset_summary = _prepare_stop_dataset_summary(
+            plan, audit, "trace_logging_insufficient"
+        )
+    else:
+        dataset_summary = build_or_refresh_canonical_dataset(plan)
+        if (
+            selected_branch == "G2A"
+            and not bool(dataset_summary.get("trainability_support_passed", False))
+        ):
+            plan["support_family_repair_mode"] = "G2B"
+            plan["learning_support_fingerprint_version"] = (
+                LEARNING_SUPPORT_FINGERPRINT_VERSION
+            )
+            plan["teacher_family_grid_version"] = TEACHER_FAMILY_GRID_VERSION
+            write_json_atomic(TINY_RETRAIN_PLAN_PATH, plan)
+            dataset_summary = build_or_refresh_canonical_dataset(plan)
+    gate_bundle = _emit_prepare_gates_v11(plan, audit, dataset_summary)
+    return gate_bundle["plan"], gate_bundle["dataset_summary"], audit, gate_bundle
+
+
+def _require_v11_gate_pass(gate_id: str, gate_name: str) -> dict[str, Any]:
+    gate = load_gate(gate_id, gate_name)
+    if not gate:
+        raise SystemExit(f"Missing {gate_id} {gate_name} gate")
+    if str(gate.get("status") or "") == "STOP":
+        raise SystemExit(json.dumps(gate, indent=2))
+    return gate
+
+
+def _write_v11_train_gate(plan: dict[str, Any], train_summary: dict[str, Any]) -> dict[str, Any]:
+    status = "PASS" if bool(train_summary.get("passed", False)) else "STOP"
+    return write_gate(
+        "G4",
+        "diagnostic_training",
+        plan,
+        status=status,
+        blocking_reasons=[]
+        if status == "PASS"
+        else [str(train_summary.get("stderr_tail") or train_summary.get("error") or "train_failed")],
+        allowed_next_phases=["probe"] if status == "PASS" else [],
+        extra={
+            **_scope_fields(plan),
+            "selected_family_diversification_mode": plan.get(
+                "support_family_repair_mode"
+            ),
+            "train_summary_path": str(G8_SUMMARY_PATH),
+            "trainability_support_passed": True,
+        },
+    )
+
+
+def _write_v11_probe_sidecars(
+    plan: dict[str, Any],
+    dataset_summary: dict[str, Any],
+    probe_summary: dict[str, Any],
+    classification: str,
+) -> None:
+    if not probe_summary:
+        return
+    attach_bridge_summary = _build_attach_bridge_summary(plan, probe_summary)
+    family_conditioned_probe = _build_family_conditioned_probe(
+        plan, dataset_summary, probe_summary
+    )
+    attach_bridge_summary["classification"] = classification
+    write_json_atomic(G6_ATTACH_BRIDGE_SUMMARY_PATH, attach_bridge_summary)
+    family_conditioned_probe["classification"] = classification
+    family_conditioned_probe["overall_best_checkpoint_step"] = int(
+        probe_summary.get("checkpoint_step") or 0
+    )
+    family_conditioned_probe["hard_vs_rest_summary"] = family_conditioned_probe.get(
+        "hard_vs_rest"
+    )
+    write_json_atomic(G6_FAMILY_CONDITIONED_PROBE_PATH, family_conditioned_probe)
+
+
+def _write_v11_probe_gate(
+    plan: dict[str, Any],
+    dataset_summary: dict[str, Any],
+    probe_summary: dict[str, Any],
+) -> dict[str, Any]:
+    classification = _classify_probe_signal(probe_summary, plan)
+    _write_v11_probe_sidecars(plan, dataset_summary, probe_summary, classification)
+    probe_payload = dict(probe_summary)
+    probe_payload["classification"] = classification
+    write_json_atomic(G8_PROBE_PATH, probe_payload)
+    return write_gate(
+        "G5",
+        "attach_first_probe",
+        plan,
+        status="PASS",
+        blocking_reasons=[],
+        allowed_next_phases=["finalize"],
+        extra={
+            **_scope_fields(plan),
+            "classification": classification,
+            "attach_bridge_pass": bool(probe_summary.get("attach_bridge_pass", False)),
+            "ever_attach_eligible_fraction_gain": float(
+                probe_summary.get("ever_attach_eligible_fraction_gain", 0.0)
+            ),
+            "ever_attached_rate_gain": float(
+                probe_summary.get("ever_attached_rate_gain", 0.0)
+            ),
+            "stable_attach_gain": float(probe_summary.get("stable_attach_gain", 0.0)),
+            "phase_locked_gain": float(probe_summary.get("phase_locked_gain", 0.0)),
+            "strict_success_rate_gain": float(
+                probe_summary.get("success_gain", 0.0)
+            ),
+            "selected_checkpoint_reason": probe_summary.get(
+                "selected_checkpoint_reason"
+            ),
+        },
+    )
+def _write_v11_finalize_summary(
+    plan: dict[str, Any],
+    dataset_summary: dict[str, Any],
+    train_summary: dict[str, Any],
+    probe_summary: dict[str, Any],
+    eval_summary: dict[str, Any],
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    g0 = load_gate("G0", "sovereign_sync")
+    g1 = load_gate("G1", "family_collapse_forensic_audit")
+    g2 = load_gate("G2A", "support_family_repair_branch") or load_gate(
+        "G2B", "support_family_repair_branch"
+    ) or load_gate("G2", "support_family_repair_branch")
+    g3 = load_gate("G3", "dataset_rebuild")
+    g4 = load_gate("G4", "diagnostic_training")
+    g5 = load_gate("G5", "attach_first_probe")
+    docs_ok, docs_drift, _ = docs_lock_consistent()
+    publication_issues: list[str] = []
+    if not docs_ok:
+        publication_issues.append("docs_lock_drift")
+    if not DOCS_UPDATE_INTENT_PATH.exists():
+        publication_issues.append("docs_update_intent_missing")
+    classification = _classify_probe_signal(probe_summary, plan) if probe_summary else ""
+    _write_v11_probe_sidecars(plan, dataset_summary, probe_summary, classification)
+    probe_summary_payload = dict(probe_summary or {})
+    if classification and probe_summary_payload:
+        probe_summary_payload["classification"] = classification
+    selected_mode = str(plan.get("support_family_repair_mode") or "")
+    if selected_mode == "STOP":
+        final_verdict = "trace_logging_insufficient"
+    elif str(g3.get("status") or "") == "STOP":
+        final_verdict = (
+            "teacher_family_grid_fake_variants"
+            if selected_mode == "G2B"
+            else "trace_logging_insufficient"
+        )
+    elif not train_summary and not probe_summary:
+        final_verdict = (
+            "fingerprint_underexpression_fixed_prepare_pass"
+            if selected_mode == "G2A"
+            else "teacher_family_grid_prepare_pass"
+        )
+    elif classification == "diagnostic_learning_support_signal_detected":
+        final_verdict = "diagnostic_learning_support_signal_detected"
+    else:
+        final_verdict = "diagnostic_learning_support_no_signal_after_support_family_fix"
+    summary = {
+        "confirmation_mode": "tiny_retrain_completion_loop_v11",
+        "run_instance_id": plan.get("run_instance_id"),
+        "plan_version": plan.get("plan_version"),
+        "source_base_commit": plan.get("source_base_commit"),
+        "working_head_commit": plan.get("working_head_commit"),
+        "source_branch": plan.get("source_branch"),
+        "source_commit": plan.get("source_commit"),
+        "execution_scope": plan.get("execution_scope"),
+        "diagnostic_only": bool(plan.get("diagnostic_only", True)),
+        "claim_bearing": False,
+        "publication_scope": plan.get("publication_scope"),
+        "result_scope": plan.get("result_scope"),
+        "source_canonical_train_cell": plan.get("source_canonical_train_cell"),
+        "source_best_train_state_mode": plan.get("source_best_train_state_mode"),
+        "active_train_state_mode": plan.get("active_train_state_mode"),
+        "active_state_mode_name": plan.get("active_state_mode_name"),
+        "selected_family_diversification_mode": plan.get(
+            "support_family_repair_mode"
+        ),
+        "family_forensic_audit_path": str(G1_SUPPORT_FAMILY_AUDIT_PATH),
+        "final_verdict": final_verdict,
+        "dataset_valid": bool(dataset_summary.get("dataset_valid", False)),
+        "claim_readiness_passed": bool(dataset_summary.get("claim_readiness_passed", False)),
+        "trainability_support_passed": bool(dataset_summary.get("trainability_support_passed", False)),
+        "train_passed": bool(train_summary.get("passed", False)),
+        "probe_classification": classification,
+        "heldout_eval_run": False,
+        "heldout_skip_reason": "diagnostic_only_scope",
+        "publication_issues": publication_issues,
+        "gate_statuses": {
+            "G0": g0.get("status"),
+            "G1": g1.get("status"),
+            "G2": g2.get("status"),
+            "G3": g3.get("status"),
+            "G4": g4.get("status") if g4 else None,
+            "G5": g5.get("status") if g5 else None,
+        },
+        "dataset_summary": dataset_summary,
+        "train_summary": train_summary,
+        "probe_summary": probe_summary,
+        "eval_summary": eval_summary,
+    }
+    write_json_atomic(TINY_RETRAIN_SUMMARY_PATH, summary)
+    publication_state = write_publication_state(
+        {
+            "run_instance_id": plan.get("run_instance_id"),
+            **_scope_fields(plan),
+            "selected_family_diversification_mode": selected_mode,
+            "final_verdict": final_verdict,
+        }
+    )
+    harness_state = write_harness_state(
+        {
+            "run_instance_id": plan.get("run_instance_id"),
+            "current_active_blocker": (
+                "state_conditioning_or_architecture"
+                if final_verdict
+                == "diagnostic_learning_support_no_signal_after_support_family_fix"
+                else "support_family_collapse"
+            ),
+            "selected_family_diversification_mode": selected_mode,
+            "trainability_support_failed_clauses": list(
+                dataset_summary.get("trainability_support_failed_clauses") or []
+            ),
+            "final_verdict": final_verdict,
+        }
+    )
+    g6_status = "DIAGNOSTIC_PASS" if final_verdict in {
+        "fingerprint_underexpression_fixed_prepare_pass",
+        "teacher_family_grid_prepare_pass",
+        "diagnostic_learning_support_signal_detected",
+    } else "STOP"
+    g6 = write_gate(
+        "G6",
+        "interpretation",
+        plan,
+        status=g6_status,
+        blocking_reasons=publication_issues
+        + (
+            []
+            if final_verdict != "diagnostic_learning_support_no_signal_after_support_family_fix"
+            else ["no_learning_signal_after_support_family_fix"]
+        ),
+        allowed_next_phases=[],
+        extra={
+            **_scope_fields(plan),
+            "final_verdict": final_verdict,
+            "publication_state_path": str(PUBLICATION_STATE_PATH),
+            "harness_state_path": str(HARNESS_STATE_PATH),
+            "docs_update_intent_path": str(DOCS_UPDATE_INTENT_PATH),
+        },
+    )
+    return summary, g6
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -2572,107 +3161,101 @@ def main() -> int:
         choices=["prepare", "train", "probe", "eval", "finalize", "all"],
         default="all",
     )
+    parser.add_argument(
+        "--dataset-selection-mode",
+        default="diagnostic_learning_support",
+    )
     args = parser.parse_args()
 
-    def _load_state() -> tuple[dict[str, Any], dict[str, Any], dict[str, Any], dict[str, Any], dict[str, Any]]:
-        return (
-            load_json(TINY_RETRAIN_PLAN_PATH, {}),
-            load_json(TINY_RETRAIN_DATASET_BUILD_PATH, {}),
-            load_json(G8_SUMMARY_PATH, {}),
-            load_json(G8_PROBE_PATH, {}),
-            load_json(G9_SUMMARY_PATH, {}),
-        )
-
     if args.phase == "prepare":
-        plan, dataset_summary = _phase_prepare()
-        gate_bundle = _emit_prepare_gates(plan, dataset_summary)
-        print(json.dumps({"phase": "prepare", **gate_bundle}, indent=2))
-        return 0 if gate_bundle["gates"]["g4"].get("status") in {"DIAGNOSTIC_PASS", "AUTHORITATIVE_PASS"} else 1
+        plan, dataset_summary, audit, gate_bundle = _phase_prepare_v11(
+            dataset_selection_mode=args.dataset_selection_mode
+        )
+        print(
+            json.dumps(
+                {
+                    "phase": "prepare",
+                    "plan": plan,
+                    "dataset_summary": dataset_summary,
+                    "audit": audit,
+                    "gates": gate_bundle["gates"],
+                },
+                indent=2,
+            )
+        )
+        return 0 if gate_bundle["gates"]["g3"].get("status") == "PASS" else 1
 
     plan, dataset_summary, train_summary, probe_summary, eval_summary = _load_state()
 
     if args.phase == "train":
         if not plan or not dataset_summary:
-            plan, dataset_summary = _phase_prepare()
-            gate_bundle = _emit_prepare_gates(plan, dataset_summary)
-            plan = gate_bundle["plan"]
-        g4 = _load_required_g4_gate()
-        if g4.get("status") == "STOP":
-            print(json.dumps(g4, indent=2))
-            return 1
-        plan = load_json(TINY_RETRAIN_PLAN_PATH, plan)
+            plan, dataset_summary, _, gate_bundle = _phase_prepare_v11(
+                dataset_selection_mode=args.dataset_selection_mode
+            )
+            if gate_bundle["gates"]["g3"].get("status") != "PASS":
+                print(json.dumps(gate_bundle, indent=2))
+                return 1
+        _require_v11_gate_pass("G3", "dataset_rebuild")
         train_summary = launch_tiny_retrain(plan)
-        g5 = _write_g5_gate(plan, train_summary)
-        print(json.dumps({"phase": "train", "train_summary": train_summary, "g5": g5}, indent=2))
-        return 0 if g5.get("status") != "STOP" else 1
+        g4 = _write_v11_train_gate(plan, train_summary)
+        print(json.dumps({"phase": "train", "train_summary": train_summary, "g4": g4}, indent=2))
+        return 0 if g4.get("status") == "PASS" else 1
 
     if args.phase == "probe":
         if not plan or not dataset_summary or not train_summary:
             raise SystemExit("Missing prepare/train artifacts before probe")
-        if not bool(train_summary.get("passed", False)):
-            raise SystemExit("Cannot run train probe without a passed train summary")
+        _require_v11_gate_pass("G4", "diagnostic_training")
         probe_summary = run_train_probe(plan, train_summary)
-        g6 = _write_g6_gate(plan, dataset_summary, probe_summary)
-        print(json.dumps({"phase": "probe", "probe_summary": probe_summary, "g6": g6}, indent=2))
-        return 0 if g6.get("status") != "STOP" else 1
+        g5 = _write_v11_probe_gate(plan, dataset_summary, probe_summary)
+        print(json.dumps({"phase": "probe", "probe_summary": probe_summary, "g5": g5}, indent=2))
+        return 0
 
     if args.phase == "eval":
-        if not plan or not probe_summary:
-            raise SystemExit("Missing prepare/probe artifacts before eval")
-        if bool(plan.get("diagnostic_only", False)):
-            eval_summary = write_skipped_heldout_eval_summary(plan, probe_summary)
-        elif bool(probe_summary.get("train_probe_claim_pass", probe_summary.get("trend_passed", False))):
-            eval_summary = run_heldout_eval(plan, train_summary, probe_summary) or {}
-        else:
-            eval_summary = write_skipped_heldout_eval_summary(plan, probe_summary)
-        g7 = _write_g7_gate(plan, eval_summary)
-        print(json.dumps({"phase": "eval", "eval_summary": eval_summary, "g7": g7}, indent=2))
-        return 0 if g7.get("status") != "STOP" else 1
+        if not plan:
+            raise SystemExit("Missing prepare artifacts before eval")
+        eval_summary = write_skipped_heldout_eval_summary(plan, probe_summary or {})
+        print(json.dumps({"phase": "eval", "eval_summary": eval_summary}, indent=2))
+        return 0
 
     if args.phase == "finalize":
         if not plan or not dataset_summary:
             raise SystemExit("Missing prepare artifacts before finalize")
-        summary, g8 = _write_v10_finalize_summary(
+        if not eval_summary:
+            eval_summary = write_skipped_heldout_eval_summary(plan, probe_summary or {})
+        summary, g6 = _write_v11_finalize_summary(
             plan,
             dataset_summary,
             train_summary,
             probe_summary,
-            eval_summary or {},
+            eval_summary,
         )
-        print(json.dumps({"phase": "finalize", "summary": summary, "g8": g8}, indent=2))
-        return 0 if g8.get("status") != "STOP" else 1
+        print(json.dumps({"phase": "finalize", "summary": summary, "g6": g6}, indent=2))
+        return 0 if g6.get("status") != "STOP" else 1
 
-    plan, dataset_summary = _phase_prepare()
-    gate_bundle = _emit_prepare_gates(plan, dataset_summary)
-    plan = gate_bundle["plan"]
-    if gate_bundle["gates"]["g4"].get("status") == "STOP":
-        summary, g8 = _write_v10_finalize_summary(plan, dataset_summary, {}, {}, {})
-        print(json.dumps({"phase": "all", "summary": summary, "g8": g8}, indent=2))
+    plan, dataset_summary, _, gate_bundle = _phase_prepare_v11(
+        dataset_selection_mode=args.dataset_selection_mode
+    )
+    if gate_bundle["gates"]["g3"].get("status") != "PASS":
+        eval_summary = write_skipped_heldout_eval_summary(plan, {})
+        summary, g6 = _write_v11_finalize_summary(plan, dataset_summary, {}, {}, eval_summary)
+        print(json.dumps({"phase": "all", "summary": summary, "g6": g6}, indent=2))
         return 1
 
     train_summary = launch_tiny_retrain(plan)
-    _write_g5_gate(plan, train_summary)
-    if not bool(train_summary.get("passed", False)):
-        summary, g8 = _write_v10_finalize_summary(plan, dataset_summary, train_summary, {}, {})
-        print(json.dumps({"phase": "all", "summary": summary, "g8": g8}, indent=2))
+    g4 = _write_v11_train_gate(plan, train_summary)
+    if g4.get("status") != "PASS":
+        eval_summary = write_skipped_heldout_eval_summary(plan, {})
+        summary, g6 = _write_v11_finalize_summary(plan, dataset_summary, train_summary, {}, eval_summary)
+        print(json.dumps({"phase": "all", "summary": summary, "g6": g6}, indent=2))
         return 1
-
     probe_summary = run_train_probe(plan, train_summary)
-    _write_g6_gate(plan, dataset_summary, probe_summary)
-
-    if bool(plan.get("diagnostic_only", False)):
-        eval_summary = write_skipped_heldout_eval_summary(plan, probe_summary)
-    elif bool(probe_summary.get("train_probe_claim_pass", probe_summary.get("trend_passed", False))):
-        eval_summary = run_heldout_eval(plan, train_summary, probe_summary) or {}
-    else:
-        eval_summary = write_skipped_heldout_eval_summary(plan, probe_summary)
-    _write_g7_gate(plan, eval_summary)
-
-    summary, g8 = _write_v10_finalize_summary(
+    _write_v11_probe_gate(plan, dataset_summary, probe_summary)
+    eval_summary = write_skipped_heldout_eval_summary(plan, probe_summary)
+    summary, g6 = _write_v11_finalize_summary(
         plan, dataset_summary, train_summary, probe_summary, eval_summary
     )
-    print(json.dumps({"phase": "all", "summary": summary, "g8": g8}, indent=2))
-    return 0 if g8.get("status") != "STOP" else 1
+    print(json.dumps({"phase": "all", "summary": summary, "g6": g6}, indent=2))
+    return 0 if g6.get("status") != "STOP" else 1
 
 
 if __name__ == "__main__":

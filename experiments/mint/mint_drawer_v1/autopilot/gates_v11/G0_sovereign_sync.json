@@ -1,0 +1,22 @@
+{
+  "gate_id": "G0",
+  "gate_name": "sovereign_sync",
+  "run_instance_id": "v11_20260418T101620Z_dfa0ef0f_dc2d4581",
+  "working_head_commit": "dfa0ef0f0acd9443dc010d019d25ad7eb78b40d6",
+  "vendor_head_commit": "4eab5795345721001c412ff1ca2c886a11eab606",
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "truth_contract_hash": "17ae4d1554899b843c80b064a2c5f3d6331b04dd169819ca5f2b0bfba729a6f6",
+  "acceptance_contract_hash": "3e63d1c21004dae9a8ded0c966f69112f59e340f7d0aada219eb66ac8facd53c",
+  "spec_doc_path": "/mnt/afs2/zhuhaowu/infinigen/docs/MINT_V84_SUPPORT_FAMILY_COLLAPSE_REPAIR_SPEC.md",
+  "spec_doc_hash": "2742a69b592d2484a92ba0199e332c5d313b9a5a07e3729b3f90f5ac5efdfafa",
+  "status": "PASS",
+  "blocking_reasons": [],
+  "allowed_next_phases": [
+    "prepare"
+  ],
+  "timestamp_utc": "2026-04-18T10:33:32.445107Z",
+  "sovereign_snapshot_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/autopilot/sovereign_snapshot_v11.json",
+  "v10_g3_gate_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/autopilot/gates/G3_dataset_integrity.json",
+  "v10_g4_gate_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/autopilot/gates/G4_readiness_interpretation.json",
+  "v10_g8_gate_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/autopilot/gates/G8_publication_gate.json"
+}

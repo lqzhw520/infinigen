@@ -1,0 +1,9 @@
+{
+  "state_version": "v11_harness_state_v1",
+  "timestamp_utc": "2026-04-18T15:45:24.880537Z",
+  "run_instance_id": "v11_20260418T101620Z_dfa0ef0f_dc2d4581",
+  "current_active_blocker": "state_conditioning_or_architecture",
+  "selected_family_diversification_mode": "G2B",
+  "trainability_support_failed_clauses": [],
+  "final_verdict": "diagnostic_learning_support_no_signal_after_support_family_fix"
+}

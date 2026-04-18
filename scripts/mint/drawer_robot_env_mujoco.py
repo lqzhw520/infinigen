@@ -3110,6 +3110,22 @@ def build_robot_rollout(
     retreat_target = handle + axis * 0.16 + np.array([0.0, 0.0, 0.05], dtype=np.float32)
     rng = np.random.default_rng(seed + episode_index)
     intervention_cfg = dict(interventions or {})
+    teacher_family_variant = str(intervention_cfg.get("teacher_family_variant") or "base")
+    handle_tangent_offset_m = float(
+        intervention_cfg.get("handle_tangent_offset_m", 0.0) or 0.0
+    )
+    handle_vertical_offset_m = float(
+        intervention_cfg.get("handle_vertical_offset_m", 0.0) or 0.0
+    )
+    approach_speed_scale = float(
+        intervention_cfg.get("approach_speed_scale", 1.0) or 1.0
+    )
+    close_distance_offset_m = float(
+        intervention_cfg.get("close_distance_offset_m", 0.0) or 0.0
+    )
+    pregrasp_hold_steps = max(
+        0, int(intervention_cfg.get("pregrasp_hold_steps", 0) or 0)
+    )
     force_detach_probe = bool(intervention_cfg.get("force_detach_probe", False))
     close_settle_steps = max(0, int(intervention_cfg.get("close_settle_steps", 4) or 0))
     pull_speed = float(intervention_cfg.get("pull_speed", 0.30) or 0.30)
@@ -3159,6 +3175,7 @@ def build_robot_rollout(
     attach_step = None
     success = False
     close_hold_steps = 0
+    pregrasp_hold_counter = 0
     micro_retract_phase_steps = 0
     micro_retract_done = micro_retract_before_pull <= 0.0
     stable_attach_run = 0
@@ -3248,10 +3265,25 @@ def build_robot_rollout(
             )
 
             handle, _ = env._interaction_handle_target_world()
-            pregrasp_target = (
-                handle - axis * 0.04 + np.array([0.0, 0.0, 0.03], dtype=np.float32)
+            tangent_dir = np.cross(axis, WORLD_UP).astype(np.float32)
+            tangent_norm = float(np.linalg.norm(tangent_dir))
+            if tangent_norm < 1e-6:
+                tangent_dir = np.array([0.0, 1.0, 0.0], dtype=np.float32)
+                tangent_norm = 1.0
+            tangent_dir = tangent_dir / tangent_norm
+            preattach_handle = (
+                handle
+                + tangent_dir * handle_tangent_offset_m
+                + np.array([0.0, 0.0, handle_vertical_offset_m], dtype=np.float32)
             )
-            contact_target = handle + np.array([0.0, 0.0, 0.005], dtype=np.float32)
+            pregrasp_target = (
+                preattach_handle
+                - axis * 0.04
+                + np.array([0.0, 0.0, 0.03], dtype=np.float32)
+            )
+            contact_target = preattach_handle + np.array(
+                [0.0, 0.0, 0.005], dtype=np.float32
+            )
             micro_retract_target = (
                 handle
                 - axis * micro_retract_before_pull
@@ -3291,8 +3323,13 @@ def build_robot_rollout(
                 phase == "pregrasp"
                 and np.linalg.norm(obs.eef_pos - pregrasp_target) < 0.02
             ):
-                phase = "contact"
-            elif phase == "contact" and np.linalg.norm(obs.eef_pos - handle) < 0.03:
+                if pregrasp_hold_counter < pregrasp_hold_steps:
+                    pregrasp_hold_counter += 1
+                else:
+                    phase = "contact"
+            elif phase == "contact" and np.linalg.norm(obs.eef_pos - preattach_handle) < (
+                0.03 + close_distance_offset_m
+            ):
                 phase = "close"
                 close_hold_steps = 0
                 micro_retract_phase_steps = 0
@@ -3720,11 +3757,23 @@ def build_robot_rollout(
                 preload_mag = hybrid_s_n
 
             if phase == "pregrasp":
-                target_pos, close, speed = pregrasp_target, False, 0.65
+                target_pos, close, speed = (
+                    pregrasp_target,
+                    False,
+                    0.65 * approach_speed_scale,
+                )
             elif phase == "contact":
-                target_pos, close, speed = contact_target, False, 0.45
+                target_pos, close, speed = (
+                    contact_target,
+                    False,
+                    0.45 * approach_speed_scale,
+                )
             elif phase == "close":
-                target_pos, close, speed = contact_target, True, 0.25
+                target_pos, close, speed = (
+                    contact_target,
+                    True,
+                    0.25 * approach_speed_scale,
+                )
             elif phase == "micro_retract":
                 target_pos, close, speed = micro_retract_target, True, 0.20
             elif phase == "grasp_seat":
@@ -3946,6 +3995,15 @@ def build_robot_rollout(
     camera_metadata = obs.camera_metadata or {}
     handle_probe_metadata = obs.handle_probe_metadata or {}
     rollout_claim_policy = claim_policy or obs.claim_policy or env.claim_policy()
+    variant_deactivated_on_attach = bool(
+        teacher_family_variant != "base"
+        and (
+            ever_attached
+            or last_phase_locked
+            or any(bool(x) for x in stable_attach_trace)
+            or any(bool(x) for x in phase_locked_trace)
+        )
+    )
     rollout = {
         "seed": seed,
         "episode_index": episode_index,
@@ -4045,6 +4103,23 @@ def build_robot_rollout(
             "assay_warm_start_kind": assay_warm_start_kind,
             "teacher_controller_mode": teacher_controller_mode,
         },
+        "teacher_family_variant": teacher_family_variant,
+        "handle_tangent_offset_m": float(handle_tangent_offset_m),
+        "handle_vertical_offset_m": float(handle_vertical_offset_m),
+        "approach_speed_scale": float(approach_speed_scale),
+        "close_distance_offset_m": float(close_distance_offset_m),
+        "pregrasp_hold_steps": int(pregrasp_hold_steps),
+        "teacher_family_variant_payload": {
+            "teacher_family_variant": teacher_family_variant,
+            "handle_tangent_offset_m": float(handle_tangent_offset_m),
+            "handle_vertical_offset_m": float(handle_vertical_offset_m),
+            "approach_speed_scale": float(approach_speed_scale),
+            "close_distance_offset_m": float(close_distance_offset_m),
+            "pregrasp_hold_steps": int(pregrasp_hold_steps),
+        },
+        "variant_applied_phase": "preattach_only",
+        "teacher_family_variant_phase_scope": "preattach_only",
+        "teacher_family_variant_deactivated_on_attach": variant_deactivated_on_attach,
         "contract_config": env.contract_payload(),
         "state_spec": _json_ready(state_spec),
         "visual_mode_report": _json_ready(visual_mode_report),
@@ -4288,6 +4363,27 @@ def save_robot_rollout(path: Path, rollout: dict[str, Any]) -> None:
         "second_burst_max_drawer_delta": rollout.get("second_burst_max_drawer_delta"),
         "continuation_plateau_reason": rollout.get("continuation_plateau_reason"),
         "hybrid_frame_n_trace": rollout.get("hybrid_frame_n_trace", []),
+        "teacher_family_variant": rollout.get("teacher_family_variant"),
+        "handle_tangent_offset_m": rollout.get("handle_tangent_offset_m"),
+        "handle_vertical_offset_m": rollout.get("handle_vertical_offset_m"),
+        "approach_speed_scale": rollout.get("approach_speed_scale"),
+        "close_distance_offset_m": rollout.get("close_distance_offset_m"),
+        "pregrasp_hold_steps": rollout.get("pregrasp_hold_steps"),
+        "variant_applied_phase": rollout.get("variant_applied_phase"),
+        "teacher_family_variant_payload": rollout.get(
+            "teacher_family_variant_payload", {}
+        ),
+        "teacher_family_variant_phase_scope": rollout.get(
+            "teacher_family_variant_phase_scope"
+        ),
+        "teacher_family_variant_deactivated_on_attach": rollout.get(
+            "teacher_family_variant_deactivated_on_attach", False
+        ),
+        "effective_support_signature_version": rollout.get(
+            "effective_support_signature_version"
+        ),
+        "effective_support_signature_v1": rollout.get("effective_support_signature_v1"),
+        "support_family_repair_mode": rollout.get("support_family_repair_mode"),
     }
     write_text_atomic(
         path.with_suffix(".json"),

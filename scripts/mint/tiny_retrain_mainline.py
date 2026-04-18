@@ -47,6 +47,42 @@ TRUTH_UTILITY_VERSION = "trace_window_v2"
 TEACHER_FINGERPRINT_VERSION = "v8_3_fingerprint_v1"
 LEARNING_SUPPORT_TRUTH_VERSION = "learning_support_window_v1"
 LEARNING_SUPPORT_FINGERPRINT_VERSION = "v10_learning_support_fingerprint_v1"
+EFFECTIVE_SUPPORT_SIGNATURE_VERSION = "effective_support_signature_v1"
+TEACHER_FAMILY_GRID_VERSION = "v11_support_family_grid_v1"
+TEACHER_FAMILY_GRID_V11 = [
+    {
+        "teacher_family_variant": "base",
+        "handle_tangent_offset_m": 0.0,
+        "handle_vertical_offset_m": 0.0,
+        "approach_speed_scale": 1.0,
+        "close_distance_offset_m": 0.0,
+        "pregrasp_hold_steps": 0,
+    },
+    {
+        "teacher_family_variant": "early_close_slow",
+        "handle_tangent_offset_m": 0.0,
+        "handle_vertical_offset_m": 0.0,
+        "approach_speed_scale": 0.75,
+        "close_distance_offset_m": 0.015,
+        "pregrasp_hold_steps": 2,
+    },
+    {
+        "teacher_family_variant": "tangent_plus",
+        "handle_tangent_offset_m": 0.012,
+        "handle_vertical_offset_m": 0.0,
+        "approach_speed_scale": 0.9,
+        "close_distance_offset_m": 0.005,
+        "pregrasp_hold_steps": 1,
+    },
+    {
+        "teacher_family_variant": "vertical_plus",
+        "handle_tangent_offset_m": 0.0,
+        "handle_vertical_offset_m": 0.010,
+        "approach_speed_scale": 0.9,
+        "close_distance_offset_m": 0.005,
+        "pregrasp_hold_steps": 1,
+    },
+]
 TRUTH_CONTRACT_PATH = PROJECT_ROOT / "docs" / "contracts" / "truth_contract_v84.json"
 STATE_MODE_MAP = {
     "S0": "m0_proxy",
@@ -158,6 +194,15 @@ def _plan_dataset_root(expected: dict[str, Any]) -> Path:
         path = Path(str(raw))
         return path if path.is_absolute() else path
     return DATASET_DIR
+
+
+def _teacher_family_variant_payload(
+    expected: dict[str, Any], episode_index: int
+) -> dict[str, Any]:
+    mode = str(expected.get("support_family_repair_mode") or "").strip().upper()
+    if mode != "G2B":
+        return dict(TEACHER_FAMILY_GRID_V11[0])
+    return dict(TEACHER_FAMILY_GRID_V11[int(episode_index) % len(TEACHER_FAMILY_GRID_V11)])
 
 
 def expected_training_targets() -> dict[str, Any]:
@@ -379,6 +424,54 @@ def _bucket_floor_float(value: Any, bucket: float) -> float | str:
     except (TypeError, ValueError):
         return "none"
     return round(float(np.floor(numeric / bucket) * bucket), 4)
+
+
+def _hash_json_payload(payload: Any) -> str:
+    encoded = json.dumps(payload, sort_keys=True, separators=(",", ":"))
+    return hashlib.sha256(encoded.encode("utf-8")).hexdigest()[:16]
+
+
+def _sample_signature_points(array: np.ndarray, sample_count: int = 5) -> list[list[float]]:
+    if array.ndim != 2 or array.shape[0] <= 0:
+        return []
+    if array.shape[0] == 1:
+        sampled = array[[0]]
+    else:
+        indices = np.linspace(0, array.shape[0] - 1, num=sample_count, dtype=int)
+        sampled = array[indices]
+    base = sampled[0].copy()
+    rel = sampled - base
+    return np.round(rel.astype(np.float32), 2).tolist()
+
+
+def _stats_signature(values: np.ndarray) -> list[float] | str:
+    if values.size == 0:
+        return "missing"
+    return np.round(
+        np.asarray([np.min(values), np.mean(values), values[-1]], dtype=np.float32), 2
+    ).tolist()
+
+
+def _actions_signature(values: np.ndarray) -> dict[str, list[float]] | str:
+    if values.size == 0:
+        return "missing"
+    return {
+        "mean": np.round(np.mean(values, axis=0).astype(np.float32), 2).tolist(),
+        "std": np.round(np.std(values, axis=0).astype(np.float32), 2).tolist(),
+    }
+
+
+def _close_onset_step(rollout: dict[str, Any], start: int, end: int) -> int | None:
+    actions = np.asarray(rollout.get("actions", []), dtype=np.float32)
+    if actions.ndim != 2 or actions.shape[0] <= start or actions.shape[1] < 7:
+        return None
+    stop = min(int(end), int(actions.shape[0]))
+    if stop <= start:
+        return None
+    close_mask = actions[start:stop, 6] < 0.0
+    if not bool(np.any(close_mask)):
+        return None
+    return int(start + np.flatnonzero(close_mask)[0])
 
 
 def _bridge_interval(
@@ -838,6 +931,101 @@ def _learning_support_fingerprint(rollout: dict[str, Any]) -> str:
     return json.dumps(payload, sort_keys=True)
 
 
+def _effective_support_signature_payload(rollout: dict[str, Any]) -> dict[str, Any]:
+    support = dict(rollout.get("learning_support_truth") or {})
+    strict = dict(rollout.get("strict_metrics") or {})
+    phase_labels = [str(x) for x in rollout.get("phase_labels", [])]
+    support_start = support.get("learning_support_window_start")
+    bridge_start = support.get("bridge_start")
+    bridge_end = support.get("bridge_end")
+    if support_start is None or bridge_start is None or bridge_end is None:
+        return {
+            "seed": int(rollout.get("seed", -1) or -1),
+            "first_attach_eligible_step_bucket": "none",
+            "first_attach_step_bucket": "none",
+            "close_onset_step_bucket": "none",
+            "prebridge_len_bucket": "none",
+            "phase_prebridge_hash": "missing",
+            "eef_path_signature_hash": "missing",
+            "action_signature_hash": "missing",
+            "distance_curve_signature_hash": "missing",
+            "orientation_curve_signature_hash": "missing",
+        }
+    support_start = int(support_start)
+    bridge_start = int(bridge_start)
+    bridge_end = int(bridge_end)
+    if bridge_start < support_start:
+        bridge_start = support_start
+    prebridge_end = max(support_start, bridge_start)
+    phase_prebridge = phase_labels[support_start:prebridge_end]
+    states = np.asarray(rollout.get("states", []), dtype=np.float32)
+    if states.ndim == 2 and states.shape[1] >= 3:
+        eef_prebridge = states[support_start:prebridge_end, :3]
+    else:
+        eef_prebridge = np.asarray([], dtype=np.float32).reshape(0, 3)
+    actions = np.asarray(rollout.get("actions", []), dtype=np.float32)
+    if actions.ndim == 2:
+        actions_prebridge = actions[support_start:prebridge_end]
+    else:
+        actions_prebridge = np.asarray([], dtype=np.float32).reshape(0, 7)
+    handle_distance = np.asarray(
+        rollout.get("handle_distance_trace", []), dtype=np.float32
+    ).reshape(-1)
+    distance_prebridge = handle_distance[support_start:prebridge_end]
+    orientation_alignment = np.asarray(
+        rollout.get("orientation_alignment_trace", []), dtype=np.float32
+    ).reshape(-1)
+    orientation_error = np.asarray(
+        rollout.get("orientation_error_trace", []), dtype=np.float32
+    ).reshape(-1)
+    if orientation_alignment.size >= prebridge_end and prebridge_end > support_start:
+        orientation_values = orientation_alignment[support_start:prebridge_end]
+    elif orientation_error.size >= prebridge_end and prebridge_end > support_start:
+        orientation_values = orientation_error[support_start:prebridge_end]
+    else:
+        orientation_values = np.asarray([], dtype=np.float32)
+    close_onset_step = _close_onset_step(rollout, support_start, bridge_end)
+    payload = {
+        "seed": int(rollout.get("seed", -1) or -1),
+        "first_attach_eligible_step_bucket": _bucket_floor_int(
+            support.get("first_attach_eligible_step"), 8
+        ),
+        "first_attach_step_bucket": _bucket_floor_int(
+            strict.get("first_attach_step"), 8
+        ),
+        "close_onset_step_bucket": _bucket_floor_int(close_onset_step, 8),
+        "prebridge_len_bucket": _bucket_floor_int(
+            support.get("learning_support_prebridge_frame_count", 0), 8
+        ),
+        "phase_prebridge_hash": _hash_json_payload(phase_prebridge)
+        if phase_prebridge
+        else "missing",
+        "eef_path_signature_hash": _hash_json_payload(
+            _sample_signature_points(eef_prebridge)
+        )
+        if eef_prebridge.size
+        else "missing",
+        "action_signature_hash": _hash_json_payload(_actions_signature(actions_prebridge))
+        if actions_prebridge.size
+        else "missing",
+        "distance_curve_signature_hash": _hash_json_payload(
+            _stats_signature(distance_prebridge)
+        )
+        if distance_prebridge.size
+        else "missing",
+        "orientation_curve_signature_hash": _hash_json_payload(
+            _stats_signature(orientation_values)
+        )
+        if orientation_values.size
+        else "missing",
+    }
+    return payload
+
+
+def _effective_support_signature_v1(rollout: dict[str, Any]) -> str:
+    return json.dumps(_effective_support_signature_payload(rollout), sort_keys=True)
+
+
 def _augment_rollout_metadata(
     controller: RootCauseController,
     rollout: dict[str, Any],
@@ -1024,11 +1212,31 @@ def _augment_rollout_metadata(
     rollout["learning_support_anchor_step"] = learning_support_summary.get(
         "learning_support_anchor_step"
     )
+    support_family_repair_mode = str(
+        expected.get("support_family_repair_mode") or "G2B"
+    )
     rollout["teacher_episode_class"] = _teacher_episode_class(rollout)
     rollout["learning_support_teacher_class"] = _learning_support_teacher_class(rollout)
     rollout["teacher_fingerprint"] = _teacher_fingerprint(rollout)
-    rollout["learning_support_fingerprint_version"] = LEARNING_SUPPORT_FINGERPRINT_VERSION
-    rollout["learning_support_fingerprint"] = _learning_support_fingerprint(rollout)
+    rollout["support_family_repair_mode"] = support_family_repair_mode
+    rollout["effective_support_signature_version"] = EFFECTIVE_SUPPORT_SIGNATURE_VERSION
+    rollout["effective_support_signature_v1"] = _effective_support_signature_v1(
+        rollout
+    )
+    if support_family_repair_mode == "G2A":
+        rollout["learning_support_fingerprint_version"] = (
+            EFFECTIVE_SUPPORT_SIGNATURE_VERSION
+        )
+        rollout["learning_support_fingerprint"] = rollout[
+            "effective_support_signature_v1"
+        ]
+    else:
+        rollout["learning_support_fingerprint_version"] = (
+            LEARNING_SUPPORT_FINGERPRINT_VERSION
+        )
+        rollout["learning_support_fingerprint"] = _learning_support_fingerprint(
+            rollout
+        )
 
     if probe:
         probe["selector_mode"] = controller.selector_mode
@@ -1099,7 +1307,7 @@ def _materialization_summary(
             and rec.get("teacher_fingerprint")
         }
     )
-    learning_support_fingerprints = sorted(
+    recorded_learning_support_fingerprints = sorted(
         {
             rec.get("learning_support_fingerprint")
             for rec in records
@@ -1108,10 +1316,20 @@ def _materialization_summary(
             and rec.get("learning_support_fingerprint")
         }
     )
+    effective_support_fingerprints = sorted(
+        {
+            rec.get("effective_support_signature_v1")
+            for rec in records
+            if rec.get("learning_support_teacher_class")
+            in {"strict_teacher", "near_strict_teacher", "learning_support_teacher"}
+            and rec.get("effective_support_signature_v1")
+        }
+    )
     accepted_family_count_by_seed: dict[str, int] = {}
     strict_family_count_by_seed: dict[str, int] = {}
     near_strict_family_count_by_seed: dict[str, int] = {}
     learning_support_family_count_by_seed: dict[str, int] = {}
+    recorded_learning_support_family_count_by_seed: dict[str, int] = {}
     learning_support_seed_coverage: list[int] = []
     attach_eligible_seed_coverage: list[int] = []
     prebridge_counts: list[int] = []
@@ -1135,18 +1353,28 @@ def _materialization_summary(
             if rec.get("teacher_episode_class") == "near_strict_teacher"
             and rec.get("teacher_fingerprint")
         }
-        support_seed = {
+        recorded_support_seed = {
             rec.get("learning_support_fingerprint")
             for rec in seed_records
             if rec.get("learning_support_teacher_class")
             in {"strict_teacher", "near_strict_teacher", "learning_support_teacher"}
             and rec.get("learning_support_fingerprint")
         }
+        effective_support_seed = {
+            rec.get("effective_support_signature_v1")
+            for rec in seed_records
+            if rec.get("learning_support_teacher_class")
+            in {"strict_teacher", "near_strict_teacher", "learning_support_teacher"}
+            and rec.get("effective_support_signature_v1")
+        }
         accepted_family_count_by_seed[str(seed)] = len(accepted_seed)
         strict_family_count_by_seed[str(seed)] = len(strict_seed)
         near_strict_family_count_by_seed[str(seed)] = len(near_seed)
-        learning_support_family_count_by_seed[str(seed)] = len(support_seed)
-        if support_seed:
+        recorded_learning_support_family_count_by_seed[str(seed)] = len(
+            recorded_support_seed
+        )
+        learning_support_family_count_by_seed[str(seed)] = len(effective_support_seed)
+        if effective_support_seed:
             learning_support_seed_coverage.append(int(seed))
         if any(
             rec.get("first_attach_eligible_step") is not None
@@ -1200,7 +1428,13 @@ def _materialization_summary(
         "teacher_fingerprint_version": expected.get(
             "teacher_fingerprint_version", TEACHER_FINGERPRINT_VERSION
         ),
-        "learning_support_fingerprint_version": LEARNING_SUPPORT_FINGERPRINT_VERSION,
+        "learning_support_fingerprint_version": str(
+            expected.get("learning_support_fingerprint_version")
+            or LEARNING_SUPPORT_FINGERPRINT_VERSION
+        ),
+        "effective_support_signature_version": EFFECTIVE_SUPPORT_SIGNATURE_VERSION,
+        "support_family_repair_mode": expected.get("support_family_repair_mode"),
+        "teacher_family_grid_version": expected.get("teacher_family_grid_version"),
         "dataset_selection_mode": dataset_selection_mode,
         "attempted_rollouts": attempted_rollouts,
         "expected_attempted_rollouts": len(train_seeds) * episodes_per_seed,
@@ -1214,12 +1448,18 @@ def _materialization_summary(
         "accepted_unique_teacher_family_count": int(len(accepted_fingerprints)),
         "strict_unique_teacher_family_count": int(len(strict_fingerprints)),
         "near_strict_unique_teacher_family_count": int(len(near_strict_fingerprints)),
+        "recorded_learning_support_unique_teacher_family_count": int(
+            len(recorded_learning_support_fingerprints)
+        ),
         "learning_support_unique_teacher_family_count": int(
-            len(learning_support_fingerprints)
+            len(effective_support_fingerprints)
         ),
         "accepted_family_count_by_seed": accepted_family_count_by_seed,
         "strict_family_count_by_seed": strict_family_count_by_seed,
         "near_strict_family_count_by_seed": near_strict_family_count_by_seed,
+        "recorded_learning_support_family_count_by_seed": (
+            recorded_learning_support_family_count_by_seed
+        ),
         "learning_support_family_count_by_seed": learning_support_family_count_by_seed,
         "learning_support_seed_coverage": sorted(learning_support_seed_coverage),
         "attach_eligible_seed_coverage": sorted(attach_eligible_seed_coverage),
@@ -1314,7 +1554,17 @@ def materialize_canonical_train_rollouts(
         "teacher_fingerprint_version": expected.get(
             "teacher_fingerprint_version", TEACHER_FINGERPRINT_VERSION
         ),
-        "learning_support_fingerprint_version": LEARNING_SUPPORT_FINGERPRINT_VERSION,
+        "learning_support_fingerprint_version": str(
+            expected.get("learning_support_fingerprint_version")
+            or LEARNING_SUPPORT_FINGERPRINT_VERSION
+        ),
+        "effective_support_signature_version": EFFECTIVE_SUPPORT_SIGNATURE_VERSION,
+        "support_family_repair_mode": str(
+            expected.get("support_family_repair_mode") or "G2B"
+        ),
+        "teacher_family_grid_version": str(
+            expected.get("teacher_family_grid_version") or TEACHER_FAMILY_GRID_VERSION
+        ),
     }
     report: dict[str, Any] = {
         "gate": "g6_canonical_rollout_materialization",
@@ -1386,6 +1636,10 @@ def materialize_canonical_train_rollouts(
     for seed in train_seeds:
         for episode_index in range(episodes_per_seed):
             attempted_rollouts += 1
+            episode_interventions = dict(interventions)
+            episode_interventions.update(
+                _teacher_family_variant_payload(expected, int(episode_index))
+            )
             rollout = build_robot_rollout(
                 seed=int(seed),
                 grasp_pose_world=np.eye(4, dtype=np.float32),
@@ -1395,7 +1649,7 @@ def materialize_canonical_train_rollouts(
                 contract=contract,
                 rotation_source=rotation_source,
                 claim_policy=spec.claim_policy,
-                interventions=interventions,
+                interventions=episode_interventions,
                 teacher_controller_mode=teacher_controller_mode,
                 pull_open_fraction=teacher_pull_open_fraction,
             )
@@ -1469,6 +1723,9 @@ def materialize_canonical_train_rollouts(
                 "learning_support_fingerprint": str(
                     rollout.get("learning_support_fingerprint", "")
                 ),
+                "effective_support_signature_v1": str(
+                    rollout.get("effective_support_signature_v1", "")
+                ),
                 "measurement_truthful_for_learning_support": bool(
                     rollout.get("measurement_truthful_for_learning_support", False)
                 ),
@@ -1485,6 +1742,9 @@ def materialize_canonical_train_rollouts(
                     rollout.get("learning_support_contains_bridge", False)
                 ),
                 "first_attach_eligible_step": rollout.get("first_attach_eligible_step"),
+                "teacher_family_variant": str(
+                    rollout.get("teacher_family_variant") or ""
+                ),
             }
             records.append(record)
             if str(

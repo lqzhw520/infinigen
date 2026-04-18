@@ -1,0 +1,63 @@
+{
+  "gate": "g6_trainability_support_contract",
+  "readiness_scope": "trainability_support",
+  "run_instance_id": "v11_20260418T101620Z_dfa0ef0f_dc2d4581",
+  "plan_version": "tiny_retrain_confirmation_v11",
+  "source_base_commit": "dfa0ef0f0acd9443dc010d019d25ad7eb78b40d6",
+  "source_canonical_train_cell": "V1cT2S0",
+  "source_best_train_state_mode": "S0",
+  "active_train_state_mode": "S0",
+  "dataset_selection_mode": "diagnostic_learning_support",
+  "learning_support_seed_coverage": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "attach_eligible_seed_coverage": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "learning_support_unique_teacher_family_count": 31,
+  "learning_support_family_count_by_seed": {
+    "1": 4,
+    "2": 4,
+    "3": 4,
+    "4": 3,
+    "5": 4,
+    "6": 4,
+    "7": 4,
+    "8": 4
+  },
+  "learning_support_teacher_class_counts": {
+    "strict_teacher": 72,
+    "learning_support_teacher": 21
+  },
+  "learning_support_prebridge_frame_p50": 22,
+  "learning_support_prebridge_frame_p90": 24,
+  "learning_support_window_len_p50": 67,
+  "learning_support_window_len_p90": 93,
+  "truth_contract_path": "/mnt/afs2/zhuhaowu/infinigen/docs/contracts/truth_contract_v84.json",
+  "truth_contract_hash": "17ae4d1554899b843c80b064a2c5f3d6331b04dd169819ca5f2b0bfba729a6f6",
+  "clauses": {
+    "learning_support_seed_coverage_all_train_seeds": true,
+    "seed2_learning_support_families_ge_2": true,
+    "seed4_learning_support_families_ge_2": true,
+    "learning_support_unique_teacher_families_ge_12": true,
+    "learning_support_prebridge_frame_p50_ge_16": true,
+    "attach_eligible_seed_coverage_ge_6": true
+  },
+  "failed_clauses": [],
+  "rca_classes": [],
+  "passed": true
+}

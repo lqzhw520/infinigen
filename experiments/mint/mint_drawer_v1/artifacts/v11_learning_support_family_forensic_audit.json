@@ -1,0 +1,37 @@
+{
+  "gate": "G1_family_collapse_forensic_audit",
+  "audit_version": "v11_learning_support_family_audit_v1",
+  "rollout_dir": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g6_learning_support_train_rollouts",
+  "analyzed_rollout_count": 96,
+  "expected_rollout_count": 96,
+  "parse_errors": [],
+  "recorded_learning_support_unique_family_count": 8,
+  "effective_support_unique_family_count": 8,
+  "recorded_family_count_by_seed": {
+    "1": 1,
+    "2": 1,
+    "3": 1,
+    "4": 1,
+    "5": 1,
+    "6": 1,
+    "7": 1,
+    "8": 1
+  },
+  "effective_family_count_by_seed": {
+    "1": 1,
+    "2": 1,
+    "3": 1,
+    "4": 1,
+    "5": 1,
+    "6": 1,
+    "7": 1,
+    "8": 1
+  },
+  "seed2_effective_support_families": 1,
+  "seed4_effective_support_families": 1,
+  "fingerprint_underexpression_flag": false,
+  "true_generator_collapse_flag": true,
+  "trace_missingness_summary": {},
+  "recommended_next_action": "run_bounded_teacher_family_grid",
+  "adjudication": "true_generator_collapse"
+}

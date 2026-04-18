@@ -133,6 +133,10 @@ def _build_outputs(plan: dict[str, Any], checkpoint_path: str, checkpoint_step: 
         ft.get("ever_attached_rate", ft.get("grasp_success_rate", 0.0))
         - pt.get("ever_attached_rate", pt.get("grasp_success_rate", 0.0))
     )
+    ever_attach_eligible_fraction_gain = float(
+        ft.get("ever_attach_eligible_fraction", 0.0)
+        - pt.get("ever_attach_eligible_fraction", 0.0)
+    )
     stable_attach_gain = float(ft.get("ever_stable_attach_fraction", 0.0) - pt.get("ever_stable_attach_fraction", 0.0))
     phase_locked_gain = float(ft.get("phase_locked_rate_mean", 0.0) - pt.get("phase_locked_rate_mean", 0.0))
     max_drawer_fraction_gain = float(
@@ -146,12 +150,24 @@ def _build_outputs(plan: dict[str, Any], checkpoint_path: str, checkpoint_step: 
         and float(ft["success_rate"]) >= 0.20
     )
     attach_bridge_pass = bool(
-        ever_attached_rate_gain >= 0.25
+        ever_attach_eligible_fraction_gain >= 0.10
+        and ever_attached_rate_gain >= 0.25
         and stable_attach_gain >= 0.20
         and phase_locked_gain >= 0.10
         and max_drawer_fraction_gain >= 0.10
         and attached_seed_count >= 4
     )
+    attach_first_rank_vector = {
+        "attach_bridge_pass": 1 if attach_bridge_pass else 0,
+        "ever_attach_eligible_fraction": float(
+            ft.get("ever_attach_eligible_fraction", 0.0)
+        ),
+        "ever_attached_rate_gain": ever_attached_rate_gain,
+        "stable_attach_gain": stable_attach_gain,
+        "phase_locked_gain": phase_locked_gain,
+        "strict_success_rate_gain": float(ft.get("success_rate", 0.0) - pt.get("success_rate", 0.0)),
+        "checkpoint_step": int(checkpoint_step or 0),
+    }
     summary_payload = {
         **summary,
         "training_mode": "tiny_retrain_confirmation",
@@ -178,6 +194,7 @@ def _build_outputs(plan: dict[str, Any], checkpoint_path: str, checkpoint_step: 
         "min_success_gain": min_success_gain,
         "min_finetuned_successes": min_finetuned_successes,
         "success_gain": success_gain,
+        "ever_attach_eligible_fraction_gain": ever_attach_eligible_fraction_gain,
         "ever_attached_rate_gain": ever_attached_rate_gain,
         "stable_attach_gain": stable_attach_gain,
         "phase_locked_gain": phase_locked_gain,
@@ -186,6 +203,7 @@ def _build_outputs(plan: dict[str, Any], checkpoint_path: str, checkpoint_step: 
         "trend_passed": trend_passed,
         "train_probe_claim_pass": trend_passed,
         "attach_bridge_pass": attach_bridge_pass,
+        "attach_first_rank_vector": attach_first_rank_vector,
         "pretrained_dominant_failure_mode": pt.get("dominant_failure_mode"),
         "finetuned_dominant_failure_mode": ft.get("dominant_failure_mode"),
         "bridge_delta": _bridge_delta(ft, pt),
@@ -216,6 +234,7 @@ def _build_outputs(plan: dict[str, Any], checkpoint_path: str, checkpoint_step: 
         "min_success_gain": min_success_gain,
         "min_finetuned_successes": min_finetuned_successes,
         "success_gain": success_gain,
+        "ever_attach_eligible_fraction_gain": ever_attach_eligible_fraction_gain,
         "ever_attached_rate_gain": ever_attached_rate_gain,
         "stable_attach_gain": stable_attach_gain,
         "phase_locked_gain": phase_locked_gain,
@@ -224,6 +243,7 @@ def _build_outputs(plan: dict[str, Any], checkpoint_path: str, checkpoint_step: 
         "trend_passed": trend_passed,
         "train_probe_claim_pass": trend_passed,
         "attach_bridge_pass": attach_bridge_pass,
+        "attach_first_rank_vector": attach_first_rank_vector,
         "pretrained_dominant_failure_mode": pt.get("dominant_failure_mode"),
         "finetuned_dominant_failure_mode": ft.get("dominant_failure_mode"),
         "bridge_delta": _bridge_delta(ft, pt),

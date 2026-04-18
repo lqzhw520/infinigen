@@ -30,14 +30,23 @@ RCA5_ARTIFACT = ARTIFACT_DIR / "p2rca5_frozen_matrix_screen.json"
 RCA7_ARTIFACT = ARTIFACT_DIR / "p2rca7_tiny_retrain_if_eligible.json"
 DEFAULT_ROLLOUT_SOURCE_DIR = ARTIFACT_DIR / "g6_canonical_train_rollouts"
 MATERIALIZATION_ARTIFACT = ARTIFACT_DIR / "g6_canonical_rollout_materialization.json"
+LEARNING_SUPPORT_ROLLOUT_SOURCE_DIR = ARTIFACT_DIR / "g6_learning_support_train_rollouts"
+LEARNING_SUPPORT_MATERIALIZATION_ARTIFACT = (
+    ARTIFACT_DIR / "g6_learning_support_rollout_materialization.json"
+)
 MIN_TRAIN_EPISODES = 48
 DEFAULT_EPISODES_PER_SEED = 12
 MIN_SUCCESSFUL_SEEDS = 6
 TRUTHFUL_WINDOW_MIN_FRAMES = 16
+LEARNING_SUPPORT_WINDOW_MIN_FRAMES = 24
+LEARNING_SUPPORT_PREBRIDGE_FRAMES = 24
+LEARNING_SUPPORT_MIN_PREBRIDGE_FRAMES = 8
 TERMINAL_COMMIT = "5aaf117b66902219ac997082763fb4e2ea8891b3"
 STRICT_UTILITY_VERSION = STRICT_SUCCESS_VERSION
 TRUTH_UTILITY_VERSION = "trace_window_v2"
 TEACHER_FINGERPRINT_VERSION = "v8_3_fingerprint_v1"
+LEARNING_SUPPORT_TRUTH_VERSION = "learning_support_window_v1"
+LEARNING_SUPPORT_FINGERPRINT_VERSION = "v10_learning_support_fingerprint_v1"
 TRUTH_CONTRACT_PATH = PROJECT_ROOT / "docs" / "contracts" / "truth_contract_v84.json"
 STATE_MODE_MAP = {
     "S0": "m0_proxy",
@@ -100,11 +109,8 @@ def _truth_contract_payload() -> dict[str, Any]:
 
 
 def _truth_contract_hash(payload: dict[str, Any] | None = None) -> str:
-    payload = payload or _truth_contract_payload()
-    canonical = json.dumps(payload, sort_keys=True, separators=(",", ":")).encode(
-        "utf-8"
-    )
-    return hashlib.sha256(canonical).hexdigest()
+    _ = payload  # compatibility with older call sites that passed a payload explicitly
+    return hashlib.sha256(TRUTH_CONTRACT_PATH.read_bytes()).hexdigest()
 
 
 def _seed_list(payload: dict[str, Any], primary: str, fallback: list[int]) -> list[int]:
@@ -349,6 +355,32 @@ def _truth_gap_metrics(mask: np.ndarray, start: int, end: int) -> tuple[int, int
     return int(longest_gap), int(tail_truthful), int(round(truthful_ratio * 1000))
 
 
+def _first_true_index(mask: np.ndarray) -> int | None:
+    if mask.size == 0 or not bool(np.any(mask)):
+        return None
+    return int(np.flatnonzero(mask)[0])
+
+
+def _bucket_floor_int(value: Any, bucket: int) -> int | str:
+    if value is None:
+        return "none"
+    try:
+        numeric = int(value)
+    except (TypeError, ValueError):
+        return "none"
+    return int((numeric // bucket) * bucket)
+
+
+def _bucket_floor_float(value: Any, bucket: float) -> float | str:
+    if value is None:
+        return "none"
+    try:
+        numeric = float(value)
+    except (TypeError, ValueError):
+        return "none"
+    return round(float(np.floor(numeric / bucket) * bucket), 4)
+
+
 def _bridge_interval(
     rollout: dict[str, Any], n_frames: int
 ) -> tuple[int | None, int | None, np.ndarray]:
@@ -510,6 +542,149 @@ def _canonical_training_truth_summary(rollout: dict[str, Any]) -> dict[str, Any]
     return summary
 
 
+def _learning_support_truth_summary(rollout: dict[str, Any]) -> dict[str, Any]:
+    trace = list(rollout.get("handle_probe_metadata_trace") or [])
+    n_frames = len(trace)
+    truthful_mask = np.asarray(
+        [bool((item or {}).get("measurement_truthful", False)) for item in trace],
+        dtype=bool,
+    )
+    anchor_trace = np.asarray(
+        rollout.get("runtime_handle_anchor_valid_trace", []), dtype=bool
+    ).reshape(-1)
+    attach_eligible_trace = np.asarray(
+        rollout.get("attach_eligible_trace", []), dtype=bool
+    ).reshape(-1)
+    bridge_start, bridge_end, bridge_mask = _bridge_interval(rollout, n_frames)
+    strict = dict(rollout.get("strict_metrics") or {})
+    attach_step_raw = rollout.get("attach_step")
+    attach_step = (
+        int(attach_step_raw)
+        if attach_step_raw is not None
+        else (
+            int(strict.get("first_attach_step"))
+            if strict.get("first_attach_step") is not None
+            else None
+        )
+    )
+    first_attach_eligible_step = (
+        _first_true_index(attach_eligible_trace[:n_frames]) if attach_eligible_trace.size else None
+    )
+    support_anchor_candidates = [
+        int(value)
+        for value in (bridge_start, attach_step, first_attach_eligible_step)
+        if value is not None
+    ]
+    support_anchor_step = (
+        min(support_anchor_candidates) if support_anchor_candidates else None
+    )
+    runtime_handle_anchor_valid = bool(rollout.get("runtime_handle_anchor_valid", False))
+    summary: dict[str, Any] = {
+        "learning_support_truth_adjudication": LEARNING_SUPPORT_TRUTH_VERSION,
+        "bridge_start": bridge_start,
+        "bridge_end": bridge_end,
+        "learning_support_window_start": None,
+        "learning_support_window_end": None,
+        "learning_support_window_len": 0,
+        "learning_support_contains_prebridge": False,
+        "learning_support_contains_bridge": False,
+        "learning_support_prebridge_frame_count": 0,
+        "learning_support_prebridge_truthful_ratio": 0.0,
+        "learning_support_whole_window_truthful_ratio": 0.0,
+        "learning_support_bridge_truthful_ratio": 0.0,
+        "learning_support_bridge_longest_interior_gap": 0,
+        "learning_support_bridge_tail_truthful_count_last6": 0,
+        "learning_support_interval_mask_empty": False,
+        "learning_support_interval_anchor_invalid": False,
+        "first_attach_eligible_step": first_attach_eligible_step,
+        "learning_support_anchor_step": support_anchor_step,
+        "measurement_truthful_for_learning_support": False,
+    }
+    if (
+        bridge_start is None
+        or bridge_end is None
+        or bridge_end <= bridge_start
+        or support_anchor_step is None
+    ):
+        return summary
+    support_start = max(0, int(support_anchor_step) - LEARNING_SUPPORT_PREBRIDGE_FRAMES)
+    support_end = int(bridge_end)
+    support_window_len = int(max(0, support_end - support_start))
+    prebridge_frame_count = int(max(0, bridge_start - support_start))
+    support_interval_trace = trace[support_start:support_end]
+    bridge_interval_trace = trace[bridge_start:bridge_end]
+    whole_window_truthful_ratio = (
+        float(np.mean(truthful_mask[support_start:support_end]))
+        if support_window_len > 0
+        else 0.0
+    )
+    prebridge_truthful_ratio = (
+        float(np.mean(truthful_mask[support_start:bridge_start]))
+        if prebridge_frame_count > 0
+        else 0.0
+    )
+    bridge_window_truthful_ratio = (
+        float(np.mean(truthful_mask[bridge_start:bridge_end]))
+        if bridge_end > bridge_start
+        else 0.0
+    )
+    bridge_longest_gap, bridge_tail_truthful, _ = _truth_gap_metrics(
+        truthful_mask, bridge_start, bridge_end
+    )
+    interval_mask_empty = any(
+        _mask_empty_probe(item or {}) for item in bridge_interval_trace
+    )
+    interval_anchor_invalid = (
+        bool(np.any(~anchor_trace[bridge_start:bridge_end]))
+        if anchor_trace.size
+        else any(
+            not bool(
+                (item or {}).get(
+                    "runtime_handle_anchor_valid", runtime_handle_anchor_valid
+                )
+            )
+            for item in bridge_interval_trace
+        )
+    )
+    contains_bridge = bool(np.any(bridge_mask[bridge_start:bridge_end]))
+    contains_prebridge = bool(prebridge_frame_count > 0)
+    measurement_truthful_for_learning_support = bool(
+        support_window_len >= LEARNING_SUPPORT_WINDOW_MIN_FRAMES
+        and prebridge_frame_count >= LEARNING_SUPPORT_MIN_PREBRIDGE_FRAMES
+        and contains_bridge
+        and contains_prebridge
+        and whole_window_truthful_ratio >= 0.60
+        and bridge_window_truthful_ratio >= 0.80
+        and bridge_longest_gap <= 2
+        and bridge_tail_truthful >= 5
+        and not interval_mask_empty
+        and not interval_anchor_invalid
+    )
+    summary.update(
+        {
+            "learning_support_window_start": support_start,
+            "learning_support_window_end": support_end,
+            "learning_support_window_len": support_window_len,
+            "learning_support_contains_prebridge": contains_prebridge,
+            "learning_support_contains_bridge": contains_bridge,
+            "learning_support_prebridge_frame_count": prebridge_frame_count,
+            "learning_support_prebridge_truthful_ratio": prebridge_truthful_ratio,
+            "learning_support_whole_window_truthful_ratio": whole_window_truthful_ratio,
+            "learning_support_bridge_truthful_ratio": bridge_window_truthful_ratio,
+            "learning_support_bridge_longest_interior_gap": int(bridge_longest_gap),
+            "learning_support_bridge_tail_truthful_count_last6": int(
+                bridge_tail_truthful
+            ),
+            "learning_support_interval_mask_empty": bool(interval_mask_empty),
+            "learning_support_interval_anchor_invalid": bool(interval_anchor_invalid),
+            "measurement_truthful_for_learning_support": (
+                measurement_truthful_for_learning_support
+            ),
+        }
+    )
+    return summary
+
+
 def _slice_rollout_to_training_window(
     rollout: dict[str, Any], start: int, end: int
 ) -> dict[str, Any]:
@@ -549,6 +724,25 @@ def _teacher_episode_class(rollout: dict[str, Any]) -> str:
         and float(strict.get("max_drawer_fraction", 0.0) or 0.0) >= 0.85
     )
     return "near_strict_teacher" if near_ok else "rejected_teacher"
+
+
+def _learning_support_teacher_class(rollout: dict[str, Any]) -> str:
+    canonical_class = str(rollout.get("teacher_episode_class", "rejected_teacher"))
+    if canonical_class in {"strict_teacher", "near_strict_teacher"}:
+        return canonical_class
+    support = dict(rollout.get("learning_support_truth") or {})
+    if bool(
+        support.get("measurement_truthful_for_learning_support", False)
+        and support.get("learning_support_contains_prebridge", False)
+        and support.get("learning_support_contains_bridge", False)
+        and (
+            bool(rollout.get("ever_attached", False))
+            or support.get("first_attach_eligible_step") is not None
+            or rollout.get("attach_step") is not None
+        )
+    ):
+        return "learning_support_teacher"
+    return "rejected_teacher"
 
 
 def _teacher_fingerprint(rollout: dict[str, Any]) -> str:
@@ -596,6 +790,50 @@ def _teacher_fingerprint(rollout: dict[str, Any]) -> str:
             4,
         ),
         "phase_schedule_hash": phase_hash,
+    }
+    return json.dumps(payload, sort_keys=True)
+
+
+def _learning_support_fingerprint(rollout: dict[str, Any]) -> str:
+    strict = dict(rollout.get("strict_metrics") or {})
+    support = dict(rollout.get("learning_support_truth") or {})
+    phase_labels = [str(x) for x in rollout.get("phase_labels", [])]
+    bridge_start = support.get("bridge_start")
+    approach_labels = (
+        phase_labels[: int(bridge_start)]
+        if bridge_start is not None
+        else list(phase_labels)
+    )
+    approach_phase_schedule_hash = hashlib.sha256(
+        "|".join(approach_labels).encode("utf-8")
+    ).hexdigest()[:16]
+    payload = {
+        "seed": int(rollout.get("seed", -1) or -1),
+        "first_attach_step_bucket": _bucket_floor_int(
+            strict.get("first_attach_step"), 8
+        ),
+        "first_attach_eligible_step_bucket": _bucket_floor_int(
+            support.get("first_attach_eligible_step"), 8
+        ),
+        "learning_support_prebridge_frame_count_bucket": _bucket_floor_int(
+            support.get("learning_support_prebridge_frame_count", 0), 8
+        ),
+        "learning_support_window_len_bucket": _bucket_floor_int(
+            support.get("learning_support_window_len", 0), 8
+        ),
+        "learning_support_prebridge_truthful_ratio_bucket": _bucket_floor_float(
+            support.get("learning_support_prebridge_truthful_ratio"), 0.1
+        ),
+        "attach_persistence_bucket": _bucket_floor_int(
+            strict.get("attach_persistence", 0), 4
+        ),
+        "max_drawer_fraction_bucket": _bucket_floor_float(
+            strict.get(
+                "max_drawer_fraction", rollout.get("max_drawer_fraction", 0.0)
+            ),
+            0.05,
+        ),
+        "approach_phase_schedule_hash": approach_phase_schedule_hash,
     }
     return json.dumps(payload, sort_keys=True)
 
@@ -695,12 +933,20 @@ def _augment_rollout_metadata(
     )
 
     truth_summary = _canonical_training_truth_summary(rollout)
+    learning_support_summary = _learning_support_truth_summary(rollout)
     rollout["canonical_training_truth"] = truth_summary
+    rollout["learning_support_truth"] = learning_support_summary
     rollout["measurement_truthful_for_training"] = bool(
         truth_summary.get("measurement_truthful_for_training", False)
     )
+    rollout["measurement_truthful_for_learning_support"] = bool(
+        learning_support_summary.get("measurement_truthful_for_learning_support", False)
+    )
     rollout["teacher_truth_adjudication"] = truth_summary.get(
         "teacher_truth_adjudication"
+    )
+    rollout["learning_support_truth_adjudication"] = learning_support_summary.get(
+        "learning_support_truth_adjudication"
     )
     rollout["truth_contract_hash"] = truth_summary.get("truth_contract_hash")
     rollout["truth_contract_path"] = truth_summary.get("truth_contract_path")
@@ -722,8 +968,67 @@ def _augment_rollout_metadata(
     rollout["truthful_window_tail_truthful_count_last6"] = int(
         truth_summary.get("truthful_window_tail_truthful_count_last6", 0) or 0
     )
+    rollout["first_attach_eligible_step"] = learning_support_summary.get(
+        "first_attach_eligible_step"
+    )
+    rollout["learning_support_window_start"] = learning_support_summary.get(
+        "learning_support_window_start"
+    )
+    rollout["learning_support_window_end"] = learning_support_summary.get(
+        "learning_support_window_end"
+    )
+    rollout["learning_support_window_len"] = int(
+        learning_support_summary.get("learning_support_window_len", 0) or 0
+    )
+    rollout["learning_support_prebridge_frame_count"] = int(
+        learning_support_summary.get("learning_support_prebridge_frame_count", 0) or 0
+    )
+    rollout["learning_support_prebridge_truthful_ratio"] = float(
+        learning_support_summary.get("learning_support_prebridge_truthful_ratio", 0.0)
+        or 0.0
+    )
+    rollout["learning_support_whole_window_truthful_ratio"] = float(
+        learning_support_summary.get("learning_support_whole_window_truthful_ratio", 0.0)
+        or 0.0
+    )
+    rollout["learning_support_bridge_truthful_ratio"] = float(
+        learning_support_summary.get("learning_support_bridge_truthful_ratio", 0.0)
+        or 0.0
+    )
+    rollout["learning_support_bridge_longest_interior_gap"] = int(
+        learning_support_summary.get(
+            "learning_support_bridge_longest_interior_gap", 0
+        )
+        or 0
+    )
+    rollout["learning_support_bridge_tail_truthful_count_last6"] = int(
+        learning_support_summary.get(
+            "learning_support_bridge_tail_truthful_count_last6", 0
+        )
+        or 0
+    )
+    rollout["learning_support_interval_mask_empty"] = bool(
+        learning_support_summary.get("learning_support_interval_mask_empty", False)
+    )
+    rollout["learning_support_interval_anchor_invalid"] = bool(
+        learning_support_summary.get(
+            "learning_support_interval_anchor_invalid", False
+        )
+    )
+    rollout["learning_support_contains_prebridge"] = bool(
+        learning_support_summary.get("learning_support_contains_prebridge", False)
+    )
+    rollout["learning_support_contains_bridge"] = bool(
+        learning_support_summary.get("learning_support_contains_bridge", False)
+    )
+    rollout["learning_support_anchor_step"] = learning_support_summary.get(
+        "learning_support_anchor_step"
+    )
     rollout["teacher_episode_class"] = _teacher_episode_class(rollout)
+    rollout["learning_support_teacher_class"] = _learning_support_teacher_class(rollout)
     rollout["teacher_fingerprint"] = _teacher_fingerprint(rollout)
+    rollout["learning_support_fingerprint_version"] = LEARNING_SUPPORT_FINGERPRINT_VERSION
+    rollout["learning_support_fingerprint"] = _learning_support_fingerprint(rollout)
 
     if probe:
         probe["selector_mode"] = controller.selector_mode
@@ -742,6 +1047,192 @@ def _augment_rollout_metadata(
     if trace:
         rollout["handle_probe_metadata_trace"] = trace
     return rollout
+
+
+def _percentile_int(values: list[int], percentile: float) -> int:
+    if not values:
+        return 0
+    arr = np.asarray(values, dtype=np.float32)
+    return int(round(float(np.percentile(arr, percentile))))
+
+
+def _materialization_summary(
+    *,
+    gate_name: str,
+    source_dir: Path,
+    expected: dict[str, Any],
+    train_seeds: list[int],
+    episodes_per_seed: int,
+    min_train_episodes: int,
+    teacher_controller_mode: str,
+    teacher_controller_max_steps: int,
+    teacher_pull_open_fraction: float,
+    stale_source_mismatch: bool,
+    attempted_rollouts: int,
+    saved_rollouts: int,
+    successful_seeds: set[int],
+    saved_files: list[str],
+    records: list[dict[str, Any]],
+    dataset_selection_mode: str,
+) -> dict[str, Any]:
+    accepted_fingerprints = sorted(
+        {
+            rec.get("teacher_fingerprint")
+            for rec in records
+            if rec.get("teacher_episode_class") in {"strict_teacher", "near_strict_teacher"}
+            and rec.get("teacher_fingerprint")
+        }
+    )
+    strict_fingerprints = sorted(
+        {
+            rec.get("teacher_fingerprint")
+            for rec in records
+            if rec.get("teacher_episode_class") == "strict_teacher"
+            and rec.get("teacher_fingerprint")
+        }
+    )
+    near_strict_fingerprints = sorted(
+        {
+            rec.get("teacher_fingerprint")
+            for rec in records
+            if rec.get("teacher_episode_class") == "near_strict_teacher"
+            and rec.get("teacher_fingerprint")
+        }
+    )
+    learning_support_fingerprints = sorted(
+        {
+            rec.get("learning_support_fingerprint")
+            for rec in records
+            if rec.get("learning_support_teacher_class")
+            in {"strict_teacher", "near_strict_teacher", "learning_support_teacher"}
+            and rec.get("learning_support_fingerprint")
+        }
+    )
+    accepted_family_count_by_seed: dict[str, int] = {}
+    strict_family_count_by_seed: dict[str, int] = {}
+    near_strict_family_count_by_seed: dict[str, int] = {}
+    learning_support_family_count_by_seed: dict[str, int] = {}
+    learning_support_seed_coverage: list[int] = []
+    attach_eligible_seed_coverage: list[int] = []
+    prebridge_counts: list[int] = []
+    for seed in train_seeds:
+        seed_records = [rec for rec in records if int(rec.get("seed", -1)) == int(seed)]
+        accepted_seed = {
+            rec.get("teacher_fingerprint")
+            for rec in seed_records
+            if rec.get("teacher_episode_class") in {"strict_teacher", "near_strict_teacher"}
+            and rec.get("teacher_fingerprint")
+        }
+        strict_seed = {
+            rec.get("teacher_fingerprint")
+            for rec in seed_records
+            if rec.get("teacher_episode_class") == "strict_teacher"
+            and rec.get("teacher_fingerprint")
+        }
+        near_seed = {
+            rec.get("teacher_fingerprint")
+            for rec in seed_records
+            if rec.get("teacher_episode_class") == "near_strict_teacher"
+            and rec.get("teacher_fingerprint")
+        }
+        support_seed = {
+            rec.get("learning_support_fingerprint")
+            for rec in seed_records
+            if rec.get("learning_support_teacher_class")
+            in {"strict_teacher", "near_strict_teacher", "learning_support_teacher"}
+            and rec.get("learning_support_fingerprint")
+        }
+        accepted_family_count_by_seed[str(seed)] = len(accepted_seed)
+        strict_family_count_by_seed[str(seed)] = len(strict_seed)
+        near_strict_family_count_by_seed[str(seed)] = len(near_seed)
+        learning_support_family_count_by_seed[str(seed)] = len(support_seed)
+        if support_seed:
+            learning_support_seed_coverage.append(int(seed))
+        if any(
+            rec.get("first_attach_eligible_step") is not None
+            and rec.get("learning_support_teacher_class")
+            in {"strict_teacher", "near_strict_teacher", "learning_support_teacher"}
+            for rec in seed_records
+        ):
+            attach_eligible_seed_coverage.append(int(seed))
+        prebridge_counts.extend(
+            int(rec.get("learning_support_prebridge_frame_count", 0) or 0)
+            for rec in seed_records
+            if rec.get("learning_support_teacher_class")
+            in {"strict_teacher", "near_strict_teacher", "learning_support_teacher"}
+        )
+    report: dict[str, Any] = {
+        "gate": gate_name,
+        "source_dir": str(source_dir),
+        **expected,
+        "run_instance_id": expected.get("run_instance_id"),
+        "working_head_commit": expected.get("working_head_commit"),
+        "source_canonical_train_cell": _plan_source_canonical_train_cell(expected),
+        "source_best_train_state_mode": _plan_source_best_train_state_mode(expected),
+        "active_train_state_mode": _plan_active_train_state_mode(expected),
+        "active_state_mode_name": _plan_active_state_mode_name(expected),
+        "train_seeds": train_seeds,
+        "heldout_seeds": [
+            int(seed)
+            for seed in (expected.get("heldout_seeds") or DEFAULT_HELD_OUT_SEEDS)
+        ],
+        "episodes_per_seed": episodes_per_seed,
+        "min_train_episodes": min_train_episodes,
+        "min_successful_seeds": MIN_SUCCESSFUL_SEEDS,
+        "teacher_controller_mode": teacher_controller_mode,
+        "teacher_controller_max_steps": teacher_controller_max_steps,
+        "teacher_pull_open_fraction": teacher_pull_open_fraction,
+        "teacher_truth_gate": _truth_contract_required_str(
+            _truth_contract_payload(), "teacher_truth_predicate"
+        ),
+        "truth_contract_path": str(TRUTH_CONTRACT_PATH),
+        "truth_contract_hash": str(
+            expected.get("truth_contract_hash") or _truth_contract_hash()
+        ),
+        "acceptance_contract_hash": str(expected.get("acceptance_contract_hash") or ""),
+        "stale_source_mismatch": stale_source_mismatch,
+        "strict_utility_version": expected.get(
+            "strict_utility_version", STRICT_UTILITY_VERSION
+        ),
+        "truth_utility_version": expected.get(
+            "truth_utility_version", TRUTH_UTILITY_VERSION
+        ),
+        "teacher_fingerprint_version": expected.get(
+            "teacher_fingerprint_version", TEACHER_FINGERPRINT_VERSION
+        ),
+        "learning_support_fingerprint_version": LEARNING_SUPPORT_FINGERPRINT_VERSION,
+        "dataset_selection_mode": dataset_selection_mode,
+        "attempted_rollouts": attempted_rollouts,
+        "expected_attempted_rollouts": len(train_seeds) * episodes_per_seed,
+        "saved_rollouts": saved_rollouts,
+        "raw_saved_rollout_count": saved_rollouts,
+        "successful_seed_count": len(successful_seeds),
+        "raw_successful_seed_count": len(successful_seeds),
+        "successful_seeds": sorted(successful_seeds),
+        "saved_files": saved_files,
+        "records": records,
+        "accepted_unique_teacher_family_count": int(len(accepted_fingerprints)),
+        "strict_unique_teacher_family_count": int(len(strict_fingerprints)),
+        "near_strict_unique_teacher_family_count": int(len(near_strict_fingerprints)),
+        "learning_support_unique_teacher_family_count": int(
+            len(learning_support_fingerprints)
+        ),
+        "accepted_family_count_by_seed": accepted_family_count_by_seed,
+        "strict_family_count_by_seed": strict_family_count_by_seed,
+        "near_strict_family_count_by_seed": near_strict_family_count_by_seed,
+        "learning_support_family_count_by_seed": learning_support_family_count_by_seed,
+        "learning_support_seed_coverage": sorted(learning_support_seed_coverage),
+        "attach_eligible_seed_coverage": sorted(attach_eligible_seed_coverage),
+        "learning_support_prebridge_frame_p50": _percentile_int(prebridge_counts, 50.0),
+        "learning_support_prebridge_frame_p90": _percentile_int(prebridge_counts, 90.0),
+        "passed": bool(
+            attempted_rollouts == len(train_seeds) * episodes_per_seed
+            and saved_rollouts >= min_train_episodes
+            and len(successful_seeds) >= MIN_SUCCESSFUL_SEEDS
+        ),
+        "timestamp": time.time(),
+    }
+    return report
 
 
 def materialize_canonical_train_rollouts(
@@ -785,9 +1276,8 @@ def materialize_canonical_train_rollouts(
         or str(expected.get("source_canonical_train_cell") or source_canonical_train_cell)
         != source_canonical_train_cell
     )
-    report: dict[str, Any] = {
-        "gate": "g6_canonical_rollout_materialization",
-        "source_dir": str(source_dir),
+    learning_support_dir = LEARNING_SUPPORT_ROLLOUT_SOURCE_DIR
+    report_base: dict[str, Any] = {
         **expected,
         "run_instance_id": expected.get("run_instance_id"),
         "working_head_commit": expected.get("working_head_commit"),
@@ -810,10 +1300,10 @@ def materialize_canonical_train_rollouts(
             _truth_contract_payload(), "teacher_truth_predicate"
         ),
         "truth_contract_path": str(TRUTH_CONTRACT_PATH),
-        "truth_contract_hash": str(expected.get("truth_contract_hash") or _truth_contract_hash()),
+        "truth_contract_hash": str(
+            expected.get("truth_contract_hash") or _truth_contract_hash()
+        ),
         "acceptance_contract_hash": str(expected.get("acceptance_contract_hash") or ""),
-        "source_canonical_train_cell": source_canonical_train_cell,
-        "source_best_train_state_mode": _plan_source_best_train_state_mode(expected),
         "stale_source_mismatch": stale_source_mismatch,
         "strict_utility_version": expected.get(
             "strict_utility_version", STRICT_UTILITY_VERSION
@@ -824,21 +1314,46 @@ def materialize_canonical_train_rollouts(
         "teacher_fingerprint_version": expected.get(
             "teacher_fingerprint_version", TEACHER_FINGERPRINT_VERSION
         ),
+        "learning_support_fingerprint_version": LEARNING_SUPPORT_FINGERPRINT_VERSION,
+    }
+    report: dict[str, Any] = {
+        "gate": "g6_canonical_rollout_materialization",
+        "source_dir": str(source_dir),
+        **report_base,
+        "dataset_selection_mode": "claim_canonical",
+        "timestamp": time.time(),
+    }
+    learning_support_report: dict[str, Any] = {
+        "gate": "g6_learning_support_rollout_materialization",
+        "source_dir": str(learning_support_dir),
+        **report_base,
+        "dataset_selection_mode": "diagnostic_learning_support",
         "timestamp": time.time(),
     }
     if not bool(expected.get("tiny_retrain_permitted", True)):
         report["passed"] = False
         report["error"] = "RCA7 did not permit tiny retrain"
+        learning_support_report.update({"passed": False, "error": report["error"]})
         MATERIALIZATION_ARTIFACT.write_text(json.dumps(report, indent=2))
+        LEARNING_SUPPORT_MATERIALIZATION_ARTIFACT.write_text(
+            json.dumps(learning_support_report, indent=2)
+        )
         return report
     if not source_canonical_train_cell:
         report["passed"] = False
         report["error"] = "Missing source_canonical_train_cell from RCA5/RCA7"
+        learning_support_report.update({"passed": False, "error": report["error"]})
         MATERIALIZATION_ARTIFACT.write_text(json.dumps(report, indent=2))
+        LEARNING_SUPPORT_MATERIALIZATION_ARTIFACT.write_text(
+            json.dumps(learning_support_report, indent=2)
+        )
         return report
     if force_rebuild and source_dir.exists():
         shutil.rmtree(source_dir)
+    if force_rebuild and learning_support_dir.exists():
+        shutil.rmtree(learning_support_dir)
     source_dir.mkdir(parents=True, exist_ok=True)
+    learning_support_dir.mkdir(parents=True, exist_ok=True)
 
     controller = RootCauseController(
         max_experiments_per_cycle=1,
@@ -862,8 +1377,11 @@ def materialize_canonical_train_rollouts(
 
     attempted_rollouts = 0
     saved_rollouts = 0
+    learning_support_saved_rollouts = 0
     successful_seeds: set[int] = set()
+    learning_support_successful_seeds: set[int] = set()
     saved_files: list[str] = []
+    learning_support_saved_files: list[str] = []
     records: list[dict[str, Any]] = []
     for seed in train_seeds:
         for episode_index in range(episodes_per_seed):
@@ -945,8 +1463,47 @@ def materialize_canonical_train_rollouts(
                     rollout.get("teacher_episode_class", "rejected_teacher")
                 ),
                 "teacher_fingerprint": str(rollout.get("teacher_fingerprint", "")),
+                "learning_support_teacher_class": str(
+                    rollout.get("learning_support_teacher_class", "rejected_teacher")
+                ),
+                "learning_support_fingerprint": str(
+                    rollout.get("learning_support_fingerprint", "")
+                ),
+                "measurement_truthful_for_learning_support": bool(
+                    rollout.get("measurement_truthful_for_learning_support", False)
+                ),
+                "learning_support_window_len": int(
+                    rollout.get("learning_support_window_len", 0) or 0
+                ),
+                "learning_support_prebridge_frame_count": int(
+                    rollout.get("learning_support_prebridge_frame_count", 0) or 0
+                ),
+                "learning_support_contains_prebridge": bool(
+                    rollout.get("learning_support_contains_prebridge", False)
+                ),
+                "learning_support_contains_bridge": bool(
+                    rollout.get("learning_support_contains_bridge", False)
+                ),
+                "first_attach_eligible_step": rollout.get("first_attach_eligible_step"),
             }
             records.append(record)
+            if str(
+                rollout.get("learning_support_teacher_class", "rejected_teacher")
+            ) in {"strict_teacher", "near_strict_teacher", "learning_support_teacher"}:
+                support_start = rollout.get("learning_support_window_start")
+                support_end = rollout.get("learning_support_window_end")
+                if support_start is not None and support_end is not None:
+                    support_rollout = _slice_rollout_to_training_window(
+                        rollout, int(support_start), int(support_end)
+                    )
+                    support_out_path = (
+                        learning_support_dir
+                        / f"seed_{int(seed):03d}_episode_{int(episode_index):02d}.npz"
+                    )
+                    save_robot_rollout(support_out_path, support_rollout)
+                    learning_support_saved_rollouts += 1
+                    learning_support_successful_seeds.add(int(seed))
+                    learning_support_saved_files.append(str(support_out_path))
             if str(rollout.get("teacher_episode_class", "rejected_teacher")) not in {
                 "strict_teacher",
                 "near_strict_teacher",
@@ -966,26 +1523,48 @@ def materialize_canonical_train_rollouts(
             successful_seeds.add(int(seed))
             saved_files.append(str(out_path))
 
-    expected_attempted_rollouts = len(train_seeds) * episodes_per_seed
-    report.update(
-        {
-            "attempted_rollouts": attempted_rollouts,
-            "expected_attempted_rollouts": expected_attempted_rollouts,
-            "saved_rollouts": saved_rollouts,
-            "raw_saved_rollout_count": saved_rollouts,
-            "successful_seed_count": len(successful_seeds),
-            "raw_successful_seed_count": len(successful_seeds),
-            "successful_seeds": sorted(successful_seeds),
-            "saved_files": saved_files,
-            "records": records,
-            "passed": bool(
-                attempted_rollouts == expected_attempted_rollouts
-                and saved_rollouts >= min_train_episodes
-                and len(successful_seeds) >= MIN_SUCCESSFUL_SEEDS
-            ),
-        }
+    report = _materialization_summary(
+        gate_name="g6_canonical_rollout_materialization",
+        source_dir=source_dir,
+        expected=expected,
+        train_seeds=train_seeds,
+        episodes_per_seed=episodes_per_seed,
+        min_train_episodes=min_train_episodes,
+        teacher_controller_mode=teacher_controller_mode,
+        teacher_controller_max_steps=teacher_controller_max_steps,
+        teacher_pull_open_fraction=teacher_pull_open_fraction,
+        stale_source_mismatch=stale_source_mismatch,
+        attempted_rollouts=attempted_rollouts,
+        saved_rollouts=saved_rollouts,
+        successful_seeds=successful_seeds,
+        saved_files=saved_files,
+        records=records,
+        dataset_selection_mode="claim_canonical",
+    )
+    learning_support_report = _materialization_summary(
+        gate_name="g6_learning_support_rollout_materialization",
+        source_dir=learning_support_dir,
+        expected=expected,
+        train_seeds=train_seeds,
+        episodes_per_seed=episodes_per_seed,
+        min_train_episodes=min_train_episodes,
+        teacher_controller_mode=teacher_controller_mode,
+        teacher_controller_max_steps=teacher_controller_max_steps,
+        teacher_pull_open_fraction=teacher_pull_open_fraction,
+        stale_source_mismatch=stale_source_mismatch,
+        attempted_rollouts=attempted_rollouts,
+        saved_rollouts=learning_support_saved_rollouts,
+        successful_seeds=learning_support_successful_seeds,
+        saved_files=learning_support_saved_files,
+        records=records,
+        dataset_selection_mode="diagnostic_learning_support",
     )
     if not report["passed"]:
         report["error"] = "insufficient_canonical_bridge_data"
+    if not learning_support_report["passed"]:
+        learning_support_report["error"] = "insufficient_learning_support_data"
     MATERIALIZATION_ARTIFACT.write_text(json.dumps(report, indent=2))
+    LEARNING_SUPPORT_MATERIALIZATION_ARTIFACT.write_text(
+        json.dumps(learning_support_report, indent=2)
+    )
     return report

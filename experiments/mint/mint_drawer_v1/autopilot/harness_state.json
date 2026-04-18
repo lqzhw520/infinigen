@@ -1,16 +1,22 @@
 {
-  "state_version": "v9_harness_state_v1",
-  "run_instance_id": "v9_20260417T113557Z_08a1235b_df929974",
+  "state_version": "v10_harness_state_v1",
+  "timestamp_utc": "2026-04-18T08:25:17.379978Z",
+  "run_instance_id": "v10_20260418T074813Z_64d8bc0b_09bd0ca5",
   "line_a_state": "operational_freeze",
   "line_b_state": "frozen",
   "line_c_state": "frozen_vendor_baseline",
-  "current_active_blocker": "readiness_root_cause_analysis_after_no_learning_signal",
-  "g4_status": "DIAGNOSTIC_PASS",
-  "g6_status": "STOP",
-  "final_verdict": "diagnostic_no_learning_signal_readiness_likely_causal",
+  "current_active_blocker": "diagnostic_learning_support_signal_followup",
+  "g4_status": "STOP",
+  "g6_status": null,
+  "final_verdict": "prepare_stop",
   "teacher_readiness_failed_clauses": [
     "accepted_unique_teacher_families_ge_18",
     "near_strict_unique_teacher_families_ge_6"
+  ],
+  "trainability_support_failed_clauses": [
+    "seed2_learning_support_families_ge_2",
+    "seed4_learning_support_families_ge_2",
+    "learning_support_unique_teacher_families_ge_12"
   ],
   "authoritative_baseline_launcher": "run_p1c10_release_runtime_matched_ab.py --variant-run via /root/anaconda3/envs/mint/bin/python",
   "diagnostic_wrapper": "run_p1c7_official_libero_goal_drawer_baseline.py",

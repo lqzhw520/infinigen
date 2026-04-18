@@ -91,6 +91,10 @@ def _plan_active_state_mode_name(plan: dict[str, Any]) -> str:
     )
 
 
+def _plan_dataset_selection_mode(plan: dict[str, Any]) -> str:
+    return str(plan.get("dataset_selection_mode") or "claim_canonical")
+
+
 def _state_dim_names(meta: dict[str, Any]) -> list[str]:
     state_spec = meta.get("state_spec") or {}
     dim_names = [str(item) for item in (state_spec.get("dim_names") or []) if str(item)]
@@ -358,12 +362,187 @@ def validate_rollout_for_canonical_training(
     return True, "ok"
 
 
+def validate_rollout_for_learning_support_training(
+    meta: dict[str, Any], plan: dict[str, Any]
+) -> tuple[bool, str]:
+    expected_source_cell = _plan_source_canonical_train_cell(plan)
+    expected_transition = str(plan.get("best_transition_cell"))
+    expected_source_state = _plan_source_best_train_state_mode(plan)
+    expected_active_state = _plan_active_train_state_mode(plan)
+    expected_run_instance_id = str(plan.get("run_instance_id") or "")
+    expected_plan_version = str(plan.get("plan_version") or "")
+    expected_source_base_commit = str(plan.get("source_base_commit") or "")
+    expected_teacher_truth_gate = str(plan.get("teacher_truth_gate") or "")
+    learning_support_teacher_class_raw = meta.get("learning_support_teacher_class")
+    if learning_support_teacher_class_raw is None or not str(
+        learning_support_teacher_class_raw
+    ).strip():
+        return False, "learning_support_teacher_class_missing"
+    learning_support_teacher_class = str(learning_support_teacher_class_raw)
+    learning_support_fingerprint_raw = meta.get("learning_support_fingerprint")
+    if learning_support_fingerprint_raw is None or not str(
+        learning_support_fingerprint_raw
+    ).strip():
+        return False, "learning_support_fingerprint_missing"
+    run_instance_id = meta.get("run_instance_id")
+    if expected_run_instance_id and (
+        run_instance_id is None or not str(run_instance_id).strip()
+    ):
+        return False, "run_instance_id_missing"
+    checks = [
+        (
+            (not expected_run_instance_id)
+            or str(run_instance_id) == expected_run_instance_id,
+            "run_instance_id_mismatch",
+        ),
+        (
+            (not expected_plan_version)
+            or str(meta.get("plan_version") or "") == expected_plan_version,
+            "plan_version_mismatch",
+        ),
+        (
+            (not expected_source_base_commit)
+            or str(meta.get("source_base_commit") or "") == expected_source_base_commit,
+            "source_base_commit_mismatch",
+        ),
+        (
+            str(
+                meta.get("source_canonical_train_cell")
+                or meta.get("canonical_train_cell")
+            )
+            == expected_source_cell,
+            "source_canonical_train_cell_mismatch",
+        ),
+        (
+            str(meta.get("best_transition_cell")) == expected_transition,
+            "best_transition_cell_mismatch",
+        ),
+        (
+            str(
+                meta.get("source_best_train_state_mode")
+                or meta.get("best_train_state_mode")
+            )
+            == expected_source_state,
+            "source_best_train_state_mode_mismatch",
+        ),
+        (
+            str(
+                meta.get("active_train_state_mode") or meta.get("best_train_state_mode")
+            )
+            == expected_active_state,
+            "active_train_state_mode_mismatch",
+        ),
+        (
+            str(meta.get("selector_mode")) == str(plan.get("selector_mode")),
+            "selector_mode_mismatch",
+        ),
+        (
+            bool(meta.get("measurement_truthful_for_learning_support", False)) is True,
+            "learning_support_not_truthful",
+        ),
+        (
+            str(meta.get("learning_support_truth_adjudication") or "")
+            == "learning_support_window_v1",
+            "learning_support_truth_adjudication_mismatch",
+        ),
+        (
+            (not expected_teacher_truth_gate)
+            or str(meta.get("teacher_truth_gate") or "") == expected_teacher_truth_gate,
+            "teacher_truth_gate_mismatch",
+        ),
+        (
+            int(meta.get("learning_support_window_len", 0) or 0) >= 24,
+            "learning_support_window_too_short",
+        ),
+        (
+            int(meta.get("learning_support_prebridge_frame_count", 0) or 0) >= 8,
+            "learning_support_prebridge_too_short",
+        ),
+        (
+            bool(meta.get("learning_support_contains_prebridge", False)) is True,
+            "learning_support_missing_prebridge",
+        ),
+        (
+            bool(meta.get("learning_support_contains_bridge", False)) is True,
+            "learning_support_missing_bridge",
+        ),
+        (
+            float(meta.get("learning_support_whole_window_truthful_ratio", 0.0) or 0.0)
+            >= 0.60,
+            "learning_support_whole_window_truth_ratio_too_low",
+        ),
+        (
+            float(meta.get("learning_support_bridge_truthful_ratio", 0.0) or 0.0)
+            >= 0.80,
+            "learning_support_bridge_truth_ratio_too_low",
+        ),
+        (
+            int(meta.get("learning_support_bridge_longest_interior_gap", 0) or 0) <= 2,
+            "learning_support_bridge_gap_too_long",
+        ),
+        (
+            int(meta.get("learning_support_bridge_tail_truthful_count_last6", 0) or 0)
+            >= 5,
+            "learning_support_bridge_tail_not_stable",
+        ),
+        (
+            bool(meta.get("learning_support_interval_mask_empty", False)) is False,
+            "learning_support_interval_mask_empty",
+        ),
+        (
+            bool(meta.get("learning_support_interval_anchor_invalid", False)) is False,
+            "learning_support_interval_anchor_invalid",
+        ),
+        (
+            str(meta.get("measurement_backend") or "")
+            == str(plan.get("measurement_backend")),
+            "measurement_backend_mismatch",
+        ),
+        (
+            str(meta.get("measurement_verifier") or "")
+            == str(plan.get("measurement_verifier")),
+            "measurement_verifier_mismatch",
+        ),
+        (
+            str(meta.get("runtime_visible_handle_mapping_source") or "")
+            == str(plan.get("runtime_visible_handle_mapping_source")),
+            "runtime_visible_handle_mapping_source_mismatch",
+        ),
+        (
+            bool(meta.get("runtime_handle_anchor_valid", False)) is True,
+            "runtime_handle_anchor_invalid",
+        ),
+        (
+            meta.get("seed") is not None
+            and int(meta.get("seed")) in [int(x) for x in plan.get("train_seeds", [])],
+            "seed_not_in_train_split",
+        ),
+        (
+            int(meta.get("seed")) not in [int(x) for x in plan.get("heldout_seeds", [])]
+            if meta.get("seed") is not None
+            else False,
+            "seed_in_heldout_split",
+        ),
+        (
+            learning_support_teacher_class
+            in {"strict_teacher", "near_strict_teacher", "learning_support_teacher"},
+            "learning_support_teacher_class_not_accepted",
+        ),
+    ]
+    for passed, reason in checks:
+        if not passed:
+            return False, reason
+    return True, "ok"
+
+
 def validate_built_dataset_provenance(
     dataset_root: Path, plan: dict[str, Any]
 ) -> dict[str, Any]:
+    dataset_selection_mode = _plan_dataset_selection_mode(plan)
     provenance_path = dataset_root / "meta" / "provenance.json"
     report = {
         "dataset_root": str(dataset_root),
+        "dataset_selection_mode": dataset_selection_mode,
         "truth_contract_path": str(TRUTH_CONTRACT_PATH),
         "dataset_repo_id": plan.get("dataset_repo_id"),
         "source_canonical_train_cell": _plan_source_canonical_train_cell(plan),
@@ -479,12 +658,24 @@ def validate_built_dataset_provenance(
     teacher_episode_classes = [
         str(rec.get("teacher_episode_class", "rejected_teacher")) for rec in records
     ]
+    learning_support_teacher_classes = [
+        str(rec.get("learning_support_teacher_class", "rejected_teacher"))
+        for rec in records
+    ]
     teacher_fingerprints = [
         str(rec.get("teacher_fingerprint", ""))
         for rec in records
         if rec.get("teacher_fingerprint")
     ]
+    learning_support_fingerprints = [
+        str(rec.get("learning_support_fingerprint", ""))
+        for rec in records
+        if rec.get("learning_support_fingerprint")
+    ]
     unique_teacher_families = {fp for fp in teacher_fingerprints if fp}
+    unique_learning_support_families = {
+        fp for fp in learning_support_fingerprints if fp
+    }
     accepted_records_missing_fingerprint = int(
         sum(
             1
@@ -506,10 +697,20 @@ def validate_built_dataset_provenance(
     teacher_fingerprint_examples_by_seed = dict(
         provenance.get("teacher_fingerprint_examples_by_seed") or {}
     )
+    learning_support_family_count_by_seed = dict(
+        provenance.get("learning_support_family_count_by_seed") or {}
+    )
     family_collapse_suspected = bool(
         provenance.get("family_collapse_suspected", False)
     )
     family_diversity_notes = list(provenance.get("family_diversity_notes") or [])
+    learning_support_teacher_class_counts = dict(
+        Counter(learning_support_teacher_classes)
+    )
+    learning_support_unique_teacher_family_count = int(
+        provenance.get("learning_support_unique_teacher_family_count", 0)
+        or len(unique_learning_support_families)
+    )
     strict_family_count = len(
         {
             rec.get("teacher_fingerprint")
@@ -551,8 +752,39 @@ def validate_built_dataset_provenance(
             and rec.get("teacher_episode_class") == "near_strict_teacher"
         }
     )
+    learning_support_seed_coverage = sorted(
+        {
+            int(rec.get("seed"))
+            for rec in records
+            if rec.get("seed") is not None
+            and rec.get("learning_support_teacher_class")
+            in {"strict_teacher", "near_strict_teacher", "learning_support_teacher"}
+        }
+    )
+    attach_eligible_seed_coverage = sorted(
+        {
+            int(rec.get("seed"))
+            for rec in records
+            if rec.get("seed") is not None
+            and rec.get("first_attach_eligible_step") is not None
+            and rec.get("learning_support_teacher_class")
+            in {"strict_teacher", "near_strict_teacher", "learning_support_teacher"}
+        }
+    )
     truth_window_ratios = [
         float(rec.get("truthful_window_ratio", 0.0) or 0.0) for rec in records
+    ]
+    learning_support_prebridge_counts = [
+        int(rec.get("learning_support_prebridge_frame_count", 0) or 0)
+        for rec in records
+        if rec.get("learning_support_teacher_class")
+        in {"strict_teacher", "near_strict_teacher", "learning_support_teacher"}
+    ]
+    learning_support_window_lengths = [
+        int(rec.get("learning_support_window_len", 0) or 0)
+        for rec in records
+        if rec.get("learning_support_teacher_class")
+        in {"strict_teacher", "near_strict_teacher", "learning_support_teacher"}
     ]
     runtime_anchor_valid_rate = (
         float(sum(1 for x in runtime_anchor_values if x) / len(runtime_anchor_values))
@@ -589,19 +821,56 @@ def validate_built_dataset_provenance(
                 str(x) for x in teacher_truth_adjudications if x is not None
             ),
             "teacher_episode_class_counts": dict(Counter(teacher_episode_classes)),
+            "learning_support_teacher_class_counts": learning_support_teacher_class_counts,
             "accepted_unique_teacher_family_count": len(unique_teacher_families),
+            "learning_support_unique_teacher_family_count": (
+                learning_support_unique_teacher_family_count
+            ),
             "strict_unique_teacher_family_count": strict_family_count,
             "near_strict_unique_teacher_family_count": near_strict_family_count,
             "accepted_family_count_by_seed": accepted_family_count_by_seed,
             "strict_family_count_by_seed": strict_family_count_by_seed,
             "near_strict_family_count_by_seed": near_strict_family_count_by_seed,
+            "learning_support_family_count_by_seed": (
+                learning_support_family_count_by_seed
+            ),
             "teacher_fingerprint_examples_by_seed": teacher_fingerprint_examples_by_seed,
             "family_collapse_suspected": family_collapse_suspected,
             "family_diversity_notes": family_diversity_notes,
             "accepted_seed_coverage": accepted_seed_coverage,
             "strict_seed_coverage": strict_seed_coverage,
             "near_strict_seed_coverage": near_strict_seed_coverage,
+            "learning_support_seed_coverage": learning_support_seed_coverage,
+            "attach_eligible_seed_coverage": attach_eligible_seed_coverage,
             "accepted_records_missing_fingerprint": accepted_records_missing_fingerprint,
+            "learning_support_prebridge_frame_p50": int(
+                round(
+                    float(np.percentile(learning_support_prebridge_counts, 50))
+                    if learning_support_prebridge_counts
+                    else 0.0
+                )
+            ),
+            "learning_support_prebridge_frame_p90": int(
+                round(
+                    float(np.percentile(learning_support_prebridge_counts, 90))
+                    if learning_support_prebridge_counts
+                    else 0.0
+                )
+            ),
+            "learning_support_window_len_p50": int(
+                round(
+                    float(np.percentile(learning_support_window_lengths, 50))
+                    if learning_support_window_lengths
+                    else 0.0
+                )
+            ),
+            "learning_support_window_len_p90": int(
+                round(
+                    float(np.percentile(learning_support_window_lengths, 90))
+                    if learning_support_window_lengths
+                    else 0.0
+                )
+            ),
             "truthful_window_ratio_min": min(truth_window_ratios)
             if truth_window_ratios
             else 0.0,
@@ -680,24 +949,97 @@ def validate_built_dataset_provenance(
             runtime_anchor_valid_rate == 1.0 or all(runtime_anchor_values),
             "runtime_handle_anchor_not_fully_valid",
         ),
-        (all(training_truth_flags), "measurement_truthful_for_training_inconsistent"),
-        (
-            teacher_truth_adjudications == {"teacher_window_truth_v84"},
-            "teacher_truth_adjudication_inconsistent",
-        ),
-        (all(bridge_truth_flags), "bridge_not_in_truthful_window_inconsistent"),
-        (
-            all(
-                cls in {"strict_teacher", "near_strict_teacher"}
-                for cls in teacher_episode_classes
-            ),
-            "teacher_episode_class_inconsistent",
-        ),
-        (
-            accepted_records_missing_fingerprint == 0,
-            "teacher_fingerprint_missing_for_accepted_records",
-        ),
     ]
+    if dataset_selection_mode == "claim_canonical":
+        checks.extend(
+            [
+                (
+                    all(training_truth_flags),
+                    "measurement_truthful_for_training_inconsistent",
+                ),
+                (
+                    teacher_truth_adjudications == {"teacher_window_truth_v84"},
+                    "teacher_truth_adjudication_inconsistent",
+                ),
+                (
+                    all(bridge_truth_flags),
+                    "bridge_not_in_truthful_window_inconsistent",
+                ),
+                (
+                    all(
+                        cls in {"strict_teacher", "near_strict_teacher"}
+                        for cls in teacher_episode_classes
+                    ),
+                    "teacher_episode_class_inconsistent",
+                ),
+                (
+                    accepted_records_missing_fingerprint == 0,
+                    "teacher_fingerprint_missing_for_accepted_records",
+                ),
+            ]
+        )
+    else:
+        learning_support_truth_flags = [
+            bool(rec.get("measurement_truthful_for_learning_support", False))
+            for rec in records
+        ]
+        learning_support_prebridge_flags = [
+            bool(rec.get("learning_support_contains_prebridge", False))
+            for rec in records
+        ]
+        learning_support_bridge_flags = [
+            bool(rec.get("learning_support_contains_bridge", False))
+            for rec in records
+        ]
+        learning_support_anchor_invalid_flags = [
+            bool(rec.get("learning_support_interval_anchor_invalid", False))
+            for rec in records
+        ]
+        learning_support_mask_empty_flags = [
+            bool(rec.get("learning_support_interval_mask_empty", False))
+            for rec in records
+        ]
+        checks.extend(
+            [
+                (
+                    all(learning_support_truth_flags),
+                    "measurement_truthful_for_learning_support_inconsistent",
+                ),
+                (
+                    all(learning_support_prebridge_flags),
+                    "learning_support_missing_prebridge_inconsistent",
+                ),
+                (
+                    all(learning_support_bridge_flags),
+                    "learning_support_missing_bridge_inconsistent",
+                ),
+                (
+                    not any(learning_support_anchor_invalid_flags),
+                    "learning_support_interval_anchor_invalid_inconsistent",
+                ),
+                (
+                    not any(learning_support_mask_empty_flags),
+                    "learning_support_interval_mask_empty_inconsistent",
+                ),
+                (
+                    all(
+                        cls
+                        in {
+                            "strict_teacher",
+                            "near_strict_teacher",
+                            "learning_support_teacher",
+                        }
+                        for cls in learning_support_teacher_classes
+                    ),
+                    "learning_support_teacher_class_inconsistent",
+                ),
+                (
+                    len(unique_learning_support_families)
+                    == learning_support_unique_teacher_family_count,
+                    "learning_support_fingerprint_count_inconsistent",
+                ),
+            ]
+        )
     for passed, reason in checks:
         if not passed:
             report["errors"].append(reason)
@@ -774,6 +1116,7 @@ def _rollout_provenance(meta: dict[str, Any], n_frames: int) -> dict[str, Any]:
     visual_mode_report = meta.get("visual_mode_report") or {}
     handle_probe = meta.get("handle_probe_metadata") or {}
     canonical_training_truth = meta.get("canonical_training_truth") or {}
+    learning_support_truth = meta.get("learning_support_truth") or {}
     state_dim_names = _state_dim_names(meta)
     return {
         "seed": meta.get("seed"),
@@ -832,9 +1175,21 @@ def _rollout_provenance(meta: dict[str, Any], n_frames: int) -> dict[str, Any]:
                 ),
             )
         ),
+        "measurement_truthful_for_learning_support": bool(
+            meta.get(
+                "measurement_truthful_for_learning_support",
+                learning_support_truth.get(
+                    "measurement_truthful_for_learning_support", False
+                ),
+            )
+        ),
         "teacher_truth_adjudication": meta.get(
             "teacher_truth_adjudication",
             canonical_training_truth.get("teacher_truth_adjudication"),
+        ),
+        "learning_support_truth_adjudication": meta.get(
+            "learning_support_truth_adjudication",
+            learning_support_truth.get("learning_support_truth_adjudication"),
         ),
         "teacher_truthful_window_frame_count": int(
             meta.get(
@@ -871,6 +1226,107 @@ def _rollout_provenance(meta: dict[str, Any], n_frames: int) -> dict[str, Any]:
                 "bridge_in_truthful_window",
                 canonical_training_truth.get("bridge_in_truthful_window", False),
             )
+        ),
+        "learning_support_window_start": meta.get(
+            "learning_support_window_start",
+            learning_support_truth.get("learning_support_window_start"),
+        ),
+        "learning_support_window_end": meta.get(
+            "learning_support_window_end",
+            learning_support_truth.get("learning_support_window_end"),
+        ),
+        "learning_support_window_len": int(
+            meta.get(
+                "learning_support_window_len",
+                learning_support_truth.get("learning_support_window_len", 0),
+            )
+            or 0
+        ),
+        "learning_support_prebridge_frame_count": int(
+            meta.get(
+                "learning_support_prebridge_frame_count",
+                learning_support_truth.get("learning_support_prebridge_frame_count", 0),
+            )
+            or 0
+        ),
+        "learning_support_prebridge_truthful_ratio": float(
+            meta.get(
+                "learning_support_prebridge_truthful_ratio",
+                learning_support_truth.get(
+                    "learning_support_prebridge_truthful_ratio", 0.0
+                ),
+            )
+            or 0.0
+        ),
+        "learning_support_whole_window_truthful_ratio": float(
+            meta.get(
+                "learning_support_whole_window_truthful_ratio",
+                learning_support_truth.get(
+                    "learning_support_whole_window_truthful_ratio", 0.0
+                ),
+            )
+            or 0.0
+        ),
+        "learning_support_bridge_truthful_ratio": float(
+            meta.get(
+                "learning_support_bridge_truthful_ratio",
+                learning_support_truth.get(
+                    "learning_support_bridge_truthful_ratio", 0.0
+                ),
+            )
+            or 0.0
+        ),
+        "learning_support_bridge_longest_interior_gap": int(
+            meta.get(
+                "learning_support_bridge_longest_interior_gap",
+                learning_support_truth.get(
+                    "learning_support_bridge_longest_interior_gap", 0
+                ),
+            )
+            or 0
+        ),
+        "learning_support_bridge_tail_truthful_count_last6": int(
+            meta.get(
+                "learning_support_bridge_tail_truthful_count_last6",
+                learning_support_truth.get(
+                    "learning_support_bridge_tail_truthful_count_last6", 0
+                ),
+            )
+            or 0
+        ),
+        "learning_support_contains_prebridge": bool(
+            meta.get(
+                "learning_support_contains_prebridge",
+                learning_support_truth.get("learning_support_contains_prebridge", False),
+            )
+        ),
+        "learning_support_contains_bridge": bool(
+            meta.get(
+                "learning_support_contains_bridge",
+                learning_support_truth.get("learning_support_contains_bridge", False),
+            )
+        ),
+        "learning_support_interval_mask_empty": bool(
+            meta.get(
+                "learning_support_interval_mask_empty",
+                learning_support_truth.get("learning_support_interval_mask_empty", False),
+            )
+        ),
+        "learning_support_interval_anchor_invalid": bool(
+            meta.get(
+                "learning_support_interval_anchor_invalid",
+                learning_support_truth.get(
+                    "learning_support_interval_anchor_invalid", False
+                ),
+            )
+        ),
+        "learning_support_anchor_step": meta.get(
+            "learning_support_anchor_step",
+            learning_support_truth.get("learning_support_anchor_step"),
+        ),
+        "first_attach_eligible_step": meta.get(
+            "first_attach_eligible_step",
+            learning_support_truth.get("first_attach_eligible_step"),
         ),
         "final_snapshot_measurement_truthful": bool(
             meta.get(
@@ -980,6 +1436,15 @@ def _rollout_provenance(meta: dict[str, Any], n_frames: int) -> dict[str, Any]:
         ),
         "teacher_episode_class": str(meta.get("teacher_episode_class") or ""),
         "teacher_fingerprint": str(meta.get("teacher_fingerprint", "")),
+        "learning_support_teacher_class": str(
+            meta.get("learning_support_teacher_class") or ""
+        ),
+        "learning_support_fingerprint": str(
+            meta.get("learning_support_fingerprint", "")
+        ),
+        "learning_support_fingerprint_version": meta.get(
+            "learning_support_fingerprint_version"
+        ),
         "first_attach_step": strict_metrics.get("first_attach_step")
         if (strict_metrics := meta.get("strict_metrics") or {})
         else None,
@@ -1170,13 +1635,25 @@ def build_dataset_from_rollouts(
         if rec.get("teacher_episode_class") == "near_strict_teacher"
         and rec.get("teacher_fingerprint")
     }
+    learning_support_fingerprints = {
+        rec.get("learning_support_fingerprint")
+        for rec in provenance_records
+        if rec.get("learning_support_teacher_class")
+        in {"strict_teacher", "near_strict_teacher", "learning_support_teacher"}
+        and rec.get("learning_support_fingerprint")
+    }
     seeds_with_records = sorted(
         {int(rec.get("seed")) for rec in provenance_records if rec.get("seed") is not None}
     )
     accepted_family_count_by_seed: dict[str, int] = {}
     strict_family_count_by_seed: dict[str, int] = {}
     near_strict_family_count_by_seed: dict[str, int] = {}
+    learning_support_family_count_by_seed: dict[str, int] = {}
     teacher_fingerprint_examples_by_seed: dict[str, list[str]] = {}
+    learning_support_prebridge_counts: list[int] = []
+    learning_support_window_lengths: list[int] = []
+    attach_eligible_seed_coverage: set[int] = set()
+    learning_support_seed_coverage: set[int] = set()
     for seed in seeds_with_records:
         seed_records = [rec for rec in provenance_records if rec.get("seed") is not None and int(rec.get("seed")) == seed]
         accepted_seed_fps = sorted({
@@ -1197,10 +1674,33 @@ def build_dataset_from_rollouts(
             if rec.get("teacher_episode_class") == "near_strict_teacher"
             and rec.get("teacher_fingerprint")
         })
+        learning_support_seed_fps = sorted({
+            rec.get("learning_support_fingerprint")
+            for rec in seed_records
+            if rec.get("learning_support_teacher_class") in {"strict_teacher", "near_strict_teacher", "learning_support_teacher"}
+            and rec.get("learning_support_fingerprint")
+        })
         accepted_family_count_by_seed[str(seed)] = len(accepted_seed_fps)
         strict_family_count_by_seed[str(seed)] = len(strict_seed_fps)
         near_strict_family_count_by_seed[str(seed)] = len(near_seed_fps)
+        learning_support_family_count_by_seed[str(seed)] = len(learning_support_seed_fps)
         teacher_fingerprint_examples_by_seed[str(seed)] = accepted_seed_fps[:5]
+        if learning_support_seed_fps:
+            learning_support_seed_coverage.add(int(seed))
+        if any(rec.get("first_attach_eligible_step") is not None for rec in seed_records):
+            attach_eligible_seed_coverage.add(int(seed))
+        learning_support_prebridge_counts.extend(
+            int(rec.get("learning_support_prebridge_frame_count", 0) or 0)
+            for rec in seed_records
+            if rec.get("learning_support_teacher_class")
+            in {"strict_teacher", "near_strict_teacher", "learning_support_teacher"}
+        )
+        learning_support_window_lengths.extend(
+            int(rec.get("learning_support_window_len", 0) or 0)
+            for rec in seed_records
+            if rec.get("learning_support_teacher_class")
+            in {"strict_teacher", "near_strict_teacher", "learning_support_teacher"}
+        )
 
     family_diversity_notes: list[str] = []
     if len(accepted_fingerprints) <= max(len(seeds_with_records), 1):
@@ -1246,9 +1746,13 @@ def build_dataset_from_rollouts(
         "accepted_unique_teacher_family_count": int(len(accepted_fingerprints)),
         "strict_unique_teacher_family_count": int(len(strict_fingerprints)),
         "near_strict_unique_teacher_family_count": int(len(near_strict_fingerprints)),
+        "learning_support_unique_teacher_family_count": int(
+            len(learning_support_fingerprints)
+        ),
         "accepted_family_count_by_seed": accepted_family_count_by_seed,
         "strict_family_count_by_seed": strict_family_count_by_seed,
         "near_strict_family_count_by_seed": near_strict_family_count_by_seed,
+        "learning_support_family_count_by_seed": learning_support_family_count_by_seed,
         "teacher_fingerprint_examples_by_seed": teacher_fingerprint_examples_by_seed,
         "family_collapse_suspected": family_collapse_suspected,
         "family_diversity_notes": family_diversity_notes,
@@ -1256,6 +1760,42 @@ def build_dataset_from_rollouts(
             Counter(
                 str(rec.get("teacher_episode_class", "rejected_teacher"))
                 for rec in provenance_records
+            )
+        ),
+        "learning_support_teacher_class_counts": dict(
+            Counter(
+                str(rec.get("learning_support_teacher_class", "rejected_teacher"))
+                for rec in provenance_records
+            )
+        ),
+        "learning_support_seed_coverage": sorted(learning_support_seed_coverage),
+        "attach_eligible_seed_coverage": sorted(attach_eligible_seed_coverage),
+        "learning_support_prebridge_frame_p50": int(
+            round(
+                float(np.percentile(learning_support_prebridge_counts, 50))
+                if learning_support_prebridge_counts
+                else 0.0
+            )
+        ),
+        "learning_support_prebridge_frame_p90": int(
+            round(
+                float(np.percentile(learning_support_prebridge_counts, 90))
+                if learning_support_prebridge_counts
+                else 0.0
+            )
+        ),
+        "learning_support_window_len_p50": int(
+            round(
+                float(np.percentile(learning_support_window_lengths, 50))
+                if learning_support_window_lengths
+                else 0.0
+            )
+        ),
+        "learning_support_window_len_p90": int(
+            round(
+                float(np.percentile(learning_support_window_lengths, 90))
+                if learning_support_window_lengths
+                else 0.0
             )
         ),
         "records": provenance_records,
@@ -1308,8 +1848,14 @@ def build_dataset_from_rollouts(
         "near_strict_unique_teacher_family_count": provenance_payload[
             "near_strict_unique_teacher_family_count"
         ],
+        "learning_support_unique_teacher_family_count": provenance_payload[
+            "learning_support_unique_teacher_family_count"
+        ],
         "teacher_episode_class_counts": provenance_payload[
             "teacher_episode_class_counts"
+        ],
+        "learning_support_teacher_class_counts": provenance_payload[
+            "learning_support_teacher_class_counts"
         ],
         "accepted_family_count_by_seed": provenance_payload[
             "accepted_family_count_by_seed"
@@ -1320,6 +1866,9 @@ def build_dataset_from_rollouts(
         "near_strict_family_count_by_seed": provenance_payload[
             "near_strict_family_count_by_seed"
         ],
+        "learning_support_family_count_by_seed": provenance_payload[
+            "learning_support_family_count_by_seed"
+        ],
         "teacher_fingerprint_examples_by_seed": provenance_payload[
             "teacher_fingerprint_examples_by_seed"
         ],
@@ -1328,6 +1877,24 @@ def build_dataset_from_rollouts(
         ],
         "family_diversity_notes": provenance_payload[
             "family_diversity_notes"
+        ],
+        "learning_support_seed_coverage": provenance_payload[
+            "learning_support_seed_coverage"
+        ],
+        "attach_eligible_seed_coverage": provenance_payload[
+            "attach_eligible_seed_coverage"
+        ],
+        "learning_support_prebridge_frame_p50": provenance_payload[
+            "learning_support_prebridge_frame_p50"
+        ],
+        "learning_support_prebridge_frame_p90": provenance_payload[
+            "learning_support_prebridge_frame_p90"
+        ],
+        "learning_support_window_len_p50": provenance_payload[
+            "learning_support_window_len_p50"
+        ],
+        "learning_support_window_len_p90": provenance_payload[
+            "learning_support_window_len_p90"
         ],
         "provenance_path": str(provenance_path),
     }

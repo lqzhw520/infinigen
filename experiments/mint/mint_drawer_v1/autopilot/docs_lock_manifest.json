@@ -1,10 +1,10 @@
 {
-  "lock_version": "v9_docs_lock_v1",
-  "timestamp_utc": "2026-04-17T11:48:27.167946Z",
+  "lock_version": "v10_docs_lock_v1",
+  "timestamp_utc": "2026-04-18T08:25:04.805321Z",
   "docs": [
     {
-      "path": "/mnt/afs2/zhuhaowu/infinigen/docs/MINT_V84_DIAGNOSTIC_TINY_RETRAIN_GATE_EXECUTION_SPEC.md",
-      "sha256": "03746d8d24b61a62a4d9695a3bfa6a2b105cafe77d936065e6552f5e8a0c387c"
+      "path": "/mnt/afs2/zhuhaowu/infinigen/docs/MINT_V84_LEARNING_SUPPORT_CORPUS_FIX_SPEC.md",
+      "sha256": "053d2615143a20265c3c1729ff09df198bfacb6e493c29cafcf79539b3709dbf"
     },
     {
       "path": "/mnt/afs2/zhuhaowu/infinigen/docs/MINT_V84_UNIFIED_EXECUTION_SPEC.md",
@@ -12,7 +12,7 @@
     },
     {
       "path": "/mnt/afs2/zhuhaowu/infinigen/docs/MINT_V84_SYSTEM_AUDIT_2026-04-16.md",
-      "sha256": "cddfe27c0eb8414ee6a51506c124a7c891284149a6b803cf1b09812bf995bdbf"
+      "sha256": "6273f53313639a7d6856b41b9ebba721007a99c74f467b5fed9fe54d6d346a4f"
     }
   ]
 }

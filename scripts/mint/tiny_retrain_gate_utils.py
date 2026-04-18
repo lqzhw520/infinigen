@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Shared gate and publication helpers for v9 diagnostic tiny retrain."""
+"""Shared gate and publication helpers for v10 learning-support tiny retrain."""
 
 from __future__ import annotations
 
@@ -19,7 +19,7 @@ HARNESS_STATE_PATH = AUTOPILOT_DIR / "harness_state.json"
 PUBLICATION_STATE_PATH = AUTOPILOT_DIR / "publication_state.json"
 DOCS_UPDATE_INTENT_PATH = AUTOPILOT_DIR / "docs_update_intent.json"
 
-SPEC_DOC_PATH = PROJECT_ROOT / "docs" / "MINT_V84_DIAGNOSTIC_TINY_RETRAIN_GATE_EXECUTION_SPEC.md"
+SPEC_DOC_PATH = PROJECT_ROOT / "docs" / "MINT_V84_LEARNING_SUPPORT_CORPUS_FIX_SPEC.md"
 UNIFIED_DOC_PATH = PROJECT_ROOT / "docs" / "MINT_V84_UNIFIED_EXECUTION_SPEC.md"
 SYSTEM_AUDIT_DOC_PATH = PROJECT_ROOT / "docs" / "MINT_V84_SYSTEM_AUDIT_2026-04-16.md"
 TRUTH_CONTRACT_PATH = PROJECT_ROOT / "docs" / "contracts" / "truth_contract_v84.json"
@@ -54,7 +54,7 @@ def current_repo_identity() -> dict[str, str]:
 def docs_lock_payload() -> dict[str, Any]:
     docs = [SPEC_DOC_PATH, UNIFIED_DOC_PATH, SYSTEM_AUDIT_DOC_PATH]
     return {
-        "lock_version": "v9_docs_lock_v1",
+        "lock_version": "v10_docs_lock_v1",
         "timestamp_utc": utc_now(),
         "docs": [
             {
@@ -87,7 +87,7 @@ def docs_lock_consistent() -> tuple[bool, list[str], dict[str, Any]]:
 def write_sovereign_snapshot(plan: dict[str, Any]) -> dict[str, Any]:
     ident = current_repo_identity()
     payload = {
-        "snapshot_version": "v9_sovereign_snapshot_v1",
+        "snapshot_version": "v10_sovereign_snapshot_v1",
         "run_instance_id": plan.get("run_instance_id"),
         "branch": ident["branch"],
         "working_head_commit": ident["working_head_commit"],
@@ -105,7 +105,7 @@ def write_sovereign_snapshot(plan: dict[str, Any]) -> dict[str, Any]:
 
 def write_harness_state(payload: dict[str, Any]) -> dict[str, Any]:
     merged = {
-        "state_version": "v9_harness_state_v1",
+        "state_version": "v10_harness_state_v1",
         "timestamp_utc": utc_now(),
         **payload,
     }
@@ -116,7 +116,7 @@ def write_harness_state(payload: dict[str, Any]) -> dict[str, Any]:
 
 def write_publication_state(payload: dict[str, Any]) -> dict[str, Any]:
     merged = {
-        "state_version": "v9_publication_state_v1",
+        "state_version": "v10_publication_state_v1",
         "timestamp_utc": utc_now(),
         **payload,
     }
@@ -127,7 +127,7 @@ def write_publication_state(payload: dict[str, Any]) -> dict[str, Any]:
 
 def write_docs_update_intent(payload: dict[str, Any]) -> dict[str, Any]:
     merged = {
-        "intent_version": "v9_docs_update_intent_v1",
+        "intent_version": "v10_docs_update_intent_v1",
         "timestamp_utc": utc_now(),
         **payload,
     }
@@ -188,7 +188,7 @@ def readiness_failed_clauses(readiness_report: dict[str, Any]) -> list[str]:
 def gate_scope_from_g4(status: str) -> dict[str, Any]:
     if status == "AUTHORITATIVE_PASS":
         return {
-            "execution_scope": "v9_gate_controlled_authoritative",
+            "execution_scope": "v10_learning_support_authoritative",
             "diagnostic_only": False,
             "claim_bearing": True,
             "publication_scope": "authoritative",
@@ -196,14 +196,14 @@ def gate_scope_from_g4(status: str) -> dict[str, Any]:
         }
     if status == "DIAGNOSTIC_PASS":
         return {
-            "execution_scope": "v9_gate_controlled_diagnostic",
+            "execution_scope": "v10_learning_support_diagnostic",
             "diagnostic_only": True,
             "claim_bearing": False,
             "publication_scope": "diagnostic_only",
             "result_scope": "diagnostic_only",
         }
     return {
-        "execution_scope": "v9_gate_controlled_stop",
+        "execution_scope": "v10_learning_support_stop",
         "diagnostic_only": True,
         "claim_bearing": False,
         "publication_scope": "stopped",

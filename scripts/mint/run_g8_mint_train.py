@@ -28,9 +28,9 @@ LOG_PATH = ARTIFACT_DIR / "g8_train.log"
 RUNTIME_SMOKE_ARTIFACT = ARTIFACT_DIR / "g8_runtime_compat_smoke.json"
 AUTHORITATIVE_BASELINE_SMOKE_ARTIFACT = ARTIFACT_DIR / "g8_authoritative_baseline_smoke.json"
 AUTHORITATIVE_MINT_TRAIN_CMD = "/root/anaconda3/envs/mint/bin/lerobot-train"
-MINT_CKPT = "/mnt/afs2/zhuhaowu/infinigen/external/MINT/checkpoints/MINT-libero"
-TOKENIZER_PATH = (
-    "/mnt/afs2/zhuhaowu/infinigen/external/MINT/checkpoints/MINT-tokenizer-libero"
+MINT_CKPT = str(PROJECT_ROOT / "external" / "MINT" / "checkpoints" / "MINT-libero")
+TOKENIZER_PATH = str(
+    PROJECT_ROOT / "external" / "MINT" / "checkpoints" / "MINT-tokenizer-libero"
 )
 
 
@@ -115,6 +115,16 @@ def validate_training_dataset_against_plan(plan: dict[str, Any]) -> dict[str, An
     if not provenance.get("dataset_valid"):
         raise SystemExit(
             f"Dataset provenance validation failed: {provenance.get('errors', [])}"
+        )
+    dataset_selection_mode = str(plan.get("dataset_selection_mode") or "claim_canonical")
+    if dataset_selection_mode == "diagnostic_learning_support":
+        if not bool(dataset_build.get("trainability_support_passed", False)):
+            raise SystemExit(
+                "Diagnostic learning-support dataset is valid but trainability_support_passed is false"
+            )
+    elif not bool(dataset_build.get("claim_readiness_passed", dataset_build.get("teacher_readiness_passed", False))):
+        raise SystemExit(
+            "Claim-bearing dataset is valid but claim_readiness_passed is false"
         )
     return {
         "dataset_build": dataset_build,

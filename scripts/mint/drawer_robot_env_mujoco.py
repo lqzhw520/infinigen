@@ -4205,7 +4205,13 @@ def save_robot_rollout(path: Path, rollout: dict[str, Any]) -> None:
         "measurement_truthful_for_training": rollout.get(
             "measurement_truthful_for_training"
         ),
+        "measurement_truthful_for_learning_support": rollout.get(
+            "measurement_truthful_for_learning_support"
+        ),
         "teacher_truth_adjudication": rollout.get("teacher_truth_adjudication"),
+        "learning_support_truth_adjudication": rollout.get(
+            "learning_support_truth_adjudication"
+        ),
         "teacher_truthful_window_frame_count": rollout.get(
             "teacher_truthful_window_frame_count"
         ),
@@ -4219,6 +4225,46 @@ def save_robot_rollout(path: Path, rollout: dict[str, Any]) -> None:
         "bridge_in_truthful_window": rollout.get("bridge_in_truthful_window"),
         "teacher_episode_class": rollout.get("teacher_episode_class"),
         "teacher_fingerprint": rollout.get("teacher_fingerprint"),
+        "learning_support_teacher_class": rollout.get("learning_support_teacher_class"),
+        "learning_support_fingerprint": rollout.get("learning_support_fingerprint"),
+        "learning_support_fingerprint_version": rollout.get(
+            "learning_support_fingerprint_version"
+        ),
+        "first_attach_eligible_step": rollout.get("first_attach_eligible_step"),
+        "learning_support_window_start": rollout.get("learning_support_window_start"),
+        "learning_support_window_end": rollout.get("learning_support_window_end"),
+        "learning_support_window_len": rollout.get("learning_support_window_len"),
+        "learning_support_prebridge_frame_count": rollout.get(
+            "learning_support_prebridge_frame_count"
+        ),
+        "learning_support_prebridge_truthful_ratio": rollout.get(
+            "learning_support_prebridge_truthful_ratio"
+        ),
+        "learning_support_whole_window_truthful_ratio": rollout.get(
+            "learning_support_whole_window_truthful_ratio"
+        ),
+        "learning_support_bridge_truthful_ratio": rollout.get(
+            "learning_support_bridge_truthful_ratio"
+        ),
+        "learning_support_bridge_longest_interior_gap": rollout.get(
+            "learning_support_bridge_longest_interior_gap"
+        ),
+        "learning_support_bridge_tail_truthful_count_last6": rollout.get(
+            "learning_support_bridge_tail_truthful_count_last6"
+        ),
+        "learning_support_interval_mask_empty": rollout.get(
+            "learning_support_interval_mask_empty"
+        ),
+        "learning_support_interval_anchor_invalid": rollout.get(
+            "learning_support_interval_anchor_invalid"
+        ),
+        "learning_support_contains_prebridge": rollout.get(
+            "learning_support_contains_prebridge"
+        ),
+        "learning_support_contains_bridge": rollout.get(
+            "learning_support_contains_bridge"
+        ),
+        "learning_support_anchor_step": rollout.get("learning_support_anchor_step"),
         "final_snapshot_measurement_truthful": rollout.get(
             "final_snapshot_measurement_truthful"
         ),
@@ -4226,6 +4272,7 @@ def save_robot_rollout(path: Path, rollout: dict[str, Any]) -> None:
             "final_snapshot_measurement_truth_tier"
         ),
         "canonical_training_truth": rollout.get("canonical_training_truth", {}),
+        "learning_support_truth": rollout.get("learning_support_truth", {}),
         "runtime_visible_handle_mapping_source": rollout.get(
             "runtime_visible_handle_mapping_source"
         ),

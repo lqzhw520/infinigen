@@ -1,0 +1,24 @@
+{
+  "gate_id": "G3",
+  "gate_name": "orientation_support_corpus",
+  "run_instance_id": "v12_1_20260419T140832Z_f9421676_e0c7ded8",
+  "working_head_commit": "f9421676c1b67dfbfeb3510cbc2d55efc5a4c98c",
+  "vendor_head_commit": "4eab5795345721001c412ff1ca2c886a11eab606",
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "truth_contract_hash": "17ae4d1554899b843c80b064a2c5f3d6331b04dd169819ca5f2b0bfba729a6f6",
+  "acceptance_contract_hash": "3e63d1c21004dae9a8ded0c966f69112f59e340f7d0aada219eb66ac8facd53c",
+  "spec_reference": "/Users/zhuhaowu/ws/phd-anyboxs/infinigen_from_servers/docs/gpt5.4Pro/codex_mint_v84_v12_1_orientation_attach_anygrasp_execution_spec.md",
+  "timestamp_utc": "2026-04-20T03:26:56.824696Z",
+  "status": "PASS",
+  "blocking_reasons": [],
+  "allowed_next_phases": [
+    "prepare"
+  ],
+  "execution_scope": "v12_orientation_support_prepare",
+  "dataset_selection_mode": "diagnostic_orientation_support",
+  "materialization_artifact_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g6_orientation_support_rollout_materialization.json",
+  "dataset_build_artifact_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g8_canonical_dataset_build.json",
+  "dataset_valid": true,
+  "saved_rollouts": 93,
+  "successful_seed_count": 8
+}

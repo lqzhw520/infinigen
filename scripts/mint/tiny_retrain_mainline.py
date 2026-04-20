@@ -8,6 +8,7 @@ import json
 import os
 import shutil
 import time
+from collections import Counter
 from dataclasses import replace
 from pathlib import Path
 from typing import Any
@@ -34,6 +35,12 @@ LEARNING_SUPPORT_ROLLOUT_SOURCE_DIR = ARTIFACT_DIR / "g6_learning_support_train_
 LEARNING_SUPPORT_MATERIALIZATION_ARTIFACT = (
     ARTIFACT_DIR / "g6_learning_support_rollout_materialization.json"
 )
+ORIENTATION_SUPPORT_ROLLOUT_SOURCE_DIR = (
+    ARTIFACT_DIR / "g6_orientation_support_train_rollouts"
+)
+ORIENTATION_SUPPORT_MATERIALIZATION_ARTIFACT = (
+    ARTIFACT_DIR / "g6_orientation_support_rollout_materialization.json"
+)
 MIN_TRAIN_EPISODES = 48
 DEFAULT_EPISODES_PER_SEED = 12
 MIN_SUCCESSFUL_SEEDS = 6
@@ -41,12 +48,27 @@ TRUTHFUL_WINDOW_MIN_FRAMES = 16
 LEARNING_SUPPORT_WINDOW_MIN_FRAMES = 24
 LEARNING_SUPPORT_PREBRIDGE_FRAMES = 24
 LEARNING_SUPPORT_MIN_PREBRIDGE_FRAMES = 8
+ORIENTATION_SUPPORT_WINDOW_MIN_FRAMES = 16
+ORIENTATION_CONTEXT_PRE_FRAMES = 9
+ORIENTATION_CONTEXT_POST_FRAMES = 8
+ORIENTATION_ATTACH_THRESHOLD_M = 0.06
+ORIENTATION_NEAR_DISTANCE_THRESHOLD_M = ORIENTATION_ATTACH_THRESHOLD_M + 0.05
+ORIENTATION_APPROACH_THRESHOLD = 0.25
+ORIENTATION_NEAR_APPROACH_THRESHOLD = 0.15
+ORIENTATION_THRESHOLD = 0.60
+ORIENTATION_ALIGNMENT_MIN_DELTA = 0.05
+ORIENTATION_TRANSITION_DELTA = 0.10
+ORIENTATION_TRANSITION_CLASS_DELTA = 0.20
+ORIENTATION_TRANSITION_CLASS_MIN_CONTEXT_FRAMES = 16
+ORIENTATION_WINDOW_LOOKAHEAD = 12
 TERMINAL_COMMIT = "5aaf117b66902219ac997082763fb4e2ea8891b3"
 STRICT_UTILITY_VERSION = STRICT_SUCCESS_VERSION
 TRUTH_UTILITY_VERSION = "trace_window_v2"
 TEACHER_FINGERPRINT_VERSION = "v8_3_fingerprint_v1"
 LEARNING_SUPPORT_TRUTH_VERSION = "learning_support_window_v1"
+ORIENTATION_SUPPORT_TRUTH_VERSION = "orientation_support_window_v1"
 LEARNING_SUPPORT_FINGERPRINT_VERSION = "v10_learning_support_fingerprint_v1"
+ORIENTATION_SUPPORT_FINGERPRINT_VERSION = "v12_orientation_support_fingerprint_v1"
 EFFECTIVE_SUPPORT_SIGNATURE_VERSION = "effective_support_signature_v1"
 TEACHER_FAMILY_GRID_VERSION = "v11_support_family_grid_v1"
 TEACHER_FAMILY_GRID_V11 = [
@@ -778,6 +800,317 @@ def _learning_support_truth_summary(rollout: dict[str, Any]) -> dict[str, Any]:
     return summary
 
 
+
+
+def _normalize_vector(vec: np.ndarray, fallback: np.ndarray) -> np.ndarray:
+    norm = float(np.linalg.norm(vec))
+    if norm <= 1e-8:
+        return fallback.astype(np.float32)
+    return (vec / norm).astype(np.float32)
+
+
+def _approach_alignment_trace_from_rollout(
+    rollout: dict[str, Any], n_frames: int
+) -> np.ndarray:
+    states = np.asarray(rollout.get("states", []), dtype=np.float32)
+    if states.ndim != 2 or states.shape[0] <= 0 or states.shape[1] < 3:
+        return np.zeros((n_frames,), dtype=np.float32)
+    usable = min(int(n_frames), int(states.shape[0]))
+    out = np.zeros((n_frames,), dtype=np.float32)
+    eef_pos = states[:usable, :3]
+    handle_anchor = np.asarray(
+        (rollout.get("orientation_telemetry") or {}).get(
+            "runtime_handle_anchor_world"
+        )
+        or [0.0, 0.0, 0.0],
+        dtype=np.float32,
+    )
+    world_x = np.array([1.0, 0.0, 0.0], dtype=np.float32)
+    for idx in range(1, usable):
+        delta = _normalize_vector(eef_pos[idx] - eef_pos[idx - 1], world_x)
+        desired = _normalize_vector(handle_anchor - eef_pos[idx - 1], world_x)
+        out[idx] = float(np.clip(np.dot(delta, desired), -1.0, 1.0))
+    return out
+
+
+def _orientation_support_truth_summary(rollout: dict[str, Any]) -> dict[str, Any]:
+    trace = list(rollout.get("handle_probe_metadata_trace") or [])
+    n_frames = len(trace)
+    summary = {
+        "orientation_support_truth_adjudication": ORIENTATION_SUPPORT_TRUTH_VERSION,
+        "orientation_support_window_start": None,
+        "orientation_support_window_end": None,
+        "orientation_support_window_len": 0,
+        "orientation_context_frame_count": 0,
+        "orientation_support_contains_distance_pass": False,
+        "orientation_support_contains_approach_pass": False,
+        "orientation_support_contains_orientation_correction": False,
+        "orientation_support_contains_attach_eligible": False,
+        "orientation_error_start": 0.0,
+        "orientation_error_end": 0.0,
+        "orientation_error_delta": 0.0,
+        "orientation_alignment_start": 0.0,
+        "orientation_alignment_end": 0.0,
+        "orientation_alignment_delta": 0.0,
+        "orientation_gate_crossed": False,
+        "orientation_support_truthful_ratio": 0.0,
+        "orientation_support_anchor_valid": False,
+        "orientation_support_anchor_valid_ratio": 0.0,
+        "measurement_truthful_for_orientation_support": False,
+        "orientation_support_core_start": None,
+        "orientation_support_core_end": None,
+        "orientation_support_approach_alignment_start": 0.0,
+        "orientation_support_distance_to_handle_start": 0.0,
+        "orientation_support_phase_orientation_schedule_hash": "missing",
+    }
+    if n_frames <= 0:
+        return summary
+    truthful_mask = np.asarray(
+        [bool((item or {}).get("measurement_truthful", False)) for item in trace],
+        dtype=bool,
+    )
+    anchor_trace = np.asarray(
+        rollout.get("runtime_handle_anchor_valid_trace", []), dtype=bool
+    ).reshape(-1)
+    distance_trace = np.asarray(
+        rollout.get("handle_distance_trace", []), dtype=np.float32
+    ).reshape(-1)
+    orientation_alignment = np.asarray(
+        rollout.get("orientation_alignment_trace", []), dtype=np.float32
+    ).reshape(-1)
+    orientation_error = np.asarray(
+        rollout.get("orientation_error_trace", []), dtype=np.float32
+    ).reshape(-1)
+    orientation_gate = np.asarray(
+        rollout.get("orientation_gate_trace", []), dtype=bool
+    ).reshape(-1)
+    attach_eligible = np.asarray(
+        rollout.get("attach_eligible_trace", []), dtype=bool
+    ).reshape(-1)
+    attached = np.asarray(rollout.get("attached_trace", []), dtype=bool).reshape(-1)
+    stable_attach = np.asarray(
+        rollout.get("stable_attach_trace", []), dtype=bool
+    ).reshape(-1)
+    approach_alignment = _approach_alignment_trace_from_rollout(rollout, n_frames)
+    phase_labels = [str(x) for x in rollout.get("phase_labels", [])]
+    _, _, bridge_mask = _bridge_interval(rollout, n_frames)
+
+    usable = min(
+        n_frames,
+        int(distance_trace.size) if distance_trace.size else n_frames,
+        int(orientation_alignment.size) if orientation_alignment.size else n_frames,
+    )
+    if usable <= 0:
+        return summary
+
+    def _pad_bool(values: np.ndarray, fill: bool = False) -> np.ndarray:
+        padded = np.full((usable,), fill, dtype=bool)
+        if values.size:
+            padded[: min(values.size, usable)] = values[: min(values.size, usable)]
+        return padded
+
+    def _pad_float(values: np.ndarray, fill: float) -> np.ndarray:
+        padded = np.full((usable,), fill, dtype=np.float32)
+        if values.size:
+            padded[: min(values.size, usable)] = values[: min(values.size, usable)]
+        return padded
+
+    distance_trace = _pad_float(distance_trace, np.inf)
+    orientation_alignment = _pad_float(orientation_alignment, 0.0)
+    orientation_error = _pad_float(orientation_error, 1.0)
+    orientation_gate = _pad_bool(orientation_gate)
+    attach_eligible = _pad_bool(attach_eligible)
+    attached = _pad_bool(attached)
+    stable_attach = _pad_bool(stable_attach)
+    anchor_mask = (
+        _pad_bool(anchor_trace)
+        if anchor_trace.size
+        else np.full((usable,), bool(rollout.get("runtime_handle_anchor_valid", False)), dtype=bool)
+    )
+    truthful_window = np.zeros((usable,), dtype=bool)
+    truthful_window[: min(usable, truthful_mask.size)] = truthful_mask[: min(usable, truthful_mask.size)]
+    approach_window = approach_alignment[:usable]
+    bridge_window = bridge_mask[:usable] if bridge_mask.size else np.zeros((usable,), dtype=bool)
+
+    distance_pass = distance_trace <= ORIENTATION_ATTACH_THRESHOLD_M
+    near_distance = np.logical_or(distance_pass, distance_trace <= ORIENTATION_NEAR_DISTANCE_THRESHOLD_M)
+    approach_ok = approach_window >= ORIENTATION_APPROACH_THRESHOLD
+    near_approach = approach_window >= ORIENTATION_NEAR_APPROACH_THRESHOLD
+    orientation_not_ok = orientation_alignment < ORIENTATION_THRESHOLD
+    before_attach = np.logical_not(np.logical_or(attach_eligible, stable_attach))
+    start_mask = near_distance & np.logical_or(approach_ok, near_approach) & orientation_not_ok & before_attach
+    orientation_start = _first_true_index(start_mask)
+    summary["orientation_support_core_start"] = orientation_start
+    if orientation_start is None:
+        return summary
+
+    stop = min(usable, orientation_start + ORIENTATION_WINDOW_LOOKAHEAD + 1)
+    end_event = None
+    for idx in range(orientation_start + 1, stop):
+        if (
+            bool(orientation_gate[idx])
+            or bool(attach_eligible[idx])
+            or bool(attached[idx])
+            or bool(stable_attach[idx])
+            or bool(bridge_window[idx])
+        ):
+            end_event = idx
+            break
+    if end_event is None:
+        end_event = max(orientation_start + 1, stop - 1)
+    start = max(0, orientation_start - ORIENTATION_CONTEXT_PRE_FRAMES)
+    end = min(usable, end_event + 1 + ORIENTATION_CONTEXT_POST_FRAMES)
+    if end <= start:
+        return summary
+
+    window_len = int(end - start)
+    core_start = int(orientation_start)
+    core_end = int(end_event + 1)
+    truthful_ratio = float(np.mean(truthful_window[start:end])) if window_len > 0 else 0.0
+    anchor_valid_ratio = float(np.mean(anchor_mask[start:end])) if window_len > 0 else 0.0
+    alignment_start = float(orientation_alignment[orientation_start])
+    alignment_end = float(orientation_alignment[end_event])
+    alignment_delta = float(alignment_end - alignment_start)
+    error_start = float(orientation_error[orientation_start])
+    error_end = float(orientation_error[end_event])
+    error_delta = float(error_end - error_start)
+    gate_crossed = bool(np.any(orientation_gate[core_start:core_end]))
+    contains_attach_eligible = bool(np.any(attach_eligible[start:end]))
+    contains_distance_pass = bool(np.any(distance_pass[start:end]))
+    contains_approach_pass = bool(np.any(np.logical_or(approach_ok[start:end], near_approach[start:end])))
+    contains_orientation_correction = bool(
+        alignment_delta >= ORIENTATION_ALIGNMENT_MIN_DELTA or gate_crossed
+    )
+    # Count the transition event frame itself as usable orientation support context.
+    context_frames = int((orientation_start - start) + (end - core_end) + 1)
+    summary.update(
+        {
+            "orientation_support_window_start": int(start),
+            "orientation_support_window_end": int(end),
+            "orientation_support_window_len": window_len,
+            "orientation_context_frame_count": context_frames,
+            "orientation_support_contains_distance_pass": contains_distance_pass,
+            "orientation_support_contains_approach_pass": contains_approach_pass,
+            "orientation_support_contains_orientation_correction": contains_orientation_correction,
+            "orientation_support_contains_attach_eligible": contains_attach_eligible,
+            "orientation_error_start": error_start,
+            "orientation_error_end": error_end,
+            "orientation_error_delta": error_delta,
+            "orientation_alignment_start": alignment_start,
+            "orientation_alignment_end": alignment_end,
+            "orientation_alignment_delta": alignment_delta,
+            "orientation_gate_crossed": gate_crossed,
+            "orientation_support_truthful_ratio": truthful_ratio,
+            "orientation_support_anchor_valid": bool(anchor_valid_ratio >= 0.80),
+            "orientation_support_anchor_valid_ratio": anchor_valid_ratio,
+            "measurement_truthful_for_orientation_support": bool(
+                window_len >= ORIENTATION_SUPPORT_WINDOW_MIN_FRAMES
+                and truthful_ratio >= 0.60
+                and anchor_valid_ratio >= 0.80
+                and (
+                    alignment_delta >= ORIENTATION_ALIGNMENT_MIN_DELTA
+                    or gate_crossed
+                    or contains_attach_eligible
+                )
+            ),
+            "orientation_support_core_start": core_start,
+            "orientation_support_core_end": core_end,
+            "orientation_support_approach_alignment_start": float(approach_window[orientation_start]),
+            "orientation_support_distance_to_handle_start": float(distance_trace[orientation_start]),
+            "orientation_support_phase_orientation_schedule_hash": _hash_json_payload(
+                phase_labels[start:end] if phase_labels else []
+            ),
+        }
+    )
+    return summary
+
+
+def _orientation_support_teacher_class(rollout: dict[str, Any]) -> str:
+    support = dict(rollout.get("orientation_support_truth") or {})
+    if not bool(support.get("measurement_truthful_for_orientation_support", False)):
+        return "rejected_orientation_teacher"
+    attach_eligible_trace = np.asarray(
+        rollout.get("attach_eligible_trace", []), dtype=bool
+    ).reshape(-1)
+    window_end = support.get("orientation_support_window_end")
+    immediate_post_attach_eligible = False
+    if window_end is not None and attach_eligible_trace.size:
+        start = min(int(window_end), int(attach_eligible_trace.size))
+        stop = min(start + 2, int(attach_eligible_trace.size))
+        immediate_post_attach_eligible = bool(np.any(attach_eligible_trace[start:stop]))
+    strong_orientation_transition = float(
+        support.get("orientation_alignment_delta", 0.0) or 0.0
+    ) >= ORIENTATION_TRANSITION_CLASS_DELTA
+    sufficient_transition_context = int(
+        support.get("orientation_context_frame_count", 0) or 0
+    ) >= ORIENTATION_TRANSITION_CLASS_MIN_CONTEXT_FRAMES
+    if strong_orientation_transition and sufficient_transition_context:
+        return "orientation_transition_teacher"
+    if bool(support.get("orientation_support_contains_attach_eligible", False)) or immediate_post_attach_eligible:
+        return "attach_eligible_transition_teacher"
+    if bool(support.get("orientation_gate_crossed", False)) or float(
+        support.get("orientation_alignment_delta", 0.0) or 0.0
+    ) >= ORIENTATION_TRANSITION_DELTA:
+        return "orientation_transition_teacher"
+    if bool(support.get("orientation_support_contains_distance_pass", False)) and bool(
+        support.get("orientation_support_contains_approach_pass", False)
+    ):
+        return "orientation_context_teacher"
+    return "rejected_orientation_teacher"
+def _orientation_support_fingerprint(rollout: dict[str, Any]) -> str:
+    support = dict(rollout.get("orientation_support_truth") or {})
+    quats = np.asarray(rollout.get("eef_quat_trace", []), dtype=np.float32)
+    if quats.ndim != 2:
+        quats = np.asarray([], dtype=np.float32).reshape(0, 4)
+    actions = np.asarray(rollout.get("actions", []), dtype=np.float32)
+    if actions.ndim != 2:
+        actions = np.asarray([], dtype=np.float32).reshape(0, 7)
+    start = int(support.get("orientation_support_window_start") or 0)
+    end = int(support.get("orientation_support_window_end") or 0)
+    phase_labels = [str(x) for x in rollout.get("phase_labels", [])]
+    proposal_source = str(
+        rollout.get("orientation_prior_source")
+        or rollout.get("proposal_source")
+        or "native_teacher"
+    )
+    payload = {
+        "seed": int(rollout.get("seed", -1) or -1),
+        "teacher_family_variant": str(rollout.get("teacher_family_variant") or "base"),
+        "orientation_start_bucket": _bucket_floor_int(
+            support.get("orientation_support_core_start"), 8
+        ),
+        "orientation_window_len_bucket": _bucket_floor_int(
+            support.get("orientation_support_window_len", 0), 8
+        ),
+        "orientation_alignment_start_bucket": _bucket_floor_float(
+            support.get("orientation_alignment_start"), 0.1
+        ),
+        "orientation_alignment_delta_bucket": _bucket_floor_float(
+            support.get("orientation_alignment_delta"), 0.1
+        ),
+        "approach_alignment_bucket": _bucket_floor_float(
+            support.get("orientation_support_approach_alignment_start"), 0.1
+        ),
+        "distance_to_handle_bucket": _bucket_floor_float(
+            support.get("orientation_support_distance_to_handle_start"), 0.02
+        ),
+        "eef_orientation_path_signature": _hash_json_payload(
+            _sample_signature_points(quats[start:end])
+        )
+        if quats.size and end > start
+        else "missing",
+        "action_rotation_signature": _hash_json_payload(
+            _actions_signature(actions[start:end, 3:6])
+        )
+        if actions.size and end > start and actions.shape[1] >= 6
+        else "missing",
+        "phase_orientation_schedule_hash": str(
+            support.get("orientation_support_phase_orientation_schedule_hash")
+            or _hash_json_payload(phase_labels[start:end] if end > start else [])
+        ),
+        "proposal_source": proposal_source,
+    }
+    return json.dumps(payload, sort_keys=True)
 def _slice_rollout_to_training_window(
     rollout: dict[str, Any], start: int, end: int
 ) -> dict[str, Any]:
@@ -1122,19 +1455,29 @@ def _augment_rollout_metadata(
 
     truth_summary = _canonical_training_truth_summary(rollout)
     learning_support_summary = _learning_support_truth_summary(rollout)
+    orientation_support_summary = _orientation_support_truth_summary(rollout)
     rollout["canonical_training_truth"] = truth_summary
     rollout["learning_support_truth"] = learning_support_summary
+    rollout["orientation_support_truth"] = orientation_support_summary
     rollout["measurement_truthful_for_training"] = bool(
         truth_summary.get("measurement_truthful_for_training", False)
     )
     rollout["measurement_truthful_for_learning_support"] = bool(
         learning_support_summary.get("measurement_truthful_for_learning_support", False)
     )
+    rollout["measurement_truthful_for_orientation_support"] = bool(
+        orientation_support_summary.get(
+            "measurement_truthful_for_orientation_support", False
+        )
+    )
     rollout["teacher_truth_adjudication"] = truth_summary.get(
         "teacher_truth_adjudication"
     )
     rollout["learning_support_truth_adjudication"] = learning_support_summary.get(
         "learning_support_truth_adjudication"
+    )
+    rollout["orientation_support_truth_adjudication"] = orientation_support_summary.get(
+        "orientation_support_truth_adjudication"
     )
     rollout["truth_contract_hash"] = truth_summary.get("truth_contract_hash")
     rollout["truth_contract_path"] = truth_summary.get("truth_contract_path")
@@ -1212,11 +1555,78 @@ def _augment_rollout_metadata(
     rollout["learning_support_anchor_step"] = learning_support_summary.get(
         "learning_support_anchor_step"
     )
+    rollout["orientation_support_window_start"] = orientation_support_summary.get(
+        "orientation_support_window_start"
+    )
+    rollout["orientation_support_window_end"] = orientation_support_summary.get(
+        "orientation_support_window_end"
+    )
+    rollout["orientation_support_window_len"] = int(
+        orientation_support_summary.get("orientation_support_window_len", 0) or 0
+    )
+    rollout["orientation_context_frame_count"] = int(
+        orientation_support_summary.get("orientation_context_frame_count", 0) or 0
+    )
+    rollout["orientation_support_contains_distance_pass"] = bool(
+        orientation_support_summary.get("orientation_support_contains_distance_pass", False)
+    )
+    rollout["orientation_support_contains_approach_pass"] = bool(
+        orientation_support_summary.get("orientation_support_contains_approach_pass", False)
+    )
+    rollout["orientation_support_contains_orientation_correction"] = bool(
+        orientation_support_summary.get(
+            "orientation_support_contains_orientation_correction", False
+        )
+    )
+    rollout["orientation_support_contains_attach_eligible"] = bool(
+        orientation_support_summary.get("orientation_support_contains_attach_eligible", False)
+    )
+    rollout["orientation_error_start"] = float(
+        orientation_support_summary.get("orientation_error_start", 0.0) or 0.0
+    )
+    rollout["orientation_error_end"] = float(
+        orientation_support_summary.get("orientation_error_end", 0.0) or 0.0
+    )
+    rollout["orientation_error_delta"] = float(
+        orientation_support_summary.get("orientation_error_delta", 0.0) or 0.0
+    )
+    rollout["orientation_alignment_start"] = float(
+        orientation_support_summary.get("orientation_alignment_start", 0.0) or 0.0
+    )
+    rollout["orientation_alignment_end"] = float(
+        orientation_support_summary.get("orientation_alignment_end", 0.0) or 0.0
+    )
+    rollout["orientation_alignment_delta"] = float(
+        orientation_support_summary.get("orientation_alignment_delta", 0.0) or 0.0
+    )
+    rollout["orientation_gate_crossed"] = bool(
+        orientation_support_summary.get("orientation_gate_crossed", False)
+    )
+    rollout["orientation_support_truthful_ratio"] = float(
+        orientation_support_summary.get("orientation_support_truthful_ratio", 0.0)
+        or 0.0
+    )
+    rollout["orientation_support_anchor_valid"] = bool(
+        orientation_support_summary.get("orientation_support_anchor_valid", False)
+    )
+    rollout["orientation_support_anchor_valid_ratio"] = float(
+        orientation_support_summary.get("orientation_support_anchor_valid_ratio", 0.0)
+        or 0.0
+    )
+    rollout["orientation_support_core_start"] = orientation_support_summary.get(
+        "orientation_support_core_start"
+    )
+    rollout["orientation_support_core_end"] = orientation_support_summary.get(
+        "orientation_support_core_end"
+    )
     support_family_repair_mode = str(
         expected.get("support_family_repair_mode") or "G2B"
     )
     rollout["teacher_episode_class"] = _teacher_episode_class(rollout)
     rollout["learning_support_teacher_class"] = _learning_support_teacher_class(rollout)
+    rollout["orientation_support_teacher_class"] = _orientation_support_teacher_class(
+        rollout
+    )
     rollout["teacher_fingerprint"] = _teacher_fingerprint(rollout)
     rollout["support_family_repair_mode"] = support_family_repair_mode
     rollout["effective_support_signature_version"] = EFFECTIVE_SUPPORT_SIGNATURE_VERSION
@@ -1237,6 +1647,12 @@ def _augment_rollout_metadata(
         rollout["learning_support_fingerprint"] = _learning_support_fingerprint(
             rollout
         )
+    rollout["orientation_support_fingerprint_version"] = (
+        ORIENTATION_SUPPORT_FINGERPRINT_VERSION
+    )
+    rollout["orientation_support_fingerprint"] = _orientation_support_fingerprint(
+        rollout
+    )
 
     if probe:
         probe["selector_mode"] = controller.selector_mode
@@ -1475,6 +1891,82 @@ def _materialization_summary(
     return report
 
 
+
+
+def _enrich_orientation_materialization_report(
+    report: dict[str, Any], records: list[dict[str, Any]], train_seeds: list[int]
+) -> dict[str, Any]:
+    accepted_classes = {
+        "orientation_transition_teacher",
+        "attach_eligible_transition_teacher",
+        "orientation_context_teacher",
+    }
+    orientation_fingerprints = sorted(
+        {
+            rec.get("orientation_support_fingerprint")
+            for rec in records
+            if rec.get("orientation_support_teacher_class") in accepted_classes
+            and rec.get("orientation_support_fingerprint")
+        }
+    )
+    family_count_by_seed: dict[str, int] = {}
+    seed_coverage: list[int] = []
+    truthful_ratios: list[float] = []
+    context_counts: list[int] = []
+    class_counts = Counter(
+        str(rec.get("orientation_support_teacher_class", "rejected_orientation_teacher"))
+        for rec in records
+    )
+    for seed in train_seeds:
+        seed_records = [rec for rec in records if int(rec.get("seed", -1)) == int(seed)]
+        seed_families = {
+            rec.get("orientation_support_fingerprint")
+            for rec in seed_records
+            if rec.get("orientation_support_teacher_class") in accepted_classes
+            and rec.get("orientation_support_fingerprint")
+        }
+        family_count_by_seed[str(seed)] = len(seed_families)
+        if seed_families:
+            seed_coverage.append(int(seed))
+        truthful_ratios.extend(
+            float(rec.get("orientation_support_truthful_ratio", 0.0) or 0.0)
+            for rec in seed_records
+            if rec.get("orientation_support_teacher_class") in accepted_classes
+        )
+        context_counts.extend(
+            int(rec.get("orientation_context_frame_count", 0) or 0)
+            for rec in seed_records
+            if rec.get("orientation_support_teacher_class") in accepted_classes
+        )
+    report.update(
+        {
+            "orientation_support_unique_teacher_family_count": int(
+                len(orientation_fingerprints)
+            ),
+            "orientation_support_family_count_by_seed": family_count_by_seed,
+            "orientation_support_seed_coverage": sorted(seed_coverage),
+            "orientation_support_teacher_class_counts": dict(class_counts),
+            "orientation_transition_teacher_count": int(
+                class_counts.get("orientation_transition_teacher", 0)
+            ),
+            "attach_eligible_transition_teacher_count": int(
+                class_counts.get("attach_eligible_transition_teacher", 0)
+            ),
+            "orientation_support_truthful_ratio_p50": float(
+                np.percentile(np.asarray(truthful_ratios, dtype=np.float32), 50)
+            )
+            if truthful_ratios
+            else 0.0,
+            "orientation_support_truthful_ratio_p90": float(
+                np.percentile(np.asarray(truthful_ratios, dtype=np.float32), 90)
+            )
+            if truthful_ratios
+            else 0.0,
+            "orientation_context_frame_p50": _percentile_int(context_counts, 50.0),
+            "orientation_context_frame_p90": _percentile_int(context_counts, 90.0),
+        }
+    )
+    return report
 def materialize_canonical_train_rollouts(
     source_dir: Path | None = None,
     *,
@@ -1517,6 +2009,7 @@ def materialize_canonical_train_rollouts(
         != source_canonical_train_cell
     )
     learning_support_dir = LEARNING_SUPPORT_ROLLOUT_SOURCE_DIR
+    orientation_support_dir = ORIENTATION_SUPPORT_ROLLOUT_SOURCE_DIR
     report_base: dict[str, Any] = {
         **expected,
         "run_instance_id": expected.get("run_instance_id"),
@@ -1580,30 +2073,48 @@ def materialize_canonical_train_rollouts(
         "dataset_selection_mode": "diagnostic_learning_support",
         "timestamp": time.time(),
     }
+    orientation_support_report: dict[str, Any] = {
+        "gate": "g6_orientation_support_rollout_materialization",
+        "source_dir": str(orientation_support_dir),
+        **report_base,
+        "dataset_selection_mode": "diagnostic_orientation_support",
+        "timestamp": time.time(),
+    }
     if not bool(expected.get("tiny_retrain_permitted", True)):
         report["passed"] = False
         report["error"] = "RCA7 did not permit tiny retrain"
         learning_support_report.update({"passed": False, "error": report["error"]})
+        orientation_support_report.update({"passed": False, "error": report["error"]})
         MATERIALIZATION_ARTIFACT.write_text(json.dumps(report, indent=2))
         LEARNING_SUPPORT_MATERIALIZATION_ARTIFACT.write_text(
             json.dumps(learning_support_report, indent=2)
+        )
+        ORIENTATION_SUPPORT_MATERIALIZATION_ARTIFACT.write_text(
+            json.dumps(orientation_support_report, indent=2)
         )
         return report
     if not source_canonical_train_cell:
         report["passed"] = False
         report["error"] = "Missing source_canonical_train_cell from RCA5/RCA7"
         learning_support_report.update({"passed": False, "error": report["error"]})
+        orientation_support_report.update({"passed": False, "error": report["error"]})
         MATERIALIZATION_ARTIFACT.write_text(json.dumps(report, indent=2))
         LEARNING_SUPPORT_MATERIALIZATION_ARTIFACT.write_text(
             json.dumps(learning_support_report, indent=2)
+        )
+        ORIENTATION_SUPPORT_MATERIALIZATION_ARTIFACT.write_text(
+            json.dumps(orientation_support_report, indent=2)
         )
         return report
     if force_rebuild and source_dir.exists():
         shutil.rmtree(source_dir)
     if force_rebuild and learning_support_dir.exists():
         shutil.rmtree(learning_support_dir)
+    if force_rebuild and orientation_support_dir.exists():
+        shutil.rmtree(orientation_support_dir)
     source_dir.mkdir(parents=True, exist_ok=True)
     learning_support_dir.mkdir(parents=True, exist_ok=True)
+    orientation_support_dir.mkdir(parents=True, exist_ok=True)
 
     controller = RootCauseController(
         max_experiments_per_cycle=1,
@@ -1628,10 +2139,13 @@ def materialize_canonical_train_rollouts(
     attempted_rollouts = 0
     saved_rollouts = 0
     learning_support_saved_rollouts = 0
+    orientation_support_saved_rollouts = 0
     successful_seeds: set[int] = set()
     learning_support_successful_seeds: set[int] = set()
+    orientation_support_successful_seeds: set[int] = set()
     saved_files: list[str] = []
     learning_support_saved_files: list[str] = []
+    orientation_support_saved_files: list[str] = []
     records: list[dict[str, Any]] = []
     for seed in train_seeds:
         for episode_index in range(episodes_per_seed):
@@ -1745,8 +2259,73 @@ def materialize_canonical_train_rollouts(
                 "teacher_family_variant": str(
                     rollout.get("teacher_family_variant") or ""
                 ),
+                "orientation_support_teacher_class": str(
+                    rollout.get(
+                        "orientation_support_teacher_class",
+                        "rejected_orientation_teacher",
+                    )
+                ),
+                "orientation_support_fingerprint": str(
+                    rollout.get("orientation_support_fingerprint", "")
+                ),
+                "measurement_truthful_for_orientation_support": bool(
+                    rollout.get("measurement_truthful_for_orientation_support", False)
+                ),
+                "orientation_support_window_len": int(
+                    rollout.get("orientation_support_window_len", 0) or 0
+                ),
+                "orientation_context_frame_count": int(
+                    rollout.get("orientation_context_frame_count", 0) or 0
+                ),
+                "orientation_support_truthful_ratio": float(
+                    rollout.get("orientation_support_truthful_ratio", 0.0) or 0.0
+                ),
+                "orientation_support_contains_distance_pass": bool(
+                    rollout.get("orientation_support_contains_distance_pass", False)
+                ),
+                "orientation_support_contains_approach_pass": bool(
+                    rollout.get("orientation_support_contains_approach_pass", False)
+                ),
+                "orientation_support_contains_orientation_correction": bool(
+                    rollout.get(
+                        "orientation_support_contains_orientation_correction", False
+                    )
+                ),
+                "orientation_support_contains_attach_eligible": bool(
+                    rollout.get("orientation_support_contains_attach_eligible", False)
+                ),
+                "orientation_support_anchor_valid": bool(
+                    rollout.get("orientation_support_anchor_valid", False)
+                ),
+                "orientation_gate_crossed": bool(
+                    rollout.get("orientation_gate_crossed", False)
+                ),
+                "orientation_alignment_delta": float(
+                    rollout.get("orientation_alignment_delta", 0.0) or 0.0
+                ),
             }
             records.append(record)
+            if str(
+                rollout.get("orientation_support_teacher_class", "rejected_orientation_teacher")
+            ) in {
+                "orientation_transition_teacher",
+                "attach_eligible_transition_teacher",
+                "orientation_context_teacher",
+            }:
+                orientation_start = rollout.get("orientation_support_window_start")
+                orientation_end = rollout.get("orientation_support_window_end")
+                if orientation_start is not None and orientation_end is not None:
+                    orientation_rollout = _slice_rollout_to_training_window(
+                        rollout, int(orientation_start), int(orientation_end)
+                    )
+                    orientation_out_path = (
+                        orientation_support_dir
+                        / f"seed_{int(seed):03d}_episode_{int(episode_index):02d}.npz"
+                    )
+                    save_robot_rollout(orientation_out_path, orientation_rollout)
+                    orientation_support_saved_rollouts += 1
+                    orientation_support_successful_seeds.add(int(seed))
+                    orientation_support_saved_files.append(str(orientation_out_path))
             if str(
                 rollout.get("learning_support_teacher_class", "rejected_teacher")
             ) in {"strict_teacher", "near_strict_teacher", "learning_support_teacher"}:
@@ -1819,12 +2398,38 @@ def materialize_canonical_train_rollouts(
         records=records,
         dataset_selection_mode="diagnostic_learning_support",
     )
+    orientation_support_report = _materialization_summary(
+        gate_name="g6_orientation_support_rollout_materialization",
+        source_dir=orientation_support_dir,
+        expected=expected,
+        train_seeds=train_seeds,
+        episodes_per_seed=episodes_per_seed,
+        min_train_episodes=min_train_episodes,
+        teacher_controller_mode=teacher_controller_mode,
+        teacher_controller_max_steps=teacher_controller_max_steps,
+        teacher_pull_open_fraction=teacher_pull_open_fraction,
+        stale_source_mismatch=stale_source_mismatch,
+        attempted_rollouts=attempted_rollouts,
+        saved_rollouts=orientation_support_saved_rollouts,
+        successful_seeds=orientation_support_successful_seeds,
+        saved_files=orientation_support_saved_files,
+        records=records,
+        dataset_selection_mode="diagnostic_orientation_support",
+    )
+    orientation_support_report = _enrich_orientation_materialization_report(
+        orientation_support_report, records, train_seeds
+    )
     if not report["passed"]:
         report["error"] = "insufficient_canonical_bridge_data"
     if not learning_support_report["passed"]:
         learning_support_report["error"] = "insufficient_learning_support_data"
+    if not orientation_support_report["passed"]:
+        orientation_support_report["error"] = "insufficient_orientation_support_data"
     MATERIALIZATION_ARTIFACT.write_text(json.dumps(report, indent=2))
     LEARNING_SUPPORT_MATERIALIZATION_ARTIFACT.write_text(
         json.dumps(learning_support_report, indent=2)
+    )
+    ORIENTATION_SUPPORT_MATERIALIZATION_ARTIFACT.write_text(
+        json.dumps(orientation_support_report, indent=2)
     )
     return report

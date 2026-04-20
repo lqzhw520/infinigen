@@ -122,6 +122,11 @@ def validate_training_dataset_against_plan(plan: dict[str, Any]) -> dict[str, An
             raise SystemExit(
                 "Diagnostic learning-support dataset is valid but trainability_support_passed is false"
             )
+    elif dataset_selection_mode == "diagnostic_orientation_support":
+        if not bool(dataset_build.get("orientation_trainability_passed", False)):
+            raise SystemExit(
+                "Diagnostic orientation-support dataset is valid but orientation_trainability_passed is false"
+            )
     elif not bool(dataset_build.get("claim_readiness_passed", dataset_build.get("teacher_readiness_passed", False))):
         raise SystemExit(
             "Claim-bearing dataset is valid but claim_readiness_passed is false"

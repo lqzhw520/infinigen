@@ -1,13 +1,13 @@
 {
   "gate": "g6_family_conditioned_probe",
-  "run_instance_id": "v11_20260418T101620Z_dfa0ef0f_dc2d4581",
-  "working_head_commit": "dfa0ef0f0acd9443dc010d019d25ad7eb78b40d6",
-  "execution_scope": "v11_support_family_diagnostic",
+  "run_instance_id": "v12_1_20260419T140832Z_f9421676_e0c7ded8",
+  "working_head_commit": "f9421676c1b67dfbfeb3510cbc2d55efc5a4c98c",
+  "execution_scope": "v12_orientation_first_probe",
   "diagnostic_only": true,
   "claim_bearing": false,
-  "publication_scope": "diagnostic_only",
-  "result_scope": "diagnostic_only",
-  "classification": "diagnostic_learning_support_no_signal_after_support_family_fix",
+  "publication_scope": "pending_v12_g9",
+  "result_scope": "pending_v12_g8",
+  "classification": "orientation_stage_signal_detected_no_attach",
   "overall_best_checkpoint_step": 10000,
   "by_seed": {
     "1": {
@@ -332,6 +332,29 @@
     }
   },
   "by_teacher_fingerprint": {
+    "{\"attach_persistence\": 0, \"effective_pull_progress_peak\": 0.0, \"first_attach_step\": null, \"max_drawer_fraction\": 0.0, \"phase_locked_rate\": 0.0, \"phase_schedule_hash\": \"1010599372aee06a\", \"seed\": 4, \"truthful_window_frame_count\": 0}": {
+      "pretrained": {
+        "episode_count": 3,
+        "ever_attach_eligible_fraction": 0.0,
+        "ever_attached_rate": 0.0,
+        "stable_attach_rate": 0.0,
+        "phase_locked_rate": 0.0,
+        "effective_pull_progress_peak_mean": 0.0,
+        "max_drawer_fraction_mean": 0.0,
+        "strict_success_rate": 0.0
+      },
+      "finetuned": {
+        "episode_count": 3,
+        "ever_attach_eligible_fraction": 0.0,
+        "ever_attached_rate": 0.0,
+        "stable_attach_rate": 0.0,
+        "phase_locked_rate": 0.0,
+        "effective_pull_progress_peak_mean": 0.0,
+        "max_drawer_fraction_mean": 0.0,
+        "strict_success_rate": 0.0
+      },
+      "seed_count": 1
+    },
     "{\"attach_persistence\": 24, \"effective_pull_progress_peak\": 0.0047, \"first_attach_step\": 21, \"max_drawer_fraction\": 0.9392, \"phase_locked_rate\": 0.5333, \"phase_schedule_hash\": \"f31ccc637510965e\", \"seed\": 5, \"truthful_window_frame_count\": 24}": {
       "pretrained": {
         "episode_count": 3,
@@ -448,29 +471,6 @@
       "seed_count": 1
     },
     "{\"attach_persistence\": 33, \"effective_pull_progress_peak\": 0.003, \"first_attach_step\": 23, \"max_drawer_fraction\": 0.925, \"phase_locked_rate\": 0.5893, \"phase_schedule_hash\": \"090d216648ca14e9\", \"seed\": 5, \"truthful_window_frame_count\": 33}": {
-      "pretrained": {
-        "episode_count": 3,
-        "ever_attach_eligible_fraction": 0.0,
-        "ever_attached_rate": 0.0,
-        "stable_attach_rate": 0.0,
-        "phase_locked_rate": 0.0,
-        "effective_pull_progress_peak_mean": 0.0,
-        "max_drawer_fraction_mean": 0.0,
-        "strict_success_rate": 0.0
-      },
-      "finetuned": {
-        "episode_count": 3,
-        "ever_attach_eligible_fraction": 0.0,
-        "ever_attached_rate": 0.0,
-        "stable_attach_rate": 0.0,
-        "phase_locked_rate": 0.0,
-        "effective_pull_progress_peak_mean": 0.0,
-        "max_drawer_fraction_mean": 0.0,
-        "strict_success_rate": 0.0
-      },
-      "seed_count": 1
-    },
-    "{\"attach_persistence\": 36, \"effective_pull_progress_peak\": 0.004, \"first_attach_step\": 21, \"max_drawer_fraction\": 0.9226, \"phase_locked_rate\": 0.6316, \"phase_schedule_hash\": \"ca301be2249a8eed\", \"seed\": 3, \"truthful_window_frame_count\": 36}": {
       "pretrained": {
         "episode_count": 3,
         "ever_attach_eligible_fraction": 0.0,
@@ -1072,29 +1072,6 @@
     },
     "early_close_slow": {
       "pretrained": {
-        "episode_count": 24,
-        "ever_attach_eligible_fraction": 0.0,
-        "ever_attached_rate": 0.0,
-        "stable_attach_rate": 0.0,
-        "phase_locked_rate": 0.0,
-        "effective_pull_progress_peak_mean": 0.0,
-        "max_drawer_fraction_mean": 0.0,
-        "strict_success_rate": 0.0
-      },
-      "finetuned": {
-        "episode_count": 24,
-        "ever_attach_eligible_fraction": 0.0,
-        "ever_attached_rate": 0.0,
-        "stable_attach_rate": 0.0,
-        "phase_locked_rate": 0.0,
-        "effective_pull_progress_peak_mean": 0.0,
-        "max_drawer_fraction_mean": 0.0,
-        "strict_success_rate": 0.0
-      },
-      "seed_count": 8
-    },
-    "tangent_plus": {
-      "pretrained": {
         "episode_count": 21,
         "ever_attach_eligible_fraction": 0.0,
         "ever_attached_rate": 0.0,
@@ -1115,6 +1092,29 @@
         "strict_success_rate": 0.0
       },
       "seed_count": 7
+    },
+    "tangent_plus": {
+      "pretrained": {
+        "episode_count": 24,
+        "ever_attach_eligible_fraction": 0.0,
+        "ever_attached_rate": 0.0,
+        "stable_attach_rate": 0.0,
+        "phase_locked_rate": 0.0,
+        "effective_pull_progress_peak_mean": 0.0,
+        "max_drawer_fraction_mean": 0.0,
+        "strict_success_rate": 0.0
+      },
+      "finetuned": {
+        "episode_count": 24,
+        "ever_attach_eligible_fraction": 0.0,
+        "ever_attached_rate": 0.0,
+        "stable_attach_rate": 0.0,
+        "phase_locked_rate": 0.0,
+        "effective_pull_progress_peak_mean": 0.0,
+        "max_drawer_fraction_mean": 0.0,
+        "strict_success_rate": 0.0
+      },
+      "seed_count": 8
     },
     "vertical_plus": {
       "pretrained": {

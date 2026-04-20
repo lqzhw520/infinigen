@@ -19,6 +19,7 @@ from dataset_builder import (
     validate_built_dataset_provenance,
     validate_rollout_for_canonical_training,
     validate_rollout_for_learning_support_training,
+    validate_rollout_for_orientation_support_training,
 )
 from mint_common import (
     ACTIVE_ACTION_CONTRACT_PATH,
@@ -44,6 +45,9 @@ from tiny_retrain_mainline import (
     LEARNING_SUPPORT_FINGERPRINT_VERSION,
     LEARNING_SUPPORT_MATERIALIZATION_ARTIFACT,
     LEARNING_SUPPORT_ROLLOUT_SOURCE_DIR,
+    ORIENTATION_SUPPORT_FINGERPRINT_VERSION,
+    ORIENTATION_SUPPORT_MATERIALIZATION_ARTIFACT,
+    ORIENTATION_SUPPORT_ROLLOUT_SOURCE_DIR,
     MATERIALIZATION_ARTIFACT,
     STRICT_UTILITY_VERSION,
     TEACHER_FAMILY_GRID_VERSION,
@@ -106,10 +110,34 @@ G6_TRAINABILITY_SUPPORT_CONTRACT_PATH = (
     ARTIFACT_DIR / "g6_trainability_support_contract.json"
 )
 G6_STRICT_SEMANTICS_ALIGNMENT_PATH = ARTIFACT_DIR / "g6_strict_semantics_alignment.json"
+G6_ORIENTATION_TRAINABILITY_CONTRACT_PATH = (
+    ARTIFACT_DIR / "g6_orientation_trainability_contract.json"
+)
 EXECUTION_ANCHOR_PATH = ARTIFACT_DIR / "v8_3_execution_anchor.json"
 
 PLAN_VERSION = "tiny_retrain_confirmation_v11"
 SOURCE_BASE_COMMIT = "dfa0ef0f0acd9443dc010d019d25ad7eb78b40d6"
+
+V12_SPEC_REFERENCE = "/Users/zhuhaowu/ws/phd-anyboxs/infinigen_from_servers/docs/gpt5.4Pro/codex_mint_v84_v12_1_orientation_attach_anygrasp_execution_spec.md"
+V12_EXPECTED_PUBLICATION_HEAD = "f9421676c1b67dfbfeb3510cbc2d55efc5a4c98c"
+V12_EXPECTED_V11_EXECUTION_HEAD = "dfa0ef0f0acd9443dc010d019d25ad7eb78b40d6"
+V12_EXPECTED_V11_RUN_INSTANCE = "v11_20260418T101620Z_dfa0ef0f_dc2d4581"
+V12_EXPECTED_VENDOR_HEAD = "4eab5795345721001c412ff1ca2c886a11eab606"
+V12_GATES_DIR = CAMPAIGN_DIR / "autopilot" / "gates_v12"
+V12_G0_GATE_PATH = V12_GATES_DIR / "G0_sovereign_sync.json"
+V12_G1_GATE_PATH = V12_GATES_DIR / "G1_orientation_stage_audit.json"
+V12_G1B_GATE_PATH = V12_GATES_DIR / "G1b_anygrasp_orientation_prior_audit.json"
+V12_G2_GATE_PATH = V12_GATES_DIR / "G2_state_conditioning_audit.json"
+V12_G3_GATE_PATH = V12_GATES_DIR / "G3_orientation_support_corpus.json"
+V12_G4_GATE_PATH = V12_GATES_DIR / "G4_orientation_trainability_contract.json"
+V12_G5_GATE_PATH = V12_GATES_DIR / "G5_two_stage_orientation_bridge_training.json"
+V12_G6_GATE_PATH = V12_GATES_DIR / "G6_orientation_first_probe.json"
+V11_G3_GATE_PATH = CAMPAIGN_DIR / "autopilot" / "gates_v11" / "G3_dataset_rebuild.json"
+V11_G5_GATE_PATH = CAMPAIGN_DIR / "autopilot" / "gates_v11" / "G5_attach_first_probe.json"
+V11_G6_GATE_PATH = CAMPAIGN_DIR / "autopilot" / "gates_v11" / "G6_interpretation.json"
+V11_ATTACH_BRIDGE_SUMMARY_PATH = ARTIFACT_DIR / "g8_attach_bridge_summary.json"
+V11_PROBE_SUMMARY_PATH = ARTIFACT_DIR / "g8_train_seed_probe.json"
+V11_HANDOFF_DOC_PATH = PROJECT_ROOT / "docs" / "MINT_V84_V11_SCIENCE_AGENT_REVIEW_HANDOFF_2026-04-19.md"
 
 HONEST_EPISODES_PER_SEED = 12
 HONEST_MIN_TRAIN_EPISODES = 48
@@ -184,6 +212,175 @@ def _write_execution_anchor(plan: dict[str, Any]) -> dict[str, Any]:
     }
     write_json_atomic(EXECUTION_ANCHOR_PATH, anchor)
     return anchor
+
+
+
+
+def _current_repo_identity() -> dict[str, str]:
+    return {
+        "branch": _git(["git", "rev-parse", "--abbrev-ref", "HEAD"]),
+        "working_head_commit": _git(["git", "rev-parse", "HEAD"]),
+        "vendor_head_commit": _git(["git", "rev-parse", "HEAD:external/MINT"]),
+    }
+
+
+def _write_v12_gate(
+    gate_path: Path,
+    gate_id: str,
+    gate_name: str,
+    plan: dict[str, Any],
+    *,
+    status: str,
+    blocking_reasons: list[str],
+    allowed_next_phases: list[str],
+    extra: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    ident = _current_repo_identity()
+    payload = {
+        "gate_id": gate_id,
+        "gate_name": gate_name,
+        "run_instance_id": plan.get("run_instance_id"),
+        "working_head_commit": ident["working_head_commit"],
+        "vendor_head_commit": ident["vendor_head_commit"],
+        "branch": ident["branch"],
+        "truth_contract_hash": _truth_contract_hash(),
+        "acceptance_contract_hash": sha256_file(ACCEPTANCE_CONTRACT_PATH),
+        "spec_reference": V12_SPEC_REFERENCE,
+        "timestamp_utc": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+        "status": status,
+        "blocking_reasons": blocking_reasons,
+        "allowed_next_phases": allowed_next_phases,
+        "execution_scope": str(plan.get("execution_scope") or "unspecified"),
+        "dataset_selection_mode": str(plan.get("dataset_selection_mode") or "claim_canonical"),
+    }
+    if extra:
+        payload.update(extra)
+    write_json_atomic(gate_path, payload)
+    return payload
+
+
+def _orientation_trainability_contract(
+    dataset_report: dict[str, Any], plan: dict[str, Any]
+) -> dict[str, Any]:
+    seed_coverage = {
+        int(x) for x in (dataset_report.get("orientation_support_seed_coverage") or [])
+    }
+    family_count_by_seed = dict(
+        dataset_report.get("orientation_support_family_count_by_seed") or {}
+    )
+    class_counts = dict(dataset_report.get("orientation_support_teacher_class_counts") or {})
+    clauses = {
+        "orientation_support_seed_coverage_ge_6": len(seed_coverage) >= 6,
+        "seed2_orientation_support_families_ge_2": int(
+            family_count_by_seed.get("2", 0) or 0
+        ) >= 2,
+        "seed4_orientation_support_families_ge_2": int(
+            family_count_by_seed.get("4", 0) or 0
+        ) >= 2,
+        "orientation_support_unique_families_ge_12": int(
+            dataset_report.get("orientation_support_unique_teacher_family_count", 0) or 0
+        ) >= 12,
+        "orientation_transition_teacher_count_ge_24": int(
+            class_counts.get("orientation_transition_teacher", 0) or 0
+        ) >= 24,
+        "attach_eligible_transition_teacher_count_ge_8": int(
+            class_counts.get("attach_eligible_transition_teacher", 0) or 0
+        ) >= 8,
+        "orientation_support_truthful_ratio_p50_ge_060": float(
+            dataset_report.get("orientation_support_truthful_ratio_p50", 0.0) or 0.0
+        ) >= 0.60,
+        "orientation_context_frame_p50_ge_16": int(
+            dataset_report.get("orientation_context_frame_p50", 0) or 0
+        ) >= 16,
+    }
+    failed_clauses = [name for name, passed in clauses.items() if not bool(passed)]
+    rca_classes: list[str] = []
+    if "orientation_support_seed_coverage_ge_6" in failed_clauses:
+        rca_classes.append("orientation_support_seed_gap")
+    if any(
+        name in failed_clauses
+        for name in (
+            "seed2_orientation_support_families_ge_2",
+            "seed4_orientation_support_families_ge_2",
+        )
+    ):
+        rca_classes.append("hard_seed_orientation_family_gap")
+    if "orientation_support_unique_families_ge_12" in failed_clauses:
+        rca_classes.append("orientation_family_collapse")
+    if "orientation_transition_teacher_count_ge_24" in failed_clauses:
+        rca_classes.append("orientation_transition_too_sparse")
+    if "attach_eligible_transition_teacher_count_ge_8" in failed_clauses:
+        rca_classes.append("attach_eligible_transition_absent")
+    if any(
+        name in failed_clauses
+        for name in (
+            "orientation_support_truthful_ratio_p50_ge_060",
+            "orientation_context_frame_p50_ge_16",
+        )
+    ):
+        rca_classes.append("orientation_truth_support_gap")
+    report = {
+        "gate": "g6_orientation_trainability_contract",
+        "readiness_scope": "orientation_trainability_support",
+        "run_instance_id": plan.get("run_instance_id"),
+        "plan_version": plan.get("plan_version"),
+        "source_base_commit": plan.get("source_base_commit"),
+        "source_canonical_train_cell": plan.get("source_canonical_train_cell"),
+        "source_best_train_state_mode": plan.get("source_best_train_state_mode"),
+        "active_train_state_mode": plan.get("active_train_state_mode"),
+        "dataset_selection_mode": plan.get("dataset_selection_mode"),
+        "orientation_support_seed_coverage": sorted(seed_coverage),
+        "orientation_support_unique_teacher_family_count": int(
+            dataset_report.get("orientation_support_unique_teacher_family_count", 0) or 0
+        ),
+        "orientation_support_family_count_by_seed": family_count_by_seed,
+        "orientation_support_teacher_class_counts": class_counts,
+        "orientation_support_truthful_ratio_p50": float(
+            dataset_report.get("orientation_support_truthful_ratio_p50", 0.0) or 0.0
+        ),
+        "orientation_support_truthful_ratio_p90": float(
+            dataset_report.get("orientation_support_truthful_ratio_p90", 0.0) or 0.0
+        ),
+        "orientation_context_frame_p50": int(
+            dataset_report.get("orientation_context_frame_p50", 0) or 0
+        ),
+        "orientation_context_frame_p90": int(
+            dataset_report.get("orientation_context_frame_p90", 0) or 0
+        ),
+        "truth_contract_path": str(TRUTH_CONTRACT_PATH),
+        "truth_contract_hash": _truth_contract_hash(),
+        "clauses": clauses,
+        "failed_clauses": failed_clauses,
+        "rca_classes": rca_classes,
+        "passed": not failed_clauses,
+    }
+    write_json_atomic(G6_ORIENTATION_TRAINABILITY_CONTRACT_PATH, report)
+    return report
+
+
+def _write_failed_orientation_trainability_contract(
+    plan: dict[str, Any], reason: str
+) -> dict[str, Any]:
+    report = {
+        "gate": "g6_orientation_trainability_contract",
+        "readiness_scope": "orientation_trainability_support",
+        "run_instance_id": plan.get("run_instance_id"),
+        "plan_version": plan.get("plan_version"),
+        "source_base_commit": plan.get("source_base_commit"),
+        "source_canonical_train_cell": plan.get("source_canonical_train_cell"),
+        "source_best_train_state_mode": plan.get("source_best_train_state_mode"),
+        "active_train_state_mode": plan.get("active_train_state_mode"),
+        "dataset_selection_mode": plan.get("dataset_selection_mode"),
+        "truth_contract_path": str(TRUTH_CONTRACT_PATH),
+        "truth_contract_hash": _truth_contract_hash(),
+        "clauses": {},
+        "failed_clauses": [],
+        "rca_classes": [],
+        "passed": False,
+        "failure_reason": reason,
+    }
+    write_json_atomic(G6_ORIENTATION_TRAINABILITY_CONTRACT_PATH, report)
+    return report
 
 
 def _artifact_matches_plan(payload: dict[str, Any], plan: dict[str, Any]) -> bool:
@@ -569,11 +766,12 @@ def _load_validated_rollout_paths(
     paths: list[Path], plan: dict[str, Any]
 ) -> tuple[list[Path], list[dict[str, Any]]]:
     dataset_selection_mode = str(plan.get("dataset_selection_mode") or "claim_canonical")
-    validator = (
-        validate_rollout_for_learning_support_training
-        if dataset_selection_mode == "diagnostic_learning_support"
-        else validate_rollout_for_canonical_training
-    )
+    if dataset_selection_mode == "diagnostic_learning_support":
+        validator = validate_rollout_for_learning_support_training
+    elif dataset_selection_mode == "diagnostic_orientation_support":
+        validator = validate_rollout_for_orientation_support_training
+    else:
+        validator = validate_rollout_for_canonical_training
     valid: list[Path] = []
     rejected: list[dict[str, Any]] = []
     for npz_path in sorted(paths):
@@ -875,21 +1073,18 @@ def _write_failed_trainability_support_contract(
 
 def build_or_refresh_canonical_dataset(plan: dict[str, Any]) -> dict[str, Any]:
     dataset_selection_mode = str(plan.get("dataset_selection_mode") or "claim_canonical")
-    rollout_source_dir = (
-        LEARNING_SUPPORT_ROLLOUT_SOURCE_DIR
-        if dataset_selection_mode == "diagnostic_learning_support"
-        else DEFAULT_ROLLOUT_SOURCE_DIR
-    )
-    materialization_artifact_path = (
-        LEARNING_SUPPORT_MATERIALIZATION_ARTIFACT
-        if dataset_selection_mode == "diagnostic_learning_support"
-        else MATERIALIZATION_ARTIFACT
-    )
-    authoritative_truth_field = (
-        "measurement_truthful_for_learning_support"
-        if dataset_selection_mode == "diagnostic_learning_support"
-        else "measurement_truthful_for_training"
-    )
+    if dataset_selection_mode == "diagnostic_learning_support":
+        rollout_source_dir = LEARNING_SUPPORT_ROLLOUT_SOURCE_DIR
+        materialization_artifact_path = LEARNING_SUPPORT_MATERIALIZATION_ARTIFACT
+        authoritative_truth_field = "measurement_truthful_for_learning_support"
+    elif dataset_selection_mode == "diagnostic_orientation_support":
+        rollout_source_dir = ORIENTATION_SUPPORT_ROLLOUT_SOURCE_DIR
+        materialization_artifact_path = ORIENTATION_SUPPORT_MATERIALIZATION_ARTIFACT
+        authoritative_truth_field = "measurement_truthful_for_orientation_support"
+    else:
+        rollout_source_dir = DEFAULT_ROLLOUT_SOURCE_DIR
+        materialization_artifact_path = MATERIALIZATION_ARTIFACT
+        authoritative_truth_field = "measurement_truthful_for_training"
     sources_checked: list[str] = []
     candidate_paths: set[Path] = set()
     for path in [
@@ -1035,28 +1230,40 @@ def build_or_refresh_canonical_dataset(plan: dict[str, Any]) -> dict[str, Any]:
     }
 
     def _finalize_failure(error: str) -> dict[str, Any]:
-        claim_report = _write_failed_teacher_readiness_contract(plan, error)
-        trainability_report = _write_failed_trainability_support_contract(plan, error)
-        failure_report = {
-            **failure_common,
-            "dataset_valid": False,
-            "teacher_readiness_passed": False,
-            "teacher_readiness_contract": claim_report,
-            "teacher_readiness_failed_clauses": list(
-                claim_report.get("failed_clauses") or []
-            ),
-            "claim_readiness_contract": claim_report,
-            "claim_readiness_passed": False,
-            "claim_readiness_failed_clauses": list(
-                claim_report.get("failed_clauses") or []
-            ),
-            "trainability_support_contract": trainability_report,
-            "trainability_support_passed": False,
-            "trainability_support_failed_clauses": list(
-                trainability_report.get("failed_clauses") or []
-            ),
-            "error": error,
-        }
+        failure_report = {**failure_common, "dataset_valid": False, "error": error}
+        if dataset_selection_mode == "diagnostic_orientation_support":
+            orientation_report = _write_failed_orientation_trainability_contract(plan, error)
+            failure_report.update(
+                {
+                    "orientation_trainability_contract": orientation_report,
+                    "orientation_trainability_passed": False,
+                    "orientation_trainability_failed_clauses": list(
+                        orientation_report.get("failed_clauses") or []
+                    ),
+                }
+            )
+        else:
+            claim_report = _write_failed_teacher_readiness_contract(plan, error)
+            trainability_report = _write_failed_trainability_support_contract(plan, error)
+            failure_report.update(
+                {
+                    "teacher_readiness_passed": False,
+                    "teacher_readiness_contract": claim_report,
+                    "teacher_readiness_failed_clauses": list(
+                        claim_report.get("failed_clauses") or []
+                    ),
+                    "claim_readiness_contract": claim_report,
+                    "claim_readiness_passed": False,
+                    "claim_readiness_failed_clauses": list(
+                        claim_report.get("failed_clauses") or []
+                    ),
+                    "trainability_support_contract": trainability_report,
+                    "trainability_support_passed": False,
+                    "trainability_support_failed_clauses": list(
+                        trainability_report.get("failed_clauses") or []
+                    ),
+                }
+            )
         write_json_atomic(REJECTED_ROLLOUTS_PATH, {"rejected_rollouts": rejected})
         write_json_atomic(TINY_RETRAIN_DATASET_BUILD_PATH, failure_report)
         return failure_report
@@ -1088,54 +1295,74 @@ def build_or_refresh_canonical_dataset(plan: dict[str, Any]) -> dict[str, Any]:
         "integrity": payload.get("integrity", {}),
     }
     if not build_report.get("dataset_valid", False):
-        claim_report = _write_failed_teacher_readiness_contract(
-            plan, "dataset_validation_failed"
-        )
-        trainability_report = _write_failed_trainability_support_contract(
-            plan, "dataset_validation_failed"
-        )
-        build_report["teacher_readiness_contract"] = claim_report
-        build_report["teacher_readiness_passed"] = False
-        build_report["teacher_readiness_failed_clauses"] = list(
-            claim_report.get("failed_clauses") or []
-        )
-        build_report["claim_readiness_contract"] = claim_report
-        build_report["claim_readiness_passed"] = False
-        build_report["claim_readiness_failed_clauses"] = list(
-            claim_report.get("failed_clauses") or []
-        )
-        build_report["trainability_support_contract"] = trainability_report
-        build_report["trainability_support_passed"] = False
-        build_report["trainability_support_failed_clauses"] = list(
-            trainability_report.get("failed_clauses") or []
-        )
+        if dataset_selection_mode == "diagnostic_orientation_support":
+            orientation_report = _write_failed_orientation_trainability_contract(
+                plan, "dataset_validation_failed"
+            )
+            build_report["orientation_trainability_contract"] = orientation_report
+            build_report["orientation_trainability_passed"] = False
+            build_report["orientation_trainability_failed_clauses"] = list(
+                orientation_report.get("failed_clauses") or []
+            )
+        else:
+            claim_report = _write_failed_teacher_readiness_contract(
+                plan, "dataset_validation_failed"
+            )
+            trainability_report = _write_failed_trainability_support_contract(
+                plan, "dataset_validation_failed"
+            )
+            build_report["teacher_readiness_contract"] = claim_report
+            build_report["teacher_readiness_passed"] = False
+            build_report["teacher_readiness_failed_clauses"] = list(
+                claim_report.get("failed_clauses") or []
+            )
+            build_report["claim_readiness_contract"] = claim_report
+            build_report["claim_readiness_passed"] = False
+            build_report["claim_readiness_failed_clauses"] = list(
+                claim_report.get("failed_clauses") or []
+            )
+            build_report["trainability_support_contract"] = trainability_report
+            build_report["trainability_support_passed"] = False
+            build_report["trainability_support_failed_clauses"] = list(
+                trainability_report.get("failed_clauses") or []
+            )
         write_json_atomic(REJECTED_ROLLOUTS_PATH, {"rejected_rollouts": rejected})
         write_json_atomic(TINY_RETRAIN_DATASET_BUILD_PATH, build_report)
         return build_report
 
-    claim_report = _teacher_readiness_contract(build_report, plan)
-    trainability_report = _trainability_support_contract(build_report, plan)
-    build_report["teacher_readiness_contract"] = claim_report
-    build_report["teacher_readiness_failed_clauses"] = list(
-        claim_report.get("failed_clauses") or []
-    )
-    build_report["teacher_readiness_passed"] = bool(
-        claim_report.get("passed", False)
-    )
-    build_report["claim_readiness_contract"] = claim_report
-    build_report["claim_readiness_failed_clauses"] = list(
-        claim_report.get("failed_clauses") or []
-    )
-    build_report["claim_readiness_passed"] = bool(
-        claim_report.get("passed", False)
-    )
-    build_report["trainability_support_contract"] = trainability_report
-    build_report["trainability_support_failed_clauses"] = list(
-        trainability_report.get("failed_clauses") or []
-    )
-    build_report["trainability_support_passed"] = bool(
-        trainability_report.get("passed", False)
-    )
+    if dataset_selection_mode == "diagnostic_orientation_support":
+        orientation_report = _orientation_trainability_contract(build_report, plan)
+        build_report["orientation_trainability_contract"] = orientation_report
+        build_report["orientation_trainability_failed_clauses"] = list(
+            orientation_report.get("failed_clauses") or []
+        )
+        build_report["orientation_trainability_passed"] = bool(
+            orientation_report.get("passed", False)
+        )
+    else:
+        claim_report = _teacher_readiness_contract(build_report, plan)
+        trainability_report = _trainability_support_contract(build_report, plan)
+        build_report["teacher_readiness_contract"] = claim_report
+        build_report["teacher_readiness_failed_clauses"] = list(
+            claim_report.get("failed_clauses") or []
+        )
+        build_report["teacher_readiness_passed"] = bool(
+            claim_report.get("passed", False)
+        )
+        build_report["claim_readiness_contract"] = claim_report
+        build_report["claim_readiness_failed_clauses"] = list(
+            claim_report.get("failed_clauses") or []
+        )
+        build_report["claim_readiness_passed"] = bool(
+            claim_report.get("passed", False)
+        )
+        build_report["trainability_support_contract"] = trainability_report
+        build_report["trainability_support_failed_clauses"] = list(
+            trainability_report.get("failed_clauses") or []
+        )
+        build_report["trainability_support_passed"] = bool(
+            trainability_report.get("passed", False)
+        )
     write_json_atomic(REJECTED_ROLLOUTS_PATH, {"rejected_rollouts": rejected})
     write_json_atomic(TINY_RETRAIN_DATASET_BUILD_PATH, build_report)
     return build_report
@@ -2297,6 +2524,32 @@ def _failure_mode_moves_later_than_attach_distance(
     return str(finetuned_mode or "") in later_modes
 
 
+def _failure_mode_regresses_to_attach_distance(
+    pretrained_mode: str | None, finetuned_mode: str | None
+) -> bool:
+    baseline = "never_reach_attach_distance"
+    if str(finetuned_mode or "") != baseline:
+        return False
+    later_modes = {
+        "never_reach_attach_orientation",
+        "never_reach_attach_approach",
+        "never_stabilize_attach",
+        "never_phase_lock",
+        "no_open_after_phase_lock",
+        "partial_open_only",
+        "success",
+    }
+    return str(pretrained_mode or "") in later_modes
+
+
+V12_G6_CLASSIFICATION_WHITELIST = {
+    "orientation_attach_bridge_established",
+    "orientation_stage_signal_detected_no_attach",
+    "orientation_stage_no_signal",
+    "regression_to_distance_failure",
+}
+
+
 def _classify_probe_signal(probe_summary: dict[str, Any], plan: dict[str, Any]) -> str:
     if bool(plan.get("claim_bearing", False)) and bool(
         probe_summary.get(
@@ -2921,6 +3174,106 @@ def _phase_prepare_v11(dataset_selection_mode: str = "diagnostic_learning_suppor
     return gate_bundle["plan"], gate_bundle["dataset_summary"], audit, gate_bundle
 
 
+
+
+def _phase_prepare_v12(
+    dataset_selection_mode: str = "diagnostic_orientation_support",
+) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
+    g0 = load_json(V12_G0_GATE_PATH, {})
+    g1 = load_json(V12_G1_GATE_PATH, {})
+    g1b = load_json(V12_G1B_GATE_PATH, {})
+    g2 = load_json(V12_G2_GATE_PATH, {})
+    blockers: list[str] = []
+    if str(g0.get("status") or "") != "PASS":
+        blockers.append("g0_not_pass")
+    if str(g1.get("status") or "") != "PASS":
+        blockers.append("g1_not_pass")
+    if str(g2.get("status") or "") != "PASS":
+        blockers.append("g2_not_pass")
+    g1b_status = str(g1b.get("status") or "")
+    if g1b and g1b_status not in {"PASS", "STOP"}:
+        blockers.append("g1b_status_invalid")
+    if blockers:
+        raise SystemExit(json.dumps({"phase": "prepare", "blockers": blockers}, indent=2))
+
+    artifacts = load_terminal_artifacts()
+    plan = materialize_stage_plan(
+        artifacts,
+        active_train_state_mode="S0",
+        bridge_stage="v12_orientation_attach_prepare",
+        bridge_attempt="diagnostic",
+        episodes_per_seed=HONEST_EPISODES_PER_SEED,
+        min_train_episodes=HONEST_MIN_TRAIN_EPISODES,
+        train_steps=HONEST_TRAIN_STEPS,
+        save_freq=HONEST_SAVE_FREQ,
+        checkpoint_probe_steps=HONEST_PROBE_STEPS,
+    )
+    plan["run_instance_id"] = str(g0.get("run_instance_id") or plan.get("run_instance_id"))
+    plan["plan_version"] = "tiny_retrain_confirmation_v12_1_orientation"
+    plan["dataset_selection_mode"] = dataset_selection_mode
+    plan["authoritative_truth_field"] = "measurement_truthful_for_orientation_support"
+    plan["execution_scope"] = "v12_orientation_support_prepare"
+    plan["publication_scope"] = "pending_v12_g9"
+    plan["result_scope"] = "pending_v12_g8"
+    plan["claim_bearing"] = False
+    plan["diagnostic_only"] = True
+    plan["support_family_repair_mode"] = "G2B"
+    plan["orientation_support_fingerprint_version"] = ORIENTATION_SUPPORT_FINGERPRINT_VERSION
+    write_json_atomic(TINY_RETRAIN_PLAN_PATH, plan)
+
+    dataset_summary = build_or_refresh_canonical_dataset(plan)
+    materialization = load_json(ORIENTATION_SUPPORT_MATERIALIZATION_ARTIFACT, {})
+    g3_reasons: list[str] = []
+    if not bool(materialization.get("passed", False)):
+        g3_reasons.append(str(materialization.get("error") or "orientation_materialization_failed"))
+    if not bool(dataset_summary.get("dataset_valid", False)):
+        g3_reasons.append(str(dataset_summary.get("error") or "dataset_invalid"))
+    g3 = _write_v12_gate(
+        V12_G3_GATE_PATH,
+        "G3",
+        "orientation_support_corpus",
+        plan,
+        status="PASS" if not g3_reasons else "STOP",
+        blocking_reasons=g3_reasons,
+        allowed_next_phases=["prepare"] if not g3_reasons else [],
+        extra={
+            "materialization_artifact_path": str(ORIENTATION_SUPPORT_MATERIALIZATION_ARTIFACT),
+            "dataset_build_artifact_path": str(TINY_RETRAIN_DATASET_BUILD_PATH),
+            "dataset_valid": bool(dataset_summary.get("dataset_valid", False)),
+            "saved_rollouts": materialization.get("saved_rollouts"),
+            "successful_seed_count": materialization.get("successful_seed_count"),
+        },
+    )
+    orientation_contract = load_json(G6_ORIENTATION_TRAINABILITY_CONTRACT_PATH, {})
+    g4_reasons = []
+    if g3.get("status") != "PASS":
+        g4_reasons.append("g3_not_pass")
+    if not bool(dataset_summary.get("orientation_trainability_passed", False)):
+        g4_reasons.extend(
+            str(x) for x in (dataset_summary.get("orientation_trainability_failed_clauses") or [])
+        )
+    g4 = _write_v12_gate(
+        V12_G4_GATE_PATH,
+        "G4",
+        "orientation_trainability_contract",
+        plan,
+        status="PASS" if not g4_reasons else "STOP",
+        blocking_reasons=g4_reasons,
+        allowed_next_phases=["train"] if not g4_reasons else [],
+        extra={
+            "orientation_contract_artifact_path": str(G6_ORIENTATION_TRAINABILITY_CONTRACT_PATH),
+            "orientation_trainability_passed": bool(dataset_summary.get("orientation_trainability_passed", False)),
+            "orientation_support_unique_teacher_family_count": dataset_summary.get("orientation_support_unique_teacher_family_count"),
+            "orientation_support_family_count_by_seed": dataset_summary.get("orientation_support_family_count_by_seed"),
+            "orientation_transition_teacher_count": (orientation_contract.get("orientation_support_teacher_class_counts") or {}).get("orientation_transition_teacher"),
+            "attach_eligible_transition_teacher_count": (orientation_contract.get("orientation_support_teacher_class_counts") or {}).get("attach_eligible_transition_teacher"),
+            "orientation_support_truthful_ratio_p50": dataset_summary.get("orientation_support_truthful_ratio_p50"),
+            "orientation_context_frame_p50": dataset_summary.get("orientation_context_frame_p50"),
+        },
+    )
+    return plan, dataset_summary, {"g3": g3, "g4": g4}
+
+
 def _require_v11_gate_pass(gate_id: str, gate_name: str) -> dict[str, Any]:
     gate = load_gate(gate_id, gate_name)
     if not gate:
@@ -2928,6 +3281,131 @@ def _require_v11_gate_pass(gate_id: str, gate_name: str) -> dict[str, Any]:
     if str(gate.get("status") or "") == "STOP":
         raise SystemExit(json.dumps(gate, indent=2))
     return gate
+
+
+def _require_v12_gate_pass(gate_path: Path, gate_id: str, gate_name: str) -> dict[str, Any]:
+    gate = load_json(gate_path, {})
+    if not gate:
+        raise SystemExit(f"Missing {gate_id} {gate_name} gate: {gate_path}")
+    if str(gate.get("status") or "") != "PASS":
+        raise SystemExit(json.dumps(gate, indent=2))
+    return gate
+
+
+def _persist_v12_phase_scope(
+    plan: dict[str, Any],
+    *,
+    execution_scope: str,
+    bridge_stage: str,
+) -> dict[str, Any]:
+    plan["execution_scope"] = execution_scope
+    plan["bridge_stage"] = bridge_stage
+    plan["diagnostic_only"] = True
+    plan["claim_bearing"] = False
+    plan["publication_scope"] = "pending_v12_g9"
+    plan["result_scope"] = "pending_v12_g8"
+    write_json_atomic(TINY_RETRAIN_PLAN_PATH, plan)
+    return plan
+
+
+def _write_v12_train_gate(plan: dict[str, Any], train_summary: dict[str, Any]) -> dict[str, Any]:
+    status = "PASS" if bool(train_summary.get("passed", False)) else "STOP"
+    return _write_v12_gate(
+        V12_G5_GATE_PATH,
+        "G5",
+        "two_stage_orientation_bridge_training",
+        plan,
+        status=status,
+        blocking_reasons=[] if status == "PASS" else [str(train_summary.get("stderr_tail") or train_summary.get("error") or "train_failed")],
+        allowed_next_phases=["probe"] if status == "PASS" else [],
+        extra={
+            **_scope_fields(plan),
+            "train_summary_path": str(G8_SUMMARY_PATH),
+            "orientation_trainability_passed": True,
+            "steps_completed": int(train_summary.get("steps_completed", 0) or 0),
+            "checkpoint_path": train_summary.get("checkpoint_path"),
+        },
+    )
+
+
+def _classify_v12_probe_signal(probe_summary: dict[str, Any]) -> str:
+    if bool(probe_summary.get("attach_bridge_pass", False)):
+        return "orientation_attach_bridge_established"
+    pretrained_mode = str(probe_summary.get("pretrained_dominant_failure_mode") or "")
+    finetuned_mode = str(probe_summary.get("finetuned_dominant_failure_mode") or "")
+    if _failure_mode_regresses_to_attach_distance(pretrained_mode, finetuned_mode):
+        return "regression_to_distance_failure"
+    bridge_delta = dict(probe_summary.get("bridge_delta") or {})
+    orientation_gain = float(bridge_delta.get("orientation_gate_pass_rate_mean", 0.0) or 0.0)
+    approach_gain = float(bridge_delta.get("approach_gate_pass_rate_mean", 0.0) or 0.0)
+    distance_gain = float(bridge_delta.get("distance_pass_rate_mean", 0.0) or 0.0)
+    later_failure = _failure_mode_moves_later_than_attach_distance(
+        pretrained_mode,
+        finetuned_mode,
+    )
+    if (
+        orientation_gain >= 0.10
+        or approach_gain >= 0.10
+        or distance_gain >= 0.10
+        or float(probe_summary.get("ever_attach_eligible_fraction_gain", 0.0) or 0.0) > 0.05
+        or float(probe_summary.get("ever_attached_rate_gain", 0.0) or 0.0) > 0.05
+        or later_failure
+    ):
+        return "orientation_stage_signal_detected_no_attach"
+    return "orientation_stage_no_signal"
+
+
+def _write_v12_probe_gate(
+    plan: dict[str, Any],
+    dataset_summary: dict[str, Any],
+    probe_summary: dict[str, Any],
+) -> dict[str, Any]:
+    classification = _classify_v12_probe_signal(probe_summary)
+    if classification not in V12_G6_CLASSIFICATION_WHITELIST:
+        raise RuntimeError(f"Invalid v12 G6 classification: {classification}")
+    attach_bridge_summary = _build_attach_bridge_summary(plan, probe_summary)
+    family_conditioned_probe = _build_family_conditioned_probe(plan, dataset_summary, probe_summary)
+    attach_bridge_summary["classification"] = classification
+    write_json_atomic(G6_ATTACH_BRIDGE_SUMMARY_PATH, attach_bridge_summary)
+    family_conditioned_probe["classification"] = classification
+    family_conditioned_probe["overall_best_checkpoint_step"] = int(probe_summary.get("checkpoint_step") or 0)
+    family_conditioned_probe["hard_vs_rest_summary"] = family_conditioned_probe.get("hard_vs_rest")
+    write_json_atomic(G6_FAMILY_CONDITIONED_PROBE_PATH, family_conditioned_probe)
+    probe_payload = dict(probe_summary)
+    probe_payload["classification"] = classification
+    write_json_atomic(G8_PROBE_PATH, probe_payload)
+    status = (
+        "DIAGNOSTIC_PASS"
+        if classification in {
+            "orientation_attach_bridge_established",
+            "orientation_stage_signal_detected_no_attach",
+        }
+        else "STOP"
+    )
+    return _write_v12_gate(
+        V12_G6_GATE_PATH,
+        "G6",
+        "orientation_first_probe",
+        plan,
+        status=status,
+        blocking_reasons=[] if status != "STOP" else [classification],
+        allowed_next_phases=[],
+        extra={
+            **_scope_fields(plan),
+            "classification": classification,
+            "train_seed_probe_path": str(G8_PROBE_PATH),
+            "attach_bridge_summary_path": str(G6_ATTACH_BRIDGE_SUMMARY_PATH),
+            "family_conditioned_probe_path": str(G6_FAMILY_CONDITIONED_PROBE_PATH),
+            "attach_bridge_pass": bool(probe_summary.get("attach_bridge_pass", False)),
+            "ever_attach_eligible_fraction_gain": float(probe_summary.get("ever_attach_eligible_fraction_gain", 0.0) or 0.0),
+            "ever_attached_rate_gain": float(probe_summary.get("ever_attached_rate_gain", 0.0) or 0.0),
+            "stable_attach_gain": float(probe_summary.get("stable_attach_gain", 0.0) or 0.0),
+            "phase_locked_gain": float(probe_summary.get("phase_locked_gain", 0.0) or 0.0),
+            "selected_checkpoint_reason": probe_summary.get("selected_checkpoint_reason"),
+            "pretrained_dominant_failure_mode": probe_summary.get("pretrained_dominant_failure_mode"),
+            "finetuned_dominant_failure_mode": probe_summary.get("finetuned_dominant_failure_mode"),
+        },
+    )
 
 
 def _write_v11_train_gate(plan: dict[str, Any], train_summary: dict[str, Any]) -> dict[str, Any]:
@@ -3154,11 +3632,100 @@ def _write_v11_finalize_summary(
     return summary, g6
 
 
+def _write_v12_gate_payload(payload: dict[str, Any]) -> dict[str, Any]:
+    write_json_atomic(V12_G0_GATE_PATH, payload)
+    return payload
+
+
+def _phase_v12_g0() -> dict[str, Any]:
+    branch = _git(["git", "rev-parse", "--abbrev-ref", "HEAD"])
+    working_head_commit = _git(["git", "rev-parse", "HEAD"])
+    vendor_head_commit = _git(["git", "rev-parse", "HEAD:external/MINT"])
+    stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    run_instance_id = f"v12_1_{stamp}_{working_head_commit[:8]}_{uuid.uuid4().hex[:8]}"
+
+    v11_g3 = load_json(V11_G3_GATE_PATH, {})
+    v11_g5 = load_json(V11_G5_GATE_PATH, {})
+    v11_g6 = load_json(V11_G6_GATE_PATH, {})
+    v11_probe = load_json(V11_PROBE_SUMMARY_PATH, {})
+    v11_attach = load_json(V11_ATTACH_BRIDGE_SUMMARY_PATH, {})
+
+    attach_delta = dict(v11_attach.get("delta") or {})
+    bridge_delta = dict(v11_probe.get("bridge_delta") or {})
+    attach_first_zero = {
+        "ever_attach_eligible_fraction_gain": float(v11_g5.get("ever_attach_eligible_fraction_gain", attach_delta.get("ever_attach_eligible_fraction", 0.0)) or 0.0),
+        "ever_attached_rate_gain": float(v11_g5.get("ever_attached_rate_gain", attach_delta.get("ever_attached_rate", 0.0)) or 0.0),
+        "stable_attach_gain": float(v11_g5.get("stable_attach_gain", attach_delta.get("stable_attach_rate", 0.0)) or 0.0),
+        "phase_locked_gain": float(v11_g5.get("phase_locked_gain", attach_delta.get("phase_locked_rate", 0.0)) or 0.0),
+    }
+    behavior_movement = {
+        "distance_improved": float(bridge_delta.get("distance_pass_rate_mean", 0.0) or 0.0) > 0.0,
+        "approach_improved": float(bridge_delta.get("approach_gate_pass_rate_mean", 0.0) or 0.0) > 0.0,
+        "pretrained_dominant_failure_mode": str(v11_probe.get("pretrained_dominant_failure_mode") or ""),
+        "finetuned_dominant_failure_mode": str(v11_probe.get("finetuned_dominant_failure_mode") or ""),
+        "dominant_failure_shift_to_orientation_gate_miss": str(v11_probe.get("pretrained_dominant_failure_mode") or "") == "never_reach_attach_distance" and str(v11_probe.get("finetuned_dominant_failure_mode") or "") == "orientation_gate_miss",
+    }
+
+    blocking_reasons: list[str] = []
+    if branch != "feature/mint-env-reformulation-v1-visual-fidelity":
+        blocking_reasons.append("branch_mismatch")
+    if working_head_commit != V12_EXPECTED_PUBLICATION_HEAD:
+        blocking_reasons.append("publication_head_mismatch")
+    if vendor_head_commit != V12_EXPECTED_VENDOR_HEAD:
+        blocking_reasons.append("vendor_mismatch")
+    if str(v11_g3.get("working_head_commit") or "") != V12_EXPECTED_V11_EXECUTION_HEAD:
+        blocking_reasons.append("v11_execution_head_mismatch")
+    if str(v11_g3.get("run_instance_id") or "") != V12_EXPECTED_V11_RUN_INSTANCE:
+        blocking_reasons.append("v11_run_instance_mismatch")
+    if not bool(v11_g3.get("trainability_support_passed", False)):
+        blocking_reasons.append("v11_trainability_support_not_passed")
+    if str(v11_g6.get("final_verdict") or "") != "diagnostic_learning_support_no_signal_after_support_family_fix":
+        blocking_reasons.append("v11_final_verdict_mismatch")
+    if any(abs(value) > 1e-9 for value in attach_first_zero.values()):
+        blocking_reasons.append("v11_attach_first_not_zero")
+    if not (behavior_movement["distance_improved"] and behavior_movement["approach_improved"] and behavior_movement["dominant_failure_shift_to_orientation_gate_miss"]):
+        blocking_reasons.append("v11_behavior_movement_missing")
+
+    payload = {
+        "gate_id": "G0",
+        "gate_name": "sovereign_sync",
+        "run_instance_id": run_instance_id,
+        "status": "PASS" if not blocking_reasons else "STOP",
+        "blocking_reasons": blocking_reasons,
+        "allowed_next_phases": ["G1", "G1b", "G2"] if not blocking_reasons else [],
+        "branch": branch,
+        "working_head_commit": working_head_commit,
+        "vendor_head_commit": vendor_head_commit,
+        "truth_contract_hash": _truth_contract_hash(),
+        "acceptance_contract_hash": sha256_file(ACCEPTANCE_CONTRACT_PATH),
+        "spec_reference": V12_SPEC_REFERENCE,
+        "timestamp_utc": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+        "expected_publication_head": V12_EXPECTED_PUBLICATION_HEAD,
+        "current_publication_head": working_head_commit,
+        "evidence_working_head_commit": str(v11_g3.get("working_head_commit") or ""),
+        "v11_execution_working_head_commit": str(v11_g3.get("working_head_commit") or ""),
+        "v11_run_instance_id": str(v11_g3.get("run_instance_id") or ""),
+        "v11_trainability_support_passed": bool(v11_g3.get("trainability_support_passed", False)),
+        "v11_final_verdict": str(v11_g6.get("final_verdict") or ""),
+        "v11_attach_first_gains": attach_first_zero,
+        "v11_behavior_movement": behavior_movement,
+        "evidence_paths": {
+            "handoff_doc": str(V11_HANDOFF_DOC_PATH),
+            "g3_gate": str(V11_G3_GATE_PATH),
+            "g5_gate": str(V11_G5_GATE_PATH),
+            "g6_gate": str(V11_G6_GATE_PATH),
+            "attach_bridge_summary": str(V11_ATTACH_BRIDGE_SUMMARY_PATH),
+            "probe_summary": str(V11_PROBE_SUMMARY_PATH),
+        },
+    }
+    return _write_v12_gate_payload(payload)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--phase",
-        choices=["prepare", "train", "probe", "eval", "finalize", "all"],
+        choices=["v12-g0", "prepare", "train", "probe", "eval", "finalize", "all"],
         default="all",
     )
     parser.add_argument(
@@ -3167,7 +3734,28 @@ def main() -> int:
     )
     args = parser.parse_args()
 
+    if args.phase == "v12-g0":
+        gate = _phase_v12_g0()
+        print(json.dumps({"phase": "v12-g0", "g0": gate}, indent=2))
+        return 0 if gate.get("status") == "PASS" else 1
+
     if args.phase == "prepare":
+        if args.dataset_selection_mode == "diagnostic_orientation_support":
+            plan, dataset_summary, gates = _phase_prepare_v12(
+                dataset_selection_mode=args.dataset_selection_mode
+            )
+            print(
+                json.dumps(
+                    {
+                        "phase": "prepare",
+                        "plan": plan,
+                        "dataset_summary": dataset_summary,
+                        "gates": gates,
+                    },
+                    indent=2,
+                )
+            )
+            return 0 if gates["g4"].get("status") == "PASS" else 1
         plan, dataset_summary, audit, gate_bundle = _phase_prepare_v11(
             dataset_selection_mode=args.dataset_selection_mode
         )
@@ -3188,6 +3776,28 @@ def main() -> int:
     plan, dataset_summary, train_summary, probe_summary, eval_summary = _load_state()
 
     if args.phase == "train":
+        if args.dataset_selection_mode == "diagnostic_orientation_support":
+            if (
+                not plan
+                or not dataset_summary
+                or str(plan.get("dataset_selection_mode") or "") != "diagnostic_orientation_support"
+            ):
+                plan, dataset_summary, gates = _phase_prepare_v12(
+                    dataset_selection_mode=args.dataset_selection_mode
+                )
+                if gates["g4"].get("status") != "PASS":
+                    print(json.dumps({"phase": "prepare", "gates": gates}, indent=2))
+                    return 1
+            _require_v12_gate_pass(V12_G4_GATE_PATH, "G4", "orientation_trainability_contract")
+            plan = _persist_v12_phase_scope(
+                plan,
+                execution_scope="v12_orientation_bridge_training",
+                bridge_stage="v12_orientation_bridge_training",
+            )
+            train_summary = launch_tiny_retrain(plan)
+            g5 = _write_v12_train_gate(plan, train_summary)
+            print(json.dumps({"phase": "train", "train_summary": train_summary, "g5": g5}, indent=2))
+            return 0 if g5.get("status") == "PASS" else 1
         if not plan or not dataset_summary:
             plan, dataset_summary, _, gate_bundle = _phase_prepare_v11(
                 dataset_selection_mode=args.dataset_selection_mode
@@ -3202,6 +3812,19 @@ def main() -> int:
         return 0 if g4.get("status") == "PASS" else 1
 
     if args.phase == "probe":
+        if args.dataset_selection_mode == "diagnostic_orientation_support":
+            if not plan or not dataset_summary or not train_summary:
+                raise SystemExit("Missing prepare/train artifacts before probe")
+            _require_v12_gate_pass(V12_G5_GATE_PATH, "G5", "two_stage_orientation_bridge_training")
+            plan = _persist_v12_phase_scope(
+                plan,
+                execution_scope="v12_orientation_first_probe",
+                bridge_stage="v12_orientation_first_probe",
+            )
+            probe_summary = run_train_probe(plan, train_summary)
+            g6 = _write_v12_probe_gate(plan, dataset_summary, probe_summary)
+            print(json.dumps({"phase": "probe", "probe_summary": probe_summary, "g6": g6}, indent=2))
+            return 0 if g6.get("status") != "STOP" else 1
         if not plan or not dataset_summary or not train_summary:
             raise SystemExit("Missing prepare/train artifacts before probe")
         _require_v11_gate_pass("G4", "diagnostic_training")

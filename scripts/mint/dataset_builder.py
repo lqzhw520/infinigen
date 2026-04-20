@@ -103,6 +103,10 @@ def _learning_support_family_key(rec: dict[str, Any]) -> str:
     )
 
 
+def _orientation_support_family_key(rec: dict[str, Any]) -> str:
+    return str(rec.get("orientation_support_fingerprint") or "")
+
+
 def _state_dim_names(meta: dict[str, Any]) -> list[str]:
     state_spec = meta.get("state_spec") or {}
     dim_names = [str(item) for item in (state_spec.get("dim_names") or []) if str(item)]
@@ -548,6 +552,156 @@ def validate_rollout_for_learning_support_training(
     return True, "ok"
 
 
+
+
+def validate_rollout_for_orientation_support_training(
+    meta: dict[str, Any], plan: dict[str, Any]
+) -> tuple[bool, str]:
+    expected_source_cell = _plan_source_canonical_train_cell(plan)
+    expected_transition = str(plan.get("best_transition_cell"))
+    expected_source_state = _plan_source_best_train_state_mode(plan)
+    expected_active_state = _plan_active_train_state_mode(plan)
+    expected_run_instance_id = str(plan.get("run_instance_id") or "")
+    expected_plan_version = str(plan.get("plan_version") or "")
+    expected_source_base_commit = str(plan.get("source_base_commit") or "")
+    expected_teacher_truth_gate = str(plan.get("teacher_truth_gate") or "")
+    orientation_teacher_class_raw = meta.get("orientation_support_teacher_class")
+    if orientation_teacher_class_raw is None or not str(orientation_teacher_class_raw).strip():
+        return False, "orientation_support_teacher_class_missing"
+    orientation_teacher_class = str(orientation_teacher_class_raw)
+    orientation_fingerprint_raw = meta.get("orientation_support_fingerprint")
+    if orientation_fingerprint_raw is None or not str(orientation_fingerprint_raw).strip():
+        return False, "orientation_support_fingerprint_missing"
+    run_instance_id = meta.get("run_instance_id")
+    if expected_run_instance_id and (run_instance_id is None or not str(run_instance_id).strip()):
+        return False, "run_instance_id_missing"
+    checks = [
+        (
+            (not expected_run_instance_id)
+            or str(run_instance_id) == expected_run_instance_id,
+            "run_instance_id_mismatch",
+        ),
+        (
+            (not expected_plan_version)
+            or str(meta.get("plan_version") or "") == expected_plan_version,
+            "plan_version_mismatch",
+        ),
+        (
+            (not expected_source_base_commit)
+            or str(meta.get("source_base_commit") or "") == expected_source_base_commit,
+            "source_base_commit_mismatch",
+        ),
+        (
+            str(
+                meta.get("source_canonical_train_cell")
+                or meta.get("canonical_train_cell")
+            )
+            == expected_source_cell,
+            "source_canonical_train_cell_mismatch",
+        ),
+        (
+            str(meta.get("best_transition_cell")) == expected_transition,
+            "best_transition_cell_mismatch",
+        ),
+        (
+            str(
+                meta.get("source_best_train_state_mode")
+                or meta.get("best_train_state_mode")
+            )
+            == expected_source_state,
+            "source_best_train_state_mode_mismatch",
+        ),
+        (
+            str(
+                meta.get("active_train_state_mode") or meta.get("best_train_state_mode")
+            )
+            == expected_active_state,
+            "active_train_state_mode_mismatch",
+        ),
+        (
+            str(meta.get("selector_mode")) == str(plan.get("selector_mode")),
+            "selector_mode_mismatch",
+        ),
+        (
+            bool(meta.get("measurement_truthful_for_orientation_support", False)) is True,
+            "orientation_support_not_truthful",
+        ),
+        (
+            str(meta.get("orientation_support_truth_adjudication") or "")
+            == "orientation_support_window_v1",
+            "orientation_support_truth_adjudication_mismatch",
+        ),
+        (
+            (not expected_teacher_truth_gate)
+            or str(meta.get("teacher_truth_gate") or "") == expected_teacher_truth_gate,
+            "teacher_truth_gate_mismatch",
+        ),
+        (
+            int(meta.get("orientation_support_window_len", 0) or 0) >= 16,
+            "orientation_support_window_too_short",
+        ),
+        (
+            bool(meta.get("orientation_support_contains_distance_pass", False)) is True,
+            "orientation_support_missing_distance_pass",
+        ),
+        (
+            bool(meta.get("orientation_support_contains_approach_pass", False)) is True,
+            "orientation_support_missing_approach_pass",
+        ),
+        (
+            float(meta.get("orientation_support_truthful_ratio", 0.0) or 0.0) >= 0.60,
+            "orientation_support_truth_ratio_too_low",
+        ),
+        (
+            bool(meta.get("orientation_support_anchor_valid", False)) is True,
+            "orientation_support_anchor_invalid",
+        ),
+        (
+            str(meta.get("measurement_backend") or "")
+            == str(plan.get("measurement_backend")),
+            "measurement_backend_mismatch",
+        ),
+        (
+            str(meta.get("measurement_verifier") or "")
+            == str(plan.get("measurement_verifier")),
+            "measurement_verifier_mismatch",
+        ),
+        (
+            str(meta.get("runtime_visible_handle_mapping_source") or "")
+            == str(plan.get("runtime_visible_handle_mapping_source")),
+            "runtime_visible_handle_mapping_source_mismatch",
+        ),
+        (
+            bool(meta.get("runtime_handle_anchor_valid", False)) is True,
+            "runtime_handle_anchor_invalid",
+        ),
+        (
+            meta.get("seed") is not None
+            and int(meta.get("seed")) in [int(x) for x in plan.get("train_seeds", [])],
+            "seed_not_in_train_split",
+        ),
+        (
+            int(meta.get("seed")) not in [int(x) for x in plan.get("heldout_seeds", [])]
+            if meta.get("seed") is not None
+            else False,
+            "seed_in_heldout_split",
+        ),
+        (
+            orientation_teacher_class
+            in {
+                "orientation_transition_teacher",
+                "attach_eligible_transition_teacher",
+                "orientation_context_teacher",
+            },
+            "orientation_support_teacher_class_not_accepted",
+        ),
+    ]
+    for passed, reason in checks:
+        if not passed:
+            return False, reason
+    return True, "ok"
+
+
 def validate_built_dataset_provenance(
     dataset_root: Path, plan: dict[str, Any]
 ) -> dict[str, Any]:
@@ -675,6 +829,10 @@ def validate_built_dataset_provenance(
         str(rec.get("learning_support_teacher_class", "rejected_teacher"))
         for rec in records
     ]
+    orientation_support_teacher_classes = [
+        str(rec.get("orientation_support_teacher_class", "rejected_orientation_teacher"))
+        for rec in records
+    ]
     teacher_fingerprints = [
         str(rec.get("teacher_fingerprint", ""))
         for rec in records
@@ -685,9 +843,17 @@ def validate_built_dataset_provenance(
         for rec in records
         if _learning_support_family_key(rec)
     ]
+    orientation_support_fingerprints = [
+        _orientation_support_family_key(rec)
+        for rec in records
+        if _orientation_support_family_key(rec)
+    ]
     unique_teacher_families = {fp for fp in teacher_fingerprints if fp}
     unique_learning_support_families = {
         fp for fp in learning_support_fingerprints if fp
+    }
+    unique_orientation_support_families = {
+        fp for fp in orientation_support_fingerprints if fp
     }
     accepted_records_missing_fingerprint = int(
         sum(
@@ -713,12 +879,18 @@ def validate_built_dataset_provenance(
     learning_support_family_count_by_seed = dict(
         provenance.get("learning_support_family_count_by_seed") or {}
     )
+    orientation_support_family_count_by_seed = dict(
+        provenance.get("orientation_support_family_count_by_seed") or {}
+    )
     family_collapse_suspected = bool(
         provenance.get("family_collapse_suspected", False)
     )
     family_diversity_notes = list(provenance.get("family_diversity_notes") or [])
     learning_support_teacher_class_counts = dict(
         Counter(learning_support_teacher_classes)
+    )
+    orientation_support_teacher_class_counts = dict(
+        Counter(orientation_support_teacher_classes)
     )
     learning_support_unique_teacher_family_count = int(
         provenance.get("learning_support_unique_teacher_family_count", 0)
@@ -774,6 +946,19 @@ def validate_built_dataset_provenance(
             in {"strict_teacher", "near_strict_teacher", "learning_support_teacher"}
         }
     )
+    orientation_support_seed_coverage = sorted(
+        {
+            int(rec.get("seed"))
+            for rec in records
+            if rec.get("seed") is not None
+            and rec.get("orientation_support_teacher_class")
+            in {
+                "orientation_transition_teacher",
+                "attach_eligible_transition_teacher",
+                "orientation_context_teacher",
+            }
+        }
+    )
     attach_eligible_seed_coverage = sorted(
         {
             int(rec.get("seed"))
@@ -798,6 +983,26 @@ def validate_built_dataset_provenance(
         for rec in records
         if rec.get("learning_support_teacher_class")
         in {"strict_teacher", "near_strict_teacher", "learning_support_teacher"}
+    ]
+    orientation_support_truthful_ratios = [
+        float(rec.get("orientation_support_truthful_ratio", 0.0) or 0.0)
+        for rec in records
+        if rec.get("orientation_support_teacher_class")
+        in {
+            "orientation_transition_teacher",
+            "attach_eligible_transition_teacher",
+            "orientation_context_teacher",
+        }
+    ]
+    orientation_context_frame_counts = [
+        int(rec.get("orientation_context_frame_count", 0) or 0)
+        for rec in records
+        if rec.get("orientation_support_teacher_class")
+        in {
+            "orientation_transition_teacher",
+            "attach_eligible_transition_teacher",
+            "orientation_context_teacher",
+        }
     ]
     runtime_anchor_valid_rate = (
         float(sum(1 for x in runtime_anchor_values if x) / len(runtime_anchor_values))
@@ -835,9 +1040,14 @@ def validate_built_dataset_provenance(
             ),
             "teacher_episode_class_counts": dict(Counter(teacher_episode_classes)),
             "learning_support_teacher_class_counts": learning_support_teacher_class_counts,
+            "orientation_support_teacher_class_counts": orientation_support_teacher_class_counts,
             "accepted_unique_teacher_family_count": len(unique_teacher_families),
             "learning_support_unique_teacher_family_count": (
                 learning_support_unique_teacher_family_count
+            ),
+            "orientation_support_unique_teacher_family_count": int(
+                provenance.get("orientation_support_unique_teacher_family_count", 0)
+                or len(unique_orientation_support_families)
             ),
             "strict_unique_teacher_family_count": strict_family_count,
             "near_strict_unique_teacher_family_count": near_strict_family_count,
@@ -847,6 +1057,9 @@ def validate_built_dataset_provenance(
             "learning_support_family_count_by_seed": (
                 learning_support_family_count_by_seed
             ),
+            "orientation_support_family_count_by_seed": (
+                orientation_support_family_count_by_seed
+            ),
             "teacher_fingerprint_examples_by_seed": teacher_fingerprint_examples_by_seed,
             "family_collapse_suspected": family_collapse_suspected,
             "family_diversity_notes": family_diversity_notes,
@@ -854,6 +1067,7 @@ def validate_built_dataset_provenance(
             "strict_seed_coverage": strict_seed_coverage,
             "near_strict_seed_coverage": near_strict_seed_coverage,
             "learning_support_seed_coverage": learning_support_seed_coverage,
+            "orientation_support_seed_coverage": orientation_support_seed_coverage,
             "attach_eligible_seed_coverage": attach_eligible_seed_coverage,
             "accepted_records_missing_fingerprint": accepted_records_missing_fingerprint,
             "learning_support_prebridge_frame_p50": int(
@@ -881,6 +1095,30 @@ def validate_built_dataset_provenance(
                 round(
                     float(np.percentile(learning_support_window_lengths, 90))
                     if learning_support_window_lengths
+                    else 0.0
+                )
+            ),
+            "orientation_support_truthful_ratio_p50": float(
+                np.percentile(np.asarray(orientation_support_truthful_ratios, dtype=np.float32), 50)
+            )
+            if orientation_support_truthful_ratios
+            else 0.0,
+            "orientation_support_truthful_ratio_p90": float(
+                np.percentile(np.asarray(orientation_support_truthful_ratios, dtype=np.float32), 90)
+            )
+            if orientation_support_truthful_ratios
+            else 0.0,
+            "orientation_context_frame_p50": int(
+                round(
+                    float(np.percentile(orientation_context_frame_counts, 50))
+                    if orientation_context_frame_counts
+                    else 0.0
+                )
+            ),
+            "orientation_context_frame_p90": int(
+                round(
+                    float(np.percentile(orientation_context_frame_counts, 90))
+                    if orientation_context_frame_counts
                     else 0.0
                 )
             ),
@@ -988,6 +1226,43 @@ def validate_built_dataset_provenance(
                 (
                     accepted_records_missing_fingerprint == 0,
                     "teacher_fingerprint_missing_for_accepted_records",
+                ),
+            ]
+        )
+    elif dataset_selection_mode == "diagnostic_orientation_support":
+        orientation_truth_flags = [
+            bool(rec.get("measurement_truthful_for_orientation_support", False))
+            for rec in records
+        ]
+        orientation_anchor_flags = [
+            bool(rec.get("orientation_support_anchor_valid", False)) for rec in records
+        ]
+        checks.extend(
+            [
+                (
+                    all(orientation_truth_flags),
+                    "measurement_truthful_for_orientation_support_inconsistent",
+                ),
+                (
+                    all(orientation_anchor_flags),
+                    "orientation_support_anchor_invalid_inconsistent",
+                ),
+                (
+                    all(
+                        cls
+                        in {
+                            "orientation_transition_teacher",
+                            "attach_eligible_transition_teacher",
+                            "orientation_context_teacher",
+                        }
+                        for cls in orientation_support_teacher_classes
+                    ),
+                    "orientation_support_teacher_class_inconsistent",
+                ),
+                (
+                    len(unique_orientation_support_families)
+                    == int(report.get("orientation_support_unique_teacher_family_count", 0) or 0),
+                    "orientation_support_fingerprint_count_inconsistent",
                 ),
             ]
         )
@@ -1341,6 +1616,52 @@ def _rollout_provenance(meta: dict[str, Any], n_frames: int) -> dict[str, Any]:
             "first_attach_eligible_step",
             learning_support_truth.get("first_attach_eligible_step"),
         ),
+        "orientation_support_window_start": meta.get(
+            "orientation_support_window_start",
+            (meta.get("orientation_support_truth") or {}).get("orientation_support_window_start"),
+        ),
+        "orientation_support_window_end": meta.get(
+            "orientation_support_window_end",
+            (meta.get("orientation_support_truth") or {}).get("orientation_support_window_end"),
+        ),
+        "orientation_support_window_len": int(
+            meta.get(
+                "orientation_support_window_len",
+                (meta.get("orientation_support_truth") or {}).get("orientation_support_window_len", 0),
+            )
+            or 0
+        ),
+        "orientation_context_frame_count": int(
+            meta.get("orientation_context_frame_count", 0) or 0
+        ),
+        "orientation_support_contains_distance_pass": bool(
+            meta.get("orientation_support_contains_distance_pass", False)
+        ),
+        "orientation_support_contains_approach_pass": bool(
+            meta.get("orientation_support_contains_approach_pass", False)
+        ),
+        "orientation_support_contains_orientation_correction": bool(
+            meta.get("orientation_support_contains_orientation_correction", False)
+        ),
+        "orientation_support_contains_attach_eligible": bool(
+            meta.get("orientation_support_contains_attach_eligible", False)
+        ),
+        "orientation_support_truthful_ratio": float(
+            meta.get("orientation_support_truthful_ratio", 0.0) or 0.0
+        ),
+        "orientation_support_anchor_valid": bool(
+            meta.get("orientation_support_anchor_valid", False)
+        ),
+        "measurement_truthful_for_orientation_support": bool(
+            meta.get("measurement_truthful_for_orientation_support", False)
+        ),
+        "orientation_support_truth_adjudication": meta.get(
+            "orientation_support_truth_adjudication"
+        ),
+        "orientation_support_teacher_class": meta.get(
+            "orientation_support_teacher_class", "rejected_orientation_teacher"
+        ),
+        "orientation_support_fingerprint": meta.get("orientation_support_fingerprint", ""),
         "final_snapshot_measurement_truthful": bool(
             meta.get(
                 "final_snapshot_measurement_truthful",
@@ -1661,6 +1982,17 @@ def build_dataset_from_rollouts(
         in {"strict_teacher", "near_strict_teacher", "learning_support_teacher"}
         and _learning_support_family_key(rec)
     }
+    orientation_support_fingerprints = {
+        _orientation_support_family_key(rec)
+        for rec in provenance_records
+        if rec.get("orientation_support_teacher_class")
+        in {
+            "orientation_transition_teacher",
+            "attach_eligible_transition_teacher",
+            "orientation_context_teacher",
+        }
+        and _orientation_support_family_key(rec)
+    }
     seeds_with_records = sorted(
         {int(rec.get("seed")) for rec in provenance_records if rec.get("seed") is not None}
     )
@@ -1668,11 +2000,15 @@ def build_dataset_from_rollouts(
     strict_family_count_by_seed: dict[str, int] = {}
     near_strict_family_count_by_seed: dict[str, int] = {}
     learning_support_family_count_by_seed: dict[str, int] = {}
+    orientation_support_family_count_by_seed: dict[str, int] = {}
     teacher_fingerprint_examples_by_seed: dict[str, list[str]] = {}
     learning_support_prebridge_counts: list[int] = []
     learning_support_window_lengths: list[int] = []
     attach_eligible_seed_coverage: set[int] = set()
     learning_support_seed_coverage: set[int] = set()
+    orientation_support_seed_coverage: set[int] = set()
+    orientation_support_truthful_ratios: list[float] = []
+    orientation_context_frame_counts: list[int] = []
     for seed in seeds_with_records:
         seed_records = [rec for rec in provenance_records if rec.get("seed") is not None and int(rec.get("seed")) == seed]
         accepted_seed_fps = sorted({
@@ -1699,13 +2035,26 @@ def build_dataset_from_rollouts(
             if rec.get("learning_support_teacher_class") in {"strict_teacher", "near_strict_teacher", "learning_support_teacher"}
             and _learning_support_family_key(rec)
         })
+        orientation_support_seed_fps = sorted({
+            _orientation_support_family_key(rec)
+            for rec in seed_records
+            if rec.get("orientation_support_teacher_class") in {
+                "orientation_transition_teacher",
+                "attach_eligible_transition_teacher",
+                "orientation_context_teacher",
+            }
+            and _orientation_support_family_key(rec)
+        })
         accepted_family_count_by_seed[str(seed)] = len(accepted_seed_fps)
         strict_family_count_by_seed[str(seed)] = len(strict_seed_fps)
         near_strict_family_count_by_seed[str(seed)] = len(near_seed_fps)
         learning_support_family_count_by_seed[str(seed)] = len(learning_support_seed_fps)
+        orientation_support_family_count_by_seed[str(seed)] = len(orientation_support_seed_fps)
         teacher_fingerprint_examples_by_seed[str(seed)] = accepted_seed_fps[:5]
         if learning_support_seed_fps:
             learning_support_seed_coverage.add(int(seed))
+        if orientation_support_seed_fps:
+            orientation_support_seed_coverage.add(int(seed))
         if any(rec.get("first_attach_eligible_step") is not None for rec in seed_records):
             attach_eligible_seed_coverage.add(int(seed))
         learning_support_prebridge_counts.extend(
@@ -1719,6 +2068,26 @@ def build_dataset_from_rollouts(
             for rec in seed_records
             if rec.get("learning_support_teacher_class")
             in {"strict_teacher", "near_strict_teacher", "learning_support_teacher"}
+        )
+        orientation_support_truthful_ratios.extend(
+            float(rec.get("orientation_support_truthful_ratio", 0.0) or 0.0)
+            for rec in seed_records
+            if rec.get("orientation_support_teacher_class")
+            in {
+                "orientation_transition_teacher",
+                "attach_eligible_transition_teacher",
+                "orientation_context_teacher",
+            }
+        )
+        orientation_context_frame_counts.extend(
+            int(rec.get("orientation_context_frame_count", 0) or 0)
+            for rec in seed_records
+            if rec.get("orientation_support_teacher_class")
+            in {
+                "orientation_transition_teacher",
+                "attach_eligible_transition_teacher",
+                "orientation_context_teacher",
+            }
         )
 
     family_diversity_notes: list[str] = []
@@ -1768,10 +2137,14 @@ def build_dataset_from_rollouts(
         "learning_support_unique_teacher_family_count": int(
             len(learning_support_fingerprints)
         ),
+        "orientation_support_unique_teacher_family_count": int(
+            len(orientation_support_fingerprints)
+        ),
         "accepted_family_count_by_seed": accepted_family_count_by_seed,
         "strict_family_count_by_seed": strict_family_count_by_seed,
         "near_strict_family_count_by_seed": near_strict_family_count_by_seed,
         "learning_support_family_count_by_seed": learning_support_family_count_by_seed,
+        "orientation_support_family_count_by_seed": orientation_support_family_count_by_seed,
         "teacher_fingerprint_examples_by_seed": teacher_fingerprint_examples_by_seed,
         "family_collapse_suspected": family_collapse_suspected,
         "family_diversity_notes": family_diversity_notes,
@@ -1787,7 +2160,14 @@ def build_dataset_from_rollouts(
                 for rec in provenance_records
             )
         ),
+        "orientation_support_teacher_class_counts": dict(
+            Counter(
+                str(rec.get("orientation_support_teacher_class", "rejected_orientation_teacher"))
+                for rec in provenance_records
+            )
+        ),
         "learning_support_seed_coverage": sorted(learning_support_seed_coverage),
+        "orientation_support_seed_coverage": sorted(orientation_support_seed_coverage),
         "attach_eligible_seed_coverage": sorted(attach_eligible_seed_coverage),
         "learning_support_prebridge_frame_p50": int(
             round(
@@ -1814,6 +2194,30 @@ def build_dataset_from_rollouts(
             round(
                 float(np.percentile(learning_support_window_lengths, 90))
                 if learning_support_window_lengths
+                else 0.0
+            )
+        ),
+        "orientation_support_truthful_ratio_p50": float(
+            np.percentile(np.asarray(orientation_support_truthful_ratios, dtype=np.float32), 50)
+        )
+        if orientation_support_truthful_ratios
+        else 0.0,
+        "orientation_support_truthful_ratio_p90": float(
+            np.percentile(np.asarray(orientation_support_truthful_ratios, dtype=np.float32), 90)
+        )
+        if orientation_support_truthful_ratios
+        else 0.0,
+        "orientation_context_frame_p50": int(
+            round(
+                float(np.percentile(orientation_context_frame_counts, 50))
+                if orientation_context_frame_counts
+                else 0.0
+            )
+        ),
+        "orientation_context_frame_p90": int(
+            round(
+                float(np.percentile(orientation_context_frame_counts, 90))
+                if orientation_context_frame_counts
                 else 0.0
             )
         ),
@@ -1870,11 +2274,17 @@ def build_dataset_from_rollouts(
         "learning_support_unique_teacher_family_count": provenance_payload[
             "learning_support_unique_teacher_family_count"
         ],
+        "orientation_support_unique_teacher_family_count": provenance_payload[
+            "orientation_support_unique_teacher_family_count"
+        ],
         "teacher_episode_class_counts": provenance_payload[
             "teacher_episode_class_counts"
         ],
         "learning_support_teacher_class_counts": provenance_payload[
             "learning_support_teacher_class_counts"
+        ],
+        "orientation_support_teacher_class_counts": provenance_payload[
+            "orientation_support_teacher_class_counts"
         ],
         "accepted_family_count_by_seed": provenance_payload[
             "accepted_family_count_by_seed"
@@ -1888,6 +2298,9 @@ def build_dataset_from_rollouts(
         "learning_support_family_count_by_seed": provenance_payload[
             "learning_support_family_count_by_seed"
         ],
+        "orientation_support_family_count_by_seed": provenance_payload[
+            "orientation_support_family_count_by_seed"
+        ],
         "teacher_fingerprint_examples_by_seed": provenance_payload[
             "teacher_fingerprint_examples_by_seed"
         ],
@@ -1900,6 +2313,9 @@ def build_dataset_from_rollouts(
         "learning_support_seed_coverage": provenance_payload[
             "learning_support_seed_coverage"
         ],
+        "orientation_support_seed_coverage": provenance_payload[
+            "orientation_support_seed_coverage"
+        ],
         "attach_eligible_seed_coverage": provenance_payload[
             "attach_eligible_seed_coverage"
         ],
@@ -1908,6 +2324,18 @@ def build_dataset_from_rollouts(
         ],
         "learning_support_prebridge_frame_p90": provenance_payload[
             "learning_support_prebridge_frame_p90"
+        ],
+        "orientation_support_truthful_ratio_p50": provenance_payload[
+            "orientation_support_truthful_ratio_p50"
+        ],
+        "orientation_support_truthful_ratio_p90": provenance_payload[
+            "orientation_support_truthful_ratio_p90"
+        ],
+        "orientation_context_frame_p50": provenance_payload[
+            "orientation_context_frame_p50"
+        ],
+        "orientation_context_frame_p90": provenance_payload[
+            "orientation_context_frame_p90"
         ],
         "learning_support_window_len_p50": provenance_payload[
             "learning_support_window_len_p50"

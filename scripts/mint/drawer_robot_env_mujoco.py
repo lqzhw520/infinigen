@@ -4340,6 +4340,72 @@ def save_robot_rollout(path: Path, rollout: dict[str, Any]) -> None:
             "learning_support_contains_bridge"
         ),
         "learning_support_anchor_step": rollout.get("learning_support_anchor_step"),
+        "measurement_truthful_for_orientation_support": rollout.get(
+            "measurement_truthful_for_orientation_support"
+        ),
+        "orientation_support_truth_adjudication": rollout.get(
+            "orientation_support_truth_adjudication"
+        ),
+        "orientation_support_teacher_class": rollout.get(
+            "orientation_support_teacher_class"
+        ),
+        "orientation_support_fingerprint": rollout.get(
+            "orientation_support_fingerprint"
+        ),
+        "orientation_support_fingerprint_version": rollout.get(
+            "orientation_support_fingerprint_version"
+        ),
+        "orientation_support_window_start": rollout.get(
+            "orientation_support_window_start"
+        ),
+        "orientation_support_window_end": rollout.get(
+            "orientation_support_window_end"
+        ),
+        "orientation_support_window_len": rollout.get(
+            "orientation_support_window_len"
+        ),
+        "orientation_context_frame_count": rollout.get(
+            "orientation_context_frame_count"
+        ),
+        "orientation_support_contains_distance_pass": rollout.get(
+            "orientation_support_contains_distance_pass"
+        ),
+        "orientation_support_contains_approach_pass": rollout.get(
+            "orientation_support_contains_approach_pass"
+        ),
+        "orientation_support_contains_orientation_correction": rollout.get(
+            "orientation_support_contains_orientation_correction"
+        ),
+        "orientation_support_contains_attach_eligible": rollout.get(
+            "orientation_support_contains_attach_eligible"
+        ),
+        "orientation_error_start": rollout.get("orientation_error_start"),
+        "orientation_error_end": rollout.get("orientation_error_end"),
+        "orientation_error_delta": rollout.get("orientation_error_delta"),
+        "orientation_alignment_start": rollout.get(
+            "orientation_alignment_start"
+        ),
+        "orientation_alignment_end": rollout.get("orientation_alignment_end"),
+        "orientation_alignment_delta": rollout.get(
+            "orientation_alignment_delta"
+        ),
+        "orientation_gate_crossed": rollout.get("orientation_gate_crossed"),
+        "orientation_support_truthful_ratio": rollout.get(
+            "orientation_support_truthful_ratio"
+        ),
+        "orientation_support_anchor_valid": rollout.get(
+            "orientation_support_anchor_valid"
+        ),
+        "orientation_support_anchor_valid_ratio": rollout.get(
+            "orientation_support_anchor_valid_ratio"
+        ),
+        "orientation_support_core_start": rollout.get(
+            "orientation_support_core_start"
+        ),
+        "orientation_support_core_end": rollout.get(
+            "orientation_support_core_end"
+        ),
+        "orientation_support_truth": rollout.get("orientation_support_truth", {}),
         "final_snapshot_measurement_truthful": rollout.get(
             "final_snapshot_measurement_truthful"
         ),

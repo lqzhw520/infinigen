@@ -1,12 +1,14 @@
 {
-  "state_version": "v10_publication_state_v1",
-  "timestamp_utc": "2026-04-18T08:25:17.391475Z",
-  "run_instance_id": "v10_20260418T074813Z_64d8bc0b_09bd0ca5",
-  "execution_scope": "v10_learning_support_stop",
+  "state_version": "post_v13_final_pretrain_closure_publication_state_v1",
+  "timestamp_utc": "2026-04-20T14:19:15.084013Z",
+  "run_instance_id": "postv13c_20260420T140833Z_bc802069_e2c27eee",
+  "execution_scope": "post_v13_final_pretrain_closure",
   "diagnostic_only": true,
   "claim_bearing": false,
-  "publication_scope": "stopped",
-  "result_scope": "stopped",
-  "final_verdict": "prepare_stop",
-  "claim_supported": false
+  "publication_scope": "stopped_pretrain_closure",
+  "result_scope": "diagnostic_stop",
+  "final_verdict": "STOP_PRETRAIN_INTERFACE_UNSTABLE",
+  "claim_supported": false,
+  "training_allowed_now": false,
+  "probe_allowed_now": false
 }

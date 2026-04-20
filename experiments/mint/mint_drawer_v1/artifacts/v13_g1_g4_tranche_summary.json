@@ -1,0 +1,19 @@
+{
+  "run_instance_id": "v13_20260420T105437Z_bc802069_ceefd542",
+  "plan_version": "tiny_retrain_confirmation_v13_state_action_interface",
+  "working_head_commit": "bc802069816e6c81beab48ba1f2141c9f3a264d4",
+  "execution_scope": "v13_one_step_supervised_fit",
+  "diagnostic_only": true,
+  "claim_bearing": false,
+  "gates": {
+    "G0": "PASS",
+    "G1": "PASS",
+    "G2": "PASS",
+    "G3": "PASS",
+    "G4": "PASS"
+  },
+  "stop_point": "G4",
+  "one_step_fit_status": "one_step_action_fit_ok",
+  "training_allowed_after_g4": true,
+  "slice_constraint": "Do not start G5/G6 in this tranche."
+}

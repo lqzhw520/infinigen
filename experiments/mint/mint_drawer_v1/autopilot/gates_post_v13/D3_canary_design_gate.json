@@ -1,0 +1,40 @@
+{
+  "gate_id": "D3",
+  "gate_name": "canary_design_gate",
+  "run_instance_id": "postv13_20260420T133255Z_bc802069_cac75c56",
+  "working_head_commit": "bc802069816e6c81beab48ba1f2141c9f3a264d4",
+  "vendor_head_commit": "4eab5795345721001c412ff1ca2c886a11eab606",
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "truth_contract_hash": "17ae4d1554899b843c80b064a2c5f3d6331b04dd169819ca5f2b0bfba729a6f6",
+  "acceptance_contract_hash": "3e63d1c21004dae9a8ded0c966f69112f59e340f7d0aada219eb66ac8facd53c",
+  "spec_reference": "/Users/zhuhaowu/ws/phd-anyboxs/infinigen_from_servers/docs/gpt5.4Pro/codex_mint_v84_post_v13_train_probe_admission_execution_spec.md",
+  "timestamp_utc": "2026-04-20T13:32:55.252887Z",
+  "status": "STOP_signal_band_ambiguity_unresolved",
+  "blocking_reasons": [
+    "slice2_live_fit_does_not_retain_prior_signal_band",
+    "slice2_live_rollout_support_is_only_4_episodes",
+    "current_evidence_cannot_separate_benign_live_distribution_shift_from_unresolved_signal_instability"
+  ],
+  "allowed_next_phases": [
+    "D4"
+  ],
+  "proposed_canary_design": {
+    "max_train_steps": 2000,
+    "checkpoint_ladder": [
+      500,
+      1000,
+      1500,
+      2000
+    ],
+    "early_stop_rule": "Stop if checkpoint 1000 shows zero gain on pre-attach close/attach-eligible indicators relative to pretrained baseline.",
+    "probe_scope": "pre-attach, close, attach-eligible only",
+    "native_route_only": true,
+    "anygrasp_sidecar_allowed": false,
+    "publication_scope": "diagnostic_only",
+    "claim_bearing": false,
+    "future_interpretation_map_prebound": true
+  },
+  "signal_band_ambiguity_resolution": "unresolved",
+  "design_is_bounded": true,
+  "training_not_started": true
+}

@@ -1,0 +1,35 @@
+{
+  "audit": "v13_slice2_action_interface_audit",
+  "run_instance_id": "v13s2_20260420T121619Z_bc802069_40636282",
+  "plan_version": "tiny_retrain_confirmation_v13_slice_2_state_action_wiring",
+  "working_head_commit": "bc802069816e6c81beab48ba1f2141c9f3a264d4",
+  "execution_scope": "v13_slice_2_action_interface_audit",
+  "action_dim": 7,
+  "gripper_close_dim_index": 6,
+  "orientation_action_dim_indices": [
+    3,
+    4,
+    5
+  ],
+  "gripper_close_sign": "negative_means_close",
+  "gripper_close_threshold": 0.0,
+  "action_dim_mapping_consistent": true,
+  "state_mode": "orientation_bridge_state_v1",
+  "dim_names": [
+    "distance_to_handle_norm",
+    "approach_alignment_cos",
+    "orientation_alignment_cos",
+    "orientation_error_sin",
+    "orientation_error_cos",
+    "prev_close_cmd",
+    "gripper_joint",
+    "attach_eligible_proxy"
+  ],
+  "prev_close_cmd_index": 5,
+  "reset_prev_close_cmd": 0.0,
+  "after_close_prev_close_cmd": 1.0,
+  "after_open_prev_close_cmd": 0.0,
+  "live_prev_close_cmd_toggles": true,
+  "action_interface_status": "live_close_state_wired",
+  "training_allowed_after_g2": false
+}

@@ -1,97 +1,48 @@
 {
-  "generated_at": "2026-04-14T15:11:35+08:00",
-  "cycle_mode": "unattended_cycle",
-  "experiment_family": "RCA",
-  "cycles_completed": 1,
-  "completed_experiments": [
-    "RCA0",
-    "RCA1",
-    "RCA2",
-    "RCA3",
-    "RCA4",
-    "RCA5",
-    "RCA6",
-    "RCA7"
+  "generated_at": "2026-04-20T14:19:15.084013Z",
+  "experiment_family": "MINT_v13_post_v13_pretrain_closure",
+  "lineage": [
+    "v13_g1_g4_state_action_interface",
+    "v13_slice2_state_action_interface_wiring_only",
+    "post_v13_admission_verdict",
+    "post_v13_final_pretrain_closure"
   ],
-  "policy": {
-    "AUTO_PROMOTE_SOVEREIGN": false,
-    "ALLOW_FULL_RETRAIN": false,
-    "ALLOW_NEW_CLAIM": false,
-    "RUN_MODE": "autonomous_cycle_phase",
-    "EXPERIMENT_FAMILY": "RCA",
-    "SELECTOR_MODE": "frozen_v5_pro",
-    "SEED_SPLIT_A": [
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7,
-      8
-    ],
-    "SEED_SPLIT_B": [
-      11,
-      12,
-      13,
-      14,
-      15
-    ],
-    "TRUTHFUL_MEASUREMENT_REQUIRED": true,
-    "PERCEPTION_PROBE_MODE": "policy_encoder_v1",
-    "CAP_STRONGEST_NEGATIVE": true,
-    "RESUME": false
-  },
-  "resource_budget_snapshot": {
-    "policy": {
-      "AUTO_PROMOTE_SOVEREIGN": false,
-      "ALLOW_FULL_RETRAIN": false,
-      "ALLOW_NEW_CLAIM": false,
-      "RUN_MODE": "autonomous_cycle_phase",
-      "EXPERIMENT_FAMILY": "RCA",
-      "SELECTOR_MODE": "frozen_v5_pro",
-      "SEED_SPLIT_A": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8
-      ],
-      "SEED_SPLIT_B": [
-        11,
-        12,
-        13,
-        14,
-        15
-      ],
-      "TRUTHFUL_MEASUREMENT_REQUIRED": true,
-      "PERCEPTION_PROBE_MODE": "policy_encoder_v1",
-      "CAP_STRONGEST_NEGATIVE": true,
-      "RESUME": false
+  "authoritative_branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "authoritative_head": "bc802069816e6c81beab48ba1f2141c9f3a264d4",
+  "authoritative_vendor_head": "4eab5795345721001c412ff1ca2c886a11eab606",
+  "current_run_instance_id": "postv13c_20260420T140833Z_bc802069_e2c27eee",
+  "current_execution_scope": "post_v13_final_pretrain_closure",
+  "current_terminal_state": "STOP_PRETRAIN_INTERFACE_UNSTABLE",
+  "route_next_branch": "science_agent_review_required",
+  "diagnostic_only": true,
+  "claim_bearing": false,
+  "why": {
+    "support_expansion": {
+      "selected_unique_live_episode_count": 6,
+      "selected_seed_coverage": 6,
+      "raw_success_attempt_count": 18
     },
-    "limits": {
-      "max_rollouts_per_experiment": 3,
-      "max_disk_growth_mb": 4096,
-      "retry_backoff_seconds": 5,
-      "max_retries": 2,
-      "max_cycles_per_run": 8,
-      "max_tiny_retrain_budget": 1
+    "parity": {
+      "status": "STOP_parity_mismatch",
+      "blocking_reasons": [
+        "distance_to_handle_norm_p95_abs_diff_gt_1e-3",
+        "approach_alignment_cos_p95_abs_diff_gt_1e-3",
+        "orientation_alignment_cos_p95_abs_diff_gt_1e-3",
+        "orientation_error_sin_p95_abs_diff_gt_1e-3",
+        "orientation_error_cos_p95_abs_diff_gt_1e-3",
+        "attach_eligible_proxy_exact_agreement_lt_99pct"
+      ]
     },
-    "disk_growth_mb": 0.004,
-    "completed_experiments": [
-      "RCA0",
-      "RCA1",
-      "RCA2",
-      "RCA3",
-      "RCA4",
-      "RCA5",
-      "RCA6",
-      "RCA7"
-    ]
-  },
-  "scientific_terminal_state": "TS_CANONICAL_POSITIVE_ESTABLISHED",
-  "route_next_branch": "tiny_retrain_confirmation"
+    "signal_band": {
+      "status": "STOP_signal_band_unstable",
+      "blocking_reasons": [
+        "effective_unique_live_support_lt_16",
+        "repeat_11_fit_not_ok",
+        "repeat_11_orientation_gain_nonpositive",
+        "repeat_23_fit_not_ok",
+        "repeat_23_orientation_gain_nonpositive",
+        "live_fit_below_matched_support_distribution"
+      ]
+    }
+  }
 }

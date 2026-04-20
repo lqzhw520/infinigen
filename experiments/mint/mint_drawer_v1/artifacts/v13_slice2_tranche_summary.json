@@ -1,0 +1,19 @@
+{
+  "run_instance_id": "v13s2_20260420T121619Z_bc802069_40636282",
+  "plan_version": "tiny_retrain_confirmation_v13_slice_2_state_action_wiring",
+  "working_head_commit": "bc802069816e6c81beab48ba1f2141c9f3a264d4",
+  "execution_scope": "v13_slice_2_one_step_fit",
+  "diagnostic_only": true,
+  "claim_bearing": false,
+  "gates": {
+    "G0": "PASS",
+    "G2": "PASS",
+    "G3": "PASS",
+    "G4": "PASS"
+  },
+  "stop_point": "G4",
+  "one_step_fit_status": "one_step_action_fit_ok",
+  "train_probe_may_be_considered_after_slice2": true,
+  "slice_constraint": "Do not start training/probe in this tranche.",
+  "decision_boundary": "Only a later separate tranche may consider train/probe, and only because slice-2 G2/G3/G4 all passed."
+}

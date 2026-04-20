@@ -1,10 +1,9 @@
 {
-  "scientific_terminal_state": "TS_CANONICAL_POSITIVE_ESTABLISHED",
-  "route_next_branch": "tiny_retrain_confirmation",
-  "why": "Truthful measurement remained valid, the frozen V1c carrier stayed canonical-ready, V1cT2S0 produced replicated positive rollout lift, and V1cT2S0 is the selected canonical_train_cell for RCA7.",
-  "strongest_negative_capped": true,
-  "cap_active": true,
-  "h0_posterior": 0.35,
-  "h6_posterior": 0.55,
-  "generated_at": "2026-04-14T15:11:35+08:00"
+  "generated_at": "2026-04-20T14:19:15.084013Z",
+  "scientific_terminal_state": "STOP_PRETRAIN_INTERFACE_UNSTABLE",
+  "route_next_branch": "science_agent_review_required",
+  "why": "Final pretrain closure proved the current live interface remains unstable before canary: support expansion failed to reach unique-support threshold, live-vs-diagnostic parity failed on distance/approach/orientation/attach-proxy features, and repeated live one-step fit did not retain a stable signal band.",
+  "training_allowed_now": false,
+  "probe_allowed_now": false,
+  "next_step_contract": "Do not start canary train/probe until Science Agent reviews the closure evidence and produces a single bounded next spec."
 }

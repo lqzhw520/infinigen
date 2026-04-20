@@ -1,0 +1,43 @@
+{
+  "gate_id": "D2",
+  "gate_name": "interface_closure_contract",
+  "run_instance_id": "postv13_20260420T133255Z_bc802069_cac75c56",
+  "working_head_commit": "bc802069816e6c81beab48ba1f2141c9f3a264d4",
+  "vendor_head_commit": "4eab5795345721001c412ff1ca2c886a11eab606",
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "truth_contract_hash": "17ae4d1554899b843c80b064a2c5f3d6331b04dd169819ca5f2b0bfba729a6f6",
+  "acceptance_contract_hash": "3e63d1c21004dae9a8ded0c966f69112f59e340f7d0aada219eb66ac8facd53c",
+  "spec_reference": "/Users/zhuhaowu/ws/phd-anyboxs/infinigen_from_servers/docs/gpt5.4Pro/codex_mint_v84_post_v13_train_probe_admission_execution_spec.md",
+  "timestamp_utc": "2026-04-20T13:32:55.217485Z",
+  "status": "HOLD_signal_band_ambiguity",
+  "blocking_reasons": [
+    "signal_band_ambiguity_present"
+  ],
+  "allowed_next_phases": [
+    "D3"
+  ],
+  "hard_checks": {
+    "action_dim_mapping_consistent": true,
+    "live_prev_close_cmd_toggles": true,
+    "action_interface_status_live_close_state_wired": true,
+    "orientation_state_consumption_status_live": true,
+    "state_spec_match_expected": true,
+    "live_state_mode_orientation_bridge_state_v1": true,
+    "one_step_fit_status_ok": true,
+    "loss_drop_fraction_gt_0_50": true,
+    "close_accuracy_gain_gt_0": true,
+    "orientation_mse_improvement_gt_0": true
+  },
+  "signal_band_ambiguity_present": true,
+  "slice2_fit": {
+    "loss_drop_fraction": 0.8489133031498879,
+    "close_accuracy_gain_over_baseline": 0.203125,
+    "orientation_mse_improvement_fraction": 0.3788208777278708,
+    "fit_retains_prior_signal_band": false
+  },
+  "prior_v13_fit": {
+    "loss_drop_fraction": 0.7913522529176739,
+    "close_accuracy_gain_over_baseline": 0.43225806951522827,
+    "orientation_mse_improvement_fraction": 0.23446227625598554
+  }
+}

@@ -1,0 +1,74 @@
+{
+  "run_instance_id": "v13s2_20260420T121619Z_bc802069_40636282",
+  "plan_version": "tiny_retrain_confirmation_v13_slice_2_state_action_wiring",
+  "slice_name": "v13-slice-2-state-action-interface-wiring-only",
+  "working_head_commit": "bc802069816e6c81beab48ba1f2141c9f3a264d4",
+  "current_publication_head_commit": "bc802069816e6c81beab48ba1f2141c9f3a264d4",
+  "vendor_head_commit": "4eab5795345721001c412ff1ca2c886a11eab606",
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "source_v13_run_instance_id": "v13_20260420T105437Z_bc802069_ceefd542",
+  "source_v13_working_head_commit": "bc802069816e6c81beab48ba1f2141c9f3a264d4",
+  "source_v13_execution_scope": "v13_one_step_supervised_fit",
+  "source_v13_action_interface_status": "close_command_not_learned",
+  "source_v13_orientation_state_status": "orientation_state_missing_but_repairable",
+  "source_v13_one_step_fit_status": "one_step_action_fit_ok",
+  "source_canonical_train_cell": "V1cT2S0",
+  "canonical_train_cell": "V1cT2S3",
+  "source_best_train_state_mode": "S0",
+  "best_train_state_mode": "S3",
+  "active_train_state_mode": "S3",
+  "active_state_mode_name": "orientation_bridge_state_v1",
+  "execution_scope": "v13_slice_2_sovereign_sync",
+  "bridge_stage": "v13_slice_2_state_action_interface_wiring_only",
+  "bridge_attempt": "diagnostic_wiring_only",
+  "dataset_selection_mode": "diagnostic_state_action_interface_wiring",
+  "diagnostic_only": true,
+  "claim_bearing": false,
+  "publication_scope": "blocked_before_g5",
+  "result_scope": "pre_train_wiring_only",
+  "allowed_next_phases": [
+    "G2",
+    "G3",
+    "G4"
+  ],
+  "training_allowed": false,
+  "spec_reference": "/Users/zhuhaowu/ws/phd-anyboxs/infinigen_from_servers/docs/gpt5.4Pro/codex_mint_v84_v13_state_action_interface_execution_spec.md",
+  "goal": "Wire orientation_bridge_state_v1 into the live consumed path and rerun only bounded G2/G3/G4 audits.",
+  "minimum_change_set": [
+    "scripts/mint/drawer_robot_env_mujoco.py",
+    "scripts/mint/root_cause_controller.py",
+    "scripts/mint/v13_audit_common.py",
+    "scripts/mint/run_v84_v13_slice2_sovereign_sync.py",
+    "scripts/mint/run_v84_v13_slice2_action_interface_audit.py",
+    "scripts/mint/run_v84_v13_slice2_state_consumption_audit.py",
+    "scripts/mint/run_v84_v13_slice2_one_step_fit_audit.py"
+  ],
+  "constraints": [
+    "Do not start training.",
+    "Do not start probe.",
+    "Do not modify external/MINT.",
+    "Do not change claim-bearing truth predicates or thresholds.",
+    "Do not broaden into AnyGrasp or unrelated legacy artifacts."
+  ],
+  "gate_design": {
+    "G2": "Recheck live close/action interface semantics after wiring.",
+    "G3": "Materialize a small live rollout set with orientation_bridge_state_v1 and verify those features are truly in observation.state/model input.",
+    "G4": "Run one-step supervised fit on the live-wired state only; no training/probe beyond that."
+  },
+  "decision_boundary": {
+    "allow_later_train_probe_only_if": [
+      "G2 PASS",
+      "G3 PASS",
+      "G4 PASS"
+    ],
+    "otherwise": "STOP and refine wiring rather than training."
+  },
+  "hard_freeze_reconciled": true,
+  "prior_v13_gates": {
+    "G0": "PASS",
+    "G1": "PASS",
+    "G2": "PASS",
+    "G3": "PASS",
+    "G4": "PASS"
+  }
+}

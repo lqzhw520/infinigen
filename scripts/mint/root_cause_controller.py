@@ -429,6 +429,7 @@ class RootCauseController:
             'V1cT2S0': {**carrier, 'interaction_mode': 'orientation_sensitive_v3_task_identity_locked', 'state_mode': 'm0_proxy'},
             'V1cT2S1': {**carrier, 'interaction_mode': 'orientation_sensitive_v3_task_identity_locked', 'state_mode': 'telemetry_candidate_v3_transition'},
             'V1cT2S2': {**carrier, 'interaction_mode': 'orientation_sensitive_v3_task_identity_locked', 'state_mode': 'telemetry_candidate_v4_task_identity'},
+            'V1cT2S3': {**carrier, 'interaction_mode': 'orientation_sensitive_v3_task_identity_locked', 'state_mode': 'orientation_bridge_state_v1'},
         }
         cells: dict[str, dict[str, Any]] = {}
         for cell_id, env_contract in contract_map.items():

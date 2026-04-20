@@ -1,0 +1,53 @@
+{
+  "audit": "v13_slice2_state_consumption_audit",
+  "run_instance_id": "v13s2_20260420T121619Z_bc802069_40636282",
+  "plan_version": "tiny_retrain_confirmation_v13_slice_2_state_action_wiring",
+  "working_head_commit": "bc802069816e6c81beab48ba1f2141c9f3a264d4",
+  "execution_scope": "v13_slice_2_state_consumption",
+  "live_rollout_dir": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v13_slice2_live_state_rollouts",
+  "live_rollout_count": 4,
+  "live_rollout_seeds": [
+    1,
+    2,
+    4,
+    7
+  ],
+  "live_state_mode": [
+    "orientation_bridge_state_v1"
+  ],
+  "live_state_dim_names": [
+    "distance_to_handle_norm",
+    "approach_alignment_cos",
+    "orientation_alignment_cos",
+    "orientation_error_sin",
+    "orientation_error_cos",
+    "prev_close_cmd",
+    "gripper_joint",
+    "attach_eligible_proxy"
+  ],
+  "state_spec_match_expected": true,
+  "feature_audit": {
+    "orientation_alignment_cos": {
+      "in_model_input": true
+    },
+    "approach_alignment_cos": {
+      "in_model_input": true
+    },
+    "handle_frame_orientation_error": {
+      "in_model_input": true
+    },
+    "attach_eligible_proxy": {
+      "in_model_input": true
+    },
+    "close_command_or_gripper_state": {
+      "in_model_input": true
+    }
+  },
+  "prompt_perturbation_preview": {
+    "prompt_changed": true,
+    "prompt_a_prefix": "Task: open the middle drawer of the cabinet, State: 249 128 255 128 255 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 ",
+    "prompt_b_prefix": "Task: open the middle drawer of the cabinet, State: 238 227 0 142 0 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 "
+  },
+  "orientation_state_consumption_status": "orientation_bridge_state_live",
+  "training_allowed_after_g3": false
+}

@@ -1,0 +1,43 @@
+{
+  "audit": "v13_slice2_one_step_fit_audit",
+  "run_instance_id": "v13s2_20260420T121619Z_bc802069_40636282",
+  "plan_version": "tiny_retrain_confirmation_v13_slice_2_state_action_wiring",
+  "working_head_commit": "bc802069816e6c81beab48ba1f2141c9f3a264d4",
+  "execution_scope": "v13_slice_2_one_step_fit",
+  "live_rollout_dir": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v13_slice2_live_state_rollouts",
+  "dataset_examples": 337,
+  "episode_count": 4,
+  "live_state_probe": {
+    "train_examples": 273,
+    "val_examples": 64,
+    "close_majority_baseline": 0.78125,
+    "initial_metrics": {
+      "action_mse_overall": 0.45809290185570717,
+      "translation_action_mse": 0.16507680714130402,
+      "orientation_action_mse": 0.05622153356671333,
+      "close_dim_accuracy": 0.890625,
+      "close_dim_brier": 0.23679456114768982,
+      "close_dim_sign_accuracy": 0.890625,
+      "orientation_action_cosine_similarity": -0.3574962615966797
+    },
+    "final_metrics": {
+      "action_mse_overall": 0.08285322599112988,
+      "translation_action_mse": 0.028285102918744087,
+      "orientation_action_mse": 0.03492364287376404,
+      "close_dim_accuracy": 0.984375,
+      "close_dim_brier": 0.01964448019862175,
+      "close_dim_sign_accuracy": 0.984375,
+      "orientation_action_cosine_similarity": -0.2026354819536209
+    },
+    "training_loss_start": 0.7642136216163635,
+    "training_loss_end": 0.11546251177787781
+  },
+  "loss_drop_fraction": 0.8489133031498879,
+  "close_accuracy_gain_over_baseline": 0.203125,
+  "orientation_mse_improvement_fraction": 0.3788208777278708,
+  "prior_diagnostic_close_accuracy_gain": 0.43225806951522827,
+  "prior_diagnostic_orientation_mse_improvement_fraction": 0.23446227625598554,
+  "fit_retains_prior_signal_band": false,
+  "one_step_fit_status": "one_step_action_fit_ok",
+  "train_probe_may_be_considered_after_slice2": true
+}

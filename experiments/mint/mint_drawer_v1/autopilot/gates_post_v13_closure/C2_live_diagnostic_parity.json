@@ -1,0 +1,309 @@
+{
+  "gate_id": "C2",
+  "gate_name": "live_diagnostic_parity",
+  "run_instance_id": "postv13c_20260420T140833Z_bc802069_e2c27eee",
+  "working_head_commit": "bc802069816e6c81beab48ba1f2141c9f3a264d4",
+  "vendor_head_commit": "4eab5795345721001c412ff1ca2c886a11eab606",
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "truth_contract_hash": "17ae4d1554899b843c80b064a2c5f3d6331b04dd169819ca5f2b0bfba729a6f6",
+  "acceptance_contract_hash": "3e63d1c21004dae9a8ded0c966f69112f59e340f7d0aada219eb66ac8facd53c",
+  "spec_reference": "/Users/zhuhaowu/ws/phd-anyboxs/infinigen_from_servers/docs/gpt5.4Pro/codex_mint_v84_post_v13_train_probe_admission_execution_spec.md",
+  "timestamp_utc": "2026-04-20T14:09:05.620265Z",
+  "status": "STOP_parity_mismatch",
+  "blocking_reasons": [
+    "distance_to_handle_norm_p95_abs_diff_gt_1e-3",
+    "approach_alignment_cos_p95_abs_diff_gt_1e-3",
+    "orientation_alignment_cos_p95_abs_diff_gt_1e-3",
+    "orientation_error_sin_p95_abs_diff_gt_1e-3",
+    "orientation_error_cos_p95_abs_diff_gt_1e-3",
+    "attach_eligible_proxy_exact_agreement_lt_99pct"
+  ],
+  "allowed_next_phases": [
+    "C3"
+  ],
+  "parity_rollout_dir": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/post_v13_closure_parity_rollouts",
+  "feature_order_match": true,
+  "feature_dim_match": true,
+  "feature_names": [
+    "distance_to_handle_norm",
+    "approach_alignment_cos",
+    "orientation_alignment_cos",
+    "orientation_error_sin",
+    "orientation_error_cos",
+    "prev_close_cmd",
+    "gripper_joint",
+    "attach_eligible_proxy"
+  ],
+  "episode_parity_summary": [
+    {
+      "seed": 1,
+      "episode_index": 0,
+      "frame_count": 81,
+      "parity": {
+        "distance_to_handle_norm": {
+          "p95_abs_diff": 0.08262324333190918,
+          "mean_abs_diff": 0.02091611549258232,
+          "max_abs_diff": 0.09064286947250366
+        },
+        "approach_alignment_cos": {
+          "p95_abs_diff": 1.546968698501587,
+          "mean_abs_diff": 0.49286919832229614,
+          "max_abs_diff": 1.7681388854980469
+        },
+        "orientation_alignment_cos": {
+          "p95_abs_diff": 0.11076316982507706,
+          "mean_abs_diff": 0.04922662675380707,
+          "max_abs_diff": 1.9936785697937012
+        },
+        "orientation_error_sin": {
+          "p95_abs_diff": 0.10802298784255981,
+          "mean_abs_diff": 0.02469114400446415,
+          "max_abs_diff": 0.11226271092891693
+        },
+        "orientation_error_cos": {
+          "p95_abs_diff": 0.11076318472623825,
+          "mean_abs_diff": 0.049226630479097366,
+          "max_abs_diff": 1.9936785697937012
+        },
+        "prev_close_cmd": {
+          "exact_agreement_rate": 1.0,
+          "mismatch_count": 0
+        },
+        "gripper_joint": {
+          "p95_abs_diff": 0.0,
+          "mean_abs_diff": 0.0,
+          "max_abs_diff": 0.0
+        },
+        "attach_eligible_proxy": {
+          "exact_agreement_rate": 0.9629629629629629,
+          "mismatch_count": 3
+        }
+      }
+    },
+    {
+      "seed": 3,
+      "episode_index": 0,
+      "frame_count": 69,
+      "parity": {
+        "distance_to_handle_norm": {
+          "p95_abs_diff": 0.1192876636981964,
+          "mean_abs_diff": 0.023813026025891304,
+          "max_abs_diff": 0.12066870927810669
+        },
+        "approach_alignment_cos": {
+          "p95_abs_diff": 1.9758105754852295,
+          "mean_abs_diff": 0.6572861671447754,
+          "max_abs_diff": 1.997530460357666
+        },
+        "orientation_alignment_cos": {
+          "p95_abs_diff": 0.11085845530033112,
+          "mean_abs_diff": 0.057787783443927765,
+          "max_abs_diff": 1.9936785697937012
+        },
+        "orientation_error_sin": {
+          "p95_abs_diff": 0.10817799270153046,
+          "mean_abs_diff": 0.02898525446653366,
+          "max_abs_diff": 0.11226271092891693
+        },
+        "orientation_error_cos": {
+          "p95_abs_diff": 0.11085841804742813,
+          "mean_abs_diff": 0.057787783443927765,
+          "max_abs_diff": 1.9936785697937012
+        },
+        "prev_close_cmd": {
+          "exact_agreement_rate": 1.0,
+          "mismatch_count": 0
+        },
+        "gripper_joint": {
+          "p95_abs_diff": 0.0,
+          "mean_abs_diff": 0.0,
+          "max_abs_diff": 0.0
+        },
+        "attach_eligible_proxy": {
+          "exact_agreement_rate": 0.9565217391304348,
+          "mismatch_count": 3
+        }
+      }
+    },
+    {
+      "seed": 5,
+      "episode_index": 0,
+      "frame_count": 49,
+      "parity": {
+        "distance_to_handle_norm": {
+          "p95_abs_diff": 0.1159257411956787,
+          "mean_abs_diff": 0.02310250699520111,
+          "max_abs_diff": 0.11914443969726562
+        },
+        "approach_alignment_cos": {
+          "p95_abs_diff": 1.9572589635848998,
+          "mean_abs_diff": 0.7494255900382996,
+          "max_abs_diff": 1.9785525798797607
+        },
+        "orientation_alignment_cos": {
+          "p95_abs_diff": 0.11170996725559233,
+          "mean_abs_diff": 0.0813746228814125,
+          "max_abs_diff": 1.9936785697937012
+        },
+        "orientation_error_sin": {
+          "p95_abs_diff": 0.10981865525245665,
+          "mean_abs_diff": 0.04081597551703453,
+          "max_abs_diff": 0.11226271092891693
+        },
+        "orientation_error_cos": {
+          "p95_abs_diff": 0.11170993596315383,
+          "mean_abs_diff": 0.0813746377825737,
+          "max_abs_diff": 1.9936785697937012
+        },
+        "prev_close_cmd": {
+          "exact_agreement_rate": 1.0,
+          "mismatch_count": 0
+        },
+        "gripper_joint": {
+          "p95_abs_diff": 0.0,
+          "mean_abs_diff": 0.0,
+          "max_abs_diff": 0.0
+        },
+        "attach_eligible_proxy": {
+          "exact_agreement_rate": 0.9387755102040817,
+          "mismatch_count": 3
+        }
+      }
+    },
+    {
+      "seed": 6,
+      "episode_index": 0,
+      "frame_count": 55,
+      "parity": {
+        "distance_to_handle_norm": {
+          "p95_abs_diff": 0.10968901216983794,
+          "mean_abs_diff": 0.021752214059233665,
+          "max_abs_diff": 0.11708199977874756
+        },
+        "approach_alignment_cos": {
+          "p95_abs_diff": 1.9463842630386352,
+          "mean_abs_diff": 0.7062270641326904,
+          "max_abs_diff": 1.9699456691741943
+        },
+        "orientation_alignment_cos": {
+          "p95_abs_diff": 0.11131597310304642,
+          "mean_abs_diff": 0.07249739021062851,
+          "max_abs_diff": 1.9936785697937012
+        },
+        "orientation_error_sin": {
+          "p95_abs_diff": 0.1090499922633171,
+          "mean_abs_diff": 0.03636332228779793,
+          "max_abs_diff": 0.11226271092891693
+        },
+        "orientation_error_cos": {
+          "p95_abs_diff": 0.11131594628095627,
+          "mean_abs_diff": 0.0724974051117897,
+          "max_abs_diff": 1.9936785697937012
+        },
+        "prev_close_cmd": {
+          "exact_agreement_rate": 1.0,
+          "mismatch_count": 0
+        },
+        "gripper_joint": {
+          "p95_abs_diff": 0.0,
+          "mean_abs_diff": 0.0,
+          "max_abs_diff": 0.0
+        },
+        "attach_eligible_proxy": {
+          "exact_agreement_rate": 0.9090909090909091,
+          "mismatch_count": 5
+        }
+      }
+    },
+    {
+      "seed": 7,
+      "episode_index": 0,
+      "frame_count": 64,
+      "parity": {
+        "distance_to_handle_norm": {
+          "p95_abs_diff": 0.12010151594877243,
+          "mean_abs_diff": 0.03248696029186249,
+          "max_abs_diff": 0.1208643913269043
+        },
+        "approach_alignment_cos": {
+          "p95_abs_diff": 1.974099612236023,
+          "mean_abs_diff": 0.6637765765190125,
+          "max_abs_diff": 1.9963150024414062
+        },
+        "orientation_alignment_cos": {
+          "p95_abs_diff": 0.11089815758168697,
+          "mean_abs_diff": 0.062302447855472565,
+          "max_abs_diff": 1.9936785697937012
+        },
+        "orientation_error_sin": {
+          "p95_abs_diff": 0.1082425780594349,
+          "mean_abs_diff": 0.03124972991645336,
+          "max_abs_diff": 0.11226271092891693
+        },
+        "orientation_error_cos": {
+          "p95_abs_diff": 0.11089814081788063,
+          "mean_abs_diff": 0.06230245530605316,
+          "max_abs_diff": 1.9936785697937012
+        },
+        "prev_close_cmd": {
+          "exact_agreement_rate": 1.0,
+          "mismatch_count": 0
+        },
+        "gripper_joint": {
+          "p95_abs_diff": 0.0,
+          "mean_abs_diff": 0.0,
+          "max_abs_diff": 0.0
+        },
+        "attach_eligible_proxy": {
+          "exact_agreement_rate": 0.984375,
+          "mismatch_count": 1
+        }
+      }
+    },
+    {
+      "seed": 8,
+      "episode_index": 0,
+      "frame_count": 64,
+      "parity": {
+        "distance_to_handle_norm": {
+          "p95_abs_diff": 0.11663990020751952,
+          "mean_abs_diff": 0.02143036760389805,
+          "max_abs_diff": 0.11966216564178467
+        },
+        "approach_alignment_cos": {
+          "p95_abs_diff": 1.9703628063201903,
+          "mean_abs_diff": 0.6937276124954224,
+          "max_abs_diff": 1.9924612045288086
+        },
+        "orientation_alignment_cos": {
+          "p95_abs_diff": 0.11089815758168697,
+          "mean_abs_diff": 0.062302447855472565,
+          "max_abs_diff": 1.9936785697937012
+        },
+        "orientation_error_sin": {
+          "p95_abs_diff": 0.1082425780594349,
+          "mean_abs_diff": 0.03124972991645336,
+          "max_abs_diff": 0.11226271092891693
+        },
+        "orientation_error_cos": {
+          "p95_abs_diff": 0.11089814081788063,
+          "mean_abs_diff": 0.06230245530605316,
+          "max_abs_diff": 1.9936785697937012
+        },
+        "prev_close_cmd": {
+          "exact_agreement_rate": 1.0,
+          "mismatch_count": 0
+        },
+        "gripper_joint": {
+          "p95_abs_diff": 0.0,
+          "mean_abs_diff": 0.0,
+          "max_abs_diff": 0.0
+        },
+        "attach_eligible_proxy": {
+          "exact_agreement_rate": 0.984375,
+          "mismatch_count": 1
+        }
+      }
+    }
+  ]
+}

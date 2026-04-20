@@ -1,0 +1,22 @@
+{
+  "gate_id": "G3",
+  "gate_name": "state_consumption",
+  "run_instance_id": "v13s2_20260420T121619Z_bc802069_40636282",
+  "working_head_commit": "bc802069816e6c81beab48ba1f2141c9f3a264d4",
+  "vendor_head_commit": "4eab5795345721001c412ff1ca2c886a11eab606",
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "truth_contract_hash": "17ae4d1554899b843c80b064a2c5f3d6331b04dd169819ca5f2b0bfba729a6f6",
+  "acceptance_contract_hash": "3e63d1c21004dae9a8ded0c966f69112f59e340f7d0aada219eb66ac8facd53c",
+  "spec_reference": "/Users/zhuhaowu/ws/phd-anyboxs/infinigen_from_servers/docs/gpt5.4Pro/codex_mint_v84_v13_state_action_interface_execution_spec.md",
+  "timestamp_utc": "2026-04-20T12:16:32.851454Z",
+  "status": "PASS",
+  "blocking_reasons": [],
+  "allowed_next_phases": [
+    "G4"
+  ],
+  "audit_artifact_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v13_slice2_state_consumption_audit.json",
+  "orientation_state_consumption_status": "orientation_bridge_state_live",
+  "live_rollout_dir": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v13_slice2_live_state_rollouts",
+  "prompt_perturbation_changes_model_input": true,
+  "training_allowed_after_g3": false
+}

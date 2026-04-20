@@ -1,0 +1,503 @@
+{
+  "gate_id": "C3",
+  "gate_name": "signal_band_stability",
+  "run_instance_id": "postv13c_20260420T140833Z_bc802069_e2c27eee",
+  "working_head_commit": "bc802069816e6c81beab48ba1f2141c9f3a264d4",
+  "vendor_head_commit": "4eab5795345721001c412ff1ca2c886a11eab606",
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "truth_contract_hash": "17ae4d1554899b843c80b064a2c5f3d6331b04dd169819ca5f2b0bfba729a6f6",
+  "acceptance_contract_hash": "3e63d1c21004dae9a8ded0c966f69112f59e340f7d0aada219eb66ac8facd53c",
+  "spec_reference": "/Users/zhuhaowu/ws/phd-anyboxs/infinigen_from_servers/docs/gpt5.4Pro/codex_mint_v84_post_v13_train_probe_admission_execution_spec.md",
+  "timestamp_utc": "2026-04-20T14:09:28.292161Z",
+  "status": "STOP_signal_band_unstable",
+  "blocking_reasons": [
+    "effective_unique_live_support_lt_16",
+    "repeat_11_fit_not_ok",
+    "repeat_11_orientation_gain_nonpositive",
+    "repeat_23_fit_not_ok",
+    "repeat_23_orientation_gain_nonpositive",
+    "live_fit_below_matched_support_distribution"
+  ],
+  "allowed_next_phases": [
+    "C4"
+  ],
+  "live_fullset_fit": {
+    "split_seed": 0,
+    "train_examples": 263,
+    "val_examples": 119,
+    "close_majority_baseline": 0.7647058963775635,
+    "initial_metrics": {
+      "action_mse_overall": 0.4530651867389679,
+      "translation_action_mse": 0.1182861253619194,
+      "orientation_action_mse": 0.07274428755044937,
+      "close_dim_accuracy": 0.23529411852359772,
+      "close_dim_brier": 0.2620347738265991,
+      "close_dim_sign_accuracy": 0.23529411852359772,
+      "orientation_action_cosine_similarity": -0.005898571107536554
+    },
+    "final_metrics": {
+      "action_mse_overall": 0.09369398094713688,
+      "translation_action_mse": 0.010998686775565147,
+      "orientation_action_mse": 0.05887294560670853,
+      "close_dim_accuracy": 0.9663865566253662,
+      "close_dim_brier": 0.023822348564863205,
+      "close_dim_sign_accuracy": 0.9663865566253662,
+      "orientation_action_cosine_similarity": -0.0003638416528701782
+    },
+    "training_loss_start": 0.8895018100738525,
+    "training_loss_end": 0.07411941140890121,
+    "loss_drop_fraction": 0.9166731190769052,
+    "close_accuracy_gain_over_baseline": 0.20168066024780273,
+    "orientation_mse_improvement_fraction": 0.19068633992904033,
+    "one_step_fit_status": "one_step_action_fit_ok"
+  },
+  "live_repeat_fits": [
+    {
+      "split_seed": 11,
+      "train_examples": 278,
+      "val_examples": 104,
+      "close_majority_baseline": 0.7596153616905212,
+      "initial_metrics": {
+        "action_mse_overall": 0.4267905727028847,
+        "translation_action_mse": 0.09072574973106384,
+        "orientation_action_mse": 0.061718739569187164,
+        "close_dim_accuracy": 0.24038460850715637,
+        "close_dim_brier": 0.27434608340263367,
+        "close_dim_sign_accuracy": 0.24038460850715637,
+        "orientation_action_cosine_similarity": -0.00011930508480872959
+      },
+      "final_metrics": {
+        "action_mse_overall": 0.19684074074029922,
+        "translation_action_mse": 0.0834876075387001,
+        "orientation_action_mse": 0.0650729313492775,
+        "close_dim_accuracy": 0.932692289352417,
+        "close_dim_brier": 0.048280201852321625,
+        "close_dim_sign_accuracy": 0.932692289352417,
+        "orientation_action_cosine_similarity": -0.0004080533981323242
+      },
+      "training_loss_start": 0.9260081648826599,
+      "training_loss_end": 0.06734957545995712,
+      "loss_drop_fraction": 0.9272689183377866,
+      "close_accuracy_gain_over_baseline": 0.17307692766189575,
+      "orientation_mse_improvement_fraction": -0.05434640764706898,
+      "one_step_fit_status": "one_step_action_fit_weak"
+    },
+    {
+      "split_seed": 23,
+      "train_examples": 263,
+      "val_examples": 119,
+      "close_majority_baseline": 0.7731092572212219,
+      "initial_metrics": {
+        "action_mse_overall": 0.44876139238476753,
+        "translation_action_mse": 0.135590597987175,
+        "orientation_action_mse": 0.04235512390732765,
+        "close_dim_accuracy": 0.22689075767993927,
+        "close_dim_brier": 0.2708156704902649,
+        "close_dim_sign_accuracy": 0.22689075767993927,
+        "orientation_action_cosine_similarity": -0.0021484035532921553
+      },
+      "final_metrics": {
+        "action_mse_overall": 0.10294830054044724,
+        "translation_action_mse": 0.020596565678715706,
+        "orientation_action_mse": 0.06146150827407837,
+        "close_dim_accuracy": 0.9747899174690247,
+        "close_dim_brier": 0.02089022658765316,
+        "close_dim_sign_accuracy": 0.9747899174690247,
+        "orientation_action_cosine_similarity": 1.5076781892275903e-05
+      },
+      "training_loss_start": 0.8824610114097595,
+      "training_loss_end": 0.07967466115951538,
+      "loss_drop_fraction": 0.9097131089879738,
+      "close_accuracy_gain_over_baseline": 0.20168066024780273,
+      "orientation_mse_improvement_fraction": -0.4510997160238555,
+      "one_step_fit_status": "one_step_action_fit_weak"
+    },
+    {
+      "split_seed": 37,
+      "train_examples": 254,
+      "val_examples": 128,
+      "close_majority_baseline": 0.7734375,
+      "initial_metrics": {
+        "action_mse_overall": 0.38178161531686783,
+        "translation_action_mse": 0.12574420869350433,
+        "orientation_action_mse": 0.024571798741817474,
+        "close_dim_accuracy": 0.7734375,
+        "close_dim_brier": 0.23146560788154602,
+        "close_dim_sign_accuracy": 0.7734375,
+        "orientation_action_cosine_similarity": 0.5443584322929382
+      },
+      "final_metrics": {
+        "action_mse_overall": 0.04710880573838949,
+        "translation_action_mse": 0.01821930520236492,
+        "orientation_action_mse": 0.005169934593141079,
+        "close_dim_accuracy": 0.9765625,
+        "close_dim_brier": 0.02371956594288349,
+        "close_dim_sign_accuracy": 0.9765625,
+        "orientation_action_cosine_similarity": 0.9913786053657532
+      },
+      "training_loss_start": 0.7768619060516357,
+      "training_loss_end": 0.09249380975961685,
+      "loss_drop_fraction": 0.8809391874680632,
+      "close_accuracy_gain_over_baseline": 0.203125,
+      "orientation_mse_improvement_fraction": 0.7895988548716771,
+      "one_step_fit_status": "one_step_action_fit_ok"
+    }
+  ],
+  "matched_support_baseline_distribution": [
+    {
+      "baseline_index": 0,
+      "support_seed": 11,
+      "episode_count": 6,
+      "split_result": {
+        "split_seed": 0,
+        "train_examples": 94,
+        "val_examples": 54,
+        "close_majority_baseline": 0.5740740597248077,
+        "initial_metrics": {
+          "action_mse_overall": 0.5135644227266312,
+          "translation_action_mse": 0.1785825937986374,
+          "orientation_action_mse": 0.09137921035289764,
+          "close_dim_accuracy": 0.5740740895271301,
+          "close_dim_brier": 0.24360261857509613,
+          "close_dim_sign_accuracy": 0.5740740895271301,
+          "orientation_action_cosine_similarity": 0.02551640011370182
+        },
+        "final_metrics": {
+          "action_mse_overall": 0.20519248768687248,
+          "translation_action_mse": 0.03657800331711769,
+          "orientation_action_mse": 0.1322294920682907,
+          "close_dim_accuracy": 0.9444444179534912,
+          "close_dim_brier": 0.03638499230146408,
+          "close_dim_sign_accuracy": 0.9444444179534912,
+          "orientation_action_cosine_similarity": 0.036751698702573776
+        },
+        "training_loss_start": 0.860175371170044,
+        "training_loss_end": 0.049266643822193146,
+        "loss_drop_fraction": 0.9427248843974936,
+        "close_accuracy_gain_over_baseline": 0.37037035822868347,
+        "orientation_mse_improvement_fraction": -0.4470413079477623,
+        "one_step_fit_status": "one_step_action_fit_weak"
+      },
+      "selected_episode_list": [
+        "seed_001_episode_05.json",
+        "seed_003_episode_02.json",
+        "seed_005_episode_05.json",
+        "seed_006_episode_02.json",
+        "seed_007_episode_07.json",
+        "seed_008_episode_05.json"
+      ]
+    },
+    {
+      "baseline_index": 1,
+      "support_seed": 23,
+      "episode_count": 6,
+      "split_result": {
+        "split_seed": 0,
+        "train_examples": 94,
+        "val_examples": 54,
+        "close_majority_baseline": 0.5925925970077515,
+        "initial_metrics": {
+          "action_mse_overall": 0.5078305080533028,
+          "translation_action_mse": 0.17435328662395477,
+          "orientation_action_mse": 0.09115362912416458,
+          "close_dim_accuracy": 0.5925925970077515,
+          "close_dim_brier": 0.2423235923051834,
+          "close_dim_sign_accuracy": 0.5925925970077515,
+          "orientation_action_cosine_similarity": 0.02699430286884308
+        },
+        "final_metrics": {
+          "action_mse_overall": 0.18259881250560284,
+          "translation_action_mse": 0.039810553193092346,
+          "orientation_action_mse": 0.1269715279340744,
+          "close_dim_accuracy": 0.9814814925193787,
+          "close_dim_brier": 0.01581673137843609,
+          "close_dim_sign_accuracy": 0.9814814925193787,
+          "orientation_action_cosine_similarity": 0.03698458895087242
+        },
+        "training_loss_start": 0.8685237169265747,
+        "training_loss_end": 0.09637248516082764,
+        "loss_drop_fraction": 0.8890387409317286,
+        "close_accuracy_gain_over_baseline": 0.3888888955116272,
+        "orientation_mse_improvement_fraction": -0.3929399098429817,
+        "one_step_fit_status": "one_step_action_fit_weak"
+      },
+      "selected_episode_list": [
+        "seed_001_episode_00.json",
+        "seed_003_episode_10.json",
+        "seed_005_episode_10.json",
+        "seed_006_episode_01.json",
+        "seed_007_episode_06.json",
+        "seed_008_episode_09.json"
+      ]
+    },
+    {
+      "baseline_index": 2,
+      "support_seed": 37,
+      "episode_count": 6,
+      "split_result": {
+        "split_seed": 0,
+        "train_examples": 96,
+        "val_examples": 54,
+        "close_majority_baseline": 0.5185185074806213,
+        "initial_metrics": {
+          "action_mse_overall": 0.5229311883449554,
+          "translation_action_mse": 0.18307645618915558,
+          "orientation_action_mse": 0.0923699289560318,
+          "close_dim_accuracy": 0.5185185074806213,
+          "close_dim_brier": 0.24748480319976807,
+          "close_dim_sign_accuracy": 0.5185185074806213,
+          "orientation_action_cosine_similarity": 0.025093434378504753
+        },
+        "final_metrics": {
+          "action_mse_overall": 0.25048294849693775,
+          "translation_action_mse": 0.028999755159020424,
+          "orientation_action_mse": 0.13308954238891602,
+          "close_dim_accuracy": 0.9074074029922485,
+          "close_dim_brier": 0.08839365094900131,
+          "close_dim_sign_accuracy": 0.9074074029922485,
+          "orientation_action_cosine_similarity": 0.03684674948453903
+        },
+        "training_loss_start": 0.8690022230148315,
+        "training_loss_end": 0.013995029963552952,
+        "loss_drop_fraction": 0.9838952886507011,
+        "close_accuracy_gain_over_baseline": 0.3888888955116272,
+        "orientation_mse_improvement_fraction": -0.44083192325791226,
+        "one_step_fit_status": "one_step_action_fit_weak"
+      },
+      "selected_episode_list": [
+        "seed_001_episode_09.json",
+        "seed_003_episode_03.json",
+        "seed_005_episode_05.json",
+        "seed_006_episode_08.json",
+        "seed_007_episode_08.json",
+        "seed_008_episode_08.json"
+      ]
+    },
+    {
+      "baseline_index": 3,
+      "support_seed": 41,
+      "episode_count": 6,
+      "split_result": {
+        "split_seed": 0,
+        "train_examples": 94,
+        "val_examples": 54,
+        "close_majority_baseline": 0.5740740597248077,
+        "initial_metrics": {
+          "action_mse_overall": 0.5124500170350075,
+          "translation_action_mse": 0.17777596414089203,
+          "orientation_action_mse": 0.09105854481458664,
+          "close_dim_accuracy": 0.5740740895271301,
+          "close_dim_brier": 0.2436155080795288,
+          "close_dim_sign_accuracy": 0.5740740895271301,
+          "orientation_action_cosine_similarity": 0.027900638058781624
+        },
+        "final_metrics": {
+          "action_mse_overall": 0.19048862252384424,
+          "translation_action_mse": 0.045978374779224396,
+          "orientation_action_mse": 0.13024179637432098,
+          "close_dim_accuracy": 0.9814814925193787,
+          "close_dim_brier": 0.014268451370298862,
+          "close_dim_sign_accuracy": 0.9814814925193787,
+          "orientation_action_cosine_similarity": 0.037175990641117096
+        },
+        "training_loss_start": 0.8633026480674744,
+        "training_loss_end": 0.07213674485683441,
+        "loss_drop_fraction": 0.9164409549555832,
+        "close_accuracy_gain_over_baseline": 0.4074074327945709,
+        "orientation_mse_improvement_fraction": -0.43030834326991785,
+        "one_step_fit_status": "one_step_action_fit_weak"
+      },
+      "selected_episode_list": [
+        "seed_001_episode_01.json",
+        "seed_003_episode_06.json",
+        "seed_005_episode_07.json",
+        "seed_006_episode_09.json",
+        "seed_007_episode_10.json",
+        "seed_008_episode_02.json"
+      ]
+    },
+    {
+      "baseline_index": 4,
+      "support_seed": 53,
+      "episode_count": 6,
+      "split_result": {
+        "split_seed": 0,
+        "train_examples": 94,
+        "val_examples": 54,
+        "close_majority_baseline": 0.5370370447635651,
+        "initial_metrics": {
+          "action_mse_overall": 0.5203300192952156,
+          "translation_action_mse": 0.18289871513843536,
+          "orientation_action_mse": 0.09123951941728592,
+          "close_dim_accuracy": 0.5370370149612427,
+          "close_dim_brier": 0.24619178473949432,
+          "close_dim_sign_accuracy": 0.5370370149612427,
+          "orientation_action_cosine_similarity": 0.027321314439177513
+        },
+        "final_metrics": {
+          "action_mse_overall": 0.2516697682440281,
+          "translation_action_mse": 0.05374855920672417,
+          "orientation_action_mse": 0.12672340869903564,
+          "close_dim_accuracy": 0.9074074029922485,
+          "close_dim_brier": 0.07119780033826828,
+          "close_dim_sign_accuracy": 0.9074074029922485,
+          "orientation_action_cosine_similarity": 0.03681809827685356
+        },
+        "training_loss_start": 0.8649100661277771,
+        "training_loss_end": 0.08056676387786865,
+        "loss_drop_fraction": 0.9068495476777511,
+        "close_accuracy_gain_over_baseline": 0.37037035822868347,
+        "orientation_mse_improvement_fraction": -0.38890920851372957,
+        "one_step_fit_status": "one_step_action_fit_weak"
+      },
+      "selected_episode_list": [
+        "seed_001_episode_10.json",
+        "seed_003_episode_07.json",
+        "seed_005_episode_11.json",
+        "seed_006_episode_10.json",
+        "seed_007_episode_06.json",
+        "seed_008_episode_00.json"
+      ]
+    },
+    {
+      "baseline_index": 5,
+      "support_seed": 67,
+      "episode_count": 6,
+      "split_result": {
+        "split_seed": 0,
+        "train_examples": 93,
+        "val_examples": 54,
+        "close_majority_baseline": 0.5740740597248077,
+        "initial_metrics": {
+          "action_mse_overall": 0.5124500170350075,
+          "translation_action_mse": 0.17777596414089203,
+          "orientation_action_mse": 0.09105854481458664,
+          "close_dim_accuracy": 0.5740740895271301,
+          "close_dim_brier": 0.2436155080795288,
+          "close_dim_sign_accuracy": 0.5740740895271301,
+          "orientation_action_cosine_similarity": 0.027900638058781624
+        },
+        "final_metrics": {
+          "action_mse_overall": 0.19716946966946125,
+          "translation_action_mse": 0.04854673892259598,
+          "orientation_action_mse": 0.13056683540344238,
+          "close_dim_accuracy": 0.9814814925193787,
+          "close_dim_brier": 0.01805589534342289,
+          "close_dim_sign_accuracy": 0.9814814925193787,
+          "orientation_action_cosine_similarity": 0.03691010922193527
+        },
+        "training_loss_start": 0.8608313202857971,
+        "training_loss_end": 0.08314979821443558,
+        "loss_drop_fraction": 0.9034075593499203,
+        "close_accuracy_gain_over_baseline": 0.4074074327945709,
+        "orientation_mse_improvement_fraction": -0.43387790425711836,
+        "one_step_fit_status": "one_step_action_fit_weak"
+      },
+      "selected_episode_list": [
+        "seed_001_episode_02.json",
+        "seed_003_episode_10.json",
+        "seed_005_episode_06.json",
+        "seed_006_episode_05.json",
+        "seed_007_episode_09.json",
+        "seed_008_episode_10.json"
+      ]
+    },
+    {
+      "baseline_index": 6,
+      "support_seed": 79,
+      "episode_count": 6,
+      "split_result": {
+        "split_seed": 0,
+        "train_examples": 96,
+        "val_examples": 54,
+        "close_majority_baseline": 0.5740740597248077,
+        "initial_metrics": {
+          "action_mse_overall": 0.5135644227266312,
+          "translation_action_mse": 0.1785825937986374,
+          "orientation_action_mse": 0.09137921035289764,
+          "close_dim_accuracy": 0.5740740895271301,
+          "close_dim_brier": 0.24360261857509613,
+          "close_dim_sign_accuracy": 0.5740740895271301,
+          "orientation_action_cosine_similarity": 0.02551640011370182
+        },
+        "final_metrics": {
+          "action_mse_overall": 0.1963284444063902,
+          "translation_action_mse": 0.030831241980195045,
+          "orientation_action_mse": 0.13125282526016235,
+          "close_dim_accuracy": 0.9259259104728699,
+          "close_dim_brier": 0.03424437716603279,
+          "close_dim_sign_accuracy": 0.9259259104728699,
+          "orientation_action_cosine_similarity": 0.036755431443452835
+        },
+        "training_loss_start": 0.8731949329376221,
+        "training_loss_end": 0.05596260726451874,
+        "loss_drop_fraction": 0.9359105222057942,
+        "close_accuracy_gain_over_baseline": 0.35185185074806213,
+        "orientation_mse_improvement_fraction": -0.43635324438979806,
+        "one_step_fit_status": "one_step_action_fit_weak"
+      },
+      "selected_episode_list": [
+        "seed_001_episode_00.json",
+        "seed_003_episode_06.json",
+        "seed_005_episode_09.json",
+        "seed_006_episode_06.json",
+        "seed_007_episode_00.json",
+        "seed_008_episode_09.json"
+      ]
+    },
+    {
+      "baseline_index": 7,
+      "support_seed": 97,
+      "episode_count": 6,
+      "split_result": {
+        "split_seed": 0,
+        "train_examples": 93,
+        "val_examples": 54,
+        "close_majority_baseline": 0.5555555522441864,
+        "initial_metrics": {
+          "action_mse_overall": 0.5156176313757896,
+          "translation_action_mse": 0.1795240193605423,
+          "orientation_action_mse": 0.09121490269899368,
+          "close_dim_accuracy": 0.5555555820465088,
+          "close_dim_brier": 0.24487870931625366,
+          "close_dim_sign_accuracy": 0.5555555820465088,
+          "orientation_action_cosine_similarity": 0.026716940104961395
+        },
+        "final_metrics": {
+          "action_mse_overall": 0.24262805096805096,
+          "translation_action_mse": 0.0876825824379921,
+          "orientation_action_mse": 0.12967222929000854,
+          "close_dim_accuracy": 0.9629629850387573,
+          "close_dim_brier": 0.025273239240050316,
+          "close_dim_sign_accuracy": 0.9629629850387573,
+          "orientation_action_cosine_similarity": 0.03624142333865166
+        },
+        "training_loss_start": 0.8633419275283813,
+        "training_loss_end": 0.1036209762096405,
+        "loss_drop_fraction": 0.8799768980219785,
+        "close_accuracy_gain_over_baseline": 0.4074074327945709,
+        "orientation_mse_improvement_fraction": -0.4216123183063938,
+        "one_step_fit_status": "one_step_action_fit_weak"
+      },
+      "selected_episode_list": [
+        "seed_001_episode_08.json",
+        "seed_003_episode_06.json",
+        "seed_005_episode_04.json",
+        "seed_006_episode_07.json",
+        "seed_007_episode_01.json",
+        "seed_008_episode_06.json"
+      ]
+    }
+  ],
+  "matched_support_p25_close_accuracy_gain": 0.37037035822868347,
+  "matched_support_p25_orientation_mse_improvement": -0.4374729096889496,
+  "benign_support_size_effect": false,
+  "selected_counts_by_seed": {
+    "1": 1,
+    "3": 1,
+    "5": 1,
+    "6": 1,
+    "7": 1,
+    "8": 1
+  }
+}

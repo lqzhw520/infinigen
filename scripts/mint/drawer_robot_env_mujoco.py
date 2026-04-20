@@ -62,6 +62,7 @@ StateMode = Literal[
     "telemetry_candidate_v2",
     "telemetry_candidate_v3_transition",
     "telemetry_candidate_v4_task_identity",
+    "orientation_bridge_state_v1",
 ]
 RenderProfile = Literal[
     "legacy_surface",
@@ -375,6 +376,7 @@ class DrawerRobotEnvMuJoCo:
         self._last_handle_probe_metadata: dict[str, Any] = {}
         self._last_orientation_info = self._default_orientation_info()
         self._last_claim_policy = self.claim_policy()
+        self._prev_close_cmd = False
         self._attach_streak = 0
         self._stable_attach = False
         self._contact_window: list[float] = []
@@ -422,6 +424,7 @@ class DrawerRobotEnvMuJoCo:
             "attach_gate_distance_passed": False,
             "attach_gate_orientation_passed": True,
             "attach_gate_approach_passed": False,
+            "approach_alignment_cos": 0.0,
             "attach_streak": 0,
             "stable_attach": False,
             "pull_alignment_cos": 0.0,
@@ -2377,6 +2380,27 @@ class DrawerRobotEnvMuJoCo:
                 "phase_locked",
             ]
             provenance = ["derived"] * 8
+        elif mode == "orientation_bridge_state_v1":
+            dim_names = [
+                "distance_to_handle_norm",
+                "approach_alignment_cos",
+                "orientation_alignment_cos",
+                "orientation_error_sin",
+                "orientation_error_cos",
+                "prev_close_cmd",
+                "gripper_joint",
+                "attach_eligible_proxy",
+            ]
+            provenance = [
+                "derived",
+                "derived",
+                "derived",
+                "derived",
+                "derived",
+                "derived",
+                "observed",
+                "derived",
+            ]
         else:
             dim_names = [
                 "handle_rel_x_norm",
@@ -2463,6 +2487,24 @@ class DrawerRobotEnvMuJoCo:
         attach_streak_norm = float(
             np.clip(float(info.get("attach_streak", 0.0)) / 4.0, 0.0, 1.0)
         )
+        if mode == "orientation_bridge_state_v1":
+            handle_distance = float(np.linalg.norm(handle - self.eef_pos))
+            distance_norm = float(np.clip(handle_distance / 0.35, 0.0, 1.0))
+            orientation_error = float(info.get("orientation_error_rad", 0.0))
+            state = np.array(
+                [
+                    distance_norm,
+                    float(info.get("approach_alignment_cos", 0.0)),
+                    float(info.get("orientation_alignment_cos", 1.0)),
+                    float(np.sin(orientation_error)),
+                    float(np.cos(orientation_error)),
+                    1.0 if self._prev_close_cmd else 0.0,
+                    float(self.gripper_joint),
+                    1.0 if bool(info.get("attach_eligible", False)) else 0.0,
+                ],
+                dtype=np.float32,
+            )
+            return state.astype(np.float32)
         if mode == "telemetry_candidate_v4_task_identity":
             joint_span = max(float(self.joint_range[1] - self.joint_range[0]), 1e-6)
             effective_pull_progress_norm = float(
@@ -2583,6 +2625,7 @@ class DrawerRobotEnvMuJoCo:
         self._last_orientation_info = self._default_orientation_info()
         self._last_handle_probe_metadata = {}
         self._last_claim_policy = self.claim_policy()
+        self._prev_close_cmd = False
         return self.observe()
 
     def anygrasp_payload(self, num_points: int = 4096) -> dict[str, Any]:
@@ -2831,6 +2874,7 @@ class DrawerRobotEnvMuJoCo:
             )
         mujoco.mj_forward(self.model, self.data)
         self._step_count += 1
+        self._prev_close_cmd = bool(close_cmd)
         self._last_orientation_info = {
             "orientation_alignment_cos": float(orientation_alignment_cos),
             "orientation_gate_passed": bool(orientation_gate_passed),
@@ -2838,6 +2882,7 @@ class DrawerRobotEnvMuJoCo:
             "attach_gate_distance_passed": bool(distance_pass),
             "attach_gate_orientation_passed": bool(orientation_gate_passed),
             "attach_gate_approach_passed": bool(approach_gate_passed),
+            "approach_alignment_cos": float(approach_alignment_cos),
             "attach_streak": int(self._attach_streak),
             "stable_attach": bool(self._stable_attach),
             "pull_alignment_cos": float(pull_alignment_cos),

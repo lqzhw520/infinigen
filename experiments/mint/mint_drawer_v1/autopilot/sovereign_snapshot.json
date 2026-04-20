@@ -1,12 +1,27 @@
 {
-  "snapshot_version": "v10_sovereign_snapshot_v1",
-  "run_instance_id": "v10_20260418T074813Z_64d8bc0b_09bd0ca5",
+  "snapshot_version": "post_v13_final_pretrain_closure_sovereign_snapshot_v1",
+  "timestamp_utc": "2026-04-20T14:19:15.084013Z",
+  "run_instance_id": "postv13c_20260420T140833Z_bc802069_e2c27eee",
   "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
-  "working_head_commit": "64d8bc0b2f27ab4d04880e665e680b2da085d535",
+  "working_head_commit": "bc802069816e6c81beab48ba1f2141c9f3a264d4",
   "vendor_head_commit": "4eab5795345721001c412ff1ca2c886a11eab606",
   "truth_contract_hash": "17ae4d1554899b843c80b064a2c5f3d6331b04dd169819ca5f2b0bfba729a6f6",
   "acceptance_contract_hash": "3e63d1c21004dae9a8ded0c966f69112f59e340f7d0aada219eb66ac8facd53c",
-  "spec_doc_path": "/mnt/afs2/zhuhaowu/infinigen/docs/MINT_V84_LEARNING_SUPPORT_CORPUS_FIX_SPEC.md",
-  "spec_doc_hash": "053d2615143a20265c3c1729ff09df198bfacb6e493c29cafcf79539b3709dbf",
-  "timestamp_utc": "2026-04-18T08:25:04.918760Z"
+  "execution_scope": "post_v13_final_pretrain_closure",
+  "diagnostic_only": true,
+  "claim_bearing": false,
+  "final_verdict": "STOP_PRETRAIN_INTERFACE_UNSTABLE",
+  "training_allowed_now": false,
+  "probe_allowed_now": false,
+  "source_anchor": {
+    "v13_run_instance_id": "v13_20260420T105437Z_bc802069_ceefd542",
+    "v13_slice2_run_instance_id": "v13s2_20260420T121619Z_bc802069_40636282",
+    "post_v13_admission_run_instance_id": "postv13_20260420T133255Z_bc802069_cac75c56"
+  },
+  "spec_reference": "/Users/zhuhaowu/ws/phd-anyboxs/infinigen_from_servers/docs/gpt5.4Pro/codex_mint_v84_post_v13_train_probe_admission_execution_spec.md",
+  "carryforward_spec_references": [
+    "/Users/zhuhaowu/ws/phd-anyboxs/infinigen_from_servers/docs/gpt5.4Pro/codex_mint_v84_v12_1_orientation_attach_anygrasp_execution_spec.md",
+    "/Users/zhuhaowu/ws/phd-anyboxs/infinigen_from_servers/docs/gpt5.4Pro/codex_mint_v84_v13_state_action_interface_execution_spec.md",
+    "/Users/zhuhaowu/ws/phd-anyboxs/infinigen_from_servers/docs/gpt5.4Pro/codex_mint_v84_post_v13_train_probe_admission_execution_spec.md"
+  ]
 }

@@ -1,0 +1,42 @@
+{
+  "run_instance_id": "postv13_20260420T133255Z_bc802069_cac75c56",
+  "plan_version": "tiny_retrain_confirmation_post_v13_admission",
+  "working_head_commit": "bc802069816e6c81beab48ba1f2141c9f3a264d4",
+  "execution_scope": "post_v13_admission_verdict",
+  "diagnostic_only": true,
+  "claim_bearing": false,
+  "gates": {
+    "D0": "PASS",
+    "D1": "PASS",
+    "D2": "HOLD_signal_band_ambiguity",
+    "D3": "STOP_signal_band_ambiguity_unresolved",
+    "D4": "PASS"
+  },
+  "final_verdict": "STOP_PRETRAIN_ADMISSION_AMBIGUOUS",
+  "blocking_reasons": [
+    "slice2_live_fit_does_not_retain_prior_signal_band",
+    "slice2_live_rollout_support_is_only_4_episodes",
+    "current_evidence_cannot_separate_benign_live_distribution_shift_from_unresolved_signal_instability"
+  ],
+  "carryforward": {
+    "v12_classification": "orientation_stage_signal_detected_no_attach",
+    "v13_canonical_classification": "pre_attach_metric_shift_no_attach_conversion",
+    "v13_action_interface_status": "close_command_not_learned",
+    "v13s2_action_interface_status": "live_close_state_wired",
+    "v13s2_orientation_state_status": "orientation_bridge_state_live"
+  },
+  "admission_boundary": {
+    "training_allowed_now": false,
+    "probe_allowed_now": false,
+    "future_canary_must_still_be_separate_tranche": true,
+    "future_canary_budget": null
+  },
+  "failure_interpretation_prebound": {
+    "zero_signal": "state_action_interface_repaired_no_signal",
+    "pre_attach_shift_only": "pre_attach_metric_shift_no_attach_conversion",
+    "attach_eligible_gain": "state_action_interface_repaired_attach_signal_detected",
+    "close_regression": "action_close_interface_mismatch_confirmed",
+    "post_interface_optimization_failure": "objective_weighting_needed_after_interface_repair"
+  },
+  "timestamp_utc": "2026-04-20T13:32:55.262483Z"
+}

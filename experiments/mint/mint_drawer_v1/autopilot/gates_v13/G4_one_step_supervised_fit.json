@@ -1,0 +1,24 @@
+{
+  "gate_id": "G4",
+  "gate_name": "one_step_supervised_fit",
+  "run_instance_id": "v13_20260420T105437Z_bc802069_ceefd542",
+  "working_head_commit": "bc802069816e6c81beab48ba1f2141c9f3a264d4",
+  "vendor_head_commit": "4eab5795345721001c412ff1ca2c886a11eab606",
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "truth_contract_hash": "17ae4d1554899b843c80b064a2c5f3d6331b04dd169819ca5f2b0bfba729a6f6",
+  "acceptance_contract_hash": "3e63d1c21004dae9a8ded0c966f69112f59e340f7d0aada219eb66ac8facd53c",
+  "spec_reference": "/Users/zhuhaowu/ws/phd-anyboxs/infinigen_from_servers/docs/gpt5.4Pro/codex_mint_v84_v13_state_action_interface_execution_spec.md",
+  "timestamp_utc": "2026-04-20T10:54:50.053028Z",
+  "status": "PASS",
+  "blocking_reasons": [],
+  "allowed_next_phases": [
+    "slice_closed"
+  ],
+  "audit_artifact_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/v13_one_step_supervised_fit_audit.json",
+  "one_step_fit_status": "one_step_action_fit_ok",
+  "best_probe_name": "orientation_bridge_state_v1",
+  "loss_drop_fraction": 0.7913522529176739,
+  "close_accuracy_gain_over_baseline": 0.43225806951522827,
+  "orientation_mse_improvement_fraction": 0.23446227625598554,
+  "training_allowed_after_g4": true
+}

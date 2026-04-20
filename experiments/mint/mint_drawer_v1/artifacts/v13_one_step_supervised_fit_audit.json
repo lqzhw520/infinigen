@@ -1,0 +1,67 @@
+{
+  "audit": "v13_one_step_supervised_fit_audit",
+  "run_instance_id": "v13_20260420T105437Z_bc802069_ceefd542",
+  "plan_version": "tiny_retrain_confirmation_v13_state_action_interface",
+  "working_head_commit": "bc802069816e6c81beab48ba1f2141c9f3a264d4",
+  "execution_scope": "v13_one_step_supervised_fit",
+  "dataset_examples": 2337,
+  "episode_count": 93,
+  "current_state_probe": {
+    "name": "current_m0_proxy_state",
+    "train_examples": 1872,
+    "val_examples": 465,
+    "close_majority_baseline": 0.5032258033752441,
+    "initial_metrics": {
+      "action_mse_overall": 0.5263305008411407,
+      "translation_action_mse": 0.19627521932125092,
+      "orientation_action_mse": 0.08030541241168976,
+      "close_dim_accuracy": 0.49677419662475586,
+      "close_dim_brier": 0.24974986910820007,
+      "close_dim_sign_accuracy": 0.49677419662475586,
+      "orientation_action_cosine_similarity": 0.023777490481734276
+    },
+    "final_metrics": {
+      "action_mse_overall": 0.2590642645955086,
+      "translation_action_mse": 0.05386774241924286,
+      "orientation_action_mse": 0.06960087269544601,
+      "close_dim_accuracy": 0.8215053677558899,
+      "close_dim_brier": 0.1355956494808197,
+      "close_dim_sign_accuracy": 0.8215053677558899,
+      "orientation_action_cosine_similarity": -0.0962982252240181
+    },
+    "training_loss_start": 0.9996527433395386,
+    "training_loss_end": 0.49798765778541565
+  },
+  "diagnostic_state_probe": {
+    "name": "orientation_bridge_state_v1",
+    "train_examples": 1872,
+    "val_examples": 465,
+    "close_majority_baseline": 0.5032258033752441,
+    "initial_metrics": {
+      "action_mse_overall": 0.5042646899819374,
+      "translation_action_mse": 0.17286010086536407,
+      "orientation_action_mse": 0.08554785698652267,
+      "close_dim_accuracy": 0.5204300880432129,
+      "close_dim_brier": 0.24585673213005066,
+      "close_dim_sign_accuracy": 0.5204300880432129,
+      "orientation_action_cosine_similarity": 0.06742379069328308
+    },
+    "final_metrics": {
+      "action_mse_overall": 0.13802767544984818,
+      "translation_action_mse": 0.029311660677194595,
+      "orientation_action_mse": 0.06549011170864105,
+      "close_dim_accuracy": 0.9354838728904724,
+      "close_dim_brier": 0.04322590306401253,
+      "close_dim_sign_accuracy": 0.9354838728904724,
+      "orientation_action_cosine_similarity": 0.13923582434654236
+    },
+    "training_loss_start": 0.9872535467147827,
+    "training_loss_end": 0.20598822832107544
+  },
+  "best_probe_name": "orientation_bridge_state_v1",
+  "loss_drop_fraction": 0.7913522529176739,
+  "close_accuracy_gain_over_baseline": 0.43225806951522827,
+  "orientation_mse_improvement_fraction": 0.23446227625598554,
+  "one_step_fit_status": "one_step_action_fit_ok",
+  "training_allowed_after_g4": true
+}

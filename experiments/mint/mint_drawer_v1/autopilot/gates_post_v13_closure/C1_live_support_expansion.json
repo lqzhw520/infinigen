@@ -1,0 +1,383 @@
+{
+  "gate_id": "C1",
+  "gate_name": "live_support_expansion",
+  "run_instance_id": "postv13c_20260420T140833Z_bc802069_e2c27eee",
+  "working_head_commit": "bc802069816e6c81beab48ba1f2141c9f3a264d4",
+  "vendor_head_commit": "4eab5795345721001c412ff1ca2c886a11eab606",
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "truth_contract_hash": "17ae4d1554899b843c80b064a2c5f3d6331b04dd169819ca5f2b0bfba729a6f6",
+  "acceptance_contract_hash": "3e63d1c21004dae9a8ded0c966f69112f59e340f7d0aada219eb66ac8facd53c",
+  "spec_reference": "/Users/zhuhaowu/ws/phd-anyboxs/infinigen_from_servers/docs/gpt5.4Pro/codex_mint_v84_post_v13_train_probe_admission_execution_spec.md",
+  "timestamp_utc": "2026-04-20T14:08:59.512682Z",
+  "status": "STOP_support_expansion_failed",
+  "blocking_reasons": [
+    "selected_unique_live_episode_count_lt_16",
+    "episode_index_failed_to_expand_unique_live_support"
+  ],
+  "allowed_next_phases": [
+    "C2"
+  ],
+  "target_seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "target_successful_teacher_episodes_per_seed": 3,
+  "max_episode_scan_per_seed": 12,
+  "duplicate_exhaustion_streak": 2,
+  "selected_unique_live_episode_count": 6,
+  "selected_seed_coverage": 6,
+  "raw_success_attempt_count": 18,
+  "exact_selected_episode_list": [
+    {
+      "seed": 1,
+      "episode_index": 0,
+      "success": true,
+      "fingerprint": "491ac7229d2168b4aaa4d7088da2e343d447601d",
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/post_v13_closure_live_state_rollouts/seed_001_episode_00.json",
+      "steps": 81,
+      "final_drawer_fraction": 0.9031227510465883
+    },
+    {
+      "seed": 3,
+      "episode_index": 0,
+      "success": true,
+      "fingerprint": "8fd2c863534cd0eda918878cb66120c2e23653ff",
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/post_v13_closure_live_state_rollouts/seed_003_episode_00.json",
+      "steps": 69,
+      "final_drawer_fraction": 0.9168535464693793
+    },
+    {
+      "seed": 5,
+      "episode_index": 0,
+      "success": true,
+      "fingerprint": "b303917f0f3dff6cb791551fc801ffbe59d74602",
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/post_v13_closure_live_state_rollouts/seed_005_episode_00.json",
+      "steps": 49,
+      "final_drawer_fraction": 0.9316844246054401
+    },
+    {
+      "seed": 6,
+      "episode_index": 0,
+      "success": true,
+      "fingerprint": "cefdfb2f0725858bb5a0c275709eca33733ea6af",
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/post_v13_closure_live_state_rollouts/seed_006_episode_00.json",
+      "steps": 55,
+      "final_drawer_fraction": 0.9315114768457732
+    },
+    {
+      "seed": 7,
+      "episode_index": 0,
+      "success": true,
+      "fingerprint": "6144cd1114d75394a05924eb45e62b1c093a9712",
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/post_v13_closure_live_state_rollouts/seed_007_episode_00.json",
+      "steps": 64,
+      "final_drawer_fraction": 0.9077066213405129
+    },
+    {
+      "seed": 8,
+      "episode_index": 0,
+      "success": true,
+      "fingerprint": "26c6722646ccd78ca30164e974c4067459228667",
+      "path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/post_v13_closure_live_state_rollouts/seed_008_episode_00.json",
+      "steps": 64,
+      "final_drawer_fraction": 0.9176497964067728
+    }
+  ],
+  "seed_summary": {
+    "1": {
+      "unique_success_count": 1,
+      "attempt_count": 3,
+      "successful_attempt_count": 3,
+      "unique_fingerprint_count": 1,
+      "stop_reason": "duplicate_fingerprint_exhaustion",
+      "attempts": [
+        {
+          "seed": 1,
+          "episode_index": 0,
+          "success": true,
+          "steps": 81,
+          "final_drawer_fraction": 0.9031227510465883,
+          "fingerprint": "491ac7229d2168b4aaa4d7088da2e343d447601d",
+          "duplicate_of_episode_index": null
+        },
+        {
+          "seed": 1,
+          "episode_index": 1,
+          "success": true,
+          "steps": 81,
+          "final_drawer_fraction": 0.9031227510465883,
+          "fingerprint": "491ac7229d2168b4aaa4d7088da2e343d447601d",
+          "duplicate_of_episode_index": 0
+        },
+        {
+          "seed": 1,
+          "episode_index": 2,
+          "success": true,
+          "steps": 81,
+          "final_drawer_fraction": 0.9031227510465883,
+          "fingerprint": "491ac7229d2168b4aaa4d7088da2e343d447601d",
+          "duplicate_of_episode_index": 0
+        }
+      ]
+    },
+    "2": {
+      "unique_success_count": 0,
+      "attempt_count": 3,
+      "successful_attempt_count": 0,
+      "unique_fingerprint_count": 1,
+      "stop_reason": "duplicate_fingerprint_exhaustion",
+      "attempts": [
+        {
+          "seed": 2,
+          "episode_index": 0,
+          "success": false,
+          "steps": 96,
+          "final_drawer_fraction": 0.4646884555833809,
+          "fingerprint": "081ca110124497a52a67ea45630fc7d716c3dd5d",
+          "duplicate_of_episode_index": null
+        },
+        {
+          "seed": 2,
+          "episode_index": 1,
+          "success": false,
+          "steps": 96,
+          "final_drawer_fraction": 0.4646884555833809,
+          "fingerprint": "081ca110124497a52a67ea45630fc7d716c3dd5d",
+          "duplicate_of_episode_index": 0
+        },
+        {
+          "seed": 2,
+          "episode_index": 2,
+          "success": false,
+          "steps": 96,
+          "final_drawer_fraction": 0.4646884555833809,
+          "fingerprint": "081ca110124497a52a67ea45630fc7d716c3dd5d",
+          "duplicate_of_episode_index": 0
+        }
+      ]
+    },
+    "3": {
+      "unique_success_count": 1,
+      "attempt_count": 3,
+      "successful_attempt_count": 3,
+      "unique_fingerprint_count": 1,
+      "stop_reason": "duplicate_fingerprint_exhaustion",
+      "attempts": [
+        {
+          "seed": 3,
+          "episode_index": 0,
+          "success": true,
+          "steps": 69,
+          "final_drawer_fraction": 0.9168535464693793,
+          "fingerprint": "8fd2c863534cd0eda918878cb66120c2e23653ff",
+          "duplicate_of_episode_index": null
+        },
+        {
+          "seed": 3,
+          "episode_index": 1,
+          "success": true,
+          "steps": 69,
+          "final_drawer_fraction": 0.9168535464693793,
+          "fingerprint": "8fd2c863534cd0eda918878cb66120c2e23653ff",
+          "duplicate_of_episode_index": 0
+        },
+        {
+          "seed": 3,
+          "episode_index": 2,
+          "success": true,
+          "steps": 69,
+          "final_drawer_fraction": 0.9168535464693793,
+          "fingerprint": "8fd2c863534cd0eda918878cb66120c2e23653ff",
+          "duplicate_of_episode_index": 0
+        }
+      ]
+    },
+    "4": {
+      "unique_success_count": 0,
+      "attempt_count": 3,
+      "successful_attempt_count": 0,
+      "unique_fingerprint_count": 1,
+      "stop_reason": "duplicate_fingerprint_exhaustion",
+      "attempts": [
+        {
+          "seed": 4,
+          "episode_index": 0,
+          "success": false,
+          "steps": 96,
+          "final_drawer_fraction": 0.3862671700179796,
+          "fingerprint": "c7a25e7fc98ff1f16a5ac649e2fa5cbeb96df44a",
+          "duplicate_of_episode_index": null
+        },
+        {
+          "seed": 4,
+          "episode_index": 1,
+          "success": false,
+          "steps": 96,
+          "final_drawer_fraction": 0.3862671700179796,
+          "fingerprint": "c7a25e7fc98ff1f16a5ac649e2fa5cbeb96df44a",
+          "duplicate_of_episode_index": 0
+        },
+        {
+          "seed": 4,
+          "episode_index": 2,
+          "success": false,
+          "steps": 96,
+          "final_drawer_fraction": 0.3862671700179796,
+          "fingerprint": "c7a25e7fc98ff1f16a5ac649e2fa5cbeb96df44a",
+          "duplicate_of_episode_index": 0
+        }
+      ]
+    },
+    "5": {
+      "unique_success_count": 1,
+      "attempt_count": 3,
+      "successful_attempt_count": 3,
+      "unique_fingerprint_count": 1,
+      "stop_reason": "duplicate_fingerprint_exhaustion",
+      "attempts": [
+        {
+          "seed": 5,
+          "episode_index": 0,
+          "success": true,
+          "steps": 49,
+          "final_drawer_fraction": 0.9316844246054401,
+          "fingerprint": "b303917f0f3dff6cb791551fc801ffbe59d74602",
+          "duplicate_of_episode_index": null
+        },
+        {
+          "seed": 5,
+          "episode_index": 1,
+          "success": true,
+          "steps": 49,
+          "final_drawer_fraction": 0.9316844246054401,
+          "fingerprint": "b303917f0f3dff6cb791551fc801ffbe59d74602",
+          "duplicate_of_episode_index": 0
+        },
+        {
+          "seed": 5,
+          "episode_index": 2,
+          "success": true,
+          "steps": 49,
+          "final_drawer_fraction": 0.9316844246054401,
+          "fingerprint": "b303917f0f3dff6cb791551fc801ffbe59d74602",
+          "duplicate_of_episode_index": 0
+        }
+      ]
+    },
+    "6": {
+      "unique_success_count": 1,
+      "attempt_count": 3,
+      "successful_attempt_count": 3,
+      "unique_fingerprint_count": 1,
+      "stop_reason": "duplicate_fingerprint_exhaustion",
+      "attempts": [
+        {
+          "seed": 6,
+          "episode_index": 0,
+          "success": true,
+          "steps": 55,
+          "final_drawer_fraction": 0.9315114768457732,
+          "fingerprint": "cefdfb2f0725858bb5a0c275709eca33733ea6af",
+          "duplicate_of_episode_index": null
+        },
+        {
+          "seed": 6,
+          "episode_index": 1,
+          "success": true,
+          "steps": 55,
+          "final_drawer_fraction": 0.9315114768457732,
+          "fingerprint": "cefdfb2f0725858bb5a0c275709eca33733ea6af",
+          "duplicate_of_episode_index": 0
+        },
+        {
+          "seed": 6,
+          "episode_index": 2,
+          "success": true,
+          "steps": 55,
+          "final_drawer_fraction": 0.9315114768457732,
+          "fingerprint": "cefdfb2f0725858bb5a0c275709eca33733ea6af",
+          "duplicate_of_episode_index": 0
+        }
+      ]
+    },
+    "7": {
+      "unique_success_count": 1,
+      "attempt_count": 3,
+      "successful_attempt_count": 3,
+      "unique_fingerprint_count": 1,
+      "stop_reason": "duplicate_fingerprint_exhaustion",
+      "attempts": [
+        {
+          "seed": 7,
+          "episode_index": 0,
+          "success": true,
+          "steps": 64,
+          "final_drawer_fraction": 0.9077066213405129,
+          "fingerprint": "6144cd1114d75394a05924eb45e62b1c093a9712",
+          "duplicate_of_episode_index": null
+        },
+        {
+          "seed": 7,
+          "episode_index": 1,
+          "success": true,
+          "steps": 64,
+          "final_drawer_fraction": 0.9077066213405129,
+          "fingerprint": "6144cd1114d75394a05924eb45e62b1c093a9712",
+          "duplicate_of_episode_index": 0
+        },
+        {
+          "seed": 7,
+          "episode_index": 2,
+          "success": true,
+          "steps": 64,
+          "final_drawer_fraction": 0.9077066213405129,
+          "fingerprint": "6144cd1114d75394a05924eb45e62b1c093a9712",
+          "duplicate_of_episode_index": 0
+        }
+      ]
+    },
+    "8": {
+      "unique_success_count": 1,
+      "attempt_count": 3,
+      "successful_attempt_count": 3,
+      "unique_fingerprint_count": 1,
+      "stop_reason": "duplicate_fingerprint_exhaustion",
+      "attempts": [
+        {
+          "seed": 8,
+          "episode_index": 0,
+          "success": true,
+          "steps": 64,
+          "final_drawer_fraction": 0.9176497964067728,
+          "fingerprint": "26c6722646ccd78ca30164e974c4067459228667",
+          "duplicate_of_episode_index": null
+        },
+        {
+          "seed": 8,
+          "episode_index": 1,
+          "success": true,
+          "steps": 64,
+          "final_drawer_fraction": 0.9176497964067728,
+          "fingerprint": "26c6722646ccd78ca30164e974c4067459228667",
+          "duplicate_of_episode_index": 0
+        },
+        {
+          "seed": 8,
+          "episode_index": 2,
+          "success": true,
+          "steps": 64,
+          "final_drawer_fraction": 0.9176497964067728,
+          "fingerprint": "26c6722646ccd78ca30164e974c4067459228667",
+          "duplicate_of_episode_index": 0
+        }
+      ]
+    }
+  },
+  "live_rollout_dir": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/post_v13_closure_live_state_rollouts"
+}

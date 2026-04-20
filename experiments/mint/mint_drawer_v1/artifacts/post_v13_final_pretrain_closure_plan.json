@@ -1,0 +1,76 @@
+{
+  "run_instance_id": "postv13c_20260420T140833Z_bc802069_e2c27eee",
+  "plan_version": "tiny_retrain_confirmation_post_v13_final_pretrain_closure",
+  "slice_name": "post-v13-final-pretrain-closure",
+  "working_head_commit": "bc802069816e6c81beab48ba1f2141c9f3a264d4",
+  "current_publication_head_commit": "bc802069816e6c81beab48ba1f2141c9f3a264d4",
+  "vendor_head_commit": "4eab5795345721001c412ff1ca2c886a11eab606",
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "execution_scope": "post_v13_final_pretrain_closure",
+  "bridge_stage": "post_v13_final_pretrain_closure",
+  "diagnostic_only": true,
+  "claim_bearing": false,
+  "training_allowed": false,
+  "probe_allowed": false,
+  "publication_scope": "blocked_before_canary",
+  "result_scope": "final_pretrain_closure_only",
+  "source_v13_slice2_run_instance_id": "v13s2_20260420T121619Z_bc802069_40636282",
+  "source_v13_slice2_plan_version": "tiny_retrain_confirmation_v13_slice_2_state_action_wiring",
+  "source_post_v13_admission_run_instance_id": "postv13_20260420T133255Z_bc802069_cac75c56",
+  "source_post_v13_admission_plan_version": "tiny_retrain_confirmation_post_v13_admission",
+  "allowed_next_phases": [
+    "C0",
+    "C1",
+    "C2",
+    "C3",
+    "C4"
+  ],
+  "spec_reference": "/Users/zhuhaowu/ws/phd-anyboxs/infinigen_from_servers/docs/gpt5.4Pro/codex_mint_v84_post_v13_train_probe_admission_execution_spec.md",
+  "carryforward_spec_references": [
+    "/Users/zhuhaowu/ws/phd-anyboxs/infinigen_from_servers/docs/gpt5.4Pro/codex_mint_v84_v12_1_orientation_attach_anygrasp_execution_spec.md",
+    "/Users/zhuhaowu/ws/phd-anyboxs/infinigen_from_servers/docs/gpt5.4Pro/codex_mint_v84_v13_state_action_interface_execution_spec.md",
+    "/Users/zhuhaowu/ws/phd-anyboxs/infinigen_from_servers/docs/gpt5.4Pro/codex_mint_v84_post_v13_train_probe_admission_execution_spec.md"
+  ],
+  "goal": "Resolve the remaining post-v13 training admission ambiguity in one final pretrain closure tranche, without starting train/probe.",
+  "constraints": [
+    "Do not start training.",
+    "Do not start probe.",
+    "Do not modify external/MINT.",
+    "Do not change truth predicates or acceptance thresholds.",
+    "Do not mutate the live wiring unless parity audit proves a hard contradiction."
+  ],
+  "future_canary_prebinding": {
+    "max_train_steps": 2000,
+    "checkpoint_ladder": [
+      500,
+      1000,
+      1500,
+      2000
+    ],
+    "early_stop_rule": "Stop at checkpoint 1000 if pre-attach, close, and attach-eligible gains are all zero relative to pretrained baseline.",
+    "probe_scope": [
+      "pre-attach",
+      "close",
+      "attach-eligible"
+    ],
+    "forbidden_scope": [
+      "drawer_success",
+      "claim_bearing_interpretation"
+    ],
+    "allowed_future_results": [
+      "state_action_interface_repaired_no_signal",
+      "pre_attach_metric_shift_no_attach_conversion",
+      "state_action_interface_repaired_attach_signal_detected",
+      "action_close_interface_mismatch_confirmed",
+      "objective_weighting_needed_after_interface_repair"
+    ]
+  },
+  "expected_outputs": [
+    "experiments/mint/mint_drawer_v1/autopilot/gates_post_v13_closure/C0_authority_refreeze.json",
+    "experiments/mint/mint_drawer_v1/autopilot/gates_post_v13_closure/C1_live_support_expansion.json",
+    "experiments/mint/mint_drawer_v1/autopilot/gates_post_v13_closure/C2_live_diagnostic_parity.json",
+    "experiments/mint/mint_drawer_v1/autopilot/gates_post_v13_closure/C3_signal_band_stability.json",
+    "experiments/mint/mint_drawer_v1/autopilot/gates_post_v13_closure/C4_final_pretrain_closure_verdict.json",
+    "experiments/mint/mint_drawer_v1/artifacts/post_v13_final_pretrain_closure_summary.json"
+  ]
+}

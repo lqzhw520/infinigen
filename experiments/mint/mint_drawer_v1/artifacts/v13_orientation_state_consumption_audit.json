@@ -1,0 +1,84 @@
+{
+  "audit": "v13_orientation_state_consumption_repair_audit",
+  "run_instance_id": "v13_20260420T105437Z_bc802069_ceefd542",
+  "plan_version": "tiny_retrain_confirmation_v13_state_action_interface",
+  "working_head_commit": "bc802069816e6c81beab48ba1f2141c9f3a264d4",
+  "execution_scope": "v13_orientation_state_consumption",
+  "state_input_present": true,
+  "state_input_consumed_by_policy": true,
+  "current_state_mode": "m0_proxy",
+  "current_state_dim_names": [
+    "eef_pos_x",
+    "eef_pos_y",
+    "eef_pos_z",
+    "handle_rel_x_norm",
+    "handle_rel_y_norm",
+    "handle_rel_z_norm",
+    "drawer_fraction_signed",
+    "gripper_joint"
+  ],
+  "diagnostic_state_mode": "orientation_bridge_state_v1",
+  "diagnostic_state_dim_names": [
+    "distance_to_handle_norm",
+    "approach_alignment_cos",
+    "orientation_alignment_cos",
+    "orientation_error_sin",
+    "orientation_error_cos",
+    "prev_close_cmd",
+    "gripper_joint",
+    "attach_eligible_proxy"
+  ],
+  "feature_audit": {
+    "orientation_alignment_cos": {
+      "in_rollout_metadata": false,
+      "in_dataset_item": true,
+      "in_model_input": false
+    },
+    "approach_alignment_cos": {
+      "in_rollout_metadata": false,
+      "in_dataset_item": true,
+      "in_model_input": false
+    },
+    "eef_orientation": {
+      "in_rollout_metadata": false,
+      "in_dataset_item": false,
+      "in_model_input": false
+    },
+    "handle_frame_orientation_error": {
+      "in_rollout_metadata": false,
+      "in_dataset_item": true,
+      "in_model_input": false
+    },
+    "relative_handle_pose": {
+      "in_rollout_metadata": false,
+      "in_dataset_item": true,
+      "in_model_input": true
+    },
+    "attach_eligible_proxy": {
+      "in_rollout_metadata": false,
+      "in_dataset_item": true,
+      "in_model_input": false
+    },
+    "close_command_or_gripper_state": {
+      "in_rollout_metadata": false,
+      "in_dataset_item": true,
+      "in_model_input": true
+    }
+  },
+  "diagnostic_state_vector_preview": [
+    0.8604080080986023,
+    0.0,
+    -0.9936789870262146,
+    0.11226300150156021,
+    -0.9936789870262146,
+    0.0,
+    0.0010000000474974513,
+    0.0
+  ],
+  "prompt_perturbation_preview": {
+    "prompt_changed": true,
+    "prompt_a_prefix": "Task: open the middle drawer of the cabinet, State: 238 128 0 142 0 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 ",
+    "prompt_b_prefix": "Task: open the middle drawer of the cabinet, State: 227 0 3 156 3 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 128 12"
+  },
+  "orientation_state_consumption_status": "orientation_state_missing_but_repairable"
+}

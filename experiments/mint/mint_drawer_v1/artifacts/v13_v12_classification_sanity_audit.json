@@ -1,0 +1,28 @@
+{
+  "audit": "v13_v12_classification_sanity_audit",
+  "run_instance_id": "v13_20260420T105437Z_bc802069_ceefd542",
+  "plan_version": "tiny_retrain_confirmation_v13_state_action_interface",
+  "working_head_commit": "bc802069816e6c81beab48ba1f2141c9f3a264d4",
+  "execution_scope": "v13_classification_sanity",
+  "source_v12_run_instance_id": "v12_1_20260419T140832Z_f9421676_e0c7ded8",
+  "source_v12_working_head_commit": "f9421676c1b67dfbfeb3510cbc2d55efc5a4c98c",
+  "emitted_g6_classification": "orientation_stage_signal_detected_no_attach",
+  "canonical_classification": "pre_attach_metric_shift_no_attach_conversion",
+  "classification_demotion_required": true,
+  "attach_bridge_pass": false,
+  "close_cmd_rate_delta": -0.5416666657353442,
+  "distance_pass_rate_delta": 0.020833333333333332,
+  "approach_gate_rate_delta": 0.20703125007761025,
+  "orientation_gate_rate_delta": -0.10590278050707033,
+  "attach_eligible_delta": 0.0,
+  "attach_delta": 0.0,
+  "phase_locked_delta": 0.0,
+  "pretrained_dominant_failure_mode": "never_reach_attach_distance",
+  "finetuned_dominant_failure_mode": "never_reach_attach_distance",
+  "source_artifacts": {
+    "g6_gate": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/autopilot/gates_v12/G6_orientation_first_probe.json",
+    "probe_summary": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g8_train_seed_probe.json",
+    "attach_summary": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g8_attach_bridge_summary.json",
+    "family_summary": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/g8_family_conditioned_probe.json"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "gate_id": "D4",
+  "gate_name": "admission_verdict",
+  "run_instance_id": "postv13_20260420T133255Z_bc802069_cac75c56",
+  "working_head_commit": "bc802069816e6c81beab48ba1f2141c9f3a264d4",
+  "vendor_head_commit": "4eab5795345721001c412ff1ca2c886a11eab606",
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "truth_contract_hash": "17ae4d1554899b843c80b064a2c5f3d6331b04dd169819ca5f2b0bfba729a6f6",
+  "acceptance_contract_hash": "3e63d1c21004dae9a8ded0c966f69112f59e340f7d0aada219eb66ac8facd53c",
+  "spec_reference": "/Users/zhuhaowu/ws/phd-anyboxs/infinigen_from_servers/docs/gpt5.4Pro/codex_mint_v84_post_v13_train_probe_admission_execution_spec.md",
+  "timestamp_utc": "2026-04-20T13:32:55.297320Z",
+  "status": "PASS",
+  "blocking_reasons": [
+    "slice2_live_fit_does_not_retain_prior_signal_band",
+    "slice2_live_rollout_support_is_only_4_episodes",
+    "current_evidence_cannot_separate_benign_live_distribution_shift_from_unresolved_signal_instability"
+  ],
+  "allowed_next_phases": [],
+  "final_verdict": "STOP_PRETRAIN_ADMISSION_AMBIGUOUS",
+  "summary_artifact_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/post_v13_admission_summary.json",
+  "training_allowed_now": false,
+  "probe_allowed_now": false,
+  "signal_band_ambiguity_present": true,
+  "source_slice2_run_instance_id": "v13s2_20260420T121619Z_bc802069_40636282"
+}

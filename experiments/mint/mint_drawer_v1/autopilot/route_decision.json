@@ -4,6 +4,12 @@
   "probe_allowed_now": false,
   "route_next_branch": "science_agent_runtime_alignment_review_required",
   "scientific_terminal_state": "TIER3_NO_SIGNAL_OR_P0C_REGRESSION",
+  "supporting_unexecuted_spec_status": {
+    "/mnt/afs2/zhuhaowu/infinigen/docs/MINT_V84_P1_LEARNING_DYNAMICS_REPAIR_SPEC.md": "authored_as_follow_on_hypothesis_but_not_executed_after_runtime_alignment_mismatch_was_discovered"
+  },
+  "supporting_unexecuted_specs": [
+    "/mnt/afs2/zhuhaowu/infinigen/docs/MINT_V84_P1_LEARNING_DYNAMICS_REPAIR_SPEC.md"
+  ],
   "training_allowed_now": false,
   "why": "P0 infrastructure repairs passed and the canary completed, but the current MuJoCo runtime is drawer-only with proxy EEF/gripper state rather than a full robot-in-scene drawer task. The resulting Tier 3 remains authoritative inside that proxy runtime, yet it is not sufficient evidence for a stronger LIBERO-style task claim."
 }

@@ -16,6 +16,7 @@ from torch import nn
 from drawer_robot_env_mujoco import (
     DrawerEnvContractConfig,
     build_robot_rollout,
+    reconstruct_orientation_bridge_state_trace,
     save_robot_rollout,
 )
 from root_cause_controller import RootCauseController
@@ -28,6 +29,7 @@ from v13_audit_common import (
     load_json,
     make_run_instance,
     save_active_plan,
+    teacher_family_dispatch_payload,
     utc_now,
     write_gate,
     write_json_atomic,
@@ -241,6 +243,7 @@ def _build_rollout(
         rotation_source="aligned",
         claim_policy="diagnostic",
         teacher_controller_mode="interaction_frame_hybrid",
+        interventions=teacher_family_dispatch_payload(episode_index),
     )
     _stamp_rollout(
         rollout,
@@ -249,49 +252,6 @@ def _build_rollout(
         source_slice2_plan=source_slice2_plan,
     )
     return rollout
-
-
-def _approach_alignment(states: np.ndarray) -> np.ndarray:
-    eef = states[:, :3]
-    handle_rel = states[:, 3:6] * np.array([0.22, 0.18, 0.14], dtype=np.float32)
-    handle_world = eef + handle_rel
-    out = np.zeros((len(states),), dtype=np.float32)
-    for i in range(1, len(states)):
-        motion = eef[i] - eef[i - 1]
-        desired = handle_world[i - 1] - eef[i - 1]
-        m = float(np.linalg.norm(motion))
-        d = float(np.linalg.norm(desired))
-        if m > 1e-8 and d > 1e-8:
-            out[i] = float(np.clip(np.dot(motion / m, desired / d), -1.0, 1.0))
-    return out
-
-
-def _diag_state(
-    states: np.ndarray,
-    actions: np.ndarray,
-    handle_distance: np.ndarray,
-    orientation_alignment: np.ndarray,
-    orientation_error: np.ndarray,
-    attach_eligible: np.ndarray,
-) -> np.ndarray:
-    approach = _approach_alignment(states)
-    prev_close = np.concatenate([[0.0], (actions[:-1, 6] < 0.0).astype(np.float32)])
-    gripper = states[:, 7]
-    distance_norm = np.clip(handle_distance / 0.35, 0.0, 1.0)
-    return np.stack(
-        [
-            distance_norm,
-            approach,
-            orientation_alignment,
-            np.sin(orientation_error).astype(np.float32),
-            np.cos(orientation_error).astype(np.float32),
-            prev_close,
-            gripper,
-            attach_eligible.astype(np.float32),
-        ],
-        axis=1,
-    ).astype(np.float32)
-
 
 def _load_rollout_arrays(meta_path: Path) -> dict[str, np.ndarray]:
     data = np.load(meta_path.with_suffix(".npz"), allow_pickle=True)
@@ -324,15 +284,15 @@ def _collect_diag_dataset(meta_paths: list[Path]) -> tuple[np.ndarray, np.ndarra
     for meta_path in sorted(meta_paths):
         meta = json.loads(meta_path.read_text())
         arrays = _load_rollout_arrays(meta_path)
-        states = np.asarray(arrays["states"], dtype=np.float32)
         acts = np.asarray(arrays["actions"], dtype=np.float32)
-        diag = _diag_state(
-            states,
-            acts,
-            np.asarray(arrays["handle_distance_trace"], dtype=np.float32),
-            np.asarray(arrays["orientation_alignment_trace"], dtype=np.float32),
-            np.asarray(arrays["orientation_error_trace"], dtype=np.float32),
-            np.asarray(arrays["attach_eligible_trace"], dtype=bool),
+        diag = reconstruct_orientation_bridge_state_trace(
+            handle_distance_trace=np.asarray(arrays["state_handle_distance_trace"], dtype=np.float32),
+            approach_alignment_trace=np.asarray(arrays["approach_alignment_trace"], dtype=np.float32),
+            orientation_alignment_trace=np.asarray(arrays["orientation_alignment_trace"], dtype=np.float32),
+            orientation_error_trace=np.asarray(arrays["orientation_error_trace"], dtype=np.float32),
+            actions=acts,
+            attach_eligible_trace=np.asarray(arrays["attach_eligible_trace"], dtype=bool),
+            initial_state_frame=np.asarray(arrays["states"], dtype=np.float32)[0],
         )
         features.append(diag)
         actions.append(acts)
@@ -721,32 +681,20 @@ def run() -> int:
     parity_aggregate: dict[str, list[float]] = {name: [] for name in STATE_DIM_NAMES}
 
     if selected_live_paths:
-        diag_contract = _diagnostic_contract()
         for live_meta_path in selected_live_paths:
             live_meta = json.loads(live_meta_path.read_text())
             seed = int(live_meta["seed"])
             episode_index = int(live_meta["episode_index"])
-            diag_rollout = _build_rollout(
-                seed=seed,
-                episode_index=episode_index,
-                contract=diag_contract,
-                plan=plan,
-                source_slice2_plan=slice2_plan,
-                execution_scope="post_v13_final_pretrain_closure_c2",
-            )
-            diag_base = PARITY_DIR / _episode_key(seed, episode_index)
-            save_robot_rollout(diag_base, diag_rollout)
-
             live_arrays = _load_rollout_arrays(live_meta_path)
-            diag_arrays = _load_rollout_arrays(diag_base.with_suffix(".json"))
             live_states = np.asarray(live_arrays["states"], dtype=np.float32)
-            diag_state = _diag_state(
-                np.asarray(diag_arrays["states"], dtype=np.float32),
-                np.asarray(diag_arrays["actions"], dtype=np.float32),
-                np.asarray(diag_arrays["handle_distance_trace"], dtype=np.float32),
-                np.asarray(diag_arrays["orientation_alignment_trace"], dtype=np.float32),
-                np.asarray(diag_arrays["orientation_error_trace"], dtype=np.float32),
-                np.asarray(diag_arrays["attach_eligible_trace"], dtype=bool),
+            diag_state = reconstruct_orientation_bridge_state_trace(
+                handle_distance_trace=np.asarray(live_arrays["state_handle_distance_trace"], dtype=np.float32),
+                approach_alignment_trace=np.asarray(live_arrays["approach_alignment_trace"], dtype=np.float32),
+                orientation_alignment_trace=np.asarray(live_arrays["orientation_alignment_trace"], dtype=np.float32),
+                orientation_error_trace=np.asarray(live_arrays["orientation_error_trace"], dtype=np.float32),
+                actions=np.asarray(live_arrays["actions"], dtype=np.float32),
+                attach_eligible_trace=np.asarray(live_arrays["attach_eligible_trace"], dtype=bool),
+                initial_state_frame=live_states[0],
             )
             if live_states.shape != diag_state.shape:
                 c2_blocking.append(f"shape_mismatch_seed_{seed}_episode_{episode_index}")

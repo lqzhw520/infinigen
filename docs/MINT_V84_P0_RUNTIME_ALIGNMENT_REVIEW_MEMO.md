@@ -100,6 +100,11 @@ The strongest defensible claim right now is:
 
 > The latest P0 canary shows a Tier 3 outcome in the current `drawer-only MuJoCo + proxy EEF/gripper` benchmark. This is real for that benchmark, but it is not yet a clean empirical verdict about a LIBERO-aligned full-robot drawer task.
 
+## Supporting But Unexecuted Follow-on Spec
+A follow-on spec also exists at `docs/MINT_V84_P1_LEARNING_DYNAMICS_REPAIR_SPEC.md`. It should currently be read as a supporting diagnosis hypothesis, not as an executed line. It was not run after the stronger runtime-alignment mismatch was discovered.
+
+The same applies to the remaining v13 helper-code cleanups that are about canonical state reconstruction and teacher-family dispatch reuse. They are being preserved on the branch as historical support code, not as evidence that a new v13/P1 execution line was completed.
+
 ## Questions For Science Agent
 1. Should the current proxy-runtime benchmark be accepted as a legitimate claim-bearing task object, or should it be explicitly downgraded to an internal diagnostic environment?
 2. If it is insufficient, what is the minimum runtime-parity repair spec needed before any future training claim can be interpreted against the intended drawer task?

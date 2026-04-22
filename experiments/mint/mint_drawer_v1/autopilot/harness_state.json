@@ -54,6 +54,12 @@
   },
   "runtime_scope": "drawer_only_mujoco_with_proxy_eef_gripper",
   "state_version": "p0_canary_runtime_alignment_harness_state_v1",
+  "supporting_unexecuted_spec_status": {
+    "/mnt/afs2/zhuhaowu/infinigen/docs/MINT_V84_P1_LEARNING_DYNAMICS_REPAIR_SPEC.md": "authored_as_follow_on_hypothesis_but_not_executed_after_runtime_alignment_mismatch_was_discovered"
+  },
+  "supporting_unexecuted_specs": [
+    "/mnt/afs2/zhuhaowu/infinigen/docs/MINT_V84_P1_LEARNING_DYNAMICS_REPAIR_SPEC.md"
+  ],
   "timestamp_utc": "2026-04-22T04:47:04.392475Z",
   "training_allowed_now": false
 }

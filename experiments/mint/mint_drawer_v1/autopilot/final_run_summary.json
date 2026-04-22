@@ -18,6 +18,12 @@
     "Canary_diagnostic_train_probe"
   ],
   "route_next_branch": "science_agent_runtime_alignment_review_required",
+  "supporting_unexecuted_spec_status": {
+    "/mnt/afs2/zhuhaowu/infinigen/docs/MINT_V84_P1_LEARNING_DYNAMICS_REPAIR_SPEC.md": "authored_as_follow_on_hypothesis_but_not_executed_after_runtime_alignment_mismatch_was_discovered"
+  },
+  "supporting_unexecuted_specs": [
+    "/mnt/afs2/zhuhaowu/infinigen/docs/MINT_V84_P1_LEARNING_DYNAMICS_REPAIR_SPEC.md"
+  ],
   "why": {
     "canary_outcome": {
       "approach_gate_gain": 0.10416667163372043,

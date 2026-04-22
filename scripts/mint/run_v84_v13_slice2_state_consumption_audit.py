@@ -21,6 +21,7 @@ from v13_audit_common import (
     PROJECT_ROOT,
     ensure_v13_slice2_plan,
     persist_plan_scope,
+    teacher_family_dispatch_payload,
     write_gate,
     write_json_atomic,
 )
@@ -62,17 +63,18 @@ def _materialize_rollouts(plan: dict[str, object]) -> list[dict[str, object]]:
     ROLLOUT_DIR.mkdir(parents=True, exist_ok=True)
     contract = _live_contract()
     built = []
-    for seed in SEEDS:
+    for episode_index, seed in enumerate(SEEDS):
         rollout = build_robot_rollout(
             seed=seed,
             grasp_pose_world=np.eye(4, dtype=np.float32),
-            episode_index=0,
+            episode_index=episode_index,
             image_size=64,
             max_steps=96,
             contract=contract,
             rotation_source="aligned",
             claim_policy="diagnostic",
             teacher_controller_mode="interaction_frame_hybrid",
+            interventions=teacher_family_dispatch_payload(episode_index),
         )
         rollout["run_instance_id"] = plan["run_instance_id"]
         rollout["plan_version"] = plan["plan_version"]
@@ -85,7 +87,7 @@ def _materialize_rollouts(plan: dict[str, object]) -> list[dict[str, object]]:
         rollout["source_best_train_state_mode"] = plan["source_best_train_state_mode"]
         rollout["active_train_state_mode"] = plan["active_train_state_mode"]
         rollout["active_state_mode_name"] = plan["active_state_mode_name"]
-        base = ROLLOUT_DIR / f"seed_{seed:03d}_episode_00"
+        base = ROLLOUT_DIR / f"seed_{seed:03d}_episode_{episode_index:02d}"
         save_robot_rollout(base, rollout)
         built.append(rollout)
     return built
@@ -179,4 +181,3 @@ def run() -> int:
 
 if __name__ == "__main__":
     raise SystemExit(run())
-

@@ -6,6 +6,7 @@ import sys
 
 import numpy as np
 import torch
+from drawer_robot_env_mujoco import reconstruct_orientation_bridge_state_trace
 
 from v13_audit_common import (
     ARTIFACT_DIR,
@@ -38,47 +39,10 @@ def _sample_rollout() -> tuple[dict, np.ndarray, np.ndarray, np.ndarray, np.ndar
         meta,
         np.asarray(data["states"], dtype=np.float32),
         np.asarray(data["actions"], dtype=np.float32),
-        np.asarray(data["handle_distance_trace"], dtype=np.float32),
+        np.asarray(data["state_handle_distance_trace"], dtype=np.float32),
         np.asarray(data["orientation_alignment_trace"], dtype=np.float32),
         np.asarray(data["orientation_error_trace"], dtype=np.float32),
     )
-
-
-def _approach_alignment(states: np.ndarray) -> np.ndarray:
-    eef = states[:, :3]
-    handle_rel = states[:, 3:6] * np.array([0.22, 0.18, 0.14], dtype=np.float32)
-    handle_world = eef + handle_rel
-    out = np.zeros((len(states),), dtype=np.float32)
-    for i in range(1, len(states)):
-        motion = eef[i] - eef[i - 1]
-        desired = handle_world[i - 1] - eef[i - 1]
-        m = float(np.linalg.norm(motion))
-        d = float(np.linalg.norm(desired))
-        if m > 1e-8 and d > 1e-8:
-            out[i] = float(np.clip(np.dot(motion / m, desired / d), -1.0, 1.0))
-    return out
-
-
-def _diagnostic_state(states: np.ndarray, actions: np.ndarray, handle_distance: np.ndarray, orientation_alignment: np.ndarray, orientation_error: np.ndarray) -> np.ndarray:
-    approach = _approach_alignment(states)
-    prev_close = np.concatenate([[0.0], (actions[:-1, 6] < 0.0).astype(np.float32)])
-    gripper = states[:, 7]
-    distance_norm = np.clip(handle_distance / 0.35, 0.0, 1.0)
-    attach_proxy = ((handle_distance <= 0.08) & (orientation_alignment >= 0.60) & (prev_close > 0.5)).astype(np.float32)
-    diag = np.stack(
-        [
-            distance_norm,
-            approach,
-            orientation_alignment,
-            np.sin(orientation_error).astype(np.float32),
-            np.cos(orientation_error).astype(np.float32),
-            prev_close,
-            gripper,
-            attach_proxy,
-        ],
-        axis=1,
-    ).astype(np.float32)
-    return diag
 
 
 def _prompt_delta(task: str, vector_a: np.ndarray, vector_b: np.ndarray) -> dict[str, object]:
@@ -113,7 +77,16 @@ def run() -> int:
         "gripper_joint",
         "attach_eligible_proxy",
     ]
-    diag_state = _diagnostic_state(states, actions, handle_distance, orientation_alignment, orientation_error)
+    data = np.load(sorted(ROLLOUT_DIR.glob("*.json"))[0].with_suffix(".npz"), allow_pickle=True)
+    diag_state = reconstruct_orientation_bridge_state_trace(
+        handle_distance_trace=handle_distance,
+        approach_alignment_trace=np.asarray(data["approach_alignment_trace"], dtype=np.float32),
+        orientation_alignment_trace=orientation_alignment,
+        orientation_error_trace=orientation_error,
+        actions=actions,
+        attach_eligible_trace=np.asarray(data["attach_eligible_trace"], dtype=bool),
+        initial_state_frame=states[0],
+    )
     task = str(meta.get("task") or meta.get("language_instruction") or "open drawer")
     prompt_delta = _prompt_delta(task, diag_state[0], diag_state[min(len(diag_state) - 1, 1)])
 

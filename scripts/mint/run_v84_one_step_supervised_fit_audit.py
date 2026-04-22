@@ -7,6 +7,7 @@ import random
 import numpy as np
 import torch
 from torch import nn
+from drawer_robot_env_mujoco import reconstruct_orientation_bridge_state_trace
 
 from v13_audit_common import (
     ARTIFACT_DIR,
@@ -24,41 +25,6 @@ GATE_PATH = GATES_V13_DIR / "G4_one_step_supervised_fit.json"
 ROLLOUT_DIR = ARTIFACT_DIR / "g6_orientation_support_train_rollouts"
 
 
-def _approach_alignment(states: np.ndarray) -> np.ndarray:
-    eef = states[:, :3]
-    handle_rel = states[:, 3:6] * np.array([0.22, 0.18, 0.14], dtype=np.float32)
-    handle_world = eef + handle_rel
-    out = np.zeros((len(states),), dtype=np.float32)
-    for i in range(1, len(states)):
-        motion = eef[i] - eef[i - 1]
-        desired = handle_world[i - 1] - eef[i - 1]
-        m = float(np.linalg.norm(motion))
-        d = float(np.linalg.norm(desired))
-        if m > 1e-8 and d > 1e-8:
-            out[i] = float(np.clip(np.dot(motion / m, desired / d), -1.0, 1.0))
-    return out
-
-
-def _diag_state(states: np.ndarray, actions: np.ndarray, handle_distance: np.ndarray, orientation_alignment: np.ndarray, orientation_error: np.ndarray, attach_eligible: np.ndarray) -> np.ndarray:
-    approach = _approach_alignment(states)
-    prev_close = np.concatenate([[0.0], (actions[:-1, 6] < 0.0).astype(np.float32)])
-    gripper = states[:, 7]
-    distance_norm = np.clip(handle_distance / 0.35, 0.0, 1.0)
-    return np.stack(
-        [
-            distance_norm,
-            approach,
-            orientation_alignment,
-            np.sin(orientation_error).astype(np.float32),
-            np.cos(orientation_error).astype(np.float32),
-            prev_close,
-            gripper,
-            attach_eligible.astype(np.float32),
-        ],
-        axis=1,
-    ).astype(np.float32)
-
-
 def _collect_dataset() -> tuple[np.ndarray, np.ndarray, np.ndarray, list[str]]:
     current_states = []
     diag_states = []
@@ -68,12 +34,23 @@ def _collect_dataset() -> tuple[np.ndarray, np.ndarray, np.ndarray, list[str]]:
         data = np.load(meta_path.with_suffix(".npz"), allow_pickle=True)
         states = np.asarray(data["states"], dtype=np.float32)
         acts = np.asarray(data["actions"], dtype=np.float32)
-        handle_distance = np.asarray(data["handle_distance_trace"], dtype=np.float32)
+        handle_distance = np.asarray(data["state_handle_distance_trace"], dtype=np.float32)
+        approach_alignment = np.asarray(data["approach_alignment_trace"], dtype=np.float32)
         orientation_alignment = np.asarray(data["orientation_alignment_trace"], dtype=np.float32)
         orientation_error = np.asarray(data["orientation_error_trace"], dtype=np.float32)
         attach_eligible = np.asarray(data["attach_eligible_trace"], dtype=bool)
         current_states.append(states)
-        diag_states.append(_diag_state(states, acts, handle_distance, orientation_alignment, orientation_error, attach_eligible))
+        diag_states.append(
+            reconstruct_orientation_bridge_state_trace(
+                handle_distance_trace=handle_distance,
+                approach_alignment_trace=approach_alignment,
+                orientation_alignment_trace=orientation_alignment,
+                orientation_error_trace=orientation_error,
+                actions=acts,
+                attach_eligible_trace=attach_eligible,
+                initial_state_frame=states[0],
+            )
+        )
         actions.append(acts)
         episodes.extend([meta_path.stem] * len(states))
     return np.concatenate(current_states), np.concatenate(diag_states), np.concatenate(actions), episodes

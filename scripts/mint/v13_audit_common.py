@@ -135,3 +135,22 @@ def source_v12_gate(name: str) -> dict[str, Any]:
 
 def source_v12_artifact(name: str) -> dict[str, Any]:
     return load_json(ARTIFACT_DIR / name, {})
+
+
+def teacher_family_dispatch_payload(episode_index: int) -> dict[str, Any]:
+    # Mirror the diagnostic v11 support-family grid when materializing live rollouts.
+    from tiny_retrain_mainline import TEACHER_FAMILY_GRID_V11
+
+    if not TEACHER_FAMILY_GRID_V11:
+        raise RuntimeError("TEACHER_FAMILY_GRID_V11 is empty.")
+    idx = int(episode_index) % len(TEACHER_FAMILY_GRID_V11)
+    return dict(TEACHER_FAMILY_GRID_V11[idx])
+
+
+def teacher_family_variant_names() -> list[str]:
+    from tiny_retrain_mainline import TEACHER_FAMILY_GRID_V11
+
+    return [
+        str(variant.get("teacher_family_variant") or f"variant_{i}")
+        for i, variant in enumerate(TEACHER_FAMILY_GRID_V11)
+    ]

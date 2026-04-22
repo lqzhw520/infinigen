@@ -22,6 +22,12 @@
     "re_c3_run_instance_id": "rec3_20260421T102506Z_b9c0ac7a_d6a1419b"
   },
   "spec_reference": "/mnt/afs2/zhuhaowu/infinigen/docs/MINT_V84_P0_INFRASTRUCTURE_REPAIR_SPEC.md",
+  "supporting_unexecuted_spec_status": {
+    "/mnt/afs2/zhuhaowu/infinigen/docs/MINT_V84_P1_LEARNING_DYNAMICS_REPAIR_SPEC.md": "authored_as_follow_on_hypothesis_but_not_executed_after_runtime_alignment_mismatch_was_discovered"
+  },
+  "supporting_unexecuted_specs": [
+    "/mnt/afs2/zhuhaowu/infinigen/docs/MINT_V84_P1_LEARNING_DYNAMICS_REPAIR_SPEC.md"
+  ],
   "timestamp_utc": "2026-04-22T04:47:04.392475Z",
   "training_allowed_now": false,
   "vendor_head_commit": "4eab5795345721001c412ff1ca2c886a11eab606",

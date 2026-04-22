@@ -1,0 +1,461 @@
+"""
+Merged Panda + Drawer MuJoCo Model Builder.
+
+Builds a unified MuJoCo scene with:
+- Panda robot (LIBERO's robot.xml with 7 actuators + 50 PBR materials)
+- Infinigen drawer (with proper rgba colors per semantic mapping)
+- Proper lighting, cameras, and scene setup
+
+Usage:
+    from merged_model_builder import MergedModelBuilder
+    xml, assets = MergedModelBuilder(seed=1).build()
+"""
+
+from __future__ import annotations
+
+import hashlib
+import json
+import re
+import xml.etree.ElementTree as ET
+from pathlib import Path
+from typing import Any
+
+import numpy as np
+
+# ─────────────────────────────────────────────
+#  Constants
+# ─────────────────────────────────────────────
+DRAWER_ROOT = Path("/mnt/afs2/zhuhaowu/infinigen/sim_exports/urdf/drawer")
+ROBOT_XML_PATH = "/root/anaconda3/envs/infinigen/lib/python3.11/site-packages/robosuite/models/assets/robots/panda/robot.xml"
+
+# LIBERO default robot joint configuration (from mounted_panda.py)
+LIBERO_INIT_QPOS = np.array(
+    [0, -1.61037389e-01, 0.00, -2.44459747e00, 0.00, 2.22675220e00, np.pi / 4]
+)
+
+# LIBERO-style overhead camera (agentview equivalent)
+LIBERO_CAMERA = dict(
+    lookat=[0.0, 0.0, 0.45],
+    distance=1.6,
+    azimuth=90.0,  # Side view: shows both robot arm + cabinet
+    elevation=-20.0,
+)
+
+# Drawer part colors (PBR-like, matching LIBERO aesthetic)
+DRAWER_COLORS = {
+    "drawer_base": np.array([0.85, 0.82, 0.80, 1.0]),  # Off-white/light gray
+    "drawer_door": np.array([0.90, 0.88, 0.85, 1.0]),  # Lighter drawer front
+    "drawer_handle": np.array([0.20, 0.20, 0.22, 1.0]),  # Dark metallic handle
+}
+
+# Background colors
+BG_COLORS = {
+    "neutral_lab": np.array([0.15, 0.15, 0.15]),  # Dark lab background (contrast)
+    "neutral_lab_v2": np.array([0.88, 0.87, 0.85]),
+}
+
+
+# ─────────────────────────────────────────────
+#  Helper: Euler → MuJoCo quaternion
+# ─────────────────────────────────────────────
+def euler_deg_to_quat(rpy_str: str) -> str:
+    """Convert RPY euler angles (degrees, space-separated) to MuJoCo quaternion (w,x,y,z)."""
+    if not rpy_str:
+        return "1 0 0 0"
+    rpy = [float(x) for x in rpy_str.split()]
+    while len(rpy) < 3:
+        rpy.append(0.0)
+    roll, pitch, yaw = np.deg2rad(rpy[0]), np.deg2rad(rpy[1]), np.deg2rad(rpy[2])
+    cy = np.cos(yaw * 0.5)
+    sy = np.sin(yaw * 0.5)
+    cp = np.cos(pitch * 0.5)
+    sp = np.sin(pitch * 0.5)
+    cr = np.cos(roll * 0.5)
+    sr = np.sin(roll * 0.5)
+    w = cr * cp * cy + sr * sp * sy
+    x = sr * cp * cy - cr * sp * sy
+    y = cr * sp * cy + sr * cp * sy
+    z = cr * cp * sy - sr * sp * cy
+    return f"{w:.6f} {x:.6f} {y:.6f} {z:.6f}"
+
+
+# ─────────────────────────────────────────────
+#  Helper: Geom / Inertial extraction from URDF link
+# ─────────────────────────────────────────────
+def get_origin(origin_elem: ET.Element | None) -> tuple[str, str]:
+    """Return (xyz, quat) for a URDF origin element."""
+    if origin_elem is None:
+        return "0 0 0", "1 0 0 0"
+    xyz = origin_elem.get("xyz", "0 0 0")
+    rpy = origin_elem.get("rpy")
+    quat = euler_deg_to_quat(rpy) if rpy else "1 0 0 0"
+    return xyz, quat
+
+
+def geoms_to_xml(
+    link_elem: ET.Element,
+    color: np.ndarray,
+    group_vis: int = 1,
+    group_col: int = 0,
+    prefix: str = "",
+) -> str:
+    """Convert URDF link visual+collision geoms to MuJoCo XML string with fixed RGBA."""
+    lines = []
+    rgba_str = f"{color[0]:.4f} {color[1]:.4f} {color[2]:.4f} {color[3]:.4f}"
+
+    for visual in link_elem.findall("visual"):
+        mesh = visual.find(".//mesh")
+        origin = visual.find("origin")
+        xyz, quat = get_origin(origin)
+        fname = ""
+        if mesh is not None:
+            # Strip 'assets/' prefix → flat asset key
+            fname = mesh.get("filename", "").replace("assets/", "", 1)
+            parts = [
+                f'  <geom mesh="{fname}" type="mesh" group="{group_vis}"',
+                f'pos="{xyz}" quat="{quat}"',
+                f'rgba="{rgba_str}"',
+                "/>",
+            ]
+        else:
+            parts = [
+                f'  <geom type="box" size="0.05 0.05 0.05" group="{group_vis}"',
+                f'pos="{xyz}" quat="{quat}"',
+                f'rgba="{rgba_str}"',
+                "/>",
+            ]
+        lines.append(" ".join(parts))
+
+    for collision in link_elem.findall("collision"):
+        mesh = collision.find(".//mesh")
+        origin = collision.find("origin")
+        xyz, quat = get_origin(origin)
+        fname = ""
+        if mesh is not None:
+            fname = mesh.get("filename", "").replace("assets/", "", 1)
+            parts = [
+                f'  <geom mesh="{fname}" type="mesh" group="{group_col}"',
+                f'pos="{xyz}" quat="{quat}"',
+                'contype="1" conaffinity="1"',
+                f'rgba="{rgba_str}"',
+                "/>",
+            ]
+        else:
+            parts = [
+                f'  <geom type="box" size="0.05 0.05 0.05" group="{group_col}"',
+                f'pos="{xyz}" quat="{quat}"',
+                'contype="1" conaffinity="1"',
+                f'rgba="{rgba_str}"',
+                "/>",
+            ]
+        lines.append(" ".join(parts))
+
+    return "\n".join(lines)
+
+
+def inertial_to_xml(link_elem: ET.Element) -> str:
+    """Convert URDF link inertial to MuJoCo XML string."""
+    inertial = link_elem.find("inertial")
+    if inertial is None:
+        return ""
+    parts = ["  <inertial"]
+    origin = inertial.find("origin")
+    xyz, quat = get_origin(origin)
+    if xyz != "0 0 0":
+        parts.append(f'pos="{xyz}"')
+    if quat != "1 0 0 0":
+        parts.append(f'quat="{quat}"')
+    mass = inertial.find("mass")
+    if mass is not None:
+        parts.append(f'mass="{mass.get("value", "1")}"')
+    inertia = inertial.find("inertia")
+    if inertia is not None:
+        ixx = inertia.get("ixx", "0")
+        iyy = inertia.get("iyy", "0")
+        izz = inertia.get("izz", "0")
+        parts.append(f'diaginertia="{ixx} {iyy} {izz}"')
+    parts[-1] += "/>"
+    return "\n".join(parts) + "\n"
+
+
+# ─────────────────────────────────────────────
+#  Core Builder
+# ─────────────────────────────────────────────
+class MergedModelBuilder:
+    """Builds a merged Panda + Drawer MuJoCo model."""
+
+    def __init__(
+        self,
+        seed: int = 1,
+        drawer_color: np.ndarray | None = None,
+        handle_color: np.ndarray | None = None,
+        bg_color: str = "neutral_lab",
+        robot_init_qpos: np.ndarray | None = None,
+        camera_config: dict | None = None,
+    ):
+        self.seed = seed
+        self.drawer_color = drawer_color or DRAWER_COLORS["drawer_door"]
+        self.handle_color = handle_color or DRAWER_COLORS["drawer_handle"]
+        self.bg_color = BG_COLORS.get(bg_color, BG_COLORS["neutral_lab"])
+        self.robot_init_qpos = robot_init_qpos or LIBERO_INIT_QPOS
+        self.camera_config = camera_config or LIBERO_CAMERA
+
+    # ── public API ────────────────────────────────
+
+    def build(self) -> tuple[str, dict[str, bytes], dict[str, Any], str]:
+        """
+        Returns:
+            xml (str):              Merged MuJoCo XML string
+            assets (dict):           {filename: bytes} for all mesh files
+            metadata (dict):          Extracted drawer metadata
+            semantic_hash (str):      SHA256 of semantic_mapping
+        """
+        # 1. Load assets (drawer + robot)
+        assets, metadata, semantic_hash = self._load_assets()
+        robot_assets = self.load_robot_assets()
+        assets.update(robot_assets)  # robot assets take precedence if name collision
+
+        # 2. Get drawer structure
+        drawer_tree, all_links, all_joints = self._parse_drawer()
+
+        # 3. Build drawer body XML
+        drawer_body_xml = self._build_drawer_bodies(drawer_tree, all_links, all_joints)
+
+        # 4. Build merged XML
+        merged_xml = self._build_merged_xml(
+            drawer_body_xml,
+            self._get_robot_xml_inner(),
+        )
+
+        return merged_xml, assets, metadata, semantic_hash
+
+    # ── private: asset loading ──────────────────
+
+    def _load_assets(self) -> tuple[dict[str, bytes], dict[str, Any], str]:
+        """Load drawer URDF + all assets (recursive, fixes texture loading bug)."""
+        seed_dir = DRAWER_ROOT / str(self.seed)
+        urdf_path = seed_dir / "drawer.urdf"
+        metadata_path = seed_dir / "metadata.json"
+        semantic_path = seed_dir / "semantic_mapping.json"
+
+        # Assets: recursive glob (FIX for missing textures)
+        assets: dict[str, bytes] = {}
+        assets_dir = seed_dir / "assets"
+        if assets_dir.exists():
+            for p in assets_dir.rglob("*"):
+                if p.is_file():
+                    rel = str(p.relative_to(assets_dir))
+                    assets[rel] = p.read_bytes()
+
+        # Metadata
+        metadata: dict[str, Any] = {}
+        if metadata_path.exists():
+            try:
+                metadata = json.loads(metadata_path.read_text())
+            except json.JSONDecodeError:
+                pass
+
+        # Semantic mapping
+        semantic_hash = ""
+        semantic_mapping: dict[str, Any] = {}
+        if semantic_path.exists():
+            semantic_hash = hashlib.sha256(semantic_path.read_bytes()).hexdigest()
+            try:
+                semantic_mapping = json.loads(semantic_path.read_text())
+            except json.JSONDecodeError:
+                pass
+
+        return assets, metadata, semantic_hash
+
+    def _get_robot_xml_inner(self) -> tuple[str, str, str]:
+        """Extract inner XML content of robot.xml + load robot mesh assets."""
+        with open(ROBOT_XML_PATH) as f:
+            robot_xml = f.read()
+
+        robot_tree = ET.fromstring(robot_xml)
+        robot_base = str(Path(ROBOT_XML_PATH).parent)
+
+        def inner(elem: ET.Element) -> str:
+            return "".join(ET.tostring(c, encoding="unicode") for c in elem)
+
+        # Simplify mesh paths in robot XML (meshes/link0.stl → link0.stl)
+        simplified = re.sub(r'file="meshes/([^"]+)"', r'file="\1"', robot_xml)
+
+        robot_tree2 = ET.fromstring(simplified)
+
+        return (
+            inner(robot_tree2.find("actuator")),
+            inner(robot_tree2.find("asset")),
+            inner(robot_tree2.find("worldbody")),
+        )
+
+    def load_robot_assets(self) -> dict[str, bytes]:
+        """Load robot mesh files as assets dict."""
+        robot_base = str(Path(ROBOT_XML_PATH).parent)
+        assets = {}
+        for subdir in ["meshes", "obj_meshes"]:
+            full_dir = Path(robot_base) / subdir
+            if full_dir.exists():
+                for fp in full_dir.rglob("*"):
+                    if fp.is_file():
+                        fname = fp.name  # Use basename only
+                        assets[fname] = fp.read_bytes()
+        return assets
+
+    # ── private: drawer ───────────────────────
+
+    def _parse_drawer(self) -> tuple[ET.Element, dict, dict]:
+        """Parse drawer URDF and return tree + link/joint maps."""
+        seed_dir = DRAWER_ROOT / str(self.seed)
+        with open(seed_dir / "drawer.urdf") as f:
+            drawer_urdf = f.read()
+        tree = ET.fromstring(drawer_urdf)
+        links = {l.get("name"): l for l in tree.findall(".//link")}
+        joints = {j.get("name"): j for j in tree.findall(".//joint")}
+        return tree, links, joints
+
+    def _build_drawer_bodies(
+        self,
+        drawer_tree: ET.Element,
+        all_links: dict,
+        all_joints: dict,
+    ) -> str:
+        """Build MuJoCo body XML for drawer (base + movable doors)."""
+        parts = []
+
+        # ── Drawer base (link_0) ──
+        link0 = all_links["link_0"]
+        base_color = DRAWER_COLORS["drawer_base"]
+        parts.append(
+            f'<body name="drawer_base" pos="0 0 0">\n'
+            f"{geoms_to_xml(link0, base_color)}\n"
+            f"{inertial_to_xml(link0)}"
+        )
+
+        # ── Drawer doors (link_1, link_2) ──
+        for link_name, joint_name in [
+            ("link_1", "drawer_slider_0"),
+            ("link_2", "drawer_slider_1"),
+        ]:
+            if link_name not in all_links or joint_name not in all_joints:
+                continue
+            link = all_links[link_name]
+            joint = all_joints[joint_name]
+
+            # Joint origin in parent frame
+            j_origin = joint.find("origin")
+            j_xyz = j_origin.get("xyz", "0 0 0") if j_origin is not None else "0 0 0"
+            axis = joint.get("axis", "1 0 0")
+            limit = joint.find("limit")
+            range_str = (
+                f"{limit.get('lower', '0')} {limit.get('upper', '1')}"
+                if limit is not None
+                else "0 1"
+            )
+            dynamics = joint.find("dynamics")
+            damping = dynamics.get("damping", "0") if dynamics is not None else "0"
+
+            body_xml = (
+                f'<body name="{link_name}" pos="{j_xyz}">\n'
+                f'  <joint name="{joint_name}" type="slide" axis="{axis}" '
+                f'range="{range_str}" damping="{damping}"/>\n'
+                f"{geoms_to_xml(link, self.drawer_color)}\n"
+                f"{inertial_to_xml(link)}"
+            )
+
+            # Handle highlight: apply darker color to handle geoms
+            # Detect handle geoms by name
+            handle_xml = ""
+            for visual in link.findall("visual"):
+                mesh = visual.find(".//mesh")
+                if mesh is None:
+                    continue
+                origin = visual.find("origin")
+                xyz, quat = get_origin(origin)
+                fname = mesh.get("filename", "").replace("assets/", "", 1)
+                if "handle" in fname.lower():
+                    handle_xml += (
+                        f'  <geom mesh="{fname}" type="mesh" group="1" '
+                        f'pos="{xyz}" quat="{quat}" '
+                        f'rgba="{self.handle_color[0]:.4f} {self.handle_color[1]:.4f} '
+                        f'{self.handle_color[2]:.4f} {self.handle_color[3]:.4f}"/>\n'
+                    )
+
+            parts.append(body_xml)
+            if handle_xml:
+                parts.append(handle_xml)
+            parts.append("</body>")
+
+        parts.append("</body>")
+        return "\n".join(parts)
+
+    # ── private: full merged XML ───────────────
+
+    def _build_merged_xml(
+        self, drawer_body_xml: str, robot_inner: tuple[str, str, str]
+    ) -> str:
+        """Build the complete merged MuJoCo XML document."""
+        actuator_inner, asset_inner, worldbody_inner = robot_inner
+
+        # Add drawer meshes to asset section
+        drawer_mesh_xml = self._drawer_mesh_asset_xml()
+        # Add drawer actuators
+        drawer_actuator_xml = (
+            '  <motor ctrllimited="true" ctrlrange="-10 10" '
+            'joint="drawer_slider_0" name="drawer0"/>\n'
+            '  <motor ctrllimited="true" ctrlrange="-10 10" '
+            'joint="drawer_slider_1" name="drawer1"/>'
+        )
+
+        # Lighting: LIBERO-style three-point lighting
+        lighting_xml = self._build_lighting()
+
+        # Worldbody: drawer first (before robot base)
+        new_worldbody = drawer_body_xml + "\n" + worldbody_inner
+
+        xml = f"""<mujoco model="panda_drawer">
+  <compiler angle="radian" inertiafromgeom="auto"/>
+  <option timestep="0.002"/>
+
+  <asset>
+{asset_inner}
+{drawer_mesh_xml}
+  </asset>
+
+  <actuator>
+{actuator_inner}
+  {drawer_actuator_xml}
+  </actuator>
+
+  <worldbody>
+{lighting_xml}
+{new_worldbody}
+  </worldbody>
+
+  <visual>
+    <rgba haze="{self.bg_color[0]:.3f} {self.bg_color[1]:.3f} {self.bg_color[2]:.3f} 1"/>
+    <headlight ambient="0.50 0.50 0.50" diffuse="0.95 0.93 0.90" specular="0.50 0.50 0.50"/>
+  </visual>
+</mujoco>"""
+
+        return xml
+
+    def _drawer_mesh_asset_xml(self) -> str:
+        """Add drawer mesh declarations to <asset> section."""
+        seed_dir = DRAWER_ROOT / str(self.seed)
+        assets_dir = seed_dir / "assets"
+        lines = []
+        if assets_dir.exists():
+            for p in sorted(assets_dir.rglob("*")):
+                if p.is_file() and (p.suffix in {".obj", ".stl"}):
+                    rel = str(p.relative_to(assets_dir))
+                    fname = rel.replace("assets/", "", 1)
+                    lines.append(f'  <mesh name="{fname}" file="{fname}"/>')
+        return "\n".join(lines)
+
+    def _build_lighting(self) -> str:
+        """LIBERO-style three-point lighting setup."""
+        return f"""    <light name="top" pos="0 0 3" dir="0 0 -1" diffuse="{self.bg_color[0]:.3f} {self.bg_color[1]:.3f} {self.bg_color[2]:.3f}"/>
+    <light name="key" pos="1 1 2" dir="-0.5 -0.5 -1" diffuse="0.9 0.88 0.84"/>
+    <light name="fill" pos="-1 0.5 1.5" dir="0.5 -0.25 -0.75" diffuse="0.5 0.5 0.5"/>
+    <light name="rim" pos="-1 -1 2" dir="0.5 0.5 -1" diffuse="0.3 0.3 0.35"/>"""

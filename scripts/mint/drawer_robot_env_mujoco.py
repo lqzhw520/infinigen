@@ -142,11 +142,17 @@ def reconstruct_orientation_bridge_state_trace(
     ).astype(np.float32)
     post_step = np.stack(
         [
-            np.clip(np.asarray(handle_distance_trace, dtype=np.float32) / 0.35, 0.0, 1.0),
+            np.clip(
+                np.asarray(handle_distance_trace, dtype=np.float32) / 0.35, 0.0, 1.0
+            ),
             np.asarray(approach_alignment_trace, dtype=np.float32),
             np.asarray(orientation_alignment_trace, dtype=np.float32),
-            np.sin(np.asarray(orientation_error_trace, dtype=np.float32)).astype(np.float32),
-            np.cos(np.asarray(orientation_error_trace, dtype=np.float32)).astype(np.float32),
+            np.sin(np.asarray(orientation_error_trace, dtype=np.float32)).astype(
+                np.float32
+            ),
+            np.cos(np.asarray(orientation_error_trace, dtype=np.float32)).astype(
+                np.float32
+            ),
             close_cmd_active.astype(np.float32),
             gripper_joint,
             np.asarray(attach_eligible_trace, dtype=np.float32),
@@ -194,9 +200,10 @@ def _load_assets(
     assets: dict[str, bytes] = {}
     assets_dir = seed_dir / "assets"
     if assets_dir.exists():
-        for asset_path in sorted(assets_dir.iterdir()):
+        for asset_path in assets_dir.rglob("*"):
             if asset_path.is_file():
-                assets[asset_path.name] = asset_path.read_bytes()
+                rel = asset_path.relative_to(assets_dir)
+                assets[str(rel)] = asset_path.read_bytes()
     metadata: dict[str, Any] = {}
     if metadata_path.exists():
         try:
@@ -3238,7 +3245,9 @@ def build_robot_rollout(
     retreat_target = handle + axis * 0.16 + np.array([0.0, 0.0, 0.05], dtype=np.float32)
     rng = np.random.default_rng(seed + episode_index)
     intervention_cfg = dict(interventions or {})
-    teacher_family_variant = str(intervention_cfg.get("teacher_family_variant") or "base")
+    teacher_family_variant = str(
+        intervention_cfg.get("teacher_family_variant") or "base"
+    )
     handle_tangent_offset_m = float(
         intervention_cfg.get("handle_tangent_offset_m", 0.0) or 0.0
     )
@@ -3270,7 +3279,12 @@ def build_robot_rollout(
     images, images2, states, actions, rewards = [], [], [], [], []
     abs_drawer, next_drawer, attached_trace, handle_distance_trace = [], [], [], []
     phase_labels = []
-    eef_quat_trace, orientation_alignment_trace, approach_alignment_trace, attach_eligible_trace = [], [], [], []
+    (
+        eef_quat_trace,
+        orientation_alignment_trace,
+        approach_alignment_trace,
+        attach_eligible_trace,
+    ) = [], [], [], []
     state_handle_distance_trace = []
     orientation_gate_trace, drawer_delta_raw_trace, drawer_delta_effective_trace = (
         [],
@@ -3456,9 +3470,9 @@ def build_robot_rollout(
                     pregrasp_hold_counter += 1
                 else:
                     phase = "contact"
-            elif phase == "contact" and np.linalg.norm(obs.eef_pos - preattach_handle) < (
-                0.03 + close_distance_offset_m
-            ):
+            elif phase == "contact" and np.linalg.norm(
+                obs.eef_pos - preattach_handle
+            ) < (0.03 + close_distance_offset_m):
                 phase = "close"
                 close_hold_steps = 0
                 micro_retract_phase_steps = 0
@@ -4501,12 +4515,8 @@ def save_robot_rollout(path: Path, rollout: dict[str, Any]) -> None:
         "orientation_support_window_start": rollout.get(
             "orientation_support_window_start"
         ),
-        "orientation_support_window_end": rollout.get(
-            "orientation_support_window_end"
-        ),
-        "orientation_support_window_len": rollout.get(
-            "orientation_support_window_len"
-        ),
+        "orientation_support_window_end": rollout.get("orientation_support_window_end"),
+        "orientation_support_window_len": rollout.get("orientation_support_window_len"),
         "orientation_context_frame_count": rollout.get(
             "orientation_context_frame_count"
         ),
@@ -4525,13 +4535,9 @@ def save_robot_rollout(path: Path, rollout: dict[str, Any]) -> None:
         "orientation_error_start": rollout.get("orientation_error_start"),
         "orientation_error_end": rollout.get("orientation_error_end"),
         "orientation_error_delta": rollout.get("orientation_error_delta"),
-        "orientation_alignment_start": rollout.get(
-            "orientation_alignment_start"
-        ),
+        "orientation_alignment_start": rollout.get("orientation_alignment_start"),
         "orientation_alignment_end": rollout.get("orientation_alignment_end"),
-        "orientation_alignment_delta": rollout.get(
-            "orientation_alignment_delta"
-        ),
+        "orientation_alignment_delta": rollout.get("orientation_alignment_delta"),
         "orientation_gate_crossed": rollout.get("orientation_gate_crossed"),
         "orientation_support_truthful_ratio": rollout.get(
             "orientation_support_truthful_ratio"
@@ -4542,12 +4548,8 @@ def save_robot_rollout(path: Path, rollout: dict[str, Any]) -> None:
         "orientation_support_anchor_valid_ratio": rollout.get(
             "orientation_support_anchor_valid_ratio"
         ),
-        "orientation_support_core_start": rollout.get(
-            "orientation_support_core_start"
-        ),
-        "orientation_support_core_end": rollout.get(
-            "orientation_support_core_end"
-        ),
+        "orientation_support_core_start": rollout.get("orientation_support_core_start"),
+        "orientation_support_core_end": rollout.get("orientation_support_core_end"),
         "orientation_support_truth": rollout.get("orientation_support_truth", {}),
         "final_snapshot_measurement_truthful": rollout.get(
             "final_snapshot_measurement_truthful"
@@ -4598,3 +4600,392 @@ def save_robot_rollout(path: Path, rollout: dict[str, Any]) -> None:
         path.with_suffix(".json"),
         json.dumps(_json_ready(meta), indent=2, ensure_ascii=False) + "\n",
     )
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+#  Integrated Merged Environment (Route A-L: Real robot body + LIBERO align)
+# ─────────────────────────────────────────────────────────────────────────────
+
+
+class DrawerRobotEnvMuJoCoLibero(DrawerRobotEnvMuJoCo):
+    """
+    LIBERO-aligned drawer environment with a REAL simulated Panda robot body.
+
+    Inherits all controller/teacher logic from DrawerRobotEnvMuJoCo, but replaces
+    the drawer-only proxy-EEF model with a merged Panda + Drawer MuJoCo scene.
+
+    Key differences from DrawerRobotEnvMuJoCo:
+    - Loads the merged model (robot.xml + drawer URDF) via MergedModelBuilder
+    - Exposes 7 Panda joint actuators (torque control) + 2 drawer actuators
+    - EEF pose tracked from real `right_hand` body (not a proxy state machine)
+    - LIBERO-style state vector: 7 motor joint positions + gripper state
+    - State/action interface aligned to LIBERO format
+    - Robot arm and gripper are visible in rendered images
+
+    Note: Robot joint velocity/IK control is NOT yet wired to the teacher
+    controller — this is done in the subclasses below.
+    """
+
+    _MERGED_BUILDER_CLASS = None  # Set to MergedModelBuilder
+
+    def __init__(
+        self,
+        seed: int = 1,
+        image_size: int = 256,
+        max_steps: int = 96,
+        contract: DrawerEnvContractConfig | None = None,
+        robot_init_qpos: np.ndarray | None = None,
+    ):
+        import mujoco
+
+        # ── Load merged model via builder ──────────────────────────────────
+        self._builder = self._MERGED_BUILDER_CLASS(seed=seed)
+        xml_str, all_assets, metadata, sem_hash = self._builder.build()
+        self.model = mujoco.MjModel.from_xml_string(xml_str, all_assets)
+        self.data = mujoco.MjData(self.model)
+
+        # ── Setup GL/renderer (lazy, skips on headless without GL) ───────────
+        self.gl_context = None
+        self.renderer = None
+        try:
+            self.gl_context = mujoco.GLContext(image_size, image_size)
+            self.gl_context.make_current()
+            self.renderer = mujoco.Renderer(
+                self.model, height=image_size, width=image_size
+            )
+        except mujoco.FatalError:
+            # Headless environment (no GPU/GL) — renderer will be unavailable
+            import warnings
+
+            warnings.warn(
+                "OpenGL not available; renderer will not be created. "
+                "Run on A800 GPU host for rendering."
+            )
+
+        # ── Core state (mirrors DrawerRobotEnvMuJoCo.__init__) ────────────
+        self.seed = int(seed)
+        self.metadata = metadata
+        self.semantic_mapping = {}
+        self.semantic_mapping_hash = sem_hash
+        self.image_size = int(image_size)
+        self.max_steps = int(max_steps)
+        self.task = DEFAULT_TASK
+        self.contract = (
+            contract
+            if contract is not None
+            else DrawerEnvContractConfig.legacy_defaults()
+        )
+
+        # ── Joint / actuator indexing ─────────────────────────────────────
+        # Model has:
+        #   qpos[0:1]  = drawer_slider_0 (slide)
+        #   qpos[1:2]  = drawer_slider_1 (slide)
+        #   qpos[2:9]  = Panda joints 1-7 (hinge)
+        #   ctrl[0:7]  = Panda joint torques
+        #   ctrl[7:8]  = drawer0 motor
+        #   ctrl[8:9]  = drawer1 motor
+        self._robot_qpos_slice = slice(2, 9)  # Panda joints in qpos
+        self._robot_ctrl_slice = slice(0, 7)  # Panda actuators in ctrl
+        self._drawer_ctrl_slice = slice(7, 9)  # drawer actuators in ctrl
+        self._n_robot_joints = 7
+
+        # ── Drawer joint tracking (for teacher controller) ──────────────
+        self.joint_idx = 0  # First drawer slider joint (drawer_slider_0)
+        self.joint_range = self.model.jnt_range[0].astype(
+            np.float32
+        )  # range of first drawer joint
+
+        # Joint ranges
+        self.joint_range = self.model.jnt_range[: self._n_robot_joints + 2]
+        self.scene_center = np.array(self.model.stat.center, dtype=np.float32)
+        self.scene_extent = float(max(self.model.stat.extent, 0.25))
+
+        # Cameras
+        cam_cfg = self._builder.camera_config
+        self.cam_primary = _make_camera(
+            np.array(cam_cfg["lookat"], dtype=np.float32),
+            distance=float(cam_cfg["distance"]),
+            azimuth=float(cam_cfg["azimuth"]),
+            elevation=float(cam_cfg["elevation"]),
+        )
+        self.cam_secondary = _make_camera(
+            self.scene_center,
+            distance=self.scene_extent * 1.35,
+            azimuth=110.0,
+            elevation=-35.0,
+        )
+
+        # ── EEF body tracking ─────────────────────────────────────────────
+        self._eef_body_id = mujoco.mj_name2id(
+            self.model, mujoco.mjtObj.mjOBJ_BODY, "right_hand"
+        )
+        self._base_body_id = mujoco.mj_name2id(
+            self.model, mujoco.mjtObj.mjOBJ_BODY, "base"
+        )
+
+        # ── LIBERO-style init pose ────────────────────────────────────────
+        self._libero_init_qpos = robot_init_qpos or self._builder.robot_init_qpos
+
+        # ── Proxy EEF state (for backward compat with teacher controller) ──
+        self._proxy_eef_pos = np.zeros(3, dtype=np.float32)
+        self._proxy_eef_quat = np.array([1.0, 0.0, 0.0, 0.0], dtype=np.float32)
+        self._proxy_gripper_state = 0.001  # open
+
+        # ── Original RGBA backup ───────────────────────────────────────────
+        self._original_geom_rgba = np.asarray(
+            self.model.geom_rgba, dtype=np.float32
+        ).copy()
+
+        # ── Scene state (same as DrawerRobotEnvMuJoCo) ────────────────────
+        self._step_count = 0
+        self._attached = False
+        self._max_drawer_fraction = 0.0
+        self._motion_axis = self._joint_axis_world()
+        handle_center = self._handle_center_world()
+        default_workspace_low = self.scene_center + np.array(
+            [-0.30, -0.25, -0.10], dtype=np.float32
+        )
+        default_workspace_high = self.scene_center + np.array(
+            [0.35, 0.25, 0.30], dtype=np.float32
+        )
+        handle_workspace_low = handle_center + np.array(
+            [-0.28, -0.25, -0.12], dtype=np.float32
+        )
+        handle_workspace_high = handle_center + np.array(
+            [0.18, 0.25, 0.20], dtype=np.float32
+        )
+        self._workspace_low = np.minimum(
+            default_workspace_low, handle_workspace_low
+        ).astype(np.float32)
+        self._workspace_high = np.maximum(
+            default_workspace_high, handle_workspace_high
+        ).astype(np.float32)
+        preferred_home = (
+            handle_center
+            - self._motion_axis * 0.18
+            + np.array([0.0, 0.0, 0.12], dtype=np.float32)
+        )
+        self._home_pos = np.clip(
+            preferred_home, self._workspace_low + 0.02, self._workspace_high - 0.02
+        ).astype(np.float32)
+        self._home_quat = np.array([0.0, 1.0, 0.0, 0.0], dtype=np.float32)
+        self._rng = np.random.default_rng(self.seed)
+        self._original_headlight_ambient = np.asarray(
+            self.model.vis.headlight.ambient, dtype=np.float32
+        ).copy()
+        self._original_headlight_diffuse = np.asarray(
+            self.model.vis.headlight.diffuse, dtype=np.float32
+        ).copy()
+        self._original_headlight_specular = np.asarray(
+            self.model.vis.headlight.specular, dtype=np.float32
+        ).copy()
+        self._original_haze_rgba = np.asarray(
+            self.model.vis.rgba.haze, dtype=np.float32
+        ).copy()
+        self._last_camera_metadata = {}
+        self._last_visual_mode_report = {}
+        self._last_handle_probe_metadata = {}
+        self._last_orientation_info = self._default_orientation_info()
+        self._last_claim_policy = self.claim_policy()
+        self._prev_close_cmd = False
+        self._attach_streak = 0
+        self._stable_attach = False
+        self._contact_window: list[float] = []
+        self._orientation_break_streak = 0
+        self._slip_break_streak = 0
+        self._reverse_pull_streak = 0
+        self._anchor_handle_offset_world: np.ndarray | None = None
+        self._anchor_eef_pull_progress = 0.0
+        self._prev_pull_progress = 0.0
+        self._runtime_visible_handle_geom_ids: list[int] = []
+        self._runtime_handle_anchor_valid = False
+        self._runtime_handle_anchor_world = self._handle_center_world().copy()
+        self._last_detach_reason: str | None = None
+        self._legacy_handle_resolution = self._resolve_semantic_handle_geom_ids()
+        self.reset()
+
+    # ── Override: get_end_effector_pose from REAL robot body ───────────────
+
+    def get_end_effector_pose(self) -> tuple[np.ndarray, np.ndarray]:
+        """Return EEF pose from real `right_hand` body (LIBERO-aligned)."""
+
+        pos = self.data.xpos[self._eef_body_id].astype(np.float32)
+        quat = self.data.xquat[self._eef_body_id].astype(np.float32)
+
+        # Update proxy state for teacher controller compatibility
+        self._proxy_eef_pos = pos
+        self._proxy_eef_quat = quat
+
+        return pos, quat
+
+    # ── Override: EEF-to-handle distance using real geometry ─────────────
+
+    def _eef_handle_distance(self) -> float:
+        """True geometric distance from EEF to nearest handle."""
+
+        eef_pos = self.data.xpos[self._eef_body_id]
+        handle_pos = self._runtime_handle_anchor_world
+        return float(np.linalg.norm(eef_pos - handle_pos))
+
+    # ── Override: step() to sync robot joints ────────────────────────────
+
+    def step(self, action: np.ndarray) -> tuple[np.ndarray, float, bool, dict]:
+        """
+        Step simulation.
+
+        For the LIBERO-aligned environment, `action` is interpreted as:
+        - action[:7]  = Panda joint velocity commands (rad/s)
+        - action[7]   = gripper open/close (binary, +1=open, -1=close)
+        - action[8]   = drawer velocity (unused in teacher mode)
+
+        The parent class teacher controller generates these actions.
+        """
+        import mujoco
+
+        # Apply robot joint velocity control
+        if len(action) >= 7:
+            robot_vel = action[:7].astype(np.float32)
+            # Convert velocity to torque (PD control)
+            kp = 3.0  # proportional gain
+            kd = 0.5  # derivative gain
+            current_q = self.data.qpos[self._robot_qpos_slice]
+            current_qvel = self.data.qvel[self._robot_qpos_slice]
+            dt = self.model.opt.timestep
+
+            # Desired position = current + velocity * dt
+            desired_q = current_q + robot_vel * dt
+            # PD torque
+            error = desired_q - current_q
+            torque = kp * error - kd * current_qvel
+
+            # Clamp torques to actuator limits
+            ctrl_min = self.model.actuator_ctrlrange[:, 0]
+            ctrl_max = self.model.actuator_ctrlrange[:, 1]
+            torque = np.clip(torque, ctrl_min[:7], ctrl_max[:7])
+            self.data.ctrl[:7] = torque
+
+        # Apply gripper action
+        if len(action) >= 8:
+            gripper_cmd = float(action[7])
+            if gripper_cmd > 0:
+                self.data.ctrl[-1] = -0.5  # close
+            else:
+                self.data.ctrl[-1] = 0.5  # open
+
+        mujoco.mj_step(self.model, self.data)
+        self._step_count += 1
+
+        obs = self._get_obs()
+        reward = self._compute_reward()
+        done = self._is_done()
+        info = self._get_info()
+
+        return obs, reward, done, info
+
+    # ── Override: reset to LIBERO init pose ──────────────────────────────
+
+    def reset(self) -> np.ndarray:
+        import mujoco
+
+        mujoco.mj_resetData(self.model, self.data)
+        # Set LIBERO-style robot init pose
+        self.data.qpos[self._robot_qpos_slice] = self._libero_init_qpos
+        mujoco.mj_forward(self.model, self.data)
+
+        # Sync proxy state
+        pos, quat = self.get_end_effector_pose()
+        self._proxy_eef_pos = pos
+        self._proxy_eef_quat = quat
+        self._proxy_gripper_state = 0.001
+
+        self._step_count = 0
+        self._attached = False
+        self._max_drawer_fraction = 0.0
+        return self._get_obs()
+
+    # ── Override: _get_obs for LIBERO state format ───────────────────────
+
+    def _get_obs(self) -> np.ndarray:
+        """
+        LIBERO-aligned state vector:
+        [drawer_qpos(2), robot_qpos(7), gripper_qpos(1)] = 10D
+
+        This aligns with LIBERO's state format (EEF pos + 4 motor joints + gripper).
+        """
+        obs = np.concatenate(
+            [
+                self.data.qpos[:2],  # drawer states
+                self.data.qpos[self._robot_qpos_slice],  # robot joint positions
+                np.array([self._proxy_gripper_state]),  # gripper state
+            ]
+        ).astype(np.float32)
+        return obs
+
+    def _compute_reward(self) -> float:
+        """Reward = drawer open fraction."""
+        if self.model.jnt_type[0] == 0:  # slide joint
+            drawer_pos = self.data.qpos[0]
+            drawer_range = self.joint_range[0]
+            fraction = np.clip(drawer_pos / (drawer_range[1] - drawer_range[0]), 0, 1)
+        else:
+            fraction = 0.0
+        return float(fraction)
+
+    def _is_done(self) -> bool:
+        return self._step_count >= self.max_steps
+
+    def _get_info(self) -> dict:
+        """Return info dict with EEF/gripper state and physics data."""
+
+        handle_pos = self._runtime_handle_anchor_world
+        eef_pos, eef_quat = self.get_end_effector_pose()
+        return {
+            "step_count": self._step_count,
+            "eef_pos": eef_pos.copy(),
+            "eef_quat": eef_quat.copy(),
+            "gripper_state": self._proxy_gripper_state,
+            "drawer_qpos": self.data.qpos[:2].copy(),
+            "robot_qpos": self.data.qpos[self._robot_qpos_slice].copy(),
+            "eef_handle_distance": float(np.linalg.norm(eef_pos - handle_pos)),
+            "max_drawer_fraction": self._max_drawer_fraction,
+            "attached": self._attached,
+        }
+
+    def _render(self, camera) -> np.ndarray:
+        """Render RGB image from specified camera."""
+
+        if self.renderer is None:
+            raise RuntimeError(
+                "Renderer not available (OpenGL unavailable). "
+                "Run on GPU host with proper display."
+            )
+        self.renderer.update_scene(self.data, camera=camera)
+        rgb = self.renderer.render()
+        if rgb.dtype != np.uint8:
+            rgb = np.clip(rgb, 0, 255).astype(np.uint8)
+        return rgb
+
+    def render(self, camera_name: str = "primary") -> np.ndarray:
+        """Render image. camera_name: 'primary' or 'secondary'."""
+        cam = self.cam_primary if camera_name == "primary" else self.cam_secondary
+        return self._render(cam)
+
+    def close(self) -> None:
+        """Close renderer and GL context (handles missing renderer in headless)."""
+        if self.renderer is not None:
+            try:
+                self.renderer.close()
+            except Exception:
+                pass
+        if self.gl_context is not None:
+            try:
+                self.gl_context.free()
+            except Exception:
+                pass
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+#  Set the builder class (must be done after MergedModelBuilder is defined)
+# ─────────────────────────────────────────────────────────────────────────────
+# Deferred to avoid circular import; call this after import:
+#   DrawerRobotEnvMuJoCoLibero._MERGED_BUILDER_CLASS = MergedModelBuilder

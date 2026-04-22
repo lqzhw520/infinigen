@@ -1,0 +1,175 @@
+{
+  "checkpoint_step": 1500,
+  "checkpoint_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/outputs/p0_canary/V1cT2S3/checkpoints/001500/pretrained_model",
+  "summary": {
+    "pretrained_mint": {
+      "n_episodes": 5,
+      "n_unique_seeds": 5,
+      "success_rate": 0.0,
+      "pull_distance_mean": 0.0,
+      "grasp_success_rate": 0.0,
+      "time_to_completion_mean": 96.0,
+      "successes": 0,
+      "successful_seed_count": 0,
+      "per_seed": {
+        "11": {
+          "n_episodes": 1,
+          "success_rate": 0.0,
+          "successes": 0,
+          "pull_distance_mean": 0.0,
+          "grasp_success_rate": 0.0,
+          "time_to_completion_mean": 96.0,
+          "non_zero_action_ratio_mean": 1.0,
+          "total_eef_motion_mean": 0.9611704349517822
+        },
+        "12": {
+          "n_episodes": 1,
+          "success_rate": 0.0,
+          "successes": 0,
+          "pull_distance_mean": 0.0,
+          "grasp_success_rate": 0.0,
+          "time_to_completion_mean": 96.0,
+          "non_zero_action_ratio_mean": 1.0,
+          "total_eef_motion_mean": 0.7008801698684692
+        },
+        "13": {
+          "n_episodes": 1,
+          "success_rate": 0.0,
+          "successes": 0,
+          "pull_distance_mean": 0.0,
+          "grasp_success_rate": 0.0,
+          "time_to_completion_mean": 96.0,
+          "non_zero_action_ratio_mean": 1.0,
+          "total_eef_motion_mean": 0.9536781311035156
+        },
+        "14": {
+          "n_episodes": 1,
+          "success_rate": 0.0,
+          "successes": 0,
+          "pull_distance_mean": 0.0,
+          "grasp_success_rate": 0.0,
+          "time_to_completion_mean": 96.0,
+          "non_zero_action_ratio_mean": 1.0,
+          "total_eef_motion_mean": 0.8432456254959106
+        },
+        "15": {
+          "n_episodes": 1,
+          "success_rate": 0.0,
+          "successes": 0,
+          "pull_distance_mean": 0.0,
+          "grasp_success_rate": 0.0,
+          "time_to_completion_mean": 96.0,
+          "non_zero_action_ratio_mean": 1.0,
+          "total_eef_motion_mean": 0.9282833337783813
+        }
+      },
+      "close_cmd_rate_mean": 0.9979166626930237,
+      "min_dist_to_handle_mean": 0.2356758624315262,
+      "distance_pass_rate_mean": 0.0,
+      "orientation_gate_pass_rate_mean": 0.31041666567325593,
+      "approach_gate_pass_rate_mean": 0.2125,
+      "attach_eligible_rate_mean": 0.0,
+      "stable_attach_rate_mean": 0.0,
+      "phase_locked_rate_mean": 0.0,
+      "effective_pull_progress_peak_mean": 0.0,
+      "drawer_delta_effective_peak_mean": 0.0,
+      "ever_attach_eligible_fraction": 0.0,
+      "ever_stable_attach_fraction": 0.0,
+      "ever_phase_locked_fraction": 0.0,
+      "measurement_truthful_fraction": 1.0,
+      "non_zero_action_ratio_mean": 1.0,
+      "total_eef_motion_mean": 0.8774515390396118,
+      "dominant_failure_mode": "never_reach_attach_distance"
+    },
+    "finetuned_mint": {
+      "n_episodes": 5,
+      "n_unique_seeds": 5,
+      "success_rate": 0.0,
+      "pull_distance_mean": 0.0,
+      "grasp_success_rate": 0.0,
+      "time_to_completion_mean": 96.0,
+      "successes": 0,
+      "successful_seed_count": 0,
+      "per_seed": {
+        "11": {
+          "n_episodes": 1,
+          "success_rate": 0.0,
+          "successes": 0,
+          "pull_distance_mean": 0.0,
+          "grasp_success_rate": 0.0,
+          "time_to_completion_mean": 96.0,
+          "non_zero_action_ratio_mean": 1.0,
+          "total_eef_motion_mean": 0.8663966059684753
+        },
+        "12": {
+          "n_episodes": 1,
+          "success_rate": 0.0,
+          "successes": 0,
+          "pull_distance_mean": 0.0,
+          "grasp_success_rate": 0.0,
+          "time_to_completion_mean": 96.0,
+          "non_zero_action_ratio_mean": 1.0,
+          "total_eef_motion_mean": 0.6140809655189514
+        },
+        "13": {
+          "n_episodes": 1,
+          "success_rate": 0.0,
+          "successes": 0,
+          "pull_distance_mean": 0.0,
+          "grasp_success_rate": 0.0,
+          "time_to_completion_mean": 96.0,
+          "non_zero_action_ratio_mean": 1.0,
+          "total_eef_motion_mean": 0.8397145867347717
+        },
+        "14": {
+          "n_episodes": 1,
+          "success_rate": 0.0,
+          "successes": 0,
+          "pull_distance_mean": 0.0,
+          "grasp_success_rate": 0.0,
+          "time_to_completion_mean": 96.0,
+          "non_zero_action_ratio_mean": 1.0,
+          "total_eef_motion_mean": 0.6561689376831055
+        },
+        "15": {
+          "n_episodes": 1,
+          "success_rate": 0.0,
+          "successes": 0,
+          "pull_distance_mean": 0.0,
+          "grasp_success_rate": 0.0,
+          "time_to_completion_mean": 96.0,
+          "non_zero_action_ratio_mean": 1.0,
+          "total_eef_motion_mean": 0.9121317863464355
+        }
+      },
+      "close_cmd_rate_mean": 0.29999999701976776,
+      "min_dist_to_handle_mean": 0.1093442052602768,
+      "distance_pass_rate_mean": 0.0,
+      "orientation_gate_pass_rate_mean": 0.0,
+      "approach_gate_pass_rate_mean": 0.30833333134651186,
+      "attach_eligible_rate_mean": 0.0,
+      "stable_attach_rate_mean": 0.0,
+      "phase_locked_rate_mean": 0.0,
+      "effective_pull_progress_peak_mean": 0.0,
+      "drawer_delta_effective_peak_mean": 0.0,
+      "ever_attach_eligible_fraction": 0.0,
+      "ever_stable_attach_fraction": 0.0,
+      "ever_phase_locked_fraction": 0.0,
+      "measurement_truthful_fraction": 1.0,
+      "non_zero_action_ratio_mean": 1.0,
+      "total_eef_motion_mean": 0.7776985764503479,
+      "dominant_failure_mode": "never_reach_attach_distance"
+    }
+  },
+  "delta": {
+    "attach_bridge_gain": 0.0,
+    "ever_attach_eligible_fraction_gain": 0.0,
+    "ever_attached_rate_gain": 0.0,
+    "stable_attach_rate_gain": 0.0,
+    "phase_locked_rate_gain": 0.0,
+    "close_cmd_rate_delta": -0.6979166656732559,
+    "distance_pass_rate_gain": 0.0,
+    "approach_gate_gain": 0.09583333134651187
+  },
+  "tier_preview": "TIER3_NO_SIGNAL_OR_P0C_REGRESSION"
+}

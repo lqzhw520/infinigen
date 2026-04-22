@@ -85,6 +85,85 @@ CameraFramingProfile = Literal[
     "legacy", "tight_handle_centered", "macro_handle_centered"
 ]
 RotationSource = Literal["zero", "aligned", "random"]
+ORIENTATION_BRIDGE_STATE_DIM_NAMES = [
+    "distance_to_handle_norm",
+    "approach_alignment_cos",
+    "orientation_alignment_cos",
+    "orientation_error_sin",
+    "orientation_error_cos",
+    "prev_close_cmd",
+    "gripper_joint",
+    "attach_eligible_proxy",
+]
+
+
+def compute_orientation_bridge_state_vector(
+    *,
+    handle_distance_m: float,
+    approach_alignment_cos: float,
+    orientation_alignment_cos: float,
+    orientation_error_rad: float,
+    close_cmd_active: bool,
+    gripper_joint: float,
+    attach_eligible: bool,
+) -> np.ndarray:
+    distance_norm = float(np.clip(float(handle_distance_m) / 0.35, 0.0, 1.0))
+    orientation_error = float(orientation_error_rad)
+    return np.array(
+        [
+            distance_norm,
+            float(approach_alignment_cos),
+            float(orientation_alignment_cos),
+            float(np.sin(orientation_error)),
+            float(np.cos(orientation_error)),
+            1.0 if bool(close_cmd_active) else 0.0,
+            float(gripper_joint),
+            1.0 if bool(attach_eligible) else 0.0,
+        ],
+        dtype=np.float32,
+    )
+
+
+def reconstruct_orientation_bridge_state_trace(
+    *,
+    handle_distance_trace: np.ndarray,
+    approach_alignment_trace: np.ndarray,
+    orientation_alignment_trace: np.ndarray,
+    orientation_error_trace: np.ndarray,
+    actions: np.ndarray,
+    attach_eligible_trace: np.ndarray,
+    initial_state_frame: np.ndarray | None = None,
+) -> np.ndarray:
+    close_cmd_active = np.asarray(actions[:, 6] < 0.0, dtype=np.float32)
+    gripper_joint = np.where(
+        close_cmd_active > 0.5,
+        np.float32(GRIPPER_CLOSED),
+        np.float32(GRIPPER_OPEN),
+    ).astype(np.float32)
+    post_step = np.stack(
+        [
+            np.clip(np.asarray(handle_distance_trace, dtype=np.float32) / 0.35, 0.0, 1.0),
+            np.asarray(approach_alignment_trace, dtype=np.float32),
+            np.asarray(orientation_alignment_trace, dtype=np.float32),
+            np.sin(np.asarray(orientation_error_trace, dtype=np.float32)).astype(np.float32),
+            np.cos(np.asarray(orientation_error_trace, dtype=np.float32)).astype(np.float32),
+            close_cmd_active.astype(np.float32),
+            gripper_joint,
+            np.asarray(attach_eligible_trace, dtype=np.float32),
+        ],
+        axis=1,
+    ).astype(np.float32)
+    if len(post_step) == 0:
+        return post_step
+    aligned = np.zeros_like(post_step)
+    aligned[0] = (
+        np.asarray(initial_state_frame, dtype=np.float32)
+        if initial_state_frame is not None
+        else post_step[0]
+    )
+    if len(post_step) > 1:
+        aligned[1:] = post_step[:-1]
+    return aligned
 
 
 def drawer_dir(seed: int) -> Path:
@@ -2488,21 +2567,21 @@ class DrawerRobotEnvMuJoCo:
             np.clip(float(info.get("attach_streak", 0.0)) / 4.0, 0.0, 1.0)
         )
         if mode == "orientation_bridge_state_v1":
-            handle_distance = float(np.linalg.norm(handle - self.eef_pos))
-            distance_norm = float(np.clip(handle_distance / 0.35, 0.0, 1.0))
-            orientation_error = float(info.get("orientation_error_rad", 0.0))
-            state = np.array(
-                [
-                    distance_norm,
-                    float(info.get("approach_alignment_cos", 0.0)),
-                    float(info.get("orientation_alignment_cos", 1.0)),
-                    float(np.sin(orientation_error)),
-                    float(np.cos(orientation_error)),
-                    1.0 if self._prev_close_cmd else 0.0,
-                    float(self.gripper_joint),
-                    1.0 if bool(info.get("attach_eligible", False)) else 0.0,
-                ],
-                dtype=np.float32,
+            state = compute_orientation_bridge_state_vector(
+                handle_distance_m=float(
+                    info.get(
+                        "state_handle_distance_m",
+                        np.linalg.norm(handle - self.eef_pos),
+                    )
+                ),
+                approach_alignment_cos=float(info.get("approach_alignment_cos", 0.0)),
+                orientation_alignment_cos=float(
+                    info.get("orientation_alignment_cos", 1.0)
+                ),
+                orientation_error_rad=float(info.get("orientation_error_rad", 0.0)),
+                close_cmd_active=bool(self._prev_close_cmd),
+                gripper_joint=float(self.gripper_joint),
+                attach_eligible=bool(info.get("attach_eligible", False)),
             )
             return state.astype(np.float32)
         if mode == "telemetry_candidate_v4_task_identity":
@@ -2847,6 +2926,7 @@ class DrawerRobotEnvMuJoCo:
             self._stable_attach = bool(self._attached)
             self._attach_streak = 1 if self._attached else 0
 
+        state_handle_distance = float(np.linalg.norm(self.eef_pos - handle))
         if (
             self.contract.interaction_mode
             != "orientation_sensitive_v3_task_identity_locked"
@@ -2883,6 +2963,7 @@ class DrawerRobotEnvMuJoCo:
             "attach_gate_orientation_passed": bool(orientation_gate_passed),
             "attach_gate_approach_passed": bool(approach_gate_passed),
             "approach_alignment_cos": float(approach_alignment_cos),
+            "state_handle_distance_m": float(state_handle_distance),
             "attach_streak": int(self._attach_streak),
             "stable_attach": bool(self._stable_attach),
             "pull_alignment_cos": float(pull_alignment_cos),
@@ -2912,6 +2993,7 @@ class DrawerRobotEnvMuJoCo:
             "drawer_fraction_signed": self._drawer_fraction_signed(),
             "attached": self._attached,
             "dist_to_handle": dist_to_handle,
+            "state_handle_distance_m": float(state_handle_distance),
             "step_count": self._step_count,
             "max_drawer_fraction": self._max_drawer_fraction,
             "handle_center_world": handle.tolist(),
@@ -2921,6 +3003,7 @@ class DrawerRobotEnvMuJoCo:
             "attach_gate_distance_passed": bool(distance_pass),
             "attach_gate_orientation_passed": bool(orientation_gate_passed),
             "attach_gate_approach_passed": bool(approach_gate_passed),
+            "approach_alignment_cos": float(approach_alignment_cos),
             "attach_streak": int(self._attach_streak),
             "stable_attach": bool(self._stable_attach),
             "pull_alignment_cos": float(pull_alignment_cos),
@@ -3187,7 +3270,8 @@ def build_robot_rollout(
     images, images2, states, actions, rewards = [], [], [], [], []
     abs_drawer, next_drawer, attached_trace, handle_distance_trace = [], [], [], []
     phase_labels = []
-    eef_quat_trace, orientation_alignment_trace, attach_eligible_trace = [], [], []
+    eef_quat_trace, orientation_alignment_trace, approach_alignment_trace, attach_eligible_trace = [], [], [], []
+    state_handle_distance_trace = []
     orientation_gate_trace, drawer_delta_raw_trace, drawer_delta_effective_trace = (
         [],
         [],
@@ -3976,9 +4060,15 @@ def build_robot_rollout(
             phase_labels.append(phase_label)
             attached_trace.append(bool(info["attached"]))
             handle_distance_trace.append(float(info["dist_to_handle"]))
+            state_handle_distance_trace.append(
+                float(info.get("state_handle_distance_m", info["dist_to_handle"]))
+            )
             next_drawer.append(float(next_obs.drawer_fraction))
             orientation_alignment_trace.append(
                 float(info.get("orientation_alignment_cos", 1.0))
+            )
+            approach_alignment_trace.append(
+                float(info.get("approach_alignment_cos", 0.0))
             )
             attach_eligible_trace.append(bool(info.get("attach_eligible", False)))
             orientation_gate_trace.append(
@@ -4063,10 +4153,16 @@ def build_robot_rollout(
         "next_drawer_fractions": np.asarray(next_drawer, dtype=np.float32),
         "attached_trace": np.asarray(attached_trace, dtype=np.bool_),
         "handle_distance_trace": np.asarray(handle_distance_trace, dtype=np.float32),
+        "state_handle_distance_trace": np.asarray(
+            state_handle_distance_trace, dtype=np.float32
+        ),
         "phase_labels": np.asarray(phase_labels),
         "eef_quat_trace": np.asarray(eef_quat_trace, dtype=np.float32),
         "orientation_alignment_trace": np.asarray(
             orientation_alignment_trace, dtype=np.float32
+        ),
+        "approach_alignment_trace": np.asarray(
+            approach_alignment_trace, dtype=np.float32
         ),
         "attach_eligible_trace": np.asarray(attach_eligible_trace, dtype=np.bool_),
         "orientation_gate_trace": np.asarray(orientation_gate_trace, dtype=np.bool_),
@@ -4254,9 +4350,11 @@ def save_robot_rollout(path: Path, rollout: dict[str, Any]) -> None:
         next_drawer_fractions=rollout["next_drawer_fractions"],
         attached_trace=rollout["attached_trace"],
         handle_distance_trace=rollout["handle_distance_trace"],
+        state_handle_distance_trace=rollout["state_handle_distance_trace"],
         phase_labels=rollout["phase_labels"],
         eef_quat_trace=rollout["eef_quat_trace"],
         orientation_alignment_trace=rollout["orientation_alignment_trace"],
+        approach_alignment_trace=rollout["approach_alignment_trace"],
         attach_eligible_trace=rollout["attach_eligible_trace"],
         orientation_gate_trace=rollout["orientation_gate_trace"],
         drawer_delta_raw_trace=rollout["drawer_delta_raw_trace"],

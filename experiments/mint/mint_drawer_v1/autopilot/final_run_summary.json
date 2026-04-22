@@ -1,48 +1,45 @@
 {
-  "generated_at": "2026-04-20T14:19:15.084013Z",
-  "experiment_family": "MINT_v13_post_v13_pretrain_closure",
-  "lineage": [
-    "v13_g1_g4_state_action_interface",
-    "v13_slice2_state_action_interface_wiring_only",
-    "post_v13_admission_verdict",
-    "post_v13_final_pretrain_closure"
-  ],
   "authoritative_branch": "feature/mint-env-reformulation-v1-visual-fidelity",
-  "authoritative_head": "bc802069816e6c81beab48ba1f2141c9f3a264d4",
+  "authoritative_head": "b9c0ac7a14891959f7b8594ec9b03b2136ff3f6d",
   "authoritative_vendor_head": "4eab5795345721001c412ff1ca2c886a11eab606",
-  "current_run_instance_id": "postv13c_20260420T140833Z_bc802069_e2c27eee",
-  "current_execution_scope": "post_v13_final_pretrain_closure",
-  "current_terminal_state": "STOP_PRETRAIN_INTERFACE_UNSTABLE",
-  "route_next_branch": "science_agent_review_required",
-  "diagnostic_only": true,
   "claim_bearing": false,
+  "current_execution_scope": "p0_canary_train_probe",
+  "current_run_instance_id": "canary_20260421T114811Z_b9c0ac7a_cecd75bf",
+  "current_terminal_state": "TIER3_NO_SIGNAL_OR_P0C_REGRESSION",
+  "diagnostic_only": true,
+  "experiment_family": "MINT_v84_P0_infrastructure_repair",
+  "generated_at": "2026-04-22T04:47:04.392475Z",
+  "lineage": [
+    "P0a_live_rollout_family_dispatch_audit",
+    "P0b_feature_computation_path_unification",
+    "Re_C1_live_support_expansion",
+    "Re_C2_live_diagnostic_parity",
+    "Re_C3_signal_band_stability",
+    "Canary_diagnostic_train_probe"
+  ],
+  "route_next_branch": "science_agent_runtime_alignment_review_required",
   "why": {
-    "support_expansion": {
-      "selected_unique_live_episode_count": 6,
-      "selected_seed_coverage": 6,
-      "raw_success_attempt_count": 18
+    "canary_outcome": {
+      "approach_gate_gain": 0.10416667163372043,
+      "attach_bridge_gain": 0.0,
+      "close_cmd_rate_delta": -0.6875000029802323,
+      "distance_pass_rate_gain": 0.0,
+      "tier_outcome": "TIER3_NO_SIGNAL_OR_P0C_REGRESSION"
     },
-    "parity": {
-      "status": "STOP_parity_mismatch",
-      "blocking_reasons": [
-        "distance_to_handle_norm_p95_abs_diff_gt_1e-3",
-        "approach_alignment_cos_p95_abs_diff_gt_1e-3",
-        "orientation_alignment_cos_p95_abs_diff_gt_1e-3",
-        "orientation_error_sin_p95_abs_diff_gt_1e-3",
-        "orientation_error_cos_p95_abs_diff_gt_1e-3",
-        "attach_eligible_proxy_exact_agreement_lt_99pct"
-      ]
+    "p0_line": {
+      "Canary": "PASS",
+      "P0a": "PASS",
+      "P0b": "PASS",
+      "Re-C1": "PASS",
+      "Re-C2": "PASS",
+      "Re-C3": "PASS"
     },
-    "signal_band": {
-      "status": "STOP_signal_band_unstable",
-      "blocking_reasons": [
-        "effective_unique_live_support_lt_16",
-        "repeat_11_fit_not_ok",
-        "repeat_11_orientation_gain_nonpositive",
-        "repeat_23_fit_not_ok",
-        "repeat_23_orientation_gain_nonpositive",
-        "live_fit_below_matched_support_distribution"
-      ]
+    "runtime_alignment_mismatch": {
+      "eef_gripper_representation": "proxy_state",
+      "impact": "This line still tells us something real about the current proxy-runtime benchmark, but it no longer cleanly supports a LIBERO-aligned full-robot drawer claim.",
+      "robot_geom_present_in_scene": false,
+      "scene_backend": "mujoco",
+      "scene_model_kind": "drawer_only"
     }
   }
 }

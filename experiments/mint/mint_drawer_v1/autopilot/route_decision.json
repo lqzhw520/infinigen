@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-04-20T14:19:15.084013Z",
-  "scientific_terminal_state": "STOP_PRETRAIN_INTERFACE_UNSTABLE",
-  "route_next_branch": "science_agent_review_required",
-  "why": "Final pretrain closure proved the current live interface remains unstable before canary: support expansion failed to reach unique-support threshold, live-vs-diagnostic parity failed on distance/approach/orientation/attach-proxy features, and repeated live one-step fit did not retain a stable signal band.",
-  "training_allowed_now": false,
+  "generated_at": "2026-04-22T04:47:04.392475Z",
+  "next_step_contract": "Do not treat the current P0 canary Tier 3 as a LIBERO-aligned paradigm verdict. First have Science Agent review the runtime-alignment mismatch and decide whether to scope claims to the current proxy runtime or issue a new runtime-parity repair spec.",
   "probe_allowed_now": false,
-  "next_step_contract": "Do not start canary train/probe until Science Agent reviews the closure evidence and produces a single bounded next spec."
+  "route_next_branch": "science_agent_runtime_alignment_review_required",
+  "scientific_terminal_state": "TIER3_NO_SIGNAL_OR_P0C_REGRESSION",
+  "training_allowed_now": false,
+  "why": "P0 infrastructure repairs passed and the canary completed, but the current MuJoCo runtime is drawer-only with proxy EEF/gripper state rather than a full robot-in-scene drawer task. The resulting Tier 3 remains authoritative inside that proxy runtime, yet it is not sufficient evidence for a stronger LIBERO-style task claim."
 }

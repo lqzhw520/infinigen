@@ -1,0 +1,971 @@
+{
+  "gate_id": "Re-C1",
+  "gate_name": "live_support_expansion",
+  "run_instance_id": "rec1_20260421T101447Z_b9c0ac7a_664c4f08",
+  "working_head_commit": "b9c0ac7a14891959f7b8594ec9b03b2136ff3f6d",
+  "vendor_head_commit": "4eab5795345721001c412ff1ca2c886a11eab606",
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "truth_contract_hash": "17ae4d1554899b843c80b064a2c5f3d6331b04dd169819ca5f2b0bfba729a6f6",
+  "acceptance_contract_hash": "3e63d1c21004dae9a8ded0c966f69112f59e340f7d0aada219eb66ac8facd53c",
+  "spec_reference": "/mnt/afs2/zhuhaowu/infinigen/docs/MINT_V84_P0_INFRASTRUCTURE_REPAIR_SPEC.md",
+  "timestamp_utc": "2026-04-21T10:16:38.338013Z",
+  "status": "PASS",
+  "blocking_reasons": [],
+  "allowed_next_phases": [
+    "Re-C2"
+  ],
+  "audit_artifact_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/re_c1_live_support_expansion.json",
+  "selected_unique_live_episode_count": 21,
+  "selected_seed_coverage": 7,
+  "seed_summary": {
+    "1": {
+      "successful_variants": [
+        "base",
+        "early_close_slow",
+        "tangent_plus",
+        "vertical_plus"
+      ],
+      "selected_unique_success_count": 4,
+      "attempts": [
+        {
+          "seed": 1,
+          "episode_index": 0,
+          "teacher_family_variant": "base",
+          "success": true,
+          "fingerprint": "bf2a7c4faedaefa55b42045bcea6d15d2e0c6916",
+          "final_drawer_fraction": 0.9031227510465883,
+          "max_drawer_fraction": 0.9031227510465883
+        },
+        {
+          "seed": 1,
+          "episode_index": 1,
+          "teacher_family_variant": "early_close_slow",
+          "success": true,
+          "fingerprint": "004f64ccedd02090e269ba7089c62e0af0fdcb84",
+          "final_drawer_fraction": 0.9047364363917366,
+          "max_drawer_fraction": 0.9047364363917366
+        },
+        {
+          "seed": 1,
+          "episode_index": 2,
+          "teacher_family_variant": "tangent_plus",
+          "success": true,
+          "fingerprint": "2c6b35b447aa37b2a3cf3f8642c4b3e1216f107d",
+          "final_drawer_fraction": 0.9135873288299193,
+          "max_drawer_fraction": 0.9135873288299193
+        },
+        {
+          "seed": 1,
+          "episode_index": 3,
+          "teacher_family_variant": "vertical_plus",
+          "success": true,
+          "fingerprint": "5675a78dd97c46e2d42a3c240727cb1159f56bb9",
+          "final_drawer_fraction": 0.9127682074421756,
+          "max_drawer_fraction": 0.9127682074421756
+        },
+        {
+          "seed": 1,
+          "episode_index": 4,
+          "teacher_family_variant": "base",
+          "success": true,
+          "fingerprint": "bf2a7c4faedaefa55b42045bcea6d15d2e0c6916",
+          "final_drawer_fraction": 0.9031227510465883,
+          "max_drawer_fraction": 0.9031227510465883
+        },
+        {
+          "seed": 1,
+          "episode_index": 5,
+          "teacher_family_variant": "early_close_slow",
+          "success": true,
+          "fingerprint": "004f64ccedd02090e269ba7089c62e0af0fdcb84",
+          "final_drawer_fraction": 0.9047364363917366,
+          "max_drawer_fraction": 0.9047364363917366
+        },
+        {
+          "seed": 1,
+          "episode_index": 6,
+          "teacher_family_variant": "tangent_plus",
+          "success": true,
+          "fingerprint": "2c6b35b447aa37b2a3cf3f8642c4b3e1216f107d",
+          "final_drawer_fraction": 0.9135873288299193,
+          "max_drawer_fraction": 0.9135873288299193
+        },
+        {
+          "seed": 1,
+          "episode_index": 7,
+          "teacher_family_variant": "vertical_plus",
+          "success": true,
+          "fingerprint": "5675a78dd97c46e2d42a3c240727cb1159f56bb9",
+          "final_drawer_fraction": 0.9127682074421756,
+          "max_drawer_fraction": 0.9127682074421756
+        },
+        {
+          "seed": 1,
+          "episode_index": 8,
+          "teacher_family_variant": "base",
+          "success": true,
+          "fingerprint": "bf2a7c4faedaefa55b42045bcea6d15d2e0c6916",
+          "final_drawer_fraction": 0.9031227510465883,
+          "max_drawer_fraction": 0.9031227510465883
+        },
+        {
+          "seed": 1,
+          "episode_index": 9,
+          "teacher_family_variant": "early_close_slow",
+          "success": true,
+          "fingerprint": "004f64ccedd02090e269ba7089c62e0af0fdcb84",
+          "final_drawer_fraction": 0.9047364363917366,
+          "max_drawer_fraction": 0.9047364363917366
+        },
+        {
+          "seed": 1,
+          "episode_index": 10,
+          "teacher_family_variant": "tangent_plus",
+          "success": true,
+          "fingerprint": "2c6b35b447aa37b2a3cf3f8642c4b3e1216f107d",
+          "final_drawer_fraction": 0.9135873288299193,
+          "max_drawer_fraction": 0.9135873288299193
+        },
+        {
+          "seed": 1,
+          "episode_index": 11,
+          "teacher_family_variant": "vertical_plus",
+          "success": true,
+          "fingerprint": "5675a78dd97c46e2d42a3c240727cb1159f56bb9",
+          "final_drawer_fraction": 0.9127682074421756,
+          "max_drawer_fraction": 0.9127682074421756
+        }
+      ],
+      "status": "recoverable_under_some_teacher_family"
+    },
+    "2": {
+      "successful_variants": [
+        "early_close_slow"
+      ],
+      "selected_unique_success_count": 1,
+      "attempts": [
+        {
+          "seed": 2,
+          "episode_index": 0,
+          "teacher_family_variant": "base",
+          "success": false,
+          "fingerprint": "7bb57adffacfcaf55399eafd4f8684a1bc99fd51",
+          "final_drawer_fraction": 0.4646884555833809,
+          "max_drawer_fraction": 0.4646884555833809
+        },
+        {
+          "seed": 2,
+          "episode_index": 1,
+          "teacher_family_variant": "early_close_slow",
+          "success": true,
+          "fingerprint": "39af0c1bf116afd0ae302273b1a3425b0ba9feac",
+          "final_drawer_fraction": 0.9029677855465286,
+          "max_drawer_fraction": 0.9029677855465286
+        },
+        {
+          "seed": 2,
+          "episode_index": 2,
+          "teacher_family_variant": "tangent_plus",
+          "success": false,
+          "fingerprint": "55f3eaf4522df41fb8676501967cb7d0497f0aca",
+          "final_drawer_fraction": 0.22000075243831183,
+          "max_drawer_fraction": 0.22000075243831183
+        },
+        {
+          "seed": 2,
+          "episode_index": 3,
+          "teacher_family_variant": "vertical_plus",
+          "success": false,
+          "fingerprint": "4cc2f704a7a32b9ecf379d348889921d87c34d40",
+          "final_drawer_fraction": 0.22855478102999185,
+          "max_drawer_fraction": 0.22855478102999185
+        },
+        {
+          "seed": 2,
+          "episode_index": 4,
+          "teacher_family_variant": "base",
+          "success": false,
+          "fingerprint": "7bb57adffacfcaf55399eafd4f8684a1bc99fd51",
+          "final_drawer_fraction": 0.4646884555833809,
+          "max_drawer_fraction": 0.4646884555833809
+        },
+        {
+          "seed": 2,
+          "episode_index": 5,
+          "teacher_family_variant": "early_close_slow",
+          "success": true,
+          "fingerprint": "39af0c1bf116afd0ae302273b1a3425b0ba9feac",
+          "final_drawer_fraction": 0.9029677855465286,
+          "max_drawer_fraction": 0.9029677855465286
+        },
+        {
+          "seed": 2,
+          "episode_index": 6,
+          "teacher_family_variant": "tangent_plus",
+          "success": false,
+          "fingerprint": "55f3eaf4522df41fb8676501967cb7d0497f0aca",
+          "final_drawer_fraction": 0.22000075243831183,
+          "max_drawer_fraction": 0.22000075243831183
+        },
+        {
+          "seed": 2,
+          "episode_index": 7,
+          "teacher_family_variant": "vertical_plus",
+          "success": false,
+          "fingerprint": "4cc2f704a7a32b9ecf379d348889921d87c34d40",
+          "final_drawer_fraction": 0.22855478102999185,
+          "max_drawer_fraction": 0.22855478102999185
+        },
+        {
+          "seed": 2,
+          "episode_index": 8,
+          "teacher_family_variant": "base",
+          "success": false,
+          "fingerprint": "7bb57adffacfcaf55399eafd4f8684a1bc99fd51",
+          "final_drawer_fraction": 0.4646884555833809,
+          "max_drawer_fraction": 0.4646884555833809
+        },
+        {
+          "seed": 2,
+          "episode_index": 9,
+          "teacher_family_variant": "early_close_slow",
+          "success": true,
+          "fingerprint": "39af0c1bf116afd0ae302273b1a3425b0ba9feac",
+          "final_drawer_fraction": 0.9029677855465286,
+          "max_drawer_fraction": 0.9029677855465286
+        },
+        {
+          "seed": 2,
+          "episode_index": 10,
+          "teacher_family_variant": "tangent_plus",
+          "success": false,
+          "fingerprint": "55f3eaf4522df41fb8676501967cb7d0497f0aca",
+          "final_drawer_fraction": 0.22000075243831183,
+          "max_drawer_fraction": 0.22000075243831183
+        },
+        {
+          "seed": 2,
+          "episode_index": 11,
+          "teacher_family_variant": "vertical_plus",
+          "success": false,
+          "fingerprint": "4cc2f704a7a32b9ecf379d348889921d87c34d40",
+          "final_drawer_fraction": 0.22855478102999185,
+          "max_drawer_fraction": 0.22855478102999185
+        }
+      ],
+      "status": "recoverable_under_some_teacher_family"
+    },
+    "3": {
+      "successful_variants": [
+        "base",
+        "early_close_slow",
+        "tangent_plus",
+        "vertical_plus"
+      ],
+      "selected_unique_success_count": 4,
+      "attempts": [
+        {
+          "seed": 3,
+          "episode_index": 0,
+          "teacher_family_variant": "base",
+          "success": true,
+          "fingerprint": "dc810f34c72b1118dfe053b82c2ae8d25f8799c1",
+          "final_drawer_fraction": 0.9168535464693793,
+          "max_drawer_fraction": 0.9168535464693793
+        },
+        {
+          "seed": 3,
+          "episode_index": 1,
+          "teacher_family_variant": "early_close_slow",
+          "success": true,
+          "fingerprint": "7ce0b0fc1758807f8b4037377fac627ce4d5fcfd",
+          "final_drawer_fraction": 0.9225663866552939,
+          "max_drawer_fraction": 0.9225663866552939
+        },
+        {
+          "seed": 3,
+          "episode_index": 2,
+          "teacher_family_variant": "tangent_plus",
+          "success": true,
+          "fingerprint": "0b35bf588e5d7a0908946eabf912c9f4894bc429",
+          "final_drawer_fraction": 0.9152849561648161,
+          "max_drawer_fraction": 0.9152849561648161
+        },
+        {
+          "seed": 3,
+          "episode_index": 3,
+          "teacher_family_variant": "vertical_plus",
+          "success": true,
+          "fingerprint": "db5ba8298ccf8fb9677ba5cae9b2fa608b619362",
+          "final_drawer_fraction": 0.9114898838376985,
+          "max_drawer_fraction": 0.9114898838376985
+        },
+        {
+          "seed": 3,
+          "episode_index": 4,
+          "teacher_family_variant": "base",
+          "success": true,
+          "fingerprint": "dc810f34c72b1118dfe053b82c2ae8d25f8799c1",
+          "final_drawer_fraction": 0.9168535464693793,
+          "max_drawer_fraction": 0.9168535464693793
+        },
+        {
+          "seed": 3,
+          "episode_index": 5,
+          "teacher_family_variant": "early_close_slow",
+          "success": true,
+          "fingerprint": "7ce0b0fc1758807f8b4037377fac627ce4d5fcfd",
+          "final_drawer_fraction": 0.9225663866552939,
+          "max_drawer_fraction": 0.9225663866552939
+        },
+        {
+          "seed": 3,
+          "episode_index": 6,
+          "teacher_family_variant": "tangent_plus",
+          "success": true,
+          "fingerprint": "0b35bf588e5d7a0908946eabf912c9f4894bc429",
+          "final_drawer_fraction": 0.9152849561648161,
+          "max_drawer_fraction": 0.9152849561648161
+        },
+        {
+          "seed": 3,
+          "episode_index": 7,
+          "teacher_family_variant": "vertical_plus",
+          "success": true,
+          "fingerprint": "db5ba8298ccf8fb9677ba5cae9b2fa608b619362",
+          "final_drawer_fraction": 0.9114898838376985,
+          "max_drawer_fraction": 0.9114898838376985
+        },
+        {
+          "seed": 3,
+          "episode_index": 8,
+          "teacher_family_variant": "base",
+          "success": true,
+          "fingerprint": "dc810f34c72b1118dfe053b82c2ae8d25f8799c1",
+          "final_drawer_fraction": 0.9168535464693793,
+          "max_drawer_fraction": 0.9168535464693793
+        },
+        {
+          "seed": 3,
+          "episode_index": 9,
+          "teacher_family_variant": "early_close_slow",
+          "success": true,
+          "fingerprint": "7ce0b0fc1758807f8b4037377fac627ce4d5fcfd",
+          "final_drawer_fraction": 0.9225663866552939,
+          "max_drawer_fraction": 0.9225663866552939
+        },
+        {
+          "seed": 3,
+          "episode_index": 10,
+          "teacher_family_variant": "tangent_plus",
+          "success": true,
+          "fingerprint": "0b35bf588e5d7a0908946eabf912c9f4894bc429",
+          "final_drawer_fraction": 0.9152849561648161,
+          "max_drawer_fraction": 0.9152849561648161
+        },
+        {
+          "seed": 3,
+          "episode_index": 11,
+          "teacher_family_variant": "vertical_plus",
+          "success": true,
+          "fingerprint": "db5ba8298ccf8fb9677ba5cae9b2fa608b619362",
+          "final_drawer_fraction": 0.9114898838376985,
+          "max_drawer_fraction": 0.9114898838376985
+        }
+      ],
+      "status": "recoverable_under_some_teacher_family"
+    },
+    "4": {
+      "successful_variants": [],
+      "selected_unique_success_count": 0,
+      "attempts": [
+        {
+          "seed": 4,
+          "episode_index": 0,
+          "teacher_family_variant": "base",
+          "success": false,
+          "fingerprint": "985dd52f2f0575c1902976144709cc99b8436c5a",
+          "final_drawer_fraction": 0.3862671700179796,
+          "max_drawer_fraction": 0.3862671700179796
+        },
+        {
+          "seed": 4,
+          "episode_index": 1,
+          "teacher_family_variant": "early_close_slow",
+          "success": false,
+          "fingerprint": "ed74272cfc0ae643f0539ca6336d7c9d1b368111",
+          "final_drawer_fraction": 0.5988622792743878,
+          "max_drawer_fraction": 0.5988622792743878
+        },
+        {
+          "seed": 4,
+          "episode_index": 2,
+          "teacher_family_variant": "tangent_plus",
+          "success": false,
+          "fingerprint": "56da846c5f1b82e872e256d68a026d6e697e7c78",
+          "final_drawer_fraction": 0.0,
+          "max_drawer_fraction": 0.0
+        },
+        {
+          "seed": 4,
+          "episode_index": 3,
+          "teacher_family_variant": "vertical_plus",
+          "success": false,
+          "fingerprint": "73250af073c17fdc46ec378ae8a88cd7e9defbbf",
+          "final_drawer_fraction": 0.1982368242763762,
+          "max_drawer_fraction": 0.1982368242763762
+        },
+        {
+          "seed": 4,
+          "episode_index": 4,
+          "teacher_family_variant": "base",
+          "success": false,
+          "fingerprint": "985dd52f2f0575c1902976144709cc99b8436c5a",
+          "final_drawer_fraction": 0.3862671700179796,
+          "max_drawer_fraction": 0.3862671700179796
+        },
+        {
+          "seed": 4,
+          "episode_index": 5,
+          "teacher_family_variant": "early_close_slow",
+          "success": false,
+          "fingerprint": "ed74272cfc0ae643f0539ca6336d7c9d1b368111",
+          "final_drawer_fraction": 0.5988622792743878,
+          "max_drawer_fraction": 0.5988622792743878
+        },
+        {
+          "seed": 4,
+          "episode_index": 6,
+          "teacher_family_variant": "tangent_plus",
+          "success": false,
+          "fingerprint": "56da846c5f1b82e872e256d68a026d6e697e7c78",
+          "final_drawer_fraction": 0.0,
+          "max_drawer_fraction": 0.0
+        },
+        {
+          "seed": 4,
+          "episode_index": 7,
+          "teacher_family_variant": "vertical_plus",
+          "success": false,
+          "fingerprint": "73250af073c17fdc46ec378ae8a88cd7e9defbbf",
+          "final_drawer_fraction": 0.1982368242763762,
+          "max_drawer_fraction": 0.1982368242763762
+        },
+        {
+          "seed": 4,
+          "episode_index": 8,
+          "teacher_family_variant": "base",
+          "success": false,
+          "fingerprint": "985dd52f2f0575c1902976144709cc99b8436c5a",
+          "final_drawer_fraction": 0.3862671700179796,
+          "max_drawer_fraction": 0.3862671700179796
+        },
+        {
+          "seed": 4,
+          "episode_index": 9,
+          "teacher_family_variant": "early_close_slow",
+          "success": false,
+          "fingerprint": "ed74272cfc0ae643f0539ca6336d7c9d1b368111",
+          "final_drawer_fraction": 0.5988622792743878,
+          "max_drawer_fraction": 0.5988622792743878
+        },
+        {
+          "seed": 4,
+          "episode_index": 10,
+          "teacher_family_variant": "tangent_plus",
+          "success": false,
+          "fingerprint": "56da846c5f1b82e872e256d68a026d6e697e7c78",
+          "final_drawer_fraction": 0.0,
+          "max_drawer_fraction": 0.0
+        },
+        {
+          "seed": 4,
+          "episode_index": 11,
+          "teacher_family_variant": "vertical_plus",
+          "success": false,
+          "fingerprint": "73250af073c17fdc46ec378ae8a88cd7e9defbbf",
+          "final_drawer_fraction": 0.1982368242763762,
+          "max_drawer_fraction": 0.1982368242763762
+        }
+      ],
+      "status": "confirmed_hard_seed_under_all_scanned_teacher_families"
+    },
+    "5": {
+      "successful_variants": [
+        "base",
+        "early_close_slow",
+        "tangent_plus",
+        "vertical_plus"
+      ],
+      "selected_unique_success_count": 4,
+      "attempts": [
+        {
+          "seed": 5,
+          "episode_index": 0,
+          "teacher_family_variant": "base",
+          "success": true,
+          "fingerprint": "1f199577c2df576883ae7372b1aa9cd04d6e1d86",
+          "final_drawer_fraction": 0.9316844246054401,
+          "max_drawer_fraction": 0.9316844246054401
+        },
+        {
+          "seed": 5,
+          "episode_index": 1,
+          "teacher_family_variant": "early_close_slow",
+          "success": true,
+          "fingerprint": "11a4d599b489c8c7127f90db831f5f21319e77d9",
+          "final_drawer_fraction": 0.9391946851961391,
+          "max_drawer_fraction": 0.9391946851961391
+        },
+        {
+          "seed": 5,
+          "episode_index": 2,
+          "teacher_family_variant": "tangent_plus",
+          "success": true,
+          "fingerprint": "9b9b6751efd6adc3804d81c49c466dc445683476",
+          "final_drawer_fraction": 0.9250315557277222,
+          "max_drawer_fraction": 0.9250315557277222
+        },
+        {
+          "seed": 5,
+          "episode_index": 3,
+          "teacher_family_variant": "vertical_plus",
+          "success": true,
+          "fingerprint": "a7847179126af37fb1b75f55b3c8e9a85cc1b577",
+          "final_drawer_fraction": 0.9186980960934106,
+          "max_drawer_fraction": 0.9186980960934106
+        },
+        {
+          "seed": 5,
+          "episode_index": 4,
+          "teacher_family_variant": "base",
+          "success": true,
+          "fingerprint": "1f199577c2df576883ae7372b1aa9cd04d6e1d86",
+          "final_drawer_fraction": 0.9316844246054401,
+          "max_drawer_fraction": 0.9316844246054401
+        },
+        {
+          "seed": 5,
+          "episode_index": 5,
+          "teacher_family_variant": "early_close_slow",
+          "success": true,
+          "fingerprint": "11a4d599b489c8c7127f90db831f5f21319e77d9",
+          "final_drawer_fraction": 0.9391946851961391,
+          "max_drawer_fraction": 0.9391946851961391
+        },
+        {
+          "seed": 5,
+          "episode_index": 6,
+          "teacher_family_variant": "tangent_plus",
+          "success": true,
+          "fingerprint": "9b9b6751efd6adc3804d81c49c466dc445683476",
+          "final_drawer_fraction": 0.9250315557277222,
+          "max_drawer_fraction": 0.9250315557277222
+        },
+        {
+          "seed": 5,
+          "episode_index": 7,
+          "teacher_family_variant": "vertical_plus",
+          "success": true,
+          "fingerprint": "a7847179126af37fb1b75f55b3c8e9a85cc1b577",
+          "final_drawer_fraction": 0.9186980960934106,
+          "max_drawer_fraction": 0.9186980960934106
+        },
+        {
+          "seed": 5,
+          "episode_index": 8,
+          "teacher_family_variant": "base",
+          "success": true,
+          "fingerprint": "1f199577c2df576883ae7372b1aa9cd04d6e1d86",
+          "final_drawer_fraction": 0.9316844246054401,
+          "max_drawer_fraction": 0.9316844246054401
+        },
+        {
+          "seed": 5,
+          "episode_index": 9,
+          "teacher_family_variant": "early_close_slow",
+          "success": true,
+          "fingerprint": "11a4d599b489c8c7127f90db831f5f21319e77d9",
+          "final_drawer_fraction": 0.9391946851961391,
+          "max_drawer_fraction": 0.9391946851961391
+        },
+        {
+          "seed": 5,
+          "episode_index": 10,
+          "teacher_family_variant": "tangent_plus",
+          "success": true,
+          "fingerprint": "9b9b6751efd6adc3804d81c49c466dc445683476",
+          "final_drawer_fraction": 0.9250315557277222,
+          "max_drawer_fraction": 0.9250315557277222
+        },
+        {
+          "seed": 5,
+          "episode_index": 11,
+          "teacher_family_variant": "vertical_plus",
+          "success": true,
+          "fingerprint": "a7847179126af37fb1b75f55b3c8e9a85cc1b577",
+          "final_drawer_fraction": 0.9186980960934106,
+          "max_drawer_fraction": 0.9186980960934106
+        }
+      ],
+      "status": "recoverable_under_some_teacher_family"
+    },
+    "6": {
+      "successful_variants": [
+        "base",
+        "early_close_slow"
+      ],
+      "selected_unique_success_count": 2,
+      "attempts": [
+        {
+          "seed": 6,
+          "episode_index": 0,
+          "teacher_family_variant": "base",
+          "success": true,
+          "fingerprint": "8e9634ab523af3902f7fa11b01ac11df5987ba92",
+          "final_drawer_fraction": 0.9315114768457732,
+          "max_drawer_fraction": 0.9315114768457732
+        },
+        {
+          "seed": 6,
+          "episode_index": 1,
+          "teacher_family_variant": "early_close_slow",
+          "success": true,
+          "fingerprint": "90dbd3ab4e469b78ea4df784694eab3b896f9348",
+          "final_drawer_fraction": 0.9261012070911396,
+          "max_drawer_fraction": 0.9261012070911396
+        },
+        {
+          "seed": 6,
+          "episode_index": 2,
+          "teacher_family_variant": "tangent_plus",
+          "success": false,
+          "fingerprint": "53f1d5daf6096302281398441ae8c90935f919d3",
+          "final_drawer_fraction": 0.497863242225265,
+          "max_drawer_fraction": 0.497863242225265
+        },
+        {
+          "seed": 6,
+          "episode_index": 3,
+          "teacher_family_variant": "vertical_plus",
+          "success": false,
+          "fingerprint": "17794d87a9e2f5548dd8ea7eeea51692d3d86c4c",
+          "final_drawer_fraction": 0.6572041556821115,
+          "max_drawer_fraction": 0.6572041556821115
+        },
+        {
+          "seed": 6,
+          "episode_index": 4,
+          "teacher_family_variant": "base",
+          "success": true,
+          "fingerprint": "8e9634ab523af3902f7fa11b01ac11df5987ba92",
+          "final_drawer_fraction": 0.9315114768457732,
+          "max_drawer_fraction": 0.9315114768457732
+        },
+        {
+          "seed": 6,
+          "episode_index": 5,
+          "teacher_family_variant": "early_close_slow",
+          "success": true,
+          "fingerprint": "90dbd3ab4e469b78ea4df784694eab3b896f9348",
+          "final_drawer_fraction": 0.9261012070911396,
+          "max_drawer_fraction": 0.9261012070911396
+        },
+        {
+          "seed": 6,
+          "episode_index": 6,
+          "teacher_family_variant": "tangent_plus",
+          "success": false,
+          "fingerprint": "53f1d5daf6096302281398441ae8c90935f919d3",
+          "final_drawer_fraction": 0.497863242225265,
+          "max_drawer_fraction": 0.497863242225265
+        },
+        {
+          "seed": 6,
+          "episode_index": 7,
+          "teacher_family_variant": "vertical_plus",
+          "success": false,
+          "fingerprint": "17794d87a9e2f5548dd8ea7eeea51692d3d86c4c",
+          "final_drawer_fraction": 0.6572041556821115,
+          "max_drawer_fraction": 0.6572041556821115
+        },
+        {
+          "seed": 6,
+          "episode_index": 8,
+          "teacher_family_variant": "base",
+          "success": true,
+          "fingerprint": "8e9634ab523af3902f7fa11b01ac11df5987ba92",
+          "final_drawer_fraction": 0.9315114768457732,
+          "max_drawer_fraction": 0.9315114768457732
+        },
+        {
+          "seed": 6,
+          "episode_index": 9,
+          "teacher_family_variant": "early_close_slow",
+          "success": true,
+          "fingerprint": "90dbd3ab4e469b78ea4df784694eab3b896f9348",
+          "final_drawer_fraction": 0.9261012070911396,
+          "max_drawer_fraction": 0.9261012070911396
+        },
+        {
+          "seed": 6,
+          "episode_index": 10,
+          "teacher_family_variant": "tangent_plus",
+          "success": false,
+          "fingerprint": "53f1d5daf6096302281398441ae8c90935f919d3",
+          "final_drawer_fraction": 0.497863242225265,
+          "max_drawer_fraction": 0.497863242225265
+        },
+        {
+          "seed": 6,
+          "episode_index": 11,
+          "teacher_family_variant": "vertical_plus",
+          "success": false,
+          "fingerprint": "17794d87a9e2f5548dd8ea7eeea51692d3d86c4c",
+          "final_drawer_fraction": 0.6572041556821115,
+          "max_drawer_fraction": 0.6572041556821115
+        }
+      ],
+      "status": "recoverable_under_some_teacher_family"
+    },
+    "7": {
+      "successful_variants": [
+        "base",
+        "early_close_slow",
+        "tangent_plus",
+        "vertical_plus"
+      ],
+      "selected_unique_success_count": 4,
+      "attempts": [
+        {
+          "seed": 7,
+          "episode_index": 0,
+          "teacher_family_variant": "base",
+          "success": true,
+          "fingerprint": "87b900e4f72099bc1f8aaf324080162ed6aaecaf",
+          "final_drawer_fraction": 0.9077066213405129,
+          "max_drawer_fraction": 0.9077066213405129
+        },
+        {
+          "seed": 7,
+          "episode_index": 1,
+          "teacher_family_variant": "early_close_slow",
+          "success": true,
+          "fingerprint": "101277e14c0b7de7952a478dd19fc75722c666bd",
+          "final_drawer_fraction": 0.9255688714069291,
+          "max_drawer_fraction": 0.9255688714069291
+        },
+        {
+          "seed": 7,
+          "episode_index": 2,
+          "teacher_family_variant": "tangent_plus",
+          "success": true,
+          "fingerprint": "d193273c6cb62c7a7aa20ef4e713909e2f03d681",
+          "final_drawer_fraction": 0.901389231033699,
+          "max_drawer_fraction": 0.901389231033699
+        },
+        {
+          "seed": 7,
+          "episode_index": 3,
+          "teacher_family_variant": "vertical_plus",
+          "success": true,
+          "fingerprint": "cc0f0b89df63abaf0894b4c249470674a93d0981",
+          "final_drawer_fraction": 0.9253881097508467,
+          "max_drawer_fraction": 0.9253881097508467
+        },
+        {
+          "seed": 7,
+          "episode_index": 4,
+          "teacher_family_variant": "base",
+          "success": true,
+          "fingerprint": "87b900e4f72099bc1f8aaf324080162ed6aaecaf",
+          "final_drawer_fraction": 0.9077066213405129,
+          "max_drawer_fraction": 0.9077066213405129
+        },
+        {
+          "seed": 7,
+          "episode_index": 5,
+          "teacher_family_variant": "early_close_slow",
+          "success": true,
+          "fingerprint": "101277e14c0b7de7952a478dd19fc75722c666bd",
+          "final_drawer_fraction": 0.9255688714069291,
+          "max_drawer_fraction": 0.9255688714069291
+        },
+        {
+          "seed": 7,
+          "episode_index": 6,
+          "teacher_family_variant": "tangent_plus",
+          "success": true,
+          "fingerprint": "d193273c6cb62c7a7aa20ef4e713909e2f03d681",
+          "final_drawer_fraction": 0.901389231033699,
+          "max_drawer_fraction": 0.901389231033699
+        },
+        {
+          "seed": 7,
+          "episode_index": 7,
+          "teacher_family_variant": "vertical_plus",
+          "success": true,
+          "fingerprint": "cc0f0b89df63abaf0894b4c249470674a93d0981",
+          "final_drawer_fraction": 0.9253881097508467,
+          "max_drawer_fraction": 0.9253881097508467
+        },
+        {
+          "seed": 7,
+          "episode_index": 8,
+          "teacher_family_variant": "base",
+          "success": true,
+          "fingerprint": "87b900e4f72099bc1f8aaf324080162ed6aaecaf",
+          "final_drawer_fraction": 0.9077066213405129,
+          "max_drawer_fraction": 0.9077066213405129
+        },
+        {
+          "seed": 7,
+          "episode_index": 9,
+          "teacher_family_variant": "early_close_slow",
+          "success": true,
+          "fingerprint": "101277e14c0b7de7952a478dd19fc75722c666bd",
+          "final_drawer_fraction": 0.9255688714069291,
+          "max_drawer_fraction": 0.9255688714069291
+        },
+        {
+          "seed": 7,
+          "episode_index": 10,
+          "teacher_family_variant": "tangent_plus",
+          "success": true,
+          "fingerprint": "d193273c6cb62c7a7aa20ef4e713909e2f03d681",
+          "final_drawer_fraction": 0.901389231033699,
+          "max_drawer_fraction": 0.901389231033699
+        },
+        {
+          "seed": 7,
+          "episode_index": 11,
+          "teacher_family_variant": "vertical_plus",
+          "success": true,
+          "fingerprint": "cc0f0b89df63abaf0894b4c249470674a93d0981",
+          "final_drawer_fraction": 0.9253881097508467,
+          "max_drawer_fraction": 0.9253881097508467
+        }
+      ],
+      "status": "recoverable_under_some_teacher_family"
+    },
+    "8": {
+      "successful_variants": [
+        "base",
+        "early_close_slow"
+      ],
+      "selected_unique_success_count": 2,
+      "attempts": [
+        {
+          "seed": 8,
+          "episode_index": 0,
+          "teacher_family_variant": "base",
+          "success": true,
+          "fingerprint": "b05134e45310c01a951c506ab1f6de90874f7f68",
+          "final_drawer_fraction": 0.9176497964067728,
+          "max_drawer_fraction": 0.9176497964067728
+        },
+        {
+          "seed": 8,
+          "episode_index": 1,
+          "teacher_family_variant": "early_close_slow",
+          "success": true,
+          "fingerprint": "011dbb6d42737dbc39860c09e3df41ad8498372d",
+          "final_drawer_fraction": 0.9191450477887906,
+          "max_drawer_fraction": 0.9191450477887906
+        },
+        {
+          "seed": 8,
+          "episode_index": 2,
+          "teacher_family_variant": "tangent_plus",
+          "success": false,
+          "fingerprint": "860bfc7e85285ba3ff36aec2434a9214fe892d03",
+          "final_drawer_fraction": 0.3767365342895287,
+          "max_drawer_fraction": 0.3767365342895287
+        },
+        {
+          "seed": 8,
+          "episode_index": 3,
+          "teacher_family_variant": "vertical_plus",
+          "success": false,
+          "fingerprint": "d1fb28e63b6bf1d1dd132b46b248471ea616479d",
+          "final_drawer_fraction": 0.36899428751409513,
+          "max_drawer_fraction": 0.36899428751409513
+        },
+        {
+          "seed": 8,
+          "episode_index": 4,
+          "teacher_family_variant": "base",
+          "success": true,
+          "fingerprint": "b05134e45310c01a951c506ab1f6de90874f7f68",
+          "final_drawer_fraction": 0.9176497964067728,
+          "max_drawer_fraction": 0.9176497964067728
+        },
+        {
+          "seed": 8,
+          "episode_index": 5,
+          "teacher_family_variant": "early_close_slow",
+          "success": true,
+          "fingerprint": "011dbb6d42737dbc39860c09e3df41ad8498372d",
+          "final_drawer_fraction": 0.9191450477887906,
+          "max_drawer_fraction": 0.9191450477887906
+        },
+        {
+          "seed": 8,
+          "episode_index": 6,
+          "teacher_family_variant": "tangent_plus",
+          "success": false,
+          "fingerprint": "860bfc7e85285ba3ff36aec2434a9214fe892d03",
+          "final_drawer_fraction": 0.3767365342895287,
+          "max_drawer_fraction": 0.3767365342895287
+        },
+        {
+          "seed": 8,
+          "episode_index": 7,
+          "teacher_family_variant": "vertical_plus",
+          "success": false,
+          "fingerprint": "d1fb28e63b6bf1d1dd132b46b248471ea616479d",
+          "final_drawer_fraction": 0.36899428751409513,
+          "max_drawer_fraction": 0.36899428751409513
+        },
+        {
+          "seed": 8,
+          "episode_index": 8,
+          "teacher_family_variant": "base",
+          "success": true,
+          "fingerprint": "b05134e45310c01a951c506ab1f6de90874f7f68",
+          "final_drawer_fraction": 0.9176497964067728,
+          "max_drawer_fraction": 0.9176497964067728
+        },
+        {
+          "seed": 8,
+          "episode_index": 9,
+          "teacher_family_variant": "early_close_slow",
+          "success": true,
+          "fingerprint": "011dbb6d42737dbc39860c09e3df41ad8498372d",
+          "final_drawer_fraction": 0.9191450477887906,
+          "max_drawer_fraction": 0.9191450477887906
+        },
+        {
+          "seed": 8,
+          "episode_index": 10,
+          "teacher_family_variant": "tangent_plus",
+          "success": false,
+          "fingerprint": "860bfc7e85285ba3ff36aec2434a9214fe892d03",
+          "final_drawer_fraction": 0.3767365342895287,
+          "max_drawer_fraction": 0.3767365342895287
+        },
+        {
+          "seed": 8,
+          "episode_index": 11,
+          "teacher_family_variant": "vertical_plus",
+          "success": false,
+          "fingerprint": "d1fb28e63b6bf1d1dd132b46b248471ea616479d",
+          "final_drawer_fraction": 0.36899428751409513,
+          "max_drawer_fraction": 0.36899428751409513
+        }
+      ],
+      "status": "recoverable_under_some_teacher_family"
+    }
+  },
+  "live_rollout_dir": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/re_c1_live_support_rollouts"
+}

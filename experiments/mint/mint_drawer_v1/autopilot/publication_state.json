@@ -1,14 +1,14 @@
 {
-  "state_version": "post_v13_final_pretrain_closure_publication_state_v1",
-  "timestamp_utc": "2026-04-20T14:19:15.084013Z",
-  "run_instance_id": "postv13c_20260420T140833Z_bc802069_e2c27eee",
-  "execution_scope": "post_v13_final_pretrain_closure",
-  "diagnostic_only": true,
   "claim_bearing": false,
-  "publication_scope": "stopped_pretrain_closure",
-  "result_scope": "diagnostic_stop",
-  "final_verdict": "STOP_PRETRAIN_INTERFACE_UNSTABLE",
   "claim_supported": false,
-  "training_allowed_now": false,
-  "probe_allowed_now": false
+  "diagnostic_only": true,
+  "execution_scope": "p0_canary_train_probe",
+  "final_verdict": "TIER3_NO_SIGNAL_OR_P0C_REGRESSION",
+  "probe_allowed_now": false,
+  "publication_scope": "diagnostic_proxy_runtime_stop",
+  "result_scope": "runtime_scope_limited_diagnostic_stop",
+  "run_instance_id": "canary_20260421T114811Z_b9c0ac7a_cecd75bf",
+  "state_version": "p0_canary_runtime_alignment_publication_state_v1",
+  "timestamp_utc": "2026-04-22T04:47:04.392475Z",
+  "training_allowed_now": false
 }

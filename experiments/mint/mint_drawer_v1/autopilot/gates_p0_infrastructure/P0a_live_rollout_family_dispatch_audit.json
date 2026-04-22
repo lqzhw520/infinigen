@@ -1,0 +1,45 @@
+{
+  "gate_id": "P0a",
+  "gate_name": "live_rollout_family_dispatch_audit",
+  "run_instance_id": "p0a_20260421T095902Z_b9c0ac7a_58b46c1e",
+  "working_head_commit": "b9c0ac7a14891959f7b8594ec9b03b2136ff3f6d",
+  "vendor_head_commit": "4eab5795345721001c412ff1ca2c886a11eab606",
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "truth_contract_hash": "17ae4d1554899b843c80b064a2c5f3d6331b04dd169819ca5f2b0bfba729a6f6",
+  "acceptance_contract_hash": "3e63d1c21004dae9a8ded0c966f69112f59e340f7d0aada219eb66ac8facd53c",
+  "spec_reference": "/mnt/afs2/zhuhaowu/infinigen/docs/MINT_V84_P0_INFRASTRUCTURE_REPAIR_SPEC.md",
+  "timestamp_utc": "2026-04-21T09:59:38.954994Z",
+  "status": "PASS",
+  "blocking_reasons": [],
+  "allowed_next_phases": [
+    "P0b"
+  ],
+  "audit_artifact_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/p0a_live_rollout_family_dispatch_audit.json",
+  "question_a_answer": "YES",
+  "question_b_answer": "YES",
+  "question_c_answer": "YES",
+  "successful_diversity_seeds": [
+    1,
+    3,
+    5,
+    6,
+    7,
+    8
+  ],
+  "hard_seed_diagnosis": {
+    "2": {
+      "seed": 2,
+      "successful_variants": [
+        "early_close_slow"
+      ],
+      "status": "recoverable_under_some_teacher_family"
+    },
+    "4": {
+      "seed": 4,
+      "successful_variants": [],
+      "status": "confirmed_hard_seed_under_all_scanned_teacher_families"
+    }
+  },
+  "teacher_family_grid_version": "v11_support_family_grid_v1",
+  "teacher_family_dispatch_wired": true
+}

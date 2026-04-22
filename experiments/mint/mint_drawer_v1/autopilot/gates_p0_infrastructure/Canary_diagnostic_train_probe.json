@@ -1,0 +1,31 @@
+{
+  "gate_id": "Canary",
+  "gate_name": "diagnostic_train_probe",
+  "run_instance_id": "canary_20260421T114811Z_b9c0ac7a_cecd75bf",
+  "working_head_commit": "b9c0ac7a14891959f7b8594ec9b03b2136ff3f6d",
+  "vendor_head_commit": "4eab5795345721001c412ff1ca2c886a11eab606",
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "truth_contract_hash": "17ae4d1554899b843c80b064a2c5f3d6331b04dd169819ca5f2b0bfba729a6f6",
+  "acceptance_contract_hash": "3e63d1c21004dae9a8ded0c966f69112f59e340f7d0aada219eb66ac8facd53c",
+  "spec_reference": "/mnt/afs2/zhuhaowu/infinigen/docs/MINT_V84_P0_INFRASTRUCTURE_REPAIR_SPEC.md",
+  "timestamp_utc": "2026-04-21T12:06:43.544424Z",
+  "status": "PASS",
+  "blocking_reasons": [
+    "tier3_no_signal_or_p0c_regression"
+  ],
+  "allowed_next_phases": [],
+  "audit_artifact_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/p0_canary_train_probe.json",
+  "tier_outcome": "TIER3_NO_SIGNAL_OR_P0C_REGRESSION",
+  "final_checkpoint_step": 2000,
+  "final_delta": {
+    "attach_bridge_gain": 0.0,
+    "ever_attach_eligible_fraction_gain": 0.0,
+    "ever_attached_rate_gain": 0.0,
+    "stable_attach_rate_gain": 0.0,
+    "phase_locked_rate_gain": 0.0,
+    "close_cmd_rate_delta": -0.6875000029802323,
+    "distance_pass_rate_gain": 0.0,
+    "approach_gate_gain": 0.10416667163372043
+  },
+  "early_stop_triggered_at_1000": false
+}

@@ -1,27 +1,29 @@
 {
-  "snapshot_version": "post_v13_final_pretrain_closure_sovereign_snapshot_v1",
-  "timestamp_utc": "2026-04-20T14:19:15.084013Z",
-  "run_instance_id": "postv13c_20260420T140833Z_bc802069_e2c27eee",
   "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
-  "working_head_commit": "bc802069816e6c81beab48ba1f2141c9f3a264d4",
-  "vendor_head_commit": "4eab5795345721001c412ff1ca2c886a11eab606",
-  "truth_contract_hash": "17ae4d1554899b843c80b064a2c5f3d6331b04dd169819ca5f2b0bfba729a6f6",
-  "acceptance_contract_hash": "3e63d1c21004dae9a8ded0c966f69112f59e340f7d0aada219eb66ac8facd53c",
-  "execution_scope": "post_v13_final_pretrain_closure",
-  "diagnostic_only": true,
-  "claim_bearing": false,
-  "final_verdict": "STOP_PRETRAIN_INTERFACE_UNSTABLE",
-  "training_allowed_now": false,
-  "probe_allowed_now": false,
-  "source_anchor": {
-    "v13_run_instance_id": "v13_20260420T105437Z_bc802069_ceefd542",
-    "v13_slice2_run_instance_id": "v13s2_20260420T121619Z_bc802069_40636282",
-    "post_v13_admission_run_instance_id": "postv13_20260420T133255Z_bc802069_cac75c56"
-  },
-  "spec_reference": "/Users/zhuhaowu/ws/phd-anyboxs/infinigen_from_servers/docs/gpt5.4Pro/codex_mint_v84_post_v13_train_probe_admission_execution_spec.md",
   "carryforward_spec_references": [
-    "/Users/zhuhaowu/ws/phd-anyboxs/infinigen_from_servers/docs/gpt5.4Pro/codex_mint_v84_v12_1_orientation_attach_anygrasp_execution_spec.md",
-    "/Users/zhuhaowu/ws/phd-anyboxs/infinigen_from_servers/docs/gpt5.4Pro/codex_mint_v84_v13_state_action_interface_execution_spec.md",
-    "/Users/zhuhaowu/ws/phd-anyboxs/infinigen_from_servers/docs/gpt5.4Pro/codex_mint_v84_post_v13_train_probe_admission_execution_spec.md"
-  ]
+    "/mnt/afs2/zhuhaowu/infinigen/docs/MINT_V84_P0_INFRASTRUCTURE_REPAIR_SPEC.md"
+  ],
+  "claim_bearing": false,
+  "claim_scope": "proxy_runtime_only",
+  "diagnostic_only": true,
+  "execution_scope": "p0_canary_train_probe",
+  "final_verdict": "TIER3_NO_SIGNAL_OR_P0C_REGRESSION",
+  "plan_version": "tiny_retrain_confirmation_p0_infrastructure_repair",
+  "probe_allowed_now": false,
+  "run_instance_id": "canary_20260421T114811Z_b9c0ac7a_cecd75bf",
+  "runtime_scope": "drawer_only_mujoco_with_proxy_eef_gripper",
+  "science_agent_review_required": true,
+  "snapshot_version": "p0_canary_runtime_alignment_sovereign_snapshot_v1",
+  "source_anchor": {
+    "p0a_run_instance_id": "p0a_20260421T095902Z_b9c0ac7a_58b46c1e",
+    "p0b_run_instance_id": "p0b_20260421T101205Z_b9c0ac7a_8d3398ee",
+    "re_c1_run_instance_id": "rec1_20260421T101447Z_b9c0ac7a_664c4f08",
+    "re_c2_run_instance_id": "rec2_20260421T101919Z_b9c0ac7a_10403cee",
+    "re_c3_run_instance_id": "rec3_20260421T102506Z_b9c0ac7a_d6a1419b"
+  },
+  "spec_reference": "/mnt/afs2/zhuhaowu/infinigen/docs/MINT_V84_P0_INFRASTRUCTURE_REPAIR_SPEC.md",
+  "timestamp_utc": "2026-04-22T04:47:04.392475Z",
+  "training_allowed_now": false,
+  "vendor_head_commit": "4eab5795345721001c412ff1ca2c886a11eab606",
+  "working_head_commit": "b9c0ac7a14891959f7b8594ec9b03b2136ff3f6d"
 }

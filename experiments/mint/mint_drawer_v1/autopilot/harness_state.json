@@ -1,48 +1,59 @@
 {
-  "state_version": "post_v13_final_pretrain_closure_harness_state_v1",
-  "timestamp_utc": "2026-04-20T14:19:15.084013Z",
-  "run_instance_id": "postv13c_20260420T140833Z_bc802069_e2c27eee",
-  "plan_version": "tiny_retrain_confirmation_post_v13_final_pretrain_closure",
-  "execution_scope": "post_v13_final_pretrain_closure",
-  "diagnostic_only": true,
-  "claim_bearing": false,
-  "current_active_blocker": "pretrain_interface_unstable",
-  "gate_status": {
-    "C0": "PASS",
-    "C1": "STOP_support_expansion_failed",
-    "C2": "STOP_parity_mismatch",
-    "C3": "STOP_signal_band_unstable",
-    "C4": "PASS"
-  },
-  "final_verdict": "STOP_PRETRAIN_INTERFACE_UNSTABLE",
   "blocking_reasons": [
-    "selected_unique_live_episode_count_lt_16",
-    "episode_index_failed_to_expand_unique_live_support",
-    "distance_to_handle_norm_p95_abs_diff_gt_1e-3",
-    "approach_alignment_cos_p95_abs_diff_gt_1e-3",
-    "orientation_alignment_cos_p95_abs_diff_gt_1e-3",
-    "orientation_error_sin_p95_abs_diff_gt_1e-3",
-    "orientation_error_cos_p95_abs_diff_gt_1e-3",
-    "attach_eligible_proxy_exact_agreement_lt_99pct",
-    "effective_unique_live_support_lt_16",
-    "repeat_11_fit_not_ok",
-    "repeat_11_orientation_gain_nonpositive",
-    "repeat_23_fit_not_ok",
-    "repeat_23_orientation_gain_nonpositive",
-    "live_fit_below_matched_support_distribution"
+    "canary_tier3_no_signal_or_p0c_regression",
+    "runtime_scene_model_contains_drawer_only_no_robot_geom",
+    "eef_and_gripper_are_proxy_state_not_scene_robot_geometry",
+    "rollout_video_not_comparable_to_libero_full_robot_baseline"
   ],
-  "closure_findings": {
-    "selected_unique_live_episode_count": 6,
-    "selected_seed_coverage": 6,
-    "raw_success_attempt_count": 18,
-    "slice2_prior_signal_band_retained": false,
-    "parity_passed": false,
-    "matched_support_benign_effect": false
+  "canary_delta": {
+    "approach_gate_gain": 0.10416667163372043,
+    "attach_bridge_gain": 0.0,
+    "close_cmd_rate_delta": -0.6875000029802323,
+    "distance_pass_rate_gain": 0.0,
+    "ever_attach_eligible_fraction_gain": 0.0,
+    "ever_attached_rate_gain": 0.0,
+    "phase_locked_rate_gain": 0.0,
+    "stable_attach_rate_gain": 0.0
   },
-  "training_allowed_now": false,
+  "claim_bearing": false,
+  "claim_scope": "proxy_runtime_only",
+  "current_active_blocker": "runtime_alignment_mismatch",
+  "current_primary_plan": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/p0_infrastructure_repair_plan.json",
+  "current_primary_summary": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/p0_canary_train_probe.json",
+  "diagnostic_only": true,
+  "execution_scope": "p0_canary_train_probe",
+  "final_verdict": "TIER3_NO_SIGNAL_OR_P0C_REGRESSION",
+  "gate_status": {
+    "Canary": "PASS",
+    "P0a": "PASS",
+    "P0b": "PASS",
+    "Re-C1": "PASS",
+    "Re-C2": "PASS",
+    "Re-C3": "PASS"
+  },
+  "p0_findings": {
+    "canary_authorized_after_re_c3": true,
+    "feature_path_phase_1_pass": true,
+    "feature_path_phase_2_pass": true,
+    "live_diagnostic_parity_passed": true,
+    "live_support_expansion_unique_episode_count": 21,
+    "live_support_seed_coverage": 7,
+    "re_c3_close_cmd_rate_delta": 0.019833333790302277,
+    "signal_band_stability_passed": true,
+    "teacher_family_dispatch_wired": true
+  },
+  "plan_version": "tiny_retrain_confirmation_p0_infrastructure_repair",
   "probe_allowed_now": false,
-  "truth_contract_hash": "17ae4d1554899b843c80b064a2c5f3d6331b04dd169819ca5f2b0bfba729a6f6",
-  "acceptance_contract_hash": "3e63d1c21004dae9a8ded0c966f69112f59e340f7d0aada219eb66ac8facd53c",
-  "current_primary_summary": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/post_v13_final_pretrain_closure_summary.json",
-  "current_primary_plan": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/artifacts/post_v13_final_pretrain_closure_plan.json"
+  "run_instance_id": "canary_20260421T114811Z_b9c0ac7a_cecd75bf",
+  "runtime_alignment_findings": {
+    "eef_gripper_representation": "proxy_state",
+    "robot_geom_present_in_scene": false,
+    "scene_backend": "mujoco",
+    "scene_model_kind": "drawer_only",
+    "why_scope_limited": "Current benchmark is not a full robot-in-scene LIBERO-style drawer task, so P0 canary Tier 3 cannot be cleanly elevated into a paradigm claim about that stronger task object."
+  },
+  "runtime_scope": "drawer_only_mujoco_with_proxy_eef_gripper",
+  "state_version": "p0_canary_runtime_alignment_harness_state_v1",
+  "timestamp_utc": "2026-04-22T04:47:04.392475Z",
+  "training_allowed_now": false
 }

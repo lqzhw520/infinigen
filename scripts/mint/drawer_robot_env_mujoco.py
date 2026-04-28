@@ -3470,12 +3470,22 @@ def build_robot_rollout(
                     pregrasp_hold_counter += 1
                 else:
                     phase = "contact"
-            elif phase == "contact" and np.linalg.norm(
-                obs.eef_pos - preattach_handle
-            ) < (0.03 + close_distance_offset_m):
-                phase = "close"
-                close_hold_steps = 0
-                micro_retract_phase_steps = 0
+            elif phase == "contact":
+                contact_dist = float(np.linalg.norm(obs.eef_pos - contact_target))
+                target_contact = bool(
+                    getattr(env, "_last_full_robot_contact_report", {}).get(
+                        "target_handle_contact", False))
+                if target_contact:
+                    # V11 Phase 1G fix: close immediately on target contact so fingers
+                    # engage the handle before wrist collision dominates.
+                    phase = "close"
+                    close_hold_steps = 0
+                    micro_retract_phase_steps = 0
+                elif contact_dist < (0.03 + close_distance_offset_m):
+                    # Fallback: close when TCP reaches contact_target vicinity.
+                    phase = "close"
+                    close_hold_steps = 0
+                    micro_retract_phase_steps = 0
             elif phase == "close":
                 close_hold_steps += 1
                 if close_settle_steps <= 0 or close_hold_steps >= close_settle_steps:

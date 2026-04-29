@@ -1,0 +1,195 @@
+# V11-G4 Phase 1H Contact Test — Campaign-Native Task Spec
+# Contract: sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml
+# Version: 1.0.0
+# Created: 2026-04-29
+# Root cause: GOC-v2 authority drift + S3 grasp_pose crash + FSM mid-flight acceptance change
+# This spec prevents those failures from recurring.
+# Canonical path: sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml
+# Also available at: scripts/harness/validators/v11_g4_phase1h_contact_test.yaml (copy)
+# Also available at: tasks/v11_g4_phase1h_contact_test.yaml (root-relative legacy)
+
+task_id: v11_g4_phase1h_contact_test
+task_version: "1.0.0"
+task_type: HARNESS_MAINTENANCE
+gate: G4
+phase: 1H
+description: >
+  Phase 1H FSM contact report production and route scope for V11-G4.
+  This task spec IS the contract. Agent executes within it, not above it.
+  Agent is an executor, not an authorizer. Task spec is the authorizer.
+
+# Immutable task authority — set once, never mutated by agent during execution.
+task_authority:
+  goc_artifact_path: artifacts/phase1h_geometry_contract/geometry_ownership_contract.json
+  goc_artifact_commit: ec2054b81fbe45d91b93b23a97adc2aaf8b95a3c
+  goc_version: v2
+  legal_pad_count: 29
+  forbidden_count: 26
+  handle_count: 9
+
+# Remote execution constraints.
+remote:
+  authority: ssh -p 30017 root@10.210.0.88 /mnt/afs2/zhuhaowu/infinigen
+  branch: feature/mint-env-reformulation-v1-visual-fidelity
+  approved_files:
+    - scripts/mint/drawer_robot_env_mujoco.py
+    - scripts/mint/run_full_robot_teacher_probe.py
+    - scripts/mint/export_full_robot_teacher_replay_bundle.py
+  forbidden_files:
+    # Immutable validator/task files:
+    - scripts/harness/validators/validate_task_authority.py
+    - scripts/harness/validators/validate_diff_scope.py
+    - scripts/harness/validators/validate_closeout.py
+    - scripts/harness/agent_task_preflight.py
+    - sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml
+    # Contract files:
+    - autopilot/agent_execution_harness_lock.json
+    - autopilot/v11_hard_goal_contract.json
+    - artifacts/phase1h_geometry_contract/geometry_ownership_contract.json
+    # Sovereign truth:
+    - sovereign/current_truth.json
+    - sovereign/next_actions.json
+    - sovereign/claims.yaml
+    - sovereign/evidence/index.json
+    - sovereign/evidence/E*.yaml
+    # Agent instruction files:
+    - CLAUDE.md
+    - AGENT_EXECUTION_GUARDRAILS.md
+
+# Harness: every execution step is gated by a validator.
+validators:
+  - id: V01_TASK_AUTHORITY
+    tool: scripts/harness/validators/validate_task_authority.py
+    trigger: before_execution
+    args:
+      task_spec: sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml
+    on_fail: STOP_WITH_AUTHORITY_MISMATCH
+
+  - id: V02_DIFF_SCOPE
+    tool: scripts/harness/validators/validate_diff_scope.py
+    trigger: before_execution
+    args:
+      task: sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml
+    on_fail: STOP_WITH_SCOPE_VIOLATION
+
+  - id: V03_RUNTIME_VERSUS_GOC
+    tool: scripts/harness/validators/validate_task_authority.py
+    trigger: during_execution
+    args:
+      task_spec: sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml
+    on_fail: STOP_WITH_AUTHORITY_MISMATCH
+
+  - id: V04_CLOSEOUT
+    tool: scripts/harness/validators/validate_closeout.py
+    trigger: on_closeout
+    args:
+      closeout_decision: closeout_decision.json
+    on_fail: INVALID_CLOSEOUT
+
+# Forbidden actions.
+forbidden:
+  - id: F01
+    description: Do not repair grasp_pose format mismatch
+    reason: grasp_pose crash is an infrastructure signal, not a route failure. Fix belongs in a separate harness-infrastructure sprint.
+  - id: F02
+    description: Do not patch runtime geometry classification during task execution
+    reason: Runtime vs GOC authority disagreement must be resolved by GOC-v3 with explicit per-geom IDs.
+  - id: F03
+    description: Do not change acceptance criteria during execution
+    reason: FSM mid-flight acceptance change was the critical authority drift. Immutable.
+  - id: F04
+    description: Do not rollout (S3) without V04 closeout validator pass
+    reason: S3 rollout that crashes with grasp_pose format error must be classified INFRASTRUCTURE_BLOCKED, not ROLLOUT_EXHAUSTED.
+  - id: F05
+    description: Do not render or train
+    reason: Not in scope for this task.
+  - id: F06
+    description: Do not modify GOC artifact
+    reason: GOC authority is immutable during execution.
+  - id: F07
+    description: Do not create a new branch
+    reason: Harness build is local-only control plane.
+  - id: F08
+    description: Do not force-push
+    reason: AGENT_EXECUTION_GUARDRAILS.md v3 Rule 8.
+  - id: F09
+    description: Do not modify campaign validators during runtime task
+    reason: Validators are immutable during execution. Only HARNESS_MAINTENANCE may modify.
+  - id: F10
+    description: Do not modify campaign task spec during runtime task
+    reason: Task spec is the immutable contract. Only HARNESS_MAINTENANCE may modify.
+  - id: F11
+    description: Do not write to sovereign/current_truth.json or sovereign/next_actions.json directly
+    reason: Must use sovereign_cli.py. Direct write bypasses governance.
+  - id: F12
+    description: Do not modify autopilot/agent_execution_harness_lock.json during runtime task
+    reason: Production lock is immutable during runtime tasks.
+
+# Fixture definitions for harness self-test.
+fixtures:
+  fixture_valid_authority_match:
+    description: GOC says 29/26/9 and runtime says 29/26/9 — should PASS authority validation
+    fixture_id: valid_authority_match
+    runtime_counts:
+      legal_pad: 29
+      forbidden: 26
+      handle: 9
+    expected: PASS
+
+  fixture_invalid_authority_drift:
+    description: GOC says 29/26/9 but runtime says 31/27/9 — must FAIL with AUTHORITY_MISMATCH
+    fixture_id: invalid_authority_drift
+    runtime_counts:
+      legal_pad: 31
+      forbidden: 27
+      handle: 9
+    expected: FAIL
+    expected_error: AUTHORITY_MISMATCH
+
+  fixture_rollout_crash:
+    description: S3 rollout attempts crash with Traceback and no result JSON — must FAIL and classify INFRASTRUCTURE_BLOCKED
+    fixture_id: rollout_crash
+    rollout_stdout: "Traceback (most recent call last):\n  File ... in _get_grasp_pose\n    raise ValueError('expected 4x4 matrix, got (6,) vector')\nValueError: expected 4x4 matrix, got (6,) vector"
+    result_json_exists: false
+    expected: FAIL
+    expected_error: ROLLOUT_COMMAND_BROKEN
+    expected_classification: INFRASTRUCTURE_BLOCKED
+
+  fixture_valid_closeout:
+    description: Terminal closeout is valid — validators must PASS
+    fixture_id: valid_closeout
+    route_evaluated: true
+    result_json_exists: true
+    rollout_exit_code: 0
+    expected: PASS
+
+# Success criteria.
+success_criteria:
+  - id: SC01
+    description: validate_task_authority.py correctly passes when GOC matches runtime
+    tool: scripts/harness/validators/validate_task_authority.py
+    fixture: valid_authority_match
+  - id: SC02
+    description: validate_task_authority.py correctly FAILS when GOC (29/26) disagrees with runtime (31/27)
+    tool: scripts/harness/validators/validate_task_authority.py
+    fixture: invalid_authority_drift
+  - id: SC03
+    description: validate_closeout.py correctly classifies grasp_pose crash as INFRASTRUCTURE_BLOCKED
+    tool: scripts/harness/validators/validate_closeout.py
+    fixture: rollout_crash
+  - id: SC04
+    description: validate_diff_scope.py correctly fails when forbidden files change
+    tool: scripts/harness/validators/validate_diff_scope.py
+  - id: SC05
+    description: agent_task_preflight.py chains V01+V02 and stops on first failure
+    tool: scripts/harness/agent_task_preflight.py
+  - id: SC06
+    description: All validators have no Traceback on fixture runs
+    tool: scripts/harness/validators/validate_task_authority.py
+
+# Next gate — this task spec does NOT authorize V11-G4 execution.
+next_gate: GOC_V3_EXACT_ID_CONTRACT_REBUILD
+next_gate_description: >
+  GOC-v2 (count-based) is insufficient. GOC-v3 must use explicit per-geom IDs with
+  primary_owner, contact_role, and is_collision_contact_surface flags.
+  V11-G4 FSM execution is PROHIBITED until GOC-v3 is complete and validated.

@@ -1,0 +1,138 @@
+{
+  "lock_id": "CAMPAIGN_NATIVE_HARNESS_PRODUCTION_LOCK_V1",
+  "version": "1.0.0",
+  "timestamp_utc": "2026-04-29T13:47:00Z",
+  "campaign_root": "experiments/mint/mint_drawer_v1",
+
+  "harness_status": "production_ready",
+
+  "validators_installed_campaign": true,
+  "campaign_validator_files": [
+    "scripts/harness/validators/validate_task_authority.py",
+    "scripts/harness/validators/validate_diff_scope.py",
+    "scripts/harness/validators/validate_closeout.py"
+  ],
+  "campaign_validator_hashes": {
+    "scripts/harness/validators/validate_task_authority.py": "d16599cf62588cfbdbdd11e939648dc1a2556ed721c844eeea1d3956e9fe99a3",
+    "scripts/harness/validators/validate_diff_scope.py": "1f32d21ec3781c598a2a133af328aab4ec26c934c49f5c43cb6fe6cb4b436b1c",
+    "scripts/harness/validators/validate_closeout.py": "c9c17a4456e670d7cc863c6842c573af1f5a03f12d29d120630080e5a7d315c7"
+  },
+
+  "campaign_preflight_callable": true,
+  "preflight_entry": "scripts/harness/agent_task_preflight.py",
+  "preflight_command": "python scripts/harness/agent_task_preflight.py sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml --dry-run",
+  "preflight_command_alt": "python scripts/harness/agent_task_preflight.py --spec sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml --dry-run",
+
+  "campaign_claude_bootloader": true,
+  "campaign_claude_bootloader_path": "CLAUDE.md",
+  "campaign_claude_bootloader_hash": "f3b8d012262a4540461274a6a0bf1ca2d013f228a8629db7a146a2c334307a49",
+
+  "campaign_guardrails": true,
+  "campaign_guardrails_path": "AGENT_EXECUTION_GUARDRAILS.md",
+  "campaign_guardrails_hash": "7b598db92dcad4bd76f632ee7c25a55aa76ea859a732e7a1c655eff2c7c3d852",
+  "campaign_guardrails_rules": 8,
+  "campaign_guardrails_version": "v3.1",
+
+  "campaign_task_spec": true,
+  "campaign_task_spec_path": "sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml",
+  "campaign_task_spec_hash": "2f1bdcb8ad6e1e6fbf74ffff8d6c242b8237c5ce3ca4858c09c7d4a3e7830298",
+  "task_type": "HARNESS_MAINTENANCE",
+
+  "real_authority_drift_regression_passed": true,
+  "real_authority_drift_fixture_results": {
+    "valid_authority_match": "PASSED",
+    "invalid_authority_drift": "PASSED (correctly rejects 31/27 as AUTHORITY_MISMATCH)"
+  },
+
+  "real_rollout_crash_regression_passed": true,
+  "real_rollout_crash_fixture_results": {
+    "rollout_crash": "PASSED (classifies as INFRASTRUCTURE_BLOCKED / ROLLOUT_COMMAND_BROKEN)",
+    "valid_closeout": "PASSED (classifies as ROUTE_SUCCESS)"
+  },
+
+  "diff_scope_regression_passed": true,
+  "diff_scope_fixture_results": {
+    "clean_scope": "PASSED",
+    "untracked_remote_scope": "PASSED (correctly fails with SCOPE_VIOLATION)"
+  },
+
+  "preflight_regression_passed": true,
+  "preflight_results": {
+    "v01_v02_both_pass": "PASSED",
+    "untracked_detected_before_staging": "PASSED (correctly fails, then passes after git add)"
+  },
+
+  "execution_without_campaign_preflight_allowed": false,
+  "runtime_task_may_modify_validators": false,
+  "runtime_task_may_modify_contracts": false,
+  "runtime_task_may_modify_guardrails": false,
+  "runtime_task_may_modify_claude": false,
+
+  "immutable_files": [
+    "scripts/harness/validators/validate_task_authority.py",
+    "scripts/harness/validators/validate_diff_scope.py",
+    "scripts/harness/validators/validate_closeout.py",
+    "scripts/harness/agent_task_preflight.py",
+    "sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml",
+    "autopilot/agent_execution_harness_lock.json",
+    "autopilot/v11_hard_goal_contract.json",
+    "artifacts/phase1h_geometry_contract/geometry_ownership_contract.json",
+    "sovereign/current_truth.json",
+    "sovereign/next_actions.json",
+    "sovereign/claims.yaml",
+    "sovereign/evidence/index.json",
+    "CLAUDE.md",
+    "AGENT_EXECUTION_GUARDRAILS.md"
+  ],
+
+  "authority_locks": {
+    "active_goal_contract_hash": "d7f131cc04e187083ee46d2d2facec0802afeed9822c7f4bacf9c85b8e989b68",
+    "goc_authority_hash": "c83e7b843669bb0d5e535a45cd610e20dd37c429690c28f87a510c26fc579018",
+    "task_yaml_hash": "2f1bdcb8ad6e1e6fbf74ffff8d6c242b8237c5ce3ca4858c09c7d4a3e7830298",
+    "guardrails_hash": "7b598db92dcad4bd76f632ee7c25a55aa76ea859a732e7a1c655eff2c7c3d852",
+    "bootloader_hash": "f3b8d012262a4540461274a6a0bf1ca2d013f228a8629db7a146a2c334307a49",
+    "preflight_hash": "0355baa49710d3f02914998fc632510922ebea297d8a6aafbff99e41b0e65b18"
+  },
+
+  "validator_chain": {
+    "v01": {"tool": "validate_task_authority.py", "trigger": "before_execution", "mode": "dry-run"},
+    "v02": {"tool": "validate_diff_scope.py", "trigger": "before_execution", "mode": "dry-run"},
+    "v03": {"tool": "validate_task_authority.py", "trigger": "during_execution", "mode": "runtime-check"},
+    "v04": {"tool": "validate_closeout.py", "trigger": "on_closeout"}
+  },
+
+  "root_claude_points_to_campaign": true,
+  "root_claude_note": "Updated to minimal bootloader pointing to campaign CLAUDE.md.",
+
+  "runtime_code_modified": false,
+  "rollout_render_train_run": false,
+
+  "next_scientific_gate": "GOC_V3_EXACT_ID_CONTRACT_REBUILD",
+  "next_scientific_gate_blocked": true,
+  "next_scientific_gate_blocker": "Harness built. GOC-v3 must be completed before V11-G4 FSM execution.",
+
+  "campaign_native_harness_integration": {
+    "inventory": "runtime/campaign_harness_integration/inventory.json",
+    "inventory_md": "runtime/campaign_harness_integration/inventory.md",
+    "regression_results": "runtime/campaign_harness_integration/real_regression_results.json"
+  },
+
+  "warnings": [
+    "Repo-root CLAUDE.md still needs update (Stage 8 pending).",
+    "No git remotes configured in workspace. Cannot git push to GitHub. A800 sync requires manual ssh.",
+    "Local workspace sovereign/ is sparse (only proposed deltas). Canonical sovereign is in A800.",
+    "Campaign CLAUDE.md and AGENT_EXECUTION_GUARDRAILS.md are newly created — commit to A800.",
+    "V11-G4 FSM execution remains PROHIBITED until GOC-v3 complete."
+  ],
+
+  "staged_files": [
+    "CLAUDE.md (new: campaign bootloader)",
+    "AGENT_EXECUTION_GUARDRAILS.md (new: campaign guardrails)",
+    "scripts/harness/agent_task_preflight.py (new: campaign preflight entry)",
+    "scripts/harness/validators/validate_task_authority.py (new: campaign validator)",
+    "scripts/harness/validators/validate_diff_scope.py (new: campaign validator)",
+    "scripts/harness/validators/validate_closeout.py (new: campaign validator)",
+    "sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml (new: campaign task spec)",
+    "runtime/campaign_harness_integration/ (new dir: inventory, regression results)"
+  ]
+}

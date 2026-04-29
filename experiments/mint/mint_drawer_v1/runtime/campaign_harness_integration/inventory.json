@@ -1,0 +1,444 @@
+{
+  "inventory_version": "1.0.0",
+  "generated_at": "2026-04-29T13:30:00+08:00",
+  "campaign_root": "experiments/mint/mint_drawer_v1",
+  "inventory_scope": "All files in scripts/harness/, autopilot/, sovereign/, and root-level harness docs",
+  "source": "A800 mirror: infinigen_harness_patch/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/",
+  "files": [
+    {
+      "path": "scripts/harness/02_reconcile_sources.py",
+      "type": "truth_generator",
+      "description": "Reconcile sovereign sources at session start",
+      "invokes": "truth_backend.py",
+      "can_mutate_truth": false,
+      "is_validator": false
+    },
+    {
+      "path": "scripts/harness/03_claim_lint.py",
+      "type": "truth_generator",
+      "description": "Validate claims.yaml schema and consistency",
+      "invokes": "truth_backend.py",
+      "can_mutate_truth": false,
+      "is_validator": false
+    },
+    {
+      "path": "scripts/harness/04_action_lint.py",
+      "type": "truth_generator",
+      "description": "Validate next_actions.json schema",
+      "invokes": "truth_backend.py",
+      "can_mutate_truth": false,
+      "is_validator": false
+    },
+    {
+      "path": "scripts/harness/05_semantic_truth_lint.py",
+      "type": "truth_generator",
+      "description": "Semantic lint of truth surfaces",
+      "invokes": "truth_backend.py",
+      "can_mutate_truth": false,
+      "is_validator": false
+    },
+    {
+      "path": "scripts/harness/05_verify_env_contract.sh",
+      "type": "validator",
+      "description": "Verify env contract before execution",
+      "can_mutate_truth": false,
+      "is_validator": true
+    },
+    {
+      "path": "scripts/harness/agent_task_preflight.py",
+      "type": "execution_gate",
+      "description": "Campaign pre-flight: V01 (authority) + V02 (diff scope). Callable pre-execution gate.",
+      "invokes": "validators/validate_task_authority.py, validators/validate_diff_scope.py",
+      "can_mutate_truth": false,
+      "is_validator": true,
+      "key": true
+    },
+    {
+      "path": "scripts/harness/pack_dataset.sh",
+      "type": "execution_gate",
+      "description": "MANDATORY entry point for all dataset packing",
+      "can_mutate_truth": false,
+      "is_validator": false
+    },
+    {
+      "path": "scripts/harness/train_gate.py",
+      "type": "validator",
+      "description": "Verify dataset is valid before training",
+      "can_mutate_truth": false,
+      "is_validator": true
+    },
+    {
+      "path": "scripts/harness/v59_night_runner.py",
+      "type": "agent_instruction",
+      "description": "Night runner for V59 learnability audit",
+      "can_mutate_truth": false,
+      "is_validator": false
+    },
+    {
+      "path": "scripts/harness/01_sync_pointers.sh",
+      "type": "agent_instruction",
+      "description": "Sync sovereign pointers at session start",
+      "can_mutate_truth": false,
+      "is_validator": false
+    },
+    {
+      "path": "scripts/harness/sovereign_cli.py",
+      "type": "truth_generator",
+      "subtype": "execution_gate",
+      "description": "Central CLI for sovereign write operations and pre-flight validation. v1.3. Commands: go, bootstrap, reconcile, render-truth, revise-claim, supersede-claim, split-claim, propose-revision, review-proposal, record-evidence, close-experiment, write-handoff, pack-dataset, pre-flight-validator, verify-manifest, publish-experiment, refresh-workspace, refresh-model-fidelity, build-truth, derive-docs",
+      "invokes": "truth_backend.py, agent_task_preflight.py",
+      "can_mutate_truth": true,
+      "is_validator": false,
+      "key": true
+    },
+    {
+      "path": "scripts/harness/truth_backend.py",
+      "type": "truth_generator",
+      "description": "Backend library for sovereign truth generation: build_current_truth, derive_docs, build_workspace_manifest, build_model_load_fidelity, normalize_run_ledger, normalize_next_actions, migrate_state_file, publish_experiment",
+      "can_mutate_truth": true,
+      "is_validator": false,
+      "key": true
+    },
+    {
+      "path": "scripts/harness/yaml_utils.py",
+      "type": "agent_instruction",
+      "description": "YAML utilities for harness",
+      "can_mutate_truth": false,
+      "is_validator": false
+    },
+    {
+      "path": "scripts/harness/gc/gc_01_stale_docs.py",
+      "type": "truth_generator",
+      "description": "Garbage collect stale derived docs",
+      "can_mutate_truth": false,
+      "is_validator": false
+    },
+    {
+      "path": "scripts/harness/gc/gc_02_orphan_artifacts.py",
+      "type": "truth_generator",
+      "description": "Garbage collect orphan artifacts",
+      "can_mutate_truth": false,
+      "is_validator": false
+    },
+    {
+      "path": "scripts/harness/gc/gc_03_conflicting_claims.py",
+      "type": "truth_generator",
+      "description": "Garbage collect conflicting claims",
+      "can_mutate_truth": false,
+      "is_validator": false
+    },
+    {
+      "path": "scripts/harness/gc/gc_04_outdated_next_actions.py",
+      "type": "truth_generator",
+      "description": "Garbage collect outdated next actions",
+      "can_mutate_truth": false,
+      "is_validator": false
+    },
+    {
+      "path": "scripts/harness/night/night_runner.sh",
+      "type": "agent_instruction",
+      "description": "Night runner shell script",
+      "can_mutate_truth": false,
+      "is_validator": false
+    },
+    {
+      "path": "scripts/harness/night/night_planner.sh",
+      "type": "agent_instruction",
+      "description": "Night planner shell script",
+      "can_mutate_truth": false,
+      "is_validator": false
+    },
+    {
+      "path": "scripts/harness/night/morning_handoff.sh",
+      "type": "agent_instruction",
+      "description": "Morning handoff shell script",
+      "can_mutate_truth": false,
+      "is_validator": false
+    },
+    {
+      "path": "scripts/harness/night/night_watcher.sh",
+      "type": "agent_instruction",
+      "description": "Night watcher shell script",
+      "can_mutate_truth": false,
+      "is_validator": false
+    },
+    {
+      "path": "scripts/harness/night/night_runner.log",
+      "type": "log",
+      "description": "Night runner log (historical)"
+    },
+    {
+      "path": "scripts/harness/night/runner.log",
+      "type": "log",
+      "description": "Runner log (historical)"
+    },
+    {
+      "path": "scripts/harness/night/watcher.log",
+      "type": "log",
+      "description": "Watcher log (historical)"
+    },
+    {
+      "path": "scripts/harness/night/planner.log",
+      "type": "log",
+      "description": "Planner log (historical)"
+    },
+    {
+      "path": "scripts/harness/night/handoff.log",
+      "type": "log",
+      "description": "Handoff log (historical)"
+    },
+    {
+      "path": "scripts/harness/night/handoff_backup_20260401.md",
+      "type": "agent_instruction",
+      "description": "Historical handoff backup"
+    },
+    {
+      "path": "scripts/harness/night/last_run.log",
+      "type": "log",
+      "description": "Last run log (historical)"
+    },
+    {
+      "path": "scripts/harness/night/night_plan.txt",
+      "type": "agent_instruction",
+      "description": "Night plan document"
+    },
+    {
+      "path": "scripts/harness/night/preflight_results.json",
+      "type": "status_surface",
+      "description": "Night preflight results snapshot"
+    },
+    {
+      "path": "scripts/harness/night/session_*.log",
+      "type": "log",
+      "description": "Historical session logs"
+    },
+    {
+      "path": "scripts/harness/validators/validate_task_authority.py",
+      "type": "validator",
+      "description": "GOC vs runtime authority mismatch detector. Blocks if runtime disagrees with GOC artifact counts. Fail-closed.",
+      "invokes": "task YAML task_authority block",
+      "can_mutate_truth": false,
+      "is_validator": true,
+      "key": true,
+      "exit_codes": {"0": "PASS", "1": "FAIL (AUTHORITY_MISMATCH)", "2": "ERROR"}
+    },
+    {
+      "path": "scripts/harness/validators/validate_diff_scope.py",
+      "type": "validator",
+      "description": "Detects unauthorized file changes. Forbids validator/task/contract mutation during RUNTIME_TASK.",
+      "invokes": "git status, task YAML forbidden_files",
+      "can_mutate_truth": false,
+      "is_validator": true,
+      "key": true,
+      "exit_codes": {"0": "PASS", "1": "FAIL (SCOPE_VIOLATION)", "2": "ERROR"}
+    },
+    {
+      "path": "scripts/harness/validators/validate_closeout.py",
+      "type": "validator",
+      "description": "Machine-classifies terminal closeout. Maps Traceback/grasp_pose crash to INFRASTRUCTURE_BLOCKED, not ROLLOUT_EXHAUSTED.",
+      "can_mutate_truth": false,
+      "is_validator": true,
+      "key": true,
+      "exit_codes": {"0": "PASS", "1": "FAIL", "2": "ERROR"}
+    },
+    {
+      "path": "scripts/harness/validators/agent_task_preflight.py",
+      "type": "execution_gate",
+      "description": "Duplicated preflight script (same as scripts/harness/agent_task_preflight.py). Exists in validators/ for direct invocation.",
+      "can_mutate_truth": false,
+      "is_validator": false,
+      "note": "This is a duplicate. The canonical location is scripts/harness/agent_task_preflight.py"
+    },
+    {
+      "path": "scripts/harness/validators/agent_task.py",
+      "type": "execution_gate",
+      "description": "Campaign task entry point (local variant). Not the repo-root tools/agent_task.py.",
+      "can_mutate_truth": false,
+      "is_validator": false,
+      "note": "Local campaign variant, distinct from repo-root tools/agent_task.py"
+    },
+    {
+      "path": "scripts/harness/validators/v11_g4_phase1h_contact_test.yaml",
+      "type": "task_spec",
+      "description": "Campaign-native task spec at validators/ path. Has fixtures, forbidden files, and validators V01-V04.",
+      "can_mutate_truth": false,
+      "is_validator": false,
+      "key": true
+    },
+    {
+      "path": "autopilot/agent_execution_harness_lock.json",
+      "type": "status_surface",
+      "subtype": "production_lock",
+      "description": "Production lock: harness_status, validators_installed, regression results, immutable enforcement rules",
+      "can_mutate_truth": false,
+      "is_validator": false,
+      "key": true
+    },
+    {
+      "path": "autopilot/agent_execution_harness_status.json",
+      "type": "status_surface",
+      "description": "Sprint closeout status for agent_execution_harness_build"
+    },
+    {
+      "path": "autopilot/harness_state_v11.json",
+      "type": "status_surface",
+      "description": "V11 harness state (NOT FOUND in inventory — check if this exists)"
+    },
+    {
+      "path": "autopilot/v11_hard_goal_contract.json",
+      "type": "truth_generator",
+      "description": "Active goal contract for V11 hard goal"
+    },
+    {
+      "path": "autopilot/sovereign_snapshot_v11.json",
+      "type": "status_surface",
+      "description": "Sovereign snapshot for V11 (NOT FOUND in inventory)"
+    },
+    {
+      "path": "sovereign/evidence/*.yaml",
+      "type": "truth_generator",
+      "description": "Evidence files (E001-E027). Canonical Tier-0 truth sources."
+    },
+    {
+      "path": "sovereign/evidence/index.json",
+      "type": "truth_generator",
+      "description": "Evidence index (JSON). Tier-0 canonical."
+    },
+    {
+      "path": "sovereign/state.json",
+      "type": "truth_generator",
+      "description": "Runtime state. Tier-1 canonical."
+    },
+    {
+      "path": "sovereign/claims.yaml",
+      "type": "truth_generator",
+      "description": "Claims registry. Tier-0 canonical."
+    },
+    {
+      "path": "HARNESS_USAGE_GUIDE.md",
+      "type": "generated_doc",
+      "description": "Generated from current_truth.json — NOT CANONICAL. Convenience view only. If conflicts with current_truth.json, trust current_truth.json and regenerate."
+    },
+    {
+      "path": "CLAUDE.md",
+      "type": "agent_instruction",
+      "description": "Agent bootloader. Currently same as repo-root CLAUDE.md (both are minimal 20-line bootloaders). Should point to campaign-specific CLAUDE.md."
+    },
+    {
+      "path": "sovereign/SESSION_BOOTSTRAP.*.md",
+      "type": "generated_doc",
+      "description": "Generated from current_truth.json — NOT CANONICAL. Convenience session bootstrap."
+    },
+    {
+      "path": "sovereign/CAMPAIGN_TRUTH.generated.md",
+      "type": "generated_doc",
+      "description": "Generated from current_truth.json — NOT CANONICAL."
+    },
+    {
+      "path": "sovereign/CAMPAIGN_TRUTH.v58_critical_analysis.generated.md",
+      "type": "generated_doc",
+      "description": "Generated from current_truth.json — NOT CANONICAL. V58 critical analysis."
+    },
+    {
+      "path": "sovereign/HARNESS_HYGIENE.md",
+      "type": "agent_instruction",
+      "description": "Historical harness hygiene doc (stale, from 2026-04-05)"
+    },
+    {
+      "path": "sovereign/acceptance_criteria.yaml",
+      "type": "truth_generator",
+      "description": "V11 acceptance criteria"
+    },
+    {
+      "path": "sovereign/run_ledger.yaml",
+      "type": "truth_generator",
+      "description": "Append-only session history"
+    },
+    {
+      "path": "sovereign/next_actions.json",
+      "type": "truth_generator",
+      "description": "Canonical action queue. Tier-0 canonical. NOT found in local workspace."
+    },
+    {
+      "path": "sovereign/handoff.md",
+      "type": "generated_doc",
+      "description": "Generated from current_truth.json — NOT CANONICAL. Handoff document."
+    },
+    {
+      "path": "sovereign/proposed_current_truth_delta_v11_hard_goal_contract.json",
+      "type": "truth_generator",
+      "description": "Proposed delta to current_truth.json for V11 hard goal"
+    },
+    {
+      "path": "sovereign/proposed_next_actions_v11_hard_goal_contract.json",
+      "type": "truth_generator",
+      "description": "Proposed delta to next_actions.json for V11 hard goal"
+    },
+    {
+      "path": "sovereign/experiment_specs/*.yaml",
+      "type": "truth_generator",
+      "description": "Spec-backed experiment definitions: env_gate, offline_overfit, simulator_physics_investigation, p0b_drawer_only_ab, gate_b_teacher_replayability, gate_a_episode_admissibility"
+    },
+    {
+      "path": "sovereign/manifest.yaml",
+      "type": "truth_generator",
+      "description": "Sovereign manifest"
+    },
+    {
+      "path": "tasks/v11_g4_phase1h_contact_test.yaml",
+      "type": "task_spec",
+      "description": "Root-relative task spec (NOT FOUND in local campaign root — only in A800 mirror)"
+    },
+    {
+      "path": "artifacts/phase1h_geometry_contract/geometry_ownership_contract.json",
+      "type": "truth_generator",
+      "description": "GOC v2 artifact. Primary authority for Phase 1H geometry ownership. Counts: legal_pad=29, forbidden=26, handle=9."
+    },
+    {
+      "path": "artifacts/current_dataset_manifest.json",
+      "type": "truth_generator",
+      "description": "Dataset manifest. Tier-0 canonical."
+    }
+  ],
+  "classification_summary": {
+    "truth_generator": 25,
+    "generated_doc": 5,
+    "status_surface": 5,
+    "validator": 5,
+    "execution_gate": 4,
+    "agent_instruction": 8,
+    "task_spec": 2,
+    "log": 7
+  },
+  "key_files": [
+    "scripts/harness/agent_task_preflight.py",
+    "scripts/harness/sovereign_cli.py",
+    "scripts/harness/truth_backend.py",
+    "scripts/harness/validators/validate_task_authority.py",
+    "scripts/harness/validators/validate_diff_scope.py",
+    "scripts/harness/validators/validate_closeout.py",
+    "scripts/harness/validators/v11_g4_phase1h_contact_test.yaml",
+    "autopilot/agent_execution_harness_lock.json",
+    "autopilot/v11_hard_goal_contract.json",
+    "sovereign/current_truth.json",
+    "sovereign/next_actions.json",
+    "sovereign/evidence/*.yaml",
+    "sovereign/claims.yaml",
+    "artifacts/phase1h_geometry_contract/geometry_ownership_contract.json"
+  ],
+  "missing_from_local": [
+    "scripts/harness/ (entire directory — only in A800 mirror)",
+    "sovereign/current_truth.json (not in local, only proposed delta)",
+    "sovereign/next_actions.json (NOT in local — canonical is in A800)",
+    "sovereign/evidence/ (not in local — canonical is in A800)",
+    "tasks/v11_g4_phase1h_contact_test.yaml (in A800 but NOT in local campaign root)"
+  ],
+  "governance_notes": {
+    "harness_status": "production_ready per agent_execution_harness_lock.json v1",
+    "critical_gap": "Local workspace has no sovereign/current_truth.json or sovereign/next_actions.json. These are in A800. Local has only proposed delta files.",
+    "root_claude_status": "Replaced with minimal 20-line bootloader. BUT still points to wrong paths (local workspace paths, not campaign root paths).",
+    "campaign_bootloader_status": "MISSING from local campaign root. Must be created.",
+    "agent_execution_guardrails_status": "MISSING from local campaign root. Must be created.",
+    "campaign_task_spec_status": "MISSING from local campaign root. Only in A800 at tasks/v11_g4_phase1h_contact_test.yaml and scripts/harness/validators/v11_g4_phase1h_contact_test.yaml."
+  }
+}

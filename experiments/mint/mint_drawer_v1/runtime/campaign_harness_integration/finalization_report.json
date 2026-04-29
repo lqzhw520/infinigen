@@ -1,0 +1,115 @@
+{
+  "report_type": "HARNESS_GOVERNANCE_FINALIZATION_V2",
+  "timestamp_utc": "2026-04-29T15:05:00Z",
+  "run_dir": "experiments/mint/mint_drawer_v1/runtime/harness_governance_finalization_v2_20260429T143200Z",
+
+  "harness_status": "production_ready",
+  "generated_by_verifier": true,
+  "production_lock_path": "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json",
+  "production_lock_commit_hash": "4608f398",
+  "production_lock_version": "2.0.0",
+  "production_lock_generated_by": "validate_harness_production_lock.py",
+
+  "validator_hashes_verified": true,
+  "task_spec_hash_verified": true,
+
+  "github_visibility_complete": true,
+  "github_visibility_verified_paths": [
+    "CLAUDE.md",
+    "experiments/mint/mint_drawer_v1/CLAUDE.md",
+    "experiments/mint/mint_drawer_v1/AGENT_EXECUTION_GUARDRAILS.md",
+    "experiments/mint/mint_drawer_v1/scripts/harness/agent_task_preflight.py",
+    "experiments/mint/mint_drawer_v1/scripts/harness/validate_harness_production_lock.py",
+    "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_task_authority.py",
+    "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_diff_scope.py",
+    "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_closeout.py",
+    "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml",
+    "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json"
+  ],
+
+  "campaign_preflight_callable": true,
+  "preflight_entry": "scripts/harness/agent_task_preflight.py",
+
+  "regressions_rerun_after_publication": true,
+
+  "authority_drift_regression_passed": true,
+  "authority_drift_regression": {
+    "R1_invalid_authority_drift": "PASS",
+    "R1b_valid_authority_match": "PASS"
+  },
+
+  "rollout_crash_regression_passed": true,
+  "rollout_crash_regression": {
+    "R2_rollout_crash": "PASS (classifies as INFRASTRUCTURE_BLOCKED)",
+    "R2b_valid_closeout": "PASS (classifies as ROUTE_SUCCESS)"
+  },
+
+  "diff_scope_regression_passed": true,
+  "diff_scope_regression": {
+    "R3_diff_scope_clean": "PASS"
+  },
+
+  "untracked_evidence_regression_passed": true,
+  "untracked_evidence_regression": {
+    "R4_preflight_v01_v02": "PASS"
+  },
+
+  "status_surface_consistent": true,
+  "status_surface_note": "S3 crash correctly classified as INFRASTRUCTURE_BLOCKED, not ROLLOUT_EXHAUSTED",
+
+  "local_commit_hash_or_not_applicable": "not_applicable (local workspace is mirror)",
+  "remote_commit_hash": "4608f398",
+  "remote_pushed_to_origin": true,
+  "remote": "my-origin (git@github.com:lqzhw520/infinigen.git)",
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+
+  "whether_runtime_code_modified": false,
+  "whether_rollout_render_train_run": false,
+
+  "next_scientific_gate": "GOC_V3_EXACT_ID_CONTRACT_REBUILD",
+  "next_scientific_gate_blocked": true,
+  "next_scientific_gate_blocker": "Harness is production_ready (verifier-generated). GOC-v3 must be completed before V11-G4 FSM execution.",
+
+  "governance_infrastructure_installed": {
+    "validate_harness_production_lock_py": "experiments/mint/mint_drawer_v1/scripts/harness/validate_harness_production_lock.py",
+    "preflight_entry": "experiments/mint/mint_drawer_v1/scripts/harness/agent_task_preflight.py",
+    "validators": [
+      "validate_task_authority.py",
+      "validate_diff_scope.py",
+      "validate_closeout.py"
+    ],
+    "task_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml",
+    "lock": "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json",
+    "verification_report": "experiments/mint/mint_drawer_v1/runtime/harness_governance_finalization_v2_20260429T143200Z/production_lock_verification_report.json"
+  },
+
+  "preflight_enforcement": {
+    "requires_lock": true,
+    "requires_production_ready": true,
+    "requires_verifier_generated": true,
+    "requires_hash_integrity": true,
+    "skip_lock_check_available": true,
+    "skip_lock_check_usage": "harness maintenance only"
+  },
+
+  "stages_completed": [
+    "Stage 0: Downgraded agent-authored lock",
+    "Stage 1: Verified campaign files exist",
+    "Stage 2: Created validate_harness_production_lock.py",
+    "Stage 3: Updated agent_task_preflight.py with lock enforcement",
+    "Stage 4: Ran real regressions post-publication",
+    "Stage 5: Ran verifier dry-run then --write-lock",
+    "Stage 6: Committed and pushed governance files",
+    "Stage 7: Post-push GitHub verification"
+  ],
+
+  "commits": [
+    "4608f398 chore(harness): install validate_harness_production_lock.py verifier and update preflight lock enforcement",
+    "4aee7ed3 chore(harness): update lock with A800 hashes and publication fix report",
+    "350045fa fix(harness): add from __future__ import annotations for Python 3.8 compatibility",
+    "cc716aa7 chore(mint): install campaign-native agent execution harness"
+  ],
+
+  "warnings": [],
+  "closeout": "HARNESS_PRODUCTION_READY"
+}

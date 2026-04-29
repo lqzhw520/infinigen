@@ -1,25 +1,32 @@
 {
   "contract_id": "V11_HARD_GOAL_RUNTIME_TRUTH_CONTRACT",
-  "version": "v1",
+  "version": "v2",
   "created_utc": "2026-04-29T05:30:00Z",
+  "repaired_utc": "2026-04-29T07:30:00Z",
+  "repair_reason": "v1 incorrectly set required_for_visual_artifact_pass=false for G4-G7. All 8 gates are required for visual_artifact_pass.",
   "claim_type": "simulation_only_full_robot_drawer_teacher_rollout_to_local_strict_replay_render",
   "proxy_runtime_claim_bearing": false,
   "real_robot_data_required": false,
   "stage_b_mint_training_blocked_until_gates_pass": true,
   "active_branch": "feature/mint-env-reformulation-v1-visual-fidelity",
   "geometry_contract_evidence": {
-    "remote_commit": "c20266062a159e448ab60f776256c00070d72165",
+    "remote_commit": "ec2054b81fbe45d91b93b23a97adc2aaf8b95a3c",
     "status": "GEOMETRY_CONTRACT_READY_FOR_PHASE1H",
-    "artifact_root": "experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract"
+    "artifact_root": "experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract",
+    "authority": "geometry_ownership_contract.json v2 at ec2054b8",
+    "caveat": "classification_audit.json is historical reconciliation audit. Current authority is geometry_ownership_contract.json v2 at ec2054b8."
   },
   "reference_image_role": "visual_artifact_target_not_final_success_frame",
   "success_levels": {
     "visual_artifact_pass": {
       "drawer_fraction_min": 0.25,
-      "requires_local_render": true
+      "requires_all_gates": true,
+      "requires_local_render": true,
+      "description": "All 8 gates (G1-G8) must pass. Local render is the final step only. A visual artifact from a non-gate-compliant rollout is NOT a V11 visual artifact pass."
     },
     "teacher_success_pass": {
       "drawer_fraction_min": 0.80,
+      "requires_all_gates": true,
       "requires_untrimmed_rollout": true
     }
   },
@@ -27,10 +34,10 @@
     {"gate_id": "V11-G1", "gate_name": "FULL_ROBOT_IN_SCENE_RUNTIME", "status": "PASS", "required_for_visual_artifact_pass": true, "required_for_teacher_success_pass": true},
     {"gate_id": "V11-G2", "gate_name": "RIGHT_SIDE_REACHABILITY_LAYOUT", "status": "UNKNOWN", "required_for_visual_artifact_pass": true, "required_for_teacher_success_pass": true},
     {"gate_id": "V11-G3", "gate_name": "GEOMETRY_OWNERSHIP_CONTRACT", "status": "PASS", "required_for_visual_artifact_pass": true, "required_for_teacher_success_pass": true},
-    {"gate_id": "V11-G4", "gate_name": "LEGAL_GRIPPER_PAD_TO_HANDLE_CONTACT", "status": "UNKNOWN", "required_for_visual_artifact_pass": false, "required_for_teacher_success_pass": true},
-    {"gate_id": "V11-G5", "gate_name": "FORBIDDEN_PENETRATION_REJECTION", "status": "UNKNOWN", "required_for_visual_artifact_pass": false, "required_for_teacher_success_pass": true},
-    {"gate_id": "V11-G6", "gate_name": "UNTRIMMED_TEACHER_ROLLOUT_TRUTH", "status": "FAIL", "required_for_visual_artifact_pass": false, "required_for_teacher_success_pass": true},
-    {"gate_id": "V11-G7", "gate_name": "DRAWER_OPENING_THRESHOLD", "status": "FAIL", "required_for_visual_artifact_pass": false, "required_for_teacher_success_pass": true},
+    {"gate_id": "V11-G4", "gate_name": "LEGAL_GRIPPER_PAD_TO_HANDLE_CONTACT", "status": "UNKNOWN", "required_for_visual_artifact_pass": true, "required_for_teacher_success_pass": true},
+    {"gate_id": "V11-G5", "gate_name": "FORBIDDEN_PENETRATION_REJECTION", "status": "UNKNOWN", "required_for_visual_artifact_pass": true, "required_for_teacher_success_pass": true},
+    {"gate_id": "V11-G6", "gate_name": "UNTRIMMED_TEACHER_ROLLOUT_TRUTH", "status": "FAIL", "required_for_visual_artifact_pass": true, "required_for_teacher_success_pass": true},
+    {"gate_id": "V11-G7", "gate_name": "DRAWER_OPENING_THRESHOLD", "status": "FAIL", "required_for_visual_artifact_pass": true, "required_for_teacher_success_pass": true},
     {"gate_id": "V11-G8", "gate_name": "LOCAL_STRICT_REPLAY_RENDER", "status": "UNKNOWN", "required_for_visual_artifact_pass": true, "required_for_teacher_success_pass": true}
   ]
 }

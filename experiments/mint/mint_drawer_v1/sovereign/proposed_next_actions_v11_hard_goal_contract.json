@@ -1,15 +1,17 @@
 {
   "proposed_delta_type": "proposed_next_actions_update",
   "contract_id": "V11_HARD_GOAL_RUNTIME_TRUTH_CONTRACT",
-  "version": "v1",
+  "version": "v2",
   "created_utc": "2026-04-29T05:30:00Z",
+  "repaired_utc": "2026-04-29T07:30:00Z",
   "not_approved": true,
   "approval_required": true,
   "do_not_commit_to_next_actions": true,
+  "visual_artifact_pass_requires_all_gates": true,
   "proposed_next_actions": [
     {
       "action_id": "v11_phase1h_fsm_rerun",
-      "description": "Re-run Phase 1H FSM with fixed geometry ownership contract (BUG_GOC_01-04 patched in c2026606)",
+      "description": "Re-run Phase 1H FSM with fixed geometry ownership contract (BUG_GOC_01-04 patched in ec2054b8). All 8 gates (G1-G8) required for visual_artifact_pass.",
       "requires_approval": true,
       "approved_scope": ["scripts/mint/drawer_robot_env_mujoco.py"],
       "forbidden": ["training", "broad_candidate_search", "teacher_redesign", "threshold_lowering", "v11_success_claim"]
@@ -25,8 +27,8 @@
   "blocked_actions": [
     {
       "action_id": "stage_b_mint_training",
-      "blocker": "V11 gates G4-G8 not all passed",
-      "unblock_on": "all gates passed"
+      "blocker": "V11 gates G1-G8 not all passed",
+      "unblock_on": "all 8 gates passed"
     }
   ],
   "note": "This is a proposed delta. Do NOT commit to next_actions.json. Copy proposed changes into next_actions.json only after explicit approval."

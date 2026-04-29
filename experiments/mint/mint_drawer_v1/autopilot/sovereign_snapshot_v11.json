@@ -1,12 +1,18 @@
 {
-  "snapshot_version": "v11_sovereign_snapshot_v1",
-  "run_instance_id": "v11_20260418T101620Z_dfa0ef0f_dc2d4581",
+  "snapshot_version": "v11_sovereign_snapshot_v2_phase1h_fsm",
+  "run_instance_id": "phase1h_fsm_20260429T083212Z",
   "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
-  "working_head_commit": "dfa0ef0f0acd9443dc010d019d25ad7eb78b40d6",
+  "working_head_commit": "3c7d3e4706f98cde4b37276fd43b2b830c559330",
   "vendor_head_commit": "4eab5795345721001c412ff1ca2c886a11eab606",
   "truth_contract_hash": "17ae4d1554899b843c80b064a2c5f3d6331b04dd169819ca5f2b0bfba729a6f6",
   "acceptance_contract_hash": "3e63d1c21004dae9a8ded0c966f69112f59e340f7d0aada219eb66ac8facd53c",
-  "spec_doc_path": "/mnt/afs2/zhuhaowu/infinigen/docs/MINT_V84_SUPPORT_FAMILY_COLLAPSE_REPAIR_SPEC.md",
-  "spec_doc_hash": "2742a69b592d2484a92ba0199e332c5d313b9a5a07e3729b3f90f5ac5efdfafa",
-  "timestamp_utc": "2026-04-18T10:33:32.290327Z"
+  "spec_doc_path": "/mnt/afs2/zhuhaowu/infinigen/docs/MINT_V11_HARD_GOAL_RUNTIME_TRUTH_CONTRACT.md",
+  "v11_contract_version": "v2",
+  "timestamp_utc": "2026-04-29T08:32:58Z",
+  "phase1h_fsm_outcome": {
+    "technical_outcome": "ROUTE_NEVER_REACHES_HANDLE",
+    "execution_outcome": "ROLLOUT_EXHAUSTED",
+    "run_dir": "runs/phase1h_fsm_20260429T083212Z",
+    "note": "12/12 seeds: 0 contact, 0 attachment, 0 drawer open. Controller speed insufficient. NOT V11 success."
+  }
 }

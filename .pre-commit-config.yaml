@@ -4,18 +4,18 @@ repos:
     # Run the linter.
     - id: ruff
       name: ruff
-      entry: uv run ruff check --fix
+      entry: /root/anaconda3/envs/infinigen/bin/uv run ruff check --fix
       language: system
       types: [python]
     # Sort imports
     - id: ruff-import-sort
       name: ruff import sort
-      entry: uv run ruff check --select I --fix
+      entry: /root/anaconda3/envs/infinigen/bin/uv run ruff check --select I --fix
       language: system
       types: [python]
     # Run the formatter.
     - id: ruff-format
       name: ruff format
-      entry: uv run ruff format
+      entry: /root/anaconda3/envs/infinigen/bin/uv run ruff format
       language: system
       types: [python]

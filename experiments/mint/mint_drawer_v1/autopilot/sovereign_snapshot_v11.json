@@ -1,18 +1,22 @@
 {
-  "snapshot_version": "v11_sovereign_snapshot_v2_phase1h_fsm",
-  "run_instance_id": "phase1h_fsm_20260429T083212Z",
+  "snapshot_version": "v11_sovereign_snapshot_v3_phase1h_fsm_v2",
+  "run_instance_id": "phase1h_fsm_v2_20260429T091653Z",
   "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
-  "working_head_commit": "3c7d3e4706f98cde4b37276fd43b2b830c559330",
+  "working_head_commit": "9f865265a66d7f5135d12d73b23ae2869181c558",
   "vendor_head_commit": "4eab5795345721001c412ff1ca2c886a11eab606",
   "truth_contract_hash": "17ae4d1554899b843c80b064a2c5f3d6331b04dd169819ca5f2b0bfba729a6f6",
   "acceptance_contract_hash": "3e63d1c21004dae9a8ded0c966f69112f59e340f7d0aada219eb66ac8facd53c",
   "spec_doc_path": "/mnt/afs2/zhuhaowu/infinigen/docs/MINT_V11_HARD_GOAL_RUNTIME_TRUTH_CONTRACT.md",
   "v11_contract_version": "v2",
-  "timestamp_utc": "2026-04-29T08:32:58Z",
-  "phase1h_fsm_outcome": {
-    "technical_outcome": "ROUTE_NEVER_REACHES_HANDLE",
-    "execution_outcome": "ROLLOUT_EXHAUSTED",
-    "run_dir": "runs/phase1h_fsm_20260429T083212Z",
-    "note": "12/12 seeds: 0 contact, 0 attachment, 0 drawer open. Controller speed insufficient. NOT V11 success."
+  "gocv2_evidence_commit": "ec2054b81fbe45d91b93b23a97adc2aaf8b95a3c",
+  "wording_repair_commit": "3c7d3e4706f98cde4b37276fd43b2b830c559330",
+  "timestamp_utc": "2026-04-29T09:16:59Z",
+  "phase1h_fsm_v2_outcome": {
+    "fsm_version": "v2_GOCV2_COMPLIANT",
+    "technical_outcome": "GOC_V2_NOT_ENFORCED",
+    "execution_outcome": "SMOKE_FAILED",
+    "run_dir": "runs/phase1h_fsm_v2_20260429T091653Z",
+    "root_cause": "P2 runtime _discover_gripper_pad_geom_ids() marks all 91 robot arm geoms as legal_pad (no forbidden set). GOC-v2 requires 29 legal pad geoms on link5/6/7 and 26 forbidden geoms on link0-4.",
+    "note": "NOT V11 success. G4 remains UNKNOWN. Contract is authoritative but runtime does not enforce it. Repair of P2 discovery methods required."
   }
 }

@@ -1,103 +1,771 @@
 {
   "timestamp_utc": "20260429T042100Z",
   "classification_audit": "per-geom ownership and invariant reasoning",
-
   "per_geom_classification": [
-    {"gid": 0,  "name": "",  "body": "drawer_base",  "bid": 1,  "primary": "drawer_body_or_cabinet", "reason": "unnamed geom on drawer_base body"},
-    {"gid": 1,  "name": "",  "body": "drawer_base",  "bid": 1,  "primary": "drawer_body_or_cabinet", "reason": "unnamed geom on drawer_base body"},
-    {"gid": 2,  "name": "",  "body": "drawer_base",  "bid": 1,  "primary": "drawer_body_or_cabinet", "reason": "unnamed geom on drawer_base body"},
-    {"gid": 3,  "name": "",  "body": "drawer_base",  "bid": 1,  "primary": "drawer_body_or_cabinet", "reason": "unnamed geom on drawer_base body"},
-    {"gid": 4,  "name": "",  "body": "drawer_base",  "bid": 1,  "primary": "drawer_body_or_cabinet", "reason": "unnamed geom on drawer_base body"},
-    {"gid": 5,  "name": "",  "body": "drawer_base",  "bid": 1,  "primary": "drawer_body_or_cabinet", "reason": "unnamed geom on drawer_base body"},
-    {"gid": 6,  "name": "",  "body": "drawer_base",  "bid": 1,  "primary": "drawer_body_or_cabinet", "reason": "unnamed geom on drawer_base body"},
-    {"gid": 7,  "name": "",  "body": "drawer_base",  "bid": 1,  "primary": "drawer_body_or_cabinet", "reason": "unnamed geom on drawer_base body"},
-    {"gid": 8,  "name": "",  "body": "drawer_base",  "bid": 1,  "primary": "drawer_body_or_cabinet", "reason": "unnamed geom on drawer_base body"},
-    {"gid": 9,  "name": "",  "body": "link_1",       "bid": 2,  "primary": "drawer_body_or_cabinet", "reason": "unnamed geom on drawer link_1 body (drawer articulation)"},
-    {"gid": 10, "name": "",  "body": "link_1",       "bid": 2,  "primary": "drawer_body_or_cabinet", "reason": "unnamed geom on drawer link_1 body"},
-    {"gid": 11, "name": "",  "body": "link_1",       "bid": 2,  "primary": "drawer_body_or_cabinet", "reason": "unnamed geom on drawer link_1 body"},
-    {"gid": 12, "name": "",  "body": "link_1",       "bid": 2,  "primary": "drawer_body_or_cabinet", "reason": "unnamed geom on drawer link_1 body"},
-    {"gid": 13, "name": "",  "body": "link_1",       "bid": 2,  "primary": "drawer_body_or_cabinet", "reason": "unnamed geom on drawer link_1 body"},
-    {"gid": 14, "name": "",  "body": "link_1",       "bid": 2,  "primary": "drawer_body_or_cabinet", "reason": "unnamed geom on drawer link_1 body"},
-    {"gid": 15, "name": "",  "body": "link_1",       "bid": 2,  "primary": "drawer_body_or_cabinet", "reason": "unnamed geom on drawer link_1 body"},
-    {"gid": 16, "name": "",  "body": "link_1",       "bid": 2,  "primary": "drawer_body_or_cabinet", "reason": "unnamed geom on drawer link_1 body"},
-    {"gid": 17, "name": "",  "body": "link_1",       "bid": 2,  "primary": "drawer_body_or_cabinet", "reason": "unnamed geom on drawer link_1 body"},
-    {"gid": 18, "name": "",  "body": "link_1",       "bid": 2,  "primary": "drawer_body_or_cabinet", "reason": "unnamed geom on drawer link_1 body"},
-    {"gid": 19, "name": "",  "body": "link_1",       "bid": 2,  "primary": "drawer_body_or_cabinet", "reason": "unnamed geom on drawer link_1 body"},
-    {"gid": 20, "name": "",  "body": "link_1",       "bid": 2,  "primary": "drawer_body_or_cabinet", "reason": "unnamed geom on drawer link_1 body"},
-    {"gid": 21, "name": "",  "body": "link_2",       "bid": 3,  "primary": "drawer_body_or_cabinet", "reason": "unnamed geom on drawer link_2 body (drawer articulation)"},
-    {"gid": 22, "name": "",  "body": "link_2",       "bid": 3,  "primary": "drawer_body_or_cabinet", "reason": "unnamed geom on drawer link_2 body"},
-    {"gid": 23, "name": "",  "body": "link_2",       "bid": 3,  "primary": "drawer_body_or_cabinet", "reason": "unnamed geom on drawer link_2 body"},
-    {"gid": 24, "name": "",  "body": "link_2",       "bid": 3,  "primary": "drawer_body_or_cabinet", "reason": "unnamed geom on drawer link_2 body"},
-    {"gid": 25, "name": "",  "body": "link_2",       "bid": 3,  "primary": "drawer_body_or_cabinet", "reason": "unnamed geom on drawer link_2 body"},
-    {"gid": 26, "name": "",  "body": "link_2",       "bid": 3,  "primary": "drawer_body_or_cabinet", "reason": "unnamed geom on drawer link_2 body"},
-    {"gid": 27, "name": "",  "body": "link_2",       "bid": 3,  "primary": "drawer_body_or_cabinet", "reason": "unnamed geom on drawer link_2 body"},
-    {"gid": 28, "name": "",  "body": "link_2",       "bid": 3,  "primary": "drawer_body_or_cabinet", "reason": "unnamed geom on drawer link_2 body"},
-    {"gid": 29, "name": "",  "body": "link_2",       "bid": 3,  "primary": "drawer_body_or_cabinet", "reason": "unnamed geom on drawer link_2 body"},
-    {"gid": 30, "name": "",  "body": "link_2",       "bid": 3,  "primary": "drawer_body_or_cabinet", "reason": "unnamed geom on drawer link_2 body"},
-    {"gid": 31, "name": "",  "body": "link_2",       "bid": 3,  "primary": "drawer_body_or_cabinet", "reason": "unnamed geom on drawer link_2 body"},
-    {"gid": 32, "name": "",  "body": "link_2",       "bid": 3,  "primary": "drawer_body_or_cabinet", "reason": "unnamed geom on drawer link_2 body"},
-    {"gid": 33, "name": "",  "body": "link0",        "bid": 5,  "primary": "gripper_contact",        "secondary": "forbidden_robot", "reason": "unnamed geom on link0 (base of arm) — part of robot but not gripper contact surface; base of arm should be forbidden"},
-    {"gid": 34, "name": "",  "body": "link0",        "bid": 5,  "primary": "gripper_contact",        "secondary": "forbidden_robot", "reason": "unnamed geom on link0"},
-    {"gid": 35, "name": "",  "body": "link0",        "bid": 5,  "primary": "gripper_contact",        "secondary": "forbidden_robot", "reason": "unnamed geom on link0"},
-    {"gid": 36, "name": "",  "body": "link0",        "bid": 5,  "primary": "gripper_contact",        "secondary": "forbidden_robot", "reason": "unnamed geom on link0"},
-    {"gid": 37, "name": "",  "body": "link0",        "bid": 5,  "primary": "gripper_contact",        "secondary": "forbidden_robot", "reason": "unnamed geom on link0"},
-    {"gid": 38, "name": "",  "body": "link0",        "bid": 5,  "primary": "gripper_contact",        "secondary": "forbidden_robot", "reason": "unnamed geom on link0"},
-    {"gid": 39, "name": "",  "body": "link0",        "bid": 5,  "primary": "gripper_contact",        "secondary": "forbidden_robot", "reason": "unnamed geom on link0"},
-    {"gid": 40, "name": "",  "body": "link0",        "bid": 5,  "primary": "gripper_contact",        "secondary": "forbidden_robot", "reason": "unnamed geom on link0"},
-    {"gid": 41, "name": "",  "body": "link0",        "bid": 5,  "primary": "gripper_contact",        "secondary": "forbidden_robot", "reason": "unnamed geom on link0"},
-    {"gid": 42, "name": "",  "body": "link0",        "bid": 5,  "primary": "gripper_contact",        "secondary": "forbidden_robot", "reason": "unnamed geom on link0"},
-    {"gid": 43, "name": "",  "body": "link0",        "bid": 5,  "primary": "gripper_contact",        "secondary": "forbidden_robot", "reason": "unnamed geom on link0"},
-    {"gid": 44, "name": "link0_collision", "body": "link0", "bid": 5, "primary": "gripper_contact",  "secondary": "forbidden_robot", "reason": "collision geom on link0 — base of arm, not gripper contact surface"},
-    {"gid": 45, "name": "",  "body": "link1",        "bid": 6,  "primary": "gripper_contact",        "secondary": "forbidden_robot", "reason": "unnamed geom on link1 (upper arm)"},
-    {"gid": 46, "name": "link1_collision", "body": "link1", "bid": 6, "primary": "gripper_contact",  "secondary": "forbidden_robot", "reason": "collision geom on link1"},
-    {"gid": 47, "name": "",  "body": "link2",        "bid": 7,  "primary": "gripper_contact",        "secondary": "forbidden_robot", "reason": "unnamed geom on link2"},
-    {"gid": 48, "name": "link2_collision", "body": "link2", "bid": 7, "primary": "gripper_contact",  "secondary": "forbidden_robot", "reason": "collision geom on link2"},
-    {"gid": 49, "name": "",  "body": "link3",        "bid": 8,  "primary": "forbidden_robot",        "reason": "unnamed geom on link3 (upper arm, forbidden)"},
-    {"gid": 50, "name": "",  "body": "link3",        "bid": 8,  "primary": "forbidden_robot",        "reason": "unnamed geom on link3"},
-    {"gid": 51, "name": "",  "body": "link3",        "bid": 8,  "primary": "forbidden_robot",        "reason": "unnamed geom on link3"},
-    {"gid": 52, "name": "",  "body": "link3",        "bid": 8,  "primary": "forbidden_robot",        "reason": "unnamed geom on link3"},
-    {"gid": 53, "name": "link3_collision", "body": "link3", "bid": 8, "primary": "forbidden_robot", "reason": "collision geom on link3 (upper arm, forbidden to contact drawer)"},
-    {"gid": 54, "name": "",  "body": "link4",        "bid": 9,  "primary": "forbidden_robot",        "reason": "unnamed geom on link4 (forearm, forbidden)"},
-    {"gid": 55, "name": "",  "body": "link4",        "bid": 9,  "primary": "forbidden_robot",        "reason": "unnamed geom on link4"},
-    {"gid": 56, "name": "",  "body": "link4",        "bid": 9,  "primary": "forbidden_robot",        "reason": "unnamed geom on link4"},
-    {"gid": 57, "name": "link4_collision", "body": "link4", "bid": 9, "primary": "forbidden_robot", "reason": "collision geom on link4 (forearm, forbidden to contact drawer)"},
-    {"gid": 58, "name": "",  "body": "link4",        "bid": 9,  "primary": "forbidden_robot",        "reason": "unnamed geom on link4 — INCORRECTLY returned by _identify_handle_geom_ids as 'handle'"},
-    {"gid": 59, "name": "",  "body": "link5",        "bid": 10, "primary": "legal_gripper_pad_or_fingertip", "reason": "unnamed geom on link5 (gripper proximal jaw)"},
-    {"gid": 60, "name": "",  "body": "link5",        "bid": 10, "primary": "legal_gripper_pad_or_fingertip", "reason": "unnamed geom on link5 — INCORRECTLY returned by _identify_handle_geom_ids as 'handle'"},
-    {"gid": 61, "name": "",  "body": "link5",        "bid": 10, "primary": "legal_gripper_pad_or_fingertip", "reason": "unnamed geom on link5 — INCORRECTLY returned by _identify_handle_geom_ids as 'handle'"},
-    {"gid": 62, "name": "link5_collision", "body": "link5", "bid": 10, "primary": "legal_gripper_pad_or_fingertip", "reason": "collision geom on link5 — gripper proximal jaw contact surface"},
-    {"gid": 63, "name": "",  "body": "link6",        "bid": 11, "primary": "legal_gripper_pad_or_fingertip", "reason": "unnamed geom on link6 (gripper distal jaw)"},
-    {"gid": 64, "name": "",  "body": "link6",        "bid": 11, "primary": "legal_gripper_pad_or_fingertip", "reason": "unnamed geom on link6 — INCORRECTLY returned by _identify_handle_geom_ids as 'handle'"},
-    {"gid": 65, "name": "",  "body": "link6",        "bid": 11, "primary": "legal_gripper_pad_or_fingertip", "reason": "unnamed geom on link6 — INCORRECTLY returned as 'handle'"},
-    {"gid": 66, "name": "",  "body": "link6",        "bid": 11, "primary": "legal_gripper_pad_or_fingertip", "reason": "unnamed geom on link6"},
-    {"gid": 67, "name": "",  "body": "link6",        "bid": 11, "primary": "legal_gripper_pad_or_fingertip", "reason": "unnamed geom on link6"},
-    {"gid": 68, "name": "",  "body": "link6",        "bid": 11, "primary": "legal_gripper_pad_or_fingertip", "reason": "unnamed geom on link6"},
-    {"gid": 69, "name": "",  "body": "link6",        "bid": 11, "primary": "legal_gripper_pad_or_fingertip", "reason": "unnamed geom on link6"},
-    {"gid": 70, "name": "",  "body": "link6",        "bid": 11, "primary": "legal_gripper_pad_or_fingertip", "reason": "unnamed geom on link6"},
-    {"gid": 71, "name": "",  "body": "link6",        "bid": 11, "primary": "legal_gripper_pad_or_fingertip", "reason": "unnamed geom on link6"},
-    {"gid": 72, "name": "",  "body": "link6",        "bid": 11, "primary": "legal_gripper_pad_or_fingertip", "reason": "unnamed geom on link6"},
-    {"gid": 73, "name": "",  "body": "link6",        "bid": 11, "primary": "legal_gripper_pad_or_fingertip", "reason": "unnamed geom on link6"},
-    {"gid": 74, "name": "",  "body": "link6",        "bid": 11, "primary": "legal_gripper_pad_or_fingertip", "reason": "unnamed geom on link6"},
-    {"gid": 75, "name": "",  "body": "link6",        "bid": 11, "primary": "legal_gripper_pad_or_fingertip", "reason": "unnamed geom on link6"},
-    {"gid": 76, "name": "",  "body": "link6",        "bid": 11, "primary": "legal_gripper_pad_or_fingertip", "reason": "unnamed geom on link6"},
-    {"gid": 77, "name": "",  "body": "link6",        "bid": 11, "primary": "legal_gripper_pad_or_fingertip", "reason": "unnamed geom on link6"},
-    {"gid": 78, "name": "",  "body": "link6",        "bid": 11, "primary": "legal_gripper_pad_or_fingertip", "reason": "unnamed geom on link6"},
-    {"gid": 79, "name": "",  "body": "link6",        "bid": 11, "primary": "legal_gripper_pad_or_fingertip", "reason": "unnamed geom on link6"},
-    {"gid": 80, "name": "link6_collision", "body": "link6", "bid": 11, "primary": "legal_gripper_pad_or_fingertip", "reason": "collision geom on link6 — gripper distal jaw contact surface — INCORRECTLY returned by _identify_handle_geom_ids as 'handle'"},
-    {"gid": 81, "name": "",  "body": "link7",        "bid": 12, "primary": "legal_gripper_pad_or_fingertip", "reason": "unnamed geom on link7 (gripper tip)"},
-    {"gid": 82, "name": "",  "body": "link7",        "bid": 12, "primary": "legal_gripper_pad_or_fingertip", "reason": "unnamed geom on link7"},
-    {"gid": 83, "name": "",  "body": "link7",        "bid": 12, "primary": "legal_gripper_pad_or_fingertip", "reason": "unnamed geom on link7"},
-    {"gid": 84, "name": "",  "body": "link7",        "bid": 12, "primary": "legal_gripper_pad_or_fingertip", "reason": "unnamed geom on link7"},
-    {"gid": 85, "name": "",  "body": "link7",        "bid": 12, "primary": "legal_gripper_pad_or_fingertip", "reason": "unnamed geom on link7"},
-    {"gid": 86, "name": "",  "body": "link7",        "bid": 12, "primary": "legal_gripper_pad_or_fingertip", "reason": "unnamed geom on link7"},
-    {"gid": 87, "name": "",  "body": "link7",        "bid": 12, "primary": "legal_gripper_pad_or_fingertip", "reason": "unnamed geom on link7"},
-    {"gid": 88, "name": "",  "body": "link7",        "bid": 12, "primary": "legal_gripper_pad_or_fingertip", "reason": "unnamed geom on link7"},
-    {"gid": 89, "name": "link7_collision", "body": "link7", "bid": 12, "primary": "legal_gripper_pad_or_fingertip", "reason": "collision geom on link7 — gripper tip contact surface"}
+    {
+      "gid": 0,
+      "name": "",
+      "body": "drawer_base",
+      "bid": 1,
+      "primary": "drawer_body_or_cabinet",
+      "reason": "unnamed geom on drawer_base body"
+    },
+    {
+      "gid": 1,
+      "name": "",
+      "body": "drawer_base",
+      "bid": 1,
+      "primary": "drawer_body_or_cabinet",
+      "reason": "unnamed geom on drawer_base body"
+    },
+    {
+      "gid": 2,
+      "name": "",
+      "body": "drawer_base",
+      "bid": 1,
+      "primary": "drawer_body_or_cabinet",
+      "reason": "unnamed geom on drawer_base body"
+    },
+    {
+      "gid": 3,
+      "name": "",
+      "body": "drawer_base",
+      "bid": 1,
+      "primary": "drawer_body_or_cabinet",
+      "reason": "unnamed geom on drawer_base body"
+    },
+    {
+      "gid": 4,
+      "name": "",
+      "body": "drawer_base",
+      "bid": 1,
+      "primary": "drawer_body_or_cabinet",
+      "reason": "unnamed geom on drawer_base body"
+    },
+    {
+      "gid": 5,
+      "name": "",
+      "body": "drawer_base",
+      "bid": 1,
+      "primary": "drawer_body_or_cabinet",
+      "reason": "unnamed geom on drawer_base body"
+    },
+    {
+      "gid": 6,
+      "name": "",
+      "body": "drawer_base",
+      "bid": 1,
+      "primary": "drawer_body_or_cabinet",
+      "reason": "unnamed geom on drawer_base body"
+    },
+    {
+      "gid": 7,
+      "name": "",
+      "body": "drawer_base",
+      "bid": 1,
+      "primary": "drawer_body_or_cabinet",
+      "reason": "unnamed geom on drawer_base body"
+    },
+    {
+      "gid": 8,
+      "name": "",
+      "body": "drawer_base",
+      "bid": 1,
+      "primary": "drawer_body_or_cabinet",
+      "reason": "unnamed geom on drawer_base body"
+    },
+    {
+      "gid": 9,
+      "name": "",
+      "body": "link_1",
+      "bid": 2,
+      "primary": "drawer_body_or_cabinet",
+      "reason": "unnamed geom on drawer link_1 body (drawer articulation)"
+    },
+    {
+      "gid": 10,
+      "name": "",
+      "body": "link_1",
+      "bid": 2,
+      "primary": "drawer_body_or_cabinet",
+      "reason": "unnamed geom on drawer link_1 body"
+    },
+    {
+      "gid": 11,
+      "name": "",
+      "body": "link_1",
+      "bid": 2,
+      "primary": "drawer_body_or_cabinet",
+      "reason": "unnamed geom on drawer link_1 body"
+    },
+    {
+      "gid": 12,
+      "name": "",
+      "body": "link_1",
+      "bid": 2,
+      "primary": "drawer_body_or_cabinet",
+      "reason": "unnamed geom on drawer link_1 body"
+    },
+    {
+      "gid": 13,
+      "name": "",
+      "body": "link_1",
+      "bid": 2,
+      "primary": "drawer_body_or_cabinet",
+      "reason": "unnamed geom on drawer link_1 body"
+    },
+    {
+      "gid": 14,
+      "name": "",
+      "body": "link_1",
+      "bid": 2,
+      "primary": "drawer_body_or_cabinet",
+      "reason": "unnamed geom on drawer link_1 body"
+    },
+    {
+      "gid": 15,
+      "name": "",
+      "body": "link_1",
+      "bid": 2,
+      "primary": "drawer_body_or_cabinet",
+      "reason": "unnamed geom on drawer link_1 body"
+    },
+    {
+      "gid": 16,
+      "name": "",
+      "body": "link_1",
+      "bid": 2,
+      "primary": "drawer_body_or_cabinet",
+      "reason": "unnamed geom on drawer link_1 body"
+    },
+    {
+      "gid": 17,
+      "name": "",
+      "body": "link_1",
+      "bid": 2,
+      "primary": "drawer_body_or_cabinet",
+      "reason": "unnamed geom on drawer link_1 body"
+    },
+    {
+      "gid": 18,
+      "name": "",
+      "body": "link_1",
+      "bid": 2,
+      "primary": "drawer_body_or_cabinet",
+      "reason": "unnamed geom on drawer link_1 body"
+    },
+    {
+      "gid": 19,
+      "name": "",
+      "body": "link_1",
+      "bid": 2,
+      "primary": "drawer_body_or_cabinet",
+      "reason": "unnamed geom on drawer link_1 body"
+    },
+    {
+      "gid": 20,
+      "name": "",
+      "body": "link_1",
+      "bid": 2,
+      "primary": "drawer_body_or_cabinet",
+      "reason": "unnamed geom on drawer link_1 body"
+    },
+    {
+      "gid": 21,
+      "name": "",
+      "body": "link_2",
+      "bid": 3,
+      "primary": "drawer_body_or_cabinet",
+      "reason": "unnamed geom on drawer link_2 body (drawer articulation)"
+    },
+    {
+      "gid": 22,
+      "name": "",
+      "body": "link_2",
+      "bid": 3,
+      "primary": "drawer_body_or_cabinet",
+      "reason": "unnamed geom on drawer link_2 body"
+    },
+    {
+      "gid": 23,
+      "name": "",
+      "body": "link_2",
+      "bid": 3,
+      "primary": "drawer_body_or_cabinet",
+      "reason": "unnamed geom on drawer link_2 body"
+    },
+    {
+      "gid": 24,
+      "name": "",
+      "body": "link_2",
+      "bid": 3,
+      "primary": "drawer_body_or_cabinet",
+      "reason": "unnamed geom on drawer link_2 body"
+    },
+    {
+      "gid": 25,
+      "name": "",
+      "body": "link_2",
+      "bid": 3,
+      "primary": "drawer_body_or_cabinet",
+      "reason": "unnamed geom on drawer link_2 body"
+    },
+    {
+      "gid": 26,
+      "name": "",
+      "body": "link_2",
+      "bid": 3,
+      "primary": "drawer_body_or_cabinet",
+      "reason": "unnamed geom on drawer link_2 body"
+    },
+    {
+      "gid": 27,
+      "name": "",
+      "body": "link_2",
+      "bid": 3,
+      "primary": "drawer_body_or_cabinet",
+      "reason": "unnamed geom on drawer link_2 body"
+    },
+    {
+      "gid": 28,
+      "name": "",
+      "body": "link_2",
+      "bid": 3,
+      "primary": "drawer_body_or_cabinet",
+      "reason": "unnamed geom on drawer link_2 body"
+    },
+    {
+      "gid": 29,
+      "name": "",
+      "body": "link_2",
+      "bid": 3,
+      "primary": "drawer_body_or_cabinet",
+      "reason": "unnamed geom on drawer link_2 body"
+    },
+    {
+      "gid": 30,
+      "name": "",
+      "body": "link_2",
+      "bid": 3,
+      "primary": "drawer_body_or_cabinet",
+      "reason": "unnamed geom on drawer link_2 body"
+    },
+    {
+      "gid": 31,
+      "name": "",
+      "body": "link_2",
+      "bid": 3,
+      "primary": "drawer_body_or_cabinet",
+      "reason": "unnamed geom on drawer link_2 body"
+    },
+    {
+      "gid": 32,
+      "name": "",
+      "body": "link_2",
+      "bid": 3,
+      "primary": "drawer_body_or_cabinet",
+      "reason": "unnamed geom on drawer link_2 body"
+    },
+    {
+      "gid": 33,
+      "name": "",
+      "body": "link0",
+      "bid": 5,
+      "primary": "gripper_contact",
+      "secondary": "forbidden_robot",
+      "reason": "unnamed geom on link0 (base of arm) \u2014 part of robot but not gripper contact surface; base of arm should be forbidden"
+    },
+    {
+      "gid": 34,
+      "name": "",
+      "body": "link0",
+      "bid": 5,
+      "primary": "gripper_contact",
+      "secondary": "forbidden_robot",
+      "reason": "unnamed geom on link0"
+    },
+    {
+      "gid": 35,
+      "name": "",
+      "body": "link0",
+      "bid": 5,
+      "primary": "gripper_contact",
+      "secondary": "forbidden_robot",
+      "reason": "unnamed geom on link0"
+    },
+    {
+      "gid": 36,
+      "name": "",
+      "body": "link0",
+      "bid": 5,
+      "primary": "gripper_contact",
+      "secondary": "forbidden_robot",
+      "reason": "unnamed geom on link0"
+    },
+    {
+      "gid": 37,
+      "name": "",
+      "body": "link0",
+      "bid": 5,
+      "primary": "gripper_contact",
+      "secondary": "forbidden_robot",
+      "reason": "unnamed geom on link0"
+    },
+    {
+      "gid": 38,
+      "name": "",
+      "body": "link0",
+      "bid": 5,
+      "primary": "gripper_contact",
+      "secondary": "forbidden_robot",
+      "reason": "unnamed geom on link0"
+    },
+    {
+      "gid": 39,
+      "name": "",
+      "body": "link0",
+      "bid": 5,
+      "primary": "gripper_contact",
+      "secondary": "forbidden_robot",
+      "reason": "unnamed geom on link0"
+    },
+    {
+      "gid": 40,
+      "name": "",
+      "body": "link0",
+      "bid": 5,
+      "primary": "gripper_contact",
+      "secondary": "forbidden_robot",
+      "reason": "unnamed geom on link0"
+    },
+    {
+      "gid": 41,
+      "name": "",
+      "body": "link0",
+      "bid": 5,
+      "primary": "gripper_contact",
+      "secondary": "forbidden_robot",
+      "reason": "unnamed geom on link0"
+    },
+    {
+      "gid": 42,
+      "name": "",
+      "body": "link0",
+      "bid": 5,
+      "primary": "gripper_contact",
+      "secondary": "forbidden_robot",
+      "reason": "unnamed geom on link0"
+    },
+    {
+      "gid": 43,
+      "name": "",
+      "body": "link0",
+      "bid": 5,
+      "primary": "gripper_contact",
+      "secondary": "forbidden_robot",
+      "reason": "unnamed geom on link0"
+    },
+    {
+      "gid": 44,
+      "name": "link0_collision",
+      "body": "link0",
+      "bid": 5,
+      "primary": "gripper_contact",
+      "secondary": "forbidden_robot",
+      "reason": "collision geom on link0 \u2014 base of arm, not gripper contact surface"
+    },
+    {
+      "gid": 45,
+      "name": "",
+      "body": "link1",
+      "bid": 6,
+      "primary": "gripper_contact",
+      "secondary": "forbidden_robot",
+      "reason": "unnamed geom on link1 (upper arm)"
+    },
+    {
+      "gid": 46,
+      "name": "link1_collision",
+      "body": "link1",
+      "bid": 6,
+      "primary": "gripper_contact",
+      "secondary": "forbidden_robot",
+      "reason": "collision geom on link1"
+    },
+    {
+      "gid": 47,
+      "name": "",
+      "body": "link2",
+      "bid": 7,
+      "primary": "gripper_contact",
+      "secondary": "forbidden_robot",
+      "reason": "unnamed geom on link2"
+    },
+    {
+      "gid": 48,
+      "name": "link2_collision",
+      "body": "link2",
+      "bid": 7,
+      "primary": "gripper_contact",
+      "secondary": "forbidden_robot",
+      "reason": "collision geom on link2"
+    },
+    {
+      "gid": 49,
+      "name": "",
+      "body": "link3",
+      "bid": 8,
+      "primary": "forbidden_robot",
+      "reason": "unnamed geom on link3 (upper arm, forbidden)"
+    },
+    {
+      "gid": 50,
+      "name": "",
+      "body": "link3",
+      "bid": 8,
+      "primary": "forbidden_robot",
+      "reason": "unnamed geom on link3"
+    },
+    {
+      "gid": 51,
+      "name": "",
+      "body": "link3",
+      "bid": 8,
+      "primary": "forbidden_robot",
+      "reason": "unnamed geom on link3"
+    },
+    {
+      "gid": 52,
+      "name": "",
+      "body": "link3",
+      "bid": 8,
+      "primary": "forbidden_robot",
+      "reason": "unnamed geom on link3"
+    },
+    {
+      "gid": 53,
+      "name": "link3_collision",
+      "body": "link3",
+      "bid": 8,
+      "primary": "forbidden_robot",
+      "reason": "collision geom on link3 (upper arm, forbidden to contact drawer)"
+    },
+    {
+      "gid": 54,
+      "name": "",
+      "body": "link4",
+      "bid": 9,
+      "primary": "forbidden_robot",
+      "reason": "unnamed geom on link4 (forearm, forbidden)"
+    },
+    {
+      "gid": 55,
+      "name": "",
+      "body": "link4",
+      "bid": 9,
+      "primary": "forbidden_robot",
+      "reason": "unnamed geom on link4"
+    },
+    {
+      "gid": 56,
+      "name": "",
+      "body": "link4",
+      "bid": 9,
+      "primary": "forbidden_robot",
+      "reason": "unnamed geom on link4"
+    },
+    {
+      "gid": 57,
+      "name": "link4_collision",
+      "body": "link4",
+      "bid": 9,
+      "primary": "forbidden_robot",
+      "reason": "collision geom on link4 (forearm, forbidden to contact drawer)"
+    },
+    {
+      "gid": 58,
+      "name": "",
+      "body": "link4",
+      "bid": 9,
+      "primary": "forbidden_robot",
+      "reason": "unnamed geom on link4 \u2014 INCORRECTLY returned by _identify_handle_geom_ids as 'handle'"
+    },
+    {
+      "gid": 59,
+      "name": "",
+      "body": "link5",
+      "bid": 10,
+      "primary": "legal_gripper_pad_or_fingertip",
+      "reason": "unnamed geom on link5 (gripper proximal jaw)"
+    },
+    {
+      "gid": 60,
+      "name": "",
+      "body": "link5",
+      "bid": 10,
+      "primary": "legal_gripper_pad_or_fingertip",
+      "reason": "unnamed geom on link5 \u2014 INCORRECTLY returned by _identify_handle_geom_ids as 'handle'"
+    },
+    {
+      "gid": 61,
+      "name": "",
+      "body": "link5",
+      "bid": 10,
+      "primary": "legal_gripper_pad_or_fingertip",
+      "reason": "unnamed geom on link5 \u2014 INCORRECTLY returned by _identify_handle_geom_ids as 'handle'"
+    },
+    {
+      "gid": 62,
+      "name": "link5_collision",
+      "body": "link5",
+      "bid": 10,
+      "primary": "legal_gripper_pad_or_fingertip",
+      "reason": "collision geom on link5 \u2014 gripper proximal jaw contact surface"
+    },
+    {
+      "gid": 63,
+      "name": "",
+      "body": "link6",
+      "bid": 11,
+      "primary": "legal_gripper_pad_or_fingertip",
+      "reason": "unnamed geom on link6 (gripper distal jaw)"
+    },
+    {
+      "gid": 64,
+      "name": "",
+      "body": "link6",
+      "bid": 11,
+      "primary": "legal_gripper_pad_or_fingertip",
+      "reason": "unnamed geom on link6 \u2014 INCORRECTLY returned by _identify_handle_geom_ids as 'handle'"
+    },
+    {
+      "gid": 65,
+      "name": "",
+      "body": "link6",
+      "bid": 11,
+      "primary": "legal_gripper_pad_or_fingertip",
+      "reason": "unnamed geom on link6 \u2014 INCORRECTLY returned as 'handle'"
+    },
+    {
+      "gid": 66,
+      "name": "",
+      "body": "link6",
+      "bid": 11,
+      "primary": "legal_gripper_pad_or_fingertip",
+      "reason": "unnamed geom on link6"
+    },
+    {
+      "gid": 67,
+      "name": "",
+      "body": "link6",
+      "bid": 11,
+      "primary": "legal_gripper_pad_or_fingertip",
+      "reason": "unnamed geom on link6"
+    },
+    {
+      "gid": 68,
+      "name": "",
+      "body": "link6",
+      "bid": 11,
+      "primary": "legal_gripper_pad_or_fingertip",
+      "reason": "unnamed geom on link6"
+    },
+    {
+      "gid": 69,
+      "name": "",
+      "body": "link6",
+      "bid": 11,
+      "primary": "legal_gripper_pad_or_fingertip",
+      "reason": "unnamed geom on link6"
+    },
+    {
+      "gid": 70,
+      "name": "",
+      "body": "link6",
+      "bid": 11,
+      "primary": "legal_gripper_pad_or_fingertip",
+      "reason": "unnamed geom on link6"
+    },
+    {
+      "gid": 71,
+      "name": "",
+      "body": "link6",
+      "bid": 11,
+      "primary": "legal_gripper_pad_or_fingertip",
+      "reason": "unnamed geom on link6"
+    },
+    {
+      "gid": 72,
+      "name": "",
+      "body": "link6",
+      "bid": 11,
+      "primary": "legal_gripper_pad_or_fingertip",
+      "reason": "unnamed geom on link6"
+    },
+    {
+      "gid": 73,
+      "name": "",
+      "body": "link6",
+      "bid": 11,
+      "primary": "legal_gripper_pad_or_fingertip",
+      "reason": "unnamed geom on link6"
+    },
+    {
+      "gid": 74,
+      "name": "",
+      "body": "link6",
+      "bid": 11,
+      "primary": "legal_gripper_pad_or_fingertip",
+      "reason": "unnamed geom on link6"
+    },
+    {
+      "gid": 75,
+      "name": "",
+      "body": "link6",
+      "bid": 11,
+      "primary": "legal_gripper_pad_or_fingertip",
+      "reason": "unnamed geom on link6"
+    },
+    {
+      "gid": 76,
+      "name": "",
+      "body": "link6",
+      "bid": 11,
+      "primary": "legal_gripper_pad_or_fingertip",
+      "reason": "unnamed geom on link6"
+    },
+    {
+      "gid": 77,
+      "name": "",
+      "body": "link6",
+      "bid": 11,
+      "primary": "legal_gripper_pad_or_fingertip",
+      "reason": "unnamed geom on link6"
+    },
+    {
+      "gid": 78,
+      "name": "",
+      "body": "link6",
+      "bid": 11,
+      "primary": "legal_gripper_pad_or_fingertip",
+      "reason": "unnamed geom on link6"
+    },
+    {
+      "gid": 79,
+      "name": "",
+      "body": "link6",
+      "bid": 11,
+      "primary": "legal_gripper_pad_or_fingertip",
+      "reason": "unnamed geom on link6"
+    },
+    {
+      "gid": 80,
+      "name": "link6_collision",
+      "body": "link6",
+      "bid": 11,
+      "primary": "legal_gripper_pad_or_fingertip",
+      "reason": "collision geom on link6 \u2014 gripper distal jaw contact surface \u2014 INCORRECTLY returned by _identify_handle_geom_ids as 'handle'"
+    },
+    {
+      "gid": 81,
+      "name": "",
+      "body": "link7",
+      "bid": 12,
+      "primary": "legal_gripper_pad_or_fingertip",
+      "reason": "unnamed geom on link7 (gripper tip)"
+    },
+    {
+      "gid": 82,
+      "name": "",
+      "body": "link7",
+      "bid": 12,
+      "primary": "legal_gripper_pad_or_fingertip",
+      "reason": "unnamed geom on link7"
+    },
+    {
+      "gid": 83,
+      "name": "",
+      "body": "link7",
+      "bid": 12,
+      "primary": "legal_gripper_pad_or_fingertip",
+      "reason": "unnamed geom on link7"
+    },
+    {
+      "gid": 84,
+      "name": "",
+      "body": "link7",
+      "bid": 12,
+      "primary": "legal_gripper_pad_or_fingertip",
+      "reason": "unnamed geom on link7"
+    },
+    {
+      "gid": 85,
+      "name": "",
+      "body": "link7",
+      "bid": 12,
+      "primary": "legal_gripper_pad_or_fingertip",
+      "reason": "unnamed geom on link7"
+    },
+    {
+      "gid": 86,
+      "name": "",
+      "body": "link7",
+      "bid": 12,
+      "primary": "legal_gripper_pad_or_fingertip",
+      "reason": "unnamed geom on link7"
+    },
+    {
+      "gid": 87,
+      "name": "",
+      "body": "link7",
+      "bid": 12,
+      "primary": "legal_gripper_pad_or_fingertip",
+      "reason": "unnamed geom on link7"
+    },
+    {
+      "gid": 88,
+      "name": "",
+      "body": "link7",
+      "bid": 12,
+      "primary": "legal_gripper_pad_or_fingertip",
+      "reason": "unnamed geom on link7"
+    },
+    {
+      "gid": 89,
+      "name": "link7_collision",
+      "body": "link7",
+      "bid": 12,
+      "primary": "legal_gripper_pad_or_fingertip",
+      "reason": "collision geom on link7 \u2014 gripper tip contact surface"
+    }
   ],
-
   "critical_observations": {
     "_identify_handle_geom_ids_broken": {
-      "returns_as_handle": [58, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81],
+      "returns_as_handle": [
+        58,
+        60,
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81
+      ],
       "all_actually_on": "link4, link5, link6 bodies",
       "should_be": "drawer geometry only",
       "impact": "contact report classifies robot arm links as drawer handles"
@@ -105,12 +773,16 @@
     "no_separate_finger_pad_mesh": {
       "fact": "Infinigen merged model uses hmesh collision on arm links for gripper, no separate finger/pad collision geoms",
       "implication": "gripper_contact_geoms == all_geoms_on_link5_link6_link7",
-      "this_is_correct_and_acceptable": "The merged model approach is valid — link5/6/7 are the gripper jaw bodies in this merged representation"
+      "this_is_correct_and_acceptable": "The merged model approach is valid \u2014 link5/6/7 are the gripper jaw bodies in this merged representation"
     },
     "gripper_body_right_hand_has_no_geoms": {
       "fact": "right_hand body exists in model hierarchy but has 0 geoms",
       "reason": "Infinigen merges gripper geometry onto arm link bodies rather than a separate right_hand body",
       "implication": "P2 proximity-to-link7 check and right_hand-descendant checks are useless"
     }
-  }
+  },
+  "_note": "RECONCILED: c2026606 committed this as pre-patch artifact alongside post-patch MD. After BUG_GOC_01-04 patches, _identify_handle_geom_ids is FIXED (body ownership filter). All 42 geom classifications are correct per post-patch body ownership. No changes to per-geom entries; reconciliation note added only.",
+  "_reconciliation_timestamp_utc": "2026-04-29T06:25:00Z",
+  "_reconciliation_commit": "c20266062a159e448ab60f776256c00070d72165",
+  "_post_patch_state": "GEOMETRY_CONTRACT_READY_FOR_PHASE1H"
 }

@@ -1,0 +1,33 @@
+{
+  "proposed_delta_type": "proposed_next_actions_update",
+  "contract_id": "V11_HARD_GOAL_RUNTIME_TRUTH_CONTRACT",
+  "version": "v1",
+  "created_utc": "2026-04-29T05:30:00Z",
+  "not_approved": true,
+  "approval_required": true,
+  "do_not_commit_to_next_actions": true,
+  "proposed_next_actions": [
+    {
+      "action_id": "v11_phase1h_fsm_rerun",
+      "description": "Re-run Phase 1H FSM with fixed geometry ownership contract (BUG_GOC_01-04 patched in c2026606)",
+      "requires_approval": true,
+      "approved_scope": ["scripts/mint/drawer_robot_env_mujoco.py"],
+      "forbidden": ["training", "broad_candidate_search", "teacher_redesign", "threshold_lowering", "v11_success_claim"]
+    },
+    {
+      "action_id": "v11_phase1j_controller_redesign",
+      "description": "Phase 1J controller redesign for faster approach speed (outside current patch scope)",
+      "requires_approval": true,
+      "approved_scope": [],
+      "note": "Outside current Phase 1H FSM scope; requires separate approval plan"
+    }
+  ],
+  "blocked_actions": [
+    {
+      "action_id": "stage_b_mint_training",
+      "blocker": "V11 gates G4-G8 not all passed",
+      "unblock_on": "all gates passed"
+    }
+  ],
+  "note": "This is a proposed delta. Do NOT commit to next_actions.json. Copy proposed changes into next_actions.json only after explicit approval."
+}

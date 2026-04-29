@@ -1,0 +1,33 @@
+{
+  "proposed_delta_type": "proposed_current_truth_update",
+  "contract_id": "V11_HARD_GOAL_RUNTIME_TRUTH_CONTRACT",
+  "version": "v1",
+  "created_utc": "2026-04-29T05:30:00Z",
+  "not_approved": true,
+  "approval_required": true,
+  "do_not_commit_to_current_truth": true,
+  "proposed_changes": {
+    "v11_hard_goal_active": true,
+    "v11_contract_path": "experiments/mint/mint_drawer_v1/autopilot/v11_hard_goal_contract.json",
+    "v11_contract_version": "v1",
+    "geometry_contract_commit": "c20266062a159e448ab60f776256c00070d72165",
+    "geometry_contract_status": "GEOMETRY_CONTRACT_READY_FOR_PHASE1H",
+    "active_branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+    "gates_summary": {
+      "V11-G1": "PASS",
+      "V11-G2": "UNKNOWN",
+      "V11-G3": "PASS",
+      "V11-G4": "UNKNOWN",
+      "V11-G5": "UNKNOWN",
+      "V11-G6": "FAIL",
+      "V11-G7": "FAIL",
+      "V11-G8": "UNKNOWN"
+    },
+    "next_gate": "V11-G4_LEGAL_GRIPPER_PAD_TO_HANDLE_CONTACT",
+    "phase": "1H_FSM_RERUN_AWAITING_APPROVAL",
+    "proxy_runtime_claim_bearing": false,
+    "real_robot_data_required": false,
+    "stage_b_mint_training_blocked_until_gates_pass": true
+  },
+  "note": "This is a proposed delta. Do NOT commit to current_truth.json. Copy proposed changes into current_truth.json only after explicit approval."
+}

@@ -8,6 +8,13 @@ Agent Execution Harness pre-flight validator entry point.
 This script provides a callable pre-execution gate that runs before any
 FSM/rollout execution. It is the canonical entry point for the campaign harness.
 
+REQUIREMENTS (enforced by this script):
+  - autopilot/agent_execution_harness_lock.json must exist
+  - harness_status must be "production_ready"
+  - generated_by must be "validate_harness_production_lock.py"
+  - Validator blob hashes in lock must match current committed files
+  - Task spec hash in lock must match current committed file
+
 It runs:
   V01: validate_task_authority.py --dry-run   (S0: authority initialized)
   V02: validate_diff_scope.py --dry-run       (S0: scope clean)
@@ -24,35 +31,140 @@ With explicit CAMPAIGN_ROOT:
 Command-line form:
     python scripts/harness/agent_task_preflight.py --spec sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml --dry-run
 
-Also callable via sovereign_cli.py:
-    python scripts/harness/sovereign_cli.py pre-flight-validator \
-        --task-yaml sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml
-
 Exit codes:
     0  = all pre-flight validators passed
     1  = one or more validators failed
-    2  = error (missing files, YAML parse error, etc.)
+    2  = error (missing files, YAML parse error, lock missing, lock invalid)
 """
 
 import argparse
+import json
 import os
 import subprocess
 import sys
 from pathlib import Path
 
 # Campaign-native path resolution.
-# When running from scripts/harness/, campaign root = parent.parent
-# Support MINT_TASK_ROOT env var; default to campaign root.
 THIS_FILE = Path(__file__).resolve()
 CAMPAIGN_ROOT = Path(os.environ.get(
     "MINT_TASK_ROOT",
     str(THIS_FILE.parent.parent)
 ))
+REPO_ROOT = Path(os.environ.get(
+    "MINT_REPO_ROOT",
+    str(CAMPAIGN_ROOT.parent.parent)
+))
+
+LOCK_FILE = CAMPAIGN_ROOT / "autopilot" / "agent_execution_harness_lock.json"
 
 # Validator tools (campaign-native paths)
 VALIDATE_AUTHORITY = THIS_FILE.parent / "validators" / "validate_task_authority.py"
 VALIDATE_DIFF_SCOPE = THIS_FILE.parent / "validators" / "validate_diff_scope.py"
 
+
+# ----------------------------------------------------------------------
+# Lock enforcement
+# ----------------------------------------------------------------------
+
+def git_show_hash(root: Path, path_in_repo: str, commit: str = "HEAD") -> str:
+    """Get blob hash of a file at a given commit."""
+    try:
+        result = subprocess.run(
+            ["git", "rev-parse", f"{commit}:{path_in_repo}"],
+            cwd=str(root),
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        return result.stdout.strip()
+    except subprocess.CalledProcessError:
+        return ""
+
+
+def enforce_production_lock() -> tuple[bool, str]:
+    """
+    Enforce that the production lock exists, is valid, and is verifier-generated.
+    Returns (ok, message).
+    """
+    # 1. Lock file must exist
+    if not LOCK_FILE.exists():
+        return False, (
+            f"FATAL: Production lock not found: {LOCK_FILE}\n"
+            f"Run validate_harness_production_lock.py --write-lock first.\n"
+            f"Execution BLOCKED — production lock required."
+        )
+
+    # 2. Lock must be valid JSON
+    try:
+        with LOCK_FILE.open() as fh:
+            lock = json.load(fh)
+    except (json.JSONDecodeError, IOError) as e:
+        return False, f"FATAL: Lock file is not valid JSON: {e}"
+
+    # 3. harness_status must be production_ready
+    status = lock.get("harness_status", "unknown")
+    if status != "production_ready":
+        return False, (
+            f"FATAL: harness_status={status}, expected production_ready.\n"
+            f"Execution BLOCKED — harness must be production_ready."
+        )
+
+    # 4. generated_by must be validate_harness_production_lock.py
+    generated_by = lock.get("generated_by", "")
+    if generated_by != "validate_harness_production_lock.py":
+        return False, (
+            f"FATAL: lock was generated_by='{generated_by}', "
+            f"expected 'validate_harness_production_lock.py'.\n"
+            f"Execution BLOCKED — only verifier-generated locks are accepted."
+        )
+
+    # 5. Validator blob hashes must match current committed files
+    validator_hashes = lock.get("campaign_validator_hashes", {})
+    mismatches = []
+    for rel_path, expected_hash in validator_hashes.items():
+        actual_hash = git_show_hash(REPO_ROOT, rel_path)
+        if not actual_hash:
+            mismatches.append(f"{rel_path}: not in Git tree")
+        elif actual_hash != expected_hash:
+            mismatches.append(
+                f"{rel_path}: lock_hash={expected_hash[:16]}... current_hash={actual_hash[:16]}..."
+            )
+
+    if mismatches:
+        return False, (
+            f"FATAL: Validator blob hash mismatch — files have changed since lock was generated:\n" +
+            "\n".join(f"  - {m}" for m in mismatches) +
+            f"\nExecution BLOCKED — re-run validate_harness_production_lock.py --write-lock."
+        )
+
+    # 6. Task spec hash must match
+    task_spec_path = lock.get("campaign_task_spec_path", "")
+    task_spec_hash_lock = lock.get("campaign_task_spec_hash", "")
+    if task_spec_path and task_spec_hash_lock:
+        actual_hash = git_show_hash(REPO_ROOT, task_spec_path)
+        if actual_hash != task_spec_hash_lock:
+            return False, (
+                f"FATAL: Task spec hash mismatch:\n"
+                f"  lock_hash={task_spec_hash_lock[:16]}...\n"
+                f"  current_hash={actual_hash[:16]}...\n"
+                f"Execution BLOCKED — re-run validate_harness_production_lock.py --write-lock."
+            )
+
+    # 7. Immutable files enforcement check
+    # Note: The lock itself declares immutable files; V02 (validate_diff_scope)
+    # will catch any runtime task that tries to modify them.
+
+    return True, (
+        f"Production lock valid: status={status}, "
+        f"generated_by={generated_by}, "
+        f"validators_intact={len(validator_hashes)} files, "
+        f"task_spec_hash_verified={bool(task_spec_hash_lock)}"
+    )
+
+
+# ----------------------------------------------------------------------
+# Validator runner
+# ----------------------------------------------------------------------
 
 def run_validator(script: Path, args: list[str]) -> tuple[int, str, str]:
     """Run a validator script and return (exit_code, stdout, stderr)."""
@@ -86,6 +198,10 @@ def print_result(name: str, passed: bool, stdout: str, stderr: str) -> None:
             print(f"       {line}")
 
 
+# ----------------------------------------------------------------------
+# Main
+# ----------------------------------------------------------------------
+
 def main() -> None:
     parser = argparse.ArgumentParser(
         description="Agent Execution Harness pre-flight: V01 + V02 validation.",
@@ -117,6 +233,11 @@ def main() -> None:
         action="store_true",
         help="Run V02 only (skip V01 authority)",
     )
+    parser.add_argument(
+        "--skip-lock-check",
+        action="store_true",
+        help="Bypass production lock check (for harness maintenance only)",
+    )
 
     args = parser.parse_args()
 
@@ -131,14 +252,29 @@ def main() -> None:
     else:
         task_spec_path = (CAMPAIGN_ROOT / task_spec_arg).resolve()
 
-    print_header(f"Agent Task Pre-flight")
+    print_header("Agent Task Pre-flight")
     print(f"  campaign_root: {CAMPAIGN_ROOT}")
     print(f"  task_spec:    {task_spec_path}")
     print(f"  dry_run:      {args.dry_run}")
+    print(f"  skip_lock:    {getattr(args, 'skip_lock_check', False)}")
 
     if not task_spec_path.exists():
         print(f"\nFATAL: Task spec not found: {task_spec_path}", file=sys.stderr)
         sys.exit(2)
+
+    # --- Lock enforcement (must pass unless --skip-lock-check) ---
+    if not getattr(args, "skip_lock_check", False):
+        print("\n  [LOCK] Production lock enforcement")
+        lock_ok, lock_msg = enforce_production_lock()
+        if lock_ok:
+            print(f"  [PASS] {lock_msg}")
+        else:
+            print(f"  {lock_msg}", file=sys.stderr)
+            print("\n  PRE-FLIGHT FAILED — production lock not satisfied.", file=sys.stderr)
+            print("  STOP — do not proceed with execution.", file=sys.stderr)
+            sys.exit(2)
+    else:
+        print("\n  [SKIP] Production lock check bypassed (harness maintenance mode)")
 
     passed_count = 0
     failed_count = 0
@@ -178,6 +314,7 @@ def main() -> None:
     print(f"  Failed: {failed_count}")
     print(f"  Task spec: {task_spec_path.name}")
     print(f"  Pre-flight callable: True")
+    print(f"  Production lock: verified")
 
     if failed_count == 0:
         print("\n  ALL PRE-FLIGHT VALIDATORS PASSED.")

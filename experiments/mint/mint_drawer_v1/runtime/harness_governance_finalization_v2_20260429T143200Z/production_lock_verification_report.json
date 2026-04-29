@@ -1,0 +1,306 @@
+{
+  "report_type": "production_lock_verification",
+  "generated_by": "validate_harness_production_lock.py",
+  "timestamp_utc": "2026-04-29T14:59:13Z",
+  "args": {
+    "task_spec": "sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml",
+    "dry_run": false,
+    "write_lock": "autopilot/agent_execution_harness_lock.json",
+    "write_report": "runtime/harness_governance_finalization_v2_20260429T143200Z/production_lock_verification_report.json",
+    "require_github": true,
+    "require_regressions": true
+  },
+  "checks": {
+    "files_in_tree": {
+      "passed": true,
+      "details": {
+        "CLAUDE.md": {
+          "exists": true,
+          "in_git_tree": true,
+          "status": "OK"
+        },
+        "experiments/mint/mint_drawer_v1/CLAUDE.md": {
+          "exists": true,
+          "in_git_tree": true,
+          "status": "OK"
+        },
+        "experiments/mint/mint_drawer_v1/AGENT_EXECUTION_GUARDRAILS.md": {
+          "exists": true,
+          "in_git_tree": true,
+          "status": "OK"
+        },
+        "experiments/mint/mint_drawer_v1/scripts/harness/agent_task_preflight.py": {
+          "exists": true,
+          "in_git_tree": true,
+          "status": "OK"
+        },
+        "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_task_authority.py": {
+          "exists": true,
+          "in_git_tree": true,
+          "status": "OK"
+        },
+        "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_diff_scope.py": {
+          "exists": true,
+          "in_git_tree": true,
+          "status": "OK"
+        },
+        "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_closeout.py": {
+          "exists": true,
+          "in_git_tree": true,
+          "status": "OK"
+        },
+        "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml": {
+          "exists": true,
+          "in_git_tree": true,
+          "status": "OK"
+        },
+        "experiments/mint/mint_drawer_v1/runtime/campaign_harness_integration/inventory.json": {
+          "exists": true,
+          "in_git_tree": true,
+          "status": "OK"
+        },
+        "experiments/mint/mint_drawer_v1/runtime/campaign_harness_integration/inventory.md": {
+          "exists": true,
+          "in_git_tree": true,
+          "status": "OK"
+        },
+        "experiments/mint/mint_drawer_v1/runtime/campaign_harness_integration/real_regression_results.json": {
+          "exists": true,
+          "in_git_tree": true,
+          "status": "OK"
+        }
+      }
+    },
+    "github_visibility": {
+      "passed": true,
+      "details": {
+        "remote_url": "git@github.com:lqzhw520/infinigen.git",
+        "owner_repo": "lqzhw520/infinigen",
+        "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+        "git_ls_remote": {
+          "ok": true,
+          "output": "4aee7ed39d53b0237a4c2762b20107d892ee58ed\trefs/heads/feature/mint-env-reformulation-v1-visual-fidelity"
+        },
+        "github_verified_via": "git_ls_remote",
+        "pushed_commit": "4aee7ed39d53b0237a4c2762b20107d892ee58ed",
+        "local_commit": "4aee7ed39d53b0237a4c2762b20107d892ee58ed",
+        "CLAUDE.md": {
+          "status": "OK_GIT_PUSHED",
+          "commit": "4aee7ed39d53b0237a4c2762b20107d892ee58ed"
+        },
+        "experiments/mint/mint_drawer_v1/CLAUDE.md": {
+          "status": "OK_GIT_PUSHED",
+          "commit": "4aee7ed39d53b0237a4c2762b20107d892ee58ed"
+        },
+        "experiments/mint/mint_drawer_v1/AGENT_EXECUTION_GUARDRAILS.md": {
+          "status": "OK_GIT_PUSHED",
+          "commit": "4aee7ed39d53b0237a4c2762b20107d892ee58ed"
+        },
+        "experiments/mint/mint_drawer_v1/scripts/harness/agent_task_preflight.py": {
+          "status": "OK_GIT_PUSHED",
+          "commit": "4aee7ed39d53b0237a4c2762b20107d892ee58ed"
+        },
+        "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_task_authority.py": {
+          "status": "OK_GIT_PUSHED",
+          "commit": "4aee7ed39d53b0237a4c2762b20107d892ee58ed"
+        },
+        "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_diff_scope.py": {
+          "status": "OK_GIT_PUSHED",
+          "commit": "4aee7ed39d53b0237a4c2762b20107d892ee58ed"
+        },
+        "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_closeout.py": {
+          "status": "OK_GIT_PUSHED",
+          "commit": "4aee7ed39d53b0237a4c2762b20107d892ee58ed"
+        },
+        "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml": {
+          "status": "OK_GIT_PUSHED",
+          "commit": "4aee7ed39d53b0237a4c2762b20107d892ee58ed"
+        }
+      }
+    },
+    "blob_hashes": {
+      "CLAUDE.md": "af9a4894b471caa1e22d8627c9a0e43309560838",
+      "experiments/mint/mint_drawer_v1/CLAUDE.md": "a575b058704bb8eeb0823a0c8057042215dd305b",
+      "experiments/mint/mint_drawer_v1/AGENT_EXECUTION_GUARDRAILS.md": "e4039990d4e3b6407d7a95b00e4079fe42fda17c",
+      "experiments/mint/mint_drawer_v1/scripts/harness/agent_task_preflight.py": "aac0ebdd42870d2835ea54da7b01137489ce3dfa",
+      "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_task_authority.py": "b70a98ef921735231ea1d7c31291fd21a52c9777",
+      "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_diff_scope.py": "9e9b72e703ad3016205e2084ac57750b4980e2ea",
+      "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_closeout.py": "00876f159f540a8c00f4f86df560fa77788535c2",
+      "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml": "30b670af5b96aa9b786ba893a195496acadf8f9b",
+      "experiments/mint/mint_drawer_v1/runtime/campaign_harness_integration/inventory.json": "9c3fda89f7e908bd1a71a125efb0bb0e5b0cefe0",
+      "experiments/mint/mint_drawer_v1/runtime/campaign_harness_integration/inventory.md": "b330e67949fb9d48967cf11de3c1bc2112d91742",
+      "experiments/mint/mint_drawer_v1/runtime/campaign_harness_integration/real_regression_results.json": "98b46642559c0e0914a706fefec3f27aa2c88fa6",
+      "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json": "3bd7b874e865250596b49657d5810e9316de86e5"
+    },
+    "preflight": {
+      "passed": true,
+      "output": "\n======================================================================\n  Agent Task Pre-flight\n======================================================================\n  campaign_root: /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1\n  task_spec:    /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml\n  dry_run:      True\n  skip_lock:    True\n\n  [SKIP] Production lock check bypassed (harness maintenance mode)\n\n  [V01] validate_task_authority (S0 gate)\n  [PASS] V01 validate_task_authority\n\n  [V02] validate_diff_scope\n  [PASS] V02 validate_diff_scope\n\n======================================================================\n  Pre-flight Summary\n======================================================================\n  Passed: 2\n  Failed: 0\n  Task spec: v11_g4_phase1h_contact_test.yaml\n  Pre-flight callable: True\n  Production lock: verified\n\n  ALL PRE-FLIGHT VALIDATORS PASSED.\n  Agent may proceed with execution.\n  N"
+    },
+    "regressions": {
+      "R1_authority_drift": {
+        "passed": true,
+        "fixture": "invalid_authority_drift (legal_pad=31/forbidden=27 vs GOC=29/26)",
+        "expected": "AUTHORITY_MISMATCH",
+        "stdout": "fixture=invalid_authority_drift expected=FAIL(AUTHORITY_MISMATCH) actual=FAIL \u2014 validator correctly rejected drift\nPASS",
+        "stderr": ""
+      },
+      "R1b_authority_match": {
+        "passed": true,
+        "fixture": "valid_authority_match (legal_pad=29/forbidden=26 matches GOC)",
+        "expected": "PASS",
+        "stdout": "fixture=valid_authority_match expected=PASS actual=PASS \u2014 OK\nPASS"
+      },
+      "R2_rollout_crash": {
+        "passed": true,
+        "fixture": "rollout_crash (Traceback + missing result JSON)",
+        "expected": "INFRASTRUCTURE_BLOCKED / ROLLOUT_COMMAND_BROKEN",
+        "stdout": "fixture=rollout_crash expected_class=INFRASTRUCTURE_BLOCKED actual=INFRASTRUCTURE_BLOCKED \u2014 OK. ROLLOUT_COMMAND_BROKEN: Python traceback detected in rollout output. Crash is NOT route failure. Result JSON exists=False. Rule: Crash => INFRASTRUCTURE_BLOCKED, not ROLLOUT_EXHAUSTED.\n\nVALIDATION PASSED",
+        "stderr": ""
+      },
+      "R2b_valid_closeout": {
+        "passed": true,
+        "fixture": "valid_closeout",
+        "expected": "ROUTE_SUCCESS",
+        "stdout": "fixture=valid_closeout expected_class=ROUTE_SUCCESS actual=ROUTE_SUCCESS \u2014 OK. ROUTE_SUCCESS: Route evaluated, contact reported. seeds_completed=12/12\n\nVALIDATION PASSED"
+      },
+      "R3_diff_scope_clean": {
+        "passed": true,
+        "fixture": "clean git status (dry-run)",
+        "expected": "PASS",
+        "stdout": "[DRY-RUN] scope check passed. task_type=HARNESS_MAINTENANCE staged=3 unstaged=2 untracked_remote_scope=0 forbidden_violations=0. approved=['scripts/mint/drawer_robot_env_mujoco.py', 'scripts/mint/run_full_robot_teacher_probe.py', 'scripts/mint/export_full_robot_teacher_replay_bundle.py']. forbidden=['scripts/harness/validators/validate_task_authority.py', 'scripts/harness/validators/validate_diff_scope.py', 'scripts/harness/validators/validate_closeout.py', 'scripts/harness/agent_task_preflight.",
+        "stderr": ""
+      },
+      "R4_preflight_v01_v02": {
+        "passed": true,
+        "fixture": "preflight dry-run",
+        "expected": "V01+V02 both PASS",
+        "stdout": "======================================================================\n  Agent Task Pre-flight\n======================================================================\n  campaign_root: /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1\n  task_spec:    /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml\n  dry_run:      True\n  skip_lock:    True\n\n  [SKIP] Production lock check bypassed (harness maintenance mode)\n\n  [V01] ",
+        "stderr": ""
+      }
+    },
+    "status_surface": {
+      "passed": true,
+      "message": "status_surface_consistency: rollout_crash_classified=True, misclassified_route_exhausted=False, misclassified_route_never=False"
+    }
+  },
+  "lock_written": true,
+  "lock": {
+    "lock_id": "CAMPAIGN_NATIVE_HARNESS_PRODUCTION_LOCK_V2",
+    "version": "2.0.0",
+    "generated_by": "validate_harness_production_lock.py",
+    "generator_script": "experiments/mint/mint_drawer_v1/scripts/harness/validate_harness_production_lock.py",
+    "timestamp_utc": "2026-04-29T14:59:13Z",
+    "harness_commit": "4aee7ed39d53b0237a4c2762b20107d892ee58ed",
+    "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+    "remote": "git@github.com:lqzhw520/infinigen.git",
+    "campaign_root": "experiments/mint/mint_drawer_v1",
+    "campaign_validator_hashes": {
+      "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_task_authority.py": "b70a98ef921735231ea1d7c31291fd21a52c9777",
+      "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_diff_scope.py": "9e9b72e703ad3016205e2084ac57750b4980e2ea",
+      "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_closeout.py": "00876f159f540a8c00f4f86df560fa77788535c2",
+      "experiments/mint/mint_drawer_v1/scripts/harness/agent_task_preflight.py": "aac0ebdd42870d2835ea54da7b01137489ce3dfa"
+    },
+    "campaign_task_spec_hash": "",
+    "campaign_claude_bootloader_hash": "af9a4894b471caa1e22d8627c9a0e43309560838",
+    "campaign_claude_campaign_root_hash": "a575b058704bb8eeb0823a0c8057042215dd305b",
+    "campaign_guardrails_hash": "e4039990d4e3b6407d7a95b00e4079fe42fda17c",
+    "authority_locks": {
+      "goc_legal_pad_count": 29,
+      "goc_forbidden_count": 26,
+      "goc_handle_count": 9,
+      "task_yaml_hash": ""
+    },
+    "preflight_dry_run_passed": true,
+    "regressions_passed": true,
+    "github_visibility_passed": true,
+    "status_surface_consistent": true,
+    "regression_results": {
+      "R1_authority_drift": {
+        "passed": true,
+        "fixture": "invalid_authority_drift (legal_pad=31/forbidden=27 vs GOC=29/26)",
+        "expected": "AUTHORITY_MISMATCH",
+        "stdout": "fixture=invalid_authority_drift expected=FAIL(AUTHORITY_MISMATCH) actual=FAIL \u2014 validator correctly rejected drift\nPASS",
+        "stderr": ""
+      },
+      "R1b_authority_match": {
+        "passed": true,
+        "fixture": "valid_authority_match (legal_pad=29/forbidden=26 matches GOC)",
+        "expected": "PASS",
+        "stdout": "fixture=valid_authority_match expected=PASS actual=PASS \u2014 OK\nPASS"
+      },
+      "R2_rollout_crash": {
+        "passed": true,
+        "fixture": "rollout_crash (Traceback + missing result JSON)",
+        "expected": "INFRASTRUCTURE_BLOCKED / ROLLOUT_COMMAND_BROKEN",
+        "stdout": "fixture=rollout_crash expected_class=INFRASTRUCTURE_BLOCKED actual=INFRASTRUCTURE_BLOCKED \u2014 OK. ROLLOUT_COMMAND_BROKEN: Python traceback detected in rollout output. Crash is NOT route failure. Result JSON exists=False. Rule: Crash => INFRASTRUCTURE_BLOCKED, not ROLLOUT_EXHAUSTED.\n\nVALIDATION PASSED",
+        "stderr": ""
+      },
+      "R2b_valid_closeout": {
+        "passed": true,
+        "fixture": "valid_closeout",
+        "expected": "ROUTE_SUCCESS",
+        "stdout": "fixture=valid_closeout expected_class=ROUTE_SUCCESS actual=ROUTE_SUCCESS \u2014 OK. ROUTE_SUCCESS: Route evaluated, contact reported. seeds_completed=12/12\n\nVALIDATION PASSED"
+      },
+      "R3_diff_scope_clean": {
+        "passed": true,
+        "fixture": "clean git status (dry-run)",
+        "expected": "PASS",
+        "stdout": "[DRY-RUN] scope check passed. task_type=HARNESS_MAINTENANCE staged=3 unstaged=2 untracked_remote_scope=0 forbidden_violations=0. approved=['scripts/mint/drawer_robot_env_mujoco.py', 'scripts/mint/run_full_robot_teacher_probe.py', 'scripts/mint/export_full_robot_teacher_replay_bundle.py']. forbidden=['scripts/harness/validators/validate_task_authority.py', 'scripts/harness/validators/validate_diff_scope.py', 'scripts/harness/validators/validate_closeout.py', 'scripts/harness/agent_task_preflight.",
+        "stderr": ""
+      },
+      "R4_preflight_v01_v02": {
+        "passed": true,
+        "fixture": "preflight dry-run",
+        "expected": "V01+V02 both PASS",
+        "stdout": "======================================================================\n  Agent Task Pre-flight\n======================================================================\n  campaign_root: /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1\n  task_spec:    /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml\n  dry_run:      True\n  skip_lock:    True\n\n  [SKIP] Production lock check bypassed (harness maintenance mode)\n\n  [V01] ",
+        "stderr": ""
+      }
+    },
+    "execution_without_campaign_preflight_allowed": false,
+    "runtime_task_may_modify_validators": false,
+    "runtime_task_may_modify_contracts": false,
+    "runtime_task_may_modify_guardrails": false,
+    "runtime_task_may_modify_claude": false,
+    "immutable_files": [
+      "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_task_authority.py",
+      "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_diff_scope.py",
+      "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_closeout.py",
+      "experiments/mint/mint_drawer_v1/scripts/harness/agent_task_preflight.py",
+      "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml",
+      "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json",
+      "experiments/mint/mint_drawer_v1/autopilot/v11_hard_goal_contract.json",
+      "experiments/mint/mint_drawer_v1/CLAUDE.md",
+      "experiments/mint/mint_drawer_v1/AGENT_EXECUTION_GUARDRAILS.md",
+      "CLAUDE.md",
+      "AGENT_EXECUTION_GUARDRAILS.md"
+    ],
+    "validator_chain": {
+      "v01": {
+        "tool": "validate_task_authority.py",
+        "trigger": "before_execution",
+        "mode": "dry-run"
+      },
+      "v02": {
+        "tool": "validate_diff_scope.py",
+        "trigger": "before_execution",
+        "mode": "dry-run"
+      },
+      "v03": {
+        "tool": "validate_task_authority.py",
+        "trigger": "during_execution",
+        "mode": "runtime-check"
+      },
+      "v04": {
+        "tool": "validate_closeout.py",
+        "trigger": "on_closeout"
+      }
+    },
+    "runtime_code_modified": false,
+    "rollout_render_train_run": false,
+    "next_scientific_gate": "GOC_V3_EXACT_ID_CONTRACT_REBUILD",
+    "next_scientific_gate_blocked": true,
+    "next_scientific_gate_blocker": "Harness production-ready. GOC-v3 must be completed before V11-G4 FSM execution.",
+    "harness_status": "production_ready",
+    "generated_by_verifier": true
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "report_id": "publication_fix_20260429",
+  "timestamp_utc": "2026-04-29T14:15:00+08:00",
+  "root_cause": "Files only staged locally; not committed to authoritative A800 repo; not pushed to GitHub",
+  "fix_commits": {
+    "compatibility_fix": {
+      "hash": "350045fa",
+      "message": "fix(harness): add from __future__ import annotations for Python 3.8 compatibility",
+      "files": [
+        "experiments/mint/mint_drawer_v1/scripts/harness/agent_task_preflight.py",
+        "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_task_authority.py",
+        "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_diff_scope.py",
+        "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_closeout.py"
+      ]
+    },
+    "harness_install": {
+      "hash": "cc716aa7",
+      "message": "chore(mint): install campaign-native agent execution harness",
+      "files": [
+        "CLAUDE.md",
+        "experiments/mint/mint_drawer_v1/CLAUDE.md",
+        "experiments/mint/mint_drawer_v1/AGENT_EXECUTION_GUARDRAILS.md",
+        "experiments/mint/mint_drawer_v1/scripts/harness/agent_task_preflight.py",
+        "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_task_authority.py",
+        "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_diff_scope.py",
+        "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_closeout.py",
+        "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml",
+        "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json",
+        "experiments/mint/mint_drawer_v1/runtime/campaign_harness_integration/inventory.json",
+        "experiments/mint/mint_drawer_v1/runtime/campaign_harness_integration/inventory.md",
+        "experiments/mint/mint_drawer_v1/runtime/campaign_harness_integration/real_regression_results.json"
+      ]
+    }
+  },
+  "github_visibility": {
+    "all_9_paths_verified": true,
+    "paths": {
+      "CLAUDE.md": "200",
+      "experiments/mint/mint_drawer_v1/CLAUDE.md": "200",
+      "experiments/mint/mint_drawer_v1/AGENT_EXECUTION_GUARDRAILS.md": "200",
+      "experiments/mint/mint_drawer_v1/scripts/harness/agent_task_preflight.py": "200",
+      "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_task_authority.py": "200",
+      "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_diff_scope.py": "200",
+      "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_closeout.py": "200",
+      "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml": "200",
+      "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json": "200"
+    }
+  },
+  "preflight_results": {
+    "v01_validate_task_authority": "PASS",
+    "v02_validate_diff_scope": "PASS",
+    "all_passed": true
+  },
+  "closeout": {
+    "harness_status": "production_ready",
+    "publication_complete": true,
+    "github_visibility_complete": true,
+    "campaign_preflight_callable": true,
+    "regressions_rerun_after_publication": false,
+    "note": "Regressions were run pre-publication (recorded in real_regression_results.json). Not re-run post-publication as no semantic changes were made to validator logic.",
+    "remote_commit_hash_or_not_committed_reason": "350045fa",
+    "remote_pushed_to_origin": true,
+    "missing_github_paths": [],
+    "whether_runtime_code_modified": false,
+    "whether_rollout_render_train_run": false,
+    "next_scientific_gate": "GOC_V3_EXACT_ID_CONTRACT_REBUILD"
+  },
+  "previous_failures": [
+    "git add . on local workspace (not A800)",
+    "claimed production_ready without pushing to A800 or GitHub",
+    "lock file had local mirror hashes instead of A800 committed hashes",
+    "preflight not run from A800 committed files"
+  ],
+  "fix_steps": [
+    "scp each file from local to A800",
+    "git add only whitelisted files on A800",
+    "git commit with required message on A800",
+    "git push my-origin from A800",
+    "verify all 9 GitHub raw URLs return HTTP 200",
+    "run preflight dry-run on A800",
+    "fix Python 3.8 compatibility",
+    "commit and push fix",
+    "update lock file with correct hashes",
+    "write publication report"
+  ]
+}

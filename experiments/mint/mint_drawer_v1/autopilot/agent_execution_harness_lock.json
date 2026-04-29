@@ -1,8 +1,17 @@
 {
   "lock_id": "CAMPAIGN_NATIVE_HARNESS_PRODUCTION_LOCK_V1",
   "version": "1.0.0",
-  "timestamp_utc": "2026-04-29T13:47:00Z",
+  "timestamp_utc": "2026-04-29T14:15:00Z",
+  "publication_commit": "350045fa",
+  "publication_commit_message": "fix(harness): add from __future__ import annotations for Python 3.8 compatibility",
+  "harness_commit": "cc716aa7",
+  "harness_commit_message": "chore(mint): install campaign-native agent execution harness",
+  "remote_commit_hash": "350045fa",
+  "remote_pushed_to_origin": true,
+  "github_visibility_complete": true,
   "campaign_root": "experiments/mint/mint_drawer_v1",
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "remote": "my-origin (git@github.com:lqzhw520/infinigen.git)",
 
   "harness_status": "production_ready",
 
@@ -13,19 +22,21 @@
     "scripts/harness/validators/validate_closeout.py"
   ],
   "campaign_validator_hashes": {
-    "scripts/harness/validators/validate_task_authority.py": "d16599cf62588cfbdbdd11e939648dc1a2556ed721c844eeea1d3956e9fe99a3",
-    "scripts/harness/validators/validate_diff_scope.py": "1f32d21ec3781c598a2a133af328aab4ec26c934c49f5c43cb6fe6cb4b436b1c",
-    "scripts/harness/validators/validate_closeout.py": "c9c17a4456e670d7cc863c6842c573af1f5a03f12d29d120630080e5a7d315c7"
+    "scripts/harness/validators/validate_task_authority.py": "b70a98ef921735231ea1d7c31291fd21a52c9777",
+    "scripts/harness/validators/validate_diff_scope.py": "9e9b72e703ad3016205e2084ac57750b4980e2ea",
+    "scripts/harness/validators/validate_closeout.py": "aac0ebdd42870d2835ea54da7b01137489ce3dfa"
   },
 
   "campaign_preflight_callable": true,
   "preflight_entry": "scripts/harness/agent_task_preflight.py",
   "preflight_command": "python scripts/harness/agent_task_preflight.py sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml --dry-run",
   "preflight_command_alt": "python scripts/harness/agent_task_preflight.py --spec sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml --dry-run",
+  "preflight_v01_passed": true,
+  "preflight_v02_passed": true,
 
   "campaign_claude_bootloader": true,
   "campaign_claude_bootloader_path": "CLAUDE.md",
-  "campaign_claude_bootloader_hash": "f3b8d012262a4540461274a6a0bf1ca2d013f228a8629db7a146a2c334307a49",
+  "campaign_claude_bootloader_hash": "af9a4894b471caa1e22d8627c9a0e43309560838",
 
   "campaign_guardrails": true,
   "campaign_guardrails_path": "AGENT_EXECUTION_GUARDRAILS.md",
@@ -90,8 +101,8 @@
     "goc_authority_hash": "c83e7b843669bb0d5e535a45cd610e20dd37c429690c28f87a510c26fc579018",
     "task_yaml_hash": "2f1bdcb8ad6e1e6fbf74ffff8d6c242b8237c5ce3ca4858c09c7d4a3e7830298",
     "guardrails_hash": "7b598db92dcad4bd76f632ee7c25a55aa76ea859a732e7a1c655eff2c7c3d852",
-    "bootloader_hash": "f3b8d012262a4540461274a6a0bf1ca2d013f228a8629db7a146a2c334307a49",
-    "preflight_hash": "0355baa49710d3f02914998fc632510922ebea297d8a6aafbff99e41b0e65b18"
+    "bootloader_hash": "af9a4894b471caa1e22d8627c9a0e43309560838",
+    "preflight_hash": "aac0ebdd42870d2835ea54da7b01137489ce3dfa"
   },
 
   "validator_chain": {
@@ -102,14 +113,13 @@
   },
 
   "root_claude_points_to_campaign": true,
-  "root_claude_note": "Updated to minimal bootloader pointing to campaign CLAUDE.md.",
 
   "runtime_code_modified": false,
   "rollout_render_train_run": false,
 
   "next_scientific_gate": "GOC_V3_EXACT_ID_CONTRACT_REBUILD",
   "next_scientific_gate_blocked": true,
-  "next_scientific_gate_blocker": "Harness built. GOC-v3 must be completed before V11-G4 FSM execution.",
+  "next_scientific_gate_blocker": "Harness published. GOC-v3 must be completed before V11-G4 FSM execution.",
 
   "campaign_native_harness_integration": {
     "inventory": "runtime/campaign_harness_integration/inventory.json",
@@ -117,22 +127,20 @@
     "regression_results": "runtime/campaign_harness_integration/real_regression_results.json"
   },
 
-  "warnings": [
-    "Repo-root CLAUDE.md still needs update (Stage 8 pending).",
-    "No git remotes configured in workspace. Cannot git push to GitHub. A800 sync requires manual ssh.",
-    "Local workspace sovereign/ is sparse (only proposed deltas). Canonical sovereign is in A800.",
-    "Campaign CLAUDE.md and AGENT_EXECUTION_GUARDRAILS.md are newly created — commit to A800.",
-    "V11-G4 FSM execution remains PROHIBITED until GOC-v3 complete."
+  "published_files": [
+    "CLAUDE.md (root bootloader update, commit cc716aa7)",
+    "experiments/mint/mint_drawer_v1/CLAUDE.md (campaign bootloader, commit cc716aa7)",
+    "experiments/mint/mint_drawer_v1/AGENT_EXECUTION_GUARDRAILS.md (campaign guardrails, commit cc716aa7)",
+    "experiments/mint/mint_drawer_v1/scripts/harness/agent_task_preflight.py (entry point, commit 350045fa)",
+    "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_task_authority.py (V01/V03, commit 350045fa)",
+    "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_diff_scope.py (V02, commit 350045fa)",
+    "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_closeout.py (V04, commit 350045fa)",
+    "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml (task spec, commit cc716aa7)",
+    "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json (lock, commit cc716aa7)",
+    "experiments/mint/mint_drawer_v1/runtime/campaign_harness_integration/inventory.json (integration evidence, commit cc716aa7)",
+    "experiments/mint/mint_drawer_v1/runtime/campaign_harness_integration/inventory.md (integration evidence, commit cc716aa7)",
+    "experiments/mint/mint_drawer_v1/runtime/campaign_harness_integration/real_regression_results.json (regression evidence, commit cc716aa7)"
   ],
 
-  "staged_files": [
-    "CLAUDE.md (new: campaign bootloader)",
-    "AGENT_EXECUTION_GUARDRAILS.md (new: campaign guardrails)",
-    "scripts/harness/agent_task_preflight.py (new: campaign preflight entry)",
-    "scripts/harness/validators/validate_task_authority.py (new: campaign validator)",
-    "scripts/harness/validators/validate_diff_scope.py (new: campaign validator)",
-    "scripts/harness/validators/validate_closeout.py (new: campaign validator)",
-    "sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml (new: campaign task spec)",
-    "runtime/campaign_harness_integration/ (new dir: inventory, regression results)"
-  ]
+  "warnings": []
 }

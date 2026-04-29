@@ -1,0 +1,133 @@
+{
+  "timestamp_utc": "20260429T042100Z",
+  "remote_head": "026cebead0b6b56c0ac329ec1764d7aa46aadbc6",
+  "model_instantiation": "MergedModelBuilder + DrawerRobotEnvMuJoCoLibero",
+  "seed": 1,
+  "nbody": 14,
+  "ngeom": 91,
+  "all_geoms_hmesh": true,
+  "all_geom_names_empty_except_collision": true,
+
+  "body_inventory": [
+    {"bid": 0,  "name": "world",       "geom_count": 0,  "chain": ["world"],                                                              "category": "world_static"},
+    {"bid": 1,  "name": "drawer_base",  "geom_count": 9,  "chain": ["drawer_base", "world"],                                               "category": "drawer_body_or_cabinet"},
+    {"bid": 2,  "name": "link_1",       "geom_count": 12, "chain": ["link_1", "drawer_base", "world"],                                   "category": "drawer_body_or_cabinet"},
+    {"bid": 3,  "name": "link_2",       "geom_count": 12, "chain": ["link_2", "link_1", "drawer_base", "world"],                       "category": "drawer_body_or_cabinet"},
+    {"bid": 4,  "name": "base",         "geom_count": 0,  "chain": ["base", "world"],                                                       "category": "robot_arm"},
+    {"bid": 5,  "name": "link0",        "geom_count": 13, "chain": ["link0", "base", "world"],                                            "category": "robot_arm"},
+    {"bid": 6,  "name": "link1",        "geom_count": 2,  "chain": ["link1", "link0", "base", "world"],                                 "category": "robot_arm"},
+    {"bid": 7,  "name": "link2",        "geom_count": 2,  "chain": ["link2", "link1", "link0", "base", "world"],                       "category": "robot_arm"},
+    {"bid": 8,  "name": "link3",        "geom_count": 5,  "chain": ["link3", "link2", "link1", "link0", "base", "world"],              "category": "robot_arm"},
+    {"bid": 9,  "name": "link4",        "geom_count": 5,  "chain": ["link4", "link3", "link2", "link1", "link0", "base", "world"],     "category": "robot_arm"},
+    {"bid": 10, "name": "link5",        "geom_count": 4,  "chain": ["link5", "link4", "link3", "link2", "link1", "link0", "base", "world"], "category": "gripper_contact"},
+    {"bid": 11, "name": "link6",        "geom_count": 18, "chain": ["link6", "link5", "link4", "link3", "link2", "link1", "link0", "base", "world"], "category": "gripper_contact"},
+    {"bid": 12, "name": "link7",        "geom_count": 9,  "chain": ["link7", "link6", "link5", "link4", "link3", "link2", "link1", "link0", "base", "world"], "category": "gripper_contact"},
+    {"bid": 13, "name": "right_hand",   "geom_count": 0,  "chain": ["right_hand", "link7", "link6", "link5", "link4", "link3", "link2", "link1", "link0", "base", "world"], "category": "gripper_contact"}
+  ],
+
+  "collision_geoms": [
+    {"gid": 45, "name": "link0_collision", "body": "link0",  "bid": 5,  "chain": ["link0", "base", "world"],              "correct_category": "gripper_contact"},
+    {"gid": 47, "name": "link1_collision", "body": "link1",  "bid": 6,  "chain": ["link1", "link0", "base", "world"],    "correct_category": "gripper_contact"},
+    {"gid": 49, "name": "link2_collision", "body": "link2",  "bid": 7,  "chain": ["link2", "link1", "link0", "base", "world"], "correct_category": "gripper_contact"},
+    {"gid": 54, "name": "link3_collision", "body": "link3",  "bid": 8,  "chain": ["link3", "link2", "link1", "link0", "base", "world"], "correct_category": "forbidden_robot"},
+    {"gid": 59, "name": "link4_collision", "body": "link4",  "bid": 9,  "chain": ["link4", "link3", "link2", "link1", "link0", "base", "world"], "correct_category": "forbidden_robot"},
+    {"gid": 63, "name": "link5_collision", "body": "link5",  "bid": 10, "chain": ["link5", "link4", "link3", "link2", "link1", "link0", "base", "world"], "correct_category": "gripper_contact"},
+    {"gid": 81, "name": "link6_collision", "body": "link6",  "bid": 11, "chain": ["link6", "link5", "link4", "link3", "link2", "link1", "link0", "base", "world"], "correct_category": "gripper_contact"},
+    {"gid": 90, "name": "link7_collision", "body": "link7",  "bid": 12, "chain": ["link7", "link6", "link5", "link4", "link3", "link2", "link1", "link0", "base", "world"], "correct_category": "gripper_contact"}
+  ],
+
+  "unnamed_geoms": {
+    "drawer_geoms": {"ids": [0,1,2,3,4,5,6,7,8], "body": "drawer_base", "category": "drawer_body_or_cabinet"},
+    "drawer_link_geoms": {"ids": [9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32], "body": "link_1/link_2", "category": "drawer_body_or_cabinet"},
+    "robot_geoms_link0": {"ids": [33,34,35,36,37,38,39,40,41,42,43,44], "body": "link0", "category": "gripper_contact"},
+    "robot_geoms_link1": {"ids": [46,48], "body": "link1", "category": "gripper_contact"},
+    "robot_geoms_link2": {"ids": [50,51,52,53], "body": "link3", "category": "forbidden_robot"},
+    "robot_geoms_link4": {"ids": [55,56,57], "body": "link4", "category": "forbidden_robot"},
+    "robot_geoms_link5": {"ids": [60,61,62], "body": "link5", "category": "gripper_contact"},
+    "robot_geoms_link6": {"ids": [64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80], "body": "link6", "category": "gripper_contact"},
+    "robot_geoms_link7": {"ids": [82,83,84,85,86,87,88,89], "body": "link7", "category": "gripper_contact"}
+  },
+
+  "key_findings": {
+    "right_hand_body_has_zero_geoms": true,
+    "all_gripper_geometry_on_arm_links": true,
+    "no_separate_finger_pad_meshes": true,
+    "collision_geoms_named_after_arm_links": true,
+    "hmesh_type_for_all_geoms": true,
+    "drawer_geoms_all_unnamed": true,
+    "handle_identification_is_broken": "_identify_handle_geom_ids returns link4/5/6 geoms as handle geoms — these are robot arm links, not drawer handles",
+    "gripper_contact_geoms_are_arm_links": "geoms on link5, link6, link7 bodies serve as gripper contact surface in merged model",
+    "forbidden_robot_are_upper_arm_links": "geoms on link3, link4 bodies should be classified as forbidden (upper arm, not gripper)"
+  },
+
+  "p2_discovery_bugs": {
+    "bug_1": {
+      "location": "_discover_gripper_contact_geom_ids",
+      "issue": "\"link\" in ancestor_names matches drawer link_1, link_2",
+      "impact": "Drawer link_1 geoms (9-20) incorrectly included as gripper contact geoms",
+      "correct_fix": "Use exact body name prefix matching (link0-link7 on robot base chain, NOT link_1/link_2 on drawer chain)"
+    },
+    "bug_2": {
+      "location": "_discover_gripper_contact_geom_ids",
+      "issue": "0.10m proximity to link7 body would include nearby drawer geoms",
+      "impact": "Drawer base geoms could be within 0.10m of link7 position",
+      "correct_fix": "Remove proximity check entirely since right_hand has no geoms"
+    },
+    "bug_3": {
+      "location": "_geom_belongs_to_robot",
+      "issue": "\"base\" in ancestor_names matches drawer_base",
+      "impact": "Drawer geoms get is_robot=True AND is_drawer=True, then dropped from contact report entirely",
+      "correct_fix": "Check for specific robot body names (base, link0-link7) not substring 'base'"
+    },
+    "bug_4": {
+      "location": "_identify_handle_geom_ids",
+      "issue": "Returns link4/5/6 geoms as handle geoms",
+      "impact": "Robot arm links are classified as drawer handle geometry",
+      "correct_fix": "Restrict to drawer_base and link_1 bodies only"
+    }
+  },
+
+  "correct_classification": {
+    "gripper_contact_geoms": {
+      "ids": [33,34,35,36,37,38,39,40,41,42,43,44,46,48,60,61,62,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,82,83,84,85,86,87,88,89,90,45,47,49,63,81],
+      "count": 44,
+      "description": "All geoms on robot bodies link0-link7 that are part of the gripper assembly (link5/6/7 primary, link0/1/2 secondary)"
+    },
+    "legal_gripper_pad_or_fingertip": {
+      "ids": [60,61,62,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,82,83,84,85,86,87,88,89,90,63,81],
+      "count": 29,
+      "description": "Geoms on link5/6/7 bodies — these are the gripper contact surface in the merged model. link5/6 are the parallel jaws, link7 is the distal link."
+    },
+    "forbidden_robot_geoms": {
+      "ids": [33,34,35,36,37,38,39,40,41,42,43,44,46,48,50,51,52,53,54,55,56,57,58,59],
+      "count": 23,
+      "description": "Upper arm links (link0-link4) and their geoms — these should NOT contact the drawer/handle"
+    },
+    "drawer_handle_geoms": {
+      "ids": [],
+      "count": 0,
+      "note": "No explicitly named handle geoms exist in the merged model. The drawer handle is represented by drawer cabinet geometry."
+    },
+    "drawer_body_or_cabinet_geoms": {
+      "ids": [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],
+      "count": 33,
+      "description": "All geoms on drawer_base, link_1, link_2 bodies"
+    },
+    "world_static_geoms": {
+      "ids": [],
+      "count": 0,
+      "description": "World body has no geoms"
+    }
+  },
+
+  "invariant_validation": {
+    "drawer_handle_geoms_intersect_robot_arm": "PASS (empty ∩ anything = empty)",
+    "drawer_handle_geoms_intersect_gripper_contact": "PASS (empty ∩ anything = empty)",
+    "legal_pad_intersect_drawer_body": "PASS (link5/6/7 bodies != drawer bodies)",
+    "forbidden_robot_nonempty": "PASS (23 geoms on link0-link4)",
+    "handle_geoms_not_link5_6_7": "PASS (no explicit handle geoms exist in merged model)",
+    "gripper_geoms_not_drawer_bodies": "PASS (all gripper geoms are on robot arm bodies)",
+    "every_contact_geom_has_owner": "PARTIAL (83 unnamed geoms — ownership by body determines owner)",
+    "unknown_not_in_contact_classification": "PASS (unnamed geoms have clear body ownership)"
+  }
+}

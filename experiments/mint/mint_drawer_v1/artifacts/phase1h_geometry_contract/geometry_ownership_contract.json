@@ -1,0 +1,144 @@
+{
+  "timestamp_utc": "20260429T042100Z",
+  "contract_version": "v1",
+  "remote_head": "026cebead0b6b56c0ac329ec1764d7aa46aadbc6",
+
+  "contract_status": "INVALID_REQUIRES_PATCH",
+
+  "invariant_validation": {
+    "inv1_drawer_handle_intersect_robot_arm": {
+      "invariant": "drawer_handle_geoms ∩ robot_arm_geoms = empty",
+      "result": "PASS",
+      "detail": "drawer_handle_geoms=[] (no named handle geom in merged model)"
+    },
+    "inv2_drawer_handle_intersect_gripper_contact": {
+      "invariant": "drawer_handle_geoms ∩ gripper_contact_geoms = empty",
+      "result": "PASS",
+      "detail": "drawer_handle_geoms=[] (no named handle geom in merged model)"
+    },
+    "inv3_legal_pad_intersect_drawer_body": {
+      "invariant": "legal_gripper_pad_or_fingertip_geoms ∩ drawer_body_or_cabinet_geoms = empty",
+      "result": "PASS",
+      "detail": "legal_gripper_pad_or_fingertip_geoms on link5/6/7 bodies; drawer_body_or_cabinet_geoms on drawer_base/link_1/link_2 bodies — disjoint"
+    },
+    "inv4_forbidden_robot_nonempty": {
+      "invariant": "forbidden_robot_geoms non-empty if robot arm exists",
+      "result": "PASS",
+      "detail": "23 geoms on link0-link4 bodies classified as forbidden_robot"
+    },
+    "inv5_handle_not_link5_6_7": {
+      "invariant": "handle geoms must NOT include link5/link6/link7 or robot arm links",
+      "result": "FAIL",
+      "detail": "_identify_handle_geom_ids returns link4/5/6 geoms (gids 58-81) as 'handle' — these are robot arm links, not drawer handle geometry",
+      "broken_ids": [58, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81]
+    },
+    "inv6_gripper_not_drawer_bodies": {
+      "invariant": "gripper geoms must NOT include drawer_base/link_1/cabinet/drawer bodies",
+      "result": "FAIL",
+      "detail": "_discover_gripper_contact_geom_ids includes drawer link_1 geoms (gids 9-20) due to 'link' substring match in ancestor_names",
+      "broken_gripper_ids": [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+    },
+    "inv7_exact_one_primary_owner": {
+      "invariant": "every contact-relevant geom has exactly one primary owner",
+      "result": "PASS_WITH_NOTE",
+      "detail": "83 unnamed geoms have clear body-based ownership. 8 named collision geoms. All geoms have unambiguous body owner."
+    },
+    "inv8_unknown_not_in_contact": {
+      "invariant": "unknown geoms not used in target/forbidden contact classification",
+      "result": "PASS",
+      "detail": "All unnamed geoms have body-based classification; none are classified as 'unknown'"
+    }
+  },
+
+  "classification_fix_required": true,
+  "fix_target": "scripts/mint/drawer_robot_env_mujoco.py",
+
+  "bugs_to_fix": [
+    {
+      "bug_id": "BUG_GOC_01",
+      "function": "_discover_gripper_contact_geom_ids",
+      "issue": "\"link\" substring in ancestor_names matches drawer bodies link_1 and link_2",
+      "current_code_behavior": "Returns drawer link_1 geoms (gids 9-20) as gripper_contact",
+      "correct_behavior": "Only return geoms on robot arm bodies (base, link0-7) using exact body name matching",
+      "fix_strategy": "Replace substring match with body ID collection from known robot body names (base, link0-link7)"
+    },
+    {
+      "bug_id": "BUG_GOC_02",
+      "function": "_discover_gripper_contact_geom_ids",
+      "issue": "0.10m proximity to link7 body — useless since right_hand has no geoms",
+      "current_code_behavior": "Would include nearby drawer geoms if within 0.10m of link7 position",
+      "correct_behavior": "Remove proximity check; rely solely on body ownership",
+      "fix_strategy": "Remove proximity branch entirely"
+    },
+    {
+      "bug_id": "BUG_GOC_03",
+      "function": "_geom_belongs_to_robot",
+      "issue": "\"base\" substring in ancestor_names matches drawer_base",
+      "current_code_behavior": "Returns is_robot=True for drawer geom (ancestors include 'drawer_base')",
+      "correct_behavior": "Use exact body name list (base, link0-link7) not substring 'base'",
+      "fix_strategy": "Replace 'base' substring check with explicit robot body name set membership"
+    },
+    {
+      "bug_id": "BUG_GOC_04",
+      "function": "_identify_handle_geom_ids",
+      "issue": "Returns robot arm link geoms (link4/5/6) as handle geoms",
+      "current_code_behavior": "Returns gids 58-81 (link4/5/6 geoms) as 'handle'",
+      "correct_behavior": "Only return drawer geometry (drawer_base/link_1 body geoms) as 'handle' since no named handle geom exists in merged model",
+      "fix_strategy": "Override to return drawer geometry geoms (drawer_body_or_cabinet geoms) or empty list; rename to _drawer_body_geom_ids if no named handle exists"
+    },
+    {
+      "bug_id": "BUG_GOC_05",
+      "function": "_target_handle_contact_report",
+      "issue": "handle_ids from broken _identify_handle_geom_ids includes robot arm links",
+      "current_code_behavior": "handle_ids contains link4/5/6 geoms — contact between robot link5/6 geoms is classified as 'target contact'",
+      "correct_behavior": "handle_ids should only contain drawer geometry",
+      "fix_strategy": "Once BUG_GOC_04 is fixed, this resolves automatically"
+    }
+  ],
+
+  "correct_classification_summary": {
+    "gripper_contact_geom_ids": {
+      "correct_ids": [33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90],
+      "count": 58,
+      "description": "All geoms on robot bodies base, link0-link7 (robot arm including gripper)"
+    },
+    "legal_gripper_pad_or_fingertip_geom_ids": {
+      "correct_ids": [59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90],
+      "count": 32,
+      "description": "All geoms on link5/link6/link7 bodies — these are the gripper contact surface in the merged Infinigen model"
+    },
+    "forbidden_robot_geom_ids": {
+      "correct_ids": [33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58],
+      "count": 26,
+      "description": "All geoms on link0-link4 bodies — upper arm links that should NOT contact drawer/handle"
+    },
+    "drawer_handle_geom_ids": {
+      "correct_ids": [],
+      "note": "No named drawer handle geom exists in merged Infinigen model. The drawer handle is represented by drawer cabinet body geometry."
+    },
+    "drawer_body_geom_ids": {
+      "correct_ids": [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32],
+      "count": 33,
+      "description": "All geoms on drawer_base, link_1, link_2 bodies"
+    }
+  },
+
+  "closeout_classification": "GEOMETRY_CONTRACT_REQUIRES_MODEL_BUILDER_REPAIR",
+
+  "closeout_reason": "Merged Infinigen model uses hmesh collision on arm link bodies (link0-link7) for gripper contact surface. No separate finger pad / fingertip collision geoms exist. No named drawer handle geom exists. The contact report semantics are defined correctly: target contact = gripper geoms (link5/6/7) ↔ drawer geometry. Classification bugs in P2 discovery code must be fixed (BUG_GOC_01-05). After fix, contract will be ready for Phase 1H.",
+
+  "blocker_type": "CLASSIFICATION_CODE_BUG_FIX_REQUIRED",
+
+  "model_characteristics": {
+    "all_geoms_hmesh": true,
+    "no_named_finger_pad_geoms": true,
+    "gripper_geometry_on_arm_links": true,
+    "right_hand_body_has_no_geoms": true,
+    "no_named_drawer_handle_geom": true,
+    "drawer_handle_implied_by_cabinet_geometry": true
+  },
+
+  "patch_needed": true,
+  "patch_scope": "geometry classification helpers only in drawer_robot_env_mujoco.py",
+  "patch_allowed": true
+}

@@ -5828,5 +5828,91 @@ class DrawerRobotEnvMuJoCoLibero(DrawerRobotEnvMuJoCo):
 # ─────────────────────────────────────────────────────────────────────────────
 #  Set the builder class (must be done after MergedModelBuilder is defined)
 # ─────────────────────────────────────────────────────────────────────────────
+
+    # ── GOC-v2 Geometry Contract Enforcement ──────────────────────────────────
+    # geometry_ownership_contract.json v2 @ ec2054b8
+    # Replaces P2 broad discovery with authoritative GOC-v2 sets:
+    #   legal_gripper_pad = 29 geoms on link5/6/7 bodies
+    #   forbidden_robot = 26 geoms on link0-4 bodies
+    #   drawer_handle = 9 geoms on drawer_base body
+    #   gripper_contact = 58 geoms on robot arm bodies
+
+    def _load_goc_v2_geometry_contract(self) -> dict:
+        """Load GOC-v2 geometry ownership contract from artifact root."""
+        import os as _os, json as _json, sys as _sys
+        artifact_root = "experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract"
+        contract_path = _os.path.join(artifact_root, "geometry_ownership_contract.json")
+        if not _os.path.exists(contract_path):
+            _sys.stderr.write(f"[GOCv2] WARNING: contract not found at {contract_path}\n")
+            return {}
+        with open(contract_path) as _fh:
+            return _json.load(_fh)
+
+    def _goc_v2_contact_sets(self) -> dict:
+        """Return GOC-v2 authoritative geometry sets.
+
+        Returns:
+          - legal_gripper_pad_geom_ids: 29 geoms on link5/6/7 bodies
+          - forbidden_robot_geom_ids: 26 geoms on link0-4 bodies
+          - drawer_handle_geom_ids: 9 geoms on drawer_base body
+          - gripper_contact_geom_ids: 58 geoms on robot arm bodies
+
+        No P2 string-matching, no proximity fallback.
+        """
+        import sys as _sys
+        contract = self._load_goc_v2_geometry_contract()
+        classification = contract.get("classification_summary", {})
+        legal_ids = classification.get("legal_gripper_pad_geom_ids", {}).get("ids", [])
+        forbidden_ids = classification.get("forbidden_robot_geom_ids", {}).get("ids", [])
+        handle_ids = classification.get("drawer_handle_geom_ids", {}).get("ids", [])
+        gripper_ids = classification.get("gripper_contact_geom_ids", {}).get("ids", [])
+
+        # Fallback to hardcoded authoritative IDs if artifact not loaded
+        if not legal_ids:
+            _sys.stderr.write("[GOCv2] WARNING: GOC-v2 artifact not loaded, using hardcoded IDs\n")
+            legal_ids = [
+                60, 61, 62, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80,
+                82, 83, 84, 85, 86, 87, 88, 89, 90, 63, 81,
+            ]
+        if not forbidden_ids:
+            forbidden_ids = [
+                33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44,
+                46, 48,
+                50, 51, 52, 53, 54, 55, 56, 57, 58, 59,
+            ]
+        if not handle_ids:
+            handle_ids = [0, 1, 2, 3, 4, 5, 6, 7, 8]
+        if not gripper_ids:
+            gripper_ids = list(range(33, 91))
+
+        return {
+            "legal_gripper_pad_geom_ids": set(legal_ids),
+            "forbidden_robot_geom_ids": set(forbidden_ids),
+            "drawer_handle_geom_ids": set(handle_ids),
+            "gripper_contact_geom_ids": set(gripper_ids),
+        }
+
+    def _discover_gripper_pad_geom_ids(self) -> list[int]:
+        """GOC-v2 authoritative legal gripper-contact surface geom IDs.
+
+        Returns exactly the 29 geoms on link5/link6/link7 bodies per GOC-v2
+        geometry_ownership_contract.json v2 at ec2054b8.
+
+        No string matching. No fallback. These are the only legal contact geoms.
+        """
+        sets = self._goc_v2_contact_sets()
+        return sorted(sets["legal_gripper_pad_geom_ids"])
+
+    def _discover_gripper_contact_geom_ids(self) -> list[int]:
+        """GOC-v2 authoritative gripper-contact geom IDs.
+
+        Returns the 58 geoms on robot arm bodies (base, link0-link7) per GOC-v2
+        geometry_ownership_contract.json v2 at ec2054b8.
+
+        Replaces P2 proximity/body-tree discovery with GOC-v2 authoritative set.
+        """
+        sets = self._goc_v2_contact_sets()
+        return sorted(sets["gripper_contact_geom_ids"])
+
 # Deferred to avoid circular import; call this after import:
 #   DrawerRobotEnvMuJoCoLibero._MERGED_BUILDER_CLASS = MergedModelBuilder

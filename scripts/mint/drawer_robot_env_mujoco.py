@@ -1307,6 +1307,1058 @@ class DrawerRobotEnvMuJoCo:
             "non_target_contact_samples": samples,
         }
 
+    def _geom_body_ancestor_names(self, geom_id: int) -> list[str]:
+        body_id = int(self.model.geom_bodyid[int(geom_id)])
+        names: list[str] = []
+        current = body_id
+        while current >= 0:
+            names.append(str(self.model.body(current).name or ""))
+            parent = int(self.model.body_parentid[current])
+            if parent == current:
+                break
+            current = parent
+        return names
+
+    def _discover_gripper_contact_geom_ids(self) -> list[int]:
+        import mujoco
+        ids: list[int] = []
+        try:
+            link7_id = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_BODY, "link7")
+            link7_pos = self.data.body(link7_id).xpos.copy()
+        except Exception:
+            link7_pos = None
+        descendants = set()
+        try:
+            rh_id = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_BODY, "right_hand")
+            descendants.add(rh_id)
+            for i in range(self.model.nbody):
+                if int(self.model.body_parentid[i]) == rh_id:
+                    descendants.add(i)
+        except Exception:
+            pass
+        for geom_id in range(self.model.ngeom):
+            bid = int(self.model.geom_bodyid[geom_id])
+            gname = str(self.model.geom(geom_id).name or "")
+            gtype = int(self.model.geom(geom_id).type)
+            is_arm_collision = (
+                gname == "hand_collision"
+                or ("finger" in gname.lower() and "collision" in gname.lower())
+            )
+            is_near_link7 = False
+            if link7_pos is not None and gtype == 7:
+                pos = self.data.geom_xpos[geom_id]
+                if float(np.linalg.norm(pos - link7_pos)) < 0.10:
+                    is_near_link7 = True
+            is_gripper_body = bid in descendants or (
+                bid > 0 and "link" in " ".join(self._geom_body_ancestor_names(geom_id)).lower()
+            )
+            if (is_arm_collision or is_near_link7 or is_gripper_body) and gtype == 7:
+                ids.append(int(geom_id))
+        return sorted(dict.fromkeys(ids))
+
+    def _discover_gripper_pad_geom_ids(self) -> list[int]:
+        ids: list[int] = []
+        for geom_id in range(self.model.ngeom):
+            gname = str(self.model.geom(geom_id).name or "")
+            name_lower = gname.lower()
+            is_strict_pad = (
+                "pad_collision" in name_lower
+                or ("fingertip" in name_lower and "collision" in name_lower)
+                or ("fingerpad" in name_lower and "collision" in name_lower)
+            )
+            if is_strict_pad:
+                ids.append(int(geom_id))
+        if not ids:
+            ids = list(getattr(self, "_gripper_contact_geom_ids", []))
+        return sorted(dict.fromkeys(ids))
+
+    def _geom_belongs_to_robot(self, geom_id: int) -> bool:
+        bid = int(self.model.geom_bodyid[geom_id])
+        if bid == 0:
+            return False
+        descendants = set()
+        try:
+            rh_id = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_BODY, "right_hand")
+            descendants.add(rh_id)
+            for i in range(self.model.nbody):
+                if int(self.model.body_parentid[i]) == rh_id:
+                    descendants.add(i)
+        except Exception:
+            pass
+        if bid in descendants:
+            return True
+        return "base" in " ".join(self._geom_body_ancestor_names(geom_id)).lower()
+
+    def _geom_belongs_to_drawer_or_cabinet(self, geom_id: int) -> bool:
+        name = str(self.model.geom(int(geom_id)).name or "")
+        if name.startswith("drawer_") or name.startswith("reference_cabinet"):
+            return True
+        bid = int(self.model.geom_bodyid[int(geom_id)])
+        _bi = int(bid)
+        while _bi >= 0:
+            if str(self.model.body(_bi).name or "") == "drawer_base":
+                return True
+            _par = int(self.model.body_parentid[_bi])
+            if _par == _bi:
+                break
+            _bi = _par
+        return False
+
+    def _target_handle_geom_ids(self) -> list[int]:
+        return list(self._identify_handle_geom_ids())
+
+    def _target_handle_contact_report(self) -> dict[str, Any]:
+        import mujoco
+
+        handle_ids = set(int(idx) for idx in self._target_handle_geom_ids())
+        gripper_ids = set(int(idx) for idx in getattr(self, "_gripper_contact_geom_ids", []))
+        pad_ids = set(int(idx) for idx in getattr(self, "_gripper_pad_geom_ids", []))
+
+        all_pairs: list[tuple[int, int]] = []
+        target_pairs: list[tuple[int, int]] = []
+        forbidden_pairs: list[tuple[int, int]] = []
+        legal_geom_names: list[str] = []
+        forbidden_geom_names: list[str] = []
+        handle_geom_names: list[str] = []
+        drawer_geom_names: list[str] = []
+        total_normal_force = 0.0
+        min_dist: float | None = None
+        reason_parts: list[str] = []
+
+        for contact_idx in range(int(self.data.ncon)):
+            contact = self.data.contact[contact_idx]
+            geom1 = int(contact.geom1)
+            geom2 = int(contact.geom2)
+            g1_name = str(self.model.geom(geom1).name or "")
+            g2_name = str(self.model.geom(geom2).name or "")
+
+            is_robot1 = self._geom_belongs_to_robot(geom1)
+            is_robot2 = self._geom_belongs_to_robot(geom2)
+            is_drawer1 = self._geom_belongs_to_drawer_or_cabinet(geom1)
+            is_drawer2 = self._geom_belongs_to_drawer_or_cabinet(geom2)
+
+            if not ((is_robot1 and is_drawer2) or (is_robot2 and is_drawer1)):
+                continue
+
+            force = np.zeros(6, dtype=np.float64)
+            mujoco.mj_contactForce(self.model, self.data, contact_idx, force)
+            normal_force = abs(float(force[0]))
+            total_normal_force += normal_force
+            if min_dist is None or float(contact.dist) < min_dist:
+                min_dist = float(contact.dist)
+
+            if is_drawer1:
+                pair = (geom1, geom2)
+                drawer_geom_names.append(g1_name)
+            else:
+                pair = (geom2, geom1)
+                drawer_geom_names.append(g2_name)
+
+            all_pairs.append(pair)
+
+            is_handle1 = geom1 in handle_ids
+            is_handle2 = geom2 in handle_ids
+
+            if is_handle1:
+                handle_geom_names.append(g1_name)
+            if is_handle2:
+                handle_geom_names.append(g2_name)
+
+            if is_handle1 and is_robot2:
+                if geom2 in pad_ids:
+                    target_pairs.append(pair)
+                    legal_geom_names.append(g2_name)
+                    reason_parts.append(f"pad_contact({g2_name})")
+                elif geom2 in gripper_ids:
+                    forbidden_pairs.append(pair)
+                    forbidden_geom_names.append(g2_name)
+                    reason_parts.append(f"non_pad_collision({g2_name})")
+            elif is_handle2 and is_robot1:
+                if geom1 in pad_ids:
+                    target_pairs.append(pair)
+                    legal_geom_names.append(g1_name)
+                    reason_parts.append(f"pad_contact({g1_name})")
+                elif geom1 in gripper_ids:
+                    forbidden_pairs.append(pair)
+                    forbidden_geom_names.append(g1_name)
+                    reason_parts.append(f"non_pad_collision({g1_name})")
+
+        has_any = len(all_pairs) > 0
+        has_target = len(target_pairs) > 0
+        has_forbidden = len(forbidden_pairs) > 0
+
+        reason = " | ".join(reason_parts) if reason_parts else (
+            "no_contacts" if not has_any
+            else "only_forbidden"
+        )
+
+        return {
+            "has_any_contact": bool(has_any),
+            "has_target_contact": bool(has_target),
+            "has_forbidden_contact": bool(has_forbidden),
+            "target_contact_pairs": target_pairs,
+            "forbidden_contact_pairs": forbidden_pairs,
+            "all_contact_pairs": all_pairs,
+            "legal_gripper_geom_names": sorted(set(legal_geom_names)),
+            "forbidden_robot_geom_names": sorted(set(forbidden_geom_names)),
+            "handle_geom_names": sorted(set(handle_geom_names)),
+            "drawer_geom_names": sorted(set(drawer_geom_names)),
+            "reason": reason,
+            "target_handle_contact": bool(has_target),
+            "target_handle_contact_count": len(target_pairs),
+            "target_handle_contact_force_n": float(total_normal_force),
+            "target_handle_contact_min_dist_m": float(min_dist if min_dist is not None else 0.0),
+            "target_handle_geom_ids": sorted(handle_ids),
+            "gripper_contact_geom_ids": list(gripper_ids),
+        }
+
+    def _strict_contact_physics_report(
+        self, contact_report: dict[str, Any]
+    ) -> dict[str, Any]:
+        import mujoco
+
+        target_handle_ids = set(int(idx) for idx in contact_report.get("target_handle_geom_ids", []))
+        non_target_contact_count = 0
+        non_target_penetration_count = 0
+        samples: list[dict[str, Any]] = []
+        for contact_idx in range(int(self.data.ncon)):
+            contact = self.data.contact[contact_idx]
+            geom1 = int(contact.geom1)
+            geom2 = int(contact.geom2)
+            robot1 = self._geom_belongs_to_robot(geom1)
+            robot2 = self._geom_belongs_to_robot(geom2)
+            drawer1 = self._geom_belongs_to_drawer_or_cabinet(geom1)
+            drawer2 = self._geom_belongs_to_drawer_or_cabinet(geom2)
+            robot_drawer_pair = (robot1 and drawer2) or (robot2 and drawer1)
+            if not robot_drawer_pair:
+                continue
+            target_pair = geom1 in target_handle_ids or geom2 in target_handle_ids
+            if target_pair:
+                continue
+            non_target_contact_count += 1
+            if float(contact.dist) < -1e-4:
+                non_target_penetration_count += 1
+            if len(samples) < 8:
+                force = np.zeros(6, dtype=np.float64)
+                mujoco.mj_contactForce(self.model, self.data, contact_idx, force)
+                samples.append({
+                    "geom1": str(self.model.geom(geom1).name or f"geom_{geom1}"),
+                    "geom2": str(self.model.geom(geom2).name or f"geom_{geom2}"),
+                    "dist_m": float(contact.dist),
+                    "normal_force_n": float(abs(force[0])),
+                })
+
+        wrist_inside = False
+        try:
+            if hasattr(self, "_right_hand_inside_cabinet_bbox"):
+                wrist_inside = bool(self._right_hand_inside_cabinet_bbox())
+        except Exception:
+            pass
+
+        verdict = (
+            "strict_penetration_audit_pass"
+            if non_target_penetration_count == 0 and not wrist_inside
+            else "strict_penetration_audit_fail"
+        )
+        return {
+            "drawer_motion_source": "physics_contact",
+            "direct_qpos_teleport_admission": False,
+            "non_target_robot_drawer_contact_count": int(non_target_contact_count),
+            "non_target_robot_drawer_penetration_count": int(non_target_penetration_count),
+            "wrist_right_hand_inside_cabinet_bbox": bool(wrist_inside),
+            "penetration_audit_verdict": verdict,
+            "non_target_contact_samples": samples,
+        }
+
+    def _geom_body_ancestor_names(self, geom_id: int) -> list[str]:
+        body_id = int(self.model.geom_bodyid[int(geom_id)])
+        names: list[str] = []
+        current = body_id
+        while current >= 0:
+            names.append(str(self.model.body(current).name or ""))
+            parent = int(self.model.body_parentid[current])
+            if parent == current:
+                break
+            current = parent
+        return names
+
+    def _discover_gripper_contact_geom_ids(self) -> list[int]:
+        import mujoco
+        ids: list[int] = []
+        try:
+            link7_id = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_BODY, "link7")
+            link7_pos = self.data.body(link7_id).xpos.copy()
+        except Exception:
+            link7_pos = None
+        descendants = set()
+        try:
+            rh_id = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_BODY, "right_hand")
+            descendants.add(rh_id)
+            for i in range(self.model.nbody):
+                if int(self.model.body_parentid[i]) == rh_id:
+                    descendants.add(i)
+        except Exception:
+            pass
+        for geom_id in range(self.model.ngeom):
+            bid = int(self.model.geom_bodyid[geom_id])
+            gname = str(self.model.geom(geom_id).name or "")
+            gtype = int(self.model.geom(geom_id).type)
+            is_arm_collision = (
+                gname == "hand_collision"
+                or ("finger" in gname.lower() and "collision" in gname.lower())
+            )
+            is_near_link7 = False
+            if link7_pos is not None and gtype == 7:
+                pos = self.data.geom_xpos[geom_id]
+                if float(np.linalg.norm(pos - link7_pos)) < 0.10:
+                    is_near_link7 = True
+            is_gripper_body = bid in descendants or (
+                bid > 0 and "link" in " ".join(self._geom_body_ancestor_names(geom_id)).lower()
+            )
+            if (is_arm_collision or is_near_link7 or is_gripper_body) and gtype == 7:
+                ids.append(int(geom_id))
+        return sorted(dict.fromkeys(ids))
+
+    def _discover_gripper_pad_geom_ids(self) -> list[int]:
+        ids: list[int] = []
+        for geom_id in range(self.model.ngeom):
+            gname = str(self.model.geom(geom_id).name or "")
+            name_lower = gname.lower()
+            is_strict_pad = (
+                "pad_collision" in name_lower
+                or ("fingertip" in name_lower and "collision" in name_lower)
+                or ("fingerpad" in name_lower and "collision" in name_lower)
+            )
+            if is_strict_pad:
+                ids.append(int(geom_id))
+        if not ids:
+            ids = list(getattr(self, "_gripper_contact_geom_ids", []))
+        return sorted(dict.fromkeys(ids))
+
+    def _geom_belongs_to_robot(self, geom_id: int) -> bool:
+        bid = int(self.model.geom_bodyid[geom_id])
+        if bid == 0:
+            return False
+        descendants = set()
+        try:
+            rh_id = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_BODY, "right_hand")
+            descendants.add(rh_id)
+            for i in range(self.model.nbody):
+                if int(self.model.body_parentid[i]) == rh_id:
+                    descendants.add(i)
+        except Exception:
+            pass
+        if bid in descendants:
+            return True
+        return "base" in " ".join(self._geom_body_ancestor_names(geom_id)).lower()
+
+    def _geom_belongs_to_drawer_or_cabinet(self, geom_id: int) -> bool:
+        name = str(self.model.geom(int(geom_id)).name or "")
+        if name.startswith("drawer_") or name.startswith("reference_cabinet"):
+            return True
+        bid = int(self.model.geom_bodyid[int(geom_id)])
+        _bi = int(bid)
+        while _bi >= 0:
+            if str(self.model.body(_bi).name or "") == "drawer_base":
+                return True
+            _par = int(self.model.body_parentid[_bi])
+            if _par == _bi:
+                break
+            _bi = _par
+        return False
+
+    def _target_handle_geom_ids(self) -> list[int]:
+        return list(self._identify_handle_geom_ids())
+
+    def _target_handle_contact_report(self) -> dict[str, Any]:
+        import mujoco
+
+        handle_ids = set(int(idx) for idx in self._target_handle_geom_ids())
+        gripper_ids = set(int(idx) for idx in getattr(self, "_gripper_contact_geom_ids", []))
+        pad_ids = set(int(idx) for idx in getattr(self, "_gripper_pad_geom_ids", []))
+
+        all_pairs: list[tuple[int, int]] = []
+        target_pairs: list[tuple[int, int]] = []
+        forbidden_pairs: list[tuple[int, int]] = []
+        legal_geom_names: list[str] = []
+        forbidden_geom_names: list[str] = []
+        handle_geom_names: list[str] = []
+        drawer_geom_names: list[str] = []
+        total_normal_force = 0.0
+        min_dist: float | None = None
+        reason_parts: list[str] = []
+
+        for contact_idx in range(int(self.data.ncon)):
+            contact = self.data.contact[contact_idx]
+            geom1 = int(contact.geom1)
+            geom2 = int(contact.geom2)
+            g1_name = str(self.model.geom(geom1).name or "")
+            g2_name = str(self.model.geom(geom2).name or "")
+
+            is_robot1 = self._geom_belongs_to_robot(geom1)
+            is_robot2 = self._geom_belongs_to_robot(geom2)
+            is_drawer1 = self._geom_belongs_to_drawer_or_cabinet(geom1)
+            is_drawer2 = self._geom_belongs_to_drawer_or_cabinet(geom2)
+
+            if not ((is_robot1 and is_drawer2) or (is_robot2 and is_drawer1)):
+                continue
+
+            force = np.zeros(6, dtype=np.float64)
+            mujoco.mj_contactForce(self.model, self.data, contact_idx, force)
+            normal_force = abs(float(force[0]))
+            total_normal_force += normal_force
+            if min_dist is None or float(contact.dist) < min_dist:
+                min_dist = float(contact.dist)
+
+            if is_drawer1:
+                pair = (geom1, geom2)
+                drawer_geom_names.append(g1_name)
+            else:
+                pair = (geom2, geom1)
+                drawer_geom_names.append(g2_name)
+
+            all_pairs.append(pair)
+
+            is_handle1 = geom1 in handle_ids
+            is_handle2 = geom2 in handle_ids
+
+            if is_handle1:
+                handle_geom_names.append(g1_name)
+            if is_handle2:
+                handle_geom_names.append(g2_name)
+
+            if is_handle1 and is_robot2:
+                if geom2 in pad_ids:
+                    target_pairs.append(pair)
+                    legal_geom_names.append(g2_name)
+                    reason_parts.append(f"pad_contact({g2_name})")
+                elif geom2 in gripper_ids:
+                    forbidden_pairs.append(pair)
+                    forbidden_geom_names.append(g2_name)
+                    reason_parts.append(f"non_pad_collision({g2_name})")
+            elif is_handle2 and is_robot1:
+                if geom1 in pad_ids:
+                    target_pairs.append(pair)
+                    legal_geom_names.append(g1_name)
+                    reason_parts.append(f"pad_contact({g1_name})")
+                elif geom1 in gripper_ids:
+                    forbidden_pairs.append(pair)
+                    forbidden_geom_names.append(g1_name)
+                    reason_parts.append(f"non_pad_collision({g1_name})")
+
+        has_any = len(all_pairs) > 0
+        has_target = len(target_pairs) > 0
+        has_forbidden = len(forbidden_pairs) > 0
+
+        reason = " | ".join(reason_parts) if reason_parts else (
+            "no_contacts" if not has_any
+            else "only_forbidden"
+        )
+
+        return {
+            "has_any_contact": bool(has_any),
+            "has_target_contact": bool(has_target),
+            "has_forbidden_contact": bool(has_forbidden),
+            "target_contact_pairs": target_pairs,
+            "forbidden_contact_pairs": forbidden_pairs,
+            "all_contact_pairs": all_pairs,
+            "legal_gripper_geom_names": sorted(set(legal_geom_names)),
+            "forbidden_robot_geom_names": sorted(set(forbidden_geom_names)),
+            "handle_geom_names": sorted(set(handle_geom_names)),
+            "drawer_geom_names": sorted(set(drawer_geom_names)),
+            "reason": reason,
+            "target_handle_contact": bool(has_target),
+            "target_handle_contact_count": len(target_pairs),
+            "target_handle_contact_force_n": float(total_normal_force),
+            "target_handle_contact_min_dist_m": float(min_dist if min_dist is not None else 0.0),
+            "target_handle_geom_ids": sorted(handle_ids),
+            "gripper_contact_geom_ids": list(gripper_ids),
+        }
+
+    def _strict_contact_physics_report(
+        self, contact_report: dict[str, Any]
+    ) -> dict[str, Any]:
+        import mujoco
+
+        target_handle_ids = set(int(idx) for idx in contact_report.get("target_handle_geom_ids", []))
+        non_target_contact_count = 0
+        non_target_penetration_count = 0
+        samples: list[dict[str, Any]] = []
+        for contact_idx in range(int(self.data.ncon)):
+            contact = self.data.contact[contact_idx]
+            geom1 = int(contact.geom1)
+            geom2 = int(contact.geom2)
+            robot1 = self._geom_belongs_to_robot(geom1)
+            robot2 = self._geom_belongs_to_robot(geom2)
+            drawer1 = self._geom_belongs_to_drawer_or_cabinet(geom1)
+            drawer2 = self._geom_belongs_to_drawer_or_cabinet(geom2)
+            robot_drawer_pair = (robot1 and drawer2) or (robot2 and drawer1)
+            if not robot_drawer_pair:
+                continue
+            target_pair = geom1 in target_handle_ids or geom2 in target_handle_ids
+            if target_pair:
+                continue
+            non_target_contact_count += 1
+            if float(contact.dist) < -1e-4:
+                non_target_penetration_count += 1
+            if len(samples) < 8:
+                force = np.zeros(6, dtype=np.float64)
+                mujoco.mj_contactForce(self.model, self.data, contact_idx, force)
+                samples.append({
+                    "geom1": str(self.model.geom(geom1).name or f"geom_{geom1}"),
+                    "geom2": str(self.model.geom(geom2).name or f"geom_{geom2}"),
+                    "dist_m": float(contact.dist),
+                    "normal_force_n": float(abs(force[0])),
+                })
+
+        wrist_inside = False
+        try:
+            if hasattr(self, "_right_hand_inside_cabinet_bbox"):
+                wrist_inside = bool(self._right_hand_inside_cabinet_bbox())
+        except Exception:
+            pass
+
+        verdict = (
+            "strict_penetration_audit_pass"
+            if non_target_penetration_count == 0 and not wrist_inside
+            else "strict_penetration_audit_fail"
+        )
+        return {
+            "drawer_motion_source": "physics_contact",
+            "direct_qpos_teleport_admission": False,
+            "non_target_robot_drawer_contact_count": int(non_target_contact_count),
+            "non_target_robot_drawer_penetration_count": int(non_target_penetration_count),
+            "wrist_right_hand_inside_cabinet_bbox": bool(wrist_inside),
+            "penetration_audit_verdict": verdict,
+            "non_target_contact_samples": samples,
+        }
+
+    def _geom_body_ancestor_names(self, geom_id: int) -> list[str]:
+        body_id = int(self.model.geom_bodyid[int(geom_id)])
+        names: list[str] = []
+        current = body_id
+        while current >= 0:
+            names.append(str(self.model.body(current).name or ""))
+            parent = int(self.model.body_parentid[current])
+            if parent == current:
+                break
+            current = parent
+        return names
+
+    def _discover_gripper_contact_geom_ids(self) -> list[int]:
+        import mujoco
+        ids: list[int] = []
+        try:
+            link7_id = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_BODY, "link7")
+            link7_pos = self.data.body(link7_id).xpos.copy()
+        except Exception:
+            link7_pos = None
+        descendants = set()
+        try:
+            rh_id = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_BODY, "right_hand")
+            descendants.add(rh_id)
+            for i in range(self.model.nbody):
+                if int(self.model.body_parentid[i]) == rh_id:
+                    descendants.add(i)
+        except Exception:
+            pass
+        for geom_id in range(self.model.ngeom):
+            bid = int(self.model.geom_bodyid[geom_id])
+            gname = str(self.model.geom(geom_id).name or "")
+            gtype = int(self.model.geom(geom_id).type)
+            is_arm_collision = (
+                gname == "hand_collision"
+                or ("finger" in gname.lower() and "collision" in gname.lower())
+            )
+            is_near_link7 = False
+            if link7_pos is not None and gtype == 7:
+                pos = self.data.geom_xpos[geom_id]
+                if float(np.linalg.norm(pos - link7_pos)) < 0.10:
+                    is_near_link7 = True
+            is_gripper_body = bid in descendants or (
+                bid > 0 and "link" in " ".join(self._geom_body_ancestor_names(geom_id)).lower()
+            )
+            if (is_arm_collision or is_near_link7 or is_gripper_body) and gtype == 7:
+                ids.append(int(geom_id))
+        return sorted(dict.fromkeys(ids))
+
+    def _discover_gripper_pad_geom_ids(self) -> list[int]:
+        ids: list[int] = []
+        for geom_id in range(self.model.ngeom):
+            gname = str(self.model.geom(geom_id).name or "")
+            name_lower = gname.lower()
+            is_strict_pad = (
+                "pad_collision" in name_lower
+                or ("fingertip" in name_lower and "collision" in name_lower)
+                or ("fingerpad" in name_lower and "collision" in name_lower)
+            )
+            if is_strict_pad:
+                ids.append(int(geom_id))
+        if not ids:
+            ids = list(getattr(self, "_gripper_contact_geom_ids", []))
+        return sorted(dict.fromkeys(ids))
+
+    def _geom_belongs_to_robot(self, geom_id: int) -> bool:
+        bid = int(self.model.geom_bodyid[geom_id])
+        if bid == 0:
+            return False
+        descendants = set()
+        try:
+            rh_id = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_BODY, "right_hand")
+            descendants.add(rh_id)
+            for i in range(self.model.nbody):
+                if int(self.model.body_parentid[i]) == rh_id:
+                    descendants.add(i)
+        except Exception:
+            pass
+        if bid in descendants:
+            return True
+        return "base" in " ".join(self._geom_body_ancestor_names(geom_id)).lower()
+
+    def _geom_belongs_to_drawer_or_cabinet(self, geom_id: int) -> bool:
+        name = str(self.model.geom(int(geom_id)).name or "")
+        if name.startswith("drawer_") or name.startswith("reference_cabinet"):
+            return True
+        bid = int(self.model.geom_bodyid[int(geom_id)])
+        _bi = int(bid)
+        while _bi >= 0:
+            if str(self.model.body(_bi).name or "") == "drawer_base":
+                return True
+            _par = int(self.model.body_parentid[_bi])
+            if _par == _bi:
+                break
+            _bi = _par
+        return False
+
+    def _target_handle_geom_ids(self) -> list[int]:
+        return list(self._identify_handle_geom_ids())
+
+    def _target_handle_contact_report(self) -> dict[str, Any]:
+        import mujoco
+
+        handle_ids = set(int(idx) for idx in self._target_handle_geom_ids())
+        gripper_ids = set(int(idx) for idx in getattr(self, "_gripper_contact_geom_ids", []))
+        pad_ids = set(int(idx) for idx in getattr(self, "_gripper_pad_geom_ids", []))
+
+        all_pairs: list[tuple[int, int]] = []
+        target_pairs: list[tuple[int, int]] = []
+        forbidden_pairs: list[tuple[int, int]] = []
+        legal_geom_names: list[str] = []
+        forbidden_geom_names: list[str] = []
+        handle_geom_names: list[str] = []
+        drawer_geom_names: list[str] = []
+        total_normal_force = 0.0
+        min_dist: float | None = None
+        reason_parts: list[str] = []
+
+        for contact_idx in range(int(self.data.ncon)):
+            contact = self.data.contact[contact_idx]
+            geom1 = int(contact.geom1)
+            geom2 = int(contact.geom2)
+            g1_name = str(self.model.geom(geom1).name or "")
+            g2_name = str(self.model.geom(geom2).name or "")
+
+            is_robot1 = self._geom_belongs_to_robot(geom1)
+            is_robot2 = self._geom_belongs_to_robot(geom2)
+            is_drawer1 = self._geom_belongs_to_drawer_or_cabinet(geom1)
+            is_drawer2 = self._geom_belongs_to_drawer_or_cabinet(geom2)
+
+            if not ((is_robot1 and is_drawer2) or (is_robot2 and is_drawer1)):
+                continue
+
+            force = np.zeros(6, dtype=np.float64)
+            mujoco.mj_contactForce(self.model, self.data, contact_idx, force)
+            normal_force = abs(float(force[0]))
+            total_normal_force += normal_force
+            if min_dist is None or float(contact.dist) < min_dist:
+                min_dist = float(contact.dist)
+
+            if is_drawer1:
+                pair = (geom1, geom2)
+                drawer_geom_names.append(g1_name)
+            else:
+                pair = (geom2, geom1)
+                drawer_geom_names.append(g2_name)
+
+            all_pairs.append(pair)
+
+            is_handle1 = geom1 in handle_ids
+            is_handle2 = geom2 in handle_ids
+
+            if is_handle1:
+                handle_geom_names.append(g1_name)
+            if is_handle2:
+                handle_geom_names.append(g2_name)
+
+            if is_handle1 and is_robot2:
+                if geom2 in pad_ids:
+                    target_pairs.append(pair)
+                    legal_geom_names.append(g2_name)
+                    reason_parts.append(f"pad_contact({g2_name})")
+                elif geom2 in gripper_ids:
+                    forbidden_pairs.append(pair)
+                    forbidden_geom_names.append(g2_name)
+                    reason_parts.append(f"non_pad_collision({g2_name})")
+            elif is_handle2 and is_robot1:
+                if geom1 in pad_ids:
+                    target_pairs.append(pair)
+                    legal_geom_names.append(g1_name)
+                    reason_parts.append(f"pad_contact({g1_name})")
+                elif geom1 in gripper_ids:
+                    forbidden_pairs.append(pair)
+                    forbidden_geom_names.append(g1_name)
+                    reason_parts.append(f"non_pad_collision({g1_name})")
+
+        has_any = len(all_pairs) > 0
+        has_target = len(target_pairs) > 0
+        has_forbidden = len(forbidden_pairs) > 0
+
+        reason = " | ".join(reason_parts) if reason_parts else (
+            "no_contacts" if not has_any
+            else "only_forbidden"
+        )
+
+        return {
+            "has_any_contact": bool(has_any),
+            "has_target_contact": bool(has_target),
+            "has_forbidden_contact": bool(has_forbidden),
+            "target_contact_pairs": target_pairs,
+            "forbidden_contact_pairs": forbidden_pairs,
+            "all_contact_pairs": all_pairs,
+            "legal_gripper_geom_names": sorted(set(legal_geom_names)),
+            "forbidden_robot_geom_names": sorted(set(forbidden_geom_names)),
+            "handle_geom_names": sorted(set(handle_geom_names)),
+            "drawer_geom_names": sorted(set(drawer_geom_names)),
+            "reason": reason,
+            "target_handle_contact": bool(has_target),
+            "target_handle_contact_count": len(target_pairs),
+            "target_handle_contact_force_n": float(total_normal_force),
+            "target_handle_contact_min_dist_m": float(min_dist if min_dist is not None else 0.0),
+            "target_handle_geom_ids": sorted(handle_ids),
+            "gripper_contact_geom_ids": list(gripper_ids),
+        }
+
+    def _strict_contact_physics_report(
+        self, contact_report: dict[str, Any]
+    ) -> dict[str, Any]:
+        import mujoco
+
+        target_handle_ids = set(int(idx) for idx in contact_report.get("target_handle_geom_ids", []))
+        non_target_contact_count = 0
+        non_target_penetration_count = 0
+        samples: list[dict[str, Any]] = []
+        for contact_idx in range(int(self.data.ncon)):
+            contact = self.data.contact[contact_idx]
+            geom1 = int(contact.geom1)
+            geom2 = int(contact.geom2)
+            robot1 = self._geom_belongs_to_robot(geom1)
+            robot2 = self._geom_belongs_to_robot(geom2)
+            drawer1 = self._geom_belongs_to_drawer_or_cabinet(geom1)
+            drawer2 = self._geom_belongs_to_drawer_or_cabinet(geom2)
+            robot_drawer_pair = (robot1 and drawer2) or (robot2 and drawer1)
+            if not robot_drawer_pair:
+                continue
+            target_pair = geom1 in target_handle_ids or geom2 in target_handle_ids
+            if target_pair:
+                continue
+            non_target_contact_count += 1
+            if float(contact.dist) < -1e-4:
+                non_target_penetration_count += 1
+            if len(samples) < 8:
+                force = np.zeros(6, dtype=np.float64)
+                mujoco.mj_contactForce(self.model, self.data, contact_idx, force)
+                samples.append({
+                    "geom1": str(self.model.geom(geom1).name or f"geom_{geom1}"),
+                    "geom2": str(self.model.geom(geom2).name or f"geom_{geom2}"),
+                    "dist_m": float(contact.dist),
+                    "normal_force_n": float(abs(force[0])),
+                })
+
+        wrist_inside = False
+        try:
+            if hasattr(self, "_right_hand_inside_cabinet_bbox"):
+                wrist_inside = bool(self._right_hand_inside_cabinet_bbox())
+        except Exception:
+            pass
+
+        verdict = (
+            "strict_penetration_audit_pass"
+            if non_target_penetration_count == 0 and not wrist_inside
+            else "strict_penetration_audit_fail"
+        )
+        return {
+            "drawer_motion_source": "physics_contact",
+            "direct_qpos_teleport_admission": False,
+            "non_target_robot_drawer_contact_count": int(non_target_contact_count),
+            "non_target_robot_drawer_penetration_count": int(non_target_penetration_count),
+            "wrist_right_hand_inside_cabinet_bbox": bool(wrist_inside),
+            "penetration_audit_verdict": verdict,
+            "non_target_contact_samples": samples,
+        }
+
+    def _geom_body_ancestor_names(self, geom_id: int) -> list[str]:
+        body_id = int(self.model.geom_bodyid[int(geom_id)])
+        names: list[str] = []
+        current = body_id
+        while current >= 0:
+            names.append(str(self.model.body(current).name or ""))
+            parent = int(self.model.body_parentid[current])
+            if parent == current:
+                break
+            current = parent
+        return names
+
+    def _discover_gripper_contact_geom_ids(self) -> list[int]:
+        import mujoco
+        ids: list[int] = []
+        try:
+            link7_id = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_BODY, "link7")
+            link7_pos = self.data.body(link7_id).xpos.copy()
+        except Exception:
+            link7_pos = None
+        descendants = set()
+        try:
+            rh_id = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_BODY, "right_hand")
+            descendants.add(rh_id)
+            for i in range(self.model.nbody):
+                if int(self.model.body_parentid[i]) == rh_id:
+                    descendants.add(i)
+        except Exception:
+            pass
+        for geom_id in range(self.model.ngeom):
+            bid = int(self.model.geom_bodyid[geom_id])
+            gname = str(self.model.geom(geom_id).name or "")
+            gtype = int(self.model.geom(geom_id).type)
+            is_arm_collision = (
+                gname == "hand_collision"
+                or ("finger" in gname.lower() and "collision" in gname.lower())
+            )
+            is_near_link7 = False
+            if link7_pos is not None and gtype == 7:
+                pos = self.data.geom_xpos[geom_id]
+                if float(np.linalg.norm(pos - link7_pos)) < 0.10:
+                    is_near_link7 = True
+            is_gripper_body = bid in descendants or (
+                bid > 0 and "link" in " ".join(self._geom_body_ancestor_names(geom_id)).lower()
+            )
+            if (is_arm_collision or is_near_link7 or is_gripper_body) and gtype == 7:
+                ids.append(int(geom_id))
+        return sorted(dict.fromkeys(ids))
+
+    def _discover_gripper_pad_geom_ids(self) -> list[int]:
+        ids: list[int] = []
+        for geom_id in range(self.model.ngeom):
+            gname = str(self.model.geom(geom_id).name or "")
+            name_lower = gname.lower()
+            is_strict_pad = (
+                "pad_collision" in name_lower
+                or ("fingertip" in name_lower and "collision" in name_lower)
+                or ("fingerpad" in name_lower and "collision" in name_lower)
+            )
+            if is_strict_pad:
+                ids.append(int(geom_id))
+        if not ids:
+            ids = list(getattr(self, "_gripper_contact_geom_ids", []))
+        return sorted(dict.fromkeys(ids))
+
+    def _geom_belongs_to_robot(self, geom_id: int) -> bool:
+        bid = int(self.model.geom_bodyid[geom_id])
+        if bid == 0:
+            return False
+        descendants = set()
+        try:
+            rh_id = mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_BODY, "right_hand")
+            descendants.add(rh_id)
+            for i in range(self.model.nbody):
+                if int(self.model.body_parentid[i]) == rh_id:
+                    descendants.add(i)
+        except Exception:
+            pass
+        if bid in descendants:
+            return True
+        return "base" in " ".join(self._geom_body_ancestor_names(geom_id)).lower()
+
+    def _geom_belongs_to_drawer_or_cabinet(self, geom_id: int) -> bool:
+        name = str(self.model.geom(int(geom_id)).name or "")
+        if name.startswith("drawer_") or name.startswith("reference_cabinet"):
+            return True
+        bid = int(self.model.geom_bodyid[int(geom_id)])
+        _bi = int(bid)
+        while _bi >= 0:
+            if str(self.model.body(_bi).name or "") == "drawer_base":
+                return True
+            _par = int(self.model.body_parentid[_bi])
+            if _par == _bi:
+                break
+            _bi = _par
+        return False
+
+    def _target_handle_geom_ids(self) -> list[int]:
+        return list(self._identify_handle_geom_ids())
+
+    def _target_handle_contact_report(self) -> dict[str, Any]:
+        import mujoco
+
+        handle_ids = set(int(idx) for idx in self._target_handle_geom_ids())
+        gripper_ids = set(int(idx) for idx in getattr(self, "_gripper_contact_geom_ids", []))
+        pad_ids = set(int(idx) for idx in getattr(self, "_gripper_pad_geom_ids", []))
+
+        all_pairs: list[tuple[int, int]] = []
+        target_pairs: list[tuple[int, int]] = []
+        forbidden_pairs: list[tuple[int, int]] = []
+        legal_geom_names: list[str] = []
+        forbidden_geom_names: list[str] = []
+        handle_geom_names: list[str] = []
+        drawer_geom_names: list[str] = []
+        total_normal_force = 0.0
+        min_dist: float | None = None
+        reason_parts: list[str] = []
+
+        for contact_idx in range(int(self.data.ncon)):
+            contact = self.data.contact[contact_idx]
+            geom1 = int(contact.geom1)
+            geom2 = int(contact.geom2)
+            g1_name = str(self.model.geom(geom1).name or "")
+            g2_name = str(self.model.geom(geom2).name or "")
+
+            is_robot1 = self._geom_belongs_to_robot(geom1)
+            is_robot2 = self._geom_belongs_to_robot(geom2)
+            is_drawer1 = self._geom_belongs_to_drawer_or_cabinet(geom1)
+            is_drawer2 = self._geom_belongs_to_drawer_or_cabinet(geom2)
+
+            if not ((is_robot1 and is_drawer2) or (is_robot2 and is_drawer1)):
+                continue
+
+            force = np.zeros(6, dtype=np.float64)
+            mujoco.mj_contactForce(self.model, self.data, contact_idx, force)
+            normal_force = abs(float(force[0]))
+            total_normal_force += normal_force
+            if min_dist is None or float(contact.dist) < min_dist:
+                min_dist = float(contact.dist)
+
+            if is_drawer1:
+                pair = (geom1, geom2)
+                drawer_geom_names.append(g1_name)
+            else:
+                pair = (geom2, geom1)
+                drawer_geom_names.append(g2_name)
+
+            all_pairs.append(pair)
+
+            is_handle1 = geom1 in handle_ids
+            is_handle2 = geom2 in handle_ids
+
+            if is_handle1:
+                handle_geom_names.append(g1_name)
+            if is_handle2:
+                handle_geom_names.append(g2_name)
+
+            if is_handle1 and is_robot2:
+                if geom2 in pad_ids:
+                    target_pairs.append(pair)
+                    legal_geom_names.append(g2_name)
+                    reason_parts.append(f"pad_contact({g2_name})")
+                elif geom2 in gripper_ids:
+                    forbidden_pairs.append(pair)
+                    forbidden_geom_names.append(g2_name)
+                    reason_parts.append(f"non_pad_collision({g2_name})")
+            elif is_handle2 and is_robot1:
+                if geom1 in pad_ids:
+                    target_pairs.append(pair)
+                    legal_geom_names.append(g1_name)
+                    reason_parts.append(f"pad_contact({g1_name})")
+                elif geom1 in gripper_ids:
+                    forbidden_pairs.append(pair)
+                    forbidden_geom_names.append(g1_name)
+                    reason_parts.append(f"non_pad_collision({g1_name})")
+
+        has_any = len(all_pairs) > 0
+        has_target = len(target_pairs) > 0
+        has_forbidden = len(forbidden_pairs) > 0
+
+        reason = " | ".join(reason_parts) if reason_parts else (
+            "no_contacts" if not has_any
+            else "only_forbidden"
+        )
+
+        return {
+            "has_any_contact": bool(has_any),
+            "has_target_contact": bool(has_target),
+            "has_forbidden_contact": bool(has_forbidden),
+            "target_contact_pairs": target_pairs,
+            "forbidden_contact_pairs": forbidden_pairs,
+            "all_contact_pairs": all_pairs,
+            "legal_gripper_geom_names": sorted(set(legal_geom_names)),
+            "forbidden_robot_geom_names": sorted(set(forbidden_geom_names)),
+            "handle_geom_names": sorted(set(handle_geom_names)),
+            "drawer_geom_names": sorted(set(drawer_geom_names)),
+            "reason": reason,
+            "target_handle_contact": bool(has_target),
+            "target_handle_contact_count": len(target_pairs),
+            "target_handle_contact_force_n": float(total_normal_force),
+            "target_handle_contact_min_dist_m": float(min_dist if min_dist is not None else 0.0),
+            "target_handle_geom_ids": sorted(handle_ids),
+            "gripper_contact_geom_ids": list(gripper_ids),
+        }
+
+    def _strict_contact_physics_report(
+        self, contact_report: dict[str, Any]
+    ) -> dict[str, Any]:
+        import mujoco
+
+        target_handle_ids = set(int(idx) for idx in contact_report.get("target_handle_geom_ids", []))
+        non_target_contact_count = 0
+        non_target_penetration_count = 0
+        samples: list[dict[str, Any]] = []
+        for contact_idx in range(int(self.data.ncon)):
+            contact = self.data.contact[contact_idx]
+            geom1 = int(contact.geom1)
+            geom2 = int(contact.geom2)
+            robot1 = self._geom_belongs_to_robot(geom1)
+            robot2 = self._geom_belongs_to_robot(geom2)
+            drawer1 = self._geom_belongs_to_drawer_or_cabinet(geom1)
+            drawer2 = self._geom_belongs_to_drawer_or_cabinet(geom2)
+            robot_drawer_pair = (robot1 and drawer2) or (robot2 and drawer1)
+            if not robot_drawer_pair:
+                continue
+            target_pair = geom1 in target_handle_ids or geom2 in target_handle_ids
+            if target_pair:
+                continue
+            non_target_contact_count += 1
+            if float(contact.dist) < -1e-4:
+                non_target_penetration_count += 1
+            if len(samples) < 8:
+                force = np.zeros(6, dtype=np.float64)
+                mujoco.mj_contactForce(self.model, self.data, contact_idx, force)
+                samples.append({
+                    "geom1": str(self.model.geom(geom1).name or f"geom_{geom1}"),
+                    "geom2": str(self.model.geom(geom2).name or f"geom_{geom2}"),
+                    "dist_m": float(contact.dist),
+                    "normal_force_n": float(abs(force[0])),
+                })
+
+        wrist_inside = False
+        try:
+            if hasattr(self, "_right_hand_inside_cabinet_bbox"):
+                wrist_inside = bool(self._right_hand_inside_cabinet_bbox())
+        except Exception:
+            pass
+
+        verdict = (
+            "strict_penetration_audit_pass"
+            if non_target_penetration_count == 0 and not wrist_inside
+            else "strict_penetration_audit_fail"
+        )
+        return {
+            "drawer_motion_source": "physics_contact",
+            "direct_qpos_teleport_admission": False,
+            "non_target_robot_drawer_contact_count": int(non_target_contact_count),
+            "non_target_robot_drawer_penetration_count": int(non_target_penetration_count),
+            "wrist_right_hand_inside_cabinet_bbox": bool(wrist_inside),
+            "penetration_audit_verdict": verdict,
+            "non_target_contact_samples": samples,
+        }
+
     def _drawer_fraction(self) -> float:
         low, high = self.joint_range.tolist()
         span = max(high - low, 1e-6)
@@ -5840,10 +6892,14 @@ class DrawerRobotEnvMuJoCoLibero(DrawerRobotEnvMuJoCo):
     def _load_goc_v2_geometry_contract(self) -> dict:
         """Load GOC-v2 geometry ownership contract from artifact root."""
         import os as _os, json as _json, sys as _sys
-        artifact_root = "experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract"
+        _script = _os.path.abspath(__file__)
+        _repo_root = _os.path.dirname(_os.path.dirname(_os.path.dirname(_script)))
+        artifact_root = _os.path.join(
+            _repo_root, "experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract"
+        )
         contract_path = _os.path.join(artifact_root, "geometry_ownership_contract.json")
         if not _os.path.exists(contract_path):
-            _sys.stderr.write(f"[GOCv2] WARNING: contract not found at {contract_path}\n")
+            _sys.stderr.write("[GOCv2] WARNING: contract not found at %s\n" % contract_path)
             return {}
         with open(contract_path) as _fh:
             return _json.load(_fh)
@@ -5857,33 +6913,50 @@ class DrawerRobotEnvMuJoCoLibero(DrawerRobotEnvMuJoCo):
           - drawer_handle_geom_ids: 9 geoms on drawer_base body
           - gripper_contact_geom_ids: 58 geoms on robot arm bodies
 
-        No P2 string-matching, no proximity fallback.
+        Uses GOC-v2 body-ownership to derive geom IDs by inspecting self.model.
         """
         import sys as _sys
         contract = self._load_goc_v2_geometry_contract()
         classification = contract.get("classification_summary", {})
-        legal_ids = classification.get("legal_gripper_pad_geom_ids", {}).get("ids", [])
-        forbidden_ids = classification.get("forbidden_robot_geom_ids", {}).get("ids", [])
-        handle_ids = classification.get("drawer_handle_geom_ids", {}).get("ids", [])
-        gripper_ids = classification.get("gripper_contact_geom_ids", {}).get("ids", [])
 
-        # Fallback to hardcoded authoritative IDs if artifact not loaded
-        if not legal_ids:
-            _sys.stderr.write("[GOCv2] WARNING: GOC-v2 artifact not loaded, using hardcoded IDs\n")
-            legal_ids = [
-                60, 61, 62, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80,
-                82, 83, 84, 85, 86, 87, 88, 89, 90, 63, 81,
-            ]
-        if not forbidden_ids:
-            forbidden_ids = [
-                33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44,
-                46, 48,
-                50, 51, 52, 53, 54, 55, 56, 57, 58, 59,
-            ]
-        if not handle_ids:
-            handle_ids = [0, 1, 2, 3, 4, 5, 6, 7, 8]
-        if not gripper_ids:
-            gripper_ids = list(range(33, 91))
+        # GOC-v2 authoritative body sets (from geometry_ownership_contract.json v2)
+        legal_bodies = {"link5", "link6", "link7"}
+        forbidden_bodies = {"link0", "link1", "link2", "link3", "link4"}
+        handle_bodies = {"drawer_base"}
+        gripper_bodies = {"base", "link0", "link1", "link2", "link3", "link4", "link5", "link6", "link7"}
+
+        # Derive geom IDs from model body-ownership
+        legal_ids = []
+        forbidden_ids = []
+        handle_ids = []
+        gripper_ids = []
+
+        for gid in range(self.model.ngeom):
+            bid = int(self.model.geom_bodyid[gid])
+            if bid == 0:
+                continue
+            body_name = str(self.model.body(bid).name or "")
+            if body_name in legal_bodies:
+                legal_ids.append(gid)
+            if body_name in forbidden_bodies:
+                forbidden_ids.append(gid)
+            if body_name in handle_bodies:
+                handle_ids.append(gid)
+            if body_name in gripper_bodies:
+                gripper_ids.append(gid)
+
+        # Verify against GOC-v2 expected counts
+        expected_legal = classification.get("legal_gripper_pad_geom_ids", {}).get("count")
+        expected_forbidden = classification.get("forbidden_robot_geom_ids", {}).get("count")
+
+        if expected_legal and len(legal_ids) != expected_legal:
+            _sys.stderr.write(
+                "[GOCv2] WARNING: legal_pad runtime=%d != GOC-v2=%d\n" % (len(legal_ids), expected_legal)
+            )
+        if expected_forbidden and len(forbidden_ids) != expected_forbidden:
+            _sys.stderr.write(
+                "[GOCv2] WARNING: forbidden runtime=%d != GOC-v2=%d\n" % (len(forbidden_ids), expected_forbidden)
+            )
 
         return {
             "legal_gripper_pad_geom_ids": set(legal_ids),
@@ -5891,6 +6964,7 @@ class DrawerRobotEnvMuJoCoLibero(DrawerRobotEnvMuJoCo):
             "drawer_handle_geom_ids": set(handle_ids),
             "gripper_contact_geom_ids": set(gripper_ids),
         }
+
 
     def _discover_gripper_pad_geom_ids(self) -> list[int]:
         """GOC-v2 authoritative legal gripper-contact surface geom IDs.

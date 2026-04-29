@@ -1,9 +1,9 @@
 {
   "schema_version": "v4_phase1h_gocv2_runtime_enforcement",
-  "timestamp_utc": "20260429T102459Z",
+  "timestamp_utc": "20260429T103920Z",
   "current_active_blocker": "S3_ROLLOUT_GRASP_FORMAT_MISMATCH",
   "blocker_detail": "build_robot_rollout expects 4x4 grasp_pose matrix, _get_grasp_pose returns (6,) vector \u2014 pre-existing FSM v2 architecture bug",
-  "working_head_commit": "b2f10853",
+  "working_head_commit": "be0ff0b0",
   "phase1h_fsm_v2_outcome": {
     "technical_outcome": "ROUTE_NEVER_REACHES_HANDLE",
     "execution_outcome": "ROLLOUT_EXHAUSTED",
@@ -20,5 +20,15 @@
     "handle_geom_count": 9,
     "source": "body_based_classification",
     "commit": "b2f10853"
+  },
+  "hygiene_sprint": {
+    "commits": [
+      "deff0c0b",
+      "eef1f9fa",
+      "be0ff0b0"
+    ],
+    "description": "sync FSM state, archive FSM artifacts, add scripts, fix pre-commit uv path",
+    "remote_git_status_clean": true,
+    "pre_commit_uv_fixed": true
   }
 }

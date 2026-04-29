@@ -1,5 +1,5 @@
 # Infinigen-AnyBox Project Status
-<!-- Auto-maintained by infinigen-project-memory skill. Last updated: 2026-03-26 17:14 -->
+<!-- Auto-maintained by infinigen-project-memory skill. Last updated: 2026-04-29 17:43 -->
 
 ## Architecture
 
@@ -15,10 +15,10 @@ Phase 1: Data Engine          Phase 2: Perception           Phase 3: Planning
 
 ## Current State
 
-- **Branch**: feature/mint-integration
-- **Last Commit**: 706cdb5d fix: split G3 depth+grasp, update launcher for env routing
-- **Phase**: mint_drawer_v1::mint_robot_trajectory_claim_push gate=teacher_contract_rebuild
-- **Active Work**: d1_single_rollout_overfit
+- **Branch**: feature/mint-env-reformulation-v1-visual-fidelity
+- **Last Commit**: 036266bb autopilot: update V11 status — Phase 1H FSM v2 GOC_V2_NOT_ENFORCED
+- **Phase**: mint_drawer_v1::v59_MUJOCO_PILOT_PHASE4 — upstream baseline restored; isolate patch regression gate=MUJOCO_PILOT_UPSTREAM_BASELINE_RESTORED
+- **Active Work**: p0a_gripper_joint_fix
 
 ## Completed Milestones
 
@@ -90,11 +90,7 @@ Phase 1: Data Engine          Phase 2: Perception           Phase 3: Planning
 
 ## Next Steps
 
-- Advance the learnability lane into D1 overfit instead of waiting for strict replay to turn fully green.
-- Keep the strict replay lane running in parallel so the teacher/native contract becomes scientifically cleaner even if the learnability lane advances first.
-- Keep the upstream audit lane explicit: only modify `infinigen/**` if the audited evidence points to a specific export or geometry defect.
-- Upstream remains suspect, but do not patch `infinigen/**` yet; wait for D1 candidate search to finish under strict success.
-- Run or resume the next pending queue step: `d1_single_rollout_overfit`.
+- Advance to the next queue step after c3_single_rollout_replay_gate.
 
 ## Key Files
 
@@ -169,16 +165,15 @@ Phase 1: Data Engine          Phase 2: Perception           Phase 3: Planning
 
 ### mint_drawer_v1
 
-- Phase: `mint_robot_trajectory_claim_push`
-- Gate: `teacher_contract_rebuild`
-- Verdict: `awaiting_execution`
-- Decision: `run_experiments`
+- Phase: `v59_MUJOCO_PILOT_PHASE4 — upstream baseline restored; isolate patch regression`
+- Gate: `MUJOCO_PILOT_UPSTREAM_BASELINE_RESTORED`
+- Verdict: `None`
+- Decision: `None`
 - Active Step: `None`
-- Next Incomplete Step: `d1_single_rollout_overfit`
+- Next Incomplete Step: `p0a_gripper_joint_fix`
 - Queue: u1_asset_geometry_audit=completed, u2_joint_semantics_audit=completed, u3_handle_region_audit=completed, u4_export_consistency_audit=completed, u5_seed_outlier_audit=completed, a1_asset_scene_audit=completed, a2_frame_transform_audit=completed, b1_oracle_scripted_baseline=completed ...
-- Progress: `12` / `17` steps complete
-- Last Updated: `2026-03-26T17:14:59+08:00`
-- Claim Assessment: A contract-preflight-approved teacher-success rollout source is now available for learnability testing, even though strict replay is still being repaired in parallel.
+- Progress: `17` / `19` steps complete
+- Last Updated: `2026-04-09T20:56:33+08:00`
 
 ### box_conditioning_v2
 

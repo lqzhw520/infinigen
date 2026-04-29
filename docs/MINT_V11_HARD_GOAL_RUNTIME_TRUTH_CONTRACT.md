@@ -13,7 +13,7 @@ Remote A800 Infinigen/MuJoCo pipeline must generate an **untrimmed, truth-preser
 
 The rollout must contain:
 - Visible simulated robot + gripper + Infinigen drawer interaction
-- Legal gripper pad/fingertip (link5/6/7 collision geoms) to drawer-handle contact
+- Legal gripper-contact surface geoms, as defined by Geometry Ownership Contract v2, to drawer-handle contact
 - No forbidden robot/drawer/cabinet penetration
 - Drawer opening progress
 - A replayable truth bundle

@@ -24,3 +24,9 @@ No GOC-v3 authority IDs were changed. No forbidden contact was accepted. No thre
 ## Next Gate
 
 `V11_G4_GOC_V3_COMPOSITE_PHASE1H_BOUNDED_AUTONOMOUS_RUN`
+
+## Post-Push Verification
+
+- evidence commit pushed: `d3d66b97de47ff8787e10315bd04d213a91118df`
+- required files origin-visible: `True`
+- post-push verification: `experiments/mint/mint_drawer_v1/runtime/v11_g4_reset_geometry_model_builder_repair_20260430T154148Z/post_push_verification.json`

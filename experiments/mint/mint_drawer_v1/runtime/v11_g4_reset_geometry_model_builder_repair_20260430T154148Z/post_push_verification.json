@@ -1,0 +1,64 @@
+{
+  "all_required_files_origin_visible": true,
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "generated_at_utc": "2026-04-30T15:58:24Z",
+  "note": "Verification was performed after pushing the reset-geometry repair evidence commit.",
+  "remote": "my-origin",
+  "remote_commit_hash": "d3d66b97de47ff8787e10315bd04d213a91118df",
+  "verified_paths": [
+    {
+      "origin_visible": true,
+      "path": "scripts/mint/merged_model_builder.py",
+      "stderr": "",
+      "stdout_bytes": 17969
+    },
+    {
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_reset_geometry_model_builder_repair_20260430T154148Z/final_report.md",
+      "stderr": "",
+      "stdout_bytes": 1017
+    },
+    {
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_reset_geometry_model_builder_repair_20260430T154148Z/closeout_decision.json",
+      "stderr": "",
+      "stdout_bytes": 1205
+    },
+    {
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_reset_geometry_model_builder_repair_20260430T154148Z/contact_report_physical_plausibility.json",
+      "stderr": "",
+      "stdout_bytes": 711
+    },
+    {
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_reset_geometry_model_builder_repair_20260430T154148Z/model_builder_repair_decision.json",
+      "stderr": "",
+      "stdout_bytes": 1874
+    },
+    {
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_reset_geometry_model_builder_repair_20260430T154148Z/preaction_authority_validation.json",
+      "stderr": "",
+      "stdout_bytes": 389
+    },
+    {
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_reset_geometry_model_builder_repair_20260430T154148Z/preaction_contact_smoke.json",
+      "stderr": "",
+      "stdout_bytes": 2960
+    },
+    {
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_reset_geometry_model_builder_repair.json",
+      "stderr": "",
+      "stdout_bytes": 1307
+    },
+    {
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_reset_geometry_model_builder_repair.json",
+      "stderr": "",
+      "stdout_bytes": 806
+    }
+  ]
+}

@@ -1,11 +1,11 @@
 {
   "attestation_id": "POST_PUSH_ATTESTATION_V3",
   "version": "1.0.0",
-  "generated_at_utc": "2026-04-30T13:23:42Z",
+  "generated_at_utc": "2026-04-30T13:47:38Z",
   "generated_by": "validate_harness_production_lock.py",
   "attestation_type": "post_push_verification",
-  "lock_commit": "f684292b48dfd56b291dca582bbd922f769c2816",
-  "origin_head": "f684292b48dfd56b291dca582bbd922f769c2816",
+  "lock_commit": "b3fba8b30a45f778a056b5ba57273ca30caafdb5",
+  "origin_head": "b3fba8b30a45f778a056b5ba57273ca30caafdb5",
   "origin_verified": true,
   "lock_status": "production_ready",
   "lock_blob_on_origin": "verified_via_merge_base_ancestor_chain",
@@ -16,7 +16,14 @@
     "lock_status": "production_ready",
     "lock_generated_by": "validate_harness_production_lock.py",
     "lock_version": "3.0.0",
-    "origin_head": "f684292b48dfd56b291dca582bbd922f769c2816",
+    "task_spec_binding": {
+      "requested_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v3_contact_report_smoke.yaml",
+      "lock_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v3_contact_report_smoke.yaml",
+      "lock_hash": "46326b772507c9b16617e24a405e0e856a020fd4",
+      "current_hash": "46326b772507c9b16617e24a405e0e856a020fd4",
+      "passed": true
+    },
+    "origin_head": "b3fba8b30a45f778a056b5ba57273ca30caafdb5",
     "git_ls_remote_ok": true,
     "origin_contains_lock_commit": true,
     "lock_commit_is_ancestor_of_origin": true,
@@ -41,13 +48,13 @@
         "matches": true
       },
       "experiments/mint/mint_drawer_v1/scripts/harness/agent_task_preflight.py": {
-        "expected": "305a4c8f337355587c1bcf925393861970efa6b6",
-        "origin": "305a4c8f337355587c1bcf925393861970efa6b6",
+        "expected": "eebcc480e62205208be41bac716a91bdbc5cb308",
+        "origin": "eebcc480e62205208be41bac716a91bdbc5cb308",
         "matches": true
       },
       "experiments/mint/mint_drawer_v1/scripts/harness/validate_harness_production_lock.py": {
-        "expected": "02061dbae33668405474f5eb09ad32afbee9c4d7",
-        "origin": "02061dbae33668405474f5eb09ad32afbee9c4d7",
+        "expected": "791448cac4e429b8ca362d5becb60b9c26874d79",
+        "origin": "791448cac4e429b8ca362d5becb60b9c26874d79",
         "matches": true
       },
       "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_task_authority.py": {
@@ -73,6 +80,11 @@
       "experiments/mint/mint_drawer_v1/autopilot/v11_hard_goal_contract.json": {
         "expected": "13b699b3e23a99929c591ec08ae7c859172988e5",
         "origin": "13b699b3e23a99929c591ec08ae7c859172988e5",
+        "matches": true
+      },
+      "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v3_contact_report_smoke.yaml": {
+        "expected": "46326b772507c9b16617e24a405e0e856a020fd4",
+        "origin": "46326b772507c9b16617e24a405e0e856a020fd4",
         "matches": true
       }
     },
@@ -141,6 +153,15 @@
         "fixture": "attestation_verified_fields",
         "expected": "origin_verified=True, file_blobs_verified=True",
         "actual": "origin_verified=True, file_blobs_verified=True"
+      },
+      "R14_task_spec_mismatch_forbidden": {
+        "passed": true,
+        "fixture": "task_spec_mismatch_must_fail",
+        "expected": "FAIL(non-zero) with requested-vs-lock spec mismatch",
+        "active_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v3_contact_report_smoke.yaml",
+        "mismatch_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml",
+        "actual_exit_code": 2,
+        "output_excerpt": "\n======================================================================\n  Agent Task Pre-flight\n======================================================================\n  campaign_root: /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1\n  task_spec:    /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml\n  dry_run:      True\n\n  [LOCK] Production lock enforcement\n\n  FATAL: Requested task spec does not match production loc"
       }
     },
     "required_regressions": [
@@ -152,12 +173,13 @@
       "R09_skip_lock_forbidden",
       "R11_skip_attestation_forbidden",
       "R12_skip_validator_hash_forbidden",
-      "R13_attestation_false_blocks_preflight"
+      "R13_attestation_false_blocks_preflight",
+      "R14_task_spec_mismatch_forbidden"
     ],
     "required_regression_failures": [],
     "all_regressions_passed": true
   },
   "origin_url": "git@github.com:lqzhw520/infinigen.git",
   "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
-  "attestation_blob": "f1dc0189801320527f05fbf7a027af99ab86bf55"
+  "attestation_blob": "294f94a5c3273631db52f9de60e712ee39fbfd15"
 }

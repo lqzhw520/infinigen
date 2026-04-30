@@ -119,7 +119,27 @@ def enforce_production_lock() -> tuple[bool, str]:
         )
 
     # 5. Validator blob hashes must match current committed files
+    # Support both V1 format (campaign_validator_hashes, file paths as keys)
+    # and V3 format (validator_hashes, role keys like "preflight", "verifier", etc.)
+    v3_validator_roles = {"preflight", "verifier", "v01", "v02", "v03", "v04"}
+    v3_role_to_path = {
+        "preflight": "experiments/mint/mint_drawer_v1/scripts/harness/agent_task_preflight.py",
+        "verifier": "experiments/mint/mint_drawer_v1/scripts/harness/validate_harness_production_lock.py",
+        "v01": "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_task_authority.py",
+        "v02": "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_diff_scope.py",
+        "v03": "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_task_authority.py",
+        "v04": "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_closeout.py",
+    }
     validator_hashes = lock.get("campaign_validator_hashes", {})
+    if not validator_hashes:
+        # V3 format: validator_hashes maps role -> blob hash
+        v3_hashes = lock.get("validator_hashes", {})
+        if v3_hashes:
+            validator_hashes = {}
+            for role, expected_hash in v3_hashes.items():
+                if role in v3_validator_roles:
+                    rel_path = v3_role_to_path.get(role, role)
+                    validator_hashes[rel_path] = expected_hash
     mismatches = []
     for rel_path, expected_hash in validator_hashes.items():
         actual_hash = git_show_hash(REPO_ROOT, rel_path)
@@ -138,15 +158,20 @@ def enforce_production_lock() -> tuple[bool, str]:
         )
 
     # 6. Task spec hash must match
-    task_spec_path = lock.get("campaign_task_spec_path", "")
-    task_spec_hash_lock = lock.get("campaign_task_spec_hash", "")
-    if task_spec_path and task_spec_hash_lock:
+    # Support V3 field name (task_spec_hash) and V1 name (campaign_task_spec_hash)
+    task_spec_hash_lock = lock.get("task_spec_hash") or lock.get("campaign_task_spec_hash", "")
+    # V3 stores absolute paths in lock_inputs.task_spec; use canonical relative path
+    task_spec_path = (
+        lock.get("campaign_task_spec_path", "")
+        or "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml"
+    )
+    if task_spec_hash_lock and task_spec_path:
         actual_hash = git_show_hash(REPO_ROOT, task_spec_path)
         if actual_hash != task_spec_hash_lock:
             return False, (
                 f"FATAL: Task spec hash mismatch:\n"
                 f"  lock_hash={task_spec_hash_lock[:16]}...\n"
-                f"  current_hash={actual_hash[:16]}...\n"
+                f"  current_hash={actual_hash[:16] if actual_hash else 'NOT FOUND'}...\n"
                 f"Execution BLOCKED — re-run validate_harness_production_lock.py --write-lock."
             )
 
@@ -158,7 +183,8 @@ def enforce_production_lock() -> tuple[bool, str]:
         f"Production lock valid: status={status}, "
         f"generated_by={generated_by}, "
         f"validators_intact={len(validator_hashes)} files, "
-        f"task_spec_hash_verified={bool(task_spec_hash_lock)}"
+        f"task_spec_hash_verified={bool(task_spec_hash_lock)}, "
+        f"lock_format={'V3' if lock.get('version', '').startswith('3') else 'V1'}"
     )
 
 

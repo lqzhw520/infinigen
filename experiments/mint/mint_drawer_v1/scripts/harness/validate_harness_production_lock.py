@@ -83,6 +83,15 @@ IMMUTABLE_FILES = [
 ]
 
 GOC_AUTHORITY = {"legal_pad_count": 29, "forbidden_count": 26, "handle_count": 9}
+CAMPAIGN_ROOT_REL = "experiments/mint/mint_drawer_v1"
+DEFAULT_TASK_SPEC_REL = (
+    "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/"
+    "v11_g4_phase1h_contact_test.yaml"
+)
+CONTACT_SMOKE_SPEC_REL = (
+    "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/"
+    "v11_g4_goc_v3_contact_report_smoke.yaml"
+)
 
 REQUIRED_REGRESSIONS = (
     "R1_authority_drift_invalid",
@@ -94,6 +103,7 @@ REQUIRED_REGRESSIONS = (
     "R11_skip_attestation_forbidden",
     "R12_skip_validator_hash_forbidden",
     "R13_attestation_false_blocks_preflight",
+    "R14_task_spec_mismatch_forbidden",
 )
 
 
@@ -160,6 +170,77 @@ def git_rev_parse(root: Path, obj: str) -> str:
 def git_show_hash(root: Path, path_in_repo: str, commit: str = "HEAD") -> str:
     code, out, _ = run_git(root, ["rev-parse", f"{commit}:{path_in_repo}"])
     return out if code == 0 else ""
+
+
+def repo_relative_path(path: Path) -> str:
+    """Return a stable repo-relative path for lock/spec binding."""
+    resolved = path.resolve()
+    try:
+        return resolved.relative_to(REPO_ROOT).as_posix()
+    except ValueError:
+        return resolved.as_posix()
+
+
+def resolve_task_spec_path(task_spec: str | Path) -> Path:
+    """Resolve absolute, repo-relative, or campaign-relative task spec input."""
+    task_spec_path = Path(str(task_spec))
+    if task_spec_path.is_absolute():
+        return task_spec_path.resolve()
+    repo_resolved = REPO_ROOT / task_spec_path
+    if repo_resolved.exists():
+        return repo_resolved.resolve()
+    return (CAMPAIGN_ROOT / task_spec_path).resolve()
+
+
+def task_spec_repo_rel(task_spec: str | Path) -> str:
+    return repo_relative_path(resolve_task_spec_path(task_spec))
+
+
+def governance_files_for_task_spec(task_spec_rel: str | None = None) -> list[str]:
+    files = list(ALL_GOVERNANCE_FILES)
+    if task_spec_rel and task_spec_rel not in files:
+        files.append(task_spec_rel)
+    # Preserve order while removing duplicates.
+    return list(dict.fromkeys(files))
+
+
+def summarize_task_spec(task_spec_path: Path) -> dict[str, Any]:
+    try:
+        task = load_yaml(task_spec_path)
+    except Exception as exc:
+        return {"path": repo_relative_path(task_spec_path), "load_error": str(exc)}
+    authority = task.get("task_authority") or {}
+    return {
+        "path": repo_relative_path(task_spec_path),
+        "task_id": task.get("task_id"),
+        "task_version": task.get("task_version"),
+        "task_type": task.get("task_type"),
+        "gate": task.get("gate"),
+        "phase": task.get("phase"),
+        "authority_type": authority.get("authority_type"),
+        "goc_version": authority.get("goc_version"),
+        "next_gate": task.get("next_gate"),
+    }
+
+
+def lock_bound_task_spec_path(lock: dict[str, Any]) -> str:
+    lock_inputs = lock.get("lock_inputs") or {}
+    candidates = [
+        lock.get("task_spec_path"),
+        lock.get("campaign_task_spec_path"),
+        lock_inputs.get("task_spec"),
+    ]
+    for value in candidates:
+        if not value:
+            continue
+        path = Path(str(value))
+        if path.is_absolute():
+            return repo_relative_path(path)
+        raw = path.as_posix()
+        if raw.startswith(f"{CAMPAIGN_ROOT_REL}/"):
+            return raw
+        return repo_relative_path(CAMPAIGN_ROOT / path)
+    return ""
 
 
 def git_ls_remote(remote_url: str, branch: str, timeout: int = 30) -> tuple[str, str]:
@@ -235,10 +316,10 @@ def run_validator(
     return result.returncode, result.stdout, result.stderr
 
 
-def compute_all_hashes(repo_root: Path) -> dict[str, str]:
-    """Compute git blob hashes for all governance files."""
+def compute_all_hashes(repo_root: Path, task_spec_rel: str | None = None) -> dict[str, str]:
+    """Compute git blob hashes for governance files plus the active task spec."""
     hashes = {}
-    for rel_path in ALL_GOVERNANCE_FILES:
+    for rel_path in governance_files_for_task_spec(task_spec_rel):
         h = git_show_hash(repo_root, rel_path)
         if h:
             hashes[rel_path] = h
@@ -312,7 +393,7 @@ def _build_attestation_ref(repo_root: Path) -> dict[str, Any]:
 # ----------------------------------------------------------------------
 
 
-def check_layout(repo_root: Path) -> tuple[bool, dict[str, Any]]:
+def check_layout(repo_root: Path, task_spec_rel: str) -> tuple[bool, dict[str, Any]]:
     """Verify campaign-native layout is correct."""
     results = {}
     all_ok = True
@@ -345,7 +426,7 @@ def check_layout(repo_root: Path) -> tuple[bool, dict[str, Any]]:
         ),
         (
             "task_spec",
-            "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml",
+            task_spec_rel,
         ),
         (
             "goal_contract",
@@ -479,9 +560,11 @@ def check_origin(
 # ----------------------------------------------------------------------
 
 
-def check_hash_integrity(repo_root: Path) -> tuple[bool, dict[str, str]]:
+def check_hash_integrity(
+    repo_root: Path, task_spec_rel: str | None = None
+) -> tuple[bool, dict[str, str]]:
     """Compute blob hashes for all required governance files."""
-    hashes = compute_all_hashes(repo_root)
+    hashes = compute_all_hashes(repo_root, task_spec_rel)
 
     # Check all required files have non-empty hashes
     all_ok = all(bool(h) for h in hashes.values())
@@ -604,7 +687,7 @@ def run_regressions(repo_root: Path, task_spec_path: str) -> dict[str, dict[str,
         "generated_by": "validate_harness_production_lock.py",
         "version": "3.0.0",
         "local_head": git_rev_parse(repo_root, "HEAD"),
-        "required_file_blob_hashes": compute_all_hashes(repo_root),
+        "required_file_blob_hashes": compute_all_hashes(repo_root, task_spec_repo_rel(task_spec_path)),
     }
     # generate_attestation calls git_ls_remote which fails with empty remote URL.
     # In this environment there is no remote, so git_ls_remote returns ("", "fatal: bad repository ''").
@@ -676,6 +759,38 @@ def run_regressions(repo_root: Path, task_spec_path: str) -> dict[str, dict[str,
         "fixture": "attestation_verified_fields",
         "expected": "origin_verified=True, file_blobs_verified=True",
         "actual": f"origin_verified={att_data.get('origin_verified')}, file_blobs_verified={att_data.get('file_blobs_verified')}",
+    }
+
+    # R14: A production lock bound to one task spec must not authorize another.
+    active_rel = task_spec_repo_rel(task_spec_path)
+    mismatch_rel = ""
+    for candidate in (DEFAULT_TASK_SPEC_REL, CONTACT_SMOKE_SPEC_REL):
+        if candidate != active_rel and (repo_root / candidate).exists():
+            mismatch_rel = candidate
+            break
+    if mismatch_rel:
+        code_r14, stdout_r14, stderr_r14 = run_validator(
+            preflight_script,
+            ["--spec", str(repo_root / mismatch_rel), "--dry-run"],
+            campaign,
+        )
+        r14_output = stdout_r14 + "\n" + stderr_r14
+        r14_pass = (
+            code_r14 != 0
+            and "Requested task spec does not match production lock" in r14_output
+        )
+    else:
+        code_r14 = 0
+        r14_output = "no alternate committed task spec available"
+        r14_pass = False
+    results["R14_task_spec_mismatch_forbidden"] = {
+        "passed": r14_pass,
+        "fixture": "task_spec_mismatch_must_fail",
+        "expected": "FAIL(non-zero) with requested-vs-lock spec mismatch",
+        "active_spec": active_rel,
+        "mismatch_spec": mismatch_rel,
+        "actual_exit_code": code_r14,
+        "output_excerpt": r14_output[:500],
     }
 
     return results
@@ -757,18 +872,28 @@ def generate_lock(
     branch = branch_result.stdout.strip() or "HEAD"
     local_head = git_rev_parse(repo_root, "HEAD")
     remote_url = get_remote_url()
+    task_spec_abs = resolve_task_spec_path(task_spec_path)
+    task_spec_rel = repo_relative_path(task_spec_abs)
+    task_spec_hash = git_show_hash(repo_root, task_spec_rel)
+    task_spec_identity = summarize_task_spec(task_spec_abs)
 
-    results = {}
-    all_checks_ok = True
+    results = {
+        "task_spec_binding": {
+            "path": task_spec_rel,
+            "hash": task_spec_hash,
+            "identity": task_spec_identity,
+        }
+    }
+    all_checks_ok = bool(task_spec_hash)
 
     # Check 1: Layout
-    layout_ok, layout_results = check_layout(repo_root)
+    layout_ok, layout_results = check_layout(repo_root, task_spec_rel)
     results["layout"] = {"passed": layout_ok, "details": layout_results}
     if not layout_ok:
         all_checks_ok = False
 
     # Compute hashes
-    hashes = compute_all_hashes(repo_root)
+    hashes = compute_all_hashes(repo_root, task_spec_rel)
     results["hashes"] = hashes
 
     # Verify all required hashes are non-empty
@@ -815,6 +940,14 @@ def generate_lock(
         "branch": branch,
         "local_head": local_head,
         "remote": remote_url,
+        "lock_inputs": {
+            "task_spec": task_spec_rel,
+            "require_origin": require_origin,
+        },
+        "task_spec_path": task_spec_rel,
+        "campaign_task_spec_path": task_spec_rel,
+        "task_spec_hash": task_spec_hash,
+        "task_spec_identity": task_spec_identity,
         "validator_hashes": {
             "preflight": hashes.get(
                 "experiments/mint/mint_drawer_v1/scripts/harness/agent_task_preflight.py",
@@ -837,10 +970,6 @@ def generate_lock(
                 "",
             ),
         },
-        "task_spec_hash": hashes.get(
-            "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml",
-            "",
-        ),
         "post_push_attestation": _build_attestation_ref(repo_root),
     }
     lock_path_for_preflight.parent.mkdir(parents=True, exist_ok=True)
@@ -893,9 +1022,13 @@ def generate_lock(
         "local_head": local_head,
         "remote": remote_url,
         "lock_inputs": {
-            "task_spec": task_spec_path,
+            "task_spec": task_spec_rel,
             "require_origin": require_origin,
         },
+        "task_spec_path": task_spec_rel,
+        "campaign_task_spec_path": task_spec_rel,
+        "task_spec_hash": task_spec_hash,
+        "task_spec_identity": task_spec_identity,
         "required_file_blob_hashes": {p: h for p, h in hashes.items()},
         "validator_hashes": {
             "preflight": hashes.get(
@@ -925,14 +1058,10 @@ def generate_lock(
         "campaign_guardrails_hash": hashes.get(
             "experiments/mint/mint_drawer_v1/AGENT_EXECUTION_GUARDRAILS.md", ""
         ),
-        "task_spec_hash": hashes.get(
-            "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml",
-            "",
-        ),
         "active_goal_contract_hash": hashes.get(
             "experiments/mint/mint_drawer_v1/autopilot/v11_hard_goal_contract.json", ""
         ),
-        "goc_authority": GOC_AUTHORITY,
+        "goc_authority": task_spec_identity,
         "preflight_result": {"passed": preflight_passed},
         "regression_results": regressions,
         "publication_result": {
@@ -949,7 +1078,7 @@ def generate_lock(
         "immutable_files": IMMUTABLE_FILES,
         "runtime_code_modified": False,
         "rollout_render_train_run": False,
-        "next_scientific_gate": "GOC_V3_EXACT_ID_CONTRACT_REBUILD",
+        "next_scientific_gate": task_spec_identity.get("next_gate") or "TASK_SPEC_NEXT_GATE_UNSET",
         "post_push_attestation": _build_attestation_ref(repo_root),
     }
 
@@ -1007,6 +1136,26 @@ def generate_attestation(
     results["lock_status"] = lock.get("harness_status", "unknown")
     results["lock_generated_by"] = lock.get("generated_by", "")
     results["lock_version"] = lock.get("version", "")
+
+    requested_spec_rel = task_spec_repo_rel(task_spec_path)
+    lock_spec_rel = lock_bound_task_spec_path(lock)
+    lock_spec_hash = lock.get("task_spec_hash") or lock.get("campaign_task_spec_hash", "")
+    current_spec_hash = git_show_hash(repo_root, lock_spec_rel) if lock_spec_rel else ""
+    spec_binding_ok = (
+        bool(lock_spec_rel)
+        and bool(lock_spec_hash)
+        and requested_spec_rel == lock_spec_rel
+        and current_spec_hash == lock_spec_hash
+    )
+    results["task_spec_binding"] = {
+        "requested_spec": requested_spec_rel,
+        "lock_spec": lock_spec_rel,
+        "lock_hash": lock_spec_hash,
+        "current_hash": current_spec_hash,
+        "passed": spec_binding_ok,
+    }
+    if not spec_binding_ok:
+        all_ok = False
 
     # Verify lock is production_ready
     if lock.get("harness_status") != "production_ready":

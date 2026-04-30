@@ -89,7 +89,37 @@ def git_show_hash(root: Path, path_in_repo: str, commit: str = "HEAD") -> str:
         return ""
 
 
-def enforce_production_lock() -> tuple[bool, str]:
+def repo_relative_path(path: Path) -> str:
+    """Return a stable repo-relative path for lock/spec comparisons."""
+    resolved = path.resolve()
+    try:
+        return resolved.relative_to(REPO_ROOT.resolve()).as_posix()
+    except ValueError:
+        return resolved.as_posix()
+
+
+def lock_bound_task_spec_path(lock: dict) -> str:
+    """Return the task spec path explicitly bound by the production lock."""
+    lock_inputs = lock.get("lock_inputs") or {}
+    candidates = [
+        lock.get("task_spec_path"),
+        lock.get("campaign_task_spec_path"),
+        lock_inputs.get("task_spec"),
+    ]
+    for value in candidates:
+        if not value:
+            continue
+        spec_path = Path(str(value))
+        if spec_path.is_absolute():
+            return repo_relative_path(spec_path)
+        raw = spec_path.as_posix()
+        if raw.startswith("experiments/mint/mint_drawer_v1/"):
+            return raw
+        return repo_relative_path(CAMPAIGN_ROOT / spec_path)
+    return ""
+
+
+def enforce_production_lock(requested_task_spec_path: Path) -> tuple[bool, str]:
     """
     Enforce that the production lock exists, is valid, and is verifier-generated.
     All checks are unconditional — there is no bypass for any enforcement.
@@ -164,23 +194,42 @@ def enforce_production_lock() -> tuple[bool, str]:
             + "\nExecution BLOCKED — re-run validate_harness_production_lock.py --write-lock."
         )
 
-    # 6. Task spec hash must match
+    # 6. Requested task spec must be exactly the spec bound by the lock, and
+    # its committed blob hash must match the lock. This prevents a long-running
+    # phase from drifting onto a different spec while reusing a production lock.
     task_spec_hash_lock = lock.get("task_spec_hash") or lock.get(
         "campaign_task_spec_hash", ""
     )
-    task_spec_path = (
-        lock.get("campaign_task_spec_path", "")
-        or "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml"
-    )
-    if task_spec_hash_lock and task_spec_path:
-        actual_hash = git_show_hash(REPO_ROOT, task_spec_path)
-        if actual_hash != task_spec_hash_lock:
-            return False, (
-                f"FATAL: Task spec hash mismatch:\n"
-                f"  lock_hash={task_spec_hash_lock[:16]}...\n"
-                f"  current_hash={actual_hash[:16] if actual_hash else 'NOT FOUND'}...\n"
-                f"Execution BLOCKED — re-run validate_harness_production_lock.py --write-lock."
-            )
+    task_spec_path = lock_bound_task_spec_path(lock)
+    requested_task_spec_rel = repo_relative_path(requested_task_spec_path)
+
+    if not task_spec_path:
+        return False, (
+            "FATAL: Production lock does not bind a task spec path.\n"
+            "Execution BLOCKED — regenerate the lock with an explicit task spec."
+        )
+    if not task_spec_hash_lock:
+        return False, (
+            "FATAL: Production lock does not bind a task spec hash.\n"
+            "Execution BLOCKED — regenerate the lock with an explicit task spec hash."
+        )
+    if requested_task_spec_rel != task_spec_path:
+        return False, (
+            "FATAL: Requested task spec does not match production lock.\n"
+            f"  requested: {requested_task_spec_rel}\n"
+            f"  lock:      {task_spec_path}\n"
+            "Execution BLOCKED — regenerate the production lock for the requested spec."
+        )
+
+    actual_hash = git_show_hash(REPO_ROOT, task_spec_path)
+    if actual_hash != task_spec_hash_lock:
+        return False, (
+            f"FATAL: Task spec hash mismatch:\n"
+            f"  spec:      {task_spec_path}\n"
+            f"  lock_hash={task_spec_hash_lock[:16]}...\n"
+            f"  current_hash={actual_hash[:16] if actual_hash else 'NOT FOUND'}...\n"
+            f"Execution BLOCKED — re-run validate_harness_production_lock.py --write-lock."
+        )
 
     # 7. Attestation must exist and be verified unconditionally.
     # production_ready requires origin_verified=true and file_blobs_verified=true.
@@ -240,7 +289,8 @@ def enforce_production_lock() -> tuple[bool, str]:
         f"Production lock valid: status={status}, "
         f"generated_by={generated_by}, "
         f"validators_intact={len(validator_hashes)} files, "
-        f"task_spec_hash_verified={bool(task_spec_hash_lock)}, "
+        f"task_spec_bound={task_spec_path}, "
+        f"task_spec_hash_verified=True, "
         f"attestation_verified=True, "
         f"lock_format={'V3' if lock.get('version', '').startswith('3') else 'V1'}"
     )
@@ -355,7 +405,7 @@ def main() -> None:
 
     # --- Lock enforcement (always required — no bypass) ---
     print("\n  [LOCK] Production lock enforcement")
-    lock_ok, lock_msg = enforce_production_lock()
+    lock_ok, lock_msg = enforce_production_lock(task_spec_path)
     if lock_ok:
         print(f"  [PASS] {lock_msg}")
     else:

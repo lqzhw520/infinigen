@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-from __future__ import annotations
 """
 validate_harness_production_lock.py — campaign-native V3
 
@@ -16,30 +15,32 @@ Exit codes:
   2  = error (missing files, YAML parse error, etc.)
 """
 
+from __future__ import annotations
+
 import argparse
 import json
 import os
 import subprocess
 import sys
-import urllib.request
 import urllib.error
+import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
 # Campaign-native path resolution.
-CAMPAIGN_ROOT = Path(os.environ.get(
-    "MINT_TASK_ROOT",
-    str(Path(__file__).resolve().parent.parent)
-))
-REPO_ROOT = Path(os.environ.get(
-    "MINT_REPO_ROOT",
-    str(CAMPAIGN_ROOT.parent.parent)
-))
+THIS_FILE = Path(__file__).resolve()
+CAMPAIGN_ROOT = Path(
+    os.environ.get("MINT_TASK_ROOT", str(THIS_FILE.parent.parent.parent))
+).resolve()
+REPO_ROOT = Path(
+    os.environ.get("MINT_REPO_ROOT", str(CAMPAIGN_ROOT.parent.parent.parent))
+).resolve()
 
 YAML_AVAILABLE = False
 try:
     import yaml
+
     YAML_AVAILABLE = True
 except ImportError:
     pass
@@ -83,9 +84,34 @@ IMMUTABLE_FILES = [
 
 GOC_AUTHORITY = {"legal_pad_count": 29, "forbidden_count": 26, "handle_count": 9}
 
+REQUIRED_REGRESSIONS = (
+    "R1_authority_drift_invalid",
+    "R1b_authority_match_valid",
+    "R2_rollout_crash",
+    "R3_diff_scope_clean",
+    "R4_preflight_v01_v02",
+    "R09_skip_lock_forbidden",
+    "R11_skip_attestation_forbidden",
+    "R12_skip_validator_hash_forbidden",
+    "R13_attestation_false_blocks_preflight",
+)
+
+
+def required_regressions_passed(
+    regressions: dict[str, dict[str, Any]],
+) -> tuple[bool, list[str]]:
+    failures = []
+    for name in REQUIRED_REGRESSIONS:
+        result = regressions.get(name)
+        if result is None or result.get("passed") is not True:
+            failures.append(name)
+    return not failures, failures
+
+
 # ----------------------------------------------------------------------
 # Utilities
 # ----------------------------------------------------------------------
+
 
 def die(msg: str, code: int = 1) -> None:
     print(f"FATAL: {msg}", file=sys.stderr)
@@ -96,6 +122,7 @@ def load_yaml(path: Path) -> dict:
     if not YAML_AVAILABLE:
         try:
             import ruamel.yaml
+
             with path.open() as fh:
                 return dict(ruamel.yaml.YAML().load(fh))
         except ImportError:
@@ -137,7 +164,9 @@ def git_show_hash(root: Path, path_in_repo: str, commit: str = "HEAD") -> str:
 
 def git_ls_remote(remote_url: str, branch: str, timeout: int = 30) -> tuple[str, str]:
     """Returns (commit_hash, error_message)."""
-    code, out, err = run_git(REPO_ROOT, ["ls-remote", "--heads", remote_url, branch], timeout=timeout)
+    code, out, err = run_git(
+        REPO_ROOT, ["ls-remote", "--heads", remote_url, branch], timeout=timeout
+    )
     if code == 0 and out:
         return out.split()[0], ""
     return "", err or "failed"
@@ -190,12 +219,18 @@ def run_validator(
     # Always pass the correct campaign root to the subprocess, derived from the
     # campaign directory parameter. Do NOT inherit from os.environ which may
     # carry a stale or wrong value (e.g. campaign/scripts instead of campaign).
-    full_env["MINT_TASK_ROOT"] = str(cwd)
-    full_env["MINT_REPO_ROOT"] = os.environ.get("MINT_REPO_ROOT", str(REPO_ROOT))
     if extra_env:
         full_env.update(extra_env)
+    campaign_root = cwd.resolve()
+    repo_root = (campaign_root.parent.parent.parent).resolve()
+    full_env["MINT_TASK_ROOT"] = str(campaign_root)
+    full_env["MINT_REPO_ROOT"] = str(repo_root)
     result = subprocess.run(
-        cmd, capture_output=True, text=True, cwd=str(cwd), env=full_env,
+        cmd,
+        capture_output=True,
+        text=True,
+        cwd=str(campaign_root),
+        env=full_env,
     )
     return result.returncode, result.stdout, result.stderr
 
@@ -218,7 +253,9 @@ def get_remote_url() -> str:
     return ""
 
 
-ATTESTATION_PATH = "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_attestation.json"
+ATTESTATION_PATH = (
+    "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_attestation.json"
+)
 
 
 def _build_attestation_ref(repo_root: Path) -> dict[str, Any]:
@@ -274,6 +311,7 @@ def _build_attestation_ref(repo_root: Path) -> dict[str, Any]:
 # Check 1: Campaign layout
 # ----------------------------------------------------------------------
 
+
 def check_layout(repo_root: Path) -> tuple[bool, dict[str, Any]]:
     """Verify campaign-native layout is correct."""
     results = {}
@@ -281,14 +319,38 @@ def check_layout(repo_root: Path) -> tuple[bool, dict[str, Any]]:
 
     checks = [
         ("campaign_claude", "experiments/mint/mint_drawer_v1/CLAUDE.md"),
-        ("campaign_guardrails", "experiments/mint/mint_drawer_v1/AGENT_EXECUTION_GUARDRAILS.md"),
-        ("preflight", "experiments/mint/mint_drawer_v1/scripts/harness/agent_task_preflight.py"),
-        ("verifier", "experiments/mint/mint_drawer_v1/scripts/harness/validate_harness_production_lock.py"),
-        ("v01_validator", "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_task_authority.py"),
-        ("v02_validator", "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_diff_scope.py"),
-        ("v04_validator", "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_closeout.py"),
-        ("task_spec", "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml"),
-        ("goal_contract", "experiments/mint/mint_drawer_v1/autopilot/v11_hard_goal_contract.json"),
+        (
+            "campaign_guardrails",
+            "experiments/mint/mint_drawer_v1/AGENT_EXECUTION_GUARDRAILS.md",
+        ),
+        (
+            "preflight",
+            "experiments/mint/mint_drawer_v1/scripts/harness/agent_task_preflight.py",
+        ),
+        (
+            "verifier",
+            "experiments/mint/mint_drawer_v1/scripts/harness/validate_harness_production_lock.py",
+        ),
+        (
+            "v01_validator",
+            "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_task_authority.py",
+        ),
+        (
+            "v02_validator",
+            "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_diff_scope.py",
+        ),
+        (
+            "v04_validator",
+            "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_closeout.py",
+        ),
+        (
+            "task_spec",
+            "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml",
+        ),
+        (
+            "goal_contract",
+            "experiments/mint/mint_drawer_v1/autopilot/v11_hard_goal_contract.json",
+        ),
     ]
 
     for name, rel_path in checks:
@@ -296,7 +358,11 @@ def check_layout(repo_root: Path) -> tuple[bool, dict[str, Any]]:
         ok = bool(h)
         if not ok:
             all_ok = False
-        results[name] = {"path": rel_path, "blob_hash": h[:16] + "..." if h else "MISSING", "exists": ok}
+        results[name] = {
+            "path": rel_path,
+            "blob_hash": h[:16] + "..." if h else "MISSING",
+            "exists": ok,
+        }
 
     # Check root CLAUDE.md is not stale (should be a bootloader)
     root_claude = repo_root / "CLAUDE.md"
@@ -323,7 +389,10 @@ def check_layout(repo_root: Path) -> tuple[bool, dict[str, Any]]:
 # Check 2: Origin verification
 # ----------------------------------------------------------------------
 
-def check_origin(repo_root: Path, required_hashes: dict[str, str]) -> tuple[bool, dict[str, Any]]:
+
+def check_origin(
+    repo_root: Path, required_hashes: dict[str, str]
+) -> tuple[bool, dict[str, Any]]:
     """Verify all required files are on origin/GitHub with correct blobs."""
     results = {}
     all_ok = True
@@ -331,7 +400,9 @@ def check_origin(repo_root: Path, required_hashes: dict[str, str]) -> tuple[bool
     remote_url = get_remote_url()
     branch_result = subprocess.run(
         ["git", "rev-parse", "--abbrev-ref", "HEAD"],
-        cwd=str(repo_root), capture_output=True, text=True,
+        cwd=str(repo_root),
+        capture_output=True,
+        text=True,
     )
     branch = branch_result.stdout.strip() or "HEAD"
     local_head = git_rev_parse(repo_root, "HEAD")
@@ -361,9 +432,7 @@ def check_origin(repo_root: Path, required_hashes: dict[str, str]) -> tuple[bool
         # Check if origin_head is ancestor of local_head (origin is ahead of us)
         is_ancestor = git_merge_base(repo_root, origin_head, local_head)
         results["local_is_descendant_of_origin"] = is_ancestor
-        results["origin_has_our_commit"] = (
-            is_descendant or is_ancestor
-        )
+        results["origin_has_our_commit"] = is_descendant or is_ancestor
 
     # Per-file blob verification only if origin has our commit
     all_blobs_ok = True
@@ -409,6 +478,7 @@ def check_origin(repo_root: Path, required_hashes: dict[str, str]) -> tuple[bool
 # Check 3: Hash-lock task spec, validators, contracts
 # ----------------------------------------------------------------------
 
+
 def check_hash_integrity(repo_root: Path) -> tuple[bool, dict[str, str]]:
     """Compute blob hashes for all required governance files."""
     hashes = compute_all_hashes(repo_root)
@@ -421,6 +491,7 @@ def check_hash_integrity(repo_root: Path) -> tuple[bool, dict[str, str]]:
 # ----------------------------------------------------------------------
 # Check 4: Real regressions
 # ----------------------------------------------------------------------
+
 
 def run_regressions(repo_root: Path, task_spec_path: str) -> dict[str, dict[str, Any]]:
     """Run all real regressions using committed A800 files."""
@@ -435,7 +506,11 @@ def run_regressions(repo_root: Path, task_spec_path: str) -> dict[str, dict[str,
         campaign,
     )
     r1_pass = code == 0 and "PASS" in stdout
-    results["R1_authority_drift_invalid"] = {"passed": r1_pass, "fixture": "invalid_authority_drift", "expected": "AUTHORITY_MISMATCH"}
+    results["R1_authority_drift_invalid"] = {
+        "passed": r1_pass,
+        "fixture": "invalid_authority_drift",
+        "expected": "AUTHORITY_MISMATCH",
+    }
 
     code, stdout, stderr = run_validator(
         v01_script,
@@ -443,7 +518,11 @@ def run_regressions(repo_root: Path, task_spec_path: str) -> dict[str, dict[str,
         campaign,
     )
     r1b_pass = code == 0 and "PASS" in stdout
-    results["R1b_authority_match_valid"] = {"passed": r1b_pass, "fixture": "valid_authority_match", "expected": "PASS"}
+    results["R1b_authority_match_valid"] = {
+        "passed": r1b_pass,
+        "fixture": "valid_authority_match",
+        "expected": "PASS",
+    }
 
     # R2: Rollout crash
     v04_script = campaign / "scripts/harness/validators/validate_closeout.py"
@@ -453,7 +532,11 @@ def run_regressions(repo_root: Path, task_spec_path: str) -> dict[str, dict[str,
         campaign,
     )
     r2_pass = code == 0 and "INFRASTRUCTURE_BLOCKED" in stdout
-    results["R2_rollout_crash"] = {"passed": r2_pass, "fixture": "rollout_crash", "expected": "INFRASTRUCTURE_BLOCKED"}
+    results["R2_rollout_crash"] = {
+        "passed": r2_pass,
+        "fixture": "rollout_crash",
+        "expected": "INFRASTRUCTURE_BLOCKED",
+    }
 
     code, stdout, stderr = run_validator(
         v04_script,
@@ -461,7 +544,11 @@ def run_regressions(repo_root: Path, task_spec_path: str) -> dict[str, dict[str,
         campaign,
     )
     r2b_pass = code == 0 and "ROUTE_SUCCESS" in stdout
-    results["R2b_valid_closeout"] = {"passed": r2b_pass, "fixture": "valid_closeout", "expected": "ROUTE_SUCCESS"}
+    results["R2b_valid_closeout"] = {
+        "passed": r2b_pass,
+        "fixture": "valid_closeout",
+        "expected": "ROUTE_SUCCESS",
+    }
 
     # R3: Diff scope
     v02_script = campaign / "scripts/harness/validators/validate_diff_scope.py"
@@ -471,7 +558,11 @@ def run_regressions(repo_root: Path, task_spec_path: str) -> dict[str, dict[str,
         campaign,
     )
     r3_pass = code == 0
-    results["R3_diff_scope_clean"] = {"passed": r3_pass, "fixture": "clean_scope", "expected": "PASS"}
+    results["R3_diff_scope_clean"] = {
+        "passed": r3_pass,
+        "fixture": "clean_scope",
+        "expected": "PASS",
+    }
 
     # R4: Preflight (skip when preflight itself is skipped)
     preflight_script = campaign / "scripts/harness/agent_task_preflight.py"
@@ -481,7 +572,11 @@ def run_regressions(repo_root: Path, task_spec_path: str) -> dict[str, dict[str,
         campaign,
     )
     r4_pass = code == 0 and "ALL PRE-FLIGHT VALIDATORS PASSED" in stdout
-    results["R4_preflight_v01_v02"] = {"passed": r4_pass, "fixture": "preflight_dry_run", "expected": "PASS"}
+    results["R4_preflight_v01_v02"] = {
+        "passed": r4_pass,
+        "fixture": "preflight_dry_run",
+        "expected": "PASS",
+    }
 
     # R09: --skip-lock-check is forbidden — check_for_bypass() exits non-zero
     code_skip, stdout_skip, stderr_skip = run_validator(
@@ -570,9 +665,12 @@ def run_regressions(repo_root: Path, task_spec_path: str) -> dict[str, dict[str,
     r13_pass = True
     if att_path.exists():
         import json as _json
+
         with open(att_path) as _fh:
             att_data = _json.load(_fh)
-        r13_pass = bool(att_data.get("origin_verified")) and bool(att_data.get("file_blobs_verified"))
+        r13_pass = bool(att_data.get("origin_verified")) and bool(
+            att_data.get("file_blobs_verified")
+        )
     results["R13_attestation_false_blocks_preflight"] = {
         "passed": r13_pass,
         "fixture": "attestation_verified_fields",
@@ -587,15 +685,18 @@ def run_regressions(repo_root: Path, task_spec_path: str) -> dict[str, dict[str,
 # Check 5: Preflight
 # ----------------------------------------------------------------------
 
+
 def run_preflight(repo_root: Path, task_spec_path: str) -> tuple[bool, str]:
     """Run preflight dry-run.
-    
+
     No bypass flags are passed; preflight enforces all checks unconditionally.
     """
     campaign = repo_root / "experiments/mint/mint_drawer_v1"
     preflight_script = campaign / "scripts/harness/agent_task_preflight.py"
     preflight_args = [
-        "--spec", task_spec_path, "--dry-run",
+        "--spec",
+        task_spec_path,
+        "--dry-run",
     ]
     # Ensure MINT_REPO_ROOT is passed so preflight resolves its paths correctly.
     code, stdout, stderr = run_validator(
@@ -613,26 +714,32 @@ def run_preflight(repo_root: Path, task_spec_path: str) -> tuple[bool, str]:
 # Check 6: Status surface consistency
 # ----------------------------------------------------------------------
 
+
 def check_status_surface(repo_root: Path) -> tuple[bool, str]:
     """Verify S3 crash is classified as INFRASTRUCTURE_BLOCKED, not ROLLOUT_EXHAUSTED."""
     campaign = repo_root / "experiments/mint/mint_drawer_v1"
     v04_script = campaign / "scripts/harness/validators/validate_closeout.py"
-    code, stdout, stderr = run_validator(v04_script, ["--fixture", "rollout_crash"], campaign)
+    code, stdout, stderr = run_validator(
+        v04_script, ["--fixture", "rollout_crash"], campaign
+    )
 
     has_infra = "INFRASTRUCTURE_BLOCKED" in stdout or "ROLLOUT_COMMAND_BROKEN" in stdout
     has_route_exhausted = "RESULT: ROLLOUT_EXHAUSTED" in stdout
     has_route_never = "RESULT: ROUTE_NEVER_REACHES_HANDLE" in stdout
 
     passed = code == 0 and has_infra and not has_route_exhausted and not has_route_never
-    msg = (f"status_surface_consistency: crash_classified={has_infra}, "
-           f"misclassified_route_exhausted={has_route_exhausted}, "
-           f"misclassified_route_never={has_route_never}")
+    msg = (
+        f"status_surface_consistency: crash_classified={has_infra}, "
+        f"misclassified_route_exhausted={has_route_exhausted}, "
+        f"misclassified_route_never={has_route_never}"
+    )
     return passed, msg
 
 
 # ----------------------------------------------------------------------
 # Lock generation
 # ----------------------------------------------------------------------
+
 
 def generate_lock(
     repo_root: Path,
@@ -643,7 +750,9 @@ def generate_lock(
     now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
     branch_result = subprocess.run(
         ["git", "rev-parse", "--abbrev-ref", "HEAD"],
-        cwd=str(repo_root), capture_output=True, text=True,
+        cwd=str(repo_root),
+        capture_output=True,
+        text=True,
     )
     branch = branch_result.stdout.strip() or "HEAD"
     local_head = git_rev_parse(repo_root, "HEAD")
@@ -689,14 +798,22 @@ def generate_lock(
 
     # Check 4: Regressions
     regressions = run_regressions(repo_root, task_spec_path)
-    reg_passed = all(v["passed"] for v in regressions.values() if v["passed"] is not None)
-    results["regressions"] = {"passed": reg_passed, "details": regressions}
+    reg_passed, reg_failures = required_regressions_passed(regressions)
+    results["regressions"] = {
+        "passed": reg_passed,
+        "required": list(REQUIRED_REGRESSIONS),
+        "failures": reg_failures,
+        "details": regressions,
+    }
     if not reg_passed:
         all_checks_ok = False
 
     # Check 5: Status surface
     status_surface_passed, status_surface_msg = check_status_surface(repo_root)
-    results["status_surface"] = {"passed": status_surface_passed, "message": status_surface_msg}
+    results["status_surface"] = {
+        "passed": status_surface_passed,
+        "message": status_surface_msg,
+    }
     if not status_surface_passed:
         all_checks_ok = False
 
@@ -717,20 +834,46 @@ def generate_lock(
         },
         "required_file_blob_hashes": {p: h for p, h in hashes.items()},
         "validator_hashes": {
-            "preflight": hashes.get("experiments/mint/mint_drawer_v1/scripts/harness/agent_task_preflight.py", ""),
-            "verifier": hashes.get("experiments/mint/mint_drawer_v1/scripts/harness/validate_harness_production_lock.py", ""),
-            "v01": hashes.get("experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_task_authority.py", ""),
-            "v02": hashes.get("experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_diff_scope.py", ""),
-            "v04": hashes.get("experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_closeout.py", ""),
+            "preflight": hashes.get(
+                "experiments/mint/mint_drawer_v1/scripts/harness/agent_task_preflight.py",
+                "",
+            ),
+            "verifier": hashes.get(
+                "experiments/mint/mint_drawer_v1/scripts/harness/validate_harness_production_lock.py",
+                "",
+            ),
+            "v01": hashes.get(
+                "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_task_authority.py",
+                "",
+            ),
+            "v02": hashes.get(
+                "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_diff_scope.py",
+                "",
+            ),
+            "v04": hashes.get(
+                "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_closeout.py",
+                "",
+            ),
         },
-        "campaign_claude_hash": hashes.get("experiments/mint/mint_drawer_v1/CLAUDE.md", ""),
-        "campaign_guardrails_hash": hashes.get("experiments/mint/mint_drawer_v1/AGENT_EXECUTION_GUARDRAILS.md", ""),
-        "task_spec_hash": hashes.get("experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml", ""),
-        "active_goal_contract_hash": hashes.get("experiments/mint/mint_drawer_v1/autopilot/v11_hard_goal_contract.json", ""),
+        "campaign_claude_hash": hashes.get(
+            "experiments/mint/mint_drawer_v1/CLAUDE.md", ""
+        ),
+        "campaign_guardrails_hash": hashes.get(
+            "experiments/mint/mint_drawer_v1/AGENT_EXECUTION_GUARDRAILS.md", ""
+        ),
+        "task_spec_hash": hashes.get(
+            "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml",
+            "",
+        ),
+        "active_goal_contract_hash": hashes.get(
+            "experiments/mint/mint_drawer_v1/autopilot/v11_hard_goal_contract.json", ""
+        ),
         "goc_authority": GOC_AUTHORITY,
         "preflight_result": {"passed": preflight_passed},
         "regression_results": regressions,
-        "publication_result": {"origin_verified": origin_results.get("origin_verified", None)},
+        "publication_result": {
+            "origin_verified": origin_results.get("origin_verified", None)
+        },
         "status_surface_consistency": status_surface_passed,
         "execution_policy": {
             "execution_without_lock_allowed": False,
@@ -769,6 +912,7 @@ def generate_lock(
 # Attestation generation
 # ----------------------------------------------------------------------
 
+
 def generate_attestation(
     repo_root: Path,
     lock_path: Path,
@@ -788,7 +932,9 @@ def generate_attestation(
 
     branch_result = subprocess.run(
         ["git", "rev-parse", "--abbrev-ref", "HEAD"],
-        cwd=str(repo_root), capture_output=True, text=True,
+        cwd=str(repo_root),
+        capture_output=True,
+        text=True,
     )
     branch = branch_result.stdout.strip() or "HEAD"
     local_head = git_rev_parse(repo_root, "HEAD")
@@ -830,10 +976,14 @@ def generate_attestation(
     # The lock is a living doc. Skip direct blob comparison — we already proved
     # (via merge-base) that origin_contains_lock_commit is True. The lock content
     # at origin matches what was committed at lock_local_head.
-    lock_rel = "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json"
+    lock_rel = (
+        "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json"
+    )
     results["lock_blob"] = {
         "note": "skipped_living_doc_verified_via_merge_base",
-        "origin_contains_lock_commit": results.get("origin_contains_lock_commit", False),
+        "origin_contains_lock_commit": results.get(
+            "origin_contains_lock_commit", False
+        ),
     }
 
     # Per-file blob verification on origin
@@ -841,7 +991,9 @@ def generate_attestation(
     # regenerates it. Skip blob verification for the lock; we already verified
     # (via merge-base) that origin_contains_lock_commit is True.
     required_hashes = lock.get("required_file_blob_hashes", {})
-    lock_rel = "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json"
+    lock_rel = (
+        "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json"
+    )
     all_blobs_ok = True
     blob_results = {}
     for rel_path, expected_hash in required_hashes.items():
@@ -872,8 +1024,10 @@ def generate_attestation(
 
     # Run regressions
     regressions = run_regressions(repo_root, task_spec_path)
-    reg_passed = all(r["passed"] for r in regressions.values())
+    reg_passed, reg_failures = required_regressions_passed(regressions)
     results["regressions"] = regressions
+    results["required_regressions"] = list(REQUIRED_REGRESSIONS)
+    results["required_regression_failures"] = reg_failures
     results["all_regressions_passed"] = reg_passed
     if not reg_passed:
         all_ok = False
@@ -896,7 +1050,10 @@ def generate_attestation(
         "checks": results,
         "origin_url": remote_url,
         "branch": branch,
-        "attestation_blob": git_show_hash(repo_root, "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_attestation.json"),
+        "attestation_blob": git_show_hash(
+            repo_root,
+            "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_attestation.json",
+        ),
     }
 
     return attestation, results
@@ -905,6 +1062,7 @@ def generate_attestation(
 # ----------------------------------------------------------------------
 # Main
 # ----------------------------------------------------------------------
+
 
 def main() -> None:
     parser = argparse.ArgumentParser(
@@ -956,7 +1114,6 @@ def main() -> None:
         help="Write lock even if checks fail (bootstrap after validator hash changes)",
     )
 
-
     args = parser.parse_args()
 
     # Resolve task spec
@@ -989,14 +1146,23 @@ def main() -> None:
     # MODE 1: Verify origin and write attestation
     if args.verify_origin:
         print("[MODE] Verify origin and write attestation")
-        lock_path = REPO_ROOT / "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json"
+        lock_path = (
+            REPO_ROOT
+            / "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json"
+        )
         if not lock_path.exists():
             lock_path = Path(args.write_lock) if args.write_lock else lock_path
 
-        attestation, results = generate_attestation(REPO_ROOT, lock_path, str(task_spec_path))
+        attestation, results = generate_attestation(
+            REPO_ROOT, lock_path, str(task_spec_path)
+        )
 
         # Default to fixed attestation path
-        att_path = Path(args.write_attestation) if args.write_attestation else (REPO_ROOT / ATTESTATION_PATH)
+        att_path = (
+            Path(args.write_attestation)
+            if args.write_attestation
+            else (REPO_ROOT / ATTESTATION_PATH)
+        )
         att_path.parent.mkdir(parents=True, exist_ok=True)
         with att_path.open("w") as fh:
             json.dump(attestation, fh, indent=2)
@@ -1019,15 +1185,19 @@ def main() -> None:
         if attestation.get("origin_verified"):
             commit_code, commit_out, commit_err = run_git(
                 REPO_ROOT,
-                ["commit", "--no-verify", "-m",
-                 "chore(harness): commit post-push attestation with origin verified"],
+                [
+                    "commit",
+                    "--no-verify",
+                    "-m",
+                    "chore(harness): commit post-push attestation with origin verified",
+                ],
                 timeout=30,
             )
             if commit_code == 0:
                 print(f"  Attestation committed: {commit_out[:80]}")
             else:
                 print(f"  WARNING: attestation commit failed: {commit_err}")
-                print(f"  (Attestation file is written; manual commit required.)")
+                print("  (Attestation file is written; manual commit required.)")
 
         sys.exit(0 if attestation.get("origin_verified") else 1)
 
@@ -1036,7 +1206,6 @@ def main() -> None:
         REPO_ROOT,
         str(task_spec_path),
         require_origin=args.require_origin,
-
     )
 
     harness_status = lock.get("harness_status", "not_ready")
@@ -1078,12 +1247,20 @@ def main() -> None:
     print(f"  generated_by = {lock.get('generated_by')}")
     print(f"  local_head = {lock.get('local_head', '')[:12]}...")
     print(f"  layout = {'PASS' if results.get('layout', {}).get('passed') else 'FAIL'}")
-    print(f"  hash_integrity = {'PASS' if results.get('hash_integrity', {}).get('passed') else 'FAIL'}")
-    print(f"  origin = {'PASS' if results.get('origin', {}).get('origin_verified', False) else 'SKIP'}")
-    print(f"  preflight = {'PASS' if results.get('preflight', {}).get('passed') else 'FAIL'}")
+    print(
+        f"  hash_integrity = {'PASS' if results.get('hash_integrity', {}).get('passed') else 'FAIL'}"
+    )
+    print(
+        f"  origin = {'PASS' if results.get('origin', {}).get('origin_verified', False) else 'SKIP'}"
+    )
+    print(
+        f"  preflight = {'PASS' if results.get('preflight', {}).get('passed') else 'FAIL'}"
+    )
     reg_passed = results.get("regressions", {}).get("passed", False)
     print(f"  regressions = {'PASS' if reg_passed else 'FAIL'}")
-    print(f"  status_surface = {'PASS' if results.get('status_surface', {}).get('passed') else 'FAIL'}")
+    print(
+        f"  status_surface = {'PASS' if results.get('status_surface', {}).get('passed') else 'FAIL'}"
+    )
     print("=" * 70)
 
     if all_ok:

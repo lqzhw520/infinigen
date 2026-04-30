@@ -422,7 +422,7 @@ def check_hash_integrity(repo_root: Path) -> tuple[bool, dict[str, str]]:
 # Check 4: Real regressions
 # ----------------------------------------------------------------------
 
-def run_regressions(repo_root: Path, task_spec_path: str, skip_preflight: bool = False) -> dict[str, dict[str, Any]]:
+def run_regressions(repo_root: Path, task_spec_path: str) -> dict[str, dict[str, Any]]:
     """Run all real regressions using committed A800 files."""
     results = {}
     campaign = repo_root / "experiments/mint/mint_drawer_v1"
@@ -475,16 +475,13 @@ def run_regressions(repo_root: Path, task_spec_path: str, skip_preflight: bool =
 
     # R4: Preflight (skip when preflight itself is skipped)
     preflight_script = campaign / "scripts/harness/agent_task_preflight.py"
-    if skip_preflight:
-        results["R4_preflight_v01_v02"] = {"passed": None, "fixture": "preflight_dry_run", "expected": "PASS", "skipped": True}
-    else:
-        code, stdout, stderr = run_validator(
-            preflight_script,
-            ["--spec", task_spec_path, "--dry-run"],
-            campaign,
-        )
-        r4_pass = code == 0 and "ALL PRE-FLIGHT VALIDATORS PASSED" in stdout
-        results["R4_preflight_v01_v02"] = {"passed": r4_pass, "fixture": "preflight_dry_run", "expected": "PASS"}
+    code, stdout, stderr = run_validator(
+        preflight_script,
+        ["--spec", task_spec_path, "--dry-run"],
+        campaign,
+    )
+    r4_pass = code == 0 and "ALL PRE-FLIGHT VALIDATORS PASSED" in stdout
+    results["R4_preflight_v01_v02"] = {"passed": r4_pass, "fixture": "preflight_dry_run", "expected": "PASS"}
 
     # R09: --skip-lock-check is forbidden — check_for_bypass() exits non-zero
     code_skip, stdout_skip, stderr_skip = run_validator(
@@ -590,7 +587,7 @@ def run_regressions(repo_root: Path, task_spec_path: str, skip_preflight: bool =
 # Check 5: Preflight
 # ----------------------------------------------------------------------
 
-def run_preflight(repo_root: Path, task_spec_path: str, skip_attestation: bool = False) -> tuple[bool, str]:
+def run_preflight(repo_root: Path, task_spec_path: str) -> tuple[bool, str]:
     """Run preflight dry-run.
     
     No bypass flags are passed; preflight enforces all checks unconditionally.
@@ -641,7 +638,6 @@ def generate_lock(
     repo_root: Path,
     task_spec_path: str,
     require_origin: bool,
-    skip_preflight: bool = False,
 ) -> tuple[dict[str, Any], dict[str, Any]]:
     """Generate the production lock JSON and verification results."""
     now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
@@ -686,17 +682,13 @@ def generate_lock(
         results["origin"] = {"skipped": True}
 
     # Check 3: Preflight (skip for bootstrap after validator hash changes)
-    if skip_preflight:
-        results["preflight"] = {"passed": None, "output": "(skipped: bootstrap mode)", "skipped": True}
-        preflight_passed = None
-    else:
-        preflight_passed, preflight_output = run_preflight(repo_root, task_spec_path, skip_attestation=True)
-        results["preflight"] = {"passed": preflight_passed, "output": preflight_output}
-        if not preflight_passed:
-            all_checks_ok = False
+    preflight_passed, preflight_output = run_preflight(repo_root, task_spec_path)
+    results["preflight"] = {"passed": preflight_passed, "output": preflight_output}
+    if not preflight_passed:
+        all_checks_ok = False
 
     # Check 4: Regressions
-    regressions = run_regressions(repo_root, task_spec_path, skip_preflight=skip_preflight)
+    regressions = run_regressions(repo_root, task_spec_path)
     reg_passed = all(v["passed"] for v in regressions.values() if v["passed"] is not None)
     results["regressions"] = {"passed": reg_passed, "details": regressions}
     if not reg_passed:
@@ -873,7 +865,7 @@ def generate_attestation(
         all_ok = False
 
     # Run preflight against origin state (skip attestation check — origin not reachable locally)
-    preflight_passed, preflight_output = run_preflight(repo_root, task_spec_path, skip_attestation=True)
+    preflight_passed, preflight_output = run_preflight(repo_root, task_spec_path)
     results["preflight"] = {"passed": preflight_passed}
     if not preflight_passed:
         all_ok = False
@@ -1042,7 +1034,7 @@ def main() -> None:
         REPO_ROOT,
         str(task_spec_path),
         require_origin=args.require_origin,
-        skip_preflight=args.skip_preflight,
+
     )
 
     harness_status = lock.get("harness_status", "not_ready")

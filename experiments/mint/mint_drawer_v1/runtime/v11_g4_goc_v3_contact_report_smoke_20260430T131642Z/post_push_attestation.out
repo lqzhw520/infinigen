@@ -1,0 +1,25 @@
+======================================================================
+  Campaign Harness Production Lock Verifier — V3
+======================================================================
+  repo_root:       /mnt/afs2/zhuhaowu/infinigen
+  campaign_root:    /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1
+  task_spec:       /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v3_contact_report_smoke.yaml
+  write_lock:      (none)
+  verify_origin:   True
+  write_attestation:(none)
+  require_origin:   False
+  dry_run:         False
+
+[MODE] Verify origin and write attestation
+  Attestation written: /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_attestation.json
+  origin_verified: True
+  lock_status:    production_ready
+  origin_head:     f684292b48dfd56b291dca582bbd922f769c2816
+  all_blobs_ok:   True
+  regressions:     True
+
+======================================================================
+  ATTESTATION_PASSED
+======================================================================
+  WARNING: attestation commit failed: 
+  (Attestation file is written; manual commit required.)

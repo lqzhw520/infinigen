@@ -197,9 +197,11 @@ def enforce_production_lock() -> tuple[bool, str]:
         )
 
     # If lock has attestation reference, verify the attestation file exists and blob matches
+    # Use relative path (git_show_hash expects repo-relative path, not absolute)
+    ATTESTATION_REL = "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_attestation.json"
     if att_ref.get("required") and att_ref.get("blob"):
         att_blob_expected = att_ref["blob"]
-        att_blob_actual = git_show_hash(REPO_ROOT, str(ATTESTATION_FILE))
+        att_blob_actual = git_show_hash(REPO_ROOT, ATTESTATION_REL)
         if not att_blob_actual:
             return False, (
                 f"FATAL: Attestation file not found or not in Git tree: {ATTESTATION_FILE}\n"

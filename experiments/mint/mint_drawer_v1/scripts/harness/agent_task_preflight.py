@@ -351,16 +351,26 @@ def main() -> None:
 
     args = parser.parse_args()
 
-    # Support both positional and --spec form
+    # Resolve task spec path.
+    # - Absolute paths: use directly if they exist.
+    # - Relative paths: resolve from REPO_ROOT (repo-relative spec paths, not campaign-relative).
     task_spec_arg = args.task_spec_alt or args.task_spec
-
-    # Resolve task spec path relative to CAMPAIGN_ROOT
     task_spec_path = Path(task_spec_arg)
     if task_spec_path.is_absolute():
-        if not task_spec_path.exists():
-            task_spec_path = task_spec_path.resolve()
+        if task_spec_path.exists():
+            pass  # Absolute, exists — use as-is
+        else:
+            task_spec_path = task_spec_path.resolve()  # may not exist yet
     else:
-        task_spec_path = (CAMPAIGN_ROOT / task_spec_arg).resolve()
+        # Relative path — resolve from REPO_ROOT (not CAMPAIGN_ROOT)
+        # This handles repo-relative specs like "experiments/mint/.../spec.yaml"
+        # and campaign-relative specs like "sovereign/experiment_specs/...".
+        resolved_from_repo = REPO_ROOT / task_spec_arg
+        if resolved_from_repo.exists():
+            task_spec_path = resolved_from_repo.resolve()
+        else:
+            # Fallback to campaign-relative
+            task_spec_path = (CAMPAIGN_ROOT / task_spec_arg).resolve()
 
     print_header("Agent Task Pre-flight")
     print(f"  campaign_root: {CAMPAIGN_ROOT}")

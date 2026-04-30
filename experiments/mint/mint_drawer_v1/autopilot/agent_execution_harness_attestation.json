@@ -1,11 +1,11 @@
 {
   "attestation_id": "POST_PUSH_ATTESTATION_V3",
   "version": "1.0.0",
-  "generated_at_utc": "2026-04-30T04:20:56Z",
+  "generated_at_utc": "2026-04-30T04:24:25Z",
   "generated_by": "validate_harness_production_lock.py",
   "attestation_type": "post_push_verification",
-  "lock_commit": "645aac2cd05655e736054e8061598ec7fe0f5221",
-  "origin_head": "645aac2cd05655e736054e8061598ec7fe0f5221",
+  "lock_commit": "ea1c09183dd436a347e39c23c29d31225ab23873",
+  "origin_head": "ea1c09183dd436a347e39c23c29d31225ab23873",
   "origin_verified": true,
   "lock_status": "production_ready",
   "lock_blob_on_origin": "verified_via_merge_base_ancestor_chain",
@@ -16,7 +16,7 @@
     "lock_status": "production_ready",
     "lock_generated_by": "validate_harness_production_lock.py",
     "lock_version": "3.0.0",
-    "origin_head": "645aac2cd05655e736054e8061598ec7fe0f5221",
+    "origin_head": "ea1c09183dd436a347e39c23c29d31225ab23873",
     "git_ls_remote_ok": true,
     "origin_contains_lock_commit": true,
     "lock_commit_is_ancestor_of_origin": true,
@@ -41,8 +41,8 @@
         "matches": true
       },
       "experiments/mint/mint_drawer_v1/scripts/harness/agent_task_preflight.py": {
-        "expected": "87505ca61c0553d135ebf91f180ebe39572e845a",
-        "origin": "87505ca61c0553d135ebf91f180ebe39572e845a",
+        "expected": "54497c3d4c57ee6d49e8c7a8fee520e9d9af50f8",
+        "origin": "54497c3d4c57ee6d49e8c7a8fee520e9d9af50f8",
         "matches": true
       },
       "experiments/mint/mint_drawer_v1/scripts/harness/validate_harness_production_lock.py": {
@@ -116,5 +116,5 @@
   },
   "origin_url": "git@github.com:lqzhw520/infinigen.git",
   "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
-  "attestation_blob": "e3e0d696d8b67802dc4abecbdf540f6f2b966f40"
+  "attestation_blob": "2954411d15b00a6badace457f57cc32ace61931a"
 }

@@ -1,0 +1,70 @@
+{
+  "task_id": "V11_G4_GOC_V3_COMPOSITE_PHASE1H_BOUNDED_AUTONOMOUS_RUN_V2",
+  "task_type": "BOUNDED_RUNTIME_SCIENCE_PHASE",
+  "wall_clock_limit_hours": 8,
+  "no_user_prompts_mid_run": true,
+  "internal_stages": [
+    "stage_minus1_task_spec_and_lock_binding",
+    "stage0_authority_and_worktree",
+    "stage1_execution_plan",
+    "stage2_contact_report_physical_plausibility_review",
+    "stage3_minimal_repair_if_needed",
+    "stage4_preaction_contact_smoke",
+    "stage5_bounded_phase1h_candidate_execution_if_allowed",
+    "stage6_strict_candidate_export_if_found",
+    "stage7_proposed_sovereign_deltas_only",
+    "stage8_final_checks",
+    "stage9_commit_push",
+    "stage10_post_push_verification",
+    "stage11_final_closeout"
+  ],
+  "allowed_files": [
+    "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v3_composite_phase1h_bounded_autonomous.yaml",
+    "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json",
+    "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_attestation.json",
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_composite_phase1h_bounded_*/*",
+    "experiments/mint/mint_drawer_v1/runtime/controller_cycles/*",
+    "experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_phase1h_goc_v3_composite.json",
+    "experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_phase1h_goc_v3_composite.json",
+    "scripts/mint/drawer_robot_env_mujoco.py only if stage-local blocker requires runtime repair",
+    "scripts/mint/run_full_robot_teacher_probe.py only if stage-local blocker requires runtime repair",
+    "scripts/mint/export_full_robot_teacher_replay_bundle.py only if strict candidate exists",
+    "scripts/mint/merged_model_builder.py only for proven model assembly blocker"
+  ],
+  "forbidden_files": [
+    "external/MINT/*",
+    "experiments/mint/mint_drawer_v1/sovereign/current_truth.json",
+    "experiments/mint/mint_drawer_v1/sovereign/next_actions.json"
+  ],
+  "hard_stop_conditions": [
+    "wrong worktree or branch",
+    "missing GitHub remote",
+    "forbidden dirty scope",
+    "new composite preflight failure",
+    "lock binds any spec other than the composite spec",
+    "reset forbidden contacts or penetration exceed threshold unless minimally repairable",
+    "preaction smoke failure",
+    "rollout command infrastructure crash",
+    "3 hour bounded attempt budget exhausted",
+    "8 hour total budget exhausted"
+  ],
+  "max_attempts": 12,
+  "max_microvariants": 3,
+  "success_gates": {
+    "reset_physical_plausibility": "finite forces, max force <= 1e6 N, max penetration <= 0.02 m, no reset forbidden contacts",
+    "preaction_smoke": "exact GOC-v3 IDs, no legacy authority, no forbidden reset contacts, validator positive/negative fixtures pass",
+    "strict_candidate": "legal exact target contact, no forbidden contact, drawer_fraction >= 0.80, untrimmed full robot-in-scene evidence"
+  },
+  "non_success_closeout_states": [
+    "HARNESS_PREFLIGHT_FAILED",
+    "TASK_SPEC_LOCK_BINDING_FAILED",
+    "RESET_CONTACT_INTERPENETRATION_BLOCKS_PHASE1H",
+    "PREACTION_GOC_V3_CONTACT_SMOKE_FAILED",
+    "MODEL_BUILDER_REPAIR_REQUIRED",
+    "ROLLOUT_COMMAND_BROKEN_INFRASTRUCTURE_BLOCKED",
+    "ROUTE_NEVER_REACHES_GOC_V3_HANDLE_OR_FORBIDDEN_CONTACT",
+    "COMMIT_PUSH_FAILED",
+    "TIME_BUDGET_EXHAUSTED",
+    "EXECUTION_FAILED"
+  ]
+}

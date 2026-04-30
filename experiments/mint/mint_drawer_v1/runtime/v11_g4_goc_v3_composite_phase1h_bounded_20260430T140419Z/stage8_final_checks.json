@@ -1,0 +1,40 @@
+{
+  "current_truth_modified": false,
+  "forbidden_modified": [],
+  "generated_at_utc": "2026-04-30T14:17:01.558492Z",
+  "git_status_short": [
+    " M .project-memory/STATUS.md",
+    " M .session/checkpoint.md",
+    "?? experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_phase1h_goc_v3_composite.json",
+    "?? experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_phase1h_goc_v3_composite.json"
+  ],
+  "harness_modified_after_stage_minus1": [],
+  "json_parse": {
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_composite_phase1h_bounded_20260430T140419Z/candidate_selection_report.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_composite_phase1h_bounded_20260430T140419Z/closeout_decision.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_composite_phase1h_bounded_20260430T140419Z/contact_report_physical_plausibility.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_composite_phase1h_bounded_20260430T140419Z/contact_report_smoke_validation.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_composite_phase1h_bounded_20260430T140419Z/execution_plan.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_composite_phase1h_bounded_20260430T140419Z/minimal_repair_decision.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_composite_phase1h_bounded_20260430T140419Z/negative_body_based_3127_contact_report.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_composite_phase1h_bounded_20260430T140419Z/negative_legacy_name_only_contact_report.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_composite_phase1h_bounded_20260430T140419Z/preaction_contact_smoke.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_composite_phase1h_bounded_20260430T140419Z/raw_runtime_contact_report.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_composite_phase1h_bounded_20260430T140419Z/stage0_authority_and_worktree.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_composite_phase1h_bounded_20260430T140419Z/stage3_qpos_only_reset_repair_probe.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_composite_phase1h_bounded_20260430T140419Z/stage_minus1_final_lock_regen_report.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_composite_phase1h_bounded_20260430T140419Z/stage_minus1_lock_regen_report.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_composite_phase1h_bounded_20260430T140419Z/stage_minus1_task_spec_and_lock_binding.json": true,
+    "experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_phase1h_goc_v3_composite.json": true,
+    "experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_phase1h_goc_v3_composite.json": true
+  },
+  "json_parse_all_passed": true,
+  "next_actions_modified": false,
+  "passed": true,
+  "preflight_exit": 0,
+  "preflight_passed": true,
+  "rollout_render_train_run": false,
+  "runtime_modified": [],
+  "runtime_patch_applied": false,
+  "stage": "stage8_final_harness_and_git_checks"
+}

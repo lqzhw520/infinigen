@@ -1,0 +1,41 @@
+
+======================================================================
+  Agent Task Pre-flight
+======================================================================
+  campaign_root: /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1
+  task_spec:    /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v3_composite_phase1h_bounded_autonomous.yaml
+  dry_run:      True
+
+  [LOCK] Production lock enforcement
+  [PASS] Production lock valid: status=production_ready, generated_by=validate_harness_production_lock.py, validators_intact=5 files, task_spec_bound=experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v3_composite_phase1h_bounded_autonomous.yaml, task_spec_hash_verified=True, attestation_verified=True, lock_format=V3
+
+  [V01] validate_task_authority (S0 gate)
+  [PASS] V01 validate_task_authority
+
+  [V02] validate_diff_scope
+  [FAIL] V02 validate_diff_scope
+       SCOPE_VIOLATION
+       ============================================================
+       WARNING: Untracked files in remote execution scope.
+       
+       Untracked remote-scope files (evidence laundering risk):
+         - sovereign/proposed_current_truth_delta_phase1h_goc_v3_composite.json
+         - sovereign/proposed_next_actions_phase1h_goc_v3_composite.json
+       
+       Rule: Untracked files never count as evidence.
+       Commit these files before citation.
+       VALIDATION FAILED
+       RESULT: SCOPE_VIOLATION
+
+======================================================================
+  Pre-flight Summary
+======================================================================
+  Passed: 1
+  Failed: 1
+  Task spec: v11_g4_goc_v3_composite_phase1h_bounded_autonomous.yaml
+  Pre-flight callable: True
+  Production lock: verified (always required — no bypass)
+
+  PRE-FLIGHT VALIDATION FAILED.
+  STOP — do not proceed with execution.
+  Fix authority mismatch, scope violation, or untracked files first.

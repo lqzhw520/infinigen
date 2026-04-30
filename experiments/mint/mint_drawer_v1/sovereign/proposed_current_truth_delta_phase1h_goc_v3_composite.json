@@ -1,0 +1,80 @@
+{
+  "bounded_candidate_execution": {
+    "attempted": false,
+    "attempts_used": 0,
+    "strict_candidate_found": false
+  },
+  "closeout_classification": "MODEL_BUILDER_REPAIR_REQUIRED",
+  "contact_report_schema_status": {
+    "body_based_3127_rejected": true,
+    "exact_goc_v3_ids_emitted": true,
+    "legacy_name_only_rejected": true,
+    "positive_exact_id_validator_accepted": true
+  },
+  "direct_current_truth_mutation": false,
+  "generated_at_utc": "2026-04-30T14:16:27.555248Z",
+  "next_gate": "RESET_CONTACT_OR_MODEL_BUILDER_REPAIR",
+  "phase1h_remains_blocked": true,
+  "preaction_contact_smoke": {
+    "passed": false,
+    "reason": "forbidden reset contacts and excessive penetration/force block Stage 4"
+  },
+  "proposal_id": "proposed_current_truth_delta_phase1h_goc_v3_composite",
+  "reset_physical_plausibility": {
+    "forbidden_contacts_at_reset": 12,
+    "max_reset_contact_force_n": 2.0387027460025715e+18,
+    "max_reset_penetration_m": 0.42044898910674633,
+    "observed_forbidden_contact_pairs": [
+      [
+        0,
+        47
+      ],
+      [
+        0,
+        49
+      ],
+      [
+        0,
+        54
+      ],
+      [
+        2,
+        47
+      ],
+      [
+        2,
+        49
+      ],
+      [
+        2,
+        54
+      ],
+      [
+        3,
+        47
+      ],
+      [
+        4,
+        49
+      ],
+      [
+        4,
+        54
+      ],
+      [
+        7,
+        47
+      ],
+      [
+        7,
+        49
+      ],
+      [
+        7,
+        54
+      ]
+    ],
+    "passed": false
+  },
+  "source_run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_composite_phase1h_bounded_20260430T140419Z"
+}

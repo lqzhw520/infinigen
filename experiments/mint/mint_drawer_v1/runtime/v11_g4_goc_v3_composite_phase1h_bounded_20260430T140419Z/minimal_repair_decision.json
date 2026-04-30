@@ -1,0 +1,163 @@
+{
+  "body_based_3127_rejected": true,
+  "bounded_rollout_attempted": false,
+  "closeout_classification": "MODEL_BUILDER_REPAIR_REQUIRED",
+  "contact_distances_finite": true,
+  "contact_forces_finite": true,
+  "evidence_basis": [
+    "GOC-v3 exact-ID contact report schema is present.",
+    "Target pairs use legal GOC-v3 IDs, but forbidden link1/link2/link3 to handle pairs exist at reset.",
+    "Maximum reset penetration and force exceed the composite spec thresholds.",
+    "Qpos-only reset candidates did not remove forbidden contacts.",
+    "Merged model builder assembles drawer at origin and appends robot worldbody unchanged; model placement/clearance repair is required."
+  ],
+  "exact_goc_v3_ids_emitted": true,
+  "forbidden_contacts_at_reset": 12,
+  "generated_at_utc": "2026-04-30T14:16:27.538162Z",
+  "legacy_name_only_rejected": true,
+  "local_visual_artifact_created": false,
+  "max_reset_contact_force_n": 2.0387027460025715e+18,
+  "max_reset_penetration_m": 0.42044898910674633,
+  "model_builder_patch_applied": false,
+  "next_gate": "RESET_CONTACT_OR_MODEL_BUILDER_REPAIR",
+  "observed_forbidden_contact_pairs": [
+    [
+      0,
+      47
+    ],
+    [
+      0,
+      49
+    ],
+    [
+      0,
+      54
+    ],
+    [
+      2,
+      47
+    ],
+    [
+      2,
+      49
+    ],
+    [
+      2,
+      54
+    ],
+    [
+      3,
+      47
+    ],
+    [
+      4,
+      49
+    ],
+    [
+      4,
+      54
+    ],
+    [
+      7,
+      47
+    ],
+    [
+      7,
+      49
+    ],
+    [
+      7,
+      54
+    ]
+  ],
+  "observed_target_contact_pairs": [
+    [
+      0,
+      63
+    ],
+    [
+      0,
+      81
+    ],
+    [
+      2,
+      63
+    ],
+    [
+      2,
+      81
+    ],
+    [
+      4,
+      63
+    ],
+    [
+      7,
+      63
+    ],
+    [
+      7,
+      81
+    ]
+  ],
+  "positive_exact_id_validator_accepted": true,
+  "preaction_contact_smoke_passed": false,
+  "qpos_only_repair_probe": {
+    "any_qpos_only_candidate_valid": false,
+    "candidate_count": 6,
+    "candidates": [
+      {
+        "candidate": "libero_default",
+        "forbidden_contact_pair_count": 12,
+        "max_contact_force_n": 2.0387027460025715e+18,
+        "max_penetration_m": 0.42044898910674633,
+        "reset_valid": false
+      },
+      {
+        "candidate": "neutral_down",
+        "forbidden_contact_pair_count": 12,
+        "max_contact_force_n": 2.0387027460025713e+18,
+        "max_penetration_m": 0.42044898910674633,
+        "reset_valid": false
+      },
+      {
+        "candidate": "folded_back",
+        "forbidden_contact_pair_count": 15,
+        "max_contact_force_n": 2.038702746002571e+18,
+        "max_penetration_m": 0.42044898910674633,
+        "reset_valid": false
+      },
+      {
+        "candidate": "upright",
+        "forbidden_contact_pair_count": 12,
+        "max_contact_force_n": 2.0387027460025715e+18,
+        "max_penetration_m": 0.42044898910674633,
+        "reset_valid": false
+      },
+      {
+        "candidate": "right_swept",
+        "forbidden_contact_pair_count": 12,
+        "max_contact_force_n": 2.0387028533174884e+18,
+        "max_penetration_m": 0.42044898910674633,
+        "reset_valid": false
+      },
+      {
+        "candidate": "left_swept",
+        "forbidden_contact_pair_count": 12,
+        "max_contact_force_n": 2.0387027252842652e+18,
+        "max_penetration_m": 0.42044898910674633,
+        "reset_valid": false
+      }
+    ],
+    "entered": true
+  },
+  "repair_attempted": "qpos_only_reset_probe",
+  "repair_decision": "No code repair applied. Reset invalidity persists across qpos-only reset candidates; clearing it requires model assembly/cabinet clearance repair or a new model provenance pass, which is broader than a safe stage-local env/report patch.",
+  "reset_physical_plausibility_passed": false,
+  "rollout_attempts_used": 0,
+  "runtime_patch_applied": false,
+  "runtime_patch_files": [],
+  "stage": "stage3_minimal_repair_decision",
+  "strict_candidate_drawer_fraction": null,
+  "strict_candidate_found": false
+}

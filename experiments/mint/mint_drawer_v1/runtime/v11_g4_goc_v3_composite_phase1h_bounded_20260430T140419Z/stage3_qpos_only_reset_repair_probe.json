@@ -1,0 +1,3305 @@
+{
+  "any_qpos_only_candidate_valid": false,
+  "candidates": [
+    {
+      "candidate": "libero_default",
+      "contact_count": 76,
+      "contacts_sample": [
+        {
+          "distance_m": -0.42044898910674633,
+          "forbidden_pair": false,
+          "force_norm_n": 2503828.850699163,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 0,
+          "pair": [
+            0,
+            9
+          ]
+        },
+        {
+          "distance_m": -0.1624669746833492,
+          "forbidden_pair": false,
+          "force_norm_n": 793694.0780819748,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 1,
+          "pair": [
+            0,
+            11
+          ]
+        },
+        {
+          "distance_m": -0.10124049365411733,
+          "forbidden_pair": false,
+          "force_norm_n": 608733.7797254951,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 2,
+          "pair": [
+            0,
+            12
+          ]
+        },
+        {
+          "distance_m": -0.10121849930144111,
+          "forbidden_pair": false,
+          "force_norm_n": 608604.2111573142,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 3,
+          "pair": [
+            0,
+            13
+          ]
+        },
+        {
+          "distance_m": -0.11879124585327287,
+          "forbidden_pair": false,
+          "force_norm_n": 712280.4524864447,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 4,
+          "pair": [
+            0,
+            14
+          ]
+        },
+        {
+          "distance_m": -0.1521559059619549,
+          "forbidden_pair": false,
+          "force_norm_n": 732327.0670944782,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 5,
+          "pair": [
+            0,
+            15
+          ]
+        },
+        {
+          "distance_m": -0.10121849909060826,
+          "forbidden_pair": false,
+          "force_norm_n": 608604.2099153023,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 6,
+          "pair": [
+            0,
+            16
+          ]
+        },
+        {
+          "distance_m": -0.3902355109376259,
+          "forbidden_pair": false,
+          "force_norm_n": 2324127.287028903,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 7,
+          "pair": [
+            0,
+            17
+          ]
+        },
+        {
+          "distance_m": -0.08265790463830797,
+          "forbidden_pair": false,
+          "force_norm_n": 665182.9373945423,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 8,
+          "pair": [
+            0,
+            18
+          ]
+        },
+        {
+          "distance_m": -0.35094406412717327,
+          "forbidden_pair": false,
+          "force_norm_n": 2090462.2624396596,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 9,
+          "pair": [
+            2,
+            9
+          ]
+        },
+        {
+          "distance_m": -0.1624669746833492,
+          "forbidden_pair": false,
+          "force_norm_n": 793694.0780819749,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 10,
+          "pair": [
+            2,
+            11
+          ]
+        },
+        {
+          "distance_m": -0.20764543145756936,
+          "forbidden_pair": false,
+          "force_norm_n": 1238847.4898742961,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 11,
+          "pair": [
+            2,
+            12
+          ]
+        },
+        {
+          "distance_m": -0.20762343710489314,
+          "forbidden_pair": false,
+          "force_norm_n": 1238716.909416847,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 12,
+          "pair": [
+            2,
+            13
+          ]
+        },
+        {
+          "distance_m": -0.1187912458532729,
+          "forbidden_pair": false,
+          "force_norm_n": 712280.4524864448,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 13,
+          "pair": [
+            2,
+            14
+          ]
+        },
+        {
+          "distance_m": -0.15215590596195494,
+          "forbidden_pair": false,
+          "force_norm_n": 732327.0670944783,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 14,
+          "pair": [
+            2,
+            15
+          ]
+        },
+        {
+          "distance_m": -0.2076234368940603,
+          "forbidden_pair": false,
+          "force_norm_n": 1238716.9081651329,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 15,
+          "pair": [
+            2,
+            16
+          ]
+        },
+        {
+          "distance_m": -0.320730557017078,
+          "forbidden_pair": false,
+          "force_norm_n": 1910813.5241368557,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 16,
+          "pair": [
+            2,
+            17
+          ]
+        },
+        {
+          "distance_m": -0.08265790463830797,
+          "forbidden_pair": false,
+          "force_norm_n": 665182.9373945423,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 17,
+          "pair": [
+            2,
+            18
+          ]
+        },
+        {
+          "distance_m": -0.42044898910674633,
+          "forbidden_pair": false,
+          "force_norm_n": 2223665.171434403,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 18,
+          "pair": [
+            0,
+            21
+          ]
+        },
+        {
+          "distance_m": -0.10124049365411733,
+          "forbidden_pair": false,
+          "force_norm_n": 541265.0634578043,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 19,
+          "pair": [
+            0,
+            23
+          ]
+        },
+        {
+          "distance_m": -0.39023551065986467,
+          "forbidden_pair": false,
+          "force_norm_n": 2064096.0141750777,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 20,
+          "pair": [
+            0,
+            24
+          ]
+        },
+        {
+          "distance_m": -0.10121849930144111,
+          "forbidden_pair": false,
+          "force_norm_n": 541150.1472428907,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 21,
+          "pair": [
+            0,
+            25
+          ]
+        },
+        {
+          "distance_m": -0.16246697468334922,
+          "forbidden_pair": false,
+          "force_norm_n": 695474.3530247696,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 22,
+          "pair": [
+            0,
+            26
+          ]
+        },
+        {
+          "distance_m": -0.10121849909060826,
+          "forbidden_pair": false,
+          "force_norm_n": 541150.1461413329,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 23,
+          "pair": [
+            0,
+            27
+          ]
+        },
+        {
+          "distance_m": -0.1521559059619549,
+          "forbidden_pair": false,
+          "force_norm_n": 640978.0360158598,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 24,
+          "pair": [
+            0,
+            28
+          ]
+        },
+        {
+          "distance_m": -0.08265790463830797,
+          "forbidden_pair": false,
+          "force_norm_n": 600065.7593756644,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 25,
+          "pair": [
+            0,
+            29
+          ]
+        },
+        {
+          "distance_m": -0.11876181521815411,
+          "forbidden_pair": false,
+          "force_norm_n": 632964.7671173549,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 26,
+          "pair": [
+            0,
+            30
+          ]
+        },
+        {
+          "distance_m": -0.35094406412717327,
+          "forbidden_pair": false,
+          "force_norm_n": 1856612.3728145561,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 27,
+          "pair": [
+            2,
+            21
+          ]
+        },
+        {
+          "distance_m": -0.20764543145756936,
+          "forbidden_pair": false,
+          "force_norm_n": 1100482.2688519,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 28,
+          "pair": [
+            2,
+            23
+          ]
+        },
+        {
+          "distance_m": -0.32073055673931683,
+          "forbidden_pair": false,
+          "force_norm_n": 1697096.0099774373,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 29,
+          "pair": [
+            2,
+            24
+          ]
+        }
+      ],
+      "max_contact_force_n": 2.0387027460025715e+18,
+      "max_penetration_m": 0.42044898910674633,
+      "raw_forbidden_pairs": [
+        [
+          0,
+          47
+        ],
+        [
+          0,
+          49
+        ],
+        [
+          0,
+          54
+        ],
+        [
+          2,
+          47
+        ],
+        [
+          2,
+          49
+        ],
+        [
+          2,
+          54
+        ],
+        [
+          3,
+          47
+        ],
+        [
+          4,
+          49
+        ],
+        [
+          4,
+          54
+        ],
+        [
+          7,
+          47
+        ],
+        [
+          7,
+          49
+        ],
+        [
+          7,
+          54
+        ]
+      ],
+      "reset_valid": false,
+      "robot_init_qpos": [
+        0.0,
+        -0.161037389,
+        0.0,
+        -2.44459747,
+        0.0,
+        2.2267522,
+        0.7853981633974483
+      ],
+      "runtime_forbidden_pairs": [
+        [
+          0,
+          47
+        ],
+        [
+          0,
+          49
+        ],
+        [
+          0,
+          54
+        ],
+        [
+          2,
+          47
+        ],
+        [
+          2,
+          49
+        ],
+        [
+          2,
+          54
+        ],
+        [
+          3,
+          47
+        ],
+        [
+          4,
+          49
+        ],
+        [
+          4,
+          54
+        ],
+        [
+          7,
+          47
+        ],
+        [
+          7,
+          49
+        ],
+        [
+          7,
+          54
+        ]
+      ],
+      "runtime_target_pairs": [
+        [
+          0,
+          63
+        ],
+        [
+          0,
+          81
+        ],
+        [
+          2,
+          63
+        ],
+        [
+          2,
+          81
+        ],
+        [
+          4,
+          63
+        ],
+        [
+          7,
+          63
+        ],
+        [
+          7,
+          81
+        ]
+      ]
+    },
+    {
+      "candidate": "neutral_down",
+      "contact_count": 64,
+      "contacts_sample": [
+        {
+          "distance_m": -0.42044898910674633,
+          "forbidden_pair": false,
+          "force_norm_n": 2503809.787123875,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 0,
+          "pair": [
+            0,
+            9
+          ]
+        },
+        {
+          "distance_m": -0.1624669746833492,
+          "forbidden_pair": false,
+          "force_norm_n": 794799.7083786519,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 1,
+          "pair": [
+            0,
+            11
+          ]
+        },
+        {
+          "distance_m": -0.10124049365411733,
+          "forbidden_pair": false,
+          "force_norm_n": 608655.3631429705,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 2,
+          "pair": [
+            0,
+            12
+          ]
+        },
+        {
+          "distance_m": -0.10121849930144111,
+          "forbidden_pair": false,
+          "force_norm_n": 608525.7778781687,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 3,
+          "pair": [
+            0,
+            13
+          ]
+        },
+        {
+          "distance_m": -0.11879124585327287,
+          "forbidden_pair": false,
+          "force_norm_n": 712213.4367576254,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 4,
+          "pair": [
+            0,
+            14
+          ]
+        },
+        {
+          "distance_m": -0.1521559059619549,
+          "forbidden_pair": false,
+          "force_norm_n": 733432.697391155,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 5,
+          "pair": [
+            0,
+            15
+          ]
+        },
+        {
+          "distance_m": -0.10121849909060826,
+          "forbidden_pair": false,
+          "force_norm_n": 608525.7766359966,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 6,
+          "pair": [
+            0,
+            16
+          ]
+        },
+        {
+          "distance_m": -0.3902355109376259,
+          "forbidden_pair": false,
+          "force_norm_n": 2324106.749445073,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 7,
+          "pair": [
+            0,
+            17
+          ]
+        },
+        {
+          "distance_m": -0.08265790463830797,
+          "forbidden_pair": false,
+          "force_norm_n": 664077.3070978654,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 8,
+          "pair": [
+            0,
+            18
+          ]
+        },
+        {
+          "distance_m": -0.35094406412717327,
+          "forbidden_pair": false,
+          "force_norm_n": 2090439.4292081636,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 9,
+          "pair": [
+            2,
+            9
+          ]
+        },
+        {
+          "distance_m": -0.1624669746833492,
+          "forbidden_pair": false,
+          "force_norm_n": 794799.7083786518,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 10,
+          "pair": [
+            2,
+            11
+          ]
+        },
+        {
+          "distance_m": -0.20764543145756936,
+          "forbidden_pair": false,
+          "force_norm_n": 1238808.9601192179,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 11,
+          "pair": [
+            2,
+            12
+          ]
+        },
+        {
+          "distance_m": -0.20762343710489314,
+          "forbidden_pair": false,
+          "force_norm_n": 1238678.3755999934,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 12,
+          "pair": [
+            2,
+            13
+          ]
+        },
+        {
+          "distance_m": -0.1187912458532729,
+          "forbidden_pair": false,
+          "force_norm_n": 712213.4367576255,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 13,
+          "pair": [
+            2,
+            14
+          ]
+        },
+        {
+          "distance_m": -0.15215590596195494,
+          "forbidden_pair": false,
+          "force_norm_n": 733432.6973911552,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 14,
+          "pair": [
+            2,
+            15
+          ]
+        },
+        {
+          "distance_m": -0.2076234368940603,
+          "forbidden_pair": false,
+          "force_norm_n": 1238678.3743482404,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 15,
+          "pair": [
+            2,
+            16
+          ]
+        },
+        {
+          "distance_m": -0.320730557017078,
+          "forbidden_pair": false,
+          "force_norm_n": 1910788.5441691666,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 16,
+          "pair": [
+            2,
+            17
+          ]
+        },
+        {
+          "distance_m": -0.08265790463830797,
+          "forbidden_pair": false,
+          "force_norm_n": 664077.3070978654,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 17,
+          "pair": [
+            2,
+            18
+          ]
+        },
+        {
+          "distance_m": -0.42044898910674633,
+          "forbidden_pair": false,
+          "force_norm_n": 2223653.569487627,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 18,
+          "pair": [
+            0,
+            21
+          ]
+        },
+        {
+          "distance_m": -0.10124049365411733,
+          "forbidden_pair": false,
+          "force_norm_n": 541217.3975073724,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 19,
+          "pair": [
+            0,
+            23
+          ]
+        },
+        {
+          "distance_m": -0.39023551065986467,
+          "forbidden_pair": false,
+          "force_norm_n": 2064083.5153108786,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 20,
+          "pair": [
+            0,
+            24
+          ]
+        },
+        {
+          "distance_m": -0.10121849930144111,
+          "forbidden_pair": false,
+          "force_norm_n": 541102.4711694398,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 21,
+          "pair": [
+            0,
+            25
+          ]
+        },
+        {
+          "distance_m": -0.16246697468334922,
+          "forbidden_pair": false,
+          "force_norm_n": 696107.9051885158,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 22,
+          "pair": [
+            0,
+            26
+          ]
+        },
+        {
+          "distance_m": -0.10121849909060826,
+          "forbidden_pair": false,
+          "force_norm_n": 541102.4700677851,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 23,
+          "pair": [
+            0,
+            27
+          ]
+        },
+        {
+          "distance_m": -0.1521559059619549,
+          "forbidden_pair": false,
+          "force_norm_n": 641611.588179606,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 24,
+          "pair": [
+            0,
+            28
+          ]
+        },
+        {
+          "distance_m": -0.08265790463830797,
+          "forbidden_pair": false,
+          "force_norm_n": 599432.2072119182,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 25,
+          "pair": [
+            0,
+            29
+          ]
+        },
+        {
+          "distance_m": -0.11876181521815411,
+          "forbidden_pair": false,
+          "force_norm_n": 632924.0071735308,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 26,
+          "pair": [
+            0,
+            30
+          ]
+        },
+        {
+          "distance_m": -0.35094406412717327,
+          "forbidden_pair": false,
+          "force_norm_n": 1856598.477143825,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 27,
+          "pair": [
+            2,
+            21
+          ]
+        },
+        {
+          "distance_m": -0.20764543145756936,
+          "forbidden_pair": false,
+          "force_norm_n": 1100458.825446049,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 28,
+          "pair": [
+            2,
+            23
+          ]
+        },
+        {
+          "distance_m": -0.32073055673931683,
+          "forbidden_pair": false,
+          "force_norm_n": 1697080.8081897602,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 29,
+          "pair": [
+            2,
+            24
+          ]
+        }
+      ],
+      "max_contact_force_n": 2.0387027460025713e+18,
+      "max_penetration_m": 0.42044898910674633,
+      "raw_forbidden_pairs": [
+        [
+          0,
+          47
+        ],
+        [
+          0,
+          49
+        ],
+        [
+          0,
+          54
+        ],
+        [
+          2,
+          47
+        ],
+        [
+          2,
+          49
+        ],
+        [
+          2,
+          54
+        ],
+        [
+          3,
+          47
+        ],
+        [
+          4,
+          49
+        ],
+        [
+          4,
+          54
+        ],
+        [
+          7,
+          47
+        ],
+        [
+          7,
+          49
+        ],
+        [
+          7,
+          54
+        ]
+      ],
+      "reset_valid": false,
+      "robot_init_qpos": [
+        0.0,
+        -0.45,
+        0.0,
+        -2.0,
+        0.0,
+        1.6,
+        0.78
+      ],
+      "runtime_forbidden_pairs": [
+        [
+          0,
+          47
+        ],
+        [
+          0,
+          49
+        ],
+        [
+          0,
+          54
+        ],
+        [
+          2,
+          47
+        ],
+        [
+          2,
+          49
+        ],
+        [
+          2,
+          54
+        ],
+        [
+          3,
+          47
+        ],
+        [
+          4,
+          49
+        ],
+        [
+          4,
+          54
+        ],
+        [
+          7,
+          47
+        ],
+        [
+          7,
+          49
+        ],
+        [
+          7,
+          54
+        ]
+      ],
+      "runtime_target_pairs": []
+    },
+    {
+      "candidate": "folded_back",
+      "contact_count": 74,
+      "contacts_sample": [
+        {
+          "distance_m": -0.42044898910674633,
+          "forbidden_pair": false,
+          "force_norm_n": 2503725.794341824,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 0,
+          "pair": [
+            0,
+            9
+          ]
+        },
+        {
+          "distance_m": -0.1624669746833492,
+          "forbidden_pair": false,
+          "force_norm_n": 799757.9937527985,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 1,
+          "pair": [
+            0,
+            11
+          ]
+        },
+        {
+          "distance_m": -0.10124049365411733,
+          "forbidden_pair": false,
+          "force_norm_n": 608309.7518846727,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 2,
+          "pair": [
+            0,
+            12
+          ]
+        },
+        {
+          "distance_m": -0.10121849930144111,
+          "forbidden_pair": false,
+          "force_norm_n": 608180.0929802957,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 3,
+          "pair": [
+            0,
+            13
+          ]
+        },
+        {
+          "distance_m": -0.11879124585327287,
+          "forbidden_pair": false,
+          "force_norm_n": 711918.1010856507,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 4,
+          "pair": [
+            0,
+            14
+          ]
+        },
+        {
+          "distance_m": -0.1521559059619549,
+          "forbidden_pair": false,
+          "force_norm_n": 738390.9827653018,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 5,
+          "pair": [
+            0,
+            15
+          ]
+        },
+        {
+          "distance_m": -0.10121849909060826,
+          "forbidden_pair": false,
+          "force_norm_n": 608180.0917374176,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 6,
+          "pair": [
+            0,
+            16
+          ]
+        },
+        {
+          "distance_m": -0.3902355109376259,
+          "forbidden_pair": false,
+          "force_norm_n": 2324016.261985151,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 7,
+          "pair": [
+            0,
+            17
+          ]
+        },
+        {
+          "distance_m": -0.08265790463830797,
+          "forbidden_pair": false,
+          "force_norm_n": 659119.0217237187,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 8,
+          "pair": [
+            0,
+            18
+          ]
+        },
+        {
+          "distance_m": -0.35094406412717327,
+          "forbidden_pair": false,
+          "force_norm_n": 2090338.826684192,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 9,
+          "pair": [
+            2,
+            9
+          ]
+        },
+        {
+          "distance_m": -0.1624669746833492,
+          "forbidden_pair": false,
+          "force_norm_n": 799757.9937527985,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 10,
+          "pair": [
+            2,
+            11
+          ]
+        },
+        {
+          "distance_m": -0.20764543145756936,
+          "forbidden_pair": false,
+          "force_norm_n": 1238639.1899285882,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 11,
+          "pair": [
+            2,
+            12
+          ]
+        },
+        {
+          "distance_m": -0.20762343710489314,
+          "forbidden_pair": false,
+          "force_norm_n": 1238508.5875093197,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 12,
+          "pair": [
+            2,
+            13
+          ]
+        },
+        {
+          "distance_m": -0.1187912458532729,
+          "forbidden_pair": false,
+          "force_norm_n": 711918.1010856509,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 13,
+          "pair": [
+            2,
+            14
+          ]
+        },
+        {
+          "distance_m": -0.15215590596195494,
+          "forbidden_pair": false,
+          "force_norm_n": 738390.982765302,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 14,
+          "pair": [
+            2,
+            15
+          ]
+        },
+        {
+          "distance_m": -0.2076234368940603,
+          "forbidden_pair": false,
+          "force_norm_n": 1238508.5862573946,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 15,
+          "pair": [
+            2,
+            16
+          ]
+        },
+        {
+          "distance_m": -0.320730557017078,
+          "forbidden_pair": false,
+          "force_norm_n": 1910678.4825510061,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 16,
+          "pair": [
+            2,
+            17
+          ]
+        },
+        {
+          "distance_m": -0.08265790463830797,
+          "forbidden_pair": false,
+          "force_norm_n": 659119.0217237187,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 17,
+          "pair": [
+            2,
+            18
+          ]
+        },
+        {
+          "distance_m": -0.42044898910674633,
+          "forbidden_pair": false,
+          "force_norm_n": 2223588.947498913,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 18,
+          "pair": [
+            0,
+            21
+          ]
+        },
+        {
+          "distance_m": -0.10124049365411733,
+          "forbidden_pair": false,
+          "force_norm_n": 540951.8293793923,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 19,
+          "pair": [
+            0,
+            23
+          ]
+        },
+        {
+          "distance_m": -0.39023551065986467,
+          "forbidden_pair": false,
+          "force_norm_n": 2064013.8973665785,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 20,
+          "pair": [
+            0,
+            24
+          ]
+        },
+        {
+          "distance_m": -0.10121849930144111,
+          "forbidden_pair": false,
+          "force_norm_n": 540836.8466089683,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 21,
+          "pair": [
+            0,
+            25
+          ]
+        },
+        {
+          "distance_m": -0.16246697468334922,
+          "forbidden_pair": false,
+          "force_norm_n": 699682.8677997668,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 22,
+          "pair": [
+            0,
+            26
+          ]
+        },
+        {
+          "distance_m": -0.10121849909060826,
+          "forbidden_pair": false,
+          "force_norm_n": 540836.8455067724,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 23,
+          "pair": [
+            0,
+            27
+          ]
+        },
+        {
+          "distance_m": -0.1521559059619549,
+          "forbidden_pair": false,
+          "force_norm_n": 645186.5507908568,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 24,
+          "pair": [
+            0,
+            28
+          ]
+        },
+        {
+          "distance_m": -0.08265790463830797,
+          "forbidden_pair": false,
+          "force_norm_n": 595857.2446006673,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 25,
+          "pair": [
+            0,
+            29
+          ]
+        },
+        {
+          "distance_m": -0.11876181521815411,
+          "forbidden_pair": false,
+          "force_norm_n": 632696.9331369149,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 26,
+          "pair": [
+            0,
+            30
+          ]
+        },
+        {
+          "distance_m": -0.35094406412717327,
+          "forbidden_pair": false,
+          "force_norm_n": 1856521.0787052829,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 27,
+          "pair": [
+            2,
+            21
+          ]
+        },
+        {
+          "distance_m": -0.20764543145756936,
+          "forbidden_pair": false,
+          "force_norm_n": 1100328.2405020585,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 28,
+          "pair": [
+            2,
+            23
+          ]
+        },
+        {
+          "distance_m": -0.32073055673931683,
+          "forbidden_pair": false,
+          "force_norm_n": 1696996.1343121168,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 29,
+          "pair": [
+            2,
+            24
+          ]
+        }
+      ],
+      "max_contact_force_n": 2.038702746002571e+18,
+      "max_penetration_m": 0.42044898910674633,
+      "raw_forbidden_pairs": [
+        [
+          0,
+          47
+        ],
+        [
+          0,
+          49
+        ],
+        [
+          0,
+          54
+        ],
+        [
+          0,
+          59
+        ],
+        [
+          2,
+          47
+        ],
+        [
+          2,
+          49
+        ],
+        [
+          2,
+          54
+        ],
+        [
+          2,
+          59
+        ],
+        [
+          3,
+          47
+        ],
+        [
+          4,
+          54
+        ],
+        [
+          4,
+          59
+        ],
+        [
+          7,
+          47
+        ],
+        [
+          7,
+          49
+        ],
+        [
+          7,
+          54
+        ],
+        [
+          7,
+          59
+        ]
+      ],
+      "reset_valid": false,
+      "robot_init_qpos": [
+        0.0,
+        -1.0,
+        0.0,
+        -2.4,
+        0.0,
+        1.2,
+        0.78
+      ],
+      "runtime_forbidden_pairs": [
+        [
+          0,
+          47
+        ],
+        [
+          0,
+          49
+        ],
+        [
+          0,
+          54
+        ],
+        [
+          0,
+          59
+        ],
+        [
+          2,
+          47
+        ],
+        [
+          2,
+          49
+        ],
+        [
+          2,
+          54
+        ],
+        [
+          2,
+          59
+        ],
+        [
+          3,
+          47
+        ],
+        [
+          4,
+          54
+        ],
+        [
+          4,
+          59
+        ],
+        [
+          7,
+          47
+        ],
+        [
+          7,
+          49
+        ],
+        [
+          7,
+          54
+        ],
+        [
+          7,
+          59
+        ]
+      ],
+      "runtime_target_pairs": [
+        [
+          0,
+          90
+        ],
+        [
+          4,
+          90
+        ]
+      ]
+    },
+    {
+      "candidate": "upright",
+      "contact_count": 64,
+      "contacts_sample": [
+        {
+          "distance_m": -0.42044898910674633,
+          "forbidden_pair": false,
+          "force_norm_n": 2503842.272588362,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 0,
+          "pair": [
+            0,
+            9
+          ]
+        },
+        {
+          "distance_m": -0.1624669746833492,
+          "forbidden_pair": false,
+          "force_norm_n": 792919.8576978161,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 1,
+          "pair": [
+            0,
+            11
+          ]
+        },
+        {
+          "distance_m": -0.10124049365411733,
+          "forbidden_pair": false,
+          "force_norm_n": 608788.9839557278,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 2,
+          "pair": [
+            0,
+            12
+          ]
+        },
+        {
+          "distance_m": -0.10121849930144111,
+          "forbidden_pair": false,
+          "force_norm_n": 608659.427139165,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 3,
+          "pair": [
+            0,
+            13
+          ]
+        },
+        {
+          "distance_m": -0.11879124585327287,
+          "forbidden_pair": false,
+          "force_norm_n": 712327.632063543,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 4,
+          "pair": [
+            0,
+            14
+          ]
+        },
+        {
+          "distance_m": -0.1521559059619549,
+          "forbidden_pair": false,
+          "force_norm_n": 731552.8467103193,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 5,
+          "pair": [
+            0,
+            15
+          ]
+        },
+        {
+          "distance_m": -0.10121849909060826,
+          "forbidden_pair": false,
+          "force_norm_n": 608659.4258972658,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 6,
+          "pair": [
+            0,
+            16
+          ]
+        },
+        {
+          "distance_m": -0.3902355109376259,
+          "forbidden_pair": false,
+          "force_norm_n": 2324141.7466925913,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 7,
+          "pair": [
+            0,
+            17
+          ]
+        },
+        {
+          "distance_m": -0.08265790463830797,
+          "forbidden_pair": false,
+          "force_norm_n": 665957.1577787012,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 8,
+          "pair": [
+            0,
+            18
+          ]
+        },
+        {
+          "distance_m": -0.35094406412717327,
+          "forbidden_pair": false,
+          "force_norm_n": 2090478.338345389,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 9,
+          "pair": [
+            2,
+            9
+          ]
+        },
+        {
+          "distance_m": -0.1624669746833492,
+          "forbidden_pair": false,
+          "force_norm_n": 792919.8576978161,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 10,
+          "pair": [
+            2,
+            11
+          ]
+        },
+        {
+          "distance_m": -0.20764543145756936,
+          "forbidden_pair": false,
+          "force_norm_n": 1238874.6165673118,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 11,
+          "pair": [
+            2,
+            12
+          ]
+        },
+        {
+          "distance_m": -0.20762343710489314,
+          "forbidden_pair": false,
+          "force_norm_n": 1238744.0389693847,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 12,
+          "pair": [
+            2,
+            13
+          ]
+        },
+        {
+          "distance_m": -0.1187912458532729,
+          "forbidden_pair": false,
+          "force_norm_n": 712327.6320635431,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 13,
+          "pair": [
+            2,
+            14
+          ]
+        },
+        {
+          "distance_m": -0.15215590596195494,
+          "forbidden_pair": false,
+          "force_norm_n": 731552.8467103195,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 14,
+          "pair": [
+            2,
+            15
+          ]
+        },
+        {
+          "distance_m": -0.2076234368940603,
+          "forbidden_pair": false,
+          "force_norm_n": 1238744.0377176981,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 15,
+          "pair": [
+            2,
+            16
+          ]
+        },
+        {
+          "distance_m": -0.320730557017078,
+          "forbidden_pair": false,
+          "force_norm_n": 1910831.1114358774,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 16,
+          "pair": [
+            2,
+            17
+          ]
+        },
+        {
+          "distance_m": -0.08265790463830797,
+          "forbidden_pair": false,
+          "force_norm_n": 665957.1577787012,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 17,
+          "pair": [
+            2,
+            18
+          ]
+        },
+        {
+          "distance_m": -0.42044898910674633,
+          "forbidden_pair": false,
+          "force_norm_n": 2223666.3206231045,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 18,
+          "pair": [
+            0,
+            21
+          ]
+        },
+        {
+          "distance_m": -0.10124049365411733,
+          "forbidden_pair": false,
+          "force_norm_n": 541269.7846204636,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 19,
+          "pair": [
+            0,
+            23
+          ]
+        },
+        {
+          "distance_m": -0.39023551065986467,
+          "forbidden_pair": false,
+          "force_norm_n": 2064097.252204107,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 20,
+          "pair": [
+            0,
+            24
+          ]
+        },
+        {
+          "distance_m": -0.10121849930144111,
+          "forbidden_pair": false,
+          "force_norm_n": 541154.8694081062,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 21,
+          "pair": [
+            0,
+            25
+          ]
+        },
+        {
+          "distance_m": -0.16246697468334922,
+          "forbidden_pair": false,
+          "force_norm_n": 695411.7324581464,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 22,
+          "pair": [
+            0,
+            26
+          ]
+        },
+        {
+          "distance_m": -0.10121849909060826,
+          "forbidden_pair": false,
+          "force_norm_n": 541154.868306558,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 23,
+          "pair": [
+            0,
+            27
+          ]
+        },
+        {
+          "distance_m": -0.1521559059619549,
+          "forbidden_pair": false,
+          "force_norm_n": 640915.4154492366,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 24,
+          "pair": [
+            0,
+            28
+          ]
+        },
+        {
+          "distance_m": -0.08265790463830797,
+          "forbidden_pair": false,
+          "force_norm_n": 600128.3799422877,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 25,
+          "pair": [
+            0,
+            29
+          ]
+        },
+        {
+          "distance_m": -0.11876181521815411,
+          "forbidden_pair": false,
+          "force_norm_n": 632968.8043142644,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 26,
+          "pair": [
+            0,
+            30
+          ]
+        },
+        {
+          "distance_m": -0.35094406412717327,
+          "forbidden_pair": false,
+          "force_norm_n": 1856613.749198039,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 27,
+          "pair": [
+            2,
+            21
+          ]
+        },
+        {
+          "distance_m": -0.20764543145756936,
+          "forbidden_pair": false,
+          "force_norm_n": 1100484.5909327979,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 28,
+          "pair": [
+            2,
+            23
+          ]
+        },
+        {
+          "distance_m": -0.32073055673931683,
+          "forbidden_pair": false,
+          "force_norm_n": 1697097.5157322104,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 29,
+          "pair": [
+            2,
+            24
+          ]
+        }
+      ],
+      "max_contact_force_n": 2.0387027460025715e+18,
+      "max_penetration_m": 0.42044898910674633,
+      "raw_forbidden_pairs": [
+        [
+          0,
+          47
+        ],
+        [
+          0,
+          49
+        ],
+        [
+          0,
+          54
+        ],
+        [
+          2,
+          47
+        ],
+        [
+          2,
+          49
+        ],
+        [
+          2,
+          54
+        ],
+        [
+          3,
+          47
+        ],
+        [
+          4,
+          49
+        ],
+        [
+          4,
+          54
+        ],
+        [
+          7,
+          47
+        ],
+        [
+          7,
+          49
+        ],
+        [
+          7,
+          54
+        ]
+      ],
+      "reset_valid": false,
+      "robot_init_qpos": [
+        0.0,
+        -0.2,
+        0.0,
+        -1.2,
+        0.0,
+        1.4,
+        0.78
+      ],
+      "runtime_forbidden_pairs": [
+        [
+          0,
+          47
+        ],
+        [
+          0,
+          49
+        ],
+        [
+          0,
+          54
+        ],
+        [
+          2,
+          47
+        ],
+        [
+          2,
+          49
+        ],
+        [
+          2,
+          54
+        ],
+        [
+          3,
+          47
+        ],
+        [
+          4,
+          49
+        ],
+        [
+          4,
+          54
+        ],
+        [
+          7,
+          47
+        ],
+        [
+          7,
+          49
+        ],
+        [
+          7,
+          54
+        ]
+      ],
+      "runtime_target_pairs": []
+    },
+    {
+      "candidate": "right_swept",
+      "contact_count": 62,
+      "contacts_sample": [
+        {
+          "distance_m": -0.42044898910674633,
+          "forbidden_pair": false,
+          "force_norm_n": 2503734.7119486374,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 0,
+          "pair": [
+            0,
+            9
+          ]
+        },
+        {
+          "distance_m": -0.1624669746833492,
+          "forbidden_pair": false,
+          "force_norm_n": 799224.6192654794,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 1,
+          "pair": [
+            0,
+            11
+          ]
+        },
+        {
+          "distance_m": -0.10124049365411733,
+          "forbidden_pair": false,
+          "force_norm_n": 608346.4545815345,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 2,
+          "pair": [
+            0,
+            12
+          ]
+        },
+        {
+          "distance_m": -0.10121849930144111,
+          "forbidden_pair": false,
+          "force_norm_n": 608216.803501393,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 3,
+          "pair": [
+            0,
+            13
+          ]
+        },
+        {
+          "distance_m": -0.11879124585327287,
+          "forbidden_pair": false,
+          "force_norm_n": 711949.462544449,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 4,
+          "pair": [
+            0,
+            14
+          ]
+        },
+        {
+          "distance_m": -0.1521559059619549,
+          "forbidden_pair": false,
+          "force_norm_n": 737857.6082779827,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 5,
+          "pair": [
+            0,
+            15
+          ]
+        },
+        {
+          "distance_m": -0.10121849909060826,
+          "forbidden_pair": false,
+          "force_norm_n": 608216.8022585899,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 6,
+          "pair": [
+            0,
+            16
+          ]
+        },
+        {
+          "distance_m": -0.3902355109376259,
+          "forbidden_pair": false,
+          "force_norm_n": 2324025.8691622526,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 7,
+          "pair": [
+            0,
+            17
+          ]
+        },
+        {
+          "distance_m": -0.08265790463830797,
+          "forbidden_pair": false,
+          "force_norm_n": 659652.3962110378,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 8,
+          "pair": [
+            0,
+            18
+          ]
+        },
+        {
+          "distance_m": -0.35094406412717327,
+          "forbidden_pair": false,
+          "force_norm_n": 2090349.5078353225,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 9,
+          "pair": [
+            2,
+            9
+          ]
+        },
+        {
+          "distance_m": -0.1624669746833492,
+          "forbidden_pair": false,
+          "force_norm_n": 799224.6192654794,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 10,
+          "pair": [
+            2,
+            11
+          ]
+        },
+        {
+          "distance_m": -0.20764543145756936,
+          "forbidden_pair": false,
+          "force_norm_n": 1238657.2154518294,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 11,
+          "pair": [
+            2,
+            12
+          ]
+        },
+        {
+          "distance_m": -0.20762343710489314,
+          "forbidden_pair": false,
+          "force_norm_n": 1238526.614933349,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 12,
+          "pair": [
+            2,
+            13
+          ]
+        },
+        {
+          "distance_m": -0.1187912458532729,
+          "forbidden_pair": false,
+          "force_norm_n": 711949.4625444491,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 13,
+          "pair": [
+            2,
+            14
+          ]
+        },
+        {
+          "distance_m": -0.15215590596195494,
+          "forbidden_pair": false,
+          "force_norm_n": 737857.6082779828,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 14,
+          "pair": [
+            2,
+            15
+          ]
+        },
+        {
+          "distance_m": -0.2076234368940603,
+          "forbidden_pair": false,
+          "force_norm_n": 1238526.6136814426,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 15,
+          "pair": [
+            2,
+            16
+          ]
+        },
+        {
+          "distance_m": -0.320730557017078,
+          "forbidden_pair": false,
+          "force_norm_n": 1910690.1680406863,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 16,
+          "pair": [
+            2,
+            17
+          ]
+        },
+        {
+          "distance_m": -0.08265790463830797,
+          "forbidden_pair": false,
+          "force_norm_n": 659652.3962110378,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 17,
+          "pair": [
+            2,
+            18
+          ]
+        },
+        {
+          "distance_m": -0.42044898910674633,
+          "forbidden_pair": false,
+          "force_norm_n": 2223724.632256262,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 18,
+          "pair": [
+            0,
+            21
+          ]
+        },
+        {
+          "distance_m": -0.10124049365411733,
+          "forbidden_pair": false,
+          "force_norm_n": 541509.2929699693,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 19,
+          "pair": [
+            0,
+            23
+          ]
+        },
+        {
+          "distance_m": -0.39023551065986467,
+          "forbidden_pair": false,
+          "force_norm_n": 2064160.071599656,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 20,
+          "pair": [
+            0,
+            24
+          ]
+        },
+        {
+          "distance_m": -0.10121849930144111,
+          "forbidden_pair": false,
+          "force_norm_n": 541394.4285951395,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 21,
+          "pair": [
+            0,
+            25
+          ]
+        },
+        {
+          "distance_m": -0.16246697468334922,
+          "forbidden_pair": false,
+          "force_norm_n": 692265.1559160022,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 22,
+          "pair": [
+            0,
+            26
+          ]
+        },
+        {
+          "distance_m": -0.10121849909060826,
+          "forbidden_pair": false,
+          "force_norm_n": 541394.4274940786,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 23,
+          "pair": [
+            0,
+            27
+          ]
+        },
+        {
+          "distance_m": -0.1521559059619549,
+          "forbidden_pair": false,
+          "force_norm_n": 637768.8389070923,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 24,
+          "pair": [
+            0,
+            28
+          ]
+        },
+        {
+          "distance_m": -0.08265790463830797,
+          "forbidden_pair": false,
+          "force_norm_n": 603274.956484432,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 25,
+          "pair": [
+            0,
+            29
+          ]
+        },
+        {
+          "distance_m": -0.11876181521815411,
+          "forbidden_pair": false,
+          "force_norm_n": 633173.6269498143,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 26,
+          "pair": [
+            0,
+            30
+          ]
+        },
+        {
+          "distance_m": -0.35094406412717327,
+          "forbidden_pair": false,
+          "force_norm_n": 1856683.5886442668,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 27,
+          "pair": [
+            2,
+            21
+          ]
+        },
+        {
+          "distance_m": -0.20764543145756936,
+          "forbidden_pair": false,
+          "force_norm_n": 1100602.4120954308,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 28,
+          "pair": [
+            2,
+            23
+          ]
+        },
+        {
+          "distance_m": -0.32073055673931683,
+          "forbidden_pair": false,
+          "force_norm_n": 1697173.9193536392,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 29,
+          "pair": [
+            2,
+            24
+          ]
+        }
+      ],
+      "max_contact_force_n": 2.0387028533174884e+18,
+      "max_penetration_m": 0.42044898910674633,
+      "raw_forbidden_pairs": [
+        [
+          0,
+          47
+        ],
+        [
+          0,
+          49
+        ],
+        [
+          0,
+          54
+        ],
+        [
+          0,
+          59
+        ],
+        [
+          2,
+          47
+        ],
+        [
+          2,
+          49
+        ],
+        [
+          2,
+          54
+        ],
+        [
+          3,
+          47
+        ],
+        [
+          4,
+          54
+        ],
+        [
+          4,
+          59
+        ],
+        [
+          7,
+          47
+        ],
+        [
+          7,
+          49
+        ]
+      ],
+      "reset_valid": false,
+      "robot_init_qpos": [
+        1.0,
+        -0.6,
+        0.0,
+        -2.0,
+        0.0,
+        1.6,
+        0.78
+      ],
+      "runtime_forbidden_pairs": [
+        [
+          0,
+          47
+        ],
+        [
+          0,
+          49
+        ],
+        [
+          0,
+          54
+        ],
+        [
+          0,
+          59
+        ],
+        [
+          2,
+          47
+        ],
+        [
+          2,
+          49
+        ],
+        [
+          2,
+          54
+        ],
+        [
+          3,
+          47
+        ],
+        [
+          4,
+          54
+        ],
+        [
+          4,
+          59
+        ],
+        [
+          7,
+          47
+        ],
+        [
+          7,
+          49
+        ]
+      ],
+      "runtime_target_pairs": []
+    },
+    {
+      "candidate": "left_swept",
+      "contact_count": 62,
+      "contacts_sample": [
+        {
+          "distance_m": -0.42044898910674633,
+          "forbidden_pair": false,
+          "force_norm_n": 2504053.6106994655,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 0,
+          "pair": [
+            0,
+            9
+          ]
+        },
+        {
+          "distance_m": -0.1624669746833492,
+          "forbidden_pair": false,
+          "force_norm_n": 781153.5320796771,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 1,
+          "pair": [
+            0,
+            11
+          ]
+        },
+        {
+          "distance_m": -0.10124049365411733,
+          "forbidden_pair": false,
+          "force_norm_n": 609657.5975434285,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 2,
+          "pair": [
+            0,
+            12
+          ]
+        },
+        {
+          "distance_m": -0.10121849930144111,
+          "forbidden_pair": false,
+          "force_norm_n": 609528.2253529808,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 3,
+          "pair": [
+            0,
+            13
+          ]
+        },
+        {
+          "distance_m": -0.11879124585327287,
+          "forbidden_pair": false,
+          "force_norm_n": 713070.1330569328,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 4,
+          "pair": [
+            0,
+            14
+          ]
+        },
+        {
+          "distance_m": -0.1521559059619549,
+          "forbidden_pair": false,
+          "force_norm_n": 719786.5210921804,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 5,
+          "pair": [
+            0,
+            15
+          ]
+        },
+        {
+          "distance_m": -0.10121849909060826,
+          "forbidden_pair": false,
+          "force_norm_n": 609528.2241128518,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 6,
+          "pair": [
+            0,
+            16
+          ]
+        },
+        {
+          "distance_m": -0.3902355109376259,
+          "forbidden_pair": false,
+          "force_norm_n": 2324369.423731061,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 7,
+          "pair": [
+            0,
+            17
+          ]
+        },
+        {
+          "distance_m": -0.08265790463830797,
+          "forbidden_pair": false,
+          "force_norm_n": 677723.48339684,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 8,
+          "pair": [
+            0,
+            18
+          ]
+        },
+        {
+          "distance_m": -0.35094406412717327,
+          "forbidden_pair": false,
+          "force_norm_n": 2090731.4610795616,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 9,
+          "pair": [
+            2,
+            9
+          ]
+        },
+        {
+          "distance_m": -0.1624669746833492,
+          "forbidden_pair": false,
+          "force_norm_n": 781153.5320796771,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 10,
+          "pair": [
+            2,
+            11
+          ]
+        },
+        {
+          "distance_m": -0.20764543145756936,
+          "forbidden_pair": false,
+          "force_norm_n": 1239301.6883839793,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 11,
+          "pair": [
+            2,
+            12
+          ]
+        },
+        {
+          "distance_m": -0.20762343710489314,
+          "forbidden_pair": false,
+          "force_norm_n": 1239171.155788724,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 12,
+          "pair": [
+            2,
+            13
+          ]
+        },
+        {
+          "distance_m": -0.1187912458532729,
+          "forbidden_pair": false,
+          "force_norm_n": 713070.133056933,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 13,
+          "pair": [
+            2,
+            14
+          ]
+        },
+        {
+          "distance_m": -0.15215590596195494,
+          "forbidden_pair": false,
+          "force_norm_n": 719786.5210921805,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 14,
+          "pair": [
+            2,
+            15
+          ]
+        },
+        {
+          "distance_m": -0.2076234368940603,
+          "forbidden_pair": false,
+          "force_norm_n": 1239171.154537469,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 15,
+          "pair": [
+            2,
+            16
+          ]
+        },
+        {
+          "distance_m": -0.320730557017078,
+          "forbidden_pair": false,
+          "force_norm_n": 1911108.028262099,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 16,
+          "pair": [
+            2,
+            17
+          ]
+        },
+        {
+          "distance_m": -0.08265790463830797,
+          "forbidden_pair": false,
+          "force_norm_n": 677723.48339684,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 17,
+          "pair": [
+            2,
+            18
+          ]
+        },
+        {
+          "distance_m": -0.42044898910674633,
+          "forbidden_pair": false,
+          "force_norm_n": 2223485.6762188026,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 18,
+          "pair": [
+            0,
+            21
+          ]
+        },
+        {
+          "distance_m": -0.10124049365411733,
+          "forbidden_pair": false,
+          "force_norm_n": 540527.1747283145,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 19,
+          "pair": [
+            0,
+            23
+          ]
+        },
+        {
+          "distance_m": -0.39023551065986467,
+          "forbidden_pair": false,
+          "force_norm_n": 2063902.6414618578,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 20,
+          "pair": [
+            0,
+            24
+          ]
+        },
+        {
+          "distance_m": -0.10121849930144111,
+          "forbidden_pair": false,
+          "force_norm_n": 540412.1016046876,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 21,
+          "pair": [
+            0,
+            25
+          ]
+        },
+        {
+          "distance_m": -0.16246697468334922,
+          "forbidden_pair": false,
+          "force_norm_n": 705568.9196741962,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 22,
+          "pair": [
+            0,
+            26
+          ]
+        },
+        {
+          "distance_m": -0.10121849909060826,
+          "forbidden_pair": false,
+          "force_norm_n": 540412.1005016256,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 23,
+          "pair": [
+            0,
+            27
+          ]
+        },
+        {
+          "distance_m": -0.1521559059619549,
+          "forbidden_pair": false,
+          "force_norm_n": 651072.6026652864,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 24,
+          "pair": [
+            0,
+            28
+          ]
+        },
+        {
+          "distance_m": -0.08265790463830797,
+          "forbidden_pair": false,
+          "force_norm_n": 589971.1927262378,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 25,
+          "pair": [
+            0,
+            29
+          ]
+        },
+        {
+          "distance_m": -0.11876181521815411,
+          "forbidden_pair": false,
+          "force_norm_n": 632333.894482749,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 26,
+          "pair": [
+            0,
+            30
+          ]
+        },
+        {
+          "distance_m": -0.35094406412717327,
+          "forbidden_pair": false,
+          "force_norm_n": 1856397.3875730084,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 27,
+          "pair": [
+            2,
+            21
+          ]
+        },
+        {
+          "distance_m": -0.20764543145756936,
+          "forbidden_pair": false,
+          "force_norm_n": 1100119.5306680172,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 28,
+          "pair": [
+            2,
+            23
+          ]
+        },
+        {
+          "distance_m": -0.32073055673931683,
+          "forbidden_pair": false,
+          "force_norm_n": 1696860.8147933437,
+          "geom_names": [
+            "",
+            ""
+          ],
+          "index": 29,
+          "pair": [
+            2,
+            24
+          ]
+        }
+      ],
+      "max_contact_force_n": 2.0387027252842652e+18,
+      "max_penetration_m": 0.42044898910674633,
+      "raw_forbidden_pairs": [
+        [
+          0,
+          47
+        ],
+        [
+          0,
+          49
+        ],
+        [
+          0,
+          54
+        ],
+        [
+          0,
+          59
+        ],
+        [
+          2,
+          47
+        ],
+        [
+          2,
+          49
+        ],
+        [
+          2,
+          54
+        ],
+        [
+          3,
+          47
+        ],
+        [
+          4,
+          54
+        ],
+        [
+          4,
+          59
+        ],
+        [
+          7,
+          47
+        ],
+        [
+          7,
+          49
+        ]
+      ],
+      "reset_valid": false,
+      "robot_init_qpos": [
+        -1.0,
+        -0.6,
+        0.0,
+        -2.0,
+        0.0,
+        1.6,
+        0.78
+      ],
+      "runtime_forbidden_pairs": [
+        [
+          0,
+          47
+        ],
+        [
+          0,
+          49
+        ],
+        [
+          0,
+          54
+        ],
+        [
+          0,
+          59
+        ],
+        [
+          2,
+          47
+        ],
+        [
+          2,
+          49
+        ],
+        [
+          2,
+          54
+        ],
+        [
+          3,
+          47
+        ],
+        [
+          4,
+          54
+        ],
+        [
+          4,
+          59
+        ],
+        [
+          7,
+          47
+        ],
+        [
+          7,
+          49
+        ]
+      ],
+      "runtime_target_pairs": []
+    }
+  ],
+  "generated_at_utc": "2026-04-30T14:15:18.075641Z",
+  "probe_mode": "reset_only_no_action_no_rollout_no_render_no_train",
+  "runtime_code_modified": false,
+  "stage": "stage3_qpos_only_reset_repair_probe"
+}

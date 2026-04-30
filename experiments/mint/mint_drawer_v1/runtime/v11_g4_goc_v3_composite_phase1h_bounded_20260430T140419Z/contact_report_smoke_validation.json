@@ -1,0 +1,11 @@
+{
+  "body_based_rejected": true,
+  "legacy_name_only_rejected": true,
+  "negative_body_based_3127_exit": 1,
+  "negative_body_stderr": "\nVALIDATION FAILED\nRESULT: AUTHORITY_MISMATCH\n",
+  "negative_legacy_name_only_exit": 1,
+  "negative_name_stderr": "\nVALIDATION FAILED\nRESULT: AUTHORITY_MISMATCH\n",
+  "positive_exit": 0,
+  "positive_stdout": "PASS: GOC-v3 contact report smoke exact-ID authority match. target_pairs=[[0, 63], [0, 81], [2, 63], [2, 81], [4, 63], [7, 63], [7, 81]] forbidden_pairs=[[0, 47], [0, 49], [0, 54], [2, 47], [2, 49], [2, 54], [3, 47], [4, 49], [4, 54], [7, 47], [7, 49], [7, 54]] legacy_body_based_fields_present=True.\n\nVALIDATION PASSED\n",
+  "positive_validator_accepted": true
+}

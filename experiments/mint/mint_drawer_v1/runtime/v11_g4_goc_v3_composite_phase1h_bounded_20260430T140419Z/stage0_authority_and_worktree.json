@@ -1,0 +1,16 @@
+{
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "forbidden_dirty_files": [],
+  "github_remote_configured": true,
+  "head": "7a512572e963bd76e7a168c6cc9c451cff8a4024",
+  "passed": true,
+  "pwd": "/mnt/afs2/zhuhaowu/infinigen",
+  "remote_v": "my-origin\tgit@github.com:lqzhw520/infinigen.git (fetch)\nmy-origin\tgit@github.com:lqzhw520/infinigen.git (push)\norigin\thttps://github.com/princeton-vl/infinigen.git (fetch)\norigin\thttps://github.com/princeton-vl/infinigen.git (push)",
+  "stage": "stage0_authority_and_worktree",
+  "status_short": [
+    "M .project-memory/STATUS.md",
+    " M .session/checkpoint.md"
+  ],
+  "wrong_branch": false,
+  "wrong_worktree": false
+}

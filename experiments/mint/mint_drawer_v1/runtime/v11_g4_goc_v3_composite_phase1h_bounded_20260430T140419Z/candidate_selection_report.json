@@ -1,0 +1,13 @@
+{
+  "bounded_rollout_attempted": false,
+  "closeout_classification": "MODEL_BUILDER_REPAIR_REQUIRED",
+  "entered": false,
+  "local_visual_artifact_created": false,
+  "reason": "Preaction/reset physical plausibility failed; bounded rollout is prohibited by composite spec.",
+  "rollout_attempts_used": 0,
+  "stage": "stage5_bounded_phase1h_candidate_execution",
+  "strict_candidate_drawer_fraction": null,
+  "strict_candidate_found": false,
+  "strict_candidate_has_forbidden_contact": null,
+  "strict_candidate_has_goc_v3_target_contact": false
+}

@@ -1,0 +1,905 @@
+{
+  "contact_details": [
+    {
+      "distance_m": -0.42044898910674633,
+      "forbidden_pair": false,
+      "force_norm_n": 2503828.850699163,
+      "geom1": 0,
+      "geom1_name": "",
+      "geom2": 9,
+      "geom2_name": "",
+      "index": 0,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.1624669746833492,
+      "forbidden_pair": false,
+      "force_norm_n": 793694.0780819748,
+      "geom1": 0,
+      "geom1_name": "",
+      "geom2": 11,
+      "geom2_name": "",
+      "index": 1,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.10124049365411733,
+      "forbidden_pair": false,
+      "force_norm_n": 608733.7797254951,
+      "geom1": 0,
+      "geom1_name": "",
+      "geom2": 12,
+      "geom2_name": "",
+      "index": 2,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.10121849930144111,
+      "forbidden_pair": false,
+      "force_norm_n": 608604.2111573142,
+      "geom1": 0,
+      "geom1_name": "",
+      "geom2": 13,
+      "geom2_name": "",
+      "index": 3,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.11879124585327287,
+      "forbidden_pair": false,
+      "force_norm_n": 712280.4524864447,
+      "geom1": 0,
+      "geom1_name": "",
+      "geom2": 14,
+      "geom2_name": "",
+      "index": 4,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.1521559059619549,
+      "forbidden_pair": false,
+      "force_norm_n": 732327.0670944782,
+      "geom1": 0,
+      "geom1_name": "",
+      "geom2": 15,
+      "geom2_name": "",
+      "index": 5,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.10121849909060826,
+      "forbidden_pair": false,
+      "force_norm_n": 608604.2099153023,
+      "geom1": 0,
+      "geom1_name": "",
+      "geom2": 16,
+      "geom2_name": "",
+      "index": 6,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.3902355109376259,
+      "forbidden_pair": false,
+      "force_norm_n": 2324127.287028903,
+      "geom1": 0,
+      "geom1_name": "",
+      "geom2": 17,
+      "geom2_name": "",
+      "index": 7,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.08265790463830797,
+      "forbidden_pair": false,
+      "force_norm_n": 665182.9373945423,
+      "geom1": 0,
+      "geom1_name": "",
+      "geom2": 18,
+      "geom2_name": "",
+      "index": 8,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.35094406412717327,
+      "forbidden_pair": false,
+      "force_norm_n": 2090462.2624396596,
+      "geom1": 2,
+      "geom1_name": "",
+      "geom2": 9,
+      "geom2_name": "",
+      "index": 9,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.1624669746833492,
+      "forbidden_pair": false,
+      "force_norm_n": 793694.0780819749,
+      "geom1": 2,
+      "geom1_name": "",
+      "geom2": 11,
+      "geom2_name": "",
+      "index": 10,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.20764543145756936,
+      "forbidden_pair": false,
+      "force_norm_n": 1238847.4898742961,
+      "geom1": 2,
+      "geom1_name": "",
+      "geom2": 12,
+      "geom2_name": "",
+      "index": 11,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.20762343710489314,
+      "forbidden_pair": false,
+      "force_norm_n": 1238716.909416847,
+      "geom1": 2,
+      "geom1_name": "",
+      "geom2": 13,
+      "geom2_name": "",
+      "index": 12,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.1187912458532729,
+      "forbidden_pair": false,
+      "force_norm_n": 712280.4524864448,
+      "geom1": 2,
+      "geom1_name": "",
+      "geom2": 14,
+      "geom2_name": "",
+      "index": 13,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.15215590596195494,
+      "forbidden_pair": false,
+      "force_norm_n": 732327.0670944783,
+      "geom1": 2,
+      "geom1_name": "",
+      "geom2": 15,
+      "geom2_name": "",
+      "index": 14,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.2076234368940603,
+      "forbidden_pair": false,
+      "force_norm_n": 1238716.9081651329,
+      "geom1": 2,
+      "geom1_name": "",
+      "geom2": 16,
+      "geom2_name": "",
+      "index": 15,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.320730557017078,
+      "forbidden_pair": false,
+      "force_norm_n": 1910813.5241368557,
+      "geom1": 2,
+      "geom1_name": "",
+      "geom2": 17,
+      "geom2_name": "",
+      "index": 16,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.08265790463830797,
+      "forbidden_pair": false,
+      "force_norm_n": 665182.9373945423,
+      "geom1": 2,
+      "geom1_name": "",
+      "geom2": 18,
+      "geom2_name": "",
+      "index": 17,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.42044898910674633,
+      "forbidden_pair": false,
+      "force_norm_n": 2223665.171434403,
+      "geom1": 0,
+      "geom1_name": "",
+      "geom2": 21,
+      "geom2_name": "",
+      "index": 18,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.10124049365411733,
+      "forbidden_pair": false,
+      "force_norm_n": 541265.0634578043,
+      "geom1": 0,
+      "geom1_name": "",
+      "geom2": 23,
+      "geom2_name": "",
+      "index": 19,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.39023551065986467,
+      "forbidden_pair": false,
+      "force_norm_n": 2064096.0141750777,
+      "geom1": 0,
+      "geom1_name": "",
+      "geom2": 24,
+      "geom2_name": "",
+      "index": 20,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.10121849930144111,
+      "forbidden_pair": false,
+      "force_norm_n": 541150.1472428907,
+      "geom1": 0,
+      "geom1_name": "",
+      "geom2": 25,
+      "geom2_name": "",
+      "index": 21,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.16246697468334922,
+      "forbidden_pair": false,
+      "force_norm_n": 695474.3530247696,
+      "geom1": 0,
+      "geom1_name": "",
+      "geom2": 26,
+      "geom2_name": "",
+      "index": 22,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.10121849909060826,
+      "forbidden_pair": false,
+      "force_norm_n": 541150.1461413329,
+      "geom1": 0,
+      "geom1_name": "",
+      "geom2": 27,
+      "geom2_name": "",
+      "index": 23,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.1521559059619549,
+      "forbidden_pair": false,
+      "force_norm_n": 640978.0360158598,
+      "geom1": 0,
+      "geom1_name": "",
+      "geom2": 28,
+      "geom2_name": "",
+      "index": 24,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.08265790463830797,
+      "forbidden_pair": false,
+      "force_norm_n": 600065.7593756644,
+      "geom1": 0,
+      "geom1_name": "",
+      "geom2": 29,
+      "geom2_name": "",
+      "index": 25,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.11876181521815411,
+      "forbidden_pair": false,
+      "force_norm_n": 632964.7671173549,
+      "geom1": 0,
+      "geom1_name": "",
+      "geom2": 30,
+      "geom2_name": "",
+      "index": 26,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.35094406412717327,
+      "forbidden_pair": false,
+      "force_norm_n": 1856612.3728145561,
+      "geom1": 2,
+      "geom1_name": "",
+      "geom2": 21,
+      "geom2_name": "",
+      "index": 27,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.20764543145756936,
+      "forbidden_pair": false,
+      "force_norm_n": 1100482.2688519,
+      "geom1": 2,
+      "geom1_name": "",
+      "geom2": 23,
+      "geom2_name": "",
+      "index": 28,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.32073055673931683,
+      "forbidden_pair": false,
+      "force_norm_n": 1697096.0099774373,
+      "geom1": 2,
+      "geom1_name": "",
+      "geom2": 24,
+      "geom2_name": "",
+      "index": 29,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.20762343710489314,
+      "forbidden_pair": false,
+      "force_norm_n": 1100366.3437913302,
+      "geom1": 2,
+      "geom1_name": "",
+      "geom2": 25,
+      "geom2_name": "",
+      "index": 30,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.1624669746833492,
+      "forbidden_pair": false,
+      "force_norm_n": 695474.3530247695,
+      "geom1": 2,
+      "geom1_name": "",
+      "geom2": 26,
+      "geom2_name": "",
+      "index": 31,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.2076234368940603,
+      "forbidden_pair": false,
+      "force_norm_n": 1100366.3426800994,
+      "geom1": 2,
+      "geom1_name": "",
+      "geom2": 27,
+      "geom2_name": "",
+      "index": 32,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.15215590596195494,
+      "forbidden_pair": false,
+      "force_norm_n": 640978.0360158599,
+      "geom1": 2,
+      "geom1_name": "",
+      "geom2": 28,
+      "geom2_name": "",
+      "index": 33,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.08265790463830797,
+      "forbidden_pair": false,
+      "force_norm_n": 600065.7593756645,
+      "geom1": 2,
+      "geom1_name": "",
+      "geom2": 29,
+      "geom2_name": "",
+      "index": 34,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.1187618152181541,
+      "forbidden_pair": false,
+      "force_norm_n": 632964.7671173547,
+      "geom1": 2,
+      "geom1_name": "",
+      "geom2": 30,
+      "geom2_name": "",
+      "index": 35,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.28159793647544384,
+      "forbidden_pair": true,
+      "force_norm_n": 1.482094411277694e+18,
+      "geom1": 0,
+      "geom1_name": "",
+      "geom2": 47,
+      "geom2_name": "link1_collision",
+      "index": 36,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.38735352084230085,
+      "forbidden_pair": true,
+      "force_norm_n": 2.0387027460025715e+18,
+      "geom1": 2,
+      "geom1_name": "",
+      "geom2": 47,
+      "geom2_name": "link1_collision",
+      "index": 37,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.03490947174528761,
+      "forbidden_pair": true,
+      "force_norm_n": 1.8373411417715808e+17,
+      "geom1": 3,
+      "geom1_name": "",
+      "geom2": 47,
+      "geom2_name": "link1_collision",
+      "index": 38,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.08976736959647334,
+      "forbidden_pair": true,
+      "force_norm_n": 4.724595647507289e+17,
+      "geom1": 7,
+      "geom1_name": "",
+      "geom2": 47,
+      "geom2_name": "link1_collision",
+      "index": 39,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.3199038284794499,
+      "forbidden_pair": true,
+      "force_norm_n": 5523488.183651895,
+      "geom1": 0,
+      "geom1_name": "",
+      "geom2": 49,
+      "geom2_name": "link2_collision",
+      "index": 40,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.25039887455890203,
+      "forbidden_pair": true,
+      "force_norm_n": 4323453.020314208,
+      "geom1": 2,
+      "geom1_name": "",
+      "geom2": 49,
+      "geom2_name": "link2_collision",
+      "index": 41,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.0049478249341741165,
+      "forbidden_pair": true,
+      "force_norm_n": 83195.90238650325,
+      "geom1": 4,
+      "geom1_name": "",
+      "geom2": 49,
+      "geom2_name": "link2_collision",
+      "index": 42,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.08984964597394524,
+      "forbidden_pair": true,
+      "force_norm_n": 1551924.2685565024,
+      "geom1": 7,
+      "geom1_name": "",
+      "geom2": 49,
+      "geom2_name": "link2_collision",
+      "index": 43,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.081139122860579,
+      "forbidden_pair": true,
+      "force_norm_n": 179917.62339248342,
+      "geom1": 0,
+      "geom1_name": "",
+      "geom2": 54,
+      "geom2_name": "link3_collision",
+      "index": 44,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.011634168940031109,
+      "forbidden_pair": true,
+      "force_norm_n": 24336.982121721798,
+      "geom1": 2,
+      "geom1_name": "",
+      "geom2": 54,
+      "geom2_name": "link3_collision",
+      "index": 45,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.08113912286057845,
+      "forbidden_pair": true,
+      "force_norm_n": 179917.62339248217,
+      "geom1": 4,
+      "geom1_name": "",
+      "geom2": 54,
+      "geom2_name": "link3_collision",
+      "index": 46,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.011634198742353496,
+      "forbidden_pair": true,
+      "force_norm_n": 24337.04744240051,
+      "geom1": 7,
+      "geom1_name": "",
+      "geom2": 54,
+      "geom2_name": "link3_collision",
+      "index": 47,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.13884932709779,
+      "forbidden_pair": false,
+      "force_norm_n": 10351.100611553617,
+      "geom1": 0,
+      "geom1_name": "",
+      "geom2": 63,
+      "geom2_name": "link5_collision",
+      "index": 48,
+      "target_pair": true
+    },
+    {
+      "distance_m": -0.08548245627594463,
+      "forbidden_pair": false,
+      "force_norm_n": 0.0,
+      "geom1": 2,
+      "geom1_name": "",
+      "geom2": 63,
+      "geom2_name": "link5_collision",
+      "index": 49,
+      "target_pair": true
+    },
+    {
+      "distance_m": -0.13884930800424863,
+      "forbidden_pair": false,
+      "force_norm_n": 10351.100046222873,
+      "geom1": 4,
+      "geom1_name": "",
+      "geom2": 63,
+      "geom2_name": "link5_collision",
+      "index": 50,
+      "target_pair": true
+    },
+    {
+      "distance_m": -0.05465993836755552,
+      "forbidden_pair": false,
+      "force_norm_n": 30091.490879948087,
+      "geom1": 7,
+      "geom1_name": "",
+      "geom2": 63,
+      "geom2_name": "link5_collision",
+      "index": 51,
+      "target_pair": true
+    },
+    {
+      "distance_m": -0.032002881328474675,
+      "forbidden_pair": false,
+      "force_norm_n": 13133.485394895404,
+      "geom1": 0,
+      "geom1_name": "",
+      "geom2": 81,
+      "geom2_name": "link6_collision",
+      "index": 52,
+      "target_pair": true
+    },
+    {
+      "distance_m": -0.032002881328474675,
+      "forbidden_pair": false,
+      "force_norm_n": 13133.485394895415,
+      "geom1": 2,
+      "geom1_name": "",
+      "geom2": 81,
+      "geom2_name": "link6_collision",
+      "index": 53,
+      "target_pair": true
+    },
+    {
+      "distance_m": -0.032002881328474675,
+      "forbidden_pair": false,
+      "force_norm_n": 13133.485394895451,
+      "geom1": 7,
+      "geom1_name": "",
+      "geom2": 81,
+      "geom2_name": "link6_collision",
+      "index": 54,
+      "target_pair": true
+    },
+    {
+      "distance_m": -0.09313910670102904,
+      "forbidden_pair": true,
+      "force_norm_n": 561082.7643938799,
+      "geom1": 9,
+      "geom1_name": "",
+      "geom2": 47,
+      "geom2_name": "link1_collision",
+      "index": 55,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.017823303392196645,
+      "forbidden_pair": true,
+      "force_norm_n": 276216.30839931645,
+      "geom1": 12,
+      "geom1_name": "",
+      "geom2": 47,
+      "geom2_name": "link1_collision",
+      "index": 56,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.04277028349426482,
+      "forbidden_pair": true,
+      "force_norm_n": 268939.611790273,
+      "geom1": 16,
+      "geom1_name": "",
+      "geom2": 47,
+      "geom2_name": "link1_collision",
+      "index": 57,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.09313909240356796,
+      "forbidden_pair": true,
+      "force_norm_n": 561082.6804449119,
+      "geom1": 17,
+      "geom1_name": "",
+      "geom2": 47,
+      "geom2_name": "link1_collision",
+      "index": 58,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.018843753965884516,
+      "forbidden_pair": true,
+      "force_norm_n": 112057.56790231618,
+      "geom1": 9,
+      "geom1_name": "",
+      "geom2": 49,
+      "geom2_name": "link2_collision",
+      "index": 59,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.018843739381935627,
+      "forbidden_pair": true,
+      "force_norm_n": 112057.51794147641,
+      "geom1": 17,
+      "geom1_name": "",
+      "geom2": 49,
+      "geom2_name": "link2_collision",
+      "index": 60,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.007863987991518728,
+      "forbidden_pair": true,
+      "force_norm_n": 28024.93117826678,
+      "geom1": 9,
+      "geom1_name": "",
+      "geom2": 54,
+      "geom2_name": "link3_collision",
+      "index": 61,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.007863990824095538,
+      "forbidden_pair": true,
+      "force_norm_n": 28024.935743317914,
+      "geom1": 17,
+      "geom1_name": "",
+      "geom2": 54,
+      "geom2_name": "link3_collision",
+      "index": 62,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.015935811438482692,
+      "forbidden_pair": false,
+      "force_norm_n": 0.0,
+      "geom1": 9,
+      "geom1_name": "",
+      "geom2": 81,
+      "geom2_name": "link6_collision",
+      "index": 63,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.01593580039237681,
+      "forbidden_pair": false,
+      "force_norm_n": 0.0,
+      "geom1": 17,
+      "geom1_name": "",
+      "geom2": 81,
+      "geom2_name": "link6_collision",
+      "index": 64,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.01876147758841261,
+      "forbidden_pair": true,
+      "force_norm_n": 132457.37185666777,
+      "geom1": 21,
+      "geom1_name": "",
+      "geom2": 47,
+      "geom2_name": "link1_collision",
+      "index": 65,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.004745413139038666,
+      "forbidden_pair": true,
+      "force_norm_n": 150821.95638271142,
+      "geom1": 23,
+      "geom1_name": "",
+      "geom2": 47,
+      "geom2_name": "link1_collision",
+      "index": 66,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.017913554503193863,
+      "forbidden_pair": true,
+      "force_norm_n": 128988.78850486201,
+      "geom1": 24,
+      "geom1_name": "",
+      "geom2": 47,
+      "geom2_name": "link1_collision",
+      "index": 67,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.018761464531196485,
+      "forbidden_pair": true,
+      "force_norm_n": 132457.31959602918,
+      "geom1": 25,
+      "geom1_name": "",
+      "geom2": 47,
+      "geom2_name": "link1_collision",
+      "index": 68,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.09323648656935954,
+      "forbidden_pair": true,
+      "force_norm_n": 382410.5275606029,
+      "geom1": 21,
+      "geom1_name": "",
+      "geom2": 49,
+      "geom2_name": "link2_collision",
+      "index": 69,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.09323602689943808,
+      "forbidden_pair": true,
+      "force_norm_n": 382410.46324459824,
+      "geom1": 24,
+      "geom1_name": "",
+      "geom2": 49,
+      "geom2_name": "link2_collision",
+      "index": 70,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.00786142512866043,
+      "forbidden_pair": true,
+      "force_norm_n": 25326.681499673054,
+      "geom1": 21,
+      "geom1_name": "",
+      "geom2": 54,
+      "geom2_name": "link3_collision",
+      "index": 71,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.007861245114683913,
+      "forbidden_pair": true,
+      "force_norm_n": 25326.52016304242,
+      "geom1": 24,
+      "geom1_name": "",
+      "geom2": 54,
+      "geom2_name": "link3_collision",
+      "index": 72,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.0843306112595374,
+      "forbidden_pair": false,
+      "force_norm_n": 0.0,
+      "geom1": 21,
+      "geom1_name": "",
+      "geom2": 63,
+      "geom2_name": "link5_collision",
+      "index": 73,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.031358335779753284,
+      "forbidden_pair": false,
+      "force_norm_n": 0.0,
+      "geom1": 24,
+      "geom1_name": "",
+      "geom2": 63,
+      "geom2_name": "link5_collision",
+      "index": 74,
+      "target_pair": false
+    },
+    {
+      "distance_m": -0.08432544438068942,
+      "forbidden_pair": false,
+      "force_norm_n": 0.0,
+      "geom1": 29,
+      "geom1_name": "",
+      "geom2": 63,
+      "geom2_name": "link5_collision",
+      "index": 75,
+      "target_pair": false
+    }
+  ],
+  "contact_distances_finite": true,
+  "contact_forces_finite": true,
+  "exact_goc_v3_ids_emitted": true,
+  "forbidden_contact_pairs_at_reset": [
+    [
+      0,
+      47
+    ],
+    [
+      0,
+      49
+    ],
+    [
+      0,
+      54
+    ],
+    [
+      2,
+      47
+    ],
+    [
+      2,
+      49
+    ],
+    [
+      2,
+      54
+    ],
+    [
+      3,
+      47
+    ],
+    [
+      4,
+      49
+    ],
+    [
+      4,
+      54
+    ],
+    [
+      7,
+      47
+    ],
+    [
+      7,
+      49
+    ],
+    [
+      7,
+      54
+    ]
+  ],
+  "forbidden_contacts_at_reset": 12,
+  "force_threshold_n": 1000000.0,
+  "generated_at_utc": "2026-04-30T14:12:33.022611Z",
+  "legacy_body_based_31_27_fields_present_not_used": true,
+  "max_reset_contact_force_n": 2.0387027460025715e+18,
+  "max_reset_penetration_m": 0.42044898910674633,
+  "name_only_reports_rejected_by_validator_required": true,
+  "penetration_threshold_m": 0.02,
+  "reset_interpenetration_blocker": true,
+  "reset_physical_plausibility_passed": false,
+  "stage": "stage2_contact_report_physical_plausibility_review",
+  "target_pairs_legal_only": true
+}

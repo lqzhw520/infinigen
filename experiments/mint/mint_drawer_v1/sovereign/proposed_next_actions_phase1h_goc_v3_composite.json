@@ -1,0 +1,31 @@
+{
+  "direct_next_actions_mutation": false,
+  "generated_at_utc": "2026-04-30T14:16:27.559300Z",
+  "next_gate": "RESET_CONTACT_OR_MODEL_BUILDER_REPAIR",
+  "phase1h_execution_allowed": false,
+  "proposal_id": "proposed_next_actions_phase1h_goc_v3_composite",
+  "recommended_actions": [
+    {
+      "allowed_scope": [
+        "scripts/mint/merged_model_builder.py",
+        "model provenance artifacts"
+      ],
+      "description": "Repair merged Panda/drawer placement or cabinet clearance so reset has no GOC-v3 forbidden contacts and penetration <= 0.02 m.",
+      "forbidden": [
+        "lowering thresholds",
+        "accepting forbidden contact",
+        "changing GOC-v3 exact IDs to fit runtime"
+      ],
+      "id": "REPAIR_MODEL_ASSEMBLY_CLEARANCE"
+    },
+    {
+      "description": "If model assembly changes alter source-model provenance, regenerate exact-ID GOC artifacts before any bounded Phase1H attempt.",
+      "id": "REGENERATE_GOC_IF_MODEL_PROVENANCE_CHANGES"
+    },
+    {
+      "description": "Rerun reset-only exact-ID contact smoke and V03 positive/negative validator checks before bounded rollout.",
+      "id": "RERUN_COMPOSITE_PREACTION_SMOKE"
+    }
+  ],
+  "source_run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_composite_phase1h_bounded_20260430T140419Z"
+}

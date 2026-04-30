@@ -1,0 +1,162 @@
+# V11-G4 GOC-v3 Contact Report Smoke
+# Contract: sovereign/experiment_specs/v11_g4_goc_v3_contact_report_smoke.yaml
+# Version: 1.0.0
+# Created: 2026-04-30
+# This spec authorizes reset-only contact-report smoke/validator review. It does NOT authorize Phase 1H rollout.
+
+task_id: v11_g4_goc_v3_contact_report_smoke
+task_version: "1.0.0"
+task_type: CONTACT_REPORT_SMOKE
+gate: G4
+phase: pre_1H_smoke
+description: >
+  Harness-gated V11-G4 contact-report smoke proving that the current runtime
+  contact report can expose exact GOC-v3 geom IDs and that validators reject
+  GOC-v2 count-only or body-based 31/27 authority fallback. This is not drawer
+  opening success, rollout success, render success, teacher generation, replay,
+  training, or Phase 1H execution.
+
+task_authority:
+  authority_type: GOC_V3_EXACT_GEOM_ID_CONTACT_REPORT
+  goc_version: v3
+  goc_artifact_path: artifacts/phase1h_geometry_contract/goc_v3_contract.json
+  source_model_commit: 7a7d5c43748822d9c38d948c6d1d39ec2895fe87
+  goc_v3_artifact_publication_commit: 527be08a67b28436ae3ea146fc87a67bd077ebfa
+  task_rewrite_publication_commit: 6022111ee89993df50f8166a71c3961acc96b4cb
+  goc_contract_id: GOC_V3_EXACT_ID_GEOMETRY_OWNERSHIP_CONTRACT
+  legal_gripper_surface_geom_ids: [63, 81, 90]
+  forbidden_robot_surface_geom_ids: [45, 47, 49, 54, 59]
+  drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+  drawer_body_or_cabinet_geom_ids: [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32]
+  robot_arm_geom_ids: [33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59]
+  gripper_geom_ids: [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90]
+  visual_only_or_noncontact_geom_ids: [33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 46, 48, 50, 51, 52, 53, 55, 56, 57, 58, 60, 61, 62, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 82, 83, 84, 85, 86, 87, 88, 89]
+  unknown_geom_ids: []
+  contact_report_schema:
+    schema_version: goc_v3_contact_report_smoke.v1
+    required_exact_fields:
+      - emitted_exact_sets.legal_gripper_surface_geom_ids
+      - emitted_exact_sets.forbidden_robot_surface_geom_ids
+      - emitted_exact_sets.drawer_handle_geom_ids
+      - observed_target_contact_pairs
+      - observed_forbidden_contact_pairs
+      - observed_all_contact_pairs
+    target_contact_rule:
+      relation: legal_gripper_surface_geom_ids <-> drawer_handle_geom_ids
+      allowed_legal_ids: [63, 81, 90]
+      allowed_handle_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    forbidden_contact_rule:
+      forbidden_robot_surface_geom_ids_vs_drawer_or_handle: true
+      forbidden_robot_surface_geom_ids: [45, 47, 49, 54, 59]
+      drawer_or_handle_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32]
+  prohibited_authority:
+    - GOC-v2 count-only legal_pad=29 forbidden=26 handle=9
+    - runtime body-based legal=31 forbidden=27 without exact-ID role classification
+    - legacy contact samples containing only geom names without geom IDs
+  required_review_caveats:
+    legal_gripper_surface_count_is_narrow: true
+    legal_gripper_surface_ids: [63, 81, 90]
+    this_smoke_is_not_phase1h_success: true
+
+remote:
+  authority: ssh -p 30017 root@10.210.0.88 /mnt/afs2/zhuhaowu/infinigen
+  branch: feature/mint-env-reformulation-v1-visual-fidelity
+  approved_files:
+    - sovereign/experiment_specs/v11_g4_goc_v3_contact_report_smoke.yaml
+    - scripts/harness/validators/validate_task_authority.py
+    - scripts/harness/validate_harness_production_lock.py
+    - autopilot/agent_execution_harness_lock.json
+    - autopilot/agent_execution_harness_attestation.json
+    - runtime/v11_g4_goc_v3_contact_report_smoke_*/
+  forbidden_files:
+    - scripts/mint/drawer_robot_env_mujoco.py
+    - scripts/mint/merged_model_builder.py
+    - scripts/mint/run_full_robot_teacher_probe.py
+    - scripts/mint/export_full_robot_teacher_replay_bundle.py
+    - sovereign/current_truth.json
+    - sovereign/next_actions.json
+    - sovereign/claims.yaml
+    - sovereign/evidence/index.json
+    - external/MINT
+
+validators:
+  - id: V01_TASK_AUTHORITY
+    tool: scripts/harness/validators/validate_task_authority.py
+    trigger: before_execution
+    args:
+      task_spec: sovereign/experiment_specs/v11_g4_goc_v3_contact_report_smoke.yaml
+    on_fail: STOP_WITH_AUTHORITY_MISMATCH
+  - id: V02_DIFF_SCOPE
+    tool: scripts/harness/validators/validate_diff_scope.py
+    trigger: before_execution
+    args:
+      task: sovereign/experiment_specs/v11_g4_goc_v3_contact_report_smoke.yaml
+    on_fail: STOP_WITH_SCOPE_VIOLATION
+  - id: V03_CONTACT_REPORT_EXACT_ID_AUTHORITY
+    tool: scripts/harness/validators/validate_task_authority.py
+    trigger: during_contact_report_smoke
+    args:
+      task_spec: sovereign/experiment_specs/v11_g4_goc_v3_contact_report_smoke.yaml
+      runtime_json: runtime/v11_g4_goc_v3_contact_report_smoke_*/contact_report_smoke.json
+    on_fail: STOP_WITH_AUTHORITY_MISMATCH
+
+fixtures:
+  fixture_valid_authority_match:
+    description: Runtime/contact report emits exact GOC-v3 sets - should PASS authority validation.
+    fixture_id: valid_authority_match
+    runtime_exact_ids:
+      legal_gripper_surface_geom_ids: [63, 81, 90]
+      forbidden_robot_surface_geom_ids: [45, 47, 49, 54, 59]
+      drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    expected: PASS
+  fixture_invalid_authority_drift:
+    description: Runtime falls back to body-based 31/27 - must FAIL with AUTHORITY_MISMATCH.
+    fixture_id: invalid_authority_drift
+    runtime_exact_ids:
+      legal_gripper_surface_geom_ids: [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90]
+      forbidden_robot_surface_geom_ids: [33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59]
+      drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    expected: FAIL
+    expected_error: AUTHORITY_MISMATCH
+  fixture_rollout_crash:
+    description: Rollout attempts are outside this task and crash fixtures remain blocked.
+    fixture_id: rollout_crash
+    rollout_stdout: "Traceback: rollout is forbidden in CONTACT_REPORT_SMOKE"
+    result_json_exists: false
+    expected: FAIL
+    expected_error: ROLLOUT_COMMAND_BROKEN
+    expected_classification: INFRASTRUCTURE_BLOCKED
+  fixture_valid_closeout:
+    description: Terminal closeout is valid - validators must PASS.
+    fixture_id: valid_closeout
+    route_evaluated: true
+    result_json_exists: true
+    rollout_exit_code: 0
+    expected: PASS
+
+success_criteria:
+  - id: SC01
+    description: Harness preflight passes against this CONTACT_REPORT_SMOKE spec with no bypass.
+  - id: SC02
+    description: Reset-only smoke writes contact_report_smoke.json with exact observed geom-id pairs.
+  - id: SC03
+    description: V03 accepts contact_report_smoke.json as GOC-v3 exact-ID authority.
+  - id: SC04
+    description: V03 rejects body-based 31/27 fallback.
+  - id: SC05
+    description: V03 rejects legacy name-only contact samples.
+
+forbidden:
+  - id: F01
+    description: Do not run Phase 1H rollout, teacher generation, replay, render, training, fine-tuning, or evaluation rollout.
+  - id: F02
+    description: Do not patch runtime/controller files during this contact-report smoke.
+  - id: F03
+    description: Do not write sovereign/current_truth.json or sovereign/next_actions.json directly.
+  - id: F04
+    description: Do not use GOC-v2 counts or body-based 31/27 as contact authority.
+
+next_gate: PHASE1H_BOUNDED_EXECUTION_REVIEW_NOT_AUTORUN
+next_gate_description: >
+  If this smoke passes, the next decision may review whether bounded Phase 1H execution is allowed.
+  Nothing in this spec auto-authorizes rollout/render/train.

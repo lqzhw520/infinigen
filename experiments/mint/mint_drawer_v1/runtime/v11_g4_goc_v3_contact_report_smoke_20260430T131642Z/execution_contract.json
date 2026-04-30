@@ -1,0 +1,27 @@
+{
+  "task_id": "V11_G4_GOC_V3_CONTACT_REPORT_SMOKE",
+  "task_type": "CONTACT_REPORT_SMOKE",
+  "created_at_utc": "2026-04-30T13:16:42.412183+00:00",
+  "worktree": "/mnt/afs2/zhuhaowu/infinigen",
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "goals": [
+    "prove reset-only runtime contact report exposes exact geom-id contact pairs",
+    "validate GOC-v3 exact authority against emitted contact-report smoke artifact",
+    "reject GOC-v2 count-only and body-based 31/27 authority fallback"
+  ],
+  "forbidden": [
+    "Phase 1H rollout",
+    "teacher rollout",
+    "render",
+    "training",
+    "runtime patch",
+    "current_truth mutation",
+    "next_actions mutation"
+  ],
+  "allowed_outputs": [
+    "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_report_smoke_20260430T131642Z",
+    "sovereign/experiment_specs/v11_g4_goc_v3_contact_report_smoke.yaml"
+  ],
+  "closeout_success": "V11_G4_GOC_V3_CONTACT_REPORT_SMOKE_PASSED",
+  "next_gate_on_success": "PHASE1H_BOUNDED_EXECUTION_REVIEW_NOT_AUTORUN"
+}

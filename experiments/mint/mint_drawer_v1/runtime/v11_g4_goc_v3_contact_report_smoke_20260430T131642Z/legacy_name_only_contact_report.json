@@ -1,0 +1,17 @@
+{
+  "contact_report_schema_version": "legacy_name_only_contact_samples.v0",
+  "runtime_exact_geom_ids_emitted": false,
+  "uses_count_only_authority": false,
+  "raw_legacy_samples": [
+    {
+      "geom1": "drawer_handle_collision_4",
+      "geom2": "link6_collision",
+      "contact_class": "link"
+    },
+    {
+      "geom1": "drawer_handle_collision_4",
+      "geom2": "hand_collision",
+      "contact_class": "hand_collision"
+    }
+  ]
+}

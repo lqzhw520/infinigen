@@ -1,0 +1,35 @@
+{
+  "run_dir": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_report_smoke_20260430T131642Z",
+  "smoke_passed": true,
+  "target_pairs": [
+    [
+      0,
+      63
+    ],
+    [
+      2,
+      63
+    ],
+    [
+      4,
+      63
+    ],
+    [
+      7,
+      63
+    ],
+    [
+      0,
+      81
+    ],
+    [
+      2,
+      81
+    ],
+    [
+      7,
+      81
+    ]
+  ],
+  "legacy_body_based_fields_observed_not_used": true
+}

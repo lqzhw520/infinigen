@@ -102,6 +102,120 @@ def normalize_exact_sets(data: dict[str, Any]) -> dict[str, list[int]]:
     return {key: normalize_ids(data.get(key, [])) for key in V3_SET_KEYS}
 
 
+def is_contact_report_smoke(data: dict[str, Any]) -> bool:
+    markers = (
+        "contact_report_schema_version",
+        "emitted_exact_sets",
+        "observed_target_contact_pairs",
+        "observed_forbidden_contact_pairs",
+        "raw_runtime_contact_report",
+    )
+    return any(marker in data for marker in markers)
+
+
+def normalize_pairs(values: Any) -> list[list[int]]:
+    if values is None:
+        return []
+    pairs: list[list[int]] = []
+    for item in values:
+        if not isinstance(item, (list, tuple)) or len(item) != 2:
+            die(
+                f"Invalid contact pair, expected [geom_id_a, geom_id_b]: {item}", code=2
+            )
+        pairs.append([int(item[0]), int(item[1])])
+    return pairs
+
+
+def pair_crosses(pair: list[int], left: set[int], right: set[int]) -> bool:
+    a, b = pair
+    return (a in left and b in right) or (a in right and b in left)
+
+
+def validate_v3_contact_report_smoke(
+    expected: dict[str, list[int]], report: dict[str, Any]
+) -> tuple[bool, str]:
+    if report.get("uses_body_based_31_27_authority"):
+        return (
+            False,
+            "AUTHORITY_MISMATCH\nBODY_BASED_31_27_REJECTED: contact report attempted to use body-based authority.",
+        )
+    if report.get("uses_count_only_authority"):
+        return (
+            False,
+            "AUTHORITY_MISMATCH\nCOUNT_ONLY_AUTHORITY_REJECTED: contact report attempted to use count-only authority.",
+        )
+    if not report.get("runtime_exact_geom_ids_emitted"):
+        return (
+            False,
+            "AUTHORITY_MISMATCH\nEXACT_GEOM_IDS_REQUIRED: contact report must emit exact geom IDs.",
+        )
+
+    emitted_sets = normalize_exact_sets(report.get("emitted_exact_sets", {}))
+    mismatches = []
+    for key in V3_SET_KEYS:
+        if emitted_sets.get(key) != expected.get(key):
+            mismatches.append(
+                f"{key}: GOC_v3={expected.get(key)} vs contact_report={emitted_sets.get(key)}"
+            )
+    if mismatches:
+        return (
+            False,
+            "AUTHORITY_MISMATCH\nContact report emitted exact sets do not match GOC-v3 authority.\n"
+            + "\n".join(f"  - {m}" for m in mismatches),
+        )
+
+    legal = set(expected["legal_gripper_surface_geom_ids"])
+    handle = set(expected["drawer_handle_geom_ids"])
+    forbidden = set(expected["forbidden_robot_surface_geom_ids"])
+    drawer_or_handle = set(report.get("drawer_body_or_cabinet_geom_ids", [])) | handle
+
+    target_pairs = normalize_pairs(report.get("observed_target_contact_pairs", []))
+    if not target_pairs:
+        return (
+            False,
+            "AUTHORITY_MISMATCH\nNO_TARGET_EXACT_CONTACT_PAIRS: smoke must observe at least one exact target pair.",
+        )
+    bad_target = [
+        pair for pair in target_pairs if not pair_crosses(pair, legal, handle)
+    ]
+    if bad_target:
+        return (
+            False,
+            "AUTHORITY_MISMATCH\nTarget contact pairs must be legal_gripper_surface_geom_ids <-> drawer_handle_geom_ids. "
+            f"bad_pairs={bad_target}",
+        )
+
+    forbidden_pairs = normalize_pairs(
+        report.get("observed_forbidden_contact_pairs", [])
+    )
+    bad_forbidden = [
+        pair
+        for pair in forbidden_pairs
+        if not pair_crosses(pair, forbidden, drawer_or_handle)
+    ]
+    if bad_forbidden:
+        return (
+            False,
+            "AUTHORITY_MISMATCH\nForbidden contact pairs must be forbidden_robot_surface_geom_ids <-> drawer/handle exact IDs. "
+            f"bad_pairs={bad_forbidden}",
+        )
+
+    raw_pairs = normalize_pairs(report.get("observed_all_contact_pairs", []))
+    non_exact = [pair for pair in raw_pairs if any(gid < 0 for gid in pair)]
+    if non_exact:
+        return (
+            False,
+            f"AUTHORITY_MISMATCH\nNon-exact contact pair IDs observed: {non_exact}",
+        )
+
+    return (
+        True,
+        "PASS: GOC-v3 contact report smoke exact-ID authority match. "
+        f"target_pairs={target_pairs} forbidden_pairs={forbidden_pairs} "
+        f"legacy_body_based_fields_present={bool(report.get('legacy_body_based_fields_observed_not_used'))}.",
+    )
+
+
 def load_goc_v3_contract(task_auth: dict[str, Any]) -> dict[str, Any]:
     rel = task_auth.get("goc_artifact_path") or task_auth.get("goc_v3_contract_path")
     if not rel:
@@ -158,6 +272,8 @@ def load_runtime_authority(
         path = resolve_path(CAMPAIGN_ROOT, args.runtime_json)
         data = load_json(path)
         if is_v3:
+            if is_contact_report_smoke(data):
+                return {"mode": "contact_report_smoke", "report": data}
             if (
                 any(key in data for key in V3_SET_KEYS)
                 or "exact_id_sets" in data
@@ -308,6 +424,9 @@ def validate_v3_authority(
             "GOC-v3 exact-ID authority initialized. No runtime exact IDs provided. "
             "Validator will run again during contact-report smoke.",
         )
+
+    if runtime.get("mode") == "contact_report_smoke":
+        return validate_v3_contact_report_smoke(expected, runtime["report"])
 
     if runtime.get("mode") == "counts_only":
         return (

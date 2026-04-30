@@ -1,0 +1,94 @@
+{
+  "task_id": "V11_G4_GOC_V3_CONTACT_REPORT_SMOKE",
+  "contact_report_smoke_passed": true,
+  "runtime_exact_geom_ids_emitted": true,
+  "observed_target_contact_pairs": [
+    [
+      0,
+      63
+    ],
+    [
+      2,
+      63
+    ],
+    [
+      4,
+      63
+    ],
+    [
+      7,
+      63
+    ],
+    [
+      0,
+      81
+    ],
+    [
+      2,
+      81
+    ],
+    [
+      7,
+      81
+    ]
+  ],
+  "observed_forbidden_contact_pairs": [
+    [
+      0,
+      47
+    ],
+    [
+      2,
+      47
+    ],
+    [
+      3,
+      47
+    ],
+    [
+      7,
+      47
+    ],
+    [
+      0,
+      49
+    ],
+    [
+      2,
+      49
+    ],
+    [
+      4,
+      49
+    ],
+    [
+      7,
+      49
+    ],
+    [
+      0,
+      54
+    ],
+    [
+      2,
+      54
+    ],
+    [
+      4,
+      54
+    ],
+    [
+      7,
+      54
+    ]
+  ],
+  "legacy_body_based_fields_observed_not_used": true,
+  "v01_dry_run_passed": true,
+  "v03_positive_passed": true,
+  "v03_body_based_3127_rejected": true,
+  "v03_legacy_name_only_rejected": true,
+  "rollout_render_train_run": false,
+  "runtime_code_modified": false,
+  "phase1h_success_claim": false,
+  "passed": true
+}

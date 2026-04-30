@@ -1,0 +1,104 @@
+{
+  "task_id": "GOC_V3_EXACT_ID_CONTRACT_REBUILD_AND_VALIDATE",
+  "generated_at_utc": "2026-04-30T12:45:25Z",
+  "all_invariants_passed": true,
+  "invariants": [
+    {
+      "invariant": "I1",
+      "passed": true,
+      "detail": "Every contact-relevant geom has exactly one non-unknown primary_owner.",
+      "offending_geom_ids": []
+    },
+    {
+      "invariant": "I2",
+      "passed": true,
+      "detail": "Every target contact geom is an exact current geom_id.",
+      "offending_geom_ids": []
+    },
+    {
+      "invariant": "I3",
+      "passed": true,
+      "detail": "legal_gripper_surface and forbidden_robot_surface are disjoint.",
+      "offending_geom_ids": []
+    },
+    {
+      "invariant": "I4",
+      "passed": true,
+      "detail": "drawer_handle and robot_arm are disjoint.",
+      "offending_geom_ids": []
+    },
+    {
+      "invariant": "I5",
+      "passed": true,
+      "detail": "drawer_handle and gripper are disjoint.",
+      "offending_geom_ids": []
+    },
+    {
+      "invariant": "I6",
+      "passed": true,
+      "detail": "visual_only_or_noncontact geoms cannot be legal target contact.",
+      "offending_geom_ids": []
+    },
+    {
+      "invariant": "I7",
+      "passed": true,
+      "detail": "unknown geoms cannot participate in target contact.",
+      "offending_geom_ids": []
+    },
+    {
+      "invariant": "I8",
+      "passed": true,
+      "detail": "unknown geoms cannot participate in forbidden contact classification.",
+      "offending_geom_ids": []
+    },
+    {
+      "invariant": "I9",
+      "passed": true,
+      "detail": "Target contact is exactly legal_gripper_surface_geom_ids <-> drawer_handle_geom_ids by contract rule.",
+      "offending_geom_ids": []
+    },
+    {
+      "invariant": "I10",
+      "passed": true,
+      "detail": "Forbidden contact includes forbidden_robot_surface against drawer_handle/drawer_body_or_cabinet by contract rule.",
+      "offending_geom_ids": []
+    },
+    {
+      "invariant": "I11",
+      "passed": true,
+      "detail": "drawer_body_or_cabinet cannot be counted as gripper contact.",
+      "offending_geom_ids": []
+    },
+    {
+      "invariant": "I12",
+      "passed": true,
+      "detail": "Robot link body/collision cannot be counted as drawer handle.",
+      "offending_geom_ids": []
+    },
+    {
+      "invariant": "I13",
+      "passed": true,
+      "detail": "GOC-v3 exact-ID sets explain GOC-v2 29/26 versus runtime 31/27.",
+      "offending_geom_ids": []
+    },
+    {
+      "invariant": "I14",
+      "passed": true,
+      "detail": "GOC-v3 contains no count-only authority in exact sets.",
+      "offending_geom_ids": []
+    },
+    {
+      "invariant": "I15",
+      "passed": true,
+      "detail": "GOC-v3 is generated from current model inventory, not copied from old artifacts.",
+      "offending_geom_ids": []
+    }
+  ],
+  "summary_counts": {
+    "legal_gripper_surface_count": 3,
+    "forbidden_robot_surface_count": 5,
+    "drawer_handle_surface_count": 9,
+    "unknown_contact_relevant_geom_count": 0,
+    "visual_only_or_noncontact_count": 50
+  }
+}

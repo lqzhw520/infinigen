@@ -1,0 +1,55 @@
+$ pwd
+/mnt/afs2/zhuhaowu/infinigen
+$ git branch --show-current
+feature/mint-env-reformulation-v1-visual-fidelity
+$ git rev-parse HEAD
+7a7d5c43748822d9c38d948c6d1d39ec2895fe87
+$ git remote -v
+my-origin	git@github.com:lqzhw520/infinigen.git (fetch)
+my-origin	git@github.com:lqzhw520/infinigen.git (push)
+origin	https://github.com/princeton-vl/infinigen.git (fetch)
+origin	https://github.com/princeton-vl/infinigen.git (push)
+$ git status --short
+ M .project-memory/STATUS.md
+ M .session/checkpoint.md
+
+$ python experiments/mint/mint_drawer_v1/scripts/harness/agent_task_preflight.py --spec experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml --dry-run
+
+======================================================================
+  Agent Task Pre-flight
+======================================================================
+  campaign_root: /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1
+  task_spec:    /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml
+  dry_run:      True
+
+  [LOCK] Production lock enforcement
+  [PASS] Production lock valid: status=production_ready, generated_by=validate_harness_production_lock.py, validators_intact=5 files, task_spec_hash_verified=True, attestation_verified=True, lock_format=V3
+
+  [V01] validate_task_authority (S0 gate)
+  [PASS] V01 validate_task_authority
+
+  [V02] validate_diff_scope
+  [PASS] V02 validate_diff_scope
+
+======================================================================
+  Pre-flight Summary
+======================================================================
+  Passed: 2
+  Failed: 0
+  Task spec: v11_g4_phase1h_contact_test.yaml
+  Pre-flight callable: True
+  Production lock: verified (always required — no bypass)
+
+  ALL PRE-FLIGHT VALIDATORS PASSED.
+  Agent may proceed with execution.
+  Next: run V03 during execution, V04 at closeout.
+[2026-04-30T12:42:47Z] wrote execution_plan.md/json
+[2026-04-30T12:45:16Z] wrote run_goc_v3_rebuild.py
+[2026-04-30T12:45:23Z] START python run_goc_v3_rebuild.py
+[2026-04-30T12:45:25Z] END python run_goc_v3_rebuild.py exit=0
+[2026-04-30T12:46:02Z] START final harness preflight
+[2026-04-30T12:46:28Z] json parse checks and no-runtime assertion passed
+[2026-04-30T12:46:43Z] staged allowed GOC-v3 files only
+[2026-04-30T12:46:53Z] START final harness preflight after staging
+[2026-04-30T12:46:57Z] END final harness preflight after staging exit=0
+[2026-04-30T12:47:13Z] staged git scope check passed

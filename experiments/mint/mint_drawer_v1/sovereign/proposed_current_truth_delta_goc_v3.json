@@ -1,0 +1,22 @@
+{
+  "status": "proposed_not_active",
+  "generated_at_utc": "2026-04-30T12:45:25Z",
+  "proposal": "Adopt GOC-v3 exact-ID geometry ownership contract as V11-G4 contact authority.",
+  "do_not_mutate_current_truth_directly": true,
+  "goc_authority": "artifacts/phase1h_geometry_contract/goc_v3_contract.json",
+  "source_model_commit": "7a7d5c43748822d9c38d948c6d1d39ec2895fe87",
+  "exact_id_summary": {
+    "legal_gripper_surface_count": 3,
+    "forbidden_robot_surface_count": 5,
+    "drawer_handle_surface_count": 9,
+    "unknown_contact_relevant_geom_count": 0,
+    "visual_only_or_noncontact_count": 50
+  },
+  "not_claimed": [
+    "V11 success",
+    "Phase 1H success",
+    "rollout success",
+    "visual success",
+    "training eligibility"
+  ]
+}

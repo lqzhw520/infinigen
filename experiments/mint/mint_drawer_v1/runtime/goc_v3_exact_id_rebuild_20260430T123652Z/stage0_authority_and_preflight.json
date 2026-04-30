@@ -1,0 +1,14 @@
+{
+  "pwd": "/mnt/afs2/zhuhaowu/infinigen",
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "head": "7a7d5c43748822d9c38d948c6d1d39ec2895fe87",
+  "remote_configured": true,
+  "git_status_short": [
+    " M .project-memory/STATUS.md",
+    " M .session/checkpoint.md"
+  ],
+  "forbidden_dirty": [],
+  "preflight_exit_code": 0,
+  "harness_preflight_passed": true,
+  "closeout": null
+}

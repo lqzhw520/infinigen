@@ -1,0 +1,44 @@
+{
+  "task_id": "GOC_V3_EXACT_ID_CONTRACT_REBUILD_AND_VALIDATE",
+  "task_type": "CONTRACT_REBUILD_NOT_RUNTIME_EXECUTION",
+  "worktree": "/mnt/afs2/zhuhaowu/infinigen",
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "no_rollout_render_train": true,
+  "no_runtime_patch": true,
+  "no_current_truth_next_actions_direct_mutation": true,
+  "allowed_outputs": [
+    "artifacts/phase1h_geometry_contract/goc_v3_geom_inventory.json",
+    "artifacts/phase1h_geometry_contract/goc_v3_contract.json",
+    "artifacts/phase1h_geometry_contract/goc_v3_contract.md",
+    "artifacts/phase1h_geometry_contract/goc_v3_validation_report.json",
+    "artifacts/phase1h_geometry_contract/goc_v3_validation_report.md",
+    "runtime/goc_v3_exact_id_rebuild_<UTC_TIMESTAMP>/*",
+    "sovereign/proposed_current_truth_delta_goc_v3.json",
+    "sovereign/proposed_next_actions_goc_v3.json",
+    "sovereign/experiment_specs/proposed_v11_g4_with_goc_v3_contact_test.yaml"
+  ],
+  "closeout_states": {
+    "success": "GOC_V3_READY_FOR_V11_G4_TASK_REWRITE",
+    "non_success": [
+      "HARNESS_PREFLIGHT_FAILED",
+      "WRONG_WORKTREE",
+      "WRONG_BRANCH",
+      "REMOTE_NOT_CONFIGURED",
+      "DIRTY_FORBIDDEN_SCOPE",
+      "GOC_V3_MODEL_LOAD_BLOCKED",
+      "GOC_V3_FULL_ROBOT_MODEL_UNAVAILABLE",
+      "GOC_V3_MODEL_INVENTORY_FAILED",
+      "GOC_V3_AUTHORITY_AMBIGUOUS",
+      "GOC_V3_INVARIANTS_FAILED",
+      "GOC_V3_ARTIFACT_WRITE_FAILED",
+      "GOC_V3_COMMIT_PUSH_FAILED",
+      "TIME_BUDGET_EXHAUSTED",
+      "EXECUTION_FAILED"
+    ]
+  },
+  "validation_invariants": [
+    "I1-I15 from task prompt"
+  ],
+  "max_duration_seconds": 28800,
+  "no_user_prompts_mid_run": true
+}

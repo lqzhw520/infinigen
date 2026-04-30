@@ -1,0 +1,15 @@
+PASS /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/runtime/goc_v3_exact_id_rebuild_20260430T123652Z/stage0_authority_and_preflight.json
+PASS /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/runtime/goc_v3_exact_id_rebuild_20260430T123652Z/execution_plan.json
+PASS /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/runtime/goc_v3_exact_id_rebuild_20260430T123652Z/raw_model_inventory.json
+PASS /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/runtime/goc_v3_exact_id_rebuild_20260430T123652Z/raw_body_tree.json
+PASS /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/runtime/goc_v3_exact_id_rebuild_20260430T123652Z/model_load_report.json
+PASS /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/runtime/goc_v3_exact_id_rebuild_20260430T123652Z/goc_v2_vs_runtime_3127_reconciliation.json
+PASS /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/runtime/goc_v3_exact_id_rebuild_20260430T123652Z/goc_v3_validation_report.json
+PASS /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/runtime/goc_v3_exact_id_rebuild_20260430T123652Z/goc_v3_geom_inventory.json
+PASS /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/runtime/goc_v3_exact_id_rebuild_20260430T123652Z/goc_v3_contract.json
+PASS /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/runtime/goc_v3_exact_id_rebuild_20260430T123652Z/closeout_decision.json
+PASS experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v3_geom_inventory.json
+PASS experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v3_contract.json
+PASS experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v3_validation_report.json
+PASS experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_goc_v3.json
+PASS experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_goc_v3.json

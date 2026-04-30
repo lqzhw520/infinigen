@@ -1,0 +1,27 @@
+task_id: proposed_v11_g4_with_goc_v3_contact_test
+status: proposed_not_active
+target_gate: V11-G4_LEGAL_GRIPPER_PAD_TO_HANDLE_CONTACT
+goc_authority: artifacts/phase1h_geometry_contract/goc_v3_contract.json
+rollout_allowed: false
+harness_review_required_before_rollout: true
+contact_authority:
+  allowed_target_contact:
+    legal_gripper_surface_geom_ids: [63, 81, 90]
+    drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    relation: legal_gripper_surface_geom_ids <-> drawer_handle_geom_ids
+  forbidden_contact:
+    forbidden_robot_surface_geom_ids: [45, 47, 49, 54, 59]
+    nonlegal_robot_surface_geom_ids: [33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59]
+    drawer_body_or_cabinet_geom_ids: [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32]
+    drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+  prohibited_classifiers:
+    - GOC-v2 count-only legal_pad=29 forbidden=26 authority
+    - body-based runtime 31/27 without exact-ID role classification
+prohibited_execution:
+  - rollout
+  - render
+  - train
+  - teacher_generation
+notes:
+  - This is a proposed task spec only; it does not mutate the active V11-G4 spec.
+  - Future runtime must consume the GOC-v3 exact-ID contract before Phase 1H execution.

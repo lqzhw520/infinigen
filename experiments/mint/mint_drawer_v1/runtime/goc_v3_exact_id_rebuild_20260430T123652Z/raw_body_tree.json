@@ -1,0 +1,398 @@
+{
+  "task_id": "GOC_V3_EXACT_ID_CONTRACT_REBUILD_AND_VALIDATE",
+  "generated_at_utc": "2026-04-30T12:45:25Z",
+  "bodies": [
+    {
+      "body_id": 0,
+      "body_name": "world",
+      "parent_body_id": null,
+      "parent_body_name": null,
+      "child_body_ids": [
+        1,
+        4
+      ],
+      "child_body_names": [
+        "drawer_base",
+        "base"
+      ],
+      "body_ancestor_chain": [
+        "world"
+      ],
+      "geom_ids": [],
+      "geom_count": 0
+    },
+    {
+      "body_id": 1,
+      "body_name": "drawer_base",
+      "parent_body_id": 0,
+      "parent_body_name": "world",
+      "child_body_ids": [
+        2,
+        3
+      ],
+      "child_body_names": [
+        "link_1",
+        "link_2"
+      ],
+      "body_ancestor_chain": [
+        "world",
+        "drawer_base"
+      ],
+      "geom_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "geom_count": 9
+    },
+    {
+      "body_id": 2,
+      "body_name": "link_1",
+      "parent_body_id": 1,
+      "parent_body_name": "drawer_base",
+      "child_body_ids": [],
+      "child_body_names": [],
+      "body_ancestor_chain": [
+        "world",
+        "drawer_base",
+        "link_1"
+      ],
+      "geom_ids": [
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20
+      ],
+      "geom_count": 12
+    },
+    {
+      "body_id": 3,
+      "body_name": "link_2",
+      "parent_body_id": 1,
+      "parent_body_name": "drawer_base",
+      "child_body_ids": [],
+      "child_body_names": [],
+      "body_ancestor_chain": [
+        "world",
+        "drawer_base",
+        "link_2"
+      ],
+      "geom_ids": [
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32
+      ],
+      "geom_count": 12
+    },
+    {
+      "body_id": 4,
+      "body_name": "base",
+      "parent_body_id": 0,
+      "parent_body_name": "world",
+      "child_body_ids": [
+        5
+      ],
+      "child_body_names": [
+        "link0"
+      ],
+      "body_ancestor_chain": [
+        "world",
+        "base"
+      ],
+      "geom_ids": [],
+      "geom_count": 0
+    },
+    {
+      "body_id": 5,
+      "body_name": "link0",
+      "parent_body_id": 4,
+      "parent_body_name": "base",
+      "child_body_ids": [
+        6
+      ],
+      "child_body_names": [
+        "link1"
+      ],
+      "body_ancestor_chain": [
+        "world",
+        "base",
+        "link0"
+      ],
+      "geom_ids": [
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        41,
+        42,
+        43,
+        44,
+        45
+      ],
+      "geom_count": 13
+    },
+    {
+      "body_id": 6,
+      "body_name": "link1",
+      "parent_body_id": 5,
+      "parent_body_name": "link0",
+      "child_body_ids": [
+        7
+      ],
+      "child_body_names": [
+        "link2"
+      ],
+      "body_ancestor_chain": [
+        "world",
+        "base",
+        "link0",
+        "link1"
+      ],
+      "geom_ids": [
+        46,
+        47
+      ],
+      "geom_count": 2
+    },
+    {
+      "body_id": 7,
+      "body_name": "link2",
+      "parent_body_id": 6,
+      "parent_body_name": "link1",
+      "child_body_ids": [
+        8
+      ],
+      "child_body_names": [
+        "link3"
+      ],
+      "body_ancestor_chain": [
+        "world",
+        "base",
+        "link0",
+        "link1",
+        "link2"
+      ],
+      "geom_ids": [
+        48,
+        49
+      ],
+      "geom_count": 2
+    },
+    {
+      "body_id": 8,
+      "body_name": "link3",
+      "parent_body_id": 7,
+      "parent_body_name": "link2",
+      "child_body_ids": [
+        9
+      ],
+      "child_body_names": [
+        "link4"
+      ],
+      "body_ancestor_chain": [
+        "world",
+        "base",
+        "link0",
+        "link1",
+        "link2",
+        "link3"
+      ],
+      "geom_ids": [
+        50,
+        51,
+        52,
+        53,
+        54
+      ],
+      "geom_count": 5
+    },
+    {
+      "body_id": 9,
+      "body_name": "link4",
+      "parent_body_id": 8,
+      "parent_body_name": "link3",
+      "child_body_ids": [
+        10
+      ],
+      "child_body_names": [
+        "link5"
+      ],
+      "body_ancestor_chain": [
+        "world",
+        "base",
+        "link0",
+        "link1",
+        "link2",
+        "link3",
+        "link4"
+      ],
+      "geom_ids": [
+        55,
+        56,
+        57,
+        58,
+        59
+      ],
+      "geom_count": 5
+    },
+    {
+      "body_id": 10,
+      "body_name": "link5",
+      "parent_body_id": 9,
+      "parent_body_name": "link4",
+      "child_body_ids": [
+        11
+      ],
+      "child_body_names": [
+        "link6"
+      ],
+      "body_ancestor_chain": [
+        "world",
+        "base",
+        "link0",
+        "link1",
+        "link2",
+        "link3",
+        "link4",
+        "link5"
+      ],
+      "geom_ids": [
+        60,
+        61,
+        62,
+        63
+      ],
+      "geom_count": 4
+    },
+    {
+      "body_id": 11,
+      "body_name": "link6",
+      "parent_body_id": 10,
+      "parent_body_name": "link5",
+      "child_body_ids": [
+        12
+      ],
+      "child_body_names": [
+        "link7"
+      ],
+      "body_ancestor_chain": [
+        "world",
+        "base",
+        "link0",
+        "link1",
+        "link2",
+        "link3",
+        "link4",
+        "link5",
+        "link6"
+      ],
+      "geom_ids": [
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81
+      ],
+      "geom_count": 18
+    },
+    {
+      "body_id": 12,
+      "body_name": "link7",
+      "parent_body_id": 11,
+      "parent_body_name": "link6",
+      "child_body_ids": [
+        13
+      ],
+      "child_body_names": [
+        "right_hand"
+      ],
+      "body_ancestor_chain": [
+        "world",
+        "base",
+        "link0",
+        "link1",
+        "link2",
+        "link3",
+        "link4",
+        "link5",
+        "link6",
+        "link7"
+      ],
+      "geom_ids": [
+        82,
+        83,
+        84,
+        85,
+        86,
+        87,
+        88,
+        89,
+        90
+      ],
+      "geom_count": 9
+    },
+    {
+      "body_id": 13,
+      "body_name": "right_hand",
+      "parent_body_id": 12,
+      "parent_body_name": "link7",
+      "child_body_ids": [],
+      "child_body_names": [],
+      "body_ancestor_chain": [
+        "world",
+        "base",
+        "link0",
+        "link1",
+        "link2",
+        "link3",
+        "link4",
+        "link5",
+        "link6",
+        "link7",
+        "right_hand"
+      ],
+      "geom_ids": [],
+      "geom_count": 0
+    }
+  ]
+}

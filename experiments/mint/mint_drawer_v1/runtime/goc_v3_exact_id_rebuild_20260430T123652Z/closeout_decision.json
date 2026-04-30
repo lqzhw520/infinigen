@@ -1,0 +1,23 @@
+{
+  "task_id": "GOC_V3_EXACT_ID_CONTRACT_REBUILD_AND_VALIDATE",
+  "closeout_classification": "GOC_V3_READY_FOR_V11_G4_TASK_REWRITE",
+  "generated_at_utc": "2026-04-30T12:45:25Z",
+  "harness_preflight_passed": true,
+  "goc_v3_generated": true,
+  "goc_v3_invariants_passed": true,
+  "goc_v2_vs_runtime_3127_explained": true,
+  "legal_gripper_surface_count": 3,
+  "forbidden_robot_surface_count": 5,
+  "drawer_handle_surface_count": 9,
+  "unknown_contact_relevant_geom_count": 0,
+  "proposed_v11_g4_task_written": true,
+  "current_truth_modified": false,
+  "next_actions_modified": false,
+  "runtime_code_modified": false,
+  "rollout_render_train_run": false,
+  "committed": false,
+  "pushed_to_origin": false,
+  "remote_commit_hash": null,
+  "next_gate": "V11_G4_TASK_REWRITE_TO_GOC_V3",
+  "duration_seconds": 1.477
+}

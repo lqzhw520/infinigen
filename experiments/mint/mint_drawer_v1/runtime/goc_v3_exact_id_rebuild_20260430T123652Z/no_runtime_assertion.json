@@ -1,0 +1,28 @@
+{
+  "rollout_render_train_run": false,
+  "run_dir_files_checked": [
+    "closeout_decision.json",
+    "commands.log",
+    "execution_plan.json",
+    "execution_plan.md",
+    "final_report.md",
+    "goc_v2_vs_runtime_3127_reconciliation.json",
+    "goc_v2_vs_runtime_3127_reconciliation.md",
+    "goc_v3_contract.json",
+    "goc_v3_contract.md",
+    "goc_v3_geom_inventory.json",
+    "goc_v3_validation_report.json",
+    "goc_v3_validation_report.md",
+    "json_parse_checks.log",
+    "model_load_report.json",
+    "raw_body_tree.json",
+    "raw_model_inventory.json",
+    "run_goc_v3_rebuild.out",
+    "run_goc_v3_rebuild.py",
+    "stage0_authority_and_preflight.json",
+    "stage0_preflight.out",
+    "stage8_preflight.out"
+  ],
+  "violating_new_runtime_execution_logs": [],
+  "passed": true
+}

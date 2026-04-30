@@ -1,0 +1,54 @@
+{
+  "task_id": "GOC_V3_EXACT_ID_CONTRACT_REBUILD_AND_VALIDATE",
+  "generated_at_utc": "2026-04-30T12:45:25Z",
+  "source_model_commit": "7a7d5c43748822d9c38d948c6d1d39ec2895fe87",
+  "builder_module_path": "scripts/mint/merged_model_builder.py",
+  "builder_class": "MergedModelBuilder(seed=1)",
+  "model_source_path": {
+    "robot_xml": "/root/anaconda3/envs/infinigen/lib/python3.11/site-packages/robosuite/models/assets/robots/panda/robot.xml",
+    "drawer_root": "/mnt/afs2/zhuhaowu/infinigen/sim_exports/urdf/drawer",
+    "metadata": {
+      "joint0": {
+        "joint label": "drawer_slider"
+      },
+      "part_labels": [
+        "drawer_base",
+        "drawer_door",
+        "drawer_handle"
+      ],
+      "asset_name": "drawer",
+      "semantic_entities": [
+        {
+          "entity_uid": "drawer_handle",
+          "part_label": "drawer_handle",
+          "entity_kind": "affordance_handle",
+          "resolution_policy": "exact_geom_name_set",
+          "occurrence_count": 1
+        }
+      ],
+      "bounding_box": {
+        "min": [
+          -0.35912710428237915,
+          -0.47091472148895264,
+          0.0
+        ],
+        "max": [
+          0.3991270661354065,
+          0.47091472148895264,
+          0.5978587865829468
+        ]
+      }
+    }
+  },
+  "semantic_hash": "01b47b602042a22b9c57159d25aa696172ee0a7208412378fa2d32218d5f5138",
+  "total_ngeom": 91,
+  "total_nbody": 14,
+  "total_njnt": 9,
+  "is_full_robot_in_scene": true,
+  "is_proxy_only": false,
+  "drawer_handle_entity_present": true,
+  "robot_gripper_or_finger_bodies_present": true,
+  "drawer_body_or_cabinet_bodies_present": true,
+  "static_load_only": true,
+  "rollout_render_train_run": false
+}

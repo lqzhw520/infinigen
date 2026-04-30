@@ -1,0 +1,13 @@
+{
+  "status": "proposed_not_active",
+  "generated_at_utc": "2026-04-30T12:45:25Z",
+  "next_gate": "V11_G4_TASK_REWRITE_TO_GOC_V3",
+  "required_action": "Review proposed_v11_g4_with_goc_v3_contact_test.yaml and update active task only after harness review.",
+  "goc_authority": "artifacts/phase1h_geometry_contract/goc_v3_contract.json",
+  "forbidden_before_review": [
+    "rollout",
+    "render",
+    "train",
+    "teacher_generation"
+  ]
+}

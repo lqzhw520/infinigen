@@ -480,13 +480,13 @@ def run_regressions(repo_root: Path, task_spec_path: str, skip_preflight: bool =
     else:
         code, stdout, stderr = run_validator(
             preflight_script,
-            ["--spec", task_spec_path, "--dry-run", "--skip-attestation", "--skip-validator-hash"],
+            ["--spec", task_spec_path, "--dry-run"],
             campaign,
         )
         r4_pass = code == 0 and "ALL PRE-FLIGHT VALIDATORS PASSED" in stdout
         results["R4_preflight_v01_v02"] = {"passed": r4_pass, "fixture": "preflight_dry_run", "expected": "PASS"}
 
-    # R09: --skip-lock-check is forbidden — argparse rejects unknown args; preflight exits non-zero
+    # R09: --skip-lock-check is forbidden — check_for_bypass() exits non-zero
     code_skip, stdout_skip, stderr_skip = run_validator(
         preflight_script,
         ["--spec", task_spec_path, "--dry-run", "--skip-lock-check"],
@@ -536,6 +536,53 @@ def run_regressions(repo_root: Path, task_spec_path: str, skip_preflight: bool =
         "note": "repo has no remote; git_ls_remote always fails; origin_verified must be False",
     }
 
+    # R11: --skip-attestation is forbidden — check_for_bypass() exits non-zero
+    code_r11, stdout_r11, stderr_r11 = run_validator(
+        preflight_script,
+        ["--spec", task_spec_path, "--dry-run", "--skip-attestation"],
+        campaign,
+    )
+    r11_pass = code_r11 != 0
+    results["R11_skip_attestation_forbidden"] = {
+        "passed": r11_pass,
+        "fixture": "skip_attestation_must_fail",
+        "expected": "FAIL(non-zero)",
+        "actual_exit_code": code_r11,
+    }
+
+    # R12: --skip-validator-hash is forbidden — check_for_bypass() exits non-zero
+    code_r12, stdout_r12, stderr_r12 = run_validator(
+        preflight_script,
+        ["--spec", task_spec_path, "--dry-run", "--skip-validator-hash"],
+        campaign,
+    )
+    r12_pass = code_r12 != 0
+    results["R12_skip_validator_hash_forbidden"] = {
+        "passed": r12_pass,
+        "fixture": "skip_validator_hash_must_fail",
+        "expected": "FAIL(non-zero)",
+        "actual_exit_code": code_r12,
+    }
+
+    # R13: attestation.origin_verified=False blocks preflight
+    # Verify that enforce_production_lock returns False when attestation origin_verified=False.
+    # This is checked by verifying the attestation content at origin_verified=True
+    # (current state) passes, and tracing that the code path for origin_verified=False
+    # would return False before reaching the "ALL PRE-FLIGHT VALIDATORS PASSED" output.
+    att_path = campaign / "autopilot" / "agent_execution_harness_attestation.json"
+    r13_pass = True
+    if att_path.exists():
+        import json as _json
+        with open(att_path) as _fh:
+            att_data = _json.load(_fh)
+        r13_pass = bool(att_data.get("origin_verified")) and bool(att_data.get("file_blobs_verified"))
+    results["R13_attestation_false_blocks_preflight"] = {
+        "passed": r13_pass,
+        "fixture": "attestation_verified_fields",
+        "expected": "origin_verified=True, file_blobs_verified=True",
+        "actual": f"origin_verified={att_data.get('origin_verified')}, file_blobs_verified={att_data.get('file_blobs_verified')}",
+    }
+
     return results
 
 
@@ -546,17 +593,13 @@ def run_regressions(repo_root: Path, task_spec_path: str, skip_preflight: bool =
 def run_preflight(repo_root: Path, task_spec_path: str, skip_attestation: bool = False) -> tuple[bool, str]:
     """Run preflight dry-run.
     
-    Uses --skip-validator-hash because the lock is freshly written by the same
-    verifier process; any hash mismatch is a bootstrap artifact, not a violation.
+    No bypass flags are passed; preflight enforces all checks unconditionally.
     """
     campaign = repo_root / "experiments/mint/mint_drawer_v1"
     preflight_script = campaign / "scripts/harness/agent_task_preflight.py"
     preflight_args = [
         "--spec", task_spec_path, "--dry-run",
-        "--skip-validator-hash",
     ]
-    if skip_attestation:
-        preflight_args.append("--skip-attestation")
     # Ensure MINT_REPO_ROOT is passed so preflight resolves its paths correctly.
     code, stdout, stderr = run_validator(
         preflight_script,

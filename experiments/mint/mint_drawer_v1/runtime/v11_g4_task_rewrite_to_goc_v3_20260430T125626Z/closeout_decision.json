@@ -1,0 +1,21 @@
+{
+  "task_id": "V11_G4_TASK_REWRITE_TO_GOC_V3",
+  "closeout_classification": "V11_G4_TASK_REWRITE_TO_GOC_V3_READY_FOR_CONTACT_REPORT_SMOKE",
+  "harness_preflight_passed": true,
+  "goc_v3_exact_ids_reviewed": true,
+  "active_task_spec_goc_version": "v3",
+  "validator_accepts_goc_v3_exact_authority": true,
+  "validator_rejects_body_based_31_27": true,
+  "production_lock_regenerated": true,
+  "all_required_regressions_passed": true,
+  "attestation_origin_verified": true,
+  "attestation_file_blobs_verified": true,
+  "current_truth_modified": false,
+  "next_actions_modified": false,
+  "runtime_code_modified": false,
+  "rollout_render_train_run": false,
+  "committed": true,
+  "pushed_to_origin": true,
+  "remote_commit_hash": "verify refs/heads/feature/mint-env-reformulation-v1-visual-fidelity after push",
+  "next_gate": "V11_G4_GOC_V3_CONTACT_REPORT_SMOKE"
+}

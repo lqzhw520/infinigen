@@ -1,0 +1,11 @@
+{
+  "head": "eafbaa632c9a14640768a632b3c9819e01247bf1",
+  "preflight_passed": true,
+  "lock_harness_status": "production_ready",
+  "lock_regressions_all_required_passed": true,
+  "attestation_origin_verified": true,
+  "attestation_file_blobs_verified": true,
+  "task_spec_goc_version": "v3",
+  "rollout_render_train_run": false,
+  "passed": true
+}

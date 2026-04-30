@@ -1,0 +1,23 @@
+{
+  "task_id": "V11_G4_TASK_REWRITE_TO_GOC_V3",
+  "task_type": "HARNESS_MAINTENANCE_TASK_SPEC_REWRITE",
+  "allowed_changes": [
+    "v11_g4_phase1h_contact_test.yaml",
+    "validate_task_authority.py",
+    "lock/attestation regeneration",
+    "run_dir evidence"
+  ],
+  "forbidden": [
+    "rollout",
+    "render",
+    "train",
+    "teacher_generation",
+    "runtime_patch",
+    "current_truth_direct_mutation",
+    "next_actions_direct_mutation",
+    "new_branch",
+    "force_push"
+  ],
+  "success_closeout": "V11_G4_TASK_REWRITE_TO_GOC_V3_READY_FOR_CONTACT_REPORT_SMOKE",
+  "no_user_prompts_mid_run": true
+}

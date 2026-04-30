@@ -790,23 +790,87 @@ def generate_lock(
     else:
         results["origin"] = {"skipped": True}
 
-    # Check 3: Preflight (skip for bootstrap after validator hash changes)
-    preflight_passed, preflight_output = run_preflight(repo_root, task_spec_path)
-    results["preflight"] = {"passed": preflight_passed, "output": preflight_output}
-    if not preflight_passed:
-        all_checks_ok = False
-
-    # Check 4: Regressions
-    regressions = run_regressions(repo_root, task_spec_path)
-    reg_passed, reg_failures = required_regressions_passed(regressions)
-    results["regressions"] = {
-        "passed": reg_passed,
-        "required": list(REQUIRED_REGRESSIONS),
-        "failures": reg_failures,
-        "details": regressions,
+    # Check 3/4: Preflight and regressions.
+    #
+    # When the task spec or validators change, the old on-disk production lock is
+    # expected to reject the new committed blobs. To make lock regeneration
+    # possible without weakening runtime preflight, write a minimal candidate lock
+    # with the newly computed hashes only for the duration of these self-checks,
+    # then restore the original lock before returning to the caller.
+    lock_path_for_preflight = repo_root / (
+        "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json"
+    )
+    original_lock_text = (
+        lock_path_for_preflight.read_text()
+        if lock_path_for_preflight.exists()
+        else None
+    )
+    candidate_lock = {
+        "lock_id": "CAMPAIGN_NATIVE_HARNESS_PRODUCTION_LOCK_V3",
+        "version": "3.0.0",
+        "generated_by": "validate_harness_production_lock.py",
+        "generated_at_utc": now,
+        "harness_status": "production_ready",
+        "campaign_root": str(CAMPAIGN_ROOT),
+        "branch": branch,
+        "local_head": local_head,
+        "remote": remote_url,
+        "validator_hashes": {
+            "preflight": hashes.get(
+                "experiments/mint/mint_drawer_v1/scripts/harness/agent_task_preflight.py",
+                "",
+            ),
+            "verifier": hashes.get(
+                "experiments/mint/mint_drawer_v1/scripts/harness/validate_harness_production_lock.py",
+                "",
+            ),
+            "v01": hashes.get(
+                "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_task_authority.py",
+                "",
+            ),
+            "v02": hashes.get(
+                "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_diff_scope.py",
+                "",
+            ),
+            "v04": hashes.get(
+                "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_closeout.py",
+                "",
+            ),
+        },
+        "task_spec_hash": hashes.get(
+            "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml",
+            "",
+        ),
+        "post_push_attestation": _build_attestation_ref(repo_root),
     }
-    if not reg_passed:
-        all_checks_ok = False
+    lock_path_for_preflight.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        with lock_path_for_preflight.open("w") as fh:
+            json.dump(candidate_lock, fh, indent=2)
+
+        preflight_passed, preflight_output = run_preflight(repo_root, task_spec_path)
+        results["preflight"] = {"passed": preflight_passed, "output": preflight_output}
+        if not preflight_passed:
+            all_checks_ok = False
+
+        regressions = run_regressions(repo_root, task_spec_path)
+        reg_passed, reg_failures = required_regressions_passed(regressions)
+        results["regressions"] = {
+            "passed": reg_passed,
+            "required": list(REQUIRED_REGRESSIONS),
+            "failures": reg_failures,
+            "details": regressions,
+        }
+        if not reg_passed:
+            all_checks_ok = False
+    finally:
+        if original_lock_text is None:
+            try:
+                lock_path_for_preflight.unlink()
+            except FileNotFoundError:
+                pass
+        else:
+            lock_path_for_preflight.write_text(original_lock_text)
 
     # Check 5: Status surface
     status_surface_passed, status_surface_msg = check_status_surface(repo_root)

@@ -1,0 +1,8 @@
+{
+  "dry_run_passed": true,
+  "valid_fixture_passed": true,
+  "invalid_fixture_rejected": true,
+  "body_based_31_27_rejected": true,
+  "output_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/runtime/v11_g4_task_rewrite_to_goc_v3_20260430T125626Z/goc_v3_validator_fixture_smoke.out",
+  "passed": true
+}

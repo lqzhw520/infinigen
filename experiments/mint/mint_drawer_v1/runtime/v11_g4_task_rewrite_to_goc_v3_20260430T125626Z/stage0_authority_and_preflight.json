@@ -1,0 +1,14 @@
+{
+  "pwd": "/mnt/afs2/zhuhaowu/infinigen",
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "head": "527be08a67b28436ae3ea146fc87a67bd077ebfa",
+  "remote_configured": true,
+  "git_status_short": [
+    " M .project-memory/STATUS.md",
+    " M .session/checkpoint.md",
+    " M experiments/mint/mint_drawer_v1/runtime/goc_v3_exact_id_rebuild_20260430T123652Z/closeout_decision.json",
+    " M experiments/mint/mint_drawer_v1/runtime/goc_v3_exact_id_rebuild_20260430T123652Z/final_report.md"
+  ],
+  "harness_preflight_passed": true,
+  "preflight_output_path": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/runtime/v11_g4_task_rewrite_to_goc_v3_20260430T125626Z/stage0_preflight.out"
+}

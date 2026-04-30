@@ -1,0 +1,20 @@
+[2026-04-30T12:56:26Z] run_dir=/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/runtime/v11_g4_task_rewrite_to_goc_v3_20260430T125626Z
+pwd=/mnt/afs2/zhuhaowu/infinigen
+branch=feature/mint-env-reformulation-v1-visual-fidelity
+head=527be08a67b28436ae3ea146fc87a67bd077ebfa
+my-origin	git@github.com:lqzhw520/infinigen.git (fetch)
+my-origin	git@github.com:lqzhw520/infinigen.git (push)
+origin	https://github.com/princeton-vl/infinigen.git (fetch)
+origin	https://github.com/princeton-vl/infinigen.git (push)
+--- status ---
+ M .project-memory/STATUS.md
+ M .session/checkpoint.md
+ M experiments/mint/mint_drawer_v1/runtime/goc_v3_exact_id_rebuild_20260430T123652Z/closeout_decision.json
+ M experiments/mint/mint_drawer_v1/runtime/goc_v3_exact_id_rebuild_20260430T123652Z/final_report.md
+[2026-04-30T12:56:50Z] wrote execution contract
+[2026-04-30T12:58:24Z] rewrote active task spec and validate_task_authority.py for GOC-v3 exact-ID authority
+[2026-04-30T12:58:55Z] fixed validate_task_authority default campaign root
+[2026-04-30T12:59:20Z] GOC-v3 validator fixture smoke passed
+[2026-04-30T12:59:46Z] ruff fixed validate_task_authority.py
+[2026-04-30T12:59:57Z] reran GOC-v3 validator fixture smoke after formatting
+[2026-04-30T13:01:39Z] added verifier candidate-lock bootstrap for lock regeneration

@@ -15,9 +15,11 @@
   "next_actions_modified": false,
   "runtime_code_modified": false,
   "rollout_render_train_run": false,
-  "committed": false,
-  "pushed_to_origin": false,
-  "remote_commit_hash": null,
+  "committed": true,
+  "pushed_to_origin": true,
+  "remote_commit_hash": "527be08a67b28436ae3ea146fc87a67bd077ebfa",
   "next_gate": "V11_G4_TASK_REWRITE_TO_GOC_V3",
-  "duration_seconds": 1.477
+  "duration_seconds": 1.477,
+  "post_push_origin_visible": true,
+  "generated_at_utc_post_push": "2026-04-30T12:49:08Z"
 }

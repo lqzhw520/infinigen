@@ -1,22 +1,22 @@
 {
   "attestation_id": "POST_PUSH_ATTESTATION_V3",
   "version": "1.0.0",
-  "generated_at_utc": "2026-04-30T04:24:25Z",
+  "generated_at_utc": "2026-04-30T07:45:50Z",
   "generated_by": "validate_harness_production_lock.py",
   "attestation_type": "post_push_verification",
-  "lock_commit": "ea1c09183dd436a347e39c23c29d31225ab23873",
-  "origin_head": "ea1c09183dd436a347e39c23c29d31225ab23873",
-  "origin_verified": true,
+  "lock_commit": "7352257d40f7fd5c790a2ed7251acfab0c2988ff",
+  "origin_head": "7352257d40f7fd5c790a2ed7251acfab0c2988ff",
+  "origin_verified": false,
   "lock_status": "production_ready",
   "lock_blob_on_origin": "verified_via_merge_base_ancestor_chain",
-  "file_blobs_verified": true,
+  "file_blobs_verified": false,
   "preflight_passed": true,
   "all_regressions_passed": true,
   "checks": {
     "lock_status": "production_ready",
     "lock_generated_by": "validate_harness_production_lock.py",
     "lock_version": "3.0.0",
-    "origin_head": "ea1c09183dd436a347e39c23c29d31225ab23873",
+    "origin_head": "7352257d40f7fd5c790a2ed7251acfab0c2988ff",
     "git_ls_remote_ok": true,
     "origin_contains_lock_commit": true,
     "lock_commit_is_ancestor_of_origin": true,
@@ -42,13 +42,13 @@
       },
       "experiments/mint/mint_drawer_v1/scripts/harness/agent_task_preflight.py": {
         "expected": "54497c3d4c57ee6d49e8c7a8fee520e9d9af50f8",
-        "origin": "54497c3d4c57ee6d49e8c7a8fee520e9d9af50f8",
-        "matches": true
+        "origin": "e88316ad01bc9ce87b8fa7f6ad3bfe60571c3c89",
+        "matches": false
       },
       "experiments/mint/mint_drawer_v1/scripts/harness/validate_harness_production_lock.py": {
         "expected": "103f42a69cbee5388d9ca4be0bdb8acf7fefa6ae",
-        "origin": "103f42a69cbee5388d9ca4be0bdb8acf7fefa6ae",
-        "matches": true
+        "origin": "923cac87611352c95efa399cd3cc80a2b2cb0af7",
+        "matches": false
       },
       "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_task_authority.py": {
         "expected": "b70a98ef921735231ea1d7c31291fd21a52c9777",
@@ -76,7 +76,7 @@
         "matches": true
       }
     },
-    "all_file_blobs_verified": true,
+    "all_file_blobs_verified": false,
     "preflight": {
       "passed": true
     },
@@ -110,11 +110,24 @@
         "passed": true,
         "fixture": "preflight_dry_run",
         "expected": "PASS"
+      },
+      "R09_skip_lock_forbidden": {
+        "passed": true,
+        "fixture": "skip_lock_check_must_fail",
+        "expected": "FAIL(non-zero)",
+        "actual_exit_code": 2
+      },
+      "R10_origin_missing_not_ready": {
+        "passed": true,
+        "fixture": "origin_missing_must_be_not_ready",
+        "expected": "origin_verified=False, harness_status=not_ready",
+        "simulated": true,
+        "note": "repo has no remote; git_ls_remote always fails; origin_verified must be False"
       }
     },
     "all_regressions_passed": true
   },
   "origin_url": "git@github.com:lqzhw520/infinigen.git",
   "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
-  "attestation_blob": "2954411d15b00a6badace457f57cc32ace61931a"
+  "attestation_blob": "4f2db297e69a4bc9ed4ae9b011ccd124613a2c71"
 }

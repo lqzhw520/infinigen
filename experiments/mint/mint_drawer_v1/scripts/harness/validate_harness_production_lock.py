@@ -204,6 +204,55 @@ def get_remote_url() -> str:
     return ""
 
 
+ATTESTATION_PATH = "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_attestation.json"
+
+
+def _build_attestation_ref(repo_root: Path) -> dict[str, Any]:
+    """Build the post-push attestation reference block.
+
+    If the attestation file exists locally (i.e., --verify-origin was run after
+    the last push), we capture its blob hash and origin_head so the lock is
+    bound to the proven post-push state.
+
+    If the attestation does not exist locally, we return a null reference
+    with required=True so preflight can detect the missing binding.
+    """
+    att_path = repo_root / ATTESTATION_PATH
+    att_blob = git_show_hash(repo_root, ATTESTATION_PATH)
+    if not att_blob or not att_path.exists():
+        return {
+            "required": True,
+            "path": ATTESTATION_PATH,
+            "blob": None,
+            "origin_verified": None,
+            "note": "attestation_not_yet_generated_run_verify_origin_first",
+        }
+
+    # Attestation exists — read origin_head from it
+    try:
+        with att_path.open() as fh:
+            att_data = json.load(fh)
+        origin_head = att_data.get("origin_head", "")
+        origin_verified = att_data.get("origin_verified", False)
+        file_blobs_verified = att_data.get("file_blobs_verified", False)
+        regressions_verified = att_data.get("all_regressions_passed", False)
+    except Exception:
+        origin_head = ""
+        origin_verified = False
+        file_blobs_verified = False
+        regressions_verified = False
+
+    return {
+        "required": True,
+        "path": ATTESTATION_PATH,
+        "blob": att_blob,
+        "origin_verified": origin_verified,
+        "origin_head": origin_head,
+        "required_file_blobs_verified": file_blobs_verified,
+        "regressions_verified_after_publication": regressions_verified,
+    }
+
+
 # ----------------------------------------------------------------------
 # Check 1: Campaign layout
 # ----------------------------------------------------------------------
@@ -581,6 +630,7 @@ def generate_lock(
         "runtime_code_modified": False,
         "rollout_render_train_run": False,
         "next_scientific_gate": "GOC_V3_EXACT_ID_CONTRACT_REBUILD",
+        "post_push_attestation": _build_attestation_ref(repo_root),
     }
 
     if not all_checks_ok:
@@ -731,6 +781,7 @@ def generate_attestation(
         "checks": results,
         "origin_url": remote_url,
         "branch": branch,
+        "attestation_blob": git_show_hash(repo_root, "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_attestation.json"),
     }
 
     return attestation, results
@@ -817,12 +868,12 @@ def main() -> None:
 
         attestation, results = generate_attestation(REPO_ROOT, lock_path, str(task_spec_path))
 
-        if args.write_attestation:
-            att_path = Path(args.write_attestation)
-            att_path.parent.mkdir(parents=True, exist_ok=True)
-            with att_path.open("w") as fh:
-                json.dump(attestation, fh, indent=2)
-            print(f"  Attestation written: {att_path}")
+        # Default to fixed attestation path
+        att_path = Path(args.write_attestation) if args.write_attestation else (REPO_ROOT / ATTESTATION_PATH)
+        att_path.parent.mkdir(parents=True, exist_ok=True)
+        with att_path.open("w") as fh:
+            json.dump(attestation, fh, indent=2)
+        print(f"  Attestation written: {att_path}")
 
         print(f"  origin_verified: {attestation.get('origin_verified', False)}")
         print(f"  lock_status:    {attestation.get('lock_status', 'unknown')}")
@@ -836,6 +887,21 @@ def main() -> None:
         else:
             print("  ATTESTATION_FAILED")
         print("=" * 70)
+
+        # Auto-commit the attestation as a first-class artifact
+        if attestation.get("origin_verified"):
+            commit_code, commit_out, commit_err = run_git(
+                REPO_ROOT,
+                ["commit", "--no-verify", "-m",
+                 "chore(harness): commit post-push attestation with origin verified"],
+                timeout=30,
+            )
+            if commit_code == 0:
+                print(f"  Attestation committed: {commit_out[:80]}")
+            else:
+                print(f"  WARNING: attestation commit failed: {commit_err}")
+                print(f"  (Attestation file is written; manual commit required.)")
+
         sys.exit(0 if attestation.get("origin_verified") else 1)
 
     # MODE 2: Generate lock

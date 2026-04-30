@@ -14,6 +14,9 @@ REQUIREMENTS (enforced by this script):
   - generated_by must be "validate_harness_production_lock.py"
   - Validator blob hashes in lock must match current committed files
   - Task spec hash in lock must match current committed file
+  - autopilot/agent_execution_harness_attestation.json must exist
+  - attestation must have origin_verified=true, required_file_blobs_verified=true
+  - Attestation blob hash must match lock's post_push_attestation.blob
 
 It runs:
   V01: validate_task_authority.py --dry-run   (S0: authority initialized)
@@ -56,6 +59,7 @@ REPO_ROOT = Path(os.environ.get(
 ))
 
 LOCK_FILE = CAMPAIGN_ROOT / "autopilot" / "agent_execution_harness_lock.json"
+ATTESTATION_FILE = CAMPAIGN_ROOT / "autopilot" / "agent_execution_harness_attestation.json"
 
 # Validator tools (campaign-native paths)
 VALIDATE_AUTHORITY = THIS_FILE.parent / "validators" / "validate_task_authority.py"
@@ -179,11 +183,59 @@ def enforce_production_lock() -> tuple[bool, str]:
     # Note: The lock itself declares immutable files; V02 (validate_diff_scope)
     # will catch any runtime task that tries to modify them.
 
+    # 8. Attestation must exist and be verified as hard dependency
+    # This is the critical binding: production_ready requires a committed attestation.
+    att_ref = lock.get("post_push_attestation", {})
+    if att_ref.get("required") and not att_ref.get("origin_verified"):
+        return False, (
+            f"FATAL: post_push_attestation.origin_verified is not True.\n"
+            f"  attestation_path: {att_ref.get('path', ATTESTATION_FILE)}\n"
+            f"  attestation_blob: {att_ref.get('blob', 'null')}\n"
+            f"  origin_verified: {att_ref.get('origin_verified')}\n"
+            f"Run: validate_harness_production_lock.py --verify-origin\n"
+            f"Execution BLOCKED — attestation is required."
+        )
+
+    # If lock has attestation reference, verify the attestation file exists and blob matches
+    if att_ref.get("required") and att_ref.get("blob"):
+        att_blob_expected = att_ref["blob"]
+        att_blob_actual = git_show_hash(REPO_ROOT, str(ATTESTATION_FILE))
+        if not att_blob_actual:
+            return False, (
+                f"FATAL: Attestation file not found or not in Git tree: {ATTESTATION_FILE}\n"
+                f"Execution BLOCKED — attestation is required."
+            )
+        if att_blob_actual != att_blob_expected:
+            return False, (
+                f"FATAL: Attestation blob mismatch.\n"
+                f"  lock expects: {att_blob_expected[:16]}...\n"
+                f"  current:     {att_blob_actual[:16]}...\n"
+                f"Run: validate_harness_production_lock.py --verify-origin\n"
+                f"Execution BLOCKED — attestation is required."
+            )
+        # Also verify the attestation itself says origin_verified
+        try:
+            with ATTESTATION_FILE.open() as fh:
+                att_data = json.load(fh)
+            if not att_data.get("origin_verified"):
+                return False, (
+                    f"FATAL: Attestation origin_verified is False.\n"
+                    f"Execution BLOCKED — attestation must have origin_verified=True."
+                )
+            if not att_data.get("file_blobs_verified"):
+                return False, (
+                    f"FATAL: Attestation file_blobs_verified is False.\n"
+                    f"Execution BLOCKED — all file blobs must be verified."
+                )
+        except Exception as e:
+            return False, f"FATAL: Cannot read attestation file: {e}"
+
     return True, (
         f"Production lock valid: status={status}, "
         f"generated_by={generated_by}, "
         f"validators_intact={len(validator_hashes)} files, "
         f"task_spec_hash_verified={bool(task_spec_hash_lock)}, "
+        f"attestation_verified={bool(att_ref.get('origin_verified'))}, "
         f"lock_format={'V3' if lock.get('version', '').startswith('3') else 'V1'}"
     )
 

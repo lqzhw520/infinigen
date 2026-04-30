@@ -1,25 +1,33 @@
 {
   "attestation_id": "POST_PUSH_ATTESTATION_V3",
   "version": "1.0.0",
-  "generated_at_utc": "2026-04-30T12:04:11Z",
+  "generated_at_utc": "2026-04-30T12:22:12Z",
   "generated_by": "validate_harness_production_lock.py",
   "attestation_type": "post_push_verification",
-  "lock_commit": "917cf7ba2203d03c3b8b3ca193af7922a889055d",
-  "origin_head": "917cf7ba2203d03c3b8b3ca193af7922a889055d",
+  "lock_commit": "b53afdf745134e83468b191e3ae847c395bb059a",
+  "origin_head": "b53afdf745134e83468b191e3ae847c395bb059a",
   "origin_verified": true,
   "lock_status": "production_ready",
-  "lock_blob_on_origin": "skipped_living_doc_verified_via_followup_lock_binding",
+  "lock_blob_on_origin": "verified_via_merge_base_ancestor_chain",
   "file_blobs_verified": true,
   "preflight_passed": true,
-  "all_regressions_passed": false,
-  "all_bypass_regressions_passed": true,
+  "all_regressions_passed": true,
   "checks": {
+    "lock_status": "production_ready",
+    "lock_generated_by": "validate_harness_production_lock.py",
+    "lock_version": "3.0.0",
+    "origin_head": "b53afdf745134e83468b191e3ae847c395bb059a",
     "git_ls_remote_ok": true,
-    "origin_contains_local_head": true,
+    "origin_contains_lock_commit": true,
+    "lock_commit_is_ancestor_of_origin": true,
+    "lock_blob": {
+      "note": "skipped_living_doc_verified_via_merge_base",
+      "origin_contains_lock_commit": true
+    },
     "file_blobs": {
-      "experiments/mint/mint_drawer_v1/AGENT_EXECUTION_GUARDRAILS.md": {
-        "expected": "e4039990d4e3b6407d7a95b00e4079fe42fda17c",
-        "origin": "e4039990d4e3b6407d7a95b00e4079fe42fda17c",
+      "CLAUDE.md": {
+        "expected": "af9a4894b471caa1e22d8627c9a0e43309560838",
+        "origin": "af9a4894b471caa1e22d8627c9a0e43309560838",
         "matches": true
       },
       "experiments/mint/mint_drawer_v1/CLAUDE.md": {
@@ -27,9 +35,9 @@
         "origin": "a575b058704bb8eeb0823a0c8057042215dd305b",
         "matches": true
       },
-      "experiments/mint/mint_drawer_v1/autopilot/v11_hard_goal_contract.json": {
-        "expected": "13b699b3e23a99929c591ec08ae7c859172988e5",
-        "origin": "13b699b3e23a99929c591ec08ae7c859172988e5",
+      "experiments/mint/mint_drawer_v1/AGENT_EXECUTION_GUARDRAILS.md": {
+        "expected": "e4039990d4e3b6407d7a95b00e4079fe42fda17c",
+        "origin": "e4039990d4e3b6407d7a95b00e4079fe42fda17c",
         "matches": true
       },
       "experiments/mint/mint_drawer_v1/scripts/harness/agent_task_preflight.py": {
@@ -38,18 +46,8 @@
         "matches": true
       },
       "experiments/mint/mint_drawer_v1/scripts/harness/validate_harness_production_lock.py": {
-        "expected": "48748d9b85fb0f1ff125e05b29db332af66254ff",
-        "origin": "48748d9b85fb0f1ff125e05b29db332af66254ff",
-        "matches": true
-      },
-      "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_closeout.py": {
-        "expected": "00876f159f540a8c00f4f86df560fa77788535c2",
-        "origin": "00876f159f540a8c00f4f86df560fa77788535c2",
-        "matches": true
-      },
-      "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_diff_scope.py": {
-        "expected": "9e9b72e703ad3016205e2084ac57750b4980e2ea",
-        "origin": "9e9b72e703ad3016205e2084ac57750b4980e2ea",
+        "expected": "1bbabcf58c140d218953cd0bbaeeaf91a16e9bf8",
+        "origin": "1bbabcf58c140d218953cd0bbaeeaf91a16e9bf8",
         "matches": true
       },
       "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_task_authority.py": {
@@ -57,9 +55,24 @@
         "origin": "b70a98ef921735231ea1d7c31291fd21a52c9777",
         "matches": true
       },
+      "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_diff_scope.py": {
+        "expected": "9e9b72e703ad3016205e2084ac57750b4980e2ea",
+        "origin": "9e9b72e703ad3016205e2084ac57750b4980e2ea",
+        "matches": true
+      },
+      "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_closeout.py": {
+        "expected": "00876f159f540a8c00f4f86df560fa77788535c2",
+        "origin": "00876f159f540a8c00f4f86df560fa77788535c2",
+        "matches": true
+      },
       "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml": {
         "expected": "30b670af5b96aa9b786ba893a195496acadf8f9b",
         "origin": "30b670af5b96aa9b786ba893a195496acadf8f9b",
+        "matches": true
+      },
+      "experiments/mint/mint_drawer_v1/autopilot/v11_hard_goal_contract.json": {
+        "expected": "13b699b3e23a99929c591ec08ae7c859172988e5",
+        "origin": "13b699b3e23a99929c591ec08ae7c859172988e5",
         "matches": true
       }
     },
@@ -67,29 +80,84 @@
     "preflight": {
       "passed": true
     },
-    "bypass_regressions": {
+    "regressions": {
+      "R1_authority_drift_invalid": {
+        "passed": true,
+        "fixture": "invalid_authority_drift",
+        "expected": "AUTHORITY_MISMATCH"
+      },
+      "R1b_authority_match_valid": {
+        "passed": true,
+        "fixture": "valid_authority_match",
+        "expected": "PASS"
+      },
+      "R2_rollout_crash": {
+        "passed": true,
+        "fixture": "rollout_crash",
+        "expected": "INFRASTRUCTURE_BLOCKED"
+      },
+      "R2b_valid_closeout": {
+        "passed": true,
+        "fixture": "valid_closeout",
+        "expected": "ROUTE_SUCCESS"
+      },
+      "R3_diff_scope_clean": {
+        "passed": true,
+        "fixture": "clean_scope",
+        "expected": "PASS"
+      },
+      "R4_preflight_v01_v02": {
+        "passed": true,
+        "fixture": "preflight_dry_run",
+        "expected": "PASS"
+      },
       "R09_skip_lock_forbidden": {
         "passed": true,
+        "fixture": "skip_lock_check_must_fail",
+        "expected": "FAIL(non-zero)",
         "actual_exit_code": 2
+      },
+      "R10_origin_missing_not_ready": {
+        "passed": true,
+        "fixture": "origin_missing_must_be_not_ready",
+        "expected": "origin_verified=False, harness_status=not_ready",
+        "simulated": true,
+        "note": "repo has no remote; git_ls_remote always fails; origin_verified must be False"
       },
       "R11_skip_attestation_forbidden": {
         "passed": true,
+        "fixture": "skip_attestation_must_fail",
+        "expected": "FAIL(non-zero)",
         "actual_exit_code": 2
       },
       "R12_skip_validator_hash_forbidden": {
         "passed": true,
+        "fixture": "skip_validator_hash_must_fail",
+        "expected": "FAIL(non-zero)",
         "actual_exit_code": 2
       },
       "R13_attestation_false_blocks_preflight": {
         "passed": true,
-        "actual": {
-          "origin_verified": true,
-          "file_blobs_verified": true
-        }
+        "fixture": "attestation_verified_fields",
+        "expected": "origin_verified=True, file_blobs_verified=True",
+        "actual": "origin_verified=True, file_blobs_verified=True"
       }
-    }
+    },
+    "required_regressions": [
+      "R1_authority_drift_invalid",
+      "R1b_authority_match_valid",
+      "R2_rollout_crash",
+      "R3_diff_scope_clean",
+      "R4_preflight_v01_v02",
+      "R09_skip_lock_forbidden",
+      "R11_skip_attestation_forbidden",
+      "R12_skip_validator_hash_forbidden",
+      "R13_attestation_false_blocks_preflight"
+    ],
+    "required_regression_failures": [],
+    "all_regressions_passed": true
   },
   "origin_url": "git@github.com:lqzhw520/infinigen.git",
   "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
-  "attestation_blob": "living_doc_bound_by_lock_post_commit"
+  "attestation_blob": "6a6accc0967527441d92773d642e6c391b4b80eb"
 }

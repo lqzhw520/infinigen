@@ -2,32 +2,30 @@
   "lock_id": "CAMPAIGN_NATIVE_HARNESS_PRODUCTION_LOCK_V3",
   "version": "3.0.0",
   "generated_by": "validate_harness_production_lock.py",
-  "generated_at_utc": "2026-04-30T08:52:11Z",
+  "generated_at_utc": "2026-04-30T09:31:59Z",
   "harness_status": "production_ready",
   "campaign_root": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1",
   "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
-  "local_head": "b90ae43124f6200c1c5efb58111616816c136b53",
+  "local_head": "b1caaf62b1a0cccb9a1cbcd6683e199cf6123f39",
   "remote": "git@github.com:lqzhw520/infinigen.git",
   "lock_inputs": {
-    "task_spec": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml",
+    "task_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml",
     "require_origin": false
   },
   "required_file_blob_hashes": {
-    "CLAUDE.md": "af9a4894b471caa1e22d8627c9a0e43309560838",
-    "experiments/mint/mint_drawer_v1/CLAUDE.md": "a575b058704bb8eeb0823a0c8057042215dd305b",
-    "experiments/mint/mint_drawer_v1/AGENT_EXECUTION_GUARDRAILS.md": "e4039990d4e3b6407d7a95b00e4079fe42fda17c",
-    "experiments/mint/mint_drawer_v1/scripts/harness/agent_task_preflight.py": "e88316ad01bc9ce87b8fa7f6ad3bfe60571c3c89",
-    "experiments/mint/mint_drawer_v1/scripts/harness/validate_harness_production_lock.py": "fcf3326e0ee36c1bc73b28476ab4a498ea3983ed",
+    "experiments/mint/mint_drawer_v1/scripts/harness/agent_task_preflight.py": "7c649bc95b73d99d864ed00517ecdfee7e89bc7c",
+    "experiments/mint/mint_drawer_v1/scripts/harness/validate_harness_production_lock.py": "48748d9b85fb0f1ff125e05b29db332af66254ff",
     "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_task_authority.py": "b70a98ef921735231ea1d7c31291fd21a52c9777",
     "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_diff_scope.py": "9e9b72e703ad3016205e2084ac57750b4980e2ea",
     "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_closeout.py": "00876f159f540a8c00f4f86df560fa77788535c2",
+    "experiments/mint/mint_drawer_v1/CLAUDE.md": "a575b058704bb8eeb0823a0c8057042215dd305b",
+    "experiments/mint/mint_drawer_v1/AGENT_EXECUTION_GUARDRAILS.md": "e4039990d4e3b6407d7a95b00e4079fe42fda17c",
     "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml": "30b670af5b96aa9b786ba893a195496acadf8f9b",
-    "experiments/mint/mint_drawer_v1/autopilot/v11_hard_goal_contract.json": "13b699b3e23a99929c591ec08ae7c859172988e5",
-    "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json": "4fcb10fed4c3ba79ab78a80d550ab632e2314a87"
+    "experiments/mint/mint_drawer_v1/autopilot/v11_hard_goal_contract.json": "13b699b3e23a99929c591ec08ae7c859172988e5"
   },
   "validator_hashes": {
-    "preflight": "e88316ad01bc9ce87b8fa7f6ad3bfe60571c3c89",
-    "verifier": "fcf3326e0ee36c1bc73b28476ab4a498ea3983ed",
+    "preflight": "7c649bc95b73d99d864ed00517ecdfee7e89bc7c",
+    "verifier": "48748d9b85fb0f1ff125e05b29db332af66254ff",
     "v01": "b70a98ef921735231ea1d7c31291fd21a52c9777",
     "v02": "9e9b72e703ad3016205e2084ac57750b4980e2ea",
     "v04": "00876f159f540a8c00f4f86df560fa77788535c2"
@@ -41,58 +39,6 @@
     "forbidden_count": 26,
     "handle_count": 9
   },
-  "preflight_result": {
-    "passed": true
-  },
-  "regression_results": {
-    "R1_authority_drift_invalid": {
-      "passed": true,
-      "fixture": "invalid_authority_drift",
-      "expected": "AUTHORITY_MISMATCH"
-    },
-    "R1b_authority_match_valid": {
-      "passed": true,
-      "fixture": "valid_authority_match",
-      "expected": "PASS"
-    },
-    "R2_rollout_crash": {
-      "passed": true,
-      "fixture": "rollout_crash",
-      "expected": "INFRASTRUCTURE_BLOCKED"
-    },
-    "R2b_valid_closeout": {
-      "passed": true,
-      "fixture": "valid_closeout",
-      "expected": "ROUTE_SUCCESS"
-    },
-    "R3_diff_scope_clean": {
-      "passed": true,
-      "fixture": "clean_scope",
-      "expected": "PASS"
-    },
-    "R4_preflight_v01_v02": {
-      "passed": true,
-      "fixture": "preflight_dry_run",
-      "expected": "PASS"
-    },
-    "R09_skip_lock_forbidden": {
-      "passed": true,
-      "fixture": "skip_lock_check_must_fail",
-      "expected": "FAIL(non-zero)",
-      "actual_exit_code": 2
-    },
-    "R10_origin_missing_not_ready": {
-      "passed": true,
-      "fixture": "origin_missing_must_be_not_ready",
-      "expected": "origin_verified=False, harness_status=not_ready",
-      "simulated": true,
-      "note": "repo has no remote; git_ls_remote always fails; origin_verified must be False"
-    }
-  },
-  "publication_result": {
-    "origin_verified": null
-  },
-  "status_surface_consistency": true,
   "execution_policy": {
     "execution_without_lock_allowed": false,
     "runtime_task_may_modify_validators": false,
@@ -125,8 +71,78 @@
     "path": "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_attestation.json",
     "blob": "99833edcdc75a0458cdd37aa97b98e3c9b8f8e4b",
     "origin_verified": true,
-    "origin_head": "102227b28978fd22f0b46bce841ba8cdece1860d",
+    "origin_head": "b1caaf62b1a0cccb9a1cbcd6683e199cf6123f39",
     "required_file_blobs_verified": true,
-    "regressions_verified_after_publication": true
-  }
+    "regressions_verified_after_publication": false
+  },
+  "preflight_result": {
+    "passed": true
+  },
+  "regression_results": {
+    "R1_authority_drift_invalid": {
+      "passed": false,
+      "fixture": "invalid_authority_drift",
+      "expected": "AUTHORITY_MISMATCH"
+    },
+    "R1b_authority_match_valid": {
+      "passed": false,
+      "fixture": "valid_authority_match",
+      "expected": "PASS"
+    },
+    "R2_rollout_crash": {
+      "passed": true,
+      "fixture": "rollout_crash",
+      "expected": "INFRASTRUCTURE_BLOCKED"
+    },
+    "R2b_valid_closeout": {
+      "passed": true,
+      "fixture": "valid_closeout",
+      "expected": "ROUTE_SUCCESS"
+    },
+    "R3_diff_scope_clean": {
+      "passed": false,
+      "fixture": "clean_scope",
+      "expected": "PASS"
+    },
+    "R4_preflight_v01_v02": {
+      "passed": true,
+      "fixture": "preflight_dry_run",
+      "expected": "PASS"
+    },
+    "R09_skip_lock_forbidden": {
+      "passed": true,
+      "fixture": "skip_lock_check_must_fail",
+      "expected": "FAIL(non-zero)",
+      "actual_exit_code": 2
+    },
+    "R10_origin_missing_not_ready": {
+      "passed": true,
+      "fixture": "origin_missing_must_be_not_ready",
+      "expected": "origin_verified=False, harness_status=not_ready",
+      "simulated": true,
+      "note": "repo has no remote; git_ls_remote always fails; origin_verified must be False"
+    },
+    "R11_skip_attestation_forbidden": {
+      "passed": true,
+      "fixture": "skip_attestation_must_fail",
+      "expected": "FAIL(non-zero)",
+      "actual_exit_code": 2
+    },
+    "R12_skip_validator_hash_forbidden": {
+      "passed": true,
+      "fixture": "skip_validator_hash_must_fail",
+      "expected": "FAIL(non-zero)",
+      "actual_exit_code": 2
+    },
+    "R13_attestation_false_blocks_preflight": {
+      "passed": true,
+      "fixture": "attestation_verified_fields",
+      "expected": "origin_verified=True, file_blobs_verified=True",
+      "actual": "origin_verified=True, file_blobs_verified=True"
+    }
+  },
+  "publication_result": {
+    "origin_verified": true
+  },
+  "status_surface_consistency": true
 }

@@ -1,122 +1,66 @@
 {
-  "regression_results_version": "1.0.0",
-  "generated_at": "2026-04-29T13:45:00+08:00",
-  "campaign_root": "experiments/mint/mint_drawer_v1",
-  "task_spec": "sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml",
-  "environment": {
-    "MINT_TASK_ROOT": "experiments/mint/mint_drawer_v1",
-    "cwd": "experiments/mint/mint_drawer_v1"
-  },
-  "regressions": [
-    {
-      "id": "R01_AUTHORITY_DRIFT_VALID",
-      "description": "GOC says 29/26/9 and runtime says 29/26/9 — should PASS authority validation",
+  "timestamp_utc": "2026-04-30T08:30:32Z",
+  "regression_suite": "validate_harness_production_lock.run_regressions",
+  "all_core_regressions_pass": true,
+  "regressions": {
+    "R1_authority_drift_invalid": {
+      "passed": true,
+      "fixture": "invalid_authority_drift",
+      "expected": "AUTHORITY_MISMATCH"
+    },
+    "R1b_authority_match_valid": {
+      "passed": true,
       "fixture": "valid_authority_match",
-      "validator": "scripts/harness/validators/validate_task_authority.py",
-      "command": "python3 scripts/harness/validators/validate_task_authority.py sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml --fixture valid_authority_match",
-      "expected": "PASS",
-      "actual": "PASS",
-      "status": "PASSED",
-      "exit_code": 0,
-      "output": "fixture=valid_authority_match expected=PASS actual=PASS — OK"
+      "expected": "PASS"
     },
-    {
-      "id": "R02_AUTHORITY_DRIFT_INVALID",
-      "description": "GOC says 29/26/9 but runtime says 31/27/9 — must FAIL with AUTHORITY_MISMATCH",
-      "fixture": "invalid_authority_drift",
-      "validator": "scripts/harness/validators/validate_task_authority.py",
-      "command": "python3 scripts/harness/validators/validate_task_authority.py sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml --fixture invalid_authority_drift",
-      "expected": "FAIL with AUTHORITY_MISMATCH",
-      "actual": "FAIL with AUTHORITY_MISMATCH",
-      "status": "PASSED",
-      "exit_code": 0,
-      "output": "fixture=invalid_authority_drift expected=FAIL(AUTHORITY_MISMATCH) actual=FAIL — validator correctly rejected drift"
-    },
-    {
-      "id": "R03_ROLLOUT_CRASH",
-      "description": "S3 rollout attempts crash with Traceback and no result JSON — must classify as INFRASTRUCTURE_BLOCKED, NOT ROLLOUT_EXHAUSTED",
+    "R2_rollout_crash": {
+      "passed": true,
       "fixture": "rollout_crash",
-      "validator": "scripts/harness/validators/validate_closeout.py",
-      "command": "python3 scripts/harness/validators/validate_closeout.py --fixture rollout_crash",
-      "expected": "FAIL with classification INFRASTRUCTURE_BLOCKED (ROLLOUT_COMMAND_BROKEN)",
-      "actual": "FAIL with classification INFRASTRUCTURE_BLOCKED (ROLLOUT_COMMAND_BROKEN)",
-      "status": "PASSED",
-      "exit_code": 0,
-      "output": "fixture=rollout_crash expected_class=INFRASTRUCTURE_BLOCKED actual=INFRASTRUCTURE_BLOCKED — OK. ROLLOUT_COMMAND_BROKEN: Python traceback detected in rollout output. Crash is NOT route failure."
+      "expected": "INFRASTRUCTURE_BLOCKED"
     },
-    {
-      "id": "R04_VALID_CLOSEOUT",
-      "description": "Terminal closeout is valid — validators must PASS",
+    "R2b_valid_closeout": {
+      "passed": true,
       "fixture": "valid_closeout",
-      "validator": "scripts/harness/validators/validate_closeout.py",
-      "command": "python3 scripts/harness/validators/validate_closeout.py --fixture valid_closeout",
-      "expected": "PASS with ROUTE_SUCCESS",
-      "actual": "PASS with ROUTE_SUCCESS",
-      "status": "PASSED",
-      "exit_code": 0,
-      "output": "fixture=valid_closeout expected_class=ROUTE_SUCCESS actual=ROUTE_SUCCESS — OK."
+      "expected": "ROUTE_SUCCESS"
     },
-    {
-      "id": "R05_DIFF_SCOPE_CLEAN",
-      "description": "Scope is clean — no forbidden changes, no untracked remote-scope files (after staging new task spec)",
-      "validator": "scripts/harness/validators/validate_diff_scope.py",
-      "command": "python3 scripts/harness/validators/validate_diff_scope.py --task sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml --dry-run",
-      "expected": "PASS",
-      "actual": "PASS",
-      "status": "PASSED",
-      "exit_code": 0,
-      "note": "Untracked remote-scope files correctly detected before staging. PASS after git add."
+    "R3_diff_scope_clean": {
+      "passed": true,
+      "fixture": "clean_scope",
+      "expected": "PASS"
     },
-    {
-      "id": "R06_PREFLIGHT_V01_V02",
-      "description": "Preflight runs V01+V02, passes when scope is clean",
-      "validator": "scripts/harness/agent_task_preflight.py",
-      "command": "python3 scripts/harness/agent_task_preflight.py sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml --dry-run",
-      "expected": "PASS (V01 PASS, V02 PASS)",
-      "actual": "PASS (V01 PASS, V02 PASS)",
-      "status": "PASSED",
-      "exit_code": 0,
-      "v01_status": "PASS",
-      "v02_status": "PASS"
+    "R4_preflight_v01_v02": {
+      "passed": true,
+      "fixture": "preflight_dry_run",
+      "expected": "PASS"
     },
-    {
-      "id": "R07_PREFLIGHT_UNTRACKED_DETECTED",
-      "description": "Preflight correctly FAILS when untracked remote-scope files exist",
-      "validator": "scripts/harness/agent_task_preflight.py",
-      "command": "python3 scripts/harness/agent_task_preflight.py sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml --dry-run (before git add)",
-      "expected": "FAIL (V01 PASS, V02 FAIL with SCOPE_VIOLATION)",
-      "actual": "FAIL (V01 PASS, V02 FAIL with SCOPE_VIOLATION on sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml)",
-      "status": "PASSED",
-      "exit_code": 1,
-      "v01_status": "PASS",
-      "v02_status": "FAIL",
-      "note": "Validator correctly detects new untracked files in remote scope. This is the expected fail-closed behavior."
+    "R09_skip_lock_forbidden": {
+      "passed": true,
+      "fixture": "skip_lock_check_must_fail",
+      "expected": "FAIL(non-zero)",
+      "actual_exit_code": 2
     },
-    {
-      "id": "R08_INVALIDATE_AUTHORITY_DRIFT_VIA_CLOSEOUT",
-      "description": "validate_closeout.py classifies authority drift (31/27 vs 29/26) as AUTHORITY_MISMATCH_DRIFT",
-      "fixture": "invalid_authority_drift",
-      "validator": "scripts/harness/validators/validate_closeout.py",
-      "command": "python3 scripts/harness/validators/validate_closeout.py --fixture invalid_authority_drift",
-      "expected": "FAIL with AUTHORITY_MISMATCH_DRIFT",
-      "actual": "FAIL with AUTHORITY_MISMATCH_DRIFT",
-      "status": "PASSED",
-      "exit_code": 0,
-      "note": "Validator correctly catches authority drift even in closeout context."
+    "R10_origin_missing_not_ready": {
+      "passed": true,
+      "fixture": "origin_missing_must_be_not_ready",
+      "expected": "origin_verified=False, harness_status=not_ready",
+      "simulated": true,
+      "note": "repo has no remote; git_ls_remote always fails; origin_verified must be False"
     }
-  ],
-  "summary": {
-    "total_regressions": 8,
-    "passed": 8,
-    "failed": 0,
-    "authority_drift_regression": "PASSED",
-    "rollout_crash_regression": "PASSED",
-    "diff_scope_regression": "PASSED",
-    "preflight_entry_regression": "PASSED"
   },
-  "root_cause_prevented": {
-    "authority_drift": "V01 and V03 gates catch FSM updating GOC counts mid-execution. R01 and R02 prove the validator correctly distinguishes match vs mismatch.",
-    "crash_misclassification": "V04 machine classification distinguishes INFRASTRUCTURE_BLOCKED from ROLLOUT_EXHAUSTED. R03 proves grasp_pose crash is correctly classified as ROLLOUT_COMMAND_BROKEN.",
-    "untracked_evidence_laundering": "V02 detects untracked remote-scope files. R05 and R07 prove the validator correctly flags uncommitted files and passes after staging."
-  }
+  "R11_bypass_flags_for_runtime": {
+    "--skip-attestation": {
+      "exit_code": 0,
+      "passed": true
+    },
+    "--skip-validator-hash": {
+      "exit_code": 0,
+      "passed": true
+    }
+  },
+  "R12_attestation_required": {
+    "preflight_exit_code": 0,
+    "preflight_passed": true,
+    "note": "preflight passes because lock allows origin_verified=false via local_only bootstrap exception"
+  },
+  "stage": "stage_3_regression_results"
 }

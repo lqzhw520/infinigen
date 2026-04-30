@@ -187,10 +187,10 @@ def run_validator(
     # otherwise fall back to the module-level CAMPAIGN_ROOT.
     # This ensures subprocess gets the correct campaign root even when
     # CAMPAIGN_ROOT was resolved at module-import time.
-    full_env["MINT_TASK_ROOT"] = os.environ.get(
-        "MINT_TASK_ROOT",
-        os.environ.get("CAMPAIGN_ROOT", str(CAMPAIGN_ROOT)),
-    )
+    # Always pass the correct campaign root to the subprocess, derived from the
+    # campaign directory parameter. Do NOT inherit from os.environ which may
+    # carry a stale or wrong value (e.g. campaign/scripts instead of campaign).
+    full_env["MINT_TASK_ROOT"] = str(cwd)
     full_env["MINT_REPO_ROOT"] = os.environ.get("MINT_REPO_ROOT", str(REPO_ROOT))
     if extra_env:
         full_env.update(extra_env)

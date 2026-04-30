@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-from __future__ import annotations
 """
 agent_task_preflight.py — campaign-native
 
@@ -42,6 +41,8 @@ Exit codes:
               or bypass flag attempted)
 """
 
+from __future__ import annotations
+
 import argparse
 import json
 import os
@@ -51,17 +52,17 @@ from pathlib import Path
 
 # Campaign-native path resolution.
 THIS_FILE = Path(__file__).resolve()
-CAMPAIGN_ROOT = Path(os.environ.get(
-    "MINT_TASK_ROOT",
-    str(THIS_FILE.parent.parent)
-))
-REPO_ROOT = Path(os.environ.get(
-    "MINT_REPO_ROOT",
-    str(CAMPAIGN_ROOT.parent.parent)
-))
+CAMPAIGN_ROOT = Path(
+    os.environ.get("MINT_TASK_ROOT", str(THIS_FILE.parent.parent.parent))
+)
+REPO_ROOT = Path(
+    os.environ.get("MINT_REPO_ROOT", str(CAMPAIGN_ROOT.parent.parent.parent))
+)
 
 LOCK_FILE = CAMPAIGN_ROOT / "autopilot" / "agent_execution_harness_lock.json"
-ATTESTATION_FILE = CAMPAIGN_ROOT / "autopilot" / "agent_execution_harness_attestation.json"
+ATTESTATION_FILE = (
+    CAMPAIGN_ROOT / "autopilot" / "agent_execution_harness_attestation.json"
+)
 
 # Validator tools (campaign-native paths)
 VALIDATE_AUTHORITY = THIS_FILE.parent / "validators" / "validate_task_authority.py"
@@ -71,6 +72,7 @@ VALIDATE_DIFF_SCOPE = THIS_FILE.parent / "validators" / "validate_diff_scope.py"
 # ----------------------------------------------------------------------
 # Lock enforcement
 # ----------------------------------------------------------------------
+
 
 def git_show_hash(root: Path, path_in_repo: str, commit: str = "HEAD") -> str:
     """Get blob hash of a file at a given commit."""
@@ -157,13 +159,15 @@ def enforce_production_lock() -> tuple[bool, str]:
 
     if mismatches:
         return False, (
-            f"FATAL: Validator blob hash mismatch — files have changed since lock was generated:\n" +
-            "\n".join(f"  - {m}" for m in mismatches) +
-            f"\nExecution BLOCKED — re-run validate_harness_production_lock.py --write-lock."
+            "FATAL: Validator blob hash mismatch — files have changed since lock was generated:\n"
+            + "\n".join(f"  - {m}" for m in mismatches)
+            + "\nExecution BLOCKED — re-run validate_harness_production_lock.py --write-lock."
         )
 
     # 6. Task spec hash must match
-    task_spec_hash_lock = lock.get("task_spec_hash") or lock.get("campaign_task_spec_hash", "")
+    task_spec_hash_lock = lock.get("task_spec_hash") or lock.get(
+        "campaign_task_spec_hash", ""
+    )
     task_spec_path = (
         lock.get("campaign_task_spec_path", "")
         or "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml"
@@ -183,45 +187,54 @@ def enforce_production_lock() -> tuple[bool, str]:
     att_ref = lock.get("post_push_attestation", {})
     ATTESTATION_REL = "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_attestation.json"
 
-    # Check attestation blob against lock reference
-    if att_ref.get("required"):
-        if not att_ref.get("blob"):
-            return False, (
-                f"FATAL: Lock references attestation but attestation.blob is null.\n"
-                f"Execution BLOCKED — attestation blob reference is missing."
-            )
-        att_blob_actual = git_show_hash(REPO_ROOT, ATTESTATION_REL)
-        if not att_blob_actual:
-            return False, (
-                f"FATAL: Attestation file not found or not in Git tree: {ATTESTATION_FILE}\n"
-                f"Execution BLOCKED — attestation is required."
-            )
-        att_blob_expected = att_ref["blob"]
-        if att_blob_actual != att_blob_expected:
-            return False, (
-                f"FATAL: Attestation blob mismatch.\n"
-                f"  lock expects: {att_blob_expected[:16]}...\n"
-                f"  current:     {att_blob_actual[:16]}...\n"
-                f"Run: validate_harness_production_lock.py --verify-origin\n"
-                f"Execution BLOCKED — attestation blob mismatch."
-            )
+    if not att_ref.get("required"):
+        return False, (
+            "FATAL: Lock does not require post-push attestation.\n"
+            "Execution BLOCKED — attestation is required."
+        )
+    if not att_ref.get("blob"):
+        return False, (
+            "FATAL: Lock references attestation but attestation.blob is null.\n"
+            "Execution BLOCKED — attestation blob reference is missing."
+        )
+    if not ATTESTATION_FILE.exists():
+        return False, (
+            f"FATAL: Attestation file not found: {ATTESTATION_FILE}\n"
+            f"Execution BLOCKED — attestation is required."
+        )
 
-        # Unconditionally verify attestation content
-        try:
-            with ATTESTATION_FILE.open() as fh:
-                att_data = json.load(fh)
-            if not att_data.get("origin_verified"):
-                return False, (
-                    f"FATAL: Attestation origin_verified is False.\n"
-                    f"Execution BLOCKED — attestation must have origin_verified=True."
-                )
-            if not att_data.get("file_blobs_verified"):
-                return False, (
-                    f"FATAL: Attestation file_blobs_verified is False.\n"
-                    f"Execution BLOCKED — all file blobs must be verified."
-                )
-        except Exception as e:
-            return False, f"FATAL: Cannot read attestation file: {e}"
+    att_blob_actual = git_show_hash(REPO_ROOT, ATTESTATION_REL)
+    if not att_blob_actual:
+        return False, (
+            f"FATAL: Attestation file not found or not in Git tree: {ATTESTATION_FILE}\n"
+            f"Execution BLOCKED — attestation must be committed."
+        )
+    att_blob_expected = att_ref["blob"]
+    if att_blob_actual != att_blob_expected:
+        return False, (
+            f"FATAL: Attestation blob mismatch.\n"
+            f"  lock expects: {att_blob_expected[:16]}...\n"
+            f"  current:     {att_blob_actual[:16]}...\n"
+            f"Run: validate_harness_production_lock.py --verify-origin\n"
+            f"Execution BLOCKED — attestation blob mismatch."
+        )
+
+    try:
+        with ATTESTATION_FILE.open() as fh:
+            att_data = json.load(fh)
+    except Exception as e:
+        return False, f"FATAL: Cannot read attestation file: {e}"
+
+    if not att_data.get("origin_verified"):
+        return False, (
+            "FATAL: Attestation origin_verified is False.\n"
+            "Execution BLOCKED — attestation must have origin_verified=True."
+        )
+    if not att_data.get("file_blobs_verified"):
+        return False, (
+            "FATAL: Attestation file_blobs_verified is False.\n"
+            "Execution BLOCKED — all file blobs must be verified."
+        )
 
     return True, (
         f"Production lock valid: status={status}, "
@@ -236,6 +249,7 @@ def enforce_production_lock() -> tuple[bool, str]:
 # ----------------------------------------------------------------------
 # Validator runner
 # ----------------------------------------------------------------------
+
 
 def run_validator(script: Path, args: list[str]) -> tuple[int, str, str]:
     """Run a validator script and return (exit_code, stdout, stderr)."""
@@ -271,53 +285,11 @@ def print_result(name: str, passed: bool, stdout: str, stderr: str) -> None:
 
 
 # ----------------------------------------------------------------------
-# Bypass detection
-# ----------------------------------------------------------------------
-
-FORBIDDEN_FLAGS = frozenset([
-    "--skip-lock-check",
-    "--skip-lock",
-    "--skip-attestation",
-    "--skip-attest",
-    "--skip-validator-hash",
-    "--skip-validator-hash-check",
-    "--skip-validator",
-    "--skip-preflight",
-    "--skip-preflight-check",
-    "--skip-hash",
-    "--force-write-lock",
-    "--force-lock",
-    "--no-lock",
-    "--no-attestation",
-    "--no-attest",
-])
-
-
-def check_for_bypass(sys_argv: list[str]) -> None:
-    """
-    Reject any bypass flag attempt at parse time.
-    Exits with code 2 if a bypass flag is detected.
-    """
-    for arg in sys_argv[1:]:
-        normalized = arg.split("=")[0]
-        if normalized in FORBIDDEN_FLAGS:
-            print(
-                f"FATAL: Bypass flag '{arg}' is not permitted.\n"
-                f"Execution BLOCKED — no bypass is allowed for runtime/science tasks.\n"
-                f"All lock enforcement is mandatory.",
-                file=sys.stderr,
-            )
-            sys.exit(2)
-
-
-# ----------------------------------------------------------------------
 # Main
 # ----------------------------------------------------------------------
 
-def main() -> None:
-    # Detect bypass flags before argparse processes them
-    check_for_bypass(sys.argv)
 
+def main() -> None:
     parser = argparse.ArgumentParser(
         description="Agent Execution Harness pre-flight: V01 + V02 validation.",
         formatter_class=argparse.RawDescriptionHelpFormatter,
@@ -429,8 +401,8 @@ def main() -> None:
     print(f"  Passed: {passed_count}")
     print(f"  Failed: {failed_count}")
     print(f"  Task spec: {task_spec_path.name}")
-    print(f"  Pre-flight callable: True")
-    print(f"  Production lock: verified (always required — no bypass)")
+    print("  Pre-flight callable: True")
+    print("  Production lock: verified (always required — no bypass)")
 
     if failed_count == 0:
         print("\n  ALL PRE-FLIGHT VALIDATORS PASSED.")

@@ -955,11 +955,7 @@ def main() -> None:
         action="store_true",
         help="Write lock even if checks fail (bootstrap after validator hash changes)",
     )
-    parser.add_argument(
-        "--skip-preflight",
-        action="store_true",
-        help="Skip preflight check during lock generation (for bootstrap after validator changes)",
-    )
+
 
     args = parser.parse_args()
 
@@ -967,7 +963,13 @@ def main() -> None:
     task_spec_input = args.task_spec
     task_spec_path = Path(task_spec_input)
     if not task_spec_path.is_absolute():
-        task_spec_path = (CAMPAIGN_ROOT / task_spec_input).resolve()
+        # Resolve repo-relative specs (e.g. experiments/mint/...) from REPO_ROOT first
+        repo_resolved = REPO_ROOT / task_spec_input
+        if repo_resolved.exists():
+            task_spec_path = repo_resolved.resolve()
+        else:
+            # Fallback to campaign-relative (for sovereign/... specs)
+            task_spec_path = (CAMPAIGN_ROOT / task_spec_input).resolve()
     if not task_spec_path.exists():
         die(f"Task spec not found: {task_spec_path}", code=2)
 

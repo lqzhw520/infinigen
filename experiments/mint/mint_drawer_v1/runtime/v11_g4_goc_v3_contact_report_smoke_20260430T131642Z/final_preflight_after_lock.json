@@ -1,0 +1,10 @@
+{
+  "preflight_passed": true,
+  "harness_status": "production_ready",
+  "lock_all_required_regressions_passed": true,
+  "attestation_origin_verified": true,
+  "attestation_file_blobs_verified": true,
+  "task_spec": "v11_g4_goc_v3_contact_report_smoke.yaml",
+  "runtime_code_modified": false,
+  "rollout_render_train_run": false
+}

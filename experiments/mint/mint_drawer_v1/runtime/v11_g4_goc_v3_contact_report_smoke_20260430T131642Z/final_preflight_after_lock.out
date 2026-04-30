@@ -1,0 +1,29 @@
+
+======================================================================
+  Agent Task Pre-flight
+======================================================================
+  campaign_root: /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1
+  task_spec:    /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v3_contact_report_smoke.yaml
+  dry_run:      True
+
+  [LOCK] Production lock enforcement
+  [PASS] Production lock valid: status=production_ready, generated_by=validate_harness_production_lock.py, validators_intact=5 files, task_spec_hash_verified=True, attestation_verified=True, lock_format=V3
+
+  [V01] validate_task_authority (S0 gate)
+  [PASS] V01 validate_task_authority
+
+  [V02] validate_diff_scope
+  [PASS] V02 validate_diff_scope
+
+======================================================================
+  Pre-flight Summary
+======================================================================
+  Passed: 2
+  Failed: 0
+  Task spec: v11_g4_goc_v3_contact_report_smoke.yaml
+  Pre-flight callable: True
+  Production lock: verified (always required — no bypass)
+
+  ALL PRE-FLIGHT VALIDATORS PASSED.
+  Agent may proceed with execution.
+  Next: run V03 during execution, V04 at closeout.

@@ -2,11 +2,11 @@
   "lock_id": "CAMPAIGN_NATIVE_HARNESS_PRODUCTION_LOCK_V3",
   "version": "3.0.0",
   "generated_by": "validate_harness_production_lock.py",
-  "generated_at_utc": "2026-04-30T08:51:02Z",
+  "generated_at_utc": "2026-04-30T08:52:11Z",
   "harness_status": "production_ready",
   "campaign_root": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1",
   "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
-  "local_head": "102227b28978fd22f0b46bce841ba8cdece1860d",
+  "local_head": "b90ae43124f6200c1c5efb58111616816c136b53",
   "remote": "git@github.com:lqzhw520/infinigen.git",
   "lock_inputs": {
     "task_spec": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml",
@@ -23,7 +23,7 @@
     "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_closeout.py": "00876f159f540a8c00f4f86df560fa77788535c2",
     "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml": "30b670af5b96aa9b786ba893a195496acadf8f9b",
     "experiments/mint/mint_drawer_v1/autopilot/v11_hard_goal_contract.json": "13b699b3e23a99929c591ec08ae7c859172988e5",
-    "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json": "155207d8a977970ffcf03c0770c6400e080631bc"
+    "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json": "4fcb10fed4c3ba79ab78a80d550ab632e2314a87"
   },
   "validator_hashes": {
     "preflight": "e88316ad01bc9ce87b8fa7f6ad3bfe60571c3c89",
@@ -123,7 +123,7 @@
   "post_push_attestation": {
     "required": true,
     "path": "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_attestation.json",
-    "blob": "2d03cbefc0bfb76af728ac39c51b28bd2f020d39",
+    "blob": "99833edcdc75a0458cdd37aa97b98e3c9b8f8e4b",
     "origin_verified": true,
     "origin_head": "102227b28978fd22f0b46bce841ba8cdece1860d",
     "required_file_blobs_verified": true,

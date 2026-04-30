@@ -1,0 +1,11 @@
+pwd
+git branch --show-current
+git rev-parse HEAD
+git remote -v
+git status --short
+/root/anaconda3/envs/infinigen/bin/python experiments/mint/mint_drawer_v1/scripts/harness/agent_task_preflight.py --spec experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_reset_geometry_and_model_builder_repair_autonomous.yaml --dry-run
+reset-only model/contact probes; no rollout/render/train
+python -m py_compile scripts/mint/merged_model_builder.py
+ruff check scripts/mint/merged_model_builder.py
+ruff format --check scripts/mint/merged_model_builder.py
+positive exact-set authority validation and negative body-count/name-only rejection

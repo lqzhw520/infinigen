@@ -1,0 +1,20 @@
+{
+  "contact_report_schema_version": "legacy_name_only.v0",
+  "runtime_exact_geom_ids_emitted": false,
+  "observed_target_contact_pairs": [
+    [
+      "link5_collision",
+      "drawer_handle"
+    ]
+  ],
+  "observed_forbidden_contact_pairs": [],
+  "raw_runtime_contact_report": {
+    "target_contact_pairs": [
+      [
+        "link5_collision",
+        "drawer_handle"
+      ]
+    ]
+  },
+  "emitted_exact_sets": {}
+}

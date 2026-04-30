@@ -1,0 +1,60 @@
+{
+  "after_repair": {
+    "forbidden_contacts_at_reset": 0,
+    "max_reset_contact_force_n": 0.0,
+    "max_reset_penetration_m": 0.0,
+    "preaction_authority_validation_passed": true,
+    "reset_physical_plausibility_passed": true
+  },
+  "blocker_before_repair": {
+    "default_forbidden_pair_count": null,
+    "default_max_contact_force_n": 2.0387027460025715e+18,
+    "default_max_penetration_m": 0.42044898910674633,
+    "diagnosis": "reset-time robot/cabinet or robot/handle interpenetration plus closed-drawer internal self-collision made Phase1H unsafe before bounded attempts"
+  },
+  "forbidden_repairs_used": false,
+  "generated_at_utc": "2026-04-30T15:56:18Z",
+  "goc_v3_authority_changed": false,
+  "minimality": [
+    "mounted robot worldbody under transform body at reset-clearance offset without changing robot geom order or IDs",
+    "excluded only drawer_base/link_1 and drawer_base/link_2 internal closed-drawer self-collision",
+    "kept robot-drawer and robot-handle collision semantics enabled",
+    "kept GOC-v3 exact authority unchanged"
+  ],
+  "patched_files": [
+    "scripts/mint/merged_model_builder.py"
+  ],
+  "repair_category": "model_builder_reset_clearance_and_internal_drawer_self_collision_exclude",
+  "selected_robot_base_offset": [
+    -0.9,
+    0.0,
+    0.0
+  ],
+  "selected_variant": {
+    "contact_count": 0,
+    "deepest_contacts": [],
+    "eef_to_handle_distance_m": 0.3764630144987588,
+    "forbidden_pairs": [],
+    "handle_center": [
+      -0.07208315531422221,
+      0.0,
+      0.29349483301233337
+    ],
+    "max_contact_force_n": 0.0,
+    "max_penetration_m": 0.0,
+    "offset": [
+      -0.9,
+      0.0,
+      0.0
+    ],
+    "right_hand_pos": [
+      -0.44295725941261704,
+      0.0,
+      0.35812300175248624
+    ],
+    "target_pairs": [],
+    "valid": true
+  },
+  "thresholds_lowered": false,
+  "variant_scan_valid_count": 55
+}

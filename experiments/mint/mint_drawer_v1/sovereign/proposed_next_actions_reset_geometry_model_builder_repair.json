@@ -1,0 +1,17 @@
+{
+  "allowed_next_phase": {
+    "may_enter_bounded_rollout_after_preflight_and_preaction_smoke": true,
+    "must_preserve_goc_v3_exact_id_authority": true,
+    "must_use_repair_task_or_new_bound_composite_spec": true
+  },
+  "caveats": [
+    "GOC-v3 authority was not regenerated; task specs should record this model-builder repair commit as runtime/model provenance.",
+    "Local visual artifact remains unclaimed; no render was run in this phase.",
+    "Bounded Phase1H candidate generation remains future work."
+  ],
+  "do_not_apply_automatically": true,
+  "generated_at_utc": "2026-04-30T15:56:18Z",
+  "next_actions_json_modified": false,
+  "proposal_id": "proposed_next_actions_reset_geometry_model_builder_repair",
+  "recommended_next_gate": "V11_G4_GOC_V3_COMPOSITE_PHASE1H_BOUNDED_AUTONOMOUS_RUN"
+}

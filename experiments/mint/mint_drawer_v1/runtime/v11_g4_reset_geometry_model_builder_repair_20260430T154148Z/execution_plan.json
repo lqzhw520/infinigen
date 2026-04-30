@@ -1,0 +1,67 @@
+{
+  "allowed_runtime_patch_files": [
+    "scripts/mint/merged_model_builder.py"
+  ],
+  "authority": {
+    "contract_id": "GOC_V3_EXACT_ID_GEOMETRY_OWNERSHIP_CONTRACT",
+    "drawer_handle_geom_ids": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "forbidden_robot_surface_geom_ids": [
+      45,
+      47,
+      49,
+      54,
+      59
+    ],
+    "goc_contract": "experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v3_contract.json",
+    "goc_v3_authority_changed": false,
+    "legal_gripper_surface_geom_ids": [
+      63,
+      81,
+      90
+    ]
+  },
+  "bounded_rollout_allowed": false,
+  "created_at_utc": "2026-04-30T15:56:18Z",
+  "forbidden": [
+    "rollout",
+    "render",
+    "training",
+    "current_truth_direct_mutation",
+    "next_actions_direct_mutation",
+    "goc_v3_authority_change",
+    "threshold_lowering",
+    "forbidden_contact_as_target"
+  ],
+  "internal_stages": [
+    "create_and_bind_repair_task_spec",
+    "model_inventory_and_reset_collision_diagnosis",
+    "base_placement_variant_scan",
+    "minimal_model_builder_repair",
+    "reset_physical_plausibility_smoke",
+    "preaction_exact_id_authority_validation",
+    "final_preflight_and_git_scope_check",
+    "commit_push_closeout"
+  ],
+  "no_user_prompts_mid_run": true,
+  "run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_reset_geometry_model_builder_repair_20260430T154148Z",
+  "success_gates": {
+    "body_based_3127_rejected": true,
+    "exact_goc_v3_schema_emitted": true,
+    "forbidden_contacts_at_reset": 0,
+    "legacy_name_only_rejected": true,
+    "max_reset_contact_force_n_lte": 1000000.0,
+    "max_reset_penetration_m_lte": 0.02
+  },
+  "task_id": "V11_G4_RESET_GEOMETRY_AND_MODEL_BUILDER_REPAIR_AUTONOMOUS_V1",
+  "task_type": "RESET_GEOMETRY_MODEL_BUILDER_REPAIR_PHASE"
+}

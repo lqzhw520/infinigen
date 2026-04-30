@@ -1,0 +1,19 @@
+{
+  "contact_details": [],
+  "contact_distances_finite": true,
+  "contact_forces_finite": true,
+  "exact_goc_v3_ids_emitted": true,
+  "forbidden_contact_pairs_at_reset": [],
+  "forbidden_contacts_at_reset": 0,
+  "force_threshold_n": 1000000.0,
+  "generated_at_utc": "2026-04-30T15:50:02.616980Z",
+  "legacy_body_based_31_27_fields_present_not_used": true,
+  "max_reset_contact_force_n": 0.0,
+  "max_reset_penetration_m": 0.0,
+  "name_only_reports_rejected_by_validator_required": true,
+  "penetration_threshold_m": 0.02,
+  "reset_interpenetration_blocker": false,
+  "reset_physical_plausibility_passed": true,
+  "stage": "stage2_contact_report_physical_plausibility_review",
+  "target_pairs_legal_only": true
+}

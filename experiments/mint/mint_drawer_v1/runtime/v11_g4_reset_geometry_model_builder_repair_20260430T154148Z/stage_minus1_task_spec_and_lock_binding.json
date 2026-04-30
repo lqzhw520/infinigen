@@ -1,0 +1,29 @@
+{
+  "attestation_file_blobs_verified": true,
+  "attestation_origin_verified": true,
+  "attestation_path": "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_attestation.json",
+  "final_preflight_exit": 0,
+  "generated_at_utc": "2026-04-30T15:56:51Z",
+  "harness_preflight_passed": true,
+  "lock_bound_task_spec_path": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_reset_geometry_and_model_builder_repair_autonomous.yaml",
+  "lock_campaign_task_spec_path": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_reset_geometry_and_model_builder_repair_autonomous.yaml",
+  "lock_harness_status": "production_ready",
+  "lock_path": "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json",
+  "lock_spec_path_matches_repair_spec": true,
+  "lock_task_spec_hash": "12a7aef158a408bfcd09d4f88fbac43d774e5f2f",
+  "lock_task_spec_hash_present": true,
+  "lock_task_spec_identity": {
+    "authority_type": "GOC_V3_EXACT_GEOM_ID_SETS",
+    "gate": "G4",
+    "goc_version": "v3",
+    "next_gate": "RESET_CONTACT_OR_MODEL_BUILDER_REPAIR",
+    "path": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_reset_geometry_and_model_builder_repair_autonomous.yaml",
+    "phase": "reset_geometry_model_builder_repair",
+    "task_id": "V11_G4_RESET_GEOMETRY_AND_MODEL_BUILDER_REPAIR_AUTONOMOUS_V1",
+    "task_type": "RESET_GEOMETRY_MODEL_BUILDER_REPAIR_PHASE",
+    "task_version": "1.0.0"
+  },
+  "lock_task_spec_sha256": null,
+  "repair_task_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_reset_geometry_and_model_builder_repair_autonomous.yaml",
+  "stage_minus1_preflight_exit": 0
+}

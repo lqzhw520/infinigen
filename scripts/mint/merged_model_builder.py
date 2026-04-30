@@ -33,6 +33,11 @@ LIBERO_INIT_QPOS = np.array(
     [0, -1.61037389e-01, 0.00, -2.44459747e00, 0.00, 2.22675220e00, np.pi / 4]
 )
 
+# Reset-clearance placement for the mounted Panda relative to the drawer model.
+# This keeps GOC-v3 geom IDs stable while avoiding reset-time robot/cabinet
+# interpenetration. It does not alter robot-drawer collision semantics.
+ROBOT_BASE_POS = np.array([-0.9, 0.0, 0.0])
+
 # LIBERO-style overhead camera (agentview equivalent)
 LIBERO_CAMERA = dict(
     lookat=[0.0, 0.0, 0.45],
@@ -192,12 +197,19 @@ class MergedModelBuilder:
         bg_color: str = "neutral_lab",
         robot_init_qpos: np.ndarray | None = None,
         camera_config: dict | None = None,
+        robot_base_pos: np.ndarray | None = None,
     ):
         self.seed = seed
         self.drawer_color = drawer_color or DRAWER_COLORS["drawer_door"]
         self.handle_color = handle_color or DRAWER_COLORS["drawer_handle"]
         self.bg_color = BG_COLORS.get(bg_color, BG_COLORS["neutral_lab"])
-        self.robot_init_qpos = robot_init_qpos or LIBERO_INIT_QPOS
+        self.robot_init_qpos = (
+            robot_init_qpos if robot_init_qpos is not None else LIBERO_INIT_QPOS
+        )
+        self.robot_base_pos = np.asarray(
+            robot_base_pos if robot_base_pos is not None else ROBOT_BASE_POS,
+            dtype=float,
+        )
         self.camera_config = camera_config or LIBERO_CAMERA
 
     # ── public API ────────────────────────────────
@@ -410,8 +422,22 @@ class MergedModelBuilder:
         # Lighting: LIBERO-style three-point lighting
         lighting_xml = self._build_lighting()
 
-        # Worldbody: drawer first (before robot base)
-        new_worldbody = drawer_body_xml + "\n" + worldbody_inner
+        # Keep the drawer at the scene origin and mount the robot beside it.
+        # Wrapping robot bodies in a transform body preserves robot geom order/IDs.
+        robot_base_pos = " ".join(f"{float(v):.6f}" for v in self.robot_base_pos)
+        robot_worldbody = (
+            f'<body name="robot_mount" pos="{robot_base_pos}">\n'
+            f"{worldbody_inner}\n"
+            "</body>"
+        )
+        new_worldbody = drawer_body_xml + "\n" + robot_worldbody
+
+        # Suppress only internal closed-drawer self-collision. Robot-drawer and
+        # robot-handle contacts remain enabled for GOC-v3 contact validation.
+        contact_exclude_xml = (
+            '  <exclude body1="drawer_base" body2="link_1"/>\n'
+            '  <exclude body1="drawer_base" body2="link_2"/>'
+        )
 
         xml = f"""<mujoco model="panda_drawer">
   <compiler angle="radian" inertiafromgeom="auto"/>
@@ -426,6 +452,10 @@ class MergedModelBuilder:
 {actuator_inner}
   {drawer_actuator_xml}
   </actuator>
+
+  <contact>
+{contact_exclude_xml}
+  </contact>
 
   <worldbody>
 {lighting_xml}

@@ -1,0 +1,12 @@
+{
+  "body_based_3127_rejected": true,
+  "legacy_name_only_rejected": true,
+  "negative_body_counts_3127_exit": 1,
+  "negative_legacy_name_only_exit": 1,
+  "observed_forbidden_contact_pairs": [],
+  "observed_target_contact_pairs": [],
+  "positive_exact_sets_exit": 0,
+  "positive_exact_sets_passed": true,
+  "reset_schema_exact_sets_match": true,
+  "runtime_exact_geom_ids_emitted": true
+}

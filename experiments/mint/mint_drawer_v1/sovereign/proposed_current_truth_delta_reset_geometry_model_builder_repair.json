@@ -1,0 +1,28 @@
+{
+  "current_truth_json_modified": false,
+  "do_not_apply_automatically": true,
+  "evidence": {
+    "body_based_3127_rejected": true,
+    "bounded_rollout_attempted": false,
+    "exact_goc_v3_ids_emitted": true,
+    "forbidden_contacts_at_reset": 0,
+    "legacy_name_only_rejected": true,
+    "max_reset_contact_force_n": 0.0,
+    "max_reset_penetration_m": 0.0,
+    "patched_files": [
+      "scripts/mint/merged_model_builder.py"
+    ],
+    "preaction_authority_validation_passed": true,
+    "repair_task_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_reset_geometry_and_model_builder_repair_autonomous.yaml",
+    "reset_physical_plausibility_passed": true,
+    "run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_reset_geometry_model_builder_repair_20260430T154148Z"
+  },
+  "generated_at_utc": "2026-04-30T15:56:18Z",
+  "proposal_id": "proposed_current_truth_delta_reset_geometry_model_builder_repair",
+  "proposed_truth_updates": {
+    "next_gate": "V11_G4_GOC_V3_COMPOSITE_PHASE1H_BOUNDED_AUTONOMOUS_RUN",
+    "phase1h_bounded_execution_status": "not_attempted_in_this_phase",
+    "reset_geometry_repair_status": "passed"
+  },
+  "summary": "Reset geometry/model-builder repair cleared reset/preaction physical plausibility under unchanged GOC-v3 exact-ID authority."
+}

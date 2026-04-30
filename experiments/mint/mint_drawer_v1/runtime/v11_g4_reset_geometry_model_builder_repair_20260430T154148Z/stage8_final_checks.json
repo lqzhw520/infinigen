@@ -1,0 +1,32 @@
+{
+  "current_truth_modified": false,
+  "final_preflight_exit": 0,
+  "generated_at_utc": "2026-04-30T15:56:18Z",
+  "harness_preflight_passed": true,
+  "json_artifacts_checked": [
+    "contact_report_physical_plausibility.json",
+    "preaction_contact_smoke.json",
+    "preaction_authority_validation.json",
+    "post_patch_base_grid.json",
+    "model_builder_repair_decision.json"
+  ],
+  "next_actions_modified": false,
+  "rollout_render_train_run": false,
+  "runtime_code_modified": true,
+  "runtime_patch_files": [
+    "scripts/mint/merged_model_builder.py"
+  ],
+  "status_short": [
+    " M .project-memory/STATUS.md",
+    " M .session/checkpoint.md",
+    " M scripts/mint/merged_model_builder.py"
+  ],
+  "status_short_after_artifact_write": [
+    " M .project-memory/STATUS.md",
+    " M .session/checkpoint.md",
+    " M scripts/mint/merged_model_builder.py",
+    "?? experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_reset_geometry_model_builder_repair.json",
+    "?? experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_reset_geometry_model_builder_repair.json"
+  ],
+  "updated_at_utc": "2026-04-30T15:57:28Z"
+}

@@ -1,11 +1,11 @@
 {
   "attestation_id": "POST_PUSH_ATTESTATION_V3",
   "version": "1.0.0",
-  "generated_at_utc": "2026-05-01T04:56:24Z",
+  "generated_at_utc": "2026-05-01T13:47:10Z",
   "generated_by": "validate_harness_production_lock.py",
   "attestation_type": "post_push_verification",
-  "lock_commit": "637689fb341c8e0d16ccead7f372da9e1f493430",
-  "origin_head": "637689fb341c8e0d16ccead7f372da9e1f493430",
+  "lock_commit": "3abd977b4b4046159250bef8b49f8cde4041ff77",
+  "origin_head": "3abd977b4b4046159250bef8b49f8cde4041ff77",
   "origin_verified": true,
   "lock_status": "production_ready",
   "lock_blob_on_origin": "verified_via_merge_base_ancestor_chain",
@@ -17,13 +17,13 @@
     "lock_generated_by": "validate_harness_production_lock.py",
     "lock_version": "3.0.0",
     "task_spec_binding": {
-      "requested_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v3_placement_ik_optimization.yaml",
-      "lock_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v3_placement_ik_optimization.yaml",
-      "lock_hash": "26657079612558e82dc047a0b232fabb40b63f7f",
-      "current_hash": "26657079612558e82dc047a0b232fabb40b63f7f",
+      "requested_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v3_contact_aware_teacher_synthesis.yaml",
+      "lock_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v3_contact_aware_teacher_synthesis.yaml",
+      "lock_hash": "e480374e5ef4ee3f137d9f1e70f141327bf51dc5",
+      "current_hash": "e480374e5ef4ee3f137d9f1e70f141327bf51dc5",
       "passed": true
     },
-    "origin_head": "637689fb341c8e0d16ccead7f372da9e1f493430",
+    "origin_head": "3abd977b4b4046159250bef8b49f8cde4041ff77",
     "git_ls_remote_ok": true,
     "origin_contains_lock_commit": true,
     "lock_commit_is_ancestor_of_origin": true,
@@ -82,9 +82,9 @@
         "origin": "13b699b3e23a99929c591ec08ae7c859172988e5",
         "matches": true
       },
-      "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v3_placement_ik_optimization.yaml": {
-        "expected": "26657079612558e82dc047a0b232fabb40b63f7f",
-        "origin": "26657079612558e82dc047a0b232fabb40b63f7f",
+      "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v3_contact_aware_teacher_synthesis.yaml": {
+        "expected": "e480374e5ef4ee3f137d9f1e70f141327bf51dc5",
+        "origin": "e480374e5ef4ee3f137d9f1e70f141327bf51dc5",
         "matches": true
       }
     },
@@ -158,7 +158,7 @@
         "passed": true,
         "fixture": "task_spec_mismatch_must_fail",
         "expected": "FAIL(non-zero) with requested-vs-lock spec mismatch",
-        "active_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v3_placement_ik_optimization.yaml",
+        "active_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v3_contact_aware_teacher_synthesis.yaml",
         "mismatch_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml",
         "actual_exit_code": 2,
         "output_excerpt": "\n======================================================================\n  Agent Task Pre-flight\n======================================================================\n  campaign_root: /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1\n  task_spec:    /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml\n  dry_run:      True\n\n  [LOCK] Production lock enforcement\n\n  FATAL: Requested task spec does not match production loc"
@@ -181,5 +181,5 @@
   },
   "origin_url": "git@github.com:lqzhw520/infinigen.git",
   "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
-  "attestation_blob": "6aca39360410aab1f2fdd441a32d6ee877990346"
+  "attestation_blob": "8e9926239936bd4b8cb97c4fa525cd52afc20be1"
 }

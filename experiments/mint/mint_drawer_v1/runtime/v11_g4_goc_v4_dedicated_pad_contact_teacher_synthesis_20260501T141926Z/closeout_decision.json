@@ -1,0 +1,44 @@
+{
+  "best_probe_forbidden_contact_frames": 13,
+  "best_probe_max_force_n": 17030.84100901885,
+  "best_probe_max_penetration_m": 0.05002065754481153,
+  "best_probe_passed": false,
+  "best_probe_target_contact_frames": 19,
+  "best_probe_target_contact_max_consecutive_frames": 19,
+  "bounded_rollout_attempted": false,
+  "cem_mppi_optimization_attempted": true,
+  "closeout_classification": "DEDICATED_PAD_CONTACT_AWARE_PROBE_FAILED",
+  "committed": false,
+  "contact_geometry_quality": "dedicated_finger_pad_collision",
+  "contact_mode_controller_built": true,
+  "current_truth_modified": false,
+  "dedicated_pad_geoms_exist_or_created": true,
+  "drawer_fraction": 0.0,
+  "dynamic_failure_mode": "DEDICATED_PAD_CONTACT_STILL_EXCESSIVE_PENETRATION",
+  "goc_v3_authority_changed": false,
+  "goc_v3_broad_link_geoms_demoted_from_target": [
+    70,
+    88,
+    97
+  ],
+  "goc_v4_authority_created": true,
+  "goc_v4_generated": true,
+  "harness_preflight_passed": true,
+  "impedance_or_force_limited_control_built": true,
+  "legal_finger_pad_geom_ids": [
+    98,
+    99
+  ],
+  "next_actions_modified": false,
+  "next_gate": "ACTUATOR_INTERFACE_OR_OPERATIONAL_SPACE_CONTROL_REPAIR",
+  "pushed_to_origin": false,
+  "remote_commit_hash": null,
+  "reset_physical_plausibility_passed": true,
+  "runtime_patch_applied": true,
+  "runtime_patch_files": [
+    "scripts/mint/merged_model_builder.py",
+    "scripts/mint/contact_aware_drawer_teacher.py"
+  ],
+  "source_worktree_head": "068b7f0d677a98b36519eab241d26d66004026d7",
+  "strict_candidate_found": false
+}

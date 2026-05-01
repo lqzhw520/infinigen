@@ -1,0 +1,47 @@
+{
+  "bounded_rollout_attempted": false,
+  "closeout_classification": "DEDICATED_PAD_CONTACT_AWARE_PROBE_FAILED",
+  "current_truth_modified": false,
+  "final_preflight_passed": true,
+  "forbidden_modified_paths": [],
+  "generated_at_utc": "2026-05-01T14:28:06.285694+00:00",
+  "git_status_short": [
+    " M .project-memory/STATUS.md",
+    " M .session/checkpoint.md"
+  ],
+  "goc_v3_authority_changed": false,
+  "head": "a7b3ed5f1b275439668b630dcbef27322d5a4744",
+  "json_parse_all_passed": true,
+  "json_parse_errors": {},
+  "json_parse_results": {
+    "experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v4_contract.json": true,
+    "experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v4_geom_inventory.json": true,
+    "experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v4_validation_report.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dedicated_pad_contact_teacher_synthesis_20260501T141926Z/best_contact_aware_probe_trace.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dedicated_pad_contact_teacher_synthesis_20260501T141926Z/bounded_teacher_rollout_summary.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dedicated_pad_contact_teacher_synthesis_20260501T141926Z/cem_progress.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dedicated_pad_contact_teacher_synthesis_20260501T141926Z/closeout_decision.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dedicated_pad_contact_teacher_synthesis_20260501T141926Z/contact_aware_teacher_synthesis_decision.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dedicated_pad_contact_teacher_synthesis_20260501T141926Z/contact_mode_controller_design.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dedicated_pad_contact_teacher_synthesis_20260501T141926Z/contact_probe_optimization.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dedicated_pad_contact_teacher_synthesis_20260501T141926Z/current_goc_v3_legal_geom_quality_audit.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dedicated_pad_contact_teacher_synthesis_20260501T141926Z/dedicated_finger_pad_geom_creation_or_binding.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dedicated_pad_contact_teacher_synthesis_20260501T141926Z/dynamic_failure_decomposition.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dedicated_pad_contact_teacher_synthesis_20260501T141926Z/execution_plan.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dedicated_pad_contact_teacher_synthesis_20260501T141926Z/goc_v4_contract_summary.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dedicated_pad_contact_teacher_synthesis_20260501T141926Z/legal_pad_handle_geometry_audit.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dedicated_pad_contact_teacher_synthesis_20260501T141926Z/stage0_authority_and_worktree.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dedicated_pad_contact_teacher_synthesis_20260501T141926Z/stage0_lock_report_final.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dedicated_pad_contact_teacher_synthesis_20260501T141926Z/stage0_lock_report_initial.json": true,
+    "experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_goc_v4_dedicated_pad_teacher_synthesis.json": true,
+    "experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_goc_v4_dedicated_pad_teacher_synthesis.json": true
+  },
+  "next_actions_modified": false,
+  "runtime_patch_files": [
+    "scripts/mint/merged_model_builder.py",
+    "scripts/mint/contact_aware_drawer_teacher.py"
+  ],
+  "spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_dedicated_pad_contact_teacher_synthesis.yaml",
+  "strict_candidate_found": false,
+  "task_id": "V11_G4_GOC_V4_DEDICATED_FINGER_PAD_COLLISION_AND_CONTACT_AWARE_TEACHER_SYNTHESIS_V1"
+}

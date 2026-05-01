@@ -1,0 +1,675 @@
+{
+  "any_passed": false,
+  "attempted": true,
+  "best_probe": {
+    "params": {
+      "cart_vel_limit": 0.09864831537510246,
+      "close_start_step": 65,
+      "close_value": 0.40320924757567755,
+      "contact_offset_m": 0.0038057015681439367,
+      "gain": 1.7897199104748576,
+      "guarded_offset_m": 0.023441907882479247,
+      "joint_cmd_limit": 69.80325311188994,
+      "joint_command_scale": 0.30033134244937176,
+      "pregrasp_offset_m": 0.035,
+      "pull_velocity_m_per_step": 0.0009758551160597132,
+      "recovery_backoff_m": 0.04659142410500766
+    },
+    "passed": false,
+    "sample_records": [
+      {
+        "contact_counts": {
+          "forbidden": 9,
+          "handle_nonlegal": 0,
+          "max_contact_force_n": 17030.84100901885,
+          "max_penetration_m": 0.05002065754481153,
+          "other": 0,
+          "target": 10
+        },
+        "contact_pairs": [
+          {
+            "category": "forbidden",
+            "contact_index": 0,
+            "dist_m": -0.02664292651481298,
+            "geom1": 0,
+            "geom1_body": "drawer_base",
+            "geom1_name": "",
+            "geom2": 88,
+            "geom2_body": "link6",
+            "geom2_name": "link6_collision",
+            "normal": [
+              -1.0,
+              3.646165318989662e-15,
+              0.0
+            ],
+            "normal_force_n": 755.130122078128,
+            "penetration_m": 0.02664292651481298,
+            "relative_normal_velocity_mps": 0.0
+          },
+          {
+            "category": "forbidden",
+            "contact_index": 1,
+            "dist_m": -0.026643053174399804,
+            "geom1": 1,
+            "geom1_body": "drawer_base",
+            "geom1_name": "",
+            "geom2": 88,
+            "geom2_body": "link6",
+            "geom2_name": "link6_collision",
+            "normal": [
+              -1.0,
+              3.646147985323376e-15,
+              -4.167026268941001e-15
+            ],
+            "normal_force_n": 755.1547710211726,
+            "penetration_m": 0.026643053174399804,
+            "relative_normal_velocity_mps": 0.0
+          },
+          {
+            "category": "forbidden",
+            "contact_index": 2,
+            "dist_m": -0.02664292651481298,
+            "geom1": 2,
+            "geom1_body": "drawer_base",
+            "geom1_name": "",
+            "geom2": 88,
+            "geom2_body": "link6",
+            "geom2_name": "link6_collision",
+            "normal": [
+              -1.0,
+              2.083523039422664e-15,
+              0.0
+            ],
+            "normal_force_n": 755.1301220781169,
+            "penetration_m": 0.02664292651481298,
+            "relative_normal_velocity_mps": 0.0
+          },
+          {
+            "category": "forbidden",
+            "contact_index": 3,
+            "dist_m": -0.026643053174399804,
+            "geom1": 7,
+            "geom1_body": "drawer_base",
+            "geom1_name": "",
+            "geom2": 88,
+            "geom2_body": "link6",
+            "geom2_name": "link6_collision",
+            "normal": [
+              -1.0,
+              1.562634850852872e-15,
+              0.0
+            ],
+            "normal_force_n": 755.1547710210816,
+            "penetration_m": 0.026643053174399804,
+            "relative_normal_velocity_mps": 0.0
+          },
+          {
+            "category": "forbidden",
+            "contact_index": 4,
+            "dist_m": -0.03279977573549586,
+            "geom1": 0,
+            "geom1_body": "drawer_base",
+            "geom1_name": "",
+            "geom2": 97,
+            "geom2_body": "link7",
+            "geom2_name": "link7_collision",
+            "normal": [
+              -1.0,
+              2.1155308987061058e-16,
+              -1.6924247189648847e-15
+            ],
+            "normal_force_n": 0.0,
+            "penetration_m": 0.03279977573549586,
+            "relative_normal_velocity_mps": 0.0
+          },
+          {
+            "category": "forbidden",
+            "contact_index": 5,
+            "dist_m": -0.03279990239508268,
+            "geom1": 1,
+            "geom1_body": "drawer_base",
+            "geom1_name": "",
+            "geom2": 97,
+            "geom2_body": "link7",
+            "geom2_name": "link7_collision",
+            "normal": [
+              -1.0,
+              -1.6924181835242287e-15,
+              0.0
+            ],
+            "normal_force_n": 0.0,
+            "penetration_m": 0.03279990239508268,
+            "relative_normal_velocity_mps": 0.0
+          },
+          {
+            "category": "forbidden",
+            "contact_index": 6,
+            "dist_m": -0.03279977573549586,
+            "geom1": 2,
+            "geom1_body": "drawer_base",
+            "geom1_name": "",
+            "geom2": 97,
+            "geom2_body": "link7",
+            "geom2_name": "link7_collision",
+            "normal": [
+              -1.0,
+              -1.6924247189648847e-15,
+              0.0
+            ],
+            "normal_force_n": 0.0,
+            "penetration_m": 0.03279977573549586,
+            "relative_normal_velocity_mps": 0.0
+          },
+          {
+            "category": "forbidden",
+            "contact_index": 7,
+            "dist_m": -0.025073203247037195,
+            "geom1": 4,
+            "geom1_body": "drawer_base",
+            "geom1_name": "",
+            "geom2": 97,
+            "geom2_body": "link7",
+            "geom2_name": "link7_collision",
+            "normal": [
+              -0.15138710375201522,
+              -1.1069816386108806e-15,
+              0.9884745544613562
+            ],
+            "normal_force_n": 4206.13981279776,
+            "penetration_m": 0.025073203247037195,
+            "relative_normal_velocity_mps": 0.0
+          }
+        ],
+        "distance": {
+          "eef_pos": [
+            -0.32343956407500024,
+            0.05986737928051359,
+            0.2780194158108351
+          ],
+          "handle_center": [
+            -0.06161669724511111,
+            0.07581388950347899,
+            0.37484515706700006
+          ],
+          "legal_centroid": [
+            -0.27890804586184614,
+            0.05948062996444588,
+            0.2844842677502103
+          ],
+          "min_eef_to_handle_m": 0.11593887931989628,
+          "min_handle_geom_id": 1,
+          "min_legal_pad_geom_id": 98,
+          "min_legal_pad_to_handle_m": 0.08776455562797916
+        },
+        "drawer_fraction": 0.0,
+        "drawer_qpos": 0.0,
+        "gripper_command": -1.0,
+        "mode": "free_space_approach",
+        "step": 1
+      },
+      {
+        "contact_counts": {
+          "forbidden": 9,
+          "handle_nonlegal": 0,
+          "max_contact_force_n": 0.0,
+          "max_penetration_m": 0.02015644169908085,
+          "other": 0,
+          "target": 10
+        },
+        "contact_pairs": [
+          {
+            "category": "forbidden",
+            "contact_index": 0,
+            "dist_m": -0.004463946995453938,
+            "geom1": 0,
+            "geom1_body": "drawer_base",
+            "geom1_name": "",
+            "geom2": 88,
+            "geom2_body": "link6",
+            "geom2_name": "link6_collision",
+            "normal": [
+              -1.0,
+              -6.217720695137074e-15,
+              0.0
+            ],
+            "normal_force_n": 0.0,
+            "penetration_m": 0.004463946995453938,
+            "relative_normal_velocity_mps": 0.8294371678888023
+          },
+          {
+            "category": "forbidden",
+            "contact_index": 1,
+            "dist_m": -0.004464073655040757,
+            "geom1": 1,
+            "geom1_body": "drawer_base",
+            "geom1_name": "",
+            "geom2": 88,
+            "geom2_body": "link6",
+            "geom2_name": "link6_collision",
+            "normal": [
+              -1.0,
+              -7.771930348944787e-15,
+              0.0
+            ],
+            "normal_force_n": 0.0,
+            "penetration_m": 0.004464073655040757,
+            "relative_normal_velocity_mps": 0.8294371678888022
+          },
+          {
+            "category": "forbidden",
+            "contact_index": 2,
+            "dist_m": -0.004463946995453938,
+            "geom1": 2,
+            "geom1_body": "drawer_base",
+            "geom1_name": "",
+            "geom2": 88,
+            "geom2_body": "link6",
+            "geom2_name": "link6_collision",
+            "normal": [
+              -1.0,
+              -6.217720695137074e-15,
+              0.0
+            ],
+            "normal_force_n": 0.0,
+            "penetration_m": 0.004463946995453938,
+            "relative_normal_velocity_mps": 0.8294371678888023
+          },
+          {
+            "category": "forbidden",
+            "contact_index": 3,
+            "dist_m": -0.004464073655040757,
+            "geom1": 7,
+            "geom1_body": "drawer_base",
+            "geom1_name": "",
+            "geom2": 88,
+            "geom2_body": "link6",
+            "geom2_name": "link6_collision",
+            "normal": [
+              -1.0,
+              -7.771930348944787e-15,
+              0.0
+            ],
+            "normal_force_n": 0.0,
+            "penetration_m": 0.004464073655040757,
+            "relative_normal_velocity_mps": 0.8294371678888022
+          },
+          {
+            "category": "forbidden",
+            "contact_index": 4,
+            "dist_m": -0.0053411084727247315,
+            "geom1": 0,
+            "geom1_body": "drawer_base",
+            "geom1_name": "",
+            "geom2": 97,
+            "geom2_body": "link7",
+            "geom2_name": "link7_collision",
+            "normal": [
+              -1.0,
+              2.5982973157507874e-15,
+              -1.039318926300315e-14
+            ],
+            "normal_force_n": 0.0,
+            "penetration_m": 0.0053411084727247315,
+            "relative_normal_velocity_mps": 1.4024170757206582
+          },
+          {
+            "category": "forbidden",
+            "contact_index": 5,
+            "dist_m": -0.00534123513231155,
+            "geom1": 1,
+            "geom1_body": "drawer_base",
+            "geom1_name": "",
+            "geom2": 97,
+            "geom2_body": "link7",
+            "geom2_name": "link7_collision",
+            "normal": [
+              -1.0,
+              -5.196471401852891e-15,
+              0.0
+            ],
+            "normal_force_n": 0.0,
+            "penetration_m": 0.00534123513231155,
+            "relative_normal_velocity_mps": 1.402417075720669
+          },
+          {
+            "category": "forbidden",
+            "contact_index": 6,
+            "dist_m": -0.0053411084727247315,
+            "geom1": 2,
+            "geom1_body": "drawer_base",
+            "geom1_name": "",
+            "geom2": 97,
+            "geom2_body": "link7",
+            "geom2_name": "link7_collision",
+            "normal": [
+              -1.0,
+              -1.2991486578753937e-15,
+              0.0
+            ],
+            "normal_force_n": 0.0,
+            "penetration_m": 0.0053411084727247315,
+            "relative_normal_velocity_mps": 1.4024170757206689
+          },
+          {
+            "category": "forbidden",
+            "contact_index": 7,
+            "dist_m": -0.0006351999083736718,
+            "geom1": 4,
+            "geom1_body": "drawer_base",
+            "geom1_name": "",
+            "geom2": 97,
+            "geom2_body": "link7",
+            "geom2_name": "link7_collision",
+            "normal": [
+              -0.6243832245956373,
+              -4.3695811743253154e-14,
+              0.7811181657364997
+            ],
+            "normal_force_n": 0.0,
+            "penetration_m": 0.0006351999083736718,
+            "relative_normal_velocity_mps": 1.66656874084579
+          }
+        ],
+        "distance": {
+          "eef_pos": [
+            -0.35261558342052296,
+            0.05821791085380787,
+            0.2964984881573568
+          ],
+          "handle_center": [
+            -0.06161669724511111,
+            0.07581388950347899,
+            0.37484515706700006
+          ],
+          "legal_centroid": [
+            -0.3076567713206001,
+            0.05977275704197506,
+            0.2976332427101006
+          ],
+          "min_eef_to_handle_m": 0.1178341911708445,
+          "min_handle_geom_id": 1,
+          "min_legal_pad_geom_id": 98,
+          "min_legal_pad_to_handle_m": 0.08079124864834292
+        },
+        "drawer_fraction": 0.0,
+        "drawer_qpos": 0.0,
+        "gripper_command": -1.0,
+        "mode": "recovery",
+        "step": 12
+      },
+      {
+        "contact_counts": {
+          "forbidden": 0,
+          "handle_nonlegal": 0,
+          "max_contact_force_n": 0.0,
+          "max_penetration_m": 0.0,
+          "other": 0,
+          "target": 0
+        },
+        "contact_pairs": [],
+        "distance": {
+          "eef_pos": [
+            -0.5773440708725746,
+            0.04467702762583799,
+            0.3903454269686986
+          ],
+          "handle_center": [
+            -0.06161669724511111,
+            0.07581388950347899,
+            0.37484515706700006
+          ],
+          "legal_centroid": [
+            -0.5440663631400284,
+            0.052690958925499055,
+            0.3611329112743674
+          ],
+          "min_eef_to_handle_m": 0.30435832185418527,
+          "min_handle_geom_id": 1,
+          "min_legal_pad_geom_id": 98,
+          "min_legal_pad_to_handle_m": 0.2618038749823885
+        },
+        "drawer_fraction": 0.0,
+        "drawer_qpos": 0.0,
+        "gripper_command": -1.0,
+        "mode": "recovery",
+        "step": 76
+      },
+      {
+        "contact_counts": {
+          "forbidden": 0,
+          "handle_nonlegal": 0,
+          "max_contact_force_n": 633.56446235988,
+          "max_penetration_m": 0.00224853596313203,
+          "other": 1,
+          "target": 0
+        },
+        "contact_pairs": [
+          {
+            "category": "other",
+            "contact_index": 0,
+            "dist_m": -0.00224853596313203,
+            "geom1": 99,
+            "geom1_body": "right_hand",
+            "geom1_name": "right_finger_pad_collision",
+            "geom2": 56,
+            "geom2_body": "link2",
+            "geom2_name": "link2_collision",
+            "normal": [
+              -0.974582296685088,
+              0.09373785546943249,
+              0.20347619379183204
+            ],
+            "normal_force_n": 633.56446235988,
+            "penetration_m": 0.00224853596313203,
+            "relative_normal_velocity_mps": -0.3908906532965131
+          }
+        ],
+        "distance": {
+          "eef_pos": [
+            -0.8091950207023817,
+            0.03192882204576174,
+            0.3605544891563258
+          ],
+          "handle_center": [
+            -0.06161669724511111,
+            0.07581388950347899,
+            0.37484515706700006
+          ],
+          "legal_centroid": [
+            -0.7938153091424927,
+            0.038435795834103385,
+            0.3187678433893772
+          ],
+          "min_eef_to_handle_m": 0.5329043100745784,
+          "min_handle_geom_id": 1,
+          "min_legal_pad_geom_id": 98,
+          "min_legal_pad_to_handle_m": 0.5133490035060848
+        },
+        "drawer_fraction": 0.0,
+        "drawer_qpos": 0.0,
+        "gripper_command": -1.0,
+        "mode": "recovery",
+        "step": 150
+      }
+    ],
+    "score": -587.4709020745153,
+    "summary": {
+      "drawer_qpos_nondecreasing_during_pull": true,
+      "finite_force": true,
+      "forbidden_contact_frames": 13,
+      "max_drawer_fraction": 0.0,
+      "max_force_n": 17030.84100901885,
+      "max_penetration_m": 0.05002065754481153,
+      "min_legal_pad_to_handle_m": 0.08079124864834292,
+      "passes_low_penetration_contact_gate": false,
+      "steps": 150,
+      "target_contact_frames": 19,
+      "target_contact_max_consecutive_frames": 19
+    }
+  },
+  "best_trace_path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dedicated_pad_contact_teacher_synthesis_20260501T141926Z/best_contact_aware_probe_trace.json",
+  "iterations_requested": 5,
+  "rounds": [
+    {
+      "best_params": {
+        "cart_vel_limit": 0.2726886628040807,
+        "close_start_step": 79,
+        "close_value": 0.11343250382622462,
+        "contact_offset_m": 0.01139121827624291,
+        "gain": 0.82063450132971,
+        "guarded_offset_m": 0.03338264617646237,
+        "joint_cmd_limit": 80.5179813716567,
+        "joint_command_scale": 0.14358717184404668,
+        "pregrasp_offset_m": 0.036187283191104716,
+        "pull_velocity_m_per_step": 0.0007390513961485738,
+        "recovery_backoff_m": 0.05740806982753868
+      },
+      "best_score": -587.4890191666052,
+      "best_summary": {
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 13,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 17034.68394061955,
+        "max_penetration_m": 0.050051163188173466,
+        "min_legal_pad_to_handle_m": 0.08062556280357303,
+        "passes_low_penetration_contact_gate": false,
+        "steps": 150,
+        "target_contact_frames": 19,
+        "target_contact_max_consecutive_frames": 19
+      },
+      "iteration": 0,
+      "pass_count": 0,
+      "sample_count": 16
+    },
+    {
+      "best_params": {
+        "cart_vel_limit": 0.31517988504046396,
+        "close_start_step": 86,
+        "close_value": 0.23150995210233485,
+        "contact_offset_m": -0.0017356791882198984,
+        "gain": 1.9509666422152048,
+        "guarded_offset_m": 0.013339790917872239,
+        "joint_cmd_limit": 58.89546452995287,
+        "joint_command_scale": 0.20545910997100494,
+        "pregrasp_offset_m": 0.037241477134342366,
+        "pull_velocity_m_per_step": 0.0006499151682923644,
+        "recovery_backoff_m": 0.02937941600314041
+      },
+      "best_score": -587.505514025067,
+      "best_summary": {
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 13,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 17038.545445420747,
+        "max_penetration_m": 0.05007810391563256,
+        "min_legal_pad_to_handle_m": 0.08050351876078549,
+        "passes_low_penetration_contact_gate": false,
+        "steps": 150,
+        "target_contact_frames": 19,
+        "target_contact_max_consecutive_frames": 19
+      },
+      "iteration": 1,
+      "pass_count": 0,
+      "sample_count": 16
+    },
+    {
+      "best_params": {
+        "cart_vel_limit": 0.21533140363041364,
+        "close_start_step": 76,
+        "close_value": 0.0835448449804109,
+        "contact_offset_m": 0.010823011572008146,
+        "gain": 2.151535039621905,
+        "guarded_offset_m": 0.02464766631115326,
+        "joint_cmd_limit": 64.96142532740689,
+        "joint_command_scale": 0.21759796252169614,
+        "pregrasp_offset_m": 0.035,
+        "pull_velocity_m_per_step": 0.0003463995628956738,
+        "recovery_backoff_m": 0.02899394270777315
+      },
+      "best_score": -587.470913789579,
+      "best_summary": {
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 13,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 17031.141556256713,
+        "max_penetration_m": 0.05002065754481153,
+        "min_legal_pad_to_handle_m": 0.08079153385429057,
+        "passes_low_penetration_contact_gate": false,
+        "steps": 150,
+        "target_contact_frames": 19,
+        "target_contact_max_consecutive_frames": 19
+      },
+      "iteration": 2,
+      "pass_count": 0,
+      "sample_count": 16
+    },
+    {
+      "best_params": {
+        "cart_vel_limit": 0.09864831537510246,
+        "close_start_step": 65,
+        "close_value": 0.40320924757567755,
+        "contact_offset_m": 0.0038057015681439367,
+        "gain": 1.7897199104748576,
+        "guarded_offset_m": 0.023441907882479247,
+        "joint_cmd_limit": 69.80325311188994,
+        "joint_command_scale": 0.30033134244937176,
+        "pregrasp_offset_m": 0.035,
+        "pull_velocity_m_per_step": 0.0009758551160597132,
+        "recovery_backoff_m": 0.04659142410500766
+      },
+      "best_score": -587.4709020745153,
+      "best_summary": {
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 13,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 17030.84100901885,
+        "max_penetration_m": 0.05002065754481153,
+        "min_legal_pad_to_handle_m": 0.08079124864834292,
+        "passes_low_penetration_contact_gate": false,
+        "steps": 150,
+        "target_contact_frames": 19,
+        "target_contact_max_consecutive_frames": 19
+      },
+      "iteration": 3,
+      "pass_count": 0,
+      "sample_count": 16
+    },
+    {
+      "best_params": {
+        "cart_vel_limit": 0.22257463496270993,
+        "close_start_step": 56,
+        "close_value": 0.15324749751903083,
+        "contact_offset_m": 0.005249664267269831,
+        "gain": 1.5185167822566221,
+        "guarded_offset_m": 0.015662024849829738,
+        "joint_cmd_limit": 28.360100299977073,
+        "joint_command_scale": 0.16872166472342012,
+        "pregrasp_offset_m": 0.035,
+        "pull_velocity_m_per_step": 0.0010610827981880294,
+        "recovery_backoff_m": 0.035811868927209806
+      },
+      "best_score": -587.4709048462532,
+      "best_summary": {
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 13,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 17030.89856289452,
+        "max_penetration_m": 0.05002065754481153,
+        "min_legal_pad_to_handle_m": 0.08079132968136614,
+        "passes_low_penetration_contact_gate": false,
+        "steps": 150,
+        "target_contact_frames": 19,
+        "target_contact_max_consecutive_frames": 19
+      },
+      "iteration": 4,
+      "pass_count": 0,
+      "sample_count": 16
+    }
+  ],
+  "samples_per_iteration_requested": 16
+}

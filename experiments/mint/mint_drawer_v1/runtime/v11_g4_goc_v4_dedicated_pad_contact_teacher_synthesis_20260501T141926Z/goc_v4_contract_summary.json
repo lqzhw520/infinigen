@@ -1,0 +1,25 @@
+{
+  "contract_id": "GOC_V4_DEDICATED_FINGER_PAD_GEOMETRY_OWNERSHIP_CONTRACT",
+  "goc_v3_broad_link_geoms_demoted_from_target": [
+    70,
+    88,
+    97
+  ],
+  "invariant_results": {
+    "all_passed": true,
+    "body_based_31_27_rejected": true,
+    "drawer_handle_disjoint_robot": true,
+    "goc_v3_broad_geoms_not_target": true,
+    "legal_finger_pad_disjoint_drawer_handle": true,
+    "legal_finger_pad_disjoint_forbidden_robot": true,
+    "unknown_contact_relevant_empty": true
+  },
+  "passed": true,
+  "summary_counts": {
+    "drawer_handle_surface_count": 9,
+    "forbidden_robot_surface_count": 8,
+    "legal_finger_pad_count": 2,
+    "unknown_contact_relevant_geom_count": 0
+  },
+  "version": "v4"
+}

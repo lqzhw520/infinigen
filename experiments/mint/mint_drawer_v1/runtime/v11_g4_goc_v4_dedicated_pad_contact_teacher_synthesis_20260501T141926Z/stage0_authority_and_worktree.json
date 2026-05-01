@@ -1,0 +1,12 @@
+{
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "head": "068b7f0d677a98b36519eab241d26d66004026d7",
+  "pwd": "/mnt/afs2/zhuhaowu/infinigen",
+  "status_short": [
+    "M .project-memory/STATUS.md",
+    " M .session/checkpoint.md",
+    "?? experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_goc_v4_dedicated_pad_teacher_synthesis.json",
+    "?? experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_goc_v4_dedicated_pad_teacher_synthesis.json"
+  ],
+  "task_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_dedicated_pad_contact_teacher_synthesis.yaml"
+}

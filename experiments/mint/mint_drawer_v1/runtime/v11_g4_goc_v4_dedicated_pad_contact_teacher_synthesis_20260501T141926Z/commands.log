@@ -1,0 +1,1 @@
+contact_aware_drawer_teacher.py --run-dir experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dedicated_pad_contact_teacher_synthesis_20260501T141926Z --cem-iters 5 --samples-per-iter 16

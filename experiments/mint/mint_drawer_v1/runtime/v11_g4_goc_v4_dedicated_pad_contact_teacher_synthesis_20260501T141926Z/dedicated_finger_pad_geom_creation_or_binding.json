@@ -1,0 +1,17 @@
+{
+  "created_on_body": "right_hand",
+  "created_or_bound_geom_ids": [
+    98,
+    99
+  ],
+  "created_or_bound_geom_names": [
+    "left_finger_pad_collision",
+    "right_finger_pad_collision"
+  ],
+  "dedicated_pad_geoms_created_by_builder": true,
+  "dedicated_pad_geoms_existed_before_phase": false,
+  "drawer_or_handle_geometry_changed": false,
+  "legacy_goc_v3_ids_shifted": false,
+  "robot_drawer_collisions_preserved": true,
+  "visual_geoms_changed": false
+}

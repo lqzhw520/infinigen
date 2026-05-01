@@ -1,0 +1,63 @@
+{
+  "all_required_origin_visible": true,
+  "bounded_rollout_attempted": false,
+  "branch": "my-origin/feature/mint-env-reformulation-v1-visual-fidelity",
+  "closeout_classification": "ROBUST_LAYER4R_CONTACT_DYNAMICS_FAILED",
+  "evidence_commit_hash": "8ce693a0bc19f56b8389225d56443b4b514408a3",
+  "generated_at_utc": "2026-05-01T16:16:00Z",
+  "local_replay_render_passed": false,
+  "origin_checks": [
+    {
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_robust_contact_pull_export_local_replay_20260501T160846Z/final_report.md",
+      "stderr": ""
+    },
+    {
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_robust_contact_pull_export_local_replay_20260501T160846Z/closeout_decision.json",
+      "stderr": ""
+    },
+    {
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_robust_contact_pull_export_local_replay_20260501T160846Z/stage4_robust_layer4r_summary.json",
+      "stderr": ""
+    },
+    {
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_robust_contact_pull_export_local_replay_20260501T160846Z/stage4_failure_analysis.json",
+      "stderr": ""
+    },
+    {
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_robust_contact_pull_export_local_replay_20260501T160846Z/stage5_bounded_teacher_pull_summary.json",
+      "stderr": ""
+    },
+    {
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_robust_contact_pull_export_local_replay_20260501T160846Z/stage6_strict_remote_export_manifest.json",
+      "stderr": ""
+    },
+    {
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_robust_contact_pull_export_local_replay_20260501T160846Z/stage7_local_replay_render_verification.json",
+      "stderr": ""
+    },
+    {
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_robust_contact_pull_export_local_replay_20260501T160846Z/stage8_final_harness_and_scope_checks.json",
+      "stderr": ""
+    },
+    {
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_goc_v4_robust_contact_pull_export_local_replay.json",
+      "stderr": ""
+    },
+    {
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_goc_v4_robust_contact_pull_export_local_replay.json",
+      "stderr": ""
+    }
+  ],
+  "robust_layer4r_passed": false,
+  "strict_candidate_found": false
+}

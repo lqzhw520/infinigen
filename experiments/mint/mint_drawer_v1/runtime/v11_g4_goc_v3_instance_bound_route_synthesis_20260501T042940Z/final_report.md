@@ -10,3 +10,5 @@ Best diagnostic IK legal-pad-to-handle distance: `0.008132436607010393` m. Best 
 Runtime patch applied: `false`. GOC-v3 authority changed: `false`. Direct current_truth/next_actions mutation: `false`.
 
 Next gate: **MODEL_INSTANCE_PLACEMENT_OR_KINEMATIC_CHAIN_REPAIR**
+
+Post-push evidence commit: `6258567b13843d3d178591d20ad9f4981d488fd3`. Origin-visible required evidence: `True`.

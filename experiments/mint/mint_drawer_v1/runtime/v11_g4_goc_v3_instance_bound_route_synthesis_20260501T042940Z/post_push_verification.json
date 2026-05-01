@@ -1,0 +1,59 @@
+{
+  "all_required_paths_origin_visible": true,
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "checks": [
+    {
+      "error": null,
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_instance_bound_route_synthesis_20260501T042940Z/final_report.md"
+    },
+    {
+      "error": null,
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_instance_bound_route_synthesis_20260501T042940Z/closeout_decision.json"
+    },
+    {
+      "error": null,
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_instance_bound_route_synthesis_20260501T042940Z/route_synthesis_decision.json"
+    },
+    {
+      "error": null,
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_instance_bound_route_synthesis_20260501T042940Z/instance_goc_bindings.json"
+    },
+    {
+      "error": null,
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_instance_bound_route_synthesis_20260501T042940Z/seed_stability_report.json"
+    },
+    {
+      "error": null,
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_instance_bound_route_synthesis_20260501T042940Z/base_reachability_search.json"
+    },
+    {
+      "error": null,
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_instance_bound_route_synthesis_20260501T042940Z/feasible_base_candidates.json"
+    },
+    {
+      "error": null,
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_instance_bound_route_synthesis_20260501T042940Z/short_dynamic_contact_probes.json"
+    },
+    {
+      "error": null,
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_instance_bound_route_synthesis.json"
+    },
+    {
+      "error": null,
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_instance_bound_route_synthesis.json"
+    }
+  ],
+  "evidence_commit_hash": "6258567b13843d3d178591d20ad9f4981d488fd3",
+  "origin_visible_evidence_commit": "6258567b13843d3d178591d20ad9f4981d488fd3",
+  "remote": "my-origin"
+}

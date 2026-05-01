@@ -1,0 +1,28 @@
+{
+  "branch": "my-origin/feature/mint-env-reformulation-v1-visual-fidelity",
+  "evidence_commit_hash": "5356869fbee8a5ec6b8b7cd5878418336ebb85ad",
+  "generated_at_utc": "2026-05-01T14:29:19.052701+00:00",
+  "local_head_at_verification": "5356869fbee8a5ec6b8b7cd5878418336ebb85ad",
+  "origin_head": "5356869fbee8a5ec6b8b7cd5878418336ebb85ad",
+  "origin_matches_local_head": true,
+  "origin_visible_all_required": true,
+  "origin_visible_paths": {
+    "experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v4_contract.json": true,
+    "experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v4_contract.md": true,
+    "experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v4_geom_inventory.json": true,
+    "experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v4_validation_report.json": true,
+    "experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v4_validation_report.md": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dedicated_pad_contact_teacher_synthesis_20260501T141926Z/best_contact_aware_probe_trace.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dedicated_pad_contact_teacher_synthesis_20260501T141926Z/closeout_decision.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dedicated_pad_contact_teacher_synthesis_20260501T141926Z/contact_probe_optimization.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dedicated_pad_contact_teacher_synthesis_20260501T141926Z/dynamic_failure_decomposition.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dedicated_pad_contact_teacher_synthesis_20260501T141926Z/final_preflight.out": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dedicated_pad_contact_teacher_synthesis_20260501T141926Z/final_report.md": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dedicated_pad_contact_teacher_synthesis_20260501T141926Z/stage8_final_checks.json": true,
+    "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_dedicated_pad_contact_teacher_synthesis.yaml": true,
+    "experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_goc_v4_dedicated_pad_teacher_synthesis.json": true,
+    "experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_goc_v4_dedicated_pad_teacher_synthesis.json": true,
+    "scripts/mint/contact_aware_drawer_teacher.py": true,
+    "scripts/mint/merged_model_builder.py": true
+  }
+}

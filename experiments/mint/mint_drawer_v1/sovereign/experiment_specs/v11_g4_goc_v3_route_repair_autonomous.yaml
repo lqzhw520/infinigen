@@ -168,6 +168,40 @@ validators:
       task: sovereign/experiment_specs/v11_g4_goc_v3_route_repair_autonomous.yaml
     on_fail: STOP_WITH_SCOPE_VIOLATION
 
+fixtures:
+  fixture_valid_authority_match:
+    description: Runtime/contact report emits exact GOC-v3 sets - should PASS authority validation.
+    fixture_id: valid_authority_match
+    runtime_exact_ids:
+      legal_gripper_surface_geom_ids: [63, 81, 90]
+      forbidden_robot_surface_geom_ids: [45, 47, 49, 54, 59]
+      drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    expected: PASS
+  fixture_invalid_authority_drift:
+    description: Runtime falls back to body-based 31/27 - must FAIL with AUTHORITY_MISMATCH.
+    fixture_id: invalid_authority_drift
+    runtime_exact_ids:
+      legal_gripper_surface_geom_ids: [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90]
+      forbidden_robot_surface_geom_ids: [33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59]
+      drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    expected: FAIL
+    expected_error: AUTHORITY_MISMATCH
+  fixture_rollout_crash:
+    description: Rollout command failure remains INFRASTRUCTURE_BLOCKED, not route failure.
+    fixture_id: rollout_crash
+    rollout_stdout: "Traceback: rollout command unavailable"
+    result_json_exists: false
+    expected: FAIL
+    expected_error: ROLLOUT_COMMAND_BROKEN
+    expected_classification: INFRASTRUCTURE_BLOCKED
+  fixture_valid_closeout:
+    description: Terminal closeout fixture remains valid.
+    fixture_id: valid_closeout
+    route_evaluated: true
+    result_json_exists: true
+    rollout_exit_code: 0
+    expected: PASS
+
 success_criteria:
   - id: SC01
     description: Production lock binds this route repair spec path/hash and preflight passes with no bypass.

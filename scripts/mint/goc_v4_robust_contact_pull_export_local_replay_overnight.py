@@ -261,8 +261,9 @@ def run_long_contact_probe(seed: int, perturb: dict[str, Any], run_dir: Path, wr
     yaw = BASE_YAW_DEG + float(perturb["yaw_delta_deg"])
     qpos = SAFE_PRECONTACT_QPOS + np.asarray(perturb["qpos_delta"], dtype=float)
     records: list[dict[str, Any]] = []
-    env = make_env(seed, base_pos, yaw, max_steps=430, qpos=qpos)
+    env: DrawerRobotEnvMuJoCoLibero | None = None
     try:
+        env = make_env(seed, base_pos, yaw, max_steps=430, qpos=qpos)
         env.reset()
         binding = classify_instance(env)
         reset = contact_report(env, binding, None)
@@ -336,7 +337,8 @@ def run_long_contact_probe(seed: int, perturb: dict[str, Any], run_dir: Path, wr
             "summary": {"passes_robust_layer4r_gate": False},
         }
     finally:
-        env.close()
+        if env is not None:
+            env.close()
 
 
 def run_pull_attempt(seed: int, perturb: dict[str, Any], attempt_id: int, variant: dict[str, Any], run_dir: Path) -> dict[str, Any]:
@@ -344,8 +346,9 @@ def run_pull_attempt(seed: int, perturb: dict[str, Any], attempt_id: int, varian
     yaw = BASE_YAW_DEG + float(perturb["yaw_delta_deg"])
     qpos = SAFE_PRECONTACT_QPOS + np.asarray(perturb["qpos_delta"], dtype=float)
     records: list[dict[str, Any]] = []
-    env = make_env(seed, base_pos, yaw, max_steps=760, qpos=qpos)
+    env: DrawerRobotEnvMuJoCoLibero | None = None
     try:
+        env = make_env(seed, base_pos, yaw, max_steps=760, qpos=qpos)
         env.reset()
         binding = classify_instance(env)
         reset = contact_report(env, binding, None)
@@ -410,7 +413,8 @@ def run_pull_attempt(seed: int, perturb: dict[str, Any], attempt_id: int, varian
     except Exception as exc:
         return {"attempt_id": attempt_id, "seed": int(seed), "perturbation": perturb, "variant": variant, "error": repr(exc), "summary": {"passes_strict_teacher_candidate_gate": False}}
     finally:
-        env.close()
+        if env is not None:
+            env.close()
 
 
 def write_proposed_deltas(run_dir: Path, closeout: dict[str, Any]) -> None:
@@ -540,8 +544,9 @@ def main() -> int:
     for seed in selected:
         if time.monotonic() > deadline:
             break
-        env = make_env(seed, BASE_POS, BASE_YAW_DEG, max_steps=5)
+        env: DrawerRobotEnvMuJoCoLibero | None = None
         try:
+            env = make_env(seed, BASE_POS, BASE_YAW_DEG, max_steps=5)
             env.reset()
             binding = classify_instance(env)
             reset = contact_report(env, binding, None)
@@ -559,7 +564,8 @@ def main() -> int:
         except Exception as exc:
             audits.append({"seed": seed, "error": repr(exc)})
         finally:
-            env.close()
+            if env is not None:
+                env.close()
     write_json(run_dir / "stage3_instance_goc_v4_bindings.json", audits)
 
     layer4_cases = []

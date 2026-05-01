@@ -1,0 +1,53 @@
+{
+  "all_required_paths_origin_visible": true,
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "checks": [
+    {
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_route_repair_20260501T035431Z/final_report.md",
+      "stderr": ""
+    },
+    {
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_route_repair_20260501T035431Z/closeout_decision.json",
+      "stderr": ""
+    },
+    {
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_route_repair_20260501T035431Z/diagnostic_route_summary.json",
+      "stderr": ""
+    },
+    {
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_route_repair_20260501T035431Z/prior_mv2_replay_contact_diagnosis.json",
+      "stderr": ""
+    },
+    {
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_route_repair_20260501T035431Z/goc_id_seed_stability_check.json",
+      "stderr": ""
+    },
+    {
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_route_repair_20260501T035431Z/kinematic_reachability_probe.json",
+      "stderr": ""
+    },
+    {
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_route_repair_20260501T035431Z/stage8_final_checks.json",
+      "stderr": ""
+    },
+    {
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_route_repair_goc_v3.json",
+      "stderr": ""
+    },
+    {
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_route_repair_goc_v3.json",
+      "stderr": ""
+    }
+  ],
+  "origin_visible_evidence_commit": "7c843e4f3b108632b221502ab3665e9b92c2824c",
+  "remote": "my-origin"
+}

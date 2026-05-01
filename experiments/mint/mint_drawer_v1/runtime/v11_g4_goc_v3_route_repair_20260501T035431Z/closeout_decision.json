@@ -1,7 +1,7 @@
 {
   "attempts_from_clean_committed_tree": true,
   "closeout_classification": "ROUTE_STILL_NO_GOC_V3_TARGET_CONTACT",
-  "committed": false,
+  "committed": true,
   "current_truth_modified": false,
   "diagnostic_seeds_used": [
     1,
@@ -20,6 +20,7 @@
   "min_legal_pad_to_handle_distance_m": 0.14244950509655877,
   "next_actions_modified": false,
   "next_gate": "ROUTE_CONTROLLER_AND_MODEL_INSTANCE_ID_BINDING_REPAIR",
+  "origin_visible_evidence_commit": "7c843e4f3b108632b221502ab3665e9b92c2824c",
   "prior_mv2_force_explained": true,
   "prior_mv2_max_force_pair": {
     "category": "other",
@@ -33,8 +34,8 @@
     "geom2_name": "link7_collision",
     "normal_force_n": 1784.6540649391907
   },
-  "pushed_to_origin": false,
-  "remote_commit_hash": null,
+  "pushed_to_origin": true,
+  "remote_commit_hash": "7c843e4f3b108632b221502ab3665e9b92c2824c",
   "root_cause_classification": "route_controller_does_not_reach_handle_and_fixed_geom_ids_are_model_instance_seed_unstable",
   "route_repair_spec_lock_bound": true,
   "route_repair_spec_written": true,

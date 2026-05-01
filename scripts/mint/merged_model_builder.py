@@ -59,6 +59,17 @@ BG_COLORS = {
     "neutral_lab_v2": np.array([0.88, 0.87, 0.85]),
 }
 
+# GOC-v4 candidate: collision-only fingertip pads mounted on the Panda
+# right_hand body. Robosuite's bundled Panda XML used here has no articulated
+# finger bodies, so these pads provide narrow, exact-ID contact patches without
+# changing handle/drawer geometry or disabling the existing robot-drawer
+# collision surfaces. They are appended after existing robot geoms, preserving
+# drawer IDs and the legacy GOC-v3 broad-link IDs as historical evidence.
+DEDICATED_FINGER_PAD_COLLISION_XML = """
+                                                <geom name="left_finger_pad_collision" type="box" size="0.012 0.004 0.018" pos="0.045 0.028 0.000" group="0" contype="1" conaffinity="1" condim="4" margin="0.003" solref="0.012 1" solimp="0.85 0.95 0.001" friction="1.2 0.02 0.002" rgba="0.1 0.7 0.9 0.45"/>
+                                                <geom name="right_finger_pad_collision" type="box" size="0.012 0.004 0.018" pos="0.045 -0.028 0.000" group="0" contype="1" conaffinity="1" condim="4" margin="0.003" solref="0.012 1" solimp="0.85 0.95 0.001" friction="1.2 0.02 0.002" rgba="0.1 0.7 0.9 0.45"/>
+""".rstrip()
+
 
 # ─────────────────────────────────────────────
 #  Helper: Euler → MuJoCo quaternion
@@ -292,6 +303,20 @@ class MergedModelBuilder:
 
         # Simplify mesh paths in robot XML (meshes/link0.stl → link0.stl)
         simplified = re.sub(r'file="meshes/([^"]+)"', r'file="\1"', robot_xml)
+
+        pad_marker = "<!-- to add gripper -->"
+        if DEDICATED_FINGER_PAD_COLLISION_XML not in simplified:
+            if pad_marker not in simplified:
+                raise RuntimeError(
+                    "Panda right_hand gripper insertion marker not found"
+                )
+            simplified = simplified.replace(
+                pad_marker,
+                DEDICATED_FINGER_PAD_COLLISION_XML
+                + "\n                                                "
+                + pad_marker,
+                1,
+            )
 
         robot_tree2 = ET.fromstring(simplified)
 

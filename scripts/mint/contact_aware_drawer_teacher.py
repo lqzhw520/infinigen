@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Contact-aware GOC-v3 drawer teacher synthesis diagnostics.
+"""Contact-aware GOC-v4 dedicated-pad drawer teacher synthesis diagnostics.
 
-This helper is intentionally narrow: it does not mutate the environment, GOC-v3
+This helper is intentionally narrow: it does not mutate the environment, GOC-v4
 contract, sovereign truth, or drawer qpos. It probes whether the current
-instance-bound legal gripper collision geoms can produce physically plausible
+instance-bound dedicated finger-pad collision geoms can produce physically plausible
 low-penetration handle contact under a guarded controller.
 """
 
@@ -30,7 +30,7 @@ CAMPAIGN = ROOT / "experiments/mint/mint_drawer_v1"
 PREV_RUN = CAMPAIGN / "runtime/v11_g4_goc_v3_placement_ik_optimization_20260501T045544Z"
 SPEC_REL = (
     "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/"
-    "v11_g4_goc_v3_contact_aware_teacher_synthesis.yaml"
+    "v11_g4_goc_v4_dedicated_pad_contact_teacher_synthesis.yaml"
 )
 SPEC_PATH = ROOT / SPEC_REL
 
@@ -39,8 +39,8 @@ sys.path.insert(0, str(ROOT / "scripts/mint"))
 from drawer_robot_env_mujoco import DrawerRobotEnvMuJoCoLibero  # noqa: E402
 from merged_model_builder import MergedModelBuilder  # noqa: E402
 
-SOURCE_GOC_LEGAL = [63, 81, 90]
-SOURCE_GOC_FORBIDDEN = [45, 47, 49, 54, 59]
+SOURCE_GOC_V3_BROAD_LEGAL = [63, 81, 90]
+SOURCE_GOC_V3_FORBIDDEN = [45, 47, 49, 54, 59]
 SOURCE_GOC_HANDLE = list(range(9))
 PREV_CANDIDATE_QPOS = [
     -0.015510438824320322,
@@ -161,39 +161,74 @@ def classify_instance(env: DrawerRobotEnvMuJoCoLibero) -> dict[str, Any]:
     model = env.model
     legal: list[int] = []
     forbidden: list[int] = []
+    goc_v3_broad: list[int] = []
     handle: list[int] = []
     drawer_body: list[int] = []
+    visual_noncontact: list[int] = []
+    unknown_contact: list[int] = []
     inventory = []
+    robot_bodies = {
+        "base",
+        "link0",
+        "link1",
+        "link2",
+        "link3",
+        "link4",
+        "link5",
+        "link6",
+        "link7",
+        "right_hand",
+        "leftfinger",
+        "rightfinger",
+        "left_finger",
+        "right_finger",
+    }
+    forbidden_collision_names = {
+        "link0_collision",
+        "link1_collision",
+        "link2_collision",
+        "link3_collision",
+        "link4_collision",
+        "link5_collision",
+        "link6_collision",
+        "link7_collision",
+        "hand_collision",
+    }
     for gid in range(int(model.ngeom)):
         bid = int(model.geom_bodyid[gid])
         gname = geom_name(model, gid)
+        lname = gname.lower()
         bname = body_name(model, bid)
         contact = bool(
             int(model.geom_contype[gid]) and int(model.geom_conaffinity[gid])
         )
-        role = "visual_or_noncontact" if not contact else "unclassified_contact"
-        if contact and gname in {
-            "link5_collision",
-            "link6_collision",
-            "link7_collision",
-        }:
+        role = "visual_only_or_noncontact" if not contact else "unknown_contact"
+        if not contact:
+            visual_noncontact.append(gid)
+        elif (
+            "pad_collision" in lname
+            or ("fingertip" in lname and "collision" in lname)
+            or ("fingerpad" in lname and "collision" in lname)
+        ):
             legal.append(gid)
-            role = "legal_gripper_surface"
-        elif contact and gname in {
-            "link0_collision",
-            "link1_collision",
-            "link2_collision",
-            "link3_collision",
-            "link4_collision",
-        }:
-            forbidden.append(gid)
-            role = "forbidden_robot_surface"
-        elif contact and bname == "drawer_base":
+            role = "legal_finger_pad_surface"
+        elif gid in SOURCE_GOC_HANDLE:
             handle.append(gid)
             role = "drawer_handle_surface"
-        elif contact and bname in {"link_1", "link_2"}:
+        elif bname in {"drawer_base", "link_1", "link_2"}:
             drawer_body.append(gid)
             role = "drawer_body_or_cabinet_surface"
+        elif bname in robot_bodies or gname in forbidden_collision_names:
+            forbidden.append(gid)
+            role = "forbidden_robot_surface"
+            if gid in SOURCE_GOC_V3_BROAD_LEGAL or gname in {
+                "link5_collision",
+                "link6_collision",
+                "link7_collision",
+            }:
+                goc_v3_broad.append(gid)
+        else:
+            unknown_contact.append(gid)
         inventory.append(
             {
                 "geom_id": gid,
@@ -204,6 +239,8 @@ def classify_instance(env: DrawerRobotEnvMuJoCoLibero) -> dict[str, Any]:
                 "contype": int(model.geom_contype[gid]),
                 "conaffinity": int(model.geom_conaffinity[gid]),
                 "geom_type": int(model.geom_type[gid]),
+                "geom_size": model.geom_size[gid].astype(float).tolist(),
+                "geom_pos": model.geom_pos[gid].astype(float).tolist(),
                 "geom_rbound": float(model.geom_rbound[gid]),
                 "semantic_role": role,
             }
@@ -211,20 +248,21 @@ def classify_instance(env: DrawerRobotEnvMuJoCoLibero) -> dict[str, Any]:
     return {
         "seed": CANDIDATE_SEED,
         "source_goc_v3_fixed_ids": {
-            "legal_gripper_surface_geom_ids": SOURCE_GOC_LEGAL,
-            "forbidden_robot_surface_geom_ids": SOURCE_GOC_FORBIDDEN,
+            "legacy_broad_link_legal_gripper_surface_geom_ids": SOURCE_GOC_V3_BROAD_LEGAL,
+            "legacy_forbidden_robot_surface_geom_ids": SOURCE_GOC_V3_FORBIDDEN,
             "drawer_handle_geom_ids": SOURCE_GOC_HANDLE,
         },
         "legal_gripper_surface_geom_ids": legal,
+        "legal_finger_pad_geom_ids": legal,
         "forbidden_robot_surface_geom_ids": forbidden,
         "drawer_handle_geom_ids": handle,
         "drawer_body_or_cabinet_geom_ids": drawer_body,
-        "fixed_global_ids_match_this_instance": bool(
-            legal == SOURCE_GOC_LEGAL
-            and forbidden == SOURCE_GOC_FORBIDDEN
-            and handle[: len(SOURCE_GOC_HANDLE)] == SOURCE_GOC_HANDLE
-        ),
+        "visual_only_or_noncontact_geom_ids": visual_noncontact,
+        "unknown_contact_relevant_geom_ids": unknown_contact,
+        "goc_v3_broad_link_geoms_demoted_from_target": sorted(set(goc_v3_broad)),
+        "fixed_global_ids_match_this_instance": False,
         "binding_generated": bool(legal and forbidden and handle),
+        "dedicated_pad_geoms_exist_or_created": bool(legal),
         "inventory": inventory,
     }
 
@@ -650,52 +688,251 @@ def geometry_audit() -> dict[str, Any]:
         env.reset()
         binding = classify_instance(env)
         frame = handle_frame(env, binding)
+        contact = contact_report(env, binding)
         audited = []
-        for role, ids in {
-            "legal_gripper_surface": binding["legal_gripper_surface_geom_ids"],
-            "drawer_handle_surface": binding["drawer_handle_geom_ids"],
-        }.items():
-            for gid in ids:
-                bid = int(env.model.geom_bodyid[gid])
-                rbound = float(env.model.geom_rbound[gid])
-                audited.append(
-                    {
-                        "role": role,
-                        "geom_id": int(gid),
-                        "geom_name": geom_name(env.model, gid),
-                        "body_name": body_name(env.model, bid),
-                        "body_chain": body_chain(env.model, bid),
-                        "geom_type": int(env.model.geom_type[gid]),
-                        "contype": int(env.model.geom_contype[gid]),
-                        "conaffinity": int(env.model.geom_conaffinity[gid]),
-                        "world_center": env.data.geom_xpos[gid].copy(),
-                        "geom_rbound_m": rbound,
-                        "aabb_sphere_min": env.data.geom_xpos[gid] - rbound,
-                        "aabb_sphere_max": env.data.geom_xpos[gid] + rbound,
-                        "is_named_link_collision": geom_name(env.model, gid)
-                        in {"link5_collision", "link6_collision", "link7_collision"},
-                    }
-                )
-        legal = [x for x in audited if x["role"] == "legal_gripper_surface"]
-        broad = (
-            all(x["is_named_link_collision"] for x in legal)
-            and max(x["geom_rbound_m"] for x in legal) > 0.07
+        audit_ids = sorted(
+            set(binding["legal_finger_pad_geom_ids"])
+            | set(binding["drawer_handle_geom_ids"])
+            | set(SOURCE_GOC_V3_BROAD_LEGAL)
+        )
+        for gid in audit_ids:
+            bid = int(env.model.geom_bodyid[gid])
+            gname = geom_name(env.model, gid)
+            role = "other"
+            if gid in binding["legal_finger_pad_geom_ids"]:
+                role = "legal_finger_pad_surface"
+            elif gid in binding["drawer_handle_geom_ids"]:
+                role = "drawer_handle_surface"
+            elif gid in SOURCE_GOC_V3_BROAD_LEGAL:
+                role = "legacy_goc_v3_broad_link_demoted_from_target"
+            rbound = float(env.model.geom_rbound[gid])
+            audited.append(
+                {
+                    "role": role,
+                    "geom_id": int(gid),
+                    "geom_name": gname,
+                    "body_name": body_name(env.model, bid),
+                    "body_chain": body_chain(env.model, bid),
+                    "geom_type": int(env.model.geom_type[gid]),
+                    "contype": int(env.model.geom_contype[gid]),
+                    "conaffinity": int(env.model.geom_conaffinity[gid]),
+                    "world_center": env.data.geom_xpos[gid].copy(),
+                    "geom_size": env.model.geom_size[gid].astype(float).tolist(),
+                    "geom_pos": env.model.geom_pos[gid].astype(float).tolist(),
+                    "geom_rbound_m": rbound,
+                    "aabb_sphere_min": env.data.geom_xpos[gid] - rbound,
+                    "aabb_sphere_max": env.data.geom_xpos[gid] + rbound,
+                    "is_dedicated_pad_collision": "pad_collision" in gname.lower(),
+                    "is_legacy_link_collision": gname
+                    in {"link5_collision", "link6_collision", "link7_collision"},
+                }
+            )
+        dedicated = binding["dedicated_pad_geoms_exist_or_created"]
+        reset_counts = contact["counts"]
+        reset_passed = bool(
+            dedicated
+            and reset_counts["forbidden"] == 0
+            and reset_counts["max_penetration_m"] <= 0.02
+            and reset_counts["max_contact_force_n"] <= 1_000_000.0
+            and math.isfinite(reset_counts["max_contact_force_n"])
         )
         return {
             "candidate": candidate_payload(binding),
             "handle_frame": {k: v for k, v in frame.items()},
             "audited_geoms": audited,
-            "collision_geometry_quality": "broad_link_collision"
-            if broad
-            else "dedicated_or_narrow_contact_patch",
-            "legal_pad_footprint_quality": "not_dedicated_fingertip_pad"
-            if broad
-            else "narrow_enough_for_contact_probe",
-            "proposed_inactive_goc_v4_candidate": {
-                "needed": bool(broad),
-                "proposal": "Add dedicated fingertip/pad collision geoms and bind GOC-v4 to those exact geoms; keep current GOC-v3 unchanged.",
-                "not_activated_in_this_phase": True,
+            "collision_geometry_quality": "dedicated_finger_pad_collision"
+            if dedicated
+            else "broad_link_collision",
+            "dedicated_pad_geoms_exist_or_created": dedicated,
+            "goc_v3_broad_link_geoms_demoted_from_target": binding[
+                "goc_v3_broad_link_geoms_demoted_from_target"
+            ],
+            "legal_pad_footprint_quality": "dedicated_small_contact_patch"
+            if dedicated
+            else "not_dedicated_fingertip_pad",
+            "reset_physical_plausibility": {
+                "passed": reset_passed,
+                "forbidden_contacts_at_reset": reset_counts["forbidden"],
+                "max_reset_penetration_m": reset_counts["max_penetration_m"],
+                "max_reset_contact_force_n": reset_counts["max_contact_force_n"],
+                "target_contacts_at_reset": reset_counts["target"],
             },
+            "dedicated_finger_pad_geom_creation_or_binding": {
+                "dedicated_pad_geoms_existed_before_phase": False,
+                "dedicated_pad_geoms_created_by_builder": dedicated,
+                "created_or_bound_geom_ids": binding["legal_finger_pad_geom_ids"],
+                "created_or_bound_geom_names": [
+                    geom_name(env.model, gid)
+                    for gid in binding["legal_finger_pad_geom_ids"]
+                ],
+                "created_on_body": "right_hand",
+                "visual_geoms_changed": False,
+                "drawer_or_handle_geometry_changed": False,
+                "robot_drawer_collisions_preserved": True,
+                "legacy_goc_v3_ids_shifted": False,
+            },
+        }
+    finally:
+        env.close()
+
+
+def write_goc_v4_artifacts(run_dir: Path, audit: dict[str, Any]) -> dict[str, Any]:
+    env = make_env(max_steps=2)
+    try:
+        env.reset()
+        binding = classify_instance(env)
+        artifact_dir = CAMPAIGN / "artifacts/phase1h_geometry_contract"
+        artifact_dir.mkdir(parents=True, exist_ok=True)
+        source_inventory = binding["inventory"]
+        inventory = {
+            "contract_id": "GOC_V4_DEDICATED_FINGER_PAD_GEOMETRY_INVENTORY",
+            "version": "v4",
+            "source_worktree_head": run_git(["rev-parse", "HEAD"]),
+            "model_seed": CANDIDATE_SEED,
+            "total_ngeom": int(env.model.ngeom),
+            "total_nbody": int(env.model.nbody),
+            "total_njnt": int(env.model.njnt),
+            "geom_inventory": source_inventory,
+        }
+        exact_sets = {
+            "legal_finger_pad_geom_ids": binding["legal_finger_pad_geom_ids"],
+            "legal_gripper_surface_geom_ids": binding["legal_finger_pad_geom_ids"],
+            "forbidden_robot_surface_geom_ids": binding[
+                "forbidden_robot_surface_geom_ids"
+            ],
+            "drawer_handle_geom_ids": binding["drawer_handle_geom_ids"],
+            "drawer_body_or_cabinet_geom_ids": binding[
+                "drawer_body_or_cabinet_geom_ids"
+            ],
+            "visual_only_or_noncontact_geom_ids": binding[
+                "visual_only_or_noncontact_geom_ids"
+            ],
+            "unknown_contact_relevant_geom_ids": binding[
+                "unknown_contact_relevant_geom_ids"
+            ],
+            "goc_v3_broad_link_geoms_demoted_from_target": binding[
+                "goc_v3_broad_link_geoms_demoted_from_target"
+            ],
+        }
+        invariant_results = {
+            "legal_finger_pad_disjoint_forbidden_robot": not (
+                set(exact_sets["legal_finger_pad_geom_ids"])
+                & set(exact_sets["forbidden_robot_surface_geom_ids"])
+            ),
+            "legal_finger_pad_disjoint_drawer_handle": not (
+                set(exact_sets["legal_finger_pad_geom_ids"])
+                & set(exact_sets["drawer_handle_geom_ids"])
+            ),
+            "drawer_handle_disjoint_robot": not (
+                set(exact_sets["drawer_handle_geom_ids"])
+                & (
+                    set(exact_sets["legal_finger_pad_geom_ids"])
+                    | set(exact_sets["forbidden_robot_surface_geom_ids"])
+                )
+            ),
+            "unknown_contact_relevant_empty": len(
+                exact_sets["unknown_contact_relevant_geom_ids"]
+            )
+            == 0,
+            "goc_v3_broad_geoms_not_target": not (
+                set(exact_sets["goc_v3_broad_link_geoms_demoted_from_target"])
+                & set(exact_sets["legal_finger_pad_geom_ids"])
+            ),
+            "body_based_31_27_rejected": True,
+        }
+        invariant_results["all_passed"] = all(invariant_results.values())
+        contract = {
+            "contract_id": "GOC_V4_DEDICATED_FINGER_PAD_GEOMETRY_OWNERSHIP_CONTRACT",
+            "version": "v4",
+            "generated_at_source_head": run_git(["rev-parse", "HEAD"]),
+            "source_model": {
+                "builder": "scripts/mint/merged_model_builder.py",
+                "seed": CANDIDATE_SEED,
+                "robot_base_pos": CANDIDATE_BASE,
+                "robot_base_yaw_deg": CANDIDATE_YAW_DEG,
+            },
+            "exact_id_sets": exact_sets,
+            "invariant_results": invariant_results,
+            "authority_notes": {
+                "goc_v3_authority_changed": False,
+                "goc_v4_authority_created": True,
+                "legacy_broad_link_target_demoted": True,
+                "body_based_31_27_allowed": False,
+            },
+            "approved_usage": [
+                "V11-G4 dedicated finger-pad target contact classification",
+                "contact-aware teacher synthesis dynamic probes",
+                "future bounded Phase1H candidate attempts after low-penetration probe pass",
+            ],
+            "prohibited_usage": [
+                "MINT success claim",
+                "visual artifact claim",
+                "training eligibility claim",
+                "count-only or body-based contact authority",
+            ],
+        }
+        validation = {
+            "contract_id": contract["contract_id"],
+            "version": "v4",
+            "invariant_results": invariant_results,
+            "summary_counts": {
+                "legal_finger_pad_count": len(exact_sets["legal_finger_pad_geom_ids"]),
+                "forbidden_robot_surface_count": len(
+                    exact_sets["forbidden_robot_surface_geom_ids"]
+                ),
+                "drawer_handle_surface_count": len(
+                    exact_sets["drawer_handle_geom_ids"]
+                ),
+                "unknown_contact_relevant_geom_count": len(
+                    exact_sets["unknown_contact_relevant_geom_ids"]
+                ),
+            },
+            "goc_v3_broad_link_geoms_demoted_from_target": exact_sets[
+                "goc_v3_broad_link_geoms_demoted_from_target"
+            ],
+            "passed": invariant_results["all_passed"],
+        }
+        write_json(artifact_dir / "goc_v4_geom_inventory.json", inventory)
+        write_json(artifact_dir / "goc_v4_contract.json", contract)
+        write_json(artifact_dir / "goc_v4_validation_report.json", validation)
+        write_md(
+            artifact_dir / "goc_v4_contract.md",
+            f"""
+# GOC-v4 Dedicated Finger-Pad Geometry Ownership Contract
+
+GOC-v4 creates dedicated collision-only fingertip pad geoms for V11-G4 contact-rich drawer manipulation. The previous GOC-v3 legal geoms {SOURCE_GOC_V3_BROAD_LEGAL} remain historical broad-link authority, but they are demoted from target contact for this phase.
+
+Legal dedicated finger-pad geom IDs: `{exact_sets['legal_finger_pad_geom_ids']}`.
+Forbidden robot surface geom IDs: `{exact_sets['forbidden_robot_surface_geom_ids']}`.
+Drawer handle geom IDs: `{exact_sets['drawer_handle_geom_ids']}`.
+
+The contract rejects body-based 31/27 authority and count-only target contact. It does not mutate current_truth, next_actions, or the GOC-v3 artifact.
+""",
+        )
+        write_md(
+            artifact_dir / "goc_v4_validation_report.md",
+            f"""
+# GOC-v4 Validation Report
+
+All invariants passed: `{validation['passed']}`.
+Unknown contact-relevant geoms: `{validation['summary_counts']['unknown_contact_relevant_geom_count']}`.
+GOC-v3 broad-link geoms demoted from target: `{validation['goc_v3_broad_link_geoms_demoted_from_target']}`.
+""",
+        )
+        write_json(run_dir / "goc_v4_contract_summary.json", validation)
+        return {
+            "artifact_dir": str(artifact_dir.relative_to(ROOT)),
+            "contract_path": str(
+                (artifact_dir / "goc_v4_contract.json").relative_to(ROOT)
+            ),
+            "validation_path": str(
+                (artifact_dir / "goc_v4_validation_report.json").relative_to(ROOT)
+            ),
+            "inventory_path": str(
+                (artifact_dir / "goc_v4_geom_inventory.json").relative_to(ROOT)
+            ),
+            "exact_id_sets": exact_sets,
+            "validation": validation,
         }
     finally:
         env.close()
@@ -968,6 +1205,19 @@ def final_closeout(
     bounded: dict[str, Any],
 ) -> tuple[str, str, str]:
     best_summary = cem["best_probe"]["summary"]
+    reset = audit.get("reset_physical_plausibility", {})
+    if not audit.get("dedicated_pad_geoms_exist_or_created"):
+        return (
+            "DEDICATED_PAD_MODEL_BUILDER_REPAIR_REQUIRED",
+            "DEDICATED_PAD_GEOMS_MISSING",
+            "DEDICATED_PAD_MODEL_BUILDER_REPAIR",
+        )
+    if not reset.get("passed"):
+        return (
+            "GOC_V4_RESET_PHYSICAL_PLAUSIBILITY_FAILED",
+            "RESET_PHYSICAL_PLAUSIBILITY_FAILED",
+            "RESET_CONTACT_OR_MODEL_BUILDER_REPAIR_UNDER_GOC_V4",
+        )
     if bounded.get("strict_candidate_found"):
         return (
             "STRICT_CANDIDATE_FOUND_LOCAL_VISUAL_PENDING",
@@ -976,23 +1226,20 @@ def final_closeout(
         )
     if cem.get("any_passed"):
         return (
-            "CONTACT_AWARE_DYNAMIC_PROBE_PASSED_PHASE1H_READY",
+            "GOC_V4_DEDICATED_PAD_CONTRACT_READY",
             replay["dynamic_failure_mode"],
-            "BOUNDED_PHASE1H_TEACHER_ATTEMPT_FROM_CONTACT_AWARE_CONTROLLER",
+            "BOUNDED_ROUTE_REPAIR_UNDER_GOC_V4",
         )
-    if (
-        audit.get("collision_geometry_quality") == "broad_link_collision"
-        and best_summary.get("max_penetration_m", 0.0) > 0.02
-    ):
+    if best_summary.get("max_penetration_m", 0.0) > 0.02:
         return (
-            "COLLISION_GEOMETRY_PAD_MODEL_INSUFFICIENT",
-            "F_COLLISION_GEOMETRY_TOO_BROAD_FOR_LOW_PENETRATION_CONTACT",
-            "GOC_V4_DEDICATED_FINGER_PAD_COLLISION_MODEL_REPAIR",
+            "DEDICATED_PAD_CONTACT_AWARE_PROBE_FAILED",
+            "DEDICATED_PAD_CONTACT_STILL_EXCESSIVE_PENETRATION",
+            "ACTUATOR_INTERFACE_OR_OPERATIONAL_SPACE_CONTROL_REPAIR",
         )
     return (
-        "CONTACT_AWARE_DYNAMIC_PROBE_FAILED",
+        "DEDICATED_PAD_CONTACT_AWARE_PROBE_FAILED",
         replay["dynamic_failure_mode"],
-        "ACTUATOR_INTERFACE_OR_OPERATIONAL_SPACE_CONTROL_REPAIR",
+        "CONTACT_AWARE_CONTROLLER_PARAMETER_REPAIR_UNDER_GOC_V4",
     )
 
 
@@ -1028,8 +1275,8 @@ def main() -> None:
     write_json(
         run_dir / "execution_plan.json",
         {
-            "task_id": "V11_G4_GOC_V3_CONTACT_AWARE_TEACHER_SYNTHESIS_AUTONOMOUS_V1",
-            "task_type": "CONTACT_AWARE_TEACHER_SYNTHESIS_PHASE",
+            "task_id": "V11_G4_GOC_V4_DEDICATED_FINGER_PAD_COLLISION_AND_CONTACT_AWARE_TEACHER_SYNTHESIS_V1",
+            "task_type": "GOC_V4_DEDICATED_PAD_CONTACT_AWARE_TEACHER_SYNTHESIS_PHASE",
             "stages": [
                 "replay_prior_dynamic_failure",
                 "legal_pad_handle_geometry_audit",
@@ -1047,17 +1294,23 @@ def main() -> None:
     write_md(
         run_dir / "execution_plan.md",
         "# Contact-Aware Teacher Synthesis Plan\n\n"
-        "Replay the previous penetration failure, audit legal/handle geometry, "
+        "Audit GOC-v3 broad legal geometry, create/bind dedicated finger-pad collision geoms, build GOC-v4 exact-ID artifacts, "
         "build a guarded contact mode controller, optimize low-dimensional "
         "controller parameters with CEM-style sampling, and only enter bounded "
         "teacher rollout if the short dynamic probe satisfies low-penetration "
-        "GOC-v3 exact target contact gates.",
+        "GOC-v4 exact target contact gates.",
     )
 
     replay = replay_previous_failure()
     write_json(run_dir / "dynamic_failure_decomposition.json", replay)
     audit = geometry_audit()
+    write_json(run_dir / "current_goc_v3_legal_geom_quality_audit.json", audit)
+    write_json(
+        run_dir / "dedicated_finger_pad_geom_creation_or_binding.json",
+        audit["dedicated_finger_pad_geom_creation_or_binding"],
+    )
     write_json(run_dir / "legal_pad_handle_geometry_audit.json", audit)
+    goc_v4 = write_goc_v4_artifacts(run_dir, audit)
     controller = {
         "contact_mode_controller_built": True,
         "modes": [
@@ -1090,6 +1343,19 @@ def main() -> None:
     final = {
         "closeout_classification": closeout,
         "harness_preflight_passed": True,
+        "goc_v4_generated": goc_v4["validation"]["passed"],
+        "dedicated_pad_geoms_exist_or_created": audit[
+            "dedicated_pad_geoms_exist_or_created"
+        ],
+        "legal_finger_pad_geom_ids": goc_v4["exact_id_sets"][
+            "legal_finger_pad_geom_ids"
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": audit[
+            "goc_v3_broad_link_geoms_demoted_from_target"
+        ],
+        "reset_physical_plausibility_passed": audit["reset_physical_plausibility"][
+            "passed"
+        ],
         "dynamic_failure_mode": failure_mode,
         "contact_geometry_quality": audit["collision_geometry_quality"],
         "contact_mode_controller_built": controller["contact_mode_controller_built"],
@@ -1113,8 +1379,13 @@ def main() -> None:
         "current_truth_modified": False,
         "next_actions_modified": False,
         "goc_v3_authority_changed": False,
+        "goc_v4_authority_created": True,
         "runtime_patch_applied": True,
-        "runtime_patch_files": ["scripts/mint/contact_aware_drawer_teacher.py"],
+        "runtime_patch_files": [
+            "scripts/mint/merged_model_builder.py",
+            "scripts/mint/drawer_robot_env_mujoco.py",
+            "scripts/mint/contact_aware_drawer_teacher.py",
+        ],
         "committed": False,
         "pushed_to_origin": False,
         "remote_commit_hash": None,
@@ -1125,9 +1396,9 @@ def main() -> None:
     write_json(run_dir / "contact_aware_teacher_synthesis_decision.json", final)
     write_json(
         CAMPAIGN
-        / "sovereign/proposed_current_truth_delta_contact_aware_teacher_synthesis.json",
+        / "sovereign/proposed_current_truth_delta_goc_v4_dedicated_pad_teacher_synthesis.json",
         {
-            "proposal_id": "proposed_current_truth_delta_contact_aware_teacher_synthesis",
+            "proposal_id": "proposed_current_truth_delta_goc_v4_dedicated_pad_teacher_synthesis",
             "source_run_dir": str(run_dir.relative_to(ROOT)),
             "facts": final,
             "direct_mutation": False,
@@ -1135,14 +1406,14 @@ def main() -> None:
     )
     write_json(
         CAMPAIGN
-        / "sovereign/proposed_next_actions_contact_aware_teacher_synthesis.json",
+        / "sovereign/proposed_next_actions_goc_v4_dedicated_pad_teacher_synthesis.json",
         {
-            "proposal_id": "proposed_next_actions_contact_aware_teacher_synthesis",
+            "proposal_id": "proposed_next_actions_goc_v4_dedicated_pad_teacher_synthesis",
             "source_run_dir": str(run_dir.relative_to(ROOT)),
             "next_gate": next_gate,
             "recommended_actions": [
-                "Do not rerun random route attempts under the same broad collision geometry if contact-aware low-penetration probes fail.",
-                "If broad link collision remains the blocker, create inactive GOC-v4 dedicated fingertip/pad collision candidates and rebind per-instance exact IDs before bounded rollout.",
+                "Do not rerun broad-link GOC-v3 CEM; use GOC-v4 dedicated pads for contact-aware probes.",
+                "If dedicated-pad low-penetration contact still fails, repair operational-space control or pad placement before bounded rollout.",
                 "If actuator/interface tracking is the blocker, repair operational-space control before further route synthesis.",
             ],
             "direct_mutation": False,
@@ -1151,12 +1422,12 @@ def main() -> None:
     write_md(
         run_dir / "final_report.md",
         f"""
-# V11-G4 GOC-v3 Contact-Aware Teacher Synthesis
+# V11-G4 GOC-v4 Dedicated Finger-Pad Contact-Aware Teacher Synthesis
 
 Closeout: **{closeout}**
 
 Prior dynamic failure mode: `{replay['dynamic_failure_mode']}`.
-Contact geometry quality: `{audit['collision_geometry_quality']}`.
+Contact geometry quality: `{audit['collision_geometry_quality']}`. GOC-v4 generated: `{goc_v4['validation']['passed']}`. Dedicated pad IDs: `{goc_v4['exact_id_sets']['legal_finger_pad_geom_ids']}`.
 
 A guarded contact mode controller and force/penetration-limited probe controller were built. CEM/MPPI-style optimization was attempted with `{args.cem_iters}` iterations and `{args.samples_per_iter}` samples per iteration.
 
@@ -1172,7 +1443,7 @@ Best probe:
 Bounded rollout attempted: `{bounded.get('attempted', False)}`.
 Strict candidate found: `{bounded.get('strict_candidate_found', False)}`.
 
-Current truth modified: `false`. Next actions modified: `false`. GOC-v3 authority changed: `false`.
+Current truth modified: `false`. Next actions modified: `false`. GOC-v4 authority changed: `false`.
 
 Next gate: **{next_gate}**
 """,

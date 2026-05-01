@@ -1,0 +1,47 @@
+{
+  "direct_mutation": false,
+  "facts": {
+    "best_eef_to_handle_m": 0.07294095148188356,
+    "best_legal_pad_to_handle_m": 0.008297469558785105,
+    "best_reset_contact_counts": {
+      "forbidden": 0,
+      "handle_nonlegal": 0,
+      "max_contact_force_n": 0.0,
+      "max_penetration_m": 0.0,
+      "other": 0,
+      "target": 0
+    },
+    "best_reset_ok": true,
+    "bounded_rollout_attempted": false,
+    "closeout_classification": "PLACEMENT_IK_DYNAMIC_CONTACT_PROBE_FAILED",
+    "continuous_optimization_attempted": true,
+    "current_truth_modified": false,
+    "dynamic_contact_probe_attempted": true,
+    "dynamic_contact_probe_passed": false,
+    "exact_instance_goc_target_contact": true,
+    "fixed_goc_ids_seed_stable": false,
+    "forbidden_contact_any": false,
+    "harness_preflight_passed": true,
+    "instance_bindings_used": true,
+    "joint_feasible_candidate_count": 1,
+    "joint_feasible_candidate_found": true,
+    "next_actions_modified": false,
+    "next_gate": "FINGER_PAD_DYNAMIC_ROUTE_POLICY_REPAIR",
+    "placement_qpos_candidates_evaluated": 720,
+    "prior_best_row_reset_contact_counts": {
+      "forbidden": 29,
+      "handle_nonlegal": 0,
+      "max_contact_force_n": 3.6419876285087264e+17,
+      "max_penetration_m": 0.34626260236300876,
+      "other": 6,
+      "target": 9
+    },
+    "prior_best_row_reset_ok": false,
+    "reset_ok_candidate_count": 720,
+    "runtime_patch_applied": false,
+    "runtime_patch_files": [],
+    "strict_candidate_found": false
+  },
+  "proposal_id": "proposed_current_truth_delta_placement_ik_optimization",
+  "source_run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_placement_ik_optimization_20260501T045544Z"
+}

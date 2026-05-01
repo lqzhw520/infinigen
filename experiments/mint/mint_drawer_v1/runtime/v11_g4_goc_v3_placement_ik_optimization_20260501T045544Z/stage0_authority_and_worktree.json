@@ -1,0 +1,191 @@
+{
+  "harness_preflight_passed": true,
+  "head": "5a67f2019850dbe9143952bfa2a2cb2c6474b1c7",
+  "prior_best_row_audit": {
+    "audit_id": "instance_bound_best_row_gate_audit",
+    "best_reset_ok_rows": [
+      {
+        "base_pos": [
+          -0.9,
+          0.0,
+          0.0
+        ],
+        "eef_to_handle_ik_m": 0.06913400377078166,
+        "legal_pad_to_handle_ik_m": 0.01029925241170024,
+        "reset_contact_counts": {
+          "forbidden": 0,
+          "handle_nonlegal": 0,
+          "max_contact_force_n": 0.0,
+          "max_penetration_m": 0.0,
+          "other": 0,
+          "target": 0
+        },
+        "seed": 13,
+        "yaw_deg": 0.0
+      },
+      {
+        "base_pos": [
+          -0.7,
+          0.0,
+          0.0
+        ],
+        "eef_to_handle_ik_m": 0.12805708302979807,
+        "legal_pad_to_handle_ik_m": 0.02442231542493298,
+        "reset_contact_counts": {
+          "forbidden": 0,
+          "handle_nonlegal": 0,
+          "max_contact_force_n": 102.65653481257763,
+          "max_penetration_m": 0.01608360389975169,
+          "other": 0,
+          "target": 8
+        },
+        "seed": 12,
+        "yaw_deg": 0.0
+      },
+      {
+        "base_pos": [
+          -0.7,
+          -0.12,
+          0.0
+        ],
+        "eef_to_handle_ik_m": 0.1286829291311801,
+        "legal_pad_to_handle_ik_m": 0.024805399977035725,
+        "reset_contact_counts": {
+          "forbidden": 0,
+          "handle_nonlegal": 0,
+          "max_contact_force_n": 102.65653481257692,
+          "max_penetration_m": 0.01608360389975169,
+          "other": 0,
+          "target": 9
+        },
+        "seed": 12,
+        "yaw_deg": 0.0
+      },
+      {
+        "base_pos": [
+          -0.7,
+          0.12,
+          0.0
+        ],
+        "eef_to_handle_ik_m": 0.12868347857800438,
+        "legal_pad_to_handle_ik_m": 0.024807981868628596,
+        "reset_contact_counts": {
+          "forbidden": 0,
+          "handle_nonlegal": 0,
+          "max_contact_force_n": 102.65653481257573,
+          "max_penetration_m": 0.01608360389975169,
+          "other": 0,
+          "target": 8
+        },
+        "seed": 12,
+        "yaw_deg": 0.0
+      },
+      {
+        "base_pos": [
+          -0.9,
+          0.0,
+          0.0
+        ],
+        "eef_to_handle_ik_m": 0.09436079714059495,
+        "legal_pad_to_handle_ik_m": 0.024916867237160543,
+        "reset_contact_counts": {
+          "forbidden": 0,
+          "handle_nonlegal": 0,
+          "max_contact_force_n": 0.0,
+          "max_penetration_m": 0.0,
+          "other": 0,
+          "target": 0
+        },
+        "seed": 12,
+        "yaw_deg": 0.0
+      }
+    ],
+    "best_row": {
+      "base_pos": [
+        -0.3,
+        -0.12,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39
+        ],
+        "drawer_handle_geom_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          52,
+          54,
+          56,
+          61,
+          66
+        ],
+        "legal_gripper_surface_geom_ids": [
+          70,
+          88,
+          97
+        ]
+      },
+      "eef_to_handle_ik_m": 0.027836743078149474,
+      "legal_pad_to_handle_ik_m": 0.008132436607010393,
+      "reset_contact_counts": {
+        "forbidden": 29,
+        "handle_nonlegal": 0,
+        "max_contact_force_n": 3.6419876285087264e+17,
+        "max_penetration_m": 0.34626260236300876,
+        "other": 6,
+        "target": 9
+      },
+      "reset_ok": false,
+      "seed": 13,
+      "yaw_deg": 0.0
+    },
+    "feasible_base_candidate_found_recomputed": false,
+    "feasible_rows_count_recomputed": 0,
+    "interpretation": "best IK row fails reset_ok; no script gate bug. Stronger statement: IK closeness and reset clearance were not jointly feasible under searched base/yaw grid.",
+    "source_head_current": "1cbde4591e5326dcfb961e4355df3af8f047442a",
+    "source_run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_instance_bound_route_synthesis_20260501T042940Z"
+  },
+  "status_short": [
+    "M .project-memory/STATUS.md",
+    " M .session/checkpoint.md"
+  ]
+}

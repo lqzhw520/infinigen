@@ -1,0 +1,152 @@
+{
+  "dynamic_failure_reason": "joint-feasible IK candidate produced exact GOC-v3 target contact but short dynamic probe exceeded penetration threshold",
+  "dynamic_probe": {
+    "forbidden_contact_frame_count": 0,
+    "max_contact_force_n": 302624.86704762443,
+    "max_penetration_m": 0.31483595862277625,
+    "passed": false,
+    "target_contact_frame_count": 103,
+    "target_pair_examples": [
+      {
+        "dist_m": -0.22894477225372642,
+        "geom1": 0,
+        "geom1_body": "drawer_base",
+        "geom1_name": "",
+        "geom2": 70,
+        "geom2_body": "link5",
+        "geom2_name": "link5_collision",
+        "normal_force_n": 296534.88329579454
+      },
+      {
+        "dist_m": -0.18488049255073924,
+        "geom1": 1,
+        "geom1_body": "drawer_base",
+        "geom1_name": "",
+        "geom2": 70,
+        "geom2_body": "link5",
+        "geom2_name": "link5_collision",
+        "normal_force_n": 240549.32526104513
+      },
+      {
+        "dist_m": -0.22894477225372642,
+        "geom1": 2,
+        "geom1_body": "drawer_base",
+        "geom1_name": "",
+        "geom2": 70,
+        "geom2_body": "link5",
+        "geom2_name": "link5_collision",
+        "normal_force_n": 296534.8832957946
+      },
+      {
+        "dist_m": -0.01196162008437779,
+        "geom1": 4,
+        "geom1_body": "drawer_base",
+        "geom1_name": "",
+        "geom2": 70,
+        "geom2_body": "link5",
+        "geom2_name": "link5_collision",
+        "normal_force_n": 85592.55970215616
+      },
+      {
+        "dist_m": -0.18488049255073924,
+        "geom1": 7,
+        "geom1_body": "drawer_base",
+        "geom1_name": "",
+        "geom2": 70,
+        "geom2_body": "link5",
+        "geom2_name": "link5_collision",
+        "normal_force_n": 240549.32526104513
+      },
+      {
+        "dist_m": -0.29088775105130305,
+        "geom1": 0,
+        "geom1_body": "drawer_base",
+        "geom1_name": "",
+        "geom2": 88,
+        "geom2_body": "link6",
+        "geom2_name": "link6_collision",
+        "normal_force_n": 195963.74566069845
+      }
+    ]
+  },
+  "interpretation": "The previous best-row ambiguity is resolved: prior best row reset_ok=false. Continuous/local search found one reset-clean IK-feasible candidate, so the blocker moved from joint reachability to dynamic contact/route policy. Bounded rollout remains prohibited because penetration exceeds 0.02 m.",
+  "joint_candidate": {
+    "base_pos": [
+      -0.875,
+      0.05,
+      0.0
+    ],
+    "binding": {
+      "drawer_body_or_cabinet_geom_ids": [
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39
+      ],
+      "drawer_handle_geom_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "forbidden_robot_surface_geom_ids": [
+        52,
+        54,
+        56,
+        61,
+        66
+      ],
+      "legal_gripper_surface_geom_ids": [
+        70,
+        88,
+        97
+      ]
+    },
+    "eef_to_handle_ik_m": 0.03989097505439188,
+    "legal_pad_to_handle_ik_m": 0.022194251967419466,
+    "qpos_index": 4,
+    "reset_contact_counts": {
+      "forbidden": 0,
+      "handle_nonlegal": 0,
+      "max_contact_force_n": 0.0,
+      "max_penetration_m": 0.0,
+      "other": 0,
+      "target": 0
+    },
+    "seed": 13,
+    "yaw_deg": -10.0
+  },
+  "joint_candidate_count": 1
+}

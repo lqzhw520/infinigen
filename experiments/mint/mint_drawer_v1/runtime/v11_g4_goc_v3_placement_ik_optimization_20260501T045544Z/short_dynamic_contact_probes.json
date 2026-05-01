@@ -1,0 +1,520 @@
+{
+  "attempted": true,
+  "items": [
+    {
+      "candidate": {
+        "base_pos": [
+          -0.875,
+          0.05,
+          0.0
+        ],
+        "binding": {
+          "drawer_body_or_cabinet_geom_ids": [
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            24,
+            25,
+            26,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            38,
+            39
+          ],
+          "drawer_handle_geom_ids": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ],
+          "forbidden_robot_surface_geom_ids": [
+            52,
+            54,
+            56,
+            61,
+            66
+          ],
+          "legal_gripper_surface_geom_ids": [
+            70,
+            88,
+            97
+          ]
+        },
+        "eef_to_handle_ik_m": 0.03989097505439188,
+        "final_joint_margin": 0.40981407878616594,
+        "ik": {
+          "distance": {
+            "eef_pos": [
+              -0.036146074031826146,
+              0.0033097624740839465,
+              0.25044023374087876
+            ],
+            "handle_center": [
+              -0.04621252293383333,
+              -9.25185853854297e-18,
+              0.37261394411325005
+            ],
+            "legal_centroid": [
+              -0.1386834820977881,
+              -0.03208165674305693,
+              0.3091792868676803
+            ],
+            "min_eef_to_handle_m": 0.03989097505439188,
+            "min_handle_geom_id": 7,
+            "min_legal_pad_geom_id": 70,
+            "min_legal_pad_to_handle_m": 0.022194251967419466
+          },
+          "final_joint_margin": 0.40981407878616594,
+          "final_robot_qpos": [
+            -0.015510438824320322,
+            1.352985921213834,
+            0.30041682996635577,
+            -0.5021432980388317,
+            0.846634167393299,
+            2.152104071538119,
+            -0.9786610857048721
+          ],
+          "target": [
+            6.483071674953555e-18,
+            0.0,
+            0.2669870369137277
+          ],
+          "target_index": 7
+        },
+        "legal_pad_to_handle_ik_m": 0.022194251967419466,
+        "passes_joint_feasibility_gate": true,
+        "qpos_index": 4,
+        "reset_contact_counts": {
+          "forbidden": 0,
+          "handle_nonlegal": 0,
+          "max_contact_force_n": 0.0,
+          "max_penetration_m": 0.0,
+          "other": 0,
+          "target": 0
+        },
+        "reset_ok": true,
+        "robot_init_qpos": [
+          -0.08,
+          -0.081037389,
+          -0.05,
+          -2.5645974700000003,
+          0.0,
+          2.3267522,
+          0.8653981633974482
+        ],
+        "seed": 13,
+        "yaw_deg": -10.0
+      },
+      "forbidden_contact_frame_count": 0,
+      "max_contact_force_n": 302624.86704762443,
+      "max_penetration_m": 0.31483595862277625,
+      "passed": false,
+      "sample_records": [
+        {
+          "close": false,
+          "contact_counts": {
+            "forbidden": 0,
+            "handle_nonlegal": 0,
+            "max_contact_force_n": 296534.8832957946,
+            "max_penetration_m": 0.31483595862277625,
+            "other": 0,
+            "target": 11
+          },
+          "contact_pairs": [
+            {
+              "category": "target",
+              "contact_index": 0,
+              "dist_m": -0.22894477225372642,
+              "geom1": 0,
+              "geom1_body": "drawer_base",
+              "geom1_name": "",
+              "geom2": 70,
+              "geom2_body": "link5",
+              "geom2_name": "link5_collision",
+              "normal_force_n": 296534.88329579454
+            },
+            {
+              "category": "target",
+              "contact_index": 1,
+              "dist_m": -0.18488049255073924,
+              "geom1": 1,
+              "geom1_body": "drawer_base",
+              "geom1_name": "",
+              "geom2": 70,
+              "geom2_body": "link5",
+              "geom2_name": "link5_collision",
+              "normal_force_n": 240549.32526104513
+            },
+            {
+              "category": "target",
+              "contact_index": 2,
+              "dist_m": -0.22894477225372642,
+              "geom1": 2,
+              "geom1_body": "drawer_base",
+              "geom1_name": "",
+              "geom2": 70,
+              "geom2_body": "link5",
+              "geom2_name": "link5_collision",
+              "normal_force_n": 296534.8832957946
+            },
+            {
+              "category": "target",
+              "contact_index": 3,
+              "dist_m": -0.01196162008437779,
+              "geom1": 4,
+              "geom1_body": "drawer_base",
+              "geom1_name": "",
+              "geom2": 70,
+              "geom2_body": "link5",
+              "geom2_name": "link5_collision",
+              "normal_force_n": 85592.55970215616
+            },
+            {
+              "category": "target",
+              "contact_index": 4,
+              "dist_m": -0.18488049255073924,
+              "geom1": 7,
+              "geom1_body": "drawer_base",
+              "geom1_name": "",
+              "geom2": 70,
+              "geom2_body": "link5",
+              "geom2_name": "link5_collision",
+              "normal_force_n": 240549.32526104513
+            },
+            {
+              "category": "target",
+              "contact_index": 5,
+              "dist_m": -0.29088775105130305,
+              "geom1": 0,
+              "geom1_body": "drawer_base",
+              "geom1_name": "",
+              "geom2": 88,
+              "geom2_body": "link6",
+              "geom2_name": "link6_collision",
+              "normal_force_n": 195963.74566069845
+            },
+            {
+              "category": "target",
+              "contact_index": 6,
+              "dist_m": -0.2908877510513031,
+              "geom1": 2,
+              "geom1_body": "drawer_base",
+              "geom1_name": "",
+              "geom2": 88,
+              "geom2_body": "link6",
+              "geom2_name": "link6_collision",
+              "normal_force_n": 195963.74566069845
+            },
+            {
+              "category": "target",
+              "contact_index": 7,
+              "dist_m": -0.06627369245564041,
+              "geom1": 4,
+              "geom1_body": "drawer_base",
+              "geom1_name": "",
+              "geom2": 88,
+              "geom2_body": "link6",
+              "geom2_name": "link6_collision",
+              "normal_force_n": 83818.33881859586
+            },
+            {
+              "category": "target",
+              "contact_index": 8,
+              "dist_m": -0.31483595862277625,
+              "geom1": 0,
+              "geom1_body": "drawer_base",
+              "geom1_name": "",
+              "geom2": 97,
+              "geom2_body": "link7",
+              "geom2_name": "link7_collision",
+              "normal_force_n": 138421.840670623
+            },
+            {
+              "category": "target",
+              "contact_index": 9,
+              "dist_m": -0.2729846765031948,
+              "geom1": 2,
+              "geom1_body": "drawer_base",
+              "geom1_name": "",
+              "geom2": 97,
+              "geom2_body": "link7",
+              "geom2_name": "link7_collision",
+              "normal_force_n": 114992.90711495778
+            },
+            {
+              "category": "target",
+              "contact_index": 10,
+              "dist_m": -0.08483894958385067,
+              "geom1": 4,
+              "geom1_body": "drawer_base",
+              "geom1_name": "",
+              "geom2": 97,
+              "geom2_body": "link7",
+              "geom2_name": "link7_collision",
+              "normal_force_n": 10116.208058960921
+            }
+          ],
+          "distance": {
+            "eef_pos": [
+              -0.036146074031826146,
+              0.0033097624740839465,
+              0.25044023374087876
+            ],
+            "handle_center": [
+              -0.04621252293383333,
+              -9.25185853854297e-18,
+              0.37261394411325005
+            ],
+            "legal_centroid": [
+              -0.1386834820977881,
+              -0.03208165674305693,
+              0.3091792868676803
+            ],
+            "min_eef_to_handle_m": 0.03989097505439188,
+            "min_handle_geom_id": 7,
+            "min_legal_pad_geom_id": 70,
+            "min_legal_pad_to_handle_m": 0.022194251967419466
+          },
+          "drawer_qpos": 0.0,
+          "phase": "settle_precontact",
+          "step": 0,
+          "target": [
+            -0.06621252293383333,
+            -9.25185853854297e-18,
+            0.37261394411325005
+          ]
+        },
+        {
+          "close": true,
+          "contact_counts": {
+            "forbidden": 0,
+            "handle_nonlegal": 0,
+            "max_contact_force_n": 14675.71669466484,
+            "max_penetration_m": 0.043800622953683144,
+            "other": 0,
+            "target": 10
+          },
+          "contact_pairs": [
+            {
+              "category": "target",
+              "contact_index": 0,
+              "dist_m": -0.042584528260099785,
+              "geom1": 0,
+              "geom1_body": "drawer_base",
+              "geom1_name": "",
+              "geom2": 88,
+              "geom2_body": "link6",
+              "geom2_name": "link6_collision",
+              "normal_force_n": 2160.5231300764544
+            },
+            {
+              "category": "target",
+              "contact_index": 1,
+              "dist_m": -0.042584654919686604,
+              "geom1": 1,
+              "geom1_body": "drawer_base",
+              "geom1_name": "",
+              "geom2": 88,
+              "geom2_body": "link6",
+              "geom2_name": "link6_collision",
+              "normal_force_n": 2160.608455947345
+            },
+            {
+              "category": "target",
+              "contact_index": 2,
+              "dist_m": -0.042584528260099785,
+              "geom1": 2,
+              "geom1_body": "drawer_base",
+              "geom1_name": "",
+              "geom2": 88,
+              "geom2_body": "link6",
+              "geom2_name": "link6_collision",
+              "normal_force_n": 2160.5231300764663
+            },
+            {
+              "category": "target",
+              "contact_index": 3,
+              "dist_m": -0.023283419282558962,
+              "geom1": 5,
+              "geom1_body": "drawer_base",
+              "geom1_name": "",
+              "geom2": 88,
+              "geom2_body": "link6",
+              "geom2_name": "link6_collision",
+              "normal_force_n": 14675.71669466484
+            },
+            {
+              "category": "target",
+              "contact_index": 4,
+              "dist_m": -0.042584654919686604,
+              "geom1": 7,
+              "geom1_body": "drawer_base",
+              "geom1_name": "",
+              "geom2": 88,
+              "geom2_body": "link6",
+              "geom2_name": "link6_collision",
+              "normal_force_n": 2160.608455947345
+            },
+            {
+              "category": "target",
+              "contact_index": 5,
+              "dist_m": -0.043800496294096325,
+              "geom1": 0,
+              "geom1_body": "drawer_base",
+              "geom1_name": "",
+              "geom2": 97,
+              "geom2_body": "link7",
+              "geom2_name": "link7_collision",
+              "normal_force_n": 940.641562776455
+            },
+            {
+              "category": "target",
+              "contact_index": 6,
+              "dist_m": -0.043800622953683144,
+              "geom1": 1,
+              "geom1_body": "drawer_base",
+              "geom1_name": "",
+              "geom2": 97,
+              "geom2_body": "link7",
+              "geom2_name": "link7_collision",
+              "normal_force_n": 940.7124685861136
+            },
+            {
+              "category": "target",
+              "contact_index": 7,
+              "dist_m": -0.04380049629409633,
+              "geom1": 2,
+              "geom1_body": "drawer_base",
+              "geom1_name": "",
+              "geom2": 97,
+              "geom2_body": "link7",
+              "geom2_name": "link7_collision",
+              "normal_force_n": 940.6415627764587
+            },
+            {
+              "category": "target",
+              "contact_index": 8,
+              "dist_m": -0.014141050684145283,
+              "geom1": 4,
+              "geom1_body": "drawer_base",
+              "geom1_name": "",
+              "geom2": 97,
+              "geom2_body": "link7",
+              "geom2_name": "link7_collision",
+              "normal_force_n": 12069.467745959017
+            },
+            {
+              "category": "target",
+              "contact_index": 9,
+              "dist_m": -0.043800622953683144,
+              "geom1": 7,
+              "geom1_body": "drawer_base",
+              "geom1_name": "",
+              "geom2": 97,
+              "geom2_body": "link7",
+              "geom2_name": "link7_collision",
+              "normal_force_n": 940.7124685861136
+            }
+          ],
+          "distance": {
+            "eef_pos": [
+              -0.3152896144098807,
+              -0.008009906936156292,
+              0.29517483315068027
+            ],
+            "handle_center": [
+              -0.04621252293383333,
+              -9.25185853854297e-18,
+              0.37261394411325005
+            ],
+            "legal_centroid": [
+              -0.38053539728904245,
+              -0.03220406429764833,
+              0.3716782850584602
+            ],
+            "min_eef_to_handle_m": 0.08071047564514386,
+            "min_handle_geom_id": 1,
+            "min_legal_pad_geom_id": 97,
+            "min_legal_pad_to_handle_m": 0.05923718326770394
+          },
+          "drawer_qpos": 0.0,
+          "phase": "short_pull_probe",
+          "step": 75,
+          "target": [
+            -0.04621252293383333,
+            -9.25185853854297e-18,
+            0.37261394411325005
+          ]
+        },
+        {
+          "close": true,
+          "contact_counts": {
+            "forbidden": 0,
+            "handle_nonlegal": 0,
+            "max_contact_force_n": 0.0,
+            "max_penetration_m": 0.0,
+            "other": 0,
+            "target": 0
+          },
+          "contact_pairs": [],
+          "distance": {
+            "eef_pos": [
+              -0.39925477864237185,
+              0.023653142787011742,
+              0.31544863847926974
+            ],
+            "handle_center": [
+              -0.04621252293383333,
+              -9.25185853854297e-18,
+              0.37261394411325005
+            ],
+            "legal_centroid": [
+              -0.4895419082344595,
+              -0.019862968712633048,
+              0.36612423737621835
+            ],
+            "min_eef_to_handle_m": 0.13411149517701418,
+            "min_handle_geom_id": 1,
+            "min_legal_pad_geom_id": 97,
+            "min_legal_pad_to_handle_m": 0.14002641293893517
+          },
+          "drawer_qpos": 0.0,
+          "phase": "short_pull_probe",
+          "step": 149,
+          "target": [
+            0.03378747706616667,
+            -9.25185853854297e-18,
+            0.37261394411325005
+          ]
+        }
+      ],
+      "target_contact_frame_count": 103
+    }
+  ]
+}

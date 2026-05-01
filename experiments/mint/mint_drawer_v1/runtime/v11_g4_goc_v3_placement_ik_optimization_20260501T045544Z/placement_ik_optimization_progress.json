@@ -1,0 +1,26 @@
+{
+  "current_best_reset_ok": {
+    "base_pos": [
+      -0.9,
+      0.0,
+      0.05
+    ],
+    "eef_to_handle_m": 0.07294095148188356,
+    "legal_pad_to_handle_m": 0.008297469558785105,
+    "passes_joint_feasibility_gate": false,
+    "qpos_index": 4,
+    "reset_contact_counts": {
+      "forbidden": 0,
+      "handle_nonlegal": 0,
+      "max_contact_force_n": 0.0,
+      "max_penetration_m": 0.0,
+      "other": 0,
+      "target": 0
+    },
+    "reset_ok": true,
+    "seed": 13,
+    "yaw_deg": 0.0
+  },
+  "evaluated": 720,
+  "total_budget": 720
+}

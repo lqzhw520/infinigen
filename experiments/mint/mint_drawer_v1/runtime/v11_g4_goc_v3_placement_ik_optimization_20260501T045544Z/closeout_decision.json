@@ -1,0 +1,201 @@
+{
+  "best_eef_to_handle_m": 0.07294095148188356,
+  "best_legal_pad_to_handle_m": 0.008297469558785105,
+  "best_reset_contact_counts": {
+    "forbidden": 0,
+    "handle_nonlegal": 0,
+    "max_contact_force_n": 0.0,
+    "max_penetration_m": 0.0,
+    "other": 0,
+    "target": 0
+  },
+  "best_reset_ok": true,
+  "bounded_rollout_attempted": false,
+  "closeout_classification": "PLACEMENT_IK_DYNAMIC_CONTACT_PROBE_FAILED",
+  "committed": false,
+  "continuous_optimization_attempted": true,
+  "current_truth_modified": false,
+  "dynamic_contact_probe_attempted": true,
+  "dynamic_contact_probe_passed": false,
+  "dynamic_failure_summary": {
+    "dynamic_failure_reason": "joint-feasible IK candidate produced exact GOC-v3 target contact but short dynamic probe exceeded penetration threshold",
+    "dynamic_probe": {
+      "forbidden_contact_frame_count": 0,
+      "max_contact_force_n": 302624.86704762443,
+      "max_penetration_m": 0.31483595862277625,
+      "passed": false,
+      "target_contact_frame_count": 103,
+      "target_pair_examples": [
+        {
+          "dist_m": -0.22894477225372642,
+          "geom1": 0,
+          "geom1_body": "drawer_base",
+          "geom1_name": "",
+          "geom2": 70,
+          "geom2_body": "link5",
+          "geom2_name": "link5_collision",
+          "normal_force_n": 296534.88329579454
+        },
+        {
+          "dist_m": -0.18488049255073924,
+          "geom1": 1,
+          "geom1_body": "drawer_base",
+          "geom1_name": "",
+          "geom2": 70,
+          "geom2_body": "link5",
+          "geom2_name": "link5_collision",
+          "normal_force_n": 240549.32526104513
+        },
+        {
+          "dist_m": -0.22894477225372642,
+          "geom1": 2,
+          "geom1_body": "drawer_base",
+          "geom1_name": "",
+          "geom2": 70,
+          "geom2_body": "link5",
+          "geom2_name": "link5_collision",
+          "normal_force_n": 296534.8832957946
+        },
+        {
+          "dist_m": -0.01196162008437779,
+          "geom1": 4,
+          "geom1_body": "drawer_base",
+          "geom1_name": "",
+          "geom2": 70,
+          "geom2_body": "link5",
+          "geom2_name": "link5_collision",
+          "normal_force_n": 85592.55970215616
+        },
+        {
+          "dist_m": -0.18488049255073924,
+          "geom1": 7,
+          "geom1_body": "drawer_base",
+          "geom1_name": "",
+          "geom2": 70,
+          "geom2_body": "link5",
+          "geom2_name": "link5_collision",
+          "normal_force_n": 240549.32526104513
+        },
+        {
+          "dist_m": -0.29088775105130305,
+          "geom1": 0,
+          "geom1_body": "drawer_base",
+          "geom1_name": "",
+          "geom2": 88,
+          "geom2_body": "link6",
+          "geom2_name": "link6_collision",
+          "normal_force_n": 195963.74566069845
+        }
+      ]
+    },
+    "interpretation": "The previous best-row ambiguity is resolved: prior best row reset_ok=false. Continuous/local search found one reset-clean IK-feasible candidate, so the blocker moved from joint reachability to dynamic contact/route policy. Bounded rollout remains prohibited because penetration exceeds 0.02 m.",
+    "joint_candidate": {
+      "base_pos": [
+        -0.875,
+        0.05,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          38,
+          39
+        ],
+        "drawer_handle_geom_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          52,
+          54,
+          56,
+          61,
+          66
+        ],
+        "legal_gripper_surface_geom_ids": [
+          70,
+          88,
+          97
+        ]
+      },
+      "eef_to_handle_ik_m": 0.03989097505439188,
+      "legal_pad_to_handle_ik_m": 0.022194251967419466,
+      "qpos_index": 4,
+      "reset_contact_counts": {
+        "forbidden": 0,
+        "handle_nonlegal": 0,
+        "max_contact_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "other": 0,
+        "target": 0
+      },
+      "seed": 13,
+      "yaw_deg": -10.0
+    },
+    "joint_candidate_count": 1
+  },
+  "dynamic_probe_forbidden_contact_frame_count": 0,
+  "dynamic_probe_target_contact_frame_count": 103,
+  "exact_instance_goc_target_contact": true,
+  "fixed_goc_ids_seed_stable": false,
+  "forbidden_contact_any": false,
+  "harness_preflight_passed": true,
+  "instance_bindings_used": true,
+  "joint_feasible_candidate_count": 1,
+  "joint_feasible_candidate_found": true,
+  "max_dynamic_probe_contact_force_n": 302624.86704762443,
+  "max_dynamic_probe_penetration_m": 0.31483595862277625,
+  "next_actions_modified": false,
+  "next_gate": "FINGER_PAD_DYNAMIC_ROUTE_POLICY_REPAIR",
+  "placement_qpos_candidates_evaluated": 720,
+  "prior_best_row_reset_contact_counts": {
+    "forbidden": 29,
+    "handle_nonlegal": 0,
+    "max_contact_force_n": 3.6419876285087264e+17,
+    "max_penetration_m": 0.34626260236300876,
+    "other": 6,
+    "target": 9
+  },
+  "prior_best_row_reset_ok": false,
+  "pushed_to_origin": false,
+  "remote_commit_hash": null,
+  "reset_ok_candidate_count": 720,
+  "runtime_patch_applied": false,
+  "runtime_patch_files": [],
+  "strict_candidate_found": false
+}

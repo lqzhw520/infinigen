@@ -1,0 +1,7 @@
+{
+  "no_current_truth_next_actions_direct_mutation": true,
+  "no_rollout_before_joint_feasible_dynamic_probe": true,
+  "no_runtime_patch": true,
+  "task_id": "V11_G4_GOC_V3_PLACEMENT_IK_OPTIMIZATION_AUTONOMOUS_V1",
+  "task_type": "PLACEMENT_IK_OPTIMIZATION_SCIENCE_PHASE"
+}

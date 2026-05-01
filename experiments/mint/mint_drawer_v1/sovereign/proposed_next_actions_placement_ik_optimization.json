@@ -1,0 +1,10 @@
+{
+  "direct_mutation": false,
+  "next_gate": "FINGER_PAD_DYNAMIC_ROUTE_POLICY_REPAIR",
+  "proposal_id": "proposed_next_actions_placement_ik_optimization",
+  "recommended_actions": [
+    "Do not run Phase1H bounded rollout until placement plus initial qpos yields joint-feasible reset-clean contact geometry and short dynamic target contact.",
+    "If joint feasibility remains blocked, repair robot placement/model assembly or kinematic chain rather than route microvariants."
+  ],
+  "source_run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_placement_ik_optimization_20260501T045544Z"
+}

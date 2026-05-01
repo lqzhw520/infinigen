@@ -1,21 +1,31 @@
-# V11-G4 GOC-v3 Composite Phase1H Bounded Autonomous Run V2
-# This spec authorizes a bounded science phase under GOC-v3 exact-ID authority.
-# It does not authorize training, fine-tuning, visual success claims, current_truth mutation, or next_actions mutation.
+# V11-G4 GOC-v3 Composite Phase1H Bounded Autonomous Run V3
+# Harness-gated bounded candidate-generation phase under GOC-v3 exact-ID authority.
+# This spec does not authorize training, fine-tuning, evaluation, current_truth mutation,
+# next_actions mutation, GOC-v3 authority changes, or visual success claims without replay/render evidence.
 
-task_id: V11_G4_GOC_V3_COMPOSITE_PHASE1H_BOUNDED_AUTONOMOUS_RUN_V2
-task_version: "2.0.0"
+task_id: V11_G4_GOC_V3_COMPOSITE_PHASE1H_BOUNDED_AUTONOMOUS_RUN_V3
+task_version: "3.0.0"
 task_type: BOUNDED_RUNTIME_SCIENCE_PHASE
 target_gate: V11-G4_LEGAL_GRIPPER_PAD_TO_HANDLE_CONTACT
 gate: G4
 phase: phase1h_bounded_composite
 wall_clock_limit_hours: 8
 
-description: >
-  Harness-gated composite long phase to determine whether the current GOC-v3
-  exact-ID runtime can support bounded Phase1H teacher-candidate execution.
-  This is not a V11 success claim, visual artifact success claim, teacher rollout
-  success claim, MINT training claim, fine-tuning claim, or evaluation claim.
+previous_accepted_closeout:
+  classification: RESET_GEOMETRY_REPAIRED_PREACTION_SMOKE_PASSED
+  model_builder_repair_commit: 128fc92cf274e5b3180ee0c4178cdbf9259e7dec
 
+# Prompt-visible authority block.
+authority:
+  goc_version: v3
+  authority_type: GOC_V3_EXACT_GEOM_ID_SETS
+  goc_contract: experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v3_contract.json
+  model_builder_repair_commit: 128fc92cf274e5b3180ee0c4178cdbf9259e7dec
+  legal_gripper_surface_geom_ids: [63, 81, 90]
+  forbidden_robot_surface_geom_ids: [45, 47, 49, 54, 59]
+  drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+
+# Validator-compatible authority block. Keep this in sync with authority above.
 task_authority:
   authority_type: GOC_V3_EXACT_GEOM_ID_SETS
   goc_version: v3
@@ -24,7 +34,8 @@ task_authority:
   source_model_commit: 7a7d5c43748822d9c38d948c6d1d39ec2895fe87
   goc_v3_artifact_publication_commit: 527be08a67b28436ae3ea146fc87a67bd077ebfa
   contact_smoke_publication_commit: 9d270c6ccf83ddd8d1a842038472cb26630d574a
-  task_spec_lock_binding_commit: 39bd076945dcdc36ec7e5a522c29978c9a0ca078
+  reset_geometry_repair_commit: 128fc92cf274e5b3180ee0c4178cdbf9259e7dec
+  model_builder_repair_commit: 128fc92cf274e5b3180ee0c4178cdbf9259e7dec
   goc_contract_id: GOC_V3_EXACT_ID_GEOMETRY_OWNERSHIP_CONTRACT
   legal_gripper_surface_geom_ids: [63, 81, 90]
   forbidden_robot_surface_geom_ids: [45, 47, 49, 54, 59]
@@ -61,40 +72,63 @@ task_authority:
     composite_phase_does_not_claim_visual_or_training_success: true
 
 phase_scope:
-  - contact_report_physical_plausibility_review
-  - minimal_repair_if_needed
+  - verify_reset_repair_persistence
   - preaction_contact_smoke
   - bounded_phase1h_candidate_execution
   - strict_candidate_export_if_found
   - proposed_sovereign_delta_only
 
-remote:
-  authority: ssh -p 30017 root@10.210.0.88 /mnt/afs2/zhuhaowu/infinigen
-  branch: feature/mint-env-reformulation-v1-visual-fidelity
-  approved_files:
-    - sovereign/experiment_specs/v11_g4_goc_v3_composite_phase1h_bounded_autonomous.yaml
-    - autopilot/agent_execution_harness_lock.json
-    - autopilot/agent_execution_harness_attestation.json
-    - runtime/v11_g4_goc_v3_composite_phase1h_bounded_*/
-    - runtime/controller_cycles/*
-    - sovereign/proposed_current_truth_delta_phase1h_goc_v3_composite.json
-    - sovereign/proposed_next_actions_phase1h_goc_v3_composite.json
-    - scripts/mint/drawer_robot_env_mujoco.py
-    - scripts/mint/run_full_robot_teacher_probe.py
-    - scripts/mint/export_full_robot_teacher_replay_bundle.py
-    - scripts/mint/merged_model_builder.py
-  forbidden_files:
-    - external/MINT
-    - sovereign/current_truth.json
-    - sovereign/next_actions.json
-    - sovereign/claims.yaml
-    - sovereign/evidence/index.json
+forbidden_authority:
+  - GOC-v2 count-only authority
+  - body-based 31/27 authority
+  - legacy name-only contact reports
+  - forbidden contact as target
+  - body/link/wrist/arm contact as legal target
+
+limits:
+  max_rollout_attempts: 12
+  max_microvariants: 3
+  max_stage5_wall_clock_hours: 3
+  reset_max_contact_force_n: 1000000.0
+  reset_max_penetration_m: 0.02
+  teacher_candidate_drawer_fraction: 0.80
+  hard_goal_drawer_fraction: 0.90
 
 allowed_runtime_repair_files:
   - scripts/mint/drawer_robot_env_mujoco.py
   - scripts/mint/run_full_robot_teacher_probe.py
   - scripts/mint/export_full_robot_teacher_replay_bundle.py
   - scripts/mint/merged_model_builder.py
+
+remote:
+  authority: ssh -p 30017 root@10.210.0.88 /mnt/afs2/zhuhaowu/infinigen
+  branch: feature/mint-env-reformulation-v1-visual-fidelity
+  approved_files:
+    - experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v3_composite_phase1h_bounded_autonomous.yaml
+    - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json
+    - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_attestation.json
+    - experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_composite_phase1h_bounded_run_*/
+    - experiments/mint/mint_drawer_v1/runtime/controller_cycles/*
+    - experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_phase1h_goc_v3_composite.json
+    - experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_phase1h_goc_v3_composite.json
+    - scripts/mint/drawer_robot_env_mujoco.py
+    - scripts/mint/run_full_robot_teacher_probe.py
+    - scripts/mint/export_full_robot_teacher_replay_bundle.py
+    - scripts/mint/merged_model_builder.py
+  forbidden_files:
+    - external/MINT
+    - experiments/mint/mint_drawer_v1/sovereign/current_truth.json
+    - experiments/mint/mint_drawer_v1/sovereign/next_actions.json
+    - experiments/mint/mint_drawer_v1/sovereign/claims.yaml
+    - experiments/mint/mint_drawer_v1/sovereign/evidence/index.json
+    - experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v3_contract.json
+    - experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v3_geom_inventory.json
+    - experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v3_validation_report.json
+    - experiments/mint/mint_drawer_v1/scripts/harness/agent_task_preflight.py
+    - experiments/mint/mint_drawer_v1/scripts/harness/validate_harness_production_lock.py
+    - experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_task_authority.py
+    - experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_diff_scope.py
+    - experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_closeout.py
 
 forbidden_repair_patterns:
   - lowering_drawer_fraction_thresholds
@@ -124,7 +158,7 @@ validators:
     trigger: during_contact_report_smoke
     args:
       task_spec: sovereign/experiment_specs/v11_g4_goc_v3_composite_phase1h_bounded_autonomous.yaml
-      runtime_json: runtime/v11_g4_goc_v3_composite_phase1h_bounded_*/preaction_contact_smoke.json
+      runtime_json: runtime/v11_g4_goc_v3_composite_phase1h_bounded_run_*/preaction_contact_smoke.json
     on_fail: STOP_WITH_AUTHORITY_MISMATCH
 
 fixtures:
@@ -165,13 +199,11 @@ success_criteria:
   - id: SC01
     description: Production lock binds this composite spec path/hash and preflight passes with no bypass.
   - id: SC02
-    description: Reset physical plausibility is reviewed under exact GOC-v3 IDs.
+    description: Reset/preaction physical plausibility remains valid under repaired model-builder state.
   - id: SC03
-    description: Preaction exact-ID contact smoke passes before bounded execution.
+    description: Bounded Phase1H candidate attempts run only after preaction exact-ID smoke passes.
   - id: SC04
-    description: Bounded Phase1H candidate attempts run only if preaction smoke passes.
-  - id: SC05
-    description: Closeout distinguishes candidate, route blocker, reset blocker, and visual pending states.
+    description: Strict candidate is claimed only if exact GOC-v3 target contact and drawer fraction gates pass without forbidden contact.
 
 forbidden:
   - id: F01
@@ -187,19 +219,10 @@ forbidden:
   - id: F06
     description: Do not use direct-qpos drawer opening or trimmed rollout success claim.
 
-limits:
-  max_rollout_attempts: 12
-  max_microvariants: 3
-  max_wall_clock_for_stage_hours: 3
-  max_reset_contact_force_n: 1000000.0
-  max_penetration_magnitude_m: 0.02
-  target_drawer_fraction_teacher_candidate: 0.80
-  target_drawer_fraction_hard_goal_candidate: 0.90
-
 allowed_terminal_outcomes:
-  - PREACTION_GOC_V3_CONTACT_SMOKE_PASSED_PHASE1H_READY
   - STRICT_CANDIDATE_FOUND_LOCAL_VISUAL_PENDING
   - STRICT_LOCAL_VISUAL_ARTIFACT_CREATED_PENDING_MANUAL_REVIEW
+  - PREACTION_GOC_V3_CONTACT_SMOKE_FAILED
   - HARNESS_PREFLIGHT_FAILED
   - TASK_SPEC_LOCK_BINDING_FAILED
   - WRONG_WORKTREE
@@ -207,7 +230,6 @@ allowed_terminal_outcomes:
   - REMOTE_NOT_CONFIGURED
   - DIRTY_FORBIDDEN_SCOPE
   - RESET_CONTACT_INTERPENETRATION_BLOCKS_PHASE1H
-  - PREACTION_GOC_V3_CONTACT_SMOKE_FAILED
   - MODEL_BUILDER_REPAIR_REQUIRED
   - ROLLOUT_COMMAND_BROKEN_INFRASTRUCTURE_BLOCKED
   - ROUTE_NEVER_REACHES_GOC_V3_HANDLE_OR_FORBIDDEN_CONTACT
@@ -215,4 +237,4 @@ allowed_terminal_outcomes:
   - TIME_BUDGET_EXHAUSTED
   - EXECUTION_FAILED
 
-next_gate: PHASE1H_BOUNDED_AUTONOMOUS_EXECUTION_UNDER_GOC_V3
+next_gate: V11_G4_GOC_V3_COMPOSITE_PHASE1H_BOUNDED_AUTONOMOUS_RUN

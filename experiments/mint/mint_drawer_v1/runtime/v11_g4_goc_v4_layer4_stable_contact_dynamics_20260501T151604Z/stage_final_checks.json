@@ -1,0 +1,27 @@
+{
+  "current_truth_modified": false,
+  "git_status_short": " M .project-memory/STATUS.md\n M .session/checkpoint.md\n M experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_attestation.json\n M experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_layer4_stable_contact_dynamics_20260501T151604Z/closeout_decision.json\n M experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_layer4_stable_contact_dynamics_20260501T151604Z/final_report.md\n",
+  "json_parse_passed": true,
+  "json_paths": [
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_layer4_stable_contact_dynamics_20260501T151604Z/closeout_decision.json",
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_layer4_stable_contact_dynamics_20260501T151604Z/execution_plan.json",
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_layer4_stable_contact_dynamics_20260501T151604Z/gripper_model_and_actuator_audit.json",
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_layer4_stable_contact_dynamics_20260501T151604Z/reset_physical_plausibility.json",
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_layer4_stable_contact_dynamics_20260501T151604Z/stable_contact_probe_00.json",
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_layer4_stable_contact_dynamics_20260501T151604Z/stable_contact_probe_01.json",
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_layer4_stable_contact_dynamics_20260501T151604Z/stable_contact_probe_02.json",
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_layer4_stable_contact_dynamics_20260501T151604Z/stable_contact_probe_03.json",
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_layer4_stable_contact_dynamics_20260501T151604Z/stable_contact_probe_04.json",
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_layer4_stable_contact_dynamics_20260501T151604Z/stable_contact_probe_best.json",
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_layer4_stable_contact_dynamics_20260501T151604Z/stable_contact_probe_search.json",
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_layer4_stable_contact_dynamics_20260501T151604Z/stage0_authority_and_worktree.json",
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_layer4_stable_contact_dynamics_20260501T151604Z/stage_lock_generation_report.json",
+    "experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v4_contract.json",
+    "experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v4_geom_inventory.json",
+    "experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v4_validation_report.json",
+    "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json",
+    "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_attestation.json"
+  ],
+  "next_actions_modified": false,
+  "preflight_log": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_layer4_stable_contact_dynamics_20260501T151604Z/final_preflight.log"
+}

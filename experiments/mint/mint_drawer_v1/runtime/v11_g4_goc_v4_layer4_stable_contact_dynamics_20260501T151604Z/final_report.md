@@ -15,3 +15,6 @@ Key evidence:
 - max force N: `67.937573403025`
 
 This is a Layer 4 contact-dynamics pass only. It is not a bounded drawer-opening rollout, local visual replay, render, training, or MINT-evaluation success claim.
+
+Final harness preflight: `passed`.
+Post-push attestation generated for origin head `a2f29fc775c8019210f745af768e6aa0468025d2`.

@@ -14,7 +14,7 @@
   "goc_v4_authority_created": true,
   "gripper_dof_added": true,
   "handle_nonlegal_contact_frames": 0,
-  "harness_preflight_passed": null,
+  "harness_preflight_passed": true,
   "layer4_stable_contact_dynamics_passed": true,
   "legal_finger_pad_geom_ids": [
     102,

@@ -1,0 +1,88 @@
+task_id: V11_G4_GOC_V4_LAYER4_STABLE_CONTACT_DYNAMICS_AUTONOMOUS_V1
+task_type: CONTACT_DYNAMICS_SCIENCE_PHASE
+target_gate: V11-G4_LAYER4_STABLE_LOW_PENETRATION_LEGAL_PAD_HANDLE_CONTACT
+
+objective:
+  description: >-
+    Close Layer 4 by proving the current repaired Panda gripper, GOC-v4 dedicated
+    finger pad geometry, and controller interface can produce stable low-penetration
+    exact-ID legal pad to drawer-handle contact without forbidden robot contact.
+  not_a_claim:
+    - Phase1H drawer opening success
+    - teacher rollout success
+    - local replay/render success
+    - MINT training or evaluation success
+
+authority:
+  goc_version: v4
+  authority_type: GOC_V4_DEDICATED_FINGER_PAD_EXACT_GEOM_ID_SETS
+  goc_contract: experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v4_contract.json
+  expected_legal_finger_pad_geom_names:
+    - finger1_pad_collision
+    - finger2_pad_collision
+  expected_demoted_broad_finger_geom_names:
+    - finger1_collision
+    - finger2_collision
+  expected_demoted_goc_v3_broad_link_geom_names:
+    - link5_collision
+    - link6_collision
+    - link7_collision
+  per_instance_binding_required: true
+  fixed_global_ids_may_not_be_reused_without_instance_verification: true
+
+allowed_runtime_repairs:
+  - scripts/mint/merged_model_builder.py
+  - scripts/mint/drawer_robot_env_mujoco.py
+  - scripts/mint/goc_v4_layer4_stable_contact_dynamics.py
+
+allowed_outputs:
+  - experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_layer4_stable_contact_dynamics_*/
+  - experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v4_geom_inventory.json
+  - experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v4_contract.json
+  - experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v4_contract.md
+  - experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v4_validation_report.json
+  - experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_goc_v4_layer4_stable_contact_dynamics.json
+  - experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_goc_v4_layer4_stable_contact_dynamics.json
+
+forbidden:
+  - current_truth_direct_mutation
+  - next_actions_direct_mutation
+  - GOC-v3 authority mutation
+  - body-based 31/27 authority
+  - legacy name-only contact authority
+  - forbidden contact as target
+  - body/link/wrist/arm contact as legal target
+  - direct-qpos drawer opening
+  - lowering penetration thresholds
+  - disabling all robot-drawer collisions
+  - training
+  - finetuning
+  - MINT evaluation
+  - render success claim
+
+layer4_pass_criteria:
+  exact_goc_v4_ids_emitted: true
+  legal_finger_pad_target_contact_min_consecutive_frames: 5
+  forbidden_contact_frames: 0
+  handle_nonlegal_contact_frames: 0
+  max_penetration_m: 0.02
+  max_force_n: 1000000.0
+  reset_forbidden_contact_frames: 0
+  reset_max_penetration_m: 0.02
+  direct_qpos_drawer_opening: false
+
+allowed_terminal_outcomes:
+  - LAYER4_STABLE_GOC_V4_CONTACT_DYNAMICS_PASSED
+  - LAYER4_CONTACT_DYNAMICS_FAILED
+  - GOC_V4_GRIPPER_MODEL_REPAIR_INCOMPLETE
+  - HARNESS_PREFLIGHT_FAILED
+  - TASK_SPEC_LOCK_BINDING_FAILED
+  - WRONG_WORKTREE
+  - WRONG_BRANCH
+  - REMOTE_NOT_CONFIGURED
+  - DIRTY_FORBIDDEN_SCOPE
+  - COMMIT_PUSH_FAILED
+  - EXECUTION_FAILED
+
+next_gate_on_success: GOC_V4_BOUNDED_TEACHER_PULL_ROLLOUT
+next_gate_on_failure: OPERATIONAL_SPACE_OR_PAD_GEOMETRY_REPAIR

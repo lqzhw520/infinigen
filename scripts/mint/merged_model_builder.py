@@ -27,6 +27,7 @@ import numpy as np
 # ─────────────────────────────────────────────
 DRAWER_ROOT = Path("/mnt/afs2/zhuhaowu/infinigen/sim_exports/urdf/drawer")
 ROBOT_XML_PATH = "/root/anaconda3/envs/infinigen/lib/python3.11/site-packages/robosuite/models/assets/robots/panda/robot.xml"
+GRIPPER_XML_PATH = "/root/anaconda3/envs/infinigen/lib/python3.11/site-packages/robosuite/models/assets/grippers/panda_gripper.xml"
 
 # LIBERO default robot joint configuration (from mounted_panda.py)
 LIBERO_INIT_QPOS = np.array(
@@ -59,16 +60,12 @@ BG_COLORS = {
     "neutral_lab_v2": np.array([0.88, 0.87, 0.85]),
 }
 
-# GOC-v4 candidate: collision-only fingertip pads mounted on the Panda
-# right_hand body. Robosuite's bundled Panda XML used here has no articulated
-# finger bodies, so these pads provide narrow, exact-ID contact patches without
-# changing handle/drawer geometry or disabling the existing robot-drawer
-# collision surfaces. They are appended after existing robot geoms, preserving
-# drawer IDs and the legacy GOC-v3 broad-link IDs as historical evidence.
-DEDICATED_FINGER_PAD_COLLISION_XML = """
-                                                <geom name="left_finger_pad_collision" type="box" size="0.012 0.004 0.018" pos="0.045 0.028 0.000" group="0" contype="1" conaffinity="1" condim="4" margin="0.003" solref="0.012 1" solimp="0.85 0.95 0.001" friction="1.2 0.02 0.002" rgba="0.1 0.7 0.9 0.45"/>
-                                                <geom name="right_finger_pad_collision" type="box" size="0.012 0.004 0.018" pos="0.045 -0.028 0.000" group="0" contype="1" conaffinity="1" condim="4" margin="0.003" solref="0.012 1" solimp="0.85 0.95 0.001" friction="1.2 0.02 0.002" rgba="0.1 0.7 0.9 0.45"/>
-""".rstrip()
+# GOC-v4 repair: insert Robosuite's real Panda gripper subtree at the
+# right_hand marker. The previous GOC-v4 prototype mounted two static pads on
+# right_hand, which created exact target geoms but no articulated finger DOF.
+# The real gripper adds finger_joint1/finger_joint2 plus finger1/finger2 pad
+# collision geoms, so contact dynamics can be controlled by the gripper actuator
+# interface instead of a palm-mounted proxy.
 
 
 # ─────────────────────────────────────────────
@@ -291,52 +288,70 @@ class MergedModelBuilder:
         return assets, metadata, semantic_hash
 
     def _get_robot_xml_inner(self) -> tuple[str, str, str]:
-        """Extract inner XML content of robot.xml + load robot mesh assets."""
-        with open(ROBOT_XML_PATH) as f:
-            robot_xml = f.read()
-
-        robot_tree = ET.fromstring(robot_xml)
-        robot_base = str(Path(ROBOT_XML_PATH).parent)
+        """Extract robot XML and insert the real Panda gripper subtree."""
+        robot_xml = Path(ROBOT_XML_PATH).read_text()
 
         def inner(elem: ET.Element) -> str:
             return "".join(ET.tostring(c, encoding="unicode") for c in elem)
 
-        # Simplify mesh paths in robot XML (meshes/link0.stl → link0.stl)
+        # Simplify mesh paths in robot XML (meshes/link0.stl -> link0.stl)
         simplified = re.sub(r'file="meshes/([^"]+)"', r'file="\1"', robot_xml)
 
-        pad_marker = "<!-- to add gripper -->"
-        if DEDICATED_FINGER_PAD_COLLISION_XML not in simplified:
-            if pad_marker not in simplified:
-                raise RuntimeError(
-                    "Panda right_hand gripper insertion marker not found"
-                )
+        gripper_xml = Path(GRIPPER_XML_PATH).read_text()
+        # Broad finger mesh collisions reach the drawer before the dedicated
+        # pads and create non-target contact. Preserve the visual finger meshes
+        # and the small finger*_pad_collision boxes as the only active finger
+        # contact patches for GOC-v4.
+        for collision_name in ("finger1_collision", "finger2_collision"):
+            pattern = rf'(<geom[^>]*name="{collision_name}"[^>]*conaffinity=")1("[^>]*/>)'
+            gripper_xml = re.sub(pattern, rf'\g<1>0\2', gripper_xml)
+        # Simplify gripper mesh paths (meshes/panda_gripper/finger.stl -> finger.stl).
+        gripper_xml = re.sub(
+            r'file="meshes/panda_gripper/([^"]+)"', r'file="\1"', gripper_xml
+        )
+        gripper_tree = ET.fromstring(gripper_xml)
+        for geom in gripper_tree.findall(".//geom"):
+            if geom.get("name") in {"finger1_collision", "finger2_collision"}:
+                geom.set("contype", "0")
+                geom.set("conaffinity", "0")
+        gripper_worldbody_inner = inner(gripper_tree.find("worldbody"))
+        gripper_actuator_inner = inner(gripper_tree.find("actuator"))
+        gripper_asset_inner = inner(gripper_tree.find("asset"))
+
+        gripper_marker = "<!-- to add gripper -->"
+        if "finger_joint1" not in simplified:
+            if gripper_marker not in simplified:
+                raise RuntimeError("Panda right_hand gripper insertion marker not found")
             simplified = simplified.replace(
-                pad_marker,
-                DEDICATED_FINGER_PAD_COLLISION_XML
-                + "\n                                                "
-                + pad_marker,
+                gripper_marker,
+                gripper_worldbody_inner + "\n                                                " + gripper_marker,
                 1,
             )
 
         robot_tree2 = ET.fromstring(simplified)
 
         return (
-            inner(robot_tree2.find("actuator")),
-            inner(robot_tree2.find("asset")),
+            inner(robot_tree2.find("actuator")) + gripper_actuator_inner,
+            inner(robot_tree2.find("asset")) + gripper_asset_inner,
             inner(robot_tree2.find("worldbody")),
         )
 
     def load_robot_assets(self) -> dict[str, bytes]:
-        """Load robot mesh files as assets dict."""
-        robot_base = str(Path(ROBOT_XML_PATH).parent)
+        """Load robot and gripper mesh files as assets dict."""
+        robot_base = Path(ROBOT_XML_PATH).parent
+        gripper_base = Path(GRIPPER_XML_PATH).parent
         assets = {}
-        for subdir in ["meshes", "obj_meshes"]:
-            full_dir = Path(robot_base) / subdir
-            if full_dir.exists():
-                for fp in full_dir.rglob("*"):
-                    if fp.is_file():
-                        fname = fp.name  # Use basename only
-                        assets[fname] = fp.read_bytes()
+        for base, subdirs in [
+            (robot_base, ["meshes", "obj_meshes"]),
+            (gripper_base, ["meshes/panda_gripper"]),
+        ]:
+            for subdir in subdirs:
+                full_dir = base / subdir
+                if full_dir.exists():
+                    for fp in full_dir.rglob("*"):
+                        if fp.is_file():
+                            fname = fp.name  # Use basename only
+                            assets[fname] = fp.read_bytes()
         return assets
 
     # ── private: drawer ───────────────────────

@@ -1,0 +1,14 @@
+{
+  "no_current_truth_next_actions_direct_mutation": true,
+  "no_rollout_render_train": true,
+  "stages": [
+    "model_and_actuator_audit",
+    "reset_gate",
+    "guarded_stable_contact_probe",
+    "goc_v4_artifact_update",
+    "closeout"
+  ],
+  "success_gate": "target_contact_max_consecutive_frames>=5 and forbidden=0 and handle_nonlegal=0 and max_penetration<=0.02 and finite_force",
+  "task_id": "V11_G4_GOC_V4_LAYER4_STABLE_CONTACT_DYNAMICS_AUTONOMOUS_V1",
+  "task_type": "CONTACT_DYNAMICS_SCIENCE_PHASE"
+}

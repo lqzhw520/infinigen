@@ -1,6 +1,6 @@
 {
-  "contract_id": "GOC_V4_DEDICATED_FINGER_PAD_GEOMETRY_INVENTORY",
-  "geom_inventory": [
+  "generated_at_utc": "2026-05-01T15:16:13Z",
+  "inventory": [
     {
       "body_chain": [
         "world",
@@ -2840,24 +2840,173 @@
         "link5",
         "link6",
         "link7",
-        "right_hand"
+        "right_hand",
+        "right_gripper"
       ],
-      "body_name": "right_hand",
+      "body_name": "right_gripper",
+      "conaffinity": 0,
+      "contact_capable": false,
+      "contype": 0,
+      "geom_id": 98,
+      "geom_name": "hand_visual",
+      "geom_pos": [
+        0.0008410495508376616,
+        1.6970839393777967e-05,
+        0.025263057210529908
+      ],
+      "geom_rbound": 0.11956343157993693,
+      "geom_size": [
+        0.03155447034471325,
+        0.04967135106352347,
+        0.10407923162648289
+      ],
+      "geom_type": 7,
+      "semantic_role": "visual_only_or_noncontact"
+    },
+    {
+      "body_chain": [
+        "world",
+        "robot_mount",
+        "base",
+        "link0",
+        "link1",
+        "link2",
+        "link3",
+        "link4",
+        "link5",
+        "link6",
+        "link7",
+        "right_hand",
+        "right_gripper"
+      ],
+      "body_name": "right_gripper",
       "conaffinity": 1,
       "contact_capable": true,
       "contype": 1,
-      "geom_id": 98,
-      "geom_name": "left_finger_pad_collision",
+      "geom_id": 99,
+      "geom_name": "hand_collision",
       "geom_pos": [
-        0.045,
-        0.028,
-        0.0
+        0.0006154696715489708,
+        -2.766565750015255e-06,
+        0.023929521661208906
       ],
-      "geom_rbound": 0.022,
+      "geom_rbound": 0.11905841256634443,
       "geom_size": [
-        0.012,
+        0.03164141294671461,
+        0.04867201353885377,
+        0.10394595560976386
+      ],
+      "geom_type": 7,
+      "semantic_role": "forbidden_robot_surface"
+    },
+    {
+      "body_chain": [
+        "world",
+        "robot_mount",
+        "base",
+        "link0",
+        "link1",
+        "link2",
+        "link3",
+        "link4",
+        "link5",
+        "link6",
+        "link7",
+        "right_hand",
+        "right_gripper",
+        "leftfinger"
+      ],
+      "body_name": "leftfinger",
+      "conaffinity": 0,
+      "contact_capable": false,
+      "contype": 0,
+      "geom_id": 100,
+      "geom_name": "finger1_visual",
+      "geom_pos": [
+        -1.8291121574975075e-06,
+        0.012315915508981465,
+        0.024539643608078705
+      ],
+      "geom_rbound": 0.03643186576756477,
+      "geom_size": [
+        0.015366376598150471,
+        0.010503388935908962,
+        0.031318271574445104
+      ],
+      "geom_type": 7,
+      "semantic_role": "visual_only_or_noncontact"
+    },
+    {
+      "body_chain": [
+        "world",
+        "robot_mount",
+        "base",
+        "link0",
+        "link1",
+        "link2",
+        "link3",
+        "link4",
+        "link5",
+        "link6",
+        "link7",
+        "right_hand",
+        "right_gripper",
+        "leftfinger"
+      ],
+      "body_name": "leftfinger",
+      "conaffinity": 0,
+      "contact_capable": false,
+      "contype": 0,
+      "geom_id": 101,
+      "geom_name": "finger1_collision",
+      "geom_pos": [
+        -2.423349853301662e-05,
+        0.011958484676847769,
+        0.02378156380398545
+      ],
+      "geom_rbound": 0.035996380644598175,
+      "geom_size": [
+        0.010680920153990948,
+        0.013564667215135846,
+        0.03158571144548577
+      ],
+      "geom_type": 7,
+      "semantic_role": "visual_only_or_noncontact"
+    },
+    {
+      "body_chain": [
+        "world",
+        "robot_mount",
+        "base",
+        "link0",
+        "link1",
+        "link2",
+        "link3",
+        "link4",
+        "link5",
+        "link6",
+        "link7",
+        "right_hand",
+        "right_gripper",
+        "leftfinger",
+        "finger_joint1_tip"
+      ],
+      "body_name": "finger_joint1_tip",
+      "conaffinity": 1,
+      "contact_capable": true,
+      "contype": 1,
+      "geom_id": 102,
+      "geom_name": "finger1_pad_collision",
+      "geom_pos": [
+        0.0,
+        -0.005,
+        -0.015
+      ],
+      "geom_rbound": 0.011999999999999999,
+      "geom_size": [
+        0.008,
         0.004,
-        0.018
+        0.008
       ],
       "geom_type": 6,
       "semantic_role": "legal_finger_pad_surface"
@@ -2875,33 +3024,105 @@
         "link5",
         "link6",
         "link7",
-        "right_hand"
+        "right_hand",
+        "right_gripper",
+        "rightfinger"
       ],
-      "body_name": "right_hand",
+      "body_name": "rightfinger",
+      "conaffinity": 0,
+      "contact_capable": false,
+      "contype": 0,
+      "geom_id": 103,
+      "geom_name": "finger2_visual",
+      "geom_pos": [
+        1.8291121574975075e-06,
+        -0.012315915508981465,
+        0.024539643608078705
+      ],
+      "geom_rbound": 0.03643186576756477,
+      "geom_size": [
+        0.015366376598150471,
+        0.010503388935908962,
+        0.031318271574445104
+      ],
+      "geom_type": 7,
+      "semantic_role": "visual_only_or_noncontact"
+    },
+    {
+      "body_chain": [
+        "world",
+        "robot_mount",
+        "base",
+        "link0",
+        "link1",
+        "link2",
+        "link3",
+        "link4",
+        "link5",
+        "link6",
+        "link7",
+        "right_hand",
+        "right_gripper",
+        "rightfinger"
+      ],
+      "body_name": "rightfinger",
+      "conaffinity": 0,
+      "contact_capable": false,
+      "contype": 0,
+      "geom_id": 104,
+      "geom_name": "finger2_collision",
+      "geom_pos": [
+        2.423349853301662e-05,
+        -0.011958484676847769,
+        0.02378156380398545
+      ],
+      "geom_rbound": 0.035996380644598175,
+      "geom_size": [
+        0.010680920153990948,
+        0.013564667215135846,
+        0.03158571144548577
+      ],
+      "geom_type": 7,
+      "semantic_role": "visual_only_or_noncontact"
+    },
+    {
+      "body_chain": [
+        "world",
+        "robot_mount",
+        "base",
+        "link0",
+        "link1",
+        "link2",
+        "link3",
+        "link4",
+        "link5",
+        "link6",
+        "link7",
+        "right_hand",
+        "right_gripper",
+        "rightfinger",
+        "finger_joint2_tip"
+      ],
+      "body_name": "finger_joint2_tip",
       "conaffinity": 1,
       "contact_capable": true,
       "contype": 1,
-      "geom_id": 99,
-      "geom_name": "right_finger_pad_collision",
+      "geom_id": 105,
+      "geom_name": "finger2_pad_collision",
       "geom_pos": [
-        0.045,
-        -0.028,
-        0.0
+        0.0,
+        0.005,
+        -0.015
       ],
-      "geom_rbound": 0.022,
+      "geom_rbound": 0.011999999999999999,
       "geom_size": [
-        0.012,
+        0.008,
         0.004,
-        0.018
+        0.008
       ],
       "geom_type": 6,
       "semantic_role": "legal_finger_pad_surface"
     }
   ],
-  "model_seed": 13,
-  "source_worktree_head": "068b7f0d677a98b36519eab241d26d66004026d7",
-  "total_nbody": 15,
-  "total_ngeom": 100,
-  "total_njnt": 9,
-  "version": "v4"
+  "source_model_commit": "0e5c443f9bdbbe423a49ad67dbca2fce6b3ec4bf"
 }

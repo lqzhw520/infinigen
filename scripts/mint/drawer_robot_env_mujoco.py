@@ -6522,17 +6522,42 @@ class DrawerRobotEnvMuJoCoLibero(DrawerRobotEnvMuJoCo):
         )
 
         # ── Joint / actuator indexing ─────────────────────────────────────
-        # Model has:
-        #   qpos[0:1]  = drawer_slider_0 (slide)
-        #   qpos[1:2]  = drawer_slider_1 (slide)
-        #   qpos[2:9]  = Panda joints 1-7 (hinge)
-        #   ctrl[0:7]  = Panda joint torques
-        #   ctrl[7:8]  = drawer0 motor
-        #   ctrl[8:9]  = drawer1 motor
-        self._robot_qpos_slice = slice(2, 9)  # Panda joints in qpos
-        self._robot_ctrl_slice = slice(0, 7)  # Panda actuators in ctrl
-        self._drawer_ctrl_slice = slice(7, 9)  # drawer actuators in ctrl
+        # Name-based indices are required because GOC-v4 adds real Panda
+        # gripper joints/actuators between the arm torques and drawer motors.
+        self._robot_qpos_slice = slice(2, 9)  # Panda arm joints in qpos
+        self._robot_ctrl_slice = slice(0, 7)  # historical compatibility only
         self._n_robot_joints = 7
+        self._robot_actuator_ids = [
+            mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_ACTUATOR, f"torq_j{i}")
+            for i in range(1, 8)
+        ]
+        self._drawer_actuator_ids = [
+            mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_ACTUATOR, name)
+            for name in ("drawer0", "drawer1")
+        ]
+        self._gripper_actuator_ids = [
+            idx
+            for idx in (
+                mujoco.mj_name2id(
+                    self.model, mujoco.mjtObj.mjOBJ_ACTUATOR, "gripper_finger_joint1"
+                ),
+                mujoco.mj_name2id(
+                    self.model, mujoco.mjtObj.mjOBJ_ACTUATOR, "gripper_finger_joint2"
+                ),
+            )
+            if idx >= 0
+        ]
+        self._gripper_qpos_addrs = [
+            int(self.model.jnt_qposadr[jid])
+            for jid in (
+                mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_JOINT, "finger_joint1"),
+                mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_JOINT, "finger_joint2"),
+            )
+            if jid >= 0
+        ]
+        self._drawer_ctrl_slice = slice(
+            min(self._drawer_actuator_ids), max(self._drawer_actuator_ids) + 1
+        )
 
         # ── Drawer joint tracking (for teacher controller) ──────────────
         self.joint_idx = 0  # First drawer slider joint (drawer_slider_0)
@@ -6570,6 +6595,13 @@ class DrawerRobotEnvMuJoCoLibero(DrawerRobotEnvMuJoCo):
 
         # ── LIBERO-style init pose ────────────────────────────────────────
         self._libero_init_qpos = robot_init_qpos or self._builder.robot_init_qpos
+        self._robot_qpos_target = np.asarray(self._libero_init_qpos, dtype=float).copy()
+        # The LIBERO-aligned interface documents action[:7] as joint velocity.
+        # Track an accumulated position target so resolved-rate controllers get
+        # a real low-level servo instead of a one-step tiny torque impulse.
+        self._robot_velocity_servo_kp = 85.0
+        self._robot_velocity_servo_kd = 14.0
+        self._robot_velocity_limit = 2.5
 
         # ── Proxy EEF state (for backward compat with teacher controller) ──
         self._proxy_eef_pos = np.zeros(3, dtype=np.float32)
@@ -6717,35 +6749,49 @@ class DrawerRobotEnvMuJoCoLibero(DrawerRobotEnvMuJoCo):
         """
         import mujoco
 
-        # Apply robot joint velocity control
+        # Apply accumulated joint-velocity servo. action[:7] is a desired
+        # joint velocity, not a direct drawer/opening command.
         if len(action) >= 7:
-            robot_vel = action[:7].astype(np.float32)
-            # Convert velocity to torque (PD control)
-            kp = 3.0  # proportional gain
-            kd = 0.5  # derivative gain
-            current_q = self.data.qpos[self._robot_qpos_slice]
-            current_qvel = self.data.qvel[self._robot_qpos_slice]
-            dt = self.model.opt.timestep
+            robot_vel = np.clip(
+                action[:7].astype(np.float64),
+                -float(self._robot_velocity_limit),
+                float(self._robot_velocity_limit),
+            )
+            current_q = self.data.qpos[self._robot_qpos_slice].astype(np.float64)
+            current_qvel = self.data.qvel[self._robot_qpos_slice].astype(np.float64)
+            dt = float(self.model.opt.timestep)
+            lo = self.model.jnt_range[2:9, 0].astype(np.float64)
+            hi = self.model.jnt_range[2:9, 1].astype(np.float64)
+            if not hasattr(self, "_robot_qpos_target"):
+                self._robot_qpos_target = current_q.copy()
+            self._robot_qpos_target = np.clip(
+                self._robot_qpos_target + robot_vel * dt, lo, hi
+            )
+            error = self._robot_qpos_target - current_q
+            torque = (
+                float(self._robot_velocity_servo_kp) * error
+                - float(self._robot_velocity_servo_kd) * current_qvel
+            )
 
-            # Desired position = current + velocity * dt
-            desired_q = current_q + robot_vel * dt
-            # PD torque
-            error = desired_q - current_q
-            torque = kp * error - kd * current_qvel
+            # Clamp torques to actuator limits and write by actuator name.
+            for local_i, act_id in enumerate(self._robot_actuator_ids):
+                ctrl_min = float(self.model.actuator_ctrlrange[act_id, 0])
+                ctrl_max = float(self.model.actuator_ctrlrange[act_id, 1])
+                self.data.ctrl[act_id] = float(
+                    np.clip(torque[local_i], ctrl_min, ctrl_max)
+                )
 
-            # Clamp torques to actuator limits
-            ctrl_min = self.model.actuator_ctrlrange[:, 0]
-            ctrl_max = self.model.actuator_ctrlrange[:, 1]
-            torque = np.clip(torque, ctrl_min[:7], ctrl_max[:7])
-            self.data.ctrl[:7] = torque
-
-        # Apply gripper action
-        if len(action) >= 8:
+        # Apply real Panda gripper action when gripper actuators exist.
+        if len(action) >= 8 and len(self._gripper_actuator_ids) == 2:
             gripper_cmd = float(action[7])
-            if gripper_cmd > 0:
-                self.data.ctrl[-1] = -0.5  # close
-            else:
-                self.data.ctrl[-1] = 0.5  # open
+            # This environment's teacher helpers use positive as close. Panda
+            # gripper position targets are close=(0, 0), open=(0.04, -0.04).
+            targets = (0.0, 0.0) if gripper_cmd > 0 else (0.04, -0.04)
+            for act_id, target in zip(self._gripper_actuator_ids, targets):
+                ctrl_min = float(self.model.actuator_ctrlrange[act_id, 0])
+                ctrl_max = float(self.model.actuator_ctrlrange[act_id, 1])
+                self.data.ctrl[act_id] = float(np.clip(target, ctrl_min, ctrl_max))
+            self._proxy_gripper_state = float(targets[0] - targets[1])
 
         mujoco.mj_step(self.model, self.data)
         self._step_count += 1
@@ -6781,15 +6827,21 @@ class DrawerRobotEnvMuJoCoLibero(DrawerRobotEnvMuJoCo):
         import mujoco
 
         mujoco.mj_resetData(self.model, self.data)
-        # Set LIBERO-style robot init pose
+        # Set LIBERO-style robot init pose and open real Panda fingers if present.
         self.data.qpos[self._robot_qpos_slice] = self._libero_init_qpos
+        self._robot_qpos_target = np.asarray(self._libero_init_qpos, dtype=float).copy()
+        if len(getattr(self, "_gripper_qpos_addrs", [])) == 2:
+            self.data.qpos[self._gripper_qpos_addrs[0]] = 0.04
+            self.data.qpos[self._gripper_qpos_addrs[1]] = -0.04
+            for act_id, target in zip(self._gripper_actuator_ids, (0.04, -0.04)):
+                self.data.ctrl[act_id] = target
         mujoco.mj_forward(self.model, self.data)
 
         # Sync proxy state
         pos, quat = self.get_end_effector_pose()
         self._proxy_eef_pos = pos
         self._proxy_eef_quat = quat
-        self._proxy_gripper_state = 0.001
+        self._proxy_gripper_state = 0.08 if len(getattr(self, "_gripper_qpos_addrs", [])) == 2 else 0.001
 
         self._step_count = 0
         self._attached = False

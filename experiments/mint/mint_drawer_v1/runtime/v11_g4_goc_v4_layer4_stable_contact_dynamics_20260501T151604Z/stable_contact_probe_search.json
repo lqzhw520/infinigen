@@ -1,0 +1,142 @@
+[
+  {
+    "params": {
+      "cart_vel_limit": 0.025,
+      "gain": 0.4,
+      "joint_velocity_scale": 0.03,
+      "offset_final_m": -0.003
+    },
+    "probe_index": 0,
+    "summary": {
+      "direct_qpos_drawer_opening": false,
+      "drawer_qpos_nondecreasing_during_pull": true,
+      "finite_force": true,
+      "forbidden_contact_frames": 0,
+      "handle_nonlegal_contact_frames": 0,
+      "max_drawer_fraction": 0.0,
+      "max_force_n": 67.937573403025,
+      "max_penetration_m": 0.0015811238301962627,
+      "min_legal_pad_to_handle_m": 0.05506918339318066,
+      "passes_layer4_gate": true,
+      "passes_low_penetration_contact_gate": true,
+      "reset_forbidden_contact_frames": 0,
+      "reset_max_contact_force_n": 0.0,
+      "reset_max_penetration_m": 0.0,
+      "steps": 190,
+      "target_contact_frames": 7,
+      "target_contact_max_consecutive_frames": 7
+    }
+  },
+  {
+    "params": {
+      "cart_vel_limit": 0.025,
+      "gain": 0.4,
+      "joint_velocity_scale": 0.03,
+      "offset_final_m": 0.0
+    },
+    "probe_index": 1,
+    "summary": {
+      "direct_qpos_drawer_opening": false,
+      "drawer_qpos_nondecreasing_during_pull": true,
+      "finite_force": true,
+      "forbidden_contact_frames": 0,
+      "handle_nonlegal_contact_frames": 0,
+      "max_drawer_fraction": 0.0,
+      "max_force_n": 67.99465189096976,
+      "max_penetration_m": 0.001581812159244689,
+      "min_legal_pad_to_handle_m": 0.05506918339318066,
+      "passes_layer4_gate": true,
+      "passes_low_penetration_contact_gate": true,
+      "reset_forbidden_contact_frames": 0,
+      "reset_max_contact_force_n": 0.0,
+      "reset_max_penetration_m": 0.0,
+      "steps": 190,
+      "target_contact_frames": 7,
+      "target_contact_max_consecutive_frames": 7
+    }
+  },
+  {
+    "params": {
+      "cart_vel_limit": 0.025,
+      "gain": 0.4,
+      "joint_velocity_scale": 0.03,
+      "offset_final_m": 0.005
+    },
+    "probe_index": 2,
+    "summary": {
+      "direct_qpos_drawer_opening": false,
+      "drawer_qpos_nondecreasing_during_pull": true,
+      "finite_force": true,
+      "forbidden_contact_frames": 0,
+      "handle_nonlegal_contact_frames": 0,
+      "max_drawer_fraction": 0.0,
+      "max_force_n": 68.11075062700043,
+      "max_penetration_m": 0.0015833855306078837,
+      "min_legal_pad_to_handle_m": 0.05506918339318066,
+      "passes_layer4_gate": true,
+      "passes_low_penetration_contact_gate": true,
+      "reset_forbidden_contact_frames": 0,
+      "reset_max_contact_force_n": 0.0,
+      "reset_max_penetration_m": 0.0,
+      "steps": 190,
+      "target_contact_frames": 7,
+      "target_contact_max_consecutive_frames": 7
+    }
+  },
+  {
+    "params": {
+      "cart_vel_limit": 0.025,
+      "gain": 0.4,
+      "joint_velocity_scale": 0.03,
+      "offset_final_m": 0.015
+    },
+    "probe_index": 3,
+    "summary": {
+      "direct_qpos_drawer_opening": false,
+      "drawer_qpos_nondecreasing_during_pull": true,
+      "finite_force": true,
+      "forbidden_contact_frames": 0,
+      "handle_nonlegal_contact_frames": 0,
+      "max_drawer_fraction": 0.0,
+      "max_force_n": 68.43165320434528,
+      "max_penetration_m": 0.0015884268119598643,
+      "min_legal_pad_to_handle_m": 0.05506918339318066,
+      "passes_layer4_gate": true,
+      "passes_low_penetration_contact_gate": true,
+      "reset_forbidden_contact_frames": 0,
+      "reset_max_contact_force_n": 0.0,
+      "reset_max_penetration_m": 0.0,
+      "steps": 190,
+      "target_contact_frames": 7,
+      "target_contact_max_consecutive_frames": 7
+    }
+  },
+  {
+    "params": {
+      "cart_vel_limit": 0.025,
+      "gain": 0.25,
+      "joint_velocity_scale": 0.03,
+      "offset_final_m": 0.025
+    },
+    "probe_index": 4,
+    "summary": {
+      "direct_qpos_drawer_opening": false,
+      "drawer_qpos_nondecreasing_during_pull": true,
+      "finite_force": true,
+      "forbidden_contact_frames": 0,
+      "handle_nonlegal_contact_frames": 0,
+      "max_drawer_fraction": 0.0,
+      "max_force_n": 75.05169623906315,
+      "max_penetration_m": 0.0016827683717490771,
+      "min_legal_pad_to_handle_m": 0.05506918339318066,
+      "passes_layer4_gate": true,
+      "passes_low_penetration_contact_gate": true,
+      "reset_forbidden_contact_frames": 0,
+      "reset_max_contact_force_n": 0.0,
+      "reset_max_penetration_m": 0.0,
+      "steps": 190,
+      "target_contact_frames": 7,
+      "target_contact_max_consecutive_frames": 7
+    }
+  }
+]

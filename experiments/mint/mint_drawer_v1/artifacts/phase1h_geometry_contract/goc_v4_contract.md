@@ -1,10 +1,15 @@
 
-# GOC-v4 Dedicated Finger-Pad Geometry Ownership Contract
+# GOC-v4 Dedicated Finger-Pad Contract
 
-GOC-v4 creates dedicated collision-only fingertip pad geoms for V11-G4 contact-rich drawer manipulation. The previous GOC-v3 legal geoms [63, 81, 90] remain historical broad-link authority, but they are demoted from target contact for this phase.
+This contract supersedes the previous broad-link GOC-v3 target-contact semantics for V11-G4 finger-pad handle contact. The legal target contact set is now the per-instance dedicated pad IDs `[102, 105]`. Broad link geoms `[70, 88, 97]` remain robot geometry and must not be counted as target contact.
 
-Legal dedicated finger-pad geom IDs: `[98, 99]`.
-Forbidden robot surface geom IDs: `[52, 54, 56, 61, 66, 70, 88, 97]`.
-Drawer handle geom IDs: `[0, 1, 2, 3, 4, 5, 6, 7, 8]`.
+Layer 4 stable contact dynamics status: `True`.
 
-The contract rejects body-based 31/27 authority and count-only target contact. It does not mutate current_truth, next_actions, or the GOC-v3 artifact.
+Best probe:
+- target contact max consecutive frames: `7`
+- forbidden contact frames: `0`
+- handle nonlegal contact frames: `0`
+- max penetration m: `0.0015811238301962627`
+- max force N: `67.937573403025`
+
+This is not a drawer-opening, local visual replay, or MINT training success claim. It is the Layer 4 contact-dynamics gate needed before bounded teacher pull rollout.

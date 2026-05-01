@@ -1,0 +1,96 @@
+{
+  "actuators": [
+    "torq_j1",
+    "torq_j2",
+    "torq_j3",
+    "torq_j4",
+    "torq_j5",
+    "torq_j6",
+    "torq_j7",
+    "gripper_finger_joint1",
+    "gripper_finger_joint2",
+    "drawer0",
+    "drawer1"
+  ],
+  "broad_finger_collision_contact_status": [
+    {
+      "body_name": "leftfinger",
+      "conaffinity": 0,
+      "contype": 0,
+      "geom_id": 101,
+      "geom_name": "finger1_collision"
+    },
+    {
+      "body_name": "rightfinger",
+      "conaffinity": 0,
+      "contype": 0,
+      "geom_id": 104,
+      "geom_name": "finger2_collision"
+    }
+  ],
+  "gripper_actuator_ids": [
+    7,
+    8
+  ],
+  "gripper_qpos_addrs": [
+    9,
+    10
+  ],
+  "joints": [
+    "drawer_slider_0",
+    "drawer_slider_1",
+    "joint1",
+    "joint2",
+    "joint3",
+    "joint4",
+    "joint5",
+    "joint6",
+    "joint7",
+    "finger_joint1",
+    "finger_joint2"
+  ],
+  "legal_finger_pad_geom_ids": [
+    102,
+    105
+  ],
+  "legal_finger_pad_geoms": [
+    {
+      "body_name": "finger_joint1_tip",
+      "conaffinity": 1,
+      "contype": 1,
+      "geom_id": 102,
+      "geom_name": "finger1_pad_collision",
+      "geom_size": [
+        0.008,
+        0.004,
+        0.008
+      ],
+      "geom_type": 6
+    },
+    {
+      "body_name": "finger_joint2_tip",
+      "conaffinity": 1,
+      "contype": 1,
+      "geom_id": 105,
+      "geom_name": "finger2_pad_collision",
+      "geom_size": [
+        0.008,
+        0.004,
+        0.008
+      ],
+      "geom_type": 6
+    }
+  ],
+  "nbody": 21,
+  "ngeom": 106,
+  "njnt": 11,
+  "nq": 11,
+  "nu": 11,
+  "nv": 11,
+  "robot_velocity_servo": {
+    "implemented": true,
+    "kd": 14.0,
+    "kp": 85.0,
+    "velocity_limit_rad_s": 2.5
+  }
+}

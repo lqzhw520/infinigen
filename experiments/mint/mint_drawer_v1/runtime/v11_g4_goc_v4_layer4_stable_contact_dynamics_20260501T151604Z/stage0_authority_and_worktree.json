@@ -1,0 +1,21 @@
+{
+  "commands": [
+    {
+      "cmd": "pwd",
+      "output": "/mnt/afs2/zhuhaowu/infinigen"
+    },
+    {
+      "cmd": "git branch --show-current",
+      "output": "feature/mint-env-reformulation-v1-visual-fidelity"
+    },
+    {
+      "cmd": "git rev-parse HEAD",
+      "output": "0e5c443f9bdbbe423a49ad67dbca2fce6b3ec4bf"
+    },
+    {
+      "cmd": "git status --short",
+      "output": "M .project-memory/STATUS.md\n M .session/checkpoint.md\n M experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v4_contract.json\n M experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v4_contract.md\n M experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v4_geom_inventory.json\n M experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v4_validation_report.json\n M experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_goc_v4_dedicated_pad_teacher_synthesis.json\n M experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_goc_v4_dedicated_pad_teacher_synthesis.json\n M scripts/mint/drawer_robot_env_mujoco.py\n M scripts/mint/merged_model_builder.py\n?? experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_layer4_stable_contact_dynamics.yaml\n?? experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_goc_v4_layer4_stable_contact_dynamics.json\n?? experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_goc_v4_layer4_stable_contact_dynamics.json\n?? scripts/mint/goc_v4_layer4_stable_contact_dynamics.py"
+    }
+  ],
+  "spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_layer4_stable_contact_dynamics.yaml"
+}

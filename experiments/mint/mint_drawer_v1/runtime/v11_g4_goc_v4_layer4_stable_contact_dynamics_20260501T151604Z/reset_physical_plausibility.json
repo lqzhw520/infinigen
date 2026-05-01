@@ -1,0 +1,12 @@
+{
+  "counts": {
+    "forbidden": 0,
+    "handle_nonlegal": 0,
+    "max_contact_force_n": 0.0,
+    "max_penetration_m": 0.0,
+    "other": 0,
+    "target": 0
+  },
+  "pairs": [],
+  "passed": true
+}

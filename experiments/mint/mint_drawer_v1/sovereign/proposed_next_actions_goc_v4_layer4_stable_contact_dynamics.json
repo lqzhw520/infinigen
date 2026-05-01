@@ -18,23 +18,13 @@
     "target_contact_frames": 7,
     "target_contact_max_consecutive_frames": 7
   },
+  "bounded_teacher_pull_rollout_requires_new_harness_bound_spec": true,
+  "closeout_classification": "LAYER4_STABLE_GOC_V4_CONTACT_DYNAMICS_PASSED",
+  "current_truth_direct_mutation": false,
   "generated_at_utc": "2026-05-01T15:16:13Z",
-  "goc_v3_broad_link_geoms_demoted_from_target": [
-    70,
-    88,
-    97
-  ],
-  "invariants": {
-    "broad_finger_collision_demoted_noncontact": true,
-    "layer4_stable_contact_dynamics_passed": true,
-    "legal_finger_pad_disjoint_forbidden_robot": true,
-    "legal_finger_pad_disjoint_handle": true,
-    "unknown_contact_relevant_empty": true
-  },
-  "layer4_contact_dynamics_run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_layer4_stable_contact_dynamics_20260501T151604Z",
-  "legal_finger_pad_geom_ids": [
-    102,
-    105
-  ],
-  "source_model_commit": "0e5c443f9bdbbe423a49ad67dbca2fce6b3ec4bf"
+  "layer4_stable_contact_dynamics_passed": true,
+  "next_actions_direct_mutation": false,
+  "phase1h_rollout_allowed": false,
+  "proposed_next_gate": "GOC_V4_BOUNDED_TEACHER_PULL_ROLLOUT",
+  "run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_layer4_stable_contact_dynamics_20260501T151604Z"
 }

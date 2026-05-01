@@ -37,3 +37,10 @@ A minimal runtime entrypoint patch was applied to `scripts/mint/run_full_robot_t
 ## Next Gate
 
 `ROUTE_REPAIR_UNDER_GOC_V3`
+
+## Post-push verification
+
+- evidence_commit: `734ec6f4387322ce182a65a825911c29272c5a8b`
+- pushed_to_origin: true
+- origin_visible_required_paths: true
+- final_closeout: ROUTE_NEVER_REACHES_GOC_V3_HANDLE_OR_FORBIDDEN_CONTACT

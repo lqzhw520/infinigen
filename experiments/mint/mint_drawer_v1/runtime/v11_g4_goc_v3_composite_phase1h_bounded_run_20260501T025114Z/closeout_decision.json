@@ -1,7 +1,7 @@
 {
   "bounded_rollout_attempted": true,
   "closeout_classification": "ROUTE_NEVER_REACHES_GOC_V3_HANDLE_OR_FORBIDDEN_CONTACT",
-  "committed": false,
+  "committed": true,
   "composite_task_spec_lock_bound": true,
   "composite_task_spec_written": true,
   "current_truth_modified": false,
@@ -10,6 +10,11 @@
     "candidate_selection_report": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_composite_phase1h_bounded_run_20260501T025114Z/candidate_selection_report.json",
     "run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_composite_phase1h_bounded_run_20260501T025114Z"
   },
+  "final_output": {
+    "committed": true,
+    "pushed_to_origin": true,
+    "remote_commit_hash": "734ec6f4387322ce182a65a825911c29272c5a8b"
+  },
   "generated_at_utc": "2026-05-01T03:02:05Z",
   "goc_v3_authority_changed": false,
   "harness_preflight_passed": true,
@@ -17,9 +22,10 @@
   "microvariants_used": 3,
   "next_actions_modified": false,
   "next_gate": "ROUTE_REPAIR_UNDER_GOC_V3",
+  "origin_visible_evidence_commit": "734ec6f4387322ce182a65a825911c29272c5a8b",
   "preaction_contact_smoke_passed": true,
-  "pushed_to_origin": false,
-  "remote_commit_hash": null,
+  "pushed_to_origin": true,
+  "remote_commit_hash": "734ec6f4387322ce182a65a825911c29272c5a8b",
   "reset_repair_verified": true,
   "rollout_attempts_used": 12,
   "route_entrypoint_preflight_passed": true,

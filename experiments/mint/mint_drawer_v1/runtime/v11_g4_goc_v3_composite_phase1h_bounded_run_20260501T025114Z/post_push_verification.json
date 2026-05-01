@@ -1,0 +1,61 @@
+{
+  "all_required_paths_origin_visible": true,
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "checks": [
+    {
+      "origin_visible": true,
+      "path": "scripts/mint/run_full_robot_teacher_probe.py",
+      "stderr": ""
+    },
+    {
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_composite_phase1h_bounded_run_20260501T025114Z/final_report.md",
+      "stderr": ""
+    },
+    {
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_composite_phase1h_bounded_run_20260501T025114Z/closeout_decision.json",
+      "stderr": ""
+    },
+    {
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_composite_phase1h_bounded_run_20260501T025114Z/bounded_attempts.jsonl",
+      "stderr": ""
+    },
+    {
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_composite_phase1h_bounded_run_20260501T025114Z/candidate_selection_report.json",
+      "stderr": ""
+    },
+    {
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_composite_phase1h_bounded_run_20260501T025114Z/stage2_repaired_reset_preaction_smoke.json",
+      "stderr": ""
+    },
+    {
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_composite_phase1h_bounded_run_20260501T025114Z/stage3_route_entrypoint_preflight.json",
+      "stderr": ""
+    },
+    {
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_composite_phase1h_bounded_run_20260501T025114Z/stage8_final_checks.json",
+      "stderr": ""
+    },
+    {
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_phase1h_goc_v3_composite.json",
+      "stderr": ""
+    },
+    {
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_phase1h_goc_v3_composite.json",
+      "stderr": ""
+    }
+  ],
+  "committed": true,
+  "origin_visible_commit": "734ec6f4387322ce182a65a825911c29272c5a8b",
+  "pushed_to_origin": true,
+  "remote": "my-origin",
+  "task_id": "V11_G4_GOC_V3_COMPOSITE_PHASE1H_BOUNDED_AUTONOMOUS_RUN_V3"
+}

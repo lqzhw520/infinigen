@@ -292,7 +292,7 @@ def main() -> int:
     write_json(run_dir / "cycle_2_expanded_results.json", c2_payload); append_jsonl(run_dir / "repair_cycles.jsonl", c2_payload)
     current_params = CONTROLLER_PARAM_GRID[0]; best_cases = run_matrix(selected, perturbations, base_map, current_params, run_dir, "cycle_2_full_matrix_cases.jsonl"); best_hist = histogram(best_cases); best_passes = pass_count(best_cases); cycles_run = 2
     write_json(run_dir / "cycle_2_full_matrix_results.json", {"cycle": 2, "params": current_params, "cases_total": len(best_cases), "cases_passed": best_passes, "cases_failed": len(best_cases) - best_passes, "histogram": best_hist, "cases": best_cases[:80]})
-    for idx, params in enumerate(CONTROLLER_PARAM_GRID[1:], start=3):
+    for idx, params in enumerate(CONTROLLER_PARAM_GRID[1:3], start=3):
         if pass_count(best_cases) == len(best_cases) or time.monotonic() > deadline: break
         cycles_run = idx; failed = [c for c in best_cases if not c.get("summary", {}).get("passes_robust_layer4r_gate", False)]; reps = failed[: min(12, len(failed))]; targeted = []
         for rep in reps:

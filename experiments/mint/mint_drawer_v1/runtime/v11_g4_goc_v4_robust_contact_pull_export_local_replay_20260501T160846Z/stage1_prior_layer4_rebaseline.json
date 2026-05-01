@@ -1,0 +1,44 @@
+{
+  "accepted_as_single_instance_minimal_gate_only": true,
+  "not_sufficient_for_rollout_without_layer4r": true,
+  "previous_layer4_closeout": {
+    "bounded_rollout_attempted": false,
+    "closeout_classification": "LAYER4_STABLE_GOC_V4_CONTACT_DYNAMICS_PASSED",
+    "committed": false,
+    "current_truth_modified": false,
+    "drawer_fraction": 0.0,
+    "forbidden_contact_frames": 0,
+    "goc_v3_authority_changed": false,
+    "goc_v3_broad_link_geoms_demoted_from_target": [
+      70,
+      88,
+      97
+    ],
+    "goc_v4_authority_created": true,
+    "gripper_dof_added": true,
+    "handle_nonlegal_contact_frames": 0,
+    "harness_preflight_passed": true,
+    "layer4_stable_contact_dynamics_passed": true,
+    "legal_finger_pad_geom_ids": [
+      102,
+      105
+    ],
+    "max_force_n": 67.937573403025,
+    "max_penetration_m": 0.0015811238301962627,
+    "next_actions_modified": false,
+    "next_gate": "GOC_V4_BOUNDED_TEACHER_PULL_ROLLOUT",
+    "pushed_to_origin": false,
+    "remote_commit_hash": null,
+    "robot_velocity_servo_fixed": true,
+    "runtime_patch_applied": true,
+    "runtime_patch_files": [
+      "scripts/mint/merged_model_builder.py",
+      "scripts/mint/drawer_robot_env_mujoco.py",
+      "scripts/mint/goc_v4_layer4_stable_contact_dynamics.py"
+    ],
+    "strict_candidate_found": false,
+    "target_contact_frames": 7,
+    "target_contact_max_consecutive_frames": 7
+  },
+  "previous_layer4_run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_layer4_stable_contact_dynamics_20260501T151604Z"
+}

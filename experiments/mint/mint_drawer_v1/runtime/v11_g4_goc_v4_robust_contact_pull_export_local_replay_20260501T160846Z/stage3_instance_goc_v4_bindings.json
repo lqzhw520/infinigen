@@ -1,0 +1,508 @@
+[
+  {
+    "drawer_handle_geom_ids": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "forbidden_robot_surface_geom_ids": [
+      45,
+      47,
+      49,
+      54,
+      59,
+      63,
+      81,
+      90,
+      92
+    ],
+    "goc_v3_broad_link_geoms_demoted_from_target": [
+      63,
+      81,
+      90
+    ],
+    "legal_finger_pad_geom_ids": [
+      95,
+      98
+    ],
+    "ngeom": 99,
+    "nq": 11,
+    "nu": 11,
+    "reset_counts": {
+      "forbidden": 5,
+      "handle_nonlegal": 0,
+      "max_contact_force_n": 1232.7081203731912,
+      "max_penetration_m": 0.0393749538785021,
+      "other": 0,
+      "target": 9
+    },
+    "seed": 1
+  },
+  {
+    "drawer_handle_geom_ids": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "forbidden_robot_surface_geom_ids": [
+      49,
+      51,
+      53,
+      58,
+      63,
+      67,
+      85,
+      94,
+      96
+    ],
+    "goc_v3_broad_link_geoms_demoted_from_target": [
+      63,
+      67,
+      85,
+      94
+    ],
+    "legal_finger_pad_geom_ids": [
+      99,
+      102
+    ],
+    "ngeom": 103,
+    "nq": 11,
+    "nu": 11,
+    "reset_counts": {
+      "forbidden": 0,
+      "handle_nonlegal": 0,
+      "max_contact_force_n": 0.0,
+      "max_penetration_m": 0.0,
+      "other": 0,
+      "target": 0
+    },
+    "seed": 2
+  },
+  {
+    "drawer_handle_geom_ids": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "forbidden_robot_surface_geom_ids": [
+      51,
+      53,
+      55,
+      60,
+      65,
+      69,
+      87,
+      96,
+      98
+    ],
+    "goc_v3_broad_link_geoms_demoted_from_target": [
+      69,
+      87,
+      96
+    ],
+    "legal_finger_pad_geom_ids": [
+      101,
+      104
+    ],
+    "ngeom": 105,
+    "nq": 11,
+    "nu": 11,
+    "reset_counts": {
+      "forbidden": 0,
+      "handle_nonlegal": 0,
+      "max_contact_force_n": 0.0,
+      "max_penetration_m": 0.0,
+      "other": 0,
+      "target": 0
+    },
+    "seed": 3
+  },
+  {
+    "drawer_handle_geom_ids": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "forbidden_robot_surface_geom_ids": [
+      49,
+      51,
+      53,
+      58,
+      63,
+      67,
+      85,
+      94,
+      96
+    ],
+    "goc_v3_broad_link_geoms_demoted_from_target": [
+      63,
+      67,
+      85,
+      94
+    ],
+    "legal_finger_pad_geom_ids": [
+      99,
+      102
+    ],
+    "ngeom": 103,
+    "nq": 11,
+    "nu": 11,
+    "reset_counts": {
+      "forbidden": 5,
+      "handle_nonlegal": 0,
+      "max_contact_force_n": 2202.8737543651205,
+      "max_penetration_m": 0.0482707645715787,
+      "other": 0,
+      "target": 8
+    },
+    "seed": 4
+  },
+  {
+    "drawer_handle_geom_ids": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "forbidden_robot_surface_geom_ids": [
+      52,
+      54,
+      56,
+      61,
+      66,
+      70,
+      88,
+      97,
+      99
+    ],
+    "goc_v3_broad_link_geoms_demoted_from_target": [
+      70,
+      88,
+      97
+    ],
+    "legal_finger_pad_geom_ids": [
+      102,
+      105
+    ],
+    "ngeom": 106,
+    "nq": 11,
+    "nu": 11,
+    "reset_counts": {
+      "forbidden": 0,
+      "handle_nonlegal": 0,
+      "max_contact_force_n": 0.0,
+      "max_penetration_m": 0.0,
+      "other": 0,
+      "target": 0
+    },
+    "seed": 5
+  },
+  {
+    "drawer_handle_geom_ids": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "forbidden_robot_surface_geom_ids": [
+      50,
+      52,
+      54,
+      59,
+      64,
+      68,
+      86,
+      95,
+      97
+    ],
+    "goc_v3_broad_link_geoms_demoted_from_target": [
+      68,
+      86,
+      95
+    ],
+    "legal_finger_pad_geom_ids": [
+      100,
+      103
+    ],
+    "ngeom": 104,
+    "nq": 11,
+    "nu": 11,
+    "reset_counts": {
+      "forbidden": 0,
+      "handle_nonlegal": 0,
+      "max_contact_force_n": 0.0,
+      "max_penetration_m": 0.0,
+      "other": 0,
+      "target": 0
+    },
+    "seed": 6
+  },
+  {
+    "error": "ValueError(\"Error: body 'link_2' not found in bodypair 1\\nElement name '', id 1, line 180\")",
+    "seed": 7
+  },
+  {
+    "drawer_handle_geom_ids": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "forbidden_robot_surface_geom_ids": [
+      48,
+      50,
+      52,
+      57,
+      62,
+      66,
+      84,
+      93,
+      95
+    ],
+    "goc_v3_broad_link_geoms_demoted_from_target": [
+      66,
+      84,
+      93
+    ],
+    "legal_finger_pad_geom_ids": [
+      98,
+      101
+    ],
+    "ngeom": 102,
+    "nq": 11,
+    "nu": 11,
+    "reset_counts": {
+      "forbidden": 5,
+      "handle_nonlegal": 0,
+      "max_contact_force_n": 1757.6064757680629,
+      "max_penetration_m": 0.05408376715794394,
+      "other": 0,
+      "target": 9
+    },
+    "seed": 8
+  },
+  {
+    "drawer_handle_geom_ids": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "forbidden_robot_surface_geom_ids": [
+      51,
+      53,
+      55,
+      60,
+      65,
+      69,
+      87,
+      96,
+      98
+    ],
+    "goc_v3_broad_link_geoms_demoted_from_target": [
+      69,
+      87,
+      96
+    ],
+    "legal_finger_pad_geom_ids": [
+      101,
+      104
+    ],
+    "ngeom": 105,
+    "nq": 11,
+    "nu": 11,
+    "reset_counts": {
+      "forbidden": 0,
+      "handle_nonlegal": 0,
+      "max_contact_force_n": 0.0,
+      "max_penetration_m": 0.0,
+      "other": 0,
+      "target": 0
+    },
+    "seed": 11
+  },
+  {
+    "drawer_handle_geom_ids": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "forbidden_robot_surface_geom_ids": [
+      48,
+      50,
+      52,
+      57,
+      62,
+      66,
+      84,
+      93,
+      95
+    ],
+    "goc_v3_broad_link_geoms_demoted_from_target": [
+      66,
+      84,
+      93
+    ],
+    "legal_finger_pad_geom_ids": [
+      98,
+      101
+    ],
+    "ngeom": 102,
+    "nq": 11,
+    "nu": 11,
+    "reset_counts": {
+      "forbidden": 0,
+      "handle_nonlegal": 0,
+      "max_contact_force_n": 0.0,
+      "max_penetration_m": 0.0,
+      "other": 0,
+      "target": 0
+    },
+    "seed": 12
+  },
+  {
+    "drawer_handle_geom_ids": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "forbidden_robot_surface_geom_ids": [
+      52,
+      54,
+      56,
+      61,
+      66,
+      70,
+      88,
+      97,
+      99
+    ],
+    "goc_v3_broad_link_geoms_demoted_from_target": [
+      70,
+      88,
+      97
+    ],
+    "legal_finger_pad_geom_ids": [
+      102,
+      105
+    ],
+    "ngeom": 106,
+    "nq": 11,
+    "nu": 11,
+    "reset_counts": {
+      "forbidden": 0,
+      "handle_nonlegal": 0,
+      "max_contact_force_n": 0.0,
+      "max_penetration_m": 0.0,
+      "other": 0,
+      "target": 0
+    },
+    "seed": 13
+  },
+  {
+    "drawer_handle_geom_ids": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "forbidden_robot_surface_geom_ids": [
+      49,
+      51,
+      53,
+      58,
+      63,
+      67,
+      85,
+      94,
+      96
+    ],
+    "goc_v3_broad_link_geoms_demoted_from_target": [
+      63,
+      67,
+      85,
+      94
+    ],
+    "legal_finger_pad_geom_ids": [
+      99,
+      102
+    ],
+    "ngeom": 103,
+    "nq": 11,
+    "nu": 11,
+    "reset_counts": {
+      "forbidden": 0,
+      "handle_nonlegal": 0,
+      "max_contact_force_n": 0.0,
+      "max_penetration_m": 0.0,
+      "other": 0,
+      "target": 0
+    },
+    "seed": 14
+  },
+  {
+    "error": "ValueError(\"Error: body 'link_2' not found in bodypair 1\\nElement name '', id 1, line 179\")",
+    "seed": 15
+  }
+]

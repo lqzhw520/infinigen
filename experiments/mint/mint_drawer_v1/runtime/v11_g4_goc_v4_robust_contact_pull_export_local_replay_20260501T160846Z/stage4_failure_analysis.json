@@ -1,0 +1,534 @@
+{
+  "case_count": 117,
+  "failing_examples": [
+    {
+      "error": null,
+      "forbidden_contact_frames": 11,
+      "handle_nonlegal_contact_frames": 0,
+      "max_force_n": 1244.249986876318,
+      "max_penetration_m": 0.0393749538785021,
+      "perturbation": "nominal",
+      "reasons": [
+        "forbidden_contact_present",
+        "max_penetration_gt_0p02m"
+      ],
+      "seed": 1,
+      "target_contact_frames": 290,
+      "target_contact_max_consecutive_frames": 268
+    },
+    {
+      "error": null,
+      "forbidden_contact_frames": 12,
+      "handle_nonlegal_contact_frames": 0,
+      "max_force_n": 1302.9056540048266,
+      "max_penetration_m": 0.04437495387850222,
+      "perturbation": "base_x_plus_5mm",
+      "reasons": [
+        "forbidden_contact_present",
+        "max_penetration_gt_0p02m"
+      ],
+      "seed": 1,
+      "target_contact_frames": 295,
+      "target_contact_max_consecutive_frames": 273
+    },
+    {
+      "error": null,
+      "forbidden_contact_frames": 10,
+      "handle_nonlegal_contact_frames": 0,
+      "max_force_n": 1185.4848778820806,
+      "max_penetration_m": 0.0343749538785022,
+      "perturbation": "base_x_minus_5mm",
+      "reasons": [
+        "forbidden_contact_present",
+        "max_penetration_gt_0p02m"
+      ],
+      "seed": 1,
+      "target_contact_frames": 280,
+      "target_contact_max_consecutive_frames": 260
+    },
+    {
+      "error": null,
+      "forbidden_contact_frames": 11,
+      "handle_nonlegal_contact_frames": 0,
+      "max_force_n": 1376.8931381762836,
+      "max_penetration_m": 0.0393749538785021,
+      "perturbation": "base_y_plus_5mm",
+      "reasons": [
+        "forbidden_contact_present",
+        "max_penetration_gt_0p02m"
+      ],
+      "seed": 1,
+      "target_contact_frames": 287,
+      "target_contact_max_consecutive_frames": 267
+    },
+    {
+      "error": null,
+      "forbidden_contact_frames": 11,
+      "handle_nonlegal_contact_frames": 0,
+      "max_force_n": 1111.4623347829895,
+      "max_penetration_m": 0.0393749538785021,
+      "perturbation": "base_y_minus_5mm",
+      "reasons": [
+        "forbidden_contact_present",
+        "max_penetration_gt_0p02m"
+      ],
+      "seed": 1,
+      "target_contact_frames": 292,
+      "target_contact_max_consecutive_frames": 270
+    },
+    {
+      "error": null,
+      "forbidden_contact_frames": 10,
+      "handle_nonlegal_contact_frames": 0,
+      "max_force_n": 764.4963891091471,
+      "max_penetration_m": 0.03518820710141097,
+      "perturbation": "yaw_minus_2deg",
+      "reasons": [
+        "forbidden_contact_present",
+        "max_penetration_gt_0p02m"
+      ],
+      "seed": 1,
+      "target_contact_frames": 297,
+      "target_contact_max_consecutive_frames": 273
+    },
+    {
+      "error": null,
+      "forbidden_contact_frames": 13,
+      "handle_nonlegal_contact_frames": 0,
+      "max_force_n": 1302.9018938838508,
+      "max_penetration_m": 0.04297665250751454,
+      "perturbation": "yaw_plus_2deg",
+      "reasons": [
+        "forbidden_contact_present",
+        "max_penetration_gt_0p02m"
+      ],
+      "seed": 1,
+      "target_contact_frames": 293,
+      "target_contact_max_consecutive_frames": 271
+    },
+    {
+      "error": null,
+      "forbidden_contact_frames": 11,
+      "handle_nonlegal_contact_frames": 0,
+      "max_force_n": 1317.3982495564028,
+      "max_penetration_m": 0.04092699479472417,
+      "perturbation": "qpos_small_plus",
+      "reasons": [
+        "forbidden_contact_present",
+        "max_penetration_gt_0p02m"
+      ],
+      "seed": 1,
+      "target_contact_frames": 289,
+      "target_contact_max_consecutive_frames": 268
+    },
+    {
+      "error": null,
+      "forbidden_contact_frames": 11,
+      "handle_nonlegal_contact_frames": 0,
+      "max_force_n": 1171.056346945661,
+      "max_penetration_m": 0.03778404871999935,
+      "perturbation": "qpos_small_minus",
+      "reasons": [
+        "forbidden_contact_present",
+        "max_penetration_gt_0p02m"
+      ],
+      "seed": 1,
+      "target_contact_frames": 288,
+      "target_contact_max_consecutive_frames": 267
+    },
+    {
+      "error": null,
+      "forbidden_contact_frames": 15,
+      "handle_nonlegal_contact_frames": 0,
+      "max_force_n": 2336.797878370907,
+      "max_penetration_m": 0.0482707645715787,
+      "perturbation": "nominal",
+      "reasons": [
+        "forbidden_contact_present",
+        "max_penetration_gt_0p02m"
+      ],
+      "seed": 4,
+      "target_contact_frames": 284,
+      "target_contact_max_consecutive_frames": 261
+    },
+    {
+      "error": null,
+      "forbidden_contact_frames": 18,
+      "handle_nonlegal_contact_frames": 0,
+      "max_force_n": 2386.700220112776,
+      "max_penetration_m": 0.053270764571578824,
+      "perturbation": "base_x_plus_5mm",
+      "reasons": [
+        "forbidden_contact_present",
+        "max_penetration_gt_0p02m"
+      ],
+      "seed": 4,
+      "target_contact_frames": 286,
+      "target_contact_max_consecutive_frames": 261
+    },
+    {
+      "error": null,
+      "forbidden_contact_frames": 11,
+      "handle_nonlegal_contact_frames": 0,
+      "max_force_n": 669.6202760447784,
+      "max_penetration_m": 0.04327076457157881,
+      "perturbation": "base_x_minus_5mm",
+      "reasons": [
+        "forbidden_contact_present",
+        "max_penetration_gt_0p02m"
+      ],
+      "seed": 4,
+      "target_contact_frames": 281,
+      "target_contact_max_consecutive_frames": 261
+    },
+    {
+      "error": null,
+      "forbidden_contact_frames": 15,
+      "handle_nonlegal_contact_frames": 0,
+      "max_force_n": 2310.025920749502,
+      "max_penetration_m": 0.0482707645715787,
+      "perturbation": "base_y_plus_5mm",
+      "reasons": [
+        "forbidden_contact_present",
+        "max_penetration_gt_0p02m"
+      ],
+      "seed": 4,
+      "target_contact_frames": 286,
+      "target_contact_max_consecutive_frames": 263
+    },
+    {
+      "error": null,
+      "forbidden_contact_frames": 15,
+      "handle_nonlegal_contact_frames": 0,
+      "max_force_n": 2336.7996207850065,
+      "max_penetration_m": 0.0482707645715787,
+      "perturbation": "base_y_minus_5mm",
+      "reasons": [
+        "forbidden_contact_present",
+        "max_penetration_gt_0p02m"
+      ],
+      "seed": 4,
+      "target_contact_frames": 284,
+      "target_contact_max_consecutive_frames": 261
+    },
+    {
+      "error": null,
+      "forbidden_contact_frames": 10,
+      "handle_nonlegal_contact_frames": 0,
+      "max_force_n": 1167.2174985461538,
+      "max_penetration_m": 0.04408401779448756,
+      "perturbation": "yaw_minus_2deg",
+      "reasons": [
+        "forbidden_contact_present",
+        "max_penetration_gt_0p02m"
+      ],
+      "seed": 4,
+      "target_contact_frames": 282,
+      "target_contact_max_consecutive_frames": 262
+    },
+    {
+      "error": null,
+      "forbidden_contact_frames": 18,
+      "handle_nonlegal_contact_frames": 0,
+      "max_force_n": 2335.8176294324817,
+      "max_penetration_m": 0.051872463200591135,
+      "perturbation": "yaw_plus_2deg",
+      "reasons": [
+        "forbidden_contact_present",
+        "max_penetration_gt_0p02m"
+      ],
+      "seed": 4,
+      "target_contact_frames": 295,
+      "target_contact_max_consecutive_frames": 268
+    },
+    {
+      "error": null,
+      "forbidden_contact_frames": 16,
+      "handle_nonlegal_contact_frames": 0,
+      "max_force_n": 2347.8011887277135,
+      "max_penetration_m": 0.04982280548780077,
+      "perturbation": "qpos_small_plus",
+      "reasons": [
+        "forbidden_contact_present",
+        "max_penetration_gt_0p02m"
+      ],
+      "seed": 4,
+      "target_contact_frames": 285,
+      "target_contact_max_consecutive_frames": 261
+    },
+    {
+      "error": null,
+      "forbidden_contact_frames": 13,
+      "handle_nonlegal_contact_frames": 0,
+      "max_force_n": 2284.3227653982967,
+      "max_penetration_m": 0.04667985941307595,
+      "perturbation": "qpos_small_minus",
+      "reasons": [
+        "forbidden_contact_present",
+        "max_penetration_gt_0p02m"
+      ],
+      "seed": 4,
+      "target_contact_frames": 283,
+      "target_contact_max_consecutive_frames": 262
+    },
+    {
+      "error": null,
+      "forbidden_contact_frames": 0,
+      "handle_nonlegal_contact_frames": 0,
+      "max_force_n": 0.0,
+      "max_penetration_m": 0.0,
+      "perturbation": "nominal",
+      "reasons": [
+        "target_contact_frames_lt_50",
+        "target_contact_consecutive_lt_30"
+      ],
+      "seed": 5,
+      "target_contact_frames": 0,
+      "target_contact_max_consecutive_frames": 0
+    },
+    {
+      "error": null,
+      "forbidden_contact_frames": 0,
+      "handle_nonlegal_contact_frames": 0,
+      "max_force_n": 0.0,
+      "max_penetration_m": 0.0,
+      "perturbation": "base_x_plus_5mm",
+      "reasons": [
+        "target_contact_frames_lt_50",
+        "target_contact_consecutive_lt_30"
+      ],
+      "seed": 5,
+      "target_contact_frames": 0,
+      "target_contact_max_consecutive_frames": 0
+    }
+  ],
+  "failure_reason_counts": {
+    "forbidden_contact_present": 28,
+    "max_penetration_gt_0p02m": 27,
+    "model_load_or_probe_error": 18,
+    "pass": 27,
+    "target_contact_consecutive_lt_30": 65,
+    "target_contact_frames_lt_50": 65
+  },
+  "failure_reason_counts_by_seed": {
+    "1": {
+      "forbidden_contact_present": 9,
+      "max_penetration_gt_0p02m": 9
+    },
+    "11": {
+      "forbidden_contact_present": 1,
+      "target_contact_consecutive_lt_30": 9,
+      "target_contact_frames_lt_50": 9
+    },
+    "12": {
+      "target_contact_consecutive_lt_30": 9,
+      "target_contact_frames_lt_50": 9
+    },
+    "13": {
+      "pass": 9
+    },
+    "14": {
+      "target_contact_consecutive_lt_30": 9,
+      "target_contact_frames_lt_50": 9
+    },
+    "15": {
+      "model_load_or_probe_error": 9,
+      "target_contact_consecutive_lt_30": 9,
+      "target_contact_frames_lt_50": 9
+    },
+    "2": {
+      "pass": 9
+    },
+    "3": {
+      "pass": 9
+    },
+    "4": {
+      "forbidden_contact_present": 9,
+      "max_penetration_gt_0p02m": 9
+    },
+    "5": {
+      "target_contact_consecutive_lt_30": 9,
+      "target_contact_frames_lt_50": 9
+    },
+    "6": {
+      "target_contact_consecutive_lt_30": 9,
+      "target_contact_frames_lt_50": 9
+    },
+    "7": {
+      "model_load_or_probe_error": 9,
+      "target_contact_consecutive_lt_30": 9,
+      "target_contact_frames_lt_50": 9
+    },
+    "8": {
+      "forbidden_contact_present": 9,
+      "max_penetration_gt_0p02m": 9,
+      "target_contact_consecutive_lt_30": 2,
+      "target_contact_frames_lt_50": 2
+    }
+  },
+  "generated_at_utc": "2026-05-01T16:12:30Z",
+  "interpretation": "Prior single-instance Layer 4 contact is real but not robust enough for rollout admission. Robust Layer4R failed mainly from forbidden contacts, penetration above 0.02m, missing long target contact, and unloadable drawer instances.",
+  "pass_count": 27,
+  "passing_cases_sample": [
+    {
+      "consecutive": 94,
+      "max_force_n": 55.82286959902555,
+      "max_penetration_m": 0.001680042314663177,
+      "perturbation": "nominal",
+      "seed": 2,
+      "target": 94
+    },
+    {
+      "consecutive": 104,
+      "max_force_n": 55.871091175368164,
+      "max_penetration_m": 0.0016577919036890876,
+      "perturbation": "base_x_plus_5mm",
+      "seed": 2,
+      "target": 104
+    },
+    {
+      "consecutive": 84,
+      "max_force_n": 56.002717675256044,
+      "max_penetration_m": 0.0017289198626681546,
+      "perturbation": "base_x_minus_5mm",
+      "seed": 2,
+      "target": 84
+    },
+    {
+      "consecutive": 94,
+      "max_force_n": 52.635375306892115,
+      "max_penetration_m": 0.0016116352886160756,
+      "perturbation": "base_y_plus_5mm",
+      "seed": 2,
+      "target": 94
+    },
+    {
+      "consecutive": 94,
+      "max_force_n": 56.86876773508935,
+      "max_penetration_m": 0.0017170328730507498,
+      "perturbation": "base_y_minus_5mm",
+      "seed": 2,
+      "target": 94
+    },
+    {
+      "consecutive": 87,
+      "max_force_n": 55.59683539178432,
+      "max_penetration_m": 0.001662808567922558,
+      "perturbation": "yaw_minus_2deg",
+      "seed": 2,
+      "target": 87
+    },
+    {
+      "consecutive": 99,
+      "max_force_n": 51.48672591077337,
+      "max_penetration_m": 0.001581316710786096,
+      "perturbation": "yaw_plus_2deg",
+      "seed": 2,
+      "target": 99
+    },
+    {
+      "consecutive": 99,
+      "max_force_n": 53.30038863482113,
+      "max_penetration_m": 0.0016009464998787972,
+      "perturbation": "qpos_small_plus",
+      "seed": 2,
+      "target": 99
+    },
+    {
+      "consecutive": 89,
+      "max_force_n": 56.48884297164002,
+      "max_penetration_m": 0.0017528929550296168,
+      "perturbation": "qpos_small_minus",
+      "seed": 2,
+      "target": 89
+    },
+    {
+      "consecutive": 60,
+      "max_force_n": 46.28866133457441,
+      "max_penetration_m": 0.0015405575322210432,
+      "perturbation": "nominal",
+      "seed": 3,
+      "target": 60
+    },
+    {
+      "consecutive": 70,
+      "max_force_n": 45.4452645227052,
+      "max_penetration_m": 0.001515172896330075,
+      "perturbation": "base_x_plus_5mm",
+      "seed": 3,
+      "target": 70
+    },
+    {
+      "consecutive": 50,
+      "max_force_n": 47.84692293962256,
+      "max_penetration_m": 0.0015925019106533547,
+      "perturbation": "base_x_minus_5mm",
+      "seed": 3,
+      "target": 50
+    },
+    {
+      "consecutive": 57,
+      "max_force_n": 47.51781567384906,
+      "max_penetration_m": 0.0016016685726341073,
+      "perturbation": "base_y_plus_5mm",
+      "seed": 3,
+      "target": 57
+    },
+    {
+      "consecutive": 62,
+      "max_force_n": 49.75598839218654,
+      "max_penetration_m": 0.0016717326203232743,
+      "perturbation": "base_y_minus_5mm",
+      "seed": 3,
+      "target": 62
+    },
+    {
+      "consecutive": 60,
+      "max_force_n": 54.23227135662336,
+      "max_penetration_m": 0.0017945162267963277,
+      "perturbation": "yaw_minus_2deg",
+      "seed": 3,
+      "target": 60
+    },
+    {
+      "consecutive": 56,
+      "max_force_n": 42.12655101548697,
+      "max_penetration_m": 0.0014522596953709945,
+      "perturbation": "yaw_plus_2deg",
+      "seed": 3,
+      "target": 56
+    },
+    {
+      "consecutive": 63,
+      "max_force_n": 50.52633918088395,
+      "max_penetration_m": 0.0017112052659685741,
+      "perturbation": "qpos_small_plus",
+      "seed": 3,
+      "target": 63
+    },
+    {
+      "consecutive": 56,
+      "max_force_n": 48.26287028468077,
+      "max_penetration_m": 0.001623384290689145,
+      "perturbation": "qpos_small_minus",
+      "seed": 3,
+      "target": 56
+    },
+    {
+      "consecutive": 128,
+      "max_force_n": 46.71602827947518,
+      "max_penetration_m": 0.0014023331231718952,
+      "perturbation": "nominal",
+      "seed": 13,
+      "target": 128
+    },
+    {
+      "consecutive": 140,
+      "max_force_n": 46.92313693207501,
+      "max_penetration_m": 0.0013657644936369007,
+      "perturbation": "base_x_plus_5mm",
+      "seed": 13,
+      "target": 140
+    }
+  ]
+}

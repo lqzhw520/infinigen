@@ -1,0 +1,14 @@
+{
+  "bounded_rollout_attempted": false,
+  "closeout_classification": "ROBUST_LAYER4R_CONTACT_DYNAMICS_FAILED",
+  "current_truth_direct_mutation": false,
+  "generated_at_utc": "2026-05-01T16:10:21Z",
+  "harness_preflight_passed": true,
+  "local_replay_render_passed": false,
+  "next_actions_direct_mutation": false,
+  "next_gate": "ROBUST_CONTACT_DYNAMICS_REPAIR_WITH_OFFENDING_SEED_EVIDENCE",
+  "phase1h_training_allowed": false,
+  "robust_layer4r_passed": false,
+  "run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_robust_contact_pull_export_local_replay_20260501T160846Z",
+  "strict_candidate_found": false
+}

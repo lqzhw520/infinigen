@@ -1,0 +1,23 @@
+{
+  "hard_rules": {
+    "no_body_based_31_27_authority": true,
+    "no_current_truth_next_actions_direct_mutation": true,
+    "no_direct_qpos_drawer_opening": true,
+    "no_rollout_before_robust_layer4r": true,
+    "no_user_prompts_mid_run": true,
+    "positive_candidate_requires_untrimmed_trace": true
+  },
+  "max_wall_clock_hours": 8.0,
+  "stages": [
+    "prior_layer4_rebaseline",
+    "available_drawer_seed_inventory",
+    "per_instance_goc_v4_binding",
+    "robust_layer4r_contact_certification",
+    "bounded_teacher_pull_only_if_layer4r_passes",
+    "strict_export_bundle_if_candidate_found",
+    "local_strict_replay_render_if_candidate_found",
+    "proposed_sovereign_deltas_only"
+  ],
+  "task_id": "V11_G4_GOC_V4_ROBUST_CONTACT_PULL_EXPORT_LOCAL_REPLAY_OVERNIGHT_V1",
+  "task_type": "ROBUST_CONTACT_TO_STRICT_REPLAY_SCIENCE_PHASE"
+}

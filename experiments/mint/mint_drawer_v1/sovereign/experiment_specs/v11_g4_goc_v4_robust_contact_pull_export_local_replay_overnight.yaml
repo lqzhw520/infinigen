@@ -1,0 +1,203 @@
+task_id: V11_G4_GOC_V4_ROBUST_CONTACT_PULL_EXPORT_LOCAL_REPLAY_OVERNIGHT_V1
+task_type: ROBUST_CONTACT_TO_STRICT_REPLAY_SCIENCE_PHASE
+task_version: "1.0.0"
+gate: G4R_TO_G7
+phase: goc_v4_robust_contact_pull_export_local_replay_overnight
+target_gate: V11-G4_ROBUST_GOC_V4_CONTACT_PULL_EXPORT_LOCAL_REPLAY
+
+objective:
+  description: >-
+    Execute a harness-bound overnight science phase that first upgrades the prior
+    single-instance Layer 4 pass into a robust GOC-v4 dedicated finger-pad contact
+    dynamics certification, then only if that strict gate passes attempts bounded
+    teacher pull rollout, strict remote export, and local strict replay/render.
+  required_ladder:
+    layer4r: robust long-window low-penetration zero-forbidden GOC-v4 pad-handle contact
+    layer5: strict remote teacher pull rollout candidate
+    layer6: untrimmed strict export bundle for local replay
+    layer7: local strict replay/render artifact if candidate exists and local infra is available
+  not_a_claim:
+    - MINT dataset admission
+    - MINT training or evaluation success
+    - visual success without local strict replay/render
+    - V11 success unless strict candidate and replay gates pass
+
+# Validator-compatible source authority. The production V01 validator currently
+# validates GOC-v3 exact-set source authority; this phase binds that baseline but
+# phase-native target authority is GOC-v4 below.
+task_authority:
+  authority_type: GOC_V3_EXACT_GEOM_ID_SETS_AS_SOURCE_BASELINE_FOR_GOC_V4_ROBUST_PHASE
+  goc_version: v3
+  goc_artifact_path: artifacts/phase1h_geometry_contract/goc_v3_contract.json
+  goc_contract: experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v3_contract.json
+  goc_contract_id: GOC_V3_EXACT_ID_GEOMETRY_OWNERSHIP_CONTRACT
+  legal_gripper_surface_geom_ids: [63, 81, 90]
+  forbidden_robot_surface_geom_ids: [45, 47, 49, 54, 59]
+  drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+  prohibited_authority:
+    - GOC-v2 count-only legal_pad=29 forbidden=26 handle=9
+    - runtime body-based legal=31 forbidden=27 without exact-ID role classification
+    - legacy name-only contact reports
+    - broad-link GOC-v3 legal geoms as final target after GOC-v4 pads exist
+
+goc_v4_authority:
+  goc_version: v4
+  authority_type: GOC_V4_DEDICATED_FINGER_PAD_EXACT_GEOM_ID_SETS
+  goc_contract: experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v4_contract.json
+  expected_legal_finger_pad_geom_names:
+    - finger1_pad_collision
+    - finger2_pad_collision
+  expected_legal_finger_pad_geom_ids_current_reference: [102, 105]
+  expected_demoted_goc_v3_broad_link_geom_names:
+    - link5_collision
+    - link6_collision
+    - link7_collision
+  expected_demoted_broad_finger_geom_names:
+    - finger1_collision
+    - finger2_collision
+  per_instance_binding_required: true
+  fixed_global_ids_may_not_be_reused_without_instance_verification: true
+  target_contact: legal_finger_pad_geom_ids <-> drawer_handle_geom_ids only
+  forbidden_contact: forbidden_robot_surface_geom_ids <-> drawer_handle/drawer/cabinet
+
+phase_scope:
+  - harness_lock_and_preflight_binding
+  - prior_layer4_claim_rebaseline
+  - all_available_drawer_asset_inventory
+  - per_instance_goc_v4_semantic_binding
+  - robust_layer4r_contact_dynamics_certification
+  - bounded_teacher_pull_rollout_only_after_layer4r
+  - strict_remote_export_bundle_if_candidate_found
+  - local_strict_replay_render_if_candidate_found_and_local_infra_available
+  - proposed_sovereign_deltas_only
+  - origin_visible_closeout
+
+robust_layer4r_policy:
+  asset_policy: all_currently_available_drawer_urdf_seeds_unless_explicitly_missing_or_unloadable
+  mandatory_prior_risk_seeds: [11, 13, 17, 19, 23, 29]
+  missing_seed_handling: skip_with_explicit_reason_if_drawer_urdf_absent
+  perturbations:
+    base_xy_m: [[0.0, 0.0], [0.005, 0.0], [-0.005, 0.0], [0.0, 0.005], [0.0, -0.005]]
+    yaw_deg: [0.0, -2.0, 2.0]
+    initial_qpos_noise_rad_max: 0.01
+  pass_criteria:
+    reset_forbidden_contact_frames: 0
+    reset_max_penetration_m: 0.02
+    reset_max_force_n: 1000000.0
+    exact_goc_v4_ids_emitted: true
+    target_contact_frames_min: 50
+    target_contact_max_consecutive_frames_min: 30
+    forbidden_contact_frames: 0
+    handle_nonlegal_contact_frames: 0
+    max_penetration_m: 0.02
+    max_force_n: 1000000.0
+    direct_qpos_drawer_opening: false
+    drawer_motor_command_abs_max: 0.0
+  if_any_seed_or_perturbation_fails: do_not_enter_layer5
+
+bounded_teacher_pull_policy:
+  only_enter_if: robust_layer4r_policy_passed_for_all_required_instances
+  max_rollout_attempts: 12
+  max_microvariants: 3
+  max_stage_wall_clock_hours: 4
+  strict_teacher_candidate:
+    target_contact: legal_finger_pad_geom_ids <-> drawer_handle_geom_ids only
+    target_contact_frames_min: 80
+    target_contact_max_consecutive_frames_min: 30
+    forbidden_contact_frames: 0
+    handle_nonlegal_contact_frames: 0
+    max_penetration_m: 0.02
+    max_force_n: 1000000.0
+    drawer_fraction_min: 0.80
+    no_direct_qpos_drawer_opening: true
+    drawer_motor_command_abs_max: 0.0
+    untrimmed_trace_required: true
+  hard_goal_candidate:
+    drawer_fraction_min: 0.90
+
+local_replay_policy:
+  only_enter_if: strict_remote_export_bundle_exists
+  replay_must_use_exported_untrimmed_action_state_contact_trace: true
+  visual_claim_requires_actual_local_replay_render_artifact: true
+  reference_visual: /Users/zhuhaowu/Downloads/829cf360-90cc-4a6e-8a6a-b0e4321db4e2.png
+
+allowed_runtime_files:
+  - scripts/mint/contact_aware_drawer_teacher.py
+  - scripts/mint/goc_v4_layer4_stable_contact_dynamics.py
+  - scripts/mint/goc_v4_robust_contact_pull_export_local_replay_overnight.py
+  - scripts/mint/run_full_robot_teacher_probe.py
+  - scripts/mint/export_full_robot_teacher_replay_bundle.py
+  - scripts/mint/drawer_robot_env_mujoco.py
+  - scripts/mint/merged_model_builder.py
+
+allowed_outputs:
+  - experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_robust_contact_pull_export_local_replay_*/
+  - experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_goc_v4_robust_contact_pull_export_local_replay.json
+  - experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_goc_v4_robust_contact_pull_export_local_replay.json
+  - experiments/mint/mint_drawer_v1/runtime/controller_cycles/*
+
+forbidden:
+  - current_truth_direct_mutation
+  - next_actions_direct_mutation
+  - GOC-v3 authority mutation
+  - GOC-v4 authority mutation_to_fit_failures
+  - body-based_31_27_authority
+  - legacy_name_only_contact_authority
+  - forbidden_contact_as_target
+  - body_link_wrist_arm_or_broad_finger_shell_contact_as_legal_target
+  - direct_qpos_drawer_opening
+  - lowering_penetration_or_force_thresholds
+  - disabling_all_robot_drawer_or_handle_collisions
+  - training
+  - finetuning
+  - MINT_evaluation
+  - render_success_claim_without_local_strict_replay
+  - teacher_success_claim_from_trimmed_trace
+
+allowed_terminal_outcomes:
+  - ROBUST_LAYER4R_CONTACT_DYNAMICS_PASSED_LAYER5_READY
+  - ROBUST_LAYER4R_CONTACT_DYNAMICS_FAILED
+  - LAYER5_PULL_ROLLOUT_NO_STRICT_CANDIDATE
+  - STRICT_TEACHER_CANDIDATE_EXPORTED_LOCAL_REPLAY_PENDING
+  - LOCAL_STRICT_REPLAY_RENDER_PASSED
+  - LOCAL_STRICT_REPLAY_RENDER_FAILED
+  - HARNESS_PREFLIGHT_FAILED
+  - TASK_SPEC_LOCK_BINDING_FAILED
+  - WRONG_WORKTREE
+  - WRONG_BRANCH
+  - REMOTE_NOT_CONFIGURED
+  - DIRTY_FORBIDDEN_SCOPE
+  - COMMIT_PUSH_FAILED
+  - TIME_BUDGET_EXHAUSTED
+  - EXECUTION_FAILED
+
+next_gate_rules:
+  if_robust_layer4r_fails: ROBUST_CONTACT_DYNAMICS_REPAIR_WITH_OFFENDING_SEED_EVIDENCE
+  if_layer4r_passes_but_no_pull_candidate: GOC_V4_PULL_CONTROLLER_REPAIR_UNDER_ROBUST_CONTACT_AUTHORITY
+  if_candidate_exported_but_no_local_replay: LOCAL_STRICT_REPLAY_RENDER
+  if_local_replay_passes: MANUAL_VISUAL_AND_SCIENCE_REVIEW_BEFORE_MINT_DATASET
+
+fixtures:
+  fixture_valid_authority_match:
+    runtime_exact_ids:
+      legal_gripper_surface_geom_ids: [63, 81, 90]
+      forbidden_robot_surface_geom_ids: [45, 47, 49, 54, 59]
+      drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    expected: PASS
+  fixture_invalid_authority_drift:
+    runtime_exact_ids:
+      legal_gripper_surface_geom_ids: [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90]
+      forbidden_robot_surface_geom_ids: [33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59]
+      drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    expected: FAIL
+    expected_error: AUTHORITY_MISMATCH
+  fixture_rollout_crash:
+    rollout_stdout: "Traceback: rollout command unavailable"
+    result_json_exists: false
+    expected: FAIL
+    expected_error: ROLLOUT_COMMAND_BROKEN
+  fixture_valid_closeout:
+    route_evaluated: true
+    result_json_exists: true
+    rollout_exit_code: 0
+    expected: PASS

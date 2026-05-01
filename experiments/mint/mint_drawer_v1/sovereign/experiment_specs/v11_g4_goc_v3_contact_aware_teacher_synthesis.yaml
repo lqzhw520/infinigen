@@ -1,0 +1,212 @@
+# V11-G4 GOC-v3 Contact-Aware Teacher Synthesis Autonomous V1
+# Harness-gated algorithmic controller synthesis phase after placement IK found
+# a reset-clean joint-feasible candidate whose short dynamic target contact was
+# physically invalid due to excessive penetration.
+
+task_id: V11_G4_GOC_V3_CONTACT_AWARE_TEACHER_SYNTHESIS_AUTONOMOUS_V1
+task_version: "1.0.0"
+task_type: CONTACT_AWARE_TEACHER_SYNTHESIS_PHASE
+target_gate: V11-G4_LEGAL_GRIPPER_PAD_TO_HANDLE_CONTACT
+gate: G4
+phase: contact_aware_teacher_synthesis_under_instance_bound_goc_v3
+wall_clock_limit_hours: 8
+
+previous_accepted_closeout:
+  classification: PLACEMENT_IK_DYNAMIC_CONTACT_PROBE_FAILED
+  closeout_commit: a7ee637d8b9184b20eefb7b7a01fcbebfae6fad3
+  blocker: IK_REACHABLE_BUT_CONTACT_DYNAMICS_INVALID
+  joint_candidate_seed: 13
+  joint_candidate_base_pos: [-0.875, 0.05, 0.0]
+  joint_candidate_yaw_deg: -10.0
+  joint_candidate_legal_pad_to_handle_m: 0.022194251967419466
+  joint_candidate_eef_to_handle_m: 0.03989097505439188
+  previous_dynamic_target_contact_frames: 103
+  previous_dynamic_forbidden_contact_frames: 0
+  previous_dynamic_max_penetration_m: 0.31483595862277625
+  previous_dynamic_max_force_n: 302624.86704762443
+
+# Prompt-visible authority block.
+authority:
+  goc_version: v3
+  authority_type: GOC_V3_EXACT_GEOM_ID_SETS
+  goc_contract: experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v3_contract.json
+  source_goc_v3_publication_commit: 527be08a67b28436ae3ea146fc87a67bd077ebfa
+  placement_ik_closeout_commit: a7ee637d8b9184b20eefb7b7a01fcbebfae6fad3
+  legal_gripper_surface_geom_ids: [63, 81, 90]
+  forbidden_robot_surface_geom_ids: [45, 47, 49, 54, 59]
+  drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+
+# Validator-compatible authority block. Keep this in sync with authority above.
+task_authority:
+  authority_type: GOC_V3_EXACT_GEOM_ID_SETS
+  goc_version: v3
+  goc_artifact_path: artifacts/phase1h_geometry_contract/goc_v3_contract.json
+  goc_contract: experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v3_contract.json
+  source_model_commit: 7a7d5c43748822d9c38d948c6d1d39ec2895fe87
+  goc_v3_artifact_publication_commit: 527be08a67b28436ae3ea146fc87a67bd077ebfa
+  placement_ik_closeout_commit: a7ee637d8b9184b20eefb7b7a01fcbebfae6fad3
+  goc_contract_id: GOC_V3_EXACT_ID_GEOMETRY_OWNERSHIP_CONTRACT
+  legal_gripper_surface_geom_ids: [63, 81, 90]
+  forbidden_robot_surface_geom_ids: [45, 47, 49, 54, 59]
+  drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+  prohibited_authority:
+    - GOC-v2 count-only legal_pad=29 forbidden=26 handle=9
+    - runtime body-based legal=31 forbidden=27 without exact-ID role classification
+    - legacy name-only contact reports
+  contact_report_schema:
+    schema_version: goc_v3_contact_aware_teacher_synthesis.v1
+    required_exact_fields:
+      - emitted_instance_exact_sets.legal_gripper_surface_geom_ids
+      - emitted_instance_exact_sets.forbidden_robot_surface_geom_ids
+      - emitted_instance_exact_sets.drawer_handle_geom_ids
+      - per_step_contact_pairs
+      - per_step_penetration_m
+      - per_step_normal_force_n
+      - per_step_relative_normal_velocity_mps
+      - per_step_legal_pad_to_handle_min_distance_m
+      - contact_mode
+    target_contact_rule:
+      relation: semantic legal_gripper_surface <-> semantic drawer_handle_surface
+      source_goc_v3_legal_ids: [63, 81, 90]
+      source_goc_v3_handle_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+      per_instance_binding_required: true
+
+phase_scope:
+  - task_spec_lock_binding
+  - prior_dynamic_failure_replay
+  - legal_pad_handle_geometry_audit
+  - contact_mode_state_machine_build
+  - hybrid_impedance_or_force_limited_control_build
+  - cem_mppi_low_dimensional_parameter_optimization
+  - bounded_full_teacher_rollout_only_after_low_penetration_probe
+  - proposed_sovereign_delta_only
+
+contact_aware_teacher_requirements:
+  replay_prior_dynamic_failure:
+    required: true
+    record_per_step_qpos_qvel_eef_geoms_contacts_force_penetration_relative_velocity: true
+  geometry_audit:
+    legal_source_ids_to_audit: [63, 81, 90]
+    handle_source_ids_to_audit: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    broad_link_collision_detection_required: true
+    proposed_goc_v4_allowed_only_as_inactive_candidate: true
+  controller_modes:
+    - free_space_approach
+    - guarded_approach
+    - seat_and_close
+    - compliant_pull
+    - recovery
+  dynamic_probe_pass_gate:
+    target_contact_consecutive_frames_min: 5
+    forbidden_contact_frames: 0
+    max_penetration_m: 0.02
+    max_force_n: 1000000.0
+    drawer_qpos_nondecreasing_during_pull: true
+    no_direct_qpos_drawer_opening: true
+  optimization:
+    method: CEM_or_MPPI_style_low_dimensional_sampling
+    max_iterations: 5
+    max_samples_per_iteration: 16
+    max_probe_steps: 150
+
+allowed_terminal_outcomes:
+  - CONTACT_AWARE_DYNAMIC_PROBE_PASSED_PHASE1H_READY
+  - CONTACT_AWARE_DYNAMIC_PROBE_FAILED
+  - COLLISION_GEOMETRY_PAD_MODEL_INSUFFICIENT
+  - STRICT_CANDIDATE_FOUND_LOCAL_VISUAL_PENDING
+  - ROUTE_SYNTHESIS_DYNAMIC_ROLLOUT_NO_STRICT_CANDIDATE
+  - MODEL_OR_CONTROLLER_INTERFACE_REPAIR_REQUIRED
+  - HARNESS_PREFLIGHT_FAILED
+  - TASK_SPEC_LOCK_BINDING_FAILED
+  - WRONG_WORKTREE
+  - WRONG_BRANCH
+  - REMOTE_NOT_CONFIGURED
+  - DIRTY_FORBIDDEN_SCOPE
+  - COMMIT_PUSH_FAILED
+  - TIME_BUDGET_EXHAUSTED
+  - EXECUTION_FAILED
+
+limits:
+  max_cem_iterations: 5
+  max_cem_samples_per_iteration: 16
+  max_probe_steps: 150
+  max_bounded_rollout_attempts_after_probe_pass: 12
+  reset_max_contact_force_n: 1000000.0
+  reset_max_penetration_m: 0.02
+  teacher_candidate_drawer_fraction: 0.80
+  hard_goal_drawer_fraction: 0.90
+
+remote:
+  authority: ssh -p 30017 root@10.210.0.88 /mnt/afs2/zhuhaowu/infinigen
+  branch: feature/mint-env-reformulation-v1-visual-fidelity
+  approved_files:
+    - experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v3_contact_aware_teacher_synthesis.yaml
+    - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json
+    - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_attestation.json
+    - experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_*/
+    - experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_contact_aware_teacher_synthesis.json
+    - experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_contact_aware_teacher_synthesis.json
+    - scripts/mint/contact_aware_drawer_teacher.py
+    - scripts/mint/drawer_robot_env_mujoco.py
+    - scripts/mint/run_full_robot_teacher_probe.py
+    - scripts/mint/export_full_robot_teacher_replay_bundle.py
+    - scripts/mint/merged_model_builder.py
+  forbidden_files:
+    - external/MINT
+    - experiments/mint/mint_drawer_v1/sovereign/current_truth.json
+    - experiments/mint/mint_drawer_v1/sovereign/next_actions.json
+    - experiments/mint/mint_drawer_v1/sovereign/claims.yaml
+    - experiments/mint/mint_drawer_v1/sovereign/evidence/index.json
+    - experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v3_contract.json
+    - experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v3_geom_inventory.json
+    - experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v3_validation_report.json
+    - experiments/mint/mint_drawer_v1/scripts/harness/agent_task_preflight.py
+    - experiments/mint/mint_drawer_v1/scripts/harness/validate_harness_production_lock.py
+    - experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_task_authority.py
+    - experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_diff_scope.py
+    - experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_closeout.py
+
+fixtures:
+  fixture_valid_authority_match:
+    description: Runtime/contact report emits exact GOC-v3 sets - should PASS authority validation.
+    fixture_id: valid_authority_match
+    runtime_exact_ids:
+      legal_gripper_surface_geom_ids: [63, 81, 90]
+      forbidden_robot_surface_geom_ids: [45, 47, 49, 54, 59]
+      drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    expected: PASS
+  fixture_invalid_authority_drift:
+    description: Runtime falls back to body-based 31/27 - must FAIL with AUTHORITY_MISMATCH.
+    fixture_id: invalid_authority_drift
+    runtime_exact_ids:
+      legal_gripper_surface_geom_ids: [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90]
+      forbidden_robot_surface_geom_ids: [33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59]
+      drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    expected: FAIL
+    expected_error: AUTHORITY_MISMATCH
+  fixture_rollout_crash:
+    description: Rollout command failure remains INFRASTRUCTURE_BLOCKED, not route failure.
+    fixture_id: rollout_crash
+    rollout_stdout: "Traceback: rollout command unavailable"
+    result_json_exists: false
+    expected: FAIL
+    expected_error: ROLLOUT_COMMAND_BROKEN
+  fixture_valid_closeout:
+    description: Terminal closeout fixture remains valid.
+    fixture_id: valid_closeout
+    route_evaluated: true
+    result_json_exists: true
+    rollout_exit_code: 0
+    expected: PASS
+
+forbidden:
+  - id: F01
+    description: Do not directly mutate sovereign/current_truth.json or sovereign/next_actions.json.
+  - id: F02
+    description: Do not train, fine-tune, render, or run MINT evaluation.
+  - id: F03
+    description: Do not alter GOC-v3 authority; only proposed inactive GOC-v4 notes are allowed.
+  - id: F04
+    description: Do not accept forbidden contact as target or lower penetration/force thresholds.
+  - id: F05
+    description: Do not use direct-qpos drawer opening.

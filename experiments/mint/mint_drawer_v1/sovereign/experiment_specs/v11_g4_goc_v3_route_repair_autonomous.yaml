@@ -1,0 +1,216 @@
+# V11-G4 GOC-v3 Route Repair Autonomous V1
+# Harness-gated telemetry-driven route repair phase after the composite bounded attempt
+# closed out with ROUTE_NEVER_REACHES_GOC_V3_HANDLE_OR_FORBIDDEN_CONTACT.
+# This spec does not authorize harness repair, GOC-v3 authority changes, reset geometry repair,
+# training, rendering success claims, current_truth mutation, or next_actions mutation.
+
+task_id: V11_G4_GOC_V3_ROUTE_REPAIR_AUTONOMOUS_V1
+task_version: "1.0.0"
+task_type: ROUTE_REPAIR_SCIENCE_PHASE
+target_gate: V11-G4_LEGAL_GRIPPER_PAD_TO_HANDLE_CONTACT
+gate: G4
+phase: route_repair_under_goc_v3
+wall_clock_limit_hours: 6
+
+previous_accepted_closeout:
+  composite_attempt_commit: fd6307ff784bfbd632bd2c86883e12310e801c4d
+  classification: ROUTE_NEVER_REACHES_GOC_V3_HANDLE_OR_FORBIDDEN_CONTACT
+  next_gate: ROUTE_REPAIR_UNDER_GOC_V3
+  caveat:
+    prior_attempt_source_head: f8f0e0569bc4e895d37ff3bd5320f5d8ef96ba8e
+    prior_evidence_commit: 734ec6f4387322ce182a65a825911c29272c5a8b
+    prior_finalize_commit: fd6307ff784bfbd632bd2c86883e12310e801c4d
+    rule_for_this_phase: positive_candidate_attempts_must_run_from_clean_committed_tree
+
+# Prompt-visible authority block.
+authority:
+  goc_version: v3
+  authority_type: GOC_V3_EXACT_GEOM_ID_SETS
+  goc_contract: experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v3_contract.json
+  reset_geometry_repair_commit: 128fc92cf274e5b3180ee0c4178cdbf9259e7dec
+  composite_attempt_commit: fd6307ff784bfbd632bd2c86883e12310e801c4d
+  legal_gripper_surface_geom_ids: [63, 81, 90]
+  forbidden_robot_surface_geom_ids: [45, 47, 49, 54, 59]
+  drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+
+# Validator-compatible authority block. Keep this in sync with authority above.
+task_authority:
+  authority_type: GOC_V3_EXACT_GEOM_ID_SETS
+  goc_version: v3
+  goc_artifact_path: artifacts/phase1h_geometry_contract/goc_v3_contract.json
+  goc_contract: experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v3_contract.json
+  source_model_commit: 7a7d5c43748822d9c38d948c6d1d39ec2895fe87
+  goc_v3_artifact_publication_commit: 527be08a67b28436ae3ea146fc87a67bd077ebfa
+  contact_smoke_publication_commit: 9d270c6ccf83ddd8d1a842038472cb26630d574a
+  reset_geometry_repair_commit: 128fc92cf274e5b3180ee0c4178cdbf9259e7dec
+  composite_attempt_commit: fd6307ff784bfbd632bd2c86883e12310e801c4d
+  goc_contract_id: GOC_V3_EXACT_ID_GEOMETRY_OWNERSHIP_CONTRACT
+  legal_gripper_surface_geom_ids: [63, 81, 90]
+  forbidden_robot_surface_geom_ids: [45, 47, 49, 54, 59]
+  drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+  drawer_body_or_cabinet_geom_ids: [9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32]
+  robot_arm_geom_ids: [33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59]
+  gripper_geom_ids: [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90]
+  visual_only_or_noncontact_geom_ids: [33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 46, 48, 50, 51, 52, 53, 55, 56, 57, 58, 60, 61, 62, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 82, 83, 84, 85, 86, 87, 88, 89]
+  unknown_geom_ids: []
+  contact_report_schema:
+    schema_version: goc_v3_route_repair_telemetry.v1
+    required_exact_fields:
+      - emitted_exact_sets.legal_gripper_surface_geom_ids
+      - emitted_exact_sets.forbidden_robot_surface_geom_ids
+      - emitted_exact_sets.drawer_handle_geom_ids
+      - per_step_legal_pad_to_handle_min_distance_m
+      - per_step_eef_to_handle_distance_m
+      - per_step_contact_pairs
+      - per_step_gripper_command
+    target_contact_rule:
+      relation: legal_gripper_surface_geom_ids <-> drawer_handle_geom_ids
+      allowed_legal_ids: [63, 81, 90]
+      allowed_handle_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    forbidden_contact_rule:
+      forbidden_robot_surface_geom_ids_vs_drawer_or_handle: true
+      forbidden_robot_surface_geom_ids: [45, 47, 49, 54, 59]
+      drawer_or_handle_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32]
+  prohibited_authority:
+    - GOC-v2 count-only legal_pad=29 forbidden=26 handle=9
+    - runtime body-based legal=31 forbidden=27 without exact-ID role classification
+    - legacy contact samples containing only geom names without geom IDs
+
+phase_scope:
+  - task_spec_lock_binding
+  - committed_clean_tree_or_diff_hash_gate
+  - telemetry_driven_route_diagnosis
+  - route_failure_classification
+  - minimal_route_policy_repair_if_justified
+  - repaired_route_probe_without_success_overclaim
+  - proposed_sovereign_delta_only
+
+telemetry_required_questions:
+  - eef_trajectory_min_distance_to_handle
+  - grasp_pose_world_reachability
+  - legal_pad_geom_ids_63_81_90_min_distance_to_handle_geom_ids_0_to_8
+  - route_direction_distance_pose_or_closure_timing_failure
+  - explain_prior_mv2_force_without_target_contact
+  - classify_non_target_geometry_or_drawer_body_or_robot_self_contact
+  - determine_proxy_eef_vs_legal_pad_controller_mismatch
+
+attempt_reproducibility_policy:
+  positive_candidate_requires_clean_committed_tree: true
+  before_candidate_attempts_commit_runtime_patch_or_record_diff_hash: true
+  non_success_telemetry_may_record_dirty_diff_hash: true
+  route_repair_probe_is_not_teacher_success_claim: true
+
+limits:
+  max_diagnostic_variants: 6
+  max_repaired_route_probes: 6
+  max_probe_steps: 360
+  reset_max_contact_force_n: 1000000.0
+  reset_max_penetration_m: 0.02
+  teacher_candidate_drawer_fraction: 0.80
+  hard_goal_drawer_fraction: 0.90
+
+allowed_runtime_repair_files:
+  - scripts/mint/drawer_robot_env_mujoco.py
+  - scripts/mint/run_full_robot_teacher_probe.py
+  - scripts/mint/export_full_robot_teacher_replay_bundle.py
+  - scripts/mint/merged_model_builder.py
+
+remote:
+  authority: ssh -p 30017 root@10.210.0.88 /mnt/afs2/zhuhaowu/infinigen
+  branch: feature/mint-env-reformulation-v1-visual-fidelity
+  approved_files:
+    - experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v3_route_repair_autonomous.yaml
+    - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json
+    - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_attestation.json
+    - experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_route_repair_*/
+    - experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_route_repair_goc_v3.json
+    - experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_route_repair_goc_v3.json
+    - scripts/mint/drawer_robot_env_mujoco.py
+    - scripts/mint/run_full_robot_teacher_probe.py
+    - scripts/mint/export_full_robot_teacher_replay_bundle.py
+    - scripts/mint/merged_model_builder.py
+  forbidden_files:
+    - external/MINT
+    - experiments/mint/mint_drawer_v1/sovereign/current_truth.json
+    - experiments/mint/mint_drawer_v1/sovereign/next_actions.json
+    - experiments/mint/mint_drawer_v1/sovereign/claims.yaml
+    - experiments/mint/mint_drawer_v1/sovereign/evidence/index.json
+    - experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v3_contract.json
+    - experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v3_geom_inventory.json
+    - experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v3_validation_report.json
+    - experiments/mint/mint_drawer_v1/scripts/harness/agent_task_preflight.py
+    - experiments/mint/mint_drawer_v1/scripts/harness/validate_harness_production_lock.py
+    - experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_task_authority.py
+    - experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_diff_scope.py
+    - experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_closeout.py
+
+forbidden_repair_patterns:
+  - lowering_drawer_fraction_thresholds
+  - accepting_forbidden_contact_as_target
+  - counting_body_link_wrist_contact_as_legal_target
+  - disabling_all_robot_drawer_collisions
+  - direct_qpos_drawer_opening
+  - hardcoding_success
+  - changing_goc_v3_exact_id_authority_to_fit_runtime
+  - modifying_mint_vendor_code
+
+validators:
+  - id: V01_TASK_AUTHORITY
+    tool: scripts/harness/validators/validate_task_authority.py
+    trigger: before_execution
+    args:
+      task_spec: sovereign/experiment_specs/v11_g4_goc_v3_route_repair_autonomous.yaml
+    on_fail: STOP_WITH_AUTHORITY_MISMATCH
+  - id: V02_DIFF_SCOPE
+    tool: scripts/harness/validators/validate_diff_scope.py
+    trigger: before_execution
+    args:
+      task: sovereign/experiment_specs/v11_g4_goc_v3_route_repair_autonomous.yaml
+    on_fail: STOP_WITH_SCOPE_VIOLATION
+
+success_criteria:
+  - id: SC01
+    description: Production lock binds this route repair spec path/hash and preflight passes with no bypass.
+  - id: SC02
+    description: Telemetry records EEF, legal pad geoms, handle geoms, exact contact pairs, gripper command, and drawer fraction per step.
+  - id: SC03
+    description: Prior no-target-contact failure is classified with exact IDs and world-frame distances.
+  - id: SC04
+    description: Any runtime patch is minimal, whitelisted, and verified before any positive candidate-producing probe.
+  - id: SC05
+    description: Current truth and next actions are not directly modified; only proposed deltas may be written.
+
+forbidden:
+  - id: F01
+    description: Do not directly mutate sovereign/current_truth.json or sovereign/next_actions.json.
+  - id: F02
+    description: Do not train, fine-tune, render, or run MINT evaluation.
+  - id: F03
+    description: Do not claim visual artifact, teacher success, or V11 success from telemetry-only probes.
+  - id: F04
+    description: Do not use body-based 31/27 or legacy name-only contact reports as authority.
+  - id: F05
+    description: Do not count forbidden contact as target or broaden legal target IDs.
+  - id: F06
+    description: Do not use direct-qpos drawer opening or trimmed rollout success claim.
+
+allowed_terminal_outcomes:
+  - ROUTE_TELEMETRY_DIAGNOSIS_COMPLETE
+  - ROUTE_REPAIR_POLICY_PROPOSED_CLEAN_ATTEMPT_PENDING
+  - ROUTE_REPAIR_PATCHED_PREACTION_READY_FOR_CLEAN_BOUND_ATTEMPT
+  - STRICT_CANDIDATE_FOUND_LOCAL_VISUAL_PENDING
+  - STRICT_LOCAL_VISUAL_ARTIFACT_CREATED_PENDING_MANUAL_REVIEW
+  - HARNESS_PREFLIGHT_FAILED
+  - TASK_SPEC_LOCK_BINDING_FAILED
+  - WRONG_WORKTREE
+  - WRONG_BRANCH
+  - REMOTE_NOT_CONFIGURED
+  - DIRTY_FORBIDDEN_SCOPE
+  - TELEMETRY_SCHEMA_FAILED
+  - ROUTE_REPAIR_RUNTIME_PATCH_FAILED
+  - ROUTE_STILL_NO_GOC_V3_TARGET_CONTACT
+  - COMMIT_PUSH_FAILED
+  - TIME_BUDGET_EXHAUSTED
+  - EXECUTION_FAILED
+
+next_gate: V11_G4_GOC_V3_ROUTE_REPAIR_AUTONOMOUS_V1

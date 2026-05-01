@@ -1,8 +1,23 @@
 {
   "best_ik_eef_to_handle_m": 0.027836743078149474,
   "best_ik_legal_pad_to_handle_m": 0.008132436607010393,
+  "best_row_gate_audit": {
+    "best_row_reset_contact_counts": {
+      "forbidden": 29,
+      "handle_nonlegal": 0,
+      "max_contact_force_n": 3.6419876285087264e+17,
+      "max_penetration_m": 0.34626260236300876,
+      "other": 6,
+      "target": 9
+    },
+    "best_row_reset_ok": false,
+    "feasible_rows_count_recomputed": 0,
+    "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_instance_bound_route_synthesis_20260501T042940Z/best_row_gate_audit.json",
+    "refined_interpretation": "best IK row fails reset_ok; no script gate bug. Stronger statement: IK closeness and reset clearance were not jointly feasible under searched base/yaw grid."
+  },
   "bounded_rollout_attempted": false,
   "closeout_classification": "MODEL_INSTANCE_REACHABILITY_BLOCKER",
+  "closeout_refined_interpretation": "IK closeness and reset clearance were not jointly feasible under the searched base/yaw grid; this is not a pure IK-unreachable proof.",
   "committed": true,
   "current_truth_modified": false,
   "dynamic_contact_probe_attempted": false,

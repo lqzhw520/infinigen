@@ -12,3 +12,7 @@ Runtime patch applied: `false`. GOC-v3 authority changed: `false`. Direct curren
 Next gate: **MODEL_INSTANCE_PLACEMENT_OR_KINEMATIC_CHAIN_REPAIR**
 
 Post-push evidence commit: `6258567b13843d3d178591d20ad9f4981d488fd3`. Origin-visible required evidence: `True`.
+
+## Best Row Gate Audit
+
+The best IK row was not feasible because `reset_ok=false`: 29 forbidden contacts, max penetration `0.34626260236300876` m, and max reset contact force `3.6419876285087264e+17` N. Recomputed feasible rows: `0`. The refined interpretation is: IK closeness and reset clearance were not jointly feasible under the searched base/yaw grid.

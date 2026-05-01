@@ -1,0 +1,198 @@
+{
+  "available_drawer_seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    11,
+    12,
+    13,
+    14,
+    15
+  ],
+  "perturb_limit": 0,
+  "perturbations": [
+    {
+      "base_delta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "name": "nominal",
+      "qpos_delta": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "yaw_delta_deg": 0.0
+    },
+    {
+      "base_delta": [
+        0.005,
+        0.0,
+        0.0
+      ],
+      "name": "base_x_plus_5mm",
+      "qpos_delta": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "yaw_delta_deg": 0.0
+    },
+    {
+      "base_delta": [
+        -0.005,
+        0.0,
+        0.0
+      ],
+      "name": "base_x_minus_5mm",
+      "qpos_delta": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "yaw_delta_deg": 0.0
+    },
+    {
+      "base_delta": [
+        0.0,
+        0.005,
+        0.0
+      ],
+      "name": "base_y_plus_5mm",
+      "qpos_delta": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "yaw_delta_deg": 0.0
+    },
+    {
+      "base_delta": [
+        0.0,
+        -0.005,
+        0.0
+      ],
+      "name": "base_y_minus_5mm",
+      "qpos_delta": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "yaw_delta_deg": 0.0
+    },
+    {
+      "base_delta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "name": "yaw_minus_2deg",
+      "qpos_delta": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "yaw_delta_deg": -2.0
+    },
+    {
+      "base_delta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "name": "yaw_plus_2deg",
+      "qpos_delta": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "yaw_delta_deg": 2.0
+    },
+    {
+      "base_delta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "name": "qpos_small_plus",
+      "qpos_delta": [
+        0.004,
+        -0.003,
+        0.002,
+        0.003,
+        -0.002,
+        0.002,
+        -0.003
+      ],
+      "yaw_delta_deg": 0.0
+    },
+    {
+      "base_delta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "name": "qpos_small_minus",
+      "qpos_delta": [
+        -0.004,
+        0.003,
+        -0.002,
+        -0.003,
+        0.002,
+        -0.002,
+        0.003
+      ],
+      "yaw_delta_deg": 0.0
+    }
+  ],
+  "seed_limit": 0,
+  "selected_drawer_seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    11,
+    12,
+    13,
+    14,
+    15
+  ]
+}

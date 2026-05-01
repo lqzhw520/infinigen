@@ -1,0 +1,37 @@
+{
+  "autonomous_repair_cycles_run": 4,
+  "best_candidate_drawer_fraction": 0.0,
+  "closeout_classification": "ROBUST_LAYER4R_CONTACT_DYNAMICS_REPAIR_STALLED",
+  "committed": false,
+  "current_truth_modified": false,
+  "elapsed_seconds": 335.478,
+  "harness_preflight_passed": null,
+  "layer4R_cases_failed": 117,
+  "layer4R_cases_passed": 0,
+  "layer4R_cases_total": 117,
+  "layer4R_remaining_failure_clusters": {
+    "forbidden_contact_present": 36,
+    "max_penetration_gt_0p02m": 18,
+    "target_contact_consecutive_lt_30": 117,
+    "target_contact_frames_lt_50": 117
+  },
+  "layer4R_robust_contact_certified": false,
+  "layer5_strict_pull_rollout_passed": false,
+  "layer6_export_bundle_complete": false,
+  "layer7_local_strict_replay_render_passed": false,
+  "local_mp4_video_created": false,
+  "local_png_keyframes_created": false,
+  "local_replay_dir": "/Users/zhuhaowu/Documents/Playground/local_replay/v11_g4_goc_v4_autonomous_repair_certify_to_local_replay_20260501T170349Z",
+  "next_actions_modified": false,
+  "next_gate": "ROBUST_CONTACT_POLICY_OR_GEOMETRY_REDESIGN",
+  "pushed_to_origin": false,
+  "remote_commit_hash": null,
+  "runtime_patch_applied": true,
+  "runtime_patch_files": [
+    "scripts/mint/contact_aware_drawer_teacher.py",
+    "scripts/mint/merged_model_builder.py",
+    "scripts/mint/v11_g4_goc_v4_autonomous_repair_campaign.py"
+  ],
+  "strict_candidate_count": 0,
+  "task_spec_lock_bound": null
+}

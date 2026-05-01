@@ -1,0 +1,10 @@
+{
+  "pwd": "/mnt/afs2/zhuhaowu/infinigen",
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "head": "836ad267e0d38729a075a28df884f81510708d9f",
+  "remote_v": "my-origin\tgit@github.com:lqzhw520/infinigen.git (fetch)\nmy-origin\tgit@github.com:lqzhw520/infinigen.git (push)\norigin\thttps://github.com/princeton-vl/infinigen.git (fetch)\norigin\thttps://github.com/princeton-vl/infinigen.git (push)",
+  "status_short": [
+    "M .project-memory/STATUS.md",
+    " M .session/checkpoint.md"
+  ]
+}

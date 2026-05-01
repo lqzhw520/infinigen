@@ -1,0 +1,141 @@
+{
+  "cases_failed": 117,
+  "cases_passed": 0,
+  "cases_total": 117,
+  "layer4R_robust_contact_certified": false,
+  "remaining_failure_clusters": {
+    "forbidden_contact_present": 36,
+    "max_penetration_gt_0p02m": 18,
+    "target_contact_consecutive_lt_30": 117,
+    "target_contact_frames_lt_50": 117
+  },
+  "selected_base_map": {
+    "1": {
+      "base_pos": [
+        -0.85,
+        0.1,
+        0.0
+      ],
+      "reset_ok": true,
+      "yaw_deg": -15.0
+    },
+    "11": {
+      "base_pos": [
+        -0.8,
+        0.1,
+        0.0
+      ],
+      "reset_ok": true,
+      "yaw_deg": -15.0
+    },
+    "12": {
+      "base_pos": [
+        -0.8,
+        0.1,
+        0.0
+      ],
+      "reset_ok": true,
+      "yaw_deg": -15.0
+    },
+    "13": {
+      "base_pos": [
+        -0.8,
+        0.1,
+        0.0
+      ],
+      "reset_ok": true,
+      "yaw_deg": -15.0
+    },
+    "14": {
+      "base_pos": [
+        -0.8,
+        0.1,
+        0.0
+      ],
+      "reset_ok": true,
+      "yaw_deg": -15.0
+    },
+    "15": {
+      "base_pos": [
+        -0.8,
+        0.1,
+        0.0
+      ],
+      "reset_ok": false,
+      "yaw_deg": -15.0
+    },
+    "2": {
+      "base_pos": [
+        -0.8,
+        0.1,
+        0.0
+      ],
+      "reset_ok": true,
+      "yaw_deg": -15.0
+    },
+    "3": {
+      "base_pos": [
+        -0.8,
+        0.1,
+        0.0
+      ],
+      "reset_ok": true,
+      "yaw_deg": -15.0
+    },
+    "4": {
+      "base_pos": [
+        -0.85,
+        0.1,
+        0.0
+      ],
+      "reset_ok": true,
+      "yaw_deg": -15.0
+    },
+    "5": {
+      "base_pos": [
+        -0.8,
+        0.1,
+        0.0
+      ],
+      "reset_ok": true,
+      "yaw_deg": -15.0
+    },
+    "6": {
+      "base_pos": [
+        -0.8,
+        0.1,
+        0.0
+      ],
+      "reset_ok": true,
+      "yaw_deg": -15.0
+    },
+    "7": {
+      "base_pos": [
+        -0.8,
+        0.1,
+        0.0
+      ],
+      "reset_ok": false,
+      "yaw_deg": -15.0
+    },
+    "8": {
+      "base_pos": [
+        -0.85,
+        0.1,
+        0.0
+      ],
+      "reset_ok": true,
+      "yaw_deg": -15.0
+    }
+  },
+  "selected_controller_params": {
+    "approach_steps": 175,
+    "close_cmd": -1.0,
+    "gain": 0.3,
+    "hold_offset": 0.004,
+    "joint_scale": 0.02,
+    "max_steps": 430,
+    "name": "longer_contact_lower_velocity",
+    "vel_limit": 0.015
+  }
+}

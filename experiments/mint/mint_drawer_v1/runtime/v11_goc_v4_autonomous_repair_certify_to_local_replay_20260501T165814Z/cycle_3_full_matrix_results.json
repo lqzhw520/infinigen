@@ -1,0 +1,7000 @@
+{
+  "cases": [
+    {
+      "base_pos": [
+        -0.85,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          20,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          32,
+          19
+        ],
+        "drawer_handle_geom_ids": [
+          31
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          45,
+          47,
+          49,
+          54,
+          59,
+          63,
+          81,
+          90,
+          92
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          63,
+          81,
+          90
+        ],
+        "legal_finger_pad_geom_ids": [
+          95,
+          98
+        ]
+      },
+      "error": null,
+      "perturbation": "nominal",
+      "seed": 1,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 1,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 143.06962453168867,
+        "max_penetration_m": 4.634892311977668e-05,
+        "min_legal_pad_to_handle_m": 0.765245728386298,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 387,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.845,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          20,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          32,
+          19
+        ],
+        "drawer_handle_geom_ids": [
+          31
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          45,
+          47,
+          49,
+          54,
+          59,
+          63,
+          81,
+          90,
+          92
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          63,
+          81,
+          90
+        ],
+        "legal_finger_pad_geom_ids": [
+          95,
+          98
+        ]
+      },
+      "error": null,
+      "perturbation": "base_x_plus_5mm",
+      "seed": 1,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 1,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 144.66689494775983,
+        "max_penetration_m": 9.317308525580437e-05,
+        "min_legal_pad_to_handle_m": 0.7666063266625198,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 373,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.855,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          20,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          32,
+          19
+        ],
+        "drawer_handle_geom_ids": [
+          31
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          45,
+          47,
+          49,
+          54,
+          59,
+          63,
+          81,
+          90,
+          92
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          63,
+          81,
+          90
+        ],
+        "legal_finger_pad_geom_ids": [
+          95,
+          98
+        ]
+      },
+      "error": null,
+      "perturbation": "base_x_minus_5mm",
+      "seed": 1,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 1,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 143.03449526362232,
+        "max_penetration_m": 0.0002024413122893587,
+        "min_legal_pad_to_handle_m": 0.7636423433205576,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 402,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.85,
+        0.10500000000000001,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          20,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          32,
+          19
+        ],
+        "drawer_handle_geom_ids": [
+          31
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          45,
+          47,
+          49,
+          54,
+          59,
+          63,
+          81,
+          90,
+          92
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          63,
+          81,
+          90
+        ],
+        "legal_finger_pad_geom_ids": [
+          95,
+          98
+        ]
+      },
+      "error": null,
+      "perturbation": "base_y_plus_5mm",
+      "seed": 1,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 1,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 143.0691437585169,
+        "max_penetration_m": 4.630865429050557e-05,
+        "min_legal_pad_to_handle_m": 0.7645062308303885,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 387,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.85,
+        0.095,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          20,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          32,
+          19
+        ],
+        "drawer_handle_geom_ids": [
+          31
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          45,
+          47,
+          49,
+          54,
+          59,
+          63,
+          81,
+          90,
+          92
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          63,
+          81,
+          90
+        ],
+        "legal_finger_pad_geom_ids": [
+          95,
+          98
+        ]
+      },
+      "error": null,
+      "perturbation": "base_y_minus_5mm",
+      "seed": 1,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 1,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 143.0701147524644,
+        "max_penetration_m": 4.638995688627246e-05,
+        "min_legal_pad_to_handle_m": 0.7660171456016298,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 387,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.85,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          20,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          32,
+          19
+        ],
+        "drawer_handle_geom_ids": [
+          31
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          45,
+          47,
+          49,
+          54,
+          59,
+          63,
+          81,
+          90,
+          92
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          63,
+          81,
+          90
+        ],
+        "legal_finger_pad_geom_ids": [
+          95,
+          98
+        ]
+      },
+      "error": null,
+      "perturbation": "yaw_minus_2deg",
+      "seed": 1,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 1,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 143.17132151010406,
+        "max_penetration_m": 6.728554883134175e-05,
+        "min_legal_pad_to_handle_m": 0.7646476311013448,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 400,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -17.0
+    },
+    {
+      "base_pos": [
+        -0.85,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          20,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          32,
+          19
+        ],
+        "drawer_handle_geom_ids": [
+          31
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          45,
+          47,
+          49,
+          54,
+          59,
+          63,
+          81,
+          90,
+          92
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          63,
+          81,
+          90
+        ],
+        "legal_finger_pad_geom_ids": [
+          95,
+          98
+        ]
+      },
+      "error": null,
+      "perturbation": "yaw_plus_2deg",
+      "seed": 1,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 1,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 146.38938104883374,
+        "max_penetration_m": 0.0003212468745164565,
+        "min_legal_pad_to_handle_m": 0.7654177692075284,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 376,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -13.0
+    },
+    {
+      "base_pos": [
+        -0.85,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          20,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          32,
+          19
+        ],
+        "drawer_handle_geom_ids": [
+          31
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          45,
+          47,
+          49,
+          54,
+          59,
+          63,
+          81,
+          90,
+          92
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          63,
+          81,
+          90
+        ],
+        "legal_finger_pad_geom_ids": [
+          95,
+          98
+        ]
+      },
+      "error": null,
+      "perturbation": "qpos_small_plus",
+      "seed": 1,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 1,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 144.8384344074536,
+        "max_penetration_m": 0.00016968138635536922,
+        "min_legal_pad_to_handle_m": 0.765610810969639,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 382,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.85,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          20,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          32,
+          19
+        ],
+        "drawer_handle_geom_ids": [
+          31
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          45,
+          47,
+          49,
+          54,
+          59,
+          63,
+          81,
+          90,
+          92
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          63,
+          81,
+          90
+        ],
+        "legal_finger_pad_geom_ids": [
+          95,
+          98
+        ]
+      },
+      "error": null,
+      "perturbation": "qpos_small_minus",
+      "seed": 1,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 1,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 144.79548536246045,
+        "max_penetration_m": 0.0002248074971734071,
+        "min_legal_pad_to_handle_m": 0.7644963200791758,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 393,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.8,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          23,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          36,
+          22
+        ],
+        "drawer_handle_geom_ids": [
+          35
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          49,
+          51,
+          53,
+          58,
+          63,
+          67,
+          85,
+          94,
+          96
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          63,
+          67,
+          85,
+          94
+        ],
+        "legal_finger_pad_geom_ids": [
+          99,
+          102
+        ]
+      },
+      "error": null,
+      "perturbation": "nominal",
+      "seed": 2,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 1,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 6.508055414972393e-08,
+        "max_force_n": 139.69820192959264,
+        "max_penetration_m": 0.00012508202283578737,
+        "min_legal_pad_to_handle_m": 0.8680346034085414,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 425,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.795,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          23,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          36,
+          22
+        ],
+        "drawer_handle_geom_ids": [
+          35
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          49,
+          51,
+          53,
+          58,
+          63,
+          67,
+          85,
+          94,
+          96
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          63,
+          67,
+          85,
+          94
+        ],
+        "legal_finger_pad_geom_ids": [
+          99,
+          102
+        ]
+      },
+      "error": null,
+      "perturbation": "base_x_plus_5mm",
+      "seed": 2,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 1,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 6.20001999418782e-08,
+        "max_force_n": 142.59887351420952,
+        "max_penetration_m": 0.0001080124192069931,
+        "min_legal_pad_to_handle_m": 0.8678878138555784,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 409,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.805,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          23,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          36,
+          22
+        ],
+        "drawer_handle_geom_ids": [
+          35
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          49,
+          51,
+          53,
+          58,
+          63,
+          67,
+          85,
+          94,
+          96
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          63,
+          67,
+          85,
+          94
+        ],
+        "legal_finger_pad_geom_ids": [
+          99,
+          102
+        ]
+      },
+      "error": null,
+      "perturbation": "base_x_minus_5mm",
+      "seed": 2,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 6.60442979319159e-08,
+        "max_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "min_legal_pad_to_handle_m": 0.8687903018212522,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.8,
+        0.10500000000000001,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          23,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          36,
+          22
+        ],
+        "drawer_handle_geom_ids": [
+          35
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          49,
+          51,
+          53,
+          58,
+          63,
+          67,
+          85,
+          94,
+          96
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          63,
+          67,
+          85,
+          94
+        ],
+        "legal_finger_pad_geom_ids": [
+          99,
+          102
+        ]
+      },
+      "error": null,
+      "perturbation": "base_y_plus_5mm",
+      "seed": 2,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 1,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 6.508055414972393e-08,
+        "max_force_n": 139.69820192958625,
+        "max_penetration_m": 0.00012508202283578737,
+        "min_legal_pad_to_handle_m": 0.8670385490686947,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 425,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.8,
+        0.095,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          23,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          36,
+          22
+        ],
+        "drawer_handle_geom_ids": [
+          35
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          49,
+          51,
+          53,
+          58,
+          63,
+          67,
+          85,
+          94,
+          96
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          63,
+          67,
+          85,
+          94
+        ],
+        "legal_finger_pad_geom_ids": [
+          99,
+          102
+        ]
+      },
+      "error": null,
+      "perturbation": "base_y_minus_5mm",
+      "seed": 2,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 1,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 6.508055414972393e-08,
+        "max_force_n": 139.69820192958514,
+        "max_penetration_m": 0.0001250820228359539,
+        "min_legal_pad_to_handle_m": 0.8690582833493391,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 425,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.8,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          23,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          36,
+          22
+        ],
+        "drawer_handle_geom_ids": [
+          35
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          49,
+          51,
+          53,
+          58,
+          63,
+          67,
+          85,
+          94,
+          96
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          63,
+          67,
+          85,
+          94
+        ],
+        "legal_finger_pad_geom_ids": [
+          99,
+          102
+        ]
+      },
+      "error": null,
+      "perturbation": "yaw_minus_2deg",
+      "seed": 2,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 6.60442979319159e-08,
+        "max_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "min_legal_pad_to_handle_m": 0.8695590304104127,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -17.0
+    },
+    {
+      "base_pos": [
+        -0.8,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          23,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          36,
+          22
+        ],
+        "drawer_handle_geom_ids": [
+          35
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          49,
+          51,
+          53,
+          58,
+          63,
+          67,
+          85,
+          94,
+          96
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          63,
+          67,
+          85,
+          94
+        ],
+        "legal_finger_pad_geom_ids": [
+          99,
+          102
+        ]
+      },
+      "error": null,
+      "perturbation": "yaw_plus_2deg",
+      "seed": 2,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 1,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 6.276973787390045e-08,
+        "max_force_n": 141.5754319247272,
+        "max_penetration_m": 0.00018294382832195755,
+        "min_legal_pad_to_handle_m": 0.8673072501493221,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 413,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -13.0
+    },
+    {
+      "base_pos": [
+        -0.8,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          23,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          36,
+          22
+        ],
+        "drawer_handle_geom_ids": [
+          35
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          49,
+          51,
+          53,
+          58,
+          63,
+          67,
+          85,
+          94,
+          96
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          63,
+          67,
+          85,
+          94
+        ],
+        "legal_finger_pad_geom_ids": [
+          99,
+          102
+        ]
+      },
+      "error": null,
+      "perturbation": "qpos_small_plus",
+      "seed": 2,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 1,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 6.373218950508822e-08,
+        "max_force_n": 141.6099571907996,
+        "max_penetration_m": 0.00015098128010126996,
+        "min_legal_pad_to_handle_m": 0.868504443892529,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 418,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.8,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          23,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          36,
+          22
+        ],
+        "drawer_handle_geom_ids": [
+          35
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          49,
+          51,
+          53,
+          58,
+          63,
+          67,
+          85,
+          94,
+          96
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          63,
+          67,
+          85,
+          94
+        ],
+        "legal_finger_pad_geom_ids": [
+          99,
+          102
+        ]
+      },
+      "error": null,
+      "perturbation": "qpos_small_minus",
+      "seed": 2,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 6.60442979319159e-08,
+        "max_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "min_legal_pad_to_handle_m": 0.8686341831304168,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.8,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          22,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          38,
+          21
+        ],
+        "drawer_handle_geom_ids": [
+          37
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          51,
+          53,
+          55,
+          60,
+          65,
+          69,
+          87,
+          96,
+          98
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          69,
+          87,
+          96
+        ],
+        "legal_finger_pad_geom_ids": [
+          101,
+          104
+        ]
+      },
+      "error": null,
+      "perturbation": "nominal",
+      "seed": 3,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "min_legal_pad_to_handle_m": 0.710607527641475,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.795,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          22,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          38,
+          21
+        ],
+        "drawer_handle_geom_ids": [
+          37
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          51,
+          53,
+          55,
+          60,
+          65,
+          69,
+          87,
+          96,
+          98
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          69,
+          87,
+          96
+        ],
+        "legal_finger_pad_geom_ids": [
+          101,
+          104
+        ]
+      },
+      "error": null,
+      "perturbation": "base_x_plus_5mm",
+      "seed": 3,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "min_legal_pad_to_handle_m": 0.706344707839649,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.805,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          22,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          38,
+          21
+        ],
+        "drawer_handle_geom_ids": [
+          37
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          51,
+          53,
+          55,
+          60,
+          65,
+          69,
+          87,
+          96,
+          98
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          69,
+          87,
+          96
+        ],
+        "legal_finger_pad_geom_ids": [
+          101,
+          104
+        ]
+      },
+      "error": null,
+      "perturbation": "base_x_minus_5mm",
+      "seed": 3,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "min_legal_pad_to_handle_m": 0.7148798992756613,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.8,
+        0.10500000000000001,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          22,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          38,
+          21
+        ],
+        "drawer_handle_geom_ids": [
+          37
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          51,
+          53,
+          55,
+          60,
+          65,
+          69,
+          87,
+          96,
+          98
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          69,
+          87,
+          96
+        ],
+        "legal_finger_pad_geom_ids": [
+          101,
+          104
+        ]
+      },
+      "error": null,
+      "perturbation": "base_y_plus_5mm",
+      "seed": 3,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "min_legal_pad_to_handle_m": 0.7091087959662717,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.8,
+        0.095,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          22,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          38,
+          21
+        ],
+        "drawer_handle_geom_ids": [
+          37
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          51,
+          53,
+          55,
+          60,
+          65,
+          69,
+          87,
+          96,
+          98
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          69,
+          87,
+          96
+        ],
+        "legal_finger_pad_geom_ids": [
+          101,
+          104
+        ]
+      },
+      "error": null,
+      "perturbation": "base_y_minus_5mm",
+      "seed": 3,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "min_legal_pad_to_handle_m": 0.7121382114201733,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.8,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          22,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          38,
+          21
+        ],
+        "drawer_handle_geom_ids": [
+          37
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          51,
+          53,
+          55,
+          60,
+          65,
+          69,
+          87,
+          96,
+          98
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          69,
+          87,
+          96
+        ],
+        "legal_finger_pad_geom_ids": [
+          101,
+          104
+        ]
+      },
+      "error": null,
+      "perturbation": "yaw_minus_2deg",
+      "seed": 3,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "min_legal_pad_to_handle_m": 0.7171008112347025,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -17.0
+    },
+    {
+      "base_pos": [
+        -0.8,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          22,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          38,
+          21
+        ],
+        "drawer_handle_geom_ids": [
+          37
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          51,
+          53,
+          55,
+          60,
+          65,
+          69,
+          87,
+          96,
+          98
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          69,
+          87,
+          96
+        ],
+        "legal_finger_pad_geom_ids": [
+          101,
+          104
+        ]
+      },
+      "error": null,
+      "perturbation": "yaw_plus_2deg",
+      "seed": 3,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "min_legal_pad_to_handle_m": 0.704773334474727,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -13.0
+    },
+    {
+      "base_pos": [
+        -0.8,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          22,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          38,
+          21
+        ],
+        "drawer_handle_geom_ids": [
+          37
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          51,
+          53,
+          55,
+          60,
+          65,
+          69,
+          87,
+          96,
+          98
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          69,
+          87,
+          96
+        ],
+        "legal_finger_pad_geom_ids": [
+          101,
+          104
+        ]
+      },
+      "error": null,
+      "perturbation": "qpos_small_plus",
+      "seed": 3,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "min_legal_pad_to_handle_m": 0.7072423250259375,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.8,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          22,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          38,
+          21
+        ],
+        "drawer_handle_geom_ids": [
+          37
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          51,
+          53,
+          55,
+          60,
+          65,
+          69,
+          87,
+          96,
+          98
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          69,
+          87,
+          96
+        ],
+        "legal_finger_pad_geom_ids": [
+          101,
+          104
+        ]
+      },
+      "error": null,
+      "perturbation": "qpos_small_minus",
+      "seed": 3,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "min_legal_pad_to_handle_m": 0.7139831086570014,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.85,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          23,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          36,
+          22
+        ],
+        "drawer_handle_geom_ids": [
+          35
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          49,
+          51,
+          53,
+          58,
+          63,
+          67,
+          85,
+          94,
+          96
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          63,
+          67,
+          85,
+          94
+        ],
+        "legal_finger_pad_geom_ids": [
+          99,
+          102
+        ]
+      },
+      "error": null,
+      "perturbation": "nominal",
+      "seed": 4,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 56.7693488701329,
+        "max_penetration_m": 0.0014759611057743593,
+        "min_legal_pad_to_handle_m": 0.8942212549542753,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.845,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          23,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          36,
+          22
+        ],
+        "drawer_handle_geom_ids": [
+          35
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          49,
+          51,
+          53,
+          58,
+          63,
+          67,
+          85,
+          94,
+          96
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          63,
+          67,
+          85,
+          94
+        ],
+        "legal_finger_pad_geom_ids": [
+          99,
+          102
+        ]
+      },
+      "error": null,
+      "perturbation": "base_x_plus_5mm",
+      "seed": 4,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 89.60884245163881,
+        "max_penetration_m": 0.0032707422199165785,
+        "min_legal_pad_to_handle_m": 0.8899224798541097,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 89.52448506678402,
+        "reset_max_penetration_m": 0.0032707422199165785,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.855,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          23,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          36,
+          22
+        ],
+        "drawer_handle_geom_ids": [
+          35
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          49,
+          51,
+          53,
+          58,
+          63,
+          67,
+          85,
+          94,
+          96
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          63,
+          67,
+          85,
+          94
+        ],
+        "legal_finger_pad_geom_ids": [
+          99,
+          102
+        ]
+      },
+      "error": null,
+      "perturbation": "base_x_minus_5mm",
+      "seed": 4,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 60.02492976406477,
+        "max_penetration_m": 0.0015641314845643575,
+        "min_legal_pad_to_handle_m": 0.8985272869948415,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.85,
+        0.10500000000000001,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          23,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          36,
+          22
+        ],
+        "drawer_handle_geom_ids": [
+          35
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          49,
+          51,
+          53,
+          58,
+          63,
+          67,
+          85,
+          94,
+          96
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          63,
+          67,
+          85,
+          94
+        ],
+        "legal_finger_pad_geom_ids": [
+          99,
+          102
+        ]
+      },
+      "error": null,
+      "perturbation": "base_y_plus_5mm",
+      "seed": 4,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 59.74610072568311,
+        "max_penetration_m": 0.0015606622323208754,
+        "min_legal_pad_to_handle_m": 0.8941849151696356,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.85,
+        0.095,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          23,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          36,
+          22
+        ],
+        "drawer_handle_geom_ids": [
+          35
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          49,
+          51,
+          53,
+          58,
+          63,
+          67,
+          85,
+          94,
+          96
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          63,
+          67,
+          85,
+          94
+        ],
+        "legal_finger_pad_geom_ids": [
+          99,
+          102
+        ]
+      },
+      "error": null,
+      "perturbation": "base_y_minus_5mm",
+      "seed": 4,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 57.527846248635676,
+        "max_penetration_m": 0.0014911514772307788,
+        "min_legal_pad_to_handle_m": 0.894285548975868,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.85,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          23,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          36,
+          22
+        ],
+        "drawer_handle_geom_ids": [
+          35
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          49,
+          51,
+          53,
+          58,
+          63,
+          67,
+          85,
+          94,
+          96
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          63,
+          67,
+          85,
+          94
+        ],
+        "legal_finger_pad_geom_ids": [
+          99,
+          102
+        ]
+      },
+      "error": null,
+      "perturbation": "yaw_minus_2deg",
+      "seed": 4,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 62.1765436806759,
+        "max_penetration_m": 0.001602586272461237,
+        "min_legal_pad_to_handle_m": 0.8980534482463931,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -17.0
+    },
+    {
+      "base_pos": [
+        -0.85,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          23,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          36,
+          22
+        ],
+        "drawer_handle_geom_ids": [
+          35
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          49,
+          51,
+          53,
+          58,
+          63,
+          67,
+          85,
+          94,
+          96
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          63,
+          67,
+          85,
+          94
+        ],
+        "legal_finger_pad_geom_ids": [
+          99,
+          102
+        ]
+      },
+      "error": null,
+      "perturbation": "yaw_plus_2deg",
+      "seed": 4,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 59.97415042520819,
+        "max_penetration_m": 0.0018724408489292355,
+        "min_legal_pad_to_handle_m": 0.8911808287340146,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 47.201466443544156,
+        "reset_max_penetration_m": 0.0018724408489292355,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -13.0
+    },
+    {
+      "base_pos": [
+        -0.85,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          23,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          36,
+          22
+        ],
+        "drawer_handle_geom_ids": [
+          35
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          49,
+          51,
+          53,
+          58,
+          63,
+          67,
+          85,
+          94,
+          96
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          63,
+          67,
+          85,
+          94
+        ],
+        "legal_finger_pad_geom_ids": [
+          99,
+          102
+        ]
+      },
+      "error": null,
+      "perturbation": "qpos_small_plus",
+      "seed": 4,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 60.63838025923248,
+        "max_penetration_m": 0.001579651451912634,
+        "min_legal_pad_to_handle_m": 0.8910184752476017,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.85,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          23,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          36,
+          22
+        ],
+        "drawer_handle_geom_ids": [
+          35
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          49,
+          51,
+          53,
+          58,
+          63,
+          67,
+          85,
+          94,
+          96
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          63,
+          67,
+          85,
+          94
+        ],
+        "legal_finger_pad_geom_ids": [
+          99,
+          102
+        ]
+      },
+      "error": null,
+      "perturbation": "qpos_small_minus",
+      "seed": 4,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 57.76439429325601,
+        "max_penetration_m": 0.0015025296559482706,
+        "min_legal_pad_to_handle_m": 0.8974600248791929,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.8,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          24,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          39,
+          23
+        ],
+        "drawer_handle_geom_ids": [
+          38
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          52,
+          54,
+          56,
+          61,
+          66,
+          70,
+          88,
+          97,
+          99
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          70,
+          88,
+          97
+        ],
+        "legal_finger_pad_geom_ids": [
+          102,
+          105
+        ]
+      },
+      "error": null,
+      "perturbation": "nominal",
+      "seed": 5,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "min_legal_pad_to_handle_m": 0.6006070557024935,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.795,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          24,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          39,
+          23
+        ],
+        "drawer_handle_geom_ids": [
+          38
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          52,
+          54,
+          56,
+          61,
+          66,
+          70,
+          88,
+          97,
+          99
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          70,
+          88,
+          97
+        ],
+        "legal_finger_pad_geom_ids": [
+          102,
+          105
+        ]
+      },
+      "error": null,
+      "perturbation": "base_x_plus_5mm",
+      "seed": 5,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "min_legal_pad_to_handle_m": 0.5961011180535609,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.805,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          24,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          39,
+          23
+        ],
+        "drawer_handle_geom_ids": [
+          38
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          52,
+          54,
+          56,
+          61,
+          66,
+          70,
+          88,
+          97,
+          99
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          70,
+          88,
+          97
+        ],
+        "legal_finger_pad_geom_ids": [
+          102,
+          105
+        ]
+      },
+      "error": null,
+      "perturbation": "base_x_minus_5mm",
+      "seed": 5,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "min_legal_pad_to_handle_m": 0.6051207602940992,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.8,
+        0.10500000000000001,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          24,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          39,
+          23
+        ],
+        "drawer_handle_geom_ids": [
+          38
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          52,
+          54,
+          56,
+          61,
+          66,
+          70,
+          88,
+          97,
+          99
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          70,
+          88,
+          97
+        ],
+        "legal_finger_pad_geom_ids": [
+          102,
+          105
+        ]
+      },
+      "error": null,
+      "perturbation": "base_y_plus_5mm",
+      "seed": 5,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "min_legal_pad_to_handle_m": 0.6017024892981669,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.8,
+        0.095,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          24,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          39,
+          23
+        ],
+        "drawer_handle_geom_ids": [
+          38
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          52,
+          54,
+          56,
+          61,
+          66,
+          70,
+          88,
+          97,
+          99
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          70,
+          88,
+          97
+        ],
+        "legal_finger_pad_geom_ids": [
+          102,
+          105
+        ]
+      },
+      "error": null,
+      "perturbation": "base_y_minus_5mm",
+      "seed": 5,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "min_legal_pad_to_handle_m": 0.599594065162686,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.8,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          24,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          39,
+          23
+        ],
+        "drawer_handle_geom_ids": [
+          38
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          52,
+          54,
+          56,
+          61,
+          66,
+          70,
+          88,
+          97,
+          99
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          70,
+          88,
+          97
+        ],
+        "legal_finger_pad_geom_ids": [
+          102,
+          105
+        ]
+      },
+      "error": null,
+      "perturbation": "yaw_minus_2deg",
+      "seed": 5,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "min_legal_pad_to_handle_m": 0.6006910343754756,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -17.0
+    },
+    {
+      "base_pos": [
+        -0.8,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          24,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          39,
+          23
+        ],
+        "drawer_handle_geom_ids": [
+          38
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          52,
+          54,
+          56,
+          61,
+          66,
+          70,
+          88,
+          97,
+          99
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          70,
+          88,
+          97
+        ],
+        "legal_finger_pad_geom_ids": [
+          102,
+          105
+        ]
+      },
+      "error": null,
+      "perturbation": "yaw_plus_2deg",
+      "seed": 5,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "min_legal_pad_to_handle_m": 0.5995184686104803,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -13.0
+    },
+    {
+      "base_pos": [
+        -0.8,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          24,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          39,
+          23
+        ],
+        "drawer_handle_geom_ids": [
+          38
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          52,
+          54,
+          56,
+          61,
+          66,
+          70,
+          88,
+          97,
+          99
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          70,
+          88,
+          97
+        ],
+        "legal_finger_pad_geom_ids": [
+          102,
+          105
+        ]
+      },
+      "error": null,
+      "perturbation": "qpos_small_plus",
+      "seed": 5,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "min_legal_pad_to_handle_m": 0.5979270932575961,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.8,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          24,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          39,
+          23
+        ],
+        "drawer_handle_geom_ids": [
+          38
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          52,
+          54,
+          56,
+          61,
+          66,
+          70,
+          88,
+          97,
+          99
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          70,
+          88,
+          97
+        ],
+        "legal_finger_pad_geom_ids": [
+          102,
+          105
+        ]
+      },
+      "error": null,
+      "perturbation": "qpos_small_minus",
+      "seed": 5,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "min_legal_pad_to_handle_m": 0.6033121974916141,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.8,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          23,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          37,
+          22
+        ],
+        "drawer_handle_geom_ids": [
+          36
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          50,
+          52,
+          54,
+          59,
+          64,
+          68,
+          86,
+          95,
+          97
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          68,
+          86,
+          95
+        ],
+        "legal_finger_pad_geom_ids": [
+          100,
+          103
+        ]
+      },
+      "error": null,
+      "perturbation": "nominal",
+      "seed": 6,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "min_legal_pad_to_handle_m": 0.8487834902499644,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.795,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          23,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          37,
+          22
+        ],
+        "drawer_handle_geom_ids": [
+          36
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          50,
+          52,
+          54,
+          59,
+          64,
+          68,
+          86,
+          95,
+          97
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          68,
+          86,
+          95
+        ],
+        "legal_finger_pad_geom_ids": [
+          100,
+          103
+        ]
+      },
+      "error": null,
+      "perturbation": "base_x_plus_5mm",
+      "seed": 6,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "min_legal_pad_to_handle_m": 0.8451662247954231,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.805,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          23,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          37,
+          22
+        ],
+        "drawer_handle_geom_ids": [
+          36
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          50,
+          52,
+          54,
+          59,
+          64,
+          68,
+          86,
+          95,
+          97
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          68,
+          86,
+          95
+        ],
+        "legal_finger_pad_geom_ids": [
+          100,
+          103
+        ]
+      },
+      "error": null,
+      "perturbation": "base_x_minus_5mm",
+      "seed": 6,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "min_legal_pad_to_handle_m": 0.8524147342150267,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.8,
+        0.10500000000000001,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          23,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          37,
+          22
+        ],
+        "drawer_handle_geom_ids": [
+          36
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          50,
+          52,
+          54,
+          59,
+          64,
+          68,
+          86,
+          95,
+          97
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          68,
+          86,
+          95
+        ],
+        "legal_finger_pad_geom_ids": [
+          100,
+          103
+        ]
+      },
+      "error": null,
+      "perturbation": "base_y_plus_5mm",
+      "seed": 6,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "min_legal_pad_to_handle_m": 0.8481216936684642,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.8,
+        0.095,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          23,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          37,
+          22
+        ],
+        "drawer_handle_geom_ids": [
+          36
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          50,
+          52,
+          54,
+          59,
+          64,
+          68,
+          86,
+          95,
+          97
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          68,
+          86,
+          95
+        ],
+        "legal_finger_pad_geom_ids": [
+          100,
+          103
+        ]
+      },
+      "error": null,
+      "perturbation": "base_y_minus_5mm",
+      "seed": 6,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "min_legal_pad_to_handle_m": 0.8494742017099509,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.8,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          23,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          37,
+          22
+        ],
+        "drawer_handle_geom_ids": [
+          36
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          50,
+          52,
+          54,
+          59,
+          64,
+          68,
+          86,
+          95,
+          97
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          68,
+          86,
+          95
+        ],
+        "legal_finger_pad_geom_ids": [
+          100,
+          103
+        ]
+      },
+      "error": null,
+      "perturbation": "yaw_minus_2deg",
+      "seed": 6,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "min_legal_pad_to_handle_m": 0.8518662780462237,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -17.0
+    },
+    {
+      "base_pos": [
+        -0.8,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          23,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          37,
+          22
+        ],
+        "drawer_handle_geom_ids": [
+          36
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          50,
+          52,
+          54,
+          59,
+          64,
+          68,
+          86,
+          95,
+          97
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          68,
+          86,
+          95
+        ],
+        "legal_finger_pad_geom_ids": [
+          100,
+          103
+        ]
+      },
+      "error": null,
+      "perturbation": "yaw_plus_2deg",
+      "seed": 6,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "min_legal_pad_to_handle_m": 0.8463930618223796,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -13.0
+    },
+    {
+      "base_pos": [
+        -0.8,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          23,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          37,
+          22
+        ],
+        "drawer_handle_geom_ids": [
+          36
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          50,
+          52,
+          54,
+          59,
+          64,
+          68,
+          86,
+          95,
+          97
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          68,
+          86,
+          95
+        ],
+        "legal_finger_pad_geom_ids": [
+          100,
+          103
+        ]
+      },
+      "error": null,
+      "perturbation": "qpos_small_plus",
+      "seed": 6,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "min_legal_pad_to_handle_m": 0.8456999110928061,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.8,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          23,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          37,
+          22
+        ],
+        "drawer_handle_geom_ids": [
+          36
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          50,
+          52,
+          54,
+          59,
+          64,
+          68,
+          86,
+          95,
+          97
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          68,
+          86,
+          95
+        ],
+        "legal_finger_pad_geom_ids": [
+          100,
+          103
+        ]
+      },
+      "error": null,
+      "perturbation": "qpos_small_minus",
+      "seed": 6,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "min_legal_pad_to_handle_m": 0.8518883086762798,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.8,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          21
+        ],
+        "drawer_handle_geom_ids": [
+          20
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          34,
+          36,
+          38,
+          43,
+          48,
+          52,
+          70,
+          79,
+          81
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          52,
+          70,
+          79,
+          81
+        ],
+        "legal_finger_pad_geom_ids": [
+          84,
+          87
+        ]
+      },
+      "error": null,
+      "perturbation": "nominal",
+      "seed": 7,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 14,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.2401106337777673,
+        "max_force_n": 17538.685729554796,
+        "max_penetration_m": 0.07104006893271533,
+        "min_legal_pad_to_handle_m": 0.7400672295840799,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 3,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 17555.024591701876,
+        "reset_max_penetration_m": 0.07104006893271533,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.795,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          21
+        ],
+        "drawer_handle_geom_ids": [
+          20
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          34,
+          36,
+          38,
+          43,
+          48,
+          52,
+          70,
+          79,
+          81
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          52,
+          70,
+          79,
+          81
+        ],
+        "legal_finger_pad_geom_ids": [
+          84,
+          87
+        ]
+      },
+      "error": null,
+      "perturbation": "base_x_plus_5mm",
+      "seed": 7,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 14,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.2347327356643346,
+        "max_force_n": 18201.507966541827,
+        "max_penetration_m": 0.07604006893271545,
+        "min_legal_pad_to_handle_m": 0.73555474698695,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 4,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 18218.029367742853,
+        "reset_max_penetration_m": 0.07604006893271545,
+        "steps": 371,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.805,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          21
+        ],
+        "drawer_handle_geom_ids": [
+          20
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          34,
+          36,
+          38,
+          43,
+          48,
+          52,
+          70,
+          79,
+          81
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          52,
+          70,
+          79,
+          81
+        ],
+        "legal_finger_pad_geom_ids": [
+          84,
+          87
+        ]
+      },
+      "error": null,
+      "perturbation": "base_x_minus_5mm",
+      "seed": 7,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 14,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.22006883222378432,
+        "max_force_n": 16841.199659912145,
+        "max_penetration_m": 0.06604006893271544,
+        "min_legal_pad_to_handle_m": 0.7445859405021521,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 3,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 16857.340290350017,
+        "reset_max_penetration_m": 0.06604006893271544,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.8,
+        0.10500000000000001,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          21
+        ],
+        "drawer_handle_geom_ids": [
+          20
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          34,
+          36,
+          38,
+          43,
+          48,
+          52,
+          70,
+          79,
+          81
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          52,
+          70,
+          79,
+          81
+        ],
+        "legal_finger_pad_geom_ids": [
+          84,
+          87
+        ]
+      },
+      "error": null,
+      "perturbation": "base_y_plus_5mm",
+      "seed": 7,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 14,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.2401105338901246,
+        "max_force_n": 17538.672929682627,
+        "max_penetration_m": 0.07104006893271533,
+        "min_legal_pad_to_handle_m": 0.7399112986273322,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 3,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 17555.02459206702,
+        "reset_max_penetration_m": 0.07104006893271533,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.8,
+        0.095,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          21
+        ],
+        "drawer_handle_geom_ids": [
+          20
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          34,
+          36,
+          38,
+          43,
+          48,
+          52,
+          70,
+          79,
+          81
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          52,
+          70,
+          79,
+          81
+        ],
+        "legal_finger_pad_geom_ids": [
+          84,
+          87
+        ]
+      },
+      "error": null,
+      "perturbation": "base_y_minus_5mm",
+      "seed": 7,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 14,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.24011063385265333,
+        "max_force_n": 17538.685729189376,
+        "max_penetration_m": 0.07104006893271533,
+        "min_legal_pad_to_handle_m": 0.7402569005231396,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 3,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 17555.024591336485,
+        "reset_max_penetration_m": 0.07104006893271533,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.8,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          21
+        ],
+        "drawer_handle_geom_ids": [
+          20
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          34,
+          36,
+          38,
+          43,
+          48,
+          52,
+          70,
+          79,
+          81
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          52,
+          70,
+          79,
+          81
+        ],
+        "legal_finger_pad_geom_ids": [
+          84,
+          87
+        ]
+      },
+      "error": null,
+      "perturbation": "yaw_minus_2deg",
+      "seed": 7,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 14,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.1358410454030169,
+        "max_force_n": 14461.90739449651,
+        "max_penetration_m": 0.06083676007958155,
+        "min_legal_pad_to_handle_m": 0.7448477717573565,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 3,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 14480.192463041018,
+        "reset_max_penetration_m": 0.06083676007958155,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -17.0
+    },
+    {
+      "base_pos": [
+        -0.8,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          21
+        ],
+        "drawer_handle_geom_ids": [
+          20
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          34,
+          36,
+          38,
+          43,
+          48,
+          52,
+          70,
+          79,
+          81
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          52,
+          70,
+          79,
+          81
+        ],
+        "legal_finger_pad_geom_ids": [
+          84,
+          87
+        ]
+      },
+      "error": null,
+      "perturbation": "yaw_plus_2deg",
+      "seed": 7,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 16,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.3469583355434137,
+        "max_force_n": 20702.69132641104,
+        "max_penetration_m": 0.08048159398556456,
+        "min_legal_pad_to_handle_m": 0.6499802476968468,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 4,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 20722.26833494305,
+        "reset_max_penetration_m": 0.08048159398556456,
+        "steps": 417,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -13.0
+    },
+    {
+      "base_pos": [
+        -0.8,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          21
+        ],
+        "drawer_handle_geom_ids": [
+          20
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          34,
+          36,
+          38,
+          43,
+          48,
+          52,
+          70,
+          79,
+          81
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          52,
+          70,
+          79,
+          81
+        ],
+        "legal_finger_pad_geom_ids": [
+          84,
+          87
+        ]
+      },
+      "error": null,
+      "perturbation": "qpos_small_plus",
+      "seed": 7,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 14,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.24904794022811746,
+        "max_force_n": 17805.273828055128,
+        "max_penetration_m": 0.07190618038415794,
+        "min_legal_pad_to_handle_m": 0.7384518580070193,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 3,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 17821.87596736594,
+        "reset_max_penetration_m": 0.07190618038415794,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.8,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          21
+        ],
+        "drawer_handle_geom_ids": [
+          20
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          34,
+          36,
+          38,
+          43,
+          48,
+          52,
+          70,
+          79,
+          81
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          52,
+          70,
+          79,
+          81
+        ],
+        "legal_finger_pad_geom_ids": [
+          84,
+          87
+        ]
+      },
+      "error": null,
+      "perturbation": "qpos_small_minus",
+      "seed": 7,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 14,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.23128223031774078,
+        "max_force_n": 17274.75834837369,
+        "max_penetration_m": 0.07017236535408727,
+        "min_legal_pad_to_handle_m": 0.7416855541126541,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 3,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 17290.834695101694,
+        "reset_max_penetration_m": 0.07017236535408727,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.85,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          22,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          35,
+          21
+        ],
+        "drawer_handle_geom_ids": [
+          34
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          48,
+          50,
+          52,
+          57,
+          62,
+          66,
+          84,
+          93,
+          95
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          66,
+          84,
+          93
+        ],
+        "legal_finger_pad_geom_ids": [
+          98,
+          101
+        ]
+      },
+      "error": null,
+      "perturbation": "nominal",
+      "seed": 8,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 94.7193061289478,
+        "max_penetration_m": 0.004083767157944007,
+        "min_legal_pad_to_handle_m": 0.9626455212204892,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 94.58204142329294,
+        "reset_max_penetration_m": 0.004083767157944007,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.845,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          22,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          35,
+          21
+        ],
+        "drawer_handle_geom_ids": [
+          34
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          48,
+          50,
+          52,
+          57,
+          62,
+          66,
+          84,
+          93,
+          95
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          66,
+          84,
+          93
+        ],
+        "legal_finger_pad_geom_ids": [
+          98,
+          101
+        ]
+      },
+      "error": null,
+      "perturbation": "base_x_plus_5mm",
+      "seed": 8,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 218.55205922237295,
+        "max_penetration_m": 0.0090837671579439,
+        "min_legal_pad_to_handle_m": 0.9585654138446313,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 218.48571473588993,
+        "reset_max_penetration_m": 0.0090837671579439,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.855,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          22,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          35,
+          21
+        ],
+        "drawer_handle_geom_ids": [
+          34
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          48,
+          50,
+          52,
+          57,
+          62,
+          66,
+          84,
+          93,
+          95
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          66,
+          84,
+          93
+        ],
+        "legal_finger_pad_geom_ids": [
+          98,
+          101
+        ]
+      },
+      "error": null,
+      "perturbation": "base_x_minus_5mm",
+      "seed": 8,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 1,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 76.47092651736031,
+        "max_penetration_m": 0.001453973315851176,
+        "min_legal_pad_to_handle_m": 0.9667342687794852,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 349,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.85,
+        0.10500000000000001,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          22,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          35,
+          21
+        ],
+        "drawer_handle_geom_ids": [
+          34
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          48,
+          50,
+          52,
+          57,
+          62,
+          66,
+          84,
+          93,
+          95
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          66,
+          84,
+          93
+        ],
+        "legal_finger_pad_geom_ids": [
+          98,
+          101
+        ]
+      },
+      "error": null,
+      "perturbation": "base_y_plus_5mm",
+      "seed": 8,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 94.71930612894866,
+        "max_penetration_m": 0.004083767157944007,
+        "min_legal_pad_to_handle_m": 0.9612692632884319,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 94.5820414232941,
+        "reset_max_penetration_m": 0.004083767157944007,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.85,
+        0.095,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          22,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          35,
+          21
+        ],
+        "drawer_handle_geom_ids": [
+          34
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          48,
+          50,
+          52,
+          57,
+          62,
+          66,
+          84,
+          93,
+          95
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          66,
+          84,
+          93
+        ],
+        "legal_finger_pad_geom_ids": [
+          98,
+          101
+        ]
+      },
+      "error": null,
+      "perturbation": "base_y_minus_5mm",
+      "seed": 8,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 94.71930612894845,
+        "max_penetration_m": 0.004083767157944007,
+        "min_legal_pad_to_handle_m": 0.9640457471036581,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 94.58204142329362,
+        "reset_max_penetration_m": 0.004083767157944007,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.85,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          22,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          35,
+          21
+        ],
+        "drawer_handle_geom_ids": [
+          34
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          48,
+          50,
+          52,
+          57,
+          62,
+          66,
+          84,
+          93,
+          95
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          66,
+          84,
+          93
+        ],
+        "legal_finger_pad_geom_ids": [
+          98,
+          101
+        ]
+      },
+      "error": null,
+      "perturbation": "yaw_minus_2deg",
+      "seed": 8,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 79.48844392431076,
+        "max_penetration_m": 0.0018331668452533092,
+        "min_legal_pad_to_handle_m": 0.9680713036782056,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -17.0
+    },
+    {
+      "base_pos": [
+        -0.85,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          22,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          35,
+          21
+        ],
+        "drawer_handle_geom_ids": [
+          34
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          48,
+          50,
+          52,
+          57,
+          62,
+          66,
+          84,
+          93,
+          95
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          66,
+          84,
+          93
+        ],
+        "legal_finger_pad_geom_ids": [
+          98,
+          101
+        ]
+      },
+      "error": null,
+      "perturbation": "yaw_plus_2deg",
+      "seed": 8,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 1,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 182.69732061263215,
+        "max_penetration_m": 0.007685465786956558,
+        "min_legal_pad_to_handle_m": 0.9579057795285636,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 182.62792935487715,
+        "reset_max_penetration_m": 0.007685465786956558,
+        "steps": 319,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -13.0
+    },
+    {
+      "base_pos": [
+        -0.85,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          22,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          35,
+          21
+        ],
+        "drawer_handle_geom_ids": [
+          34
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          48,
+          50,
+          52,
+          57,
+          62,
+          66,
+          84,
+          93,
+          95
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          66,
+          84,
+          93
+        ],
+        "legal_finger_pad_geom_ids": [
+          98,
+          101
+        ]
+      },
+      "error": null,
+      "perturbation": "qpos_small_plus",
+      "seed": 8,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 132.89861417497002,
+        "max_penetration_m": 0.005635808074165971,
+        "min_legal_pad_to_handle_m": 0.9597401683878688,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 132.83117243392775,
+        "reset_max_penetration_m": 0.005635808074165971,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.85,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          22,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          35,
+          21
+        ],
+        "drawer_handle_geom_ids": [
+          34
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          48,
+          50,
+          52,
+          57,
+          62,
+          66,
+          84,
+          93,
+          95
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          66,
+          84,
+          93
+        ],
+        "legal_finger_pad_geom_ids": [
+          98,
+          101
+        ]
+      },
+      "error": null,
+      "perturbation": "qpos_small_minus",
+      "seed": 8,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 1,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 88.48363408469268,
+        "max_penetration_m": 0.002492861999441376,
+        "min_legal_pad_to_handle_m": 0.9655759357146566,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 55.30372251779776,
+        "reset_max_penetration_m": 0.002492861999441376,
+        "steps": 344,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.8,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          24,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          38,
+          23
+        ],
+        "drawer_handle_geom_ids": [
+          37
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          51,
+          53,
+          55,
+          60,
+          65,
+          69,
+          87,
+          96,
+          98
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          69,
+          87,
+          96
+        ],
+        "legal_finger_pad_geom_ids": [
+          101,
+          104
+        ]
+      },
+      "error": null,
+      "perturbation": "nominal",
+      "seed": 11,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "min_legal_pad_to_handle_m": 0.6102058604049171,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.795,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          24,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          38,
+          23
+        ],
+        "drawer_handle_geom_ids": [
+          37
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          51,
+          53,
+          55,
+          60,
+          65,
+          69,
+          87,
+          96,
+          98
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          69,
+          87,
+          96
+        ],
+        "legal_finger_pad_geom_ids": [
+          101,
+          104
+        ]
+      },
+      "error": null,
+      "perturbation": "base_x_plus_5mm",
+      "seed": 11,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "min_legal_pad_to_handle_m": 0.6052327816258007,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.805,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          24,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          38,
+          23
+        ],
+        "drawer_handle_geom_ids": [
+          37
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          51,
+          53,
+          55,
+          60,
+          65,
+          69,
+          87,
+          96,
+          98
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          69,
+          87,
+          96
+        ],
+        "legal_finger_pad_geom_ids": [
+          101,
+          104
+        ]
+      },
+      "error": null,
+      "perturbation": "base_x_minus_5mm",
+      "seed": 11,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "min_legal_pad_to_handle_m": 0.6151793723396692,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.8,
+        0.10500000000000001,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          24,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          38,
+          23
+        ],
+        "drawer_handle_geom_ids": [
+          37
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          51,
+          53,
+          55,
+          60,
+          65,
+          69,
+          87,
+          96,
+          98
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          69,
+          87,
+          96
+        ],
+        "legal_finger_pad_geom_ids": [
+          101,
+          104
+        ]
+      },
+      "error": null,
+      "perturbation": "base_y_plus_5mm",
+      "seed": 11,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "min_legal_pad_to_handle_m": 0.6113371871065614,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.8,
+        0.095,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          24,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          38,
+          23
+        ],
+        "drawer_handle_geom_ids": [
+          37
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          51,
+          53,
+          55,
+          60,
+          65,
+          69,
+          87,
+          96,
+          98
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          69,
+          87,
+          96
+        ],
+        "legal_finger_pad_geom_ids": [
+          101,
+          104
+        ]
+      },
+      "error": null,
+      "perturbation": "base_y_minus_5mm",
+      "seed": 11,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "min_legal_pad_to_handle_m": 0.6091595507522878,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.8,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          24,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          38,
+          23
+        ],
+        "drawer_handle_geom_ids": [
+          37
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          51,
+          53,
+          55,
+          60,
+          65,
+          69,
+          87,
+          96,
+          98
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          69,
+          87,
+          96
+        ],
+        "legal_finger_pad_geom_ids": [
+          101,
+          104
+        ]
+      },
+      "error": null,
+      "perturbation": "yaw_minus_2deg",
+      "seed": 11,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "min_legal_pad_to_handle_m": 0.6103738803313843,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -17.0
+    },
+    {
+      "base_pos": [
+        -0.8,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          24,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          38,
+          23
+        ],
+        "drawer_handle_geom_ids": [
+          37
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          51,
+          53,
+          55,
+          60,
+          65,
+          69,
+          87,
+          96,
+          98
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          69,
+          87,
+          96
+        ],
+        "legal_finger_pad_geom_ids": [
+          101,
+          104
+        ]
+      },
+      "error": null,
+      "perturbation": "yaw_plus_2deg",
+      "seed": 11,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "min_legal_pad_to_handle_m": 0.6112402850737236,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -13.0
+    },
+    {
+      "base_pos": [
+        -0.8,
+        0.1,
+        0.0
+      ],
+      "binding": {
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          24,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          38,
+          23
+        ],
+        "drawer_handle_geom_ids": [
+          37
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          51,
+          53,
+          55,
+          60,
+          65,
+          69,
+          87,
+          96,
+          98
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          69,
+          87,
+          96
+        ],
+        "legal_finger_pad_geom_ids": [
+          101,
+          104
+        ]
+      },
+      "error": null,
+      "perturbation": "qpos_small_plus",
+      "seed": 11,
+      "summary": {
+        "direct_qpos_drawer_opening": false,
+        "drawer_motor_command_abs_max": 0.0,
+        "drawer_qpos_nondecreasing_during_pull": true,
+        "finite_force": true,
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.0,
+        "max_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "min_legal_pad_to_handle_m": 0.6089319910351053,
+        "passes_low_penetration_contact_gate": false,
+        "passes_robust_layer4r_gate": false,
+        "reset_forbidden_contact_frames": 0,
+        "reset_handle_nonlegal_contact_frames": 0,
+        "reset_max_force_n": 0.0,
+        "reset_max_penetration_m": 0.0,
+        "steps": 430,
+        "target_contact_frames": 0,
+        "target_contact_max_consecutive_frames": 0
+      },
+      "yaw_deg": -15.0
+    }
+  ],
+  "cases_failed": 117,
+  "cases_passed": 0,
+  "cases_total": 117,
+  "controller_params": {
+    "approach_steps": 175,
+    "close_cmd": -1.0,
+    "gain": 0.3,
+    "hold_offset": 0.004,
+    "joint_scale": 0.02,
+    "max_steps": 430,
+    "name": "longer_contact_lower_velocity",
+    "vel_limit": 0.015
+  },
+  "cycle": 3,
+  "histogram": {
+    "forbidden_contact_present": 36,
+    "max_penetration_gt_0p02m": 18,
+    "target_contact_consecutive_lt_30": 117,
+    "target_contact_frames_lt_50": 117
+  },
+  "progress_improved_vs_previous_best": false
+}

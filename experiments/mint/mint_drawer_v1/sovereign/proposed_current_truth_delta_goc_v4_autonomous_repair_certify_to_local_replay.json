@@ -1,0 +1,14 @@
+{
+  "MINT_training_allowed": false,
+  "closeout_classification": "ROBUST_LAYER4R_CONTACT_DYNAMICS_REPAIR_STALLED",
+  "current_truth_direct_mutation": false,
+  "generated_at_utc": "2026-05-01T17:03:49Z",
+  "layer4R_robust_contact_certified": false,
+  "layer5_strict_pull_rollout_passed": false,
+  "layer6_export_bundle_complete": false,
+  "layer7_local_strict_replay_render_passed": false,
+  "manual_review_required": false,
+  "next_actions_direct_mutation": false,
+  "next_gate": "ROBUST_CONTACT_POLICY_OR_GEOMETRY_REDESIGN",
+  "run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_goc_v4_autonomous_repair_certify_to_local_replay_20260501T165814Z"
+}

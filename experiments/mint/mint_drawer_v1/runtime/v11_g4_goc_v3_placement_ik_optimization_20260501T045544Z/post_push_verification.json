@@ -1,0 +1,45 @@
+{
+  "all_required_files_visible_on_origin": true,
+  "note": "This file is generated after the phase evidence commit is origin-visible. A metadata finalize commit may follow, so final conversation remote_commit_hash may be newer than phase_evidence_commit.",
+  "phase_evidence_commit": "6eac5730aaf3d7724b9310e2c0fa5997fc3939cc",
+  "remote_ref": "my-origin/feature/mint-env-reformulation-v1-visual-fidelity",
+  "verified_paths": {
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_placement_ik_optimization_20260501T045544Z/closeout_decision.json": {
+      "bytes": 5656,
+      "exists_on_origin": true
+    },
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_placement_ik_optimization_20260501T045544Z/dynamic_probe_failure_analysis.json": {
+      "bytes": 3642,
+      "exists_on_origin": true
+    },
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_placement_ik_optimization_20260501T045544Z/final_report.md": {
+      "bytes": 1535,
+      "exists_on_origin": true
+    },
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_placement_ik_optimization_20260501T045544Z/joint_feasible_candidates.json": {
+      "bytes": 2790,
+      "exists_on_origin": true
+    },
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_placement_ik_optimization_20260501T045544Z/placement_ik_decision.json": {
+      "bytes": 5575,
+      "exists_on_origin": true
+    },
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_placement_ik_optimization_20260501T045544Z/placement_ik_optimizer.py": {
+      "bytes": 23706,
+      "exists_on_origin": true
+    },
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_placement_ik_optimization_20260501T045544Z/short_dynamic_contact_probes.json": {
+      "bytes": 15618,
+      "exists_on_origin": true
+    },
+    "experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_placement_ik_optimization.json": {
+      "bytes": 1701,
+      "exists_on_origin": true
+    },
+    "experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_placement_ik_optimization.json": {
+      "bytes": 603,
+      "exists_on_origin": true
+    }
+  },
+  "verified_remote_head_before_metadata_commit": "6eac5730aaf3d7724b9310e2c0fa5997fc3939cc"
+}

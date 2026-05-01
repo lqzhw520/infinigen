@@ -1,0 +1,2 @@
+AUTHORITY_MISMATCH
+COUNT_ONLY_AUTHORITY_REJECTED: GOC-v3 requires exact geom-id sets; received counts_only={'l': 31, 'f': 27, 'h': 9}

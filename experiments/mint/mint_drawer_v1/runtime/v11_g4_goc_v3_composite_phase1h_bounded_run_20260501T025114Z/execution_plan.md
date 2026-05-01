@@ -1,0 +1,63 @@
+# Execution Plan
+
+```json
+{
+  "allowed_files": [
+    "run_dir/*",
+    "sovereign/proposed_current_truth_delta_phase1h_goc_v3_composite.json",
+    "sovereign/proposed_next_actions_phase1h_goc_v3_composite.json",
+    "runtime/controller_cycles/* if generated",
+    "whitelisted runtime files only if concrete blocker requires"
+  ],
+  "candidate_success_gates": {
+    "body_based_31_27_used": false,
+    "direct_qpos_used": false,
+    "forbidden_contact_count": 0,
+    "max_drawer_fraction_gte": 0.8,
+    "name_only_evidence_used": false,
+    "target_contact_only": "[63,81,90] <-> [0..8]"
+  },
+  "forbidden_files": [
+    "sovereign/current_truth.json",
+    "sovereign/next_actions.json",
+    "external/MINT/*",
+    "GOC-v3 authority artifacts",
+    "harness code except lock/attestation/spec binding already completed"
+  ],
+  "generated_at_utc": "2026-05-01T02:51:17Z",
+  "hard_stops": [
+    "HARNESS_PREFLIGHT_FAILED",
+    "TASK_SPEC_LOCK_BINDING_FAILED",
+    "WRONG_WORKTREE",
+    "WRONG_BRANCH",
+    "REMOTE_NOT_CONFIGURED",
+    "DIRTY_FORBIDDEN_SCOPE",
+    "RESET_CONTACT_INTERPENETRATION_BLOCKS_PHASE1H",
+    "PREACTION_GOC_V3_CONTACT_SMOKE_FAILED",
+    "ROLLOUT_COMMAND_BROKEN_INFRASTRUCTURE_BLOCKED",
+    "ROUTE_NEVER_REACHES_GOC_V3_HANDLE_OR_FORBIDDEN_CONTACT",
+    "TIME_BUDGET_EXHAUSTED",
+    "EXECUTION_FAILED"
+  ],
+  "max_microvariants": 3,
+  "max_rollout_attempts": 12,
+  "no_user_prompts_mid_run": true,
+  "run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_composite_phase1h_bounded_run_20260501T025114Z",
+  "stages": [
+    "task_spec_lock_binding",
+    "authority_worktree_gate",
+    "execution_plan",
+    "verify_repaired_reset_preaction_state",
+    "route_teacher_entrypoint_preflight",
+    "microvariant_design",
+    "bounded_phase1h_candidate_attempts",
+    "strict_candidate_export_if_found",
+    "proposed_sovereign_deltas",
+    "final_harness_scope_checks",
+    "commit_push_postpush_closeout"
+  ],
+  "task_id": "V11_G4_GOC_V3_COMPOSITE_PHASE1H_BOUNDED_AUTONOMOUS_RUN_V3",
+  "task_type": "BOUNDED_RUNTIME_SCIENCE_PHASE",
+  "wall_clock_limit_hours": 8
+}
+```

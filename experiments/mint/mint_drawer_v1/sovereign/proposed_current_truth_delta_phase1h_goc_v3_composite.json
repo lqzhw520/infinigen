@@ -1,80 +1,86 @@
 {
-  "bounded_candidate_execution": {
-    "attempted": false,
-    "attempts_used": 0,
-    "strict_candidate_found": false
-  },
-  "closeout_classification": "MODEL_BUILDER_REPAIR_REQUIRED",
-  "contact_report_schema_status": {
-    "body_based_3127_rejected": true,
-    "exact_goc_v3_ids_emitted": true,
-    "legacy_name_only_rejected": true,
-    "positive_exact_id_validator_accepted": true
-  },
-  "direct_current_truth_mutation": false,
-  "generated_at_utc": "2026-04-30T14:16:27.555248Z",
-  "next_gate": "RESET_CONTACT_OR_MODEL_BUILDER_REPAIR",
-  "phase1h_remains_blocked": true,
-  "preaction_contact_smoke": {
-    "passed": false,
-    "reason": "forbidden reset contacts and excessive penetration/force block Stage 4"
-  },
-  "proposal_id": "proposed_current_truth_delta_phase1h_goc_v3_composite",
-  "reset_physical_plausibility": {
-    "forbidden_contacts_at_reset": 12,
-    "max_reset_contact_force_n": 2.0387027460025715e+18,
-    "max_reset_penetration_m": 0.42044898910674633,
-    "observed_forbidden_contact_pairs": [
-      [
-        0,
-        47
+  "current_truth_json_modified": false,
+  "do_not_apply_automatically": true,
+  "evidence": {
+    "best_attempt": {
+      "attempt_index": 1,
+      "body_link_wrist_contact_counted_as_target": false,
+      "direct_qpos_used": false,
+      "drawer_fraction_trace_head": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
       ],
-      [
-        0,
-        49
+      "drawer_fraction_trace_tail": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
       ],
-      [
-        0,
-        54
+      "exact_goc_v3_contact_sequence_summary": {
+        "forbidden_contact_frame_count": 0,
+        "handle_nonlegal_robot_contact_frame_count": 0,
+        "sustained_target_contact_max_consecutive": 0,
+        "target_contact_any": false,
+        "target_contact_frame_count": 0,
+        "unique_forbidden_pairs": [],
+        "unique_target_pairs": []
+      },
+      "exit_code": 0,
+      "failure_reasons": [
+        "no_goc_v3_target_contact",
+        "insufficient_sustained_target_contact",
+        "drawer_fraction_below_teacher_candidate_threshold"
       ],
-      [
-        2,
-        47
-      ],
-      [
-        2,
-        49
-      ],
-      [
-        2,
-        54
-      ],
-      [
-        3,
-        47
-      ],
-      [
-        4,
-        49
-      ],
-      [
-        4,
-        54
-      ],
-      [
-        7,
-        47
-      ],
-      [
-        7,
-        49
-      ],
-      [
-        7,
-        54
-      ]
+      "forbidden_contact_count": 0,
+      "full_untrimmed_trajectory_path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_composite_phase1h_bounded_run_20260501T025114Z/attempt_01_mv0_center_axis_pull_seed_001.npz",
+      "hard_goal_candidate": false,
+      "has_forbidden_contact": false,
+      "max_contact_force_n": 0.0,
+      "max_drawer_fraction": 0.0,
+      "max_penetration_m": 0.0,
+      "microvariant_id": "mv0_center_axis_pull",
+      "seed": 1,
+      "steps": 220,
+      "strict_candidate": false
+    },
+    "bounded_rollout_attempted": true,
+    "microvariants_used": 3,
+    "preaction_contact_smoke_passed": true,
+    "reset_repair_verified": true,
+    "rollout_attempts_used": 12,
+    "route_entrypoint_preflight_passed": true,
+    "run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_composite_phase1h_bounded_run_20260501T025114Z",
+    "runtime_patch_files": [
+      "scripts/mint/run_full_robot_teacher_probe.py"
     ],
-    "passed": false
+    "strict_candidate_found": false,
+    "task_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v3_composite_phase1h_bounded_autonomous.yaml"
   },
-  "source_run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_composite_phase1h_bounded_20260430T140419Z"
+  "generated_at_utc": "2026-05-01T03:02:05Z",
+  "proposal_id": "proposed_current_truth_delta_phase1h_goc_v3_composite",
+  "proposed_truth_updates": {
+    "next_gate": "ROUTE_REPAIR_UNDER_GOC_V3",
+    "phase1h_composite_attempt_status": "ROUTE_NEVER_REACHES_GOC_V3_HANDLE_OR_FORBIDDEN_CONTACT",
+    "phase1h_remains_blocked": true,
+    "phase1h_strict_candidate_status": "not_found"
+  },
+  "summary": "Composite bounded Phase1H attempts ran under GOC-v3 exact-ID authority after reset repair. No strict candidate was found: route never reached legal GOC-v3 target handle contact and drawer fraction remained 0.0."
 }

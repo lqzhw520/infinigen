@@ -1,0 +1,23 @@
+{
+  "bounded_rollout_attempted": true,
+  "current_truth_modified": false,
+  "final_preflight_exit": null,
+  "generated_at_utc": "2026-05-01T03:02:05Z",
+  "goc_v3_authority_changed": false,
+  "harness_preflight_passed": null,
+  "json_parse_precheck": true,
+  "next_actions_modified": false,
+  "preliminary": true,
+  "rollout_render_train_run": true,
+  "runtime_patch_applied": true,
+  "runtime_patch_files": [
+    "scripts/mint/run_full_robot_teacher_probe.py"
+  ],
+  "status_short_before_staging": [
+    " M .project-memory/STATUS.md",
+    " M .session/checkpoint.md",
+    " M experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_phase1h_goc_v3_composite.json",
+    " M experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_phase1h_goc_v3_composite.json",
+    " M scripts/mint/run_full_robot_teacher_probe.py"
+  ]
+}

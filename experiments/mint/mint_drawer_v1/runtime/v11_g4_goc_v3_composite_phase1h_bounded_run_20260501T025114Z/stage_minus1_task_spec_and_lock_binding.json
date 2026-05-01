@@ -1,0 +1,14 @@
+{
+  "attestation_file_blobs_verified": true,
+  "attestation_origin_verified": true,
+  "composite_task_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v3_composite_phase1h_bounded_autonomous.yaml",
+  "generated_at_utc": "2026-05-01T02:51:17Z",
+  "lock_bound_to_composite_v3": true,
+  "lock_harness_status": "production_ready",
+  "lock_task_id": "V11_G4_GOC_V3_COMPOSITE_PHASE1H_BOUNDED_AUTONOMOUS_RUN_V3",
+  "lock_task_spec_hash": "76862984a21d43a9bfe1a26bfc7e18c441a53ca6",
+  "lock_task_spec_path": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v3_composite_phase1h_bounded_autonomous.yaml",
+  "lock_task_version": "3.0.0",
+  "preflight_exit": 0,
+  "preflight_passed": true
+}

@@ -1,0 +1,54 @@
+{
+  "forbidden_microvariants_not_used": [
+    "goc_v3_id_change",
+    "forbidden_contact_as_target",
+    "target_collision_disable",
+    "drawer_fraction_threshold_lowering",
+    "direct_qpos_drawer_opening",
+    "body_link_wrist_target_contact"
+  ],
+  "max_microvariants": 3,
+  "microvariants": [
+    {
+      "approach_axis": "negative_drawer_motion_axis",
+      "approach_offset_m": 0.16,
+      "close_start_distance_m": 0.035,
+      "contact_z_lift_m": 0.0,
+      "gripper_close_steps": 25,
+      "ik_gain": 5.0,
+      "microvariant_id": "mv0_center_axis_pull",
+      "pull_offset_m": 0.18,
+      "qvel_clip": 1.2,
+      "steps": 220,
+      "z_lift_m": 0.04
+    },
+    {
+      "approach_axis": "negative_drawer_motion_axis",
+      "approach_offset_m": 0.12,
+      "close_start_distance_m": 0.045,
+      "contact_z_lift_m": -0.004,
+      "gripper_close_steps": 35,
+      "ik_gain": 6.0,
+      "microvariant_id": "mv1_low_center_contact",
+      "pull_offset_m": 0.2,
+      "qvel_clip": 1.4,
+      "steps": 240,
+      "z_lift_m": 0.025
+    },
+    {
+      "approach_axis": "negative_drawer_motion_axis_plus_tangent",
+      "approach_offset_m": 0.14,
+      "close_start_distance_m": 0.04,
+      "contact_z_lift_m": 0.002,
+      "gripper_close_steps": 30,
+      "ik_gain": 5.5,
+      "microvariant_id": "mv2_tangent_bias_reseat",
+      "pull_offset_m": 0.22,
+      "qvel_clip": 1.3,
+      "steps": 260,
+      "tangent_offset_m": 0.018,
+      "z_lift_m": 0.035
+    }
+  ],
+  "stage": "stage4_microvariant_design"
+}

@@ -1,0 +1,20 @@
+{
+  "contact_report_schema_version": "legacy_name_only.v0",
+  "emitted_exact_sets": {},
+  "observed_forbidden_contact_pairs": [],
+  "observed_target_contact_pairs": [
+    [
+      "right_finger",
+      "drawer_handle"
+    ]
+  ],
+  "raw_runtime_contact_report": {
+    "target_contact_pairs": [
+      [
+        "right_finger",
+        "drawer_handle"
+      ]
+    ]
+  },
+  "runtime_exact_geom_ids_emitted": false
+}

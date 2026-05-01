@@ -1,0 +1,43 @@
+{
+  "authority_validation": {
+    "body_based_3127_rejected": true,
+    "legacy_name_only_rejected": true,
+    "negative_body_counts_3127_exit": 1,
+    "negative_legacy_name_only_exit": 1,
+    "observed_forbidden_contact_pairs": [],
+    "observed_target_contact_pairs": [],
+    "positive_exact_sets_exit": 0,
+    "positive_exact_sets_passed": true,
+    "preaction_contact_smoke_passed": true,
+    "reset_schema_exact_sets_match": true,
+    "runtime_exact_geom_ids_emitted": true
+  },
+  "contact_details": [],
+  "contact_distances_finite": true,
+  "contact_forces_finite": true,
+  "exact_goc_v3_ids_emitted": true,
+  "forbidden_contact_pairs_at_reset": [],
+  "forbidden_contacts_at_reset": 0,
+  "forbidden_set_matches": true,
+  "force_threshold_n": 1000000.0,
+  "generated_at_utc": "2026-05-01T02:52:00Z",
+  "handle_set_matches": true,
+  "legacy_body_based_31_27_fields_present_not_used": true,
+  "legal_set_matches": true,
+  "max_reset_contact_force_n": 0.0,
+  "max_reset_penetration_m": 0.0,
+  "model_uses_repaired_merged_model_builder_state": true,
+  "penetration_threshold_m": 0.02,
+  "preaction_contact_smoke_passed": true,
+  "reset_physical_plausibility_passed": true,
+  "reset_repair_verified": true,
+  "robot_base_pos": [
+    -0.9,
+    0.0,
+    0.0
+  ],
+  "source_worktree_head": "f8f0e0569bc4e895d37ff3bd5320f5d8ef96ba8e",
+  "stage": "stage2_repaired_reset_preaction_smoke",
+  "target_pairs_legal_only": true,
+  "task_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v3_composite_phase1h_bounded_autonomous.yaml"
+}

@@ -9,20 +9,37 @@ from typing import Any
 
 import cv2
 import numpy as np
-
 from drawer_robot_env_mujoco import (
-    ATTACH_THRESHOLD_M,
-    DRAWER_SUCCESS_FRACTION,
-    DrawerEnvContractConfig,
     DrawerRobotEnvMuJoCoLibero,
     _json_ready,
     _pose_from_point,
-    build_full_robot_rollout,
     save_robot_rollout,
 )
+from drawer_robot_env_mujoco import (
+    build_robot_rollout as build_full_robot_rollout,
+)
 from merged_model_builder import MergedModelBuilder
-from mint_common import ARTIFACT_DIR, CAMPAIGN_DIR, PROJECT_ROOT, load_json, write_json_atomic
-from tiny_retrain_gate_utils import execution_lineage_payload
+from mint_common import (
+    ARTIFACT_DIR,
+    CAMPAIGN_DIR,
+    PROJECT_ROOT,
+    load_json,
+    write_json_atomic,
+)
+
+try:
+    from tiny_retrain_gate_utils import execution_lineage_payload
+except ImportError:
+
+    def execution_lineage_payload() -> dict[str, Any]:
+        repo = _repo_identity()
+        return {
+            "lineage_source": "run_full_robot_teacher_probe_fallback",
+            "repo_branch": repo.get("branch"),
+            "repo_head_commit": repo.get("working_head_commit"),
+            "vendor_head_commit": repo.get("vendor_head_commit"),
+        }
+
 
 DrawerRobotEnvMuJoCoLibero._MERGED_BUILDER_CLASS = MergedModelBuilder
 
@@ -34,7 +51,9 @@ SOVEREIGN_SNAPSHOT_V11_PATH = AUTOPILOT_DIR / "sovereign_snapshot_v11.json"
 FULL_ROBOT_PROBE_ROOT = ARTIFACT_DIR / "full_robot_teacher_probe"
 FULL_ROBOT_PROBE_LATEST_PATH = ARTIFACT_DIR / "full_robot_teacher_probe_latest.json"
 ACTIVE_PLAN_PATH = ARTIFACT_DIR / "active_tiny_retrain_plan.json"
-HARNESS_SCRIPT_DIR = PROJECT_ROOT / "experiments" / "mint" / "mint_drawer_v1" / "scripts" / "harness"
+HARNESS_SCRIPT_DIR = (
+    PROJECT_ROOT / "experiments" / "mint" / "mint_drawer_v1" / "scripts" / "harness"
+)
 
 if str(HARNESS_SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(HARNESS_SCRIPT_DIR))
@@ -49,12 +68,16 @@ def _repo_identity() -> dict[str, str]:
     import subprocess
 
     def git(args: list[str]) -> str:
-        return subprocess.check_output(["git", *args], cwd=PROJECT_ROOT, text=True).strip()
+        return subprocess.check_output(
+            ["git", *args], cwd=PROJECT_ROOT, text=True
+        ).strip()
 
     return {
         "branch": git(["rev-parse", "--abbrev-ref", "HEAD"]),
         "working_head_commit": git(["rev-parse", "HEAD"]),
-        "vendor_head_commit": git(["-C", str(PROJECT_ROOT / "external" / "MINT"), "rev-parse", "HEAD"]),
+        "vendor_head_commit": git(
+            ["-C", str(PROJECT_ROOT / "external" / "MINT"), "rev-parse", "HEAD"]
+        ),
     }
 
 
@@ -63,8 +86,7 @@ def _build_grasp_pose(seed: int, control_mode: str) -> np.ndarray:
         seed=seed,
         image_size=96,
         max_steps=2,
-        contract=DrawerEnvContractConfig.full_robot_defaults(),
-        control_mode=control_mode,
+        contract=None,
     )
     try:
         env.reset()
@@ -73,7 +95,6 @@ def _build_grasp_pose(seed: int, control_mode: str) -> np.ndarray:
         return _pose_from_point(handle, axis, offset=0.0, z_lift=0.005)
     finally:
         env.close()
-
 
 
 V11_MIN_FINGERPAD_CONTACT_FRAMES = 3
@@ -132,11 +153,16 @@ def _v11_forbidden_target_contact_class(model: Any, geom_id: int) -> str:
 def _v11_geom_belongs_to_drawer_or_cabinet(model: Any, geom_id: int) -> bool:
     name = str(model.geom(int(geom_id)).name or "")
     body_id = int(model.geom_bodyid[int(geom_id)])
-    return name.startswith("drawer_") or name.startswith("reference_cabinet") or _v11_body_has_ancestor(model, body_id, "drawer_base")
+    return (
+        name.startswith("drawer_")
+        or name.startswith("reference_cabinet")
+        or _v11_body_has_ancestor(model, body_id, "drawer_base")
+    )
 
 
 def _v11_resolve_geom_ids(model: Any, names: list[str]) -> list[int]:
     import mujoco
+
     ids: list[int] = []
     for name in names:
         gid = int(mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_GEOM, str(name or "")))
@@ -147,6 +173,7 @@ def _v11_resolve_geom_ids(model: Any, names: list[str]) -> list[int]:
 
 def _v11_joint_adrs(model: Any, names: list[str]) -> list[int]:
     import mujoco
+
     out: list[int] = []
     for name in names:
         jid = int(mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_JOINT, str(name or "")))
@@ -156,22 +183,32 @@ def _v11_joint_adrs(model: Any, names: list[str]) -> list[int]:
 
 
 def _v11_joint_names(model: Any, prefix: str) -> list[str]:
-    return [str(model.joint(i).name or "") for i in range(int(model.njnt)) if str(model.joint(i).name or "").startswith(prefix)]
+    return [
+        str(model.joint(i).name or "")
+        for i in range(int(model.njnt))
+        if str(model.joint(i).name or "").startswith(prefix)
+    ]
 
 
 def _v11_gripper_qpos_from_scalar(model: Any, joint_name: str, scalar: float) -> float:
     import mujoco
+
     jid = int(mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_JOINT, joint_name))
     if jid < 0:
         return 0.0
     low = float(model.jnt_range[jid, 0])
     high = float(model.jnt_range[jid, 1])
     aperture = float(np.clip((float(scalar) + 0.042) / 0.043, 0.0, 1.0))
-    return float(np.clip((high if abs(high) >= abs(low) else low) * aperture, low, high))
+    return float(
+        np.clip((high if abs(high) >= abs(low) else low) * aperture, low, high)
+    )
 
 
-def _v11_right_hand_inside_cabinet(model: Any, data: Any, scene_contract: dict[str, Any]) -> bool:
+def _v11_right_hand_inside_cabinet(
+    model: Any, data: Any, scene_contract: dict[str, Any]
+) -> bool:
     import mujoco
+
     layout = dict(scene_contract.get("layout", {}) or {})
     if not layout:
         return False
@@ -179,7 +216,9 @@ def _v11_right_hand_inside_cabinet(model: Any, data: Any, scene_contract: dict[s
     if body_id < 0:
         return False
     center = np.asarray(layout.get("cabinet_pos", [0.0, 0.0, 0.0]), dtype=np.float32)
-    half = np.asarray(layout.get("cabinet_half_size", [0.0, 0.0, 0.0]), dtype=np.float32)
+    half = np.asarray(
+        layout.get("cabinet_half_size", [0.0, 0.0, 0.0]), dtype=np.float32
+    )
     if not np.all(np.isfinite(center)) or not np.all(np.isfinite(half)):
         return False
     hand_pos = np.asarray(data.xpos[body_id], dtype=np.float32)
@@ -188,6 +227,7 @@ def _v11_right_hand_inside_cabinet(model: Any, data: Any, scene_contract: dict[s
 
 def _v11_post_step_replay_audit(seed: int, rollout: dict[str, Any]) -> dict[str, Any]:
     import mujoco
+
     if "next_states" not in rollout:
         return {
             "audit_version": "v11_post_step_replay_fingerpad_v1",
@@ -213,12 +253,26 @@ def _v11_post_step_replay_audit(seed: int, rollout: dict[str, Any]) -> dict[str,
     xml, assets, scene_metadata, _ = MergedModelBuilder(seed=int(seed)).build()
     model = mujoco.MjModel.from_xml_string(xml, assets)
     data = mujoco.MjData(model)
-    contract = dict(rollout.get("task_object_contract", {}) or scene_metadata.get("task_object_contract", {}) or {})
-    scene_contract = dict(contract.get("scene_contract", {}) or scene_metadata.get("scene_contract", {}) or {})
+    contract = dict(
+        rollout.get("task_object_contract", {})
+        or scene_metadata.get("task_object_contract", {})
+        or {}
+    )
+    scene_contract = dict(
+        contract.get("scene_contract", {})
+        or scene_metadata.get("scene_contract", {})
+        or {}
+    )
     spec = dict(rollout.get("state_spec", {}) or {})
-    drawer_names = list(spec.get("drawer_joint_names", []) or []) or _v11_joint_names(model, "drawer_slider_")
-    robot_names = list(spec.get("robot_joint_names", []) or []) or [f"joint{i}" for i in range(1, 8)]
-    gripper_names = list(spec.get("gripper_joint_names", []) or []) or _v11_joint_names(model, "finger_joint")
+    drawer_names = list(spec.get("drawer_joint_names", []) or []) or _v11_joint_names(
+        model, "drawer_slider_"
+    )
+    robot_names = list(spec.get("robot_joint_names", []) or []) or [
+        f"joint{i}" for i in range(1, 8)
+    ]
+    gripper_names = list(spec.get("gripper_joint_names", []) or []) or _v11_joint_names(
+        model, "finger_joint"
+    )
     drawer_adrs = _v11_joint_adrs(model, drawer_names)
     robot_adrs = _v11_joint_adrs(model, robot_names)
     gripper_adrs = _v11_joint_adrs(model, gripper_names)
@@ -233,23 +287,46 @@ def _v11_post_step_replay_audit(seed: int, rollout: dict[str, Any]) -> dict[str,
             "required_audit_state_source": V11_REQUIRED_AUDIT_STATE_SOURCE,
             "frame_count": int(states.shape[0]),
             "post_step_replay_audit_passed": False,
-            "failure_reasons": [f"state_width_{states.shape[1]}_lt_required_{required}"],
+            "failure_reasons": [
+                f"state_width_{states.shape[1]}_lt_required_{required}"
+            ],
         }
-    target_names = list(contract.get("target_handle_collision_geom_names") or []) + list(contract.get("target_handle_geom_names") or []) + list(contract.get("target_handle_visual_geom_names") or [])
+    target_names = (
+        list(contract.get("target_handle_collision_geom_names") or [])
+        + list(contract.get("target_handle_geom_names") or [])
+        + list(contract.get("target_handle_visual_geom_names") or [])
+    )
     target_ids = set(_v11_resolve_geom_ids(model, target_names))
     if not target_ids and contract.get("target_index") is not None:
         idx = int(contract.get("target_index"))
-        target_ids = set(_v11_resolve_geom_ids(model, [f"drawer_handle_collision_{idx}", f"drawer_handle_visual_{idx}"]))
-    all_handle_ids = {i for i in range(int(model.ngeom)) if str(model.geom(i).name or "").startswith("drawer_handle_")}
+        target_ids = set(
+            _v11_resolve_geom_ids(
+                model, [f"drawer_handle_collision_{idx}", f"drawer_handle_visual_{idx}"]
+            )
+        )
+    all_handle_ids = {
+        i
+        for i in range(int(model.ngeom))
+        if str(model.geom(i).name or "").startswith("drawer_handle_")
+    }
     non_target_handle_ids = all_handle_ids.difference(target_ids)
-    fingerpad_ids = {i for i in range(int(model.ngeom)) if "pad_collision" in str(model.geom(i).name or "")}
+    fingerpad_ids = {
+        i
+        for i in range(int(model.ngeom))
+        if "pad_collision" in str(model.geom(i).name or "")
+    }
     fingertip_ids = {
         i
         for i in range(int(model.ngeom))
         if "fingertip" in str(model.geom(i).name or "")
         or "tip_collision" in str(model.geom(i).name or "")
     }
-    finger_collision_ids = {i for i in range(int(model.ngeom)) if "finger" in str(model.geom(i).name or "") and "collision" in str(model.geom(i).name or "")}
+    finger_collision_ids = {
+        i
+        for i in range(int(model.ngeom))
+        if "finger" in str(model.geom(i).name or "")
+        and "collision" in str(model.geom(i).name or "")
+    }
     hand_body_ids = {
         i
         for i in range(int(model.ngeom))
@@ -276,7 +353,9 @@ def _v11_post_step_replay_audit(seed: int, rollout: dict[str, Any]) -> dict[str,
             data.qpos[int(adr)] = float(state[n_drawer + i])
         gripper_scalar = float(state[n_drawer + n_robot])
         for name, adr in zip(gripper_names, gripper_adrs):
-            data.qpos[int(adr)] = _v11_gripper_qpos_from_scalar(model, name, gripper_scalar)
+            data.qpos[int(adr)] = _v11_gripper_qpos_from_scalar(
+                model, name, gripper_scalar
+            )
         mujoco.mj_forward(model, data)
         frame_target_any = False
         frame_fingerpad = False
@@ -305,25 +384,51 @@ def _v11_post_step_replay_audit(seed: int, rollout: dict[str, Any]) -> dict[str,
                 else:
                     cls = "other"
                 if len(target_samples) < 16:
-                    target_samples.append({"frame": int(frame_idx), "geom1": n1, "geom2": n2, "dist_m": float(contact.dist), "contact_class": cls})
+                    target_samples.append(
+                        {
+                            "frame": int(frame_idx),
+                            "geom1": n1,
+                            "geom2": n2,
+                            "dist_m": float(contact.dist),
+                            "contact_class": cls,
+                        }
+                    )
                 continue
-            robot_drawer_pair = (_v11_geom_belongs_to_robot(model, g1) and _v11_geom_belongs_to_drawer_or_cabinet(model, g2)) or (_v11_geom_belongs_to_robot(model, g2) and _v11_geom_belongs_to_drawer_or_cabinet(model, g1))
+            robot_drawer_pair = (
+                _v11_geom_belongs_to_robot(model, g1)
+                and _v11_geom_belongs_to_drawer_or_cabinet(model, g2)
+            ) or (
+                _v11_geom_belongs_to_robot(model, g2)
+                and _v11_geom_belongs_to_drawer_or_cabinet(model, g1)
+            )
             if not robot_drawer_pair:
                 continue
             dist = float(contact.dist)
             if non_target_min_dist is None or dist < float(non_target_min_dist):
                 non_target_min_dist = dist
-            non_target_handle_pair = g1 in non_target_handle_ids or g2 in non_target_handle_ids
+            non_target_handle_pair = (
+                g1 in non_target_handle_ids or g2 in non_target_handle_ids
+            )
             if dist < V11_NON_TARGET_PENETRATION_EPS_M:
                 frame_pen_count += 1
             if len(non_target_samples) < 16 and (dist < 0.0 or non_target_handle_pair):
-                non_target_samples.append({"frame": int(frame_idx), "geom1": n1, "geom2": n2, "dist_m": dist, "non_target_handle_pair": bool(non_target_handle_pair)})
+                non_target_samples.append(
+                    {
+                        "frame": int(frame_idx),
+                        "geom1": n1,
+                        "geom2": n2,
+                        "dist_m": dist,
+                        "non_target_handle_pair": bool(non_target_handle_pair),
+                    }
+                )
         target_any_trace.append(bool(frame_target_any))
         target_fingerpad_trace.append(bool(frame_fingerpad))
         target_finger_collision_trace.append(bool(frame_finger_collision))
         target_hand_body_trace.append(bool(frame_hand_body))
         non_target_pen_trace.append(bool(frame_pen_count > 0))
-        wrist_inside_trace.append(_v11_right_hand_inside_cabinet(model, data, scene_contract))
+        wrist_inside_trace.append(
+            _v11_right_hand_inside_cabinet(model, data, scene_contract)
+        )
         non_target_peak_count = max(non_target_peak_count, int(frame_pen_count))
     fingerpad_count = int(sum(target_fingerpad_trace))
     fingerpad_consec = _v11_max_consecutive(target_fingerpad_trace)
@@ -341,13 +446,61 @@ def _v11_post_step_replay_audit(seed: int, rollout: dict[str, Any]) -> dict[str,
         failure_reasons.append("post_step_non_target_robot_drawer_penetration")
     if any(wrist_inside_trace):
         failure_reasons.append("post_step_right_hand_inside_cabinet_bbox")
-    return {"audit_version": "v11_post_step_replay_fingerpad_v1", "state_source": state_source, "audit_state_source": state_source, "required_audit_state_source": V11_REQUIRED_AUDIT_STATE_SOURCE, "target_contact_success_classes_allowed": ["fingerpad", "fingertip"], "target_contact_forbidden_classes": ["hand_collision", "body", "link", "wrist"], "frame_count": int(states.shape[0]), "post_step_replay_audit_passed": bool(not failure_reasons), "target_handle_geom_names": [str(model.geom(i).name or f"geom_{i}") for i in sorted(target_ids)], "target_handle_geom_ids": [int(i) for i in sorted(target_ids)], "fingerpad_geom_names": [str(model.geom(i).name or f"geom_{i}") for i in sorted(fingerpad_ids)], "fingertip_geom_names": [str(model.geom(i).name or f"geom_{i}") for i in sorted(fingertip_ids)], "target_handle_contact_any": bool(any(target_any_trace)), "target_fingerpad_handle_contact_any": bool(fingerpad_count > 0), "target_fingerpad_handle_contact_count_frames": int(fingerpad_count), "target_fingerpad_handle_contact_max_consecutive_frames": int(fingerpad_consec), "target_finger_collision_handle_contact_count_frames": int(sum(target_finger_collision_trace)), "target_hand_body_handle_contact_any": bool(body_count > 0), "target_hand_body_handle_contact_count_frames": int(body_count), "post_step_non_target_robot_drawer_penetration_any": bool(any(non_target_pen_trace)), "post_step_non_target_robot_drawer_penetration_peak_count": int(non_target_peak_count), "post_step_non_target_robot_drawer_min_dist_m": float(non_target_min_dist if non_target_min_dist is not None else 0.0), "post_step_wrist_right_hand_inside_cabinet_any": bool(any(wrist_inside_trace)), "failure_reasons": failure_reasons, "target_contact_samples": target_samples, "non_target_contact_samples": non_target_samples, "target_fingerpad_handle_contact_trace": target_fingerpad_trace, "target_hand_body_handle_contact_trace": target_hand_body_trace, "post_step_non_target_robot_drawer_penetration_trace": non_target_pen_trace}
+    return {
+        "audit_version": "v11_post_step_replay_fingerpad_v1",
+        "state_source": state_source,
+        "audit_state_source": state_source,
+        "required_audit_state_source": V11_REQUIRED_AUDIT_STATE_SOURCE,
+        "target_contact_success_classes_allowed": ["fingerpad", "fingertip"],
+        "target_contact_forbidden_classes": ["hand_collision", "body", "link", "wrist"],
+        "frame_count": int(states.shape[0]),
+        "post_step_replay_audit_passed": bool(not failure_reasons),
+        "target_handle_geom_names": [
+            str(model.geom(i).name or f"geom_{i}") for i in sorted(target_ids)
+        ],
+        "target_handle_geom_ids": [int(i) for i in sorted(target_ids)],
+        "fingerpad_geom_names": [
+            str(model.geom(i).name or f"geom_{i}") for i in sorted(fingerpad_ids)
+        ],
+        "fingertip_geom_names": [
+            str(model.geom(i).name or f"geom_{i}") for i in sorted(fingertip_ids)
+        ],
+        "target_handle_contact_any": bool(any(target_any_trace)),
+        "target_fingerpad_handle_contact_any": bool(fingerpad_count > 0),
+        "target_fingerpad_handle_contact_count_frames": int(fingerpad_count),
+        "target_fingerpad_handle_contact_max_consecutive_frames": int(fingerpad_consec),
+        "target_finger_collision_handle_contact_count_frames": int(
+            sum(target_finger_collision_trace)
+        ),
+        "target_hand_body_handle_contact_any": bool(body_count > 0),
+        "target_hand_body_handle_contact_count_frames": int(body_count),
+        "post_step_non_target_robot_drawer_penetration_any": bool(
+            any(non_target_pen_trace)
+        ),
+        "post_step_non_target_robot_drawer_penetration_peak_count": int(
+            non_target_peak_count
+        ),
+        "post_step_non_target_robot_drawer_min_dist_m": float(
+            non_target_min_dist if non_target_min_dist is not None else 0.0
+        ),
+        "post_step_wrist_right_hand_inside_cabinet_any": bool(any(wrist_inside_trace)),
+        "failure_reasons": failure_reasons,
+        "target_contact_samples": target_samples,
+        "non_target_contact_samples": non_target_samples,
+        "target_fingerpad_handle_contact_trace": target_fingerpad_trace,
+        "target_hand_body_handle_contact_trace": target_hand_body_trace,
+        "post_step_non_target_robot_drawer_penetration_trace": non_target_pen_trace,
+    }
 
 
-def _apply_v11_post_step_replay_gate(seed: int, rollout: dict[str, Any]) -> dict[str, Any]:
+def _apply_v11_post_step_replay_gate(
+    seed: int, rollout: dict[str, Any]
+) -> dict[str, Any]:
     audit = _v11_post_step_replay_audit(seed, rollout)
     pre_v11_pass = bool(rollout.get("physical_admission_passed", False))
-    audit_state_source = str(audit.get("audit_state_source") or audit.get("state_source") or "")
+    audit_state_source = str(
+        audit.get("audit_state_source") or audit.get("state_source") or ""
+    )
     v11_pass = bool(
         pre_v11_pass
         and audit.get("post_step_replay_audit_passed", False)
@@ -356,34 +509,75 @@ def _apply_v11_post_step_replay_gate(seed: int, rollout: dict[str, Any]) -> dict
     frame_count = int(audit.get("frame_count", 0) or 0)
     rollout["pre_v11_physical_admission_passed"] = bool(pre_v11_pass)
     rollout["v11_post_step_replay_audit"] = _json_ready(audit)
-    rollout["v11_post_step_replay_audit_passed"] = bool(audit.get("post_step_replay_audit_passed", False))
+    rollout["v11_post_step_replay_audit_passed"] = bool(
+        audit.get("post_step_replay_audit_passed", False)
+    )
     rollout["audit_state_source"] = audit_state_source
     rollout["required_audit_state_source"] = V11_REQUIRED_AUDIT_STATE_SOURCE
     rollout["v11_replay_bundle_untrimmed"] = True
     rollout["v11_trimmed_bundle_refused"] = True
-    for key in ["target_fingerpad_handle_contact_any", "target_fingerpad_handle_contact_count_frames", "target_fingerpad_handle_contact_max_consecutive_frames", "target_hand_body_handle_contact_any", "target_hand_body_handle_contact_count_frames", "post_step_non_target_robot_drawer_penetration_any", "post_step_non_target_robot_drawer_penetration_peak_count", "post_step_non_target_robot_drawer_min_dist_m", "post_step_wrist_right_hand_inside_cabinet_any"]:
+    for key in [
+        "target_fingerpad_handle_contact_any",
+        "target_fingerpad_handle_contact_count_frames",
+        "target_fingerpad_handle_contact_max_consecutive_frames",
+        "target_hand_body_handle_contact_any",
+        "target_hand_body_handle_contact_count_frames",
+        "post_step_non_target_robot_drawer_penetration_any",
+        "post_step_non_target_robot_drawer_penetration_peak_count",
+        "post_step_non_target_robot_drawer_min_dist_m",
+        "post_step_wrist_right_hand_inside_cabinet_any",
+    ]:
         rollout[key] = audit.get(key, False if key.endswith("any") else 0)
-    rollout["target_fingerpad_handle_contact_trace"] = np.asarray(audit.get("target_fingerpad_handle_contact_trace", [False] * frame_count), dtype=np.bool_)
-    rollout["target_hand_body_handle_contact_trace"] = np.asarray(audit.get("target_hand_body_handle_contact_trace", [False] * frame_count), dtype=np.bool_)
-    rollout["post_step_non_target_robot_drawer_penetration_trace"] = np.asarray(audit.get("post_step_non_target_robot_drawer_penetration_trace", [False] * frame_count), dtype=np.bool_)
+    rollout["target_fingerpad_handle_contact_trace"] = np.asarray(
+        audit.get("target_fingerpad_handle_contact_trace", [False] * frame_count),
+        dtype=np.bool_,
+    )
+    rollout["target_hand_body_handle_contact_trace"] = np.asarray(
+        audit.get("target_hand_body_handle_contact_trace", [False] * frame_count),
+        dtype=np.bool_,
+    )
+    rollout["post_step_non_target_robot_drawer_penetration_trace"] = np.asarray(
+        audit.get(
+            "post_step_non_target_robot_drawer_penetration_trace", [False] * frame_count
+        ),
+        dtype=np.bool_,
+    )
     rollout["physical_admission_passed"] = bool(v11_pass)
-    rollout["physical_admission_verdict"] = "v11_strict_fingerpad_post_step_admission_pass" if v11_pass else "v11_strict_fingerpad_post_step_admission_blocked"
-    rollout["diagnostic_verdict"] = "v11_strict_full_robot_truth_ready" if v11_pass else "v11_strict_full_robot_truth_blocked"
+    rollout["physical_admission_verdict"] = (
+        "v11_strict_fingerpad_post_step_admission_pass"
+        if v11_pass
+        else "v11_strict_fingerpad_post_step_admission_blocked"
+    )
+    rollout["diagnostic_verdict"] = (
+        "v11_strict_full_robot_truth_ready"
+        if v11_pass
+        else "v11_strict_full_robot_truth_blocked"
+    )
     if v11_pass:
-        rollout["next_blocker"] = "export_strict_replay_and_local_reference_visual_audit"
+        rollout["next_blocker"] = (
+            "export_strict_replay_and_local_reference_visual_audit"
+        )
     else:
         reasons = audit.get("failure_reasons", []) or []
-        rollout["next_blocker"] = "repair_v11_teacher_" + ("_and_".join(str(r) for r in reasons[:3]) or "unknown_post_step_replay_gate")
+        rollout["next_blocker"] = "repair_v11_teacher_" + (
+            "_and_".join(str(r) for r in reasons[:3]) or "unknown_post_step_replay_gate"
+        )
     return rollout
 
 
 def _frame_indices(rollout: dict[str, Any]) -> dict[str, int]:
     indices = {"start": 0}
     if len(rollout["handle_distance_trace"]):
-        indices["min_handle_distance"] = int(np.argmin(rollout["handle_distance_trace"]))
+        indices["min_handle_distance"] = int(
+            np.argmin(rollout["handle_distance_trace"])
+        )
     if len(rollout["next_drawer_fractions"]):
-        indices["max_drawer_fraction"] = int(np.argmax(rollout["next_drawer_fractions"]))
-    contact_trace = np.asarray(rollout.get("target_handle_contact_trace", []), dtype=np.bool_)
+        indices["max_drawer_fraction"] = int(
+            np.argmax(rollout["next_drawer_fractions"])
+        )
+    contact_trace = np.asarray(
+        rollout.get("target_handle_contact_trace", []), dtype=np.bool_
+    )
     if contact_trace.size and bool(np.any(contact_trace)):
         indices["first_contact"] = int(np.argmax(contact_trace.astype(np.int32)))
     attach_trace = np.asarray(rollout.get("attach_eligible_trace", []), dtype=np.bool_)
@@ -395,7 +589,9 @@ def _frame_indices(rollout: dict[str, Any]) -> dict[str, int]:
     return indices
 
 
-def _write_representative_frames(run_dir: Path, episode_slug: str, rollout: dict[str, Any]) -> dict[str, str]:
+def _write_representative_frames(
+    run_dir: Path, episode_slug: str, rollout: dict[str, Any]
+) -> dict[str, str]:
     images = np.asarray(rollout.get("images", []), dtype=np.uint8)
     if images.size == 0:
         return {}
@@ -411,7 +607,9 @@ def _write_representative_frames(run_dir: Path, episode_slug: str, rollout: dict
     return written
 
 
-def _write_side_by_side_video(run_dir: Path, episode_slug: str, rollout: dict[str, Any]) -> str | None:
+def _write_side_by_side_video(
+    run_dir: Path, episode_slug: str, rollout: dict[str, Any]
+) -> str | None:
     images = np.asarray(rollout.get("images", []), dtype=np.uint8)
     images2 = np.asarray(rollout.get("images2", []), dtype=np.uint8)
     if images.size == 0 or images2.size == 0:
@@ -436,7 +634,9 @@ def _write_side_by_side_video(run_dir: Path, episode_slug: str, rollout: dict[st
     return str(path)
 
 
-def _stamp_episode_lineage(sidecar_path: Path, plan: dict[str, Any], repo: dict[str, str]) -> None:
+def _stamp_episode_lineage(
+    sidecar_path: Path, plan: dict[str, Any], repo: dict[str, str]
+) -> None:
     payload = load_json(sidecar_path, default={}) or {}
     payload.update(
         {
@@ -454,14 +654,31 @@ def _stamp_episode_lineage(sidecar_path: Path, plan: dict[str, Any], repo: dict[
     write_json_atomic(sidecar_path, payload)
 
 
-def _episode_summary(seed: int, control_mode: str, rollout: dict[str, Any], episode_npz: Path, frames: dict[str, str], video_path: str | None) -> dict[str, Any]:
-    handle_distance = np.asarray(rollout.get("handle_distance_trace", []), dtype=np.float32)
-    contact_trace = np.asarray(rollout.get("target_handle_contact_trace", []), dtype=np.bool_)
-    contact_count_trace = np.asarray(rollout.get("target_handle_contact_count_trace", []), dtype=np.float32)
-    contact_force_trace = np.asarray(rollout.get("target_handle_contact_force_trace", []), dtype=np.float32)
+def _episode_summary(
+    seed: int,
+    control_mode: str,
+    rollout: dict[str, Any],
+    episode_npz: Path,
+    frames: dict[str, str],
+    video_path: str | None,
+) -> dict[str, Any]:
+    handle_distance = np.asarray(
+        rollout.get("handle_distance_trace", []), dtype=np.float32
+    )
+    contact_trace = np.asarray(
+        rollout.get("target_handle_contact_trace", []), dtype=np.bool_
+    )
+    contact_count_trace = np.asarray(
+        rollout.get("target_handle_contact_count_trace", []), dtype=np.float32
+    )
+    contact_force_trace = np.asarray(
+        rollout.get("target_handle_contact_force_trace", []), dtype=np.float32
+    )
     attach_trace = np.asarray(rollout.get("attach_eligible_trace", []), dtype=np.bool_)
     phase_trace = np.asarray(rollout.get("phase_locked_trace", []), dtype=np.bool_)
-    drawer_fraction = np.asarray(rollout.get("next_drawer_fractions", []), dtype=np.float32)
+    drawer_fraction = np.asarray(
+        rollout.get("next_drawer_fractions", []), dtype=np.float32
+    )
     contract = dict(rollout.get("task_object_contract", {}) or {})
     scene_contract = dict(contract.get("scene_contract", {}) or {})
     franka_visual_contract = dict(rollout.get("visual_mode_report", {}) or {})
@@ -474,8 +691,11 @@ def _episode_summary(seed: int, control_mode: str, rollout: dict[str, Any], epis
     return {
         "seed": int(seed),
         "control_mode": str(control_mode),
-        "teacher_control_mode": rollout.get("teacher_control_mode") or str(control_mode),
-        "control_point_kind": rollout.get("control_point_kind", "gripper_grasp_center_v1"),
+        "teacher_control_mode": rollout.get("teacher_control_mode")
+        or str(control_mode),
+        "control_point_kind": rollout.get(
+            "control_point_kind", "gripper_grasp_center_v1"
+        ),
         "interventions": _json_ready(rollout.get("interventions", {}) or {}),
         "runtime_kind": rollout.get("runtime_kind", "drawer_only_proxy_mujoco"),
         "teacher_controller_mode": rollout.get("teacher_controller_mode"),
@@ -493,37 +713,90 @@ def _episode_summary(seed: int, control_mode: str, rollout: dict[str, Any], epis
         "rollout_path": str(episode_npz),
         "steps": int(rollout.get("steps", 0)),
         "success": bool(rollout.get("success", False)),
-        "min_handle_distance": float(np.min(handle_distance)) if handle_distance.size else float("inf"),
-        "mean_handle_distance": float(np.mean(handle_distance)) if handle_distance.size else float("inf"),
-        "target_handle_contact_any": bool(np.any(contact_trace)) if contact_trace.size else False,
-        "target_handle_contact_peak_count": float(np.max(contact_count_trace)) if contact_count_trace.size else 0.0,
-        "target_handle_contact_peak_force_n": float(np.max(contact_force_trace)) if contact_force_trace.size else 0.0,
-        "attach_eligible_any": bool(np.any(attach_trace)) if attach_trace.size else False,
+        "min_handle_distance": float(np.min(handle_distance))
+        if handle_distance.size
+        else float("inf"),
+        "mean_handle_distance": float(np.mean(handle_distance))
+        if handle_distance.size
+        else float("inf"),
+        "target_handle_contact_any": bool(np.any(contact_trace))
+        if contact_trace.size
+        else False,
+        "target_handle_contact_peak_count": float(np.max(contact_count_trace))
+        if contact_count_trace.size
+        else 0.0,
+        "target_handle_contact_peak_force_n": float(np.max(contact_force_trace))
+        if contact_force_trace.size
+        else 0.0,
+        "attach_eligible_any": bool(np.any(attach_trace))
+        if attach_trace.size
+        else False,
         "ever_attached": bool(rollout.get("ever_attached", False)),
         "phase_locked_any": bool(np.any(phase_trace)) if phase_trace.size else False,
-        "max_drawer_fraction": float(np.max(drawer_fraction)) if drawer_fraction.size else 0.0,
+        "max_drawer_fraction": float(np.max(drawer_fraction))
+        if drawer_fraction.size
+        else 0.0,
         "final_drawer_fraction": float(rollout.get("final_drawer_fraction", 0.0)),
         "physical_admission_verdict": rollout.get("physical_admission_verdict"),
-        "physical_admission_passed": bool(rollout.get("physical_admission_passed", False)),
-        "pre_v11_physical_admission_passed": bool(rollout.get("pre_v11_physical_admission_passed", rollout.get("physical_admission_passed", False))),
-        "v11_post_step_replay_audit_passed": bool(rollout.get("v11_post_step_replay_audit_passed", False)),
+        "physical_admission_passed": bool(
+            rollout.get("physical_admission_passed", False)
+        ),
+        "pre_v11_physical_admission_passed": bool(
+            rollout.get(
+                "pre_v11_physical_admission_passed",
+                rollout.get("physical_admission_passed", False),
+            )
+        ),
+        "v11_post_step_replay_audit_passed": bool(
+            rollout.get("v11_post_step_replay_audit_passed", False)
+        ),
         "audit_state_source": rollout.get("audit_state_source"),
-        "required_audit_state_source": rollout.get("required_audit_state_source", V11_REQUIRED_AUDIT_STATE_SOURCE),
-        "v11_replay_bundle_untrimmed": bool(rollout.get("v11_replay_bundle_untrimmed", False)),
-        "v11_trimmed_bundle_refused": bool(rollout.get("v11_trimmed_bundle_refused", False)),
+        "required_audit_state_source": rollout.get(
+            "required_audit_state_source", V11_REQUIRED_AUDIT_STATE_SOURCE
+        ),
+        "v11_replay_bundle_untrimmed": bool(
+            rollout.get("v11_replay_bundle_untrimmed", False)
+        ),
+        "v11_trimmed_bundle_refused": bool(
+            rollout.get("v11_trimmed_bundle_refused", False)
+        ),
         "target_contact_success_classes_allowed": ["fingerpad", "fingertip"],
         "target_contact_forbidden_classes": ["hand_collision", "body", "link", "wrist"],
-        "target_fingerpad_handle_contact_any": bool(rollout.get("target_fingerpad_handle_contact_any", False)),
-        "target_fingerpad_handle_contact_count_frames": int(rollout.get("target_fingerpad_handle_contact_count_frames", 0)),
-        "target_fingerpad_handle_contact_max_consecutive_frames": int(rollout.get("target_fingerpad_handle_contact_max_consecutive_frames", 0)),
-        "target_hand_body_handle_contact_any": bool(rollout.get("target_hand_body_handle_contact_any", False)),
-        "target_hand_body_handle_contact_count_frames": int(rollout.get("target_hand_body_handle_contact_count_frames", 0)),
-        "post_step_non_target_robot_drawer_penetration_any": bool(rollout.get("post_step_non_target_robot_drawer_penetration_any", False)),
-        "post_step_non_target_robot_drawer_penetration_peak_count": int(rollout.get("post_step_non_target_robot_drawer_penetration_peak_count", 0)),
-        "post_step_non_target_robot_drawer_min_dist_m": float(rollout.get("post_step_non_target_robot_drawer_min_dist_m", 0.0)),
-        "post_step_wrist_right_hand_inside_cabinet_any": bool(rollout.get("post_step_wrist_right_hand_inside_cabinet_any", False)),
-        "v11_post_step_replay_failure_reasons": list((rollout.get("v11_post_step_replay_audit", {}) or {}).get("failure_reasons", [])),
-        "v11_post_step_replay_audit": _json_ready(rollout.get("v11_post_step_replay_audit", {}) or {}),
+        "target_fingerpad_handle_contact_any": bool(
+            rollout.get("target_fingerpad_handle_contact_any", False)
+        ),
+        "target_fingerpad_handle_contact_count_frames": int(
+            rollout.get("target_fingerpad_handle_contact_count_frames", 0)
+        ),
+        "target_fingerpad_handle_contact_max_consecutive_frames": int(
+            rollout.get("target_fingerpad_handle_contact_max_consecutive_frames", 0)
+        ),
+        "target_hand_body_handle_contact_any": bool(
+            rollout.get("target_hand_body_handle_contact_any", False)
+        ),
+        "target_hand_body_handle_contact_count_frames": int(
+            rollout.get("target_hand_body_handle_contact_count_frames", 0)
+        ),
+        "post_step_non_target_robot_drawer_penetration_any": bool(
+            rollout.get("post_step_non_target_robot_drawer_penetration_any", False)
+        ),
+        "post_step_non_target_robot_drawer_penetration_peak_count": int(
+            rollout.get("post_step_non_target_robot_drawer_penetration_peak_count", 0)
+        ),
+        "post_step_non_target_robot_drawer_min_dist_m": float(
+            rollout.get("post_step_non_target_robot_drawer_min_dist_m", 0.0)
+        ),
+        "post_step_wrist_right_hand_inside_cabinet_any": bool(
+            rollout.get("post_step_wrist_right_hand_inside_cabinet_any", False)
+        ),
+        "v11_post_step_replay_failure_reasons": list(
+            (rollout.get("v11_post_step_replay_audit", {}) or {}).get(
+                "failure_reasons", []
+            )
+        ),
+        "v11_post_step_replay_audit": _json_ready(
+            rollout.get("v11_post_step_replay_audit", {}) or {}
+        ),
         "penetration_audit_verdict": rollout.get("penetration_audit_verdict"),
         "direct_qpos_teleport_admission_any": bool(
             rollout.get("direct_qpos_teleport_admission_any", False)
@@ -554,18 +827,27 @@ def _summary_score(summary: dict[str, Any]) -> tuple[float, float, float, float,
 def _differential(seed_summaries: list[dict[str, Any]]) -> dict[str, Any] | None:
     by_mode = {item["control_mode"]: item for item in seed_summaries}
     strict = by_mode.get("teacher_right_side_contact_physics")
-    diagnostic = by_mode.get("teacher_grasp_center_hold") or by_mode.get("torque_pd_diagnostic")
+    diagnostic = by_mode.get("teacher_grasp_center_hold") or by_mode.get(
+        "torque_pd_diagnostic"
+    )
     if strict is None or diagnostic is None:
         return None
     return {
         "seed": int(strict["seed"]),
         "strict_control_mode": strict["control_mode"],
         "diagnostic_control_mode": diagnostic["control_mode"],
-        "min_handle_distance_gain_m": float(diagnostic["min_handle_distance"] - strict["min_handle_distance"]),
-        "contact_gain": int(bool(strict["target_handle_contact_any"])) - int(bool(diagnostic["target_handle_contact_any"])),
-        "attach_gain": int(bool(strict["attach_eligible_any"])) - int(bool(diagnostic["attach_eligible_any"])),
-        "phase_lock_gain": int(bool(strict["phase_locked_any"])) - int(bool(diagnostic["phase_locked_any"])),
-        "drawer_fraction_gain": float(strict["max_drawer_fraction"] - diagnostic["max_drawer_fraction"]),
+        "min_handle_distance_gain_m": float(
+            diagnostic["min_handle_distance"] - strict["min_handle_distance"]
+        ),
+        "contact_gain": int(bool(strict["target_handle_contact_any"]))
+        - int(bool(diagnostic["target_handle_contact_any"])),
+        "attach_gain": int(bool(strict["attach_eligible_any"]))
+        - int(bool(diagnostic["attach_eligible_any"])),
+        "phase_lock_gain": int(bool(strict["phase_locked_any"]))
+        - int(bool(diagnostic["phase_locked_any"])),
+        "drawer_fraction_gain": float(
+            strict["max_drawer_fraction"] - diagnostic["max_drawer_fraction"]
+        ),
         "strict_contact_better": _summary_score(strict) > _summary_score(diagnostic),
         "diagnostic_only_mode_remains_non_admissible": True,
     }
@@ -574,7 +856,9 @@ def _differential(seed_summaries: list[dict[str, Any]]) -> dict[str, Any] | None
 def _surface_payload(summary: dict[str, Any], latest_path: Path) -> dict[str, Any]:
     return {
         "current_full_robot_probe_artifact": str(latest_path),
-        "full_robot_runtime_kind": summary.get("full_robot_runtime_kind", "full_robot_in_scene_mujoco"),
+        "full_robot_runtime_kind": summary.get(
+            "full_robot_runtime_kind", "full_robot_in_scene_mujoco"
+        ),
         "full_robot_control_mode": summary.get("full_robot_control_mode"),
         "strict_contact_full_robot_control_mode": summary.get(
             "strict_contact_full_robot_control_mode"
@@ -663,15 +947,23 @@ def run_probe(
             slug = f"seed_{seed:03d}_{control_mode}"
             rollout_path = run_dir / f"{slug}.npz"
             save_robot_rollout(rollout_path, rollout)
-            _stamp_episode_lineage(rollout_path.with_suffix(".json"), plan, _repo_identity())
+            _stamp_episode_lineage(
+                rollout_path.with_suffix(".json"), plan, _repo_identity()
+            )
             frames = _write_representative_frames(run_dir, slug, rollout)
             video_path = _write_side_by_side_video(run_dir, slug, rollout)
-            summary = _episode_summary(seed, control_mode, rollout, rollout_path, frames, video_path)
+            summary = _episode_summary(
+                seed, control_mode, rollout, rollout_path, frames, video_path
+            )
             summary.update(lineage)
             write_json_atomic(run_dir / f"{slug}.summary.json", _json_ready(summary))
             seed_summaries.append(summary)
             grouped[int(seed)].append(summary)
-    differential = [item for item in (_differential(items) for items in grouped.values()) if item is not None]
+    differential = [
+        item
+        for item in (_differential(items) for items in grouped.values())
+        if item is not None
+    ]
     strict_summaries = [
         item
         for item in seed_summaries
@@ -712,10 +1004,14 @@ def run_probe(
         "seeds_tested": [int(seed) for seed in seeds],
         "seed_summaries": _json_ready(seed_summaries),
         "differential_diagnostics": _json_ready(differential),
-        "full_robot_runtime_kind": best_summary.get("runtime_kind", "full_robot_in_scene_mujoco"),
+        "full_robot_runtime_kind": best_summary.get(
+            "runtime_kind", "full_robot_in_scene_mujoco"
+        ),
         "full_robot_control_mode": best_summary.get("control_mode"),
         "strict_contact_full_robot_control_mode": "teacher_right_side_contact_physics",
-        "task_object_contract_version": best_summary.get("task_object_contract_version"),
+        "task_object_contract_version": best_summary.get(
+            "task_object_contract_version"
+        ),
         "scene_contract_version": best_summary.get("scene_contract_version"),
         "robot_base_pose_policy": best_summary.get("robot_base_pose_policy"),
         "robot_base_pose_world": best_summary.get("robot_base_pose_world"),
@@ -735,7 +1031,9 @@ def run_probe(
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Run full-robot teacher servo probes and sync harness/sovereign surfaces.")
+    parser = argparse.ArgumentParser(
+        description="Run full-robot teacher servo probes and sync harness/sovereign surfaces."
+    )
     parser.add_argument("--seeds", type=int, nargs="+", default=[11, 13])
     parser.add_argument(
         "--control-modes",
@@ -749,7 +1047,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--max-steps", type=int, default=48)
     parser.add_argument("--image-size", type=int, default=256)
     parser.add_argument("--teacher-controller-mode", default="interaction_frame_hybrid")
-    parser.add_argument("--initial-phase", choices=["pregrasp", "contact"], default=None)
+    parser.add_argument(
+        "--initial-phase", choices=["pregrasp", "contact"], default=None
+    )
     parser.add_argument("--handle-vertical-offset-m", type=float, default=0.0)
     parser.add_argument("--handle-tangent-offset-m", type=float, default=0.0)
     return parser.parse_args()

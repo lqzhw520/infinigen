@@ -1,0 +1,49 @@
+{
+  "entrypoints": {
+    "export_full_robot_teacher_replay_bundle.py": {
+      "exists": true,
+      "help": {
+        "cmd": [
+          "/root/anaconda3/envs/infinigen/bin/python",
+          "scripts/mint/export_full_robot_teacher_replay_bundle.py",
+          "--help"
+        ],
+        "returncode": 0,
+        "stderr": "",
+        "stdout": "usage: export_full_robot_teacher_replay_bundle.py [-h]\n                                                  [--probe-path PROBE_PATH]\n                                                  [--bundle-root BUNDLE_ROOT]\n                                                  [--control-mode CONTROL_MODE]\n                                                  [--allow-diagnostic-export]\n\nExport full-robot teacher packet for local MuJoCo strict replay\n\noptions:\n  -h, --help            show this help message and exit\n  --probe-path PROBE_PATH\n  --bundle-root BUNDLE_ROOT\n  --control-mode CONTROL_MODE\n  --allow-diagnostic-export\n                        Allow exporting non-admissible diagnostic packets for\n                        debugging only.\n"
+      }
+    },
+    "run_full_robot_teacher_probe.py": {
+      "direct_qpos_drawer_opening_detected": false,
+      "exists": true,
+      "grasp_pose_finite": true,
+      "grasp_pose_shape": [
+        4,
+        4
+      ],
+      "help_exit_code_after_patch": 0,
+      "help_stderr_excerpt": "",
+      "help_stdout_excerpt": "usage: run_full_robot_teacher_probe.py [-h] [--seeds SEEDS [SEEDS ...]]\n                                       [--control-modes CONTROL_MODES [CONTROL_MODES ...]]\n                                       [--max-steps MAX_STEPS]\n                                       [--image-size IMAGE_SIZE]\n                                       [--teacher-controller-mode TEACHER_CONTROLLER_MODE]\n                                       [--initial-phase {pregrasp,contact}]\n                                       [--handle-vertical-offset-m HANDLE_VERTICAL_OFFSET_M]\n                                       [--handle-tangent-offset-m HANDLE_TANGENT_OFFSET_M]\n\nRun full-robot teacher servo probes and sync harness/sovereign surfaces.\n\noptions:\n  -h, --help            show this help message and exit\n  --seeds SEEDS [SEEDS ...]\n  --control-modes CONTROL_MODES [CONTROL_MODES ...]\n  --max-steps MAX_STEPS\n  --image-size IMAGE_SIZE\n  --teacher-controller-mode TEACHER_CONTROLLER_MODE\n  --initial-phase {pregrasp,contact}\n  --handle-vertical-offset-m HANDLE_VERTICAL_OFFSET_M\n  --handle-tangent-offset-m HANDLE_TANGENT_OFFSET_M\n",
+      "importable_after_patch": true,
+      "notes": "main() is not invoked in preflight because it refreshes legacy status surfaces; bounded attempts use build_robot_rollout directly into this run_dir."
+    }
+  },
+  "generated_at_utc": "2026-05-01T02:57:48Z",
+  "model_loads": true,
+  "patch_reason": {
+    "observed_failures": [
+      "ImportError: build_full_robot_rollout missing from drawer_robot_env_mujoco",
+      "ImportError: execution_lineage_payload missing from tiny_retrain_gate_utils",
+      "AttributeError: DrawerEnvContractConfig.full_robot_defaults missing",
+      "TypeError: DrawerRobotEnvMuJoCoLibero.__init__ control_mode argument unsupported"
+    ],
+    "repair_class": "small_cli_api_import_mismatch"
+  },
+  "reset_preaction_gate_still_passes": true,
+  "route_entrypoint_preflight_passed": true,
+  "runtime_patch_applied": true,
+  "runtime_patch_files": [
+    "scripts/mint/run_full_robot_teacher_probe.py"
+  ],
+  "stage": "stage3_route_entrypoint_preflight"
+}

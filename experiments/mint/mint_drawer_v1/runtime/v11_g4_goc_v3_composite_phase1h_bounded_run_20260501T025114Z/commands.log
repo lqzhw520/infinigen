@@ -1,0 +1,6 @@
+pwd
+git branch --show-current
+git rev-parse HEAD
+git remote -v
+git status --short
+/root/anaconda3/envs/infinigen/bin/python experiments/mint/mint_drawer_v1/scripts/harness/agent_task_preflight.py --spec experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v3_composite_phase1h_bounded_autonomous.yaml --dry-run

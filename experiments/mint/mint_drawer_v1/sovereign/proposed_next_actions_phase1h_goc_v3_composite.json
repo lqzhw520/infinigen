@@ -1,31 +1,18 @@
 {
-  "direct_next_actions_mutation": false,
-  "generated_at_utc": "2026-04-30T14:16:27.559300Z",
-  "next_gate": "RESET_CONTACT_OR_MODEL_BUILDER_REPAIR",
-  "phase1h_execution_allowed": false,
+  "blocked_until": {
+    "forbidden_contact_count": 0,
+    "max_drawer_fraction_gte": 0.8,
+    "strict_candidate_found": true,
+    "sustained_goc_v3_target_contact": true
+  },
+  "do_not_apply_automatically": true,
+  "generated_at_utc": "2026-05-01T03:02:05Z",
+  "next_actions_json_modified": false,
   "proposal_id": "proposed_next_actions_phase1h_goc_v3_composite",
   "recommended_actions": [
-    {
-      "allowed_scope": [
-        "scripts/mint/merged_model_builder.py",
-        "model provenance artifacts"
-      ],
-      "description": "Repair merged Panda/drawer placement or cabinet clearance so reset has no GOC-v3 forbidden contacts and penetration <= 0.02 m.",
-      "forbidden": [
-        "lowering thresholds",
-        "accepting forbidden contact",
-        "changing GOC-v3 exact IDs to fit runtime"
-      ],
-      "id": "REPAIR_MODEL_ASSEMBLY_CLEARANCE"
-    },
-    {
-      "description": "If model assembly changes alter source-model provenance, regenerate exact-ID GOC artifacts before any bounded Phase1H attempt.",
-      "id": "REGENERATE_GOC_IF_MODEL_PROVENANCE_CHANGES"
-    },
-    {
-      "description": "Rerun reset-only exact-ID contact smoke and V03 positive/negative validator checks before bounded rollout.",
-      "id": "RERUN_COMPOSITE_PREACTION_SMOKE"
-    }
+    "Repair route/controller under unchanged GOC-v3 exact-ID authority so the right gripper legal surface geoms [63,81,90] can reach handle geoms [0..8].",
+    "Preserve reset/preaction physical plausibility and rerun exact-ID smoke before any further bounded attempts.",
+    "Do not treat body/link/wrist contact or body-based 31/27 reports as target evidence."
   ],
-  "source_run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_composite_phase1h_bounded_20260430T140419Z"
+  "recommended_next_gate": "ROUTE_REPAIR_UNDER_GOC_V3"
 }

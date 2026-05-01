@@ -1,0 +1,32 @@
+{
+  "bounded_rollout_attempted": false,
+  "closeout_classification": "MODEL_INSTANCE_REACHABILITY_BLOCKER",
+  "current_truth_modified": false,
+  "final_preflight_passed": true,
+  "forbidden_dirty_entries": [],
+  "git_status_short": [
+    " M .project-memory/STATUS.md",
+    " M .session/checkpoint.md",
+    "A  experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_instance_bound_route_synthesis.json",
+    "A  experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_instance_bound_route_synthesis.json"
+  ],
+  "json_files_parsed": [
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_instance_bound_route_synthesis_20260501T042940Z/base_reachability_search.json",
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_instance_bound_route_synthesis_20260501T042940Z/closeout_decision.json",
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_instance_bound_route_synthesis_20260501T042940Z/execution_plan.json",
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_instance_bound_route_synthesis_20260501T042940Z/feasible_base_candidates.json",
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_instance_bound_route_synthesis_20260501T042940Z/instance_goc_bindings.json",
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_instance_bound_route_synthesis_20260501T042940Z/route_kinematic_scores.json",
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_instance_bound_route_synthesis_20260501T042940Z/route_synthesis_decision.json",
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_instance_bound_route_synthesis_20260501T042940Z/seed_stability_report.json",
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_instance_bound_route_synthesis_20260501T042940Z/short_dynamic_contact_probes.json",
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_instance_bound_route_synthesis_20260501T042940Z/stage0_authority_and_worktree.json",
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_instance_bound_route_synthesis_20260501T042940Z/stage0_final_lock_regen_report.json",
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_instance_bound_route_synthesis_20260501T042940Z/stage0_lock_regen_report.json",
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_instance_bound_route_synthesis_20260501T042940Z/synthesized_routes.json",
+    "experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_instance_bound_route_synthesis.json",
+    "experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_instance_bound_route_synthesis.json"
+  ],
+  "next_actions_modified": false,
+  "runtime_patch_applied": false
+}

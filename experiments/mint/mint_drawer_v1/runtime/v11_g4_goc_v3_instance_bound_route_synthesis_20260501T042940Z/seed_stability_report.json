@@ -1,0 +1,223 @@
+{
+  "fixed_goc_ids_seed_stable": false,
+  "per_instance_binding_required": true,
+  "seed_summaries": [
+    {
+      "fixed_global_ids_match_this_instance": true,
+      "fixed_id_roles": {
+        "fixed_forbidden": [
+          "forbidden_robot_surface",
+          "forbidden_robot_surface",
+          "forbidden_robot_surface",
+          "forbidden_robot_surface",
+          "forbidden_robot_surface"
+        ],
+        "fixed_handle": [
+          "drawer_handle_surface",
+          "drawer_handle_surface",
+          "drawer_handle_surface",
+          "drawer_handle_surface",
+          "drawer_handle_surface",
+          "drawer_handle_surface",
+          "drawer_handle_surface",
+          "drawer_handle_surface",
+          "drawer_handle_surface"
+        ],
+        "fixed_legal": [
+          "legal_gripper_surface",
+          "legal_gripper_surface",
+          "legal_gripper_surface"
+        ]
+      },
+      "forbidden": [
+        45,
+        47,
+        49,
+        54,
+        59
+      ],
+      "handle": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "legal": [
+        63,
+        81,
+        90
+      ],
+      "ngeom": 91,
+      "seed": 1
+    },
+    {
+      "fixed_global_ids_match_this_instance": false,
+      "fixed_id_roles": {
+        "fixed_forbidden": [
+          "visual_or_noncontact",
+          "visual_or_noncontact",
+          "visual_or_noncontact",
+          "visual_or_noncontact",
+          "visual_or_noncontact"
+        ],
+        "fixed_handle": [
+          "drawer_handle_surface",
+          "drawer_handle_surface",
+          "drawer_handle_surface",
+          "drawer_handle_surface",
+          "drawer_handle_surface",
+          "drawer_handle_surface",
+          "drawer_handle_surface",
+          "drawer_handle_surface",
+          "drawer_handle_surface"
+        ],
+        "fixed_legal": [
+          "visual_or_noncontact",
+          "visual_or_noncontact",
+          "visual_or_noncontact"
+        ]
+      },
+      "forbidden": [
+        51,
+        53,
+        55,
+        60,
+        65
+      ],
+      "handle": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "legal": [
+        69,
+        87,
+        96
+      ],
+      "ngeom": 97,
+      "seed": 11
+    },
+    {
+      "fixed_global_ids_match_this_instance": false,
+      "fixed_id_roles": {
+        "fixed_forbidden": [
+          "visual_or_noncontact",
+          "visual_or_noncontact",
+          "visual_or_noncontact",
+          "visual_or_noncontact",
+          "visual_or_noncontact"
+        ],
+        "fixed_handle": [
+          "drawer_handle_surface",
+          "drawer_handle_surface",
+          "drawer_handle_surface",
+          "drawer_handle_surface",
+          "drawer_handle_surface",
+          "drawer_handle_surface",
+          "drawer_handle_surface",
+          "drawer_handle_surface",
+          "drawer_handle_surface"
+        ],
+        "fixed_legal": [
+          "visual_or_noncontact",
+          "visual_or_noncontact",
+          "visual_or_noncontact"
+        ]
+      },
+      "forbidden": [
+        48,
+        50,
+        52,
+        57,
+        62
+      ],
+      "handle": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ],
+      "legal": [
+        66,
+        84,
+        93
+      ],
+      "ngeom": 94,
+      "seed": 12
+    },
+    {
+      "fixed_global_ids_match_this_instance": false,
+      "fixed_id_roles": {
+        "fixed_forbidden": [
+          "visual_or_noncontact",
+          "visual_or_noncontact",
+          "visual_or_noncontact",
+          "forbidden_robot_surface",
+          "visual_or_noncontact"
+        ],
+        "fixed_handle": [
+          "drawer_handle_surface",
+          "drawer_handle_surface",
+          "drawer_handle_surface",
+          "drawer_handle_surface",
+          "drawer_handle_surface",
+          "drawer_handle_surface",
+          "drawer_handle_surface",
+          "drawer_handle_surface",
+          "drawer_handle_surface"
+        ],
+        "fixed_legal": [
+          "visual_or_noncontact",
+          "visual_or_noncontact",
+          "visual_or_noncontact"
+        ]
+      },
+      "forbidden": [
+        52,
+        54,
+        56,
+        61,
+        66
+      ],
+      "handle": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "legal": [
+        70,
+        88,
+        97
+      ],
+      "ngeom": 98,
+      "seed": 13
+    }
+  ]
+}

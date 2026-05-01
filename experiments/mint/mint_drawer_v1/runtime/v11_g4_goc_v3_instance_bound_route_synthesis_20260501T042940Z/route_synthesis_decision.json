@@ -1,0 +1,27 @@
+{
+  "best_ik_eef_to_handle_m": 0.027836743078149474,
+  "best_ik_legal_pad_to_handle_m": 0.008132436607010393,
+  "bounded_rollout_attempted": false,
+  "closeout_classification": "MODEL_INSTANCE_REACHABILITY_BLOCKER",
+  "current_truth_modified": false,
+  "dynamic_contact_probe_attempted": false,
+  "dynamic_contact_probe_passed": false,
+  "exact_instance_goc_target_contact": false,
+  "feasible_base_candidate_found": false,
+  "finger_pad_route_synthesized": false,
+  "fixed_goc_ids_seed_stable": false,
+  "forbidden_contact_any": false,
+  "harness_preflight_passed": true,
+  "instance_bindings_generated": true,
+  "next_actions_modified": false,
+  "next_gate": "MODEL_INSTANCE_PLACEMENT_OR_KINEMATIC_CHAIN_REPAIR",
+  "runtime_patch_applied": false,
+  "runtime_patch_files": [],
+  "source_status_short": [
+    "M .project-memory/STATUS.md",
+    " M .session/checkpoint.md"
+  ],
+  "source_worktree_head": "f29558ebfc5f0747188e006b28d0996bb8f39bbf",
+  "strict_candidate_drawer_fraction": null,
+  "strict_candidate_found": false
+}

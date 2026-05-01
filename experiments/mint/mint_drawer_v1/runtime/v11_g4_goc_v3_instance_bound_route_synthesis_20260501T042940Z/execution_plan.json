@@ -1,0 +1,15 @@
+{
+  "max_hours": 8,
+  "no_train_render_finetune_eval": true,
+  "no_user_prompts_mid_run": true,
+  "positive_candidate_requires_clean_committed_tree": true,
+  "stages": [
+    "per_instance_binding",
+    "base_reachability_search",
+    "finger_pad_route_synthesis",
+    "short_dynamic_probe",
+    "bounded_rollout_only_if_probe_passes"
+  ],
+  "task_id": "V11_G4_GOC_V3_INSTANCE_BOUND_ROUTE_SYNTHESIS_AUTONOMOUS_V1",
+  "task_type": "ROUTE_SYNTHESIS_SCIENCE_PHASE"
+}

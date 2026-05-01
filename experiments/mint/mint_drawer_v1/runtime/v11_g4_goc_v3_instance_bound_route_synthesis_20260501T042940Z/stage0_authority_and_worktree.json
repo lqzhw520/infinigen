@@ -1,0 +1,11 @@
+{
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "harness_preflight_passed": true,
+  "head": "f29558ebfc5f0747188e006b28d0996bb8f39bbf",
+  "pwd": "/mnt/afs2/zhuhaowu/infinigen",
+  "status_short": [
+    "M .project-memory/STATUS.md",
+    " M .session/checkpoint.md"
+  ],
+  "task_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v3_instance_bound_route_synthesis.yaml"
+}

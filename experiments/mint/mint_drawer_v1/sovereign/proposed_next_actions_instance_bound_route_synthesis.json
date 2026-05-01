@@ -1,0 +1,10 @@
+{
+  "direct_mutation": false,
+  "next_gate": "MODEL_INSTANCE_PLACEMENT_OR_KINEMATIC_CHAIN_REPAIR",
+  "proposal_id": "proposed_next_actions_instance_bound_route_synthesis",
+  "recommended_actions": [
+    "Do not run bounded Phase1H until per-instance GOC binding and reachability/dynamic contact gates pass.",
+    "If MODEL_INSTANCE_REACHABILITY_BLOCKER persists, repair model placement or kinematic chain before route policy search."
+  ],
+  "source_run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_instance_bound_route_synthesis_20260501T042940Z"
+}

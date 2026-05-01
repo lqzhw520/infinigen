@@ -1,0 +1,10 @@
+{
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "head": "3b2fd9a63e55a4f6ab8af1cdcf0e6db74cda74e8",
+  "pwd": "/mnt/afs2/zhuhaowu/infinigen",
+  "status_short": [
+    "M .project-memory/STATUS.md",
+    " M .session/checkpoint.md"
+  ],
+  "task_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v3_contact_aware_teacher_synthesis.yaml"
+}

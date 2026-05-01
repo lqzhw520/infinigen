@@ -1,0 +1,108 @@
+{
+  "allowed_evidence_paths": [
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z",
+    "experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_contact_aware_teacher_synthesis.json",
+    "experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_contact_aware_teacher_synthesis.json"
+  ],
+  "baseline_dirty_ignored": [
+    ".project-memory/STATUS.md",
+    ".session/checkpoint.md"
+  ],
+  "current_truth_modified": false,
+  "final_preflight_err": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/final_preflight.err",
+  "final_preflight_out": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/final_preflight.out",
+  "final_preflight_passed": true,
+  "forbidden_status_stdout": "",
+  "generated_at_utc": "2026-05-01T13:52:55.950592+00:00",
+  "git_status_short": " M .project-memory/STATUS.md\n M .session/checkpoint.md\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/best_contact_aware_probe_trace.json\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/bounded_teacher_rollout_summary.json\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/cem_progress.json\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/closeout_decision.json\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/commands.log\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/contact_aware_teacher_synthesis_decision.json\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/contact_mode_controller_design.json\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/contact_probe_optimization.json\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/dynamic_failure_decomposition.json\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/execution_plan.json\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/execution_plan.md\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/final_report.md\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/legal_pad_handle_geometry_audit.json\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/stage0_authority_and_worktree.json\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/stage0_preflight.err\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/stage0_preflight.out\nA  experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_contact_aware_teacher_synthesis.json\nA  experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_contact_aware_teacher_synthesis.json\n",
+  "goc_v3_authority_changed": false,
+  "json_parse": [
+    {
+      "ok": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/best_contact_aware_probe_trace.json"
+    },
+    {
+      "ok": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/bounded_teacher_rollout_summary.json"
+    },
+    {
+      "ok": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/cem_progress.json"
+    },
+    {
+      "ok": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/closeout_decision.json"
+    },
+    {
+      "ok": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/contact_aware_teacher_synthesis_decision.json"
+    },
+    {
+      "ok": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/contact_mode_controller_design.json"
+    },
+    {
+      "ok": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/contact_probe_optimization.json"
+    },
+    {
+      "ok": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/dynamic_failure_decomposition.json"
+    },
+    {
+      "ok": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/execution_plan.json"
+    },
+    {
+      "ok": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/legal_pad_handle_geometry_audit.json"
+    },
+    {
+      "ok": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/stage0_authority_and_worktree.json"
+    },
+    {
+      "ok": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/stage0_lock_report_final.json"
+    },
+    {
+      "ok": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/stage0_lock_report_initial.json"
+    },
+    {
+      "ok": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/stage8_final_checks.json"
+    },
+    {
+      "ok": true,
+      "path": "experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_contact_aware_teacher_synthesis.json"
+    },
+    {
+      "ok": true,
+      "path": "experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_contact_aware_teacher_synthesis.json"
+    }
+  ],
+  "json_parse_ok": true,
+  "next_actions_modified": false,
+  "run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z",
+  "staged_paths_before_stage8_file": [
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/best_contact_aware_probe_trace.json",
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/bounded_teacher_rollout_summary.json",
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/cem_progress.json",
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/closeout_decision.json",
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/commands.log",
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/contact_aware_teacher_synthesis_decision.json",
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/contact_mode_controller_design.json",
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/contact_probe_optimization.json",
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/dynamic_failure_decomposition.json",
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/execution_plan.json",
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/execution_plan.md",
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/final_report.md",
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/legal_pad_handle_geometry_audit.json",
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/stage0_authority_and_worktree.json",
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/stage0_preflight.err",
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/stage0_preflight.out",
+    "experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_contact_aware_teacher_synthesis.json",
+    "experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_contact_aware_teacher_synthesis.json"
+  ]
+}

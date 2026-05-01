@@ -1,0 +1,598 @@
+{
+  "audited_geoms": [
+    {
+      "aabb_sphere_max": [
+        -0.39357696659839647,
+        0.19309798720611035,
+        0.6822816134720275
+      ],
+      "aabb_sphere_min": [
+        -0.7812454499076077,
+        -0.19457049610310082,
+        0.29461313016281643
+      ],
+      "body_chain": [
+        "world",
+        "robot_mount",
+        "base",
+        "link0",
+        "link1",
+        "link2",
+        "link3",
+        "link4",
+        "link5"
+      ],
+      "body_name": "link5",
+      "conaffinity": 1,
+      "contype": 1,
+      "geom_id": 70,
+      "geom_name": "link5_collision",
+      "geom_rbound_m": 0.19383424165460558,
+      "geom_type": 7,
+      "is_named_link_collision": true,
+      "role": "legal_gripper_surface",
+      "world_center": [
+        -0.5874112082530021,
+        -0.0007362544484952327,
+        0.488447371817422
+      ]
+    },
+    {
+      "aabb_sphere_max": [
+        -0.35456630746890716,
+        0.05441164432995965,
+        0.5329904387405064
+      ],
+      "aabb_sphere_min": [
+        -0.620364101925625,
+        -0.21138615012675815,
+        0.2671926442837887
+      ],
+      "body_chain": [
+        "world",
+        "robot_mount",
+        "base",
+        "link0",
+        "link1",
+        "link2",
+        "link3",
+        "link4",
+        "link5",
+        "link6"
+      ],
+      "body_name": "link6",
+      "conaffinity": 1,
+      "contype": 1,
+      "geom_id": 88,
+      "geom_name": "link6_collision",
+      "geom_rbound_m": 0.1328988972283589,
+      "geom_type": 7,
+      "is_named_link_collision": true,
+      "role": "legal_gripper_surface",
+      "world_center": [
+        -0.48746520469726606,
+        -0.07848725289839925,
+        0.4000915415121476
+      ]
+    },
+    {
+      "aabb_sphere_max": [
+        -0.3780669052595154,
+        -0.0018794984216502636,
+        0.40035856075365706
+      ],
+      "aabb_sphere_min": [
+        -0.5598319970778842,
+        -0.1836445902400191,
+        0.2185934689352882
+      ],
+      "body_chain": [
+        "world",
+        "robot_mount",
+        "base",
+        "link0",
+        "link1",
+        "link2",
+        "link3",
+        "link4",
+        "link5",
+        "link6",
+        "link7"
+      ],
+      "body_name": "link7",
+      "conaffinity": 1,
+      "contype": 1,
+      "geom_id": 97,
+      "geom_name": "link7_collision",
+      "geom_rbound_m": 0.09088254590918443,
+      "geom_type": 7,
+      "is_named_link_collision": true,
+      "role": "legal_gripper_surface",
+      "world_center": [
+        -0.46894945116869985,
+        -0.0927620443308347,
+        0.3094760148444726
+      ]
+    },
+    {
+      "aabb_sphere_max": [
+        0.8729771494425328,
+        0.8729771494425328,
+        1.254962187961533
+      ],
+      "aabb_sphere_min": [
+        -0.8729771494425328,
+        -0.8729771494425328,
+        -0.4909921109235328
+      ],
+      "body_chain": [
+        "world",
+        "drawer_base"
+      ],
+      "body_name": "drawer_base",
+      "conaffinity": 1,
+      "contype": 1,
+      "geom_id": 0,
+      "geom_name": "",
+      "geom_rbound_m": 0.8729771494425328,
+      "geom_type": 7,
+      "is_named_link_collision": false,
+      "role": "drawer_handle_surface",
+      "world_center": [
+        1.4791982614186005e-18,
+        -1.1241906786781364e-17,
+        0.381985038519
+      ]
+    },
+    {
+      "aabb_sphere_max": [
+        0.5125368849709526,
+        0.7898120225739527,
+        1.1557323278259526
+      ],
+      "aabb_sphere_min": [
+        -1.0670871601769527,
+        -0.7898120225739527,
+        -0.4238917173219527
+      ],
+      "body_chain": [
+        "world",
+        "drawer_base"
+      ],
+      "body_name": "drawer_base",
+      "conaffinity": 1,
+      "contype": 1,
+      "geom_id": 1,
+      "geom_name": "",
+      "geom_rbound_m": 0.7898120225739527,
+      "geom_type": 7,
+      "is_named_link_collision": false,
+      "role": "drawer_handle_surface",
+      "world_center": [
+        -0.277275137603,
+        6.286940248145413e-18,
+        0.365920305252
+      ]
+    },
+    {
+      "aabb_sphere_max": [
+        0.8492333419046397,
+        0.8492333419046397,
+        1.2151536471566398
+      ],
+      "aabb_sphere_min": [
+        -0.8492333419046397,
+        -0.8492333419046397,
+        -0.48331303665263975
+      ],
+      "body_chain": [
+        "world",
+        "drawer_base"
+      ],
+      "body_name": "drawer_base",
+      "conaffinity": 1,
+      "contype": 1,
+      "geom_id": 2,
+      "geom_name": "",
+      "geom_rbound_m": 0.8492333419046397,
+      "geom_type": 7,
+      "is_named_link_collision": false,
+      "role": "drawer_handle_surface",
+      "world_center": [
+        -5.283995898670255e-18,
+        -4.529139341717362e-18,
+        0.365920305252
+      ]
+    },
+    {
+      "aabb_sphere_max": [
+        0.785840198003128,
+        0.785840198003128,
+        0.8228302296032208
+      ],
+      "aabb_sphere_min": [
+        -0.785840198003128,
+        -0.785840198003128,
+        -0.7488501664030351
+      ],
+      "body_chain": [
+        "world",
+        "drawer_base"
+      ],
+      "body_name": "drawer_base",
+      "conaffinity": 1,
+      "contype": 1,
+      "geom_id": 3,
+      "geom_name": "",
+      "geom_rbound_m": 0.785840198003128,
+      "geom_type": 7,
+      "is_named_link_collision": false,
+      "role": "drawer_handle_surface",
+      "world_center": [
+        6.483071022038638e-18,
+        0.0,
+        0.03699003160009284
+      ]
+    },
+    {
+      "aabb_sphere_max": [
+        0.7858401978277761,
+        0.7858401978277761,
+        1.0528272347415037
+      ],
+      "aabb_sphere_min": [
+        -0.7858401978277761,
+        -0.7858401978277761,
+        -0.5188531609140484
+      ],
+      "body_chain": [
+        "world",
+        "drawer_base"
+      ],
+      "body_name": "drawer_base",
+      "conaffinity": 1,
+      "contype": 1,
+      "geom_id": 4,
+      "geom_name": "",
+      "geom_rbound_m": 0.7858401978277761,
+      "geom_type": 7,
+      "is_named_link_collision": false,
+      "role": "drawer_handle_surface",
+      "world_center": [
+        6.483071674953555e-18,
+        0.0,
+        0.2669870369137277
+      ]
+    },
+    {
+      "aabb_sphere_max": [
+        0.7858401978277761,
+        0.7858401978277761,
+        1.2828232379520483
+      ],
+      "aabb_sphere_min": [
+        -0.7858401978277761,
+        -0.7858401978277761,
+        -0.28885715770350384
+      ],
+      "body_chain": [
+        "world",
+        "drawer_base"
+      ],
+      "body_name": "drawer_base",
+      "conaffinity": 1,
+      "contype": 1,
+      "geom_id": 5,
+      "geom_name": "",
+      "geom_rbound_m": 0.7858401978277761,
+      "geom_type": 7,
+      "is_named_link_collision": false,
+      "role": "drawer_handle_surface",
+      "world_center": [
+        -6.483071674953554e-18,
+        0.0,
+        0.4969830401242723
+      ]
+    },
+    {
+      "aabb_sphere_max": [
+        0.785840198003128,
+        0.785840198003128,
+        1.5128202434410352
+      ],
+      "aabb_sphere_min": [
+        -0.785840198003128,
+        -0.785840198003128,
+        -0.058860152565220814
+      ],
+      "body_chain": [
+        "world",
+        "drawer_base"
+      ],
+      "body_name": "drawer_base",
+      "conaffinity": 1,
+      "contype": 1,
+      "geom_id": 6,
+      "geom_name": "",
+      "geom_rbound_m": 0.785840198003128,
+      "geom_type": 7,
+      "is_named_link_collision": false,
+      "role": "drawer_handle_surface",
+      "world_center": [
+        6.483071022038637e-18,
+        0.0,
+        0.7269800454379072
+      ]
+    },
+    {
+      "aabb_sphere_max": [
+        0.5125368849709526,
+        0.7898120225739527,
+        1.1557323278259526
+      ],
+      "aabb_sphere_min": [
+        -1.0670871601769527,
+        -0.7898120225739527,
+        -0.4238917173219527
+      ],
+      "body_chain": [
+        "world",
+        "drawer_base"
+      ],
+      "body_name": "drawer_base",
+      "conaffinity": 1,
+      "contype": 1,
+      "geom_id": 7,
+      "geom_name": "",
+      "geom_rbound_m": 0.7898120225739527,
+      "geom_type": 7,
+      "is_named_link_collision": false,
+      "role": "drawer_handle_surface",
+      "world_center": [
+        -0.277275137603,
+        0.0,
+        0.365920305252
+      ]
+    },
+    {
+      "aabb_sphere_max": [
+        0.4529364964337522,
+        1.1352615019650631,
+        0.8188568016857523
+      ],
+      "aabb_sphere_min": [
+        -0.4529364964337522,
+        0.2293885090975587,
+        -0.08701619118175224
+      ],
+      "body_chain": [
+        "world",
+        "drawer_base"
+      ],
+      "body_name": "drawer_base",
+      "conaffinity": 1,
+      "contype": 1,
+      "geom_id": 8,
+      "geom_name": "",
+      "geom_rbound_m": 0.4529364964337522,
+      "geom_type": 7,
+      "is_named_link_collision": false,
+      "role": "drawer_handle_surface",
+      "world_center": [
+        0.0,
+        0.6823250055313109,
+        0.365920305252
+      ]
+    },
+    {
+      "aabb_sphere_max": [
+        0.45293649825915355,
+        0.6803785020457175,
+        0.8188568035111535
+      ],
+      "aabb_sphere_min": [
+        -0.45293649825915355,
+        -0.22549449447258965,
+        -0.08701619300715357
+      ],
+      "body_chain": [
+        "world",
+        "drawer_base"
+      ],
+      "body_name": "drawer_base",
+      "conaffinity": 1,
+      "contype": 1,
+      "geom_id": 9,
+      "geom_name": "",
+      "geom_rbound_m": 0.45293649825915355,
+      "geom_type": 7,
+      "is_named_link_collision": false,
+      "role": "drawer_handle_surface",
+      "world_center": [
+        0.0,
+        0.2274420037865639,
+        0.365920305252
+      ]
+    },
+    {
+      "aabb_sphere_max": [
+        0.45293649825915355,
+        0.22549449447258962,
+        0.8188568035111535
+      ],
+      "aabb_sphere_min": [
+        -0.45293649825915355,
+        -0.6803785020457175,
+        -0.08701619300715357
+      ],
+      "body_chain": [
+        "world",
+        "drawer_base"
+      ],
+      "body_name": "drawer_base",
+      "conaffinity": 1,
+      "contype": 1,
+      "geom_id": 10,
+      "geom_name": "",
+      "geom_rbound_m": 0.45293649825915355,
+      "geom_type": 7,
+      "is_named_link_collision": false,
+      "role": "drawer_handle_surface",
+      "world_center": [
+        0.0,
+        -0.22744200378656393,
+        0.365920305252
+      ]
+    },
+    {
+      "aabb_sphere_max": [
+        0.4529364964337522,
+        -0.2293885090975587,
+        0.8188568016857523
+      ],
+      "aabb_sphere_min": [
+        -0.4529364964337522,
+        -1.1352615019650631,
+        -0.08701619118175224
+      ],
+      "body_chain": [
+        "world",
+        "drawer_base"
+      ],
+      "body_name": "drawer_base",
+      "conaffinity": 1,
+      "contype": 1,
+      "geom_id": 11,
+      "geom_name": "",
+      "geom_rbound_m": 0.4529364964337522,
+      "geom_type": 7,
+      "is_named_link_collision": false,
+      "role": "drawer_handle_surface",
+      "world_center": [
+        0.0,
+        -0.6823250055313109,
+        0.365920305252
+      ]
+    }
+  ],
+  "candidate": {
+    "base_pos": [
+      -0.875,
+      0.05,
+      0.0
+    ],
+    "ik_final_qpos": [
+      -0.015510438824320322,
+      1.352985921213834,
+      0.30041682996635577,
+      -0.5021432980388317,
+      0.846634167393299,
+      2.152104071538119,
+      -0.9786610857048721
+    ],
+    "instance_binding": {
+      "drawer_body_or_cabinet_geom_ids": [
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26,
+        27,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39
+      ],
+      "drawer_handle_geom_ids": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "fixed_global_ids_match_this_instance": false,
+      "forbidden_robot_surface_geom_ids": [
+        52,
+        54,
+        56,
+        61,
+        66
+      ],
+      "legal_gripper_surface_geom_ids": [
+        70,
+        88,
+        97
+      ]
+    },
+    "reset_qpos": [
+      -0.08,
+      -0.081037389,
+      -0.05,
+      -2.5645974700000003,
+      0.0,
+      2.3267522,
+      0.8653981633974482
+    ],
+    "seed": 13,
+    "yaw_deg": -10.0
+  },
+  "collision_geometry_quality": "broad_link_collision",
+  "handle_frame": {
+    "approach_normal": [
+      0.9910051407261923,
+      0.12129233243061803,
+      -0.0565418530630209
+    ],
+    "binormal": [
+      0.0,
+      0.0,
+      1.0
+    ],
+    "handle_bar_axis": [
+      0.0,
+      1.0,
+      0.0
+    ],
+    "handle_center": [
+      -0.04621252293383333,
+      -9.25185853854297e-18,
+      0.37261394411325005
+    ],
+    "pull_axis": [
+      1.0,
+      0.0,
+      0.0
+    ]
+  },
+  "legal_pad_footprint_quality": "not_dedicated_fingertip_pad",
+  "proposed_inactive_goc_v4_candidate": {
+    "needed": true,
+    "not_activated_in_this_phase": true,
+    "proposal": "Add dedicated fingertip/pad collision geoms and bind GOC-v4 to those exact geoms; keep current GOC-v3 unchanged."
+  }
+}

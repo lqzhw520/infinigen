@@ -1,0 +1,20 @@
+{
+  "contact_mode_controller_built": true,
+  "impedance_or_force_limited_control_built": true,
+  "modes": [
+    "free_space_approach",
+    "guarded_approach",
+    "seat_and_close",
+    "compliant_pull",
+    "recovery"
+  ],
+  "no_direct_qpos_drawer_opening": true,
+  "safety_gates": {
+    "forbidden_contact_frames": 0,
+    "max_force_n": 1000000.0,
+    "max_penetration_m": 0.02,
+    "target_contact_consecutive_frames_min": 5
+  },
+  "uses_body_based_31_27_authority": false,
+  "uses_goc_v3_exact_instance_pairs": true
+}

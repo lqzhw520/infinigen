@@ -1,0 +1,11 @@
+{
+  "direct_mutation": false,
+  "next_gate": "GOC_V4_DEDICATED_FINGER_PAD_COLLISION_MODEL_REPAIR",
+  "proposal_id": "proposed_next_actions_contact_aware_teacher_synthesis",
+  "recommended_actions": [
+    "Do not rerun random route attempts under the same broad collision geometry if contact-aware low-penetration probes fail.",
+    "If broad link collision remains the blocker, create inactive GOC-v4 dedicated fingertip/pad collision candidates and rebind per-instance exact IDs before bounded rollout.",
+    "If actuator/interface tracking is the blocker, repair operational-space control before further route synthesis."
+  ],
+  "source_run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z"
+}

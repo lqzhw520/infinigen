@@ -1,0 +1,16 @@
+{
+  "no_current_truth_next_actions_direct_mutation": true,
+  "no_direct_qpos_drawer_opening": true,
+  "no_goc_v3_authority_mutation": true,
+  "no_training_render_mint_eval": true,
+  "stages": [
+    "replay_prior_dynamic_failure",
+    "legal_pad_handle_geometry_audit",
+    "build_contact_mode_state_machine",
+    "cem_mppi_low_dimensional_probe_optimization",
+    "bounded_rollout_only_after_probe_pass",
+    "proposed_sovereign_delta_only"
+  ],
+  "task_id": "V11_G4_GOC_V3_CONTACT_AWARE_TEACHER_SYNTHESIS_AUTONOMOUS_V1",
+  "task_type": "CONTACT_AWARE_TEACHER_SYNTHESIS_PHASE"
+}

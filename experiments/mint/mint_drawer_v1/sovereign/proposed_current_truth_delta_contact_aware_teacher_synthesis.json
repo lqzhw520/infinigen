@@ -1,0 +1,35 @@
+{
+  "direct_mutation": false,
+  "facts": {
+    "best_probe_forbidden_contact_frames": 0,
+    "best_probe_max_force_n": 297106.5508951408,
+    "best_probe_max_penetration_m": 0.3127174777741097,
+    "best_probe_passed": false,
+    "best_probe_target_contact_frames": 150,
+    "best_probe_target_contact_max_consecutive_frames": 150,
+    "bounded_rollout_attempted": false,
+    "cem_mppi_optimization_attempted": true,
+    "closeout_classification": "COLLISION_GEOMETRY_PAD_MODEL_INSUFFICIENT",
+    "committed": false,
+    "contact_geometry_quality": "broad_link_collision",
+    "contact_mode_controller_built": true,
+    "current_truth_modified": false,
+    "drawer_fraction": 0.0,
+    "dynamic_failure_mode": "F_COLLISION_GEOMETRY_TOO_BROAD_FOR_LOW_PENETRATION_CONTACT",
+    "goc_v3_authority_changed": false,
+    "harness_preflight_passed": true,
+    "impedance_or_force_limited_control_built": true,
+    "next_actions_modified": false,
+    "next_gate": "GOC_V4_DEDICATED_FINGER_PAD_COLLISION_MODEL_REPAIR",
+    "pushed_to_origin": false,
+    "remote_commit_hash": null,
+    "runtime_patch_applied": true,
+    "runtime_patch_files": [
+      "scripts/mint/contact_aware_drawer_teacher.py"
+    ],
+    "source_worktree_head": "3b2fd9a63e55a4f6ab8af1cdcf0e6db74cda74e8",
+    "strict_candidate_found": false
+  },
+  "proposal_id": "proposed_current_truth_delta_contact_aware_teacher_synthesis",
+  "source_run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z"
+}

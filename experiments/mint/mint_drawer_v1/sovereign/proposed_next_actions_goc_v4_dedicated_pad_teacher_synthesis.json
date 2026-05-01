@@ -1,0 +1,11 @@
+{
+  "direct_mutation": false,
+  "next_gate": "ACTUATOR_INTERFACE_OR_OPERATIONAL_SPACE_CONTROL_REPAIR",
+  "proposal_id": "proposed_next_actions_goc_v4_dedicated_pad_teacher_synthesis",
+  "recommended_actions": [
+    "Do not rerun broad-link GOC-v3 CEM; use GOC-v4 dedicated pads for contact-aware probes.",
+    "If dedicated-pad low-penetration contact still fails, repair operational-space control or pad placement before bounded rollout.",
+    "If actuator/interface tracking is the blocker, repair operational-space control before further route synthesis."
+  ],
+  "source_run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dedicated_pad_contact_teacher_synthesis_20260501T141926Z"
+}

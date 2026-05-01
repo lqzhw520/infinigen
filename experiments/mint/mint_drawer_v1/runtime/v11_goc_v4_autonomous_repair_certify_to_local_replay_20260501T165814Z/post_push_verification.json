@@ -1,0 +1,13 @@
+{
+  "all_origin_visible": true,
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "evidence_commit_hash": "2bc70bed51a45f6298db250e8bfc2a070c1a1127",
+  "origin_visible_files": {
+    "experiments/mint/mint_drawer_v1/runtime/v11_goc_v4_autonomous_repair_certify_to_local_replay_20260501T165814Z/closeout_decision.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_goc_v4_autonomous_repair_certify_to_local_replay_20260501T165814Z/final_report.md": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_goc_v4_autonomous_repair_certify_to_local_replay_20260501T165814Z/layer4R_repair_summary.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_goc_v4_autonomous_repair_certify_to_local_replay_20260501T165814Z/repair_cycles.jsonl": true,
+    "experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_goc_v4_autonomous_repair_certify_to_local_replay.json": true,
+    "experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_goc_v4_autonomous_repair_certify_to_local_replay.json": true
+  }
+}

@@ -2,10 +2,10 @@
   "autonomous_repair_cycles_run": 4,
   "best_candidate_drawer_fraction": 0.0,
   "closeout_classification": "ROBUST_LAYER4R_CONTACT_DYNAMICS_REPAIR_STALLED",
-  "committed": false,
+  "committed": true,
   "current_truth_modified": false,
   "elapsed_seconds": 335.478,
-  "harness_preflight_passed": null,
+  "harness_preflight_passed": true,
   "layer4R_cases_failed": 117,
   "layer4R_cases_passed": 0,
   "layer4R_cases_total": 117,
@@ -24,8 +24,8 @@
   "local_replay_dir": "/Users/zhuhaowu/Documents/Playground/local_replay/v11_g4_goc_v4_autonomous_repair_certify_to_local_replay_20260501T170349Z",
   "next_actions_modified": false,
   "next_gate": "ROBUST_CONTACT_POLICY_OR_GEOMETRY_REDESIGN",
-  "pushed_to_origin": false,
-  "remote_commit_hash": null,
+  "pushed_to_origin": true,
+  "remote_commit_hash": "2bc70bed51a45f6298db250e8bfc2a070c1a1127",
   "runtime_patch_applied": true,
   "runtime_patch_files": [
     "scripts/mint/contact_aware_drawer_teacher.py",
@@ -33,5 +33,5 @@
     "scripts/mint/v11_g4_goc_v4_autonomous_repair_campaign.py"
   ],
   "strict_candidate_count": 0,
-  "task_spec_lock_bound": null
+  "task_spec_lock_bound": true
 }

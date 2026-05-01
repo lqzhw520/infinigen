@@ -1,0 +1,17 @@
+{
+  "current_truth_modified": false,
+  "external_MINT_modified": false,
+  "forbidden_dirty": [],
+  "git_status_short": [
+    " M .project-memory/STATUS.md",
+    " M .session/checkpoint.md"
+  ],
+  "json_parse_errors": [],
+  "json_parse_ok": true,
+  "known_bookkeeping_dirty_only": true,
+  "local_visual_claim_without_artifact": false,
+  "next_actions_modified": false,
+  "positive_candidate_from_dirty_tree": false,
+  "preflight_after_evidence_commit_passed": true,
+  "task_spec_lock_bound": true
+}

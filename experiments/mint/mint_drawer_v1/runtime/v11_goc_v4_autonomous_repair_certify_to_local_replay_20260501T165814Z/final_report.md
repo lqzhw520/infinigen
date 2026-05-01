@@ -16,3 +16,12 @@ This V2 campaign is repair-loop based, not fail-fast certification. It ingested 
 See `repair_cycles.jsonl`, `cycle_1_targeted_results.json`, `cycle_2_expanded_results.json`, and `cycle_*_full_matrix_results.json` for before/after histograms and progress metrics.
 
 Next gate: `ROBUST_CONTACT_POLICY_OR_GEOMETRY_REDESIGN`
+
+
+## Final Verification
+
+- final preflight after evidence commit: pass
+- evidence commit: 
+- origin-visible evidence files: 
+- current_truth modified: 
+- next_actions modified: 

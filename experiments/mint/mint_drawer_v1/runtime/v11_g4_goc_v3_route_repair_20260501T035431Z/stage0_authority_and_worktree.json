@@ -1,0 +1,21 @@
+{
+  "baseline_dirty_ignored_unstaged": [
+    ".project-memory/STATUS.md",
+    ".session/checkpoint.md"
+  ],
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "harness_preflight_passed": true,
+  "head": "251714b2b52f8f8b296997e131c5ce2893b359a1",
+  "pwd": "/mnt/afs2/zhuhaowu/infinigen",
+  "remotes": [
+    "my-origin\tgit@github.com:lqzhw520/infinigen.git (fetch)",
+    "my-origin\tgit@github.com:lqzhw520/infinigen.git (push)",
+    "origin\thttps://github.com/princeton-vl/infinigen.git (fetch)",
+    "origin\thttps://github.com/princeton-vl/infinigen.git (push)"
+  ],
+  "route_repair_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v3_route_repair_autonomous.yaml",
+  "status_short": [
+    "M .project-memory/STATUS.md",
+    " M .session/checkpoint.md"
+  ]
+}

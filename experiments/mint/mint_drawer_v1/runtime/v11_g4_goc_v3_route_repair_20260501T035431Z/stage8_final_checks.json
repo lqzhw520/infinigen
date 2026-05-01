@@ -1,0 +1,59 @@
+{
+  "final_preflight_passed": true,
+  "json_parse_all_ok": true,
+  "json_parse_checks": [
+    {
+      "ok": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_route_repair_20260501T035431Z/closeout_decision.json"
+    },
+    {
+      "ok": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_route_repair_20260501T035431Z/diagnostic_route_summary.json"
+    },
+    {
+      "ok": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_route_repair_20260501T035431Z/execution_plan.json"
+    },
+    {
+      "ok": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_route_repair_20260501T035431Z/goc_id_seed_stability_check.json"
+    },
+    {
+      "ok": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_route_repair_20260501T035431Z/kinematic_reachability_probe.json"
+    },
+    {
+      "ok": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_route_repair_20260501T035431Z/model_and_goc_route_inventory.json"
+    },
+    {
+      "ok": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_route_repair_20260501T035431Z/prior_mv2_replay_contact_diagnosis.json"
+    },
+    {
+      "ok": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_route_repair_20260501T035431Z/route_repair_decision.json"
+    },
+    {
+      "ok": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_route_repair_20260501T035431Z/stage0_authority_and_worktree.json"
+    },
+    {
+      "ok": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_route_repair_20260501T035431Z/stage_minus1_final_lock_regen_report.json"
+    },
+    {
+      "ok": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_route_repair_20260501T035431Z/stage_minus1_lock_regen_report.json"
+    },
+    {
+      "ok": true,
+      "path": "experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_route_repair_goc_v3.json"
+    },
+    {
+      "ok": true,
+      "path": "experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_route_repair_goc_v3.json"
+    }
+  ],
+  "py_compile_ok": true
+}

@@ -1,0 +1,28 @@
+{
+  "actions": [
+    {
+      "description": "Bind route attempts to a single committed model instance or create governed per-instance exact-ID remapping before any positive candidate attempt.",
+      "id": "A1"
+    },
+    {
+      "description": "Repair controller/route binding so right_hand and legal pad geoms can reach the handle under runtime action semantics; do not use direct drawer qpos or broaden target IDs.",
+      "id": "A2"
+    },
+    {
+      "description": "Run the next positive candidate-producing attempt only from a clean committed tree.",
+      "id": "A3"
+    }
+  ],
+  "do_not_apply_automatically": true,
+  "forbidden": [
+    "current_truth_direct_mutation",
+    "next_actions_direct_mutation",
+    "goc_v3_authority_broadening",
+    "forbidden_contact_as_target",
+    "training",
+    "render_success_claim"
+  ],
+  "next_gate": "ROUTE_CONTROLLER_AND_MODEL_INSTANCE_ID_BINDING_REPAIR",
+  "proposal_id": "proposed_next_actions_route_repair_goc_v3",
+  "source_run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_route_repair_20260501T035431Z"
+}

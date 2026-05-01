@@ -1,0 +1,17 @@
+{
+  "closeout_classification": "ROUTE_STILL_NO_GOC_V3_TARGET_CONTACT",
+  "do_not_apply_automatically": true,
+  "facts": {
+    "fixed_goc_v3_ids_not_seed_stable_across_attempted_model_instances": true,
+    "forbidden_contact_found": false,
+    "phase1h_remains_blocked": true,
+    "preflight_passed": true,
+    "prior_mv2_force_explained_as_non_target_robot_self_contact": true,
+    "route_repair_spec_lock_bound": true,
+    "strict_candidate_found": false,
+    "target_contact_found": false,
+    "telemetry_generated": true
+  },
+  "proposal_id": "proposed_current_truth_delta_route_repair_goc_v3",
+  "source_run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_route_repair_20260501T035431Z"
+}

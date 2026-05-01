@@ -1,0 +1,263 @@
+{
+  "diff_hash_excluding_run_dir_and_baseline": "",
+  "drawer_handle_geom_ids": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "forbidden_robot_surface_geom_ids": [
+    45,
+    47,
+    49,
+    54,
+    59
+  ],
+  "goc_geom_table": [
+    {
+      "body_id": 1,
+      "body_name": "drawer_base",
+      "conaffinity": 1,
+      "contype": 1,
+      "geom_id": 0,
+      "geom_name": "geom_0",
+      "pos_world": [
+        5.142816962426328e-18,
+        -9.857065844650463e-18,
+        0.352131463587
+      ]
+    },
+    {
+      "body_id": 1,
+      "body_name": "drawer_base",
+      "conaffinity": 1,
+      "contype": 1,
+      "geom_id": 1,
+      "geom_name": "geom_1",
+      "pos_world": [
+        -0.324374198914,
+        -3.134660380235483e-18,
+        0.264176517725
+      ]
+    },
+    {
+      "body_id": 1,
+      "body_name": "drawer_base",
+      "conaffinity": 1,
+      "contype": 1,
+      "geom_id": 2,
+      "geom_name": "geom_2",
+      "pos_world": [
+        -4.609705398488567e-18,
+        -9.219410796977135e-18,
+        0.264176517725
+      ]
+    },
+    {
+      "body_id": 1,
+      "body_name": "drawer_base",
+      "conaffinity": 1,
+      "contype": 1,
+      "geom_id": 3,
+      "geom_name": "geom_3",
+      "pos_world": [
+        0.0,
+        0.0,
+        0.14115696400375566
+      ]
+    },
+    {
+      "body_id": 1,
+      "body_name": "drawer_base",
+      "conaffinity": 1,
+      "contype": 1,
+      "geom_id": 4,
+      "geom_name": "geom_4",
+      "pos_world": [
+        0.0,
+        0.0,
+        0.5631059631702443
+      ]
+    },
+    {
+      "body_id": 1,
+      "body_name": "drawer_base",
+      "conaffinity": 1,
+      "contype": 1,
+      "geom_id": 5,
+      "geom_name": "geom_5",
+      "pos_world": [
+        -0.324374198914,
+        0.0,
+        0.264176517725
+      ]
+    },
+    {
+      "body_id": 1,
+      "body_name": "drawer_base",
+      "conaffinity": 1,
+      "contype": 1,
+      "geom_id": 6,
+      "geom_name": "geom_6",
+      "pos_world": [
+        0.0,
+        0.43616199493408203,
+        0.264176517725
+      ]
+    },
+    {
+      "body_id": 1,
+      "body_name": "drawer_base",
+      "conaffinity": 1,
+      "contype": 1,
+      "geom_id": 7,
+      "geom_name": "geom_7",
+      "pos_world": [
+        -8.220815104573949e-18,
+        0.0,
+        0.264176517725
+      ]
+    },
+    {
+      "body_id": 1,
+      "body_name": "drawer_base",
+      "conaffinity": 1,
+      "contype": 1,
+      "geom_id": 8,
+      "geom_name": "geom_8",
+      "pos_world": [
+        0.0,
+        -0.43616199493408203,
+        0.264176517725
+      ]
+    },
+    {
+      "body_id": 6,
+      "body_name": "link0",
+      "conaffinity": 1,
+      "contype": 1,
+      "geom_id": 45,
+      "geom_name": "link0_collision",
+      "pos_world": [
+        -0.9291897649481283,
+        -0.0008794657433381035,
+        0.056603190871099385
+      ]
+    },
+    {
+      "body_id": 7,
+      "body_name": "link1",
+      "conaffinity": 1,
+      "contype": 1,
+      "geom_id": 47,
+      "geom_name": "link1_collision",
+      "pos_world": [
+        -0.899997766639982,
+        -0.03247938296074328,
+        0.2654241259638451
+      ]
+    },
+    {
+      "body_id": 8,
+      "body_name": "link2",
+      "conaffinity": 1,
+      "contype": 1,
+      "geom_id": 49,
+      "geom_name": "link2_collision",
+      "pos_world": [
+        -0.91128852271568,
+        0.03117823896271728,
+        0.40240958265343774
+      ]
+    },
+    {
+      "body_id": 9,
+      "body_name": "link3",
+      "conaffinity": 1,
+      "contype": 1,
+      "geom_id": 54,
+      "geom_name": "link3_collision",
+      "pos_world": [
+        -0.9007798011315606,
+        0.024928326043788408,
+        0.6143856953756748
+      ]
+    },
+    {
+      "body_id": 10,
+      "body_name": "link4",
+      "conaffinity": 1,
+      "contype": 1,
+      "geom_id": 59,
+      "geom_name": "link4_collision",
+      "pos_world": [
+        -0.8141231008036552,
+        -0.02471624129462459,
+        0.6614583045891406
+      ]
+    },
+    {
+      "body_id": 11,
+      "body_name": "link5",
+      "conaffinity": 1,
+      "contype": 1,
+      "geom_id": 63,
+      "geom_name": "link5_collision",
+      "pos_world": [
+        -0.607925633253507,
+        0.03841237238901029,
+        0.5414082717879748
+      ]
+    },
+    {
+      "body_id": 12,
+      "body_name": "link6",
+      "conaffinity": 1,
+      "contype": 1,
+      "geom_id": 81,
+      "geom_name": "link6_collision",
+      "pos_world": [
+        -0.4734548780044444,
+        -0.0061689928453289265,
+        0.47347332357932514
+      ]
+    },
+    {
+      "body_id": 13,
+      "body_name": "link7",
+      "conaffinity": 1,
+      "contype": 1,
+      "geom_id": 90,
+      "geom_name": "link7_collision",
+      "pos_world": [
+        -0.4414007537525515,
+        -0.014651942709464773,
+        0.38547097052840784
+      ]
+    }
+  ],
+  "legal_gripper_surface_geom_ids": [
+    63,
+    81,
+    90
+  ],
+  "model_ngeom": 91,
+  "model_nq": 9,
+  "model_nv": 9,
+  "motion_axis": [
+    1.0,
+    0.0,
+    0.0
+  ],
+  "right_hand_body_id": 14,
+  "source_status_short": [
+    "M .project-memory/STATUS.md",
+    " M .session/checkpoint.md"
+  ],
+  "source_worktree_head": "251714b2b52f8f8b296997e131c5ce2893b359a1"
+}

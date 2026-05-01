@@ -1,0 +1,45 @@
+{
+  "allowed_outputs": [
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_route_repair_20260501T035431Z",
+    "experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_route_repair_goc_v3.json",
+    "experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_route_repair_goc_v3.json"
+  ],
+  "forbidden_files": [
+    "external/MINT",
+    "experiments/mint/mint_drawer_v1/sovereign/current_truth.json",
+    "experiments/mint/mint_drawer_v1/sovereign/next_actions.json",
+    "experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v3_contract.json"
+  ],
+  "hard_rules": [
+    "do_not_change_goc_v3_authority",
+    "do_not_mutate_current_truth_or_next_actions",
+    "do_not_train_render_or_claim_visual_success",
+    "positive_candidate_requires_clean_committed_tree",
+    "non_success_telemetry_records_head_and_diff_hash"
+  ],
+  "harness_preflight_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v3_route_repair_autonomous.yaml",
+  "required_telemetry": [
+    "eef_pose",
+    "legal_pad_geom_positions",
+    "handle_geom_positions",
+    "legal_pad_to_handle_min_distance",
+    "eef_to_handle_distance",
+    "contact_pairs",
+    "gripper_command",
+    "drawer_fraction_trace",
+    "failure_classifier"
+  ],
+  "task_id": "V11_G4_GOC_V3_ROUTE_REPAIR_AUTONOMOUS_V1",
+  "task_type": "ROUTE_REPAIR_SCIENCE_PHASE",
+  "terminal_states": [
+    "ROUTE_TELEMETRY_DIAGNOSIS_COMPLETE",
+    "ROUTE_REPAIR_POLICY_PROPOSED_CLEAN_ATTEMPT_PENDING",
+    "ROUTE_REPAIR_PATCHED_PREACTION_READY_FOR_CLEAN_BOUND_ATTEMPT",
+    "ROUTE_STILL_NO_GOC_V3_TARGET_CONTACT",
+    "TELEMETRY_SCHEMA_FAILED",
+    "HARNESS_PREFLIGHT_FAILED",
+    "COMMIT_PUSH_FAILED",
+    "EXECUTION_FAILED"
+  ],
+  "wall_clock_limit_hours": 6
+}

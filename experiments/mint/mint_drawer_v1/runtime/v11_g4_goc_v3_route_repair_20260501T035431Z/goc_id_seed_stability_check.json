@@ -1,0 +1,952 @@
+{
+  "finding": "checks whether fixed GOC-v3 geom IDs preserve same semantic names across seeds",
+  "fixed_exact_ids": [
+    63,
+    81,
+    90
+  ],
+  "forbidden_ids": [
+    45,
+    47,
+    49,
+    54,
+    59
+  ],
+  "handle_ids": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "items": [
+    {
+      "fixed_goc_id_rows": [
+        {
+          "body_id": 1,
+          "body_name": "drawer_base",
+          "conaffinity": 1,
+          "contype": 1,
+          "geom_id": 0,
+          "geom_name": "",
+          "pos_world": [
+            5.142816962426328e-18,
+            -9.857065844650463e-18,
+            0.352131463587
+          ]
+        },
+        {
+          "body_id": 1,
+          "body_name": "drawer_base",
+          "conaffinity": 1,
+          "contype": 1,
+          "geom_id": 1,
+          "geom_name": "",
+          "pos_world": [
+            -0.324374198914,
+            -3.134660380235483e-18,
+            0.264176517725
+          ]
+        },
+        {
+          "body_id": 1,
+          "body_name": "drawer_base",
+          "conaffinity": 1,
+          "contype": 1,
+          "geom_id": 2,
+          "geom_name": "",
+          "pos_world": [
+            -4.609705398488567e-18,
+            -9.219410796977135e-18,
+            0.264176517725
+          ]
+        },
+        {
+          "body_id": 1,
+          "body_name": "drawer_base",
+          "conaffinity": 1,
+          "contype": 1,
+          "geom_id": 3,
+          "geom_name": "",
+          "pos_world": [
+            0.0,
+            0.0,
+            0.14115696400375566
+          ]
+        },
+        {
+          "body_id": 1,
+          "body_name": "drawer_base",
+          "conaffinity": 1,
+          "contype": 1,
+          "geom_id": 4,
+          "geom_name": "",
+          "pos_world": [
+            0.0,
+            0.0,
+            0.5631059631702443
+          ]
+        },
+        {
+          "body_id": 1,
+          "body_name": "drawer_base",
+          "conaffinity": 1,
+          "contype": 1,
+          "geom_id": 5,
+          "geom_name": "",
+          "pos_world": [
+            -0.324374198914,
+            0.0,
+            0.264176517725
+          ]
+        },
+        {
+          "body_id": 1,
+          "body_name": "drawer_base",
+          "conaffinity": 1,
+          "contype": 1,
+          "geom_id": 6,
+          "geom_name": "",
+          "pos_world": [
+            0.0,
+            0.43616199493408203,
+            0.264176517725
+          ]
+        },
+        {
+          "body_id": 1,
+          "body_name": "drawer_base",
+          "conaffinity": 1,
+          "contype": 1,
+          "geom_id": 7,
+          "geom_name": "",
+          "pos_world": [
+            -8.220815104573949e-18,
+            0.0,
+            0.264176517725
+          ]
+        },
+        {
+          "body_id": 1,
+          "body_name": "drawer_base",
+          "conaffinity": 1,
+          "contype": 1,
+          "geom_id": 8,
+          "geom_name": "",
+          "pos_world": [
+            0.0,
+            -0.43616199493408203,
+            0.264176517725
+          ]
+        },
+        {
+          "body_id": 6,
+          "body_name": "link0",
+          "conaffinity": 1,
+          "contype": 1,
+          "geom_id": 45,
+          "geom_name": "link0_collision",
+          "pos_world": [
+            -0.9291897649481283,
+            -0.0008794657433381035,
+            0.056603190871099385
+          ]
+        },
+        {
+          "body_id": 7,
+          "body_name": "link1",
+          "conaffinity": 1,
+          "contype": 1,
+          "geom_id": 47,
+          "geom_name": "link1_collision",
+          "pos_world": [
+            -0.899997766639982,
+            -0.03247938296074328,
+            0.2654241259638451
+          ]
+        },
+        {
+          "body_id": 8,
+          "body_name": "link2",
+          "conaffinity": 1,
+          "contype": 1,
+          "geom_id": 49,
+          "geom_name": "link2_collision",
+          "pos_world": [
+            -0.91128852271568,
+            0.03117823896271728,
+            0.40240958265343774
+          ]
+        },
+        {
+          "body_id": 9,
+          "body_name": "link3",
+          "conaffinity": 1,
+          "contype": 1,
+          "geom_id": 54,
+          "geom_name": "link3_collision",
+          "pos_world": [
+            -0.9007798011315606,
+            0.024928326043788408,
+            0.6143856953756748
+          ]
+        },
+        {
+          "body_id": 10,
+          "body_name": "link4",
+          "conaffinity": 1,
+          "contype": 1,
+          "geom_id": 59,
+          "geom_name": "link4_collision",
+          "pos_world": [
+            -0.8141231008036552,
+            -0.02471624129462459,
+            0.6614583045891406
+          ]
+        },
+        {
+          "body_id": 11,
+          "body_name": "link5",
+          "conaffinity": 1,
+          "contype": 1,
+          "geom_id": 63,
+          "geom_name": "link5_collision",
+          "pos_world": [
+            -0.607925633253507,
+            0.03841237238901029,
+            0.5414082717879748
+          ]
+        },
+        {
+          "body_id": 12,
+          "body_name": "link6",
+          "conaffinity": 1,
+          "contype": 1,
+          "geom_id": 81,
+          "geom_name": "link6_collision",
+          "pos_world": [
+            -0.4734548780044444,
+            -0.0061689928453289265,
+            0.47347332357932514
+          ]
+        },
+        {
+          "body_id": 13,
+          "body_name": "link7",
+          "conaffinity": 1,
+          "contype": 1,
+          "geom_id": 90,
+          "geom_name": "link7_collision",
+          "pos_world": [
+            -0.4414007537525515,
+            -0.014651942709464773,
+            0.38547097052840784
+          ]
+        }
+      ],
+      "ngeom": 91,
+      "seed": 1,
+      "selected_name_to_id": {
+        "link0_collision": 45,
+        "link7_collision": 90
+      }
+    },
+    {
+      "fixed_goc_id_rows": [
+        {
+          "body_id": 1,
+          "body_name": "drawer_base",
+          "conaffinity": 1,
+          "contype": 1,
+          "geom_id": 0,
+          "geom_name": "",
+          "pos_world": [
+            5.674957848453183e-18,
+            -7.566610464604244e-19,
+            0.335393577814
+          ]
+        },
+        {
+          "body_id": 1,
+          "body_name": "drawer_base",
+          "conaffinity": 1,
+          "contype": 1,
+          "geom_id": 1,
+          "geom_name": "",
+          "pos_world": [
+            -0.233462676406,
+            -1.6895669602951898e-17,
+            0.260916411877
+          ]
+        },
+        {
+          "body_id": 1,
+          "body_name": "drawer_base",
+          "conaffinity": 1,
+          "contype": 1,
+          "geom_id": 2,
+          "geom_name": "",
+          "pos_world": [
+            3.486828472395217e-18,
+            7.55479502352297e-18,
+            0.260916411877
+          ]
+        },
+        {
+          "body_id": 1,
+          "body_name": "drawer_base",
+          "conaffinity": 1,
+          "contype": 1,
+          "geom_id": 3,
+          "geom_name": "",
+          "pos_world": [
+            4.080223500505906e-18,
+            0.0,
+            0.1123160794376305
+          ]
+        },
+        {
+          "body_id": 1,
+          "body_name": "drawer_base",
+          "conaffinity": 1,
+          "contype": 1,
+          "geom_id": 4,
+          "geom_name": "",
+          "pos_world": [
+            4.080223500505906e-18,
+            0.0,
+            0.5584710761903694
+          ]
+        },
+        {
+          "body_id": 1,
+          "body_name": "drawer_base",
+          "conaffinity": 1,
+          "contype": 1,
+          "geom_id": 5,
+          "geom_name": "",
+          "pos_world": [
+            -0.233462676406,
+            0.0,
+            0.260916411877
+          ]
+        },
+        {
+          "body_id": 1,
+          "body_name": "drawer_base",
+          "conaffinity": 1,
+          "contype": 1,
+          "geom_id": 6,
+          "geom_name": "",
+          "pos_world": [
+            -5.2488204183821174e-18,
+            0.634640008211136,
+            0.260916411877
+          ]
+        },
+        {
+          "body_id": 1,
+          "body_name": "drawer_base",
+          "conaffinity": 1,
+          "contype": 1,
+          "geom_id": 7,
+          "geom_name": "",
+          "pos_world": [
+            0.0,
+            0.21154649555683133,
+            0.260916411877
+          ]
+        },
+        {
+          "body_id": 1,
+          "body_name": "drawer_base",
+          "conaffinity": 1,
+          "contype": 1,
+          "geom_id": 8,
+          "geom_name": "",
+          "pos_world": [
+            0.0,
+            -0.21154649555683133,
+            0.260916411877
+          ]
+        },
+        {
+          "body_id": 6,
+          "body_name": "link0",
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 45,
+          "geom_name": "",
+          "pos_world": [
+            -0.9593927081682817,
+            0.058061358106951885,
+            0.03593566523921602
+          ]
+        },
+        {
+          "body_id": 6,
+          "body_name": "link0",
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 47,
+          "geom_name": "",
+          "pos_world": [
+            -0.9299529256026244,
+            -3.4480123769308606e-05,
+            0.053494544949343706
+          ]
+        },
+        {
+          "body_id": 6,
+          "body_name": "link0",
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 49,
+          "geom_name": "",
+          "pos_world": [
+            -0.9237872002367128,
+            -0.06548630797724159,
+            0.03297410439835167
+          ]
+        },
+        {
+          "body_id": 8,
+          "body_name": "link2",
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 54,
+          "geom_name": "",
+          "pos_world": [
+            -0.9109968777300331,
+            0.032209729783899625,
+            0.4007156288787297
+          ]
+        },
+        {
+          "body_id": 9,
+          "body_name": "link3",
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 59,
+          "geom_name": "",
+          "pos_world": [
+            -0.8735345640138056,
+            0.07963346994730368,
+            0.6533656980080823
+          ]
+        },
+        {
+          "body_id": 10,
+          "body_name": "link4",
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 63,
+          "geom_name": "",
+          "pos_world": [
+            -0.8629260450076267,
+            -0.07963447110173691,
+            0.659306832935018
+          ]
+        },
+        {
+          "body_id": 12,
+          "body_name": "link6",
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 81,
+          "geom_name": "",
+          "pos_world": [
+            -0.43249726577047776,
+            1.2223203211381473e-05,
+            0.5411313956325307
+          ]
+        },
+        {
+          "body_id": 13,
+          "body_name": "link7",
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 90,
+          "geom_name": "",
+          "pos_world": [
+            -0.4417796965189159,
+            0.044915286768034274,
+            0.37880832193271413
+          ]
+        }
+      ],
+      "ngeom": 97,
+      "seed": 11,
+      "selected_name_to_id": {
+        "link0_collision": 51,
+        "link7_collision": 96
+      }
+    },
+    {
+      "fixed_goc_id_rows": [
+        {
+          "body_id": 1,
+          "body_name": "drawer_base",
+          "conaffinity": 1,
+          "contype": 1,
+          "geom_id": 0,
+          "geom_name": "",
+          "pos_world": [
+            2.5525290355619376e-18,
+            7.536038104992387e-18,
+            0.47672714293
+          ]
+        },
+        {
+          "body_id": 1,
+          "body_name": "drawer_base",
+          "conaffinity": 1,
+          "contype": 1,
+          "geom_id": 1,
+          "geom_name": "",
+          "pos_world": [
+            -0.191594183445,
+            3.754568474808835e-18,
+            0.399996429682
+          ]
+        },
+        {
+          "body_id": 1,
+          "body_name": "drawer_base",
+          "conaffinity": 1,
+          "contype": 1,
+          "geom_id": 2,
+          "geom_name": "",
+          "pos_world": [
+            -6.41183814497139e-19,
+            9.617757217457085e-18,
+            0.399996429682
+          ]
+        },
+        {
+          "body_id": 1,
+          "body_name": "drawer_base",
+          "conaffinity": 1,
+          "contype": 1,
+          "geom_id": 3,
+          "geom_name": "",
+          "pos_world": [
+            0.0,
+            -1.4413080552881575e-17,
+            0.13665364682671333
+          ]
+        },
+        {
+          "body_id": 1,
+          "body_name": "drawer_base",
+          "conaffinity": 1,
+          "contype": 1,
+          "geom_id": 4,
+          "geom_name": "",
+          "pos_world": [
+            0.0,
+            0.0,
+            0.8168006390332867
+          ]
+        },
+        {
+          "body_id": 1,
+          "body_name": "drawer_base",
+          "conaffinity": 1,
+          "contype": 1,
+          "geom_id": 5,
+          "geom_name": "",
+          "pos_world": [
+            -0.191594183445,
+            0.0,
+            0.399996429682
+          ]
+        },
+        {
+          "body_id": 1,
+          "body_name": "drawer_base",
+          "conaffinity": 1,
+          "contype": 1,
+          "geom_id": 6,
+          "geom_name": "",
+          "pos_world": [
+            0.0,
+            0.5200864970684052,
+            0.399996429682
+          ]
+        },
+        {
+          "body_id": 1,
+          "body_name": "drawer_base",
+          "conaffinity": 1,
+          "contype": 1,
+          "geom_id": 7,
+          "geom_name": "",
+          "pos_world": [
+            4.8374293907725075e-18,
+            0.17336250096559525,
+            0.399996429682
+          ]
+        },
+        {
+          "body_id": 1,
+          "body_name": "drawer_base",
+          "conaffinity": 1,
+          "contype": 1,
+          "geom_id": 8,
+          "geom_name": "",
+          "pos_world": [
+            4.837429390772507e-18,
+            -0.17336250096559525,
+            0.399996429682
+          ]
+        },
+        {
+          "body_id": 6,
+          "body_name": "link0",
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 45,
+          "geom_name": "",
+          "pos_world": [
+            -0.9249992745744143,
+            -0.07303207218940581,
+            0.0328950418265188
+          ]
+        },
+        {
+          "body_id": 6,
+          "body_name": "link0",
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 47,
+          "geom_name": "",
+          "pos_world": [
+            -0.8889571678254575,
+            0.07199695893295316,
+            0.04608744224394782
+          ]
+        },
+        {
+          "body_id": 7,
+          "body_name": "link1",
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 49,
+          "geom_name": "",
+          "pos_world": [
+            -0.8999977584774567,
+            -0.03247938590237313,
+            0.2654241292167199
+          ]
+        },
+        {
+          "body_id": 9,
+          "body_name": "link3",
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 54,
+          "geom_name": "",
+          "pos_world": [
+            -0.9275418612654537,
+            -0.011223170486489463,
+            0.6369684593225429
+          ]
+        },
+        {
+          "body_id": 10,
+          "body_name": "link4",
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 59,
+          "geom_name": "",
+          "pos_world": [
+            -0.8127895454590691,
+            -0.024040184843976176,
+            0.6642731653385673
+          ]
+        },
+        {
+          "body_id": 11,
+          "body_name": "link5",
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 63,
+          "geom_name": "",
+          "pos_world": [
+            -0.5494459434573443,
+            0.09575388258697538,
+            0.49094806964681054
+          ]
+        },
+        {
+          "body_id": 12,
+          "body_name": "link6",
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 81,
+          "geom_name": "",
+          "pos_world": [
+            -0.5173583905850991,
+            -0.04372135869761986,
+            0.4691513474436504
+          ]
+        },
+        {
+          "body_id": 13,
+          "body_name": "link7",
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 90,
+          "geom_name": "",
+          "pos_world": [
+            -0.4741937627020588,
+            -0.057655359849163146,
+            0.38348168061330523
+          ]
+        }
+      ],
+      "ngeom": 94,
+      "seed": 12,
+      "selected_name_to_id": {
+        "link0_collision": 48,
+        "link7_collision": 93
+      }
+    },
+    {
+      "fixed_goc_id_rows": [
+        {
+          "body_id": 1,
+          "body_name": "drawer_base",
+          "conaffinity": 1,
+          "contype": 1,
+          "geom_id": 0,
+          "geom_name": "",
+          "pos_world": [
+            1.4791982614186005e-18,
+            -1.1241906786781364e-17,
+            0.381985038519
+          ]
+        },
+        {
+          "body_id": 1,
+          "body_name": "drawer_base",
+          "conaffinity": 1,
+          "contype": 1,
+          "geom_id": 1,
+          "geom_name": "",
+          "pos_world": [
+            -0.277275137603,
+            6.286940248145413e-18,
+            0.365920305252
+          ]
+        },
+        {
+          "body_id": 1,
+          "body_name": "drawer_base",
+          "conaffinity": 1,
+          "contype": 1,
+          "geom_id": 2,
+          "geom_name": "",
+          "pos_world": [
+            -5.283995898670255e-18,
+            -4.529139341717362e-18,
+            0.365920305252
+          ]
+        },
+        {
+          "body_id": 1,
+          "body_name": "drawer_base",
+          "conaffinity": 1,
+          "contype": 1,
+          "geom_id": 3,
+          "geom_name": "",
+          "pos_world": [
+            6.483071022038638e-18,
+            0.0,
+            0.03699003160009284
+          ]
+        },
+        {
+          "body_id": 1,
+          "body_name": "drawer_base",
+          "conaffinity": 1,
+          "contype": 1,
+          "geom_id": 4,
+          "geom_name": "",
+          "pos_world": [
+            6.483071674953555e-18,
+            0.0,
+            0.2669870369137277
+          ]
+        },
+        {
+          "body_id": 1,
+          "body_name": "drawer_base",
+          "conaffinity": 1,
+          "contype": 1,
+          "geom_id": 5,
+          "geom_name": "",
+          "pos_world": [
+            -6.483071674953554e-18,
+            0.0,
+            0.4969830401242723
+          ]
+        },
+        {
+          "body_id": 1,
+          "body_name": "drawer_base",
+          "conaffinity": 1,
+          "contype": 1,
+          "geom_id": 6,
+          "geom_name": "",
+          "pos_world": [
+            6.483071022038637e-18,
+            0.0,
+            0.7269800454379072
+          ]
+        },
+        {
+          "body_id": 1,
+          "body_name": "drawer_base",
+          "conaffinity": 1,
+          "contype": 1,
+          "geom_id": 7,
+          "geom_name": "",
+          "pos_world": [
+            -0.277275137603,
+            0.0,
+            0.365920305252
+          ]
+        },
+        {
+          "body_id": 1,
+          "body_name": "drawer_base",
+          "conaffinity": 1,
+          "contype": 1,
+          "geom_id": 8,
+          "geom_name": "",
+          "pos_world": [
+            0.0,
+            0.6823250055313109,
+            0.365920305252
+          ]
+        },
+        {
+          "body_id": 6,
+          "body_name": "link0",
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 45,
+          "geom_name": "",
+          "pos_world": [
+            -0.9596388561456525,
+            0.057885067573406675,
+            0.03690848571157199
+          ]
+        },
+        {
+          "body_id": 6,
+          "body_name": "link0",
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 47,
+          "geom_name": "",
+          "pos_world": [
+            -0.8889471960693195,
+            -0.07200003059994102,
+            0.04606270196816846
+          ]
+        },
+        {
+          "body_id": 6,
+          "body_name": "link0",
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 49,
+          "geom_name": "",
+          "pos_world": [
+            -0.9249992745744143,
+            -0.07303207218940581,
+            0.0328950418265188
+          ]
+        },
+        {
+          "body_id": 7,
+          "body_name": "link1",
+          "conaffinity": 1,
+          "contype": 1,
+          "geom_id": 54,
+          "geom_name": "link1_collision",
+          "pos_world": [
+            -0.899997766639982,
+            -0.03247938296074328,
+            0.2654241259638451
+          ]
+        },
+        {
+          "body_id": 9,
+          "body_name": "link3",
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 59,
+          "geom_name": "",
+          "pos_world": [
+            -0.8847184900776826,
+            -0.011394921138707242,
+            0.5936482099584185
+          ]
+        },
+        {
+          "body_id": 10,
+          "body_name": "link4",
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 63,
+          "geom_name": "",
+          "pos_world": [
+            -0.8127895454590691,
+            -0.024040184843976176,
+            0.6642731653385673
+          ]
+        },
+        {
+          "body_id": 12,
+          "body_name": "link6",
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 81,
+          "geom_name": "",
+          "pos_world": [
+            -0.42908918301752286,
+            6.295992416366093e-05,
+            0.5398818677671942
+          ]
+        },
+        {
+          "body_id": 13,
+          "body_name": "link7",
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 90,
+          "geom_name": "",
+          "pos_world": [
+            -0.4090701148288798,
+            -0.057641884134953386,
+            0.3797475596706642
+          ]
+        }
+      ],
+      "ngeom": 98,
+      "seed": 13,
+      "selected_name_to_id": {
+        "link0_collision": 52,
+        "link7_collision": 97
+      }
+    }
+  ]
+}

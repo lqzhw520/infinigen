@@ -1,0 +1,600 @@
+{
+  "answers": {
+    "controller_proxy_or_legal_pad_mismatch": false,
+    "eef_trajectory_approaches_handle": false,
+    "failure_axis": "route_does_not_bring_eef_close_to_handle",
+    "grasp_pose_world_reachability": "right_hand did not reach handle under current route/control mapping",
+    "min_eef_to_handle_distance_m": 0.134438980646704,
+    "min_legal_pad_to_handle_distance_m": 0.14244950509655877,
+    "mv2_force_without_target_contact": "see prior_mv2_high_force_explanation.max_force_record.contact_pairs; category is exact-ID non-target unless target count > 0"
+  },
+  "any_forbidden_contact_in_diagnostic_routes": false,
+  "any_target_contact_in_diagnostic_routes": false,
+  "best_variant": {
+    "forbidden_contact_frame_count": 0,
+    "handle_nonlegal_robot_contact_frame_count": 0,
+    "max_contact_force_n": 0.0,
+    "max_drawer_fraction": 0.0,
+    "max_penetration_m": 0.0,
+    "min_distance_step": 88,
+    "min_eef_to_handle_distance_m": 0.134438980646704,
+    "min_legal_pad_to_handle_distance_m": 0.14244950509655877,
+    "other_robot_drawer_contact_frame_count": 0,
+    "sample_records": [
+      {
+        "action": [
+          -17.669687271118164,
+          320.0,
+          -17.596805572509766,
+          320.0,
+          -1.187850832939148,
+          320.0,
+          -2.1461114965904598e-15,
+          -1.0,
+          0.0
+        ],
+        "contact_counts": {
+          "forbidden": 0,
+          "handle_nonlegal_robot": 0,
+          "max_contact_force_n": 0.0,
+          "max_penetration_m": 0.0,
+          "other": 0,
+          "other_robot_drawer": 0,
+          "target": 0
+        },
+        "contact_pairs": [],
+        "drawer_fraction": 0.0,
+        "eef_to_handle_min_distance_m": 0.15128742214191304,
+        "gripper_command_close": false,
+        "handle_positions": {
+          "0": [
+            5.142816962426328e-18,
+            -9.857065844650463e-18,
+            0.352131463587
+          ],
+          "1": [
+            -0.324374198914,
+            -3.134660380235483e-18,
+            0.264176517725
+          ],
+          "2": [
+            -4.609705398488567e-18,
+            -9.219410796977135e-18,
+            0.264176517725
+          ],
+          "3": [
+            0.0,
+            0.0,
+            0.14115696400375566
+          ],
+          "4": [
+            0.0,
+            0.0,
+            0.5631059631702443
+          ],
+          "5": [
+            -0.324374198914,
+            0.0,
+            0.264176517725
+          ],
+          "6": [
+            0.0,
+            0.43616199493408203,
+            0.264176517725
+          ],
+          "7": [
+            -8.220815104573949e-18,
+            0.0,
+            0.264176517725
+          ],
+          "8": [
+            0.0,
+            -0.43616199493408203,
+            0.264176517725
+          ]
+        },
+        "legal_pad_positions": {
+          "63": [
+            -0.607925633253507,
+            0.03841237238901029,
+            0.5414082717879748
+          ],
+          "81": [
+            -0.4734548780044444,
+            -0.0061689928453289265,
+            0.47347332357932514
+          ],
+          "90": [
+            -0.4414007537525515,
+            -0.014651942709464773,
+            0.38547097052840784
+          ]
+        },
+        "min_handle_geom_id": 1,
+        "min_legal_pad_geom_id": 90,
+        "min_legal_pad_to_handle_distance_m": 0.16918108122192646,
+        "phase": "approach",
+        "right_hand_pos": [
+          -0.44295725941261704,
+          0.0,
+          0.35812300175248624
+        ],
+        "step": 0,
+        "target_pos": [
+          0.004553340276661655,
+          -0.005863812278072198,
+          0.18083364613291703
+        ],
+        "variant_id": "diag_pad_preload_axis_pull"
+      },
+      {
+        "action": [
+          -15.501426696777344,
+          320.0,
+          -15.55639934539795,
+          320.0,
+          0.379504919052124,
+          320.0,
+          5.240657430924584e-16,
+          1.0,
+          0.0
+        ],
+        "contact_counts": {
+          "forbidden": 0,
+          "handle_nonlegal_robot": 0,
+          "max_contact_force_n": 0.0,
+          "max_penetration_m": 0.0,
+          "other": 0,
+          "other_robot_drawer": 0,
+          "target": 0
+        },
+        "contact_pairs": [],
+        "drawer_fraction": 0.0,
+        "eef_to_handle_min_distance_m": 0.1362131884117348,
+        "gripper_command_close": true,
+        "handle_positions": {
+          "0": [
+            5.142816962426328e-18,
+            -9.857065844650463e-18,
+            0.352131463587
+          ],
+          "1": [
+            -0.324374198914,
+            -3.134660380235483e-18,
+            0.264176517725
+          ],
+          "2": [
+            -4.609705398488567e-18,
+            -9.219410796977135e-18,
+            0.264176517725
+          ],
+          "3": [
+            0.0,
+            0.0,
+            0.14115696400375566
+          ],
+          "4": [
+            0.0,
+            0.0,
+            0.5631059631702443
+          ],
+          "5": [
+            -0.324374198914,
+            0.0,
+            0.264176517725
+          ],
+          "6": [
+            0.0,
+            0.43616199493408203,
+            0.264176517725
+          ],
+          "7": [
+            -8.220815104573949e-18,
+            0.0,
+            0.264176517725
+          ],
+          "8": [
+            0.0,
+            -0.43616199493408203,
+            0.264176517725
+          ]
+        },
+        "legal_pad_positions": {
+          "63": [
+            -0.6100399770042416,
+            0.03799867631670214,
+            0.47627726449043584
+          ],
+          "81": [
+            -0.49584567048460343,
+            -0.006682892134652379,
+            0.39279512693765695
+          ],
+          "90": [
+            -0.45954745854756296,
+            -0.015233343702167198,
+            0.30646122680456617
+          ]
+        },
+        "min_handle_geom_id": 1,
+        "min_legal_pad_geom_id": 90,
+        "min_legal_pad_to_handle_distance_m": 0.14244950509655877,
+        "phase": "close_contact",
+        "right_hand_pos": [
+          -0.4597703617931259,
+          -0.0005976366570211307,
+          0.27906122817989804
+        ],
+        "step": 88,
+        "target_pos": [
+          0.0020674298676869873,
+          -0.005956698556960816,
+          0.17679898108192155
+        ],
+        "variant_id": "diag_pad_preload_axis_pull"
+      },
+      {
+        "action": [
+          -11.573760032653809,
+          320.0,
+          -11.526397705078125,
+          320.0,
+          2.610299587249756,
+          258.8082580566406,
+          2.931562395722294e-15,
+          1.0,
+          0.0
+        ],
+        "contact_counts": {
+          "forbidden": 0,
+          "handle_nonlegal_robot": 0,
+          "max_contact_force_n": 0.0,
+          "max_penetration_m": 0.0,
+          "other": 0,
+          "other_robot_drawer": 0,
+          "target": 0
+        },
+        "contact_pairs": [],
+        "drawer_fraction": 0.0,
+        "eef_to_handle_min_distance_m": 0.21277619921063304,
+        "gripper_command_close": true,
+        "handle_positions": {
+          "0": [
+            5.142816962426328e-18,
+            -9.857065844650463e-18,
+            0.352131463587
+          ],
+          "1": [
+            -0.324374198914,
+            -3.134660380235483e-18,
+            0.264176517725
+          ],
+          "2": [
+            -4.609705398488567e-18,
+            -9.219410796977135e-18,
+            0.264176517725
+          ],
+          "3": [
+            0.0,
+            0.0,
+            0.14115696400375566
+          ],
+          "4": [
+            0.0,
+            0.0,
+            0.5631059631702443
+          ],
+          "5": [
+            -0.324374198914,
+            0.0,
+            0.264176517725
+          ],
+          "6": [
+            0.0,
+            0.43616199493408203,
+            0.264176517725
+          ],
+          "7": [
+            -8.220815104573949e-18,
+            0.0,
+            0.264176517725
+          ],
+          "8": [
+            0.0,
+            -0.43616199493408203,
+            0.264176517725
+          ]
+        },
+        "legal_pad_positions": {
+          "63": [
+            -0.6185187745809626,
+            0.03734861227786826,
+            0.37330349526768136
+          ],
+          "81": [
+            -0.5455787002915401,
+            -0.007447995088299913,
+            0.27228358857397567
+          ],
+          "90": [
+            -0.5090073412777809,
+            -0.01608441931324677,
+            0.18607103821613813
+          ]
+        },
+        "min_handle_geom_id": 1,
+        "min_legal_pad_geom_id": 90,
+        "min_legal_pad_to_handle_distance_m": 0.20111830282964746,
+        "phase": "close_contact",
+        "right_hand_pos": [
+          -0.5091386919826284,
+          -0.0014674374885031596,
+          0.15866045411934282
+        ],
+        "step": 150,
+        "target_pos": [
+          -0.011190973496832568,
+          -0.006070819383877863,
+          0.17101968287204933
+        ],
+        "variant_id": "diag_pad_preload_axis_pull"
+      },
+      {
+        "action": [
+          16.151840209960938,
+          -320.0,
+          -11.388059616088867,
+          -320.0,
+          3.1882100105285645,
+          320.0,
+          4.890589089977986e-15,
+          1.0,
+          0.0
+        ],
+        "contact_counts": {
+          "forbidden": 0,
+          "handle_nonlegal_robot": 0,
+          "max_contact_force_n": 0.0,
+          "max_penetration_m": 0.0,
+          "other": 0,
+          "other_robot_drawer": 0,
+          "target": 0
+        },
+        "contact_pairs": [],
+        "drawer_fraction": 0.0,
+        "eef_to_handle_min_distance_m": 0.6987785661455833,
+        "gripper_command_close": true,
+        "handle_positions": {
+          "0": [
+            5.142816962426328e-18,
+            -9.857065844650463e-18,
+            0.352131463587
+          ],
+          "1": [
+            -0.324374198914,
+            -3.134660380235483e-18,
+            0.264176517725
+          ],
+          "2": [
+            -4.609705398488567e-18,
+            -9.219410796977135e-18,
+            0.264176517725
+          ],
+          "3": [
+            0.0,
+            0.0,
+            0.14115696400375566
+          ],
+          "4": [
+            0.0,
+            0.0,
+            0.5631059631702443
+          ],
+          "5": [
+            -0.324374198914,
+            0.0,
+            0.264176517725
+          ],
+          "6": [
+            0.0,
+            0.43616199493408203,
+            0.264176517725
+          ],
+          "7": [
+            -8.220815104573949e-18,
+            0.0,
+            0.264176517725
+          ],
+          "8": [
+            0.0,
+            -0.43616199493408203,
+            0.264176517725
+          ]
+        },
+        "legal_pad_positions": {
+          "63": [
+            -0.7313262957157441,
+            0.03527813014698757,
+            -0.08027165981705833
+          ],
+          "81": [
+            -0.7535217959795862,
+            -0.009948399163592872,
+            -0.17020502860008546
+          ],
+          "90": [
+            -0.7427700768106605,
+            -0.019160161832383074,
+            -0.263179777133981
+          ]
+        },
+        "min_handle_geom_id": 1,
+        "min_legal_pad_geom_id": 63,
+        "min_legal_pad_to_handle_distance_m": 0.5343211605112128,
+        "phase": "pull",
+        "right_hand_pos": [
+          -0.7506153883920437,
+          -0.004693874112257482,
+          -0.28952728435932573
+        ],
+        "step": 299,
+        "target_pos": [
+          0.07221525173110643,
+          -0.006747228447926166,
+          0.17121195095931957
+        ],
+        "variant_id": "diag_pad_preload_axis_pull"
+      }
+    ],
+    "seed": 1,
+    "steps": 300,
+    "target_contact_frame_count": 0,
+    "trajectory_npz": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_route_repair_20260501T035431Z/telemetry_diag_pad_preload_axis_pull_seed_001.npz",
+    "variant": {
+      "axis_offset": 0.012,
+      "close_step": 80,
+      "command_clip": 320.0,
+      "gain": 5.5,
+      "mode": "legal_pad_centroid_to_handle",
+      "pull_axis_offset": 0.14,
+      "pull_step": 160,
+      "steps": 300,
+      "tangent_offset": 0.0,
+      "variant_id": "diag_pad_preload_axis_pull",
+      "z_offset": -0.004
+    }
+  },
+  "prior_mv2_high_force_explanation": {
+    "forbidden_contact_frame_count": 0,
+    "handle_nonlegal_robot_contact_frame_count": 0,
+    "interpretation": "prior mv2 high force is exact-ID replayed; target category requires legal [63,81,90] against handle [0..8]",
+    "max_contact_force_n": 1784.6540649391907,
+    "max_force_record": {
+      "action": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "contact_counts": {
+        "forbidden": 0,
+        "handle_nonlegal_robot": 0,
+        "max_contact_force_n": 1784.6540649391907,
+        "max_penetration_m": 0.002043706532265573,
+        "other": 1,
+        "other_robot_drawer": 0,
+        "target": 0
+      },
+      "contact_pairs": [
+        {
+          "category": "other",
+          "contact_index": 0,
+          "dist_m": -0.002043706532265573,
+          "geom1": 45,
+          "geom1_body": "link0",
+          "geom1_name": "link0_collision",
+          "geom2": 90,
+          "geom2_body": "link7",
+          "geom2_name": "link7_collision",
+          "normal_force_n": 1784.6540649391907
+        }
+      ],
+      "drawer_fraction": 0.0,
+      "eef_to_handle_min_distance_m": 0.5575448452793781,
+      "gripper_command_close": false,
+      "handle_positions": {
+        "0": [
+          5.142816962426328e-18,
+          -9.857065844650463e-18,
+          0.352131463587
+        ],
+        "1": [
+          -0.324374198914,
+          -3.134660380235483e-18,
+          0.264176517725
+        ],
+        "2": [
+          -4.609705398488567e-18,
+          -9.219410796977135e-18,
+          0.264176517725
+        ],
+        "3": [
+          0.0,
+          0.0,
+          0.14115696400375566
+        ],
+        "4": [
+          0.0,
+          0.0,
+          0.5631059631702443
+        ],
+        "5": [
+          -0.324374198914,
+          0.0,
+          0.264176517725
+        ],
+        "6": [
+          0.0,
+          0.43616199493408203,
+          0.264176517725
+        ],
+        "7": [
+          -8.220815104573949e-18,
+          0.0,
+          0.264176517725
+        ],
+        "8": [
+          0.0,
+          -0.43616199493408203,
+          0.264176517725
+        ]
+      },
+      "legal_pad_positions": {
+        "63": [
+          -0.7145642154390124,
+          0.03839817643419027,
+          0.21981151122337508
+        ],
+        "81": [
+          -0.7458994898178298,
+          -0.006183321335336957,
+          0.09620223950788022
+        ],
+        "90": [
+          -0.7927035058236991,
+          -0.014665572179636955,
+          0.015077058615017735
+        ]
+      },
+      "min_handle_geom_id": 1,
+      "min_legal_pad_geom_id": 63,
+      "min_legal_pad_to_handle_distance_m": 0.39457689079715486,
+      "phase": "prior_replay",
+      "right_hand_pos": [
+        -0.8146523004955879,
+        -1.3114028193916784e-05,
+        -0.0013110289418484522
+      ],
+      "step": 254,
+      "target_pos": [
+        -0.8146523004955879,
+        -1.3114028193916784e-05,
+        -0.0013110289418484522
+      ],
+      "variant_id": "attempt_09_mv2_tangent_bias_reseat_seed_001"
+    },
+    "max_force_step": 254,
+    "max_penetration_m": 0.005291221455790435,
+    "other_robot_drawer_contact_frame_count": 0,
+    "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_composite_phase1h_bounded_run_20260501T025114Z/attempt_09_mv2_tangent_bias_reseat_seed_001.npz",
+    "seed": 1,
+    "steps": 260,
+    "target_contact_frame_count": 0
+  },
+  "root_cause_classification": "route_does_not_bring_eef_close_to_handle"
+}

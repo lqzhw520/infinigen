@@ -1,0 +1,828 @@
+{
+  "any_kinematic_reachable": false,
+  "best_min_eef_to_handle_distance_m": 0.07781738167878541,
+  "best_min_legal_pad_to_handle_distance_m": 0.06933846322613488,
+  "interpretation": "diagnostic-only robot qpos IK, not a rollout/candidate; drawer qpos is not opened directly",
+  "items": [
+    {
+      "diagnostic_only_direct_robot_qpos_ik": true,
+      "drawer_qpos_modified": false,
+      "end": {
+        "eef_to_handle_min_distance_m": 0.07781738167878541,
+        "handle_geom": 1,
+        "legal_geom": 63,
+        "min_legal_pad_to_handle_distance_m": 0.09690385126251107
+      },
+      "history": [
+        {
+          "eef_to_handle_min_distance_m": 0.12861606970943054,
+          "err_norm": 0.3764630144987588,
+          "handle_geom": 1,
+          "iter": 0,
+          "legal_geom": 90,
+          "min_legal_pad_to_handle_distance_m": 0.1514763904902388
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.15419837690016072,
+          "err_norm": 0.09723743482375274,
+          "handle_geom": 1,
+          "iter": 10,
+          "legal_geom": 81,
+          "min_legal_pad_to_handle_distance_m": 0.12538695147710277
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.07818587087601958,
+          "err_norm": 0.0013858588522262453,
+          "handle_geom": 1,
+          "iter": 20,
+          "legal_geom": 63,
+          "min_legal_pad_to_handle_distance_m": 0.096942924198825
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.07781802649425101,
+          "err_norm": 1.422942003724268e-06,
+          "handle_geom": 1,
+          "iter": 30,
+          "legal_geom": 63,
+          "min_legal_pad_to_handle_distance_m": 0.09690417959897106
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.07781738262783137,
+          "err_norm": 1.941712260517042e-09,
+          "handle_geom": 1,
+          "iter": 40,
+          "legal_geom": 63,
+          "min_legal_pad_to_handle_distance_m": 0.0969038518169933
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.07781738168013125,
+          "err_norm": 2.7172339425714015e-12,
+          "handle_geom": 1,
+          "iter": 50,
+          "legal_geom": 63,
+          "min_legal_pad_to_handle_distance_m": 0.09690385126332073
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.07781738167878724,
+          "err_norm": 3.8061611837851756e-15,
+          "handle_geom": 1,
+          "iter": 60,
+          "legal_geom": 63,
+          "min_legal_pad_to_handle_distance_m": 0.09690385126251223
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.07781738167878541,
+          "err_norm": 5.812403794573359e-17,
+          "handle_geom": 1,
+          "iter": 70,
+          "legal_geom": 63,
+          "min_legal_pad_to_handle_distance_m": 0.09690385126251107
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.07781738167878541,
+          "err_norm": 5.812451119768221e-17,
+          "handle_geom": 1,
+          "iter": 80,
+          "legal_geom": 63,
+          "min_legal_pad_to_handle_distance_m": 0.09690385126251107
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.07781738167878541,
+          "err_norm": 5.812488784653104e-17,
+          "handle_geom": 1,
+          "iter": 90,
+          "legal_geom": 63,
+          "min_legal_pad_to_handle_distance_m": 0.09690385126251107
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.07781738167878541,
+          "err_norm": 5.812518759744149e-17,
+          "handle_geom": 1,
+          "iter": 100,
+          "legal_geom": 63,
+          "min_legal_pad_to_handle_distance_m": 0.09690385126251107
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.07781738167878541,
+          "err_norm": 5.812542614126601e-17,
+          "handle_geom": 1,
+          "iter": 110,
+          "legal_geom": 63,
+          "min_legal_pad_to_handle_distance_m": 0.09690385126251107
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.07781738167878541,
+          "err_norm": 5.812561597044062e-17,
+          "handle_geom": 1,
+          "iter": 120,
+          "legal_geom": 63,
+          "min_legal_pad_to_handle_distance_m": 0.09690385126251107
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.07781738167878541,
+          "err_norm": 5.812576702974852e-17,
+          "handle_geom": 1,
+          "iter": 130,
+          "legal_geom": 63,
+          "min_legal_pad_to_handle_distance_m": 0.09690385126251107
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.07781738167878541,
+          "err_norm": 5.81258872351179e-17,
+          "handle_geom": 1,
+          "iter": 140,
+          "legal_geom": 63,
+          "min_legal_pad_to_handle_distance_m": 0.09690385126251107
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.07781738167878541,
+          "err_norm": 5.812598288705218e-17,
+          "handle_geom": 1,
+          "iter": 150,
+          "legal_geom": 63,
+          "min_legal_pad_to_handle_distance_m": 0.09690385126251107
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.07781738167878541,
+          "err_norm": 5.812605899998995e-17,
+          "handle_geom": 1,
+          "iter": 160,
+          "legal_geom": 63,
+          "min_legal_pad_to_handle_distance_m": 0.09690385126251107
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.07781738167878541,
+          "err_norm": 5.81261195646253e-17,
+          "handle_geom": 1,
+          "iter": 170,
+          "legal_geom": 63,
+          "min_legal_pad_to_handle_distance_m": 0.09690385126251107
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.07781738167878541,
+          "err_norm": 5.8126167756793e-17,
+          "handle_geom": 1,
+          "iter": 180,
+          "legal_geom": 63,
+          "min_legal_pad_to_handle_distance_m": 0.09690385126251107
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.07781738167878541,
+          "err_norm": 5.812620610377741e-17,
+          "handle_geom": 1,
+          "iter": 190,
+          "legal_geom": 63,
+          "min_legal_pad_to_handle_distance_m": 0.09690385126251107
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.07781738167878541,
+          "err_norm": 5.812623661670678e-17,
+          "handle_geom": 1,
+          "iter": 200,
+          "legal_geom": 63,
+          "min_legal_pad_to_handle_distance_m": 0.09690385126251107
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.07781738167878541,
+          "err_norm": 5.812626089593878e-17,
+          "handle_geom": 1,
+          "iter": 210,
+          "legal_geom": 63,
+          "min_legal_pad_to_handle_distance_m": 0.09690385126251107
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.07781738167878541,
+          "err_norm": 5.816833997258188e-17,
+          "handle_geom": 1,
+          "iter": 219,
+          "legal_geom": 63,
+          "min_legal_pad_to_handle_distance_m": 0.09690385126251107
+        }
+      ],
+      "reachable_under_kinematic_ik": false,
+      "seed": 1,
+      "start": {
+        "eef_to_handle_min_distance_m": 0.15128742214191304,
+        "handle_geom": 1,
+        "legal_geom": 90,
+        "min_legal_pad_to_handle_distance_m": 0.16918108122192646
+      },
+      "target_kind": "right_hand"
+    },
+    {
+      "diagnostic_only_direct_robot_qpos_ik": true,
+      "drawer_qpos_modified": false,
+      "end": {
+        "eef_to_handle_min_distance_m": 0.08339631726896624,
+        "handle_geom": 1,
+        "legal_geom": 63,
+        "min_legal_pad_to_handle_distance_m": 0.06933846322613488
+      },
+      "history": [
+        {
+          "eef_to_handle_min_distance_m": 0.1286755763089719,
+          "err_norm": 0.46875693862298523,
+          "handle_geom": 1,
+          "iter": 0,
+          "legal_geom": 90,
+          "min_legal_pad_to_handle_distance_m": 0.15174785259183404
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.15837978874703107,
+          "err_norm": 0.21626974818457959,
+          "handle_geom": 1,
+          "iter": 10,
+          "legal_geom": 81,
+          "min_legal_pad_to_handle_distance_m": 0.12162997812652532
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.2019249609232348,
+          "err_norm": 0.22359173348176548,
+          "handle_geom": 1,
+          "iter": 20,
+          "legal_geom": 63,
+          "min_legal_pad_to_handle_distance_m": 0.11509399396132336
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.08035732187520171,
+          "err_norm": 0.12326159583880002,
+          "handle_geom": 1,
+          "iter": 30,
+          "legal_geom": 63,
+          "min_legal_pad_to_handle_distance_m": 0.04980725578567528
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.0778318154289541,
+          "err_norm": 0.1124288747151387,
+          "handle_geom": 1,
+          "iter": 40,
+          "legal_geom": 63,
+          "min_legal_pad_to_handle_distance_m": 0.04824700572061085
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.07937418481851842,
+          "err_norm": 0.11180147581615138,
+          "handle_geom": 1,
+          "iter": 50,
+          "legal_geom": 63,
+          "min_legal_pad_to_handle_distance_m": 0.04795040449361334
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.08009736099263609,
+          "err_norm": 0.112055710556145,
+          "handle_geom": 1,
+          "iter": 60,
+          "legal_geom": 63,
+          "min_legal_pad_to_handle_distance_m": 0.04793369369321938
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.0806401329016994,
+          "err_norm": 0.11212317624203803,
+          "handle_geom": 1,
+          "iter": 70,
+          "legal_geom": 63,
+          "min_legal_pad_to_handle_distance_m": 0.04779639770571098
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.08080420327916614,
+          "err_norm": 0.11219790098035608,
+          "handle_geom": 1,
+          "iter": 80,
+          "legal_geom": 63,
+          "min_legal_pad_to_handle_distance_m": 0.04775785868165826
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.08090294747704395,
+          "err_norm": 0.11221648169610368,
+          "handle_geom": 1,
+          "iter": 90,
+          "legal_geom": 63,
+          "min_legal_pad_to_handle_distance_m": 0.04770042776367856
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.08083097570071389,
+          "err_norm": 0.11223392828697189,
+          "handle_geom": 5,
+          "iter": 100,
+          "legal_geom": 63,
+          "min_legal_pad_to_handle_distance_m": 0.0476809594251093
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.08070088677664991,
+          "err_norm": 0.11221882711549976,
+          "handle_geom": 1,
+          "iter": 110,
+          "legal_geom": 63,
+          "min_legal_pad_to_handle_distance_m": 0.047645722021492504
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.0804889865952941,
+          "err_norm": 0.11219457893264494,
+          "handle_geom": 1,
+          "iter": 120,
+          "legal_geom": 63,
+          "min_legal_pad_to_handle_distance_m": 0.04762365516369588
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.08023210136375923,
+          "err_norm": 0.11214699224487472,
+          "handle_geom": 1,
+          "iter": 130,
+          "legal_geom": 63,
+          "min_legal_pad_to_handle_distance_m": 0.04759818237532112
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.07990620453587895,
+          "err_norm": 0.11207882610254696,
+          "handle_geom": 1,
+          "iter": 140,
+          "legal_geom": 63,
+          "min_legal_pad_to_handle_distance_m": 0.047578168605293666
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.07952681960549499,
+          "err_norm": 0.1119764614399338,
+          "handle_geom": 5,
+          "iter": 150,
+          "legal_geom": 63,
+          "min_legal_pad_to_handle_distance_m": 0.047556851741482865
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.07908603901153101,
+          "err_norm": 0.11183187320556634,
+          "handle_geom": 1,
+          "iter": 160,
+          "legal_geom": 63,
+          "min_legal_pad_to_handle_distance_m": 0.04753911680827585
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.0785871915245877,
+          "err_norm": 0.11162777099917383,
+          "handle_geom": 1,
+          "iter": 170,
+          "legal_geom": 63,
+          "min_legal_pad_to_handle_distance_m": 0.04752555950359032
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.07803396184279049,
+          "err_norm": 0.11134359080102307,
+          "handle_geom": 1,
+          "iter": 180,
+          "legal_geom": 63,
+          "min_legal_pad_to_handle_distance_m": 0.04752024359811696
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.07743486191709392,
+          "err_norm": 0.11095148654771714,
+          "handle_geom": 1,
+          "iter": 190,
+          "legal_geom": 63,
+          "min_legal_pad_to_handle_distance_m": 0.04752802540726982
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.07680714823781433,
+          "err_norm": 0.11041641469902448,
+          "handle_geom": 1,
+          "iter": 200,
+          "legal_geom": 63,
+          "min_legal_pad_to_handle_distance_m": 0.04755649787610154
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.0761840247032002,
+          "err_norm": 0.10969816674977413,
+          "handle_geom": 1,
+          "iter": 210,
+          "legal_geom": 63,
+          "min_legal_pad_to_handle_distance_m": 0.04761781454360263
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.08339631726896624,
+          "err_norm": 0.12518011585516134,
+          "handle_geom": 1,
+          "iter": 219,
+          "legal_geom": 63,
+          "min_legal_pad_to_handle_distance_m": 0.06933846322613488
+        }
+      ],
+      "reachable_under_kinematic_ik": false,
+      "seed": 1,
+      "start": {
+        "eef_to_handle_min_distance_m": 0.15128742214191304,
+        "handle_geom": 1,
+        "legal_geom": 90,
+        "min_legal_pad_to_handle_distance_m": 0.16918108122192646
+      },
+      "target_kind": "legal_pad_centroid"
+    },
+    {
+      "diagnostic_only_direct_robot_qpos_ik": true,
+      "drawer_qpos_modified": false,
+      "end": {
+        "eef_to_handle_min_distance_m": 0.09099646305261146,
+        "handle_geom": 7,
+        "legal_geom": 90,
+        "min_legal_pad_to_handle_distance_m": 0.1275126913548194
+      },
+      "history": [
+        {
+          "eef_to_handle_min_distance_m": 0.20756780794837376,
+          "err_norm": 0.40392126878845536,
+          "handle_geom": 1,
+          "iter": 0,
+          "legal_geom": 90,
+          "min_legal_pad_to_handle_distance_m": 0.2342905356936119
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.11025033563493268,
+          "err_norm": 0.12163571755556997,
+          "handle_geom": 5,
+          "iter": 10,
+          "legal_geom": 90,
+          "min_legal_pad_to_handle_distance_m": 0.137568098241544
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.0925627444554707,
+          "err_norm": 0.016595216818635624,
+          "handle_geom": 7,
+          "iter": 20,
+          "legal_geom": 90,
+          "min_legal_pad_to_handle_distance_m": 0.1291634320769444
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.09105808352451134,
+          "err_norm": 0.0001670594202413338,
+          "handle_geom": 7,
+          "iter": 30,
+          "legal_geom": 90,
+          "min_legal_pad_to_handle_distance_m": 0.12758916250702987
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.09099862488790669,
+          "err_norm": 5.788559935771688e-06,
+          "handle_geom": 7,
+          "iter": 40,
+          "legal_geom": 90,
+          "min_legal_pad_to_handle_distance_m": 0.12751537621553646
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.09099653939982247,
+          "err_norm": 2.0438154877047468e-07,
+          "handle_geom": 7,
+          "iter": 50,
+          "legal_geom": 90,
+          "min_legal_pad_to_handle_distance_m": 0.1275127861748326
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.09099646575003378,
+          "err_norm": 7.220956719932447e-09,
+          "handle_geom": 7,
+          "iter": 60,
+          "legal_geom": 90,
+          "min_legal_pad_to_handle_distance_m": 0.12751269470490592
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.09099646314791583,
+          "err_norm": 2.5512773354353555e-10,
+          "handle_geom": 7,
+          "iter": 70,
+          "legal_geom": 90,
+          "min_legal_pad_to_handle_distance_m": 0.12751269147318348
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.09099646305597871,
+          "err_norm": 9.014268358191922e-12,
+          "handle_geom": 7,
+          "iter": 80,
+          "legal_geom": 90,
+          "min_legal_pad_to_handle_distance_m": 0.1275126913590012
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.09099646305273035,
+          "err_norm": 3.189194676632666e-13,
+          "handle_geom": 7,
+          "iter": 90,
+          "legal_geom": 90,
+          "min_legal_pad_to_handle_distance_m": 0.12751269135496715
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.09099646305261568,
+          "err_norm": 1.1163824217273455e-14,
+          "handle_geom": 7,
+          "iter": 100,
+          "legal_geom": 90,
+          "min_legal_pad_to_handle_distance_m": 0.12751269135482468
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.09099646305261147,
+          "err_norm": 3.284083995358298e-16,
+          "handle_geom": 7,
+          "iter": 110,
+          "legal_geom": 90,
+          "min_legal_pad_to_handle_distance_m": 0.12751269135481955
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.09099646305261172,
+          "err_norm": 1.1527756336890508e-16,
+          "handle_geom": 7,
+          "iter": 120,
+          "legal_geom": 90,
+          "min_legal_pad_to_handle_distance_m": 0.12751269135481963
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.09099646305261141,
+          "err_norm": 4.163336342344337e-17,
+          "handle_geom": 7,
+          "iter": 130,
+          "legal_geom": 90,
+          "min_legal_pad_to_handle_distance_m": 0.12751269135481935
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.09099646305261175,
+          "err_norm": 1.2719202621569003e-16,
+          "handle_geom": 7,
+          "iter": 140,
+          "legal_geom": 90,
+          "min_legal_pad_to_handle_distance_m": 0.12751269135481963
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.09099646305261122,
+          "err_norm": 1.8875832159447664e-16,
+          "handle_geom": 7,
+          "iter": 150,
+          "legal_geom": 90,
+          "min_legal_pad_to_handle_distance_m": 0.1275126913548194
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.09099646305261141,
+          "err_norm": 6.206335383118183e-17,
+          "handle_geom": 7,
+          "iter": 160,
+          "legal_geom": 90,
+          "min_legal_pad_to_handle_distance_m": 0.1275126913548194
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.09099646305261169,
+          "err_norm": 1.1775693440128312e-16,
+          "handle_geom": 7,
+          "iter": 170,
+          "legal_geom": 90,
+          "min_legal_pad_to_handle_distance_m": 0.12751269135481952
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.09099646305261165,
+          "err_norm": 1.1443916996305594e-16,
+          "handle_geom": 7,
+          "iter": 180,
+          "legal_geom": 90,
+          "min_legal_pad_to_handle_distance_m": 0.1275126913548193
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.09099646305261146,
+          "err_norm": 1.1102230246251565e-16,
+          "handle_geom": 7,
+          "iter": 190,
+          "legal_geom": 90,
+          "min_legal_pad_to_handle_distance_m": 0.1275126913548194
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.09099646305261146,
+          "err_norm": 1.1102230246251565e-16,
+          "handle_geom": 7,
+          "iter": 200,
+          "legal_geom": 90,
+          "min_legal_pad_to_handle_distance_m": 0.1275126913548194
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.09099646305261146,
+          "err_norm": 1.1102230246251565e-16,
+          "handle_geom": 7,
+          "iter": 210,
+          "legal_geom": 90,
+          "min_legal_pad_to_handle_distance_m": 0.1275126913548194
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.09099646305261146,
+          "err_norm": 1.1102230246251565e-16,
+          "handle_geom": 7,
+          "iter": 219,
+          "legal_geom": 90,
+          "min_legal_pad_to_handle_distance_m": 0.1275126913548194
+        }
+      ],
+      "reachable_under_kinematic_ik": false,
+      "seed": 11,
+      "start": {
+        "eef_to_handle_min_distance_m": 0.2309482656880916,
+        "handle_geom": 1,
+        "legal_geom": 90,
+        "min_legal_pad_to_handle_distance_m": 0.24354027656789
+      },
+      "target_kind": "right_hand"
+    },
+    {
+      "diagnostic_only_direct_robot_qpos_ik": true,
+      "drawer_qpos_modified": false,
+      "end": {
+        "eef_to_handle_min_distance_m": 0.18053354145028014,
+        "handle_geom": 2,
+        "legal_geom": 81,
+        "min_legal_pad_to_handle_distance_m": 0.12212982046499059
+      },
+      "history": [
+        {
+          "eef_to_handle_min_distance_m": 0.21987224766686295,
+          "err_norm": 0.585309969939581,
+          "handle_geom": 1,
+          "iter": 0,
+          "legal_geom": 90,
+          "min_legal_pad_to_handle_distance_m": 0.24779463004692895
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.12621714221092856,
+          "err_norm": 0.32098644235482027,
+          "handle_geom": 5,
+          "iter": 10,
+          "legal_geom": 90,
+          "min_legal_pad_to_handle_distance_m": 0.15434102850930895
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.30998403334660757,
+          "err_norm": 0.2700719934385678,
+          "handle_geom": 3,
+          "iter": 20,
+          "legal_geom": 81,
+          "min_legal_pad_to_handle_distance_m": 0.18972524607586405
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.2939682682911106,
+          "err_norm": 0.28786369953111096,
+          "handle_geom": 3,
+          "iter": 30,
+          "legal_geom": 81,
+          "min_legal_pad_to_handle_distance_m": 0.1667140654291428
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.29223830471858564,
+          "err_norm": 0.28777394069841983,
+          "handle_geom": 3,
+          "iter": 40,
+          "legal_geom": 81,
+          "min_legal_pad_to_handle_distance_m": 0.16566128190180285
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.29026778737179054,
+          "err_norm": 0.2876528530453909,
+          "handle_geom": 3,
+          "iter": 50,
+          "legal_geom": 81,
+          "min_legal_pad_to_handle_distance_m": 0.16423306013965297
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.28779836568150297,
+          "err_norm": 0.2874733868971458,
+          "handle_geom": 3,
+          "iter": 60,
+          "legal_geom": 81,
+          "min_legal_pad_to_handle_distance_m": 0.16240344533811954
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.28468251300353353,
+          "err_norm": 0.2872018190340012,
+          "handle_geom": 3,
+          "iter": 70,
+          "legal_geom": 81,
+          "min_legal_pad_to_handle_distance_m": 0.16008855784945536
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.2807761648824449,
+          "err_norm": 0.2867867344027585,
+          "handle_geom": 3,
+          "iter": 80,
+          "legal_geom": 81,
+          "min_legal_pad_to_handle_distance_m": 0.15718495282621342
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.2759350790279925,
+          "err_norm": 0.2861487372934549,
+          "handle_geom": 3,
+          "iter": 90,
+          "legal_geom": 81,
+          "min_legal_pad_to_handle_distance_m": 0.1535854415313911
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.27004188455091754,
+          "err_norm": 0.2851675430815873,
+          "handle_geom": 3,
+          "iter": 100,
+          "legal_geom": 81,
+          "min_legal_pad_to_handle_distance_m": 0.1492022261004782
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.2630661588742932,
+          "err_norm": 0.28366765480752737,
+          "handle_geom": 3,
+          "iter": 110,
+          "legal_geom": 81,
+          "min_legal_pad_to_handle_distance_m": 0.14401333017037182
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.255174105107995,
+          "err_norm": 0.28140916958256007,
+          "handle_geom": 3,
+          "iter": 120,
+          "legal_geom": 81,
+          "min_legal_pad_to_handle_distance_m": 0.1381492624353557
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.24689726380600696,
+          "err_norm": 0.2780995470833179,
+          "handle_geom": 3,
+          "iter": 130,
+          "legal_geom": 81,
+          "min_legal_pad_to_handle_distance_m": 0.13203257279755526
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.23992309950323013,
+          "err_norm": 0.2739378942146316,
+          "handle_geom": 3,
+          "iter": 140,
+          "legal_geom": 81,
+          "min_legal_pad_to_handle_distance_m": 0.12834895018544232
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.23384067553683535,
+          "err_norm": 0.2698698269040985,
+          "handle_geom": 3,
+          "iter": 150,
+          "legal_geom": 81,
+          "min_legal_pad_to_handle_distance_m": 0.12578144172858877
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.22854312739613106,
+          "err_norm": 0.265973497463803,
+          "handle_geom": 3,
+          "iter": 160,
+          "legal_geom": 81,
+          "min_legal_pad_to_handle_distance_m": 0.12387235830778216
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.2241039679756542,
+          "err_norm": 0.2623003962726717,
+          "handle_geom": 3,
+          "iter": 170,
+          "legal_geom": 81,
+          "min_legal_pad_to_handle_distance_m": 0.12263427725346505
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.22055412161892965,
+          "err_norm": 0.2588908700278875,
+          "handle_geom": 3,
+          "iter": 180,
+          "legal_geom": 81,
+          "min_legal_pad_to_handle_distance_m": 0.12204407003814381
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.21788221532420607,
+          "err_norm": 0.2557726317171978,
+          "handle_geom": 3,
+          "iter": 190,
+          "legal_geom": 81,
+          "min_legal_pad_to_handle_distance_m": 0.1220475923242537
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.21603944886646612,
+          "err_norm": 0.2529605577784254,
+          "handle_geom": 3,
+          "iter": 200,
+          "legal_geom": 81,
+          "min_legal_pad_to_handle_distance_m": 0.12256798593307455
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.2149478917834023,
+          "err_norm": 0.2504576047073829,
+          "handle_geom": 3,
+          "iter": 210,
+          "legal_geom": 81,
+          "min_legal_pad_to_handle_distance_m": 0.12351544817194064
+        },
+        {
+          "eef_to_handle_min_distance_m": 0.18053354145028014,
+          "err_norm": 0.2820136676998554,
+          "handle_geom": 2,
+          "iter": 219,
+          "legal_geom": 81,
+          "min_legal_pad_to_handle_distance_m": 0.12212982046499059
+        }
+      ],
+      "reachable_under_kinematic_ik": false,
+      "seed": 11,
+      "start": {
+        "eef_to_handle_min_distance_m": 0.2309482656880916,
+        "handle_geom": 1,
+        "legal_geom": 90,
+        "min_legal_pad_to_handle_distance_m": 0.24354027656789
+      },
+      "target_kind": "legal_pad_centroid"
+    }
+  ]
+}

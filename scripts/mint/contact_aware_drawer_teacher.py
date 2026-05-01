@@ -92,7 +92,17 @@ def run_git(args: list[str]) -> str:
 
 
 def geom_name(model: mujoco.MjModel, gid: int) -> str:
-    return str(model.geom(int(gid)).name or "")
+    geom = model.geom(int(gid))
+    name = str(geom.name or "")
+    if name:
+        return name
+    dataid = int(model.geom_dataid[int(gid)])
+    if int(model.geom_type[int(gid)]) == int(mujoco.mjtGeom.mjGEOM_MESH) and dataid >= 0:
+        try:
+            return str(model.mesh(dataid).name or "")
+        except Exception:
+            return ""
+    return ""
 
 
 def body_name(model: mujoco.MjModel, bid: int) -> str:
@@ -194,6 +204,7 @@ def classify_instance(env: DrawerRobotEnvMuJoCoLibero) -> dict[str, Any]:
         "link7_collision",
         "hand_collision",
     }
+    handle_candidates: list[int] = []
     for gid in range(int(model.ngeom)):
         bid = int(model.geom_bodyid[gid])
         gname = geom_name(model, gid)
@@ -212,10 +223,10 @@ def classify_instance(env: DrawerRobotEnvMuJoCoLibero) -> dict[str, Any]:
         ):
             legal.append(gid)
             role = "legal_finger_pad_surface"
-        elif gid in SOURCE_GOC_HANDLE:
-            handle.append(gid)
-            role = "drawer_handle_surface"
-        elif bname in {"drawer_base", "link_1", "link_2"}:
+        elif "drawer_handle_collision" in lname or ("handle" in lname and "collision" in lname):
+            handle_candidates.append(gid)
+            role = "drawer_handle_candidate_surface"
+        elif bname == "drawer_base" or bname.startswith("link_"):
             drawer_body.append(gid)
             role = "drawer_body_or_cabinet_surface"
         elif bname in robot_bodies or gname in forbidden_collision_names:
@@ -245,6 +256,33 @@ def classify_instance(env: DrawerRobotEnvMuJoCoLibero) -> dict[str, Any]:
                 "semantic_role": role,
             }
         )
+
+    # Bind one active target handle per model instance. Multi-drawer assets can
+    # contain several handle meshes; averaging all handles aims between drawers
+    # and turns cabinet/body contact into false target contact. Use the handle
+    # body nearest to the dedicated pad centroid at reset as this gate target.
+    if legal and handle_candidates:
+        legal_centroid = np.mean(env.data.geom_xpos[legal], axis=0)
+        groups: dict[int, list[int]] = {}
+        for gid in handle_candidates:
+            groups.setdefault(int(model.geom_bodyid[gid]), []).append(gid)
+        best_body = min(
+            groups,
+            key=lambda bid: float(
+                np.linalg.norm(np.mean(env.data.geom_xpos[groups[bid]], axis=0) - legal_centroid)
+            ),
+        )
+        handle = sorted(groups[best_body])
+        for gid in handle_candidates:
+            if gid not in handle:
+                drawer_body.append(gid)
+        handle_set = set(handle)
+        for item in inventory:
+            gid = item["geom_id"]
+            if gid in handle_set:
+                item["semantic_role"] = "drawer_handle_surface"
+            elif gid in handle_candidates:
+                item["semantic_role"] = "non_target_handle_surface"
     return {
         "seed": CANDIDATE_SEED,
         "source_goc_v3_fixed_ids": {

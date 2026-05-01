@@ -1,0 +1,224 @@
+task_id: V11_G4_GOC_V4_AUTONOMOUS_REPAIR_CERTIFY_TO_LOCAL_REPLAY_OVERNIGHT_V2
+task_type: AUTONOMOUS_REPAIR_AND_CERTIFY_SCIENCE_PHASE
+task_version: "2.0.0"
+phase: robust_contact_to_strict_replay_autonomous_repair_campaign
+target_gate: V11-G4_GOC-V4_ROBUST_CONTACT_PULL_EXPORT_LOCAL_REPLAY
+
+objective:
+  description: >-
+    Execute a harness-bound autonomous repair-and-certify campaign. Failed
+    certification layers do not immediately terminate the campaign; they enter
+    bounded repair loops with measurable progress evidence until the layer passes,
+    repair budget expires, time budget expires, or a hard governance/safety stop is hit.
+  target: pass Layer4R, Layer5, Layer6, and Layer7 or exhaust budget with explicit unresolved blocker.
+
+claim_ladder:
+  layer1: harness governance
+  layer2: exact GOC-v4 contact authority
+  layer3: reset/preaction physical plausibility
+  layer4r: robust stable contact certification
+  layer5: remote strict bounded teacher pull rollout
+  layer6: remote strict export bundle
+  layer7: local strict replay/render packet
+  layer8: MINT dataset/train/eval out of scope
+
+strict_success_requires:
+  layer4R_robust_contact_certified: true
+  layer5_strict_pull_rollout_passed: true
+  layer6_export_bundle_complete: true
+  layer7_local_strict_replay_render_passed: true
+
+hard_gate_policy:
+  failed_layer_blocks_promotion_to_next_layer: true
+  failed_layer_triggers_repair_loop: true
+  failed_layer_does_not_immediately_terminate_whole_campaign: true
+  no_user_prompts_mid_run: true
+  partial_pass_is_not_full_success: true
+
+repair_budget:
+  max_total_wall_clock_hours: 10
+  max_total_repair_cycles: 8
+  max_layer4R_repair_cycles: 4
+  max_layer5_repair_cycles: 3
+  max_layer6_repair_cycles: 2
+  max_layer7_repair_cycles: 2
+  no_progress_cycles_before_stop: 2
+
+progress_metric:
+  layer4R:
+    - failed_case_count_decrease
+    - forbidden_contact_failures_decrease
+    - penetration_failures_decrease
+    - target_contact_short_failures_decrease
+    - model_load_failures_decrease
+  layer5:
+    - strict_candidate_count_increase
+    - drawer_fraction_increase
+    - sustained_target_contact_increase
+    - forbidden_penetration_violations_decrease
+  layer6:
+    - export_completeness_increase
+    - hash_verification_pass
+  layer7:
+    - local_replay_metric_mismatch_decrease
+    - local_render_artifact_creation
+
+# Validator-compatible source authority. V01 validator still validates this
+# GOC-v3 baseline; phase-native target authority is per-instance GOC-v4 below.
+task_authority:
+  authority_type: GOC_V3_EXACT_GEOM_ID_SETS_AS_SOURCE_BASELINE_FOR_GOC_V4_AUTONOMOUS_REPAIR
+  goc_version: v3
+  goc_artifact_path: artifacts/phase1h_geometry_contract/goc_v3_contract.json
+  goc_contract: experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v3_contract.json
+  goc_contract_id: GOC_V3_EXACT_ID_GEOMETRY_OWNERSHIP_CONTRACT
+  legal_gripper_surface_geom_ids: [63, 81, 90]
+  forbidden_robot_surface_geom_ids: [45, 47, 49, 54, 59]
+  drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+  prohibited_authority:
+    - GOC-v2 count-only legal_pad=29 forbidden=26 handle=9
+    - runtime body-based legal=31 forbidden=27 without exact-ID role classification
+    - legacy name-only contact reports
+    - broad-link or broad-finger-shell contact as target
+
+goc_v4_authority:
+  authority_type: GOC_V4_DEDICATED_FINGER_PAD_EXACT_GEOM_ID_SETS
+  goc_contract: experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v4_contract.json
+  per_instance_binding_required: true
+  broad_link_wrist_arm_finger_shell_target_rejected: true
+  fixed_global_ids_may_not_be_reused_without_instance_verification: true
+  body_based_31_27_rejected: true
+  name_only_contact_rejected: true
+  target_contact: legal_finger_pad_geom_ids <-> semantically bound drawer_handle_geom_ids only
+  forbidden_contact: forbidden_robot_surface_geom_ids <-> drawer_handle/drawer/cabinet
+
+phase_scope:
+  - stage0_authority_and_campaign_bootstrap
+  - failure_corpus_ingestion
+  - failure_clustering_and_repair_plan
+  - layer4R_repair_cycle_loop
+  - layer5_strict_teacher_pull_rollout_loop
+  - layer6_export_bundle_loop
+  - layer7_local_strict_replay_render_loop
+  - proposed_sovereign_deltas_only
+  - final_checks_commit_push_verify_closeout
+
+layer4R_pass_criteria:
+  all_mandatory_available_seeds_pass: true
+  all_required_perturbations_pass: true
+  target_contact_total_frames_min: 50
+  target_contact_consecutive_frames_min: 30
+  forbidden_contact_frames: 0
+  handle_nonlegal_contact_frames: 0
+  max_penetration_m: 0.02
+  max_force_n: 1000000.0
+  drawer_motor_command_abs_max: 0.0
+  direct_qpos_drawer_opening: false
+  exact_goc_v4_target_pairs_only: true
+  no_name_only_or_body_based_authority: true
+
+layer5_pass_criteria:
+  strict_teacher_candidate_per_mandatory_seed: true
+  max_drawer_fraction_min: 0.80
+  hard_goal_drawer_fraction_min: 0.90
+  forbidden_contact_frames: 0
+  handle_nonlegal_contact_frames: 0
+  max_penetration_m: 0.02
+  untrimmed_trace_required: true
+  no_direct_qpos_drawer_opening: true
+  no_drawer_motor_command: true
+
+layer6_export_required_fields:
+  - untrimmed_trajectory
+  - model_xml_and_assets
+  - source_committed_head
+  - action_state_qpos_qvel_ctrl
+  - exact_goc_v4_contact_sequence
+  - drawer_fraction_trace
+  - forbidden_trace
+  - penetration_force_trace
+  - hashes
+
+layer7_local_replay_required_artifacts:
+  - local_replay_metrics_json
+  - png_keyframes
+  - mp4_video
+  - visual_review_packet
+  - hash_verified_export_bundle
+
+allowed_runtime_files:
+  - scripts/mint/merged_model_builder.py
+  - scripts/mint/drawer_robot_env_mujoco.py
+  - scripts/mint/goc_v4_layer4_stable_contact_dynamics.py
+  - scripts/mint/contact_aware_drawer_teacher.py
+  - scripts/mint/run_full_robot_teacher_probe.py
+  - scripts/mint/export_full_robot_teacher_replay_bundle.py
+  - scripts/mint/v11_g4_goc_v4_autonomous_repair_campaign.py
+  - scripts/mint/goc_v4_robust_contact_pull_export_local_replay_overnight.py
+
+allowed_outputs:
+  - experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_autonomous_repair_certify_to_local_replay_*/
+  - experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_goc_v4_autonomous_repair_certify_to_local_replay.json
+  - experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_goc_v4_autonomous_repair_certify_to_local_replay.json
+  - experiments/mint/mint_drawer_v1/runtime/controller_cycles/*
+  - local_replay/v11_g4_goc_v4_autonomous_repair_certify_to_local_replay_*/
+
+forbidden:
+  - new_branch
+  - force_push
+  - current_truth_direct_mutation
+  - next_actions_direct_mutation
+  - external_MINT_mutation
+  - MINT_training_or_eval
+  - threshold_lowering
+  - forbidden_contact_as_target
+  - direct_qpos_drawer_opening
+  - disabling_all_robot_drawer_or_handle_collisions
+  - handle_or_drawer_geometry_fake_success
+  - GOC_v4_authority_change_to_fit_failure
+  - local_visual_success_claim_without_artifact
+
+allowed_terminal_outcomes:
+  - G4_TO_G7_FULL_STRICT_REPLAY_READY
+  - ROBUST_LAYER4R_CONTACT_DYNAMICS_REPAIR_STALLED
+  - LAYER4_ROBUST_CONTACT_GENERALIZATION_FAILED
+  - LAYER5_STRICT_PULL_ROLLOUT_FAILED
+  - LAYER6_EXPORT_BUNDLE_FAILED
+  - LAYER7_LOCAL_STRICT_REPLAY_RENDER_FAILED
+  - TIME_BUDGET_EXHAUSTED
+  - HARNESS_PREFLIGHT_FAILED
+  - TASK_SPEC_LOCK_BINDING_FAILED
+  - DIRTY_FORBIDDEN_SCOPE
+  - EXECUTION_FAILED
+
+next_gate_rules:
+  if_full_success: MANUAL_VISUAL_AND_SCIENCE_REVIEW_BEFORE_MINT_DATASET_ADMISSION
+  if_layer4R_repair_stalled: ROBUST_CONTACT_POLICY_OR_GEOMETRY_REDESIGN
+  if_layer5_fails: PULL_CONTROLLER_REPAIR
+  if_layer6_fails: EXPORT_INFRA_REPAIR
+  if_layer7_fails: LOCAL_REPLAY_RENDER_REPAIR
+  if_time_exhausted: RESUME_AUTONOMOUS_REPAIR_CAMPAIGN_FROM_LAST_CERTIFIED_LAYER
+
+fixtures:
+  fixture_valid_authority_match:
+    runtime_exact_ids:
+      legal_gripper_surface_geom_ids: [63, 81, 90]
+      forbidden_robot_surface_geom_ids: [45, 47, 49, 54, 59]
+      drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    expected: PASS
+  fixture_invalid_authority_drift:
+    runtime_exact_ids:
+      legal_gripper_surface_geom_ids: [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90]
+      forbidden_robot_surface_geom_ids: [33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59]
+      drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    expected: FAIL
+    expected_error: AUTHORITY_MISMATCH
+  fixture_rollout_crash:
+    rollout_stdout: "Traceback: rollout command unavailable"
+    result_json_exists: false
+    expected: FAIL
+    expected_error: ROLLOUT_COMMAND_BROKEN
+  fixture_valid_closeout:
+    route_evaluated: true
+    result_json_exists: true
+    rollout_exit_code: 0
+    expected: PASS

@@ -127,6 +127,7 @@ def geoms_to_xml(
             parts = [
                 f'  <geom mesh="{fname}" type="mesh" group="{group_vis}"',
                 f'pos="{xyz}" quat="{quat}"',
+                'contype="0" conaffinity="0"',
                 f'rgba="{rgba_str}"',
                 "/>",
             ]
@@ -134,6 +135,7 @@ def geoms_to_xml(
             parts = [
                 f'  <geom type="box" size="0.05 0.05 0.05" group="{group_vis}"',
                 f'pos="{xyz}" quat="{quat}"',
+                'contype="0" conaffinity="0"',
                 f'rgba="{rgba_str}"',
                 "/>",
             ]
@@ -384,7 +386,12 @@ class MergedModelBuilder:
             f"{inertial_to_xml(link0)}"
         )
 
-        # ── Drawer doors (link_1, link_2) ──
+        # ── Active drawer movable links ──
+        # Keep the task focused on the same active drawer bodies as the previous
+        # GOC-v4 repair (link_1/link_2), but make the model robust to single-door
+        # assets where link_2 / drawer_slider_1 do not exist.
+        self._drawer_slide_joints = []
+        self._drawer_movable_bodies = []
         for link_name, joint_name in [
             ("link_1", "drawer_slider_0"),
             ("link_2", "drawer_slider_1"),
@@ -393,11 +400,14 @@ class MergedModelBuilder:
                 continue
             link = all_links[link_name]
             joint = all_joints[joint_name]
+            self._drawer_slide_joints.append(joint_name)
+            self._drawer_movable_bodies.append(link_name)
 
             # Joint origin in parent frame
             j_origin = joint.find("origin")
             j_xyz = j_origin.get("xyz", "0 0 0") if j_origin is not None else "0 0 0"
-            axis = joint.get("axis", "1 0 0")
+            axis_elem = joint.find("axis")
+            axis = axis_elem.get("xyz", "1 0 0") if axis_elem is not None else "1 0 0"
             limit = joint.find("limit")
             range_str = (
                 f"{limit.get('lower', '0')} {limit.get('upper', '1')}"
@@ -451,12 +461,10 @@ class MergedModelBuilder:
 
         # Add drawer meshes to asset section
         drawer_mesh_xml = self._drawer_mesh_asset_xml()
-        # Add drawer actuators
-        drawer_actuator_xml = (
-            '  <motor ctrllimited="true" ctrlrange="-10 10" '
-            'joint="drawer_slider_0" name="drawer0"/>\n'
-            '  <motor ctrllimited="true" ctrlrange="-10 10" '
-            'joint="drawer_slider_1" name="drawer1"/>'
+        # Add drawer actuators only for slider joints that exist in this instance.
+        drawer_actuator_xml = "\n".join(
+            f'  <motor ctrllimited="true" ctrlrange="-10 10" joint="{joint}" name="drawer{i}"/>'
+            for i, joint in enumerate(getattr(self, "_drawer_slide_joints", ["drawer_slider_0"]))
         )
 
         # Lighting: LIBERO-style three-point lighting
@@ -474,9 +482,9 @@ class MergedModelBuilder:
 
         # Suppress only internal closed-drawer self-collision. Robot-drawer and
         # robot-handle contacts remain enabled for GOC-v3 contact validation.
-        contact_exclude_xml = (
-            '  <exclude body1="drawer_base" body2="link_1"/>\n'
-            '  <exclude body1="drawer_base" body2="link_2"/>'
+        contact_exclude_xml = "\n".join(
+            f'  <exclude body1="drawer_base" body2="{body}"/>'
+            for body in getattr(self, "_drawer_movable_bodies", ["link_1"])
         )
 
         xml = f"""<mujoco model="panda_drawer">

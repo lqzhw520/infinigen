@@ -1,0 +1,81 @@
+{
+  "all_required_paths_origin_visible": true,
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "closeout_classification": "COLLISION_GEOMETRY_PAD_MODEL_INSUFFICIENT",
+  "current_truth_modified": false,
+  "generated_at_utc": "2026-05-01T13:54:51.883011+00:00",
+  "goc_v3_authority_changed": false,
+  "next_actions_modified": false,
+  "next_gate": "GOC_V4_DEDICATED_FINGER_PAD_COLLISION_MODEL_REPAIR",
+  "remote": "my-origin",
+  "remote_ref": "my-origin/feature/mint-env-reformulation-v1-visual-fidelity",
+  "required_paths": [
+    {
+      "blob": "2e67d8a03b2b58f2f8f2c47a36c9698d52635fd2",
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/final_report.md",
+      "show_stderr": ""
+    },
+    {
+      "blob": "f5d91dceaad147db988abfe7274d70d3222fc9aa",
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/closeout_decision.json",
+      "show_stderr": ""
+    },
+    {
+      "blob": "d3251ca2bc277900ec271c094b47fbf4b30a3bcd",
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/dynamic_failure_decomposition.json",
+      "show_stderr": ""
+    },
+    {
+      "blob": "ce234cf99e1db7fdc44d2b5f35580f1f68b313fe",
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/legal_pad_handle_geometry_audit.json",
+      "show_stderr": ""
+    },
+    {
+      "blob": "4dbe77a8ba901d31b0ab0600ed73223dda019797",
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/contact_probe_optimization.json",
+      "show_stderr": ""
+    },
+    {
+      "blob": "5f1fb7e1897716f6549ca969da476f0976f06584",
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/best_contact_aware_probe_trace.json",
+      "show_stderr": ""
+    },
+    {
+      "blob": "e10395bf9384f009b336c1e4134cb01c2a0d5305",
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/stage8_final_checks.json",
+      "show_stderr": ""
+    },
+    {
+      "blob": "6949f6f23cb085b2a2040d9004770f0fb7f4b0bd",
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_contact_aware_teacher_synthesis.json",
+      "show_stderr": ""
+    },
+    {
+      "blob": "a81f309554a810fa7ef3eca0ebd1f9177b2b5468",
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_contact_aware_teacher_synthesis.json",
+      "show_stderr": ""
+    },
+    {
+      "blob": "e480374e5ef4ee3f137d9f1e70f141327bf51dc5",
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v3_contact_aware_teacher_synthesis.yaml",
+      "show_stderr": ""
+    },
+    {
+      "blob": "0eba14af13550e0aab55757e2f62a796809eb759",
+      "origin_visible": true,
+      "path": "scripts/mint/contact_aware_drawer_teacher.py",
+      "show_stderr": ""
+    }
+  ],
+  "verified_commit": "049016a8ef77de84911f85f7e397c8d88d0a84cf"
+}

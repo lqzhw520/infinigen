@@ -23,3 +23,15 @@ Strict candidate found: `False`.
 Current truth modified: `false`. Next actions modified: `false`. GOC-v3 authority changed: `false`.
 
 Next gate: **GOC_V4_DEDICATED_FINGER_PAD_COLLISION_MODEL_REPAIR**
+
+## Post-push Verification
+
+- Evidence commit: `049016a8ef77de84911f85f7e397c8d88d0a84cf`
+- Remote ref: `my-origin/feature/mint-env-reformulation-v1-visual-fidelity`
+- Required evidence origin-visible: `True`
+- Post-push verification artifact: `experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v3_contact_aware_teacher_synthesis_20260501T134626Z/post_push_verification.json`
+- Closeout classification: `COLLISION_GEOMETRY_PAD_MODEL_INSUFFICIENT`
+- Next gate: `GOC_V4_DEDICATED_FINGER_PAD_COLLISION_MODEL_REPAIR`
+
+Metadata note: `closeout_decision.json` records the evidence commit that was already pushed before this metadata update. The final branch HEAD after committing this metadata can be verified from git/origin.
+

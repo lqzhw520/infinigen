@@ -1383,7 +1383,6 @@ def main() -> None:
         "runtime_patch_applied": True,
         "runtime_patch_files": [
             "scripts/mint/merged_model_builder.py",
-            "scripts/mint/drawer_robot_env_mujoco.py",
             "scripts/mint/contact_aware_drawer_teacher.py",
         ],
         "committed": False,

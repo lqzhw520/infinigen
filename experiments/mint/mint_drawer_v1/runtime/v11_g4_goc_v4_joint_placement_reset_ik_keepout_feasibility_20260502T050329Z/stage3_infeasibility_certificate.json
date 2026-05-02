@@ -1,0 +1,12 @@
+{
+  "best_overall_two_pad_residual_m": 0.017613888435584424,
+  "best_reset_clean_two_pad_residual_m": 0.017613888435584424,
+  "certificate_scope": "deterministic pre-registered base/yaw grid with q9 arm+finger least-squares IK and reset-clearance constraints",
+  "classification": "PLACEMENT_RESET_IK_JOINT_FEASIBILITY_FAILED",
+  "feasible_candidates": [],
+  "feasible_case_count": 0,
+  "feasible_seed_count": 0,
+  "generated_at_utc": "2026-05-02T05:27:52Z",
+  "important_caveat": "This is a bounded numerical infeasibility certificate for the specified search domain, not a formal proof over continuous unbounded placements.",
+  "seeds_total": 13
+}

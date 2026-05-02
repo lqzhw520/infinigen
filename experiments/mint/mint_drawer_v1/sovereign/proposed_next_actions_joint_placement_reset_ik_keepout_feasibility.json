@@ -1,0 +1,12 @@
+{
+  "MINT_training_allowed": false,
+  "claim": "joint placement/reset/IK/keepout feasibility evidence only",
+  "closeout_classification": "PLACEMENT_RESET_IK_JOINT_FEASIBILITY_FAILED",
+  "current_truth_direct_mutation": false,
+  "generated_at_utc": "2026-05-02T05:27:52Z",
+  "layer5_pull_rollout_allowed": false,
+  "next_actions_direct_mutation": false,
+  "next_gate": "MODEL_OR_PLACEMENT_REPAIR_WITH_INFEASIBILITY_CERTIFICATE",
+  "run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_joint_placement_reset_ik_keepout_feasibility_20260502T050329Z",
+  "task_id": "V11_G4_GOC_V4_JOINT_PLACEMENT_RESET_IK_KEEP_OUT_FEASIBILITY_V1"
+}

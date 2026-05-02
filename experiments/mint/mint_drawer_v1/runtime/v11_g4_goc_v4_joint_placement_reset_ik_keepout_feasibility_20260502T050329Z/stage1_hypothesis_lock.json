@@ -1,0 +1,7 @@
+{
+  "no_bounded_rollout": true,
+  "no_controller_cem": true,
+  "no_goc_authority_mutation": true,
+  "no_random_seed_expansion_before_solver": true,
+  "tests_coupled_feasibility": true
+}

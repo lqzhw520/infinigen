@@ -1,0 +1,9 @@
+/mnt/afs2/zhuhaowu/infinigen
+feature/mint-env-reformulation-v1-visual-fidelity
+f92442cac1462af85a915bb29184f17956a1c424
+my-origin	git@github.com:lqzhw520/infinigen.git (fetch)
+my-origin	git@github.com:lqzhw520/infinigen.git (push)
+origin	https://github.com/princeton-vl/infinigen.git (fetch)
+origin	https://github.com/princeton-vl/infinigen.git (push)
+ M .project-memory/STATUS.md
+ M .session/checkpoint.md

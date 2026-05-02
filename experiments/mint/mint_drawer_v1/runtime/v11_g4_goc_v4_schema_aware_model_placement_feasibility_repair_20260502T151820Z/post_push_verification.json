@@ -1,0 +1,57 @@
+{
+  "all_origin_visible": true,
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "evidence_commit_hash": "1b7c31a2c86b32993fe4ca14434921f72feedfc5",
+  "generated_at_utc": "2026-05-02T16:00:44Z",
+  "origin_checks": {
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_schema_aware_model_placement_feasibility_repair_20260502T151820Z/closeout_decision.json": {
+      "bytes": 1649,
+      "visible": true
+    },
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_schema_aware_model_placement_feasibility_repair_20260502T151820Z/final_report.md": {
+      "bytes": 1413,
+      "visible": true
+    },
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_schema_aware_model_placement_feasibility_repair_20260502T151820Z/schema_aware_binding_repair_report.json": {
+      "bytes": 8238,
+      "visible": true
+    },
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_schema_aware_model_placement_feasibility_repair_20260502T151820Z/stage3_feasibility_candidates.jsonl": {
+      "bytes": 5132759,
+      "visible": true
+    },
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_schema_aware_model_placement_feasibility_repair_20260502T151820Z/stage3_feasibility_summary.json": {
+      "bytes": 394,
+      "visible": true
+    },
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_schema_aware_model_placement_feasibility_repair_20260502T151820Z/stage3_infeasibility_certificate.json": {
+      "bytes": 767,
+      "visible": true
+    },
+    "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_schema_aware_model_placement_feasibility_repair.yaml": {
+      "bytes": 10522,
+      "visible": true
+    },
+    "experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_schema_aware_model_placement_feasibility_repair.json": {
+      "bytes": 903,
+      "visible": true
+    },
+    "experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_schema_aware_model_placement_feasibility_repair.json": {
+      "bytes": 903,
+      "visible": true
+    },
+    "scripts/mint/drawer_robot_env_mujoco.py": {
+      "bytes": 308938,
+      "visible": true
+    },
+    "scripts/mint/handle_frame_grasp_trajectory_planner.py": {
+      "bytes": 54939,
+      "visible": true
+    },
+    "scripts/mint/joint_placement_reset_ik_keepout_feasibility.py": {
+      "bytes": 44457,
+      "visible": true
+    }
+  },
+  "origin_remote": "my-origin"
+}

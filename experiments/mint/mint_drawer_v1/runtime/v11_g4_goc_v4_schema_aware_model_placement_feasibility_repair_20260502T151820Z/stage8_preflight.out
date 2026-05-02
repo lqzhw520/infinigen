@@ -13,29 +13,17 @@
   [PASS] V01 validate_task_authority
 
   [V02] validate_diff_scope
-  [FAIL] V02 validate_diff_scope
-       SCOPE_VIOLATION
-       ============================================================
-       WARNING: Untracked files in remote execution scope.
-       
-       Untracked remote-scope files (evidence laundering risk):
-         - sovereign/proposed_current_truth_delta_schema_aware_model_placement_feasibility_repair.json
-         - sovereign/proposed_next_actions_schema_aware_model_placement_feasibility_repair.json
-       
-       Rule: Untracked files never count as evidence.
-       Commit these files before citation.
-       VALIDATION FAILED
-       RESULT: SCOPE_VIOLATION
+  [PASS] V02 validate_diff_scope
 
 ======================================================================
   Pre-flight Summary
 ======================================================================
-  Passed: 1
-  Failed: 1
+  Passed: 2
+  Failed: 0
   Task spec: v11_g4_goc_v4_schema_aware_model_placement_feasibility_repair.yaml
   Pre-flight callable: True
   Production lock: verified (always required — no bypass)
 
-  PRE-FLIGHT VALIDATION FAILED.
-  STOP — do not proceed with execution.
-  Fix authority mismatch, scope violation, or untracked files first.
+  ALL PRE-FLIGHT VALIDATORS PASSED.
+  Agent may proceed with execution.
+  Next: run V03 during execution, V04 at closeout.

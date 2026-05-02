@@ -21,3 +21,8 @@ Key results:
 - next gate: `MODEL_OR_PLACEMENT_REPAIR_WITH_SCHEMA_AWARE_INFEASIBILITY_CERTIFICATE`
 
 Interpretation: the prior schema/indexing evidence blocker is fixed. The remaining blocker is not helper indexing; it is a clean schema-aware model/placement/keepout infeasibility signal under the bounded Stage3 search. The best near-residual candidates still require forbidden contact and excessive penetration with zero target contact, so corridor, dynamic probe, Layer4R, Layer5 rollout, export, local replay/render, and MINT training remain blocked.
+
+Post-push verification:
+
+- evidence commit hash: `1b7c31a2c86b32993fe4ca14434921f72feedfc5`
+- all origin-visible: `True`

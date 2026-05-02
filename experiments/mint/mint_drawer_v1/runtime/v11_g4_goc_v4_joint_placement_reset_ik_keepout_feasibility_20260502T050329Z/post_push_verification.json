@@ -3,7 +3,7 @@
   "branch": "my-origin/feature/mint-env-reformulation-v1-visual-fidelity",
   "checks": {
     "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_joint_placement_reset_ik_keepout_feasibility_20260502T050329Z/closeout_decision.json": {
-      "bytes": 1388,
+      "bytes": 1536,
       "origin_visible": true,
       "stderr": ""
     },
@@ -43,6 +43,6 @@
       "stderr": ""
     }
   },
-  "evidence_commit_hash": "ccd779bd45d9664f4057038ce8d7f69e31a1b66c",
-  "generated_at_utc": "2026-05-02T05:30:40Z"
+  "evidence_commit_hash": "26145df2ff1c3601c7f2e726362b01341ecdf77b",
+  "generated_at_utc": "2026-05-02T05:30:56Z"
 }

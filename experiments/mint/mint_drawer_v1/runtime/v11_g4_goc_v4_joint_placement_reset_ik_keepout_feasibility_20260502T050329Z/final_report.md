@@ -24,3 +24,10 @@ keepout must be jointly satisfiable under GOC-v4 dedicated finger-pad authority.
 - next gate: `MODEL_OR_PLACEMENT_REPAIR_WITH_INFEASIBILITY_CERTIFICATE`
 
 Layer5 pull rollout, export, local replay/render, and MINT training were not run.
+
+## Post-Push Verification
+
+- evidence commit: `26145df2ff1c3601c7f2e726362b01341ecdf77b`
+- origin-visible evidence: `True`
+- finalization commit containing this post-push note is created after this file is updated.
+

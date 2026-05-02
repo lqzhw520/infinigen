@@ -1,0 +1,205 @@
+task_id: V11_G4_GOC_V4_SCHEMA_AWARE_MODEL_PLACEMENT_FEASIBILITY_REPAIR_V1
+task_type: SCHEMA_AWARE_MODEL_PLACEMENT_FEASIBILITY_REPAIR_SCIENCE_PHASE
+task_version: "1.0.0"
+phase: schema_aware_joint_binding_and_model_placement_feasibility_repair
+target_gate: V11-G4_GOC-V4_SCHEMA-AWARE_LAYER4R_FEASIBILITY
+
+objective:
+  summary: >
+    Repair model-instance-aware joint/qpos/qvel/actuator binding in the GOC-v4
+    feasibility stack, rerun the Stage3 placement/reset/two-pad IK feasibility
+    certificate across all mandatory available drawer seeds without indexing
+    errors, and then follow the hard-gated path: endpoint-feasible candidates
+    may proceed to corridor/dynamic/Layer4R checks; if no endpoint-feasible
+    candidate exists after schema repair, close out with a clean model/placement
+    infeasibility certificate. This phase does not claim teacher rollout,
+    export, local replay, render, training, or MINT success.
+  previous_blocker: MODEL_INSTANCE_JOINT_SCHEMA_BINDING_REPAIR_REQUIRED
+  previous_closeout: PLACEMENT_RESET_IK_JOINT_FEASIBILITY_FAILED
+  previous_caveat: >
+    The prior Stage3 certificate contained model-instance schema errors for
+    one-slider drawer instances because robot qpos slices were hardcoded as
+    qpos[2:11] / qpos[2:9]. Those rows cannot be counted as physical
+    infeasibility until joint/actuator binding is name-based.
+
+authority:
+  repo: /mnt/afs2/zhuhaowu/infinigen
+  branch: feature/mint-env-reformulation-v1-visual-fidelity
+  campaign_root: experiments/mint/mint_drawer_v1
+  goc_authority: GOC_V4_DEDICATED_FINGER_PAD_EXACT_GEOM_AUTHORITY
+  per_instance_binding_required: true
+  fixed_drawer_handle_ids_forbidden_unless_semantically_verified: true
+  body_based_31_27_forbidden: true
+  name_only_contact_report_forbidden: true
+  broad_link_wrist_arm_finger_shell_target_contact_forbidden: true
+
+# Validator-compatible immutable source baseline. The active V01 validator still
+# checks the GOC-v3 exact-ID source contract. This phase derives GOC-v4
+# per-instance dedicated pad/handle authority in evidence and rejects fixed-ID
+# reuse unless semantically verified for each model instance.
+task_authority:
+  authority_type: GOC_V3_EXACT_GEOM_ID_SETS_AS_SOURCE_BASELINE_FOR_GOC_V4_SCHEMA_AWARE_FEASIBILITY
+  goc_version: v3
+  goc_artifact_path: artifacts/phase1h_geometry_contract/goc_v3_contract.json
+  goc_contract: experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v3_contract.json
+  goc_contract_id: GOC_V3_EXACT_ID_GEOMETRY_OWNERSHIP_CONTRACT
+  legal_gripper_surface_geom_ids: [63, 81, 90]
+  forbidden_robot_surface_geom_ids: [45, 47, 49, 54, 59]
+  drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+  prohibited_authority:
+    - GOC-v2 count-only legal_pad=29 forbidden=26 handle=9
+    - runtime body-based legal=31 forbidden=27 without exact-ID role classification
+    - legacy name-only contact reports
+    - fixed drawer_handle_geom_ids=[0..8] as runtime authority without semantic verification
+    - broad-link or broad-finger-shell contact as target
+
+goc_v4_authority:
+  authority_type: GOC_V4_DEDICATED_FINGER_PAD_EXACT_GEOM_ID_SETS
+  goc_contract: experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v4_contract.json
+  per_instance_binding_required: true
+  target_contact: legal_finger_pad_geom_ids <-> semantically bound drawer_handle_geom_ids only
+  forbidden_contact: forbidden_robot_surface_geom_ids / nonlegal robot surfaces <-> drawer_handle/drawer/cabinet
+  broad_link_wrist_arm_finger_shell_target_rejected: true
+  fixed_global_ids_may_not_be_reused_without_instance_verification: true
+  body_based_31_27_rejected: true
+  name_only_contact_rejected: true
+
+claim_ladder_scope:
+  layer1_harness_governance: required
+  layer2_exact_goc_v4_authority: required
+  layer3_reset_preaction_physical_plausibility: required
+  layer4r_schema_aware_joint_feasibility: in_scope
+  layer4r_corridor_dynamic_certification: conditional_if_endpoint_feasible
+  layer4r_full_matrix_certification: conditional_if_dynamic_probe_passes
+  layer5_teacher_pull_rollout: out_of_scope
+  layer6_export_bundle: out_of_scope
+  layer7_local_replay_render: out_of_scope
+  layer8_mint_train_eval: out_of_scope
+
+allowed_files:
+  - scripts/mint/joint_placement_reset_ik_keepout_feasibility.py
+  - scripts/mint/handle_frame_grasp_trajectory_planner.py
+  - scripts/mint/drawer_robot_env_mujoco.py
+  - scripts/mint/contact_aware_drawer_teacher.py
+  - experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_schema_aware_model_placement_feasibility_repair.yaml
+  - experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_schema_aware_model_placement_feasibility_repair_*
+  - experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_schema_aware_model_placement_feasibility_repair.json
+  - experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_schema_aware_model_placement_feasibility_repair.json
+  - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json
+  - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_attestation.json
+
+forbidden:
+  - current_truth_direct_mutation
+  - next_actions_direct_mutation
+  - external_MINT_mutation
+  - training
+  - finetuning
+  - MINT_eval
+  - render_success_claim
+  - bounded_pull_rollout
+  - direct_qpos_drawer_opening
+  - disabling_all_robot_drawer_or_handle_collisions
+  - accepting_forbidden_contact_as_target
+  - lowering_layer4r_thresholds
+  - body_based_31_27_authority
+  - name_only_contact_authority
+  - fixed_handle_ids_without_instance_semantic_verification
+  - broad_link_or_finger_shell_target_contact
+
+repair_requirements:
+  schema_aware_joint_binding:
+    discover_drawer_joints_by_name_prefix: drawer_slider_
+    discover_arm_joints_by_name: [joint1, joint2, joint3, joint4, joint5, joint6, joint7]
+    discover_finger_joints_by_name: [finger_joint1, finger_joint2]
+    discover_arm_actuators_by_name: [torq_j1, torq_j2, torq_j3, torq_j4, torq_j5, torq_j6, torq_j7]
+    discover_gripper_actuators_by_name: [gripper_finger_joint1, gripper_finger_joint2]
+    use_model_jnt_qposadr_and_jnt_dofadr: true
+    hardcoded_qpos_slices_forbidden:
+      - qpos[2:9]
+      - qpos[2:11]
+      - jnt_range[2:9]
+      - jnt_range[2:11]
+  stage3_rerun:
+    all_mandatory_available_seeds_no_indexing_errors: true
+    report_schema_error_count: true
+    report_best_rows_with_reset_forbidden_penetration_target_counts: true
+    do_not_count_schema_errors_as_physical_infeasibility: true
+  conditional_gates:
+    if_endpoint_feasible_exists: run_corridor_dynamic_layer4r_as_allowed
+    if_no_endpoint_feasible_after_schema_repair: closeout_with_clean_model_placement_infeasibility_certificate
+
+feasibility_thresholds:
+  two_pad_contact_target_residual_preferred_m: 0.01
+  two_pad_contact_target_residual_max_m: 0.02
+  pregrasp_pad_handle_distance_min_m: 0.04
+  pregrasp_pad_handle_distance_max_m: 0.06
+  forbidden_clearance_margin_m: 0.005
+  reset_max_penetration_m: 0.02
+  reset_max_contact_force_n: 1000000.0
+  dynamic_target_consecutive_frames_min: 10
+  layer4r_target_contact_total_frames_min: 50
+  layer4r_target_contact_max_consecutive_frames_min: 30
+  max_penetration_m: 0.02
+  max_force_n: 1000000.0
+  drawer_motor_command_abs_max: 0.0
+
+hard_gate_policy:
+  no_science_before_no_bypass_preflight: true
+  schema_repair_committed_before_positive_science_claim: true
+  stage3_endpoint_feasibility_required_before_corridor: true
+  stage4_corridor_required_before_dynamic_probe: true
+  stage5_dynamic_probe_required_before_layer4r_matrix: true
+  layer5_promotion_forbidden_in_this_phase: true
+
+closeout_states:
+  success:
+    - SCHEMA_AWARE_ENDPOINT_FEASIBLE_LAYER4R_READY
+    - SCHEMA_AWARE_ENDPOINT_FEASIBLE_LAYER4R_CERTIFIED
+  non_success:
+    - HARNESS_PREFLIGHT_FAILED
+    - TASK_SPEC_LOCK_BINDING_FAILED
+    - DIRTY_FORBIDDEN_SCOPE
+    - SCHEMA_AWARE_BINDING_REPAIR_FAILED
+    - SCHEMA_AWARE_STAGE3_MODEL_PLACEMENT_INFEASIBLE
+    - APPROACH_CORRIDOR_KEEP_OUT_FAILED
+    - OPERATIONAL_SPACE_DYNAMICS_FAILED_AFTER_KINEMATIC_FEASIBILITY
+    - LAYER4R_GENERALIZATION_FAILED_AFTER_FEASIBILITY
+    - TIME_BUDGET_EXHAUSTED
+    - EXECUTION_FAILED
+
+final_output_fields:
+  - closeout_classification
+  - harness_preflight_passed
+  - task_spec_lock_bound
+  - schema_aware_joint_binding_repaired
+  - all_mandatory_seeds_stage3_without_indexing_errors
+  - schema_error_count
+  - semantic_bindings_generated
+  - handle_frames_generated
+  - feasible_seed_count
+  - feasible_case_count
+  - best_reset_clean_two_pad_residual_m
+  - best_overall_two_pad_residual_m
+  - approach_corridor_verified
+  - dynamic_probe_attempted
+  - dynamic_probe_passed
+  - layer4R_full_matrix_attempted
+  - layer4R_cases_total
+  - layer4R_cases_passed
+  - layer4R_cases_failed
+  - remaining_failure_clusters
+  - current_truth_modified
+  - next_actions_modified
+  - runtime_patch_applied
+  - runtime_patch_files
+  - committed
+  - pushed_to_origin
+  - remote_commit_hash
+  - next_gate
+
+next_gate_policy:
+  if_endpoint_feasible_but_no_dynamic: OPERATIONAL_SPACE_CONTACT_CONTROLLER_REPAIR
+  if_endpoint_feasible_layer4r_ready: LAYER4R_CORRIDOR_DYNAMIC_OR_GOC_V4_BOUNDED_TEACHER_PULL_ROLLOUT
+  if_no_endpoint_feasible_clean: MODEL_OR_PLACEMENT_REPAIR_WITH_SCHEMA_AWARE_INFEASIBILITY_CERTIFICATE
+  if_schema_binding_failed: MODEL_INSTANCE_JOINT_SCHEMA_BINDING_REPAIR
+  if_time_exhausted: RESUME_SCHEMA_AWARE_FEASIBILITY_REPAIR

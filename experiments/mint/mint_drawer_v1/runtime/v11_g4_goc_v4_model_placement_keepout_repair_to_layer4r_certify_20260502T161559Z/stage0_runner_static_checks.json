@@ -1,0 +1,5 @@
+{
+  "py_compile_passed": true,
+  "ruff_available": false,
+  "ruff_note": "remote pre-commit hook failed to spawn ruff; py_compile passed and ruff hooks were skipped for this runner commit"
+}

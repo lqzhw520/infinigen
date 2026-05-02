@@ -1,0 +1,162 @@
+task_id: V11_G4_GOC_V4_HANDLE_FRAME_GRASP_TRAJECTORY_PLANNER_V1
+task_type: HANDLE_FRAME_GRASP_TRAJECTORY_PLANNER_SCIENCE_PHASE
+phase: robust_layer4r_object_centric_contact_planning
+
+objective:
+  summary: >
+    Replace falsified local pad-centroid servo repair with per-instance
+    object-centric handle-frame two-pad grasp planning, constrained IK, and
+    contact-mode execution, then certify Layer4R robust GOC-v4 contact across
+    the same 117-case matrix before any Layer5 promotion.
+  target_gate: LAYER4R_ROBUST_GOC_V4_DEDICATED_PAD_HANDLE_CONTACT
+
+authority:
+  repo: /mnt/afs2/zhuhaowu/infinigen
+  branch: feature/mint-env-reformulation-v1-visual-fidelity
+  campaign_root: experiments/mint/mint_drawer_v1
+  goc_authority: GOC_V4_DEDICATED_FINGER_PAD_EXACT_GEOM_AUTHORITY
+  per_instance_binding_required: true
+  fixed_drawer_handle_ids_forbidden: true
+  body_based_31_27_forbidden: true
+  name_only_contact_report_forbidden: true
+  broad_link_or_finger_shell_target_contact_forbidden: true
+
+allowed_files:
+  - scripts/mint/handle_frame_grasp_trajectory_planner.py
+  - scripts/mint/contact_aware_drawer_teacher.py
+  - scripts/mint/merged_model_builder.py
+  - scripts/mint/drawer_robot_env_mujoco.py
+  - experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_handle_frame_grasp_trajectory_planner.yaml
+  - experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_frame_grasp_trajectory_planner_*
+  - experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_handle_frame_grasp_planner.json
+  - experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_handle_frame_grasp_planner.json
+  - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json
+  - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_attestation.json
+
+forbidden:
+  - current_truth_direct_mutation
+  - next_actions_direct_mutation
+  - external_MINT_mutation
+  - training
+  - finetuning
+  - MINT_eval
+  - render_success_claim
+  - direct_qpos_drawer_opening
+  - disabling_all_robot_drawer_or_handle_collisions
+  - accepting_forbidden_contact_as_target
+  - lowering_layer4r_thresholds
+  - fixed_drawer_handle_geom_ids_0_to_8
+  - broad_link_or_finger_shell_target_contact
+
+known_previous_closeout:
+  closeout_classification: ROBUST_LAYER4R_CONTACT_DYNAMICS_REPAIR_STALLED
+  autonomous_repair_cycles_run: 4
+  layer4R_cases_total: 117
+  layer4R_cases_passed: 0
+  layer4R_cases_failed: 117
+  remaining_failure_clusters:
+    target_contact_frames_lt_50: 117
+    target_contact_consecutive_lt_30: 117
+    forbidden_contact_present: 36
+    max_penetration_gt_0p02m: 18
+  falsified_operator: local_pad_centroid_servo_parameter_repair
+
+planner_requirements:
+  stage1_failure_corpus_ingestion: true
+  stage2_per_instance_semantic_handle_frame:
+    active_handle_collision_group: required
+    handle_center: required
+    drawer_pull_axis_from_slider_joint: required
+    handle_bar_axis_from_geometry_pca_or_aabb: required
+    approach_normal_from_robot_side: required
+    pinch_axis_for_two_pad_grasp: required
+  stage3_two_pad_grasp_frame:
+    legal_pad_ids_per_instance: required
+    pad_assignment_to_target_points: required
+    pad_midpoint: required
+    pad_span_axis: required
+    gripper_closing_direction: required
+    pregrasp_contact_hold_targets: required
+  stage4_constrained_ik:
+    keyframes:
+      - q_pregrasp
+      - q_guarded
+      - q_contact
+      - q_close
+      - q_pull_start
+    constraints:
+      - two_pad_target_distance
+      - pad_span_alignment
+      - approach_normal_alignment
+      - joint_limits
+      - forbidden_keepout
+      - reset_clearance
+      - real_gripper_dof
+  stage5_contact_mode_execution:
+    modes:
+      - free_space_approach
+      - guarded_approach
+      - contact_hold
+      - close_and_seat
+      - optional_pull_precheck
+    required_controls:
+      - resolved_rate_or_operational_space_pad_frame_tracking
+      - normal_velocity_clamp
+      - penetration_gate
+      - forbidden_contact_immediate_backoff
+  stage6_high_level_optimization_only:
+    allowed_parameters:
+      - pregrasp_distance
+      - approach_speed
+      - close_timing
+      - normal_compliance
+      - pull_axis_blend
+      - handle_frame_offset
+    raw_random_servo_forbidden: true
+  stage7_full_layer4r_matrix:
+    same_seed_and_perturbation_matrix_as_previous: true
+    pass_requires_all_available_cases_pass: true
+
+layer4R_pass_thresholds:
+  target_contact_total_frames_min: 50
+  target_contact_max_consecutive_frames_min: 30
+  forbidden_contact_frames: 0
+  handle_nonlegal_contact_frames: 0
+  max_penetration_m: 0.02
+  max_force_n: 1000000.0
+  drawer_motor_command_abs_max: 0.0
+  direct_qpos_drawer_opening: false
+  exact_goc_v4_target_pairs_only: true
+
+promotion_policy:
+  layer5_may_start_only_if_layer4R_full_matrix_passes: true
+  partial_layer4R_pass_is_not_success: true
+  targeted_shard_pass_is_not_success: true
+
+closeout_states:
+  success:
+    - HANDLE_FRAME_LAYER4R_ROBUST_CONTACT_CERTIFIED
+    - HANDLE_FRAME_LAYER4R_CERTIFIED_LAYER5_READY
+  non_success:
+    - HARNESS_PREFLIGHT_FAILED
+    - TASK_SPEC_LOCK_BINDING_FAILED
+    - HANDLE_FRAME_BINDING_AMBIGUOUS
+    - HANDLE_FRAME_IK_INFEASIBLE
+    - HANDLE_FRAME_IK_FEASIBLE_DYNAMICS_FAILED
+    - OPERATIONAL_SPACE_CONTACT_CONTROLLER_REPAIR_REQUIRED
+    - MODEL_OR_PLACEMENT_REPAIR_REQUIRED
+    - TIME_BUDGET_EXHAUSTED
+    - EXECUTION_FAILED
+
+final_output_fields:
+  - handle_frame_planner_built
+  - two_pad_grasp_frame_built
+  - constrained_ik_attempted
+  - constrained_ik_feasible_cases
+  - target_short_before_after
+  - forbidden_before_after
+  - penetration_before_after
+  - layer4R_cases_passed
+  - layer4R_cases_failed
+  - closeout_classification
+  - next_gate

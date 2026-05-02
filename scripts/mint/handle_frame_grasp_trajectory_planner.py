@@ -1255,10 +1255,13 @@ def main() -> int:
         seeds = seeds[: args.seed_limit]
     perturbations = PERTURBATIONS if args.perturb_limit <= 0 else PERTURBATIONS[: args.perturb_limit]
 
-    base_map, base_diag = choose_planner_base_map(seeds, PLANNER_PARAM_GRID[0], run_dir)
-    write_json(run_dir / "base_map_for_handle_frame_planner.json", {"base_map": base_map, "diagnostics": base_diag})
-
     targets = choose_representative_targets(corpus.get("cases", []), seeds, perturbations)
+    base_seed_scope = sorted({int(seed) for seed, _ in targets}) if args.targeted_only else seeds
+    base_map, base_diag = choose_planner_base_map(base_seed_scope, PLANNER_PARAM_GRID[0], run_dir)
+    write_json(
+        run_dir / "base_map_for_handle_frame_planner.json",
+        {"base_map": base_map, "diagnostics": base_diag, "base_seed_scope": base_seed_scope},
+    )
     write_json(
         run_dir / "targeted_representative_cases.json",
         {"targets": [{"seed": s, "perturbation": p} for s, p in targets]},

@@ -1,3 +1,11 @@
 # Stage 0 Authority And Lock
 
-
+{
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "generated_at_utc": "2026-05-02T15:24:29Z",
+  "head": "9c5d52efe62e52ce9312de4d85f8a28419c93364",
+  "pwd": "/mnt/afs2/zhuhaowu/infinigen",
+  "remote_v": "my-origin\tgit@github.com:lqzhw520/infinigen.git (fetch)\nmy-origin\tgit@github.com:lqzhw520/infinigen.git (push)\norigin\thttps://github.com/princeton-vl/infinigen.git (fetch)\norigin\thttps://github.com/princeton-vl/infinigen.git (push)",
+  "status_short": "M .project-memory/STATUS.md\n M .session/checkpoint.md",
+  "task_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_schema_aware_model_placement_feasibility_repair.yaml"
+}

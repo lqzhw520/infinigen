@@ -1,0 +1,132 @@
+{
+  "1": {
+    "reset_contact_counts": {
+      "forbidden": 0,
+      "handle_nonlegal": 0,
+      "max_contact_force_n": 0.0,
+      "max_penetration_m": 0.0,
+      "other": 0,
+      "target": 0
+    }
+  },
+  "11": {
+    "reset_contact_counts": {
+      "forbidden": 0,
+      "handle_nonlegal": 0,
+      "max_contact_force_n": 0.0,
+      "max_penetration_m": 0.0,
+      "other": 0,
+      "target": 0
+    }
+  },
+  "12": {
+    "reset_contact_counts": {
+      "forbidden": 0,
+      "handle_nonlegal": 0,
+      "max_contact_force_n": 0.0,
+      "max_penetration_m": 0.0,
+      "other": 0,
+      "target": 0
+    }
+  },
+  "13": {
+    "reset_contact_counts": {
+      "forbidden": 0,
+      "handle_nonlegal": 0,
+      "max_contact_force_n": 0.0,
+      "max_penetration_m": 0.0,
+      "other": 0,
+      "target": 0
+    }
+  },
+  "14": {
+    "reset_contact_counts": {
+      "forbidden": 0,
+      "handle_nonlegal": 0,
+      "max_contact_force_n": 0.0,
+      "max_penetration_m": 0.0,
+      "other": 0,
+      "target": 0
+    }
+  },
+  "15": {
+    "reset_contact_counts": {
+      "forbidden": 0,
+      "handle_nonlegal": 0,
+      "max_contact_force_n": 0.0,
+      "max_penetration_m": 0.0,
+      "other": 0,
+      "target": 0
+    }
+  },
+  "2": {
+    "reset_contact_counts": {
+      "forbidden": 0,
+      "handle_nonlegal": 0,
+      "max_contact_force_n": 0.0,
+      "max_penetration_m": 0.0,
+      "other": 0,
+      "target": 0
+    }
+  },
+  "3": {
+    "reset_contact_counts": {
+      "forbidden": 0,
+      "handle_nonlegal": 0,
+      "max_contact_force_n": 0.0,
+      "max_penetration_m": 0.0,
+      "other": 0,
+      "target": 0
+    }
+  },
+  "4": {
+    "reset_contact_counts": {
+      "forbidden": 0,
+      "handle_nonlegal": 0,
+      "max_contact_force_n": 0.0,
+      "max_penetration_m": 0.0,
+      "other": 0,
+      "target": 0
+    }
+  },
+  "5": {
+    "reset_contact_counts": {
+      "forbidden": 0,
+      "handle_nonlegal": 0,
+      "max_contact_force_n": 0.0,
+      "max_penetration_m": 0.0,
+      "other": 0,
+      "target": 0
+    }
+  },
+  "6": {
+    "reset_contact_counts": {
+      "forbidden": 0,
+      "handle_nonlegal": 0,
+      "max_contact_force_n": 0.0,
+      "max_penetration_m": 0.0,
+      "other": 0,
+      "target": 0
+    }
+  },
+  "7": {
+    "reset_contact_counts": {
+      "forbidden": 0,
+      "handle_nonlegal": 0,
+      "max_contact_force_n": 0.0,
+      "max_penetration_m": 0.0,
+      "other": 0,
+      "target": 0
+    }
+  },
+  "8": {
+    "reset_contact_counts": {
+      "forbidden": 0,
+      "handle_nonlegal": 0,
+      "max_contact_force_n": 0.0,
+      "max_penetration_m": 0.0,
+      "other": 0,
+      "target": 0
+    }
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "current_truth_modified": false,
+  "forbidden_scope_expected_clean_after_commit": true,
+  "generated_at_utc": "2026-05-02T15:55:03Z",
+  "json_parse_errors": [],
+  "json_parse_ok": true,
+  "next_actions_modified": false,
+  "status_short": "M .project-memory/STATUS.md\n M .session/checkpoint.md\n M experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_schema_aware_model_placement_feasibility_repair_20260502T151820Z/commands.log\n M experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_schema_aware_model_placement_feasibility_repair_20260502T151820Z/stage0_authority_and_lock.json\n M experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_schema_aware_model_placement_feasibility_repair_20260502T151820Z/stage0_authority_and_lock.md\n M experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_joint_placement_reset_ik_keepout_feasibility.json\n M experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_joint_placement_reset_ik_keepout_feasibility.json"
+}

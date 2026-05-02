@@ -1,0 +1,18 @@
+{
+  "MINT_training_allowed": false,
+  "all_mandatory_seeds_stage3_without_indexing_errors": true,
+  "best_overall_two_pad_residual_m": 0.017613888435584424,
+  "best_reset_clean_two_pad_residual_m": 0.017613888435584424,
+  "closeout_classification": "SCHEMA_AWARE_STAGE3_MODEL_PLACEMENT_INFEASIBLE",
+  "current_truth_direct_mutation": false,
+  "feasible_case_count": 0,
+  "feasible_seed_count": 0,
+  "generated_at_utc": "2026-05-02T15:59:14Z",
+  "layer5_pull_rollout_allowed": false,
+  "next_actions_direct_mutation": false,
+  "next_gate": "MODEL_OR_PLACEMENT_REPAIR_WITH_SCHEMA_AWARE_INFEASIBILITY_CERTIFICATE",
+  "run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_schema_aware_model_placement_feasibility_repair_20260502T151820Z",
+  "schema_aware_joint_binding_repaired": true,
+  "schema_error_count": 0,
+  "task_id": "V11_G4_GOC_V4_SCHEMA_AWARE_MODEL_PLACEMENT_FEASIBILITY_REPAIR_V1"
+}

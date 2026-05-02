@@ -1,0 +1,287 @@
+# Schema-Aware Binding Repair Report
+
+```json
+{
+  "best_rows": [
+    {
+      "base_pos": [
+        -0.76,
+        0.0,
+        0.0
+      ],
+      "best_contact_counts": {
+        "forbidden": 4,
+        "handle_nonlegal": 0,
+        "max_contact_force_n": 173479.33202465696,
+        "max_penetration_m": 0.1576392264503257,
+        "other": 2,
+        "target": 0
+      },
+      "best_contact_only_pad_error_m": 0.017613888435584424,
+      "max_endpoint_residual_m": 0.017668554576157087,
+      "rank": 1,
+      "reset_ok": true,
+      "seed": 12,
+      "violated_constraints": [
+        "pregrasp_ik_or_contact_constraints_failed",
+        "guarded_ik_or_contact_constraints_failed",
+        "contact_hold_ik_or_contact_constraints_failed"
+      ],
+      "yaw_deg": -10.0
+    },
+    {
+      "base_pos": [
+        -0.76,
+        0.04,
+        0.0
+      ],
+      "best_contact_counts": {
+        "forbidden": 3,
+        "handle_nonlegal": 0,
+        "max_contact_force_n": 166252.85939885458,
+        "max_penetration_m": 0.13956781380713112,
+        "other": 2,
+        "target": 0
+      },
+      "best_contact_only_pad_error_m": 0.018352896642448286,
+      "max_endpoint_residual_m": 0.018373006884254046,
+      "rank": 2,
+      "reset_ok": true,
+      "seed": 12,
+      "violated_constraints": [
+        "pregrasp_ik_or_contact_constraints_failed",
+        "guarded_ik_or_contact_constraints_failed",
+        "contact_hold_ik_or_contact_constraints_failed"
+      ],
+      "yaw_deg": -10.0
+    },
+    {
+      "base_pos": [
+        -0.76,
+        0.08,
+        0.0
+      ],
+      "best_contact_counts": {
+        "forbidden": 3,
+        "handle_nonlegal": 0,
+        "max_contact_force_n": 181616.03557955258,
+        "max_penetration_m": 0.13822389321027695,
+        "other": 2,
+        "target": 0
+      },
+      "best_contact_only_pad_error_m": 0.020804249752493863,
+      "max_endpoint_residual_m": 0.02865694286532961,
+      "rank": 3,
+      "reset_ok": true,
+      "seed": 12,
+      "violated_constraints": [
+        "pregrasp_ik_or_contact_constraints_failed",
+        "guarded_ik_or_contact_constraints_failed",
+        "contact_hold_ik_or_contact_constraints_failed"
+      ],
+      "yaw_deg": -10.0
+    },
+    {
+      "base_pos": [
+        -0.76,
+        0.04,
+        0.0
+      ],
+      "best_contact_counts": {
+        "forbidden": 12,
+        "handle_nonlegal": 0,
+        "max_contact_force_n": 203943.33809161844,
+        "max_penetration_m": 0.18395066971198537,
+        "other": 0,
+        "target": 0
+      },
+      "best_contact_only_pad_error_m": 0.04129674795164514,
+      "max_endpoint_residual_m": 0.04135059087824893,
+      "rank": 4,
+      "reset_ok": true,
+      "seed": 5,
+      "violated_constraints": [
+        "pregrasp_ik_or_contact_constraints_failed",
+        "guarded_ik_or_contact_constraints_failed",
+        "contact_hold_ik_or_contact_constraints_failed"
+      ],
+      "yaw_deg": -10.0
+    },
+    {
+      "base_pos": [
+        -0.76,
+        0.0,
+        0.0
+      ],
+      "best_contact_counts": {
+        "forbidden": 13,
+        "handle_nonlegal": 0,
+        "max_contact_force_n": 238774.2813954429,
+        "max_penetration_m": 0.18139685985124013,
+        "other": 0,
+        "target": 0
+      },
+      "best_contact_only_pad_error_m": 0.04356088644935601,
+      "max_endpoint_residual_m": 0.04378554056790875,
+      "rank": 5,
+      "reset_ok": true,
+      "seed": 5,
+      "violated_constraints": [
+        "pregrasp_ik_or_contact_constraints_failed",
+        "guarded_ik_or_contact_constraints_failed",
+        "contact_hold_ik_or_contact_constraints_failed"
+      ],
+      "yaw_deg": -10.0
+    },
+    {
+      "base_pos": [
+        -0.76,
+        0.08,
+        0.0
+      ],
+      "best_contact_counts": {
+        "forbidden": 11,
+        "handle_nonlegal": 0,
+        "max_contact_force_n": 206251.5072682033,
+        "max_penetration_m": 0.18567629308912395,
+        "other": 0,
+        "target": 0
+      },
+      "best_contact_only_pad_error_m": 0.04368164710298332,
+      "max_endpoint_residual_m": 0.04365544809654385,
+      "rank": 6,
+      "reset_ok": true,
+      "seed": 5,
+      "violated_constraints": [
+        "pregrasp_ik_or_contact_constraints_failed",
+        "guarded_ik_or_contact_constraints_failed",
+        "contact_hold_ik_or_contact_constraints_failed"
+      ],
+      "yaw_deg": -10.0
+    },
+    {
+      "base_pos": [
+        -0.8,
+        0.08,
+        0.0
+      ],
+      "best_contact_counts": {
+        "forbidden": 4,
+        "handle_nonlegal": 0,
+        "max_contact_force_n": 153540.00876286233,
+        "max_penetration_m": 0.17743210407481236,
+        "other": 0,
+        "target": 0
+      },
+      "best_contact_only_pad_error_m": 0.060323415341993404,
+      "max_endpoint_residual_m": 0.06628715977161777,
+      "rank": 7,
+      "reset_ok": true,
+      "seed": 12,
+      "violated_constraints": [
+        "pregrasp_ik_or_contact_constraints_failed",
+        "guarded_ik_or_contact_constraints_failed",
+        "contact_hold_ik_or_contact_constraints_failed"
+      ],
+      "yaw_deg": -10.0
+    },
+    {
+      "base_pos": [
+        -0.8,
+        0.04,
+        0.0
+      ],
+      "best_contact_counts": {
+        "forbidden": 3,
+        "handle_nonlegal": 0,
+        "max_contact_force_n": 209196.1947901822,
+        "max_penetration_m": 0.16559009983920092,
+        "other": 1,
+        "target": 0
+      },
+      "best_contact_only_pad_error_m": 0.06069242985221836,
+      "max_endpoint_residual_m": 0.060699400677220655,
+      "rank": 8,
+      "reset_ok": true,
+      "seed": 12,
+      "violated_constraints": [
+        "pregrasp_ik_or_contact_constraints_failed",
+        "guarded_ik_or_contact_constraints_failed",
+        "contact_hold_ik_or_contact_constraints_failed"
+      ],
+      "yaw_deg": -15.0
+    },
+    {
+      "base_pos": [
+        -0.8,
+        -0.04,
+        0.0
+      ],
+      "best_contact_counts": {
+        "forbidden": 4,
+        "handle_nonlegal": 0,
+        "max_contact_force_n": 208759.13135515727,
+        "max_penetration_m": 0.16552848641345214,
+        "other": 1,
+        "target": 0
+      },
+      "best_contact_only_pad_error_m": 0.060996939480721005,
+      "max_endpoint_residual_m": 0.06099930630618821,
+      "rank": 9,
+      "reset_ok": true,
+      "seed": 12,
+      "violated_constraints": [
+        "pregrasp_ik_or_contact_constraints_failed",
+        "guarded_ik_or_contact_constraints_failed",
+        "contact_hold_ik_or_contact_constraints_failed"
+      ],
+      "yaw_deg": -10.0
+    },
+    {
+      "base_pos": [
+        -0.8,
+        0.0,
+        0.0
+      ],
+      "best_contact_counts": {
+        "forbidden": 4,
+        "handle_nonlegal": 0,
+        "max_contact_force_n": 208208.08592494237,
+        "max_penetration_m": 0.16592510651501688,
+        "other": 1,
+        "target": 0
+      },
+      "best_contact_only_pad_error_m": 0.061527633313991956,
+      "max_endpoint_residual_m": 0.06152506677995036,
+      "rank": 10,
+      "reset_ok": true,
+      "seed": 12,
+      "violated_constraints": [
+        "pregrasp_ik_or_contact_constraints_failed",
+        "guarded_ik_or_contact_constraints_failed",
+        "contact_hold_ik_or_contact_constraints_failed"
+      ],
+      "yaw_deg": -10.0
+    }
+  ],
+  "endpoint_feasible_count": 0,
+  "generated_at_utc": "2026-05-02T15:59:14Z",
+  "patched_files": [
+    "scripts/mint/joint_placement_reset_ik_keepout_feasibility.py",
+    "scripts/mint/handle_frame_grasp_trajectory_planner.py",
+    "scripts/mint/drawer_robot_env_mujoco.py"
+  ],
+  "previous_schema_error_seeds": [
+    7,
+    15
+  ],
+  "reset_ok_rows": 1040,
+  "run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_schema_aware_model_placement_feasibility_repair_20260502T151820Z",
+  "schema_aware_joint_binding_repaired": true,
+  "schema_error_count_after_rerun": 0,
+  "schema_error_seeds_after_rerun": [],
+  "scientific_interpretation": "Schema/indexing evidence blocker is repaired. Clean Stage3 still found no endpoint-feasible candidate; best near-residual rows rely on forbidden contact and excessive penetration with zero target contact, so next gate is model/placement repair with a schema-aware infeasibility certificate.",
+  "task_id": "V11_G4_GOC_V4_SCHEMA_AWARE_MODEL_PLACEMENT_FEASIBILITY_REPAIR_V1",
+  "total_stage3_rows": 1040
+}
+```

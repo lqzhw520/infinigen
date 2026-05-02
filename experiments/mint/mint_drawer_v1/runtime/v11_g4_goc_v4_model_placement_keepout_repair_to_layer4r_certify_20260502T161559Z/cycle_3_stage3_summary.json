@@ -1,0 +1,3446 @@
+{
+  "best_rows": [
+    {
+      "base_pos": [
+        -0.92,
+        0.12,
+        -0.02
+      ],
+      "best_contact_only_ik": {
+        "contact_counts": {
+          "forbidden": 2,
+          "handle_nonlegal": 0,
+          "max_contact_force_n": 57910.526631804045,
+          "max_penetration_m": 0.06702681736987148,
+          "other": 0,
+          "target": 0
+        },
+        "feasible": false,
+        "max_pad_error_m": 0.3910793830584541,
+        "mean_pad_error_m": 0.3824051587645947,
+        "per_pad_error_m": [
+          0.3737309344707353,
+          0.3910793830584541
+        ],
+        "qpos_robot": [
+          -0.1317425422197978,
+          1.1709126705631623,
+          1.7593938500679795,
+          -0.46686370601281674,
+          0.02035965210104154,
+          2.863791978385892,
+          -0.7636637544126669,
+          0.039999999999999994,
+          -6.820431502163027e-37
+        ]
+      },
+      "binding": {
+        "binding_generated": true,
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          23,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          36,
+          22
+        ],
+        "drawer_handle_geom_ids": [
+          35
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          49,
+          51,
+          53,
+          58,
+          63,
+          67,
+          85,
+          94,
+          96
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          63,
+          67,
+          85,
+          94
+        ],
+        "legal_finger_pad_geom_ids": [
+          99,
+          102
+        ]
+      },
+      "endpoint_feasible": false,
+      "handle_frame": {
+        "approach_normal": [
+          -0.8046400252796345,
+          -0.1292305038520481,
+          -0.5795290386099172
+        ],
+        "handle_bar_axis": [
+          -0.10486335911026773,
+          0.9916145808095732,
+          -0.07552614806783971
+        ],
+        "handle_body_names": [
+          "link_2"
+        ],
+        "handle_center": [
+          0.31230078637630043,
+          0.2994970679280005,
+          0.8974092602726302
+        ],
+        "handle_geom_ids": [
+          35
+        ],
+        "handle_geom_names": [
+          "drawer_handle_collision_1_0.obj"
+        ],
+        "handle_radius_normal_m": 0.034641015377090495,
+        "handle_radius_pinch_m": 0.034641015377090495,
+        "notes": [
+          "bar_axis_from_handle_point_pca"
+        ],
+        "pinch_axis": [
+          -0.260460719440713,
+          0.953931219922246,
+          0.14891420780463285
+        ],
+        "pull_axis": [
+          0.9999999999999996,
+          0.0,
+          -2.98023223876953e-08
+        ],
+        "quality": "ok"
+      },
+      "ik": {
+        "contact_hold": {
+          "contact_counts": {
+            "forbidden": 2,
+            "handle_nonlegal": 0,
+            "max_contact_force_n": 58310.71115117058,
+            "max_penetration_m": 0.06688321121466578,
+            "other": 0,
+            "target": 0
+          },
+          "feasible": false,
+          "max_pad_error_m": 0.3910732116679752,
+          "mean_pad_error_m": 0.3823990021851729,
+          "per_pad_error_m": [
+            0.37372479270237063,
+            0.3910732116679752
+          ],
+          "qpos_robot": [
+            -0.12934639995021108,
+            1.1810908291520108,
+            1.7964507712176556,
+            -0.4667449505609127,
+            0.0130543465800205,
+            2.863960997977546,
+            -0.7709873895618915,
+            0.039999999999740264,
+            -6.129833354790857e-13
+          ]
+        },
+        "guarded": {
+          "contact_counts": {
+            "forbidden": 2,
+            "handle_nonlegal": 0,
+            "max_contact_force_n": 59279.24518634003,
+            "max_penetration_m": 0.0658801638396449,
+            "other": 0,
+            "target": 0
+          },
+          "feasible": false,
+          "max_pad_error_m": 0.36653843803111036,
+          "mean_pad_error_m": 0.3579214138640747,
+          "per_pad_error_m": [
+            0.34930438969703914,
+            0.36653843803111036
+          ],
+          "qpos_robot": [
+            -0.1295972914999693,
+            1.1827155110363268,
+            1.789023471173082,
+            -0.46694872562702544,
+            0.014352329296837635,
+            2.864618884352514,
+            -0.769090819095791,
+            0.03999999999999844,
+            -7.133790600632322e-15
+          ]
+        },
+        "pregrasp": {
+          "contact_counts": {
+            "forbidden": 2,
+            "handle_nonlegal": 0,
+            "max_contact_force_n": 61106.29058440072,
+            "max_penetration_m": 0.0640049055297952,
+            "other": 0,
+            "target": 0
+          },
+          "feasible": false,
+          "max_pad_error_m": 0.32246545491456025,
+          "mean_pad_error_m": 0.31393840172981646,
+          "per_pad_error_m": [
+            0.3054113485450726,
+            0.32246545491456025
+          ],
+          "qpos_robot": [
+            -0.13086060596391647,
+            1.183606055520051,
+            1.7671583520895608,
+            -0.4673314257190527,
+            0.020295130609561528,
+            2.864940129515892,
+            -0.7628609529860724,
+            0.039999999999999994,
+            -3.853056926627307e-36
+          ]
+        }
+      },
+      "max_endpoint_residual_m": 0.3910732116679752,
+      "reset": {
+        "qpos_arm": [
+          0.724,
+          -0.559,
+          -0.599,
+          -2.823,
+          0.264,
+          3.198,
+          0.215
+        ],
+        "reset_counts": {
+          "forbidden": 0,
+          "handle_nonlegal": 0,
+          "max_contact_force_n": 0.0,
+          "max_penetration_m": 0.0,
+          "other": 0,
+          "target": 0
+        },
+        "reset_ok": true,
+        "score": 0.0
+      },
+      "score": 44.067901270078565,
+      "seed": 2,
+      "two_pad_frame": {
+        "contact_targets": [
+          [
+            0.2863522738319765,
+            0.24490311942617476,
+            0.8616792127068331
+          ],
+          [
+            0.25997228323532606,
+            0.3415192105797131,
+            0.8767615460814364
+          ]
+        ],
+        "guarded_targets": [
+          [
+            0.2662362731999856,
+            0.24167235682987356,
+            0.8471909867415852
+          ],
+          [
+            0.2398562826033352,
+            0.33828844798341184,
+            0.8622733201161885
+          ]
+        ],
+        "hold_targets": [
+          [
+            0.2863522738319765,
+            0.24490311942617476,
+            0.8616792127068331
+          ],
+          [
+            0.25997228323532606,
+            0.3415192105797131,
+            0.8767615460814364
+          ]
+        ],
+        "legal_pad_ids": [
+          99,
+          102
+        ],
+        "pad_assignment": [
+          [
+            99,
+            0
+          ],
+          [
+            102,
+            1
+          ]
+        ],
+        "pad_body_names": [
+          "finger_joint1_tip",
+          "finger_joint2_tip"
+        ],
+        "pad_current_centers": [
+          [
+            -0.43919380773815675,
+            0.13598732954859327,
+            0.3416886046754399
+          ],
+          [
+            -0.472207542683267,
+            0.2163145893610605,
+            0.34684851126319477
+          ]
+        ],
+        "pad_geom_names": [
+          "finger1_pad_collision",
+          "finger2_pad_collision"
+        ],
+        "pad_radius_m": 0.008,
+        "pinch_half_width_m": 0.050641015377090495,
+        "pregrasp_distance_m": 0.07,
+        "pregrasp_targets": [
+          [
+            0.23002747206240207,
+            0.2358569841565314,
+            0.8211121800041389
+          ],
+          [
+            0.20364748146575165,
+            0.3324730753100697,
+            0.8361945133787422
+          ]
+        ],
+        "quality": "ok"
+      },
+      "violated_constraints": [
+        "pregrasp_ik_or_contact_constraints_failed",
+        "guarded_ik_or_contact_constraints_failed",
+        "contact_hold_ik_or_contact_constraints_failed"
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "base_pos": [
+        -0.68,
+        0.04,
+        0.0
+      ],
+      "best_contact_only_ik": {
+        "contact_counts": {
+          "forbidden": 3,
+          "handle_nonlegal": 0,
+          "max_contact_force_n": 22810.815506010724,
+          "max_penetration_m": 0.08541598965145777,
+          "other": 2,
+          "target": 0
+        },
+        "feasible": false,
+        "max_pad_error_m": 0.007141366548822853,
+        "mean_pad_error_m": 0.007141119798825451,
+        "per_pad_error_m": [
+          0.007140873048828048,
+          0.007141366548822853
+        ],
+        "qpos_robot": [
+          0.1259661884424844,
+          0.8475535931716544,
+          0.0028930517011166107,
+          -0.8079081844331348,
+          0.20757960357775654,
+          2.7139117171957,
+          0.5925724815076969,
+          0.039999999999999994,
+          -0.039999999999999994
+        ]
+      },
+      "binding": {
+        "binding_generated": true,
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          21
+        ],
+        "drawer_handle_geom_ids": [
+          20
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          34,
+          36,
+          38,
+          43,
+          48,
+          52,
+          70,
+          79,
+          81
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          52,
+          70,
+          79,
+          81
+        ],
+        "legal_finger_pad_geom_ids": [
+          84,
+          87
+        ]
+      },
+      "endpoint_feasible": false,
+      "handle_frame": {
+        "approach_normal": [
+          -0.9896168315421949,
+          -0.03488461418913332,
+          0.13943310374965512
+        ],
+        "handle_bar_axis": [
+          -0.03454342633672341,
+          0.9993913466169674,
+          0.004867032365214537
+        ],
+        "handle_body_names": [
+          "link_1"
+        ],
+        "handle_center": [
+          0.26566240191430046,
+          0.0,
+          0.5020084679123232
+        ],
+        "handle_geom_ids": [
+          20
+        ],
+        "handle_geom_names": [
+          "drawer_handle_collision_0_0.obj"
+        ],
+        "handle_radius_normal_m": 0.034641015377090495,
+        "handle_radius_pinch_m": 0.034641015377090495,
+        "notes": [
+          "bar_axis_from_handle_point_pca"
+        ],
+        "pinch_axis": [
+          -0.029562909070002592,
+          0.9987599291843824,
+          0.04005793632884791
+        ],
+        "pull_axis": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "quality": "ok"
+      },
+      "ik": {
+        "contact_hold": {
+          "contact_counts": {
+            "forbidden": 2,
+            "handle_nonlegal": 0,
+            "max_contact_force_n": 14702.82850555346,
+            "max_penetration_m": 0.08784599387480783,
+            "other": 2,
+            "target": 0
+          },
+          "feasible": false,
+          "max_pad_error_m": 0.007141314014632709,
+          "mean_pad_error_m": 0.007141016776549524,
+          "per_pad_error_m": [
+            0.007141314014632709,
+            0.00714071953846634
+          ],
+          "qpos_robot": [
+            0.050602444499390754,
+            0.8266443597764527,
+            0.15369385185554724,
+            -0.9251912868154545,
+            0.09426783231895947,
+            2.9396983471205753,
+            0.6079421514512728,
+            0.039999999999999994,
+            -0.039999999999999994
+          ]
+        },
+        "guarded": {
+          "contact_counts": {
+            "forbidden": 2,
+            "handle_nonlegal": 0,
+            "max_contact_force_n": 11882.034662932016,
+            "max_penetration_m": 0.11254264026224442,
+            "other": 2,
+            "target": 0
+          },
+          "feasible": false,
+          "max_pad_error_m": 0.0071414886220599,
+          "mean_pad_error_m": 0.007141016464559254,
+          "per_pad_error_m": [
+            0.0071414886220599,
+            0.007140544307058607
+          ],
+          "qpos_robot": [
+            0.03474136898046934,
+            0.6851799505546746,
+            0.14674043269185963,
+            -1.1038912638240341,
+            0.0993060722863964,
+            2.881191014751984,
+            0.6179867921191722,
+            0.039999999999999994,
+            -0.039999999999999994
+          ]
+        },
+        "pregrasp": {
+          "contact_counts": {
+            "forbidden": 2,
+            "handle_nonlegal": 0,
+            "max_contact_force_n": 8181.6272383787455,
+            "max_penetration_m": 0.15353565694150167,
+            "other": 0,
+            "target": 0
+          },
+          "feasible": false,
+          "max_pad_error_m": 0.007143904117801405,
+          "mean_pad_error_m": 0.007141077665763896,
+          "per_pad_error_m": [
+            0.007143904117801405,
+            0.007138251213726386
+          ],
+          "qpos_robot": [
+            0.0107541547459413,
+            0.4970301500886452,
+            0.1449328678690888,
+            -1.322076912363955,
+            0.10759158970064667,
+            2.7839306981097716,
+            0.6243821197772831,
+            0.039999999999999994,
+            -0.039999999999999994
+          ]
+        }
+      },
+      "max_endpoint_residual_m": 0.007143904117801405,
+      "reset": {
+        "qpos_arm": [
+          0.0,
+          -1.0,
+          0.0,
+          -2.5,
+          0.0,
+          2.2,
+          0.8
+        ],
+        "reset_counts": {
+          "forbidden": 0,
+          "handle_nonlegal": 0,
+          "max_contact_force_n": 0.0,
+          "max_penetration_m": 0.0,
+          "other": 0,
+          "target": 0
+        },
+        "reset_ok": true,
+        "score": 0.0
+      },
+      "score": 59.399573011973196,
+      "seed": 7,
+      "two_pad_frame": {
+        "contact_targets": [
+          [
+            0.21902353012663453,
+            -0.05227503998704563,
+            0.506762061086282
+          ],
+          [
+            0.21602933866102345,
+            0.048881393876650615,
+            0.5108192102254894
+          ]
+        ],
+        "guarded_targets": [
+          [
+            0.19428310933807966,
+            -0.05314715534177396,
+            0.5102478886800234
+          ],
+          [
+            0.19128891787246857,
+            0.048009278521922286,
+            0.5143050378192308
+          ]
+        ],
+        "hold_targets": [
+          [
+            0.21902353012663453,
+            -0.05227503998704563,
+            0.506762061086282
+          ],
+          [
+            0.21602933866102345,
+            0.048881393876650615,
+            0.5108192102254894
+          ]
+        ],
+        "legal_pad_ids": [
+          84,
+          87
+        ],
+        "pad_assignment": [
+          [
+            84,
+            0
+          ],
+          [
+            87,
+            1
+          ]
+        ],
+        "pad_body_names": [
+          "finger_joint1_tip",
+          "finger_joint2_tip"
+        ],
+        "pad_current_centers": [
+          [
+            -0.34140470095663394,
+            -0.063870312039492,
+            0.5860171340161617
+          ],
+          [
+            -0.32537422279662037,
+            0.021636403962036817,
+            0.5868078859337661
+          ]
+        ],
+        "pad_geom_names": [
+          "finger1_pad_collision",
+          "finger2_pad_collision"
+        ],
+        "pad_radius_m": 0.008,
+        "pinch_half_width_m": 0.050641015377090495,
+        "pregrasp_distance_m": 0.07,
+        "pregrasp_targets": [
+          [
+            0.14975035191868089,
+            -0.05471696298028496,
+            0.5165223783487578
+          ],
+          [
+            0.1467561604530698,
+            0.046439470883411285,
+            0.5205795274879652
+          ]
+        ],
+        "quality": "ok"
+      },
+      "violated_constraints": [
+        "pregrasp_ik_or_contact_constraints_failed",
+        "guarded_ik_or_contact_constraints_failed",
+        "contact_hold_ik_or_contact_constraints_failed"
+      ],
+      "yaw_deg": -10.0
+    },
+    {
+      "base_pos": [
+        -0.8,
+        -0.04,
+        0.1
+      ],
+      "best_contact_only_ik": {
+        "contact_counts": {
+          "forbidden": 4,
+          "handle_nonlegal": 0,
+          "max_contact_force_n": 83762.85237421982,
+          "max_penetration_m": 0.11996750136800612,
+          "other": 0,
+          "target": 0
+        },
+        "feasible": false,
+        "max_pad_error_m": 0.16584109653190582,
+        "mean_pad_error_m": 0.15798951803580874,
+        "per_pad_error_m": [
+          0.15013793953971166,
+          0.16584109653190582
+        ],
+        "qpos_robot": [
+          -0.04613861904846103,
+          1.6461946671224177,
+          1.5236626795131112,
+          -0.4669785701655916,
+          0.015096652996243064,
+          2.872652463129999,
+          -0.765497300663429,
+          0.039999999999999994,
+          -9.236011909486269e-38
+        ]
+      },
+      "binding": {
+        "binding_generated": true,
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          20
+        ],
+        "drawer_handle_geom_ids": [
+          19
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          33,
+          35,
+          37,
+          42,
+          47,
+          51,
+          69,
+          78,
+          80
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          51,
+          69,
+          78
+        ],
+        "legal_finger_pad_geom_ids": [
+          83,
+          86
+        ]
+      },
+      "endpoint_feasible": false,
+      "handle_frame": {
+        "approach_normal": [
+          -0.9762620060305728,
+          -0.09412810343343436,
+          0.19507023280138497
+        ],
+        "handle_bar_axis": [
+          -0.0923035100185305,
+          0.9955600936879826,
+          0.01844347836592536
+        ],
+        "handle_body_names": [
+          "link_1"
+        ],
+        "handle_center": [
+          0.3445441275835001,
+          0.0,
+          0.3288853764530007
+        ],
+        "handle_geom_ids": [
+          19
+        ],
+        "handle_geom_names": [
+          "drawer_handle_collision_0_0.obj"
+        ],
+        "handle_radius_normal_m": 0.034641015377090495,
+        "handle_radius_pinch_m": 0.034641015377090495,
+        "notes": [
+          "bar_axis_from_handle_point_pca"
+        ],
+        "pinch_axis": [
+          -0.08906048886974532,
+          0.9954247765580108,
+          0.0346084315841689
+        ],
+        "pull_axis": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "quality": "ok"
+      },
+      "ik": {
+        "contact_hold": {
+          "contact_counts": {
+            "forbidden": 3,
+            "handle_nonlegal": 0,
+            "max_contact_force_n": 73424.99198133228,
+            "max_penetration_m": 0.07385808609066381,
+            "other": 0,
+            "target": 0
+          },
+          "feasible": false,
+          "max_pad_error_m": 0.17175532381107114,
+          "mean_pad_error_m": 0.1580012229810119,
+          "per_pad_error_m": [
+            0.17175532381107114,
+            0.14424712215095267
+          ],
+          "qpos_robot": [
+            0.458386369939682,
+            1.6358907145817059,
+            -1.4818672287222205,
+            -0.4670932299750214,
+            -0.008369871001403786,
+            2.876049827134647,
+            2.3391298040535196,
+            1.3609114264896554e-16,
+            -0.039999999999999994
+          ]
+        },
+        "guarded": {
+          "contact_counts": {
+            "forbidden": 3,
+            "handle_nonlegal": 0,
+            "max_contact_force_n": 73466.04639728137,
+            "max_penetration_m": 0.07286599069273306,
+            "other": 0,
+            "target": 0
+          },
+          "feasible": false,
+          "max_pad_error_m": 0.14743212363430538,
+          "mean_pad_error_m": 0.13374897246318632,
+          "per_pad_error_m": [
+            0.14743212363430538,
+            0.12006582129206723
+          ],
+          "qpos_robot": [
+            0.45571172965327544,
+            1.6302702319674736,
+            -1.470771903403815,
+            -0.46714348097027686,
+            -0.007641882011987357,
+            2.879843399759873,
+            2.327655233579006,
+            6.312915449316008e-17,
+            -0.039999999999999994
+          ]
+        },
+        "pregrasp": {
+          "contact_counts": {
+            "forbidden": 3,
+            "handle_nonlegal": 0,
+            "max_contact_force_n": 73736.93188134034,
+            "max_penetration_m": 0.07048303305047866,
+            "other": 0,
+            "target": 0
+          },
+          "feasible": false,
+          "max_pad_error_m": 0.10417140643518916,
+          "mean_pad_error_m": 0.0908822318622277,
+          "per_pad_error_m": [
+            0.10417140643518916,
+            0.07759305728926624
+          ],
+          "qpos_robot": [
+            0.45027337343432694,
+            1.6235635850592482,
+            -1.4639085649169608,
+            -0.46759369416301283,
+            -0.0033307312276294847,
+            2.8909806636060043,
+            2.3116233087791933,
+            4.12977473494998e-36,
+            -0.039999999999999994
+          ]
+        }
+      },
+      "max_endpoint_residual_m": 0.17175532381107114,
+      "reset": {
+        "qpos_arm": [
+          0.724,
+          -0.559,
+          -0.599,
+          -2.823,
+          0.264,
+          3.198,
+          0.215
+        ],
+        "reset_counts": {
+          "forbidden": 0,
+          "handle_nonlegal": 0,
+          "max_contact_force_n": 367.0058883591275,
+          "max_penetration_m": 0.012689916896965471,
+          "other": 1,
+          "target": 0
+        },
+        "reset_ok": true,
+        "score": 0.0
+      },
+      "score": 60.892466307198625,
+      "seed": 15,
+      "two_pad_frame": {
+        "contact_targets": [
+          [
+            0.3015678659224418,
+            -0.05498780794293314,
+            0.33662118453027456
+          ],
+          [
+            0.29254763874975387,
+            0.045830834889889045,
+            0.34012639676233636
+          ]
+        ],
+        "guarded_targets": [
+          [
+            0.27716131577167746,
+            -0.057341010528769,
+            0.34149794035030917
+          ],
+          [
+            0.26814108859898955,
+            0.04347763230405319,
+            0.34500315258237096
+          ]
+        ],
+        "hold_targets": [
+          [
+            0.3015678659224418,
+            -0.05498780794293314,
+            0.33662118453027456
+          ],
+          [
+            0.29254763874975387,
+            0.045830834889889045,
+            0.34012639676233636
+          ]
+        ],
+        "legal_pad_ids": [
+          83,
+          86
+        ],
+        "pad_assignment": [
+          [
+            83,
+            0
+          ],
+          [
+            86,
+            1
+          ]
+        ],
+        "pad_body_names": [
+          "finger_joint1_tip",
+          "finger_joint2_tip"
+        ],
+        "pad_current_centers": [
+          [
+            -0.32372219468052627,
+            -0.10774689205781655,
+            0.4616886046754398
+          ],
+          [
+            -0.34228565550742673,
+            -0.02290720036734811,
+            0.46684851126319477
+          ]
+        ],
+        "pad_geom_names": [
+          "finger1_pad_collision",
+          "finger2_pad_collision"
+        ],
+        "pad_radius_m": 0.008,
+        "pinch_half_width_m": 0.050641015377090495,
+        "pregrasp_distance_m": 0.07,
+        "pregrasp_targets": [
+          [
+            0.23322952550030168,
+            -0.06157677518327355,
+            0.3502761008263715
+          ],
+          [
+            0.22420929832761377,
+            0.03924186764954864,
+            0.3537813130584333
+          ]
+        ],
+        "quality": "ok"
+      },
+      "violated_constraints": [
+        "pregrasp_ik_or_contact_constraints_failed",
+        "guarded_ik_or_contact_constraints_failed",
+        "contact_hold_ik_or_contact_constraints_failed"
+      ],
+      "yaw_deg": -10.0
+    },
+    {
+      "base_pos": [
+        -0.74,
+        -0.12,
+        0.06
+      ],
+      "best_contact_only_ik": {
+        "contact_counts": {
+          "forbidden": 2,
+          "handle_nonlegal": 0,
+          "max_contact_force_n": 47406.41324499866,
+          "max_penetration_m": 0.15101916776992252,
+          "other": 0,
+          "target": 0
+        },
+        "feasible": false,
+        "max_pad_error_m": 0.10501210217066229,
+        "mean_pad_error_m": 0.10494352512348505,
+        "per_pad_error_m": [
+          0.10487494807630782,
+          0.10501210217066229
+        ],
+        "qpos_robot": [
+          -0.020144156495932767,
+          1.0980520631659891,
+          -0.05393996657626511,
+          -0.46717178942838916,
+          0.004858165414319932,
+          2.937841056173478,
+          0.8366032880294478,
+          0.03999990614543281,
+          -0.03999691606849011
+        ]
+      },
+      "binding": {
+        "binding_generated": true,
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          22,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          38,
+          37
+        ],
+        "drawer_handle_geom_ids": [
+          21
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          51,
+          53,
+          55,
+          60,
+          65,
+          69,
+          87,
+          96,
+          98
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          69,
+          87,
+          96
+        ],
+        "legal_finger_pad_geom_ids": [
+          101,
+          104
+        ]
+      },
+      "endpoint_feasible": false,
+      "handle_frame": {
+        "approach_normal": [
+          -0.9734464902008421,
+          0.224883965093249,
+          0.042768364004252074
+        ],
+        "handle_bar_axis": [
+          0.2253882768340391,
+          0.9742416920344917,
+          0.007297271240199865
+        ],
+        "handle_body_names": [
+          "link_1"
+        ],
+        "handle_center": [
+          0.3031415790321004,
+          -0.3420283794399994,
+          0.6158104240896897
+        ],
+        "handle_geom_ids": [
+          21
+        ],
+        "handle_geom_names": [
+          "drawer_handle_collision_0_0.obj"
+        ],
+        "handle_radius_normal_m": 0.034641015377090495,
+        "handle_radius_pinch_m": 0.034641015377090495,
+        "notes": [
+          "bar_axis_from_handle_point_pca",
+          "bar_axis_stabilized_from_current_pad_span"
+        ],
+        "pinch_axis": [
+          0.2253882768340391,
+          0.9742416920344917,
+          0.007297271240199865
+        ],
+        "pull_axis": [
+          0.9999999999999996,
+          0.0,
+          2.98023223876953e-08
+        ],
+        "quality": "ok"
+      },
+      "ik": {
+        "contact_hold": {
+          "contact_counts": {
+            "forbidden": 2,
+            "handle_nonlegal": 0,
+            "max_contact_force_n": 46668.97478411986,
+            "max_penetration_m": 0.15201004793490414,
+            "other": 0,
+            "target": 0
+          },
+          "feasible": false,
+          "max_pad_error_m": 0.10519186149595168,
+          "mean_pad_error_m": 0.10494319143448672,
+          "per_pad_error_m": [
+            0.10469452137302176,
+            0.10519186149595168
+          ],
+          "qpos_robot": [
+            -0.026185764067650028,
+            1.0981763877655686,
+            -0.03292704127775997,
+            -0.4668712985736433,
+            -0.006713819226084212,
+            2.9384464183005874,
+            0.830995445911064,
+            0.03999999999961807,
+            -0.039999999999996455
+          ]
+        },
+        "guarded": {
+          "contact_counts": {
+            "forbidden": 2,
+            "handle_nonlegal": 0,
+            "max_contact_force_n": 48232.205684344575,
+            "max_penetration_m": 0.15063162865205373,
+            "other": 0,
+            "target": 0
+          },
+          "feasible": false,
+          "max_pad_error_m": 0.08106715562156208,
+          "mean_pad_error_m": 0.08088192301358135,
+          "per_pad_error_m": [
+            0.08069669040560061,
+            0.08106715562156208
+          ],
+          "qpos_robot": [
+            -0.02058631416680002,
+            1.09194477648689,
+            -0.050064129194991314,
+            -0.46698327276322554,
+            0.006960086594603487,
+            2.9383546008956993,
+            0.8304693303827576,
+            0.03999999998214438,
+            -0.03999999983540855
+          ]
+        },
+        "pregrasp": {
+          "contact_counts": {
+            "forbidden": 2,
+            "handle_nonlegal": 0,
+            "max_contact_force_n": 38882.554908924285,
+            "max_penetration_m": 0.15016527030529014,
+            "other": 0,
+            "target": 0
+          },
+          "feasible": false,
+          "max_pad_error_m": 0.03811116707237503,
+          "mean_pad_error_m": 0.037913244605963126,
+          "per_pad_error_m": [
+            0.03771532213955122,
+            0.03811116707237503
+          ],
+          "qpos_robot": [
+            -0.021556507604084882,
+            1.0792336175030433,
+            -0.04456342101002774,
+            -0.467632041875437,
+            -0.00262461712077426,
+            2.9381589215860973,
+            0.8359723578422976,
+            0.03999999736093251,
+            -0.03999991777886749
+          ]
+        }
+      },
+      "max_endpoint_residual_m": 0.10519186149595168,
+      "reset": {
+        "qpos_arm": [
+          0.0,
+          -1.0,
+          0.0,
+          -2.5,
+          0.0,
+          2.2,
+          0.8
+        ],
+        "reset_counts": {
+          "forbidden": 0,
+          "handle_nonlegal": 0,
+          "max_contact_force_n": 0.0,
+          "max_penetration_m": 0.0,
+          "other": 0,
+          "target": 0
+        },
+        "reset_ok": true,
+        "score": 0.0
+      },
+      "score": 69.38588655072076,
+      "seed": 3,
+      "two_pad_frame": {
+        "contact_targets": [
+          [
+            0.24437826214049793,
+            -0.380426383543159,
+            0.6175211795157877
+          ],
+          [
+            0.2672060445264349,
+            -0.28175320652851626,
+            0.6182602619659593
+          ]
+        ],
+        "guarded_targets": [
+          [
+            0.22004209988547688,
+            -0.37480428441582775,
+            0.618590388615894
+          ],
+          [
+            0.24286988227141387,
+            -0.276131107401185,
+            0.6193294710660656
+          ]
+        ],
+        "hold_targets": [
+          [
+            0.24437826214049793,
+            -0.380426383543159,
+            0.6175211795157877
+          ],
+          [
+            0.2672060445264349,
+            -0.28175320652851626,
+            0.6182602619659593
+          ]
+        ],
+        "legal_pad_ids": [
+          101,
+          104
+        ],
+        "pad_assignment": [
+          [
+            101,
+            0
+          ],
+          [
+            104,
+            1
+          ]
+        ],
+        "pad_body_names": [
+          "finger_joint1_tip",
+          "finger_joint2_tip"
+        ],
+        "pad_current_centers": [
+          [
+            -0.401404700956634,
+            -0.223870312039492,
+            0.6460171340161618
+          ],
+          [
+            -0.3853742227966204,
+            -0.1383635960379632,
+            0.6468078859337661
+          ]
+        ],
+        "pad_geom_names": [
+          "finger1_pad_collision",
+          "finger2_pad_collision"
+        ],
+        "pad_radius_m": 0.008,
+        "pinch_half_width_m": 0.050641015377090495,
+        "pregrasp_distance_m": 0.07,
+        "pregrasp_targets": [
+          [
+            0.17623700782643897,
+            -0.36468450598663155,
+            0.6205149649960853
+          ],
+          [
+            0.19906479021237597,
+            -0.2660113289719888,
+            0.6212540474462569
+          ]
+        ],
+        "quality": "ok"
+      },
+      "violated_constraints": [
+        "pregrasp_ik_or_contact_constraints_failed",
+        "guarded_ik_or_contact_constraints_failed",
+        "contact_hold_ik_or_contact_constraints_failed"
+      ],
+      "yaw_deg": -10.0
+    },
+    {
+      "base_pos": [
+        -0.86,
+        0.2,
+        0.02
+      ],
+      "best_contact_only_ik": {
+        "contact_counts": {
+          "forbidden": 4,
+          "handle_nonlegal": 0,
+          "max_contact_force_n": 158670.73628949912,
+          "max_penetration_m": 0.11586821955288312,
+          "other": 0,
+          "target": 0
+        },
+        "feasible": false,
+        "max_pad_error_m": 0.25489804662779075,
+        "mean_pad_error_m": 0.24597342258510901,
+        "per_pad_error_m": [
+          0.23704879854242725,
+          0.25489804662779075
+        ],
+        "qpos_robot": [
+          -0.06616436686462512,
+          1.5613548176917227,
+          1.5440459318282422,
+          -0.4671804203279798,
+          0.019238651119815445,
+          2.867331343790353,
+          -0.7635647812661192,
+          0.039999999999999994,
+          -1.2237325298294792e-35
+        ]
+      },
+      "binding": {
+        "binding_generated": true,
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          20,
+          23,
+          24,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          32,
+          19
+        ],
+        "drawer_handle_geom_ids": [
+          31
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          45,
+          47,
+          49,
+          54,
+          59,
+          63,
+          81,
+          90,
+          92
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          63,
+          81,
+          90
+        ],
+        "legal_finger_pad_geom_ids": [
+          95,
+          98
+        ]
+      },
+      "endpoint_feasible": false,
+      "handle_frame": {
+        "approach_normal": [
+          -0.9975625213021614,
+          -0.05608134854128543,
+          0.04151985596152195
+        ],
+        "handle_bar_axis": [
+          -0.053836950448255545,
+          0.9971244748310116,
+          0.053332583468375425
+        ],
+        "handle_body_names": [
+          "link_2"
+        ],
+        "handle_center": [
+          0.3791270852087003,
+          0.2180809080595921,
+          0.35213145613699925
+        ],
+        "handle_geom_ids": [
+          31
+        ],
+        "handle_geom_names": [
+          "drawer_handle_collision_1_0.obj"
+        ],
+        "handle_radius_normal_m": 0.034641015377090495,
+        "handle_radius_pinch_m": 0.034641015377090495,
+        "notes": [
+          "bar_axis_from_handle_point_pca",
+          "bar_axis_stabilized_from_current_pad_span"
+        ],
+        "pinch_axis": [
+          -0.053836950448255545,
+          0.9971244748310116,
+          0.053332583468375425
+        ],
+        "pull_axis": [
+          1.0,
+          -7.450580596923828e-09,
+          0.0
+        ],
+        "quality": "ok"
+      },
+      "ik": {
+        "contact_hold": {
+          "contact_counts": {
+            "forbidden": 3,
+            "handle_nonlegal": 0,
+            "max_contact_force_n": 156377.68294331522,
+            "max_penetration_m": 0.11584751310946839,
+            "other": 0,
+            "target": 0
+          },
+          "feasible": false,
+          "max_pad_error_m": 0.25899098288991723,
+          "mean_pad_error_m": 0.2459705885508749,
+          "per_pad_error_m": [
+            0.25899098288991723,
+            0.23295019421183255
+          ],
+          "qpos_robot": [
+            0.4396697566802927,
+            1.5466038127748,
+            -1.4846834645297295,
+            -0.46709825382925063,
+            -0.01710329887363348,
+            2.869239809843673,
+            2.356249823647829,
+            4.437012348852035e-13,
+            -0.03999999999985882
+          ]
+        },
+        "guarded": {
+          "contact_counts": {
+            "forbidden": 3,
+            "handle_nonlegal": 0,
+            "max_contact_force_n": 156567.66084432293,
+            "max_penetration_m": 0.11585094756757014,
+            "other": 0,
+            "target": 0
+          },
+          "feasible": false,
+          "max_pad_error_m": 0.23426479511108664,
+          "mean_pad_error_m": 0.22122626755138403,
+          "per_pad_error_m": [
+            0.23426479511108664,
+            0.2081877399916814
+          ],
+          "qpos_robot": [
+            0.43828270522400836,
+            1.5403089284936422,
+            -1.4637009302891495,
+            -0.46746483800004124,
+            -0.006296031190614547,
+            2.8700755923250356,
+            2.3314945124719575,
+            1.067612601599022e-11,
+            -0.039999999995226306
+          ]
+        },
+        "pregrasp": {
+          "contact_counts": {
+            "forbidden": 3,
+            "handle_nonlegal": 0,
+            "max_contact_force_n": 156861.2963952914,
+            "max_penetration_m": 0.11584713500992579,
+            "other": 0,
+            "target": 0
+          },
+          "feasible": false,
+          "max_pad_error_m": 0.18984507029429706,
+          "mean_pad_error_m": 0.176838023043992,
+          "per_pad_error_m": [
+            0.18984507029429706,
+            0.1638309757936869
+          ],
+          "qpos_robot": [
+            0.4354518205937463,
+            1.5389338409800184,
+            -1.465124853637865,
+            -0.46727833200926916,
+            -0.005281852330523356,
+            2.874172787578417,
+            2.3256086104352724,
+            7.21898791090875e-38,
+            -0.039999999999999994
+          ]
+        }
+      },
+      "max_endpoint_residual_m": 0.25899098288991723,
+      "reset": {
+        "qpos_arm": [
+          0.724,
+          -0.559,
+          -0.599,
+          -2.823,
+          0.264,
+          3.198,
+          0.215
+        ],
+        "reset_counts": {
+          "forbidden": 0,
+          "handle_nonlegal": 0,
+          "max_contact_force_n": 0.0,
+          "max_penetration_m": 0.0,
+          "other": 0,
+          "target": 0
+        },
+        "reset_ok": true,
+        "score": 0.0
+      },
+      "score": 74.01355055158635,
+      "seed": 1,
+      "two_pad_frame": {
+        "contact_targets": [
+          [
+            0.3333309891059385,
+            0.16485765846003692,
+            0.3514502079097563
+          ],
+          [
+            0.3278782734349269,
+            0.26584845018561803,
+            0.3568518402688002
+          ]
+        ],
+        "guarded_targets": [
+          [
+            0.30839192607338445,
+            0.16345562474650477,
+            0.35248820430879435
+          ],
+          [
+            0.30293921040237287,
+            0.2644464164720859,
+            0.35788983666783825
+          ]
+        ],
+        "hold_targets": [
+          [
+            0.3333309891059385,
+            0.16485765846003692,
+            0.3514502079097563
+          ],
+          [
+            0.3278782734349269,
+            0.26584845018561803,
+            0.3568518402688002
+          ]
+        ],
+        "legal_pad_ids": [
+          95,
+          98
+        ],
+        "pad_assignment": [
+          [
+            95,
+            0
+          ],
+          [
+            98,
+            1
+          ]
+        ],
+        "pad_body_names": [
+          "finger_joint1_tip",
+          "finger_joint2_tip"
+        ],
+        "pad_current_centers": [
+          [
+            -0.3837221946805263,
+            0.13225310794218345,
+            0.38168860467543986
+          ],
+          [
+            -0.4022856555074268,
+            0.21709279963265188,
+            0.3868485112631948
+          ]
+        ],
+        "pad_geom_names": [
+          "finger1_pad_collision",
+          "finger2_pad_collision"
+        ],
+        "pad_radius_m": 0.008,
+        "pinch_half_width_m": 0.050641015377090495,
+        "pregrasp_distance_m": 0.07,
+        "pregrasp_targets": [
+          [
+            0.2635016126147872,
+            0.16093196406214694,
+            0.3543565978270628
+          ],
+          [
+            0.25804889694377564,
+            0.26192275578772806,
+            0.3597582301861067
+          ]
+        ],
+        "quality": "ok"
+      },
+      "violated_constraints": [
+        "pregrasp_ik_or_contact_constraints_failed",
+        "guarded_ik_or_contact_constraints_failed",
+        "contact_hold_ik_or_contact_constraints_failed"
+      ],
+      "yaw_deg": -10.0
+    },
+    {
+      "base_pos": [
+        -0.86,
+        -0.04,
+        -0.02
+      ],
+      "best_contact_only_ik": {
+        "contact_counts": {
+          "forbidden": 4,
+          "handle_nonlegal": 0,
+          "max_contact_force_n": 87355.28714798995,
+          "max_penetration_m": 0.10728789286392149,
+          "other": 0,
+          "target": 0
+        },
+        "feasible": false,
+        "max_pad_error_m": 0.11620325027965081,
+        "mean_pad_error_m": 0.11537335905510726,
+        "per_pad_error_m": [
+          0.11454346783056371,
+          0.11620325027965081
+        ],
+        "qpos_robot": [
+          0.027127577529773936,
+          1.169269327844997,
+          0.048712960202063345,
+          -0.46683989674496323,
+          -0.00010118918960818386,
+          2.938082911891443,
+          0.8959098891323383,
+          0.03999960328463875,
+          -0.039999999867121876
+        ]
+      },
+      "binding": {
+        "binding_generated": true,
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          22,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          35,
+          21
+        ],
+        "drawer_handle_geom_ids": [
+          34
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          48,
+          50,
+          52,
+          57,
+          62,
+          66,
+          84,
+          93,
+          95
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          66,
+          84,
+          93
+        ],
+        "legal_finger_pad_geom_ids": [
+          98,
+          101
+        ]
+      },
+      "endpoint_feasible": false,
+      "handle_frame": {
+        "approach_normal": [
+          -0.9778975381150992,
+          0.02530671220942861,
+          -0.20754752531788326
+        ],
+        "handle_bar_axis": [
+          0.02475529985138431,
+          0.9996797338733787,
+          0.0052540281802532195
+        ],
+        "handle_body_names": [
+          "link_2"
+        ],
+        "handle_center": [
+          0.22840186953580008,
+          0.0,
+          0.4767271578308155
+        ],
+        "handle_geom_ids": [
+          34
+        ],
+        "handle_geom_names": [
+          "drawer_handle_collision_1_0.obj"
+        ],
+        "handle_radius_normal_m": 0.034641015377090495,
+        "handle_radius_pinch_m": 0.034641015377090495,
+        "notes": [
+          "bar_axis_from_handle_point_pca"
+        ],
+        "pinch_axis": [
+          -0.006251574718712949,
+          0.9886653973553677,
+          0.15000549951814848
+        ],
+        "pull_axis": [
+          0.9999999999999998,
+          -1.4901161193847653e-08,
+          -1.4901161193847653e-08
+        ],
+        "quality": "ok"
+      },
+      "ik": {
+        "contact_hold": {
+          "contact_counts": {
+            "forbidden": 4,
+            "handle_nonlegal": 0,
+            "max_contact_force_n": 87774.57382824538,
+            "max_penetration_m": 0.10764701307202736,
+            "other": 0,
+            "target": 0
+          },
+          "feasible": false,
+          "max_pad_error_m": 0.11583795114771582,
+          "mean_pad_error_m": 0.11537451730063822,
+          "per_pad_error_m": [
+            0.11491108345356062,
+            0.11583795114771582
+          ],
+          "qpos_robot": [
+            0.03424061832837004,
+            1.1690279727931228,
+            0.02192272898983311,
+            -0.46689767048377245,
+            0.005045463707015733,
+            2.938194517897992,
+            0.914942636535165,
+            0.03999999986866428,
+            -0.0399999999999769
+          ]
+        },
+        "guarded": {
+          "contact_counts": {
+            "forbidden": 4,
+            "handle_nonlegal": 0,
+            "max_contact_force_n": 87904.86650200037,
+            "max_penetration_m": 0.10771596193225177,
+            "other": 0,
+            "target": 0
+          },
+          "feasible": false,
+          "max_pad_error_m": 0.09080300188044615,
+          "mean_pad_error_m": 0.09053927758260832,
+          "per_pad_error_m": [
+            0.0902755532847705,
+            0.09080300188044615
+          ],
+          "qpos_robot": [
+            0.03734809144753889,
+            1.1705573235774651,
+            0.014021885077452317,
+            -0.466949527415309,
+            -0.004966795197432135,
+            2.9384216150109217,
+            0.9343290756828465,
+            0.039999999281939216,
+            -0.039999999999082866
+          ]
+        },
+        "pregrasp": {
+          "contact_counts": {
+            "forbidden": 4,
+            "handle_nonlegal": 0,
+            "max_contact_force_n": 87696.7429178438,
+            "max_penetration_m": 0.10778610227485204,
+            "other": 0,
+            "target": 0
+          },
+          "feasible": false,
+          "max_pad_error_m": 0.04636581886370856,
+          "mean_pad_error_m": 0.0460129553343674,
+          "per_pad_error_m": [
+            0.045660091805026254,
+            0.04636581886370856
+          ],
+          "qpos_robot": [
+            0.043837482057558164,
+            1.173161241926522,
+            0.002769602223312671,
+            -0.4675707479765524,
+            0.006970134955009847,
+            2.9388066064358545,
+            0.931637031382587,
+            0.03999999710158355,
+            -0.039999999999999994
+          ]
+        }
+      },
+      "max_endpoint_residual_m": 0.11583795114771582,
+      "reset": {
+        "qpos_arm": [
+          0.724,
+          -0.559,
+          -0.599,
+          -2.823,
+          0.264,
+          3.198,
+          0.215
+        ],
+        "reset_counts": {
+          "forbidden": 0,
+          "handle_nonlegal": 0,
+          "max_contact_force_n": 0.0,
+          "max_penetration_m": 0.0,
+          "other": 0,
+          "target": 0
+        },
+        "reset_ok": true,
+        "score": 0.0
+      },
+      "score": 86.43074567906083,
+      "seed": 12,
+      "two_pad_frame": {
+        "contact_targets": [
+          [
+            0.18115252643858598,
+            -0.048836075412548044,
+            0.45903540465260456
+          ],
+          [
+            0.18051935425566323,
+            0.05129796376799288,
+            0.47422826626809794
+          ]
+        ],
+        "guarded_targets": [
+          [
+            0.1567050879857085,
+            -0.04820340760731233,
+            0.45384671651965747
+          ],
+          [
+            0.15607191580278576,
+            0.051930631573228594,
+            0.46903957813515085
+          ]
+        ],
+        "hold_targets": [
+          [
+            0.18115252643858598,
+            -0.048836075412548044,
+            0.45903540465260456
+          ],
+          [
+            0.18051935425566323,
+            0.05129796376799288,
+            0.47422826626809794
+          ]
+        ],
+        "legal_pad_ids": [
+          98,
+          101
+        ],
+        "pad_assignment": [
+          [
+            98,
+            0
+          ],
+          [
+            101,
+            1
+          ]
+        ],
+        "pad_body_names": [
+          "finger_joint1_tip",
+          "finger_joint2_tip"
+        ],
+        "pad_current_centers": [
+          [
+            -0.3791938077381567,
+            -0.02401267045140671,
+            0.3416886046754399
+          ],
+          [
+            -0.4122075426832669,
+            0.05631458936106053,
+            0.34684851126319477
+          ]
+        ],
+        "pad_geom_names": [
+          "finger1_pad_collision",
+          "finger2_pad_collision"
+        ],
+        "pad_radius_m": 0.008,
+        "pinch_half_width_m": 0.050641015377090495,
+        "pregrasp_distance_m": 0.07,
+        "pregrasp_targets": [
+          [
+            0.11269969877052903,
+            -0.047064605557888044,
+            0.4445070778803527
+          ],
+          [
+            0.11206652658760628,
+            0.05306943362265288,
+            0.4596999394958461
+          ]
+        ],
+        "quality": "ok"
+      },
+      "violated_constraints": [
+        "pregrasp_ik_or_contact_constraints_failed",
+        "guarded_ik_or_contact_constraints_failed",
+        "contact_hold_ik_or_contact_constraints_failed"
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "base_pos": [
+        -0.74,
+        0.12,
+        -0.02
+      ],
+      "best_contact_only_ik": {
+        "contact_counts": {
+          "forbidden": 5,
+          "handle_nonlegal": 0,
+          "max_contact_force_n": 132933.1211168982,
+          "max_penetration_m": 0.09505515953269687,
+          "other": 0,
+          "target": 0
+        },
+        "feasible": false,
+        "max_pad_error_m": 0.05444152602381532,
+        "mean_pad_error_m": 0.05442055839233641,
+        "per_pad_error_m": [
+          0.054399590760857486,
+          0.05444152602381532
+        ],
+        "qpos_robot": [
+          0.03490724926496724,
+          1.2779247967987206,
+          0.08831204974838097,
+          -0.4671267083315777,
+          0.0013107271210773728,
+          2.9380640953222907,
+          0.7350545024774812,
+          0.03999999996359897,
+          -0.039999990662233184
+        ]
+      },
+      "binding": {
+        "binding_generated": true,
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          24,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          38,
+          23
+        ],
+        "drawer_handle_geom_ids": [
+          37
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          51,
+          53,
+          55,
+          60,
+          65,
+          69,
+          87,
+          96,
+          98
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          69,
+          87,
+          96
+        ],
+        "legal_finger_pad_geom_ids": [
+          101,
+          104
+        ]
+      },
+      "endpoint_feasible": false,
+      "handle_frame": {
+        "approach_normal": [
+          -0.944209575835229,
+          0.0813441346463737,
+          0.3191416749026827
+        ],
+        "handle_bar_axis": [
+          0.07706128620718493,
+          0.9966860748292977,
+          -0.0260466199239307
+        ],
+        "handle_body_names": [
+          "link_2"
+        ],
+        "handle_center": [
+          0.2901009470222997,
+          0.0,
+          0.3353935927150227
+        ],
+        "handle_geom_ids": [
+          37
+        ],
+        "handle_geom_names": [
+          "drawer_handle_collision_1_0.obj"
+        ],
+        "handle_radius_normal_m": 0.034641015377090495,
+        "handle_radius_pinch_m": 0.034641015377090495,
+        "notes": [
+          "bar_axis_from_handle_point_pca"
+        ],
+        "pinch_axis": [
+          0.09862303631743904,
+          0.9943863227563506,
+          0.03833194258881072
+        ],
+        "pull_axis": [
+          1.0,
+          -7.450580596923828e-09,
+          1.4901161193847656e-08
+        ],
+        "quality": "ok"
+      },
+      "ik": {
+        "contact_hold": {
+          "contact_counts": {
+            "forbidden": 5,
+            "handle_nonlegal": 0,
+            "max_contact_force_n": 133060.52258340328,
+            "max_penetration_m": 0.09508188388924195,
+            "other": 0,
+            "target": 0
+          },
+          "feasible": false,
+          "max_pad_error_m": 0.054512626721936,
+          "mean_pad_error_m": 0.0544203257111984,
+          "per_pad_error_m": [
+            0.054512626721936,
+            0.054328024700460796
+          ],
+          "qpos_robot": [
+            0.03523824319230061,
+            1.278008013185535,
+            0.08594340210075496,
+            -0.4670581521451523,
+            -0.004471341197430038,
+            2.9383371068070736,
+            0.7438326709946234,
+            0.03999999999999862,
+            -0.039999999999994026
+          ]
+        },
+        "guarded": {
+          "contact_counts": {
+            "forbidden": 4,
+            "handle_nonlegal": 0,
+            "max_contact_force_n": 133655.233573674,
+            "max_penetration_m": 0.0949113147602894,
+            "other": 0,
+            "target": 0
+          },
+          "feasible": false,
+          "max_pad_error_m": 0.031598098571158334,
+          "mean_pad_error_m": 0.03145319714517851,
+          "per_pad_error_m": [
+            0.031598098571158334,
+            0.031308295719198694
+          ],
+          "qpos_robot": [
+            0.03660054127440122,
+            1.2686880469266655,
+            0.0789361050071501,
+            -0.46709854330681916,
+            0.0030818159028776536,
+            2.9385290682235143,
+            0.7427685058873893,
+            0.039999999999999994,
+            -0.039999999999999994
+          ]
+        },
+        "pregrasp": {
+          "contact_counts": {
+            "forbidden": 5,
+            "handle_nonlegal": 0,
+            "max_contact_force_n": 100212.52350578838,
+            "max_penetration_m": 0.10601839034315348,
+            "other": 0,
+            "target": 0
+          },
+          "feasible": false,
+          "max_pad_error_m": 0.00714349392662884,
+          "mean_pad_error_m": 0.007141348179306971,
+          "per_pad_error_m": [
+            0.00714349392662884,
+            0.007139202431985101
+          ],
+          "qpos_robot": [
+            0.02671328665073255,
+            1.0393700848910874,
+            0.06516383666205938,
+            -0.7845498697347423,
+            0.026341109978147825,
+            2.9197675639660714,
+            0.737124393626619,
+            0.039999999999999994,
+            -0.039999999999999994
+          ]
+        }
+      },
+      "max_endpoint_residual_m": 0.054512626721936,
+      "reset": {
+        "qpos_arm": [
+          0.0,
+          -1.0,
+          0.0,
+          -2.5,
+          0.0,
+          2.2,
+          0.8
+        ],
+        "reset_counts": {
+          "forbidden": 0,
+          "handle_nonlegal": 0,
+          "max_contact_force_n": 0.0,
+          "max_penetration_m": 0.0,
+          "other": 0,
+          "target": 0
+        },
+        "reset_ok": true,
+        "score": 0.0
+      },
+      "score": 93.65567152599041,
+      "seed": 11,
+      "two_pad_frame": {
+        "contact_targets": [
+          [
+            0.2391792638262155,
+            -0.046400071757302444,
+            0.34897579933736084
+          ],
+          [
+            0.24916800522358903,
+            0.05431339436564321,
+            0.3528581363255083
+          ]
+        ],
+        "guarded_targets": [
+          [
+            0.21557402443033477,
+            -0.0443664683911431,
+            0.3569543412099279
+          ],
+          [
+            0.22556276582770832,
+            0.05634699773180255,
+            0.36083667819807536
+          ]
+        ],
+        "hold_targets": [
+          [
+            0.2391792638262155,
+            -0.046400071757302444,
+            0.34897579933736084
+          ],
+          [
+            0.24916800522358903,
+            0.05431339436564321,
+            0.3528581363255083
+          ]
+        ],
+        "legal_pad_ids": [
+          101,
+          104
+        ],
+        "pad_assignment": [
+          [
+            101,
+            0
+          ],
+          [
+            104,
+            1
+          ]
+        ],
+        "pad_body_names": [
+          "finger_joint1_tip",
+          "finger_joint2_tip"
+        ],
+        "pad_current_centers": [
+          [
+            -0.401404700956634,
+            0.016129687960508003,
+            0.5660171340161617
+          ],
+          [
+            -0.3853742227966204,
+            0.10163640396203683,
+            0.5668078859337661
+          ]
+        ],
+        "pad_geom_names": [
+          "finger1_pad_collision",
+          "finger2_pad_collision"
+        ],
+        "pad_radius_m": 0.008,
+        "pinch_half_width_m": 0.050641015377090495,
+        "pregrasp_distance_m": 0.07,
+        "pregrasp_targets": [
+          [
+            0.17308459351774946,
+            -0.04070598233205629,
+            0.3713157165805486
+          ],
+          [
+            0.183073334915123,
+            0.06000748379088937,
+            0.37519805356869607
+          ]
+        ],
+        "quality": "ok"
+      },
+      "violated_constraints": [
+        "pregrasp_ik_or_contact_constraints_failed",
+        "guarded_ik_or_contact_constraints_failed",
+        "contact_hold_ik_or_contact_constraints_failed"
+      ],
+      "yaw_deg": -10.0
+    },
+    {
+      "base_pos": [
+        -0.98,
+        0.04,
+        0.1
+      ],
+      "best_contact_only_ik": {
+        "contact_counts": {
+          "forbidden": 5,
+          "handle_nonlegal": 0,
+          "max_contact_force_n": 46623.120189051086,
+          "max_penetration_m": 0.10616546867528431,
+          "other": 0,
+          "target": 0
+        },
+        "feasible": false,
+        "max_pad_error_m": 0.27580640678648516,
+        "mean_pad_error_m": 0.26609963159872907,
+        "per_pad_error_m": [
+          0.256392856410973,
+          0.27580640678648516
+        ],
+        "qpos_robot": [
+          -0.1164632180292671,
+          1.3775367440204331,
+          1.693359672955924,
+          -0.4669954979809375,
+          0.013681548332138567,
+          2.867404650230416,
+          -0.7689897711775004,
+          0.039999999999999994,
+          -5.13388349095843e-37
+        ]
+      },
+      "binding": {
+        "binding_generated": true,
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          24,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          36,
+          23
+        ],
+        "drawer_handle_geom_ids": [
+          35
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          49,
+          51,
+          53,
+          58,
+          63,
+          67,
+          85,
+          94,
+          96
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          63,
+          67,
+          85,
+          94
+        ],
+        "legal_finger_pad_geom_ids": [
+          99,
+          102
+        ]
+      },
+      "endpoint_feasible": false,
+      "handle_frame": {
+        "approach_normal": [
+          -0.9521512807876251,
+          0.018350868777754513,
+          -0.3050757022602534
+        ],
+        "handle_bar_axis": [
+          0.017475745975115944,
+          0.999831608629724,
+          0.0055993470611834986
+        ],
+        "handle_body_names": [
+          "link_2"
+        ],
+        "handle_center": [
+          0.24831543862810046,
+          0.0,
+          0.7082004249093218
+        ],
+        "handle_geom_ids": [
+          35
+        ],
+        "handle_geom_names": [
+          "drawer_handle_collision_1_0.obj"
+        ],
+        "handle_radius_normal_m": 0.034641015377090495,
+        "handle_radius_pinch_m": 0.034641015377090495,
+        "notes": [
+          "bar_axis_from_handle_point_pca"
+        ],
+        "pinch_axis": [
+          -0.02054753636824246,
+          0.9920937053149033,
+          0.12380581013725432
+        ],
+        "pull_axis": [
+          1.0,
+          7.450580596923828e-09,
+          0.0
+        ],
+        "quality": "ok"
+      },
+      "ik": {
+        "contact_hold": {
+          "contact_counts": {
+            "forbidden": 5,
+            "handle_nonlegal": 0,
+            "max_contact_force_n": 46403.81941385665,
+            "max_penetration_m": 0.1064285126879377,
+            "other": 0,
+            "target": 0
+          },
+          "feasible": false,
+          "max_pad_error_m": 0.2760517815235009,
+          "mean_pad_error_m": 0.2662975887866864,
+          "per_pad_error_m": [
+            0.256543396049872,
+            0.2760517815235009
+          ],
+          "qpos_robot": [
+            0.37939685990318683,
+            1.2364822230680421,
+            -1.1699830115347176,
+            -0.4625134669104801,
+            2.8880702401497467,
+            2.4521135347289342,
+            -0.8764611676368724,
+            0.039999999999999994,
+            -2.824285214610788e-18
+          ]
+        },
+        "guarded": {
+          "contact_counts": {
+            "forbidden": 5,
+            "handle_nonlegal": 0,
+            "max_contact_force_n": 46232.85141838154,
+            "max_penetration_m": 0.10603544745065069,
+            "other": 0,
+            "target": 0
+          },
+          "feasible": false,
+          "max_pad_error_m": 0.25127865159151425,
+          "mean_pad_error_m": 0.24159036207554394,
+          "per_pad_error_m": [
+            0.23190207255957362,
+            0.25127865159151425
+          ],
+          "qpos_robot": [
+            0.378620991338597,
+            1.237012348930367,
+            -1.1639958337231735,
+            -0.4621191802890839,
+            2.8851654248851686,
+            2.4543818513051106,
+            -0.878368940412683,
+            0.039999999999999994,
+            -4.0510289102146005e-37
+          ]
+        },
+        "pregrasp": {
+          "contact_counts": {
+            "forbidden": 5,
+            "handle_nonlegal": 0,
+            "max_contact_force_n": 46029.81690707187,
+            "max_penetration_m": 0.105366568944171,
+            "other": 0,
+            "target": 0
+          },
+          "feasible": false,
+          "max_pad_error_m": 0.20689239758225114,
+          "mean_pad_error_m": 0.19728493827905993,
+          "per_pad_error_m": [
+            0.18767747897586873,
+            0.20689239758225114
+          ],
+          "qpos_robot": [
+            0.36955698048289704,
+            1.2249870274526624,
+            -1.0972328524681014,
+            -0.4613185587374551,
+            2.852640869019295,
+            2.4575161005698796,
+            -0.9006321955638772,
+            0.039999999999999994,
+            -4.907819773641044e-39
+          ]
+        }
+      },
+      "max_endpoint_residual_m": 0.2760517815235009,
+      "reset": {
+        "qpos_arm": [
+          0.724,
+          -0.559,
+          -0.599,
+          -2.823,
+          0.264,
+          3.198,
+          0.215
+        ],
+        "reset_counts": {
+          "forbidden": 0,
+          "handle_nonlegal": 0,
+          "max_contact_force_n": 0.0,
+          "max_penetration_m": 0.0,
+          "other": 0,
+          "target": 0
+        },
+        "reset_ok": true,
+        "score": 0.0
+      },
+      "score": 101.05910468979943,
+      "seed": 14,
+      "two_pad_frame": {
+        "contact_targets": [
+          [
+            0.20304238164317867,
+            -0.049348027695964976,
+            0.6870915810495702
+          ],
+          [
+            0.20096128543280767,
+            0.051133237476768435,
+            0.699630884919438
+          ]
+        ],
+        "guarded_targets": [
+          [
+            0.17923859962348804,
+            -0.048889255976521113,
+            0.679464688493064
+          ],
+          [
+            0.17715750341311703,
+            0.0515920091962123,
+            0.6920039923629318
+          ]
+        ],
+        "hold_targets": [
+          [
+            0.20304238164317867,
+            -0.049348027695964976,
+            0.6870915810495702
+          ],
+          [
+            0.20096128543280767,
+            0.051133237476768435,
+            0.699630884919438
+          ]
+        ],
+        "legal_pad_ids": [
+          99,
+          102
+        ],
+        "pad_assignment": [
+          [
+            99,
+            0
+          ],
+          [
+            102,
+            1
+          ]
+        ],
+        "pad_body_names": [
+          "finger_joint1_tip",
+          "finger_joint2_tip"
+        ],
+        "pad_current_centers": [
+          [
+            -0.5037221946805259,
+            -0.02774689205781654,
+            0.4616886046754398
+          ],
+          [
+            -0.5222856555074266,
+            0.05709279963265192,
+            0.46684851126319477
+          ]
+        ],
+        "pad_geom_names": [
+          "finger1_pad_collision",
+          "finger2_pad_collision"
+        ],
+        "pad_radius_m": 0.008,
+        "pinch_half_width_m": 0.050641015377090495,
+        "pregrasp_distance_m": 0.07,
+        "pregrasp_targets": [
+          [
+            0.1363917919880449,
+            -0.04806346688152216,
+            0.6657362818913525
+          ],
+          [
+            0.1343106957776739,
+            0.05241779829121125,
+            0.6782755857612203
+          ]
+        ],
+        "quality": "ok"
+      },
+      "violated_constraints": [
+        "pregrasp_ik_or_contact_constraints_failed",
+        "guarded_ik_or_contact_constraints_failed",
+        "contact_hold_ik_or_contact_constraints_failed"
+      ],
+      "yaw_deg": -10.0
+    },
+    {
+      "base_pos": [
+        -0.8,
+        0.04,
+        0.1
+      ],
+      "best_contact_only_ik": {
+        "contact_counts": {
+          "forbidden": 13,
+          "handle_nonlegal": 0,
+          "max_contact_force_n": 144072.55529471772,
+          "max_penetration_m": 0.11305711438391025,
+          "other": 0,
+          "target": 0
+        },
+        "feasible": false,
+        "max_pad_error_m": 0.16526779268100217,
+        "mean_pad_error_m": 0.15535210410997663,
+        "per_pad_error_m": [
+          0.16526779268100217,
+          0.14543641553895112
+        ],
+        "qpos_robot": [
+          0.22023679495150708,
+          1.4064667942740101,
+          -1.5378929036025393,
+          -0.46718943825142,
+          -0.005670083895230665,
+          2.8746511339844103,
+          2.3143947535915768,
+          2.5013745919035954e-37,
+          -0.039999999999999994
+        ]
+      },
+      "binding": {
+        "binding_generated": true,
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          21,
+          22,
+          23,
+          25,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          34,
+          35,
+          36,
+          37,
+          39,
+          24
+        ],
+        "drawer_handle_geom_ids": [
+          38
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          52,
+          54,
+          56,
+          61,
+          66,
+          70,
+          88,
+          97,
+          99
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          70,
+          88,
+          97
+        ],
+        "legal_finger_pad_geom_ids": [
+          102,
+          105
+        ]
+      },
+      "endpoint_feasible": false,
+      "handle_frame": {
+        "approach_normal": [
+          -0.9913769491894991,
+          0.05068981612307548,
+          0.12083992368886129
+        ],
+        "handle_bar_axis": [
+          0.050317401052358435,
+          0.9987144449448044,
+          -0.006133238127394229
+        ],
+        "handle_body_names": [
+          "link_2"
+        ],
+        "handle_center": [
+          0.3342661708588999,
+          0.0,
+          0.591056138276585
+        ],
+        "handle_geom_ids": [
+          38
+        ],
+        "handle_geom_names": [
+          "drawer_handle_collision_1_0.obj"
+        ],
+        "handle_radius_normal_m": 0.034641015377090495,
+        "handle_radius_pinch_m": 0.034641015377090495,
+        "notes": [
+          "bar_axis_from_handle_point_pca"
+        ],
+        "pinch_axis": [
+          0.051565408020494176,
+          0.9986610884032584,
+          0.004127857180065542
+        ],
+        "pull_axis": [
+          0.9999999999999982,
+          -1.490116119384763e-08,
+          -5.960464477539052e-08
+        ],
+        "quality": "ok"
+      },
+      "ik": {
+        "contact_hold": {
+          "contact_counts": {
+            "forbidden": 6,
+            "handle_nonlegal": 0,
+            "max_contact_force_n": 136320.02350046637,
+            "max_penetration_m": 0.11122677258140952,
+            "other": 0,
+            "target": 0
+          },
+          "feasible": false,
+          "max_pad_error_m": 0.16151527705448956,
+          "mean_pad_error_m": 0.16138004307286485,
+          "per_pad_error_m": [
+            0.16124480909124012,
+            0.16151527705448956
+          ],
+          "qpos_robot": [
+            -0.02532489429171603,
+            1.1657182943368605,
+            -0.03682769139705231,
+            -0.4670390709304532,
+            -0.0037993801706815477,
+            2.9380797999678423,
+            0.8301300124150524,
+            0.03999999917903871,
+            -0.03999999999927849
+          ]
+        },
+        "guarded": {
+          "contact_counts": {
+            "forbidden": 6,
+            "handle_nonlegal": 0,
+            "max_contact_force_n": 134292.95916479197,
+            "max_penetration_m": 0.1116294520678422,
+            "other": 0,
+            "target": 0
+          },
+          "feasible": false,
+          "max_pad_error_m": 0.13776628765174811,
+          "mean_pad_error_m": 0.13734322221029283,
+          "per_pad_error_m": [
+            0.13692015676883754,
+            0.13776628765174811
+          ],
+          "qpos_robot": [
+            -0.028316629781665294,
+            1.159456529365642,
+            -0.022960556211639716,
+            -0.46704874384549655,
+            -0.0002153077826978153,
+            2.9382848408549935,
+            0.8133972928412975,
+            0.039999967377935666,
+            -0.039999999997326126
+          ]
+        },
+        "pregrasp": {
+          "contact_counts": {
+            "forbidden": 6,
+            "handle_nonlegal": 0,
+            "max_contact_force_n": 137200.3696326396,
+            "max_penetration_m": 0.11279888900328684,
+            "other": 0,
+            "target": 0
+          },
+          "feasible": false,
+          "max_pad_error_m": 0.09429269142004401,
+          "mean_pad_error_m": 0.09422548020730598,
+          "per_pad_error_m": [
+            0.09429269142004401,
+            0.09415826899456795
+          ],
+          "qpos_robot": [
+            -0.018312669470005028,
+            1.1476700122052945,
+            -0.05849613421720374,
+            -0.4672558632233281,
+            0.001964925231792846,
+            2.9380223460459165,
+            0.8426563611738126,
+            0.03999806177743966,
+            -0.039999998882758854
+          ]
+        }
+      },
+      "max_endpoint_residual_m": 0.16151527705448956,
+      "reset": {
+        "qpos_arm": [
+          0.0,
+          -1.0,
+          0.0,
+          -2.5,
+          0.0,
+          2.2,
+          0.8
+        ],
+        "reset_counts": {
+          "forbidden": 0,
+          "handle_nonlegal": 0,
+          "max_contact_force_n": 0.0,
+          "max_penetration_m": 0.0,
+          "other": 0,
+          "target": 0
+        },
+        "reset_ok": true,
+        "score": 0.0
+      },
+      "score": 117.72702664230835,
+      "seed": 13,
+      "two_pad_frame": {
+        "contact_targets": [
+          [
+            0.28343326480838865,
+            -0.048107607408826934,
+            0.5967248759839713
+          ],
+          [
+            0.28865591404937224,
+            0.05303881565983574,
+            0.5971429537418315
+          ]
+        ],
+        "guarded_targets": [
+          [
+            0.25864884107865116,
+            -0.04684036200575005,
+            0.5997458740761928
+          ],
+          [
+            0.26387149031963475,
+            0.05430606106291262,
+            0.600163951834053
+          ]
+        ],
+        "hold_targets": [
+          [
+            0.28343326480838865,
+            -0.048107607408826934,
+            0.5967248759839713
+          ],
+          [
+            0.28865591404937224,
+            0.05303881565983574,
+            0.5971429537418315
+          ]
+        ],
+        "legal_pad_ids": [
+          102,
+          105
+        ],
+        "pad_assignment": [
+          [
+            102,
+            0
+          ],
+          [
+            105,
+            1
+          ]
+        ],
+        "pad_body_names": [
+          "finger_joint1_tip",
+          "finger_joint2_tip"
+        ],
+        "pad_current_centers": [
+          [
+            -0.4485118139646605,
+            -0.0034956703021617195,
+            0.6860171340161615
+          ],
+          [
+            -0.44757300020924623,
+            0.08349567030216172,
+            0.6868078859337658
+          ]
+        ],
+        "pad_geom_names": [
+          "finger1_pad_collision",
+          "finger2_pad_collision"
+        ],
+        "pad_radius_m": 0.008,
+        "pinch_half_width_m": 0.050641015377090495,
+        "pregrasp_distance_m": 0.07,
+        "pregrasp_targets": [
+          [
+            0.2140368783651237,
+            -0.04455932028021165,
+            0.6051836706421916
+          ],
+          [
+            0.21925952760610729,
+            0.05658710278845102,
+            0.6056017484000518
+          ]
+        ],
+        "quality": "ok"
+      },
+      "violated_constraints": [
+        "pregrasp_ik_or_contact_constraints_failed",
+        "guarded_ik_or_contact_constraints_failed",
+        "contact_hold_ik_or_contact_constraints_failed"
+      ],
+      "yaw_deg": 0.0
+    },
+    {
+      "base_pos": [
+        -0.8,
+        -0.12,
+        0.1
+      ],
+      "best_contact_only_ik": {
+        "contact_counts": {
+          "forbidden": 7,
+          "handle_nonlegal": 0,
+          "max_contact_force_n": 116150.94011953179,
+          "max_penetration_m": 0.08409855101177277,
+          "other": 0,
+          "target": 0
+        },
+        "feasible": false,
+        "max_pad_error_m": 0.3030428503511899,
+        "mean_pad_error_m": 0.29233170190734875,
+        "per_pad_error_m": [
+          0.3030428503511899,
+          0.2816205534635076
+        ],
+        "qpos_robot": [
+          0.25856652431644944,
+          1.2181799670456774,
+          -1.5676018469088806,
+          -0.4671642059094572,
+          -0.010423828168464268,
+          2.866232086403714,
+          2.3239545257067182,
+          1.2971693539553068e-35,
+          -0.039999999999999994
+        ]
+      },
+      "binding": {
+        "binding_generated": true,
+        "drawer_body_or_cabinet_geom_ids": [
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          12,
+          13,
+          14,
+          15,
+          16,
+          17,
+          18,
+          19,
+          20,
+          22,
+          25,
+          26,
+          27,
+          28,
+          29,
+          30,
+          31,
+          32,
+          33,
+          35,
+          34
+        ],
+        "drawer_handle_geom_ids": [
+          21
+        ],
+        "forbidden_robot_surface_geom_ids": [
+          48,
+          50,
+          52,
+          57,
+          62,
+          66,
+          84,
+          93,
+          95
+        ],
+        "goc_v3_broad_link_geoms_demoted_from_target": [
+          66,
+          84,
+          93
+        ],
+        "legal_finger_pad_geom_ids": [
+          98,
+          101
+        ]
+      },
+      "endpoint_feasible": false,
+      "handle_frame": {
+        "approach_normal": [
+          -0.9640100042093253,
+          0.1858085569204554,
+          -0.1901575451026717
+        ],
+        "handle_bar_axis": [
+          0.18229581326687438,
+          0.9825859657939033,
+          0.03595909189942056
+        ],
+        "handle_body_names": [
+          "link_1"
+        ],
+        "handle_center": [
+          0.3938370496036004,
+          -0.34441602230100066,
+          0.8535337150096765
+        ],
+        "handle_geom_ids": [
+          21
+        ],
+        "handle_geom_names": [
+          "drawer_handle_collision_0_0.obj"
+        ],
+        "handle_radius_normal_m": 0.034641015377090495,
+        "handle_radius_pinch_m": 0.034641015377090495,
+        "notes": [
+          "bar_axis_from_handle_point_pca"
+        ],
+        "pinch_axis": [
+          0.18740592703344333,
+          0.9822345634458373,
+          0.00970983445282374
+        ],
+        "pull_axis": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "quality": "ok"
+      },
+      "ik": {
+        "contact_hold": {
+          "contact_counts": {
+            "forbidden": 7,
+            "handle_nonlegal": 0,
+            "max_contact_force_n": 114928.96547922719,
+            "max_penetration_m": 0.0855558872479276,
+            "other": 0,
+            "target": 0
+          },
+          "feasible": false,
+          "max_pad_error_m": 0.30302994504791525,
+          "mean_pad_error_m": 0.29232596220219814,
+          "per_pad_error_m": [
+            0.30302994504791525,
+            0.28162197935648103
+          ],
+          "qpos_robot": [
+            0.25808132033968384,
+            1.228239889115471,
+            -1.6045958899543122,
+            -0.46693472979455464,
+            -0.011303844611425072,
+            2.8670484899880444,
+            2.3465974847506788,
+            3.6404074922448603e-13,
+            -0.03999999999988915
+          ]
+        },
+        "guarded": {
+          "contact_counts": {
+            "forbidden": 7,
+            "handle_nonlegal": 0,
+            "max_contact_force_n": 114541.58150039919,
+            "max_penetration_m": 0.08361910678143758,
+            "other": 0,
+            "target": 0
+          },
+          "feasible": false,
+          "max_pad_error_m": 0.2784321495106265,
+          "mean_pad_error_m": 0.2677465135574384,
+          "per_pad_error_m": [
+            0.2784321495106265,
+            0.2570608776042503
+          ],
+          "qpos_robot": [
+            0.2585598753240391,
+            1.2229141688374512,
+            -1.5966844506383904,
+            -0.46708707747462624,
+            -0.010779182211870872,
+            2.867399752118019,
+            2.339273692626645,
+            5.4456384818809293e-14,
+            -0.039999999999991515
+          ]
+        },
+        "pregrasp": {
+          "contact_counts": {
+            "forbidden": 7,
+            "handle_nonlegal": 0,
+            "max_contact_force_n": 113842.24133094151,
+            "max_penetration_m": 0.08036774594132179,
+            "other": 0,
+            "target": 0
+          },
+          "feasible": false,
+          "max_pad_error_m": 0.23424163866886458,
+          "mean_pad_error_m": 0.22361245029337978,
+          "per_pad_error_m": [
+            0.23424163866886458,
+            0.21298326191789502
+          ],
+          "qpos_robot": [
+            0.25905447332078024,
+            1.215612164219625,
+            -1.5917857859302578,
+            -0.467250115131076,
+            -0.0067753829949674235,
+            2.8691984385970466,
+            2.3267466993872774,
+            1.2009690032945865e-35,
+            -0.039999999999999994
+          ]
+        }
+      },
+      "max_endpoint_residual_m": 0.30302994504791525,
+      "reset": {
+        "qpos_arm": [
+          0.0,
+          -1.0,
+          0.0,
+          -2.5,
+          0.0,
+          2.2,
+          0.8
+        ],
+        "reset_counts": {
+          "forbidden": 0,
+          "handle_nonlegal": 0,
+          "max_contact_force_n": 0.0,
+          "max_penetration_m": 0.0,
+          "other": 0,
+          "target": 0
+        },
+        "reset_ok": true,
+        "score": 0.0
+      },
+      "score": 124.25730394211661,
+      "seed": 8,
+      "two_pad_frame": {
+        "contact_targets": [
+          [
+            0.337456197732527,
+            -0.3851194610580082,
+            0.8437925430584332
+          ],
+          [
+            0.35643705059784403,
+            -0.28563674979526743,
+            0.844775974810102
+          ]
+        ],
+        "guarded_targets": [
+          [
+            0.31335594762729385,
+            -0.38047424713499683,
+            0.8390386044308664
+          ],
+          [
+            0.3323368004926109,
+            -0.28099153587225606,
+            0.8400220361825352
+          ]
+        ],
+        "hold_targets": [
+          [
+            0.337456197732527,
+            -0.3851194610580082,
+            0.8437925430584332
+          ],
+          [
+            0.35643705059784403,
+            -0.28563674979526743,
+            0.844775974810102
+          ]
+        ],
+        "legal_pad_ids": [
+          98,
+          101
+        ],
+        "pad_assignment": [
+          [
+            98,
+            0
+          ],
+          [
+            101,
+            1
+          ]
+        ],
+        "pad_body_names": [
+          "finger_joint1_tip",
+          "finger_joint2_tip"
+        ],
+        "pad_current_centers": [
+          [
+            -0.46140470095663416,
+            -0.223870312039492,
+            0.6860171340161618
+          ],
+          [
+            -0.4453742227966206,
+            -0.1383635960379632,
+            0.6868078859337662
+          ]
+        ],
+        "pad_geom_names": [
+          "finger1_pad_collision",
+          "finger2_pad_collision"
+        ],
+        "pad_radius_m": 0.008,
+        "pinch_half_width_m": 0.050641015377090495,
+        "pregrasp_distance_m": 0.07,
+        "pregrasp_targets": [
+          [
+            0.2699754974378742,
+            -0.3721128620735763,
+            0.8304815149012462
+          ],
+          [
+            0.2889563503031912,
+            -0.2726301508108355,
+            0.831464946652915
+          ]
+        ],
+        "quality": "ok"
+      },
+      "violated_constraints": [
+        "pregrasp_ik_or_contact_constraints_failed",
+        "guarded_ik_or_contact_constraints_failed",
+        "contact_hold_ik_or_contact_constraints_failed"
+      ],
+      "yaw_deg": -10.0
+    }
+  ],
+  "candidate_rows": 3120,
+  "cycle": 3,
+  "cycle_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_placement_keepout_repair_to_layer4r_certify_20260502T161559Z/cycle_3_handle_surface_offset_repair",
+  "failure_histogram": {
+    "contact_hold_forbidden_contact": 3120,
+    "contact_hold_ik_or_contact_constraints_failed": 3120,
+    "contact_hold_penetration_gt_threshold": 3120,
+    "guarded_forbidden_contact": 3120,
+    "guarded_ik_or_contact_constraints_failed": 3120,
+    "guarded_penetration_gt_threshold": 3120,
+    "pregrasp_forbidden_contact": 3120,
+    "pregrasp_ik_or_contact_constraints_failed": 3120,
+    "pregrasp_penetration_gt_threshold": 3120
+  },
+  "previous_best_cycle": 2,
+  "progress_improved": false,
+  "summary": {
+    "all_mandatory_seeds_stage3_without_indexing_errors": true,
+    "best_overall_two_pad_residual_m": 0.007141125062892783,
+    "best_reset_clean_two_pad_residual_m": 0.007141125062892783,
+    "feasible_candidates": [],
+    "feasible_case_count": 0,
+    "feasible_seed_count": 0,
+    "generated_at_utc": "2026-05-02T19:49:30Z",
+    "schema_error_count": 0,
+    "schema_error_seeds": [],
+    "seeds_total": 13
+  },
+  "variant": {
+    "base_xs": [
+      -0.56,
+      -0.62,
+      -0.68,
+      -0.74,
+      -0.8,
+      -0.86,
+      -0.92,
+      -0.98
+    ],
+    "base_yaws": [
+      -40.0,
+      -30.0,
+      -20.0,
+      -10.0,
+      0.0,
+      10.0
+    ],
+    "base_ys": [
+      -0.12,
+      -0.04,
+      0.04,
+      0.12,
+      0.2
+    ],
+    "description": "Move two-pad targets outward from handle/cabinet shells without changing handle geometry.",
+    "max_base_candidates": 240,
+    "name": "handle_surface_offset_repair",
+    "params": {
+      "close_cmd": -1.0,
+      "close_start_step": 9999,
+      "contact_normal_offset_m": 0.006,
+      "guarded_distance_m": 0.025,
+      "guarded_steps": 160,
+      "hold_gain": 2.5,
+      "hold_steps": 140,
+      "joint_gain": 4.0,
+      "joint_vel_limit": 1.25,
+      "name": "surface_offset_repair",
+      "pinch_extra_clearance_m": 0.008,
+      "pregrasp_distance_m": 0.07,
+      "pregrasp_steps": 160
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "no_bounded_rollout_before_layer4r": true,
+  "no_controller_cem_before_endpoint_feasibility": true,
+  "schema_binding_is_precondition_and_now_verified": true,
+  "tests_model_placement_keepout_repair": true
+}

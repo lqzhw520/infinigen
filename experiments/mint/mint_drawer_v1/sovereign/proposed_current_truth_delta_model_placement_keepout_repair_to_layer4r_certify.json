@@ -1,0 +1,17 @@
+{
+  "MINT_training_allowed": false,
+  "approach_corridor_verified": false,
+  "closeout_classification": "MODEL_PLACEMENT_KEEP_OUT_REPAIR_STALLED_WITH_SCHEMA_AWARE_CERTIFICATE",
+  "current_truth_direct_mutation": false,
+  "dynamic_probe_passed": false,
+  "endpoint_feasible_candidate_found": false,
+  "generated_at_utc": "2026-05-02T21:54:45Z",
+  "layer4R_full_matrix_attempted": false,
+  "layer5_strict_pull_rollout_attempted": false,
+  "layer6_export_bundle_complete": false,
+  "layer7_local_strict_replay_render_passed": false,
+  "next_actions_direct_mutation": false,
+  "next_gate": "MODEL_OR_PLACEMENT_REPAIR_WITH_SCHEMA_AWARE_INFEASIBILITY_CERTIFICATE",
+  "run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_placement_keepout_repair_to_layer4r_certify_20260502T161559Z",
+  "schema_aware_binding_preserved": true
+}

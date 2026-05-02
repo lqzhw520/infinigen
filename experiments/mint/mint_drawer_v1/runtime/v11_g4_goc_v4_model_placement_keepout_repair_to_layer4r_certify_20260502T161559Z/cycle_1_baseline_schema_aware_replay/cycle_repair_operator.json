@@ -1,0 +1,10 @@
+{
+  "base_xs": null,
+  "base_yaws": null,
+  "base_ys": null,
+  "description": "Replay previous schema-aware bounded search as control.",
+  "max_base_candidates": 80,
+  "name": "baseline_schema_aware_replay",
+  "params": null,
+  "planner_bases": null
+}

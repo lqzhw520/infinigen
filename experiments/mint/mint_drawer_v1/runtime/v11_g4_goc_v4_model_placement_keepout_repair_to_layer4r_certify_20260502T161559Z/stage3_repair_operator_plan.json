@@ -1,0 +1,11 @@
+{
+  "generated_at_utc": "2026-05-02T16:26:13Z",
+  "promotion_condition": "endpoint_feasible_candidate_found is true",
+  "repair_operators": [
+    "baseline_schema_aware_replay",
+    "expanded_side_mount_yaw_z_corridor",
+    "handle_surface_offset_repair",
+    "wide_mount_reset_keepout_repair"
+  ],
+  "rollback_condition": "operator not retained if feasible count and hard-constraint metrics do not improve"
+}

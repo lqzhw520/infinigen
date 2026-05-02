@@ -1,0 +1,7 @@
+{
+  "local_replay_dir": "/Users/zhuhaowu/Documents/Playground/local_replay/v11_g4_goc_v4_model_placement_keepout_repair_to_layer4r_certify_20260502T215445Z",
+  "mp4_video_created": false,
+  "passed": false,
+  "png_keyframes_created": false,
+  "reason": "No complete Layer6 export bundle."
+}

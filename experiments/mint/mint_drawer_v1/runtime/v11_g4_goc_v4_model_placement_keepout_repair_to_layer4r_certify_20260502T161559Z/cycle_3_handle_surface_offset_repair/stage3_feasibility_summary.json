@@ -1,0 +1,12 @@
+{
+  "all_mandatory_seeds_stage3_without_indexing_errors": true,
+  "best_overall_two_pad_residual_m": 0.007141125062892783,
+  "best_reset_clean_two_pad_residual_m": 0.007141125062892783,
+  "feasible_candidates": [],
+  "feasible_case_count": 0,
+  "feasible_seed_count": 0,
+  "generated_at_utc": "2026-05-02T19:49:30Z",
+  "schema_error_count": 0,
+  "schema_error_seeds": [],
+  "seeds_total": 13
+}

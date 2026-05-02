@@ -1,0 +1,19 @@
+{
+  "attestation_file_blobs_verified": true,
+  "attestation_origin_verified": true,
+  "commands": {
+    "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+    "head": "3f7048afe8c62a62ae876f41bad86066100f1813",
+    "pwd": "/mnt/afs2/zhuhaowu/infinigen",
+    "remote_v": "my-origin\tgit@github.com:lqzhw520/infinigen.git (fetch)\nmy-origin\tgit@github.com:lqzhw520/infinigen.git (push)\norigin\thttps://github.com/princeton-vl/infinigen.git (fetch)\norigin\thttps://github.com/princeton-vl/infinigen.git (push)",
+    "status_short": [
+      "M .project-memory/STATUS.md",
+      " M .session/checkpoint.md"
+    ],
+    "task_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_model_placement_keepout_repair_to_layer4r_certify_overnight.yaml"
+  },
+  "generated_at_utc": "2026-05-02T16:25:55Z",
+  "harness_status": "production_ready",
+  "lock_task_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_model_placement_keepout_repair_to_layer4r_certify_overnight.yaml",
+  "lock_task_spec_hash": "a3e93dd19ad6188b10a122a74fc2e86225003aa2"
+}

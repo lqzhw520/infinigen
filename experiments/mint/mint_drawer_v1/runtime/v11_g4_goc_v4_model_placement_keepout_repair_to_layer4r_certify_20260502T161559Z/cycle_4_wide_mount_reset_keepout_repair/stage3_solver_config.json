@@ -1,0 +1,40 @@
+{
+  "base_candidate_count_total": 360,
+  "generated_at_utc": "2026-05-02T19:49:30Z",
+  "max_base_candidates_per_seed": 360,
+  "params": {
+    "close_cmd": -1.0,
+    "close_start_step": 9999,
+    "contact_normal_offset_m": 0.008,
+    "guarded_distance_m": 0.03,
+    "guarded_steps": 170,
+    "hold_gain": 2.0,
+    "hold_steps": 150,
+    "joint_gain": 3.5,
+    "joint_vel_limit": 1.1,
+    "name": "wide_mount_keepout_repair",
+    "pinch_extra_clearance_m": 0.01,
+    "pregrasp_distance_m": 0.075,
+    "pregrasp_steps": 180
+  },
+  "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    11,
+    12,
+    13,
+    14,
+    15
+  ],
+  "thresholds": {
+    "reset_max_force_n": 1000000.0,
+    "reset_max_penetration_m": 0.02,
+    "two_pad_contact_target_residual_max_m": 0.02
+  }
+}

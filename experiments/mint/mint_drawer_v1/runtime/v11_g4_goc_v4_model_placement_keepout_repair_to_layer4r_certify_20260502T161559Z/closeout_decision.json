@@ -4,7 +4,7 @@
   "best_hard_constraint_feasible_residual_m": null,
   "best_reset_clean_two_pad_residual_m": 0.0011419128005339195,
   "closeout_classification": "MODEL_PLACEMENT_KEEP_OUT_REPAIR_STALLED_WITH_SCHEMA_AWARE_CERTIFICATE",
-  "committed": false,
+  "committed": true,
   "current_truth_modified": false,
   "dynamic_probe_attempted": false,
   "dynamic_probe_passed": false,
@@ -14,7 +14,7 @@
   "feasible_seed_count": 0,
   "goc_v4_contract_regenerated": false,
   "handle_accessibility_audited": true,
-  "harness_preflight_passed": null,
+  "harness_preflight_passed": true,
   "layer4R_cases_failed": 0,
   "layer4R_cases_passed": 0,
   "layer4R_cases_total": 0,
@@ -29,7 +29,8 @@
   "model_placement_repair_cycles_run": 4,
   "next_actions_modified": false,
   "next_gate": "MODEL_OR_PLACEMENT_REPAIR_WITH_SCHEMA_AWARE_INFEASIBILITY_CERTIFICATE",
-  "pushed_to_origin": false,
+  "post_push_origin_visible": true,
+  "pushed_to_origin": true,
   "remaining_endpoint_failure_clusters": {
     "contact_hold_forbidden_contact": 2860,
     "contact_hold_ik_or_contact_constraints_failed": 2860,
@@ -41,7 +42,7 @@
     "pregrasp_ik_or_contact_constraints_failed": 2860,
     "pregrasp_penetration_gt_threshold": 2860
   },
-  "remote_commit_hash": null,
+  "remote_commit_hash": "7ab8f067ff341cfa8a06587808a6d3cb9cbfbe3a",
   "runtime_patch_applied": true,
   "runtime_patch_files": [
     "scripts/mint/model_placement_keepout_repair.py"
@@ -49,5 +50,5 @@
   "schema_aware_binding_preserved": true,
   "semantic_bindings_generated": true,
   "strict_candidate_count": 0,
-  "task_spec_lock_bound": null
+  "task_spec_lock_bound": true
 }

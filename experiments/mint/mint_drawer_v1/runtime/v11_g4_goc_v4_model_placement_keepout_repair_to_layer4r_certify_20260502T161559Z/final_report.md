@@ -18,3 +18,9 @@ It repaired/search-expanded the coupled pre-contact feasibility layer before any
 - Layer4R matrix attempted: `False`
 - Layer4R passed/failed: `0` / `0`
 - next gate: `MODEL_OR_PLACEMENT_REPAIR_WITH_SCHEMA_AWARE_INFEASIBILITY_CERTIFICATE`
+
+## Post-Push Verification
+- evidence_commit_hash: 7ab8f067ff341cfa8a06587808a6d3cb9cbfbe3a
+- origin_head_at_verification: 7ab8f067ff341cfa8a06587808a6d3cb9cbfbe3a
+- origin_matches_local_head: True
+- all_required_paths_origin_visible: True

@@ -1,0 +1,20 @@
+{
+  "all_required_paths_origin_visible": true,
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "evidence_commit_hash": "7ab8f067ff341cfa8a06587808a6d3cb9cbfbe3a",
+  "generated_at_utc": "2026-05-02T21:58:51Z",
+  "local_head": "7ab8f067ff341cfa8a06587808a6d3cb9cbfbe3a",
+  "origin_head": "7ab8f067ff341cfa8a06587808a6d3cb9cbfbe3a",
+  "origin_matches_local_head": true,
+  "verified_paths": {
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_placement_keepout_repair_to_layer4r_certify_20260502T161559Z/closeout_decision.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_placement_keepout_repair_to_layer4r_certify_20260502T161559Z/cycle_4_wide_mount_reset_keepout_repair/stage3_infeasibility_certificate.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_placement_keepout_repair_to_layer4r_certify_20260502T161559Z/final_report.md": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_placement_keepout_repair_to_layer4r_certify_20260502T161559Z/repair_cycles.jsonl": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_placement_keepout_repair_to_layer4r_certify_20260502T161559Z/stage4_model_placement_repair_summary.json": true,
+    "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_model_placement_keepout_repair_to_layer4r_certify_overnight.yaml": true,
+    "experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_model_placement_keepout_repair_to_layer4r_certify.json": true,
+    "experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_model_placement_keepout_repair_to_layer4r_certify.json": true,
+    "scripts/mint/model_placement_keepout_repair.py": true
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "MINT_training_allowed": false,
+  "closeout_classification": "HANDLE_FRAME_IK_INFEASIBLE",
+  "constrained_ik_attempted": true,
+  "current_truth_direct_mutation": false,
+  "generated_at_utc": "2026-05-02T03:13:29Z",
+  "handle_frame_planner_built": true,
+  "layer4R_cases_failed": 12,
+  "layer4R_cases_passed": 0,
+  "next_actions_direct_mutation": false,
+  "next_gate": "MODEL_OR_PLACEMENT_REPAIR",
+  "run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_frame_grasp_trajectory_planner_20260502T025819Z",
+  "task_id": "V11_G4_GOC_V4_HANDLE_FRAME_GRASP_TRAJECTORY_PLANNER_V1",
+  "two_pad_grasp_frame_built": true
+}

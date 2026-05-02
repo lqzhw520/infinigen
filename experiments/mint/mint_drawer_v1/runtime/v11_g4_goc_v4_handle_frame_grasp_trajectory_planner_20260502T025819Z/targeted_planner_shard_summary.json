@@ -1,0 +1,74 @@
+{
+  "param_reports": [
+    {
+      "best_consecutive": 0,
+      "best_target_frames": 0,
+      "case_count": 4,
+      "histogram": {
+        "constrained_ik_not_feasible": 4,
+        "forbidden_contact_present": 1,
+        "target_contact_consecutive_lt_30": 4,
+        "target_contact_frames_lt_50": 4
+      },
+      "max_penetration_m": 0.005355657179707595,
+      "param_name": "front_pinch_slow_guarded",
+      "passed": 0
+    },
+    {
+      "best_consecutive": 0,
+      "best_target_frames": 0,
+      "case_count": 4,
+      "histogram": {
+        "constrained_ik_not_feasible": 4,
+        "forbidden_contact_present": 1,
+        "target_contact_consecutive_lt_30": 4,
+        "target_contact_frames_lt_50": 4
+      },
+      "max_penetration_m": 0.005348431986814173,
+      "param_name": "wider_pregrasp_soft_hold",
+      "passed": 0
+    },
+    {
+      "best_consecutive": 0,
+      "best_target_frames": 0,
+      "case_count": 4,
+      "histogram": {
+        "constrained_ik_not_feasible": 4,
+        "target_contact_consecutive_lt_30": 4,
+        "target_contact_frames_lt_50": 4
+      },
+      "max_penetration_m": 0.005348431986814173,
+      "param_name": "centerline_hold_no_extra_close",
+      "passed": 0
+    }
+  ],
+  "selected_params": {
+    "close_cmd": -1.0,
+    "close_start_step": 9999,
+    "contact_normal_offset_m": -0.001,
+    "guarded_distance_m": 0.018,
+    "guarded_steps": 140,
+    "hold_gain": 2.5,
+    "hold_steps": 160,
+    "joint_gain": 4.5,
+    "joint_vel_limit": 1.6,
+    "name": "centerline_hold_no_extra_close",
+    "normal_approach_limit": 0.009,
+    "pinch_extra_clearance_m": 0.001,
+    "pregrasp_distance_m": 0.075,
+    "pregrasp_steps": 150
+  },
+  "selected_report": {
+    "best_consecutive": 0,
+    "best_target_frames": 0,
+    "case_count": 4,
+    "histogram": {
+      "constrained_ik_not_feasible": 4,
+      "target_contact_consecutive_lt_30": 4,
+      "target_contact_frames_lt_50": 4
+    },
+    "max_penetration_m": 0.005348431986814173,
+    "param_name": "centerline_hold_no_extra_close",
+    "passed": 0
+  }
+}

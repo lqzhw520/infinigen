@@ -1,0 +1,1394 @@
+{
+  "base_map": {
+    "11": {
+      "base_pos": [
+        -0.75,
+        0.1,
+        0.0
+      ],
+      "best_ik": {
+        "contact_counts": {
+          "forbidden": 4,
+          "handle_nonlegal": 0,
+          "max_contact_force_n": 141643.04730789276,
+          "max_penetration_m": 0.10509720150207073,
+          "other": 0,
+          "target": 0
+        },
+        "feasible": false,
+        "max_pad_error_m": 0.06370338542820288,
+        "mean_pad_error_m": 0.06359546442051867,
+        "per_pad_error_m": [
+          0.06348754341283444,
+          0.06370338542820288
+        ]
+      },
+      "planner_base_candidate_feasible": false,
+      "reset_ok": true,
+      "reset_qpos": [
+        0.724,
+        -0.559,
+        -0.599,
+        -2.823,
+        0.264,
+        3.198,
+        0.215
+      ],
+      "yaw_deg": -15.0
+    },
+    "13": {
+      "base_pos": [
+        -0.875,
+        0.05,
+        0.0
+      ],
+      "best_ik": {
+        "contact_counts": {
+          "forbidden": 11,
+          "handle_nonlegal": 0,
+          "max_contact_force_n": 188582.77471020905,
+          "max_penetration_m": 0.1920527355636781,
+          "other": 6,
+          "target": 0
+        },
+        "feasible": false,
+        "max_pad_error_m": 0.25771587101756355,
+        "mean_pad_error_m": 0.2563462860406148,
+        "per_pad_error_m": [
+          0.2549767010636661,
+          0.25771587101756355
+        ]
+      },
+      "planner_base_candidate_feasible": false,
+      "reset_ok": true,
+      "reset_qpos": [
+        0.724,
+        -0.559,
+        -0.599,
+        -2.823,
+        0.264,
+        3.198,
+        0.215
+      ],
+      "yaw_deg": -15.0
+    }
+  },
+  "base_seed_scope": [
+    11,
+    13
+  ],
+  "diagnostics": {
+    "11": {
+      "chosen": {
+        "base_pos": [
+          -0.75,
+          0.1,
+          0.0
+        ],
+        "binding": {
+          "binding_generated": true,
+          "drawer_body_or_cabinet_geom_ids": [
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            24,
+            27,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            38,
+            23
+          ],
+          "drawer_handle_geom_ids": [
+            37
+          ],
+          "forbidden_robot_surface_geom_ids": [
+            51,
+            53,
+            55,
+            60,
+            65,
+            69,
+            87,
+            96,
+            98
+          ],
+          "goc_v3_broad_link_geoms_demoted_from_target": [
+            69,
+            87,
+            96
+          ],
+          "legal_finger_pad_geom_ids": [
+            101,
+            104
+          ]
+        },
+        "ik": {
+          "contact_counts": {
+            "forbidden": 4,
+            "handle_nonlegal": 0,
+            "max_contact_force_n": 141643.04730789276,
+            "max_penetration_m": 0.10509720150207073,
+            "other": 0,
+            "target": 0
+          },
+          "feasible": false,
+          "max_pad_error_m": 0.06370338542820288,
+          "mean_pad_error_m": 0.06359546442051867,
+          "per_pad_error_m": [
+            0.06348754341283444,
+            0.06370338542820288
+          ]
+        },
+        "planner_base_candidate_feasible": false,
+        "reset": {
+          "qpos_arm": [
+            0.724,
+            -0.559,
+            -0.599,
+            -2.823,
+            0.264,
+            3.198,
+            0.215
+          ],
+          "reset_counts": {
+            "forbidden": 0,
+            "handle_nonlegal": 0,
+            "max_contact_force_n": 4.934276619948646,
+            "max_penetration_m": 0.0003484319868140573,
+            "other": 1,
+            "target": 0
+          },
+          "reset_ok": true,
+          "score": 0.0
+        },
+        "score": 242.61230413646356,
+        "seed": 11,
+        "yaw_deg": -15.0
+      },
+      "feasible_count": 0,
+      "top_rows": [
+        {
+          "base_pos": [
+            -0.75,
+            0.1,
+            0.0
+          ],
+          "binding": {
+            "binding_generated": true,
+            "drawer_body_or_cabinet_geom_ids": [
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              24,
+              27,
+              28,
+              29,
+              30,
+              31,
+              32,
+              33,
+              34,
+              35,
+              36,
+              38,
+              23
+            ],
+            "drawer_handle_geom_ids": [
+              37
+            ],
+            "forbidden_robot_surface_geom_ids": [
+              51,
+              53,
+              55,
+              60,
+              65,
+              69,
+              87,
+              96,
+              98
+            ],
+            "goc_v3_broad_link_geoms_demoted_from_target": [
+              69,
+              87,
+              96
+            ],
+            "legal_finger_pad_geom_ids": [
+              101,
+              104
+            ]
+          },
+          "ik": {
+            "contact_counts": {
+              "forbidden": 4,
+              "handle_nonlegal": 0,
+              "max_contact_force_n": 141643.04730789276,
+              "max_penetration_m": 0.10509720150207073,
+              "other": 0,
+              "target": 0
+            },
+            "feasible": false,
+            "max_pad_error_m": 0.06370338542820288,
+            "mean_pad_error_m": 0.06359546442051867,
+            "per_pad_error_m": [
+              0.06348754341283444,
+              0.06370338542820288
+            ]
+          },
+          "planner_base_candidate_feasible": false,
+          "reset": {
+            "qpos_arm": [
+              0.724,
+              -0.559,
+              -0.599,
+              -2.823,
+              0.264,
+              3.198,
+              0.215
+            ],
+            "reset_counts": {
+              "forbidden": 0,
+              "handle_nonlegal": 0,
+              "max_contact_force_n": 4.934276619948646,
+              "max_penetration_m": 0.0003484319868140573,
+              "other": 1,
+              "target": 0
+            },
+            "reset_ok": true,
+            "score": 0.0
+          },
+          "score": 242.61230413646356,
+          "seed": 11,
+          "yaw_deg": -15.0
+        },
+        {
+          "base_pos": [
+            -0.8,
+            0.1,
+            0.0
+          ],
+          "binding": {
+            "binding_generated": true,
+            "drawer_body_or_cabinet_geom_ids": [
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              24,
+              27,
+              28,
+              29,
+              30,
+              31,
+              32,
+              33,
+              34,
+              35,
+              36,
+              38,
+              23
+            ],
+            "drawer_handle_geom_ids": [
+              37
+            ],
+            "forbidden_robot_surface_geom_ids": [
+              51,
+              53,
+              55,
+              60,
+              65,
+              69,
+              87,
+              96,
+              98
+            ],
+            "goc_v3_broad_link_geoms_demoted_from_target": [
+              69,
+              87,
+              96
+            ],
+            "legal_finger_pad_geom_ids": [
+              101,
+              104
+            ]
+          },
+          "ik": {
+            "contact_counts": {
+              "forbidden": 5,
+              "handle_nonlegal": 0,
+              "max_contact_force_n": 207885.7741542606,
+              "max_penetration_m": 0.15173137161510653,
+              "other": 0,
+              "target": 0
+            },
+            "feasible": false,
+            "max_pad_error_m": 0.11365502716891114,
+            "mean_pad_error_m": 0.11336296548038843,
+            "per_pad_error_m": [
+              0.11307090379186574,
+              0.11365502716891114
+            ]
+          },
+          "planner_base_candidate_feasible": false,
+          "reset": {
+            "qpos_arm": [
+              0.724,
+              -0.559,
+              -0.599,
+              -2.823,
+              0.264,
+              3.198,
+              0.215
+            ],
+            "reset_counts": {
+              "forbidden": 0,
+              "handle_nonlegal": 0,
+              "max_contact_force_n": 0.0,
+              "max_penetration_m": 0.0,
+              "other": 0,
+              "target": 0
+            },
+            "reset_ok": true,
+            "score": 0.0
+          },
+          "score": 315.97934083472217,
+          "seed": 11,
+          "yaw_deg": -15.0
+        },
+        {
+          "base_pos": [
+            -0.7,
+            0.1,
+            0.0
+          ],
+          "binding": {
+            "binding_generated": true,
+            "drawer_body_or_cabinet_geom_ids": [
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              24,
+              27,
+              28,
+              29,
+              30,
+              31,
+              32,
+              33,
+              34,
+              35,
+              36,
+              38,
+              23
+            ],
+            "drawer_handle_geom_ids": [
+              37
+            ],
+            "forbidden_robot_surface_geom_ids": [
+              51,
+              53,
+              55,
+              60,
+              65,
+              69,
+              87,
+              96,
+              98
+            ],
+            "goc_v3_broad_link_geoms_demoted_from_target": [
+              69,
+              87,
+              96
+            ],
+            "legal_finger_pad_geom_ids": [
+              101,
+              104
+            ]
+          },
+          "ik": {
+            "contact_counts": {
+              "forbidden": 6,
+              "handle_nonlegal": 0,
+              "max_contact_force_n": 84037.96780091553,
+              "max_penetration_m": 0.08757483958368299,
+              "other": 2,
+              "target": 0
+            },
+            "feasible": false,
+            "max_pad_error_m": 0.01709441782949982,
+            "mean_pad_error_m": 0.01702944484340974,
+            "per_pad_error_m": [
+              0.01709441782949982,
+              0.016964471857319658
+            ]
+          },
+          "planner_base_candidate_feasible": false,
+          "reset": {
+            "qpos_arm": [
+              0.0,
+              -1.0,
+              0.0,
+              -2.5,
+              0.0,
+              2.2,
+              0.8
+            ],
+            "reset_counts": {
+              "forbidden": 0,
+              "handle_nonlegal": 0,
+              "max_contact_force_n": 0.0,
+              "max_penetration_m": 0.0,
+              "other": 0,
+              "target": 0
+            },
+            "reset_ok": true,
+            "score": 0.0
+          },
+          "score": 333.804514209671,
+          "seed": 11,
+          "yaw_deg": -15.0
+        },
+        {
+          "base_pos": [
+            -0.875,
+            0.05,
+            0.0
+          ],
+          "binding": {
+            "binding_generated": true,
+            "drawer_body_or_cabinet_geom_ids": [
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              24,
+              27,
+              28,
+              29,
+              30,
+              31,
+              32,
+              33,
+              34,
+              35,
+              36,
+              38,
+              23
+            ],
+            "drawer_handle_geom_ids": [
+              37
+            ],
+            "forbidden_robot_surface_geom_ids": [
+              51,
+              53,
+              55,
+              60,
+              65,
+              69,
+              87,
+              96,
+              98
+            ],
+            "goc_v3_broad_link_geoms_demoted_from_target": [
+              69,
+              87,
+              96
+            ],
+            "legal_finger_pad_geom_ids": [
+              101,
+              104
+            ]
+          },
+          "ik": {
+            "contact_counts": {
+              "forbidden": 6,
+              "handle_nonlegal": 0,
+              "max_contact_force_n": 151807.00309240344,
+              "max_penetration_m": 0.17015238043520806,
+              "other": 0,
+              "target": 0
+            },
+            "feasible": false,
+            "max_pad_error_m": 0.18502631702655029,
+            "mean_pad_error_m": 0.18491164365143836,
+            "per_pad_error_m": [
+              0.18479697027632644,
+              0.18502631702655029
+            ]
+          },
+          "planner_base_candidate_feasible": false,
+          "reset": {
+            "qpos_arm": [
+              0.724,
+              -0.559,
+              -0.599,
+              -2.823,
+              0.264,
+              3.198,
+              0.215
+            ],
+            "reset_counts": {
+              "forbidden": 0,
+              "handle_nonlegal": 0,
+              "max_contact_force_n": 0.0,
+              "max_penetration_m": 0.0,
+              "other": 0,
+              "target": 0
+            },
+            "reset_ok": true,
+            "score": 0.0
+          },
+          "score": 375.2612165346306,
+          "seed": 11,
+          "yaw_deg": -15.0
+        },
+        {
+          "base_pos": [
+            -0.9,
+            0.05,
+            0.0
+          ],
+          "binding": {
+            "binding_generated": true,
+            "drawer_body_or_cabinet_geom_ids": [
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              12,
+              13,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              24,
+              27,
+              28,
+              29,
+              30,
+              31,
+              32,
+              33,
+              34,
+              35,
+              36,
+              38,
+              23
+            ],
+            "drawer_handle_geom_ids": [
+              37
+            ],
+            "forbidden_robot_surface_geom_ids": [
+              51,
+              53,
+              55,
+              60,
+              65,
+              69,
+              87,
+              96,
+              98
+            ],
+            "goc_v3_broad_link_geoms_demoted_from_target": [
+              69,
+              87,
+              96
+            ],
+            "legal_finger_pad_geom_ids": [
+              101,
+              104
+            ]
+          },
+          "ik": {
+            "contact_counts": {
+              "forbidden": 7,
+              "handle_nonlegal": 0,
+              "max_contact_force_n": 147061.99158299822,
+              "max_penetration_m": 0.14482513388969367,
+              "other": 0,
+              "target": 0
+            },
+            "feasible": false,
+            "max_pad_error_m": 0.21129915849950073,
+            "mean_pad_error_m": 0.2097901936174027,
+            "per_pad_error_m": [
+              0.20828122873530464,
+              0.21129915849950073
+            ]
+          },
+          "planner_base_candidate_feasible": false,
+          "reset": {
+            "qpos_arm": [
+              0.724,
+              -0.559,
+              -0.599,
+              -2.823,
+              0.264,
+              3.198,
+              0.215
+            ],
+            "reset_counts": {
+              "forbidden": 0,
+              "handle_nonlegal": 0,
+              "max_contact_force_n": 0.0,
+              "max_penetration_m": 0.0,
+              "other": 0,
+              "target": 0
+            },
+            "reset_ok": true,
+            "score": 0.0
+          },
+          "score": 412.62386610334636,
+          "seed": 11,
+          "yaw_deg": -10.0
+        }
+      ]
+    },
+    "13": {
+      "chosen": {
+        "base_pos": [
+          -0.875,
+          0.05,
+          0.0
+        ],
+        "binding": {
+          "binding_generated": true,
+          "drawer_body_or_cabinet_geom_ids": [
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19,
+            20,
+            21,
+            22,
+            23,
+            25,
+            28,
+            29,
+            30,
+            31,
+            32,
+            33,
+            34,
+            35,
+            36,
+            37,
+            39,
+            24
+          ],
+          "drawer_handle_geom_ids": [
+            38
+          ],
+          "forbidden_robot_surface_geom_ids": [
+            52,
+            54,
+            56,
+            61,
+            66,
+            70,
+            88,
+            97,
+            99
+          ],
+          "goc_v3_broad_link_geoms_demoted_from_target": [
+            70,
+            88,
+            97
+          ],
+          "legal_finger_pad_geom_ids": [
+            102,
+            105
+          ]
+        },
+        "ik": {
+          "contact_counts": {
+            "forbidden": 11,
+            "handle_nonlegal": 0,
+            "max_contact_force_n": 188582.77471020905,
+            "max_penetration_m": 0.1920527355636781,
+            "other": 6,
+            "target": 0
+          },
+          "feasible": false,
+          "max_pad_error_m": 0.25771587101756355,
+          "mean_pad_error_m": 0.2563462860406148,
+          "per_pad_error_m": [
+            0.2549767010636661,
+            0.25771587101756355
+          ]
+        },
+        "planner_base_candidate_feasible": false,
+        "reset": {
+          "qpos_arm": [
+            0.724,
+            -0.559,
+            -0.599,
+            -2.823,
+            0.264,
+            3.198,
+            0.215
+          ],
+          "reset_counts": {
+            "forbidden": 0,
+            "handle_nonlegal": 0,
+            "max_contact_force_n": 0.0,
+            "max_penetration_m": 0.0,
+            "other": 0,
+            "target": 0
+          },
+          "reset_ok": true,
+          "score": 0.0
+        },
+        "score": 636.2840836528567,
+        "seed": 13,
+        "yaw_deg": -15.0
+      },
+      "feasible_count": 0,
+      "top_rows": [
+        {
+          "base_pos": [
+            -0.875,
+            0.05,
+            0.0
+          ],
+          "binding": {
+            "binding_generated": true,
+            "drawer_body_or_cabinet_geom_ids": [
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              23,
+              25,
+              28,
+              29,
+              30,
+              31,
+              32,
+              33,
+              34,
+              35,
+              36,
+              37,
+              39,
+              24
+            ],
+            "drawer_handle_geom_ids": [
+              38
+            ],
+            "forbidden_robot_surface_geom_ids": [
+              52,
+              54,
+              56,
+              61,
+              66,
+              70,
+              88,
+              97,
+              99
+            ],
+            "goc_v3_broad_link_geoms_demoted_from_target": [
+              70,
+              88,
+              97
+            ],
+            "legal_finger_pad_geom_ids": [
+              102,
+              105
+            ]
+          },
+          "ik": {
+            "contact_counts": {
+              "forbidden": 11,
+              "handle_nonlegal": 0,
+              "max_contact_force_n": 188582.77471020905,
+              "max_penetration_m": 0.1920527355636781,
+              "other": 6,
+              "target": 0
+            },
+            "feasible": false,
+            "max_pad_error_m": 0.25771587101756355,
+            "mean_pad_error_m": 0.2563462860406148,
+            "per_pad_error_m": [
+              0.2549767010636661,
+              0.25771587101756355
+            ]
+          },
+          "planner_base_candidate_feasible": false,
+          "reset": {
+            "qpos_arm": [
+              0.724,
+              -0.559,
+              -0.599,
+              -2.823,
+              0.264,
+              3.198,
+              0.215
+            ],
+            "reset_counts": {
+              "forbidden": 0,
+              "handle_nonlegal": 0,
+              "max_contact_force_n": 0.0,
+              "max_penetration_m": 0.0,
+              "other": 0,
+              "target": 0
+            },
+            "reset_ok": true,
+            "score": 0.0
+          },
+          "score": 636.2840836528567,
+          "seed": 13,
+          "yaw_deg": -15.0
+        },
+        {
+          "base_pos": [
+            -0.875,
+            0.05,
+            0.0
+          ],
+          "binding": {
+            "binding_generated": true,
+            "drawer_body_or_cabinet_geom_ids": [
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              23,
+              25,
+              28,
+              29,
+              30,
+              31,
+              32,
+              33,
+              34,
+              35,
+              36,
+              37,
+              39,
+              24
+            ],
+            "drawer_handle_geom_ids": [
+              38
+            ],
+            "forbidden_robot_surface_geom_ids": [
+              52,
+              54,
+              56,
+              61,
+              66,
+              70,
+              88,
+              97,
+              99
+            ],
+            "goc_v3_broad_link_geoms_demoted_from_target": [
+              70,
+              88,
+              97
+            ],
+            "legal_finger_pad_geom_ids": [
+              102,
+              105
+            ]
+          },
+          "ik": {
+            "contact_counts": {
+              "forbidden": 11,
+              "handle_nonlegal": 0,
+              "max_contact_force_n": 190836.53443755722,
+              "max_penetration_m": 0.193383297494369,
+              "other": 6,
+              "target": 0
+            },
+            "feasible": false,
+            "max_pad_error_m": 0.2578721730641631,
+            "mean_pad_error_m": 0.25626969664967225,
+            "per_pad_error_m": [
+              0.25466722023518135,
+              0.2578721730641631
+            ]
+          },
+          "planner_base_candidate_feasible": false,
+          "reset": {
+            "qpos_arm": [
+              0.724,
+              -0.559,
+              -0.599,
+              -2.823,
+              0.264,
+              3.198,
+              0.215
+            ],
+            "reset_counts": {
+              "forbidden": 0,
+              "handle_nonlegal": 0,
+              "max_contact_force_n": 0.0,
+              "max_penetration_m": 0.0,
+              "other": 0,
+              "target": 0
+            },
+            "reset_ok": true,
+            "score": 0.0
+          },
+          "score": 636.9495209202487,
+          "seed": 13,
+          "yaw_deg": -10.0
+        },
+        {
+          "base_pos": [
+            -0.8,
+            0.1,
+            0.0
+          ],
+          "binding": {
+            "binding_generated": true,
+            "drawer_body_or_cabinet_geom_ids": [
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              23,
+              25,
+              28,
+              29,
+              30,
+              31,
+              32,
+              33,
+              34,
+              35,
+              36,
+              37,
+              39,
+              24
+            ],
+            "drawer_handle_geom_ids": [
+              38
+            ],
+            "forbidden_robot_surface_geom_ids": [
+              52,
+              54,
+              56,
+              61,
+              66,
+              70,
+              88,
+              97,
+              99
+            ],
+            "goc_v3_broad_link_geoms_demoted_from_target": [
+              70,
+              88,
+              97
+            ],
+            "legal_finger_pad_geom_ids": [
+              102,
+              105
+            ]
+          },
+          "ik": {
+            "contact_counts": {
+              "forbidden": 12,
+              "handle_nonlegal": 0,
+              "max_contact_force_n": 161247.6191970248,
+              "max_penetration_m": 0.12566447894447696,
+              "other": 4,
+              "target": 0
+            },
+            "feasible": false,
+            "max_pad_error_m": 0.18727382804360687,
+            "mean_pad_error_m": 0.1864043020272316,
+            "per_pad_error_m": [
+              0.18727382804360687,
+              0.18553477601085633
+            ]
+          },
+          "planner_base_candidate_feasible": false,
+          "reset": {
+            "qpos_arm": [
+              0.724,
+              -0.559,
+              -0.599,
+              -2.823,
+              0.264,
+              3.198,
+              0.215
+            ],
+            "reset_counts": {
+              "forbidden": 0,
+              "handle_nonlegal": 0,
+              "max_contact_force_n": 0.0,
+              "max_penetration_m": 0.0,
+              "other": 0,
+              "target": 0
+            },
+            "reset_ok": true,
+            "score": 0.0
+          },
+          "score": 653.0195133002821,
+          "seed": 13,
+          "yaw_deg": -15.0
+        },
+        {
+          "base_pos": [
+            -0.95,
+            0.1,
+            0.0
+          ],
+          "binding": {
+            "binding_generated": true,
+            "drawer_body_or_cabinet_geom_ids": [
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              23,
+              25,
+              28,
+              29,
+              30,
+              31,
+              32,
+              33,
+              34,
+              35,
+              36,
+              37,
+              39,
+              24
+            ],
+            "drawer_handle_geom_ids": [
+              38
+            ],
+            "forbidden_robot_surface_geom_ids": [
+              52,
+              54,
+              56,
+              61,
+              66,
+              70,
+              88,
+              97,
+              99
+            ],
+            "goc_v3_broad_link_geoms_demoted_from_target": [
+              70,
+              88,
+              97
+            ],
+            "legal_finger_pad_geom_ids": [
+              102,
+              105
+            ]
+          },
+          "ik": {
+            "contact_counts": {
+              "forbidden": 12,
+              "handle_nonlegal": 0,
+              "max_contact_force_n": 123662.64488219225,
+              "max_penetration_m": 0.1257090422785276,
+              "other": 4,
+              "target": 0
+            },
+            "feasible": false,
+            "max_pad_error_m": 0.334480739945673,
+            "mean_pad_error_m": 0.332485648191226,
+            "per_pad_error_m": [
+              0.334480739945673,
+              0.330490556436779
+            ]
+          },
+          "planner_base_candidate_feasible": false,
+          "reset": {
+            "qpos_arm": [
+              0.724,
+              -0.559,
+              -0.599,
+              -2.823,
+              0.264,
+              3.198,
+              0.215
+            ],
+            "reset_counts": {
+              "forbidden": 0,
+              "handle_nonlegal": 0,
+              "max_contact_force_n": 0.0,
+              "max_penetration_m": 0.0,
+              "other": 0,
+              "target": 0
+            },
+            "reset_ok": true,
+            "score": 0.0
+          },
+          "score": 653.1890018792095,
+          "seed": 13,
+          "yaw_deg": -15.0
+        },
+        {
+          "base_pos": [
+            -0.9,
+            0.05,
+            0.0
+          ],
+          "binding": {
+            "binding_generated": true,
+            "drawer_body_or_cabinet_geom_ids": [
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9,
+              10,
+              11,
+              14,
+              15,
+              16,
+              17,
+              18,
+              19,
+              20,
+              21,
+              22,
+              23,
+              25,
+              28,
+              29,
+              30,
+              31,
+              32,
+              33,
+              34,
+              35,
+              36,
+              37,
+              39,
+              24
+            ],
+            "drawer_handle_geom_ids": [
+              38
+            ],
+            "forbidden_robot_surface_geom_ids": [
+              52,
+              54,
+              56,
+              61,
+              66,
+              70,
+              88,
+              97,
+              99
+            ],
+            "goc_v3_broad_link_geoms_demoted_from_target": [
+              70,
+              88,
+              97
+            ],
+            "legal_finger_pad_geom_ids": [
+              102,
+              105
+            ]
+          },
+          "ik": {
+            "contact_counts": {
+              "forbidden": 12,
+              "handle_nonlegal": 0,
+              "max_contact_force_n": 168339.16537765163,
+              "max_penetration_m": 0.16873744532854773,
+              "other": 4,
+              "target": 0
+            },
+            "feasible": false,
+            "max_pad_error_m": 0.28259012490996505,
+            "mean_pad_error_m": 0.280691368485678,
+            "per_pad_error_m": [
+              0.278792612061391,
+              0.28259012490996505
+            ]
+          },
+          "planner_base_candidate_feasible": false,
+          "reset": {
+            "qpos_arm": [
+              0.724,
+              -0.559,
+              -0.599,
+              -2.823,
+              0.264,
+              3.198,
+              0.215
+            ],
+            "reset_counts": {
+              "forbidden": 0,
+              "handle_nonlegal": 0,
+              "max_contact_force_n": 0.0,
+              "max_penetration_m": 0.0,
+              "other": 0,
+              "target": 0
+            },
+            "reset_ok": true,
+            "score": 0.0
+          },
+          "score": 674.6513127891837,
+          "seed": 13,
+          "yaw_deg": -10.0
+        }
+      ]
+    }
+  }
+}

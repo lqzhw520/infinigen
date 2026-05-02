@@ -1,0 +1,66 @@
+{
+  "closeout_classification": "HANDLE_FRAME_IK_INFEASIBLE",
+  "constrained_ik_attempted": true,
+  "constrained_ik_feasible_cases": 0,
+  "current_truth_modified": false,
+  "direct_qpos_drawer_opening": false,
+  "elapsed_seconds": 35.89632296562195,
+  "forbidden_before_after": {
+    "after": 2,
+    "before": 36
+  },
+  "full_matrix_skipped_reason": "targeted_only_requested",
+  "handle_frame_planner_built": true,
+  "harness_preflight_passed": true,
+  "layer4R_cases_failed": 12,
+  "layer4R_cases_passed": 0,
+  "layer4R_cases_total": 12,
+  "layer4R_remaining_failure_clusters": {
+    "constrained_ik_not_feasible": 12,
+    "forbidden_contact_present": 2,
+    "target_contact_consecutive_lt_30": 12,
+    "target_contact_frames_lt_50": 12
+  },
+  "next_actions_modified": false,
+  "next_gate": "MODEL_OR_PLACEMENT_REPAIR",
+  "penetration_before_after": {
+    "after": 0,
+    "before": 18
+  },
+  "render_success_claimed": false,
+  "runtime_patch_files": [
+    "scripts/mint/handle_frame_grasp_trajectory_planner.py"
+  ],
+  "selected_planner_params": {
+    "close_cmd": -1.0,
+    "close_start_step": 9999,
+    "contact_normal_offset_m": -0.001,
+    "guarded_distance_m": 0.018,
+    "guarded_steps": 140,
+    "hold_gain": 2.5,
+    "hold_steps": 160,
+    "joint_gain": 4.5,
+    "joint_vel_limit": 1.6,
+    "name": "centerline_hold_no_extra_close",
+    "normal_approach_limit": 0.009,
+    "pinch_extra_clearance_m": 0.001,
+    "pregrasp_distance_m": 0.075,
+    "pregrasp_steps": 150
+  },
+  "source_worktree_head": "a336d2be5e5a3d4cc2b5859d94727a58c0e58871",
+  "target_short_before_after": {
+    "after": 12,
+    "before": 117
+  },
+  "targeted_cases_passed": 0,
+  "targeted_cases_total": 12,
+  "targeted_histogram": {
+    "constrained_ik_not_feasible": 12,
+    "forbidden_contact_present": 2,
+    "target_contact_consecutive_lt_30": 12,
+    "target_contact_frames_lt_50": 12
+  },
+  "task_spec_lock_bound": true,
+  "training_run": false,
+  "two_pad_grasp_frame_built": true
+}

@@ -1,0 +1,88 @@
+{
+  "targets": [
+    {
+      "perturbation": {
+        "base_delta": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "name": "nominal",
+        "qpos_delta": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "yaw_delta_deg": 0.0
+      },
+      "seed": 11
+    },
+    {
+      "perturbation": {
+        "base_delta": [
+          0.005,
+          0.0,
+          0.0
+        ],
+        "name": "base_x_plus_5mm",
+        "qpos_delta": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "yaw_delta_deg": 0.0
+      },
+      "seed": 11
+    },
+    {
+      "perturbation": {
+        "base_delta": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "name": "nominal",
+        "qpos_delta": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "yaw_delta_deg": 0.0
+      },
+      "seed": 13
+    },
+    {
+      "perturbation": {
+        "base_delta": [
+          0.005,
+          0.0,
+          0.0
+        ],
+        "name": "base_x_plus_5mm",
+        "qpos_delta": [
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "yaw_delta_deg": 0.0
+      },
+      "seed": 13
+    }
+  ]
+}

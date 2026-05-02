@@ -1,0 +1,7 @@
+{
+  "current_truth_modified": false,
+  "json_artifacts_parse": true,
+  "next_actions_modified": false,
+  "spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_handle_frame_grasp_trajectory_planner.yaml",
+  "status_short": "M .project-memory/STATUS.md\n M .session/checkpoint.md\n?? experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_handle_frame_grasp_planner.json\n?? experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_handle_frame_grasp_planner.json"
+}

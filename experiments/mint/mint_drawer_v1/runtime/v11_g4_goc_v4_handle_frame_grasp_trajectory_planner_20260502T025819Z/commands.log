@@ -1,0 +1,8 @@
+{
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "generated_at_utc": "2026-05-02T03:12:53Z",
+  "head": "a336d2be5e5a3d4cc2b5859d94727a58c0e58871",
+  "pwd": "/mnt/afs2/zhuhaowu/infinigen",
+  "spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_handle_frame_grasp_trajectory_planner.yaml",
+  "status_short": "M .project-memory/STATUS.md\n M .session/checkpoint.md"
+}

@@ -138,6 +138,35 @@ def body_name(model: mujoco.MjModel, bid: int) -> str:
     return str(model.body(int(bid)).name or f"body_{bid}")
 
 
+def _joint_id(model: mujoco.MjModel, name: str) -> int:
+    return int(mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_JOINT, name))
+
+
+def arm_joint_ids(env: DrawerRobotEnvMuJoCoLibero) -> list[int]:
+    ids = [_joint_id(env.model, f"joint{i}") for i in range(1, 8)]
+    if any(jid < 0 for jid in ids):
+        missing = [f"joint{i}" for i, jid in enumerate(ids, start=1) if jid < 0]
+        raise RuntimeError(f"Missing Panda arm joints for schema-aware binding: {missing}")
+    return ids
+
+
+def arm_qpos_indices(env: DrawerRobotEnvMuJoCoLibero) -> np.ndarray:
+    return np.asarray([int(env.model.jnt_qposadr[jid]) for jid in arm_joint_ids(env)], dtype=np.int64)
+
+
+def arm_dof_indices(env: DrawerRobotEnvMuJoCoLibero) -> np.ndarray:
+    return np.asarray([int(env.model.jnt_dofadr[jid]) for jid in arm_joint_ids(env)], dtype=np.int64)
+
+
+def arm_qpos_bounds(env: DrawerRobotEnvMuJoCoLibero) -> tuple[np.ndarray, np.ndarray]:
+    ids = arm_joint_ids(env)
+    return env.model.jnt_range[ids, 0].astype(float), env.model.jnt_range[ids, 1].astype(float)
+
+
+def get_arm_qpos(env: DrawerRobotEnvMuJoCoLibero) -> np.ndarray:
+    return env.data.qpos[arm_qpos_indices(env)].astype(float).copy()
+
+
 def mesh_points_world(env: DrawerRobotEnvMuJoCoLibero, gid: int) -> np.ndarray:
     model, data = env.model, env.data
     gid = int(gid)
@@ -433,7 +462,7 @@ def two_pad_error_and_jac(
         jr = np.zeros((3, env.model.nv), dtype=np.float64)
         mujoco.mj_jacGeom(env.model, env.data, jp, jr, int(gid))
         errs.append(err)
-        jacs.append(jp[:, 2:9].copy())
+        jacs.append(jp[:, arm_dof_indices(env)].copy())
     return np.concatenate(errs, axis=0), np.vstack(jacs)
 
 
@@ -443,13 +472,13 @@ def solve_dls(jac: np.ndarray, desired: np.ndarray, damping: float = 2e-3) -> np
 
 
 def set_arm_qpos(env: DrawerRobotEnvMuJoCoLibero, q: np.ndarray) -> None:
-    lo = env.model.jnt_range[2:9, 0].astype(float)
-    hi = env.model.jnt_range[2:9, 1].astype(float)
-    env.data.qpos[2:9] = np.clip(np.asarray(q, dtype=float), lo, hi)
+    lo, hi = arm_qpos_bounds(env)
+    idx = arm_qpos_indices(env)
+    env.data.qpos[idx] = np.clip(np.asarray(q, dtype=float), lo, hi)
     env.data.qvel[:] = 0.0
     mujoco.mj_forward(env.model, env.data)
     if hasattr(env, "_robot_qpos_target"):
-        env._robot_qpos_target = env.data.qpos[2:9].astype(float).copy()
+        env._robot_qpos_target = env.data.qpos[idx].astype(float).copy()
 
 
 def solve_two_pad_ik(
@@ -461,13 +490,12 @@ def solve_two_pad_ik(
 ) -> dict[str, Any]:
     start_q = env.data.qpos.copy()
     best: dict[str, Any] | None = None
-    lo = env.model.jnt_range[2:9, 0].astype(float)
-    hi = env.model.jnt_range[2:9, 1].astype(float)
+    lo, hi = arm_qpos_bounds(env)
     for _ in range(int(iterations)):
         err, jac = two_pad_error_and_jac(env, tpf, targets)
         q_step = solve_dls(jac, np.clip(err * 0.65, -0.035, 0.035), damping=3e-3)
         q_step = np.clip(q_step, -0.055, 0.055)
-        env.data.qpos[2:9] = np.clip(env.data.qpos[2:9] + q_step, lo, hi)
+        set_arm_qpos(env, get_arm_qpos(env) + q_step)
         env.data.qvel[:] = 0.0
         mujoco.mj_forward(env.model, env.data)
         err2, _ = two_pad_error_and_jac(env, tpf, targets)
@@ -484,7 +512,7 @@ def solve_two_pad_ik(
                 "max_pad_error_m": float(np.max(per_pad)),
                 "mean_pad_error_m": float(np.mean(per_pad)),
                 "per_pad_error_m": per_pad,
-                "qpos_arm": env.data.qpos[2:9].astype(float).copy(),
+                "qpos_arm": get_arm_qpos(env),
                 "contact_counts": cr["counts"],
                 "feasible": bool(
                     np.max(per_pad) <= 0.035
@@ -509,13 +537,10 @@ def solve_two_pad_ik_least_squares(
     max_nfev: int = 360,
 ) -> dict[str, Any]:
     start = env.data.qpos.copy()
-    lo = env.model.jnt_range[2:9, 0].astype(float)
-    hi = env.model.jnt_range[2:9, 1].astype(float)
+    lo, hi = arm_qpos_bounds(env)
 
     def residual(q: np.ndarray) -> np.ndarray:
-        env.data.qpos[2:9] = np.asarray(q, dtype=float)
-        env.data.qvel[:] = 0.0
-        mujoco.mj_forward(env.model, env.data)
+        set_arm_qpos(env, np.asarray(q, dtype=float))
         terms = []
         for row_i, gid in enumerate(tpf.legal_pad_ids):
             terms.extend((env.data.geom_xpos[int(gid)] - targets[row_i]) * 10.0)
@@ -530,9 +555,7 @@ def solve_two_pad_ik_least_squares(
         ftol=1e-6,
         gtol=1e-6,
     )
-    env.data.qpos[2:9] = res.x
-    env.data.qvel[:] = 0.0
-    mujoco.mj_forward(env.model, env.data)
+    set_arm_qpos(env, res.x)
     per_pad = np.asarray(
         [
             float(np.linalg.norm(env.data.geom_xpos[int(gid)] - targets[row_i]))
@@ -546,7 +569,7 @@ def solve_two_pad_ik_least_squares(
         "max_pad_error_m": float(np.max(per_pad)),
         "mean_pad_error_m": float(np.mean(per_pad)),
         "per_pad_error_m": per_pad,
-        "qpos_arm": env.data.qpos[2:9].astype(float).copy(),
+        "qpos_arm": get_arm_qpos(env),
         "contact_counts": cr["counts"],
         "feasible": bool(
             np.max(per_pad) <= 0.035
@@ -574,8 +597,7 @@ def find_collision_free_reset_qpos(
     binding: dict[str, Any],
     seed: int,
 ) -> dict[str, Any]:
-    lo = env.model.jnt_range[2:9, 0].astype(float)
-    hi = env.model.jnt_range[2:9, 1].astype(float)
+    lo, hi = arm_qpos_bounds(env)
     rng = np.random.default_rng(1000 + int(seed))
     candidates = [np.clip(q, lo, hi) for q in RESET_QPOS_PRIORS]
     for _ in range(80):
@@ -650,7 +672,7 @@ def evaluate_planner_base_candidate(
             }
         tpf = tpf_payload["_frame"]
         ik_rows = []
-        for q0 in [reset_choice["qpos_arm"], SAFE_PRECONTACT_QPOS, np.zeros(7), (env.model.jnt_range[2:9, 0] + env.model.jnt_range[2:9, 1]) / 2.0]:
+        for q0 in [reset_choice["qpos_arm"], SAFE_PRECONTACT_QPOS, np.zeros(7), (arm_qpos_bounds(env)[0] + arm_qpos_bounds(env)[1]) / 2.0]:
             ik_rows.append(
                 solve_two_pad_ik_least_squares(
                     env, binding, tpf, tpf.hold_targets, np.asarray(q0, dtype=float), max_nfev=260
@@ -733,7 +755,7 @@ def joint_target_action(
     joint_vel_limit: float,
     gain: float,
 ) -> np.ndarray:
-    current = env.data.qpos[2:9].astype(float)
+    current = get_arm_qpos(env)
     qvel = np.clip((np.asarray(q_target, dtype=float) - current) * float(gain), -joint_vel_limit, joint_vel_limit)
     action = np.zeros(9, dtype=np.float32)
     action[:7] = qvel.astype(np.float32)

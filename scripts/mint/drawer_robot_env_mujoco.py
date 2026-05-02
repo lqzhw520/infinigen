@@ -6522,18 +6522,52 @@ class DrawerRobotEnvMuJoCoLibero(DrawerRobotEnvMuJoCo):
         )
 
         # ── Joint / actuator indexing ─────────────────────────────────────
-        # Name-based indices are required because GOC-v4 adds real Panda
-        # gripper joints/actuators between the arm torques and drawer motors.
-        self._robot_qpos_slice = slice(2, 9)  # Panda arm joints in qpos
+        # Name-based indices are required because drawer model instances do not
+        # all have the same number of drawer slider joints. The robot arm may
+        # start at qpos address 1 for one-slider drawers and at address 2 for
+        # two-slider drawers, so runtime code must not assume qpos[2:9].
+        self._robot_joint_ids = [
+            mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_JOINT, f"joint{i}")
+            for i in range(1, 8)
+        ]
+        if any(jid < 0 for jid in self._robot_joint_ids):
+            missing = [
+                f"joint{i}"
+                for i, jid in enumerate(self._robot_joint_ids, start=1)
+                if jid < 0
+            ]
+            raise RuntimeError(f"Missing Panda arm joints in merged model: {missing}")
+        self._robot_qpos_addrs = [
+            int(self.model.jnt_qposadr[jid]) for jid in self._robot_joint_ids
+        ]
+        self._robot_qvel_addrs = [
+            int(self.model.jnt_dofadr[jid]) for jid in self._robot_joint_ids
+        ]
+        self._robot_qpos_slice = self._robot_qpos_addrs
         self._robot_ctrl_slice = slice(0, 7)  # historical compatibility only
         self._n_robot_joints = 7
         self._robot_actuator_ids = [
             mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_ACTUATOR, f"torq_j{i}")
             for i in range(1, 8)
         ]
+        if any(act_id < 0 for act_id in self._robot_actuator_ids):
+            missing = [
+                f"torq_j{i}"
+                for i, act_id in enumerate(self._robot_actuator_ids, start=1)
+                if act_id < 0
+            ]
+            raise RuntimeError(f"Missing Panda arm actuators in merged model: {missing}")
         self._drawer_actuator_ids = [
-            mujoco.mj_name2id(self.model, mujoco.mjtObj.mjOBJ_ACTUATOR, name)
-            for name in ("drawer0", "drawer1")
+            idx
+            for idx in (
+                mujoco.mj_name2id(
+                    self.model, mujoco.mjtObj.mjOBJ_ACTUATOR, "drawer0"
+                ),
+                mujoco.mj_name2id(
+                    self.model, mujoco.mjtObj.mjOBJ_ACTUATOR, "drawer1"
+                ),
+            )
+            if idx >= 0
         ]
         self._gripper_actuator_ids = [
             idx
@@ -6555,8 +6589,10 @@ class DrawerRobotEnvMuJoCoLibero(DrawerRobotEnvMuJoCo):
             )
             if jid >= 0
         ]
-        self._drawer_ctrl_slice = slice(
-            min(self._drawer_actuator_ids), max(self._drawer_actuator_ids) + 1
+        self._drawer_ctrl_slice = (
+            slice(min(self._drawer_actuator_ids), max(self._drawer_actuator_ids) + 1)
+            if self._drawer_actuator_ids
+            else slice(0, 0)
         )
 
         # ── Drawer joint tracking (for teacher controller) ──────────────
@@ -6757,11 +6793,11 @@ class DrawerRobotEnvMuJoCoLibero(DrawerRobotEnvMuJoCo):
                 -float(self._robot_velocity_limit),
                 float(self._robot_velocity_limit),
             )
-            current_q = self.data.qpos[self._robot_qpos_slice].astype(np.float64)
-            current_qvel = self.data.qvel[self._robot_qpos_slice].astype(np.float64)
+            current_q = self.data.qpos[self._robot_qpos_addrs].astype(np.float64)
+            current_qvel = self.data.qvel[self._robot_qvel_addrs].astype(np.float64)
             dt = float(self.model.opt.timestep)
-            lo = self.model.jnt_range[2:9, 0].astype(np.float64)
-            hi = self.model.jnt_range[2:9, 1].astype(np.float64)
+            lo = self.model.jnt_range[self._robot_joint_ids, 0].astype(np.float64)
+            hi = self.model.jnt_range[self._robot_joint_ids, 1].astype(np.float64)
             if not hasattr(self, "_robot_qpos_target"):
                 self._robot_qpos_target = current_q.copy()
             self._robot_qpos_target = np.clip(
@@ -6828,7 +6864,7 @@ class DrawerRobotEnvMuJoCoLibero(DrawerRobotEnvMuJoCo):
 
         mujoco.mj_resetData(self.model, self.data)
         # Set LIBERO-style robot init pose and open real Panda fingers if present.
-        self.data.qpos[self._robot_qpos_slice] = self._libero_init_qpos
+        self.data.qpos[self._robot_qpos_addrs] = self._libero_init_qpos
         self._robot_qpos_target = np.asarray(self._libero_init_qpos, dtype=float).copy()
         if len(getattr(self, "_gripper_qpos_addrs", [])) == 2:
             self.data.qpos[self._gripper_qpos_addrs[0]] = 0.04

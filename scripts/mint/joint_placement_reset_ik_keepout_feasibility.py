@@ -34,7 +34,7 @@ ROOT = Path("/mnt/afs2/zhuhaowu/infinigen")
 CAMPAIGN = ROOT / "experiments/mint/mint_drawer_v1"
 SPEC_REL = (
     "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/"
-    "v11_g4_goc_v4_joint_placement_reset_ik_keepout_feasibility.yaml"
+    "v11_g4_goc_v4_schema_aware_model_placement_feasibility_repair.yaml"
 )
 SPEC_PATH = ROOT / SPEC_REL
 
@@ -158,16 +158,48 @@ def make_env(seed: int, base_pos: list[float] | np.ndarray, yaw_deg: float, max_
     return hfp.make_env(int(seed), list(map(float, np.asarray(base_pos, dtype=float))), float(yaw_deg), int(max_steps), qpos=qpos)
 
 
+def _joint_id(model: mujoco.MjModel, name: str) -> int:
+    return int(mujoco.mj_name2id(model, mujoco.mjtObj.mjOBJ_JOINT, name))
+
+
+def arm_joint_ids(env) -> list[int]:
+    ids = [_joint_id(env.model, f"joint{i}") for i in range(1, 8)]
+    if any(jid < 0 for jid in ids):
+        missing = [f"joint{i}" for i, jid in enumerate(ids, start=1) if jid < 0]
+        raise RuntimeError(f"Missing Panda arm joints for schema-aware binding: {missing}")
+    return ids
+
+
+def finger_joint_ids(env) -> list[int]:
+    ids = [_joint_id(env.model, "finger_joint1"), _joint_id(env.model, "finger_joint2")]
+    if any(jid < 0 for jid in ids):
+        missing = [name for name, jid in zip(["finger_joint1", "finger_joint2"], ids) if jid < 0]
+        raise RuntimeError(f"Missing Panda finger joints for schema-aware binding: {missing}")
+    return ids
+
+
+def robot_joint_ids(env) -> list[int]:
+    return arm_joint_ids(env) + finger_joint_ids(env)
+
+
+def qpos_indices(env, joint_ids: list[int]) -> np.ndarray:
+    return np.asarray([int(env.model.jnt_qposadr[jid]) for jid in joint_ids], dtype=np.int64)
+
+
+def joint_bounds(env, joint_ids: list[int]) -> tuple[np.ndarray, np.ndarray]:
+    return env.model.jnt_range[joint_ids, 0].astype(float), env.model.jnt_range[joint_ids, 1].astype(float)
+
+
+def get_joint_qpos(env, joint_ids: list[int]) -> np.ndarray:
+    return env.data.qpos[qpos_indices(env, joint_ids)].astype(float).copy()
+
+
 def robot_qpos_bounds(env) -> tuple[np.ndarray, np.ndarray]:
-    lo = env.model.jnt_range[2:11, 0].astype(float)
-    hi = env.model.jnt_range[2:11, 1].astype(float)
-    return lo, hi
+    return joint_bounds(env, robot_joint_ids(env))
 
 
 def arm_qpos_bounds(env) -> tuple[np.ndarray, np.ndarray]:
-    lo = env.model.jnt_range[2:9, 0].astype(float)
-    hi = env.model.jnt_range[2:9, 1].astype(float)
-    return lo, hi
+    return joint_bounds(env, arm_joint_ids(env))
 
 
 def make_robot_qpos(arm_qpos: np.ndarray, finger: str = "open") -> np.ndarray:
@@ -181,12 +213,13 @@ def make_robot_qpos(arm_qpos: np.ndarray, finger: str = "open") -> np.ndarray:
 
 def set_robot_qpos(env, q9: np.ndarray) -> None:
     q9 = np.asarray(q9, dtype=float)
+    ids = robot_joint_ids(env)
     lo, hi = robot_qpos_bounds(env)
-    env.data.qpos[2:11] = np.clip(q9, lo, hi)
+    env.data.qpos[qpos_indices(env, ids)] = np.clip(q9, lo, hi)
     env.data.qvel[:] = 0.0
     mujoco.mj_forward(env.model, env.data)
     if hasattr(env, "_robot_qpos_target"):
-        env._robot_qpos_target = env.data.qpos[2:9].astype(float).copy()
+        env._robot_qpos_target = get_joint_qpos(env, arm_joint_ids(env))
 
 
 def ik_public(ik: dict[str, Any]) -> dict[str, Any]:
@@ -255,9 +288,9 @@ def solve_two_pad_ik_q9(env, binding: dict[str, Any], tpf, targets: np.ndarray, 
         "max_pad_error_m": float(np.max(per_pad)),
         "mean_pad_error_m": float(np.mean(per_pad)),
         "per_pad_error_m": per_pad,
-        "qpos_robot": env.data.qpos[2:11].astype(float).copy(),
-        "qpos_arm": env.data.qpos[2:9].astype(float).copy(),
-        "qpos_fingers": env.data.qpos[9:11].astype(float).copy(),
+        "qpos_robot": get_joint_qpos(env, robot_joint_ids(env)),
+        "qpos_arm": get_joint_qpos(env, arm_joint_ids(env)),
+        "qpos_fingers": get_joint_qpos(env, finger_joint_ids(env)),
         "contact_counts": counts,
         "feasible": feasible,
     }
@@ -444,7 +477,7 @@ def evaluate_endpoint_candidate(seed: int, base: list[float], yaw: float, params
             reset_q9,
             make_robot_qpos(SAFE_PRECONTACT_QPOS, "open"),
             make_robot_qpos(np.zeros(7, dtype=float), "open"),
-            make_robot_qpos((env.model.jnt_range[2:9, 0] + env.model.jnt_range[2:9, 1]) / 2.0, "mid"),
+            make_robot_qpos((arm_qpos_bounds(env)[0] + arm_qpos_bounds(env)[1]) / 2.0, "mid"),
         ]
         contact_rows = [solve_two_pad_ik_q9(env, binding, tpf, tpf.hold_targets, q0, finger_prior="mid", max_nfev=180) for q0 in q0s]
         best_contact = min(contact_rows, key=lambda r: (float(r["max_pad_error_m"]), int(r["contact_counts"].get("forbidden", 99)), float(r["contact_counts"].get("max_penetration_m", 99.0))))
@@ -524,11 +557,20 @@ def stage3_solve(seeds: list[int], run_dir: Path, max_base_candidates: int) -> d
                 feasible.append(row)
         ranked = sorted(rows, key=lambda r: float(r.get("score", 999.0)))
         best_by_seed[str(seed)] = {"best": ranked[0] if ranked else None, "top_rows": ranked[:5], "feasible_count": sum(1 for r in rows if r.get("endpoint_feasible"))}
+    schema_error_rows = []
+    for seed_rows in best_by_seed.values():
+        for row in seed_rows.get("top_rows", []):
+            if row.get("error"):
+                schema_error_rows.append(row)
+    schema_error_seeds = sorted({int(row["seed"]) for row in schema_error_rows if "seed" in row})
     summary = {
         "generated_at_utc": utc_now(),
         "seeds_total": len(seeds),
         "feasible_seed_count": len({int(r["seed"]) for r in feasible}),
         "feasible_case_count": len(feasible),
+        "schema_error_count": len(schema_error_rows),
+        "schema_error_seeds": schema_error_seeds,
+        "all_mandatory_seeds_stage3_without_indexing_errors": len(schema_error_rows) == 0,
         "best_reset_clean_two_pad_residual_m": None if math.isinf(best_reset_clean) else float(best_reset_clean),
         "best_overall_two_pad_residual_m": None if math.isinf(best_overall) else float(best_overall),
         "feasible_candidates": feasible[:20],
@@ -660,10 +702,10 @@ def stage6_layer4r(dynamic: dict[str, Any], run_dir: Path) -> dict[str, Any]:
 def write_proposed_deltas(closeout: dict[str, Any], run_dir: Path) -> None:
     payload = {
         "generated_at_utc": utc_now(),
-        "task_id": "V11_G4_GOC_V4_JOINT_PLACEMENT_RESET_IK_KEEP_OUT_FEASIBILITY_V1",
+        "task_id": "V11_G4_GOC_V4_SCHEMA_AWARE_MODEL_PLACEMENT_FEASIBILITY_REPAIR_V1",
         "run_dir": rel(run_dir),
         "closeout_classification": closeout["closeout_classification"],
-        "claim": "joint placement/reset/IK/keepout feasibility evidence only",
+        "claim": "schema-aware joint binding plus joint placement/reset/IK/keepout feasibility evidence only",
         "layer5_pull_rollout_allowed": closeout["closeout_classification"] == "JOINT_PLACEMENT_RESET_IK_KEEP_OUT_FEASIBLE_LAYER4R_CERTIFIED",
         "MINT_training_allowed": False,
         "current_truth_direct_mutation": False,
@@ -755,13 +797,22 @@ def main() -> int:
         stage3 = stage3_solve(seeds, run_dir, args.max_base_candidates)
         feasible = stage3["feasible"]
         if not feasible:
-            closeout_classification = "PLACEMENT_RESET_IK_JOINT_FEASIBILITY_FAILED"
+            schema_errors = int(stage3["summary"].get("schema_error_count", 0))
+            closeout_classification = (
+                "SCHEMA_AWARE_BINDING_REPAIR_FAILED"
+                if schema_errors > 0
+                else "SCHEMA_AWARE_STAGE3_MODEL_PLACEMENT_INFEASIBLE"
+            )
             corridor = {"attempted": False, "corridor_pass_count": 0, "reason": "no_endpoint_feasible_candidate"}
             write_json(run_dir / "stage4_corridor_clearance_traces.json", corridor)
             write_md(run_dir / "stage4_corridor_failure_report.md", "# Stage 4 Corridor\n\nSkipped: no endpoint-feasible candidate.")
             dynamic = stage5_dynamic(corridor, feasible, run_dir)
             layer4r = stage6_layer4r(dynamic, run_dir)
-            next_gate = "MODEL_OR_PLACEMENT_REPAIR_WITH_INFEASIBILITY_CERTIFICATE"
+            next_gate = (
+                "MODEL_INSTANCE_JOINT_SCHEMA_BINDING_REPAIR"
+                if schema_errors > 0
+                else "MODEL_OR_PLACEMENT_REPAIR_WITH_SCHEMA_AWARE_INFEASIBILITY_CERTIFICATE"
+            )
         else:
             corridor = stage4_corridor(feasible, run_dir)
             if corridor.get("corridor_pass_count", 0) <= 0:
@@ -790,6 +841,9 @@ def main() -> int:
         "closeout_classification": closeout_classification,
         "harness_preflight_passed": True,
         "task_spec_lock_bound": True,
+        "schema_aware_joint_binding_repaired": True,
+        "all_mandatory_seeds_stage3_without_indexing_errors": int(stage3["summary"].get("schema_error_count", 0)) == 0,
+        "schema_error_count": int(stage3["summary"].get("schema_error_count", 0)),
         "semantic_bindings_generated": True,
         "handle_frames_generated": True,
         "joint_feasibility_solver_built": True,
@@ -810,7 +864,7 @@ def main() -> int:
         "current_truth_modified": False,
         "next_actions_modified": False,
         "runtime_patch_applied": True,
-        "runtime_patch_files": ["scripts/mint/joint_placement_reset_ik_keepout_feasibility.py"],
+        "runtime_patch_files": ["scripts/mint/joint_placement_reset_ik_keepout_feasibility.py", "scripts/mint/handle_frame_grasp_trajectory_planner.py", "scripts/mint/drawer_robot_env_mujoco.py"],
         "training_run": False,
         "render_run": False,
         "bounded_rollout_run": False,

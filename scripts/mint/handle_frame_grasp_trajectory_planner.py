@@ -28,6 +28,7 @@ os.environ.setdefault("PYOPENGL_PLATFORM", "osmesa")
 
 import mujoco
 import numpy as np
+from scipy.optimize import least_squares
 
 ROOT = Path("/mnt/afs2/zhuhaowu/infinigen")
 CAMPAIGN = ROOT / "experiments/mint/mint_drawer_v1"
@@ -250,6 +251,30 @@ PLANNER_PARAM_GRID = [
         "close_start_step": 9999,
         "close_cmd": -1.0,
     },
+]
+
+PLANNER_BASE_CANDIDATES = [
+    ([-0.55, 0.10, 0.0], -20.0),
+    ([-0.55, 0.05, 0.0], -20.0),
+    ([-0.60, 0.10, 0.0], -20.0),
+    ([-0.60, 0.05, 0.0], -15.0),
+    ([-0.65, 0.10, 0.0], -15.0),
+    ([-0.70, 0.10, 0.0], -15.0),
+    ([-0.75, 0.10, 0.0], -15.0),
+    ([-0.80, 0.10, 0.0], -15.0),
+    ([-0.875, 0.05, 0.0], -10.0),
+    ([-0.875, 0.05, 0.0], -15.0),
+    ([-0.90, 0.05, 0.0], -10.0),
+    ([-0.95, 0.10, 0.0], -15.0),
+]
+
+RESET_QPOS_PRIORS = [
+    SAFE_PRECONTACT_QPOS,
+    np.array([0.0, -1.0, 0.0, -2.5, 0.0, 2.2, 0.8], dtype=float),
+    np.array([0.0, -0.5, 0.0, -2.0, 0.0, 1.8, 0.8], dtype=float),
+    np.array([1.0, -0.5, -0.5, -2.5, 0.4, 2.8, 0.2], dtype=float),
+    np.array([0.5, -1.25, 2.05, -2.64, 0.1, 2.97, -0.32], dtype=float),
+    np.zeros(7, dtype=float),
 ]
 
 
@@ -475,6 +500,232 @@ def solve_two_pad_ik(
     return best
 
 
+def solve_two_pad_ik_least_squares(
+    env: DrawerRobotEnvMuJoCoLibero,
+    binding: dict[str, Any],
+    tpf: TwoPadFrame,
+    targets: np.ndarray,
+    q0: np.ndarray,
+    max_nfev: int = 360,
+) -> dict[str, Any]:
+    start = env.data.qpos.copy()
+    lo = env.model.jnt_range[2:9, 0].astype(float)
+    hi = env.model.jnt_range[2:9, 1].astype(float)
+
+    def residual(q: np.ndarray) -> np.ndarray:
+        env.data.qpos[2:9] = np.asarray(q, dtype=float)
+        env.data.qvel[:] = 0.0
+        mujoco.mj_forward(env.model, env.data)
+        terms = []
+        for row_i, gid in enumerate(tpf.legal_pad_ids):
+            terms.extend((env.data.geom_xpos[int(gid)] - targets[row_i]) * 10.0)
+        return np.asarray(terms, dtype=float)
+
+    res = least_squares(
+        residual,
+        np.clip(np.asarray(q0, dtype=float), lo, hi),
+        bounds=(lo, hi),
+        max_nfev=int(max_nfev),
+        xtol=1e-6,
+        ftol=1e-6,
+        gtol=1e-6,
+    )
+    env.data.qpos[2:9] = res.x
+    env.data.qvel[:] = 0.0
+    mujoco.mj_forward(env.model, env.data)
+    per_pad = np.asarray(
+        [
+            float(np.linalg.norm(env.data.geom_xpos[int(gid)] - targets[row_i]))
+            for row_i, gid in enumerate(tpf.legal_pad_ids)
+        ],
+        dtype=float,
+    )
+    cr = contact_report(env, binding, None)
+    out = {
+        "objective": float(res.cost),
+        "max_pad_error_m": float(np.max(per_pad)),
+        "mean_pad_error_m": float(np.mean(per_pad)),
+        "per_pad_error_m": per_pad,
+        "qpos_arm": env.data.qpos[2:9].astype(float).copy(),
+        "contact_counts": cr["counts"],
+        "feasible": bool(
+            np.max(per_pad) <= 0.035
+            and cr["counts"].get("forbidden", 0) == 0
+            and cr["counts"].get("handle_nonlegal", 0) == 0
+            and cr["counts"].get("max_penetration_m", 0.0) <= MAX_PENETRATION_M
+        ),
+    }
+    env.data.qpos[:] = start
+    env.data.qvel[:] = 0.0
+    mujoco.mj_forward(env.model, env.data)
+    return out
+
+
+def reset_collision_score(counts: dict[str, Any]) -> float:
+    return (
+        float(counts.get("forbidden", 0)) * 100.0
+        + float(counts.get("handle_nonlegal", 0)) * 100.0
+        + max(0.0, float(counts.get("max_penetration_m", 0.0)) - MAX_PENETRATION_M) * 1000.0
+    )
+
+
+def find_collision_free_reset_qpos(
+    env: DrawerRobotEnvMuJoCoLibero,
+    binding: dict[str, Any],
+    seed: int,
+) -> dict[str, Any]:
+    lo = env.model.jnt_range[2:9, 0].astype(float)
+    hi = env.model.jnt_range[2:9, 1].astype(float)
+    rng = np.random.default_rng(1000 + int(seed))
+    candidates = [np.clip(q, lo, hi) for q in RESET_QPOS_PRIORS]
+    for _ in range(80):
+        candidates.append(
+            np.clip(
+                SAFE_PRECONTACT_QPOS
+                + rng.normal(
+                    scale=np.array([0.8, 0.8, 0.8, 0.8, 0.55, 0.8, 0.8]),
+                    size=7,
+                ),
+                lo,
+                hi,
+            )
+        )
+    best: dict[str, Any] | None = None
+    for q in candidates:
+        set_arm_qpos(env, q)
+        counts = contact_report(env, binding, None)["counts"]
+        score = reset_collision_score(counts)
+        row = {
+            "qpos_arm": np.asarray(q, dtype=float).copy(),
+            "reset_counts": counts,
+            "reset_ok": bool(
+                counts.get("forbidden", 0) == 0
+                and counts.get("handle_nonlegal", 0) == 0
+                and counts.get("max_penetration_m", 0.0) <= MAX_PENETRATION_M
+                and counts.get("max_contact_force_n", 0.0) <= MAX_FORCE_N
+            ),
+            "score": float(score),
+        }
+        if best is None or row["score"] < best["score"]:
+            best = row
+        if row["reset_ok"]:
+            return row
+    assert best is not None
+    return best
+
+
+def evaluate_planner_base_candidate(
+    seed: int,
+    base_pos: list[float],
+    yaw_deg: float,
+    params: dict[str, Any],
+) -> dict[str, Any]:
+    env: DrawerRobotEnvMuJoCoLibero | None = None
+    try:
+        with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
+            env = make_env(seed, base_pos, yaw_deg, max_steps=20, qpos=SAFE_PRECONTACT_QPOS)
+            env.reset()
+        binding = classify_instance(env)
+        reset_choice = find_collision_free_reset_qpos(env, binding, seed)
+        set_arm_qpos(env, reset_choice["qpos_arm"])
+        hf_payload = build_handle_frame(env, binding)
+        if hf_payload.get("quality") != "ok":
+            return {
+                "seed": int(seed),
+                "base_pos": list(map(float, base_pos)),
+                "yaw_deg": float(yaw_deg),
+                "reset": reset_choice,
+                "quality": hf_payload.get("quality"),
+                "score": 999.0,
+            }
+        tpf_payload = build_two_pad_frame(env, binding, hf_payload["_frame"], params)
+        if tpf_payload.get("quality") != "ok":
+            return {
+                "seed": int(seed),
+                "base_pos": list(map(float, base_pos)),
+                "yaw_deg": float(yaw_deg),
+                "reset": reset_choice,
+                "quality": tpf_payload.get("quality"),
+                "score": 999.0,
+            }
+        tpf = tpf_payload["_frame"]
+        ik_rows = []
+        for q0 in [reset_choice["qpos_arm"], SAFE_PRECONTACT_QPOS, np.zeros(7), (env.model.jnt_range[2:9, 0] + env.model.jnt_range[2:9, 1]) / 2.0]:
+            ik_rows.append(
+                solve_two_pad_ik_least_squares(
+                    env, binding, tpf, tpf.hold_targets, np.asarray(q0, dtype=float), max_nfev=260
+                )
+            )
+        best_ik = min(
+            ik_rows,
+            key=lambda r: (
+                not r.get("feasible", False),
+                float(r.get("max_pad_error_m", 999.0)),
+                float(r.get("contact_counts", {}).get("forbidden", 999)),
+                float(r.get("contact_counts", {}).get("max_penetration_m", 999.0)),
+            ),
+        )
+        score = (
+            (0.0 if reset_choice["reset_ok"] else 50.0 + reset_choice["score"])
+            + float(best_ik["max_pad_error_m"])
+            + 50.0 * float(best_ik["contact_counts"].get("forbidden", 0))
+            + 50.0 * float(best_ik["contact_counts"].get("handle_nonlegal", 0))
+            + 500.0 * max(0.0, float(best_ik["contact_counts"].get("max_penetration_m", 0.0)) - MAX_PENETRATION_M)
+        )
+        return {
+            "seed": int(seed),
+            "base_pos": list(map(float, base_pos)),
+            "yaw_deg": float(yaw_deg),
+            "reset": reset_choice,
+            "binding": compact_binding(binding),
+            "ik": ik_public(best_ik),
+            "planner_base_candidate_feasible": bool(reset_choice["reset_ok"] and best_ik["feasible"]),
+            "score": float(score),
+        }
+    except Exception as exc:
+        return {
+            "seed": int(seed),
+            "base_pos": list(map(float, base_pos)),
+            "yaw_deg": float(yaw_deg),
+            "error": repr(exc),
+            "score": 999.0,
+        }
+    finally:
+        if env is not None:
+            env.close()
+
+
+def choose_planner_base_map(
+    seeds: list[int],
+    params: dict[str, Any],
+    run_dir: Path,
+) -> tuple[dict[str, dict[str, Any]], dict[str, Any]]:
+    base_map: dict[str, dict[str, Any]] = {}
+    diagnostics: dict[str, Any] = {}
+    for seed in seeds:
+        rows = [
+            evaluate_planner_base_candidate(seed, base, yaw, params)
+            for base, yaw in PLANNER_BASE_CANDIDATES
+        ]
+        ranked = sorted(rows, key=lambda r: float(r.get("score", 999.0)))
+        chosen = ranked[0]
+        base_map[str(seed)] = {
+            "base_pos": chosen["base_pos"],
+            "yaw_deg": chosen["yaw_deg"],
+            "reset_ok": bool(chosen.get("reset", {}).get("reset_ok", False)),
+            "reset_qpos": chosen.get("reset", {}).get("qpos_arm", SAFE_PRECONTACT_QPOS),
+            "planner_base_candidate_feasible": bool(chosen.get("planner_base_candidate_feasible", False)),
+            "best_ik": chosen.get("ik", {}),
+        }
+        diagnostics[str(seed)] = {
+            "chosen": chosen,
+            "feasible_count": sum(1 for r in rows if r.get("planner_base_candidate_feasible")),
+            "top_rows": ranked[:5],
+        }
+    write_json(run_dir / "planner_base_qpos_reachability_search.json", diagnostics)
+    return base_map, diagnostics
+
+
 def joint_target_action(
     env: DrawerRobotEnvMuJoCoLibero,
     q_target: np.ndarray,
@@ -574,7 +825,8 @@ def run_planner_case(
 ) -> dict[str, Any]:
     base_pos = np.asarray(base_entry["base_pos"], dtype=float) + np.asarray(perturb["base_delta"], dtype=float)
     yaw = float(base_entry["yaw_deg"]) + float(perturb["yaw_delta_deg"])
-    qpos = SAFE_PRECONTACT_QPOS + np.asarray(perturb["qpos_delta"], dtype=float)
+    base_qpos = np.asarray(base_entry.get("reset_qpos", SAFE_PRECONTACT_QPOS), dtype=float)
+    qpos = base_qpos + np.asarray(perturb["qpos_delta"], dtype=float)
     env: DrawerRobotEnvMuJoCoLibero | None = None
     records: list[dict[str, Any]] = []
     try:
@@ -613,11 +865,11 @@ def run_planner_case(
             }
         tpf = tpf_payload["_frame"]
 
-        ik_pre = solve_two_pad_ik(env, binding, tpf, tpf.pregrasp_targets)
+        ik_pre = solve_two_pad_ik_least_squares(env, binding, tpf, tpf.pregrasp_targets, qpos)
         set_arm_qpos(env, ik_pre["qpos_arm"])
-        ik_guarded = solve_two_pad_ik(env, binding, tpf, tpf.guarded_targets)
+        ik_guarded = solve_two_pad_ik_least_squares(env, binding, tpf, tpf.guarded_targets, ik_pre["qpos_arm"])
         set_arm_qpos(env, ik_guarded["qpos_arm"])
-        ik_contact = solve_two_pad_ik(env, binding, tpf, tpf.hold_targets)
+        ik_contact = solve_two_pad_ik_least_squares(env, binding, tpf, tpf.hold_targets, ik_guarded["qpos_arm"])
         # Restore initial pose before dynamic execution.
         set_arm_qpos(env, qpos)
         prev = geom_centers(env)
@@ -1003,7 +1255,7 @@ def main() -> int:
         seeds = seeds[: args.seed_limit]
     perturbations = PERTURBATIONS if args.perturb_limit <= 0 else PERTURBATIONS[: args.perturb_limit]
 
-    base_map, base_diag = repair_campaign.choose_base_map(seeds)
+    base_map, base_diag = choose_planner_base_map(seeds, PLANNER_PARAM_GRID[0], run_dir)
     write_json(run_dir / "base_map_for_handle_frame_planner.json", {"base_map": base_map, "diagnostics": base_diag})
 
     targets = choose_representative_targets(corpus.get("cases", []), seeds, perturbations)

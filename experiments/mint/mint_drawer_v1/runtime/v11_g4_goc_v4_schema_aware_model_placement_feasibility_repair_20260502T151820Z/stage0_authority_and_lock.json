@@ -1,0 +1,9 @@
+{
+  "generated_at_utc": "2026-05-02T15:20:27Z",
+  "harness_preflight_passed": true,
+  "head": "96f59af5914b54304433a566acf49bda8d8c9b7c",
+  "run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_schema_aware_model_placement_feasibility_repair_20260502T151820Z",
+  "spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_schema_aware_model_placement_feasibility_repair.yaml",
+  "task_spec_hash": "f5743782964bb29785be59c48290c39749bb5f8c",
+  "task_spec_lock_bound": true
+}

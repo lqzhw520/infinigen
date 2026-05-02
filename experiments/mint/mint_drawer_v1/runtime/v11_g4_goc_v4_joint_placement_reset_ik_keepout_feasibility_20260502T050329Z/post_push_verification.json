@@ -1,0 +1,48 @@
+{
+  "all_origin_visible": true,
+  "branch": "my-origin/feature/mint-env-reformulation-v1-visual-fidelity",
+  "checks": {
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_joint_placement_reset_ik_keepout_feasibility_20260502T050329Z/closeout_decision.json": {
+      "bytes": 1388,
+      "origin_visible": true,
+      "stderr": ""
+    },
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_joint_placement_reset_ik_keepout_feasibility_20260502T050329Z/final_report.md": {
+      "bytes": 1093,
+      "origin_visible": true,
+      "stderr": ""
+    },
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_joint_placement_reset_ik_keepout_feasibility_20260502T050329Z/stage3_feasibility_candidates.jsonl": {
+      "bytes": 4386160,
+      "origin_visible": true,
+      "stderr": ""
+    },
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_joint_placement_reset_ik_keepout_feasibility_20260502T050329Z/stage3_infeasibility_certificate.json": {
+      "bytes": 650,
+      "origin_visible": true,
+      "stderr": ""
+    },
+    "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_joint_placement_reset_ik_keepout_feasibility.yaml": {
+      "bytes": 8427,
+      "origin_visible": true,
+      "stderr": ""
+    },
+    "experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_joint_placement_reset_ik_keepout_feasibility.json": {
+      "bytes": 641,
+      "origin_visible": true,
+      "stderr": ""
+    },
+    "experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_joint_placement_reset_ik_keepout_feasibility.json": {
+      "bytes": 641,
+      "origin_visible": true,
+      "stderr": ""
+    },
+    "scripts/mint/joint_placement_reset_ik_keepout_feasibility.py": {
+      "bytes": 41897,
+      "origin_visible": true,
+      "stderr": ""
+    }
+  },
+  "evidence_commit_hash": "ccd779bd45d9664f4057038ce8d7f69e31a1b66c",
+  "generated_at_utc": "2026-05-02T05:30:40Z"
+}

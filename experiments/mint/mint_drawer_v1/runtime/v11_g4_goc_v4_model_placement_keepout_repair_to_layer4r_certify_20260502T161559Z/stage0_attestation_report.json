@@ -1,0 +1,9 @@
+{
+  "all_regressions_passed": true,
+  "attestation_blob": "ce559e86eba22c7f7e59ed34ff8ed882ed3085c3",
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "file_blobs_verified": true,
+  "origin_url": "git@github.com:lqzhw520/infinigen.git",
+  "origin_verified": true,
+  "preflight_passed": true
+}

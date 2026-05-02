@@ -1,0 +1,199 @@
+task_id: V11_G4_GOC_V4_JOINT_PLACEMENT_RESET_IK_KEEP_OUT_FEASIBILITY_V1
+task_type: KINEMATIC_AND_CONTACT_FEASIBILITY_SCIENCE_PHASE
+task_version: "1.0.0"
+phase: joint_placement_reset_ik_keepout_feasibility
+target_gate: V11-G4_GOC-V4_LAYER4R_FEASIBILITY
+
+objective:
+  summary: >
+    Prove or falsify whether the current GOC-v4 model instances admit a
+    jointly feasible robot base placement, reset qpos, two-pad handle-frame IK
+    solution, and collision-free approach corridor under strict GOC-v4
+    dedicated finger-pad contact authority. This phase is feasibility evidence
+    only and does not claim teacher rollout, render, training, or MINT success.
+  target_gate: LAYER4R_ROBUST_CONTACT_FEASIBILITY_BEFORE_PULL_ROLLOUT
+
+authority:
+  repo: /mnt/afs2/zhuhaowu/infinigen
+  branch: feature/mint-env-reformulation-v1-visual-fidelity
+  campaign_root: experiments/mint/mint_drawer_v1
+  goc_authority: GOC_V4_DEDICATED_FINGER_PAD_EXACT_GEOM_AUTHORITY
+  per_instance_binding_required: true
+  fixed_drawer_handle_ids_forbidden_unless_semantically_verified: true
+  body_based_31_27_forbidden: true
+  name_only_contact_report_forbidden: true
+  broad_link_wrist_arm_finger_shell_target_contact_forbidden: true
+
+# Validator-compatible baseline. V01 validates the immutable GOC-v3 exact-set
+# source contract; this phase derives and verifies per-instance GOC-v4 dedicated
+# pad authority in its own evidence and rejects fixed handle IDs / body authority.
+task_authority:
+  authority_type: GOC_V3_EXACT_GEOM_ID_SETS_AS_SOURCE_BASELINE_FOR_GOC_V4_JOINT_FEASIBILITY
+  goc_version: v3
+  goc_artifact_path: artifacts/phase1h_geometry_contract/goc_v3_contract.json
+  goc_contract: experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v3_contract.json
+  goc_contract_id: GOC_V3_EXACT_ID_GEOMETRY_OWNERSHIP_CONTRACT
+  legal_gripper_surface_geom_ids: [63, 81, 90]
+  forbidden_robot_surface_geom_ids: [45, 47, 49, 54, 59]
+  drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+  prohibited_authority:
+    - GOC-v2 count-only legal_pad=29 forbidden=26 handle=9
+    - runtime body-based legal=31 forbidden=27 without exact-ID role classification
+    - legacy name-only contact reports
+    - broad-link or broad-finger-shell contact as target
+
+goc_v4_authority:
+  authority_type: GOC_V4_DEDICATED_FINGER_PAD_EXACT_GEOM_ID_SETS
+  goc_contract: experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v4_contract.json
+  per_instance_binding_required: true
+  target_contact: legal_finger_pad_geom_ids <-> semantically bound drawer_handle_geom_ids only
+  forbidden_contact: forbidden_robot_surface_geom_ids / nonlegal robot surfaces <-> drawer_handle/drawer/cabinet
+  broad_link_wrist_arm_finger_shell_target_rejected: true
+  fixed_global_ids_may_not_be_reused_without_instance_verification: true
+  body_based_31_27_rejected: true
+  name_only_contact_rejected: true
+
+remote:
+  approved_files:
+    - scripts/mint/joint_placement_reset_ik_keepout_feasibility.py
+    - scripts/mint/handle_frame_grasp_trajectory_planner.py
+    - scripts/mint/contact_aware_drawer_teacher.py
+    - scripts/mint/drawer_robot_env_mujoco.py
+    - scripts/mint/merged_model_builder.py
+    - experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_joint_placement_reset_ik_keepout_feasibility.yaml
+    - experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_joint_placement_reset_ik_keepout_feasibility_*
+    - experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_joint_placement_reset_ik_keepout_feasibility.json
+    - experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_joint_placement_reset_ik_keepout_feasibility.json
+    - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json
+    - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_attestation.json
+  forbidden_files:
+    - experiments/mint/mint_drawer_v1/sovereign/current_truth.json
+    - experiments/mint/mint_drawer_v1/sovereign/next_actions.json
+    - external/MINT
+    - external/MINT/*
+
+forbidden:
+  - current_truth_direct_mutation
+  - next_actions_direct_mutation
+  - external_MINT_mutation
+  - training
+  - finetuning
+  - MINT_eval
+  - render_success_claim
+  - bounded_rollout
+  - direct_qpos_drawer_opening
+  - disabling_all_robot_drawer_or_handle_collisions
+  - accepting_forbidden_contact_as_target
+  - lowering_layer4r_thresholds
+  - body_based_31_27_authority
+  - name_only_contact_authority
+  - fixed_handle_ids_without_instance_semantic_verification
+  - broad_link_or_finger_shell_target_contact
+
+claim_ladder_scope:
+  layer1_harness_governance: required
+  layer2_exact_goc_v4_authority: required
+  layer3_reset_preaction_physical_plausibility: required
+  layer4r_joint_feasibility: in_scope
+  layer4r_robust_contact_certification: optional_if_feasibility_and_dynamic_probe_pass
+  layer5_teacher_pull_rollout: out_of_scope
+  layer6_export_bundle: out_of_scope
+  layer7_local_replay_render: out_of_scope
+  layer8_mint_train_eval: out_of_scope
+
+feasibility_thresholds:
+  two_pad_contact_target_residual_preferred_m: 0.01
+  two_pad_contact_target_residual_max_m: 0.02
+  pregrasp_pad_handle_distance_min_m: 0.04
+  pregrasp_pad_handle_distance_max_m: 0.06
+  forbidden_clearance_margin_m: 0.005
+  reset_max_penetration_m: 0.02
+  reset_max_contact_force_n: 1000000.0
+  dynamic_target_consecutive_frames_min: 10
+  layer4r_target_contact_total_frames_min: 50
+  layer4r_target_contact_max_consecutive_frames_min: 30
+  max_penetration_m: 0.02
+  max_force_n: 1000000.0
+  drawer_motor_command_abs_max: 0.0
+
+hard_gate_policy:
+  stage3_endpoint_feasibility_required_before_corridor: true
+  stage4_corridor_required_before_dynamic_probe: true
+  stage5_dynamic_probe_required_before_layer4r_matrix: true
+  full_layer4r_matrix_required_for_layer4r_certification: true
+  layer5_promotion_forbidden_in_this_phase: true
+
+closeout_states:
+  success:
+    - JOINT_PLACEMENT_RESET_IK_KEEP_OUT_FEASIBLE_LAYER4R_READY
+    - JOINT_PLACEMENT_RESET_IK_KEEP_OUT_FEASIBLE_LAYER4R_CERTIFIED
+  non_success:
+    - HARNESS_PREFLIGHT_FAILED
+    - TASK_SPEC_LOCK_BINDING_FAILED
+    - DIRTY_FORBIDDEN_SCOPE
+    - SEMANTIC_BINDING_AMBIGUOUS
+    - PLACEMENT_RESET_IK_JOINT_FEASIBILITY_FAILED
+    - APPROACH_CORRIDOR_KEEP_OUT_FAILED
+    - HANDLE_GEOMETRY_ACCESSIBILITY_FAILED
+    - ROBOT_MOUNT_SCENE_LAYOUT_INFEASIBLE
+    - OPERATIONAL_SPACE_DYNAMICS_FAILED_AFTER_KINEMATIC_FEASIBILITY
+    - LAYER4R_GENERALIZATION_FAILED_AFTER_FEASIBILITY
+    - TIME_BUDGET_EXHAUSTED
+    - EXECUTION_FAILED
+
+final_output_fields:
+  - closeout_classification
+  - harness_preflight_passed
+  - task_spec_lock_bound
+  - semantic_bindings_generated
+  - handle_frames_generated
+  - joint_feasibility_solver_built
+  - feasible_seed_count
+  - feasible_case_count
+  - best_reset_clean_two_pad_residual_m
+  - best_overall_two_pad_residual_m
+  - approach_corridor_verified
+  - dynamic_probe_attempted
+  - dynamic_probe_passed
+  - layer4R_targeted_cases_passed
+  - layer4R_targeted_cases_failed
+  - layer4R_full_matrix_attempted
+  - layer4R_cases_total
+  - layer4R_cases_passed
+  - layer4R_cases_failed
+  - remaining_failure_clusters
+  - current_truth_modified
+  - next_actions_modified
+  - runtime_patch_applied
+  - runtime_patch_files
+  - committed
+  - pushed_to_origin
+  - remote_commit_hash
+  - next_gate
+
+fixtures:
+  fixture_valid_authority_match:
+    runtime_exact_ids:
+      legal_gripper_surface_geom_ids: [63, 81, 90]
+      forbidden_robot_surface_geom_ids: [45, 47, 49, 54, 59]
+      drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    expected: PASS
+  fixture_invalid_authority_drift:
+    runtime_exact_ids:
+      legal_gripper_surface_geom_ids: [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90]
+      forbidden_robot_surface_geom_ids: [33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59]
+      drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    expected: FAIL
+    expected_error: AUTHORITY_MISMATCH
+  fixture_rollout_crash:
+    rollout_stdout: "Traceback: rollout command unavailable"
+    result_json_exists: false
+    expected: FAIL
+    expected_error: ROLLOUT_COMMAND_BROKEN
+  fixture_valid_closeout:
+    closeout_classification: ROUTE_SUCCESS
+    max_drawer_fraction: 0.85
+    exact_goc_v4_target_contact: true
+    forbidden_contact_any: false
+    direct_qpos_drawer_opening: false
+    expected: PASS

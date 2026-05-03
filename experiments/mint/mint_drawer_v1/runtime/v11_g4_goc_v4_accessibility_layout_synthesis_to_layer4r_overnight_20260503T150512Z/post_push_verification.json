@@ -1,6 +1,6 @@
 {
   "all_required_origin_visible": true,
-  "generated_at_utc": "2026-05-03T16:15:15Z",
+  "generated_at_utc": "2026-05-03T16:15:51Z",
   "git_status_short_before_finalization": " M .project-memory/STATUS.md\n M .session/checkpoint.md\n",
   "origin_branch": "my-origin/feature/mint-env-reformulation-v1-visual-fidelity",
   "origin_visible_paths": {
@@ -14,5 +14,5 @@
     "experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_accessibility_layout_synthesis_to_layer4r.json": true,
     "experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_accessibility_layout_synthesis_to_layer4r.json": true
   },
-  "science_evidence_commit_hash": "c2fbf2b0d80f6c850749852940f4d0672131a58c"
+  "science_evidence_commit_hash": "8be354de4bfc198c3742d0a7917e38f3a50364dc"
 }

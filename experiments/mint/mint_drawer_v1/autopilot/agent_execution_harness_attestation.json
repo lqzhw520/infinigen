@@ -1,11 +1,11 @@
 {
   "attestation_id": "POST_PUSH_ATTESTATION_V3",
   "version": "1.0.0",
-  "generated_at_utc": "2026-05-02T16:16:56Z",
+  "generated_at_utc": "2026-05-03T14:03:09Z",
   "generated_by": "validate_harness_production_lock.py",
   "attestation_type": "post_push_verification",
-  "lock_commit": "5f5948432326f520cff82771327b6e45f0ae6f91",
-  "origin_head": "5f5948432326f520cff82771327b6e45f0ae6f91",
+  "lock_commit": "ccaeda05748b41f79601e4faf1354dbae480272b",
+  "origin_head": "ccaeda05748b41f79601e4faf1354dbae480272b",
   "origin_verified": true,
   "lock_status": "production_ready",
   "lock_blob_on_origin": "verified_via_merge_base_ancestor_chain",
@@ -17,13 +17,13 @@
     "lock_generated_by": "validate_harness_production_lock.py",
     "lock_version": "3.0.0",
     "task_spec_binding": {
-      "requested_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_model_placement_keepout_repair_to_layer4r_certify_overnight.yaml",
-      "lock_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_model_placement_keepout_repair_to_layer4r_certify_overnight.yaml",
-      "lock_hash": "a3e93dd19ad6188b10a122a74fc2e86225003aa2",
-      "current_hash": "a3e93dd19ad6188b10a122a74fc2e86225003aa2",
+      "requested_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_model_instance_accessibility_and_collision_attribution_repair_overnight.yaml",
+      "lock_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_model_instance_accessibility_and_collision_attribution_repair_overnight.yaml",
+      "lock_hash": "08f566a0f07cfeae3affd10b2a222d9d61768ef3",
+      "current_hash": "08f566a0f07cfeae3affd10b2a222d9d61768ef3",
       "passed": true
     },
-    "origin_head": "5f5948432326f520cff82771327b6e45f0ae6f91",
+    "origin_head": "ccaeda05748b41f79601e4faf1354dbae480272b",
     "git_ls_remote_ok": true,
     "origin_contains_lock_commit": true,
     "lock_commit_is_ancestor_of_origin": true,
@@ -82,9 +82,9 @@
         "origin": "13b699b3e23a99929c591ec08ae7c859172988e5",
         "matches": true
       },
-      "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_model_placement_keepout_repair_to_layer4r_certify_overnight.yaml": {
-        "expected": "a3e93dd19ad6188b10a122a74fc2e86225003aa2",
-        "origin": "a3e93dd19ad6188b10a122a74fc2e86225003aa2",
+      "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_model_instance_accessibility_and_collision_attribution_repair_overnight.yaml": {
+        "expected": "08f566a0f07cfeae3affd10b2a222d9d61768ef3",
+        "origin": "08f566a0f07cfeae3affd10b2a222d9d61768ef3",
         "matches": true
       }
     },
@@ -158,7 +158,7 @@
         "passed": true,
         "fixture": "task_spec_mismatch_must_fail",
         "expected": "FAIL(non-zero) with requested-vs-lock spec mismatch",
-        "active_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_model_placement_keepout_repair_to_layer4r_certify_overnight.yaml",
+        "active_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_model_instance_accessibility_and_collision_attribution_repair_overnight.yaml",
         "mismatch_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml",
         "actual_exit_code": 2,
         "output_excerpt": "\n======================================================================\n  Agent Task Pre-flight\n======================================================================\n  campaign_root: /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1\n  task_spec:    /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml\n  dry_run:      True\n\n  [LOCK] Production lock enforcement\n\n  FATAL: Requested task spec does not match production loc"
@@ -181,5 +181,5 @@
   },
   "origin_url": "git@github.com:lqzhw520/infinigen.git",
   "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
-  "attestation_blob": "ce559e86eba22c7f7e59ed34ff8ed882ed3085c3"
+  "attestation_blob": "09bbba90daab0762c0ea81fcd7d98198332c637f"
 }

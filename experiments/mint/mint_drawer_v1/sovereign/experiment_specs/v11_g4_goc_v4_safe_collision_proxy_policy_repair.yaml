@@ -1,0 +1,219 @@
+task_id: V11_G4_GOC_V4_SAFE_COLLISION_PROXY_POLICY_REPAIR_WITH_VISUAL_PHYSICAL_CONSISTENCY_GUARD_V1
+task_type: MODEL_COLLISION_POLICY_REPAIR_WITH_VISUAL_PHYSICAL_CONSISTENCY_GUARD
+version: "1.0.0"
+phase: safe_collision_proxy_policy_repair_with_visual_physical_consistency_guard
+target_gate: SAFE_COLLISION_PROXY_POLICY_REPAIR_WITH_VISUAL_PHYSICAL_CONSISTENCY_GUARD
+
+objective:
+  summary: >
+    Resolve the post-attribution blocker where exact MuJoCo contact pairs showed
+    near-handle candidate states dominated by broad hand/wrist/link collision
+    contact against drawer/cabinet geometry. This phase may apply a source collision
+    proxy policy repair only if visual/physical consistency evidence proves the
+    offending collision geom is a duplicate or overconservative nonessential proxy.
+    If the offending collision geom matches a real visual/physical robot body, the
+    phase must reject proxy demotion and close out with the next structural model,
+    mount/layout, or accessibility redesign gate.
+  previous_gate: V11_G4_GOC_V4_MODEL_INSTANCE_ACCESSIBILITY_AND_COLLISION_ATTRIBUTION_REPAIR_OVERNIGHT_V1
+  previous_closeout: FORBIDDEN_COLLISION_PROXY_POLICY_REPAIR_REQUIRED
+  previous_next_gate: SAFE_COLLISION_PROXY_POLICY_REPAIR_WITH_VISUAL_PHYSICAL_CONSISTENCY_GUARD
+  claim_boundary: >
+    This phase may claim safe proxy policy repair only after visual/physical
+    consistency guard passes and endpoint/corridor/dynamic checks are rerun.
+    It may not claim teacher rollout, export, local replay/render success,
+    MINT admission, or training.
+
+authority:
+  repo: /mnt/afs2/zhuhaowu/infinigen
+  branch: feature/mint-env-reformulation-v1-visual-fidelity
+  campaign_root: experiments/mint/mint_drawer_v1
+  goc_authority: GOC_V4_DEDICATED_FINGER_PAD_EXACT_GEOM_AUTHORITY
+  per_instance_binding_required: true
+  fixed_drawer_handle_ids_forbidden_unless_semantically_verified: true
+  body_based_31_27_forbidden: true
+  name_only_contact_report_forbidden: true
+  broad_link_wrist_arm_finger_shell_target_contact_forbidden: true
+
+# Harness V01 validates this immutable GOC-v3 exact-set source baseline. Runtime
+# science authority remains per-instance GOC-v4 dedicated finger-pad authority.
+task_authority:
+  authority_type: GOC_V3_EXACT_GEOM_ID_SETS_AS_SOURCE_BASELINE_FOR_GOC_V4_SAFE_PROXY_REPAIR
+  goc_version: v3
+  goc_artifact_path: artifacts/phase1h_geometry_contract/goc_v3_contract.json
+  goc_contract: experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v3_contract.json
+  goc_contract_id: GOC_V3_EXACT_ID_GEOMETRY_OWNERSHIP_CONTRACT
+  legal_gripper_surface_geom_ids: [63, 81, 90]
+  forbidden_robot_surface_geom_ids: [45, 47, 49, 54, 59]
+  drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+  prohibited_authority:
+    - GOC-v2 count-only legal_pad=29 forbidden=26 handle=9
+    - runtime body-based legal=31 forbidden=27 without exact-ID role classification
+    - legacy name-only contact reports
+    - fixed drawer_handle_geom_ids=[0..8] as runtime authority without semantic verification
+    - broad-link or broad-finger-shell contact as target
+
+goc_v4_authority:
+  authority_type: GOC_V4_DEDICATED_FINGER_PAD_EXACT_GEOM_ID_SETS
+  goc_contract: experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v4_contract.json
+  per_instance_binding_required: true
+  target_contact: legal_finger_pad_geom_ids <-> semantically bound drawer_handle_geom_ids only
+  forbidden_contact: nonlegal robot surfaces <-> drawer_handle/drawer/cabinet
+  broad_link_wrist_arm_finger_shell_target_rejected: true
+  fixed_global_ids_may_not_be_reused_without_instance_verification: true
+  body_based_31_27_rejected: true
+  name_only_contact_rejected: true
+
+hard_gate_policy:
+  no_science_before_no_bypass_preflight: true
+  must_ingest_prior_exact_pair_attribution: true
+  visual_physical_consistency_guard_required_before_source_patch: true
+  duplicate_or_overconservative_proxy_proof_required_before_demotion: true
+  physical_robot_body_collision_may_not_be_demoted_to_create_pass: true
+  source_patch_required_before_positive_endpoint_rerun: true
+  endpoint_feasible_required_before_corridor: true
+  corridor_required_before_dynamic_probe: true
+  dynamic_probe_required_before_layer4r_matrix: true
+  no_threshold_lowering: true
+  no_forbidden_contact_as_target: true
+  no_direct_qpos_drawer_opening: true
+  positive_science_from_committed_clean_runtime_scope: true
+
+visual_physical_consistency_guard:
+  offender_visual_match_required_fields:
+    - same_body_visual_geom_count
+    - collision_rbound_m
+    - max_same_body_visual_rbound_m
+    - collision_to_visual_rbound_ratio
+    - physical_body_chain
+    - contact_pair_penetration_summary
+  safe_demotion_allowed_only_if:
+    - geom_is_duplicate_nonessential_shell
+    - dedicated_pad_geoms_remain_active
+    - no physical palm_or_arm_visual_body_would_be_ignored
+    - representative_state_does_not_show_visual_body_intersecting_scene_when_collision_disabled
+  unsafe_demotion_conditions:
+    - collision_geom_has_same_body_visual_counterpart_with_matching_size
+    - geom_is_link5_link6_link7_or_hand_physical_body
+    - demotion_would_ignore palm wrist or arm occupancy
+    - repair relies on accepting forbidden broad-link contact as target
+
+repair_budget:
+  max_total_wall_clock_hours: 8
+  max_safe_proxy_repair_cycles: 3
+  no_progress_cycles_before_stop: 2
+
+allowed_files:
+  - scripts/mint/safe_collision_proxy_policy_repair.py
+  - scripts/mint/model_instance_accessibility_collision_attribution_repair.py
+  - scripts/mint/model_placement_keepout_repair.py
+  - scripts/mint/joint_placement_reset_ik_keepout_feasibility.py
+  - scripts/mint/handle_frame_grasp_trajectory_planner.py
+  - scripts/mint/contact_aware_drawer_teacher.py
+  - scripts/mint/drawer_robot_env_mujoco.py
+  - scripts/mint/merged_model_builder.py
+  - experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_safe_collision_proxy_policy_repair.yaml
+  - experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_safe_collision_proxy_policy_repair_*
+  - experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_safe_collision_proxy_policy_repair.json
+  - experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_safe_collision_proxy_policy_repair.json
+  - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json
+  - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_attestation.json
+
+remote:
+  approved_files:
+    - scripts/mint/safe_collision_proxy_policy_repair.py
+    - scripts/mint/model_instance_accessibility_collision_attribution_repair.py
+    - scripts/mint/model_placement_keepout_repair.py
+    - scripts/mint/joint_placement_reset_ik_keepout_feasibility.py
+    - scripts/mint/handle_frame_grasp_trajectory_planner.py
+    - scripts/mint/contact_aware_drawer_teacher.py
+    - scripts/mint/drawer_robot_env_mujoco.py
+    - scripts/mint/merged_model_builder.py
+    - experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_safe_collision_proxy_policy_repair.yaml
+    - experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_safe_collision_proxy_policy_repair_*
+    - experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_safe_collision_proxy_policy_repair.json
+    - experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_safe_collision_proxy_policy_repair.json
+    - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json
+    - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_attestation.json
+  forbidden_files:
+    - experiments/mint/mint_drawer_v1/sovereign/current_truth.json
+    - experiments/mint/mint_drawer_v1/sovereign/next_actions.json
+    - external/MINT
+    - external/MINT/*
+
+forbidden:
+  - current_truth_direct_mutation
+  - next_actions_direct_mutation
+  - external_MINT_mutation
+  - training
+  - finetuning
+  - MINT_eval
+  - render_success_claim_without_artifact
+  - bounded_pull_rollout
+  - direct_qpos_drawer_opening
+  - disabling_all_robot_drawer_or_handle_collisions
+  - accepting_forbidden_contact_as_target
+  - lowering_layer4r_thresholds
+  - changing_handle_or_drawer_geometry_to_fake_success
+  - body_based_31_27_authority
+  - name_only_contact_authority
+  - fixed_handle_ids_without_instance_semantic_verification
+  - broad_link_or_finger_shell_target_contact
+
+forensic_questions:
+  - Are link5_collision, link6_collision, link7_collision, and hand_collision duplicate proxy shells or real physical visual bodies?
+  - Does each offender have a same-body visual counterpart with comparable rbound/AABB?
+  - Would demoting the offender ignore visible palm, wrist, or arm occupancy?
+  - Does any safe duplicate-only policy repair remain after broad finger shells were already demoted?
+  - If no safe repair exists, is the blocker structural mount/layout/accessibility rather than collision proxy policy?
+
+thresholds:
+  endpoint_two_pad_residual_max_m: 0.02
+  reset_max_penetration_m: 0.02
+  reset_max_contact_force_n: 1000000.0
+  max_penetration_m: 0.02
+  max_force_n: 1000000.0
+  layer4r_target_contact_total_frames_min: 50
+  layer4r_target_contact_max_consecutive_frames_min: 30
+
+closeout_states:
+  success_or_partial:
+    - SAFE_COLLISION_PROXY_POLICY_REPAIRED_ENDPOINT_FEASIBLE
+    - SAFE_COLLISION_PROXY_POLICY_REPAIRED_LAYER4R_CERTIFIED
+    - SAFE_SOURCE_PROXY_REPAIR_IDENTIFIED_REQUIRES_MODEL_BUILDER_PATCH
+    - NO_SAFE_PROXY_REPAIR_MODEL_LAYOUT_REDESIGN_REQUIRED
+  non_success:
+    - HARNESS_PREFLIGHT_FAILED
+    - TASK_SPEC_LOCK_BINDING_FAILED
+    - DIRTY_FORBIDDEN_SCOPE
+    - PRIOR_ATTRIBUTION_EVIDENCE_MISSING
+    - VISUAL_PHYSICAL_CONSISTENCY_GUARD_FAILED
+    - SAFE_PROXY_REPAIR_REJECTED_PHYSICAL_COLLISION_ESSENTIAL
+    - SAFE_PROXY_REPAIR_STALLED
+    - TIME_BUDGET_EXHAUSTED
+    - EXECUTION_FAILED
+
+final_output_fields:
+  - closeout_classification
+  - harness_preflight_passed
+  - task_spec_lock_bound
+  - prior_attribution_ingested
+  - visual_physical_consistency_guard_completed
+  - offender_geom_audit_count
+  - physically_essential_offender_count
+  - duplicate_proxy_offender_count
+  - safe_source_proxy_repair_identified
+  - source_patch_applied
+  - repair_cycles_run
+  - endpoint_rerun_attempted
+  - endpoint_feasible_after_repair
+  - approach_corridor_attempted
+  - dynamic_probe_attempted
+  - layer4r_full_matrix_attempted
+  - current_truth_modified
+  - next_actions_modified
+  - runtime_patch_applied
+  - runtime_patch_files
+  - committed
+  - pushed_to_origin
+  - remote_commit_hash
+  - next_gate

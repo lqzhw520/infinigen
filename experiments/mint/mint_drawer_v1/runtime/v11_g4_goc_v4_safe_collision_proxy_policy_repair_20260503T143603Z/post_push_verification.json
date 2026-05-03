@@ -1,0 +1,49 @@
+{
+  "all_required_paths_origin_visible": true,
+  "evidence_commit_hash": "402b5dc07ab4b4d171390289b0cfa7ecf37506d5",
+  "generated_at_utc": "2026-05-03T14:42:12Z",
+  "origin_head_at_verification": "402b5dc07ab4b4d171390289b0cfa7ecf37506d5",
+  "origin_matches_evidence_commit": true,
+  "required_paths": {
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_safe_collision_proxy_policy_repair_20260503T143603Z/closeout_decision.json": {
+      "origin_visible": true,
+      "stderr": ""
+    },
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_safe_collision_proxy_policy_repair_20260503T143603Z/final_report.md": {
+      "origin_visible": true,
+      "stderr": ""
+    },
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_safe_collision_proxy_policy_repair_20260503T143603Z/stage2_visual_physical_consistency_guard.json": {
+      "origin_visible": true,
+      "stderr": ""
+    },
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_safe_collision_proxy_policy_repair_20260503T143603Z/stage3_safe_proxy_source_repair_decision.json": {
+      "origin_visible": true,
+      "stderr": ""
+    },
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_safe_collision_proxy_policy_repair_20260503T143603Z/stage4_repair_cycles.jsonl": {
+      "origin_visible": true,
+      "stderr": ""
+    },
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_safe_collision_proxy_policy_repair_20260503T143603Z/stage_final_preflight.out": {
+      "origin_visible": true,
+      "stderr": ""
+    },
+    "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_safe_collision_proxy_policy_repair.yaml": {
+      "origin_visible": true,
+      "stderr": ""
+    },
+    "experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_safe_collision_proxy_policy_repair.json": {
+      "origin_visible": true,
+      "stderr": ""
+    },
+    "experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_safe_collision_proxy_policy_repair.json": {
+      "origin_visible": true,
+      "stderr": ""
+    },
+    "scripts/mint/safe_collision_proxy_policy_repair.py": {
+      "origin_visible": true,
+      "stderr": ""
+    }
+  }
+}

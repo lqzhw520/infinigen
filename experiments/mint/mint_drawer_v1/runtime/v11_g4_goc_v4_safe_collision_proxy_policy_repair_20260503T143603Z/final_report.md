@@ -34,3 +34,11 @@ Dominant offending geoms have same-body visual counterparts of comparable size a
 ## Scientific Boundary
 
 This phase does not claim Layer4R, teacher rollout, export, local replay/render, or MINT success. It closes the proxy-policy gate by proving whether demotion/resizing is a scientifically valid source repair. In this run, unsafe physical-body demotion is rejected.
+
+
+## Post-push Verification
+
+- evidence_commit_hash: `402b5dc07ab4b4d171390289b0cfa7ecf37506d5`
+- origin_head_at_verification: `402b5dc07ab4b4d171390289b0cfa7ecf37506d5`
+- origin_matches_evidence_commit: `True`
+- all_required_paths_origin_visible: `True`

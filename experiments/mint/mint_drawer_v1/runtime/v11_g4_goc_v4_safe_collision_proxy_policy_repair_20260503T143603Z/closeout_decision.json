@@ -1,7 +1,7 @@
 {
   "approach_corridor_attempted": false,
   "closeout_classification": "SAFE_PROXY_REPAIR_REJECTED_PHYSICAL_COLLISION_ESSENTIAL",
-  "committed": false,
+  "committed": true,
   "current_truth_modified": false,
   "dominant_prior_pair_classes": {
     "broad_hand_wrist_proxy_scene_collision": 620,
@@ -19,10 +19,11 @@
   "next_gate": "ROBOT_MOUNT_LAYOUT_OR_DRAWER_ACCESSIBILITY_REDESIGN_WITH_PHYSICAL_COLLISION_GUARD",
   "offender_geom_audit_count": 10,
   "physically_essential_offender_count": 6,
+  "post_push_origin_visible": true,
   "prior_attribution_ingested": true,
   "prior_attribution_run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_instance_accessibility_collision_attribution_repair_20260503T140226Z",
-  "pushed_to_origin": false,
-  "remote_commit_hash": null,
+  "pushed_to_origin": true,
+  "remote_commit_hash": "402b5dc07ab4b4d171390289b0cfa7ecf37506d5",
   "repair_cycles_run": 1,
   "runtime_patch_applied": true,
   "runtime_patch_files": [

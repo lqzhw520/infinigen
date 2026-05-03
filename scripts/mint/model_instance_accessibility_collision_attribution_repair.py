@@ -445,18 +445,60 @@ def handle_accessibility_audit(replay_rows: list[dict[str, Any]], run_dir: Path)
 
 
 def classify_repair_path(attr: dict[str, Any], access: dict[str, Any]) -> dict[str, Any]:
+    """Classify repair path using exact MuJoCo contacts as primary evidence.
+
+    The handle accessibility envelope is a coarse proxy built from geom rbound
+    distances. It can flag that the drawer/cabinet geometry is narrow, but it
+    must not override exact pair-level MuJoCo contact attribution. Otherwise a
+    broad robot proxy collision can be mislabeled as an asset-filter problem.
+    """
     classes = attr.get("dominant_offending_pair_classes", {})
     proxies = attr.get("dominant_offending_proxy_classes", {})
     dominant = next(iter(classes.keys()), "none")
-    if access.get("blocked_envelopes", 0) > 0:
-        return {"dominant_blocker": "HANDLE_ACCESSIBILITY_ENVELOPE_BLOCKED", "recommended_repair_operator": "model_instance_rejection_or_handle_accessibility_asset_filter", "safe_source_patch_allowed_now": False, "next_gate_if_unrepaired": "HANDLE_ACCESSIBILITY_ASSET_FILTER_REQUIRED", "basis": "approach-line envelope intersects drawer/cabinet proxy before a legal pad contact corridor exists"}
     if dominant in {"finger_shell_proxy_scene_collision", "broad_hand_wrist_proxy_scene_collision"}:
-        return {"dominant_blocker": "BROAD_PROXY_COLLISION_POLICY", "recommended_repair_operator": "demote_proven_duplicate_proxy_only_after_visual_physical_consistency_check", "safe_source_patch_allowed_now": False, "next_gate_if_unrepaired": "FORBIDDEN_COLLISION_PROXY_POLICY_REPAIR_REQUIRED", "basis": "dominant offending contact is broad proxy against scene; source patch needs visual/physical consistency guard"}
+        return {
+            "dominant_blocker": "BROAD_PROXY_COLLISION_POLICY",
+            "recommended_repair_operator": "demote_or_resize_proven_duplicate_proxy_only_after_visual_physical_consistency_check",
+            "safe_source_patch_allowed_now": False,
+            "next_gate_if_unrepaired": "FORBIDDEN_COLLISION_PROXY_POLICY_REPAIR_REQUIRED",
+            "basis": "exact MuJoCo contact pairs are dominated by broad hand/wrist/link proxy against drawer/cabinet; coarse accessibility envelope is secondary evidence only",
+            "coarse_handle_accessibility_blocked": bool(access.get("blocked_envelopes", 0) > 0),
+        }
     if dominant == "physical_arm_link_scene_collision" or proxies.get("physical_arm_link_collision", 0) > 0:
-        return {"dominant_blocker": "PHYSICAL_ARM_LINK_SCENE_COLLISION", "recommended_repair_operator": "robot_mount_layout_or_scene_accessibility_redesign", "safe_source_patch_allowed_now": False, "next_gate_if_unrepaired": "ROBOT_MOUNT_LAYOUT_REPAIR_REQUIRED", "basis": "dominant offending contact is physical arm/link surface; disabling it would violate contact semantics"}
+        return {
+            "dominant_blocker": "PHYSICAL_ARM_LINK_SCENE_COLLISION",
+            "recommended_repair_operator": "robot_mount_layout_or_scene_accessibility_redesign",
+            "safe_source_patch_allowed_now": False,
+            "next_gate_if_unrepaired": "ROBOT_MOUNT_LAYOUT_REPAIR_REQUIRED",
+            "basis": "exact MuJoCo contact pairs include physical arm/link surfaces; disabling them would violate contact semantics",
+            "coarse_handle_accessibility_blocked": bool(access.get("blocked_envelopes", 0) > 0),
+        }
     if dominant == "pad_drawer_body_or_cabinet_non_target_contact":
-        return {"dominant_blocker": "PAD_HANDLE_GEOMETRY_OR_TARGET_OFFSET", "recommended_repair_operator": "dedicated_pad_or_handle_target_geometry_repair", "safe_source_patch_allowed_now": False, "next_gate_if_unrepaired": "PAD_HANDLE_COLLISION_GEOMETRY_REPAIR_REQUIRED", "basis": "legal pads approach non-target drawer/cabinet before handle-only contact"}
-    return {"dominant_blocker": "UNRESOLVED_MIXED_CONTACT_ATTRIBUTION", "recommended_repair_operator": "additional_model_instance_attribution", "safe_source_patch_allowed_now": False, "next_gate_if_unrepaired": "MODEL_INSTANCE_ACCESSIBILITY_REPAIR_STALLED", "basis": "no single dominant safe repair class reached the threshold"}
+        return {
+            "dominant_blocker": "PAD_HANDLE_GEOMETRY_OR_TARGET_OFFSET",
+            "recommended_repair_operator": "dedicated_pad_or_handle_target_geometry_repair",
+            "safe_source_patch_allowed_now": False,
+            "next_gate_if_unrepaired": "PAD_HANDLE_COLLISION_GEOMETRY_REPAIR_REQUIRED",
+            "basis": "exact MuJoCo contact pairs show legal pads touch non-target drawer/cabinet before handle-only contact",
+            "coarse_handle_accessibility_blocked": bool(access.get("blocked_envelopes", 0) > 0),
+        }
+    if access.get("blocked_envelopes", 0) > 0:
+        return {
+            "dominant_blocker": "HANDLE_ACCESSIBILITY_ENVELOPE_BLOCKED",
+            "recommended_repair_operator": "model_instance_rejection_or_handle_accessibility_asset_filter",
+            "safe_source_patch_allowed_now": False,
+            "next_gate_if_unrepaired": "HANDLE_ACCESSIBILITY_ASSET_FILTER_REQUIRED",
+            "basis": "coarse approach-line envelope intersects drawer/cabinet proxy, and exact pair attribution did not identify a stronger robot-side blocker",
+            "coarse_handle_accessibility_blocked": True,
+        }
+    return {
+        "dominant_blocker": "UNRESOLVED_MIXED_CONTACT_ATTRIBUTION",
+        "recommended_repair_operator": "additional_model_instance_attribution",
+        "safe_source_patch_allowed_now": False,
+        "next_gate_if_unrepaired": "MODEL_INSTANCE_ACCESSIBILITY_REPAIR_STALLED",
+        "basis": "no single dominant safe repair class reached the threshold",
+        "coarse_handle_accessibility_blocked": False,
+    }
 
 
 def what_if_suppress_proxy(representatives: list[dict[str, Any]], attribution_rows: list[dict[str, Any]], run_dir: Path) -> dict[str, Any]:

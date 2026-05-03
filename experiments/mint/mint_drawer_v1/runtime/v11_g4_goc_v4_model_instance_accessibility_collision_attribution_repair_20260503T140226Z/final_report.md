@@ -20,3 +20,8 @@ This phase did not repeat the previous 117-case matrix or controller CEM loop as
 - next gate: `SAFE_COLLISION_PROXY_POLICY_REPAIR_WITH_VISUAL_PHYSICAL_CONSISTENCY_GUARD`
 
 Layer5 pull rollout, export, local replay/render, and MINT training were not run.
+
+## Post-Push Verification
+- evidence_commit_hash: `e20c58d16e810d045e382e80256770de08584f76`
+- origin_head_at_verification: `e20c58d16e810d045e382e80256770de08584f76`
+- all_required_paths_origin_visible: `True`

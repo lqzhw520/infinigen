@@ -1,0 +1,52 @@
+{
+  "all_required_paths_origin_visible": true,
+  "evidence_commit_hash": "e20c58d16e810d045e382e80256770de08584f76",
+  "origin_head_at_verification": "e20c58d16e810d045e382e80256770de08584f76",
+  "origin_matches_evidence_commit": true,
+  "required_paths": {
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_instance_accessibility_collision_attribution_repair_20260503T140226Z/closeout_decision.json": {
+      "origin_visible": true,
+      "stderr": ""
+    },
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_instance_accessibility_collision_attribution_repair_20260503T140226Z/final_report.md": {
+      "origin_visible": true,
+      "stderr": ""
+    },
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_instance_accessibility_collision_attribution_repair_20260503T140226Z/stage2_pair_attribution.jsonl": {
+      "origin_visible": true,
+      "stderr": ""
+    },
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_instance_accessibility_collision_attribution_repair_20260503T140226Z/stage2_pair_attribution_summary.json": {
+      "origin_visible": true,
+      "stderr": ""
+    },
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_instance_accessibility_collision_attribution_repair_20260503T140226Z/stage4_collision_policy_classification.json": {
+      "origin_visible": true,
+      "stderr": ""
+    },
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_instance_accessibility_collision_attribution_repair_20260503T140226Z/stage5_what_if_proxy_suppression.json": {
+      "origin_visible": true,
+      "stderr": ""
+    },
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_instance_accessibility_collision_attribution_repair_20260503T140226Z/stage_final_preflight.out": {
+      "origin_visible": true,
+      "stderr": ""
+    },
+    "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_model_instance_accessibility_and_collision_attribution_repair_overnight.yaml": {
+      "origin_visible": true,
+      "stderr": ""
+    },
+    "experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_model_instance_accessibility_collision_attribution_repair.json": {
+      "origin_visible": true,
+      "stderr": ""
+    },
+    "experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_model_instance_accessibility_collision_attribution_repair.json": {
+      "origin_visible": true,
+      "stderr": ""
+    },
+    "scripts/mint/model_instance_accessibility_collision_attribution_repair.py": {
+      "origin_visible": true,
+      "stderr": ""
+    }
+  }
+}

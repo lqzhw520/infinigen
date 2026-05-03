@@ -185,6 +185,22 @@ forbidden:
   - fixed_handle_ids_without_instance_semantic_verification
   - broad_link_or_finger_shell_target_contact
 
+
+fixtures:
+  fixture_valid_authority_match:
+    runtime_exact_ids:
+      legal_gripper_surface_geom_ids: [63, 81, 90]
+      forbidden_robot_surface_geom_ids: [45, 47, 49, 54, 59]
+      drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    expected: PASS
+  fixture_invalid_authority_drift:
+    runtime_exact_ids:
+      legal_gripper_surface_geom_ids: [60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 83, 84, 85, 86, 87, 88, 89, 90]
+      forbidden_robot_surface_geom_ids: [33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59]
+      drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    expected: FAIL
+    expected_error: AUTHORITY_MISMATCH
+
 closeout_states:
   success:
     - MODEL_OR_LAYOUT_REDESIGN_LAYER4R_CERTIFIED

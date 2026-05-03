@@ -1,0 +1,334 @@
+{
+  "accepted_accessible_instances_count": 0,
+  "accessibility_envelope_changed_how": "drawer/cabinet/handle geometry unchanged; robot mount relation to semantically bound handle frame searched over z/xy/yaw and audited with rbound clearance oracle",
+  "best_full_robot_corridor_clearance_m": null,
+  "best_overall_two_pad_residual_m": 0.0011411312852820784,
+  "best_reset_clean_two_pad_residual_m": 0.0011411312852820784,
+  "closeout_classification": "MODEL_OR_LAYOUT_REDESIGN_ACCESSIBILITY_INVARIANT_FAILED",
+  "committed": false,
+  "current_truth_modified": false,
+  "dedicated_pad_geoms_unchanged_or_regenerated": "unchanged; GOC-v4 per-instance exact IDs reverified",
+  "dominant_rejection_invariants": {
+    "two_pad_ik_residual_blocks_layout": 19291,
+    "two_pad_reachable_but_forbidden_keepout_blocks_layout": 4629
+  },
+  "dynamic_probe_attempted": false,
+  "dynamic_probe_passed": false,
+  "elapsed_seconds": 4835.050845623016,
+  "endpoint_candidates_evaluated": 23920,
+  "endpoint_feasible_case_count": 0,
+  "endpoint_feasible_seed_count": 0,
+  "full_robot_corridor_exists": false,
+  "git_status_short": "M .project-memory/STATUS.md\n M .session/checkpoint.md",
+  "goc_v4_exact_ids_regenerated": false,
+  "harness_preflight_passed": true,
+  "json_parse_errors": [],
+  "json_parse_ok": true,
+  "layer4R_cases_failed": 0,
+  "layer4R_cases_passed": 0,
+  "layer4R_cases_total": 0,
+  "layer4R_certified": false,
+  "model_layout_repair_applied": true,
+  "next_actions_modified": false,
+  "next_gate": "MODEL_OR_LAYOUT_REDESIGN_WITH_STRONGER_STRUCTURAL_CHANGE",
+  "pushed_to_origin": false,
+  "rejected_inaccessible_instances_count": 13,
+  "remaining_failure_clusters": {},
+  "remote_commit_hash": null,
+  "robot_mount_changed_how": {
+    "accepted_layout_deltas": {},
+    "baseline": {
+      "base_pos": [
+        -0.9,
+        0.0,
+        0.0
+      ],
+      "yaw_deg": 0.0
+    },
+    "best_layout_deltas_by_seed": {
+      "1": {
+        "base_pos": [
+          -0.8269502628859408,
+          0.110769141202066,
+          0.08
+        ],
+        "baseline_base_pos": [
+          -0.9,
+          0.0,
+          0.0
+        ],
+        "baseline_yaw_deg": 0.0,
+        "delta_norm_m": 0.15493891291433667,
+        "delta_pos_m": [
+          0.07304973711405927,
+          0.110769141202066,
+          0.08
+        ],
+        "delta_yaw_deg": 5.0,
+        "yaw_deg": 5.0
+      },
+      "11": {
+        "base_pos": [
+          -0.7686291058596849,
+          0.11034989193890578,
+          0.12
+        ],
+        "baseline_base_pos": [
+          -0.9,
+          0.0,
+          0.0
+        ],
+        "baseline_yaw_deg": 0.0,
+        "delta_norm_m": 0.2093690771774907,
+        "delta_pos_m": [
+          0.1313708941403151,
+          0.11034989193890578,
+          0.12
+        ],
+        "delta_yaw_deg": -25.0,
+        "yaw_deg": -25.0
+      },
+      "12": {
+        "base_pos": [
+          -0.7789495263156702,
+          -0.042554825005720644,
+          0.08
+        ],
+        "baseline_base_pos": [
+          -0.9,
+          0.0,
+          0.0
+        ],
+        "baseline_yaw_deg": 0.0,
+        "delta_norm_m": 0.1512088962676077,
+        "delta_pos_m": [
+          0.12105047368432986,
+          -0.042554825005720644,
+          0.08
+        ],
+        "delta_yaw_deg": -10.0,
+        "yaw_deg": -10.0
+      },
+      "13": {
+        "base_pos": [
+          -0.7396271326859635,
+          0.03499085503528567,
+          0.24
+        ],
+        "baseline_base_pos": [
+          -0.9,
+          0.0,
+          0.0
+        ],
+        "baseline_yaw_deg": 0.0,
+        "delta_norm_m": 0.2907641939899511,
+        "delta_pos_m": [
+          0.16037286731403655,
+          0.03499085503528567,
+          0.24
+        ],
+        "delta_yaw_deg": 5.0,
+        "yaw_deg": 5.0
+      },
+      "14": {
+        "base_pos": [
+          -0.6254707375929571,
+          -0.10339254463334956,
+          0.24
+        ],
+        "baseline_base_pos": [
+          -0.9,
+          0.0,
+          0.0
+        ],
+        "baseline_yaw_deg": 0.0,
+        "delta_norm_m": 0.3790202292800665,
+        "delta_pos_m": [
+          0.2745292624070429,
+          -0.10339254463334956,
+          0.24
+        ],
+        "delta_yaw_deg": 10.0,
+        "yaw_deg": 10.0
+      },
+      "15": {
+        "base_pos": [
+          -0.8,
+          0.08,
+          0.12
+        ],
+        "baseline_base_pos": [
+          -0.9,
+          0.0,
+          0.0
+        ],
+        "baseline_yaw_deg": 0.0,
+        "delta_norm_m": 0.17549928774784243,
+        "delta_pos_m": [
+          0.09999999999999998,
+          0.08,
+          0.12
+        ],
+        "delta_yaw_deg": -30.0,
+        "yaw_deg": -30.0
+      },
+      "2": {
+        "base_pos": [
+          -0.98,
+          0.12,
+          0.08
+        ],
+        "baseline_base_pos": [
+          -0.9,
+          0.0,
+          0.0
+        ],
+        "baseline_yaw_deg": 0.0,
+        "delta_norm_m": 0.16492422502470638,
+        "delta_pos_m": [
+          -0.07999999999999996,
+          0.12,
+          0.08
+        ],
+        "delta_yaw_deg": -12.5,
+        "yaw_deg": -12.5
+      },
+      "3": {
+        "base_pos": [
+          -0.7734005254367808,
+          0.1682186180501531,
+          0.16
+        ],
+        "baseline_base_pos": [
+          -0.9,
+          0.0,
+          0.0
+        ],
+        "baseline_yaw_deg": 0.0,
+        "delta_norm_m": 0.2644332248761235,
+        "delta_pos_m": [
+          0.12659947456321918,
+          0.1682186180501531,
+          0.16
+        ],
+        "delta_yaw_deg": -10.0,
+        "yaw_deg": -10.0
+      },
+      "4": {
+        "base_pos": [
+          -0.86,
+          0.2,
+          0.24
+        ],
+        "baseline_base_pos": [
+          -0.9,
+          0.0,
+          0.0
+        ],
+        "baseline_yaw_deg": 0.0,
+        "delta_norm_m": 0.31496031496047244,
+        "delta_pos_m": [
+          0.040000000000000036,
+          0.2,
+          0.24
+        ],
+        "delta_yaw_deg": -20.0,
+        "yaw_deg": -20.0
+      },
+      "5": {
+        "base_pos": [
+          -1.02,
+          0.08,
+          0.08
+        ],
+        "baseline_base_pos": [
+          -0.9,
+          0.0,
+          0.0
+        ],
+        "baseline_yaw_deg": 0.0,
+        "delta_norm_m": 0.1649242250247064,
+        "delta_pos_m": [
+          -0.12,
+          0.08,
+          0.08
+        ],
+        "delta_yaw_deg": -10.0,
+        "yaw_deg": -10.0
+      },
+      "6": {
+        "base_pos": [
+          -0.7026173499166509,
+          0.011253453764788156,
+          0.24
+        ],
+        "baseline_base_pos": [
+          -0.9,
+          0.0,
+          0.0
+        ],
+        "baseline_yaw_deg": 0.0,
+        "delta_norm_m": 0.310944610462317,
+        "delta_pos_m": [
+          0.1973826500833491,
+          0.011253453764788156,
+          0.24
+        ],
+        "delta_yaw_deg": -40.0,
+        "yaw_deg": -40.0
+      },
+      "7": {
+        "base_pos": [
+          -0.7113483112728007,
+          0.13944539676345236,
+          0.12
+        ],
+        "baseline_base_pos": [
+          -0.9,
+          0.0,
+          0.0
+        ],
+        "baseline_yaw_deg": 0.0,
+        "delta_norm_m": 0.2635042283116928,
+        "delta_pos_m": [
+          0.18865168872719928,
+          0.13944539676345236,
+          0.12
+        ],
+        "delta_yaw_deg": -30.0,
+        "yaw_deg": -30.0
+      },
+      "8": {
+        "base_pos": [
+          -0.5790869628015337,
+          0.14141773247704043,
+          0.24
+        ],
+        "baseline_base_pos": [
+          -0.9,
+          0.0,
+          0.0
+        ],
+        "baseline_yaw_deg": 0.0,
+        "delta_norm_m": 0.42495194140383924,
+        "delta_pos_m": [
+          0.3209130371984663,
+          0.14141773247704043,
+          0.24
+        ],
+        "delta_yaw_deg": 10.0,
+        "yaw_deg": 10.0
+      }
+    },
+    "repair_operator": "runtime per-instance robot_mount base_pos/yaw policy; visual and collision robot subtree move together"
+  },
+  "run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_or_layout_redesign_with_physical_accessibility_invariant_20260503T164956Z",
+  "runtime_patch_applied": true,
+  "runtime_patch_files": [
+    "scripts/mint/model_or_layout_redesign_with_physical_accessibility_invariant.py"
+  ],
+  "signed_clearance_improved": false,
+  "source_worktree_head": "4a9d6142564d71e4f1447d09f11704bf7a7129f1",
+  "task_spec_lock_bound": true,
+  "visual_physical_consistency_preserved": true
+}

@@ -1,0 +1,14 @@
+{
+  "MINT_training_allowed": false,
+  "accepted_accessible_instances_count": 0,
+  "closeout_classification": "MODEL_OR_LAYOUT_REDESIGN_ACCESSIBILITY_INVARIANT_FAILED",
+  "current_truth_direct_mutation": false,
+  "full_robot_corridor_exists": false,
+  "generated_at_utc": "2026-05-03T18:10:31Z",
+  "layer4r_certified": false,
+  "model_layout_repair_applied": true,
+  "next_actions_direct_mutation": false,
+  "next_gate": "MODEL_OR_LAYOUT_REDESIGN_WITH_STRONGER_STRUCTURAL_CHANGE",
+  "run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_or_layout_redesign_with_physical_accessibility_invariant_20260503T164956Z",
+  "task_id": "V11_G4_GOC_V4_MODEL_OR_LAYOUT_REDESIGN_WITH_PHYSICAL_ACCESSIBILITY_INVARIANT_V1"
+}

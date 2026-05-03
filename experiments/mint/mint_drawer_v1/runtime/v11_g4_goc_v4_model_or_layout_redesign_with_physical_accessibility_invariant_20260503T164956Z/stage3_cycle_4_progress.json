@@ -1,0 +1,72 @@
+{
+  "cycle": {
+    "candidate_cap": 160,
+    "existing_grid_cap": 48,
+    "handle_access_cap": 96,
+    "name": "cycle4_aggressive_mount_height_and_yaw",
+    "preferred_z": 0.2,
+    "xy_offsets": [
+      [
+        0.0,
+        0.0
+      ],
+      [
+        -0.14,
+        0.0
+      ],
+      [
+        0.14,
+        0.0
+      ],
+      [
+        0.0,
+        -0.14
+      ],
+      [
+        0.0,
+        0.14
+      ],
+      [
+        -0.14,
+        0.1
+      ],
+      [
+        0.14,
+        -0.1
+      ],
+      [
+        -0.08,
+        -0.08
+      ],
+      [
+        0.08,
+        0.08
+      ]
+    ],
+    "yaw_offsets": [
+      0.0,
+      -20.0,
+      -10.0,
+      10.0,
+      20.0
+    ],
+    "z_values": [
+      -0.2,
+      -0.12,
+      -0.04,
+      0.0,
+      0.08,
+      0.16,
+      0.24,
+      0.32
+    ]
+  },
+  "cycle_eval": 8300,
+  "cycle_histogram": {
+    "two_pad_ik_residual_blocks_layout": 6183,
+    "two_pad_reachable_but_forbidden_keepout_blocks_layout": 2117
+  },
+  "elapsed_seconds": 4798.192726135254,
+  "feasible_total": 0,
+  "total_eval": 23900
+}

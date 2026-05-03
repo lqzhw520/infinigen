@@ -1,0 +1,11 @@
+{
+  "accepted_accessible_instances_count": 0,
+  "best_reset_clean_two_pad_residual_m": 0.0011411312852820784,
+  "dominant_rejection_invariants": {
+    "two_pad_ik_residual_blocks_layout": 19291,
+    "two_pad_reachable_but_forbidden_keepout_blocks_layout": 4629
+  },
+  "elapsed_seconds": 4817.7838270664215,
+  "feasible_total": 0,
+  "total_eval": 23920
+}

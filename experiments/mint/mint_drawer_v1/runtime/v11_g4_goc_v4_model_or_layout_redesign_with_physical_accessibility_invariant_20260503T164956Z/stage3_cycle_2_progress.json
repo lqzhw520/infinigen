@@ -1,0 +1,61 @@
+{
+  "cycle": {
+    "candidate_cap": 100,
+    "existing_grid_cap": 30,
+    "handle_access_cap": 60,
+    "name": "cycle2_raised_mount_clearance_sweep",
+    "preferred_z": 0.16,
+    "xy_offsets": [
+      [
+        0.0,
+        0.0
+      ],
+      [
+        -0.06,
+        0.0
+      ],
+      [
+        0.06,
+        0.0
+      ],
+      [
+        0.0,
+        -0.06
+      ],
+      [
+        0.0,
+        0.06
+      ],
+      [
+        -0.06,
+        0.06
+      ],
+      [
+        0.06,
+        -0.06
+      ]
+    ],
+    "yaw_offsets": [
+      0.0,
+      -10.0,
+      10.0
+    ],
+    "z_values": [
+      0.04,
+      0.08,
+      0.12,
+      0.16,
+      0.2,
+      0.24,
+      0.28
+    ]
+  },
+  "cycle_eval": 5200,
+  "cycle_histogram": {
+    "two_pad_ik_residual_blocks_layout": 4379,
+    "two_pad_reachable_but_forbidden_keepout_blocks_layout": 821
+  },
+  "elapsed_seconds": 1914.8921990394592,
+  "feasible_total": 0,
+  "total_eval": 9360
+}

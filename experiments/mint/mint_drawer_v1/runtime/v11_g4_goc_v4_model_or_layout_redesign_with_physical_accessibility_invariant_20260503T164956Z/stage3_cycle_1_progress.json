@@ -1,0 +1,53 @@
+{
+  "cycle": {
+    "candidate_cap": 80,
+    "existing_grid_cap": 24,
+    "handle_access_cap": 48,
+    "name": "cycle1_vertical_mount_nominal_access",
+    "preferred_z": 0.08,
+    "xy_offsets": [
+      [
+        0.0,
+        0.0
+      ],
+      [
+        -0.04,
+        0.0
+      ],
+      [
+        0.04,
+        0.0
+      ],
+      [
+        0.0,
+        -0.04
+      ],
+      [
+        0.0,
+        0.04
+      ]
+    ],
+    "yaw_offsets": [
+      0.0,
+      -7.5,
+      7.5
+    ],
+    "z_values": [
+      -0.08,
+      -0.04,
+      0.0,
+      0.04,
+      0.08,
+      0.12,
+      0.16
+    ]
+  },
+  "cycle_eval": 4100,
+  "cycle_histogram": {
+    "two_pad_ik_residual_blocks_layout": 3638,
+    "two_pad_reachable_but_forbidden_keepout_blocks_layout": 462
+  },
+  "elapsed_seconds": 848.5878238677979,
+  "feasible_total": 0,
+  "total_eval": 4100
+}

@@ -1,0 +1,24 @@
+# Stage 0 Authority And Lock
+
+{
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "generated_at_utc": "2026-05-03T16:49:59Z",
+  "harness_preflight_passed": true,
+  "head": "4a9d6142564d71e4f1447d09f11704bf7a7129f1",
+  "preflight": {
+    "cmd": [
+      "/root/anaconda3/envs/infinigen/bin/python",
+      "experiments/mint/mint_drawer_v1/scripts/harness/agent_task_preflight.py",
+      "--spec",
+      "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_model_or_layout_redesign_with_physical_accessibility_invariant.yaml",
+      "--dry-run"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "\n======================================================================\n  Agent Task Pre-flight\n======================================================================\n  campaign_root: /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1\n  task_spec:    /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_model_or_layout_redesign_with_physical_accessibility_invariant.yaml\n  dry_run:      True\n\n  [LOCK] Production lock enforcement\n  [PASS] Production lock valid: status=production_ready, generated_by=validate_harness_production_lock.py, validators_intact=5 files, task_spec_bound=experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_model_or_layout_redesign_with_physical_accessibility_invariant.yaml, task_spec_hash_verified=True, attestation_verified=True, lock_format=V3\n\n  [V01] validate_task_authority (S0 gate)\n  [PASS] V01 validate_task_authority\n\n  [V02] validate_diff_scope\n  [PASS] V02 validate_diff_scope\n\n======================================================================\n  Pre-flight Summary\n======================================================================\n  Passed: 2\n  Failed: 0\n  Task spec: v11_g4_goc_v4_model_or_layout_redesign_with_physical_accessibility_invariant.yaml\n  Pre-flight callable: True\n  Production lock: verified (always required \u2014 no bypass)\n\n  ALL PRE-FLIGHT VALIDATORS PASSED.\n  Agent may proceed with execution.\n  Next: run V03 during execution, V04 at closeout.\n"
+  },
+  "pwd": "/mnt/afs2/zhuhaowu/infinigen",
+  "remote_v": "my-origin\tgit@github.com:lqzhw520/infinigen.git (fetch)\nmy-origin\tgit@github.com:lqzhw520/infinigen.git (push)\norigin\thttps://github.com/princeton-vl/infinigen.git (fetch)\norigin\thttps://github.com/princeton-vl/infinigen.git (push)",
+  "status_short": "M .project-memory/STATUS.md\n M .session/checkpoint.md",
+  "task_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_model_or_layout_redesign_with_physical_accessibility_invariant.yaml"
+}

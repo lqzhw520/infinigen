@@ -1,0 +1,7 @@
+{
+  "attempted": false,
+  "best_full_robot_corridor_clearance_m": null,
+  "corridor_pass_count": 0,
+  "full_robot_corridor_exists": false,
+  "reason": "no_endpoint_feasible_accepted_layout"
+}

@@ -2,11 +2,11 @@
   "lock_id": "CAMPAIGN_NATIVE_HARNESS_PRODUCTION_LOCK_V3",
   "version": "3.0.0",
   "generated_by": "validate_harness_production_lock.py",
-  "generated_at_utc": "2026-05-03T14:37:09Z",
+  "generated_at_utc": "2026-05-03T14:38:31Z",
   "harness_status": "production_ready",
   "campaign_root": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1",
   "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
-  "local_head": "2f30b76980a23dfff83af561a88470b9bc5b22b5",
+  "local_head": "752759897a0c5ac7cf32f3014746960c054e00a2",
   "remote": "git@github.com:lqzhw520/infinigen.git",
   "lock_inputs": {
     "task_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_safe_collision_proxy_policy_repair.yaml",
@@ -37,7 +37,7 @@
     "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_closeout.py": "00876f159f540a8c00f4f86df560fa77788535c2",
     "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml": "a9b30267254f281224a0285466bce873c0e698e2",
     "experiments/mint/mint_drawer_v1/autopilot/v11_hard_goal_contract.json": "13b699b3e23a99929c591ec08ae7c859172988e5",
-    "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json": "200d9bdfe5f2d6c6280216e8028ce26901c81603",
+    "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json": "f51e3ff49225d67332e4a71281cb426664f57d98",
     "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_safe_collision_proxy_policy_repair.yaml": "29c29d4fdde36b0f5ec78c56cc161b5775033ede"
   },
   "validator_hashes": {
@@ -170,9 +170,9 @@
   "post_push_attestation": {
     "required": true,
     "path": "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_attestation.json",
-    "blob": "42209c8529c12cca355bab3fde810e1c39c9eb6a",
+    "blob": "47d580e7be38752bd9f617d4accdbf73697d29dc",
     "origin_verified": true,
-    "origin_head": "ccaeda05748b41f79601e4faf1354dbae480272b",
+    "origin_head": "d72f1b0e22ced5a7c4d4af3cff2d1bbd08a72db8",
     "required_file_blobs_verified": true,
     "regressions_verified_after_publication": true
   }

@@ -1,0 +1,29 @@
+======================================================================
+  Campaign Harness Production Lock Verifier — V3
+======================================================================
+  repo_root:       /mnt/afs2/zhuhaowu/infinigen
+  campaign_root:    /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1
+  task_spec:       /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_safe_collision_proxy_policy_repair.yaml
+  write_lock:      experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json
+  verify_origin:   False
+  write_attestation:(none)
+  require_origin:   False
+  dry_run:         False
+
+  Report written: experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_safe_collision_proxy_policy_repair_20260503T143603Z/stage0_lock_refresh_report.json
+  Lock written: experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json
+
+======================================================================
+  harness_status = production_ready
+  generated_by = validate_harness_production_lock.py
+  local_head = 752759897a0c...
+  layout = PASS
+  hash_integrity = PASS
+  origin = SKIP
+  preflight = PASS
+  regressions = PASS
+  status_surface = PASS
+======================================================================
+  HARNESS_PRODUCTION_READY
+  The verifier has set harness_status=production_ready.
+======================================================================

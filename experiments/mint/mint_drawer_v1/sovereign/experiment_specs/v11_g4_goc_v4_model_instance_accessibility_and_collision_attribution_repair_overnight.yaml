@@ -1,0 +1,231 @@
+task_id: V11_G4_GOC_V4_MODEL_INSTANCE_ACCESSIBILITY_AND_COLLISION_ATTRIBUTION_REPAIR_OVERNIGHT_V1
+task_type: MODEL_INSTANCE_ACCESSIBILITY_AND_COLLISION_ATTRIBUTION_REPAIR_SCIENCE_PHASE
+task_version: "1.0.0"
+phase: model_instance_accessibility_and_collision_attribution_repair_overnight
+target_gate: V11-G4_GOC-V4_MODEL_INSTANCE_ACCESSIBILITY_ROOT_CAUSE_TO_LAYER4R_READINESS
+
+objective:
+  summary: >
+    Execute a harness-bound P0 forensic repair campaign after the schema-aware
+    model placement keepout repair stalled. The phase attributes exact offending
+    contact pairs at the best reset-clean near-IK endpoints, classifies whether
+    the blocker is collision policy, robot mount/layout, handle accessibility,
+    pad/handle geometry, or model-instance rejection invariant, and only then
+    attempts bounded safe what-if repair/rerun. It must not repeat the previous
+    broad grid or controller CEM loop before pair-level attribution.
+  previous_gate: V11_G4_GOC_V4_MODEL_PLACEMENT_KEEP_OUT_REPAIR_TO_LAYER4R_CERTIFY_OVERNIGHT_V1
+  previous_closeout: MODEL_PLACEMENT_KEEP_OUT_REPAIR_STALLED_WITH_SCHEMA_AWARE_CERTIFICATE
+  previous_result:
+    model_placement_repair_cycles_run: 4
+    feasible_seed_count: 0
+    feasible_case_count: 0
+    best_reset_clean_two_pad_residual_m: 0.0011419128005339195
+    remaining_clusters:
+      - pregrasp_forbidden_contact
+      - guarded_forbidden_contact
+      - contact_hold_forbidden_contact
+      - pregrasp_penetration_gt_threshold
+      - guarded_penetration_gt_threshold
+      - contact_hold_penetration_gt_threshold
+  claim_boundary: >
+    This phase may claim P0 model-instance accessibility/collision attribution
+    repair only if exact offending geometry class is identified and a safe source
+    repair or source-level rejection invariant is validated. It may not claim
+    teacher pull rollout, export, local replay/render, MINT admission, or training.
+
+authority:
+  repo: /mnt/afs2/zhuhaowu/infinigen
+  branch: feature/mint-env-reformulation-v1-visual-fidelity
+  campaign_root: experiments/mint/mint_drawer_v1
+  goc_authority: GOC_V4_DEDICATED_FINGER_PAD_EXACT_GEOM_AUTHORITY
+  per_instance_binding_required: true
+  fixed_drawer_handle_ids_forbidden_unless_semantically_verified: true
+  body_based_31_27_forbidden: true
+  name_only_contact_report_forbidden: true
+  broad_link_wrist_arm_finger_shell_target_contact_forbidden: true
+
+# Harness V01 validates this immutable GOC-v3 exact-set source baseline. Runtime
+# science authority is per-instance GOC-v4 dedicated pads.
+task_authority:
+  authority_type: GOC_V3_EXACT_GEOM_ID_SETS_AS_SOURCE_BASELINE_FOR_GOC_V4_ATTRIBUTION_REPAIR
+  goc_version: v3
+  goc_artifact_path: artifacts/phase1h_geometry_contract/goc_v3_contract.json
+  goc_contract: experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v3_contract.json
+  goc_contract_id: GOC_V3_EXACT_ID_GEOMETRY_OWNERSHIP_CONTRACT
+  legal_gripper_surface_geom_ids: [63, 81, 90]
+  forbidden_robot_surface_geom_ids: [45, 47, 49, 54, 59]
+  drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+  prohibited_authority:
+    - GOC-v2 count-only legal_pad=29 forbidden=26 handle=9
+    - runtime body-based legal=31 forbidden=27 without exact-ID role classification
+    - legacy name-only contact reports
+    - fixed drawer_handle_geom_ids=[0..8] as runtime authority without semantic verification
+    - broad-link or broad-finger-shell contact as target
+
+goc_v4_authority:
+  authority_type: GOC_V4_DEDICATED_FINGER_PAD_EXACT_GEOM_ID_SETS
+  goc_contract: experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v4_contract.json
+  per_instance_binding_required: true
+  target_contact: legal_finger_pad_geom_ids <-> semantically bound drawer_handle_geom_ids only
+  forbidden_contact: nonlegal robot surfaces <-> drawer_handle/drawer/cabinet
+  broad_link_wrist_arm_finger_shell_target_rejected: true
+  fixed_global_ids_may_not_be_reused_without_instance_verification: true
+  body_based_31_27_rejected: true
+  name_only_contact_rejected: true
+
+claim_ladder_scope:
+  layer1_harness_governance: required
+  layer2_exact_goc_v4_authority: required
+  layer3_reset_preaction_physical_plausibility: required
+  layer4_endpoint_accessibility_collision_attribution: in_scope
+  layer4_source_repair_or_rejection_invariant: in_scope
+  layer4r_robust_contact_certification: conditional_if_endpoint_and_corridor_and_dynamic_pass
+  layer5_teacher_pull_rollout: out_of_scope
+  layer6_export_bundle: out_of_scope
+  layer7_local_replay_render: out_of_scope
+  layer8_mint_train_eval: out_of_scope
+
+hard_gate_policy:
+  no_science_before_no_bypass_preflight: true
+  pair_level_attribution_required_before_repair: true
+  failed_layer_triggers_bounded_repair_loop: true
+  endpoint_feasible_required_before_corridor: true
+  corridor_required_before_dynamic_probe: true
+  dynamic_probe_required_before_layer4r_matrix: true
+  layer5_promotion_forbidden_in_this_phase: true
+  no_threshold_lowering: true
+  no_forbidden_contact_as_target: true
+  no_direct_qpos_drawer_opening: true
+  positive_science_from_committed_clean_runtime_scope: true
+
+repair_budget:
+  max_total_wall_clock_hours: 10
+  max_attribution_repair_cycles: 4
+  no_progress_cycles_before_stop: 2
+
+allowed_files:
+  - scripts/mint/model_instance_accessibility_collision_attribution_repair.py
+  - scripts/mint/model_placement_keepout_repair.py
+  - scripts/mint/joint_placement_reset_ik_keepout_feasibility.py
+  - scripts/mint/handle_frame_grasp_trajectory_planner.py
+  - scripts/mint/contact_aware_drawer_teacher.py
+  - scripts/mint/drawer_robot_env_mujoco.py
+  - scripts/mint/merged_model_builder.py
+  - experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_model_instance_accessibility_and_collision_attribution_repair_overnight.yaml
+  - experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_instance_accessibility_collision_attribution_repair_*
+  - experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_model_instance_accessibility_collision_attribution_repair.json
+  - experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_model_instance_accessibility_collision_attribution_repair.json
+  - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json
+  - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_attestation.json
+
+remote:
+  approved_files:
+    - scripts/mint/model_instance_accessibility_collision_attribution_repair.py
+    - scripts/mint/model_placement_keepout_repair.py
+    - scripts/mint/joint_placement_reset_ik_keepout_feasibility.py
+    - scripts/mint/handle_frame_grasp_trajectory_planner.py
+    - scripts/mint/contact_aware_drawer_teacher.py
+    - scripts/mint/drawer_robot_env_mujoco.py
+    - scripts/mint/merged_model_builder.py
+    - experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_model_instance_accessibility_and_collision_attribution_repair_overnight.yaml
+    - experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_instance_accessibility_collision_attribution_repair_*
+    - experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_model_instance_accessibility_collision_attribution_repair.json
+    - experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_model_instance_accessibility_collision_attribution_repair.json
+    - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json
+    - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_attestation.json
+  forbidden_files:
+    - experiments/mint/mint_drawer_v1/sovereign/current_truth.json
+    - experiments/mint/mint_drawer_v1/sovereign/next_actions.json
+    - external/MINT
+    - external/MINT/*
+
+forbidden:
+  - current_truth_direct_mutation
+  - next_actions_direct_mutation
+  - external_MINT_mutation
+  - training
+  - finetuning
+  - MINT_eval
+  - render_success_claim
+  - bounded_pull_rollout
+  - direct_qpos_drawer_opening
+  - disabling_all_robot_drawer_or_handle_collisions
+  - accepting_forbidden_contact_as_target
+  - lowering_layer4r_thresholds
+  - changing_handle_or_drawer_geometry_to_fake_success
+  - body_based_31_27_authority
+  - name_only_contact_authority
+  - fixed_handle_ids_without_instance_semantic_verification
+  - broad_link_or_finger_shell_target_contact
+
+forensic_questions:
+  - exact offending geom pairs by pregrasp/guarded/contact_hold stage
+  - whether offending robot geoms are physical arm/wrist/hand bodies, duplicate broad proxy shells, pad supports, or wrong target pads
+  - whether offending scene geoms are active handle, non-target handle, drawer body, cabinet, or unknown contact surfaces
+  - whether maximum penetration is target pad-handle or forbidden robot-scene penetration
+  - whether a what-if demotion of proven duplicate broad proxy geoms removes violations without silently accepting forbidden contact
+  - whether handle frame accessibility leaves a collision-free approach envelope for dedicated pads
+  - if no safe repair exists, which production invariant must reject or rebuild the model instance
+
+repair_operators:
+  - semantic_handle_group_rebinding_if_attribution_proves_wrong_handle_group
+  - broad_proxy_collision_policy_repair_if_duplicate_shell_proven_and_pad_authority_preserved
+  - pad_pose_or_size_repair_if_dedicated_pad_geometry_causes_forbidden_overlap
+  - mount_layout_accessibility_repair_if_physical_arm_or_wrist_collision_blocks_all_access
+  - model_instance_rejection_invariant_if_handle_accessibility_envelope_is_blocked
+
+thresholds:
+  endpoint_two_pad_residual_max_m: 0.02
+  reset_max_penetration_m: 0.02
+  reset_max_contact_force_n: 1000000.0
+  max_penetration_m: 0.02
+  max_force_n: 1000000.0
+  layer4r_target_contact_total_frames_min: 50
+  layer4r_target_contact_max_consecutive_frames_min: 30
+
+closeout_states:
+  success_or_partial:
+    - MODEL_INSTANCE_ACCESSIBILITY_ATTRIBUTION_REPAIRED_ENDPOINT_FEASIBLE
+    - MODEL_INSTANCE_ACCESSIBILITY_ATTRIBUTION_REPAIRED_LAYER4R_CERTIFIED
+    - SAFE_SOURCE_REPAIR_IDENTIFIED_REQUIRES_MODEL_BUILDER_PATCH
+    - MODEL_INSTANCE_REJECTION_INVARIANT_IDENTIFIED
+  non_success:
+    - HARNESS_PREFLIGHT_FAILED
+    - TASK_SPEC_LOCK_BINDING_FAILED
+    - DIRTY_FORBIDDEN_SCOPE
+    - SEMANTIC_BINDING_AMBIGUOUS
+    - CONTACT_PAIR_ATTRIBUTION_FAILED
+    - FORBIDDEN_COLLISION_PROXY_POLICY_REPAIR_REQUIRED
+    - ROBOT_MOUNT_LAYOUT_REPAIR_REQUIRED
+    - HANDLE_ACCESSIBILITY_ASSET_FILTER_REQUIRED
+    - PAD_HANDLE_COLLISION_GEOMETRY_REPAIR_REQUIRED
+    - MODEL_INSTANCE_ACCESSIBILITY_REPAIR_STALLED
+    - TIME_BUDGET_EXHAUSTED
+    - EXECUTION_FAILED
+
+final_output_fields:
+  - closeout_classification
+  - harness_preflight_passed
+  - task_spec_lock_bound
+  - prior_failure_ingested
+  - pair_level_attribution_completed
+  - dominant_offending_pair_classes
+  - dominant_offending_geom_pairs
+  - handle_accessibility_audited
+  - repair_cycles_run
+  - safe_source_repair_identified
+  - source_patch_applied
+  - endpoint_feasible_after_repair
+  - feasible_seed_count
+  - feasible_case_count
+  - approach_corridor_attempted
+  - dynamic_probe_attempted
+  - layer4r_full_matrix_attempted
+  - current_truth_modified
+  - next_actions_modified
+  - runtime_patch_applied
+  - runtime_patch_files
+  - committed
+  - pushed_to_origin
+  - remote_commit_hash
+  - next_gate

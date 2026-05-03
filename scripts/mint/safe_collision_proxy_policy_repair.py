@@ -177,14 +177,14 @@ def audit_offender_geom(model: mujoco.MjModel, gid: int, pair_counter: Counter[s
     ratio = collision_r / max(max_visual, 1e-12) if max_visual > 0 else math.inf
     has_comparable_visual = bool(visuals and 0.60 <= ratio <= 1.60)
     is_duplicate_finger_shell = name in DUPLICATE_FINGER_SHELL_NAMES and int(model.geom_contype[gid]) == 0 and int(model.geom_conaffinity[gid]) == 0
-    is_named_physical = name in PHYSICAL_ESSENTIAL_NAMES
+    is_named_physical = name in PHYSICAL_ESSENTIAL_NAMES or (name.startswith("link") and name.endswith("_collision"))
     physical_essential = bool(is_named_physical and has_comparable_visual)
     # The safe rule is intentionally narrow. If a physical palm/wrist/arm shell
     # has matching visual geometry, disabling it would create a hidden pass-through.
     safe_demote_candidate = bool(is_duplicate_finger_shell and not is_named_physical)
     if physical_essential:
         safe_demote_candidate = False
-    if name in {"link5_collision", "link6_collision", "link7_collision", "hand_collision"}:
+    if is_named_physical:
         unsafe_reason = "collision_geom_matches_visible_physical_robot_body"
     elif not visuals:
         unsafe_reason = "no_same_body_visual_evidence_for_safe_demote"

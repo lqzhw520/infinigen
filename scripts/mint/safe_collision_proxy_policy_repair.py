@@ -269,8 +269,8 @@ def offender_stats(pairs: list[dict[str, Any]]) -> tuple[Counter[str], Counter[s
 
 
 def classify_repair(audits: list[dict[str, Any]], prior: dict[str, Any]) -> dict[str, Any]:
-    physical = [a for a in audits if a["physical_essential_offender"]]
-    duplicate = [a for a in audits if a["safe_demote_candidate"]]
+    physical = [a for a in audits if a["physical_essential_offender"] and int(a.get("prior_offending_pair_count", 0)) > 0]
+    duplicate = [a for a in audits if a["safe_demote_candidate"] and int(a.get("prior_offending_pair_count", 0)) > 0]
     named = {a["geom_name"] for a in audits}
     unsafe_physical_names = sorted(a["geom_name"] for a in physical)
     prior_what_if = prior.get("what_if") or {}
@@ -382,8 +382,11 @@ def run_campaign(run_dir: Path) -> dict[str, Any]:
     prior = ingest_prior(prior_dir)
     write_json(run_dir / "stage1_prior_attribution_ingestion.json", {k: v for k, v in prior.items() if k != "pairs"})
     pair_classes, geom_counter, penetration_by_name, offender_ids = offender_stats(prior["pairs"])
+    prior_closeout_pair_classes = (prior.get("closeout") or {}).get("dominant_offending_pair_classes") or {}
+    public_pair_classes = Counter({str(k): int(v) for k, v in prior_closeout_pair_classes.items()}) if prior_closeout_pair_classes else pair_classes
     write_json(run_dir / "stage1_prior_offender_histogram.json", {
-        "pair_classes": dict(pair_classes),
+        "pair_classes_from_jsonl_raw": dict(pair_classes),
+        "pair_classes_public_prior_closeout_surface": dict(public_pair_classes),
         "offender_geom_names": dict(geom_counter),
         "offender_geom_ids": sorted(offender_ids),
     })
@@ -457,7 +460,7 @@ def run_campaign(run_dir: Path) -> dict[str, Any]:
         "do_not_mutate_current_truth_directly": True,
         "safe_collision_proxy_policy_repair": {
             "closeout_classification": decision["closeout_classification"],
-            "dominant_prior_pair_classes": dict(pair_classes),
+            "dominant_prior_pair_classes": dict(public_pair_classes),
             "safe_source_proxy_repair_identified": decision["safe_source_proxy_repair_identified"],
             "source_patch_applied": False,
             "scientific_interpretation": decision["decision_basis"],
@@ -488,7 +491,7 @@ def run_campaign(run_dir: Path) -> dict[str, Any]:
         "offender_geom_audit_count": len(audits),
         "physically_essential_offender_count": decision["physically_essential_offender_count"],
         "duplicate_proxy_offender_count": decision["duplicate_proxy_offender_count"],
-        "dominant_prior_pair_classes": dict(pair_classes),
+        "dominant_prior_pair_classes": dict(public_pair_classes),
         "safe_source_proxy_repair_identified": decision["safe_source_proxy_repair_identified"],
         "source_patch_applied": False,
         "repair_cycles_run": 1,
@@ -508,7 +511,7 @@ def run_campaign(run_dir: Path) -> dict[str, Any]:
         "elapsed_seconds": round(time.time() - t0, 3),
     }
     write_json(run_dir / "closeout_decision.json", closeout)
-    write_md(run_dir / "final_report.md", render_markdown_report(run_dir, decision, audits, pair_classes))
+    write_md(run_dir / "final_report.md", render_markdown_report(run_dir, decision, audits, public_pair_classes))
     return closeout
 
 

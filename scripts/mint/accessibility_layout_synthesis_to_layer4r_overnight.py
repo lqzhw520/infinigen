@@ -19,6 +19,7 @@ import subprocess
 import sys
 import time
 from collections import Counter, defaultdict
+from concurrent.futures import ProcessPoolExecutor, as_completed
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -252,6 +253,16 @@ def all_candidate_bases(seed: int, max_base_candidates: int, max_layout_candidat
     return unique, diag
 
 
+def evaluate_endpoint_work(item: tuple[int, list[float], float, str, dict[str, Any]]) -> dict[str, Any]:
+    seed, base, yaw, source, params = item
+    row = jpf.evaluate_endpoint_candidate(seed, base, yaw, params)
+    row["layout_source"] = source
+    row["param_variant"] = params.get("name", "unnamed")
+    row["param_snapshot"] = params
+    row["rejection_invariant"] = classify_rejection(row)
+    return row
+
+
 def stage2_semantic_geometry(seeds: list[int], run_dir: Path) -> dict[str, Any]:
     semantic: dict[str, Any] = {}
     handle_frames: dict[str, Any] = {}
@@ -330,7 +341,7 @@ def classify_rejection(row: dict[str, Any]) -> str:
     return "endpoint_constraints_not_jointly_satisfied"
 
 
-def stage3_layout_synthesis(seeds: list[int], run_dir: Path, max_base_candidates: int, max_layout_candidates: int, max_hours: float) -> dict[str, Any]:
+def stage3_layout_synthesis(seeds: list[int], run_dir: Path, max_base_candidates: int, max_layout_candidates: int, max_hours: float, workers: int) -> dict[str, Any]:
     start = time.time()
     deadline = start + max_hours * 3600.0
     candidate_path = run_dir / "stage3_layout_endpoint_candidates.jsonl"
@@ -343,37 +354,85 @@ def stage3_layout_synthesis(seeds: list[int], run_dir: Path, max_base_candidates
     best_reset_clean = math.inf
     best_overall = math.inf
     variants = param_variants()
+    task_items: list[tuple[int, list[float], float, str, dict[str, Any]]] = []
+    generation_diag: dict[str, Any] = {}
     for seed in seeds:
-        if time.time() >= deadline:
-            break
         base_rows, diag = all_candidate_bases(seed, max_base_candidates, max_layout_candidates)
-        rows: list[dict[str, Any]] = []
+        generation_diag[str(seed)] = diag
+        best_by_seed[str(seed)] = {
+            "layout_candidate_count": len(base_rows),
+            "evaluated_rows": 0,
+            "layout_generation_diag": diag,
+            "feasible_count": 0,
+            "best": None,
+            "top_rows": [],
+            "rejection_histogram": {},
+        }
         for base, yaw, source in base_rows:
-            if time.time() >= deadline:
-                break
             for params in variants:
+                task_items.append((int(seed), list(map(float, base)), float(yaw), source, dict(params)))
+    write_json(run_dir / "stage3_solver_config.json", {
+        "generated_at_utc": utc_now(),
+        "seeds": seeds,
+        "task_count": len(task_items),
+        "workers": workers,
+        "max_base_candidates_existing_grid": max_base_candidates,
+        "max_layout_candidates_handle_access_cone": max_layout_candidates,
+        "param_variants": variants,
+        "generation_diag": generation_diag,
+    })
+    rows_by_seed: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    cancelled = False
+    if workers <= 1:
+        iterator = (evaluate_endpoint_work(item) for item in task_items)
+        for row in iterator:
+            if time.time() >= deadline:
+                cancelled = True
+                break
+            evaluated += 1
+            hist[row.get("rejection_invariant", "unknown")] += 1
+            best = residual_value(row)
+            best_overall = min(best_overall, best)
+            if row.get("reset", {}).get("reset_ok"):
+                best_reset_clean = min(best_reset_clean, best)
+            rows_by_seed[str(int(row.get("seed", -1)))].append(row)
+            append_jsonl(candidate_path, row)
+            if row.get("endpoint_feasible"):
+                feasible.append(row)
+            if evaluated % 50 == 0:
+                write_json(run_dir / "stage3_progress.json", {"evaluated": evaluated, "task_count": len(task_items), "feasible": len(feasible), "dominant_rejection_invariants": dict(hist.most_common(10)), "elapsed_seconds": time.time() - start})
+    else:
+        with ProcessPoolExecutor(max_workers=workers) as pool:
+            futures = [pool.submit(evaluate_endpoint_work, item) for item in task_items]
+            for fut in as_completed(futures):
                 if time.time() >= deadline:
+                    cancelled = True
+                    for pending in futures:
+                        pending.cancel()
                     break
-                row = jpf.evaluate_endpoint_candidate(seed, base, yaw, params)
-                row["layout_source"] = source
-                row["param_variant"] = params.get("name", "unnamed")
-                row["param_snapshot"] = params
-                row["rejection_invariant"] = classify_rejection(row)
+                try:
+                    row = fut.result()
+                except Exception as exc:
+                    row = {"error": repr(exc), "endpoint_feasible": False, "rejection_invariant": "worker_exception"}
                 evaluated += 1
-                hist[row["rejection_invariant"]] += 1
+                hist[row.get("rejection_invariant", "unknown")] += 1
                 best = residual_value(row)
                 best_overall = min(best_overall, best)
                 if row.get("reset", {}).get("reset_ok"):
                     best_reset_clean = min(best_reset_clean, best)
-                rows.append(row)
+                rows_by_seed[str(int(row.get("seed", -1)))].append(row)
                 append_jsonl(candidate_path, row)
                 if row.get("endpoint_feasible"):
                     feasible.append(row)
+                if evaluated % 50 == 0:
+                    write_json(run_dir / "stage3_progress.json", {"evaluated": evaluated, "task_count": len(task_items), "feasible": len(feasible), "dominant_rejection_invariants": dict(hist.most_common(10)), "elapsed_seconds": time.time() - start})
+    for seed in seeds:
+        rows = rows_by_seed.get(str(seed), [])
         ranked = sorted(rows, key=lambda r: (0 if r.get("endpoint_feasible") else 1, float(r.get("score", 999.0)), residual_value(r)))
+        prior = best_by_seed[str(seed)]
         best_by_seed[str(seed)] = {
-            "layout_candidate_count": len(base_rows),
+            **prior,
             "evaluated_rows": len(rows),
-            "layout_generation_diag": diag,
             "feasible_count": sum(1 for r in rows if r.get("endpoint_feasible")),
             "best": ranked[0] if ranked else None,
             "top_rows": ranked[:10],
@@ -382,19 +441,22 @@ def stage3_layout_synthesis(seeds: list[int], run_dir: Path, max_base_candidates
     summary = {
         "generated_at_utc": utc_now(),
         "seeds_total": len(seeds),
-        "seeds_completed": len(best_by_seed),
+        "seeds_completed": sum(1 for v in best_by_seed.values() if int(v.get("evaluated_rows", 0)) > 0),
+        "endpoint_candidates_planned": len(task_items),
         "endpoint_candidates_evaluated": evaluated,
         "endpoint_feasible_case_count": len(feasible),
-        "endpoint_feasible_seed_count": len({int(r["seed"]) for r in feasible}),
+        "endpoint_feasible_seed_count": len({int(r["seed"]) for r in feasible if "seed" in r}),
         "best_reset_clean_two_pad_residual_m": None if math.isinf(best_reset_clean) else best_reset_clean,
         "best_overall_two_pad_residual_m": None if math.isinf(best_overall) else best_overall,
         "dominant_rejection_invariants": dict(hist.most_common()),
-        "time_budget_reached_in_stage3": time.time() >= deadline,
+        "time_budget_reached_in_stage3": cancelled or time.time() >= deadline,
         "max_base_candidates_existing_grid": max_base_candidates,
         "max_layout_candidates_handle_access_cone": max_layout_candidates,
         "param_variant_count": len(variants),
+        "workers": workers,
         "feasible_candidates": sorted(feasible, key=lambda r: float(r.get("score", 999.0)))[:30],
     }
+    write_json(run_dir / "stage3_progress.json", {"evaluated": evaluated, "task_count": len(task_items), "feasible": len(feasible), "dominant_rejection_invariants": dict(hist.most_common(10)), "elapsed_seconds": time.time() - start, "complete": not summary["time_budget_reached_in_stage3"]})
     write_json(run_dir / "stage3_layout_synthesis_summary.json", summary)
     write_json(run_dir / "stage3_best_candidates_by_seed.json", best_by_seed)
     if not feasible:
@@ -555,6 +617,7 @@ def main() -> int:
     ap.add_argument("--max-base-candidates", type=int, default=120)
     ap.add_argument("--max-layout-candidates", type=int, default=180)
     ap.add_argument("--max-wall-clock-hours", type=float, default=9.5)
+    ap.add_argument("--workers", type=int, default=8)
     args = ap.parse_args()
 
     run_dir = args.run_dir or CAMPAIGN / "runtime" / f"v11_g4_goc_v4_accessibility_layout_synthesis_to_layer4r_overnight_{utc_stamp()}"
@@ -572,7 +635,7 @@ def main() -> int:
         stage3 = {"summary": {"endpoint_candidates_evaluated": 0, "endpoint_feasible_case_count": 0, "endpoint_feasible_seed_count": 0, "best_reset_clean_two_pad_residual_m": None, "best_overall_two_pad_residual_m": None, "dominant_rejection_invariants": {}} , "best_by_seed": {}, "feasible": []}
     else:
         remaining_hours = max(0.1, args.max_wall_clock_hours - ((time.time() - start) / 3600.0))
-        stage3 = stage3_layout_synthesis(seeds, run_dir, args.max_base_candidates, args.max_layout_candidates, remaining_hours)
+        stage3 = stage3_layout_synthesis(seeds, run_dir, args.max_base_candidates, args.max_layout_candidates, remaining_hours, args.workers)
 
     rejection = stage4_rejection_invariants(stage3, run_dir)
     corridor = stage5_corridor(stage3.get("feasible", []), run_dir)

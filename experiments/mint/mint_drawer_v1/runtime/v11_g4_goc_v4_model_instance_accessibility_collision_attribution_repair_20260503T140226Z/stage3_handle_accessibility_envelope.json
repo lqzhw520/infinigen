@@ -1,0 +1,4386 @@
+{
+  "audits": [
+    {
+      "accessibility_envelope_blocked_by_scene_proxy": true,
+      "approach_line_closest_scene_geom": {
+        "body": "drawer_base",
+        "geom_id": 5,
+        "geom_name": "drawer_base_collision_0_2.obj",
+        "margin_m": -0.33606971245616063
+      },
+      "approach_line_min_scene_margin_m": -0.33606971245616063,
+      "base_pos": [
+        -0.9,
+        0.0,
+        -0.04
+      ],
+      "handle_frame": {
+        "approach_normal": [
+          -0.7786842932599581,
+          -0.2095586062439592,
+          -0.5913847833511856
+        ],
+        "handle_bar_axis": [
+          -0.16688550622208212,
+          0.9777960884300414,
+          -0.12674398314677557
+        ],
+        "handle_body_names": [
+          "link_2"
+        ],
+        "handle_center": [
+          0.31230078637630043,
+          0.2994970679280005,
+          0.8974092602726302
+        ],
+        "handle_geom_ids": [
+          35
+        ],
+        "handle_geom_names": [
+          "drawer_handle_collision_1_0.obj"
+        ],
+        "handle_radius_normal_m": 0.034641015377090495,
+        "handle_radius_pinch_m": 0.034641015377090495,
+        "notes": [
+          "bar_axis_from_handle_point_pca"
+        ],
+        "pinch_axis": [
+          -0.3558052451937238,
+          0.9238428537947512,
+          0.14112763366897305
+        ],
+        "pull_axis": [
+          0.9999999999999996,
+          0.0,
+          -2.98023223876953e-08
+        ],
+        "quality": "ok"
+      },
+      "reset_counts": {
+        "forbidden": 0,
+        "handle_nonlegal": 0,
+        "max_contact_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "other": 0,
+        "target": 0
+      },
+      "row_id": "seed002_idx000_base-0.900,0.000,-0.040_yaw5.0",
+      "seed": 2,
+      "two_pad_frame": {
+        "contact_targets": [
+          [
+            0.29420172058218624,
+            0.2491104345282396,
+            0.8653005469838748
+          ],
+          [
+            0.26243470573830124,
+            0.3315930006127729,
+            0.8779007087133728
+          ]
+        ],
+        "guarded_targets": [
+          [
+            0.2786280347169871,
+            0.24491926240336043,
+            0.8534728513168511
+          ],
+          [
+            0.24686101987310208,
+            0.32740182848789373,
+            0.8660730130463491
+          ]
+        ],
+        "hold_targets": [
+          [
+            0.29420172058218624,
+            0.2491104345282396,
+            0.8653005469838748
+          ],
+          [
+            0.26243470573830124,
+            0.3315930006127729,
+            0.8779007087133728
+          ]
+        ],
+        "legal_pad_ids": [
+          99,
+          102
+        ],
+        "pad_assignment": [
+          [
+            99,
+            0
+          ],
+          [
+            102,
+            1
+          ]
+        ],
+        "pad_body_names": [
+          "finger_joint1_tip",
+          "finger_joint2_tip"
+        ],
+        "pad_current_centers": [
+          [
+            -0.42241676439726566,
+            0.057831153322851304,
+            0.3216886046754398
+          ],
+          [
+            -0.4623057958877088,
+            0.1349754371730501,
+            0.32684851126319475
+          ]
+        ],
+        "pad_geom_names": [
+          "finger1_pad_collision",
+          "finger2_pad_collision"
+        ],
+        "pad_radius_m": 0.008,
+        "pinch_half_width_m": 0.0446410153770905,
+        "pregrasp_distance_m": 0.055,
+        "pregrasp_targets": [
+          [
+            0.25137408445288856,
+            0.23758471118482186,
+            0.8327743838995596
+          ],
+          [
+            0.21960706960900356,
+            0.32006727726935513,
+            0.8453745456290576
+          ]
+        ],
+        "quality": "ok"
+      },
+      "yaw_deg": 5.0
+    },
+    {
+      "accessibility_envelope_blocked_by_scene_proxy": true,
+      "approach_line_closest_scene_geom": {
+        "body": "drawer_base",
+        "geom_id": 5,
+        "geom_name": "drawer_base_collision_0_2.obj",
+        "margin_m": -0.3314914488111078
+      },
+      "approach_line_min_scene_margin_m": -0.3314914488111078,
+      "base_pos": [
+        -0.9,
+        -0.08,
+        -0.04
+      ],
+      "handle_frame": {
+        "approach_normal": [
+          -0.7839593346612429,
+          0.1606710130365448,
+          -0.5996603931954416
+        ],
+        "handle_bar_axis": [
+          0.1276175454640397,
+          0.9870080169734239,
+          0.09761627179893381
+        ],
+        "handle_body_names": [
+          "link_1"
+        ],
+        "handle_center": [
+          0.31230078637630043,
+          -0.29949706792800046,
+          0.8974092602726302
+        ],
+        "handle_geom_ids": [
+          22
+        ],
+        "handle_geom_names": [
+          "drawer_handle_collision_0_0.obj"
+        ],
+        "handle_radius_normal_m": 0.034641015377090495,
+        "handle_radius_pinch_m": 0.034641015377090495,
+        "notes": [
+          "bar_axis_from_handle_point_pca"
+        ],
+        "pinch_axis": [
+          0.04889539623678453,
+          0.9789083315628601,
+          0.19836259381159912
+        ],
+        "pull_axis": [
+          0.9999999999999996,
+          0.0,
+          -2.98023223876953e-08
+        ],
+        "quality": "ok"
+      },
+      "reset_counts": {
+        "forbidden": 0,
+        "handle_nonlegal": 0,
+        "max_contact_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "other": 0,
+        "target": 0
+      },
+      "row_id": "seed002_idx001_base-0.900,-0.080,-0.040_yaw-15.0",
+      "seed": 2,
+      "two_pad_frame": {
+        "contact_targets": [
+          [
+            0.27590526486206024,
+            -0.33618468365947957,
+            0.8623843642315727
+          ],
+          [
+            0.28027074513261074,
+            -0.24878575989536028,
+            0.880094579432739
+          ]
+        ],
+        "guarded_targets": [
+          [
+            0.26022607816883536,
+            -0.33297126339874866,
+            0.8503911563676639
+          ],
+          [
+            0.26459155843938587,
+            -0.24557233963462938,
+            0.8681013715688303
+          ]
+        ],
+        "hold_targets": [
+          [
+            0.27590526486206024,
+            -0.33618468365947957,
+            0.8623843642315727
+          ],
+          [
+            0.28027074513261074,
+            -0.24878575989536028,
+            0.880094579432739
+          ]
+        ],
+        "legal_pad_ids": [
+          99,
+          102
+        ],
+        "pad_assignment": [
+          [
+            99,
+            0
+          ],
+          [
+            102,
+            1
+          ]
+        ],
+        "pad_body_names": [
+          "finger_joint1_tip",
+          "finger_joint2_tip"
+        ],
+        "pad_current_centers": [
+          [
+            -0.4314390105973967,
+            -0.18899902950706166,
+            0.32168860467543986
+          ],
+          [
+            -0.44253764107023863,
+            -0.10286427597729932,
+            0.32684851126319464
+          ]
+        ],
+        "pad_geom_names": [
+          "finger1_pad_collision",
+          "finger2_pad_collision"
+        ],
+        "pad_radius_m": 0.008,
+        "pinch_half_width_m": 0.0446410153770905,
+        "pregrasp_distance_m": 0.055,
+        "pregrasp_targets": [
+          [
+            0.23278750145569188,
+            -0.3273477779424696,
+            0.8294030426058234
+          ],
+          [
+            0.23715298172624238,
+            -0.23994885417835032,
+            0.8471132578069898
+          ]
+        ],
+        "quality": "ok"
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "accessibility_envelope_blocked_by_scene_proxy": true,
+      "approach_line_closest_scene_geom": {
+        "body": "drawer_base",
+        "geom_id": 5,
+        "geom_name": "drawer_base_collision_0_2.obj",
+        "margin_m": -0.33610610581353434
+      },
+      "approach_line_min_scene_margin_m": -0.33610610581353434,
+      "base_pos": [
+        -0.9,
+        0.08,
+        -0.04
+      ],
+      "handle_frame": {
+        "approach_normal": [
+          -0.7745025035266073,
+          -0.21214110511851023,
+          -0.5959379359884003
+        ],
+        "handle_bar_axis": [
+          -0.16813063069616777,
+          0.9772390452284933,
+          -0.12936745921062096
+        ],
+        "handle_body_names": [
+          "link_2"
+        ],
+        "handle_center": [
+          0.31230078637630043,
+          0.2994970679280005,
+          0.8974092602726302
+        ],
+        "handle_geom_ids": [
+          35
+        ],
+        "handle_geom_names": [
+          "drawer_handle_collision_1_0.obj"
+        ],
+        "handle_radius_normal_m": 0.034641015377090495,
+        "handle_radius_pinch_m": 0.034641015377090495,
+        "notes": [
+          "bar_axis_from_handle_point_pca"
+        ],
+        "pinch_axis": [
+          -0.3030056622125756,
+          0.951393285512522,
+          0.0551215470465702
+        ],
+        "pull_axis": [
+          0.9999999999999996,
+          0.0,
+          -2.98023223876953e-08
+        ],
+        "quality": "ok"
+      },
+      "reset_counts": {
+        "forbidden": 0,
+        "handle_nonlegal": 0,
+        "max_contact_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "other": 0,
+        "target": 0
+      },
+      "row_id": "seed002_idx002_base-0.900,0.080,-0.040_yaw-5.0",
+      "seed": 2,
+      "two_pad_frame": {
+        "contact_targets": [
+          [
+            0.2920271911364778,
+            0.2477678524091855,
+            0.8689412418150539
+          ],
+          [
+            0.2649742302841236,
+            0.33271017698563576,
+            0.8738626054736838
+          ]
+        ],
+        "guarded_targets": [
+          [
+            0.2765371410659456,
+            0.2435250303068153,
+            0.857022483095286
+          ],
+          [
+            0.24948418021359145,
+            0.32846735488326556,
+            0.8619438467539158
+          ]
+        ],
+        "hold_targets": [
+          [
+            0.2920271911364778,
+            0.2477678524091855,
+            0.8689412418150539
+          ],
+          [
+            0.2649742302841236,
+            0.33271017698563576,
+            0.8738626054736838
+          ]
+        ],
+        "legal_pad_ids": [
+          99,
+          102
+        ],
+        "pad_assignment": [
+          [
+            99,
+            0
+          ],
+          [
+            102,
+            1
+          ]
+        ],
+        "pad_body_names": [
+          "finger_joint1_tip",
+          "finger_joint2_tip"
+        ],
+        "pad_current_centers": [
+          [
+            -0.41963001327281607,
+            0.05402183464612358,
+            0.3216886046754398
+          ],
+          [
+            -0.44551720155824265,
+            0.13692074203747875,
+            0.3268485112631947
+          ]
+        ],
+        "pad_geom_names": [
+          "finger1_pad_collision",
+          "finger2_pad_collision"
+        ],
+        "pad_radius_m": 0.008,
+        "pinch_half_width_m": 0.0446410153770905,
+        "pregrasp_distance_m": 0.055,
+        "pregrasp_targets": [
+          [
+            0.24942955344251438,
+            0.23610009162766743,
+            0.836164655335692
+          ],
+          [
+            0.22237659259016018,
+            0.3210424162041177,
+            0.8410860189943218
+          ]
+        ],
+        "quality": "ok"
+      },
+      "yaw_deg": -5.0
+    },
+    {
+      "accessibility_envelope_blocked_by_scene_proxy": true,
+      "approach_line_closest_scene_geom": {
+        "body": "drawer_base",
+        "geom_id": 5,
+        "geom_name": "drawer_base_collision_1_0.obj",
+        "margin_m": -0.4183427062618865
+      },
+      "approach_line_min_scene_margin_m": -0.4183427062618865,
+      "base_pos": [
+        -0.72,
+        0.08,
+        0.08
+      ],
+      "handle_frame": {
+        "approach_normal": [
+          -0.9935973713103773,
+          0.026744960088886778,
+          -0.10976780418206408
+        ],
+        "handle_bar_axis": [
+          0.0265832311389863,
+          0.9996422895765483,
+          0.0029367860608794675
+        ],
+        "handle_body_names": [
+          "link_1"
+        ],
+        "handle_center": [
+          0.26566240191430046,
+          0.0,
+          0.5020084679123232
+        ],
+        "handle_geom_ids": [
+          20
+        ],
+        "handle_geom_names": [
+          "drawer_handle_collision_0_0.obj"
+        ],
+        "handle_radius_normal_m": 0.034641015377090495,
+        "handle_radius_pinch_m": 0.034641015377090495,
+        "notes": [
+          "bar_axis_from_handle_point_pca"
+        ],
+        "pinch_axis": [
+          0.018411785678360555,
+          0.9969195081623189,
+          0.07623975599078452
+        ],
+        "pull_axis": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "quality": "ok"
+      },
+      "reset_counts": {
+        "forbidden": 0,
+        "handle_nonlegal": 0,
+        "max_contact_force_n": 168.8971115495454,
+        "max_penetration_m": 0.00591008152525499,
+        "other": 1,
+        "target": 0
+      },
+      "row_id": "seed007_idx003_base-0.720,0.080,0.080_yaw-15.0",
+      "seed": 7,
+      "two_pad_frame": {
+        "contact_targets": [
+          [
+            0.22147888294672022,
+            -0.04333632187909679,
+            0.49381466936257407
+          ],
+          [
+            0.223122724561895,
+            0.04567067630809435,
+            0.5006215096016345
+          ]
+        ],
+        "guarded_targets": [
+          [
+            0.20160693552051268,
+            -0.042801422677319054,
+            0.49161931327893277
+          ],
+          [
+            0.20325077713568745,
+            0.04620557550987209,
+            0.49842615351799324
+          ]
+        ],
+        "hold_targets": [
+          [
+            0.22147888294672022,
+            -0.04333632187909679,
+            0.49381466936257407
+          ],
+          [
+            0.223122724561895,
+            0.04567067630809435,
+            0.5006215096016345
+          ]
+        ],
+        "legal_pad_ids": [
+          84,
+          87
+        ],
+        "pad_assignment": [
+          [
+            84,
+            0
+          ],
+          [
+            87,
+            1
+          ]
+        ],
+        "pad_body_names": [
+          "finger_joint1_tip",
+          "finger_joint2_tip"
+        ],
+        "pad_current_centers": [
+          [
+            -0.2514390105973967,
+            -0.028999029507061628,
+            0.44168860467543974
+          ],
+          [
+            -0.2625376410702387,
+            0.05713572402270071,
+            0.4468485112631946
+          ]
+        ],
+        "pad_geom_names": [
+          "finger1_pad_collision",
+          "finger2_pad_collision"
+        ],
+        "pad_radius_m": 0.008,
+        "pinch_half_width_m": 0.0446410153770905,
+        "pregrasp_distance_m": 0.055,
+        "pregrasp_targets": [
+          [
+            0.16683102752464946,
+            -0.04186534907420802,
+            0.4877774401325605
+          ],
+          [
+            0.16847486913982423,
+            0.047141649112983124,
+            0.494584280371621
+          ]
+        ],
+        "quality": "ok"
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "accessibility_envelope_blocked_by_scene_proxy": true,
+      "approach_line_closest_scene_geom": {
+        "body": "drawer_base",
+        "geom_id": 5,
+        "geom_name": "drawer_base_collision_1_0.obj",
+        "margin_m": -0.4167443088043305
+      },
+      "approach_line_min_scene_margin_m": -0.4167443088043305,
+      "base_pos": [
+        -0.72,
+        0.08,
+        0.04
+      ],
+      "handle_frame": {
+        "approach_normal": [
+          -0.9826157756384947,
+          0.026449365166398755,
+          -0.1837570911520257
+        ],
+        "handle_bar_axis": [
+          0.025998658986004723,
+          0.9996501543451561,
+          0.004861959341144678
+        ],
+        "handle_body_names": [
+          "link_1"
+        ],
+        "handle_center": [
+          0.26566240191430046,
+          0.0,
+          0.5020084679123232
+        ],
+        "handle_geom_ids": [
+          20
+        ],
+        "handle_geom_names": [
+          "drawer_handle_collision_0_0.obj"
+        ],
+        "handle_radius_normal_m": 0.034641015377090495,
+        "handle_radius_pinch_m": 0.034641015377090495,
+        "notes": [
+          "bar_axis_from_handle_point_pca"
+        ],
+        "pinch_axis": [
+          0.010731843517166634,
+          0.996236659087767,
+          0.08600782885509675
+        ],
+        "pull_axis": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "quality": "ok"
+      },
+      "reset_counts": {
+        "forbidden": 0,
+        "handle_nonlegal": 0,
+        "max_contact_force_n": 168.89711154954523,
+        "max_penetration_m": 0.00591008152525499,
+        "other": 1,
+        "target": 0
+      },
+      "row_id": "seed007_idx004_base-0.720,0.080,0.040_yaw-15.0",
+      "seed": 7,
+      "two_pad_frame": {
+        "contact_targets": [
+          [
+            0.22230097134841484,
+            -0.043318738865617185,
+            0.4901496450612377
+          ],
+          [
+            0.22325913213136359,
+            0.04562729316949936,
+            0.49782859868217877
+          ]
+        ],
+        "guarded_targets": [
+          [
+            0.20264865583564495,
+            -0.04278975156228921,
+            0.4864745032381972
+          ],
+          [
+            0.2036068166185937,
+            0.046156280472827334,
+            0.49415345685913825
+          ]
+        ],
+        "hold_targets": [
+          [
+            0.22230097134841484,
+            -0.043318738865617185,
+            0.4901496450612377
+          ],
+          [
+            0.22325913213136359,
+            0.04562729316949936,
+            0.49782859868217877
+          ]
+        ],
+        "legal_pad_ids": [
+          84,
+          87
+        ],
+        "pad_assignment": [
+          [
+            84,
+            0
+          ],
+          [
+            87,
+            1
+          ]
+        ],
+        "pad_body_names": [
+          "finger_joint1_tip",
+          "finger_joint2_tip"
+        ],
+        "pad_current_centers": [
+          [
+            -0.2514390105973967,
+            -0.028999029507061628,
+            0.4016886046754397
+          ],
+          [
+            -0.2625376410702387,
+            0.05713572402270071,
+            0.40684851126319455
+          ]
+        ],
+        "pad_geom_names": [
+          "finger1_pad_collision",
+          "finger2_pad_collision"
+        ],
+        "pad_radius_m": 0.008,
+        "pinch_half_width_m": 0.0446410153770905,
+        "pregrasp_distance_m": 0.055,
+        "pregrasp_targets": [
+          [
+            0.16825710368829763,
+            -0.041864023781465254,
+            0.4800430050478763
+          ],
+          [
+            0.16921526447124638,
+            0.04708200825365129,
+            0.48772195866881735
+          ]
+        ],
+        "quality": "ok"
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "accessibility_envelope_blocked_by_scene_proxy": true,
+      "approach_line_closest_scene_geom": {
+        "body": "drawer_base",
+        "geom_id": 5,
+        "geom_name": "drawer_base_collision_1_0.obj",
+        "margin_m": -0.4129875949091624
+      },
+      "approach_line_min_scene_margin_m": -0.4129875949091624,
+      "base_pos": [
+        -0.72,
+        0.0,
+        0.0
+      ],
+      "handle_frame": {
+        "approach_normal": [
+          -0.9598682475583736,
+          -0.12108602670264217,
+          -0.25296466446241805
+        ],
+        "handle_bar_axis": [
+          -0.11708816496903104,
+          0.9926420171125979,
+          -0.03085753533284778
+        ],
+        "handle_body_names": [
+          "link_1"
+        ],
+        "handle_center": [
+          0.26566240191430046,
+          0.0,
+          0.5020084679123232
+        ],
+        "handle_geom_ids": [
+          20
+        ],
+        "handle_geom_names": [
+          "drawer_handle_collision_0_0.obj"
+        ],
+        "handle_radius_normal_m": 0.034641015377090495,
+        "handle_radius_pinch_m": 0.034641015377090495,
+        "notes": [
+          "bar_axis_from_handle_point_pca"
+        ],
+        "pinch_axis": [
+          -0.13951634210419847,
+          0.9886254703164189,
+          0.056168227028310404
+        ],
+        "pull_axis": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "quality": "ok"
+      },
+      "reset_counts": {
+        "forbidden": 0,
+        "handle_nonlegal": 0,
+        "max_contact_force_n": 168.89711154954574,
+        "max_penetration_m": 0.00591008152525499,
+        "other": 1,
+        "target": 0
+      },
+      "row_id": "seed007_idx005_base-0.720,0.000,0.000_yaw-15.0",
+      "seed": 7,
+      "two_pad_frame": {
+        "contact_targets": [
+          [
+            0.23000092813585352,
+            -0.04941756197585938,
+            0.4884614264141836
+          ],
+          [
+            0.21754462578939562,
+            0.03884892766929779,
+            0.493476239787133
+          ]
+        ],
+        "guarded_targets": [
+          [
+            0.21080356318468604,
+            -0.051839282509912224,
+            0.48340213312493524
+          ],
+          [
+            0.19834726083822815,
+            0.03642720713524494,
+            0.48841694649788464
+          ]
+        ],
+        "hold_targets": [
+          [
+            0.23000092813585352,
+            -0.04941756197585938,
+            0.4884614264141836
+          ],
+          [
+            0.21754462578939562,
+            0.03884892766929779,
+            0.493476239787133
+          ]
+        ],
+        "legal_pad_ids": [
+          84,
+          87
+        ],
+        "pad_assignment": [
+          [
+            84,
+            0
+          ],
+          [
+            87,
+            1
+          ]
+        ],
+        "pad_body_names": [
+          "finger_joint1_tip",
+          "finger_joint2_tip"
+        ],
+        "pad_current_centers": [
+          [
+            -0.2514390105973967,
+            -0.10899902950706163,
+            0.3616886046754399
+          ],
+          [
+            -0.2625376410702387,
+            -0.022864275977299293,
+            0.3668485112631947
+          ]
+        ],
+        "pad_geom_names": [
+          "finger1_pad_collision",
+          "finger2_pad_collision"
+        ],
+        "pad_radius_m": 0.008,
+        "pinch_half_width_m": 0.0446410153770905,
+        "pregrasp_distance_m": 0.055,
+        "pregrasp_targets": [
+          [
+            0.17720817452014298,
+            -0.0560772934445047,
+            0.4745483698687506
+          ],
+          [
+            0.1647518721736851,
+            0.03218919620065247,
+            0.4795631832417
+          ]
+        ],
+        "quality": "ok"
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "accessibility_envelope_blocked_by_scene_proxy": true,
+      "approach_line_closest_scene_geom": {
+        "body": "link_1",
+        "geom_id": 12,
+        "geom_name": "drawer_door_collision_0_2.obj",
+        "margin_m": -0.6983377266535972
+      },
+      "approach_line_min_scene_margin_m": -0.6983377266535972,
+      "base_pos": [
+        -0.84,
+        0.08,
+        0.08
+      ],
+      "handle_frame": {
+        "approach_normal": [
+          -0.9788820704911418,
+          0.13032048692061088,
+          0.15750067542633012
+        ],
+        "handle_bar_axis": [
+          0.12866565893205703,
+          0.9914719212810693,
+          -0.020702113969464253
+        ],
+        "handle_body_names": [
+          "link_1"
+        ],
+        "handle_center": [
+          0.3445441275835001,
+          0.0,
+          0.3288853764530007
+        ],
+        "handle_geom_ids": [
+          19
+        ],
+        "handle_geom_names": [
+          "drawer_handle_collision_0_0.obj"
+        ],
+        "handle_radius_normal_m": 0.034641015377090495,
+        "handle_radius_pinch_m": 0.034641015377090495,
+        "notes": [
+          "bar_axis_from_handle_point_pca"
+        ],
+        "pinch_axis": [
+          0.13063642739825435,
+          0.9913948430246011,
+          -0.00838981888047674
+        ],
+        "pull_axis": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "quality": "ok"
+      },
+      "reset_counts": {
+        "forbidden": 0,
+        "handle_nonlegal": 0,
+        "max_contact_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "other": 0,
+        "target": 0
+      },
+      "row_id": "seed015_idx006_base-0.840,0.080,0.080_yaw-5.0",
+      "seed": 15,
+      "two_pad_frame": {
+        "contact_targets": [
+          [
+            0.29599297732854435,
+            -0.038569554058577135,
+            0.33613339588483765
+          ],
+          [
+            0.30765646285713166,
+            0.049944190805881736,
+            0.33538433581752897
+          ]
+        ],
+        "guarded_targets": [
+          [
+            0.2764153359187215,
+            -0.03596314432016492,
+            0.33928340939336427
+          ],
+          [
+            0.28807882144730884,
+            0.05255060054429395,
+            0.3385343493260556
+          ]
+        ],
+        "hold_targets": [
+          [
+            0.29599297732854435,
+            -0.038569554058577135,
+            0.33613339588483765
+          ],
+          [
+            0.30765646285713166,
+            0.049944190805881736,
+            0.33538433581752897
+          ]
+        ],
+        "legal_pad_ids": [
+          83,
+          86
+        ],
+        "pad_assignment": [
+          [
+            83,
+            0
+          ],
+          [
+            86,
+            1
+          ]
+        ],
+        "pad_body_names": [
+          "finger_joint1_tip",
+          "finger_joint2_tip"
+        ],
+        "pad_current_centers": [
+          [
+            -0.35963001327281624,
+            0.05402183464612358,
+            0.4416886046754398
+          ],
+          [
+            -0.3855172015582428,
+            0.13692074203747875,
+            0.4468485112631947
+          ]
+        ],
+        "pad_geom_names": [
+          "finger1_pad_collision",
+          "finger2_pad_collision"
+        ],
+        "pad_radius_m": 0.008,
+        "pinch_half_width_m": 0.0446410153770905,
+        "pregrasp_distance_m": 0.055,
+        "pregrasp_targets": [
+          [
+            0.24215446345153155,
+            -0.03140192727794354,
+            0.3447959330332858
+          ],
+          [
+            0.2538179489801189,
+            0.05711181758651533,
+            0.34404687296597714
+          ]
+        ],
+        "quality": "ok"
+      },
+      "yaw_deg": -5.0
+    },
+    {
+      "accessibility_envelope_blocked_by_scene_proxy": true,
+      "approach_line_closest_scene_geom": {
+        "body": "link_1",
+        "geom_id": 12,
+        "geom_name": "drawer_door_collision_0_2.obj",
+        "margin_m": -0.7006676452494817
+      },
+      "approach_line_min_scene_margin_m": -0.7006676452494817,
+      "base_pos": [
+        -0.84,
+        0.08,
+        0.04
+      ],
+      "handle_frame": {
+        "approach_normal": [
+          -0.9859160901639537,
+          0.13125693973387986,
+          0.10363917660575903
+        ],
+        "handle_bar_axis": [
+          0.13369469073043197,
+          0.9908783625925457,
+          0.01690562676772226
+        ],
+        "handle_body_names": [
+          "link_1"
+        ],
+        "handle_center": [
+          0.3445441275835001,
+          0.0,
+          0.3288853764530007
+        ],
+        "handle_geom_ids": [
+          19
+        ],
+        "handle_geom_names": [
+          "drawer_handle_collision_0_0.obj"
+        ],
+        "handle_radius_normal_m": 0.034641015377090495,
+        "handle_radius_pinch_m": 0.034641015377090495,
+        "notes": [
+          "bar_axis_from_handle_point_pca",
+          "bar_axis_stabilized_from_current_pad_span"
+        ],
+        "pinch_axis": [
+          0.13369469073043197,
+          0.9908783625925457,
+          0.01690562676772226
+        ],
+        "pull_axis": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "quality": "ok"
+      },
+      "reset_counts": {
+        "forbidden": 0,
+        "handle_nonlegal": 0,
+        "max_contact_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "other": 0,
+        "target": 0
+      },
+      "row_id": "seed015_idx007_base-0.840,0.080,0.040_yaw-5.0",
+      "seed": 15,
+      "two_pad_frame": {
+        "contact_targets": [
+          [
+            0.2955494815874015,
+            -0.03850563009604399,
+            0.33265361100842433
+          ],
+          [
+            0.3074860150768666,
+            0.049962002346596174,
+            0.33416297969741887
+          ]
+        ],
+        "guarded_targets": [
+          [
+            0.2758311597841224,
+            -0.03588049130136639,
+            0.33472639454053954
+          ],
+          [
+            0.28776769327358753,
+            0.052587141141273774,
+            0.3362357632295341
+          ]
+        ],
+        "hold_targets": [
+          [
+            0.2955494815874015,
+            -0.03850563009604399,
+            0.33265361100842433
+          ],
+          [
+            0.3074860150768666,
+            0.049962002346596174,
+            0.33416297969741887
+          ]
+        ],
+        "legal_pad_ids": [
+          83,
+          86
+        ],
+        "pad_assignment": [
+          [
+            83,
+            0
+          ],
+          [
+            86,
+            1
+          ]
+        ],
+        "pad_body_names": [
+          "finger_joint1_tip",
+          "finger_joint2_tip"
+        ],
+        "pad_current_centers": [
+          [
+            -0.35963001327281624,
+            0.05402183464612358,
+            0.4016886046754397
+          ],
+          [
+            -0.3855172015582428,
+            0.13692074203747875,
+            0.4068485112631946
+          ]
+        ],
+        "pad_geom_names": [
+          "finger1_pad_collision",
+          "finger2_pad_collision"
+        ],
+        "pad_radius_m": 0.008,
+        "pinch_half_width_m": 0.0446410153770905,
+        "pregrasp_distance_m": 0.055,
+        "pregrasp_targets": [
+          [
+            0.24132409662838405,
+            -0.0312864984106806,
+            0.3383537657217411
+          ],
+          [
+            0.25326063011784916,
+            0.05718113403195957,
+            0.3398631344107356
+          ]
+        ],
+        "quality": "ok"
+      },
+      "yaw_deg": -5.0
+    },
+    {
+      "accessibility_envelope_blocked_by_scene_proxy": true,
+      "approach_line_closest_scene_geom": {
+        "body": "link_1",
+        "geom_id": 12,
+        "geom_name": "drawer_door_collision_0_2.obj",
+        "margin_m": -0.7022752972586556
+      },
+      "approach_line_min_scene_margin_m": -0.7022752972586556,
+      "base_pos": [
+        -0.84,
+        0.08,
+        0.0
+      ],
+      "handle_frame": {
+        "approach_normal": [
+          -0.9900705556419802,
+          0.13181003185836798,
+          0.04885089919619391
+        ],
+        "handle_bar_axis": [
+          0.13391478055447972,
+          0.990074828394562,
+          0.042645817245354115
+        ],
+        "handle_body_names": [
+          "link_1"
+        ],
+        "handle_center": [
+          0.3445441275835001,
+          0.0,
+          0.3288853764530007
+        ],
+        "handle_geom_ids": [
+          19
+        ],
+        "handle_geom_names": [
+          "drawer_handle_collision_0_0.obj"
+        ],
+        "handle_radius_normal_m": 0.034641015377090495,
+        "handle_radius_pinch_m": 0.034641015377090495,
+        "notes": [
+          "bar_axis_from_handle_point_pca",
+          "bar_axis_stabilized_from_current_pad_span"
+        ],
+        "pinch_axis": [
+          0.13391478055447972,
+          0.990074828394562,
+          0.042645817245354115
+        ],
+        "pull_axis": [
+          1.0,
+          0.0,
+          0.0
+        ],
+        "quality": "ok"
+      },
+      "reset_counts": {
+        "forbidden": 0,
+        "handle_nonlegal": 0,
+        "max_contact_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "other": 0,
+        "target": 0
+      },
+      "row_id": "seed015_idx008_base-0.840,0.080,0.000_yaw-5.0",
+      "seed": 15,
+      "two_pad_frame": {
+        "contact_targets": [
+          [
+            0.2953583514623717,
+            -0.03844562201164605,
+            0.32911352671258803
+          ],
+          [
+            0.30731453501827616,
+            0.049950269266017706,
+            0.33292103187942496
+          ]
+        ],
+        "guarded_targets": [
+          [
+            0.2755569403495321,
+            -0.03580942137447869,
+            0.3300905446965119
+          ],
+          [
+            0.28751312390543654,
+            0.052586469903185065,
+            0.3338980498633488
+          ]
+        ],
+        "hold_targets": [
+          [
+            0.2953583514623717,
+            -0.03844562201164605,
+            0.32911352671258803
+          ],
+          [
+            0.30731453501827616,
+            0.049950269266017706,
+            0.33292103187942496
+          ]
+        ],
+        "legal_pad_ids": [
+          83,
+          86
+        ],
+        "pad_assignment": [
+          [
+            83,
+            0
+          ],
+          [
+            86,
+            1
+          ]
+        ],
+        "pad_body_names": [
+          "finger_joint1_tip",
+          "finger_joint2_tip"
+        ],
+        "pad_current_centers": [
+          [
+            -0.35963001327281624,
+            0.05402183464612358,
+            0.36168860467543973
+          ],
+          [
+            -0.3855172015582428,
+            0.13692074203747875,
+            0.3668485112631946
+          ]
+        ],
+        "pad_geom_names": [
+          "finger1_pad_collision",
+          "finger2_pad_collision"
+        ],
+        "pad_radius_m": 0.008,
+        "pinch_half_width_m": 0.0446410153770905,
+        "pregrasp_distance_m": 0.055,
+        "pregrasp_targets": [
+          [
+            0.2409044709020628,
+            -0.031196070259435812,
+            0.3318003261683787
+          ],
+          [
+            0.25286065445796724,
+            0.057199821018227945,
+            0.3356078313352156
+          ]
+        ],
+        "quality": "ok"
+      },
+      "yaw_deg": -5.0
+    },
+    {
+      "accessibility_envelope_blocked_by_scene_proxy": true,
+      "approach_line_closest_scene_geom": {
+        "body": "drawer_base",
+        "geom_id": 4,
+        "geom_name": "drawer_base_collision_0_1.obj",
+        "margin_m": -0.20440523779289255
+      },
+      "approach_line_min_scene_margin_m": -0.20440523779289255,
+      "base_pos": [
+        -0.84,
+        0.24,
+        0.04
+      ],
+      "handle_frame": {
+        "approach_normal": [
+          -0.9963773691522643,
+          0.04956085460973988,
+          0.06910759677173423
+        ],
+        "handle_bar_axis": [
+          0.04944207300798854,
+          0.9987711057546429,
+          -0.003429245736383753
+        ],
+        "handle_body_names": [
+          "link_2"
+        ],
+        "handle_center": [
+          0.3791270852087003,
+          0.2180809080595921,
+          0.35213145613699925
+        ],
+        "handle_geom_ids": [
+          31
+        ],
+        "handle_geom_names": [
+          "drawer_handle_collision_1_0.obj"
+        ],
+        "handle_radius_normal_m": 0.034641015377090495,
+        "handle_radius_pinch_m": 0.034641015377090495,
+        "notes": [
+          "bar_axis_from_handle_point_pca"
+        ],
+        "pinch_axis": [
+          0.05224730111125723,
+          0.997925230855931,
+          0.037622508525171544
+        ],
+        "pull_axis": [
+          1.0,
+          -7.450580596923828e-09,
+          0.0
+        ],
+        "quality": "ok"
+      },
+      "reset_counts": {
+        "forbidden": 1,
+        "handle_nonlegal": 0,
+        "max_contact_force_n": 322.2203651098365,
+        "max_penetration_m": 0.011455394695065624,
+        "other": 1,
+        "target": 0
+      },
+      "row_id": "seed001_idx009_base-0.840,0.240,0.040_yaw-5.0",
+      "seed": 1,
+      "two_pad_frame": {
+        "contact_targets": [
+          [
+            0.3333117925478223,
+            0.1756953985018913,
+            0.3534678748487914
+          ],
+          [
+            0.3379765376924605,
+            0.2647921896535437,
+            0.3568268888119852
+          ]
+        ],
+        "guarded_targets": [
+          [
+            0.313384245164777,
+            0.1766866155940861,
+            0.35485002678422606
+          ],
+          [
+            0.3180489903094152,
+            0.26578340674573847,
+            0.3582090407474199
+          ]
+        ],
+        "hold_targets": [
+          [
+            0.3333117925478223,
+            0.1756953985018913,
+            0.3534678748487914
+          ],
+          [
+            0.3379765376924605,
+            0.2647921896535437,
+            0.3568268888119852
+          ]
+        ],
+        "legal_pad_ids": [
+          95,
+          98
+        ],
+        "pad_assignment": [
+          [
+            95,
+            0
+          ],
+          [
+            98,
+            1
+          ]
+        ],
+        "pad_body_names": [
+          "finger_joint1_tip",
+          "finger_joint2_tip"
+        ],
+        "pad_current_centers": [
+          [
+            -0.35963001327281624,
+            0.21402183464612357,
+            0.4016886046754397
+          ],
+          [
+            -0.3855172015582428,
+            0.2969207420374788,
+            0.4068485112631946
+          ]
+        ],
+        "pad_geom_names": [
+          "finger1_pad_collision",
+          "finger2_pad_collision"
+        ],
+        "pad_radius_m": 0.008,
+        "pinch_half_width_m": 0.0446410153770905,
+        "pregrasp_distance_m": 0.055,
+        "pregrasp_targets": [
+          [
+            0.27851103724444776,
+            0.178421245505427,
+            0.3572687926712368
+          ],
+          [
+            0.283175782389086,
+            0.26751803665707935,
+            0.3606278066344306
+          ]
+        ],
+        "quality": "ok"
+      },
+      "yaw_deg": -5.0
+    },
+    {
+      "accessibility_envelope_blocked_by_scene_proxy": true,
+      "approach_line_closest_scene_geom": {
+        "body": "drawer_base",
+        "geom_id": 4,
+        "geom_name": "drawer_base_collision_0_1.obj",
+        "margin_m": -0.208920420663052
+      },
+      "approach_line_min_scene_margin_m": -0.208920420663052,
+      "base_pos": [
+        -0.84,
+        0.24,
+        0.0
+      ],
+      "handle_frame": {
+        "approach_normal": [
+          -0.9981820062429214,
+          -0.05810296364734662,
+          0.016022734730738872
+        ],
+        "handle_bar_axis": [
+          -0.05707847200875946,
+          0.996664754721528,
+          0.05832164888805595
+        ],
+        "handle_body_names": [
+          "link_2"
+        ],
+        "handle_center": [
+          0.3791270852087003,
+          0.2180809080595921,
+          0.35213145613699925
+        ],
+        "handle_geom_ids": [
+          31
+        ],
+        "handle_geom_names": [
+          "drawer_handle_collision_1_0.obj"
+        ],
+        "handle_radius_normal_m": 0.034641015377090495,
+        "handle_radius_pinch_m": 0.034641015377090495,
+        "notes": [
+          "bar_axis_from_handle_point_pca",
+          "bar_axis_stabilized_from_current_pad_span"
+        ],
+        "pinch_axis": [
+          -0.05707847200875946,
+          0.996664754721528,
+          0.05832164888805595
+        ],
+        "pull_axis": [
+          1.0,
+          -7.450580596923828e-09,
+          0.0
+        ],
+        "quality": "ok"
+      },
+      "reset_counts": {
+        "forbidden": 0,
+        "handle_nonlegal": 0,
+        "max_contact_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "other": 0,
+        "target": 0
+      },
+      "row_id": "seed001_idx010_base-0.840,0.240,0.000_yaw-15.0",
+      "seed": 1,
+      "two_pad_frame": {
+        "contact_targets": [
+          [
+            0.3381134498717618,
+            0.17105310908827587,
+            0.3502271669249375
+          ],
+          [
+            0.3330173679784741,
+            0.26003736237093156,
+            0.3554342421745954
+          ]
+        ],
+        "guarded_targets": [
+          [
+            0.3181498097469034,
+            0.16989104981532893,
+            0.3505476216195523
+          ],
+          [
+            0.3130537278536157,
+            0.2588753030979846,
+            0.3557546968692102
+          ]
+        ],
+        "hold_targets": [
+          [
+            0.3381134498717618,
+            0.17105310908827587,
+            0.3502271669249375
+          ],
+          [
+            0.3330173679784741,
+            0.26003736237093156,
+            0.3554342421745954
+          ]
+        ],
+        "legal_pad_ids": [
+          95,
+          98
+        ],
+        "pad_assignment": [
+          [
+            95,
+            0
+          ],
+          [
+            98,
+            1
+          ]
+        ],
+        "pad_body_names": [
+          "finger_joint1_tip",
+          "finger_joint2_tip"
+        ],
+        "pad_current_centers": [
+          [
+            -0.37143901059739665,
+            0.1310009704929383,
+            0.3616886046754399
+          ],
+          [
+            -0.3825376410702386,
+            0.21713572402270065,
+            0.3668485112631947
+          ]
+        ],
+        "pad_geom_names": [
+          "finger1_pad_collision",
+          "finger2_pad_collision"
+        ],
+        "pad_radius_m": 0.008,
+        "pinch_half_width_m": 0.0446410153770905,
+        "pregrasp_distance_m": 0.055,
+        "pregrasp_targets": [
+          [
+            0.2832134395284011,
+            0.1678574460876718,
+            0.35110841733512815
+          ],
+          [
+            0.2781173576351134,
+            0.25684169937032747,
+            0.35631549258478606
+          ]
+        ],
+        "quality": "ok"
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "accessibility_envelope_blocked_by_scene_proxy": true,
+      "approach_line_closest_scene_geom": {
+        "body": "drawer_base",
+        "geom_id": 4,
+        "geom_name": "drawer_base_collision_0_1.obj",
+        "margin_m": -0.2125229311776543
+      },
+      "approach_line_min_scene_margin_m": -0.2125229311776543,
+      "base_pos": [
+        -0.84,
+        0.24,
+        0.04
+      ],
+      "handle_frame": {
+        "approach_normal": [
+          -0.995953246361218,
+          -0.05797323023843385,
+          0.06867485448308433
+        ],
+        "handle_bar_axis": [
+          -0.057835898860979736,
+          0.9983181379578965,
+          0.003988010433911151
+        ],
+        "handle_body_names": [
+          "link_2"
+        ],
+        "handle_center": [
+          0.3791270852087003,
+          0.2180809080595921,
+          0.35213145613699925
+        ],
+        "handle_geom_ids": [
+          31
+        ],
+        "handle_geom_names": [
+          "drawer_handle_collision_1_0.obj"
+        ],
+        "handle_radius_normal_m": 0.034641015377090495,
+        "handle_radius_pinch_m": 0.034641015377090495,
+        "notes": [
+          "bar_axis_from_handle_point_pca"
+        ],
+        "pinch_axis": [
+          -0.05428598166563888,
+          0.9970427963797317,
+          0.05439388184237943
+        ],
+        "pull_axis": [
+          1.0,
+          -7.450580596923828e-09,
+          0.0
+        ],
+        "quality": "ok"
+      },
+      "reset_counts": {
+        "forbidden": 0,
+        "handle_nonlegal": 0,
+        "max_contact_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "other": 0,
+        "target": 0
+      },
+      "row_id": "seed001_idx011_base-0.840,0.240,0.040_yaw-15.0",
+      "seed": 1,
+      "two_pad_frame": {
+        "contact_targets": [
+          [
+            0.3380860556116834,
+            0.17104189462249209,
+            0.3527002984017697
+          ],
+          [
+            0.3332392929270909,
+            0.2600599002321019,
+            0.3575566946332603
+          ]
+        ],
+        "guarded_targets": [
+          [
+            0.3181669906844591,
+            0.1698824300177234,
+            0.35407379549143136
+          ],
+          [
+            0.3133202279998666,
+            0.2589004356273332,
+            0.35893019172292195
+          ]
+        ],
+        "hold_targets": [
+          [
+            0.3380860556116834,
+            0.17104189462249209,
+            0.3527002984017697
+          ],
+          [
+            0.3332392929270909,
+            0.2600599002321019,
+            0.3575566946332603
+          ]
+        ],
+        "legal_pad_ids": [
+          95,
+          98
+        ],
+        "pad_assignment": [
+          [
+            95,
+            0
+          ],
+          [
+            98,
+            1
+          ]
+        ],
+        "pad_body_names": [
+          "finger_joint1_tip",
+          "finger_joint2_tip"
+        ],
+        "pad_current_centers": [
+          [
+            -0.37143901059739665,
+            0.1310009704929383,
+            0.4016886046754397
+          ],
+          [
+            -0.3825376410702386,
+            0.21713572402270065,
+            0.40684851126319455
+          ]
+        ],
+        "pad_geom_names": [
+          "finger1_pad_collision",
+          "finger2_pad_collision"
+        ],
+        "pad_radius_m": 0.008,
+        "pinch_half_width_m": 0.0446410153770905,
+        "pregrasp_distance_m": 0.055,
+        "pregrasp_targets": [
+          [
+            0.2833086270618164,
+            0.16785336695937822,
+            0.3564774153983393
+          ],
+          [
+            0.2784618643772239,
+            0.25687137256898807,
+            0.3613338116298299
+          ]
+        ],
+        "quality": "ok"
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "accessibility_envelope_blocked_by_scene_proxy": true,
+      "approach_line_closest_scene_geom": {
+        "body": "link_1",
+        "geom_id": 12,
+        "geom_name": "drawer_door_collision_0_1.obj",
+        "margin_m": -0.6238819130396865
+      },
+      "approach_line_min_scene_margin_m": -0.6238819130396865,
+      "base_pos": [
+        -0.72,
+        0.0,
+        -0.04
+      ],
+      "handle_frame": {
+        "approach_normal": [
+          -0.8127462066214126,
+          0.40061522395944293,
+          -0.4230260582451504
+        ],
+        "handle_bar_axis": [
+          0.3553612959168468,
+          0.9162463873499994,
+          0.1849619069764744
+        ],
+        "handle_body_names": [
+          "link_1"
+        ],
+        "handle_center": [
+          0.3031415790321004,
+          -0.3420283794399994,
+          0.6158104240896897
+        ],
+        "handle_geom_ids": [
+          21
+        ],
+        "handle_geom_names": [
+          "drawer_handle_collision_0_0.obj"
+        ],
+        "handle_radius_normal_m": 0.034641015377090495,
+        "handle_radius_pinch_m": 0.034641015377090495,
+        "notes": [
+          "bar_axis_from_handle_point_pca"
+        ],
+        "pinch_axis": [
+          0.29398383606481665,
+          0.908858527351943,
+          0.29588795411823116
+        ],
+        "pull_axis": [
+          0.9999999999999996,
+          0.0,
+          2.98023223876953e-08
+        ],
+        "quality": "ok"
+      },
+      "reset_counts": {
+        "forbidden": 2,
+        "handle_nonlegal": 0,
+        "max_contact_force_n": 1444.0115609470693,
+        "max_penetration_m": 0.03229058439742949,
+        "other": 3,
+        "target": 0
+      },
+      "row_id": "seed003_idx012_base-0.720,0.000,-0.040_yaw-15.0",
+      "seed": 3,
+      "two_pad_frame": {
+        "contact_targets": [
+          [
+            0.25454877238487783,
+            -0.3651174917860067,
+            0.5841403986672153
+          ],
+          [
+            0.2807962462776489,
+            -0.28397275679577094,
+            0.6105578760865908
+          ]
+        ],
+        "guarded_targets": [
+          [
+            0.2382938482524496,
+            -0.35710518730681784,
+            0.5756798775023123
+          ],
+          [
+            0.26454132214522064,
+            -0.27596045231658206,
+            0.6020973549216878
+          ]
+        ],
+        "hold_targets": [
+          [
+            0.25454877238487783,
+            -0.3651174917860067,
+            0.5841403986672153
+          ],
+          [
+            0.2807962462776489,
+            -0.28397275679577094,
+            0.6105578760865908
+          ]
+        ],
+        "legal_pad_ids": [
+          101,
+          104
+        ],
+        "pad_assignment": [
+          [
+            101,
+            0
+          ],
+          [
+            104,
+            1
+          ]
+        ],
+        "pad_body_names": [
+          "finger_joint1_tip",
+          "finger_joint2_tip"
+        ],
+        "pad_current_centers": [
+          [
+            -0.2514390105973967,
+            -0.10899902950706163,
+            0.32168860467543986
+          ],
+          [
+            -0.2625376410702387,
+            -0.022864275977299293,
+            0.32684851126319464
+          ]
+        ],
+        "pad_geom_names": [
+          "finger1_pad_collision",
+          "finger2_pad_collision"
+        ],
+        "pad_radius_m": 0.008,
+        "pinch_half_width_m": 0.0446410153770905,
+        "pregrasp_distance_m": 0.055,
+        "pregrasp_targets": [
+          [
+            0.20984773102070015,
+            -0.34308365446823735,
+            0.560873965463732
+          ],
+          [
+            0.2360952049134712,
+            -0.2619389194780016,
+            0.5872914428831075
+          ]
+        ],
+        "quality": "ok"
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "accessibility_envelope_blocked_by_scene_proxy": true,
+      "approach_line_closest_scene_geom": {
+        "body": "link_2",
+        "geom_id": 34,
+        "geom_name": "drawer_door_collision_1_9.obj",
+        "margin_m": -0.49088400675278415
+      },
+      "approach_line_min_scene_margin_m": -0.49088400675278415,
+      "base_pos": [
+        -0.78,
+        0.16,
+        0.08
+      ],
+      "handle_frame": {
+        "approach_normal": [
+          -0.8993324263455494,
+          -0.35959965102366126,
+          -0.24877555729429676
+        ],
+        "handle_bar_axis": [
+          -0.37018493262690993,
+          0.9289469816523007,
+          -0.004541027977245144
+        ],
+        "handle_body_names": [
+          "link_2"
+        ],
+        "handle_center": [
+          0.3031415790321004,
+          0.3420283794399994,
+          0.6158104240896897
+        ],
+        "handle_geom_ids": [
+          37
+        ],
+        "handle_geom_names": [
+          "drawer_handle_collision_1_0.obj"
+        ],
+        "handle_radius_normal_m": 0.034641015377090495,
+        "handle_radius_pinch_m": 0.034641015377090495,
+        "notes": [
+          "bar_axis_from_handle_point_pca",
+          "bar_axis_stabilized_from_current_pad_span"
+        ],
+        "pinch_axis": [
+          -0.37018493262690993,
+          0.9289469816523007,
+          -0.004541027977245144
+        ],
+        "pull_axis": [
+          0.9999999999999996,
+          0.0,
+          2.98023223876953e-08
+        ],
+        "quality": "ok"
+      },
+      "reset_counts": {
+        "forbidden": 0,
+        "handle_nonlegal": 0,
+        "max_contact_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "other": 0,
+        "target": 0
+      },
+      "row_id": "seed003_idx013_base-0.780,0.160,0.080_yaw-15.0",
+      "seed": 3,
+      "two_pad_frame": {
+        "contact_targets": [
+          [
+            0.28041923005460323,
+            0.2848659490476373,
+            0.605156322268125
+          ],
+          [
+            0.24736836751507305,
+            0.3678042220325216,
+            0.604750890068605
+          ]
+        ],
+        "guarded_targets": [
+          [
+            0.2624325815276922,
+            0.27767395602716405,
+            0.6001808111222391
+          ],
+          [
+            0.22938171898816206,
+            0.36061222901204837,
+            0.5997753789227191
+          ]
+        ],
+        "hold_targets": [
+          [
+            0.28041923005460323,
+            0.2848659490476373,
+            0.605156322268125
+          ],
+          [
+            0.24736836751507305,
+            0.3678042220325216,
+            0.604750890068605
+          ]
+        ],
+        "legal_pad_ids": [
+          101,
+          104
+        ],
+        "pad_assignment": [
+          [
+            101,
+            0
+          ],
+          [
+            104,
+            1
+          ]
+        ],
+        "pad_body_names": [
+          "finger_joint1_tip",
+          "finger_joint2_tip"
+        ],
+        "pad_current_centers": [
+          [
+            -0.3114390105973967,
+            0.05100097049293836,
+            0.44168860467543974
+          ],
+          [
+            -0.32253764107023863,
+            0.13713572402270072,
+            0.4468485112631946
+          ]
+        ],
+        "pad_geom_names": [
+          "finger1_pad_collision",
+          "finger2_pad_collision"
+        ],
+        "pad_radius_m": 0.008,
+        "pinch_half_width_m": 0.0446410153770905,
+        "pregrasp_distance_m": 0.055,
+        "pregrasp_targets": [
+          [
+            0.230955946605598,
+            0.2650879682413359,
+            0.5914736666169387
+          ],
+          [
+            0.19790508406606783,
+            0.3480262412262202,
+            0.5910682344174187
+          ]
+        ],
+        "quality": "ok"
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "accessibility_envelope_blocked_by_scene_proxy": true,
+      "approach_line_closest_scene_geom": {
+        "body": "drawer_base",
+        "geom_id": 4,
+        "geom_name": "drawer_base_collision_0_1.obj",
+        "margin_m": -0.3420266131200394
+      },
+      "approach_line_min_scene_margin_m": -0.3420266131200394,
+      "base_pos": [
+        -1.02,
+        0.08,
+        0.08
+      ],
+      "handle_frame": {
+        "approach_normal": [
+          -0.9501343081913564,
+          0.016598481193162526,
+          -0.3113989191050814
+        ],
+        "handle_bar_axis": [
+          0.015772959395863033,
+          0.999862235721542,
+          0.005169461269438633
+        ],
+        "handle_body_names": [
+          "link_2"
+        ],
+        "handle_center": [
+          0.24831543862810046,
+          0.0,
+          0.7082004249093218
+        ],
+        "handle_geom_ids": [
+          35
+        ],
+        "handle_geom_names": [
+          "drawer_handle_collision_1_0.obj"
+        ],
+        "handle_radius_normal_m": 0.034641015377090495,
+        "handle_radius_pinch_m": 0.034641015377090495,
+        "notes": [
+          "bar_axis_from_handle_point_pca"
+        ],
+        "pinch_axis": [
+          -0.014442429951041572,
+          0.9951686779329635,
+          0.09711188741995953
+        ],
+        "pull_axis": [
+          1.0,
+          7.450580596923828e-09,
+          0.0
+        ],
+        "quality": "ok"
+      },
+      "reset_counts": {
+        "forbidden": 0,
+        "handle_nonlegal": 0,
+        "max_contact_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "other": 0,
+        "target": 0
+      },
+      "row_id": "seed014_idx014_base-1.020,0.080,0.080_yaw-15.0",
+      "seed": 14,
+      "two_pad_frame": {
+        "contact_targets": [
+          [
+            0.20749533741154724,
+            -0.04370096568141709,
+            0.6902754866326348
+          ],
+          [
+            0.20620588793649325,
+            0.04514971482739139,
+            0.6989458331518603
+          ]
+        ],
+        "guarded_targets": [
+          [
+            0.1884926512477201,
+            -0.043368996057553844,
+            0.6840475082505332
+          ],
+          [
+            0.1872032017726661,
+            0.04548168445125464,
+            0.6927178547697587
+          ]
+        ],
+        "hold_targets": [
+          [
+            0.20749533741154724,
+            -0.04370096568141709,
+            0.6902754866326348
+          ],
+          [
+            0.20620588793649325,
+            0.04514971482739139,
+            0.6989458331518603
+          ]
+        ],
+        "legal_pad_ids": [
+          99,
+          102
+        ],
+        "pad_assignment": [
+          [
+            99,
+            0
+          ],
+          [
+            102,
+            1
+          ]
+        ],
+        "pad_body_names": [
+          "finger_joint1_tip",
+          "finger_joint2_tip"
+        ],
+        "pad_current_centers": [
+          [
+            -0.5514390105973968,
+            -0.028999029507061628,
+            0.44168860467543974
+          ],
+          [
+            -0.5625376410702388,
+            0.05713572402270071,
+            0.4468485112631946
+          ]
+        ],
+        "pad_geom_names": [
+          "finger1_pad_collision",
+          "finger2_pad_collision"
+        ],
+        "pad_radius_m": 0.008,
+        "pinch_half_width_m": 0.0446410153770905,
+        "pregrasp_distance_m": 0.055,
+        "pregrasp_targets": [
+          [
+            0.15523795046102265,
+            -0.04278804921579315,
+            0.6731485460818554
+          ],
+          [
+            0.15394850098596866,
+            0.046062631293015334,
+            0.6818188926010809
+          ]
+        ],
+        "quality": "ok"
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "accessibility_envelope_blocked_by_scene_proxy": true,
+      "approach_line_closest_scene_geom": {
+        "body": "link_2",
+        "geom_id": 34,
+        "geom_name": "drawer_door_collision_1_9.obj",
+        "margin_m": -0.4806431668452416
+      },
+      "approach_line_min_scene_margin_m": -0.4806431668452416,
+      "base_pos": [
+        -0.78,
+        0.16,
+        0.08
+      ],
+      "handle_frame": {
+        "approach_normal": [
+          -0.9321818952990144,
+          -0.2521644881803073,
+          -0.2597113493428827
+        ],
+        "handle_bar_axis": [
+          -0.24291305504226435,
+          0.9676843859961591,
+          -0.06767700340049192
+        ],
+        "handle_body_names": [
+          "link_2"
+        ],
+        "handle_center": [
+          0.3031415790321004,
+          0.3420283794399994,
+          0.6158104240896897
+        ],
+        "handle_geom_ids": [
+          37
+        ],
+        "handle_geom_names": [
+          "drawer_handle_collision_1_0.obj"
+        ],
+        "handle_radius_normal_m": 0.034641015377090495,
+        "handle_radius_pinch_m": 0.034641015377090495,
+        "notes": [
+          "bar_axis_from_handle_point_pca"
+        ],
+        "pinch_axis": [
+          -0.27739702031668584,
+          0.9585568724539522,
+          0.06495856672311721
+        ],
+        "pull_axis": [
+          0.9999999999999996,
+          0.0,
+          2.98023223876953e-08
+        ],
+        "quality": "ok"
+      },
+      "reset_counts": {
+        "forbidden": 0,
+        "handle_nonlegal": 0,
+        "max_contact_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "other": 0,
+        "target": 0
+      },
+      "row_id": "seed003_idx015_base-0.780,0.160,0.080_yaw-5.0",
+      "seed": 3,
+      "two_pad_frame": {
+        "contact_targets": [
+          [
+            0.274843499254627,
+            0.28823271305073384,
+            0.6015765407234516
+          ],
+          [
+            0.25007692995559444,
+            0.3738146172167991,
+            0.6073761734753725
+          ]
+        ],
+        "guarded_targets": [
+          [
+            0.2561998613486467,
+            0.2831894232871277,
+            0.5963823137365939
+          ],
+          [
+            0.23143329204961416,
+            0.36877132745319297,
+            0.6021819464885149
+          ]
+        ],
+        "hold_targets": [
+          [
+            0.274843499254627,
+            0.28823271305073384,
+            0.6015765407234516
+          ],
+          [
+            0.25007692995559444,
+            0.3738146172167991,
+            0.6073761734753725
+          ]
+        ],
+        "legal_pad_ids": [
+          101,
+          104
+        ],
+        "pad_assignment": [
+          [
+            101,
+            0
+          ],
+          [
+            104,
+            1
+          ]
+        ],
+        "pad_body_names": [
+          "finger_joint1_tip",
+          "finger_joint2_tip"
+        ],
+        "pad_current_centers": [
+          [
+            -0.2996300132728162,
+            0.13402183464612358,
+            0.4416886046754398
+          ],
+          [
+            -0.32551720155824276,
+            0.21692074203747877,
+            0.4468485112631947
+          ]
+        ],
+        "pad_geom_names": [
+          "finger1_pad_collision",
+          "finger2_pad_collision"
+        ],
+        "pad_radius_m": 0.008,
+        "pinch_half_width_m": 0.0446410153770905,
+        "pregrasp_distance_m": 0.055,
+        "pregrasp_targets": [
+          [
+            0.2235734950131812,
+            0.2743636662008169,
+            0.5872924165095931
+          ],
+          [
+            0.19880692571414865,
+            0.3599455703668822,
+            0.593092049261514
+          ]
+        ],
+        "quality": "ok"
+      },
+      "yaw_deg": -5.0
+    },
+    {
+      "accessibility_envelope_blocked_by_scene_proxy": true,
+      "approach_line_closest_scene_geom": {
+        "body": "drawer_base",
+        "geom_id": 5,
+        "geom_name": "drawer_base_collision_1_0.obj",
+        "margin_m": -0.374813527620982
+      },
+      "approach_line_min_scene_margin_m": -0.374813527620982,
+      "base_pos": [
+        -0.84,
+        0.16,
+        -0.04
+      ],
+      "handle_frame": {
+        "approach_normal": [
+          -0.9588977740113649,
+          0.14899800076111067,
+          -0.24148427436427702
+        ],
+        "handle_bar_axis": [
+          0.14448668428716518,
+          0.988837497149654,
+          0.03638684232671181
+        ],
+        "handle_body_names": [
+          "link_2"
+        ],
+        "handle_center": [
+          0.22840186953580008,
+          0.0,
+          0.4767271578308155
+        ],
+        "handle_geom_ids": [
+          34
+        ],
+        "handle_geom_names": [
+          "drawer_handle_collision_1_0.obj"
+        ],
+        "handle_radius_normal_m": 0.034641015377090495,
+        "handle_radius_pinch_m": 0.034641015377090495,
+        "notes": [
+          "bar_axis_from_handle_point_pca"
+        ],
+        "pinch_axis": [
+          0.12148072831383562,
+          0.9846701092144123,
+          0.12516872080522917
+        ],
+        "pull_axis": [
+          0.9999999999999998,
+          -1.4901161193847653e-08,
+          -1.4901161193847653e-08
+        ],
+        "quality": "ok"
+      },
+      "reset_counts": {
+        "forbidden": 0,
+        "handle_nonlegal": 0,
+        "max_contact_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "other": 0,
+        "target": 0
+      },
+      "row_id": "seed012_idx016_base-0.840,0.160,-0.040_yaw-15.0",
+      "seed": 12,
+      "two_pad_frame": {
+        "contact_targets": [
+          [
+            0.18113157397443416,
+            -0.03745424944443059,
+            0.4606008801097616
+          ],
+          [
+            0.19197762009579036,
+            0.05045909752917333,
+            0.4717761976901555
+          ]
+        ],
+        "guarded_targets": [
+          [
+            0.16195361849420686,
+            -0.034474289429208375,
+            0.45577119462247606
+          ],
+          [
+            0.17279966461556306,
+            0.05343905754439555,
+            0.46694651220287
+          ]
+        ],
+        "hold_targets": [
+          [
+            0.18113157397443416,
+            -0.03745424944443059,
+            0.4606008801097616
+          ],
+          [
+            0.19197762009579036,
+            0.05045909752917333,
+            0.4717761976901555
+          ]
+        ],
+        "legal_pad_ids": [
+          98,
+          101
+        ],
+        "pad_assignment": [
+          [
+            98,
+            0
+          ],
+          [
+            101,
+            1
+          ]
+        ],
+        "pad_body_names": [
+          "finger_joint1_tip",
+          "finger_joint2_tip"
+        ],
+        "pad_current_centers": [
+          [
+            -0.37143901059739665,
+            0.05100097049293836,
+            0.32168860467543986
+          ],
+          [
+            -0.3825376410702386,
+            0.13713572402270072,
+            0.32684851126319464
+          ]
+        ],
+        "pad_geom_names": [
+          "finger1_pad_collision",
+          "finger2_pad_collision"
+        ],
+        "pad_radius_m": 0.008,
+        "pinch_half_width_m": 0.0446410153770905,
+        "pregrasp_distance_m": 0.055,
+        "pregrasp_targets": [
+          [
+            0.12839219640380908,
+            -0.029259359402569504,
+            0.44731924501972636
+          ],
+          [
+            0.13923824252516528,
+            0.05865398757103442,
+            0.4584945626001203
+          ]
+        ],
+        "quality": "ok"
+      },
+      "yaw_deg": -15.0
+    },
+    {
+      "accessibility_envelope_blocked_by_scene_proxy": true,
+      "approach_line_closest_scene_geom": {
+        "body": "drawer_base",
+        "geom_id": 5,
+        "geom_name": "drawer_base_collision_1_0.obj",
+        "margin_m": -0.37584387440123157
+      },
+      "approach_line_min_scene_margin_m": -0.37584387440123157,
+      "base_pos": [
+        -0.78,
+        -0.08,
+        0.04
+      ],
+      "handle_frame": {
+        "approach_normal": [
+          -0.9842937711461076,
+          -0.11740866573691777,
+          -0.13183693447911612
+        ],
+        "handle_bar_axis": [
+          -0.1163694662603737,
+          0.9930836848976409,
+          -0.015586600411861471
+        ],
+        "handle_body_names": [
+          "link_2"
+        ],
+        "handle_center": [
+          0.22840186953580008,
+          0.0,
+          0.4767271578308155
+        ],
+        "handle_geom_ids": [
+          34
+        ],
+        "handle_geom_names": [
+          "drawer_handle_collision_1_0.obj"
+        ],
+        "handle_radius_normal_m": 0.034641015377090495,
+        "handle_radius_pinch_m": 0.034641015377090495,
+        "notes": [
+          "bar_axis_from_handle_point_pca"
+        ],
+        "pinch_axis": [
+          -0.1290367408222062,
+          0.9881263185281992,
+          0.08340202725288294
+        ],
+        "pull_axis": [
+          0.9999999999999998,
+          -1.4901161193847653e-08,
+          -1.4901161193847653e-08
+        ],
+        "quality": "ok"
+      },
+      "reset_counts": {
+        "forbidden": 0,
+        "handle_nonlegal": 0,
+        "max_contact_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "other": 0,
+        "target": 0
+      },
+      "row_id": "seed012_idx017_base-0.780,-0.080,0.040_yaw-5.0",
+      "seed": 12,
+      "two_pad_frame": {
+        "contact_targets": [
+          [
+            0.19120662106489214,
+            -0.04923479556675367,
+            0.4672505089648674
+          ],
+          [
+            0.17968595880238467,
+            0.038987128793096654,
+            0.47469681132702035
+          ]
+        ],
+        "guarded_targets": [
+          [
+            0.17152074564196998,
+            -0.051582968881492025,
+            0.4646137702752851
+          ],
+          [
+            0.1600000833794625,
+            0.0366389554783583,
+            0.47206007263743804
+          ]
+        ],
+        "hold_targets": [
+          [
+            0.19120662106489214,
+            -0.04923479556675367,
+            0.4672505089648674
+          ],
+          [
+            0.17968595880238467,
+            0.038987128793096654,
+            0.47469681132702035
+          ]
+        ],
+        "legal_pad_ids": [
+          98,
+          101
+        ],
+        "pad_assignment": [
+          [
+            98,
+            0
+          ],
+          [
+            101,
+            1
+          ]
+        ],
+        "pad_body_names": [
+          "finger_joint1_tip",
+          "finger_joint2_tip"
+        ],
+        "pad_current_centers": [
+          [
+            -0.2996300132728162,
+            -0.10597816535387641,
+            0.4016886046754397
+          ],
+          [
+            -0.32551720155824276,
+            -0.023079257962521207,
+            0.4068485112631946
+          ]
+        ],
+        "pad_geom_names": [
+          "finger1_pad_collision",
+          "finger2_pad_collision"
+        ],
+        "pad_radius_m": 0.008,
+        "pinch_half_width_m": 0.0446410153770905,
+        "pregrasp_distance_m": 0.055,
+        "pregrasp_targets": [
+          [
+            0.1370704636518562,
+            -0.05569227218228415,
+            0.459999477568516
+          ],
+          [
+            0.12554980138934874,
+            0.032529652177566176,
+            0.46744577993066894
+          ]
+        ],
+        "quality": "ok"
+      },
+      "yaw_deg": -5.0
+    },
+    {
+      "accessibility_envelope_blocked_by_scene_proxy": true,
+      "approach_line_closest_scene_geom": {
+        "body": "drawer_base",
+        "geom_id": 5,
+        "geom_name": "drawer_base_collision_1_0.obj",
+        "margin_m": -0.37463201395327844
+      },
+      "approach_line_min_scene_margin_m": -0.37463201395327844,
+      "base_pos": [
+        -0.78,
+        -0.08,
+        0.08
+      ],
+      "handle_frame": {
+        "approach_normal": [
+          -0.9912033265632462,
+          -0.11823285228177106,
+          -0.05947233013151338
+        ],
+        "handle_bar_axis": [
+          -0.12234707207327333,
+          0.9899384566562571,
+          0.07108478028470523
+        ],
+        "handle_body_names": [
+          "link_2"
+        ],
+        "handle_center": [
+          0.22840186953580008,
+          0.0,
+          0.4767271578308155
+        ],
+        "handle_geom_ids": [
+          34
+        ],
+        "handle_geom_names": [
+          "drawer_handle_collision_1_0.obj"
+        ],
+        "handle_radius_normal_m": 0.034641015377090495,
+        "handle_radius_pinch_m": 0.034641015377090495,
+        "notes": [
+          "bar_axis_from_handle_point_pca",
+          "bar_axis_stabilized_from_current_pad_span"
+        ],
+        "pinch_axis": [
+          -0.12234707207327333,
+          0.9899384566562571,
+          0.07108478028470523
+        ],
+        "pull_axis": [
+          0.9999999999999998,
+          -1.4901161193847653e-08,
+          -1.4901161193847653e-08
+        ],
+        "quality": "ok"
+      },
+      "reset_counts": {
+        "forbidden": 0,
+        "handle_nonlegal": 0,
+        "max_contact_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "other": 0,
+        "target": 0
+      },
+      "row_id": "seed012_idx018_base-0.780,-0.080,0.080_yaw-5.0",
+      "seed": 12,
+      "two_pad_frame": {
+        "contact_targets": [
+          [
+            0.1906064474451952,
+            -0.04935165959047125,
+            0.4709584281872681
+          ],
+          [
+            0.1796830523936652,
+            0.03903205614145917,
+            0.47730502172680134
+          ]
+        ],
+        "guarded_targets": [
+          [
+            0.17078238091393028,
+            -0.051716316636106666,
+            0.4697689815846378
+          ],
+          [
+            0.15985898586240027,
+            0.036667399095823755,
+            0.4761155751241711
+          ]
+        ],
+        "hold_targets": [
+          [
+            0.1906064474451952,
+            -0.04935165959047125,
+            0.4709584281872681
+          ],
+          [
+            0.1796830523936652,
+            0.03903205614145917,
+            0.47730502172680134
+          ]
+        ],
+        "legal_pad_ids": [
+          98,
+          101
+        ],
+        "pad_assignment": [
+          [
+            98,
+            0
+          ],
+          [
+            101,
+            1
+          ]
+        ],
+        "pad_body_names": [
+          "finger_joint1_tip",
+          "finger_joint2_tip"
+        ],
+        "pad_current_centers": [
+          [
+            -0.2996300132728162,
+            -0.10597816535387641,
+            0.4416886046754398
+          ],
+          [
+            -0.32551720155824276,
+            -0.023079257962521207,
+            0.4468485112631947
+          ]
+        ],
+        "pad_geom_names": [
+          "finger1_pad_collision",
+          "finger2_pad_collision"
+        ],
+        "pad_radius_m": 0.008,
+        "pinch_half_width_m": 0.0446410153770905,
+        "pregrasp_distance_m": 0.055,
+        "pregrasp_targets": [
+          [
+            0.13609026448421666,
+            -0.05585446646596866,
+            0.4676874500300348
+          ],
+          [
+            0.12516686943268665,
+            0.03252924926596176,
+            0.4740340435695681
+          ]
+        ],
+        "quality": "ok"
+      },
+      "yaw_deg": -5.0
+    },
+    {
+      "accessibility_envelope_blocked_by_scene_proxy": true,
+      "approach_line_closest_scene_geom": {
+        "body": "drawer_base",
+        "geom_id": 4,
+        "geom_name": "drawer_base_collision_0_1.obj",
+        "margin_m": -0.4576979694355493
+      },
+      "approach_line_min_scene_margin_m": -0.4576979694355493,
+      "base_pos": [
+        -0.78,
+        0.08,
+        0.0
+      ],
+      "handle_frame": {
+        "approach_normal": [
+          -0.9986033096238492,
+          0.023141074567999815,
+          0.04749653330647159
+        ],
+        "handle_bar_axis": [
+          0.02311494361467262,
+          0.9997322094780373,
+          -0.0010994152319453974
+        ],
+        "handle_body_names": [
+          "link_2"
+        ],
+        "handle_center": [
+          0.2901009470222997,
+          0.0,
+          0.3353935927150227
+        ],
+        "handle_geom_ids": [
+          37
+        ],
+        "handle_geom_names": [
+          "drawer_handle_collision_1_0.obj"
+        ],
+        "handle_radius_normal_m": 0.034641015377090495,
+        "handle_radius_pinch_m": 0.034641015377090495,
+        "notes": [
+          "bar_axis_from_handle_point_pca"
+        ],
+        "pinch_axis": [
+          0.025638211815645396,
+          0.9982834588571197,
+          0.05265755280262939
+        ],
+        "pull_axis": [
+          1.0,
+          -7.450580596923828e-09,
+          1.4901161193847656e-08
+        ],
+        "quality": "ok"
+      },
+      "reset_counts": {
+        "forbidden": 0,
+        "handle_nonlegal": 0,
+        "max_contact_force_n": 0.0,
+        "max_penetration_m": 0.0,
+        "other": 0,
+        "target": 0
+      },
+      "row_id": "seed011_idx019_base-0.780,0.080,0.000_yaw-15.0",
+      "seed": 11,
+      "two_pad_frame": {
+        "contact_targets": [
+          [
+            0.2453763688234885,
+            -0.04355448724647129,
+            0.3351157030310268
+          ],
+          [
+            0.2476654004392952,
+            0.04557428722860024,
+            0.3398170762797911
+          ]
+        ],
+        "guarded_targets": [
+          [
+            0.22540430263101152,
+            -0.043091665755111294,
+            0.3360656336971562
+          ],
+          [
+            0.2276933342468182,
+            0.04603710871996024,
+            0.3407670069459205
+          ]
+        ],
+        "hold_targets": [
+          [
+            0.2453763688234885,
+            -0.04355448724647129,
+            0.3351157030310268
+          ],
+          [
+            0.2476654004392952,
+            0.04557428722860024,
+            0.3398170762797911
+          ]
+        ],
+        "legal_pad_ids": [
+          101,
+          104
+        ],
+        "pad_assignment": [
+          [
+            101,
+            0
+          ],
+          [
+            104,
+            1
+          ]
+        ],
+        "pad_body_names": [
+          "finger_joint1_tip",
+          "finger_joint2_tip"
+        ],
+        "pad_current_centers": [
+          [
+            -0.3114390105973967,
+            -0.028999029507061628,
+            0.3616886046754399
+          ],
+          [
+            -0.32253764107023863,
+            0.05713572402270071,
+            0.3668485112631947
+          ]
+        ],
+        "pad_geom_names": [
+          "finger1_pad_collision",
+          "finger2_pad_collision"
+        ],
+        "pad_radius_m": 0.008,
+        "pinch_half_width_m": 0.0446410153770905,
+        "pregrasp_distance_m": 0.055,
+        "pregrasp_targets": [
+          [
+            0.1904531867941768,
+            -0.042281728145231304,
+            0.3377280123628827
+          ],
+          [
+            0.19274221840998348,
+            0.04684704632984023,
+            0.342429385611647
+          ]
+        ],
+        "quality": "ok"
+      },
+      "yaw_deg": -15.0
+    }
+  ],
+  "summary": {
+    "audited_rows": 20,
+    "blocked_envelopes": 20,
+    "blocked_examples": [
+      {
+        "accessibility_envelope_blocked_by_scene_proxy": true,
+        "approach_line_closest_scene_geom": {
+          "body": "drawer_base",
+          "geom_id": 5,
+          "geom_name": "drawer_base_collision_0_2.obj",
+          "margin_m": -0.33606971245616063
+        },
+        "approach_line_min_scene_margin_m": -0.33606971245616063,
+        "base_pos": [
+          -0.9,
+          0.0,
+          -0.04
+        ],
+        "handle_frame": {
+          "approach_normal": [
+            -0.7786842932599581,
+            -0.2095586062439592,
+            -0.5913847833511856
+          ],
+          "handle_bar_axis": [
+            -0.16688550622208212,
+            0.9777960884300414,
+            -0.12674398314677557
+          ],
+          "handle_body_names": [
+            "link_2"
+          ],
+          "handle_center": [
+            0.31230078637630043,
+            0.2994970679280005,
+            0.8974092602726302
+          ],
+          "handle_geom_ids": [
+            35
+          ],
+          "handle_geom_names": [
+            "drawer_handle_collision_1_0.obj"
+          ],
+          "handle_radius_normal_m": 0.034641015377090495,
+          "handle_radius_pinch_m": 0.034641015377090495,
+          "notes": [
+            "bar_axis_from_handle_point_pca"
+          ],
+          "pinch_axis": [
+            -0.3558052451937238,
+            0.9238428537947512,
+            0.14112763366897305
+          ],
+          "pull_axis": [
+            0.9999999999999996,
+            0.0,
+            -2.98023223876953e-08
+          ],
+          "quality": "ok"
+        },
+        "reset_counts": {
+          "forbidden": 0,
+          "handle_nonlegal": 0,
+          "max_contact_force_n": 0.0,
+          "max_penetration_m": 0.0,
+          "other": 0,
+          "target": 0
+        },
+        "row_id": "seed002_idx000_base-0.900,0.000,-0.040_yaw5.0",
+        "seed": 2,
+        "two_pad_frame": {
+          "contact_targets": [
+            [
+              0.29420172058218624,
+              0.2491104345282396,
+              0.8653005469838748
+            ],
+            [
+              0.26243470573830124,
+              0.3315930006127729,
+              0.8779007087133728
+            ]
+          ],
+          "guarded_targets": [
+            [
+              0.2786280347169871,
+              0.24491926240336043,
+              0.8534728513168511
+            ],
+            [
+              0.24686101987310208,
+              0.32740182848789373,
+              0.8660730130463491
+            ]
+          ],
+          "hold_targets": [
+            [
+              0.29420172058218624,
+              0.2491104345282396,
+              0.8653005469838748
+            ],
+            [
+              0.26243470573830124,
+              0.3315930006127729,
+              0.8779007087133728
+            ]
+          ],
+          "legal_pad_ids": [
+            99,
+            102
+          ],
+          "pad_assignment": [
+            [
+              99,
+              0
+            ],
+            [
+              102,
+              1
+            ]
+          ],
+          "pad_body_names": [
+            "finger_joint1_tip",
+            "finger_joint2_tip"
+          ],
+          "pad_current_centers": [
+            [
+              -0.42241676439726566,
+              0.057831153322851304,
+              0.3216886046754398
+            ],
+            [
+              -0.4623057958877088,
+              0.1349754371730501,
+              0.32684851126319475
+            ]
+          ],
+          "pad_geom_names": [
+            "finger1_pad_collision",
+            "finger2_pad_collision"
+          ],
+          "pad_radius_m": 0.008,
+          "pinch_half_width_m": 0.0446410153770905,
+          "pregrasp_distance_m": 0.055,
+          "pregrasp_targets": [
+            [
+              0.25137408445288856,
+              0.23758471118482186,
+              0.8327743838995596
+            ],
+            [
+              0.21960706960900356,
+              0.32006727726935513,
+              0.8453745456290576
+            ]
+          ],
+          "quality": "ok"
+        },
+        "yaw_deg": 5.0
+      },
+      {
+        "accessibility_envelope_blocked_by_scene_proxy": true,
+        "approach_line_closest_scene_geom": {
+          "body": "drawer_base",
+          "geom_id": 5,
+          "geom_name": "drawer_base_collision_0_2.obj",
+          "margin_m": -0.3314914488111078
+        },
+        "approach_line_min_scene_margin_m": -0.3314914488111078,
+        "base_pos": [
+          -0.9,
+          -0.08,
+          -0.04
+        ],
+        "handle_frame": {
+          "approach_normal": [
+            -0.7839593346612429,
+            0.1606710130365448,
+            -0.5996603931954416
+          ],
+          "handle_bar_axis": [
+            0.1276175454640397,
+            0.9870080169734239,
+            0.09761627179893381
+          ],
+          "handle_body_names": [
+            "link_1"
+          ],
+          "handle_center": [
+            0.31230078637630043,
+            -0.29949706792800046,
+            0.8974092602726302
+          ],
+          "handle_geom_ids": [
+            22
+          ],
+          "handle_geom_names": [
+            "drawer_handle_collision_0_0.obj"
+          ],
+          "handle_radius_normal_m": 0.034641015377090495,
+          "handle_radius_pinch_m": 0.034641015377090495,
+          "notes": [
+            "bar_axis_from_handle_point_pca"
+          ],
+          "pinch_axis": [
+            0.04889539623678453,
+            0.9789083315628601,
+            0.19836259381159912
+          ],
+          "pull_axis": [
+            0.9999999999999996,
+            0.0,
+            -2.98023223876953e-08
+          ],
+          "quality": "ok"
+        },
+        "reset_counts": {
+          "forbidden": 0,
+          "handle_nonlegal": 0,
+          "max_contact_force_n": 0.0,
+          "max_penetration_m": 0.0,
+          "other": 0,
+          "target": 0
+        },
+        "row_id": "seed002_idx001_base-0.900,-0.080,-0.040_yaw-15.0",
+        "seed": 2,
+        "two_pad_frame": {
+          "contact_targets": [
+            [
+              0.27590526486206024,
+              -0.33618468365947957,
+              0.8623843642315727
+            ],
+            [
+              0.28027074513261074,
+              -0.24878575989536028,
+              0.880094579432739
+            ]
+          ],
+          "guarded_targets": [
+            [
+              0.26022607816883536,
+              -0.33297126339874866,
+              0.8503911563676639
+            ],
+            [
+              0.26459155843938587,
+              -0.24557233963462938,
+              0.8681013715688303
+            ]
+          ],
+          "hold_targets": [
+            [
+              0.27590526486206024,
+              -0.33618468365947957,
+              0.8623843642315727
+            ],
+            [
+              0.28027074513261074,
+              -0.24878575989536028,
+              0.880094579432739
+            ]
+          ],
+          "legal_pad_ids": [
+            99,
+            102
+          ],
+          "pad_assignment": [
+            [
+              99,
+              0
+            ],
+            [
+              102,
+              1
+            ]
+          ],
+          "pad_body_names": [
+            "finger_joint1_tip",
+            "finger_joint2_tip"
+          ],
+          "pad_current_centers": [
+            [
+              -0.4314390105973967,
+              -0.18899902950706166,
+              0.32168860467543986
+            ],
+            [
+              -0.44253764107023863,
+              -0.10286427597729932,
+              0.32684851126319464
+            ]
+          ],
+          "pad_geom_names": [
+            "finger1_pad_collision",
+            "finger2_pad_collision"
+          ],
+          "pad_radius_m": 0.008,
+          "pinch_half_width_m": 0.0446410153770905,
+          "pregrasp_distance_m": 0.055,
+          "pregrasp_targets": [
+            [
+              0.23278750145569188,
+              -0.3273477779424696,
+              0.8294030426058234
+            ],
+            [
+              0.23715298172624238,
+              -0.23994885417835032,
+              0.8471132578069898
+            ]
+          ],
+          "quality": "ok"
+        },
+        "yaw_deg": -15.0
+      },
+      {
+        "accessibility_envelope_blocked_by_scene_proxy": true,
+        "approach_line_closest_scene_geom": {
+          "body": "drawer_base",
+          "geom_id": 5,
+          "geom_name": "drawer_base_collision_0_2.obj",
+          "margin_m": -0.33610610581353434
+        },
+        "approach_line_min_scene_margin_m": -0.33610610581353434,
+        "base_pos": [
+          -0.9,
+          0.08,
+          -0.04
+        ],
+        "handle_frame": {
+          "approach_normal": [
+            -0.7745025035266073,
+            -0.21214110511851023,
+            -0.5959379359884003
+          ],
+          "handle_bar_axis": [
+            -0.16813063069616777,
+            0.9772390452284933,
+            -0.12936745921062096
+          ],
+          "handle_body_names": [
+            "link_2"
+          ],
+          "handle_center": [
+            0.31230078637630043,
+            0.2994970679280005,
+            0.8974092602726302
+          ],
+          "handle_geom_ids": [
+            35
+          ],
+          "handle_geom_names": [
+            "drawer_handle_collision_1_0.obj"
+          ],
+          "handle_radius_normal_m": 0.034641015377090495,
+          "handle_radius_pinch_m": 0.034641015377090495,
+          "notes": [
+            "bar_axis_from_handle_point_pca"
+          ],
+          "pinch_axis": [
+            -0.3030056622125756,
+            0.951393285512522,
+            0.0551215470465702
+          ],
+          "pull_axis": [
+            0.9999999999999996,
+            0.0,
+            -2.98023223876953e-08
+          ],
+          "quality": "ok"
+        },
+        "reset_counts": {
+          "forbidden": 0,
+          "handle_nonlegal": 0,
+          "max_contact_force_n": 0.0,
+          "max_penetration_m": 0.0,
+          "other": 0,
+          "target": 0
+        },
+        "row_id": "seed002_idx002_base-0.900,0.080,-0.040_yaw-5.0",
+        "seed": 2,
+        "two_pad_frame": {
+          "contact_targets": [
+            [
+              0.2920271911364778,
+              0.2477678524091855,
+              0.8689412418150539
+            ],
+            [
+              0.2649742302841236,
+              0.33271017698563576,
+              0.8738626054736838
+            ]
+          ],
+          "guarded_targets": [
+            [
+              0.2765371410659456,
+              0.2435250303068153,
+              0.857022483095286
+            ],
+            [
+              0.24948418021359145,
+              0.32846735488326556,
+              0.8619438467539158
+            ]
+          ],
+          "hold_targets": [
+            [
+              0.2920271911364778,
+              0.2477678524091855,
+              0.8689412418150539
+            ],
+            [
+              0.2649742302841236,
+              0.33271017698563576,
+              0.8738626054736838
+            ]
+          ],
+          "legal_pad_ids": [
+            99,
+            102
+          ],
+          "pad_assignment": [
+            [
+              99,
+              0
+            ],
+            [
+              102,
+              1
+            ]
+          ],
+          "pad_body_names": [
+            "finger_joint1_tip",
+            "finger_joint2_tip"
+          ],
+          "pad_current_centers": [
+            [
+              -0.41963001327281607,
+              0.05402183464612358,
+              0.3216886046754398
+            ],
+            [
+              -0.44551720155824265,
+              0.13692074203747875,
+              0.3268485112631947
+            ]
+          ],
+          "pad_geom_names": [
+            "finger1_pad_collision",
+            "finger2_pad_collision"
+          ],
+          "pad_radius_m": 0.008,
+          "pinch_half_width_m": 0.0446410153770905,
+          "pregrasp_distance_m": 0.055,
+          "pregrasp_targets": [
+            [
+              0.24942955344251438,
+              0.23610009162766743,
+              0.836164655335692
+            ],
+            [
+              0.22237659259016018,
+              0.3210424162041177,
+              0.8410860189943218
+            ]
+          ],
+          "quality": "ok"
+        },
+        "yaw_deg": -5.0
+      },
+      {
+        "accessibility_envelope_blocked_by_scene_proxy": true,
+        "approach_line_closest_scene_geom": {
+          "body": "drawer_base",
+          "geom_id": 5,
+          "geom_name": "drawer_base_collision_1_0.obj",
+          "margin_m": -0.4183427062618865
+        },
+        "approach_line_min_scene_margin_m": -0.4183427062618865,
+        "base_pos": [
+          -0.72,
+          0.08,
+          0.08
+        ],
+        "handle_frame": {
+          "approach_normal": [
+            -0.9935973713103773,
+            0.026744960088886778,
+            -0.10976780418206408
+          ],
+          "handle_bar_axis": [
+            0.0265832311389863,
+            0.9996422895765483,
+            0.0029367860608794675
+          ],
+          "handle_body_names": [
+            "link_1"
+          ],
+          "handle_center": [
+            0.26566240191430046,
+            0.0,
+            0.5020084679123232
+          ],
+          "handle_geom_ids": [
+            20
+          ],
+          "handle_geom_names": [
+            "drawer_handle_collision_0_0.obj"
+          ],
+          "handle_radius_normal_m": 0.034641015377090495,
+          "handle_radius_pinch_m": 0.034641015377090495,
+          "notes": [
+            "bar_axis_from_handle_point_pca"
+          ],
+          "pinch_axis": [
+            0.018411785678360555,
+            0.9969195081623189,
+            0.07623975599078452
+          ],
+          "pull_axis": [
+            1.0,
+            0.0,
+            0.0
+          ],
+          "quality": "ok"
+        },
+        "reset_counts": {
+          "forbidden": 0,
+          "handle_nonlegal": 0,
+          "max_contact_force_n": 168.8971115495454,
+          "max_penetration_m": 0.00591008152525499,
+          "other": 1,
+          "target": 0
+        },
+        "row_id": "seed007_idx003_base-0.720,0.080,0.080_yaw-15.0",
+        "seed": 7,
+        "two_pad_frame": {
+          "contact_targets": [
+            [
+              0.22147888294672022,
+              -0.04333632187909679,
+              0.49381466936257407
+            ],
+            [
+              0.223122724561895,
+              0.04567067630809435,
+              0.5006215096016345
+            ]
+          ],
+          "guarded_targets": [
+            [
+              0.20160693552051268,
+              -0.042801422677319054,
+              0.49161931327893277
+            ],
+            [
+              0.20325077713568745,
+              0.04620557550987209,
+              0.49842615351799324
+            ]
+          ],
+          "hold_targets": [
+            [
+              0.22147888294672022,
+              -0.04333632187909679,
+              0.49381466936257407
+            ],
+            [
+              0.223122724561895,
+              0.04567067630809435,
+              0.5006215096016345
+            ]
+          ],
+          "legal_pad_ids": [
+            84,
+            87
+          ],
+          "pad_assignment": [
+            [
+              84,
+              0
+            ],
+            [
+              87,
+              1
+            ]
+          ],
+          "pad_body_names": [
+            "finger_joint1_tip",
+            "finger_joint2_tip"
+          ],
+          "pad_current_centers": [
+            [
+              -0.2514390105973967,
+              -0.028999029507061628,
+              0.44168860467543974
+            ],
+            [
+              -0.2625376410702387,
+              0.05713572402270071,
+              0.4468485112631946
+            ]
+          ],
+          "pad_geom_names": [
+            "finger1_pad_collision",
+            "finger2_pad_collision"
+          ],
+          "pad_radius_m": 0.008,
+          "pinch_half_width_m": 0.0446410153770905,
+          "pregrasp_distance_m": 0.055,
+          "pregrasp_targets": [
+            [
+              0.16683102752464946,
+              -0.04186534907420802,
+              0.4877774401325605
+            ],
+            [
+              0.16847486913982423,
+              0.047141649112983124,
+              0.494584280371621
+            ]
+          ],
+          "quality": "ok"
+        },
+        "yaw_deg": -15.0
+      },
+      {
+        "accessibility_envelope_blocked_by_scene_proxy": true,
+        "approach_line_closest_scene_geom": {
+          "body": "drawer_base",
+          "geom_id": 5,
+          "geom_name": "drawer_base_collision_1_0.obj",
+          "margin_m": -0.4167443088043305
+        },
+        "approach_line_min_scene_margin_m": -0.4167443088043305,
+        "base_pos": [
+          -0.72,
+          0.08,
+          0.04
+        ],
+        "handle_frame": {
+          "approach_normal": [
+            -0.9826157756384947,
+            0.026449365166398755,
+            -0.1837570911520257
+          ],
+          "handle_bar_axis": [
+            0.025998658986004723,
+            0.9996501543451561,
+            0.004861959341144678
+          ],
+          "handle_body_names": [
+            "link_1"
+          ],
+          "handle_center": [
+            0.26566240191430046,
+            0.0,
+            0.5020084679123232
+          ],
+          "handle_geom_ids": [
+            20
+          ],
+          "handle_geom_names": [
+            "drawer_handle_collision_0_0.obj"
+          ],
+          "handle_radius_normal_m": 0.034641015377090495,
+          "handle_radius_pinch_m": 0.034641015377090495,
+          "notes": [
+            "bar_axis_from_handle_point_pca"
+          ],
+          "pinch_axis": [
+            0.010731843517166634,
+            0.996236659087767,
+            0.08600782885509675
+          ],
+          "pull_axis": [
+            1.0,
+            0.0,
+            0.0
+          ],
+          "quality": "ok"
+        },
+        "reset_counts": {
+          "forbidden": 0,
+          "handle_nonlegal": 0,
+          "max_contact_force_n": 168.89711154954523,
+          "max_penetration_m": 0.00591008152525499,
+          "other": 1,
+          "target": 0
+        },
+        "row_id": "seed007_idx004_base-0.720,0.080,0.040_yaw-15.0",
+        "seed": 7,
+        "two_pad_frame": {
+          "contact_targets": [
+            [
+              0.22230097134841484,
+              -0.043318738865617185,
+              0.4901496450612377
+            ],
+            [
+              0.22325913213136359,
+              0.04562729316949936,
+              0.49782859868217877
+            ]
+          ],
+          "guarded_targets": [
+            [
+              0.20264865583564495,
+              -0.04278975156228921,
+              0.4864745032381972
+            ],
+            [
+              0.2036068166185937,
+              0.046156280472827334,
+              0.49415345685913825
+            ]
+          ],
+          "hold_targets": [
+            [
+              0.22230097134841484,
+              -0.043318738865617185,
+              0.4901496450612377
+            ],
+            [
+              0.22325913213136359,
+              0.04562729316949936,
+              0.49782859868217877
+            ]
+          ],
+          "legal_pad_ids": [
+            84,
+            87
+          ],
+          "pad_assignment": [
+            [
+              84,
+              0
+            ],
+            [
+              87,
+              1
+            ]
+          ],
+          "pad_body_names": [
+            "finger_joint1_tip",
+            "finger_joint2_tip"
+          ],
+          "pad_current_centers": [
+            [
+              -0.2514390105973967,
+              -0.028999029507061628,
+              0.4016886046754397
+            ],
+            [
+              -0.2625376410702387,
+              0.05713572402270071,
+              0.40684851126319455
+            ]
+          ],
+          "pad_geom_names": [
+            "finger1_pad_collision",
+            "finger2_pad_collision"
+          ],
+          "pad_radius_m": 0.008,
+          "pinch_half_width_m": 0.0446410153770905,
+          "pregrasp_distance_m": 0.055,
+          "pregrasp_targets": [
+            [
+              0.16825710368829763,
+              -0.041864023781465254,
+              0.4800430050478763
+            ],
+            [
+              0.16921526447124638,
+              0.04708200825365129,
+              0.48772195866881735
+            ]
+          ],
+          "quality": "ok"
+        },
+        "yaw_deg": -15.0
+      },
+      {
+        "accessibility_envelope_blocked_by_scene_proxy": true,
+        "approach_line_closest_scene_geom": {
+          "body": "drawer_base",
+          "geom_id": 5,
+          "geom_name": "drawer_base_collision_1_0.obj",
+          "margin_m": -0.4129875949091624
+        },
+        "approach_line_min_scene_margin_m": -0.4129875949091624,
+        "base_pos": [
+          -0.72,
+          0.0,
+          0.0
+        ],
+        "handle_frame": {
+          "approach_normal": [
+            -0.9598682475583736,
+            -0.12108602670264217,
+            -0.25296466446241805
+          ],
+          "handle_bar_axis": [
+            -0.11708816496903104,
+            0.9926420171125979,
+            -0.03085753533284778
+          ],
+          "handle_body_names": [
+            "link_1"
+          ],
+          "handle_center": [
+            0.26566240191430046,
+            0.0,
+            0.5020084679123232
+          ],
+          "handle_geom_ids": [
+            20
+          ],
+          "handle_geom_names": [
+            "drawer_handle_collision_0_0.obj"
+          ],
+          "handle_radius_normal_m": 0.034641015377090495,
+          "handle_radius_pinch_m": 0.034641015377090495,
+          "notes": [
+            "bar_axis_from_handle_point_pca"
+          ],
+          "pinch_axis": [
+            -0.13951634210419847,
+            0.9886254703164189,
+            0.056168227028310404
+          ],
+          "pull_axis": [
+            1.0,
+            0.0,
+            0.0
+          ],
+          "quality": "ok"
+        },
+        "reset_counts": {
+          "forbidden": 0,
+          "handle_nonlegal": 0,
+          "max_contact_force_n": 168.89711154954574,
+          "max_penetration_m": 0.00591008152525499,
+          "other": 1,
+          "target": 0
+        },
+        "row_id": "seed007_idx005_base-0.720,0.000,0.000_yaw-15.0",
+        "seed": 7,
+        "two_pad_frame": {
+          "contact_targets": [
+            [
+              0.23000092813585352,
+              -0.04941756197585938,
+              0.4884614264141836
+            ],
+            [
+              0.21754462578939562,
+              0.03884892766929779,
+              0.493476239787133
+            ]
+          ],
+          "guarded_targets": [
+            [
+              0.21080356318468604,
+              -0.051839282509912224,
+              0.48340213312493524
+            ],
+            [
+              0.19834726083822815,
+              0.03642720713524494,
+              0.48841694649788464
+            ]
+          ],
+          "hold_targets": [
+            [
+              0.23000092813585352,
+              -0.04941756197585938,
+              0.4884614264141836
+            ],
+            [
+              0.21754462578939562,
+              0.03884892766929779,
+              0.493476239787133
+            ]
+          ],
+          "legal_pad_ids": [
+            84,
+            87
+          ],
+          "pad_assignment": [
+            [
+              84,
+              0
+            ],
+            [
+              87,
+              1
+            ]
+          ],
+          "pad_body_names": [
+            "finger_joint1_tip",
+            "finger_joint2_tip"
+          ],
+          "pad_current_centers": [
+            [
+              -0.2514390105973967,
+              -0.10899902950706163,
+              0.3616886046754399
+            ],
+            [
+              -0.2625376410702387,
+              -0.022864275977299293,
+              0.3668485112631947
+            ]
+          ],
+          "pad_geom_names": [
+            "finger1_pad_collision",
+            "finger2_pad_collision"
+          ],
+          "pad_radius_m": 0.008,
+          "pinch_half_width_m": 0.0446410153770905,
+          "pregrasp_distance_m": 0.055,
+          "pregrasp_targets": [
+            [
+              0.17720817452014298,
+              -0.0560772934445047,
+              0.4745483698687506
+            ],
+            [
+              0.1647518721736851,
+              0.03218919620065247,
+              0.4795631832417
+            ]
+          ],
+          "quality": "ok"
+        },
+        "yaw_deg": -15.0
+      },
+      {
+        "accessibility_envelope_blocked_by_scene_proxy": true,
+        "approach_line_closest_scene_geom": {
+          "body": "link_1",
+          "geom_id": 12,
+          "geom_name": "drawer_door_collision_0_2.obj",
+          "margin_m": -0.6983377266535972
+        },
+        "approach_line_min_scene_margin_m": -0.6983377266535972,
+        "base_pos": [
+          -0.84,
+          0.08,
+          0.08
+        ],
+        "handle_frame": {
+          "approach_normal": [
+            -0.9788820704911418,
+            0.13032048692061088,
+            0.15750067542633012
+          ],
+          "handle_bar_axis": [
+            0.12866565893205703,
+            0.9914719212810693,
+            -0.020702113969464253
+          ],
+          "handle_body_names": [
+            "link_1"
+          ],
+          "handle_center": [
+            0.3445441275835001,
+            0.0,
+            0.3288853764530007
+          ],
+          "handle_geom_ids": [
+            19
+          ],
+          "handle_geom_names": [
+            "drawer_handle_collision_0_0.obj"
+          ],
+          "handle_radius_normal_m": 0.034641015377090495,
+          "handle_radius_pinch_m": 0.034641015377090495,
+          "notes": [
+            "bar_axis_from_handle_point_pca"
+          ],
+          "pinch_axis": [
+            0.13063642739825435,
+            0.9913948430246011,
+            -0.00838981888047674
+          ],
+          "pull_axis": [
+            1.0,
+            0.0,
+            0.0
+          ],
+          "quality": "ok"
+        },
+        "reset_counts": {
+          "forbidden": 0,
+          "handle_nonlegal": 0,
+          "max_contact_force_n": 0.0,
+          "max_penetration_m": 0.0,
+          "other": 0,
+          "target": 0
+        },
+        "row_id": "seed015_idx006_base-0.840,0.080,0.080_yaw-5.0",
+        "seed": 15,
+        "two_pad_frame": {
+          "contact_targets": [
+            [
+              0.29599297732854435,
+              -0.038569554058577135,
+              0.33613339588483765
+            ],
+            [
+              0.30765646285713166,
+              0.049944190805881736,
+              0.33538433581752897
+            ]
+          ],
+          "guarded_targets": [
+            [
+              0.2764153359187215,
+              -0.03596314432016492,
+              0.33928340939336427
+            ],
+            [
+              0.28807882144730884,
+              0.05255060054429395,
+              0.3385343493260556
+            ]
+          ],
+          "hold_targets": [
+            [
+              0.29599297732854435,
+              -0.038569554058577135,
+              0.33613339588483765
+            ],
+            [
+              0.30765646285713166,
+              0.049944190805881736,
+              0.33538433581752897
+            ]
+          ],
+          "legal_pad_ids": [
+            83,
+            86
+          ],
+          "pad_assignment": [
+            [
+              83,
+              0
+            ],
+            [
+              86,
+              1
+            ]
+          ],
+          "pad_body_names": [
+            "finger_joint1_tip",
+            "finger_joint2_tip"
+          ],
+          "pad_current_centers": [
+            [
+              -0.35963001327281624,
+              0.05402183464612358,
+              0.4416886046754398
+            ],
+            [
+              -0.3855172015582428,
+              0.13692074203747875,
+              0.4468485112631947
+            ]
+          ],
+          "pad_geom_names": [
+            "finger1_pad_collision",
+            "finger2_pad_collision"
+          ],
+          "pad_radius_m": 0.008,
+          "pinch_half_width_m": 0.0446410153770905,
+          "pregrasp_distance_m": 0.055,
+          "pregrasp_targets": [
+            [
+              0.24215446345153155,
+              -0.03140192727794354,
+              0.3447959330332858
+            ],
+            [
+              0.2538179489801189,
+              0.05711181758651533,
+              0.34404687296597714
+            ]
+          ],
+          "quality": "ok"
+        },
+        "yaw_deg": -5.0
+      },
+      {
+        "accessibility_envelope_blocked_by_scene_proxy": true,
+        "approach_line_closest_scene_geom": {
+          "body": "link_1",
+          "geom_id": 12,
+          "geom_name": "drawer_door_collision_0_2.obj",
+          "margin_m": -0.7006676452494817
+        },
+        "approach_line_min_scene_margin_m": -0.7006676452494817,
+        "base_pos": [
+          -0.84,
+          0.08,
+          0.04
+        ],
+        "handle_frame": {
+          "approach_normal": [
+            -0.9859160901639537,
+            0.13125693973387986,
+            0.10363917660575903
+          ],
+          "handle_bar_axis": [
+            0.13369469073043197,
+            0.9908783625925457,
+            0.01690562676772226
+          ],
+          "handle_body_names": [
+            "link_1"
+          ],
+          "handle_center": [
+            0.3445441275835001,
+            0.0,
+            0.3288853764530007
+          ],
+          "handle_geom_ids": [
+            19
+          ],
+          "handle_geom_names": [
+            "drawer_handle_collision_0_0.obj"
+          ],
+          "handle_radius_normal_m": 0.034641015377090495,
+          "handle_radius_pinch_m": 0.034641015377090495,
+          "notes": [
+            "bar_axis_from_handle_point_pca",
+            "bar_axis_stabilized_from_current_pad_span"
+          ],
+          "pinch_axis": [
+            0.13369469073043197,
+            0.9908783625925457,
+            0.01690562676772226
+          ],
+          "pull_axis": [
+            1.0,
+            0.0,
+            0.0
+          ],
+          "quality": "ok"
+        },
+        "reset_counts": {
+          "forbidden": 0,
+          "handle_nonlegal": 0,
+          "max_contact_force_n": 0.0,
+          "max_penetration_m": 0.0,
+          "other": 0,
+          "target": 0
+        },
+        "row_id": "seed015_idx007_base-0.840,0.080,0.040_yaw-5.0",
+        "seed": 15,
+        "two_pad_frame": {
+          "contact_targets": [
+            [
+              0.2955494815874015,
+              -0.03850563009604399,
+              0.33265361100842433
+            ],
+            [
+              0.3074860150768666,
+              0.049962002346596174,
+              0.33416297969741887
+            ]
+          ],
+          "guarded_targets": [
+            [
+              0.2758311597841224,
+              -0.03588049130136639,
+              0.33472639454053954
+            ],
+            [
+              0.28776769327358753,
+              0.052587141141273774,
+              0.3362357632295341
+            ]
+          ],
+          "hold_targets": [
+            [
+              0.2955494815874015,
+              -0.03850563009604399,
+              0.33265361100842433
+            ],
+            [
+              0.3074860150768666,
+              0.049962002346596174,
+              0.33416297969741887
+            ]
+          ],
+          "legal_pad_ids": [
+            83,
+            86
+          ],
+          "pad_assignment": [
+            [
+              83,
+              0
+            ],
+            [
+              86,
+              1
+            ]
+          ],
+          "pad_body_names": [
+            "finger_joint1_tip",
+            "finger_joint2_tip"
+          ],
+          "pad_current_centers": [
+            [
+              -0.35963001327281624,
+              0.05402183464612358,
+              0.4016886046754397
+            ],
+            [
+              -0.3855172015582428,
+              0.13692074203747875,
+              0.4068485112631946
+            ]
+          ],
+          "pad_geom_names": [
+            "finger1_pad_collision",
+            "finger2_pad_collision"
+          ],
+          "pad_radius_m": 0.008,
+          "pinch_half_width_m": 0.0446410153770905,
+          "pregrasp_distance_m": 0.055,
+          "pregrasp_targets": [
+            [
+              0.24132409662838405,
+              -0.0312864984106806,
+              0.3383537657217411
+            ],
+            [
+              0.25326063011784916,
+              0.05718113403195957,
+              0.3398631344107356
+            ]
+          ],
+          "quality": "ok"
+        },
+        "yaw_deg": -5.0
+      }
+    ],
+    "handle_accessibility_audited": true,
+    "min_approach_line_margin_m": -0.7022752972586556
+  }
+}

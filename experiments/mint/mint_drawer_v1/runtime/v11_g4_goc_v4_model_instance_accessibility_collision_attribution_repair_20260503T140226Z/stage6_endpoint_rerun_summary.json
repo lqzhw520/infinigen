@@ -1,0 +1,7 @@
+{
+  "attempted": false,
+  "endpoint_feasible_after_repair": false,
+  "feasible_case_count": 0,
+  "feasible_seed_count": 0,
+  "reason": "no_safe_source_patch_identified_from_pair_attribution"
+}

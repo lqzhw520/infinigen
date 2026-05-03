@@ -1,0 +1,19 @@
+{
+  "MINT_training_allowed": false,
+  "claim": "P0 model-instance accessibility and collision-pair attribution only; no teacher rollout/render/train success",
+  "closeout_classification": "FORBIDDEN_COLLISION_PROXY_POLICY_REPAIR_REQUIRED",
+  "current_truth_direct_mutation": false,
+  "dominant_blocker": "BROAD_PROXY_COLLISION_POLICY",
+  "dominant_offending_pair_classes": {
+    "broad_hand_wrist_proxy_scene_collision": 620,
+    "pad_drawer_body_or_cabinet_non_target_contact": 46,
+    "physical_arm_link_scene_collision": 18
+  },
+  "endpoint_feasible_after_repair": false,
+  "generated_at_utc": "2026-05-03T14:09:13Z",
+  "next_actions_direct_mutation": false,
+  "next_gate": "SAFE_COLLISION_PROXY_POLICY_REPAIR_WITH_VISUAL_PHYSICAL_CONSISTENCY_GUARD",
+  "run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_instance_accessibility_collision_attribution_repair_20260503T140226Z",
+  "safe_source_repair_identified": false,
+  "task_id": "V11_G4_GOC_V4_MODEL_INSTANCE_ACCESSIBILITY_AND_COLLISION_ATTRIBUTION_REPAIR_OVERNIGHT_V1"
+}

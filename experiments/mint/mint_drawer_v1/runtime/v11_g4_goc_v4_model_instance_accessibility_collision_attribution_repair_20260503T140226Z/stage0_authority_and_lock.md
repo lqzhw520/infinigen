@@ -1,0 +1,19 @@
+# Stage 0 Authority And Lock
+
+{
+  "attestation_file_blobs_verified": true,
+  "attestation_origin_verified": true,
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "generated_at_utc": "2026-05-03T14:08:44Z",
+  "harness_status": "production_ready",
+  "head": "432474931d77814bf7b4b567d178eabc17efd7a1",
+  "lock_task_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_model_instance_accessibility_and_collision_attribution_repair_overnight.yaml",
+  "lock_task_spec_hash": "08f566a0f07cfeae3affd10b2a222d9d61768ef3",
+  "pwd": "/mnt/afs2/zhuhaowu/infinigen",
+  "remote_v": "my-origin\tgit@github.com:lqzhw520/infinigen.git (fetch)\nmy-origin\tgit@github.com:lqzhw520/infinigen.git (push)\norigin\thttps://github.com/princeton-vl/infinigen.git (fetch)\norigin\thttps://github.com/princeton-vl/infinigen.git (push)",
+  "status_short": [
+    "M .project-memory/STATUS.md",
+    " M .session/checkpoint.md"
+  ],
+  "task_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_model_instance_accessibility_and_collision_attribution_repair_overnight.yaml"
+}

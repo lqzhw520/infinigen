@@ -5,7 +5,7 @@
   "best_overall_two_pad_residual_m": 0.00014165405097371712,
   "best_reset_clean_two_pad_residual_m": 0.00014165405097371712,
   "closeout_classification": "ACCESSIBILITY_REJECTION_INVARIANT_READY",
-  "committed": false,
+  "committed": true,
   "current_truth_modified": false,
   "dominant_rejection_invariants": {
     "two_pad_ik_residual_blocks_layout": 10,
@@ -28,9 +28,10 @@
   "next_actions_modified": false,
   "next_gate": "MODEL_OR_LAYOUT_REDESIGN_WITH_PHYSICAL_ACCESSIBILITY_INVARIANT",
   "physical_collision_rejection_invariant_generated": true,
+  "post_push_verification_written": true,
   "prior_evidence_ingested": true,
-  "pushed_to_origin": false,
-  "remote_commit_hash": null,
+  "pushed_to_origin": true,
+  "remote_commit_hash": "c2fbf2b0d80f6c850749852940f4d0672131a58c",
   "runtime_patch_applied": true,
   "runtime_patch_files": [
     "scripts/mint/accessibility_layout_synthesis_to_layer4r_overnight.py"

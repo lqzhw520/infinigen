@@ -1,0 +1,18 @@
+{
+  "all_required_origin_visible": true,
+  "generated_at_utc": "2026-05-03T16:15:15Z",
+  "git_status_short_before_finalization": " M .project-memory/STATUS.md\n M .session/checkpoint.md\n",
+  "origin_branch": "my-origin/feature/mint-env-reformulation-v1-visual-fidelity",
+  "origin_visible_paths": {
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_accessibility_layout_synthesis_to_layer4r_overnight_20260503T150512Z/closeout_decision.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_accessibility_layout_synthesis_to_layer4r_overnight_20260503T150512Z/final_report.md": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_accessibility_layout_synthesis_to_layer4r_overnight_20260503T150512Z/stage3_accessibility_infeasibility_certificate.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_accessibility_layout_synthesis_to_layer4r_overnight_20260503T150512Z/stage3_layout_endpoint_candidates.jsonl.gz": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_accessibility_layout_synthesis_to_layer4r_overnight_20260503T150512Z/stage3_layout_endpoint_candidates_manifest.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_accessibility_layout_synthesis_to_layer4r_overnight_20260503T150512Z/stage3_layout_synthesis_summary.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_accessibility_layout_synthesis_to_layer4r_overnight_20260503T150512Z/stage4_accessibility_rejection_invariants.json": true,
+    "experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_accessibility_layout_synthesis_to_layer4r.json": true,
+    "experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_accessibility_layout_synthesis_to_layer4r.json": true
+  },
+  "science_evidence_commit_hash": "c2fbf2b0d80f6c850749852940f4d0672131a58c"
+}

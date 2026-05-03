@@ -1,0 +1,51 @@
+{
+  "offender_geom_ids": [
+    51,
+    52,
+    57,
+    62,
+    63,
+    65,
+    66,
+    67,
+    68,
+    69,
+    70,
+    84,
+    85,
+    86,
+    87,
+    88,
+    93,
+    94,
+    95,
+    96,
+    97,
+    98,
+    99,
+    100,
+    102,
+    103,
+    105
+  ],
+  "offender_geom_names": {
+    "finger1_pad_collision": 38,
+    "finger2_pad_collision": 54,
+    "hand_collision": 296,
+    "link3_collision": 8,
+    "link4_collision": 28,
+    "link5_collision": 562,
+    "link6_collision": 212,
+    "link7_collision": 170
+  },
+  "pair_classes_from_jsonl_raw": {
+    "broad_hand_wrist_proxy_scene_collision": 1240,
+    "pad_drawer_body_or_cabinet_non_target_contact": 92,
+    "physical_arm_link_scene_collision": 36
+  },
+  "pair_classes_public_prior_closeout_surface": {
+    "broad_hand_wrist_proxy_scene_collision": 620,
+    "pad_drawer_body_or_cabinet_non_target_contact": 46,
+    "physical_arm_link_scene_collision": 18
+  }
+}

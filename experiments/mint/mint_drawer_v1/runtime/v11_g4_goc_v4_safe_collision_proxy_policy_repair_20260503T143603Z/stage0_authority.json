@@ -1,0 +1,13 @@
+{
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "generated_at_utc": "2026-05-03T14:41:09Z",
+  "head": "f532797edc9e4b26de709c11417def226dbbd287",
+  "pwd": "/mnt/afs2/zhuhaowu/infinigen",
+  "spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_safe_collision_proxy_policy_repair.yaml",
+  "status_short": [
+    " M .project-memory/STATUS.md",
+    " M .session/checkpoint.md",
+    "?? experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_safe_collision_proxy_policy_repair.json",
+    "?? experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_safe_collision_proxy_policy_repair.json"
+  ]
+}

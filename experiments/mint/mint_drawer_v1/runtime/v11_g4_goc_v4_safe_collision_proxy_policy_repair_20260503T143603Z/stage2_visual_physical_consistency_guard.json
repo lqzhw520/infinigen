@@ -1,0 +1,952 @@
+{
+  "audit_count": 10,
+  "audits": [
+    {
+      "body_chain": [
+        "world",
+        "robot_mount",
+        "base",
+        "link0",
+        "link1",
+        "link2",
+        "link3",
+        "link4",
+        "link5"
+      ],
+      "body_id": 11,
+      "body_name": "link5",
+      "collision_rbound_m": 0.19383424165460558,
+      "collision_to_visual_rbound_ratio": 1.012013719804223,
+      "conaffinity": 1,
+      "contype": 1,
+      "geom_id": 67,
+      "geom_name": "link5_collision",
+      "geom_size": [
+        0.0554140258916309,
+        0.06981473616232675,
+        0.17212466873427062
+      ],
+      "geom_type": 7,
+      "group": 0,
+      "has_comparable_same_body_visual": true,
+      "is_duplicate_finger_shell_already_noncontact": false,
+      "is_named_physical_palm_wrist_or_arm": true,
+      "max_same_body_visual_rbound_m": 0.19153321527311248,
+      "physical_essential_offender": true,
+      "prior_offending_pair_count": 562,
+      "prior_penetration_m": {
+        "count": 562,
+        "max": 0.17654264072884696,
+        "mean": 0.08425203221419773
+      },
+      "safe_demote_candidate": false,
+      "same_body_visual_geom_count": 3,
+      "same_body_visual_geoms": [
+        {
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 64,
+          "geom_name": "geom_64",
+          "geom_rbound_m": 0.19075644147717372,
+          "geom_size": [
+            0.03401493113427978,
+            0.050423842324148434,
+            0.1807994484234784
+          ],
+          "geom_type": 7,
+          "group": 1
+        },
+        {
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 65,
+          "geom_name": "geom_65",
+          "geom_rbound_m": 0.024249214999803426,
+          "geom_size": [
+            0.007150973012497071,
+            0.004314205430640886,
+            0.022765668111950035
+          ],
+          "geom_type": 7,
+          "group": 1
+        },
+        {
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 66,
+          "geom_name": "geom_66",
+          "geom_rbound_m": 0.19153321527311248,
+          "geom_size": [
+            0.055006102518515794,
+            0.0709031677983642,
+            0.16921005299548839
+          ],
+          "geom_type": 7,
+          "group": 1
+        }
+      ],
+      "unsafe_demote_reason": "collision_geom_matches_visible_physical_robot_body"
+    },
+    {
+      "body_chain": [
+        "world",
+        "robot_mount",
+        "base",
+        "link0",
+        "link1",
+        "link2",
+        "link3",
+        "link4",
+        "link5",
+        "link6",
+        "link7",
+        "right_hand",
+        "right_gripper"
+      ],
+      "body_id": 15,
+      "body_name": "right_gripper",
+      "collision_rbound_m": 0.11905841256634443,
+      "collision_to_visual_rbound_ratio": 0.9957761415265599,
+      "conaffinity": 1,
+      "contype": 1,
+      "geom_id": 96,
+      "geom_name": "hand_collision",
+      "geom_size": [
+        0.03164141294671461,
+        0.04867201353885377,
+        0.10394595560976386
+      ],
+      "geom_type": 7,
+      "group": 0,
+      "has_comparable_same_body_visual": true,
+      "is_duplicate_finger_shell_already_noncontact": false,
+      "is_named_physical_palm_wrist_or_arm": true,
+      "max_same_body_visual_rbound_m": 0.11956343157993693,
+      "physical_essential_offender": true,
+      "prior_offending_pair_count": 296,
+      "prior_penetration_m": {
+        "count": 296,
+        "max": 0.10742855198581902,
+        "mean": 0.04518141243942679
+      },
+      "safe_demote_candidate": false,
+      "same_body_visual_geom_count": 1,
+      "same_body_visual_geoms": [
+        {
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 95,
+          "geom_name": "hand_visual",
+          "geom_rbound_m": 0.11956343157993693,
+          "geom_size": [
+            0.03155447034471325,
+            0.04967135106352347,
+            0.10407923162648289
+          ],
+          "geom_type": 7,
+          "group": 1
+        }
+      ],
+      "unsafe_demote_reason": "collision_geom_matches_visible_physical_robot_body"
+    },
+    {
+      "body_chain": [
+        "world",
+        "robot_mount",
+        "base",
+        "link0",
+        "link1",
+        "link2",
+        "link3",
+        "link4",
+        "link5",
+        "link6"
+      ],
+      "body_id": 12,
+      "body_name": "link6",
+      "collision_rbound_m": 0.1328988972283589,
+      "collision_to_visual_rbound_ratio": 0.9503118767629439,
+      "conaffinity": 1,
+      "contype": 1,
+      "geom_id": 85,
+      "geom_name": "link6_collision",
+      "geom_size": [
+        0.047435059937893764,
+        0.07280865823682829,
+        0.10055312654987442
+      ],
+      "geom_type": 7,
+      "group": 0,
+      "has_comparable_same_body_visual": true,
+      "is_duplicate_finger_shell_already_noncontact": false,
+      "is_named_physical_palm_wrist_or_arm": true,
+      "max_same_body_visual_rbound_m": 0.13984766525390974,
+      "physical_essential_offender": true,
+      "prior_offending_pair_count": 212,
+      "prior_penetration_m": {
+        "count": 212,
+        "max": 0.08943841243965811,
+        "mean": 0.03510668427911019
+      },
+      "safe_demote_candidate": false,
+      "same_body_visual_geom_count": 17,
+      "same_body_visual_geoms": [
+        {
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 68,
+          "geom_name": "geom_68",
+          "geom_rbound_m": 0.1259175703545707,
+          "geom_size": [
+            0.04231361993986837,
+            0.0490581888948196,
+            0.10797261779702685
+          ],
+          "geom_type": 7,
+          "group": 1
+        },
+        {
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 69,
+          "geom_name": "geom_69",
+          "geom_rbound_m": 0.018370419502862195,
+          "geom_size": [
+            0.0014963064085446215,
+            0.011361109083513486,
+            0.014358223435905832
+          ],
+          "geom_type": 7,
+          "group": 1
+        },
+        {
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 70,
+          "geom_name": "geom_70",
+          "geom_rbound_m": 0.06329525914511865,
+          "geom_size": [
+            0.0025535126004355637,
+            0.03768593806115581,
+            0.05078916691675372
+          ],
+          "geom_type": 7,
+          "group": 1
+        },
+        {
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 71,
+          "geom_name": "geom_71",
+          "geom_rbound_m": 0.002534827028926698,
+          "geom_size": [
+            0.0010624824378156345,
+            0.0006685310759858287,
+            0.0022021683260713583
+          ],
+          "geom_type": 7,
+          "group": 1
+        },
+        {
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 72,
+          "geom_name": "geom_72",
+          "geom_rbound_m": 0.002453663762025244,
+          "geom_size": [
+            0.002199208223227306,
+            0.0004198785921868675,
+            0.001003818218497973
+          ],
+          "geom_type": 7,
+          "group": 1
+        },
+        {
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 73,
+          "geom_name": "geom_73",
+          "geom_rbound_m": 0.002518392088880312,
+          "geom_size": [
+            0.0010650714698337144,
+            0.0006699184752974874,
+            0.0021815431955238204
+          ],
+          "geom_type": 7,
+          "group": 1
+        },
+        {
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 74,
+          "geom_name": "geom_74",
+          "geom_rbound_m": 0.0025700666837332044,
+          "geom_size": [
+            0.0021719890841558065,
+            0.0009385117457652581,
+            0.0010034450060686238
+          ],
+          "geom_type": 7,
+          "group": 1
+        },
+        {
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 75,
+          "geom_name": "geom_75",
+          "geom_rbound_m": 0.0019621912165317273,
+          "geom_size": [
+            0.001422407322318714,
+            6.401178845562294e-05,
+            0.0013501312049527185
+          ],
+          "geom_type": 7,
+          "group": 1
+        },
+        {
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 76,
+          "geom_name": "geom_76",
+          "geom_rbound_m": 0.002449376370356521,
+          "geom_size": [
+            0.0015132732458000564,
+            0.0009947006266131514,
+            0.0016492481167556482
+          ],
+          "geom_type": 7,
+          "group": 1
+        },
+        {
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 77,
+          "geom_name": "geom_77",
+          "geom_rbound_m": 0.02374150354011663,
+          "geom_size": [
+            0.001978376977011664,
+            0.016406260425618734,
+            0.017046396502750288
+          ],
+          "geom_type": 7,
+          "group": 1
+        },
+        {
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 78,
+          "geom_name": "geom_78",
+          "geom_rbound_m": 0.045390360664089476,
+          "geom_size": [
+            0.005065375775344883,
+            0.03010890789854906,
+            0.03358690927470642
+          ],
+          "geom_type": 7,
+          "group": 1
+        },
+        {
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 79,
+          "geom_name": "geom_79",
+          "geom_rbound_m": 0.0070877937333316725,
+          "geom_size": [
+            0.004924394215110817,
+            0.0009299361816530599,
+            0.005012223091452672
+          ],
+          "geom_type": 7,
+          "group": 1
+        }
+      ],
+      "unsafe_demote_reason": "collision_geom_matches_visible_physical_robot_body"
+    },
+    {
+      "body_chain": [
+        "world",
+        "robot_mount",
+        "base",
+        "link0",
+        "link1",
+        "link2",
+        "link3",
+        "link4",
+        "link5",
+        "link6",
+        "link7"
+      ],
+      "body_id": 13,
+      "body_name": "link7",
+      "collision_rbound_m": 0.09088254590918443,
+      "collision_to_visual_rbound_ratio": 1.320742707976956,
+      "conaffinity": 1,
+      "contype": 1,
+      "geom_id": 94,
+      "geom_name": "link7_collision",
+      "geom_size": [
+        0.0300797952290783,
+        0.043901876581363145,
+        0.0736713533372809
+      ],
+      "geom_type": 7,
+      "group": 0,
+      "has_comparable_same_body_visual": true,
+      "is_duplicate_finger_shell_already_noncontact": false,
+      "is_named_physical_palm_wrist_or_arm": true,
+      "max_same_body_visual_rbound_m": 0.06881169614662762,
+      "physical_essential_offender": true,
+      "prior_offending_pair_count": 170,
+      "prior_penetration_m": {
+        "count": 170,
+        "max": 0.06987696437689944,
+        "mean": 0.034587577483062154
+      },
+      "safe_demote_candidate": false,
+      "same_body_visual_geom_count": 8,
+      "same_body_visual_geoms": [
+        {
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 86,
+          "geom_name": "geom_86",
+          "geom_rbound_m": 0.061276949035003844,
+          "geom_size": [
+            0.01870151314265507,
+            0.04140710849875716,
+            0.04111653262357748
+          ],
+          "geom_type": 7,
+          "group": 1
+        },
+        {
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 87,
+          "geom_name": "geom_87",
+          "geom_rbound_m": 0.022790271474697834,
+          "geom_size": [
+            0.0016177576003690037,
+            0.013455290512608964,
+            0.018323059009296712
+          ],
+          "geom_type": 7,
+          "group": 1
+        },
+        {
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 88,
+          "geom_name": "geom_88",
+          "geom_rbound_m": 0.011376897144951385,
+          "geom_size": [
+            0.005737661062185137,
+            0.005813812388866018,
+            0.007919129983107707
+          ],
+          "geom_type": 7,
+          "group": 1
+        },
+        {
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 89,
+          "geom_name": "geom_89",
+          "geom_rbound_m": 0.006155329419028897,
+          "geom_size": [
+            0.0031393078255446336,
+            0.0031382705554492407,
+            0.004264280074530419
+          ],
+          "geom_type": 7,
+          "group": 1
+        },
+        {
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 90,
+          "geom_name": "geom_90",
+          "geom_rbound_m": 0.006018363161529552,
+          "geom_size": [
+            0.0031227325268849138,
+            0.0031149868182369436,
+            0.004094642088363895
+          ],
+          "geom_type": 7,
+          "group": 1
+        },
+        {
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 91,
+          "geom_name": "geom_91",
+          "geom_rbound_m": 0.022805210342100146,
+          "geom_size": [
+            0.0016190384132055951,
+            0.01349652915385169,
+            0.01831119969207991
+          ],
+          "geom_type": 7,
+          "group": 1
+        },
+        {
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 92,
+          "geom_name": "geom_92",
+          "geom_rbound_m": 0.013610281926098637,
+          "geom_size": [
+            0.002482894185513425,
+            0.006248718230325744,
+            0.011833365161670013
+          ],
+          "geom_type": 7,
+          "group": 1
+        },
+        {
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 93,
+          "geom_name": "geom_93",
+          "geom_rbound_m": 0.06881169614662762,
+          "geom_size": [
+            0.029148562826292586,
+            0.044129128006677176,
+            0.044023072054410056
+          ],
+          "geom_type": 7,
+          "group": 1
+        }
+      ],
+      "unsafe_demote_reason": "collision_geom_matches_visible_physical_robot_body"
+    },
+    {
+      "body_chain": [
+        "world",
+        "robot_mount",
+        "base",
+        "link0",
+        "link1",
+        "link2",
+        "link3",
+        "link4",
+        "link5",
+        "link6",
+        "link7",
+        "right_hand",
+        "right_gripper",
+        "rightfinger",
+        "finger_joint2_tip"
+      ],
+      "body_id": 20,
+      "body_name": "finger_joint2_tip",
+      "collision_rbound_m": 0.011999999999999999,
+      "collision_to_visual_rbound_ratio": Infinity,
+      "conaffinity": 1,
+      "contype": 1,
+      "geom_id": 102,
+      "geom_name": "finger2_pad_collision",
+      "geom_size": [
+        0.008,
+        0.004,
+        0.008
+      ],
+      "geom_type": 6,
+      "group": 0,
+      "has_comparable_same_body_visual": false,
+      "is_duplicate_finger_shell_already_noncontact": false,
+      "is_named_physical_palm_wrist_or_arm": false,
+      "max_same_body_visual_rbound_m": 0.0,
+      "physical_essential_offender": false,
+      "prior_offending_pair_count": 54,
+      "prior_penetration_m": {
+        "count": 54,
+        "max": 0.045858747384292575,
+        "mean": 0.03399283049473313
+      },
+      "safe_demote_candidate": false,
+      "same_body_visual_geom_count": 0,
+      "same_body_visual_geoms": [],
+      "unsafe_demote_reason": "no_same_body_visual_evidence_for_safe_demote"
+    },
+    {
+      "body_chain": [
+        "world",
+        "robot_mount",
+        "base",
+        "link0",
+        "link1",
+        "link2",
+        "link3",
+        "link4",
+        "link5",
+        "link6",
+        "link7",
+        "right_hand",
+        "right_gripper",
+        "leftfinger",
+        "finger_joint1_tip"
+      ],
+      "body_id": 18,
+      "body_name": "finger_joint1_tip",
+      "collision_rbound_m": 0.011999999999999999,
+      "collision_to_visual_rbound_ratio": Infinity,
+      "conaffinity": 1,
+      "contype": 1,
+      "geom_id": 99,
+      "geom_name": "finger1_pad_collision",
+      "geom_size": [
+        0.008,
+        0.004,
+        0.008
+      ],
+      "geom_type": 6,
+      "group": 0,
+      "has_comparable_same_body_visual": false,
+      "is_duplicate_finger_shell_already_noncontact": false,
+      "is_named_physical_palm_wrist_or_arm": false,
+      "max_same_body_visual_rbound_m": 0.0,
+      "physical_essential_offender": false,
+      "prior_offending_pair_count": 38,
+      "prior_penetration_m": {
+        "count": 38,
+        "max": 0.04684360628884965,
+        "mean": 0.03603022950844368
+      },
+      "safe_demote_candidate": false,
+      "same_body_visual_geom_count": 0,
+      "same_body_visual_geoms": [],
+      "unsafe_demote_reason": "no_same_body_visual_evidence_for_safe_demote"
+    },
+    {
+      "body_chain": [
+        "world",
+        "robot_mount",
+        "base",
+        "link0",
+        "link1",
+        "link2",
+        "link3",
+        "link4"
+      ],
+      "body_id": 10,
+      "body_name": "link4",
+      "collision_rbound_m": 0.16569359183294383,
+      "collision_to_visual_rbound_ratio": 0.9930073514672916,
+      "conaffinity": 1,
+      "contype": 1,
+      "geom_id": 63,
+      "geom_name": "link4_collision",
+      "geom_size": [
+        0.06759690727017202,
+        0.06833362798828592,
+        0.1349649576296325
+      ],
+      "geom_type": 7,
+      "group": 0,
+      "has_comparable_same_body_visual": true,
+      "is_duplicate_finger_shell_already_noncontact": false,
+      "is_named_physical_palm_wrist_or_arm": true,
+      "max_same_body_visual_rbound_m": 0.16686038787941598,
+      "physical_essential_offender": true,
+      "prior_offending_pair_count": 28,
+      "prior_penetration_m": {
+        "count": 28,
+        "max": 0.061849155102737474,
+        "mean": 0.046879817609189973
+      },
+      "safe_demote_candidate": false,
+      "same_body_visual_geom_count": 4,
+      "same_body_visual_geoms": [
+        {
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 59,
+          "geom_name": "geom_59",
+          "geom_rbound_m": 0.037923378387513716,
+          "geom_size": [
+            0.015107011792972153,
+            0.017706146582504606,
+            0.029940828248537197
+          ],
+          "geom_type": 7,
+          "group": 1
+        },
+        {
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 60,
+          "geom_name": "geom_60",
+          "geom_rbound_m": 0.16686038787941598,
+          "geom_size": [
+            0.07127172082404763,
+            0.07057997146103173,
+            0.13334616035944985
+          ],
+          "geom_type": 7,
+          "group": 1
+        },
+        {
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 61,
+          "geom_name": "geom_61",
+          "geom_rbound_m": 0.08790658860156739,
+          "geom_size": [
+            0.023757967906633013,
+            0.05261209946479205,
+            0.06629550716616807
+          ],
+          "geom_type": 7,
+          "group": 1
+        },
+        {
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 62,
+          "geom_name": "geom_62",
+          "geom_rbound_m": 0.02303779996590187,
+          "geom_size": [
+            0.012229588578652507,
+            0.013021346878542834,
+            0.014547230524552195
+          ],
+          "geom_type": 7,
+          "group": 1
+        }
+      ],
+      "unsafe_demote_reason": "collision_geom_matches_visible_physical_robot_body"
+    },
+    {
+      "body_chain": [
+        "world",
+        "robot_mount",
+        "base",
+        "link0",
+        "link1",
+        "link2",
+        "link3"
+      ],
+      "body_id": 9,
+      "body_name": "link3",
+      "collision_rbound_m": 0.16463897436504044,
+      "collision_to_visual_rbound_ratio": 0.9955903867616243,
+      "conaffinity": 1,
+      "contype": 1,
+      "geom_id": 58,
+      "geom_name": "link3_collision",
+      "geom_size": [
+        0.0670002850546238,
+        0.06723617244837274,
+        0.1345223059461303
+      ],
+      "geom_type": 7,
+      "group": 0,
+      "has_comparable_same_body_visual": true,
+      "is_duplicate_finger_shell_already_noncontact": false,
+      "is_named_physical_palm_wrist_or_arm": true,
+      "max_same_body_visual_rbound_m": 0.16536818409884887,
+      "physical_essential_offender": true,
+      "prior_offending_pair_count": 8,
+      "prior_penetration_m": {
+        "count": 8,
+        "max": 0.008723258193546801,
+        "mean": 0.007590208702864004
+      },
+      "safe_demote_candidate": false,
+      "same_body_visual_geom_count": 4,
+      "same_body_visual_geoms": [
+        {
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 54,
+          "geom_name": "geom_54",
+          "geom_rbound_m": 0.16536818409884887,
+          "geom_size": [
+            0.07066376607969976,
+            0.06837324468962597,
+            0.13296002363942624
+          ],
+          "geom_type": 7,
+          "group": 1
+        },
+        {
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 55,
+          "geom_name": "geom_55",
+          "geom_rbound_m": 0.023036345730183313,
+          "geom_size": [
+            0.012223585385602637,
+            0.013013179254360956,
+            0.014557278269487271
+          ],
+          "geom_type": 7,
+          "group": 1
+        },
+        {
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 56,
+          "geom_name": "geom_56",
+          "geom_rbound_m": 0.0379281914809488,
+          "geom_size": [
+            0.015107309611798875,
+            0.01770756830428028,
+            0.029945933447765742
+          ],
+          "geom_type": 7,
+          "group": 1
+        },
+        {
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 57,
+          "geom_name": "geom_57",
+          "geom_rbound_m": 0.08790997057879985,
+          "geom_size": [
+            0.023781443960025437,
+            0.05261498963821033,
+            0.06628928054906497
+          ],
+          "geom_type": 7,
+          "group": 1
+        }
+      ],
+      "unsafe_demote_reason": "collision_geom_matches_visible_physical_robot_body"
+    },
+    {
+      "body_chain": [
+        "world",
+        "robot_mount",
+        "base",
+        "link0",
+        "link1",
+        "link2",
+        "link3",
+        "link4",
+        "link5",
+        "link6",
+        "link7",
+        "right_hand",
+        "right_gripper",
+        "leftfinger"
+      ],
+      "body_id": 17,
+      "body_name": "leftfinger",
+      "collision_rbound_m": 0.035996380644598175,
+      "collision_to_visual_rbound_ratio": 0.9880465874093578,
+      "conaffinity": 0,
+      "contype": 0,
+      "geom_id": 98,
+      "geom_name": "finger1_collision",
+      "geom_size": [
+        0.010680920153990948,
+        0.013564667215135846,
+        0.03158571144548577
+      ],
+      "geom_type": 7,
+      "group": 0,
+      "has_comparable_same_body_visual": true,
+      "is_duplicate_finger_shell_already_noncontact": true,
+      "is_named_physical_palm_wrist_or_arm": false,
+      "max_same_body_visual_rbound_m": 0.03643186576756477,
+      "physical_essential_offender": false,
+      "prior_offending_pair_count": 0,
+      "prior_penetration_m": {
+        "count": 0,
+        "max": 0.0,
+        "mean": 0.0
+      },
+      "safe_demote_candidate": true,
+      "same_body_visual_geom_count": 1,
+      "same_body_visual_geoms": [
+        {
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 97,
+          "geom_name": "finger1_visual",
+          "geom_rbound_m": 0.03643186576756477,
+          "geom_size": [
+            0.015366376598150471,
+            0.010503388935908962,
+            0.031318271574445104
+          ],
+          "geom_type": 7,
+          "group": 1
+        }
+      ],
+      "unsafe_demote_reason": null
+    },
+    {
+      "body_chain": [
+        "world",
+        "robot_mount",
+        "base",
+        "link0",
+        "link1",
+        "link2",
+        "link3",
+        "link4",
+        "link5",
+        "link6",
+        "link7",
+        "right_hand",
+        "right_gripper",
+        "rightfinger"
+      ],
+      "body_id": 19,
+      "body_name": "rightfinger",
+      "collision_rbound_m": 0.035996380644598175,
+      "collision_to_visual_rbound_ratio": 0.9880465874093578,
+      "conaffinity": 0,
+      "contype": 0,
+      "geom_id": 101,
+      "geom_name": "finger2_collision",
+      "geom_size": [
+        0.010680920153990948,
+        0.013564667215135846,
+        0.03158571144548577
+      ],
+      "geom_type": 7,
+      "group": 0,
+      "has_comparable_same_body_visual": true,
+      "is_duplicate_finger_shell_already_noncontact": true,
+      "is_named_physical_palm_wrist_or_arm": false,
+      "max_same_body_visual_rbound_m": 0.03643186576756477,
+      "physical_essential_offender": false,
+      "prior_offending_pair_count": 0,
+      "prior_penetration_m": {
+        "count": 0,
+        "max": 0.0,
+        "mean": 0.0
+      },
+      "safe_demote_candidate": true,
+      "same_body_visual_geom_count": 1,
+      "same_body_visual_geoms": [
+        {
+          "conaffinity": 0,
+          "contype": 0,
+          "geom_id": 100,
+          "geom_name": "finger2_visual",
+          "geom_rbound_m": 0.03643186576756477,
+          "geom_size": [
+            0.015366376598150471,
+            0.010503388935908962,
+            0.031318271574445104
+          ],
+          "geom_type": 7,
+          "group": 1
+        }
+      ],
+      "unsafe_demote_reason": null
+    }
+  ],
+  "representative_base_pos": [
+    -0.9,
+    0.0,
+    -0.04
+  ],
+  "representative_seed": 2,
+  "representative_yaw_deg": 5.0
+}

@@ -1,0 +1,35 @@
+{
+  "approach_corridor_attempted": false,
+  "closeout_classification": "SAFE_PROXY_REPAIR_REJECTED_PHYSICAL_COLLISION_ESSENTIAL",
+  "committed": false,
+  "current_truth_modified": false,
+  "dominant_prior_pair_classes": {
+    "broad_hand_wrist_proxy_scene_collision": 620,
+    "pad_drawer_body_or_cabinet_non_target_contact": 46,
+    "physical_arm_link_scene_collision": 18
+  },
+  "duplicate_proxy_offender_count": 0,
+  "dynamic_probe_attempted": false,
+  "elapsed_seconds": 4.727,
+  "endpoint_feasible_after_repair": false,
+  "endpoint_rerun_attempted": false,
+  "harness_preflight_passed": true,
+  "layer4r_full_matrix_attempted": false,
+  "next_actions_modified": false,
+  "next_gate": "ROBOT_MOUNT_LAYOUT_OR_DRAWER_ACCESSIBILITY_REDESIGN_WITH_PHYSICAL_COLLISION_GUARD",
+  "offender_geom_audit_count": 10,
+  "physically_essential_offender_count": 6,
+  "prior_attribution_ingested": true,
+  "prior_attribution_run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_instance_accessibility_collision_attribution_repair_20260503T140226Z",
+  "pushed_to_origin": false,
+  "remote_commit_hash": null,
+  "repair_cycles_run": 1,
+  "runtime_patch_applied": true,
+  "runtime_patch_files": [
+    "scripts/mint/safe_collision_proxy_policy_repair.py"
+  ],
+  "safe_source_proxy_repair_identified": false,
+  "source_patch_applied": false,
+  "task_spec_lock_bound": true,
+  "visual_physical_consistency_guard_completed": true
+}

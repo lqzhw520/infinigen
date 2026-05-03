@@ -1,0 +1,17 @@
+{
+  "do_not_mutate_current_truth_directly": true,
+  "generated_at_utc": "2026-05-03T14:41:13Z",
+  "proposal_id": "proposed_current_truth_delta_safe_collision_proxy_policy_repair",
+  "safe_collision_proxy_policy_repair": {
+    "closeout_classification": "SAFE_PROXY_REPAIR_REJECTED_PHYSICAL_COLLISION_ESSENTIAL",
+    "dominant_prior_pair_classes": {
+      "broad_hand_wrist_proxy_scene_collision": 620,
+      "pad_drawer_body_or_cabinet_non_target_contact": 46,
+      "physical_arm_link_scene_collision": 18
+    },
+    "safe_source_proxy_repair_identified": false,
+    "scientific_interpretation": "Dominant offending geoms have same-body visual counterparts of comparable size and are named physical palm/wrist/arm collision bodies; demoting them would create a hidden pass-through rather than a valid Layer4R repair.",
+    "source_patch_applied": false
+  },
+  "source_run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_safe_collision_proxy_policy_repair_20260503T143603Z"
+}

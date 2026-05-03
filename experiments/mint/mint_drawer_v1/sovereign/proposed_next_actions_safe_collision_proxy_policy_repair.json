@@ -1,0 +1,12 @@
+{
+  "actions": [
+    "Do not demote link5/link6/link7/hand collisions to create a pass unless visual/physical guard is overturned by stronger evidence.",
+    "Move next repair to mount/layout/drawer-accessibility redesign or model-instance rejection with physical collision guard.",
+    "Only rerun endpoint/corridor/dynamic/Layer4R after a safe source-level geometry/layout repair is committed."
+  ],
+  "do_not_mutate_next_actions_directly": true,
+  "generated_at_utc": "2026-05-03T14:41:13Z",
+  "proposal_id": "proposed_next_actions_safe_collision_proxy_policy_repair",
+  "recommended_next_gate": "ROBOT_MOUNT_LAYOUT_OR_DRAWER_ACCESSIBILITY_REDESIGN_WITH_PHYSICAL_COLLISION_GUARD",
+  "source_run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_safe_collision_proxy_policy_repair_20260503T143603Z"
+}

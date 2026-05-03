@@ -1,0 +1,23 @@
+{
+  "accepted_accessible_instances_count": 0,
+  "all_required_paths_visible": true,
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "closeout_classification": "MODEL_OR_LAYOUT_REDESIGN_ACCESSIBILITY_INVARIANT_FAILED",
+  "evidence_commit_hash": "46e50b62cbc0e337a1eb1fa3d7d85e79776d136d",
+  "full_robot_corridor_exists": false,
+  "generated_at_utc": "2026-05-03T18:13:50Z",
+  "layer4R_certified": false,
+  "origin_head_at_verification": "46e50b62cbc0e337a1eb1fa3d7d85e79776d136d",
+  "origin_head_matches_evidence_commit": true,
+  "required_paths_origin_visible_at_evidence_commit": {
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_or_layout_redesign_with_physical_accessibility_invariant_20260503T164956Z/closeout_decision.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_or_layout_redesign_with_physical_accessibility_invariant_20260503T164956Z/final_report.md": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_or_layout_redesign_with_physical_accessibility_invariant_20260503T164956Z/stage3_accessibility_invariant_certificate.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_or_layout_redesign_with_physical_accessibility_invariant_20260503T164956Z/stage3_model_layout_repair_summary.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_or_layout_redesign_with_physical_accessibility_invariant_20260503T164956Z/stage4_signed_clearance_and_acceptance_summary.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_or_layout_redesign_with_physical_accessibility_invariant_20260503T164956Z/stage5_corridor_summary.json": true,
+    "experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_model_or_layout_redesign_with_physical_accessibility_invariant.json": true,
+    "experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_model_or_layout_redesign_with_physical_accessibility_invariant.json": true
+  },
+  "run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_or_layout_redesign_with_physical_accessibility_invariant_20260503T164956Z"
+}

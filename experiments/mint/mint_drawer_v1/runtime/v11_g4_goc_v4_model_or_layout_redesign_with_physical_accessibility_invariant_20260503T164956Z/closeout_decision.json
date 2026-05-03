@@ -5,7 +5,7 @@
   "best_overall_two_pad_residual_m": 0.0011411312852820784,
   "best_reset_clean_two_pad_residual_m": 0.0011411312852820784,
   "closeout_classification": "MODEL_OR_LAYOUT_REDESIGN_ACCESSIBILITY_INVARIANT_FAILED",
-  "committed": false,
+  "committed": true,
   "current_truth_modified": false,
   "dedicated_pad_geoms_unchanged_or_regenerated": "unchanged; GOC-v4 per-instance exact IDs reverified",
   "dominant_rejection_invariants": {
@@ -31,10 +31,11 @@
   "model_layout_repair_applied": true,
   "next_actions_modified": false,
   "next_gate": "MODEL_OR_LAYOUT_REDESIGN_WITH_STRONGER_STRUCTURAL_CHANGE",
-  "pushed_to_origin": false,
+  "post_push_verified_at_utc": "2026-05-03T18:13:50Z",
+  "pushed_to_origin": true,
   "rejected_inaccessible_instances_count": 13,
   "remaining_failure_clusters": {},
-  "remote_commit_hash": null,
+  "remote_commit_hash": "46e50b62cbc0e337a1eb1fa3d7d85e79776d136d",
   "robot_mount_changed_how": {
     "accepted_layout_deltas": {},
     "baseline": {

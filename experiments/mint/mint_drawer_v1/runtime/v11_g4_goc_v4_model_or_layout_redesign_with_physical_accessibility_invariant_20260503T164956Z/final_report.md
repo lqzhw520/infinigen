@@ -30,3 +30,6 @@ Key results:
 - next gate: `MODEL_OR_LAYOUT_REDESIGN_WITH_STRONGER_STRUCTURAL_CHANGE`
 
 Layer5 pull rollout, export bundle, local replay/render, and MINT training were not run.
+
+Post-push evidence commit: `46e50b62cbc0e337a1eb1fa3d7d85e79776d136d`
+Origin-visible at verification time: `True`

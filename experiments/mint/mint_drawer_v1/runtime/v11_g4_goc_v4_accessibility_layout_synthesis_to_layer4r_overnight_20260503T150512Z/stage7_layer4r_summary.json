@@ -1,0 +1,9 @@
+{
+  "full_matrix_attempted": false,
+  "layer4R_cases_failed": 0,
+  "layer4R_cases_passed": 0,
+  "layer4R_cases_total": 0,
+  "reason": "dynamic_probe_not_passed",
+  "remaining_failure_clusters": {},
+  "targeted_attempted": false
+}

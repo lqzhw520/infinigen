@@ -1,0 +1,12 @@
+{
+  "complete": true,
+  "dominant_rejection_invariants": {
+    "reset_clearance_blocks_layout": 256,
+    "two_pad_ik_residual_blocks_layout": 16008,
+    "two_pad_reachable_but_forbidden_keepout_blocks_layout": 3496
+  },
+  "elapsed_seconds": 3908.4472954273224,
+  "evaluated": 19760,
+  "feasible": 0,
+  "task_count": 19760
+}

@@ -1,0 +1,42 @@
+{
+  "accessibility_layout_synthesis_attempted": true,
+  "approach_corridor_attempted": false,
+  "approach_corridor_passed": false,
+  "best_overall_two_pad_residual_m": 0.00014165405097371712,
+  "best_reset_clean_two_pad_residual_m": 0.00014165405097371712,
+  "closeout_classification": "ACCESSIBILITY_REJECTION_INVARIANT_READY",
+  "committed": false,
+  "current_truth_modified": false,
+  "dominant_rejection_invariants": {
+    "two_pad_ik_residual_blocks_layout": 10,
+    "two_pad_reachable_but_forbidden_keepout_blocks_layout": 3
+  },
+  "dynamic_probe_attempted": false,
+  "dynamic_probe_passed": false,
+  "elapsed_seconds": 3922.7737505435944,
+  "endpoint_candidates_evaluated": 19760,
+  "endpoint_feasible_case_count": 0,
+  "endpoint_feasible_seed_count": 0,
+  "handle_frames_generated": true,
+  "harness_preflight_passed": true,
+  "json_parse_errors": [],
+  "json_parse_ok": true,
+  "layer4r_cases_failed": 0,
+  "layer4r_cases_passed": 0,
+  "layer4r_full_matrix_attempted": false,
+  "layout_synthesis_cycles_run": 1,
+  "next_actions_modified": false,
+  "next_gate": "MODEL_OR_LAYOUT_REDESIGN_WITH_PHYSICAL_ACCESSIBILITY_INVARIANT",
+  "physical_collision_rejection_invariant_generated": true,
+  "prior_evidence_ingested": true,
+  "pushed_to_origin": false,
+  "remote_commit_hash": null,
+  "runtime_patch_applied": true,
+  "runtime_patch_files": [
+    "scripts/mint/accessibility_layout_synthesis_to_layer4r_overnight.py"
+  ],
+  "seeds_total": 13,
+  "semantic_bindings_generated": true,
+  "source_worktree_head": "56997d7cb0481e2d87b8bdab3febd23300768655",
+  "task_spec_lock_bound": true
+}

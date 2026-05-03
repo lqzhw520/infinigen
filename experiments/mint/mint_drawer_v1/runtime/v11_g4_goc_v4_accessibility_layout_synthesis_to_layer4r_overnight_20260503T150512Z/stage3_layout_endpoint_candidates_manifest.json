@@ -1,0 +1,10 @@
+{
+  "compressed_path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_accessibility_layout_synthesis_to_layer4r_overnight_20260503T150512Z/stage3_layout_endpoint_candidates.jsonl.gz",
+  "compressed_sha256": "cfc8e3eda46bf9f304aa683dbbeba1b368230e96669a1e5d17f56ea2a812f10a",
+  "compressed_size_bytes": 17172162,
+  "line_count": 19760,
+  "note": "Raw JSONL retained in run workspace but not committed because GitHub rejects files over 100 MB; compressed JSONL plus SHA256 manifest is the origin-visible evidence artifact.",
+  "raw_path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_accessibility_layout_synthesis_to_layer4r_overnight_20260503T150512Z/stage3_layout_endpoint_candidates.jsonl",
+  "raw_sha256": "fc666e390a8ebbf93d94370e13281d663a8175c4f5b66134b99ebc3571895a13",
+  "raw_size_bytes": 108159420
+}

@@ -1,0 +1,25 @@
+{
+  "best_overall_two_pad_residual_m": 0.00014165405097371712,
+  "best_reset_clean_two_pad_residual_m": 0.00014165405097371712,
+  "certificate_scope": "bounded deterministic existing grid plus handle-frame access-cone layout synthesis with GOC-v4 two-pad IK and physical keepout constraints",
+  "classification": "ACCESSIBILITY_LAYOUT_SYNTHESIS_NO_ENDPOINT",
+  "dominant_rejection_invariants": {
+    "reset_clearance_blocks_layout": 256,
+    "two_pad_ik_residual_blocks_layout": 16008,
+    "two_pad_reachable_but_forbidden_keepout_blocks_layout": 3496
+  },
+  "endpoint_candidates_evaluated": 19760,
+  "endpoint_candidates_planned": 19760,
+  "endpoint_feasible_case_count": 0,
+  "endpoint_feasible_seed_count": 0,
+  "feasible_candidates": [],
+  "generated_at_utc": "2026-05-03T16:11:24Z",
+  "important_caveat": "This is a bounded numerical/layout rejection certificate, not a formal proof over unbounded robot mounts or redesigned drawer geometry.",
+  "max_base_candidates_existing_grid": 160,
+  "max_layout_candidates_handle_access_cone": 220,
+  "param_variant_count": 4,
+  "seeds_completed": 13,
+  "seeds_total": 13,
+  "time_budget_reached_in_stage3": false,
+  "workers": 8
+}

@@ -1,0 +1,12 @@
+{
+  "MINT_training_allowed": false,
+  "claim": "accessibility/layout synthesis to Layer4R only; no teacher rollout/export/local replay/MINT claim",
+  "closeout_classification": "ACCESSIBILITY_REJECTION_INVARIANT_READY",
+  "current_truth_direct_mutation": false,
+  "generated_at_utc": "2026-05-03T16:11:25Z",
+  "layer4r_certified": false,
+  "next_actions_direct_mutation": false,
+  "next_gate": "MODEL_OR_LAYOUT_REDESIGN_WITH_PHYSICAL_ACCESSIBILITY_INVARIANT",
+  "run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_accessibility_layout_synthesis_to_layer4r_overnight_20260503T150512Z",
+  "task_id": "V11_G4_GOC_V4_ACCESSIBILITY_LAYOUT_SYNTHESIS_TO_LAYER4R_OVERNIGHT_V1"
+}

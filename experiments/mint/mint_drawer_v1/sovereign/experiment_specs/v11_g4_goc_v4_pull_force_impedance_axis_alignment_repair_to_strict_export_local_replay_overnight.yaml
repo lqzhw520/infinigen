@@ -218,3 +218,83 @@ remote:
   approved_files:
     - scripts/mint/v11_g4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight.py
     - scripts/mint/v11_g4_bounded_teacher_pull_rollout_on_accessible_pool.py
+    - scripts/mint/v11_g4_contact_mode_policy_repair_on_accessible_pool.py
+    - scripts/mint/goc_v4_robust_contact_pull_export_local_replay_overnight.py
+    - scripts/mint/export_full_robot_teacher_replay_bundle.py
+    - scripts/mint/contact_aware_drawer_teacher.py
+    - scripts/mint/drawer_robot_env_mujoco.py
+    - scripts/mint/merged_model_builder.py
+    - experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight.yaml
+    - experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_*
+    - experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay.json
+    - experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay.json
+    - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json
+    - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock_report.json
+    - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_attestation.json
+  forbidden_files:
+    - experiments/mint/mint_drawer_v1/sovereign/current_truth.json
+    - experiments/mint/mint_drawer_v1/sovereign/next_actions.json
+    - external/MINT
+    - external/MINT/*
+
+terminal_outcomes:
+  success:
+    - PULL_FORCE_IMPEDANCE_REPAIR_STRICT_EXPORT_LOCAL_REPLAY_CERTIFIED
+  non_success:
+    - PULL_FORCE_IMPEDANCE_AXIS_ALIGNMENT_REPAIR_CERTIFIED_EXPORT_PENDING
+    - STRICT_TEACHER_EXPORT_FAILED_AFTER_PULL_CERTIFICATION
+    - STRICT_EXPORT_COMPLETE_LOCAL_REPLAY_BLOCKED_BY_ENVIRONMENT
+    - PULL_CONTROLLER_REPAIR_CONTINUATION_PROGRESS
+    - PULL_CONTROLLER_REPAIR_CONTINUATION_STALLED
+    - DYNAMIC_PULL_INFEASIBLE_FIXED_POOL_CERTIFICATE
+    - DYNAMIC_PULL_ACCESSIBLE_POOL_READY_FOR_LAYER4R
+    - DYNAMIC_PULL_ACCESSIBLE_POOL_REDESIGN_PROGRESS
+    - HARNESS_PREFLIGHT_FAILED
+    - TASK_SPEC_LOCK_BINDING_FAILED
+    - DIRTY_FORBIDDEN_SCOPE
+    - TIME_BUDGET_EXHAUSTED
+    - EXECUTION_FAILED
+
+next_gate_rules:
+  if_pull_certified_export_replay_passed: MINT_ADMISSION_ON_STRICT_REPLAY_CERTIFIED_ACCESSIBLE_POOL
+  if_pull_certified_export_failed: STRICT_TEACHER_EXPORT_REPAIR_ON_CERTIFIED_PULL_POOL
+  if_export_passed_local_replay_blocked: LOCAL_STRICT_REPLAY_ENVIRONMENT_REPAIR
+  if_controller_continuation_progress: PULL_CONTROLLER_REPAIR_CONTINUATION
+  if_fixed_pool_dynamic_infeasible: DYNAMIC_PULL_ACCESSIBLE_POOL_REDESIGN
+  if_dynamic_pull_accessible_pool_ready: LAYER4R_ON_DYNAMIC_PULL_ACCESSIBLE_POOL
+
+fixtures:
+  fixture_valid_authority_match:
+    runtime_exact_ids:
+      legal_gripper_surface_geom_ids: [63, 81, 90]
+      forbidden_robot_surface_geom_ids: [45, 47, 49, 54, 59]
+      drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    expected: PASS
+  fixture_invalid_authority_drift:
+    runtime_exact_ids:
+      legal_gripper_surface_geom_ids: [60, 61, 62]
+      forbidden_robot_surface_geom_ids: [45, 47, 49, 54, 59]
+      drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    expected: FAIL
+    expected_error: AUTHORITY_MISMATCH
+
+final_closeout_required_fields:
+  - closeout_classification
+  - harness_preflight_passed
+  - task_spec_lock_bound
+  - source_layer4r_passed
+  - source_bounded_pull_ingested
+  - pull_wrench_oracle_built
+  - fixed_accepted_pool_bound
+  - fixed_pool_modified
+  - geometry_modified
+  - goc_v4_authority_modified
+  - thresholds_modified
+  - direct_qpos_drawer_opening
+  - drawer_motor_command_used
+  - targeted_shard_cases_total
+  - targeted_shard_cases_passed
+  - full30_pull_matrix_attempted
+  - branch_selected_after_primary_failure
+  - strict_teacher_export_attempted
+  - local_strict_replay_attempted

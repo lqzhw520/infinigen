@@ -200,6 +200,21 @@ class GeneratedAccessibleDrawerBuilder(MergedModelBuilder):
         door_half_height = float(v.get("door_half_height", 0.23))
         pull_axis = v.get("pull_axis", [-1, 0, 0])
         pull_axis_s = " ".join(str(float(x)) for x in pull_axis)
+        if bool(v.get("front_cutout", False)):
+            cutout_half_width = float(v.get("cutout_half_width", 0.125))
+            cutout_half_height = float(v.get("cutout_half_height", 0.115))
+            side_width = max((door_half_width - cutout_half_width) / 2.0, 0.025)
+            top_height = max((door_half_height - cutout_half_height) / 2.0, 0.025)
+            side_y = door_half_width - side_width
+            top_z = door_half_height - top_height
+            door_xml = f'''
+    <geom name="drawer_door_left_panel_collision" type="box" pos="{door_x:.4f} {cabinet_y - side_y:.4f} {cabinet_z:.4f}" size="0.025 {side_width:.4f} {door_half_height:.4f}" contype="1" conaffinity="1" rgba="0.90 0.88 0.85 1"/>
+    <geom name="drawer_door_right_panel_collision" type="box" pos="{door_x:.4f} {cabinet_y + side_y:.4f} {cabinet_z:.4f}" size="0.025 {side_width:.4f} {door_half_height:.4f}" contype="1" conaffinity="1" rgba="0.90 0.88 0.85 1"/>
+    <geom name="drawer_door_top_panel_collision" type="box" pos="{door_x:.4f} {cabinet_y:.4f} {cabinet_z + top_z:.4f}" size="0.025 {cutout_half_width:.4f} {top_height:.4f}" contype="1" conaffinity="1" rgba="0.90 0.88 0.85 1"/>
+    <geom name="drawer_door_bottom_panel_collision" type="box" pos="{door_x:.4f} {cabinet_y:.4f} {cabinet_z - top_z:.4f}" size="0.025 {cutout_half_width:.4f} {top_height:.4f}" contype="1" conaffinity="1" rgba="0.90 0.88 0.85 1"/>'''
+        else:
+            door_xml = f'''
+    <geom name="drawer_door_collision" type="box" pos="{door_x:.4f} {cabinet_y:.4f} {cabinet_z:.4f}" size="0.025 {door_half_width:.4f} {door_half_height:.4f}" contype="1" conaffinity="1" rgba="0.90 0.88 0.85 1"/>'''
         return f'''
 <body name="drawer_base" pos="0 0 0">
   <geom name="cabinet_back_collision" type="box" pos="{cabinet_x + cabinet_depth * 0.7:.4f} {cabinet_y:.4f} {cabinet_z:.4f}" size="0.025 {cabinet_half_width:.4f} {cabinet_half_height:.4f}" contype="1" conaffinity="1" rgba="0.85 0.82 0.80 1"/>
@@ -208,8 +223,7 @@ class GeneratedAccessibleDrawerBuilder(MergedModelBuilder):
   <geom name="cabinet_left_collision" type="box" pos="{cabinet_x:.4f} {cabinet_y - cabinet_half_width:.4f} {cabinet_z:.4f}" size="{cabinet_depth:.4f} 0.025 {cabinet_half_height:.4f}" contype="1" conaffinity="1" rgba="0.85 0.82 0.80 1"/>
   <geom name="cabinet_right_collision" type="box" pos="{cabinet_x:.4f} {cabinet_y + cabinet_half_width:.4f} {cabinet_z:.4f}" size="{cabinet_depth:.4f} 0.025 {cabinet_half_height:.4f}" contype="1" conaffinity="1" rgba="0.85 0.82 0.80 1"/>
   <body name="link_1" pos="0 0 0">
-    <joint name="drawer_slider_0" type="slide" axis="{pull_axis_s}" range="0 0.35" damping="8"/>
-    <geom name="drawer_door_collision" type="box" pos="{door_x:.4f} {cabinet_y:.4f} {cabinet_z:.4f}" size="0.025 {door_half_width:.4f} {door_half_height:.4f}" contype="1" conaffinity="1" rgba="0.90 0.88 0.85 1"/>
+    <joint name="drawer_slider_0" type="slide" axis="{pull_axis_s}" range="0 0.35" damping="8"/>{door_xml}
     <geom name="drawer_handle_collision_0" type="sphere" pos="{hx:.4f} {hy:.4f} {hz:.4f}" size="{knob_radius:.4f}" contype="1" conaffinity="1" rgba="0.20 0.20 0.22 1"/>
   </body>
 </body>'''
@@ -448,11 +462,11 @@ def candidate_pool(run_dir: Path) -> list[dict[str, Any]]:
                 }
             )
     generated_variants = [
-        {"candidate_id": "generated_knob_drawer_accessible_001", "synthetic_seed": 9001, "robot_base_pos": [-0.45, 0.0, 0.0], "handle_x": -0.14, "handle_y": 0.02, "handle_z": 0.36, "handle_radius": 0.025},
-        {"candidate_id": "generated_knob_drawer_accessible_002", "synthetic_seed": 9002, "robot_base_pos": [-0.55, 0.0, 0.0], "handle_x": -0.02, "handle_y": 0.08, "handle_z": 0.36, "handle_radius": 0.025},
-        {"candidate_id": "generated_knob_drawer_accessible_003", "synthetic_seed": 9003, "robot_base_pos": [-0.65, 0.0, 0.0], "handle_x": -0.10, "handle_y": 0.08, "handle_z": 0.36, "handle_radius": 0.025},
-        {"candidate_id": "generated_knob_drawer_accessible_004", "synthetic_seed": 9004, "robot_base_pos": [-0.45, 0.0, 0.0], "handle_x": -0.18, "handle_y": -0.04, "handle_z": 0.36, "handle_radius": 0.025},
-        {"candidate_id": "generated_knob_drawer_accessible_005", "synthetic_seed": 9005, "robot_base_pos": [-0.75, 0.0, 0.0], "handle_x": -0.14, "handle_y": 0.08, "handle_z": 0.36, "handle_radius": 0.025},
+        {"candidate_id": "generated_knob_drawer_accessible_001", "synthetic_seed": 9001, "robot_base_pos": [-0.65, 0.0, 0.0], "handle_x": -0.22, "handle_y": 0.02, "handle_z": 0.36, "handle_radius": 0.025, "front_cutout": True, "door_x": 0.16, "cutout_half_width": 0.135, "cutout_half_height": 0.125},
+        {"candidate_id": "generated_knob_drawer_accessible_002", "synthetic_seed": 9002, "robot_base_pos": [-0.55, 0.0, 0.0], "handle_x": -0.14, "handle_y": 0.02, "handle_z": 0.36, "handle_radius": 0.025, "front_cutout": True, "door_x": 0.16, "cutout_half_width": 0.135, "cutout_half_height": 0.125},
+        {"candidate_id": "generated_knob_drawer_accessible_003", "synthetic_seed": 9003, "robot_base_pos": [-0.75, 0.0, 0.0], "handle_x": -0.22, "handle_y": 0.08, "handle_z": 0.36, "handle_radius": 0.025, "front_cutout": True, "door_x": 0.16, "cutout_half_width": 0.135, "cutout_half_height": 0.125},
+        {"candidate_id": "generated_knob_drawer_accessible_004", "synthetic_seed": 9004, "robot_base_pos": [-0.75, 0.0, 0.0], "handle_x": -0.18, "handle_y": -0.10, "handle_z": 0.36, "handle_radius": 0.025, "front_cutout": True, "door_x": 0.16, "cutout_half_width": 0.135, "cutout_half_height": 0.125},
+        {"candidate_id": "generated_knob_drawer_accessible_005", "synthetic_seed": 9005, "robot_base_pos": [-0.35, 0.0, 0.0], "handle_x": -0.14, "handle_y": 0.14, "handle_z": 0.36, "handle_radius": 0.025, "front_cutout": True, "door_x": 0.16, "cutout_half_width": 0.135, "cutout_half_height": 0.125},
     ]
     for variant in generated_variants:
         cid = variant.pop("candidate_id")

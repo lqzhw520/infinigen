@@ -50,6 +50,13 @@ PULL_VARIANTS = [
     {"name": "v3_dynamic_handle_fast_pull_ik_hold_fingers", "pull_steps": 850, "post_pull_hold_steps": 80, "pull_velocity_m_per_step": 0.00055, "pull_distance_m": 0.34, "pull_press_m": 0.004, "op_gain": 8.5, "op_vel_limit": 0.075, "q_vel_limit": 2.15, "null_gain": 0.12, "servo_kp": 260.0, "servo_kd": 46.0, "finger_mode": "ik_hold"},
     {"name": "v4_dynamic_handle_low_press_long_pull_ik_hold_fingers", "pull_steps": 1350, "post_pull_hold_steps": 90, "pull_velocity_m_per_step": 0.00024, "pull_distance_m": 0.33, "pull_press_m": 0.002, "op_gain": 6.0, "op_vel_limit": 0.046, "q_vel_limit": 1.45, "null_gain": 0.16, "servo_kp": 230.0, "servo_kd": 44.0, "finger_mode": "ik_hold"},
     {"name": "v5_dynamic_handle_high_track_binary_close", "pull_steps": 980, "post_pull_hold_steps": 100, "pull_velocity_m_per_step": 0.00048, "pull_distance_m": 0.35, "pull_press_m": 0.005, "op_gain": 9.5, "op_vel_limit": 0.085, "q_vel_limit": 2.35, "null_gain": 0.05, "servo_kp": 285.0, "servo_kd": 52.0, "finger_mode": "binary_close"},
+    {"name": "v6_long_track_binary_close", "pull_steps": 2200, "post_pull_hold_steps": 400, "pull_velocity_m_per_step": 0.00024, "pull_distance_m": 0.35, "pull_press_m": 0.005, "op_gain": 11.0, "op_vel_limit": 0.105, "q_vel_limit": 2.80, "null_gain": 0.03, "servo_kp": 330.0, "servo_kd": 62.0, "finger_mode": "binary_close"},
+    {"name": "v7_sustained_high_track_binary_close", "pull_steps": 2800, "post_pull_hold_steps": 500, "pull_velocity_m_per_step": 0.00018, "pull_distance_m": 0.35, "pull_press_m": 0.005, "op_gain": 12.5, "op_vel_limit": 0.115, "q_vel_limit": 3.20, "null_gain": 0.02, "servo_kp": 380.0, "servo_kd": 74.0, "finger_mode": "binary_close"},
+    {"name": "v8_slow_sustained_contact_safe", "pull_steps": 3600, "post_pull_hold_steps": 500, "pull_velocity_m_per_step": 0.00013, "pull_distance_m": 0.35, "pull_press_m": 0.004, "op_gain": 9.0, "op_vel_limit": 0.080, "q_vel_limit": 2.40, "null_gain": 0.02, "servo_kp": 310.0, "servo_kd": 64.0, "finger_mode": "binary_close"},
+    {"name": "v9_sustained_semi_close", "pull_steps": 3000, "post_pull_hold_steps": 600, "pull_velocity_m_per_step": 0.00018, "pull_distance_m": 0.35, "pull_press_m": 0.004, "op_gain": 12.0, "op_vel_limit": 0.120, "q_vel_limit": 3.20, "null_gain": 0.01, "servo_kp": 360.0, "servo_kd": 72.0, "finger_mode": "semi_close"},
+    {"name": "v10_capped_lead_0p025_binary_close", "pull_steps": 4200, "post_pull_hold_steps": 800, "pull_velocity_m_per_step": 0.00012, "pull_distance_m": 0.35, "lead_cap_m": 0.025, "pull_press_m": 0.005, "op_gain": 14.0, "op_vel_limit": 0.130, "q_vel_limit": 3.20, "null_gain": 0.00, "servo_kp": 420.0, "servo_kd": 82.0, "finger_mode": "binary_close"},
+    {"name": "v11_capped_lead_0p04_binary_close", "pull_steps": 4200, "post_pull_hold_steps": 800, "pull_velocity_m_per_step": 0.00012, "pull_distance_m": 0.35, "lead_cap_m": 0.040, "pull_press_m": 0.005, "op_gain": 14.0, "op_vel_limit": 0.130, "q_vel_limit": 3.20, "null_gain": 0.00, "servo_kp": 420.0, "servo_kd": 82.0, "finger_mode": "binary_close"},
+    {"name": "v12_capped_lead_0p04_semi_close", "pull_steps": 4200, "post_pull_hold_steps": 800, "pull_velocity_m_per_step": 0.00012, "pull_distance_m": 0.35, "lead_cap_m": 0.040, "pull_press_m": 0.005, "op_gain": 14.0, "op_vel_limit": 0.130, "q_vel_limit": 3.20, "null_gain": 0.00, "servo_kp": 420.0, "servo_kd": 82.0, "finger_mode": "semi_close"},
 ]
 
 
@@ -270,6 +277,8 @@ def trace_record(env: Any, binding: dict[str, Any], contact: dict[str, Any], mod
 def compact_trace_record(record: dict[str, Any]) -> dict[str, Any]:
     base = cp.compact_trace_record(record)
     base["pull_offset_target_m"] = record.get("pull_offset_target_m")
+    base["lead_cap_m"] = record.get("lead_cap_m")
+    base["effective_pull_lead_m"] = record.get("effective_pull_lead_m")
     base["drawer_fraction_delta_from_pull_start"] = record.get("drawer_fraction_delta_from_pull_start")
     return base
 
@@ -281,13 +290,17 @@ def run_pull_segment(env: Any, binding: dict[str, Any], candidate: dict[str, Any
     total_steps = int(variant["pull_steps"]) + int(variant.get("post_pull_hold_steps", 0))
     for step in range(total_steps):
         active = min(step, int(variant["pull_steps"]))
-        pull_offset = min(float(variant["pull_distance_m"]), float(variant["pull_velocity_m_per_step"]) * float(active))
+        raw_pull_offset = min(float(variant["pull_distance_m"]), float(variant["pull_velocity_m_per_step"]) * float(active))
+        lead_cap = variant.get("lead_cap_m")
+        pull_offset = min(raw_pull_offset, float(lead_cap)) if lead_cap is not None else raw_pull_offset
         targets = pull_targets(env, binding, candidate, pull_offset, float(variant["pull_press_m"]))
         robot_vel = two_pad_velocity_to_targets(env, candidate, targets, q_ref, config)
         drawer_motor_abs = cp.apply_velocity_servo(env, robot_vel, finger_targets, config)
         report = contact_report(env, binding, prev_centers)
         mode = "bounded_teacher_pull" if step < int(variant["pull_steps"]) else "post_pull_hold"
-        rec = trace_record(env, binding, report, mode, finger_targets, q_ref, drawer_motor_abs, pull_offset, pull_start_fraction)
+        rec = trace_record(env, binding, report, mode, finger_targets, q_ref, drawer_motor_abs, raw_pull_offset, pull_start_fraction)
+        rec["lead_cap_m"] = float(lead_cap) if lead_cap is not None else None
+        rec["effective_pull_lead_m"] = float(pull_offset)
         records.append(rec)
         append_jsonl(trace_path, compact_trace_record(rec))
         prev_centers = report["centers"]
@@ -405,6 +418,20 @@ def summarize_results(results: list[dict[str, Any]], variant: dict[str, Any], va
     return {"generated_at_utc": utc_now(), "variant_index": variant_idx, "variant_name": variant["name"], "targeted_shard": targeted, "cases_total": len(results), "cases_passed": passed, "cases_failed": len(results) - passed, "failure_histogram": dict(sorted(hist.items())), "target_contact_frames_min": min(ivals("target_contact_frames")) if results else 0, "target_contact_consecutive_min": min(ivals("target_contact_max_consecutive_frames")) if results else 0, "pull_phase_target_contact_frames_min": min(ivals("pull_phase_target_contact_frames")) if results else 0, "pull_phase_two_pad_target_contact_frames_min": min(ivals("pull_phase_two_pad_target_contact_frames")) if results else 0, "forbidden_contact_frames_max": max(ivals("forbidden_contact_frames")) if results else 0, "handle_nonlegal_contact_frames_max": max(ivals("handle_nonlegal_contact_frames")) if results else 0, "max_penetration_m": max(fvals("max_penetration_m")) if results else 0.0, "max_force_n": max(fvals("max_force_n")) if results else 0.0, "max_drawer_fraction_min": min(fvals("max_drawer_fraction")) if results else 0.0, "max_drawer_fraction_max": max(fvals("max_drawer_fraction")) if results else 0.0, "hard_goal_cases": sum(1 for r in results if bool(r.get("hard_goal_passed"))), "matrix_passed": passed == len(results) and len(results) > 0}
 
 
+def summary_rank(summary: dict[str, Any]) -> tuple[float, ...]:
+    failures = summary.get("failure_histogram", {}) or {}
+    safety_failures = int(failures.get("forbidden_contact_present", 0)) + int(failures.get("handle_nonlegal_contact_present", 0))
+    contact_failures = int(failures.get("pull_phase_target_contact_frames_lt_80", 0)) + int(failures.get("pull_phase_two_pad_target_contact_frames_lt_30", 0))
+    return (
+        float(summary.get("cases_passed", 0)),
+        float(summary.get("hard_goal_cases", 0)),
+        float(summary.get("max_drawer_fraction_max", 0.0)),
+        -float(summary.get("cases_failed", 0)),
+        -float(safety_failures),
+        -float(contact_failures),
+    )
+
+
 def run_cases(run_dir: Path, records: list[dict[str, Any]], variant: dict[str, Any], variant_idx: int, targeted: bool) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     by_id = {str(r["candidate_id"]): r for r in records}
     todo = [(by_id[cid], perturb_by_name(pname)) for cid, pname in TARGETED_SHARD] if targeted else [(r, p) for r in records for p in PERTURBATIONS]
@@ -427,13 +454,13 @@ def run_matrix(run_dir: Path, records: list[dict[str, Any]]) -> dict[str, Any]:
     for idx, variant in enumerate(PULL_VARIANTS, 1):
         _, ts = run_cases(run_dir, records, variant, idx, True)
         cycles.append({"targeted": ts})
-        if best_t is None or ts["cases_passed"] > best_t.get("cases_passed", -1):
+        if best_t is None or summary_rank(ts) > summary_rank(best_t):
             best_t = ts
         if not ts.get("matrix_passed"):
             continue
         _, fs = run_cases(run_dir, records, variant, idx, False)
         cycles[-1]["full_bounded_pull"] = fs
-        if best_f is None or fs["cases_passed"] > best_f.get("cases_passed", -1):
+        if best_f is None or summary_rank(fs) > summary_rank(best_f):
             best_f = fs
         if fs.get("matrix_passed"):
             break
@@ -448,6 +475,9 @@ def classify_closeout(readiness: dict[str, Any], matrix: dict[str, Any]) -> str:
     best = matrix.get("best_full_summary")
     if best and best.get("matrix_passed"):
         return "BOUNDED_TEACHER_PULL_ROLLOUT_ON_ACCESSIBLE_POOL_CERTIFIED"
+    best_targeted = matrix.get("best_targeted_summary") or {}
+    if best_targeted and best_targeted.get("max_drawer_fraction_max", 0.0) >= STRICT_DRAWER_FRACTION and best_targeted.get("cases_passed", 0) == 0:
+        return "BOUNDED_PULL_ROLLOUT_NO_STRICT_CANDIDATE"
     summaries = [c[k] for c in matrix.get("cycle_summaries", []) for k in ("targeted", "full_bounded_pull") if k in c]
     hist = Counter()
     for s in summaries:
@@ -537,10 +567,10 @@ def main() -> None:
     closeout = {"generated_at_utc": utc_now(), "task_id": "V11_G4_GOC_V4_BOUNDED_TEACHER_PULL_ROLLOUT_ON_ACCESSIBLE_POOL_V1", "closeout_classification": closeout_class, "harness_preflight_passed": bool(stage0.get("harness_preflight_passed")), "task_spec_lock_bound": bool(stage0.get("harness_preflight_passed")), "accepted_pool_bound": bool(readiness.get("bounded_pull_readiness_passed")), "source_layer4r_passed": bool(prior.get("source_status", {}).get("source_ready")), "bounded_rollout_attempted": bool(matrix.get("cycle_summaries")), "bounded_pull_full_matrix_attempted": bool(matrix.get("full_matrix_attempted")), "bounded_pull_cases_total": int(best_f.get("cases_total", 0)), "bounded_pull_cases_passed": int(best_f.get("cases_passed", 0)), "bounded_pull_cases_failed": int(best_f.get("cases_failed", 0)), "targeted_cases_total": int(best_t.get("cases_total", 0)) if best_t else 0, "targeted_cases_passed": int(best_t.get("cases_passed", 0)) if best_t else 0, "targeted_cases_failed": int(best_t.get("cases_failed", 0)) if best_t else 0, "failure_histogram": best_f.get("failure_histogram") or best_t.get("failure_histogram") or {}, "max_drawer_fraction_min": best_f.get("max_drawer_fraction_min", best_t.get("max_drawer_fraction_min", 0.0) if best_t else 0.0), "max_drawer_fraction_max": best_f.get("max_drawer_fraction_max", best_t.get("max_drawer_fraction_max", 0.0) if best_t else 0.0), "hard_goal_cases": best_f.get("hard_goal_cases", best_t.get("hard_goal_cases", 0) if best_t else 0), "forbidden_contact_frames_max": best_f.get("forbidden_contact_frames_max", best_t.get("forbidden_contact_frames_max", 0) if best_t else 0), "handle_nonlegal_contact_frames_max": best_f.get("handle_nonlegal_contact_frames_max", best_t.get("handle_nonlegal_contact_frames_max", 0) if best_t else 0), "max_penetration_m": best_f.get("max_penetration_m", best_t.get("max_penetration_m", 0.0) if best_t else 0.0), "max_force_n": best_f.get("max_force_n", best_t.get("max_force_n", 0.0) if best_t else 0.0), "direct_qpos_drawer_opening": False, "drawer_motor_command_used": False, "pool_modified": False, "geometry_modified": False, "goc_v4_authority_modified": False, "thresholds_modified": False, "current_truth_modified": False, "next_actions_modified": False, "runtime_patch_applied": True, "runtime_patch_files": ["scripts/mint/v11_g4_bounded_teacher_pull_rollout_on_accessible_pool.py"], "next_gate": "STRICT_TEACHER_EXPORT_LOCAL_REPLAY_ON_ACCESSIBLE_POOL" if closeout_class == "BOUNDED_TEACHER_PULL_ROLLOUT_ON_ACCESSIBLE_POOL_CERTIFIED" else "PULL_FORCE_IMPEDANCE_AXIS_ALIGNMENT_REPAIR"}
     write_json(run_dir / "bounded_pull_matrix_execution_summary.json", matrix)
     write_json(run_dir / "closeout_decision.json", closeout)
-    write_proposed_deltas(run_dir, closeout)
     checks = final_checks(run_dir)
     closeout["final_checks_passed"] = bool(checks.get("passed"))
     write_json(run_dir / "closeout_decision.json", closeout)
+    write_proposed_deltas(run_dir, closeout)
     write_md(run_dir / "final_report.md", "# Bounded Teacher Pull Rollout Closeout\n\n" + "\n".join([f"- closeout_classification: `{closeout_class}`", f"- accepted_pool_bound: `{closeout['accepted_pool_bound']}`", f"- source_layer4r_passed: `{closeout['source_layer4r_passed']}`", f"- bounded_pull_cases: `{closeout['bounded_pull_cases_passed']}/{closeout['bounded_pull_cases_total']}`", f"- max_drawer_fraction_min: `{closeout['max_drawer_fraction_min']}`", f"- max_drawer_fraction_max: `{closeout['max_drawer_fraction_max']}`", f"- forbidden_contact_frames_max: `{closeout['forbidden_contact_frames_max']}`", f"- handle_nonlegal_contact_frames_max: `{closeout['handle_nonlegal_contact_frames_max']}`", f"- max_penetration_m: `{closeout['max_penetration_m']}`", f"- max_force_n: `{closeout['max_force_n']}`", f"- failure_histogram: `{json.dumps(closeout['failure_histogram'], sort_keys=True)}`", f"- next_gate: `{closeout['next_gate']}`"]) + "\n")
     print(json.dumps(ready(closeout), indent=2, sort_keys=True))
 

@@ -1,0 +1,30 @@
+{
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "codebase_analysis_skill": {
+    "entrypoint": ".claude/skills/scripts python3 -m skills.codebase_analysis.analyze --step 1 --total-steps 4",
+    "invocation_attempted": true,
+    "requested": true,
+    "result": "entrypoint_directory_missing_in_local_playground_checkout; remote repo inspection performed under governed spec"
+  },
+  "generated_at_utc": "2026-05-04T07:51:49Z",
+  "harness_preflight_passed": true,
+  "head": "571e9da923328f8e65c091583745d5b88a5a9c99",
+  "preflight": {
+    "cmd": [
+      "/root/anaconda3/envs/infinigen/bin/python",
+      "experiments/mint/mint_drawer_v1/scripts/harness/agent_task_preflight.py",
+      "--spec",
+      "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_contact_mode_operational_space_policy_repair_on_accessible_pool.yaml",
+      "--dry-run"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "\n======================================================================\n  Agent Task Pre-flight\n======================================================================\n  campaign_root: /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1\n  task_spec:    /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_contact_mode_operational_space_policy_repair_on_accessible_pool.yaml\n  dry_run:      True\n\n  [LOCK] Production lock enforcement\n  [PASS] Production lock valid: status=production_ready, generated_by=validate_harness_production_lock.py, validators_intact=5 files, task_spec_bound=experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_contact_mode_operational_space_policy_repair_on_accessible_pool.yaml, task_spec_hash_verified=True, attestation_verified=True, lock_format=V3\n\n  [V01] validate_task_authority (S0 gate)\n  [PASS] V01 validate_task_authority\n\n  [V02] validate_diff_scope\n  [PASS] V02 validate_diff_scope\n\n======================================================================\n  Pre-flight Summary\n======================================================================\n  Passed: 2\n  Failed: 0\n  Task spec: v11_g4_goc_v4_contact_mode_operational_space_policy_repair_on_accessible_pool.yaml\n  Pre-flight callable: True\n  Production lock: verified (always required \u2014 no bypass)\n\n  ALL PRE-FLIGHT VALIDATORS PASSED.\n  Agent may proceed with execution.\n  Next: run V03 during execution, V04 at closeout.\n"
+  },
+  "pwd": "/mnt/afs2/zhuhaowu/infinigen",
+  "remote_v": "my-origin\tgit@github.com:lqzhw520/infinigen.git (fetch)\nmy-origin\tgit@github.com:lqzhw520/infinigen.git (push)\norigin\thttps://github.com/princeton-vl/infinigen.git (fetch)\norigin\thttps://github.com/princeton-vl/infinigen.git (push)",
+  "source_layer4r_run": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_layer4r_on_accessible_instance_pool_20260504T065000Z",
+  "source_pool_run": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_physical_accessibility_instance_pool_20260504T032604Z",
+  "status_short": "M .project-memory/STATUS.md\n M .session/checkpoint.md",
+  "task_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_contact_mode_operational_space_policy_repair_on_accessible_pool.yaml"
+}

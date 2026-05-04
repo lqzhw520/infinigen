@@ -1,0 +1,24 @@
+{
+  "cases_failed": 5,
+  "cases_passed": 2,
+  "cases_total": 7,
+  "failure_histogram": {
+    "forbidden_contact_present": 5,
+    "target_contact_consecutive_lt_30": 1
+  },
+  "forbidden_contact_frames_max": 185,
+  "generated_at_utc": "2026-05-04T07:53:23Z",
+  "handle_nonlegal_contact_frames_max": 0,
+  "matrix_passed": false,
+  "max_force_n": 473.0727886030611,
+  "max_penetration_m": 0.006589712513085783,
+  "policy_cycle": 6,
+  "policy_mode": "qpos",
+  "policy_name": "cycle6_qpos_binary_close_long",
+  "q_error_norm_final_max": 0.11770086564973938,
+  "target_contact_consecutive_max": 452,
+  "target_contact_consecutive_min": 27,
+  "target_contact_frames_max": 463,
+  "target_contact_frames_min": 51,
+  "targeted_shard": true
+}

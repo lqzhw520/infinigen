@@ -1,0 +1,1251 @@
+{
+  "attribution": {
+    "dominant_dynamic_failure": "insufficient sustained dedicated pad-handle contact under old qpos-only/binary-gripper timing",
+    "endpoint_accessibility_already_certified": true,
+    "geometry_or_threshold_change_permitted": false,
+    "pool_binding_empty_spin_ruled_out": true,
+    "secondary_dynamic_failure": "right_hand hand_collision reaches handle/drawer before legal pad contact in candidate 002 variants"
+  },
+  "candidate_summary": {
+    "generated_knob_drawer_accessible_001": {
+      "cases": 6,
+      "forbidden_contact_frames_max": 21,
+      "min_pad_handle_distance_best_m": 0.0319845381224429,
+      "passed": 0,
+      "target_contact_consecutive_max": 41,
+      "target_contact_frames_max": 41
+    },
+    "generated_knob_drawer_accessible_002": {
+      "cases": 6,
+      "forbidden_contact_frames_max": 50,
+      "min_pad_handle_distance_best_m": 0.03495353504951252,
+      "passed": 0,
+      "target_contact_consecutive_max": 0,
+      "target_contact_frames_max": 0
+    },
+    "generated_knob_drawer_accessible_003": {
+      "cases": 6,
+      "forbidden_contact_frames_max": 0,
+      "min_pad_handle_distance_best_m": 0.06669736476695291,
+      "passed": 0,
+      "target_contact_consecutive_max": 0,
+      "target_contact_frames_max": 0
+    },
+    "generated_knob_drawer_accessible_004": {
+      "cases": 6,
+      "forbidden_contact_frames_max": 0,
+      "min_pad_handle_distance_best_m": 0.0401065499625049,
+      "passed": 0,
+      "target_contact_consecutive_max": 0,
+      "target_contact_frames_max": 0
+    },
+    "generated_knob_drawer_accessible_005": {
+      "cases": 6,
+      "forbidden_contact_frames_max": 0,
+      "min_pad_handle_distance_best_m": 0.2584711263839098,
+      "passed": 0,
+      "target_contact_consecutive_max": 0,
+      "target_contact_frames_max": 0
+    }
+  },
+  "failure_histogram": {
+    "forbidden_contact_present": 6,
+    "target_contact_consecutive_lt_30": 28,
+    "target_contact_frames_lt_50": 30
+  },
+  "generated_at_utc": "2026-05-04T07:51:56Z",
+  "rows": 30,
+  "source_layer4r_run": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_layer4r_on_accessible_instance_pool_20260504T065000Z",
+  "source_pool_run": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_physical_accessibility_instance_pool_20260504T032604Z",
+  "trace_summaries": {
+    "generated_knob_drawer_accessible_001::fast_guarded_contact": {
+      "first_forbidden_pairs": [],
+      "first_forbidden_step": null,
+      "first_target_step": null,
+      "mode_summary": {
+        "contact_hold": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.0561789156559952,
+          "min_pad_handle_distance_m": 0.0561789156559952,
+          "steps": 70,
+          "target_frames": 0
+        },
+        "contact_seat": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.15448011895914676,
+          "min_pad_handle_distance_m": 0.15448011895914676,
+          "steps": 42,
+          "target_frames": 0
+        },
+        "free_space_pregrasp": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.22539165741693157,
+          "min_pad_handle_distance_m": 0.22539165741693157,
+          "steps": 40,
+          "target_frames": 0
+        },
+        "guarded_approach": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.19987874436472386,
+          "min_pad_handle_distance_m": 0.19987874436472386,
+          "steps": 32,
+          "target_frames": 0
+        }
+      }
+    },
+    "generated_knob_drawer_accessible_001::late_close": {
+      "first_forbidden_pairs": [],
+      "first_forbidden_step": null,
+      "first_target_step": 226,
+      "mode_summary": {
+        "contact_hold": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.03233463022397575,
+          "min_pad_handle_distance_m": 0.03206750958833243,
+          "steps": 95,
+          "target_frames": 40
+        },
+        "contact_seat": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.09737486013666427,
+          "min_pad_handle_distance_m": 0.09737486013666427,
+          "steps": 70,
+          "target_frames": 0
+        },
+        "free_space_pregrasp": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.21506912405520995,
+          "min_pad_handle_distance_m": 0.21506912405520995,
+          "steps": 55,
+          "target_frames": 0
+        },
+        "guarded_approach": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.17581392346575966,
+          "min_pad_handle_distance_m": 0.17581392346575966,
+          "steps": 45,
+          "target_frames": 0
+        }
+      }
+    },
+    "generated_knob_drawer_accessible_001::nominal": {
+      "first_forbidden_pairs": [],
+      "first_forbidden_step": null,
+      "first_target_step": 225,
+      "mode_summary": {
+        "contact_hold": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.032184545009935,
+          "min_pad_handle_distance_m": 0.032184545009935,
+          "steps": 80,
+          "target_frames": 11
+        },
+        "contact_seat": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.11412361988620764,
+          "min_pad_handle_distance_m": 0.11412361988620764,
+          "steps": 55,
+          "target_frames": 0
+        },
+        "free_space_pregrasp": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.21506912405520995,
+          "min_pad_handle_distance_m": 0.21506912405520995,
+          "steps": 55,
+          "target_frames": 0
+        },
+        "guarded_approach": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.17581392346575966,
+          "min_pad_handle_distance_m": 0.17581392346575966,
+          "steps": 45,
+          "target_frames": 0
+        }
+      }
+    },
+    "generated_knob_drawer_accessible_001::qpos_small_minus": {
+      "first_forbidden_pairs": [],
+      "first_forbidden_step": null,
+      "first_target_step": 224,
+      "mode_summary": {
+        "contact_hold": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.0319845381224429,
+          "min_pad_handle_distance_m": 0.0319845381224429,
+          "steps": 80,
+          "target_frames": 12
+        },
+        "contact_seat": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.11296359761308825,
+          "min_pad_handle_distance_m": 0.11296359761308825,
+          "steps": 55,
+          "target_frames": 0
+        },
+        "free_space_pregrasp": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.2130336134743327,
+          "min_pad_handle_distance_m": 0.2130336134743327,
+          "steps": 55,
+          "target_frames": 0
+        },
+        "guarded_approach": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.17394252063613863,
+          "min_pad_handle_distance_m": 0.17394252063613863,
+          "steps": 45,
+          "target_frames": 0
+        }
+      }
+    },
+    "generated_knob_drawer_accessible_001::qpos_small_plus": {
+      "first_forbidden_pairs": [],
+      "first_forbidden_step": null,
+      "first_target_step": 226,
+      "mode_summary": {
+        "contact_hold": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.03239955343435647,
+          "min_pad_handle_distance_m": 0.03239955343435647,
+          "steps": 80,
+          "target_frames": 10
+        },
+        "contact_seat": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.11529821750285522,
+          "min_pad_handle_distance_m": 0.11529821750285522,
+          "steps": 55,
+          "target_frames": 0
+        },
+        "free_space_pregrasp": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.2171111189522271,
+          "min_pad_handle_distance_m": 0.2171111189522271,
+          "steps": 55,
+          "target_frames": 0
+        },
+        "guarded_approach": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.17769223079062774,
+          "min_pad_handle_distance_m": 0.17769223079062774,
+          "steps": 45,
+          "target_frames": 0
+        }
+      }
+    },
+    "generated_knob_drawer_accessible_001::slow_guarded_contact": {
+      "first_forbidden_pairs": [
+        {
+          "category": "forbidden",
+          "contact_index": 0,
+          "dist_m": -0.00022777546083650388,
+          "geom1": 9,
+          "geom1_body": "link_1",
+          "geom1_name": "drawer_handle_collision_0",
+          "geom2": 69,
+          "geom2_body": "right_gripper",
+          "geom2_name": "hand_collision",
+          "normal": [
+            -0.7602820992108101,
+            -0.07125209653967236,
+            0.6456734998110928
+          ],
+          "normal_force_n": 172.65448032850824,
+          "penetration_m": 0.00022777546083650388,
+          "relative_normal_velocity_mps": -0.15755093827423877
+        },
+        {
+          "category": "target",
+          "contact_index": 1,
+          "dist_m": -0.0011555593914191406,
+          "geom1": 9,
+          "geom1_body": "link_1",
+          "geom1_name": "drawer_handle_collision_0",
+          "geom2": 72,
+          "geom2_body": "finger_joint1_tip",
+          "geom2_name": "finger1_pad_collision",
+          "normal": [
+            -0.9696335982180988,
+            0.010346927629078836,
+            -0.24434325506398025
+          ],
+          "normal_force_n": 45.687475518849304,
+          "penetration_m": 0.0011555593914191406,
+          "relative_normal_velocity_mps": -0.012844369165322684
+        }
+      ],
+      "first_forbidden_step": 295,
+      "first_target_step": 275,
+      "mode_summary": {
+        "contact_hold": {
+          "forbidden_frames": 21,
+          "last_pad_handle_distance_m": 0.034211947100648586,
+          "min_pad_handle_distance_m": 0.03307603100285272,
+          "steps": 90,
+          "target_frames": 41
+        },
+        "contact_seat": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.06377251813220966,
+          "min_pad_handle_distance_m": 0.06377251813220966,
+          "steps": 80,
+          "target_frames": 0
+        },
+        "free_space_pregrasp": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.20036679867888585,
+          "min_pad_handle_distance_m": 0.20036679867888585,
+          "steps": 75,
+          "target_frames": 0
+        },
+        "guarded_approach": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.14044508215444235,
+          "min_pad_handle_distance_m": 0.14044508215444235,
+          "steps": 70,
+          "target_frames": 0
+        }
+      }
+    },
+    "generated_knob_drawer_accessible_002::fast_guarded_contact": {
+      "first_forbidden_pairs": [],
+      "first_forbidden_step": null,
+      "first_target_step": null,
+      "mode_summary": {
+        "contact_hold": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.03932896129500283,
+          "min_pad_handle_distance_m": 0.03932896129500283,
+          "steps": 70,
+          "target_frames": 0
+        },
+        "contact_seat": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.1405851882907352,
+          "min_pad_handle_distance_m": 0.1405851882907352,
+          "steps": 42,
+          "target_frames": 0
+        },
+        "free_space_pregrasp": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.21864036248800825,
+          "min_pad_handle_distance_m": 0.21864036248800825,
+          "steps": 40,
+          "target_frames": 0
+        },
+        "guarded_approach": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.19078926220813247,
+          "min_pad_handle_distance_m": 0.19078926220813247,
+          "steps": 32,
+          "target_frames": 0
+        }
+      }
+    },
+    "generated_knob_drawer_accessible_002::late_close": {
+      "first_forbidden_pairs": [
+        {
+          "category": "forbidden",
+          "contact_index": 0,
+          "dist_m": -0.00044387951529429454,
+          "geom1": 9,
+          "geom1_body": "link_1",
+          "geom1_name": "drawer_handle_collision_0",
+          "geom2": 69,
+          "geom2_body": "right_gripper",
+          "geom2_name": "hand_collision",
+          "normal": [
+            -0.8421528498008015,
+            -0.05808678718175778,
+            0.5361012056760271
+          ],
+          "normal_force_n": 364.08844180049266,
+          "penetration_m": 0.00044387951529429454,
+          "relative_normal_velocity_mps": -0.4817553391642073
+        }
+      ],
+      "first_forbidden_step": 229,
+      "first_target_step": null,
+      "mode_summary": {
+        "contact_hold": {
+          "forbidden_frames": 37,
+          "last_pad_handle_distance_m": 0.04400032065434286,
+          "min_pad_handle_distance_m": 0.03661084044601329,
+          "steps": 95,
+          "target_frames": 0
+        },
+        "contact_seat": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.08112476176702726,
+          "min_pad_handle_distance_m": 0.08112476176702726,
+          "steps": 70,
+          "target_frames": 0
+        },
+        "free_space_pregrasp": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.20748606435398262,
+          "min_pad_handle_distance_m": 0.20748606435398262,
+          "steps": 55,
+          "target_frames": 0
+        },
+        "guarded_approach": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.16439206794788366,
+          "min_pad_handle_distance_m": 0.16439206794788366,
+          "steps": 45,
+          "target_frames": 0
+        }
+      }
+    },
+    "generated_knob_drawer_accessible_002::nominal": {
+      "first_forbidden_pairs": [
+        {
+          "category": "forbidden",
+          "contact_index": 0,
+          "dist_m": -0.00044388046223211436,
+          "geom1": 9,
+          "geom1_body": "link_1",
+          "geom1_name": "drawer_handle_collision_0",
+          "geom2": 69,
+          "geom2_body": "right_gripper",
+          "geom2_name": "hand_collision",
+          "normal": [
+            -0.842151881460582,
+            -0.05808522842000626,
+            0.5361028957129383
+          ],
+          "normal_force_n": 364.08923517452126,
+          "penetration_m": 0.00044388046223211436,
+          "relative_normal_velocity_mps": -0.4817563158246225
+        }
+      ],
+      "first_forbidden_step": 229,
+      "first_target_step": null,
+      "mode_summary": {
+        "contact_hold": {
+          "forbidden_frames": 7,
+          "last_pad_handle_distance_m": 0.04020093507324636,
+          "min_pad_handle_distance_m": 0.035037336448840176,
+          "steps": 80,
+          "target_frames": 0
+        },
+        "contact_seat": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.0981631196898203,
+          "min_pad_handle_distance_m": 0.0981631196898203,
+          "steps": 55,
+          "target_frames": 0
+        },
+        "free_space_pregrasp": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.20748606435398262,
+          "min_pad_handle_distance_m": 0.20748606435398262,
+          "steps": 55,
+          "target_frames": 0
+        },
+        "guarded_approach": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.16439206794788366,
+          "min_pad_handle_distance_m": 0.16439206794788366,
+          "steps": 45,
+          "target_frames": 0
+        }
+      }
+    },
+    "generated_knob_drawer_accessible_002::qpos_small_minus": {
+      "first_forbidden_pairs": [
+        {
+          "category": "forbidden",
+          "contact_index": 0,
+          "dist_m": -0.00021481941016053205,
+          "geom1": 9,
+          "geom1_body": "link_1",
+          "geom1_name": "drawer_handle_collision_0",
+          "geom2": 69,
+          "geom2_body": "right_gripper",
+          "geom2_name": "hand_collision",
+          "normal": [
+            -0.8334165727011204,
+            -0.06048620532717321,
+            0.5493252545734973
+          ],
+          "normal_force_n": 355.70296177914724,
+          "penetration_m": 0.00021481941016053205,
+          "relative_normal_velocity_mps": -0.4880818127520852
+        }
+      ],
+      "first_forbidden_step": 228,
+      "first_target_step": null,
+      "mode_summary": {
+        "contact_hold": {
+          "forbidden_frames": 8,
+          "last_pad_handle_distance_m": 0.04005475175919449,
+          "min_pad_handle_distance_m": 0.03495353504951252,
+          "steps": 80,
+          "target_frames": 0
+        },
+        "contact_seat": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.09708047772593018,
+          "min_pad_handle_distance_m": 0.09708047772593018,
+          "steps": 55,
+          "target_frames": 0
+        },
+        "free_space_pregrasp": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.2054418369114975,
+          "min_pad_handle_distance_m": 0.2054418369114975,
+          "steps": 55,
+          "target_frames": 0
+        },
+        "guarded_approach": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.1625106577598509,
+          "min_pad_handle_distance_m": 0.1625106577598509,
+          "steps": 45,
+          "target_frames": 0
+        }
+      }
+    },
+    "generated_knob_drawer_accessible_002::qpos_small_plus": {
+      "first_forbidden_pairs": [
+        {
+          "category": "forbidden",
+          "contact_index": 0,
+          "dist_m": -0.000668981193141429,
+          "geom1": 9,
+          "geom1_body": "link_1",
+          "geom1_name": "drawer_handle_collision_0",
+          "geom2": 69,
+          "geom2_body": "right_gripper",
+          "geom2_name": "hand_collision",
+          "normal": [
+            -0.8510318550848371,
+            -0.0555015333201471,
+            0.5221727314117173
+          ],
+          "normal_force_n": 374.86598343961805,
+          "penetration_m": 0.000668981193141429,
+          "relative_normal_velocity_mps": -0.4748929138120408
+        }
+      ],
+      "first_forbidden_step": 230,
+      "first_target_step": null,
+      "mode_summary": {
+        "contact_hold": {
+          "forbidden_frames": 6,
+          "last_pad_handle_distance_m": 0.040313092949628586,
+          "min_pad_handle_distance_m": 0.0351287271389365,
+          "steps": 80,
+          "target_frames": 0
+        },
+        "contact_seat": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.09926217782022874,
+          "min_pad_handle_distance_m": 0.09926217782022874,
+          "steps": 55,
+          "target_frames": 0
+        },
+        "free_space_pregrasp": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.2095357165453043,
+          "min_pad_handle_distance_m": 0.2095357165453043,
+          "steps": 55,
+          "target_frames": 0
+        },
+        "guarded_approach": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.16627924482149886,
+          "min_pad_handle_distance_m": 0.16627924482149886,
+          "steps": 45,
+          "target_frames": 0
+        }
+      }
+    },
+    "generated_knob_drawer_accessible_002::slow_guarded_contact": {
+      "first_forbidden_pairs": [
+        {
+          "category": "forbidden",
+          "contact_index": 0,
+          "dist_m": -0.00018856836452782813,
+          "geom1": 9,
+          "geom1_body": "link_1",
+          "geom1_name": "drawer_handle_collision_0",
+          "geom2": 69,
+          "geom2_body": "right_gripper",
+          "geom2_name": "hand_collision",
+          "normal": [
+            -0.8759021267101976,
+            -0.047830900185471474,
+            0.48011214253755397
+          ],
+          "normal_force_n": 238.08969121510222,
+          "penetration_m": 0.00018856836452782813,
+          "relative_normal_velocity_mps": -0.34256374072734413
+        }
+      ],
+      "first_forbidden_step": 266,
+      "first_target_step": null,
+      "mode_summary": {
+        "contact_hold": {
+          "forbidden_frames": 50,
+          "last_pad_handle_distance_m": 0.04366960114820954,
+          "min_pad_handle_distance_m": 0.03881657991216626,
+          "steps": 90,
+          "target_frames": 0
+        },
+        "contact_seat": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.05015294128250481,
+          "min_pad_handle_distance_m": 0.05015294128250481,
+          "steps": 80,
+          "target_frames": 0
+        },
+        "free_space_pregrasp": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.19152516131084157,
+          "min_pad_handle_distance_m": 0.19152516131084157,
+          "steps": 75,
+          "target_frames": 0
+        },
+        "guarded_approach": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.12549768973430958,
+          "min_pad_handle_distance_m": 0.12549768973430958,
+          "steps": 70,
+          "target_frames": 0
+        }
+      }
+    },
+    "generated_knob_drawer_accessible_003::fast_guarded_contact": {
+      "first_forbidden_pairs": [],
+      "first_forbidden_step": null,
+      "first_target_step": null,
+      "mode_summary": {
+        "contact_hold": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.11502969892682526,
+          "min_pad_handle_distance_m": 0.11502969892682526,
+          "steps": 70,
+          "target_frames": 0
+        },
+        "contact_seat": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.12693806424479284,
+          "min_pad_handle_distance_m": 0.10670432333612635,
+          "steps": 42,
+          "target_frames": 0
+        },
+        "free_space_pregrasp": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.08860354849675096,
+          "min_pad_handle_distance_m": 0.08074963828927682,
+          "steps": 40,
+          "target_frames": 0
+        },
+        "guarded_approach": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.10606995357344444,
+          "min_pad_handle_distance_m": 0.08901695760448691,
+          "steps": 32,
+          "target_frames": 0
+        }
+      }
+    },
+    "generated_knob_drawer_accessible_003::late_close": {
+      "first_forbidden_pairs": [],
+      "first_forbidden_step": null,
+      "first_target_step": null,
+      "mode_summary": {
+        "contact_hold": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.0802928323778801,
+          "min_pad_handle_distance_m": 0.0802928323778801,
+          "steps": 95,
+          "target_frames": 0
+        },
+        "contact_seat": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.1414530975244722,
+          "min_pad_handle_distance_m": 0.12622164209527567,
+          "steps": 70,
+          "target_frames": 0
+        },
+        "free_space_pregrasp": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.09562024196488818,
+          "min_pad_handle_distance_m": 0.08074963828927682,
+          "steps": 55,
+          "target_frames": 0
+        },
+        "guarded_approach": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.12556727763696454,
+          "min_pad_handle_distance_m": 0.0961849122691992,
+          "steps": 45,
+          "target_frames": 0
+        }
+      }
+    },
+    "generated_knob_drawer_accessible_003::nominal": {
+      "first_forbidden_pairs": [],
+      "first_forbidden_step": null,
+      "first_target_step": null,
+      "mode_summary": {
+        "contact_hold": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.10605453674348654,
+          "min_pad_handle_distance_m": 0.10605453674348654,
+          "steps": 80,
+          "target_frames": 0
+        },
+        "contact_seat": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.14253255038469362,
+          "min_pad_handle_distance_m": 0.12622164209527567,
+          "steps": 55,
+          "target_frames": 0
+        },
+        "free_space_pregrasp": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.09562024196488818,
+          "min_pad_handle_distance_m": 0.08074963828927682,
+          "steps": 55,
+          "target_frames": 0
+        },
+        "guarded_approach": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.12556727763696454,
+          "min_pad_handle_distance_m": 0.0961849122691992,
+          "steps": 45,
+          "target_frames": 0
+        }
+      }
+    },
+    "generated_knob_drawer_accessible_003::qpos_small_minus": {
+      "first_forbidden_pairs": [],
+      "first_forbidden_step": null,
+      "first_target_step": null,
+      "mode_summary": {
+        "contact_hold": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.10538802123277226,
+          "min_pad_handle_distance_m": 0.10538802123277226,
+          "steps": 80,
+          "target_frames": 0
+        },
+        "contact_seat": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.14306898482118555,
+          "min_pad_handle_distance_m": 0.127872049828657,
+          "steps": 55,
+          "target_frames": 0
+        },
+        "free_space_pregrasp": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.09735618500116018,
+          "min_pad_handle_distance_m": 0.08203008694648857,
+          "steps": 55,
+          "target_frames": 0
+        },
+        "guarded_approach": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.1272273965618586,
+          "min_pad_handle_distance_m": 0.09792744154135063,
+          "steps": 45,
+          "target_frames": 0
+        }
+      }
+    },
+    "generated_knob_drawer_accessible_003::qpos_small_plus": {
+      "first_forbidden_pairs": [],
+      "first_forbidden_step": null,
+      "first_target_step": null,
+      "mode_summary": {
+        "contact_hold": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.1067237056902133,
+          "min_pad_handle_distance_m": 0.1067237056902133,
+          "steps": 80,
+          "target_frames": 0
+        },
+        "contact_seat": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.14199748192965925,
+          "min_pad_handle_distance_m": 0.12458107519206582,
+          "steps": 55,
+          "target_frames": 0
+        },
+        "free_space_pregrasp": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.09392302641928862,
+          "min_pad_handle_distance_m": 0.07954454339899242,
+          "steps": 55,
+          "target_frames": 0
+        },
+        "guarded_approach": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.1239173623962246,
+          "min_pad_handle_distance_m": 0.09448020029551524,
+          "steps": 45,
+          "target_frames": 0
+        }
+      }
+    },
+    "generated_knob_drawer_accessible_003::slow_guarded_contact": {
+      "first_forbidden_pairs": [],
+      "first_forbidden_step": null,
+      "first_target_step": null,
+      "mode_summary": {
+        "contact_hold": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.06669736476695291,
+          "min_pad_handle_distance_m": 0.06669736476695291,
+          "steps": 90,
+          "target_frames": 0
+        },
+        "contact_seat": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.13690359288654996,
+          "min_pad_handle_distance_m": 0.13690359288654996,
+          "steps": 80,
+          "target_frames": 0
+        },
+        "free_space_pregrasp": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.10790255257981714,
+          "min_pad_handle_distance_m": 0.08074963828927682,
+          "steps": 75,
+          "target_frames": 0
+        },
+        "guarded_approach": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.1525831234313291,
+          "min_pad_handle_distance_m": 0.10861193062221176,
+          "steps": 70,
+          "target_frames": 0
+        }
+      }
+    },
+    "generated_knob_drawer_accessible_004::fast_guarded_contact": {
+      "first_forbidden_pairs": [],
+      "first_forbidden_step": null,
+      "first_target_step": null,
+      "mode_summary": {
+        "contact_hold": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.08523932032655715,
+          "min_pad_handle_distance_m": 0.08523932032655715,
+          "steps": 70,
+          "target_frames": 0
+        },
+        "contact_seat": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.12806008445429162,
+          "min_pad_handle_distance_m": 0.12806008445429162,
+          "steps": 42,
+          "target_frames": 0
+        },
+        "free_space_pregrasp": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.145896235147246,
+          "min_pad_handle_distance_m": 0.145896235147246,
+          "steps": 40,
+          "target_frames": 0
+        },
+        "guarded_approach": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.13933361007609268,
+          "min_pad_handle_distance_m": 0.13933361007609268,
+          "steps": 32,
+          "target_frames": 0
+        }
+      }
+    },
+    "generated_knob_drawer_accessible_004::late_close": {
+      "first_forbidden_pairs": [],
+      "first_forbidden_step": null,
+      "first_target_step": null,
+      "mode_summary": {
+        "contact_hold": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.0401065499625049,
+          "min_pad_handle_distance_m": 0.0401065499625049,
+          "steps": 95,
+          "target_frames": 0
+        },
+        "contact_seat": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.11526035482220715,
+          "min_pad_handle_distance_m": 0.11526035482220715,
+          "steps": 70,
+          "target_frames": 0
+        },
+        "free_space_pregrasp": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.14644075369700324,
+          "min_pad_handle_distance_m": 0.1463265093562857,
+          "steps": 55,
+          "target_frames": 0
+        },
+        "guarded_approach": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.13877947106344649,
+          "min_pad_handle_distance_m": 0.13877947106344649,
+          "steps": 45,
+          "target_frames": 0
+        }
+      }
+    },
+    "generated_knob_drawer_accessible_004::nominal": {
+      "first_forbidden_pairs": [],
+      "first_forbidden_step": null,
+      "first_target_step": null,
+      "mode_summary": {
+        "contact_hold": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.07262582276936894,
+          "min_pad_handle_distance_m": 0.07262582276936894,
+          "steps": 80,
+          "target_frames": 0
+        },
+        "contact_seat": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.12591964434037106,
+          "min_pad_handle_distance_m": 0.12591964434037106,
+          "steps": 55,
+          "target_frames": 0
+        },
+        "free_space_pregrasp": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.14644075369700324,
+          "min_pad_handle_distance_m": 0.1463265093562857,
+          "steps": 55,
+          "target_frames": 0
+        },
+        "guarded_approach": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.13877947106344649,
+          "min_pad_handle_distance_m": 0.13877947106344649,
+          "steps": 45,
+          "target_frames": 0
+        }
+      }
+    },
+    "generated_knob_drawer_accessible_004::qpos_small_minus": {
+      "first_forbidden_pairs": [],
+      "first_forbidden_step": null,
+      "first_target_step": null,
+      "mode_summary": {
+        "contact_hold": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.07371539402503975,
+          "min_pad_handle_distance_m": 0.07371539402503975,
+          "steps": 80,
+          "target_frames": 0
+        },
+        "contact_seat": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.12680901680111464,
+          "min_pad_handle_distance_m": 0.12680901680111464,
+          "steps": 55,
+          "target_frames": 0
+        },
+        "free_space_pregrasp": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.1463600156113297,
+          "min_pad_handle_distance_m": 0.14581104766271233,
+          "steps": 55,
+          "target_frames": 0
+        },
+        "guarded_approach": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.13925531478815656,
+          "min_pad_handle_distance_m": 0.13925531478815656,
+          "steps": 45,
+          "target_frames": 0
+        }
+      }
+    },
+    "generated_knob_drawer_accessible_004::qpos_small_plus": {
+      "first_forbidden_pairs": [],
+      "first_forbidden_step": null,
+      "first_target_step": null,
+      "mode_summary": {
+        "contact_hold": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.07158884866187919,
+          "min_pad_handle_distance_m": 0.07158884866187919,
+          "steps": 80,
+          "target_frames": 0
+        },
+        "contact_seat": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.12507284195590943,
+          "min_pad_handle_distance_m": 0.12507284195590943,
+          "steps": 55,
+          "target_frames": 0
+        },
+        "free_space_pregrasp": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.14657414506296165,
+          "min_pad_handle_distance_m": 0.14657414506296165,
+          "steps": 55,
+          "target_frames": 0
+        },
+        "guarded_approach": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.13835356992706896,
+          "min_pad_handle_distance_m": 0.13835356992706896,
+          "steps": 45,
+          "target_frames": 0
+        }
+      }
+    },
+    "generated_knob_drawer_accessible_004::slow_guarded_contact": {
+      "first_forbidden_pairs": [],
+      "first_forbidden_step": null,
+      "first_target_step": null,
+      "mode_summary": {
+        "contact_hold": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.053747582676488506,
+          "min_pad_handle_distance_m": 0.053747582676488506,
+          "steps": 90,
+          "target_frames": 0
+        },
+        "contact_seat": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.12439175338832376,
+          "min_pad_handle_distance_m": 0.12439175338832376,
+          "steps": 80,
+          "target_frames": 0
+        },
+        "free_space_pregrasp": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.14990413325937396,
+          "min_pad_handle_distance_m": 0.1463265093562857,
+          "steps": 75,
+          "target_frames": 0
+        },
+        "guarded_approach": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.14529395598859599,
+          "min_pad_handle_distance_m": 0.14529395598859599,
+          "steps": 70,
+          "target_frames": 0
+        }
+      }
+    },
+    "generated_knob_drawer_accessible_005::fast_guarded_contact": {
+      "first_forbidden_pairs": [],
+      "first_forbidden_step": null,
+      "first_target_step": null,
+      "mode_summary": {
+        "contact_hold": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.35420350413591595,
+          "min_pad_handle_distance_m": 0.35420350413591595,
+          "steps": 70,
+          "target_frames": 0
+        },
+        "contact_seat": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.45543054805737304,
+          "min_pad_handle_distance_m": 0.45543054805737304,
+          "steps": 42,
+          "target_frames": 0
+        },
+        "free_space_pregrasp": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.5028737427208305,
+          "min_pad_handle_distance_m": 0.5020001586419514,
+          "steps": 40,
+          "target_frames": 0
+        },
+        "guarded_approach": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.49056572015309247,
+          "min_pad_handle_distance_m": 0.49056572015309247,
+          "steps": 32,
+          "target_frames": 0
+        }
+      }
+    },
+    "generated_knob_drawer_accessible_005::late_close": {
+      "first_forbidden_pairs": [],
+      "first_forbidden_step": null,
+      "first_target_step": null,
+      "mode_summary": {
+        "contact_hold": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.2584711263839098,
+          "min_pad_handle_distance_m": 0.2584711263839098,
+          "steps": 95,
+          "target_frames": 0
+        },
+        "contact_seat": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.3971133168243127,
+          "min_pad_handle_distance_m": 0.3971133168243127,
+          "steps": 70,
+          "target_frames": 0
+        },
+        "free_space_pregrasp": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.5013696124363892,
+          "min_pad_handle_distance_m": 0.5013696124363892,
+          "steps": 55,
+          "target_frames": 0
+        },
+        "guarded_approach": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.4762115308574095,
+          "min_pad_handle_distance_m": 0.4762115308574095,
+          "steps": 45,
+          "target_frames": 0
+        }
+      }
+    },
+    "generated_knob_drawer_accessible_005::nominal": {
+      "first_forbidden_pairs": [],
+      "first_forbidden_step": null,
+      "first_target_step": null,
+      "mode_summary": {
+        "contact_hold": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.30946759241436045,
+          "min_pad_handle_distance_m": 0.30946759241436045,
+          "steps": 80,
+          "target_frames": 0
+        },
+        "contact_seat": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.4211136972866895,
+          "min_pad_handle_distance_m": 0.4211136972866895,
+          "steps": 55,
+          "target_frames": 0
+        },
+        "free_space_pregrasp": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.5013696124363892,
+          "min_pad_handle_distance_m": 0.5013696124363892,
+          "steps": 55,
+          "target_frames": 0
+        },
+        "guarded_approach": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.4762115308574095,
+          "min_pad_handle_distance_m": 0.4762115308574095,
+          "steps": 45,
+          "target_frames": 0
+        }
+      }
+    },
+    "generated_knob_drawer_accessible_005::qpos_small_minus": {
+      "first_forbidden_pairs": [],
+      "first_forbidden_step": null,
+      "first_target_step": null,
+      "mode_summary": {
+        "contact_hold": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.308773584679631,
+          "min_pad_handle_distance_m": 0.308773584679631,
+          "steps": 80,
+          "target_frames": 0
+        },
+        "contact_seat": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.41972680397241213,
+          "min_pad_handle_distance_m": 0.41972680397241213,
+          "steps": 55,
+          "target_frames": 0
+        },
+        "free_space_pregrasp": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.5000391664240814,
+          "min_pad_handle_distance_m": 0.5000391664240814,
+          "steps": 55,
+          "target_frames": 0
+        },
+        "guarded_approach": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.474882114858062,
+          "min_pad_handle_distance_m": 0.474882114858062,
+          "steps": 45,
+          "target_frames": 0
+        }
+      }
+    },
+    "generated_knob_drawer_accessible_005::qpos_small_plus": {
+      "first_forbidden_pairs": [],
+      "first_forbidden_step": null,
+      "first_target_step": null,
+      "mode_summary": {
+        "contact_hold": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.3103403863582655,
+          "min_pad_handle_distance_m": 0.3103403863582655,
+          "steps": 80,
+          "target_frames": 0
+        },
+        "contact_seat": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.422501608831304,
+          "min_pad_handle_distance_m": 0.422501608831304,
+          "steps": 55,
+          "target_frames": 0
+        },
+        "free_space_pregrasp": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.5027005491939279,
+          "min_pad_handle_distance_m": 0.5027005491939279,
+          "steps": 55,
+          "target_frames": 0
+        },
+        "guarded_approach": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.47754168115039425,
+          "min_pad_handle_distance_m": 0.47754168115039425,
+          "steps": 45,
+          "target_frames": 0
+        }
+      }
+    },
+    "generated_knob_drawer_accessible_005::slow_guarded_contact": {
+      "first_forbidden_pairs": [],
+      "first_forbidden_step": null,
+      "first_target_step": null,
+      "mode_summary": {
+        "contact_hold": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.2621953152714988,
+          "min_pad_handle_distance_m": 0.2621953152714988,
+          "steps": 90,
+          "target_frames": 0
+        },
+        "contact_seat": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.37440508404700246,
+          "min_pad_handle_distance_m": 0.37440508404700246,
+          "steps": 80,
+          "target_frames": 0
+        },
+        "free_space_pregrasp": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.49858777281397343,
+          "min_pad_handle_distance_m": 0.49858777281397343,
+          "steps": 75,
+          "target_frames": 0
+        },
+        "guarded_approach": {
+          "forbidden_frames": 0,
+          "last_pad_handle_distance_m": 0.4513897619736538,
+          "min_pad_handle_distance_m": 0.4513897619736538,
+          "steps": 70,
+          "target_frames": 0
+        }
+      }
+    }
+  }
+}

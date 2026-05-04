@@ -1,0 +1,21 @@
+{
+  "cases_failed": 0,
+  "cases_passed": 30,
+  "cases_total": 30,
+  "failure_histogram": {},
+  "forbidden_contact_frames_max": 0,
+  "generated_at_utc": "2026-05-04T07:55:24Z",
+  "handle_nonlegal_contact_frames_max": 0,
+  "matrix_passed": true,
+  "max_force_n": 193.74517316486865,
+  "max_penetration_m": 0.00533681309959327,
+  "policy_cycle": 8,
+  "policy_mode": "adaptive",
+  "policy_name": "cycle8_adaptive_contact_mode_v1",
+  "q_error_norm_final_max": 0.8734488449613637,
+  "target_contact_consecutive_max": 883,
+  "target_contact_consecutive_min": 52,
+  "target_contact_frames_max": 883,
+  "target_contact_frames_min": 52,
+  "targeted_shard": false
+}

@@ -1,0 +1,24 @@
+{
+  "cases_failed": 6,
+  "cases_passed": 1,
+  "cases_total": 7,
+  "failure_histogram": {
+    "target_contact_consecutive_lt_30": 6,
+    "target_contact_frames_lt_50": 6
+  },
+  "forbidden_contact_frames_max": 0,
+  "generated_at_utc": "2026-05-04T07:52:35Z",
+  "handle_nonlegal_contact_frames_max": 0,
+  "matrix_passed": false,
+  "max_force_n": 26.146779406362008,
+  "max_penetration_m": 0.0009138611870611116,
+  "policy_cycle": 3,
+  "policy_mode": "two_pad_opspace",
+  "policy_name": "cycle3_two_pad_opspace_medium_press_slow",
+  "q_error_norm_final_max": 0.9172650422781595,
+  "target_contact_consecutive_max": 195,
+  "target_contact_consecutive_min": 0,
+  "target_contact_frames_max": 380,
+  "target_contact_frames_min": 0,
+  "targeted_shard": true
+}

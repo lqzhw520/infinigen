@@ -1,0 +1,8 @@
+{
+  "do_not_apply_automatically": true,
+  "mint_training_allowed": false,
+  "next_gate": "GOC_V4_BOUNDED_TEACHER_PULL_ROLLOUT_ON_ACCESSIBLE_POOL",
+  "proposal_generated_at_utc": "2026-05-04T07:55:24Z",
+  "task_id": "V11_G4_GOC_V4_CONTACT_MODE_OPERATIONAL_SPACE_POLICY_REPAIR_ON_ACCESSIBLE_POOL_V1",
+  "teacher_rollout_allowed": true
+}

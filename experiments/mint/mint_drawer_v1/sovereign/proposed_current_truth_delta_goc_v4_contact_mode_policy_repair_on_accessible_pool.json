@@ -1,0 +1,331 @@
+{
+  "contact_policy_repair": {
+    "accepted_instance_ids": [
+      "generated_knob_drawer_accessible_001",
+      "generated_knob_drawer_accessible_002",
+      "generated_knob_drawer_accessible_003",
+      "generated_knob_drawer_accessible_004",
+      "generated_knob_drawer_accessible_005"
+    ],
+    "accepted_pool_bound": true,
+    "closeout_classification": "CONTACT_MODE_OPERATIONAL_SPACE_POLICY_REPAIR_LAYER4R_PASSED",
+    "current_truth_modified": false,
+    "cycle_summaries": [
+      {
+        "targeted": {
+          "cases_failed": 5,
+          "cases_passed": 2,
+          "cases_total": 7,
+          "failure_histogram": {
+            "forbidden_contact_present": 5,
+            "target_contact_consecutive_lt_30": 5,
+            "target_contact_frames_lt_50": 5
+          },
+          "forbidden_contact_frames_max": 202,
+          "generated_at_utc": "2026-05-04T07:52:09Z",
+          "handle_nonlegal_contact_frames_max": 0,
+          "matrix_passed": false,
+          "max_force_n": 706.2042795581908,
+          "max_penetration_m": 0.008248981171624165,
+          "policy_cycle": 1,
+          "policy_mode": "qpos",
+          "policy_name": "cycle1_extended_qpos_continuous_fingers",
+          "q_error_norm_final_max": 0.23018634097516438,
+          "target_contact_consecutive_max": 117,
+          "target_contact_consecutive_min": 0,
+          "target_contact_frames_max": 117,
+          "target_contact_frames_min": 0,
+          "targeted_shard": true
+        }
+      },
+      {
+        "targeted": {
+          "cases_failed": 6,
+          "cases_passed": 1,
+          "cases_total": 7,
+          "failure_histogram": {
+            "forbidden_contact_present": 2,
+            "target_contact_consecutive_lt_30": 5,
+            "target_contact_frames_lt_50": 6
+          },
+          "forbidden_contact_frames_max": 24,
+          "generated_at_utc": "2026-05-04T07:52:20Z",
+          "handle_nonlegal_contact_frames_max": 0,
+          "matrix_passed": false,
+          "max_force_n": 129.7030894445437,
+          "max_penetration_m": 0.0021978017660261064,
+          "policy_cycle": 2,
+          "policy_mode": "two_pad_opspace",
+          "policy_name": "cycle2_two_pad_opspace_light_press",
+          "q_error_norm_final_max": 0.5292836746324231,
+          "target_contact_consecutive_max": 95,
+          "target_contact_consecutive_min": 0,
+          "target_contact_frames_max": 95,
+          "target_contact_frames_min": 0,
+          "targeted_shard": true
+        }
+      },
+      {
+        "targeted": {
+          "cases_failed": 6,
+          "cases_passed": 1,
+          "cases_total": 7,
+          "failure_histogram": {
+            "target_contact_consecutive_lt_30": 6,
+            "target_contact_frames_lt_50": 6
+          },
+          "forbidden_contact_frames_max": 0,
+          "generated_at_utc": "2026-05-04T07:52:35Z",
+          "handle_nonlegal_contact_frames_max": 0,
+          "matrix_passed": false,
+          "max_force_n": 26.146779406362008,
+          "max_penetration_m": 0.0009138611870611116,
+          "policy_cycle": 3,
+          "policy_mode": "two_pad_opspace",
+          "policy_name": "cycle3_two_pad_opspace_medium_press_slow",
+          "q_error_norm_final_max": 0.9172650422781595,
+          "target_contact_consecutive_max": 195,
+          "target_contact_consecutive_min": 0,
+          "target_contact_frames_max": 380,
+          "target_contact_frames_min": 0,
+          "targeted_shard": true
+        }
+      },
+      {
+        "targeted": {
+          "cases_failed": 6,
+          "cases_passed": 1,
+          "cases_total": 7,
+          "failure_histogram": {
+            "target_contact_consecutive_lt_30": 5,
+            "target_contact_frames_lt_50": 6
+          },
+          "forbidden_contact_frames_max": 0,
+          "generated_at_utc": "2026-05-04T07:52:50Z",
+          "handle_nonlegal_contact_frames_max": 0,
+          "matrix_passed": false,
+          "max_force_n": 62.02432798408536,
+          "max_penetration_m": 0.0017265508711440149,
+          "policy_cycle": 4,
+          "policy_mode": "two_pad_opspace",
+          "policy_name": "cycle4_two_pad_opspace_zero_press_high_track",
+          "q_error_norm_final_max": 0.056402468514688685,
+          "target_contact_consecutive_max": 49,
+          "target_contact_consecutive_min": 0,
+          "target_contact_frames_max": 74,
+          "target_contact_frames_min": 0,
+          "targeted_shard": true
+        }
+      },
+      {
+        "targeted": {
+          "cases_failed": 6,
+          "cases_passed": 1,
+          "cases_total": 7,
+          "failure_histogram": {
+            "target_contact_consecutive_lt_30": 6,
+            "target_contact_frames_lt_50": 6
+          },
+          "forbidden_contact_frames_max": 0,
+          "generated_at_utc": "2026-05-04T07:53:08Z",
+          "handle_nonlegal_contact_frames_max": 0,
+          "matrix_passed": false,
+          "max_force_n": 23.441232313015856,
+          "max_penetration_m": 0.0007296332248416804,
+          "policy_cycle": 5,
+          "policy_mode": "two_pad_opspace",
+          "policy_name": "cycle5_two_pad_opspace_slow_light_press_long",
+          "q_error_norm_final_max": 0.7159746349693901,
+          "target_contact_consecutive_max": 144,
+          "target_contact_consecutive_min": 0,
+          "target_contact_frames_max": 146,
+          "target_contact_frames_min": 0,
+          "targeted_shard": true
+        }
+      },
+      {
+        "targeted": {
+          "cases_failed": 5,
+          "cases_passed": 2,
+          "cases_total": 7,
+          "failure_histogram": {
+            "forbidden_contact_present": 5,
+            "target_contact_consecutive_lt_30": 1
+          },
+          "forbidden_contact_frames_max": 185,
+          "generated_at_utc": "2026-05-04T07:53:23Z",
+          "handle_nonlegal_contact_frames_max": 0,
+          "matrix_passed": false,
+          "max_force_n": 473.0727886030611,
+          "max_penetration_m": 0.006589712513085783,
+          "policy_cycle": 6,
+          "policy_mode": "qpos",
+          "policy_name": "cycle6_qpos_binary_close_long",
+          "q_error_norm_final_max": 0.11770086564973938,
+          "target_contact_consecutive_max": 452,
+          "target_contact_consecutive_min": 27,
+          "target_contact_frames_max": 463,
+          "target_contact_frames_min": 51,
+          "targeted_shard": true
+        }
+      },
+      {
+        "targeted": {
+          "cases_failed": 1,
+          "cases_passed": 6,
+          "cases_total": 7,
+          "failure_histogram": {
+            "target_contact_consecutive_lt_30": 1,
+            "target_contact_frames_lt_50": 1
+          },
+          "forbidden_contact_frames_max": 0,
+          "generated_at_utc": "2026-05-04T07:53:44Z",
+          "handle_nonlegal_contact_frames_max": 0,
+          "matrix_passed": false,
+          "max_force_n": 42.96859395260961,
+          "max_penetration_m": 0.0013057336391346687,
+          "policy_cycle": 7,
+          "policy_mode": "two_pad_opspace",
+          "policy_name": "cycle7_two_pad_opspace_binary_close_light_press",
+          "q_error_norm_final_max": 1.1045034106870506,
+          "target_contact_consecutive_max": 733,
+          "target_contact_consecutive_min": 0,
+          "target_contact_frames_max": 733,
+          "target_contact_frames_min": 0,
+          "targeted_shard": true
+        }
+      },
+      {
+        "full_layer4r": {
+          "cases_failed": 0,
+          "cases_passed": 30,
+          "cases_total": 30,
+          "failure_histogram": {},
+          "forbidden_contact_frames_max": 0,
+          "generated_at_utc": "2026-05-04T07:55:24Z",
+          "handle_nonlegal_contact_frames_max": 0,
+          "matrix_passed": true,
+          "max_force_n": 193.74517316486865,
+          "max_penetration_m": 0.00533681309959327,
+          "policy_cycle": 8,
+          "policy_mode": "adaptive",
+          "policy_name": "cycle8_adaptive_contact_mode_v1",
+          "q_error_norm_final_max": 0.8734488449613637,
+          "target_contact_consecutive_max": 883,
+          "target_contact_consecutive_min": 52,
+          "target_contact_frames_max": 883,
+          "target_contact_frames_min": 52,
+          "targeted_shard": false
+        },
+        "targeted": {
+          "cases_failed": 0,
+          "cases_passed": 7,
+          "cases_total": 7,
+          "failure_histogram": {},
+          "forbidden_contact_frames_max": 0,
+          "generated_at_utc": "2026-05-04T07:54:05Z",
+          "handle_nonlegal_contact_frames_max": 0,
+          "matrix_passed": true,
+          "max_force_n": 193.74517316486865,
+          "max_penetration_m": 0.00533681309959327,
+          "policy_cycle": 8,
+          "policy_mode": "adaptive",
+          "policy_name": "cycle8_adaptive_contact_mode_v1",
+          "q_error_norm_final_max": 0.702882595775457,
+          "target_contact_consecutive_max": 883,
+          "target_contact_consecutive_min": 60,
+          "target_contact_frames_max": 883,
+          "target_contact_frames_min": 60,
+          "targeted_shard": true
+        }
+      }
+    ],
+    "direct_qpos_drawer_opening": false,
+    "drawer_motor_command_used": false,
+    "failure_histogram": {},
+    "fake_collision_demotion_used": false,
+    "forbidden_contact_frames_max": 0,
+    "full_layer4r_best": {
+      "cases_failed": 0,
+      "cases_passed": 30,
+      "cases_total": 30,
+      "failure_histogram": {},
+      "forbidden_contact_frames_max": 0,
+      "generated_at_utc": "2026-05-04T07:55:24Z",
+      "handle_nonlegal_contact_frames_max": 0,
+      "matrix_passed": true,
+      "max_force_n": 193.74517316486865,
+      "max_penetration_m": 0.00533681309959327,
+      "policy_cycle": 8,
+      "policy_mode": "adaptive",
+      "policy_name": "cycle8_adaptive_contact_mode_v1",
+      "q_error_norm_final_max": 0.8734488449613637,
+      "target_contact_consecutive_max": 883,
+      "target_contact_consecutive_min": 52,
+      "target_contact_frames_max": 883,
+      "target_contact_frames_min": 52,
+      "targeted_shard": false
+    },
+    "full_layer4r_matrix_attempted": true,
+    "generated_at_utc": "2026-05-04T07:55:24Z",
+    "geometry_modified": false,
+    "goc_v4_authority_modified": false,
+    "handle_nonlegal_contact_frames_max": 0,
+    "harness_preflight_passed": true,
+    "layer4r_cases_failed": 0,
+    "layer4r_cases_passed": 30,
+    "layer4r_cases_total": 30,
+    "max_force_n": 193.74517316486865,
+    "max_penetration_m": 0.00533681309959327,
+    "next_actions_modified": false,
+    "next_gate": "GOC_V4_BOUNDED_TEACHER_PULL_ROLLOUT_ON_ACCESSIBLE_POOL",
+    "pool_modified": false,
+    "repair_cycles_run": 8,
+    "runtime_patch_applied": true,
+    "runtime_patch_files": [
+      "scripts/mint/v11_g4_contact_mode_policy_repair_on_accessible_pool.py"
+    ],
+    "target_contact_consecutive_max": 883,
+    "target_contact_consecutive_min": 52,
+    "target_contact_frames_max": 883,
+    "target_contact_frames_min": 52,
+    "targeted_shard_best": {
+      "cases_failed": 0,
+      "cases_passed": 7,
+      "cases_total": 7,
+      "failure_histogram": {},
+      "forbidden_contact_frames_max": 0,
+      "generated_at_utc": "2026-05-04T07:54:05Z",
+      "handle_nonlegal_contact_frames_max": 0,
+      "matrix_passed": true,
+      "max_force_n": 193.74517316486865,
+      "max_penetration_m": 0.00533681309959327,
+      "policy_cycle": 8,
+      "policy_mode": "adaptive",
+      "policy_name": "cycle8_adaptive_contact_mode_v1",
+      "q_error_norm_final_max": 0.702882595775457,
+      "target_contact_consecutive_max": 883,
+      "target_contact_consecutive_min": 60,
+      "target_contact_frames_max": 883,
+      "target_contact_frames_min": 60,
+      "targeted_shard": true
+    },
+    "task_id": "V11_G4_GOC_V4_CONTACT_MODE_OPERATIONAL_SPACE_POLICY_REPAIR_ON_ACCESSIBLE_POOL_V1",
+    "task_spec_lock_bound": true,
+    "thresholds_modified": false
+  },
+  "current_truth_modified": false,
+  "do_not_apply_automatically": true,
+  "fixed_accepted_pool": {
+    "accepted_instance_ids": [
+      "generated_knob_drawer_accessible_001",
+      "generated_knob_drawer_accessible_002",
+      "generated_knob_drawer_accessible_003",
+      "generated_knob_drawer_accessible_004",
+      "generated_knob_drawer_accessible_005"
+    ],
+    "pool_modified": false
+  },
+  "proposal_generated_at_utc": "2026-05-04T07:55:24Z",
+  "task_id": "V11_G4_GOC_V4_CONTACT_MODE_OPERATIONAL_SPACE_POLICY_REPAIR_ON_ACCESSIBLE_POOL_V1"
+}

@@ -1,0 +1,15 @@
+{
+  "all_required_paths_origin_visible": true,
+  "generated_at_utc": "2026-05-04T07:57:34Z",
+  "local_head": "40573b636979b0d66404b963a60b498c23b159ee",
+  "remote_head": "40573b636979b0d66404b963a60b498c23b159ee",
+  "remote_head_matches_local": true,
+  "required_paths_origin_visible": {
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_contact_mode_operational_space_policy_repair_on_accessible_pool_20260504T075148Z/closeout_decision.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_contact_mode_operational_space_policy_repair_on_accessible_pool_20260504T075148Z/final_report.md": true,
+    "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_contact_mode_operational_space_policy_repair_on_accessible_pool.yaml": true,
+    "experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_goc_v4_contact_mode_policy_repair_on_accessible_pool.json": true,
+    "experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_goc_v4_contact_mode_policy_repair_on_accessible_pool.json": true,
+    "scripts/mint/v11_g4_contact_mode_policy_repair_on_accessible_pool.py": true
+  }
+}

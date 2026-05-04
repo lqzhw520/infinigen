@@ -34,6 +34,26 @@ source_authority:
   required_layer4r_cases_total: 30
   required_layer4r_cases_passed: 30
 
+
+# Validator-compatible baseline authority. Runtime authority for this phase is
+# GOC-v4 per-instance dedicated-pad binding; this block keeps the existing V01
+# production validator anchored to the GOC-v3 exact-ID baseline and fixtures.
+task_authority:
+  authority_type: GOC_V3_EXACT_GEOM_ID_SETS_AS_SOURCE_BASELINE_FOR_GOC_V4_BOUNDED_PULL_ON_POOL
+  goc_version: v3
+  goc_artifact_path: artifacts/phase1h_geometry_contract/goc_v3_contract.json
+  goc_contract: experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v3_contract.json
+  goc_contract_id: GOC_V3_EXACT_ID_GEOMETRY_OWNERSHIP_CONTRACT
+  legal_gripper_surface_geom_ids: [63, 81, 90]
+  forbidden_robot_surface_geom_ids: [45, 47, 49, 54, 59]
+  drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+  prohibited_authority:
+    - GOC-v2 count-only legal_pad=29 forbidden=26 handle=9
+    - runtime body-based legal=31 forbidden=27 without exact-ID role classification
+    - legacy name-only contact reports
+    - fixed drawer_handle_geom_ids=[0..8] as runtime authority without semantic verification
+    - broad-link, wrist, arm, or finger shell contact as target
+
 goc_v4_authority:
   per_instance_semantic_binding_required: true
   dedicated_finger_pad_exact_ids_required: true
@@ -150,3 +170,18 @@ next_gate_rules:
   if_forbidden_during_pull: PULL_CORRIDOR_KEEP_OUT_REPAIR_ON_FIXED_POOL
   if_contact_legality_fails: GOC_V4_PULL_CONTACT_MODE_REPAIR
   if_readiness_fails: ACCEPTED_POOL_OR_LAYER4R_BINDING_REPAIR
+
+fixtures:
+  fixture_valid_authority_match:
+    runtime_exact_ids:
+      legal_gripper_surface_geom_ids: [63, 81, 90]
+      forbidden_robot_surface_geom_ids: [45, 47, 49, 54, 59]
+      drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    expected: PASS
+  fixture_invalid_authority_drift:
+    runtime_exact_ids:
+      legal_gripper_surface_geom_ids: [60, 61, 62]
+      forbidden_robot_surface_geom_ids: [45, 47, 49, 54, 59]
+      drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    expected: FAIL
+    expected_error: AUTHORITY_MISMATCH

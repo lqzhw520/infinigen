@@ -1,0 +1,30 @@
+{
+  "all_required_origin_visible": true,
+  "evidence_commit_hash": "1fd513a272e1076cd5670adb182b96248c88948d",
+  "generated_at_utc": "2026-05-04T16:30:36Z",
+  "local_head": "1fd513a272e1076cd5670adb182b96248c88948d",
+  "origin_matches_local": true,
+  "origin_visible": true,
+  "path_visible_at_local_head": {
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/dynamic_pull_forensic_decision.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/final_closeout.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/final_closeout.md": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/pull_wrench_oracle_results.jsonl": true,
+    "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight.yaml": true,
+    "experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay.json": true,
+    "experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay.json": true,
+    "scripts/mint/v11_g4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight.py": true
+  },
+  "remote_hash_at_verification": "1fd513a272e1076cd5670adb182b96248c88948d",
+  "remote_head": "1fd513a272e1076cd5670adb182b96248c88948d",
+  "required_paths": [
+    "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight.yaml",
+    "scripts/mint/v11_g4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight.py",
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/final_closeout.json",
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/final_closeout.md",
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/pull_wrench_oracle_results.jsonl",
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/dynamic_pull_forensic_decision.json",
+    "experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay.json",
+    "experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay.json"
+  ]
+}

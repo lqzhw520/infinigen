@@ -13,3 +13,6 @@
 - strict_teacher_export_attempted: `False`
 - local_strict_replay_attempted: `False`
 - next_gate: `DYNAMIC_PULL_ACCESSIBLE_POOL_REDESIGN`
+
+Post-push evidence commit: `1fd513a272e1076cd5670adb182b96248c88948d`
+Origin-visible at verification: `True`

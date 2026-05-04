@@ -2,11 +2,11 @@
   "lock_id": "CAMPAIGN_NATIVE_HARNESS_PRODUCTION_LOCK_V3",
   "version": "3.0.0",
   "generated_by": "validate_harness_production_lock.py",
-  "generated_at_utc": "2026-05-04T15:59:38Z",
+  "generated_at_utc": "2026-05-04T16:02:14Z",
   "harness_status": "production_ready",
   "campaign_root": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1",
   "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
-  "local_head": "e39b5518f77ca967c2891738d9e73d6a68f7d34c",
+  "local_head": "dc8ac5a6e9735f245ccd679c6e50b86b657a3af1",
   "remote": "git@github.com:lqzhw520/infinigen.git",
   "lock_inputs": {
     "task_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight.yaml",
@@ -37,7 +37,7 @@
     "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_closeout.py": "00876f159f540a8c00f4f86df560fa77788535c2",
     "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml": "a9b30267254f281224a0285466bce873c0e698e2",
     "experiments/mint/mint_drawer_v1/autopilot/v11_hard_goal_contract.json": "13b699b3e23a99929c591ec08ae7c859172988e5",
-    "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json": "87025441d88fcce0bc9363db54afac0c2e759a12",
+    "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json": "4416f2ef822c119971f4fa8d23637f5dbd4fb8d9",
     "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight.yaml": "bce4f2564ce1468fa205735327a42607a68b16a9"
   },
   "validator_hashes": {
@@ -170,9 +170,9 @@
   "post_push_attestation": {
     "required": true,
     "path": "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_attestation.json",
-    "blob": "95b86a398ac9a8c1eb4537648bd918beb9f2cad6",
+    "blob": "a975bfd298a19adff38c7807a3f41ceb7257d551",
     "origin_verified": true,
-    "origin_head": "ce112aba84f8553661551f395dbe4181c5be2c6f",
+    "origin_head": "3e0e3b1f977e2dbfc93e94beda424cf23175a9a5",
     "required_file_blobs_verified": true,
     "regressions_verified_after_publication": true
   }

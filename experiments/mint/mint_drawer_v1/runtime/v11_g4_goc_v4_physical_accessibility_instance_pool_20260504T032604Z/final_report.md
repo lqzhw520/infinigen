@@ -20,3 +20,10 @@ Key results:
 - existing/repaired/generated accept counts: `0` / `0` / `5`
 - fake collision demotion used: `False`
 - next gate: `LAYER4R_ON_ACCESSIBLE_INSTANCE_POOL`
+
+Post-push verification:
+
+- committed: True
+- pushed_to_origin: True
+- remote evidence commit hash: d200433c3690a136016a8f90ab8d571b91807002
+- post-push verification artifact: post_push_verification.json

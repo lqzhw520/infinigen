@@ -1,0 +1,30 @@
+{
+  "accepted_accessible_instance_count": 5,
+  "accepted_instance_ids": [
+    "generated_knob_drawer_accessible_001",
+    "generated_knob_drawer_accessible_002",
+    "generated_knob_drawer_accessible_003",
+    "generated_knob_drawer_accessible_004",
+    "generated_knob_drawer_accessible_005"
+  ],
+  "all_required_paths_present_locally": true,
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "closeout_classification": "ACCESSIBLE_INSTANCE_POOL_READY_FOR_LAYER4R",
+  "current_truth_modified": false,
+  "missing_paths": [],
+  "next_actions_modified": false,
+  "next_gate": "LAYER4R_ON_ACCESSIBLE_INSTANCE_POOL",
+  "note": "This file verifies the first origin-visible evidence commit. A finalization commit may add this verification artifact itself.",
+  "origin_remote": "my-origin",
+  "origin_visible_commit_hash": "d200433c3690a136016a8f90ab8d571b91807002",
+  "verified_paths": {
+    "accepted_manifest": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_physical_accessibility_instance_pool_20260504T032604Z/accepted_instance_pool_manifest.json",
+    "certification": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_physical_accessibility_instance_pool_20260504T032604Z/accepted_accessible_instance_certification.json",
+    "oracle_helper": "scripts/mint/v11_g4_physical_accessibility_instance_pool.py",
+    "proposed_current_truth_delta": "experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_goc_v4_physical_accessibility_instance_pool.json",
+    "proposed_next_actions_delta": "experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_goc_v4_physical_accessibility_instance_pool.json",
+    "proposed_next_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/proposed_v11_g4_goc_v4_layer4R_on_accessible_instance_pool.yaml",
+    "run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_physical_accessibility_instance_pool_20260504T032604Z",
+    "task_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_physical_accessibility_instance_pool.yaml"
+  }
+}

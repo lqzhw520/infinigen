@@ -368,25 +368,24 @@ ADAPTIVE_003 = PolicyConfig(
 
 
 ADAPTIVE_004 = PolicyConfig(
-    name="adaptive_004_zero_press_high_track",
+    name="adaptive_004_medium_press_slow_hold",
     mode="two_pad_opspace",
-    q_gain=8.0,
-    q_vel_limit=2.45,
-    servo_kp=260.0,
-    servo_kd=42.0,
+    q_gain=6.0,
+    q_vel_limit=1.85,
+    servo_kp=230.0,
+    servo_kd=36.0,
     gripper_mode="ik_finger_targets",
-    pre_mult=2.2,
-    guard_mult=2.5,
-    contact_mult=3.0,
+    pre_mult=2.0,
+    guard_mult=2.3,
+    contact_mult=3.2,
     hold_mult=3.6,
-    extra_hold_steps=220,
-    op_gain=7.0,
-    op_vel_limit=0.065,
-    press_m=0.0,
-    null_gain=0.45,
-    settle_qerr_median=0.035,
+    extra_hold_steps=260,
+    op_gain=6.0,
+    op_vel_limit=0.055,
+    press_m=0.004,
+    null_gain=0.25,
+    settle_qerr_median=0.045,
 )
-
 
 def resolve_policy_config(config: PolicyConfig, candidate_id: str, perturbation_name: str) -> PolicyConfig:
     if config.mode != "adaptive":

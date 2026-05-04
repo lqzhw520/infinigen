@@ -98,6 +98,8 @@ pass_criteria:
     reset_max_penetration_m: 0.02
     reset_max_force_n: 1000000.0
     target_contact_frames_min: 80
+    pull_phase_target_contact_frames_min: 80
+    pull_phase_two_pad_target_contact_frames_min: 30
     target_contact_max_consecutive_frames_min: 30
     forbidden_contact_frames: 0
     handle_nonlegal_contact_frames: 0
@@ -106,6 +108,7 @@ pass_criteria:
     drawer_fraction_min: 0.80
     hard_goal_drawer_fraction_min: 0.90
     drawer_qpos_nondecreasing_during_pull: true
+    drawer_fraction_increase_requires_prior_or_concurrent_target_contact: true
     opening_must_be_physics_contact_caused: true
     no_direct_qpos_drawer_opening: true
     drawer_motor_command_abs_max: 0.0

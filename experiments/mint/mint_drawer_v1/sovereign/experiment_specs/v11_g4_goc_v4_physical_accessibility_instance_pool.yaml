@@ -1,0 +1,212 @@
+task_id: V11_G4_GOC_V4_PHYSICAL_ACCESSIBILITY_INSTANCE_POOL_AUTONOMOUS_V1
+task_type: INSTANCE_GENERATION_SELECTION_REPAIR_SCIENCE_PHASE
+task_version: "1.0.0"
+phase: physical_accessibility_instance_pool
+target_gate: V11-G4_GOC-V4_PHYSICAL_ACCESSIBILITY_INSTANCE_POOL
+
+objective:
+  summary: >
+    Build a committed, origin-visible pool of physically accessible drawer scene
+    instances before any Layer4R or Layer5 teacher rollout is attempted. An
+    instance may enter the future Layer4R/Layer5 line only if it satisfies a
+    formal physical accessibility invariant: reset-clean, semantically bound
+    GOC-v4 dedicated pads and handle, two-pad grasp geometry, full-body forbidden
+    keepout, approach corridor, pull corridor, and visual/physical consistency.
+  previous_blocker: full-body collision-constrained accessibility is not satisfied
+  claim_boundary: >
+    This phase certifies physical accessibility invariants for selected,
+    repaired, or generated scene instances only. It does not certify Layer4R,
+    run teacher pull rollout, export strict teacher bundles, run local replay or
+    rendering, train MINT, or claim the final open-drawer visual goal.
+
+authority:
+  repo: /mnt/afs2/zhuhaowu/infinigen
+  branch: feature/mint-env-reformulation-v1-visual-fidelity
+  campaign_root: experiments/mint/mint_drawer_v1
+  goc_authority: GOC_V4_DEDICATED_FINGER_PAD_EXACT_GEOM_AUTHORITY
+  per_instance_binding_required: true
+  fixed_global_ids_forbidden_without_instance_verification: true
+  body_based_31_27_forbidden: true
+  name_only_contact_authority_forbidden: true
+  broad_link_wrist_arm_finger_shell_target_contact_forbidden: true
+
+task_authority:
+  authority_type: GOC_V3_EXACT_GEOM_ID_SETS_AS_SOURCE_BASELINE_FOR_GOC_V4_INSTANCE_POOL
+  goc_version: v3
+  goc_artifact_path: artifacts/phase1h_geometry_contract/goc_v3_contract.json
+  goc_contract: experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v3_contract.json
+  goc_contract_id: GOC_V3_EXACT_ID_GEOMETRY_OWNERSHIP_CONTRACT
+  legal_gripper_surface_geom_ids: [63, 81, 90]
+  forbidden_robot_surface_geom_ids: [45, 47, 49, 54, 59]
+  drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+  prohibited_authority:
+    - GOC-v2 count-only legal_pad=29 forbidden=26 handle=9
+    - runtime body-based legal=31 forbidden=27 without exact-ID role classification
+    - legacy name-only contact reports
+    - fixed drawer_handle_geom_ids=[0..8] as runtime authority without semantic verification
+    - broad-link, wrist, arm, or finger shell contact as target
+
+goc_v4_authority:
+  authority_type: GOC_V4_DEDICATED_FINGER_PAD_EXACT_GEOM_ID_SETS
+  goc_contract: experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v4_contract.json
+  per_instance_binding_required: true
+  target_contact: legal_finger_pad_geom_ids <-> semantically bound drawer_handle_geom_ids only
+  forbidden_contact: nonlegal robot surfaces <-> drawer_handle/drawer/cabinet
+  broad_link_wrist_arm_finger_shell_target_rejected: true
+  body_based_31_27_rejected: true
+  name_only_contact_rejected: true
+  fixed_global_ids_may_not_be_reused_without_instance_verification: true
+
+claim_ladder_scope:
+  layer1_harness_governance: required
+  layer2_exact_goc_v4_authority: required
+  layer3_reset_preaction_physical_plausibility: required
+  physical_accessibility_instance_pool: repair_select_generate_and_certify
+  layer4r_full_matrix_certification: out_of_scope
+  layer5_teacher_pull_rollout: out_of_scope
+  layer6_export_bundle: out_of_scope
+  layer7_local_replay_render: out_of_scope
+  layer8_mint_train_eval: out_of_scope
+
+physical_accessibility_invariant:
+  I0_model_load:
+    full_panda_gripper_in_scene: true
+    drawer_cabinet_handle_loaded: true
+    dedicated_pads_bound: true
+    handle_bound: true
+    unknown_contact_relevant_geoms: 0
+  I1_reset:
+    reset_forbidden_contact_frames: 0
+    reset_max_penetration_m: 0.02
+    reset_max_force_n: 1000000.0
+  I2_semantic_binding:
+    legal_finger_pad_geoms_are_dedicated_pads: true
+    true_handle_collision_selected_per_instance: true
+    broad_robot_or_finger_shell_not_target: true
+  I3_two_pad_grasp_geometry:
+    pad_target_residual_max_m: 0.02
+    pad_target_residual_preferred_m: 0.005
+  I4_full_body_keepout:
+    forbidden_endpoint_contacts: 0
+    conservative_visual_physical_shell_intersection_rejected: true
+  I5_approach_corridor:
+    forbidden_contact: 0
+    handle_nonlegal_contact: 0
+    max_penetration_m: 0.02
+  I6_pull_corridor:
+    small_pull_axis_motion_feasible_without_forbidden_contact: true
+    no_direct_drawer_qpos_opening: true
+  I7_visual_physical_consistency:
+    fake_collision_demotion_forbidden: true
+    real_visible_robot_arm_hand_envelope_cannot_be_demoted: true
+    drawer_handle_geometry_cannot_be_changed_to_fake_access: true
+
+success_requires:
+  accepted_accessible_instance_pool_created: true
+  accepted_accessible_instance_count_min: 3
+  accepted_accessible_instance_count_preferred: 5
+  every_accepted_instance_has_accessibility_invariant: true
+  every_rejected_instance_has_structural_rejection_reason: true
+  no_fake_collision_demotion: true
+  current_truth_modified: false
+  next_actions_modified: false
+
+hard_gate_policy:
+  no_science_before_no_bypass_preflight: true
+  do_not_start_by_rerunning_layer4r: true
+  do_not_start_by_controller_tuning: true
+  do_not_expand_base_grid_as_primary_action: true
+  physical_accessibility_pool_required_before_layer4r_or_layer5: true
+  positive_science_from_committed_clean_runtime_scope: true
+  no_threshold_lowering: true
+  no_forbidden_contact_as_target: true
+  no_direct_qpos_drawer_opening: true
+  no_handle_or_drawer_geometry_mutation_to_fake_success: true
+  visual_physical_consistency_guard_required: true
+
+candidate_sources:
+  source_A_existing_current_assets: true
+  source_B_documented_layout_repair_variants: true
+  source_C_generated_accessible_drawer_variants: true
+  generated_variant_requirements:
+    not_empty_scene: true
+    drawer_body_cabinet_handle_collision_present: true
+    visible_geometry_matches_collision_semantics: true
+    full_panda_gripper_present: true
+    exact_goc_v4_binding_generated_per_instance: true
+
+repair_budget:
+  max_total_wall_clock_hours: 10
+  max_generation_or_repair_cycles: 6
+  no_progress_cycles_before_stop: 2
+
+allowed_files:
+  - scripts/mint/v11_g4_physical_accessibility_instance_pool.py
+  - scripts/mint/merged_model_builder.py
+  - scripts/mint/drawer_robot_env_mujoco.py
+  - scripts/mint/contact_aware_drawer_teacher.py
+  - scripts/mint/goc_v4_layer4_stable_contact_dynamics.py
+  - experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_physical_accessibility_instance_pool.yaml
+  - experiments/mint/mint_drawer_v1/sovereign/experiment_specs/proposed_v11_g4_goc_v4_layer4R_on_accessible_instance_pool.yaml
+  - experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_physical_accessibility_instance_pool_*
+  - experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/*
+  - experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_goc_v4_physical_accessibility_instance_pool.json
+  - experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_goc_v4_physical_accessibility_instance_pool.json
+  - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json
+  - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_attestation.json
+
+remote:
+  approved_files:
+    - scripts/mint/v11_g4_physical_accessibility_instance_pool.py
+    - scripts/mint/merged_model_builder.py
+    - scripts/mint/drawer_robot_env_mujoco.py
+    - scripts/mint/contact_aware_drawer_teacher.py
+    - scripts/mint/goc_v4_layer4_stable_contact_dynamics.py
+    - experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_physical_accessibility_instance_pool.yaml
+    - experiments/mint/mint_drawer_v1/sovereign/experiment_specs/proposed_v11_g4_goc_v4_layer4R_on_accessible_instance_pool.yaml
+    - experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_physical_accessibility_instance_pool_*
+    - experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/*
+    - experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_goc_v4_physical_accessibility_instance_pool.json
+    - experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_goc_v4_physical_accessibility_instance_pool.json
+    - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json
+    - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_attestation.json
+  forbidden_files:
+    - experiments/mint/mint_drawer_v1/sovereign/current_truth.json
+    - experiments/mint/mint_drawer_v1/sovereign/next_actions.json
+    - external/MINT
+    - external/MINT/*
+
+forbidden:
+  - current_truth_direct_mutation
+  - next_actions_direct_mutation
+  - external_MINT_mutation
+  - training
+  - finetuning
+  - MINT_eval
+  - teacher_rollout_success_claim
+  - local_visual_success_claim
+  - layer4r_certification_before_accessibility_pool
+  - layer5_rollout_before_accessibility_pool
+  - direct_qpos_drawer_opening
+  - disabling_all_robot_drawer_or_handle_collisions
+  - accepting_forbidden_contact_as_target
+  - lowering_layer4r_thresholds
+  - changing_handle_or_drawer_geometry_to_fake_success
+  - demoting_physical_hand_wrist_arm_collisions_to_create_pass
+  - body_based_31_27_authority
+  - name_only_contact_authority
+  - fixed_handle_ids_without_instance_semantic_verification
+  - broad_link_or_finger_shell_target_contact
+
+closeout_states:
+  success:
+    - ACCESSIBLE_INSTANCE_POOL_READY_FOR_LAYER4R
+  non_success:
+    - ACCESSIBLE_INSTANCE_POOL_INSUFFICIENT
+    - ACCESSIBILITY_INSTANCE_POOL_REPAIR_STALLED
+    - ACCESSIBILITY_ORACLE_FAILED
+    - HARNESS_PREFLIGHT_FAILED
+    - TASK_SPEC_LOCK_BINDING_FAILED
+    - DIRTY_FORBIDDEN_SCOPE
+    - TIME_BUDGET_EXHAUSTED
+    - EXECUTION_FAILED

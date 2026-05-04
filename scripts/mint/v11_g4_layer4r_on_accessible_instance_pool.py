@@ -365,7 +365,7 @@ def run_case(candidate: dict[str, Any], perturb: dict[str, Any], run_dir: Path) 
     q_hold = np.asarray(candidate["ik"]["contact_hold"]["qpos_robot"], dtype=float)[:7]
     env = None
     records: list[dict[str, Any]] = []
-    trace_path = run_dir / "traces" / f"{cid}__{perturb[name]}.jsonl"
+    trace_path = run_dir / "traces" / f"{cid}__{perturb['name']}.jsonl"
     try:
         with contextlib.redirect_stdout(io.StringIO()), contextlib.redirect_stderr(io.StringIO()):
             env = make_candidate_env(candidate, robot_init_qpos=q_reset, max_steps=360)

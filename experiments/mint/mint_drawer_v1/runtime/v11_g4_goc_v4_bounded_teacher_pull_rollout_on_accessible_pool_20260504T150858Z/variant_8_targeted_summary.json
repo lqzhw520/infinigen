@@ -1,0 +1,29 @@
+{
+  "cases_failed": 7,
+  "cases_passed": 0,
+  "cases_total": 7,
+  "failure_histogram": {
+    "drawer_qpos_not_nondecreasing_during_pull": 6,
+    "forbidden_contact_present": 1,
+    "max_drawer_fraction_lt_0p80": 5,
+    "pull_phase_target_contact_frames_lt_80": 1,
+    "pull_phase_two_pad_target_contact_frames_lt_30": 2,
+    "target_contact_frames_lt_80": 1
+  },
+  "forbidden_contact_frames_max": 54,
+  "generated_at_utc": "2026-05-04T15:15:53Z",
+  "handle_nonlegal_contact_frames_max": 0,
+  "hard_goal_cases": 0,
+  "matrix_passed": false,
+  "max_drawer_fraction_max": 0.8733214093509393,
+  "max_drawer_fraction_min": 0.0032874592113632667,
+  "max_force_n": 264.66289316659197,
+  "max_penetration_m": 0.00533681309959327,
+  "pull_phase_target_contact_frames_min": 0,
+  "pull_phase_two_pad_target_contact_frames_min": 0,
+  "target_contact_consecutive_min": 60,
+  "target_contact_frames_min": 60,
+  "targeted_shard": true,
+  "variant_index": 8,
+  "variant_name": "v8_slow_sustained_contact_safe"
+}

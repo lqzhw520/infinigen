@@ -1,0 +1,18 @@
+{
+  "accepted_pool_fixed": true,
+  "bounded_pull_cases_failed": 0,
+  "bounded_pull_cases_passed": 0,
+  "bounded_pull_cases_total": 0,
+  "bounded_teacher_pull_certified": false,
+  "closeout_classification": "BOUNDED_PULL_ROLLOUT_NO_STRICT_CANDIDATE",
+  "current_truth_direct_mutation": false,
+  "generated_at_utc": "2026-05-04T15:22:19Z",
+  "hard_goal_drawer_fraction_min": 0.9,
+  "layer4r_contact_policy_precondition_passed": true,
+  "local_render_claim_made": false,
+  "next_actions_direct_mutation": false,
+  "run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z",
+  "strict_drawer_fraction_min": 0.8,
+  "task_id": "V11_G4_GOC_V4_BOUNDED_TEACHER_PULL_ROLLOUT_ON_ACCESSIBLE_POOL_V1",
+  "teacher_export_allowed_next": false
+}

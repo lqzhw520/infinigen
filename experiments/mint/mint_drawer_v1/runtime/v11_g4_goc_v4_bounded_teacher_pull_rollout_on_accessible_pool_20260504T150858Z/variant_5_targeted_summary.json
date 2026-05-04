@@ -1,0 +1,29 @@
+{
+  "cases_failed": 7,
+  "cases_passed": 0,
+  "cases_total": 7,
+  "failure_histogram": {
+    "drawer_qpos_not_nondecreasing_during_pull": 6,
+    "forbidden_contact_present": 1,
+    "max_drawer_fraction_lt_0p80": 7,
+    "pull_phase_target_contact_frames_lt_80": 1,
+    "pull_phase_two_pad_target_contact_frames_lt_30": 2,
+    "target_contact_frames_lt_80": 1
+  },
+  "forbidden_contact_frames_max": 46,
+  "generated_at_utc": "2026-05-04T15:12:20Z",
+  "handle_nonlegal_contact_frames_max": 0,
+  "hard_goal_cases": 0,
+  "matrix_passed": false,
+  "max_drawer_fraction_max": 0.3713251184061946,
+  "max_drawer_fraction_min": 0.0026095774729019278,
+  "max_force_n": 193.74517316486865,
+  "max_penetration_m": 0.00533681309959327,
+  "pull_phase_target_contact_frames_min": 14,
+  "pull_phase_two_pad_target_contact_frames_min": 0,
+  "target_contact_consecutive_min": 60,
+  "target_contact_frames_min": 74,
+  "targeted_shard": true,
+  "variant_index": 5,
+  "variant_name": "v5_dynamic_handle_high_track_binary_close"
+}

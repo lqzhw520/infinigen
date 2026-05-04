@@ -1,0 +1,428 @@
+{
+  "items": [
+    {
+      "bytes": 16652433,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_10_v10_capped_lead_0p025_binary_close__generated_knob_drawer_accessible_001__nominal.jsonl",
+      "sha256": "87adf8292492be11c52caab752d47a74054eac848c6ba758e8fa2a66c267d5d5"
+    },
+    {
+      "bytes": 17139379,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_10_v10_capped_lead_0p025_binary_close__generated_knob_drawer_accessible_001__slow_guarded_contact.jsonl",
+      "sha256": "7417a060c89bdf33b58f06e3a8176da903f23be796dd261d05ba4be191014d8f"
+    },
+    {
+      "bytes": 16097346,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_10_v10_capped_lead_0p025_binary_close__generated_knob_drawer_accessible_002__nominal.jsonl",
+      "sha256": "fac6f91987c27ab1d82d99f5ab392335f8a9e0753dde4b22e06ef1303dfc28c9"
+    },
+    {
+      "bytes": 16982855,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_10_v10_capped_lead_0p025_binary_close__generated_knob_drawer_accessible_002__slow_guarded_contact.jsonl",
+      "sha256": "1d30baf5e0c7df075f1d282f8198d819ff620ba7e4d4276a27136373e3638e43"
+    },
+    {
+      "bytes": 16429587,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_10_v10_capped_lead_0p025_binary_close__generated_knob_drawer_accessible_003__nominal.jsonl",
+      "sha256": "61312873b653c2f2429cb2438d15ee64c72bb8ce2e22726d1d4b238a39390ba8"
+    },
+    {
+      "bytes": 14946855,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_10_v10_capped_lead_0p025_binary_close__generated_knob_drawer_accessible_004__nominal.jsonl",
+      "sha256": "8b2d36075a1296f5db2af77033491c1865c1d4e6f1448f1937efd9bbd2e76a10"
+    },
+    {
+      "bytes": 15288210,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_10_v10_capped_lead_0p025_binary_close__generated_knob_drawer_accessible_005__nominal.jsonl",
+      "sha256": "9d9dd10e80a560f453015289d5dc960d2270fa14027c6def29452e65a1784696"
+    },
+    {
+      "bytes": 16702286,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_11_v11_capped_lead_0p04_binary_close__generated_knob_drawer_accessible_001__nominal.jsonl",
+      "sha256": "10c9dc85f0637aa2896353e8dd0a4a24b04f0b2327f44c7fbcba3742d1c40f7d"
+    },
+    {
+      "bytes": 17162255,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_11_v11_capped_lead_0p04_binary_close__generated_knob_drawer_accessible_001__slow_guarded_contact.jsonl",
+      "sha256": "c0fa5286d600ffb9c36f3271d5bed13d55da5bd8df485b2a3018a8a30fa6fb93"
+    },
+    {
+      "bytes": 17577926,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_11_v11_capped_lead_0p04_binary_close__generated_knob_drawer_accessible_002__nominal.jsonl",
+      "sha256": "af4b6d206031d2c77f1b658f969d78ca1113f12eab0f51aac061828d8e3f2696"
+    },
+    {
+      "bytes": 18713230,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_11_v11_capped_lead_0p04_binary_close__generated_knob_drawer_accessible_002__slow_guarded_contact.jsonl",
+      "sha256": "6105016f352079f7cd3fd6541631cc4677bd2135112c0e07572b94dd07573d6f"
+    },
+    {
+      "bytes": 16445114,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_11_v11_capped_lead_0p04_binary_close__generated_knob_drawer_accessible_003__nominal.jsonl",
+      "sha256": "c30d118b73b2fe7af24202820586cfe03700c9ab69478573191eabca59aec61a"
+    },
+    {
+      "bytes": 15375506,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_11_v11_capped_lead_0p04_binary_close__generated_knob_drawer_accessible_004__nominal.jsonl",
+      "sha256": "f74495a6072ae1883a5ccc86817a5e21bfc1715fb38aa40eddf56606fd43dfc9"
+    },
+    {
+      "bytes": 15496163,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_11_v11_capped_lead_0p04_binary_close__generated_knob_drawer_accessible_005__nominal.jsonl",
+      "sha256": "e09edf30125e0b76b788d97a17876d5c0fb426e226afeedb4616e0e9511ff6c0"
+    },
+    {
+      "bytes": 7968056,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_12_v12_capped_lead_0p04_semi_close__generated_knob_drawer_accessible_001__nominal.jsonl",
+      "sha256": "aa837736298b4e1a919e73efc446541fec8e5c8839678da5bcf6526d383dff57"
+    },
+    {
+      "bytes": 8487571,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_12_v12_capped_lead_0p04_semi_close__generated_knob_drawer_accessible_001__slow_guarded_contact.jsonl",
+      "sha256": "f82f64b5a4e4734415af583b697ff52f24f8cac4f618c4b767ac684ff45c66c4"
+    },
+    {
+      "bytes": 8100985,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_12_v12_capped_lead_0p04_semi_close__generated_knob_drawer_accessible_002__nominal.jsonl",
+      "sha256": "8bcb3eeeba6611f466f790dc4ca92d824e8b098d0a5fa970cf46c4e807bbec05"
+    },
+    {
+      "bytes": 8932083,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_12_v12_capped_lead_0p04_semi_close__generated_knob_drawer_accessible_002__slow_guarded_contact.jsonl",
+      "sha256": "07dfc174eec0f177386ef6f57eb896fdc64b81775300d760a41fe1562dd228f2"
+    },
+    {
+      "bytes": 6939408,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_12_v12_capped_lead_0p04_semi_close__generated_knob_drawer_accessible_003__nominal.jsonl",
+      "sha256": "f67ad6ca173d79d4c11a745353a82f78e328f99bf7f71188b554d104277e9464"
+    },
+    {
+      "bytes": 6318905,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_12_v12_capped_lead_0p04_semi_close__generated_knob_drawer_accessible_004__nominal.jsonl",
+      "sha256": "e2dbf47355c819d0f3015db0f83a1e3596ffbc42cbd4e8c9c5d0e4a4bbd56336"
+    },
+    {
+      "bytes": 5630581,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_12_v12_capped_lead_0p04_semi_close__generated_knob_drawer_accessible_005__nominal.jsonl",
+      "sha256": "caa25b8371719330424d0ca66f64f89e0fdb1176a726c97e5ab9d6c88ec299be"
+    },
+    {
+      "bytes": 6330623,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_1_v1_dynamic_handle_soft_pull_binary_close__generated_knob_drawer_accessible_001__nominal.jsonl",
+      "sha256": "1fba0b821fd24434e265d3e7b751c8decb594ad3e37329e175df123539505c61"
+    },
+    {
+      "bytes": 6869479,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_1_v1_dynamic_handle_soft_pull_binary_close__generated_knob_drawer_accessible_001__slow_guarded_contact.jsonl",
+      "sha256": "ce9159731f91073dcfd9c5b378a907ddb6aa021550941d1bc88638974626debf"
+    },
+    {
+      "bytes": 6043886,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_1_v1_dynamic_handle_soft_pull_binary_close__generated_knob_drawer_accessible_002__nominal.jsonl",
+      "sha256": "25a95d82fe4de38a34acce512d99c2f3cd1a647eebde4530e8054a9dadbcdfb6"
+    },
+    {
+      "bytes": 7079966,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_1_v1_dynamic_handle_soft_pull_binary_close__generated_knob_drawer_accessible_002__slow_guarded_contact.jsonl",
+      "sha256": "ad013802b2474e772d91dc8d12285f99ee055d36b05eda9c36e0d14092127077"
+    },
+    {
+      "bytes": 3963841,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_1_v1_dynamic_handle_soft_pull_binary_close__generated_knob_drawer_accessible_003__nominal.jsonl",
+      "sha256": "d6192b3cef7805441aabf7a05a0b54352234c857ca8705ff7435c7917d16d1fb"
+    },
+    {
+      "bytes": 3994452,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_1_v1_dynamic_handle_soft_pull_binary_close__generated_knob_drawer_accessible_004__nominal.jsonl",
+      "sha256": "d27ecde0fa844276afc89c89d6340a6d9866bebf32dfee5cf77ffdb544fefe09"
+    },
+    {
+      "bytes": 1585420,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_1_v1_dynamic_handle_soft_pull_binary_close__generated_knob_drawer_accessible_005__nominal.jsonl",
+      "sha256": "9951b58ebc34068ab2f5ee48d65ddc556d761238b6205256562fb196f1ea7643"
+    },
+    {
+      "bytes": 6009750,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_2_v2_dynamic_handle_firm_slow_pull_binary_close__generated_knob_drawer_accessible_001__nominal.jsonl",
+      "sha256": "cd7ab905ec619cd7463216974c95e18aa964d1fb4b7f49f5705281624bfe9767"
+    },
+    {
+      "bytes": 6388265,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_2_v2_dynamic_handle_firm_slow_pull_binary_close__generated_knob_drawer_accessible_001__slow_guarded_contact.jsonl",
+      "sha256": "7818ef81f51120a87713b77ed6a24163de031ddaf003ceea6f3394d459fd0fb4"
+    },
+    {
+      "bytes": 5527947,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_2_v2_dynamic_handle_firm_slow_pull_binary_close__generated_knob_drawer_accessible_002__nominal.jsonl",
+      "sha256": "d83358bcb62f4082eae2b5c99e9fd4ea03c35b78825fd35f5cb5f941d5fc8772"
+    },
+    {
+      "bytes": 6362624,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_2_v2_dynamic_handle_firm_slow_pull_binary_close__generated_knob_drawer_accessible_002__slow_guarded_contact.jsonl",
+      "sha256": "e4acf991effda7261d1e378f4ff26cce7d918605fd250540799a74b667cd428c"
+    },
+    {
+      "bytes": 4989297,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_2_v2_dynamic_handle_firm_slow_pull_binary_close__generated_knob_drawer_accessible_003__nominal.jsonl",
+      "sha256": "7ebea027ae0ceeb84dde0f9331b036e2877058761fc2cd39023b805501dbe06e"
+    },
+    {
+      "bytes": 4996407,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_2_v2_dynamic_handle_firm_slow_pull_binary_close__generated_knob_drawer_accessible_004__nominal.jsonl",
+      "sha256": "102082715a9363a0e7bd38726be6d5a76e4fb04cf6f6b6c9080a37eabca9caca"
+    },
+    {
+      "bytes": 2342383,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_2_v2_dynamic_handle_firm_slow_pull_binary_close__generated_knob_drawer_accessible_005__nominal.jsonl",
+      "sha256": "94adce5f8bf8e969a827a84336d280bd2b2503492e22c50441351bcfca14d133"
+    },
+    {
+      "bytes": 3555432,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_3_v3_dynamic_handle_fast_pull_ik_hold_fingers__generated_knob_drawer_accessible_001__nominal.jsonl",
+      "sha256": "e6138f995f631fb2bf64b2ab0c602a4b9287812b0d10fbe031f88e00f945311b"
+    },
+    {
+      "bytes": 4110193,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_3_v3_dynamic_handle_fast_pull_ik_hold_fingers__generated_knob_drawer_accessible_001__slow_guarded_contact.jsonl",
+      "sha256": "8b5377e1ad16263ccbfcde3c99e4d0b6ea2a60837c861babd49caf6c694f3fe9"
+    },
+    {
+      "bytes": 3477761,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_3_v3_dynamic_handle_fast_pull_ik_hold_fingers__generated_knob_drawer_accessible_002__nominal.jsonl",
+      "sha256": "fbd2c2279a4237c960b6c35ee6f93e0d7bce74b990cadf004032a2d4b200637f"
+    },
+    {
+      "bytes": 4308127,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_3_v3_dynamic_handle_fast_pull_ik_hold_fingers__generated_knob_drawer_accessible_002__slow_guarded_contact.jsonl",
+      "sha256": "17d848cd826675364c3ddb79283279418db574a0ccb5dc277e20b112550fbf93"
+    },
+    {
+      "bytes": 2814222,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_3_v3_dynamic_handle_fast_pull_ik_hold_fingers__generated_knob_drawer_accessible_003__nominal.jsonl",
+      "sha256": "8d1eb1bc640fb2324ddd28d71d5e9afe12ef3c4e3d71002e54c8b3714c34fc02"
+    },
+    {
+      "bytes": 2598636,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_3_v3_dynamic_handle_fast_pull_ik_hold_fingers__generated_knob_drawer_accessible_004__nominal.jsonl",
+      "sha256": "3f4b7e3cb81ae8eeefcf1fdaf63a9e41a6effee779421b6ac9eed877d46cf1e1"
+    },
+    {
+      "bytes": 1562792,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_3_v3_dynamic_handle_fast_pull_ik_hold_fingers__generated_knob_drawer_accessible_005__nominal.jsonl",
+      "sha256": "68bc831f848e98b0dc6c3f1657740046f880efba1b11c5d9677c0b418fa69db7"
+    },
+    {
+      "bytes": 4102066,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_4_v4_dynamic_handle_low_press_long_pull_ik_hold_fingers__generated_knob_drawer_accessible_001__nominal.jsonl",
+      "sha256": "23a1421cd1c70580c90160b1344147b3bef9b28003d433b51beb48503560d209"
+    },
+    {
+      "bytes": 4652213,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_4_v4_dynamic_handle_low_press_long_pull_ik_hold_fingers__generated_knob_drawer_accessible_001__slow_guarded_contact.jsonl",
+      "sha256": "c1a8eaae6cdaee65e548a7efa35c88694eda08bdddb7689e6c448a58030b43de"
+    },
+    {
+      "bytes": 4022912,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_4_v4_dynamic_handle_low_press_long_pull_ik_hold_fingers__generated_knob_drawer_accessible_002__nominal.jsonl",
+      "sha256": "bc9d34602aabf7b03da9df249daa345b12f08925ccf12a3b9482dc65c6e37030"
+    },
+    {
+      "bytes": 4853756,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_4_v4_dynamic_handle_low_press_long_pull_ik_hold_fingers__generated_knob_drawer_accessible_002__slow_guarded_contact.jsonl",
+      "sha256": "056e695b5b826da4c38c39dc745f22688061a906b03c87fe3b7a215c7976739b"
+    },
+    {
+      "bytes": 3365318,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_4_v4_dynamic_handle_low_press_long_pull_ik_hold_fingers__generated_knob_drawer_accessible_003__nominal.jsonl",
+      "sha256": "d23f4a74f6b5ca0619a495ce448fcc9266399e755339cf6e4a43631c9f6e3c3f"
+    },
+    {
+      "bytes": 3478277,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_4_v4_dynamic_handle_low_press_long_pull_ik_hold_fingers__generated_knob_drawer_accessible_004__nominal.jsonl",
+      "sha256": "4cccaf798e98123f4bf1fe199d5d1c524e9116ae0523b2af2f1a7cc746bb8275"
+    },
+    {
+      "bytes": 2094770,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_4_v4_dynamic_handle_low_press_long_pull_ik_hold_fingers__generated_knob_drawer_accessible_005__nominal.jsonl",
+      "sha256": "33adc0d124e097f7d3b8aa0153de4e1d90712f4e440a08782c3a549d7927b041"
+    },
+    {
+      "bytes": 5773443,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_5_v5_dynamic_handle_high_track_binary_close__generated_knob_drawer_accessible_001__nominal.jsonl",
+      "sha256": "4c820d3ecd871009f49ef671a78b507808bf91542c179b584a29bf462d79f7a2"
+    },
+    {
+      "bytes": 6012147,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_5_v5_dynamic_handle_high_track_binary_close__generated_knob_drawer_accessible_001__slow_guarded_contact.jsonl",
+      "sha256": "ac68ea842360b5de226ad8dff324fe4e03061566fc9d5092c8b35db3b2191d85"
+    },
+    {
+      "bytes": 5278493,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_5_v5_dynamic_handle_high_track_binary_close__generated_knob_drawer_accessible_002__nominal.jsonl",
+      "sha256": "4a539bb526d4410c3469dad9a12b32fc35a0b8397e67ac4a0b1e52556816b676"
+    },
+    {
+      "bytes": 6222652,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_5_v5_dynamic_handle_high_track_binary_close__generated_knob_drawer_accessible_002__slow_guarded_contact.jsonl",
+      "sha256": "db2339016c0ba3e18607aef551d662662054942955f47236884e3268758c8bc7"
+    },
+    {
+      "bytes": 4040249,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_5_v5_dynamic_handle_high_track_binary_close__generated_knob_drawer_accessible_003__nominal.jsonl",
+      "sha256": "5ea0de7664c04e3c68bb4fff35190991550807eced96ad116143696a69c40acb"
+    },
+    {
+      "bytes": 3804485,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_5_v5_dynamic_handle_high_track_binary_close__generated_knob_drawer_accessible_004__nominal.jsonl",
+      "sha256": "ff2ef74f074789eaef3a66391eab8f4bde081861872f5483ee8fc4c5a85575a7"
+    },
+    {
+      "bytes": 1687275,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_5_v5_dynamic_handle_high_track_binary_close__generated_knob_drawer_accessible_005__nominal.jsonl",
+      "sha256": "2ebb062f163d5e33eca4458ec14659fbdcafcb977c620721871f2454f5612996"
+    },
+    {
+      "bytes": 9932498,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_6_v6_long_track_binary_close__generated_knob_drawer_accessible_001__nominal.jsonl",
+      "sha256": "670a2a239da4266aae792a6b7d20c11bf4d82715633b8df28e9f709fb87cb564"
+    },
+    {
+      "bytes": 10161789,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_6_v6_long_track_binary_close__generated_knob_drawer_accessible_001__slow_guarded_contact.jsonl",
+      "sha256": "c03e3d69fb79050da299bd51257e2c93a0d76521548538facddf3e66dcd031c6"
+    },
+    {
+      "bytes": 8868736,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_6_v6_long_track_binary_close__generated_knob_drawer_accessible_002__nominal.jsonl",
+      "sha256": "4237535b207776826bfa4973f54793f924763eb01ba255f92b5825c930bef80c"
+    },
+    {
+      "bytes": 9819390,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_6_v6_long_track_binary_close__generated_knob_drawer_accessible_002__slow_guarded_contact.jsonl",
+      "sha256": "4915008c24b8c8475a886b2e1b98358bfbf93f0e922e920a2823604b719a687f"
+    },
+    {
+      "bytes": 8706034,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_6_v6_long_track_binary_close__generated_knob_drawer_accessible_003__nominal.jsonl",
+      "sha256": "262265baa4cb809916811a35e2be8eede98febdc537646d07b4a5990617a7277"
+    },
+    {
+      "bytes": 8374808,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_6_v6_long_track_binary_close__generated_knob_drawer_accessible_004__nominal.jsonl",
+      "sha256": "a692be21f43f3c68116ec1229d3c0885262a6b1c7e0871a88458b6dcf0508eab"
+    },
+    {
+      "bytes": 6237533,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_6_v6_long_track_binary_close__generated_knob_drawer_accessible_005__nominal.jsonl",
+      "sha256": "fe88eb001a68a8a7f0b59a63871f07b6810e17daeb862c66914ff8b9ce6f20b3"
+    },
+    {
+      "bytes": 10757468,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_7_v7_sustained_high_track_binary_close__generated_knob_drawer_accessible_001__nominal.jsonl",
+      "sha256": "4c4d277291b2f47d58e278a5859f251fef28e8e67652ae8eed4ad7cb084a2ecf"
+    },
+    {
+      "bytes": 11104000,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_7_v7_sustained_high_track_binary_close__generated_knob_drawer_accessible_001__slow_guarded_contact.jsonl",
+      "sha256": "db72d0a0910640b63e934883863b417bcb68171fde01cc3fb2591346bca67ce6"
+    },
+    {
+      "bytes": 9807325,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_7_v7_sustained_high_track_binary_close__generated_knob_drawer_accessible_002__nominal.jsonl",
+      "sha256": "5d9dd040732b113e84ba62b81e1236dbc405f8f2e4f942f89c681d5d23d71e33"
+    },
+    {
+      "bytes": 10758420,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_7_v7_sustained_high_track_binary_close__generated_knob_drawer_accessible_002__slow_guarded_contact.jsonl",
+      "sha256": "1eb54087db183933f480479f26d4755938de8bed99c79b27f95521b06313bb8a"
+    },
+    {
+      "bytes": 11051465,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_7_v7_sustained_high_track_binary_close__generated_knob_drawer_accessible_003__nominal.jsonl",
+      "sha256": "0a5acc614f0deb1f341fe1cdd6a1d36dbf812bc4a273a33db9622322a58d6eec"
+    },
+    {
+      "bytes": 10828931,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_7_v7_sustained_high_track_binary_close__generated_knob_drawer_accessible_004__nominal.jsonl",
+      "sha256": "9306956117266a2b7ed5b7aebae406a15e53df2b442f870d8077184c1b915e06"
+    },
+    {
+      "bytes": 8482877,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_7_v7_sustained_high_track_binary_close__generated_knob_drawer_accessible_005__nominal.jsonl",
+      "sha256": "2303ef42a5dad7f2648c9b319695006393c80be9fcaf7dcfc8af27adc0edd896"
+    },
+    {
+      "bytes": 14071940,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_8_v8_slow_sustained_contact_safe__generated_knob_drawer_accessible_001__nominal.jsonl",
+      "sha256": "d6d1fb9d168c92e5669e05c4f0c3dc4d02abe676c06e9a56b06eaf0853982cbb"
+    },
+    {
+      "bytes": 14424754,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_8_v8_slow_sustained_contact_safe__generated_knob_drawer_accessible_001__slow_guarded_contact.jsonl",
+      "sha256": "965ebacc584ee11cd1d11e274974036cd28e7f40e72bf4f2d63910d65f2e5a3c"
+    },
+    {
+      "bytes": 12771430,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_8_v8_slow_sustained_contact_safe__generated_knob_drawer_accessible_002__nominal.jsonl",
+      "sha256": "8019f2eb84195b8fc32aaf43c54412614554ba7efb71cfa47e4f0c05e2a2fffc"
+    },
+    {
+      "bytes": 13883180,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_8_v8_slow_sustained_contact_safe__generated_knob_drawer_accessible_002__slow_guarded_contact.jsonl",
+      "sha256": "01b5d0f30b4c880f4700b3550aca8370bbe2d41ed6420d81b314a90fdcff76ad"
+    },
+    {
+      "bytes": 13718942,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_8_v8_slow_sustained_contact_safe__generated_knob_drawer_accessible_003__nominal.jsonl",
+      "sha256": "c55abc8587542878c02d1a25708eeccb295e734434754dff19cf5f21fc96ee98"
+    },
+    {
+      "bytes": 13294465,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_8_v8_slow_sustained_contact_safe__generated_knob_drawer_accessible_004__nominal.jsonl",
+      "sha256": "f0764760eb30345d905d6d0d76454d90f910f6c59e8fa6971c68fae0a12597af"
+    },
+    {
+      "bytes": 10899337,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_8_v8_slow_sustained_contact_safe__generated_knob_drawer_accessible_005__nominal.jsonl",
+      "sha256": "bf393032f377c4a070b0f76e7e403c7fbe4af8c3e4ae2bf317ea0403f950bed1"
+    },
+    {
+      "bytes": 8084376,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_9_v9_sustained_semi_close__generated_knob_drawer_accessible_001__nominal.jsonl",
+      "sha256": "90b3e70f47f582f21053d02a3553e54f926e61ccd143c27d55014081740fbd47"
+    },
+    {
+      "bytes": 8618162,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_9_v9_sustained_semi_close__generated_knob_drawer_accessible_001__slow_guarded_contact.jsonl",
+      "sha256": "e33180aab3178662d42bd2f2ffda198677f952f116e0149376f4c27c3e873bc3"
+    },
+    {
+      "bytes": 8218061,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_9_v9_sustained_semi_close__generated_knob_drawer_accessible_002__nominal.jsonl",
+      "sha256": "28efb61236f3306cda162f1ab245f734beb2ad5f986f377e8cfb4cb79c0545a2"
+    },
+    {
+      "bytes": 9047153,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_9_v9_sustained_semi_close__generated_knob_drawer_accessible_002__slow_guarded_contact.jsonl",
+      "sha256": "d60408cde2ffca718b502579e6d95b69216cc500ece6c5b58aaff9242c597b61"
+    },
+    {
+      "bytes": 5505801,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_9_v9_sustained_semi_close__generated_knob_drawer_accessible_003__nominal.jsonl",
+      "sha256": "68d26b251946887a71d9ed5179267d359135dd65c3c91de8d3e5470d989c3d7a"
+    },
+    {
+      "bytes": 4909538,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_9_v9_sustained_semi_close__generated_knob_drawer_accessible_004__nominal.jsonl",
+      "sha256": "56773fb7caf8e3c9efec19ca44c374e905df709b4187e533113efe3b57801fb9"
+    },
+    {
+      "bytes": 4229812,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z/traces/variant_9_v9_sustained_semi_close__generated_knob_drawer_accessible_005__nominal.jsonl",
+      "sha256": "0fe922c171500d9ed3be58f666602af0388c31ed238713e6488a652472e3d896"
+    }
+  ],
+  "manifest_type": "untrimmed_trace_hash_manifest",
+  "total_bytes": 714254518,
+  "trace_file_count": 84,
+  "trace_storage": "remote_runtime_dir_not_committed_due_size; committed per-case summaries are claim evidence"
+}

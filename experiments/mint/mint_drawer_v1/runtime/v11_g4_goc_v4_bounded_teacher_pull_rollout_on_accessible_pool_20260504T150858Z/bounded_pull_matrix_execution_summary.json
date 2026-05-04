@@ -1,0 +1,407 @@
+{
+  "best_full_summary": null,
+  "best_targeted_summary": {
+    "cases_failed": 7,
+    "cases_passed": 0,
+    "cases_total": 7,
+    "failure_histogram": {
+      "drawer_qpos_not_nondecreasing_during_pull": 6,
+      "forbidden_contact_present": 2,
+      "max_drawer_fraction_lt_0p80": 3,
+      "pull_phase_target_contact_frames_lt_80": 1,
+      "pull_phase_two_pad_target_contact_frames_lt_30": 2,
+      "target_contact_frames_lt_80": 1
+    },
+    "forbidden_contact_frames_max": 27,
+    "generated_at_utc": "2026-05-04T15:18:46Z",
+    "handle_nonlegal_contact_frames_max": 0,
+    "hard_goal_cases": 2,
+    "matrix_passed": false,
+    "max_drawer_fraction_max": 0.9567098762774435,
+    "max_drawer_fraction_min": 0.005678455391616797,
+    "max_force_n": 795.4205677455036,
+    "max_penetration_m": 0.00533681309959327,
+    "pull_phase_target_contact_frames_min": 0,
+    "pull_phase_two_pad_target_contact_frames_min": 0,
+    "target_contact_consecutive_min": 60,
+    "target_contact_frames_min": 60,
+    "targeted_shard": true,
+    "variant_index": 10,
+    "variant_name": "v10_capped_lead_0p025_binary_close"
+  },
+  "cycle_summaries": [
+    {
+      "targeted": {
+        "cases_failed": 7,
+        "cases_passed": 0,
+        "cases_total": 7,
+        "failure_histogram": {
+          "drawer_qpos_not_nondecreasing_during_pull": 4,
+          "max_drawer_fraction_lt_0p80": 7,
+          "pull_phase_target_contact_frames_lt_80": 1,
+          "pull_phase_two_pad_target_contact_frames_lt_30": 3,
+          "target_contact_frames_lt_80": 1
+        },
+        "forbidden_contact_frames_max": 0,
+        "generated_at_utc": "2026-05-04T15:09:49Z",
+        "handle_nonlegal_contact_frames_max": 0,
+        "hard_goal_cases": 0,
+        "matrix_passed": false,
+        "max_drawer_fraction_max": 0.30365672176394093,
+        "max_drawer_fraction_min": 0.0016297079199929685,
+        "max_force_n": 193.74517316486865,
+        "max_penetration_m": 0.00533681309959327,
+        "pull_phase_target_contact_frames_min": 0,
+        "pull_phase_two_pad_target_contact_frames_min": 0,
+        "target_contact_consecutive_min": 60,
+        "target_contact_frames_min": 60,
+        "targeted_shard": true,
+        "variant_index": 1,
+        "variant_name": "v1_dynamic_handle_soft_pull_binary_close"
+      }
+    },
+    {
+      "targeted": {
+        "cases_failed": 7,
+        "cases_passed": 0,
+        "cases_total": 7,
+        "failure_histogram": {
+          "drawer_qpos_not_nondecreasing_during_pull": 6,
+          "forbidden_contact_present": 1,
+          "max_drawer_fraction_lt_0p80": 7,
+          "pull_phase_target_contact_frames_lt_80": 1,
+          "pull_phase_two_pad_target_contact_frames_lt_30": 2,
+          "target_contact_frames_lt_80": 1
+        },
+        "forbidden_contact_frames_max": 58,
+        "generated_at_utc": "2026-05-04T15:10:28Z",
+        "handle_nonlegal_contact_frames_max": 0,
+        "hard_goal_cases": 0,
+        "matrix_passed": false,
+        "max_drawer_fraction_max": 0.31452752872821393,
+        "max_drawer_fraction_min": 0.001826888573800186,
+        "max_force_n": 193.74517316486865,
+        "max_penetration_m": 0.00533681309959327,
+        "pull_phase_target_contact_frames_min": 0,
+        "pull_phase_two_pad_target_contact_frames_min": 0,
+        "target_contact_consecutive_min": 60,
+        "target_contact_frames_min": 60,
+        "targeted_shard": true,
+        "variant_index": 2,
+        "variant_name": "v2_dynamic_handle_firm_slow_pull_binary_close"
+      }
+    },
+    {
+      "targeted": {
+        "cases_failed": 7,
+        "cases_passed": 0,
+        "cases_total": 7,
+        "failure_histogram": {
+          "drawer_qpos_not_nondecreasing_during_pull": 5,
+          "forbidden_contact_present": 1,
+          "max_drawer_fraction_lt_0p80": 7,
+          "pull_phase_target_contact_frames_lt_80": 1,
+          "pull_phase_two_pad_target_contact_frames_lt_30": 7,
+          "target_contact_frames_lt_80": 1
+        },
+        "forbidden_contact_frames_max": 245,
+        "generated_at_utc": "2026-05-04T15:11:02Z",
+        "handle_nonlegal_contact_frames_max": 0,
+        "hard_goal_cases": 0,
+        "matrix_passed": false,
+        "max_drawer_fraction_max": 0.3018038500035998,
+        "max_drawer_fraction_min": 0.003874451897515997,
+        "max_force_n": 193.74517316486865,
+        "max_penetration_m": 0.00533681309959327,
+        "pull_phase_target_contact_frames_min": 0,
+        "pull_phase_two_pad_target_contact_frames_min": 0,
+        "target_contact_consecutive_min": 60,
+        "target_contact_frames_min": 60,
+        "targeted_shard": true,
+        "variant_index": 3,
+        "variant_name": "v3_dynamic_handle_fast_pull_ik_hold_fingers"
+      }
+    },
+    {
+      "targeted": {
+        "cases_failed": 7,
+        "cases_passed": 0,
+        "cases_total": 7,
+        "failure_histogram": {
+          "drawer_qpos_not_nondecreasing_during_pull": 5,
+          "forbidden_contact_present": 1,
+          "max_drawer_fraction_lt_0p80": 7,
+          "pull_phase_target_contact_frames_lt_80": 1,
+          "pull_phase_two_pad_target_contact_frames_lt_30": 7,
+          "target_contact_frames_lt_80": 1
+        },
+        "forbidden_contact_frames_max": 478,
+        "generated_at_utc": "2026-05-04T15:11:43Z",
+        "handle_nonlegal_contact_frames_max": 0,
+        "hard_goal_cases": 0,
+        "matrix_passed": false,
+        "max_drawer_fraction_max": 0.28424837269397996,
+        "max_drawer_fraction_min": 0.00360438792727286,
+        "max_force_n": 193.74517316486865,
+        "max_penetration_m": 0.00533681309959327,
+        "pull_phase_target_contact_frames_min": 0,
+        "pull_phase_two_pad_target_contact_frames_min": 0,
+        "target_contact_consecutive_min": 60,
+        "target_contact_frames_min": 60,
+        "targeted_shard": true,
+        "variant_index": 4,
+        "variant_name": "v4_dynamic_handle_low_press_long_pull_ik_hold_fingers"
+      }
+    },
+    {
+      "targeted": {
+        "cases_failed": 7,
+        "cases_passed": 0,
+        "cases_total": 7,
+        "failure_histogram": {
+          "drawer_qpos_not_nondecreasing_during_pull": 6,
+          "forbidden_contact_present": 1,
+          "max_drawer_fraction_lt_0p80": 7,
+          "pull_phase_target_contact_frames_lt_80": 1,
+          "pull_phase_two_pad_target_contact_frames_lt_30": 2,
+          "target_contact_frames_lt_80": 1
+        },
+        "forbidden_contact_frames_max": 46,
+        "generated_at_utc": "2026-05-04T15:12:20Z",
+        "handle_nonlegal_contact_frames_max": 0,
+        "hard_goal_cases": 0,
+        "matrix_passed": false,
+        "max_drawer_fraction_max": 0.3713251184061946,
+        "max_drawer_fraction_min": 0.0026095774729019278,
+        "max_force_n": 193.74517316486865,
+        "max_penetration_m": 0.00533681309959327,
+        "pull_phase_target_contact_frames_min": 14,
+        "pull_phase_two_pad_target_contact_frames_min": 0,
+        "target_contact_consecutive_min": 60,
+        "target_contact_frames_min": 74,
+        "targeted_shard": true,
+        "variant_index": 5,
+        "variant_name": "v5_dynamic_handle_high_track_binary_close"
+      }
+    },
+    {
+      "targeted": {
+        "cases_failed": 7,
+        "cases_passed": 0,
+        "cases_total": 7,
+        "failure_histogram": {
+          "drawer_qpos_not_nondecreasing_during_pull": 6,
+          "forbidden_contact_present": 1,
+          "max_drawer_fraction_lt_0p80": 5,
+          "pull_phase_target_contact_frames_lt_80": 1,
+          "pull_phase_two_pad_target_contact_frames_lt_30": 2,
+          "target_contact_frames_lt_80": 1
+        },
+        "forbidden_contact_frames_max": 19,
+        "generated_at_utc": "2026-05-04T15:13:20Z",
+        "handle_nonlegal_contact_frames_max": 0,
+        "hard_goal_cases": 0,
+        "matrix_passed": false,
+        "max_drawer_fraction_max": 0.8553385715961221,
+        "max_drawer_fraction_min": 0.003754891652762962,
+        "max_force_n": 193.74517316486865,
+        "max_penetration_m": 0.00533681309959327,
+        "pull_phase_target_contact_frames_min": 7,
+        "pull_phase_two_pad_target_contact_frames_min": 0,
+        "target_contact_consecutive_min": 60,
+        "target_contact_frames_min": 67,
+        "targeted_shard": true,
+        "variant_index": 6,
+        "variant_name": "v6_long_track_binary_close"
+      }
+    },
+    {
+      "targeted": {
+        "cases_failed": 7,
+        "cases_passed": 0,
+        "cases_total": 7,
+        "failure_histogram": {
+          "drawer_qpos_not_nondecreasing_during_pull": 6,
+          "forbidden_contact_present": 1,
+          "max_drawer_fraction_lt_0p80": 5,
+          "pull_phase_target_contact_frames_lt_80": 1,
+          "pull_phase_two_pad_target_contact_frames_lt_30": 2,
+          "target_contact_frames_lt_80": 1
+        },
+        "forbidden_contact_frames_max": 29,
+        "generated_at_utc": "2026-05-04T15:14:30Z",
+        "handle_nonlegal_contact_frames_max": 0,
+        "hard_goal_cases": 1,
+        "matrix_passed": false,
+        "max_drawer_fraction_max": 0.9050956615443501,
+        "max_drawer_fraction_min": 0.004826577721905443,
+        "max_force_n": 338.15300154192903,
+        "max_penetration_m": 0.00533681309959327,
+        "pull_phase_target_contact_frames_min": 0,
+        "pull_phase_two_pad_target_contact_frames_min": 0,
+        "target_contact_consecutive_min": 60,
+        "target_contact_frames_min": 60,
+        "targeted_shard": true,
+        "variant_index": 7,
+        "variant_name": "v7_sustained_high_track_binary_close"
+      }
+    },
+    {
+      "targeted": {
+        "cases_failed": 7,
+        "cases_passed": 0,
+        "cases_total": 7,
+        "failure_histogram": {
+          "drawer_qpos_not_nondecreasing_during_pull": 6,
+          "forbidden_contact_present": 1,
+          "max_drawer_fraction_lt_0p80": 5,
+          "pull_phase_target_contact_frames_lt_80": 1,
+          "pull_phase_two_pad_target_contact_frames_lt_30": 2,
+          "target_contact_frames_lt_80": 1
+        },
+        "forbidden_contact_frames_max": 54,
+        "generated_at_utc": "2026-05-04T15:15:53Z",
+        "handle_nonlegal_contact_frames_max": 0,
+        "hard_goal_cases": 0,
+        "matrix_passed": false,
+        "max_drawer_fraction_max": 0.8733214093509393,
+        "max_drawer_fraction_min": 0.0032874592113632667,
+        "max_force_n": 264.66289316659197,
+        "max_penetration_m": 0.00533681309959327,
+        "pull_phase_target_contact_frames_min": 0,
+        "pull_phase_two_pad_target_contact_frames_min": 0,
+        "target_contact_consecutive_min": 60,
+        "target_contact_frames_min": 60,
+        "targeted_shard": true,
+        "variant_index": 8,
+        "variant_name": "v8_slow_sustained_contact_safe"
+      }
+    },
+    {
+      "targeted": {
+        "cases_failed": 7,
+        "cases_passed": 0,
+        "cases_total": 7,
+        "failure_histogram": {
+          "drawer_qpos_not_nondecreasing_during_pull": 6,
+          "forbidden_contact_present": 1,
+          "max_drawer_fraction_lt_0p80": 7,
+          "pull_phase_target_contact_frames_lt_80": 1,
+          "pull_phase_two_pad_target_contact_frames_lt_30": 5,
+          "target_contact_frames_lt_80": 1
+        },
+        "forbidden_contact_frames_max": 36,
+        "generated_at_utc": "2026-05-04T15:17:07Z",
+        "handle_nonlegal_contact_frames_max": 0,
+        "hard_goal_cases": 0,
+        "matrix_passed": false,
+        "max_drawer_fraction_max": 0.7599945927900644,
+        "max_drawer_fraction_min": 0.005486303300272468,
+        "max_force_n": 203.61507632497583,
+        "max_penetration_m": 0.00533681309959327,
+        "pull_phase_target_contact_frames_min": 0,
+        "pull_phase_two_pad_target_contact_frames_min": 0,
+        "target_contact_consecutive_min": 60,
+        "target_contact_frames_min": 60,
+        "targeted_shard": true,
+        "variant_index": 9,
+        "variant_name": "v9_sustained_semi_close"
+      }
+    },
+    {
+      "targeted": {
+        "cases_failed": 7,
+        "cases_passed": 0,
+        "cases_total": 7,
+        "failure_histogram": {
+          "drawer_qpos_not_nondecreasing_during_pull": 6,
+          "forbidden_contact_present": 2,
+          "max_drawer_fraction_lt_0p80": 3,
+          "pull_phase_target_contact_frames_lt_80": 1,
+          "pull_phase_two_pad_target_contact_frames_lt_30": 2,
+          "target_contact_frames_lt_80": 1
+        },
+        "forbidden_contact_frames_max": 27,
+        "generated_at_utc": "2026-05-04T15:18:46Z",
+        "handle_nonlegal_contact_frames_max": 0,
+        "hard_goal_cases": 2,
+        "matrix_passed": false,
+        "max_drawer_fraction_max": 0.9567098762774435,
+        "max_drawer_fraction_min": 0.005678455391616797,
+        "max_force_n": 795.4205677455036,
+        "max_penetration_m": 0.00533681309959327,
+        "pull_phase_target_contact_frames_min": 0,
+        "pull_phase_two_pad_target_contact_frames_min": 0,
+        "target_contact_consecutive_min": 60,
+        "target_contact_frames_min": 60,
+        "targeted_shard": true,
+        "variant_index": 10,
+        "variant_name": "v10_capped_lead_0p025_binary_close"
+      }
+    },
+    {
+      "targeted": {
+        "cases_failed": 7,
+        "cases_passed": 0,
+        "cases_total": 7,
+        "failure_histogram": {
+          "drawer_qpos_not_nondecreasing_during_pull": 6,
+          "forbidden_contact_present": 3,
+          "max_drawer_fraction_lt_0p80": 3,
+          "pull_phase_target_contact_frames_lt_80": 1,
+          "pull_phase_two_pad_target_contact_frames_lt_30": 2,
+          "target_contact_frames_lt_80": 1
+        },
+        "forbidden_contact_frames_max": 27,
+        "generated_at_utc": "2026-05-04T15:20:30Z",
+        "handle_nonlegal_contact_frames_max": 0,
+        "hard_goal_cases": 2,
+        "matrix_passed": false,
+        "max_drawer_fraction_max": 0.9564798801703851,
+        "max_drawer_fraction_min": 0.005678455391616797,
+        "max_force_n": 432.16092171860663,
+        "max_penetration_m": 0.00533681309959327,
+        "pull_phase_target_contact_frames_min": 0,
+        "pull_phase_two_pad_target_contact_frames_min": 0,
+        "target_contact_consecutive_min": 60,
+        "target_contact_frames_min": 60,
+        "targeted_shard": true,
+        "variant_index": 11,
+        "variant_name": "v11_capped_lead_0p04_binary_close"
+      }
+    },
+    {
+      "targeted": {
+        "cases_failed": 7,
+        "cases_passed": 0,
+        "cases_total": 7,
+        "failure_histogram": {
+          "drawer_qpos_not_nondecreasing_during_pull": 6,
+          "forbidden_contact_present": 1,
+          "max_drawer_fraction_lt_0p80": 5,
+          "pull_phase_target_contact_frames_lt_80": 1,
+          "pull_phase_two_pad_target_contact_frames_lt_30": 2,
+          "target_contact_frames_lt_80": 1
+        },
+        "forbidden_contact_frames_max": 57,
+        "generated_at_utc": "2026-05-04T15:22:02Z",
+        "handle_nonlegal_contact_frames_max": 0,
+        "hard_goal_cases": 0,
+        "matrix_passed": false,
+        "max_drawer_fraction_max": 0.8626898454949345,
+        "max_drawer_fraction_min": 0.006732435108208785,
+        "max_force_n": 210.17179300174578,
+        "max_penetration_m": 0.00533681309959327,
+        "pull_phase_target_contact_frames_min": 9,
+        "pull_phase_two_pad_target_contact_frames_min": 0,
+        "target_contact_consecutive_min": 60,
+        "target_contact_frames_min": 69,
+        "targeted_shard": true,
+        "variant_index": 12,
+        "variant_name": "v12_capped_lead_0p04_semi_close"
+      }
+    }
+  ],
+  "full_matrix_attempted": false,
+  "generated_at_utc": "2026-05-04T15:22:02Z"
+}

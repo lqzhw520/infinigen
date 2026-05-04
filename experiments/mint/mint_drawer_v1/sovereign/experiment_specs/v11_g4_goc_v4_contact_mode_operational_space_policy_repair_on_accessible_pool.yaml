@@ -1,0 +1,267 @@
+task_id: V11_G4_GOC_V4_CONTACT_MODE_OPERATIONAL_SPACE_POLICY_REPAIR_ON_ACCESSIBLE_POOL_V1
+task_type: CONTACT_MODE_OPERATIONAL_SPACE_POLICY_REPAIR_SCIENCE_PHASE
+task_version: 1.0.0
+phase: contact_mode_operational_space_policy_repair_on_accessible_pool
+target_gate: V11-G4_GOC-V4_CONTACT_MODE_POLICY_REPAIR_TO_LAYER4R_ON_ACCESSIBLE_POOL
+
+objective:
+  summary: >
+    Repair the dynamic contact-mode execution policy on the fixed accepted
+    physical accessibility pool. This phase may change controller/policy code
+    and attribution helpers only. It must not modify the accepted pool, GOC-v4
+    authority, model geometry, collision geometry, visual geometry, or Layer4R
+    thresholds. The phase starts from the previous Layer4R failure evidence and
+    tests whether operational-space/contact-mode execution can convert certified
+    endpoint/corridor accessibility into sustained legal dedicated pad-handle
+    contact across the accepted-pool Layer4R matrix.
+  previous_gate: V11_G4_GOC_V4_LAYER4R_ON_ACCESSIBLE_INSTANCE_POOL_AUTONOMOUS_V1
+  previous_closeout: DYNAMIC_CONTACT_POLICY_FAILED_ON_ACCESSIBLE_POOL
+  source_layer4r_run_dir: experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_layer4r_on_accessible_instance_pool_20260504T065000Z
+  source_pool_run_dir: experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_physical_accessibility_instance_pool_20260504T032604Z
+  source_pool_closeout: ACCESSIBLE_INSTANCE_POOL_READY_FOR_LAYER4R
+  claim_boundary: >
+    This phase certifies only contact-mode Layer4R behavior on the fixed
+    accepted pool. It does not claim teacher pull rollout, export bundle,
+    local replay/render, or MINT train/eval success.
+
+authority:
+  repo: /mnt/afs2/zhuhaowu/infinigen
+  branch: feature/mint-env-reformulation-v1-visual-fidelity
+  campaign_root: experiments/mint/mint_drawer_v1
+  goc_authority: GOC_V4_DEDICATED_FINGER_PAD_EXACT_GEOM_AUTHORITY
+  per_instance_binding_required: true
+  accepted_pool_manifest_required: true
+  fixed_global_ids_forbidden_without_instance_verification: true
+  body_based_31_27_forbidden: true
+  name_only_contact_authority_forbidden: true
+  broad_link_wrist_arm_finger_shell_target_contact_forbidden: true
+
+# Validator-compatible baseline authority. Runtime authority for this phase is
+# GOC-v4 per-instance dedicated-pad binding; this block keeps the existing V01
+# production validator anchored to the GOC-v3 exact-ID baseline and fixtures.
+task_authority:
+  authority_type: GOC_V3_EXACT_GEOM_ID_SETS_AS_SOURCE_BASELINE_FOR_GOC_V4_CONTACT_POLICY_REPAIR_ON_POOL
+  goc_version: v3
+  goc_artifact_path: artifacts/phase1h_geometry_contract/goc_v3_contract.json
+  goc_contract: experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v3_contract.json
+  goc_contract_id: GOC_V3_EXACT_ID_GEOMETRY_OWNERSHIP_CONTRACT
+  legal_gripper_surface_geom_ids: [63, 81, 90]
+  forbidden_robot_surface_geom_ids: [45, 47, 49, 54, 59]
+  drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+  prohibited_authority:
+    - GOC-v2 count-only legal_pad=29 forbidden=26 handle=9
+    - runtime body-based legal=31 forbidden=27 without exact-ID role classification
+    - legacy name-only contact reports
+    - fixed drawer_handle_geom_ids=[0..8] as runtime authority without semantic verification
+    - broad-link, wrist, arm, or finger shell contact as target
+
+goc_v4_authority:
+  authority_type: GOC_V4_DEDICATED_FINGER_PAD_EXACT_GEOM_ID_SETS
+  per_instance_binding_required: true
+  source_pool_manifest: experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_physical_accessibility_instance_pool_20260504T032604Z/accepted_instance_pool_manifest.json
+  target_contact: legal_finger_pad_geom_ids <-> semantically_bound_drawer_handle_geom_ids only
+  forbidden_contact: nonlegal robot surfaces <-> drawer_handle/drawer/cabinet
+  broad_link_wrist_arm_finger_shell_target_rejected: true
+  body_based_31_27_rejected: true
+  name_only_contact_rejected: true
+  fixed_global_ids_may_not_be_reused_without_instance_verification: true
+
+fixed_accepted_instance_pool:
+  required_source_run_dir: experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_physical_accessibility_instance_pool_20260504T032604Z
+  required_source_closeout: ACCESSIBLE_INSTANCE_POOL_READY_FOR_LAYER4R
+  accepted_instance_ids:
+    - generated_knob_drawer_accessible_001
+    - generated_knob_drawer_accessible_002
+    - generated_knob_drawer_accessible_003
+    - generated_knob_drawer_accessible_004
+    - generated_knob_drawer_accessible_005
+  no_pool_modification: true
+  no_geometry_modification: true
+  no_collision_policy_demotion: true
+  no_legacy_instance_fallback: true
+
+prior_failure_anchor:
+  layer4r_cases_total: 30
+  layer4r_cases_passed: 0
+  failure_histogram:
+    target_contact_frames_lt_50: 30
+    target_contact_consecutive_lt_30: 28
+    forbidden_contact_present: 6
+  target_contact_total_frames_max: 41
+  target_contact_max_consecutive_frames_max: 41
+  forbidden_contact_frames_max: 50
+  handle_nonlegal_contact_frames_max: 0
+  max_penetration_m: 0.0030038893253817034
+  max_force_n: 597.575811329058
+
+repair_controls:
+  max_total_wall_clock_hours: 10
+  max_repair_cycles: 8
+  targeted_shard_before_full_matrix: true
+  stop_if_pool_or_geometry_drift_detected: true
+  attribution_before_policy_change: true
+  commit_positive_policy_before_full_success_claim: true
+
+allowed_policy_changes:
+  - action timing and contact-mode state machine
+  - velocity servo gains and damping if evidence attributes failure to servo lag
+  - operational-space pad-frame resolved-rate tracking
+  - gripper close timing and event-triggered close logic
+  - keepout-aware recovery/backoff that rejects forbidden contact rather than counting it
+  - diagnostic attribution and trace logging
+
+forbidden_policy_changes:
+  - accepted_pool_modification
+  - GOC-v4 authority modification
+  - model_geometry_modification
+  - handle_or_drawer_geometry_modification
+  - collision_geometry_modification
+  - visual_geometry_modification
+  - threshold_lowering
+  - direct_qpos_drawer_opening
+  - drawer_motor_command
+  - disabling_all_robot_drawer_or_handle_collisions
+  - demoting_physical_hand_wrist_arm_collisions_to_create_pass
+  - accepting_forbidden_contact_as_target
+  - broad_link_wrist_arm_finger_shell_target_contact
+  - body_based_31_27_authority
+  - name_only_contact_authority
+  - fixed_handle_ids_without_instance_semantic_verification
+
+layer4r_matrix_thresholds:
+  instances: fixed_accepted_pool_only
+  perturbations:
+    - nominal
+    - qpos_small_plus
+    - qpos_small_minus
+    - slow_guarded_contact
+    - fast_guarded_contact
+    - late_close
+  target_contact_total_frames_min: 50
+  target_contact_max_consecutive_frames_min: 30
+  forbidden_contact_frames: 0
+  handle_nonlegal_contact_frames: 0
+  max_penetration_m: 0.02
+  max_force_n: 1000000.0
+  reset_forbidden_contact_frames: 0
+  reset_max_penetration_m: 0.02
+  direct_qpos_drawer_opening: false
+  drawer_motor_command_abs_max: 0.0
+  exact_goc_v4_target_pairs_only: true
+
+evidence_outputs:
+  - stage0_authority_and_scope.json
+  - stage1_prior_failure_attribution.json
+  - stage1_prior_failure_attribution.md
+  - stage2_policy_repair_design.json
+  - cycle_N_targeted_results.jsonl
+  - cycle_N_targeted_summary.json
+  - cycle_N_full_layer4r_results.jsonl
+  - cycle_N_full_layer4r_summary.json
+  - final_policy_attribution.json
+  - closeout_decision.json
+  - final_report.md
+  - post_push_verification.json
+
+success_requires:
+  harness_preflight_passed: true
+  task_spec_lock_bound: true
+  accepted_pool_bound: true
+  pool_modified: false
+  geometry_modified: false
+  goc_v4_authority_modified: false
+  thresholds_modified: false
+  full_layer4r_matrix_attempted: true
+  all_accepted_pool_cases_pass_layer4r: true
+  current_truth_modified: false
+  next_actions_modified: false
+  external_MINT_modified: false
+
+allowed_files:
+  - scripts/mint/v11_g4_layer4r_on_accessible_instance_pool.py
+  - scripts/mint/v11_g4_contact_mode_policy_repair_on_accessible_pool.py
+  - scripts/mint/contact_aware_drawer_teacher.py
+  - scripts/mint/drawer_robot_env_mujoco.py
+  - experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_contact_mode_operational_space_policy_repair_on_accessible_pool.yaml
+  - experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_contact_mode_operational_space_policy_repair_on_accessible_pool_*
+  - experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_goc_v4_contact_mode_policy_repair_on_accessible_pool.json
+  - experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_goc_v4_contact_mode_policy_repair_on_accessible_pool.json
+  - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json
+  - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock_report.json
+  - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_attestation.json
+
+remote:
+  approved_files:
+    - scripts/mint/v11_g4_layer4r_on_accessible_instance_pool.py
+    - scripts/mint/v11_g4_contact_mode_policy_repair_on_accessible_pool.py
+    - scripts/mint/contact_aware_drawer_teacher.py
+    - scripts/mint/drawer_robot_env_mujoco.py
+    - experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_contact_mode_operational_space_policy_repair_on_accessible_pool.yaml
+    - experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_contact_mode_operational_space_policy_repair_on_accessible_pool_*
+    - experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_goc_v4_contact_mode_policy_repair_on_accessible_pool.json
+    - experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_goc_v4_contact_mode_policy_repair_on_accessible_pool.json
+    - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json
+    - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock_report.json
+    - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_attestation.json
+  forbidden_files:
+    - experiments/mint/mint_drawer_v1/sovereign/current_truth.json
+    - experiments/mint/mint_drawer_v1/sovereign/next_actions.json
+    - external/MINT
+    - external/MINT/*
+
+forbidden:
+  - current_truth_direct_mutation
+  - next_actions_direct_mutation
+  - external_MINT_mutation
+  - training
+  - finetuning
+  - MINT_eval
+  - teacher_rollout_success_claim
+  - local_visual_success_claim
+  - accepted_pool_modification
+  - geometry_modification
+  - GOC_authority_modification
+  - threshold_lowering
+  - direct_qpos_drawer_opening
+  - drawer_motor_command
+  - disabling_all_robot_drawer_or_handle_collisions
+  - accepting_forbidden_contact_as_target
+  - demoting_physical_hand_wrist_arm_collisions_to_create_pass
+  - body_based_31_27_authority
+  - name_only_contact_authority
+  - broad_link_or_finger_shell_target_contact
+
+closeout_states:
+  success:
+    - CONTACT_MODE_OPERATIONAL_SPACE_POLICY_REPAIR_LAYER4R_PASSED
+  non_success:
+    - READINESS_SMOKE_FAILED
+    - CONTACT_POLICY_REPAIR_STALLED
+    - TARGET_CONTACT_TRACKING_FAILED
+    - FORBIDDEN_KEEPOUT_RECOVERY_FAILED
+    - ACTUATOR_SERVO_BANDWIDTH_INSUFFICIENT
+    - HARNESS_PREFLIGHT_FAILED
+    - TASK_SPEC_LOCK_BINDING_FAILED
+    - DIRTY_FORBIDDEN_SCOPE
+    - TIME_BUDGET_EXHAUSTED
+    - EXECUTION_FAILED
+
+next_gate_on_success: GOC_V4_BOUNDED_TEACHER_PULL_ROLLOUT_ON_ACCESSIBLE_POOL
+next_gate_on_target_tracking_failure: OPERATIONAL_SPACE_TRACKING_OR_ACTUATION_REPAIR
+next_gate_on_forbidden_keepout_failure: CONTACT_MODE_KEEP_OUT_POLICY_REPAIR
+next_gate_on_stall: CONTROLLER_DYNAMICS_MODEL_REPAIR_WITH_FIXED_POOL_EVIDENCE
+
+fixtures:
+  fixture_valid_authority_match:
+    runtime_exact_ids:
+      legal_gripper_surface_geom_ids: [63, 81, 90]
+      forbidden_robot_surface_geom_ids: [45, 47, 49, 54, 59]
+      drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    expected: PASS
+  fixture_invalid_authority_drift:
+    runtime_exact_ids:
+      legal_gripper_surface_geom_ids: [60, 61, 62]
+      forbidden_robot_surface_geom_ids: [45, 47, 49, 54, 59]
+      drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    expected: FAIL
+    expected_error: AUTHORITY_MISMATCH

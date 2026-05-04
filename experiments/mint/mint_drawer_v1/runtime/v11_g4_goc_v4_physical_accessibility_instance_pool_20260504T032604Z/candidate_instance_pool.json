@@ -1,0 +1,888 @@
+{
+  "candidate_count": 31,
+  "candidates": [
+    {
+      "candidate_id": "existing_seed_001",
+      "model_builder_parameters": {
+        "seed": 1
+      },
+      "parent_seed": 1,
+      "prior_rejection": {
+        "best_reset_clean_two_pad_residual_m": 0.0011411312852820784,
+        "best_row": {
+          "base_pos": [
+            -0.8269502628859408,
+            0.110769141202066,
+            0.08
+          ],
+          "max_endpoint_residual_m": 0.23556556719429206,
+          "min_forbidden_scene_rbound_clearance_m": null,
+          "score": 64.73724672100664,
+          "yaw_deg": 5.0
+        },
+        "prior_run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_or_layout_redesign_with_physical_accessibility_invariant_20260503T164956Z",
+        "rejection_reason": "two_pad_ik_residual_blocks_layout"
+      },
+      "seed": 1,
+      "source_type": "existing_asset",
+      "status": "pending"
+    },
+    {
+      "candidate_id": "repaired_layout_parent_seed_001",
+      "model_builder_parameters": {
+        "parent_seed": 1,
+        "robot_base_pos": [
+          -0.8269502628859408,
+          0.110769141202066,
+          0.08
+        ],
+        "robot_yaw_deg": 5.0,
+        "source": "prior_best_model_or_layout_redesign_row"
+      },
+      "parent_seed": 1,
+      "prior_rejection": {
+        "best_reset_clean_two_pad_residual_m": 0.0011411312852820784,
+        "best_row": {
+          "base_pos": [
+            -0.8269502628859408,
+            0.110769141202066,
+            0.08
+          ],
+          "max_endpoint_residual_m": 0.23556556719429206,
+          "min_forbidden_scene_rbound_clearance_m": null,
+          "score": 64.73724672100664,
+          "yaw_deg": 5.0
+        },
+        "prior_run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_or_layout_redesign_with_physical_accessibility_invariant_20260503T164956Z",
+        "rejection_reason": "two_pad_ik_residual_blocks_layout"
+      },
+      "seed": 1,
+      "source_type": "repaired_layout_variant",
+      "status": "pending"
+    },
+    {
+      "candidate_id": "existing_seed_002",
+      "model_builder_parameters": {
+        "seed": 2
+      },
+      "parent_seed": 2,
+      "prior_rejection": {
+        "best_reset_clean_two_pad_residual_m": 0.0011411312852820784,
+        "best_row": {
+          "base_pos": [
+            -0.98,
+            0.12,
+            0.08
+          ],
+          "max_endpoint_residual_m": 0.4195181852942983,
+          "min_forbidden_scene_rbound_clearance_m": null,
+          "score": 76.29826526147544,
+          "yaw_deg": -12.5
+        },
+        "prior_run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_or_layout_redesign_with_physical_accessibility_invariant_20260503T164956Z",
+        "rejection_reason": "two_pad_ik_residual_blocks_layout"
+      },
+      "seed": 2,
+      "source_type": "existing_asset",
+      "status": "pending"
+    },
+    {
+      "candidate_id": "repaired_layout_parent_seed_002",
+      "model_builder_parameters": {
+        "parent_seed": 2,
+        "robot_base_pos": [
+          -0.98,
+          0.12,
+          0.08
+        ],
+        "robot_yaw_deg": -12.5,
+        "source": "prior_best_model_or_layout_redesign_row"
+      },
+      "parent_seed": 2,
+      "prior_rejection": {
+        "best_reset_clean_two_pad_residual_m": 0.0011411312852820784,
+        "best_row": {
+          "base_pos": [
+            -0.98,
+            0.12,
+            0.08
+          ],
+          "max_endpoint_residual_m": 0.4195181852942983,
+          "min_forbidden_scene_rbound_clearance_m": null,
+          "score": 76.29826526147544,
+          "yaw_deg": -12.5
+        },
+        "prior_run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_or_layout_redesign_with_physical_accessibility_invariant_20260503T164956Z",
+        "rejection_reason": "two_pad_ik_residual_blocks_layout"
+      },
+      "seed": 2,
+      "source_type": "repaired_layout_variant",
+      "status": "pending"
+    },
+    {
+      "candidate_id": "existing_seed_003",
+      "model_builder_parameters": {
+        "seed": 3
+      },
+      "parent_seed": 3,
+      "prior_rejection": {
+        "best_reset_clean_two_pad_residual_m": 0.0011411312852820784,
+        "best_row": {
+          "base_pos": [
+            -0.7734005254367808,
+            0.1682186180501531,
+            0.16
+          ],
+          "max_endpoint_residual_m": 0.1289257249129968,
+          "min_forbidden_scene_rbound_clearance_m": null,
+          "score": 58.78906218037751,
+          "yaw_deg": -10.0
+        },
+        "prior_run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_or_layout_redesign_with_physical_accessibility_invariant_20260503T164956Z",
+        "rejection_reason": "two_pad_ik_residual_blocks_layout"
+      },
+      "seed": 3,
+      "source_type": "existing_asset",
+      "status": "pending"
+    },
+    {
+      "candidate_id": "repaired_layout_parent_seed_003",
+      "model_builder_parameters": {
+        "parent_seed": 3,
+        "robot_base_pos": [
+          -0.7734005254367808,
+          0.1682186180501531,
+          0.16
+        ],
+        "robot_yaw_deg": -10.0,
+        "source": "prior_best_model_or_layout_redesign_row"
+      },
+      "parent_seed": 3,
+      "prior_rejection": {
+        "best_reset_clean_two_pad_residual_m": 0.0011411312852820784,
+        "best_row": {
+          "base_pos": [
+            -0.7734005254367808,
+            0.1682186180501531,
+            0.16
+          ],
+          "max_endpoint_residual_m": 0.1289257249129968,
+          "min_forbidden_scene_rbound_clearance_m": null,
+          "score": 58.78906218037751,
+          "yaw_deg": -10.0
+        },
+        "prior_run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_or_layout_redesign_with_physical_accessibility_invariant_20260503T164956Z",
+        "rejection_reason": "two_pad_ik_residual_blocks_layout"
+      },
+      "seed": 3,
+      "source_type": "repaired_layout_variant",
+      "status": "pending"
+    },
+    {
+      "candidate_id": "existing_seed_004",
+      "model_builder_parameters": {
+        "seed": 4
+      },
+      "parent_seed": 4,
+      "prior_rejection": {
+        "best_reset_clean_two_pad_residual_m": 0.0011411312852820784,
+        "best_row": {
+          "base_pos": [
+            -0.86,
+            0.2,
+            0.24
+          ],
+          "max_endpoint_residual_m": 0.30617847930738223,
+          "min_forbidden_scene_rbound_clearance_m": null,
+          "score": 167.49016496470122,
+          "yaw_deg": -20.0
+        },
+        "prior_run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_or_layout_redesign_with_physical_accessibility_invariant_20260503T164956Z",
+        "rejection_reason": "two_pad_ik_residual_blocks_layout"
+      },
+      "seed": 4,
+      "source_type": "existing_asset",
+      "status": "pending"
+    },
+    {
+      "candidate_id": "repaired_layout_parent_seed_004",
+      "model_builder_parameters": {
+        "parent_seed": 4,
+        "robot_base_pos": [
+          -0.86,
+          0.2,
+          0.24
+        ],
+        "robot_yaw_deg": -20.0,
+        "source": "prior_best_model_or_layout_redesign_row"
+      },
+      "parent_seed": 4,
+      "prior_rejection": {
+        "best_reset_clean_two_pad_residual_m": 0.0011411312852820784,
+        "best_row": {
+          "base_pos": [
+            -0.86,
+            0.2,
+            0.24
+          ],
+          "max_endpoint_residual_m": 0.30617847930738223,
+          "min_forbidden_scene_rbound_clearance_m": null,
+          "score": 167.49016496470122,
+          "yaw_deg": -20.0
+        },
+        "prior_run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_or_layout_redesign_with_physical_accessibility_invariant_20260503T164956Z",
+        "rejection_reason": "two_pad_ik_residual_blocks_layout"
+      },
+      "seed": 4,
+      "source_type": "repaired_layout_variant",
+      "status": "pending"
+    },
+    {
+      "candidate_id": "existing_seed_005",
+      "model_builder_parameters": {
+        "seed": 5
+      },
+      "parent_seed": 5,
+      "prior_rejection": {
+        "best_reset_clean_two_pad_residual_m": 0.0011411312852820784,
+        "best_row": {
+          "base_pos": [
+            -1.02,
+            0.08,
+            0.08
+          ],
+          "max_endpoint_residual_m": 0.28808053996773175,
+          "min_forbidden_scene_rbound_clearance_m": null,
+          "score": 113.18946852387268,
+          "yaw_deg": -10.0
+        },
+        "prior_run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_or_layout_redesign_with_physical_accessibility_invariant_20260503T164956Z",
+        "rejection_reason": "two_pad_ik_residual_blocks_layout"
+      },
+      "seed": 5,
+      "source_type": "existing_asset",
+      "status": "pending"
+    },
+    {
+      "candidate_id": "repaired_layout_parent_seed_005",
+      "model_builder_parameters": {
+        "parent_seed": 5,
+        "robot_base_pos": [
+          -1.02,
+          0.08,
+          0.08
+        ],
+        "robot_yaw_deg": -10.0,
+        "source": "prior_best_model_or_layout_redesign_row"
+      },
+      "parent_seed": 5,
+      "prior_rejection": {
+        "best_reset_clean_two_pad_residual_m": 0.0011411312852820784,
+        "best_row": {
+          "base_pos": [
+            -1.02,
+            0.08,
+            0.08
+          ],
+          "max_endpoint_residual_m": 0.28808053996773175,
+          "min_forbidden_scene_rbound_clearance_m": null,
+          "score": 113.18946852387268,
+          "yaw_deg": -10.0
+        },
+        "prior_run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_or_layout_redesign_with_physical_accessibility_invariant_20260503T164956Z",
+        "rejection_reason": "two_pad_ik_residual_blocks_layout"
+      },
+      "seed": 5,
+      "source_type": "repaired_layout_variant",
+      "status": "pending"
+    },
+    {
+      "candidate_id": "existing_seed_006",
+      "model_builder_parameters": {
+        "seed": 6
+      },
+      "parent_seed": 6,
+      "prior_rejection": {
+        "best_reset_clean_two_pad_residual_m": 0.0011411312852820784,
+        "best_row": {
+          "base_pos": [
+            -0.7026173499166509,
+            0.011253453764788156,
+            0.24
+          ],
+          "max_endpoint_residual_m": 0.07848554455956905,
+          "min_forbidden_scene_rbound_clearance_m": null,
+          "score": 60.23101613435843,
+          "yaw_deg": -40.0
+        },
+        "prior_run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_or_layout_redesign_with_physical_accessibility_invariant_20260503T164956Z",
+        "rejection_reason": "two_pad_ik_residual_blocks_layout"
+      },
+      "seed": 6,
+      "source_type": "existing_asset",
+      "status": "pending"
+    },
+    {
+      "candidate_id": "repaired_layout_parent_seed_006",
+      "model_builder_parameters": {
+        "parent_seed": 6,
+        "robot_base_pos": [
+          -0.7026173499166509,
+          0.011253453764788156,
+          0.24
+        ],
+        "robot_yaw_deg": -40.0,
+        "source": "prior_best_model_or_layout_redesign_row"
+      },
+      "parent_seed": 6,
+      "prior_rejection": {
+        "best_reset_clean_two_pad_residual_m": 0.0011411312852820784,
+        "best_row": {
+          "base_pos": [
+            -0.7026173499166509,
+            0.011253453764788156,
+            0.24
+          ],
+          "max_endpoint_residual_m": 0.07848554455956905,
+          "min_forbidden_scene_rbound_clearance_m": null,
+          "score": 60.23101613435843,
+          "yaw_deg": -40.0
+        },
+        "prior_run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_or_layout_redesign_with_physical_accessibility_invariant_20260503T164956Z",
+        "rejection_reason": "two_pad_ik_residual_blocks_layout"
+      },
+      "seed": 6,
+      "source_type": "repaired_layout_variant",
+      "status": "pending"
+    },
+    {
+      "candidate_id": "existing_seed_007",
+      "model_builder_parameters": {
+        "seed": 7
+      },
+      "parent_seed": 7,
+      "prior_rejection": {
+        "best_reset_clean_two_pad_residual_m": 0.0011411312852820784,
+        "best_row": {
+          "base_pos": [
+            -0.7113483112728007,
+            0.13944539676345236,
+            0.12
+          ],
+          "max_endpoint_residual_m": 0.009182837024199374,
+          "min_forbidden_scene_rbound_clearance_m": null,
+          "score": 54.20380519816622,
+          "yaw_deg": -30.0
+        },
+        "prior_run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_or_layout_redesign_with_physical_accessibility_invariant_20260503T164956Z",
+        "rejection_reason": "two_pad_reachable_but_forbidden_keepout_blocks_layout"
+      },
+      "seed": 7,
+      "source_type": "existing_asset",
+      "status": "pending"
+    },
+    {
+      "candidate_id": "repaired_layout_parent_seed_007",
+      "model_builder_parameters": {
+        "parent_seed": 7,
+        "robot_base_pos": [
+          -0.7113483112728007,
+          0.13944539676345236,
+          0.12
+        ],
+        "robot_yaw_deg": -30.0,
+        "source": "prior_best_model_or_layout_redesign_row"
+      },
+      "parent_seed": 7,
+      "prior_rejection": {
+        "best_reset_clean_two_pad_residual_m": 0.0011411312852820784,
+        "best_row": {
+          "base_pos": [
+            -0.7113483112728007,
+            0.13944539676345236,
+            0.12
+          ],
+          "max_endpoint_residual_m": 0.009182837024199374,
+          "min_forbidden_scene_rbound_clearance_m": null,
+          "score": 54.20380519816622,
+          "yaw_deg": -30.0
+        },
+        "prior_run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_or_layout_redesign_with_physical_accessibility_invariant_20260503T164956Z",
+        "rejection_reason": "two_pad_reachable_but_forbidden_keepout_blocks_layout"
+      },
+      "seed": 7,
+      "source_type": "repaired_layout_variant",
+      "status": "pending"
+    },
+    {
+      "candidate_id": "existing_seed_008",
+      "model_builder_parameters": {
+        "seed": 8
+      },
+      "parent_seed": 8,
+      "prior_rejection": {
+        "best_reset_clean_two_pad_residual_m": 0.0011411312852820784,
+        "best_row": {
+          "base_pos": [
+            -0.5790869628015337,
+            0.14141773247704043,
+            0.24
+          ],
+          "max_endpoint_residual_m": 0.05476430642714583,
+          "min_forbidden_scene_rbound_clearance_m": null,
+          "score": 134.10617552098202,
+          "yaw_deg": 10.0
+        },
+        "prior_run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_or_layout_redesign_with_physical_accessibility_invariant_20260503T164956Z",
+        "rejection_reason": "two_pad_ik_residual_blocks_layout"
+      },
+      "seed": 8,
+      "source_type": "existing_asset",
+      "status": "pending"
+    },
+    {
+      "candidate_id": "repaired_layout_parent_seed_008",
+      "model_builder_parameters": {
+        "parent_seed": 8,
+        "robot_base_pos": [
+          -0.5790869628015337,
+          0.14141773247704043,
+          0.24
+        ],
+        "robot_yaw_deg": 10.0,
+        "source": "prior_best_model_or_layout_redesign_row"
+      },
+      "parent_seed": 8,
+      "prior_rejection": {
+        "best_reset_clean_two_pad_residual_m": 0.0011411312852820784,
+        "best_row": {
+          "base_pos": [
+            -0.5790869628015337,
+            0.14141773247704043,
+            0.24
+          ],
+          "max_endpoint_residual_m": 0.05476430642714583,
+          "min_forbidden_scene_rbound_clearance_m": null,
+          "score": 134.10617552098202,
+          "yaw_deg": 10.0
+        },
+        "prior_run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_or_layout_redesign_with_physical_accessibility_invariant_20260503T164956Z",
+        "rejection_reason": "two_pad_ik_residual_blocks_layout"
+      },
+      "seed": 8,
+      "source_type": "repaired_layout_variant",
+      "status": "pending"
+    },
+    {
+      "candidate_id": "existing_seed_011",
+      "model_builder_parameters": {
+        "seed": 11
+      },
+      "parent_seed": 11,
+      "prior_rejection": {
+        "best_reset_clean_two_pad_residual_m": 0.0011411312852820784,
+        "best_row": {
+          "base_pos": [
+            -0.7686291058596849,
+            0.11034989193890578,
+            0.12
+          ],
+          "max_endpoint_residual_m": 0.08981936897925547,
+          "min_forbidden_scene_rbound_clearance_m": null,
+          "score": 76.42837680532634,
+          "yaw_deg": -25.0
+        },
+        "prior_run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_or_layout_redesign_with_physical_accessibility_invariant_20260503T164956Z",
+        "rejection_reason": "two_pad_ik_residual_blocks_layout"
+      },
+      "seed": 11,
+      "source_type": "existing_asset",
+      "status": "pending"
+    },
+    {
+      "candidate_id": "repaired_layout_parent_seed_011",
+      "model_builder_parameters": {
+        "parent_seed": 11,
+        "robot_base_pos": [
+          -0.7686291058596849,
+          0.11034989193890578,
+          0.12
+        ],
+        "robot_yaw_deg": -25.0,
+        "source": "prior_best_model_or_layout_redesign_row"
+      },
+      "parent_seed": 11,
+      "prior_rejection": {
+        "best_reset_clean_two_pad_residual_m": 0.0011411312852820784,
+        "best_row": {
+          "base_pos": [
+            -0.7686291058596849,
+            0.11034989193890578,
+            0.12
+          ],
+          "max_endpoint_residual_m": 0.08981936897925547,
+          "min_forbidden_scene_rbound_clearance_m": null,
+          "score": 76.42837680532634,
+          "yaw_deg": -25.0
+        },
+        "prior_run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_or_layout_redesign_with_physical_accessibility_invariant_20260503T164956Z",
+        "rejection_reason": "two_pad_ik_residual_blocks_layout"
+      },
+      "seed": 11,
+      "source_type": "repaired_layout_variant",
+      "status": "pending"
+    },
+    {
+      "candidate_id": "existing_seed_012",
+      "model_builder_parameters": {
+        "seed": 12
+      },
+      "parent_seed": 12,
+      "prior_rejection": {
+        "best_reset_clean_two_pad_residual_m": 0.0011411312852820784,
+        "best_row": {
+          "base_pos": [
+            -0.7789495263156702,
+            -0.042554825005720644,
+            0.08
+          ],
+          "max_endpoint_residual_m": 0.030799853460582245,
+          "min_forbidden_scene_rbound_clearance_m": null,
+          "score": 78.02600472423634,
+          "yaw_deg": -10.0
+        },
+        "prior_run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_or_layout_redesign_with_physical_accessibility_invariant_20260503T164956Z",
+        "rejection_reason": "two_pad_ik_residual_blocks_layout"
+      },
+      "seed": 12,
+      "source_type": "existing_asset",
+      "status": "pending"
+    },
+    {
+      "candidate_id": "repaired_layout_parent_seed_012",
+      "model_builder_parameters": {
+        "parent_seed": 12,
+        "robot_base_pos": [
+          -0.7789495263156702,
+          -0.042554825005720644,
+          0.08
+        ],
+        "robot_yaw_deg": -10.0,
+        "source": "prior_best_model_or_layout_redesign_row"
+      },
+      "parent_seed": 12,
+      "prior_rejection": {
+        "best_reset_clean_two_pad_residual_m": 0.0011411312852820784,
+        "best_row": {
+          "base_pos": [
+            -0.7789495263156702,
+            -0.042554825005720644,
+            0.08
+          ],
+          "max_endpoint_residual_m": 0.030799853460582245,
+          "min_forbidden_scene_rbound_clearance_m": null,
+          "score": 78.02600472423634,
+          "yaw_deg": -10.0
+        },
+        "prior_run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_or_layout_redesign_with_physical_accessibility_invariant_20260503T164956Z",
+        "rejection_reason": "two_pad_ik_residual_blocks_layout"
+      },
+      "seed": 12,
+      "source_type": "repaired_layout_variant",
+      "status": "pending"
+    },
+    {
+      "candidate_id": "existing_seed_013",
+      "model_builder_parameters": {
+        "seed": 13
+      },
+      "parent_seed": 13,
+      "prior_rejection": {
+        "best_reset_clean_two_pad_residual_m": 0.0011411312852820784,
+        "best_row": {
+          "base_pos": [
+            -0.7396271326859635,
+            0.03499085503528567,
+            0.24
+          ],
+          "max_endpoint_residual_m": 0.09965185279879618,
+          "min_forbidden_scene_rbound_clearance_m": null,
+          "score": 99.00385010789637,
+          "yaw_deg": 5.0
+        },
+        "prior_run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_or_layout_redesign_with_physical_accessibility_invariant_20260503T164956Z",
+        "rejection_reason": "two_pad_ik_residual_blocks_layout"
+      },
+      "seed": 13,
+      "source_type": "existing_asset",
+      "status": "pending"
+    },
+    {
+      "candidate_id": "repaired_layout_parent_seed_013",
+      "model_builder_parameters": {
+        "parent_seed": 13,
+        "robot_base_pos": [
+          -0.7396271326859635,
+          0.03499085503528567,
+          0.24
+        ],
+        "robot_yaw_deg": 5.0,
+        "source": "prior_best_model_or_layout_redesign_row"
+      },
+      "parent_seed": 13,
+      "prior_rejection": {
+        "best_reset_clean_two_pad_residual_m": 0.0011411312852820784,
+        "best_row": {
+          "base_pos": [
+            -0.7396271326859635,
+            0.03499085503528567,
+            0.24
+          ],
+          "max_endpoint_residual_m": 0.09965185279879618,
+          "min_forbidden_scene_rbound_clearance_m": null,
+          "score": 99.00385010789637,
+          "yaw_deg": 5.0
+        },
+        "prior_run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_or_layout_redesign_with_physical_accessibility_invariant_20260503T164956Z",
+        "rejection_reason": "two_pad_ik_residual_blocks_layout"
+      },
+      "seed": 13,
+      "source_type": "repaired_layout_variant",
+      "status": "pending"
+    },
+    {
+      "candidate_id": "existing_seed_014",
+      "model_builder_parameters": {
+        "seed": 14
+      },
+      "parent_seed": 14,
+      "prior_rejection": {
+        "best_reset_clean_two_pad_residual_m": 0.0011411312852820784,
+        "best_row": {
+          "base_pos": [
+            -0.6254707375929571,
+            -0.10339254463334956,
+            0.24
+          ],
+          "max_endpoint_residual_m": 0.0031421132264921894,
+          "min_forbidden_scene_rbound_clearance_m": null,
+          "score": 99.19887493686343,
+          "yaw_deg": 10.0
+        },
+        "prior_run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_or_layout_redesign_with_physical_accessibility_invariant_20260503T164956Z",
+        "rejection_reason": "two_pad_reachable_but_forbidden_keepout_blocks_layout"
+      },
+      "seed": 14,
+      "source_type": "existing_asset",
+      "status": "pending"
+    },
+    {
+      "candidate_id": "repaired_layout_parent_seed_014",
+      "model_builder_parameters": {
+        "parent_seed": 14,
+        "robot_base_pos": [
+          -0.6254707375929571,
+          -0.10339254463334956,
+          0.24
+        ],
+        "robot_yaw_deg": 10.0,
+        "source": "prior_best_model_or_layout_redesign_row"
+      },
+      "parent_seed": 14,
+      "prior_rejection": {
+        "best_reset_clean_two_pad_residual_m": 0.0011411312852820784,
+        "best_row": {
+          "base_pos": [
+            -0.6254707375929571,
+            -0.10339254463334956,
+            0.24
+          ],
+          "max_endpoint_residual_m": 0.0031421132264921894,
+          "min_forbidden_scene_rbound_clearance_m": null,
+          "score": 99.19887493686343,
+          "yaw_deg": 10.0
+        },
+        "prior_run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_or_layout_redesign_with_physical_accessibility_invariant_20260503T164956Z",
+        "rejection_reason": "two_pad_reachable_but_forbidden_keepout_blocks_layout"
+      },
+      "seed": 14,
+      "source_type": "repaired_layout_variant",
+      "status": "pending"
+    },
+    {
+      "candidate_id": "existing_seed_015",
+      "model_builder_parameters": {
+        "seed": 15
+      },
+      "parent_seed": 15,
+      "prior_rejection": {
+        "best_reset_clean_two_pad_residual_m": 0.0011411312852820784,
+        "best_row": {
+          "base_pos": [
+            -0.8,
+            0.08,
+            0.12
+          ],
+          "max_endpoint_residual_m": 0.1695386496434321,
+          "min_forbidden_scene_rbound_clearance_m": null,
+          "score": 57.52330801177328,
+          "yaw_deg": -30.0
+        },
+        "prior_run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_or_layout_redesign_with_physical_accessibility_invariant_20260503T164956Z",
+        "rejection_reason": "two_pad_ik_residual_blocks_layout"
+      },
+      "seed": 15,
+      "source_type": "existing_asset",
+      "status": "pending"
+    },
+    {
+      "candidate_id": "repaired_layout_parent_seed_015",
+      "model_builder_parameters": {
+        "parent_seed": 15,
+        "robot_base_pos": [
+          -0.8,
+          0.08,
+          0.12
+        ],
+        "robot_yaw_deg": -30.0,
+        "source": "prior_best_model_or_layout_redesign_row"
+      },
+      "parent_seed": 15,
+      "prior_rejection": {
+        "best_reset_clean_two_pad_residual_m": 0.0011411312852820784,
+        "best_row": {
+          "base_pos": [
+            -0.8,
+            0.08,
+            0.12
+          ],
+          "max_endpoint_residual_m": 0.1695386496434321,
+          "min_forbidden_scene_rbound_clearance_m": null,
+          "score": 57.52330801177328,
+          "yaw_deg": -30.0
+        },
+        "prior_run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_model_or_layout_redesign_with_physical_accessibility_invariant_20260503T164956Z",
+        "rejection_reason": "two_pad_ik_residual_blocks_layout"
+      },
+      "seed": 15,
+      "source_type": "repaired_layout_variant",
+      "status": "pending"
+    },
+    {
+      "candidate_id": "generated_knob_drawer_accessible_001",
+      "model_builder_parameters": {
+        "cutout_half_height": 0.125,
+        "cutout_half_width": 0.135,
+        "door_x": 0.16,
+        "drawer_kind": "simple_knob_drawer_with_cabinet_envelope",
+        "front_cutout": true,
+        "generation_policy": "procedural_source_C_accessible_instance_not_empty_scene",
+        "handle_radius": 0.025,
+        "handle_x": -0.22,
+        "handle_y": 0.02,
+        "handle_z": 0.36,
+        "robot_base_pos": [
+          -0.65,
+          0.0,
+          0.0
+        ]
+      },
+      "source_type": "generated_accessible_variant",
+      "status": "pending",
+      "synthetic_seed": 9001
+    },
+    {
+      "candidate_id": "generated_knob_drawer_accessible_002",
+      "model_builder_parameters": {
+        "cutout_half_height": 0.125,
+        "cutout_half_width": 0.135,
+        "door_x": 0.16,
+        "drawer_kind": "simple_knob_drawer_with_cabinet_envelope",
+        "front_cutout": true,
+        "generation_policy": "procedural_source_C_accessible_instance_not_empty_scene",
+        "handle_radius": 0.025,
+        "handle_x": -0.14,
+        "handle_y": 0.02,
+        "handle_z": 0.36,
+        "robot_base_pos": [
+          -0.55,
+          0.0,
+          0.0
+        ]
+      },
+      "source_type": "generated_accessible_variant",
+      "status": "pending",
+      "synthetic_seed": 9002
+    },
+    {
+      "candidate_id": "generated_knob_drawer_accessible_003",
+      "model_builder_parameters": {
+        "cutout_half_height": 0.125,
+        "cutout_half_width": 0.135,
+        "door_x": 0.16,
+        "drawer_kind": "simple_knob_drawer_with_cabinet_envelope",
+        "front_cutout": true,
+        "generation_policy": "procedural_source_C_accessible_instance_not_empty_scene",
+        "handle_radius": 0.025,
+        "handle_x": -0.22,
+        "handle_y": 0.08,
+        "handle_z": 0.36,
+        "robot_base_pos": [
+          -0.75,
+          0.0,
+          0.0
+        ]
+      },
+      "source_type": "generated_accessible_variant",
+      "status": "pending",
+      "synthetic_seed": 9003
+    },
+    {
+      "candidate_id": "generated_knob_drawer_accessible_004",
+      "model_builder_parameters": {
+        "cutout_half_height": 0.125,
+        "cutout_half_width": 0.135,
+        "door_x": 0.16,
+        "drawer_kind": "simple_knob_drawer_with_cabinet_envelope",
+        "front_cutout": true,
+        "generation_policy": "procedural_source_C_accessible_instance_not_empty_scene",
+        "handle_radius": 0.025,
+        "handle_x": -0.18,
+        "handle_y": -0.1,
+        "handle_z": 0.36,
+        "robot_base_pos": [
+          -0.75,
+          0.0,
+          0.0
+        ]
+      },
+      "source_type": "generated_accessible_variant",
+      "status": "pending",
+      "synthetic_seed": 9004
+    },
+    {
+      "candidate_id": "generated_knob_drawer_accessible_005",
+      "model_builder_parameters": {
+        "cutout_half_height": 0.125,
+        "cutout_half_width": 0.135,
+        "door_x": 0.16,
+        "drawer_kind": "simple_knob_drawer_with_cabinet_envelope",
+        "front_cutout": true,
+        "generation_policy": "procedural_source_C_accessible_instance_not_empty_scene",
+        "handle_radius": 0.025,
+        "handle_x": -0.14,
+        "handle_y": 0.14,
+        "handle_z": 0.36,
+        "robot_base_pos": [
+          -0.35,
+          0.0,
+          0.0
+        ]
+      },
+      "source_type": "generated_accessible_variant",
+      "status": "pending",
+      "synthetic_seed": 9005
+    }
+  ],
+  "generated_at_utc": "2026-05-04T03:26:11Z"
+}

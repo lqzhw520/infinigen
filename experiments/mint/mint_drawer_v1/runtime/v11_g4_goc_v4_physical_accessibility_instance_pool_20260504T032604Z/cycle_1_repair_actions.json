@@ -1,0 +1,13 @@
+{
+  "accepted_count_after_cycle": 5,
+  "candidate_count_evaluated_this_cycle": 31,
+  "cycle": 1,
+  "progress_improved": true,
+  "rejected_count_after_cycle": 26,
+  "rejected_reason_histogram": {
+    "ACCEPTED": 5,
+    "two_pad_ik_residual_blocks_layout": 22,
+    "two_pad_reachable_but_forbidden_keepout_blocks_layout": 4
+  },
+  "repair_action": "evaluate_existing_repaired_and_generated_pool"
+}

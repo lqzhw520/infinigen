@@ -1,0 +1,28 @@
+{
+  "MINT_training_allowed": false,
+  "accepted_accessible_instance_count": 5,
+  "accepted_instance_ids": [
+    "generated_knob_drawer_accessible_001",
+    "generated_knob_drawer_accessible_002",
+    "generated_knob_drawer_accessible_003",
+    "generated_knob_drawer_accessible_004",
+    "generated_knob_drawer_accessible_005"
+  ],
+  "claim_boundary": "physical accessibility instance pool only; no Layer4R/Layer5/local render/MINT claim",
+  "closeout_classification": "ACCESSIBLE_INSTANCE_POOL_READY_FOR_LAYER4R",
+  "current_truth_direct_mutation": false,
+  "generated_at_utc": "2026-05-04T03:26:28Z",
+  "layer4r_may_be_rerun_on_accepted_pool": true,
+  "legacy_current_instances_are_not_certified_teacher_rollout_pool": true,
+  "next_actions_direct_mutation": false,
+  "next_gate": "LAYER4R_ON_ACCESSIBLE_INSTANCE_POOL",
+  "rejected_inaccessible_instance_count": 26,
+  "rejected_reason_histogram": {
+    "ACCEPTED": 5,
+    "two_pad_ik_residual_blocks_layout": 22,
+    "two_pad_reachable_but_forbidden_keepout_blocks_layout": 4
+  },
+  "run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_physical_accessibility_instance_pool_20260504T032604Z",
+  "task_id": "V11_G4_GOC_V4_PHYSICAL_ACCESSIBILITY_INSTANCE_POOL_AUTONOMOUS_V1",
+  "teacher_rollout_remains_blocked_until_layer4r_on_pool_passes": true
+}

@@ -1,0 +1,46 @@
+{
+  "accepted_accessible_instance_count": 5,
+  "accepted_instance_ids": [
+    "generated_knob_drawer_accessible_001",
+    "generated_knob_drawer_accessible_002",
+    "generated_knob_drawer_accessible_003",
+    "generated_knob_drawer_accessible_004",
+    "generated_knob_drawer_accessible_005"
+  ],
+  "accessibility_oracle_built": true,
+  "candidate_instances_total": 31,
+  "closeout_classification": "ACCESSIBLE_INSTANCE_POOL_READY_FOR_LAYER4R",
+  "committed": false,
+  "current_truth_modified": false,
+  "elapsed_seconds": 24.04098105430603,
+  "existing_asset_accept_count": 0,
+  "fake_collision_demotion_used": false,
+  "generated_variant_accept_count": 5,
+  "harness_preflight_passed": true,
+  "json_parse_errors": [],
+  "json_parse_ok": true,
+  "next_actions_modified": false,
+  "next_gate": "LAYER4R_ON_ACCESSIBLE_INSTANCE_POOL",
+  "physical_accessibility_invariant_written": true,
+  "pushed_to_origin": false,
+  "rejected_inaccessible_instance_count": 26,
+  "rejected_reason_histogram": {
+    "ACCEPTED": 5,
+    "two_pad_ik_residual_blocks_layout": 22,
+    "two_pad_reachable_but_forbidden_keepout_blocks_layout": 4
+  },
+  "remote_commit_hash": null,
+  "repaired_variant_accept_count": 0,
+  "run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_physical_accessibility_instance_pool_20260504T032604Z",
+  "runtime_patch_applied": true,
+  "runtime_patch_files": [
+    "scripts/mint/v11_g4_physical_accessibility_instance_pool.py"
+  ],
+  "source_candidate_counts": {
+    "existing_asset": 13,
+    "generated_accessible_variant": 5,
+    "repaired_layout_variant": 13
+  },
+  "source_worktree_head": "e1758d2c72c6ab7247dcffd199d0dfd41668ae40",
+  "task_spec_lock_bound": true
+}

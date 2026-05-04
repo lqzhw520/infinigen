@@ -1,0 +1,18 @@
+task_id: PROPOSED_V11_G4_GOC_V4_LAYER4R_ON_ACCESSIBLE_INSTANCE_POOL
+ task_type: PROPOSED_LAYER4R_CERTIFICATION_ON_ACCEPTED_POOL
+ phase: proposed_layer4r_on_accessible_instance_pool
+ claim_boundary: Proposed only; not executed by physical accessibility instance pool phase.
+ source_instance_pool_run_dir: experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_physical_accessibility_instance_pool_20260504T032604Z
+ accepted_instance_ids: ["generated_knob_drawer_accessible_001", "generated_knob_drawer_accessible_002", "generated_knob_drawer_accessible_003", "generated_knob_drawer_accessible_004", "generated_knob_drawer_accessible_005"]
+ strict_requirements:
+   exact_per_instance_goc_v4_binding: true
+   legal_target_contact: dedicated_finger_pad_geom_ids <-> semantically_bound_drawer_handle_geom_ids
+   body_based_31_27_rejected: true
+   name_only_contact_rejected: true
+   forbidden_contact_frames: 0
+   handle_nonlegal_contact_frames: 0
+   max_penetration_m: 0.02
+   target_contact_total_frames_min: 50
+   target_contact_max_consecutive_frames_min: 30
+   direct_qpos_drawer_opening: false
+   no_instance_pool_modification_during_certification: true

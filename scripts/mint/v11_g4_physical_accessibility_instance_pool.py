@@ -527,7 +527,17 @@ def visual_physical_consistency_audit(env: DrawerRobotEnvMuJoCoLibero, binding: 
         contact = bool(int(model.geom_contype[gid]) and int(model.geom_conaffinity[gid]))
         if name in {"finger1_collision", "finger2_collision"} and not contact:
             shell.append(int(gid))
-        if ("link" in lname or "hand" in lname or "wrist" in lname) and not contact and name not in {"finger1_collision", "finger2_collision"}:
+        # Robosuite robot visuals are intentionally noncontact (`*_vis`).
+        # Count only collision-named robot geoms as suspicious demotions.
+        # The preexisting GOC-v4 finger shell proxy demotion is audited
+        # separately through conservative shell-scene clearance below.
+        collision_named = "collision" in lname
+        if (
+            collision_named
+            and ("link" in lname or "hand" in lname or "wrist" in lname)
+            and not contact
+            and name not in {"finger1_collision", "finger2_collision"}
+        ):
             demoted_physical_arm_or_hand.append({"geom_id": int(gid), "geom_name": name})
     min_clear = math.inf
     min_pair: dict[str, Any] | None = None

@@ -326,8 +326,8 @@ ADAPTIVE_001_002 = PolicyConfig(
     settle_qerr_median=0.06,
 )
 
-ADAPTIVE_003_005 = PolicyConfig(
-    name="adaptive_003_005_qpos_continuous_fingers",
+ADAPTIVE_005 = PolicyConfig(
+    name="adaptive_005_qpos_continuous_fingers",
     mode="qpos",
     q_gain=9.5,
     q_vel_limit=2.35,
@@ -345,6 +345,27 @@ ADAPTIVE_003_005 = PolicyConfig(
     null_gain=0.0,
     settle_qerr_median=0.035,
 )
+
+ADAPTIVE_003 = PolicyConfig(
+    name="adaptive_003_two_pad_binary_close_light_press",
+    mode="two_pad_opspace",
+    q_gain=5.5,
+    q_vel_limit=1.8,
+    servo_kp=235.0,
+    servo_kd=42.0,
+    gripper_mode="binary_close",
+    pre_mult=2.2,
+    guard_mult=2.8,
+    contact_mult=4.0,
+    hold_mult=4.6,
+    extra_hold_steps=320,
+    op_gain=7.5,
+    op_vel_limit=0.055,
+    press_m=0.003,
+    null_gain=0.12,
+    settle_qerr_median=0.06,
+)
+
 
 ADAPTIVE_004 = PolicyConfig(
     name="adaptive_004_zero_press_high_track",
@@ -372,8 +393,10 @@ def resolve_policy_config(config: PolicyConfig, candidate_id: str, perturbation_
         return config
     if candidate_id in {"generated_knob_drawer_accessible_001", "generated_knob_drawer_accessible_002"}:
         return ADAPTIVE_001_002
-    if candidate_id in {"generated_knob_drawer_accessible_003", "generated_knob_drawer_accessible_005"}:
-        return ADAPTIVE_003_005
+    if candidate_id == "generated_knob_drawer_accessible_003":
+        return ADAPTIVE_003
+    if candidate_id == "generated_knob_drawer_accessible_005":
+        return ADAPTIVE_005
     if candidate_id == "generated_knob_drawer_accessible_004":
         return ADAPTIVE_004
     return ADAPTIVE_001_002

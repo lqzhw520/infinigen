@@ -265,7 +265,26 @@ POLICY_CYCLES = [
         settle_qerr_median=0.04,
     ),
     PolicyConfig(
-        name="cycle7_adaptive_contact_mode_v1",
+        name="cycle7_two_pad_opspace_binary_close_light_press",
+        mode="two_pad_opspace",
+        q_gain=5.5,
+        q_vel_limit=1.8,
+        servo_kp=235.0,
+        servo_kd=42.0,
+        gripper_mode="binary_close",
+        pre_mult=2.2,
+        guard_mult=2.8,
+        contact_mult=4.0,
+        hold_mult=4.6,
+        extra_hold_steps=320,
+        op_gain=7.5,
+        op_vel_limit=0.055,
+        press_m=0.003,
+        null_gain=0.12,
+        settle_qerr_median=0.06,
+    ),
+    PolicyConfig(
+        name="cycle8_adaptive_contact_mode_v1",
         mode="adaptive",
         q_gain=0.0,
         q_vel_limit=0.0,
@@ -288,22 +307,22 @@ POLICY_CYCLES = [
 
 
 ADAPTIVE_001_002 = PolicyConfig(
-    name="adaptive_001_002_slow_light_press_long",
+    name="adaptive_001_002_two_pad_binary_close_light_press",
     mode="two_pad_opspace",
-    q_gain=5.0,
-    q_vel_limit=1.25,
-    servo_kp=245.0,
-    servo_kd=48.0,
-    gripper_mode="ik_finger_targets",
-    pre_mult=2.6,
-    guard_mult=3.8,
-    contact_mult=4.6,
-    hold_mult=4.8,
-    extra_hold_steps=340,
-    op_gain=4.0,
-    op_vel_limit=0.030,
-    press_m=0.0025,
-    null_gain=0.22,
+    q_gain=5.5,
+    q_vel_limit=1.8,
+    servo_kp=235.0,
+    servo_kd=42.0,
+    gripper_mode="binary_close",
+    pre_mult=2.4,
+    guard_mult=3.0,
+    contact_mult=4.4,
+    hold_mult=5.0,
+    extra_hold_steps=380,
+    op_gain=7.5,
+    op_vel_limit=0.055,
+    press_m=0.003,
+    null_gain=0.12,
     settle_qerr_median=0.06,
 )
 
@@ -996,7 +1015,17 @@ def run_phase(run_dir: Path, max_cycles: int | None = None) -> dict[str, Any]:
     for cycle_idx, config in enumerate(POLICY_CYCLES[:limit], start=1):
         _, targeted_summary = run_cases(run_dir, records, config, cycle_idx, targeted=True)
         cycles.append({"targeted": targeted_summary})
-        if best_targeted is None or targeted_summary.get("cases_passed", 0) > best_targeted.get("cases_passed", 0):
+        def _summary_score(summary: dict[str, Any]) -> tuple[Any, ...]:
+            hist = summary.get("failure_histogram", {}) or {}
+            return (
+                bool(summary.get("matrix_passed")),
+                int(summary.get("cases_passed", 0)),
+                -int(hist.get("forbidden_contact_present", 0)),
+                int(summary.get("target_contact_frames_min", 0)),
+                int(summary.get("target_contact_consecutive_min", 0)),
+                int(summary.get("target_contact_frames_max", 0)),
+            )
+        if best_targeted is None or _summary_score(targeted_summary) > _summary_score(best_targeted):
             best_targeted = targeted_summary
         if not targeted_summary.get("matrix_passed"):
             continue

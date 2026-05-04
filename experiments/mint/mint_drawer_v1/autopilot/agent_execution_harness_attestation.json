@@ -1,11 +1,11 @@
 {
   "attestation_id": "POST_PUSH_ATTESTATION_V3",
   "version": "1.0.0",
-  "generated_at_utc": "2026-05-04T14:20:08Z",
+  "generated_at_utc": "2026-05-04T14:29:59Z",
   "generated_by": "validate_harness_production_lock.py",
   "attestation_type": "post_push_verification",
-  "lock_commit": "86c4bafecbd4bc28a60b7b6f7ebf606bcfffbcc8",
-  "origin_head": "86c4bafecbd4bc28a60b7b6f7ebf606bcfffbcc8",
+  "lock_commit": "f7372d4a32e8c0f4a0462e3c52767101de7fc854",
+  "origin_head": "f7372d4a32e8c0f4a0462e3c52767101de7fc854",
   "origin_verified": true,
   "lock_status": "production_ready",
   "lock_blob_on_origin": "verified_via_merge_base_ancestor_chain",
@@ -19,11 +19,11 @@
     "task_spec_binding": {
       "requested_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool.yaml",
       "lock_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool.yaml",
-      "lock_hash": "e03acae22d95584daf8bb2c0c444c6ee9996b8e6",
-      "current_hash": "e03acae22d95584daf8bb2c0c444c6ee9996b8e6",
+      "lock_hash": "e5a5093d55a7ce44c30163a62a343b5077755e0a",
+      "current_hash": "e5a5093d55a7ce44c30163a62a343b5077755e0a",
       "passed": true
     },
-    "origin_head": "86c4bafecbd4bc28a60b7b6f7ebf606bcfffbcc8",
+    "origin_head": "f7372d4a32e8c0f4a0462e3c52767101de7fc854",
     "git_ls_remote_ok": true,
     "origin_contains_lock_commit": true,
     "lock_commit_is_ancestor_of_origin": true,
@@ -83,8 +83,8 @@
         "matches": true
       },
       "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool.yaml": {
-        "expected": "e03acae22d95584daf8bb2c0c444c6ee9996b8e6",
-        "origin": "e03acae22d95584daf8bb2c0c444c6ee9996b8e6",
+        "expected": "e5a5093d55a7ce44c30163a62a343b5077755e0a",
+        "origin": "e5a5093d55a7ce44c30163a62a343b5077755e0a",
         "matches": true
       }
     },
@@ -181,5 +181,5 @@
   },
   "origin_url": "git@github.com:lqzhw520/infinigen.git",
   "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
-  "attestation_blob": "bf77a65ccf03fd8b7b6e21fb52e6dfc68d1ebfc0"
+  "attestation_blob": "7583e45e5beb6db56eee0cbd30e326eb8aa6e910"
 }

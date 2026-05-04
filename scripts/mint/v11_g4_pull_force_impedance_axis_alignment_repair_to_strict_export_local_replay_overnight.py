@@ -1230,7 +1230,21 @@ def run_phase(run_dir: Path, max_primary_cycles: int) -> dict[str, Any]:
                     write_dynamic_redesign_artifacts(run_dir, decision, best_rows)
                 closeout_class = decision["closeout_classification"]
                 export_replay = {"export": {"attempted": False, "passed": False}, "local_replay": {"attempted": False, "passed": False}}
-    best_summary = continuation.get("best_targeted_summary") or repair.get("best_targeted_summary") or {}
+    repair_summary = repair.get("best_targeted_summary") or {}
+    continuation_summary = continuation.get("best_targeted_summary") or {}
+    if repair_summary and continuation_summary:
+        if progress_rank(continuation_summary) > progress_rank(repair_summary):
+            best_summary = continuation_summary
+            best_targeted_results = continuation.get("best_targeted_results") or []
+        else:
+            best_summary = repair_summary
+            best_targeted_results = repair.get("best_targeted_results") or []
+    elif continuation_summary:
+        best_summary = continuation_summary
+        best_targeted_results = continuation.get("best_targeted_results") or []
+    else:
+        best_summary = repair_summary
+        best_targeted_results = repair.get("best_targeted_results") or []
     full_summary = continuation.get("full30_summary") or repair.get("full30_summary") or {}
     final_checks_payload = final_checks(run_dir)
     next_gate_map = {
@@ -1272,7 +1286,7 @@ def run_phase(run_dir: Path, max_primary_cycles: int) -> dict[str, Any]:
         "full30_pull_cases_failed": int(full_summary.get("cases_failed", 0)),
         "best_drawer_fraction_by_instance": {
             f"{row.get('candidate_id')}::{row.get('perturbation')}": row.get("max_drawer_fraction")
-            for row in (continuation.get("best_targeted_results") or repair.get("best_targeted_results") or [])
+            for row in best_targeted_results
         },
         "remaining_failure_histogram": best_summary.get("failure_histogram", {}),
         "forbidden_contact_frames_max": best_summary.get("forbidden_contact_frames_max", 0),

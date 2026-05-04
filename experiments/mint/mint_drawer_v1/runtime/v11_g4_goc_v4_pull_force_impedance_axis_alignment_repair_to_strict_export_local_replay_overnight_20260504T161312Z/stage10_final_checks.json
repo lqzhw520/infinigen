@@ -1,0 +1,32 @@
+{
+  "closeout_classification": "DYNAMIC_PULL_INFEASIBLE_FIXED_POOL_CERTIFICATE",
+  "final_checks_passed": true,
+  "final_closeout_false_failures": {},
+  "final_closeout_invariant_flags": {
+    "current_truth_modified": false,
+    "direct_qpos_drawer_opening": false,
+    "drawer_motor_command_used": false,
+    "fixed_pool_modified": false,
+    "geometry_modified": false,
+    "goc_v4_authority_modified": false,
+    "next_actions_modified": false,
+    "thresholds_modified": false
+  },
+  "forbidden_dirty": [],
+  "forbidden_staged": [],
+  "helper": "scripts/mint/v11_g4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight.py",
+  "json_files_parsed": 54,
+  "json_parse_passed": true,
+  "jsonl_files_parsed": 15,
+  "next_gate": "DYNAMIC_PULL_ACCESSIBLE_POOL_REDESIGN",
+  "parse_errors": [],
+  "preflight_passed": true,
+  "py_compile_passed": true,
+  "raw_traces_committed": false,
+  "ruff_passed": true,
+  "spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight.yaml",
+  "trace_count_hashed": 42,
+  "trace_staged_count": 0,
+  "trace_total_size_bytes": 417302843,
+  "yaml_parse_passed": true
+}

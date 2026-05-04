@@ -1,0 +1,19 @@
+{
+  "branch_selected_after_primary_failure": "DYNAMIC_PULL_ACCESSIBLE_POOL_REDESIGN",
+  "closeout_classification": "DYNAMIC_PULL_INFEASIBLE_FIXED_POOL_CERTIFICATE",
+  "fixed_pool_modified": false,
+  "generated_at_utc": "2026-05-04T16:25:41Z",
+  "geometry_modified": false,
+  "goc_v4_authority_modified": false,
+  "local_replay_passed": false,
+  "next_gate": "DYNAMIC_PULL_ACCESSIBLE_POOL_REDESIGN",
+  "run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z",
+  "source_accepted_pool_identity": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_physical_accessibility_instance_pool_20260504T032604Z",
+  "source_bounded_pull_failure_ingested": true,
+  "source_layer4r_30_of_30_passed": true,
+  "strict_pull_certification_passed": false,
+  "strict_teacher_export_passed": false,
+  "task_id": "V11_G4_GOC_V4_PULL_FORCE_IMPEDANCE_AXIS_ALIGNMENT_REPAIR_TO_STRICT_EXPORT_LOCAL_REPLAY_OVERNIGHT_V1",
+  "teacher_rollout_remains_blocked": true,
+  "thresholds_modified": false
+}

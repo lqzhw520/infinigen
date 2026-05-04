@@ -1,0 +1,16 @@
+{
+  "finger_mode": "ik_hold",
+  "lead_cap_m": 0.035,
+  "name": "pc03_long_low_press_reseat_proxy_ik_hold",
+  "null_gain": 0.1,
+  "op_gain": 11.0,
+  "op_vel_limit": 0.09,
+  "post_pull_hold_steps": 0,
+  "pull_distance_m": 0.35,
+  "pull_press_m": 0.001,
+  "pull_steps": 6000,
+  "pull_velocity_m_per_step": 7.5e-05,
+  "q_vel_limit": 2.5,
+  "servo_kd": 84.0,
+  "servo_kp": 320.0
+}

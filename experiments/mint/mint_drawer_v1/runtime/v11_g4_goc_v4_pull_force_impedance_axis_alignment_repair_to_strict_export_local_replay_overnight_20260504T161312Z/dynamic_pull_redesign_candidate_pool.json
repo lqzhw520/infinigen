@@ -1,0 +1,11 @@
+{
+  "allowed_redesign_variables": [
+    "robot_mount_side_height_yaw",
+    "active_drawer_or_handle_choice",
+    "generated_simple_drawer_variant_with_real_collision",
+    "documented_layout_variant"
+  ],
+  "generated_at_utc": "2026-05-04T16:24:45Z",
+  "reason": "Existing fixed accepted pool is preserved; redesign must create new generated/repaired variants in a later gate.",
+  "status": "not_generated_in_fixed_pool_branch"
+}

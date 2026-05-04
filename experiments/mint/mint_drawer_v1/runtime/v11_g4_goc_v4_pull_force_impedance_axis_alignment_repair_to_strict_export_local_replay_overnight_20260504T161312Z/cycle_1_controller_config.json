@@ -1,0 +1,16 @@
+{
+  "finger_mode": "binary_close",
+  "lead_cap_m": 0.04,
+  "name": "pf01_capped_lead_0p04_no_post_hold_binary_close",
+  "null_gain": 0.0,
+  "op_gain": 13.0,
+  "op_vel_limit": 0.12,
+  "post_pull_hold_steps": 0,
+  "pull_distance_m": 0.35,
+  "pull_press_m": 0.004,
+  "pull_steps": 3600,
+  "pull_velocity_m_per_step": 0.00013,
+  "q_vel_limit": 3.1,
+  "servo_kd": 86.0,
+  "servo_kp": 410.0
+}

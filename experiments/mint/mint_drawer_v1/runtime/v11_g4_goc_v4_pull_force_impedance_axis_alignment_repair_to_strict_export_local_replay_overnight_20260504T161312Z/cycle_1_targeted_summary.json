@@ -1,0 +1,36 @@
+{
+  "cases_failed": 5,
+  "cases_passed": 2,
+  "cases_total": 7,
+  "failure_histogram": {
+    "forbidden_contact_present": 3,
+    "max_drawer_fraction_lt_0p80": 3,
+    "pull_phase_target_contact_frames_lt_80": 1,
+    "pull_phase_two_pad_target_contact_frames_lt_30": 2,
+    "target_contact_frames_lt_80": 1
+  },
+  "forbidden_contact_frames_max": 37,
+  "generated_at_utc": "2026-05-04T16:14:38Z",
+  "handle_nonlegal_contact_frames_max": 0,
+  "hard_goal_cases": 4,
+  "matrix_passed": false,
+  "max_drawer_fraction_max": 0.9582600545774994,
+  "max_drawer_fraction_min": 0.0054147214214808675,
+  "max_force_n": 433.903884466802,
+  "max_penetration_m": 0.00533681309959327,
+  "name": "pf01_capped_lead_0p04_no_post_hold_binary_close",
+  "pull_phase_target_contact_frames_min": 0,
+  "pull_phase_two_pad_target_contact_frames_min": 0,
+  "structural_label_histogram": {
+    "AXIS_FORCE_INSUFFICIENT": 3,
+    "FORBIDDEN_KEEP_OUT_DURING_PULL": 3,
+    "FORCE_PRESENT_BUT_DRAWER_NONMONOTONIC": 6,
+    "GRIPPER_TIMING_OR_SPAN_FAILURE": 1,
+    "HANDLE_FRAME_TRACKING_ERROR": 3,
+    "LIKELY_FIXED_POOL_DYNAMIC_PULL_INFEASIBLE": 1,
+    "TWO_PAD_PULL_CONTACT_LOSS": 2
+  },
+  "target_contact_consecutive_min": 60,
+  "target_contact_frames_min": 60,
+  "targeted_shard": true
+}

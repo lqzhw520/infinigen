@@ -1,0 +1,26 @@
+{
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "generated_at_utc": "2026-05-04T16:13:12Z",
+  "harness_preflight_passed": true,
+  "head": "04bfab07fea79a0dff702adef6f16628de940787",
+  "preflight": {
+    "cmd": [
+      "/root/anaconda3/envs/infinigen/bin/python",
+      "experiments/mint/mint_drawer_v1/scripts/harness/agent_task_preflight.py",
+      "--spec",
+      "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight.yaml",
+      "--dry-run"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "\n======================================================================\n  Agent Task Pre-flight\n======================================================================\n  campaign_root: /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1\n  task_spec:    /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight.yaml\n  dry_run:      True\n\n  [LOCK] Production lock enforcement\n  [PASS] Production lock valid: status=production_ready, generated_by=validate_harness_production_lock.py, validators_intact=5 files, task_spec_bound=experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight.yaml, task_spec_hash_verified=True, attestation_verified=True, lock_format=V3\n\n  [V01] validate_task_authority (S0 gate)\n  [PASS] V01 validate_task_authority\n\n  [V02] validate_diff_scope\n  [PASS] V02 validate_diff_scope\n\n======================================================================\n  Pre-flight Summary\n======================================================================\n  Passed: 2\n  Failed: 0\n  Task spec: v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight.yaml\n  Pre-flight callable: True\n  Production lock: verified (always required \u2014 no bypass)\n\n  ALL PRE-FLIGHT VALIDATORS PASSED.\n  Agent may proceed with execution.\n  Next: run V03 during execution, V04 at closeout.\n"
+  },
+  "pwd": "/mnt/afs2/zhuhaowu/infinigen",
+  "remote_v": "my-origin\tgit@github.com:lqzhw520/infinigen.git (fetch)\nmy-origin\tgit@github.com:lqzhw520/infinigen.git (push)\norigin\thttps://github.com/princeton-vl/infinigen.git (fetch)\norigin\thttps://github.com/princeton-vl/infinigen.git (push)",
+  "source_bounded_pull_run": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z",
+  "source_contact_mode_layer4r_run": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_contact_mode_operational_space_policy_repair_on_accessible_pool_20260504T075148Z",
+  "source_pool_run": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_physical_accessibility_instance_pool_20260504T032604Z",
+  "status_short": "M .project-memory/STATUS.md\n M .session/checkpoint.md",
+  "task_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight.yaml",
+  "task_spec_hash": "bce4f2564ce1468fa205735327a42607a68b16a9"
+}

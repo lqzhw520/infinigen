@@ -1,0 +1,219 @@
+{
+  "raw_traces_committed": false,
+  "run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z",
+  "trace_count": 42,
+  "trace_policy": "raw traces retained in remote run_dir; committed evidence uses summaries, reports, and this SHA-256 manifest",
+  "trace_total_size_bytes": 417302843,
+  "traces": [
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/traces/variant_101_pf01_capped_lead_0p04_no_post_hold_binary_close__generated_knob_drawer_accessible_001__nominal.jsonl",
+      "sha256": "1d34f78530d1cb3638879ce4220a537d856306f4de4ff24c0d281c6fc44b0af4",
+      "size_bytes": 12695008
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/traces/variant_101_pf01_capped_lead_0p04_no_post_hold_binary_close__generated_knob_drawer_accessible_001__slow_guarded_contact.jsonl",
+      "sha256": "9ba77934fb6b3f3469962ef5325a6b758cf3130f61af11525ad0072c8be9ff99",
+      "size_bytes": 13238389
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/traces/variant_101_pf01_capped_lead_0p04_no_post_hold_binary_close__generated_knob_drawer_accessible_002__nominal.jsonl",
+      "sha256": "926af8fba99e4c4171ab11715a146a42d1c37ef37c0ca5cab828bfa2f1e23f47",
+      "size_bytes": 12362434
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/traces/variant_101_pf01_capped_lead_0p04_no_post_hold_binary_close__generated_knob_drawer_accessible_002__slow_guarded_contact.jsonl",
+      "sha256": "d22e77a6edde69753beee166adf9181d143a95a669dca0fb6d3a4a093a9fd59f",
+      "size_bytes": 13223563
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/traces/variant_101_pf01_capped_lead_0p04_no_post_hold_binary_close__generated_knob_drawer_accessible_003__nominal.jsonl",
+      "sha256": "0b7da2a8c1a6dec717a057a8e9766a9ed8df93f4b643451e6965182ad31b6d8f",
+      "size_bytes": 12156815
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/traces/variant_101_pf01_capped_lead_0p04_no_post_hold_binary_close__generated_knob_drawer_accessible_004__nominal.jsonl",
+      "sha256": "5d43571beb9169158f93c95a097d3fbf800cb8ec138d9fe47b214e186973aef7",
+      "size_bytes": 11280662
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/traces/variant_101_pf01_capped_lead_0p04_no_post_hold_binary_close__generated_knob_drawer_accessible_005__nominal.jsonl",
+      "sha256": "67d038b642d826864684a535278a91326bfc65ca098b170b7a53cd9962d6315c",
+      "size_bytes": 10718398
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/traces/variant_102_pf02_capped_lead_0p06_no_post_hold_semi_close__generated_knob_drawer_accessible_001__nominal.jsonl",
+      "sha256": "f860763a21936d8c5e4addd23a22e1b8755ee056c4ed420e2e7c463befd2110d",
+      "size_bytes": 7130008
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/traces/variant_102_pf02_capped_lead_0p06_no_post_hold_semi_close__generated_knob_drawer_accessible_001__slow_guarded_contact.jsonl",
+      "sha256": "f6dd79f92e74a947f507c7cd1c596af74c1d8e2fd5aed5a9a7f1faad069c6560",
+      "size_bytes": 7669955
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/traces/variant_102_pf02_capped_lead_0p06_no_post_hold_semi_close__generated_knob_drawer_accessible_002__nominal.jsonl",
+      "sha256": "115fcace0ab9226e1ab0901613e85d0a88c12b4430fef2a5e293a6edffb45619",
+      "size_bytes": 6704774
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/traces/variant_102_pf02_capped_lead_0p06_no_post_hold_semi_close__generated_knob_drawer_accessible_002__slow_guarded_contact.jsonl",
+      "sha256": "1d9977dd5c2eb8e08d6df2bd2f7635f38310c42d1ed2adc1194ec72ab0dafacd",
+      "size_bytes": 8029929
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/traces/variant_102_pf02_capped_lead_0p06_no_post_hold_semi_close__generated_knob_drawer_accessible_003__nominal.jsonl",
+      "sha256": "61e13ba9206ed94eaf62eee1d2c42d780d49441724acf5b0d0268f46ecd15583",
+      "size_bytes": 6134367
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/traces/variant_102_pf02_capped_lead_0p06_no_post_hold_semi_close__generated_knob_drawer_accessible_004__nominal.jsonl",
+      "sha256": "2154905d86b9ba9e1590a08a503fe698616357fb189366ae5dbfc810e796a5bb",
+      "size_bytes": 5627216
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/traces/variant_102_pf02_capped_lead_0p06_no_post_hold_semi_close__generated_knob_drawer_accessible_005__nominal.jsonl",
+      "sha256": "d450a89df146bc1923a45cf4c872e819091b8d4d5e697d7c5c15d64b5582891e",
+      "size_bytes": 4832653
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/traces/variant_103_pf03_low_press_axis_work_ik_hold__generated_knob_drawer_accessible_001__nominal.jsonl",
+      "sha256": "50eac9b9ce91ae6c007ef51b0f784f546e36bfe1627919407fa0212fbcb4a049",
+      "size_bytes": 7509789
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/traces/variant_103_pf03_low_press_axis_work_ik_hold__generated_knob_drawer_accessible_001__slow_guarded_contact.jsonl",
+      "sha256": "e36f55b4340eba31b75f419b49c13e0639435dd8d5556f09ea5c135143cdb9e0",
+      "size_bytes": 8070241
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/traces/variant_103_pf03_low_press_axis_work_ik_hold__generated_knob_drawer_accessible_002__nominal.jsonl",
+      "sha256": "c149f22f3ffb5a856d1f32e29ea3d15e38f6c274ef700ab94d290b147b3b1634",
+      "size_bytes": 7482831
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/traces/variant_103_pf03_low_press_axis_work_ik_hold__generated_knob_drawer_accessible_002__slow_guarded_contact.jsonl",
+      "sha256": "a9ec00b901e6583951629b0d27461ada742fbcaf9fbc930c626484c75e6863f9",
+      "size_bytes": 8290445
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/traces/variant_103_pf03_low_press_axis_work_ik_hold__generated_knob_drawer_accessible_003__nominal.jsonl",
+      "sha256": "0efc7bf23c9936807af16533b7aa85e44ec08270675a7f321a10e8a0e4384879",
+      "size_bytes": 6888457
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/traces/variant_103_pf03_low_press_axis_work_ik_hold__generated_knob_drawer_accessible_004__nominal.jsonl",
+      "sha256": "fbea25f7d5ad4e8bcfd78417dacc40388a8241e591d841b3ddd0ef615798b57f",
+      "size_bytes": 6863654
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/traces/variant_103_pf03_low_press_axis_work_ik_hold__generated_knob_drawer_accessible_005__nominal.jsonl",
+      "sha256": "691216f4c904d4ab61429dbb4ac41e62b0fb484289db429a7b007db766e3a74e",
+      "size_bytes": 5590288
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/traces/variant_105_pc01_short_lead_contact_retention_binary_close__generated_knob_drawer_accessible_001__nominal.jsonl",
+      "sha256": "0d016eb54ac6be84746e16cf32fe1353db716519386f54f2bbb56eb1345e28d5",
+      "size_bytes": 16942763
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/traces/variant_105_pc01_short_lead_contact_retention_binary_close__generated_knob_drawer_accessible_001__slow_guarded_contact.jsonl",
+      "sha256": "1c132caf6d048d432bd39d1006d114a01bdf8737e93b16662f21a550c0df78e5",
+      "size_bytes": 17331834
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/traces/variant_105_pc01_short_lead_contact_retention_binary_close__generated_knob_drawer_accessible_002__nominal.jsonl",
+      "sha256": "27b4a64c29c4441869007a977c76588af5ab310e8ba465c3f0b2bb0e741baf35",
+      "size_bytes": 16431411
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/traces/variant_105_pc01_short_lead_contact_retention_binary_close__generated_knob_drawer_accessible_002__slow_guarded_contact.jsonl",
+      "sha256": "6752df18f0ec2c9f7119ff7912ae5218b039a33db7c33c6da727beb096f8f947",
+      "size_bytes": 17328674
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/traces/variant_105_pc01_short_lead_contact_retention_binary_close__generated_knob_drawer_accessible_003__nominal.jsonl",
+      "sha256": "76af9396c36498ff5593cb2eca3690905291f3b5e422c022c1676bd5ab427875",
+      "size_bytes": 17196138
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/traces/variant_105_pc01_short_lead_contact_retention_binary_close__generated_knob_drawer_accessible_004__nominal.jsonl",
+      "sha256": "d1b9420bb962f7903c9787b301547892dbc5355106c5f2166638acb87b3c017a",
+      "size_bytes": 14683160
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/traces/variant_105_pc01_short_lead_contact_retention_binary_close__generated_knob_drawer_accessible_005__nominal.jsonl",
+      "sha256": "70f7b6f7c7a56f906d911c02ac0c3d52dceda551d4e84e4002496d5f6657edb3",
+      "size_bytes": 16485147
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/traces/variant_106_pc02_micro_lead_high_damping_semi_close__generated_knob_drawer_accessible_001__nominal.jsonl",
+      "sha256": "f1bef30110a3c64e8c2942b3ee5478d9e4b09a2aab0d792242d2d4e703801db0",
+      "size_bytes": 8564963
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/traces/variant_106_pc02_micro_lead_high_damping_semi_close__generated_knob_drawer_accessible_001__slow_guarded_contact.jsonl",
+      "sha256": "b7fd2728d58ca38ea9db7b9fd4187f30dec75cd4c0adecaec72a188c4b4202ea",
+      "size_bytes": 9105322
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/traces/variant_106_pc02_micro_lead_high_damping_semi_close__generated_knob_drawer_accessible_002__nominal.jsonl",
+      "sha256": "71652879f2928902483a4422cbcc371b68ef1c3bbaa0d66b9759145824498ae2",
+      "size_bytes": 8594798
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/traces/variant_106_pc02_micro_lead_high_damping_semi_close__generated_knob_drawer_accessible_002__slow_guarded_contact.jsonl",
+      "sha256": "e927bdc9e2c2bcf2f7eb1feccf95c2fba0ccca4acfa6ee15966440991953df80",
+      "size_bytes": 9473083
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/traces/variant_106_pc02_micro_lead_high_damping_semi_close__generated_knob_drawer_accessible_003__nominal.jsonl",
+      "sha256": "df0829e1b55ab223347503048d12ee79cfd1e74f117858f3e84cee5729b94dca",
+      "size_bytes": 7607070
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/traces/variant_106_pc02_micro_lead_high_damping_semi_close__generated_knob_drawer_accessible_004__nominal.jsonl",
+      "sha256": "f918bdd17e0718cc8268d456e327b47d6ddd3a7c8f7aecc8b72625e6245377e4",
+      "size_bytes": 7715994
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/traces/variant_106_pc02_micro_lead_high_damping_semi_close__generated_knob_drawer_accessible_005__nominal.jsonl",
+      "sha256": "ac4677ffc74d05c92d13327e8436216c25d2611792d2186cb6649d3f5f647810",
+      "size_bytes": 6281753
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/traces/variant_107_pc03_long_low_press_reseat_proxy_ik_hold__generated_knob_drawer_accessible_001__nominal.jsonl",
+      "sha256": "c85d29edc5a5a1d3e5e3b78c53cb86679029f8e63cae61fab71d06c1ca31b22d",
+      "size_bytes": 8790839
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/traces/variant_107_pc03_long_low_press_reseat_proxy_ik_hold__generated_knob_drawer_accessible_001__slow_guarded_contact.jsonl",
+      "sha256": "44a6a76276c30834bcc50f15170099e6bb31e5aa9826feedfb3a599d878353d4",
+      "size_bytes": 9346485
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/traces/variant_107_pc03_long_low_press_reseat_proxy_ik_hold__generated_knob_drawer_accessible_002__nominal.jsonl",
+      "sha256": "bea0e5286f543efc6f770e14888eb786d33f4bf525bbcd0a0e655e013ee8a38c",
+      "size_bytes": 8786816
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/traces/variant_107_pc03_long_low_press_reseat_proxy_ik_hold__generated_knob_drawer_accessible_002__slow_guarded_contact.jsonl",
+      "sha256": "84a2339ca00b6df9d82ff9a70fe25e62a0a6e8a6581280c3738bffd82e46b3e8",
+      "size_bytes": 9575297
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/traces/variant_107_pc03_long_low_press_reseat_proxy_ik_hold__generated_knob_drawer_accessible_003__nominal.jsonl",
+      "sha256": "6b27891a4f772d041e3cbdb63bd88c47a1e66b490cf4d5a9abff93e844e2444f",
+      "size_bytes": 8176747
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/traces/variant_107_pc03_long_low_press_reseat_proxy_ik_hold__generated_knob_drawer_accessible_004__nominal.jsonl",
+      "sha256": "dfc9749c73aa631d0665e859d25e06153b31e96142a8a645d1ec5f8de46ea3e5",
+      "size_bytes": 9519062
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/traces/variant_107_pc03_long_low_press_reseat_proxy_ik_hold__generated_knob_drawer_accessible_005__nominal.jsonl",
+      "sha256": "4fb73e2a7582581262811af4431ceef5b9610fcd6a1092e1175be5f493f637f6",
+      "size_bytes": 6865611
+    }
+  ]
+}

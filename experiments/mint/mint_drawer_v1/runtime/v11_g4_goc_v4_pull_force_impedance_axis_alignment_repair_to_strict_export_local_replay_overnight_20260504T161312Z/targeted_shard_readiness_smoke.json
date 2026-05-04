@@ -1,0 +1,10 @@
+{
+  "accepted_pool_manifest_exists": true,
+  "fixed_pool_modified": false,
+  "generated_at_utc": "2026-05-04T16:13:21Z",
+  "geometry_modified": false,
+  "goc_v4_authority_modified": false,
+  "readiness_smoke_passed": true,
+  "source_layer4r_bound": true,
+  "thresholds_modified": false
+}

@@ -1,0 +1,16 @@
+{
+  "finger_mode": "binary_close",
+  "lead_cap_m": 0.025,
+  "name": "pc01_short_lead_contact_retention_binary_close",
+  "null_gain": 0.0,
+  "op_gain": 15.0,
+  "op_vel_limit": 0.14,
+  "post_pull_hold_steps": 0,
+  "pull_distance_m": 0.35,
+  "pull_press_m": 0.006,
+  "pull_steps": 5200,
+  "pull_velocity_m_per_step": 9e-05,
+  "q_vel_limit": 3.2,
+  "servo_kd": 98.0,
+  "servo_kp": 460.0
+}

@@ -1,0 +1,58 @@
+{
+  "branch": "PULL_CONTROLLER_REPAIR_CONTINUATION",
+  "generated_at_utc": "2026-05-04T16:17:33Z",
+  "geometry_modified": false,
+  "pool_modified": false,
+  "reason": "Primary fixed-pool repair did not certify targeted shard, but prior evidence contains positive pull-axis wrench and partial opening.",
+  "thresholds_modified": false,
+  "variants": [
+    {
+      "finger_mode": "binary_close",
+      "lead_cap_m": 0.025,
+      "name": "pc01_short_lead_contact_retention_binary_close",
+      "null_gain": 0.0,
+      "op_gain": 15.0,
+      "op_vel_limit": 0.14,
+      "post_pull_hold_steps": 0,
+      "pull_distance_m": 0.35,
+      "pull_press_m": 0.006,
+      "pull_steps": 5200,
+      "pull_velocity_m_per_step": 9e-05,
+      "q_vel_limit": 3.2,
+      "servo_kd": 98.0,
+      "servo_kp": 460.0
+    },
+    {
+      "finger_mode": "semi_close",
+      "lead_cap_m": 0.018,
+      "name": "pc02_micro_lead_high_damping_semi_close",
+      "null_gain": 0.0,
+      "op_gain": 16.0,
+      "op_vel_limit": 0.125,
+      "post_pull_hold_steps": 0,
+      "pull_distance_m": 0.35,
+      "pull_press_m": 0.004,
+      "pull_steps": 5600,
+      "pull_velocity_m_per_step": 8e-05,
+      "q_vel_limit": 3.0,
+      "servo_kd": 112.0,
+      "servo_kp": 430.0
+    },
+    {
+      "finger_mode": "ik_hold",
+      "lead_cap_m": 0.035,
+      "name": "pc03_long_low_press_reseat_proxy_ik_hold",
+      "null_gain": 0.1,
+      "op_gain": 11.0,
+      "op_vel_limit": 0.09,
+      "post_pull_hold_steps": 0,
+      "pull_distance_m": 0.35,
+      "pull_press_m": 0.001,
+      "pull_steps": 6000,
+      "pull_velocity_m_per_step": 7.5e-05,
+      "q_vel_limit": 2.5,
+      "servo_kd": 84.0,
+      "servo_kp": 320.0
+    }
+  ]
+}

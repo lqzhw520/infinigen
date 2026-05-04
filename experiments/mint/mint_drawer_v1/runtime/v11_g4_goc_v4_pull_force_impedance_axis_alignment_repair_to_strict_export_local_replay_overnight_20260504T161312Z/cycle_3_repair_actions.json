@@ -1,0 +1,13 @@
+{
+  "branch": "primary_fixed_pool_controller_repair",
+  "cycle": 3,
+  "geometry_modified": false,
+  "pool_modified": false,
+  "repair_actions": [
+    "handle_frame_moving_pull_target",
+    "pull_axis_impedance_alignment",
+    "two_pad_contact_retention",
+    "post_hold_removed_to_reduce_backdrive"
+  ],
+  "thresholds_modified": false
+}

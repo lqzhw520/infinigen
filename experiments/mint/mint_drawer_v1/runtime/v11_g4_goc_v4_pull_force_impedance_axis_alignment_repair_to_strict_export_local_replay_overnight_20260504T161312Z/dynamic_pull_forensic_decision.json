@@ -1,0 +1,17 @@
+{
+  "branch_selected_after_primary_failure": "DYNAMIC_PULL_ACCESSIBLE_POOL_REDESIGN",
+  "branch_selection_reason": "At least two targeted fixed-pool cases remain low-opening after controller continuation, with two-pad/contact-retention or dynamic infeasibility labels.",
+  "closeout_classification": "DYNAMIC_PULL_INFEASIBLE_FIXED_POOL_CERTIFICATE",
+  "generated_at_utc": "2026-05-04T16:24:45Z",
+  "high_open_legal_case_count": 2,
+  "low_open_case_count": 2,
+  "structural_label_histogram": {
+    "AXIS_FORCE_INSUFFICIENT": 3,
+    "FORBIDDEN_KEEP_OUT_DURING_PULL": 3,
+    "FORCE_PRESENT_BUT_DRAWER_NONMONOTONIC": 6,
+    "GRIPPER_TIMING_OR_SPAN_FAILURE": 1,
+    "HANDLE_FRAME_TRACKING_ERROR": 3,
+    "LIKELY_FIXED_POOL_DYNAMIC_PULL_INFEASIBLE": 1,
+    "TWO_PAD_PULL_CONTACT_LOSS": 2
+  }
+}

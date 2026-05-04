@@ -1,0 +1,94 @@
+{
+  "fixed_pool_rejections": [
+    {
+      "candidate_id": "generated_knob_drawer_accessible_001",
+      "failure_reasons": [],
+      "max_drawer_fraction": 0.9535693879859889,
+      "perturbation": "nominal",
+      "structural_labels": [
+        "FORCE_PRESENT_BUT_DRAWER_NONMONOTONIC"
+      ]
+    },
+    {
+      "candidate_id": "generated_knob_drawer_accessible_001",
+      "failure_reasons": [],
+      "max_drawer_fraction": 0.9481002592481006,
+      "perturbation": "slow_guarded_contact",
+      "structural_labels": [
+        "FORCE_PRESENT_BUT_DRAWER_NONMONOTONIC"
+      ]
+    },
+    {
+      "candidate_id": "generated_knob_drawer_accessible_002",
+      "failure_reasons": [
+        "forbidden_contact_present"
+      ],
+      "max_drawer_fraction": 0.9582600545774994,
+      "perturbation": "nominal",
+      "structural_labels": [
+        "FORBIDDEN_KEEP_OUT_DURING_PULL",
+        "FORCE_PRESENT_BUT_DRAWER_NONMONOTONIC"
+      ]
+    },
+    {
+      "candidate_id": "generated_knob_drawer_accessible_002",
+      "failure_reasons": [
+        "forbidden_contact_present"
+      ],
+      "max_drawer_fraction": 0.9580729631436937,
+      "perturbation": "slow_guarded_contact",
+      "structural_labels": [
+        "FORBIDDEN_KEEP_OUT_DURING_PULL",
+        "FORCE_PRESENT_BUT_DRAWER_NONMONOTONIC"
+      ]
+    },
+    {
+      "candidate_id": "generated_knob_drawer_accessible_003",
+      "failure_reasons": [
+        "max_drawer_fraction_lt_0p80"
+      ],
+      "max_drawer_fraction": 0.0054147214214808675,
+      "perturbation": "nominal",
+      "structural_labels": [
+        "AXIS_FORCE_INSUFFICIENT",
+        "FORCE_PRESENT_BUT_DRAWER_NONMONOTONIC",
+        "HANDLE_FRAME_TRACKING_ERROR"
+      ]
+    },
+    {
+      "candidate_id": "generated_knob_drawer_accessible_004",
+      "failure_reasons": [
+        "pull_phase_two_pad_target_contact_frames_lt_30",
+        "forbidden_contact_present",
+        "max_drawer_fraction_lt_0p80"
+      ],
+      "max_drawer_fraction": 0.1760993019670902,
+      "perturbation": "nominal",
+      "structural_labels": [
+        "AXIS_FORCE_INSUFFICIENT",
+        "FORBIDDEN_KEEP_OUT_DURING_PULL",
+        "FORCE_PRESENT_BUT_DRAWER_NONMONOTONIC",
+        "HANDLE_FRAME_TRACKING_ERROR",
+        "TWO_PAD_PULL_CONTACT_LOSS"
+      ]
+    },
+    {
+      "candidate_id": "generated_knob_drawer_accessible_005",
+      "failure_reasons": [
+        "target_contact_frames_lt_80",
+        "pull_phase_target_contact_frames_lt_80",
+        "pull_phase_two_pad_target_contact_frames_lt_30",
+        "max_drawer_fraction_lt_0p80"
+      ],
+      "max_drawer_fraction": 0.00950780587861548,
+      "perturbation": "nominal",
+      "structural_labels": [
+        "AXIS_FORCE_INSUFFICIENT",
+        "GRIPPER_TIMING_OR_SPAN_FAILURE",
+        "HANDLE_FRAME_TRACKING_ERROR",
+        "LIKELY_FIXED_POOL_DYNAMIC_PULL_INFEASIBLE",
+        "TWO_PAD_PULL_CONTACT_LOSS"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "branch": "controller_continuation",
+  "cycle": 5,
+  "repair_actions": [
+    "shorter lead cap",
+    "higher damping",
+    "lower pull velocity",
+    "span mode variants"
+  ]
+}

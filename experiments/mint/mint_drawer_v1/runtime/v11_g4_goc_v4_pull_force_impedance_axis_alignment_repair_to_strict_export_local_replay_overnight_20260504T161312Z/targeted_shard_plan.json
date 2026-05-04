@@ -1,0 +1,34 @@
+{
+  "anti_idle_policy": "full30 is forbidden until targeted shard passes",
+  "generated_at_utc": "2026-05-04T16:13:21Z",
+  "targeted_shard": [
+    [
+      "generated_knob_drawer_accessible_001",
+      "nominal"
+    ],
+    [
+      "generated_knob_drawer_accessible_001",
+      "slow_guarded_contact"
+    ],
+    [
+      "generated_knob_drawer_accessible_002",
+      "nominal"
+    ],
+    [
+      "generated_knob_drawer_accessible_002",
+      "slow_guarded_contact"
+    ],
+    [
+      "generated_knob_drawer_accessible_003",
+      "nominal"
+    ],
+    [
+      "generated_knob_drawer_accessible_004",
+      "nominal"
+    ],
+    [
+      "generated_knob_drawer_accessible_005",
+      "nominal"
+    ]
+  ]
+}

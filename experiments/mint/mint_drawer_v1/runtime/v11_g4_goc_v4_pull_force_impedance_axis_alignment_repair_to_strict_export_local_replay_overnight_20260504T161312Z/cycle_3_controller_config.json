@@ -1,0 +1,16 @@
+{
+  "finger_mode": "ik_hold",
+  "lead_cap_m": 0.055,
+  "name": "pf03_low_press_axis_work_ik_hold",
+  "null_gain": 0.05,
+  "op_gain": 12.0,
+  "op_vel_limit": 0.1,
+  "post_pull_hold_steps": 0,
+  "pull_distance_m": 0.35,
+  "pull_press_m": 0.0015,
+  "pull_steps": 4800,
+  "pull_velocity_m_per_step": 0.0001,
+  "q_vel_limit": 2.8,
+  "servo_kd": 78.0,
+  "servo_kp": 360.0
+}

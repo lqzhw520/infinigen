@@ -1,0 +1,16 @@
+{
+  "finger_mode": "semi_close",
+  "lead_cap_m": 0.06,
+  "name": "pf02_capped_lead_0p06_no_post_hold_semi_close",
+  "null_gain": 0.0,
+  "op_gain": 14.0,
+  "op_vel_limit": 0.13,
+  "post_pull_hold_steps": 0,
+  "pull_distance_m": 0.35,
+  "pull_press_m": 0.004,
+  "pull_steps": 4200,
+  "pull_velocity_m_per_step": 0.00012,
+  "q_vel_limit": 3.2,
+  "servo_kd": 90.0,
+  "servo_kp": 430.0
+}

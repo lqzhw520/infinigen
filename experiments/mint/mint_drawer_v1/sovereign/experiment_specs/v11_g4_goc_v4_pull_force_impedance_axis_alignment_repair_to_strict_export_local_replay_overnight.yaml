@@ -1,0 +1,220 @@
+task_id: V11_G4_GOC_V4_PULL_FORCE_IMPEDANCE_AXIS_ALIGNMENT_REPAIR_TO_STRICT_EXPORT_LOCAL_REPLAY_OVERNIGHT_V1
+task_type: PULL_FORCE_IMPEDANCE_AXIS_ALIGNMENT_REPAIR_TO_STRICT_EXPORT_LOCAL_REPLAY_SCIENCE_PHASE
+task_version: "1.0.0"
+phase: pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay
+target_gate: PULL_FORCE_IMPEDANCE_AXIS_ALIGNMENT_REPAIR
+
+objective:
+  summary: >-
+    Repair dynamic bounded pull execution on the fixed GOC-v4 accepted accessible
+    instance pool, then immediately proceed to strict teacher export and local
+    strict replay if full fixed-pool pull certification passes. If fixed-pool
+    pull certification fails, produce a pull-wrench forensic certificate and
+    execute the scientifically selected continuation branch.
+  primary_gate: PULL_FORCE_IMPEDANCE_AXIS_ALIGNMENT_REPAIR
+  success_next_gate: STRICT_TEACHER_EXPORT_LOCAL_REPLAY_ON_ACCESSIBLE_POOL
+  failure_branch_options:
+    - PULL_CONTROLLER_REPAIR_CONTINUATION
+    - DYNAMIC_PULL_ACCESSIBLE_POOL_REDESIGN
+  claim_boundary: >-
+    This phase is fixed accepted-pool only until a forensic decision explicitly
+    selects the redesign branch. It does not claim all-seed generalization,
+    local visual success, MINT admission, training, or evaluation success.
+
+source_authority:
+  accepted_pool_run: experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_physical_accessibility_instance_pool_20260504T032604Z
+  contact_mode_layer4r_run: experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_contact_mode_operational_space_policy_repair_on_accessible_pool_20260504T075148Z
+  bounded_teacher_pull_run: experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_20260504T150858Z
+  required_layer4r_closeout: CONTACT_MODE_OPERATIONAL_SPACE_POLICY_REPAIR_LAYER4R_PASSED
+  required_layer4r_cases_total: 30
+  required_layer4r_cases_passed: 30
+  required_bounded_pull_closeout: BOUNDED_PULL_ROLLOUT_NO_STRICT_CANDIDATE
+  fixed_accepted_instance_ids:
+    - generated_knob_drawer_accessible_001
+    - generated_knob_drawer_accessible_002
+    - generated_knob_drawer_accessible_003
+    - generated_knob_drawer_accessible_004
+    - generated_knob_drawer_accessible_005
+
+# Validator-compatible baseline authority. Runtime authority for this phase is
+# GOC-v4 per-instance dedicated-pad binding from the accepted pool and bounded
+# pull traces. This block keeps the existing V01 production validator anchored
+# to the GOC-v3 exact-ID fixture interface.
+task_authority:
+  authority_type: GOC_V3_EXACT_GEOM_ID_SETS_AS_SOURCE_BASELINE_FOR_GOC_V4_PULL_FORCE_REPAIR_ON_POOL
+  goc_version: v3
+  goc_artifact_path: artifacts/phase1h_geometry_contract/goc_v3_contract.json
+  goc_contract: experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v3_contract.json
+  goc_contract_id: GOC_V3_EXACT_ID_GEOMETRY_OWNERSHIP_CONTRACT
+  legal_gripper_surface_geom_ids: [63, 81, 90]
+  forbidden_robot_surface_geom_ids: [45, 47, 49, 54, 59]
+  drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+  prohibited_authority:
+    - GOC-v2 count-only legal_pad=29 forbidden=26 handle=9
+    - runtime body-based legal=31 forbidden=27 without exact-ID role classification
+    - legacy name-only contact reports
+    - fixed drawer_handle_geom_ids=[0..8] as runtime authority without semantic verification
+    - broad-link, wrist, arm, or finger shell contact as target
+
+goc_v4_authority:
+  authority_type: GOC_V4_DEDICATED_FINGER_PAD_EXACT_GEOM_ID_SETS
+  per_instance_binding_required: true
+  accepted_pool_manifest: experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_physical_accessibility_instance_pool_20260504T032604Z/accepted_instance_pool_manifest.json
+  target_contact: legal_finger_pad_geom_ids <-> semantically_bound_drawer_handle_geom_ids only
+  forbidden_contact: nonlegal robot surfaces <-> drawer_handle/drawer/cabinet
+  broad_link_wrist_arm_finger_shell_target_rejected: true
+  body_based_31_27_rejected: true
+  name_only_contact_rejected: true
+  fixed_global_ids_may_not_be_reused_without_instance_verification: true
+
+fixed_scope:
+  fixed_accepted_pool_only_before_forensic_redesign_decision: true
+  pool_modified: false
+  geometry_modified: false
+  goc_v4_authority_modified: false
+  thresholds_modified: false
+  collision_demotion_allowed: false
+  direct_drawer_qpos_allowed: false
+  drawer_motor_command_allowed: false
+  training_allowed: false
+  mint_eval_allowed: false
+  local_visual_success_claim_allowed_without_artifacts: false
+
+pull_wrench_oracle_required_fields:
+  - drawer_qpos
+  - drawer_qpos_delta
+  - drawer_fraction
+  - drawer_axis_world
+  - handle_frame
+  - left_dedicated_pad_contact
+  - right_dedicated_pad_contact
+  - target_handle_contact_force_n
+  - net_pull_axis_wrench_n
+  - normal_force_component_n
+  - tangential_slip_proxy
+  - gripper_span_m
+  - finger_qpos
+  - pad_target_residual_proxy_m
+  - contact_dropout_frames
+  - forbidden_pair_ids_and_names
+  - max_penetration_m
+  - max_force_n
+  - controller_phase
+  - controller_mode
+  - direct_qpos_drawer_opening
+  - drawer_motor_command_used
+
+pull_wrench_structural_labels:
+  - AXIS_FORCE_WRONG_SIGN
+  - AXIS_FORCE_INSUFFICIENT
+  - FORCE_PRESENT_BUT_CONTACT_DROPOUT
+  - FORCE_PRESENT_BUT_DRAWER_NONMONOTONIC
+  - TWO_PAD_PULL_CONTACT_LOSS
+  - GRIPPER_TIMING_OR_SPAN_FAILURE
+  - FORBIDDEN_KEEP_OUT_DURING_PULL
+  - IMPEDANCE_OSCILLATION
+  - HANDLE_FRAME_TRACKING_ERROR
+  - LIKELY_FIXED_POOL_DYNAMIC_PULL_INFEASIBLE
+  - INSUFFICIENT_EVIDENCE
+
+repair_controls:
+  max_total_wall_clock_hours: 10
+  max_primary_controller_cycles: 8
+  targeted_shard_before_full_matrix: true
+  full_30_case_certification_only_after_targeted_pass: true
+  branch_decision_required_on_failure: true
+  execute_selected_failure_branch_before_closeout: true
+  strict_export_and_local_replay_required_after_pull_pass: true
+
+targeted_shard:
+  source: bounded_teacher_pull_run failures
+  cases:
+    - [generated_knob_drawer_accessible_001, nominal]
+    - [generated_knob_drawer_accessible_001, slow_guarded_contact]
+    - [generated_knob_drawer_accessible_002, nominal]
+    - [generated_knob_drawer_accessible_002, slow_guarded_contact]
+    - [generated_knob_drawer_accessible_003, nominal]
+    - [generated_knob_drawer_accessible_004, nominal]
+    - [generated_knob_drawer_accessible_005, nominal]
+
+pass_criteria:
+  per_case:
+    reset_forbidden_contact_frames: 0
+    reset_max_penetration_m: 0.02
+    reset_max_force_n: 1000000.0
+    target_contact_frames_min: 80
+    target_contact_max_consecutive_frames_min: 30
+    pull_phase_target_contact_frames_min: 80
+    pull_phase_two_pad_target_contact_frames_min: 30
+    forbidden_contact_frames: 0
+    handle_nonlegal_contact_frames: 0
+    max_penetration_m: 0.02
+    max_force_n: 1000000.0
+    drawer_fraction_min: 0.80
+    hard_goal_drawer_fraction_min: 0.90
+    drawer_qpos_nondecreasing_during_pull: true
+    drawer_qpos_nondecreasing_tolerance_m: 0.0001
+    drawer_fraction_increase_requires_prior_or_concurrent_target_contact: true
+    opening_must_be_physics_contact_caused: true
+    no_direct_qpos_drawer_opening: true
+    drawer_motor_command_abs_max: 0.0
+    untrimmed_trace_required: true
+  matrix:
+    full_cases_total: 30
+    all_30_cases_must_pass_for_certification: true
+    failures_must_report_exact_clusters: true
+
+allowed_policy_changes:
+  - handle-frame moving target tracking
+  - pull-axis force and impedance alignment
+  - two-pad contact retention
+  - phase-aware gripper close timing
+  - bounded contact reseat and recovery
+  - keepout-aware nullspace/backoff recovery
+  - bounded wrist roll or approach-yaw variants from existing legal precontact states
+  - diagnostic attribution and trace logging
+
+branch_selection_rules:
+  pull_controller_repair_continuation_if:
+    - positive pull-axis wrench exists but is unstable or intermittent
+    - failures are contact dropout, gripper timing, or impedance oscillation
+    - forbidden contact appears only under specific controller variants
+    - at least one legal variant opens the drawer substantially on the failing instance
+    - changing controller mode improves strict pass count or key metrics
+    - no evidence that geometry, mount, or handle makes legal dynamic pull impossible
+  dynamic_pull_accessible_pool_redesign_if:
+    - legal two-pad contact cannot be maintained while generating positive pull-axis wrench
+    - every keepout-safe controller variant fails opening
+    - every opening-capable variant causes forbidden contact or illegal target contact
+    - failure is tied to handle, cabinet, robot accessibility envelope rather than controller timing
+    - evidence is per-instance and not inferred from one rollout
+
+evidence_outputs:
+  - stage0_authority_and_scope.json
+  - stage1_prior_evidence_ingestion.json
+  - stage1_prior_evidence_report.md
+  - pull_wrench_oracle_results.jsonl
+  - pull_wrench_case_summary.json
+  - pull_wrench_failure_clusters.json
+  - pull_wrench_attribution_report.md
+  - targeted_shard_plan.json
+  - targeted_shard_readiness_smoke.json
+  - cycle_N_controller_config.json
+  - cycle_N_targeted_results.jsonl
+  - cycle_N_oracle_summary.json
+  - cycle_N_repair_actions.json
+  - cycle_N_progress_decision.json
+  - full30_pull_certification_results.jsonl
+  - full30_pull_certification_summary.json
+  - strict_teacher_export_manifest.json
+  - local_strict_replay_results.json
+  - dynamic_pull_forensic_decision.json
+  - dynamic_pull_forensic_certificate.md
+  - final_closeout.json
+  - final_closeout.md
+  - post_push_verification.json
+
+remote:
+  approved_files:
+    - scripts/mint/v11_g4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight.py
+    - scripts/mint/v11_g4_bounded_teacher_pull_rollout_on_accessible_pool.py

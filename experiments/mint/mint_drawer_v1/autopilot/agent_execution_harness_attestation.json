@@ -1,11 +1,11 @@
 {
   "attestation_id": "POST_PUSH_ATTESTATION_V3",
   "version": "1.0.0",
-  "generated_at_utc": "2026-05-04T07:50:38Z",
+  "generated_at_utc": "2026-05-04T14:20:08Z",
   "generated_by": "validate_harness_production_lock.py",
   "attestation_type": "post_push_verification",
-  "lock_commit": "2eb09e316b514b5cce2f2de53d3420a2b4467315",
-  "origin_head": "2eb09e316b514b5cce2f2de53d3420a2b4467315",
+  "lock_commit": "86c4bafecbd4bc28a60b7b6f7ebf606bcfffbcc8",
+  "origin_head": "86c4bafecbd4bc28a60b7b6f7ebf606bcfffbcc8",
   "origin_verified": true,
   "lock_status": "production_ready",
   "lock_blob_on_origin": "verified_via_merge_base_ancestor_chain",
@@ -17,13 +17,13 @@
     "lock_generated_by": "validate_harness_production_lock.py",
     "lock_version": "3.0.0",
     "task_spec_binding": {
-      "requested_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_contact_mode_operational_space_policy_repair_on_accessible_pool.yaml",
-      "lock_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_contact_mode_operational_space_policy_repair_on_accessible_pool.yaml",
-      "lock_hash": "c062359df799699f43256a39c136ecab64bf8f0d",
-      "current_hash": "c062359df799699f43256a39c136ecab64bf8f0d",
+      "requested_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool.yaml",
+      "lock_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool.yaml",
+      "lock_hash": "e03acae22d95584daf8bb2c0c444c6ee9996b8e6",
+      "current_hash": "e03acae22d95584daf8bb2c0c444c6ee9996b8e6",
       "passed": true
     },
-    "origin_head": "2eb09e316b514b5cce2f2de53d3420a2b4467315",
+    "origin_head": "86c4bafecbd4bc28a60b7b6f7ebf606bcfffbcc8",
     "git_ls_remote_ok": true,
     "origin_contains_lock_commit": true,
     "lock_commit_is_ancestor_of_origin": true,
@@ -82,9 +82,9 @@
         "origin": "13b699b3e23a99929c591ec08ae7c859172988e5",
         "matches": true
       },
-      "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_contact_mode_operational_space_policy_repair_on_accessible_pool.yaml": {
-        "expected": "c062359df799699f43256a39c136ecab64bf8f0d",
-        "origin": "c062359df799699f43256a39c136ecab64bf8f0d",
+      "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool.yaml": {
+        "expected": "e03acae22d95584daf8bb2c0c444c6ee9996b8e6",
+        "origin": "e03acae22d95584daf8bb2c0c444c6ee9996b8e6",
         "matches": true
       }
     },
@@ -158,7 +158,7 @@
         "passed": true,
         "fixture": "task_spec_mismatch_must_fail",
         "expected": "FAIL(non-zero) with requested-vs-lock spec mismatch",
-        "active_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_contact_mode_operational_space_policy_repair_on_accessible_pool.yaml",
+        "active_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool.yaml",
         "mismatch_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml",
         "actual_exit_code": 2,
         "output_excerpt": "\n======================================================================\n  Agent Task Pre-flight\n======================================================================\n  campaign_root: /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1\n  task_spec:    /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml\n  dry_run:      True\n\n  [LOCK] Production lock enforcement\n\n  FATAL: Requested task spec does not match production loc"
@@ -181,5 +181,5 @@
   },
   "origin_url": "git@github.com:lqzhw520/infinigen.git",
   "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
-  "attestation_blob": "46b5b9bcecf22ba87f373f284ccc4c004a708d06"
+  "attestation_blob": "bf77a65ccf03fd8b7b6e21fb52e6dfc68d1ebfc0"
 }

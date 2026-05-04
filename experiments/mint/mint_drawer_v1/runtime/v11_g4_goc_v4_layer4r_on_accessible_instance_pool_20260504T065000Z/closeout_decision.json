@@ -1,0 +1,40 @@
+{
+  "accepted_instance_ids": [
+    "generated_knob_drawer_accessible_001",
+    "generated_knob_drawer_accessible_002",
+    "generated_knob_drawer_accessible_003",
+    "generated_knob_drawer_accessible_004",
+    "generated_knob_drawer_accessible_005"
+  ],
+  "accepted_instances_total": 5,
+  "accepted_pool_bound": true,
+  "closeout_classification": "DYNAMIC_CONTACT_POLICY_FAILED_ON_ACCESSIBLE_POOL",
+  "current_truth_modified": false,
+  "failure_histogram": {
+    "forbidden_contact_present": 6,
+    "target_contact_consecutive_lt_30": 28,
+    "target_contact_frames_lt_50": 30
+  },
+  "forbidden_contact_frames_max": 50,
+  "generated_at_utc": "2026-05-04T06:50:41Z",
+  "handle_nonlegal_contact_frames_max": 0,
+  "harness_preflight_passed": true,
+  "layer4r_cases_failed": 30,
+  "layer4r_cases_passed": 0,
+  "layer4r_cases_total": 30,
+  "layer4r_matrix_attempted": true,
+  "max_force_n": 597.575811329058,
+  "max_penetration_m": 0.0030038893253817034,
+  "next_actions_modified": false,
+  "next_gate": "CONTACT_POLICY_REPAIR_ON_ACCESSIBLE_POOL",
+  "readiness_smoke_passed": true,
+  "runtime_patch_applied": true,
+  "runtime_patch_files": [
+    "scripts/mint/v11_g4_layer4r_on_accessible_instance_pool.py"
+  ],
+  "stage9_final_checks_passed": true,
+  "target_contact_consecutive_min": 0,
+  "target_contact_frames_min": 0,
+  "task_id": "V11_G4_GOC_V4_LAYER4R_ON_ACCESSIBLE_INSTANCE_POOL_AUTONOMOUS_V1",
+  "task_spec_lock_bound": true
+}

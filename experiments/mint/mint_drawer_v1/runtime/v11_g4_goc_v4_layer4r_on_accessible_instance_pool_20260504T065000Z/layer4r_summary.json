@@ -1,0 +1,35 @@
+{
+  "accepted_instance_ids": [
+    "generated_knob_drawer_accessible_001",
+    "generated_knob_drawer_accessible_002",
+    "generated_knob_drawer_accessible_003",
+    "generated_knob_drawer_accessible_004",
+    "generated_knob_drawer_accessible_005"
+  ],
+  "failure_histogram": {
+    "forbidden_contact_present": 6,
+    "target_contact_consecutive_lt_30": 28,
+    "target_contact_frames_lt_50": 30
+  },
+  "forbidden_contact_frames_max": 50,
+  "generated_at_utc": "2026-05-04T06:50:41Z",
+  "handle_nonlegal_contact_frames_max": 0,
+  "layer4r_cases_failed": 30,
+  "layer4r_cases_passed": 0,
+  "layer4r_cases_total": 30,
+  "matrix_passed": false,
+  "max_force_n": 597.575811329058,
+  "max_penetration_m": 0.0030038893253817034,
+  "perturbations": [
+    "nominal",
+    "qpos_small_plus",
+    "qpos_small_minus",
+    "slow_guarded_contact",
+    "fast_guarded_contact",
+    "late_close"
+  ],
+  "target_contact_consecutive_max": 41,
+  "target_contact_consecutive_min": 0,
+  "target_contact_frames_max": 41,
+  "target_contact_frames_min": 0
+}

@@ -1,0 +1,152 @@
+task_id: V11_G4_GOC_V4_BOUNDED_TEACHER_PULL_ROLLOUT_ON_ACCESSIBLE_POOL_V1
+task_type: BOUNDED_TEACHER_PULL_ROLLOUT_SCIENCE_PHASE
+task_version: "1.0.0"
+phase: bounded_teacher_pull_rollout_on_accessible_pool
+target_gate: GOC_V4_BOUNDED_TEACHER_PULL_ROLLOUT_ON_ACCESSIBLE_POOL
+
+claim_boundary:
+  description: >-
+    This phase tests whether the already-certified fixed GOC-v4 accessible pool
+    and already-passed Layer4R contact-mode policy can produce bounded physics
+    drawer opening by dedicated finger-pad handle contact.
+  claims_allowed:
+    - bounded_remote_teacher_pull_rollout_on_fixed_accepted_pool
+    - strict_teacher_candidate_if_all_thresholds_pass
+  claims_forbidden:
+    - all_legacy_seed_success
+    - model_or_layout_repair
+    - geometry_repair
+    - GOC_v4_authority_repair
+    - threshold_repair
+    - local_render_success
+    - MINT_training_or_evaluation_success
+
+source_authority:
+  accepted_pool_run: experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_physical_accessibility_instance_pool_20260504T032604Z
+  contact_mode_layer4r_run: experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_contact_mode_operational_space_policy_repair_on_accessible_pool_20260504T075148Z
+  fixed_accepted_instance_ids:
+    - generated_knob_drawer_accessible_001
+    - generated_knob_drawer_accessible_002
+    - generated_knob_drawer_accessible_003
+    - generated_knob_drawer_accessible_004
+    - generated_knob_drawer_accessible_005
+  required_layer4r_closeout: CONTACT_MODE_OPERATIONAL_SPACE_POLICY_REPAIR_LAYER4R_PASSED
+  required_layer4r_cases_total: 30
+  required_layer4r_cases_passed: 30
+
+goc_v4_authority:
+  per_instance_semantic_binding_required: true
+  dedicated_finger_pad_exact_ids_required: true
+  true_handle_collision_binding_required: true
+  legal_target_contact: dedicated_finger_pad_geom_ids <-> drawer_handle_geom_ids only
+  rejected_target_contact:
+    - broad_link_contact
+    - wrist_contact
+    - arm_contact
+    - right_hand_contact
+    - broad_finger_shell_contact
+    - body_based_31_27_authority
+    - name_only_authority
+
+fixed_scope:
+  pool_modified: false
+  geometry_modified: false
+  goc_v4_authority_modified: false
+  thresholds_modified: false
+  collision_demotion_allowed: false
+  direct_drawer_qpos_allowed: false
+  drawer_motor_command_allowed: false
+  training_allowed: false
+  local_render_claim_allowed: false
+
+bounded_rollout_matrix:
+  instances: fixed_accepted_instance_ids
+  perturbations:
+    - nominal
+    - qpos_small_plus
+    - qpos_small_minus
+    - slow_guarded_contact
+    - fast_guarded_contact
+    - late_close
+  expected_cases_total: 30
+  readiness_smoke_required: true
+  readiness_smoke_must_reject_empty_or_legacy_pool: true
+
+pass_criteria:
+  per_case:
+    reset_forbidden_contact_frames: 0
+    reset_max_penetration_m: 0.02
+    reset_max_force_n: 1000000.0
+    target_contact_frames_min: 80
+    target_contact_max_consecutive_frames_min: 30
+    forbidden_contact_frames: 0
+    handle_nonlegal_contact_frames: 0
+    max_penetration_m: 0.02
+    max_force_n: 1000000.0
+    drawer_fraction_min: 0.80
+    hard_goal_drawer_fraction_min: 0.90
+    drawer_qpos_nondecreasing_during_pull: true
+    opening_must_be_physics_contact_caused: true
+    no_direct_qpos_drawer_opening: true
+    drawer_motor_command_abs_max: 0.0
+    untrimmed_trace_required: true
+  matrix:
+    all_30_cases_must_pass_for_certification: true
+    failures_must_report_exact_clusters: true
+
+allowed_runtime_files:
+  - scripts/mint/v11_g4_bounded_teacher_pull_rollout_on_accessible_pool.py
+  - scripts/mint/v11_g4_contact_mode_policy_repair_on_accessible_pool.py
+  - scripts/mint/v11_g4_layer4r_on_accessible_instance_pool.py
+  - scripts/mint/v11_g4_physical_accessibility_instance_pool.py
+  - scripts/mint/contact_aware_drawer_teacher.py
+  - scripts/mint/drawer_robot_env_mujoco.py
+  - scripts/mint/merged_model_builder.py
+
+allowed_outputs:
+  - experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool_*/
+  - experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool.json
+  - experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_goc_v4_bounded_teacher_pull_rollout_on_accessible_pool.json
+
+forbidden:
+  - current_truth_direct_mutation
+  - next_actions_direct_mutation
+  - external_MINT_mutation
+  - accepted_pool_mutation
+  - model_geometry_mutation
+  - GOC_v4_authority_mutation
+  - broad_link_or_wrist_or_arm_contact_as_target
+  - forbidden_contact_as_target
+  - body_based_31_27_authority
+  - fixed_global_ids_without_per_instance_verification
+  - direct_qpos_drawer_opening
+  - drawer_motor_command
+  - disabling_robot_drawer_or_handle_collisions
+  - lowering_thresholds
+  - training
+  - MINT_eval
+  - local_render_success_claim
+
+terminal_outcomes:
+  success:
+    - BOUNDED_TEACHER_PULL_ROLLOUT_ON_ACCESSIBLE_POOL_CERTIFIED
+  non_success:
+    - READINESS_SMOKE_FAILED
+    - BOUNDED_PULL_ROLLOUT_NO_STRICT_CANDIDATE
+    - BOUNDED_PULL_ROLLOUT_PARTIAL_PASS
+    - CONTACT_HOLDS_BUT_DRAWER_DOES_NOT_OPEN
+    - PULL_FORBIDDEN_KEEP_OUT_FAILED
+    - PULL_CONTACT_LEGALITY_FAILED
+    - DIRECT_QPOS_OR_DRAWER_MOTOR_INVALIDATED
+    - HARNESS_PREFLIGHT_FAILED
+    - TASK_SPEC_LOCK_BINDING_FAILED
+    - DIRTY_FORBIDDEN_SCOPE
+    - TIME_BUDGET_EXHAUSTED
+    - EXECUTION_FAILED
+
+next_gate_rules:
+  if_certified: STRICT_TEACHER_EXPORT_LOCAL_REPLAY_ON_ACCESSIBLE_POOL
+  if_contact_holds_but_no_opening: PULL_FORCE_IMPEDANCE_AXIS_ALIGNMENT_REPAIR
+  if_forbidden_during_pull: PULL_CORRIDOR_KEEP_OUT_REPAIR_ON_FIXED_POOL
+  if_contact_legality_fails: GOC_V4_PULL_CONTACT_MODE_REPAIR
+  if_readiness_fails: ACCEPTED_POOL_OR_LAYER4R_BINDING_REPAIR

@@ -1,0 +1,38 @@
+{
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "defect_histogram_ingested": false,
+  "fixed_pool_used_only_as_negative_baseline": true,
+  "generated_at_utc": "2026-05-05T20:11:48Z",
+  "git_status_short": "M .project-memory/STATUS.md\n M .session/checkpoint.md\n M experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_visual_topology_realism_action_replay_v2.json\n M experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_visual_topology_realism_action_replay_v2.json",
+  "harness_preflight_passed": true,
+  "head": "1bccfe125c6d72815a68da12c564bc188097b9f8",
+  "old_fixed_pool_modified": false,
+  "preflight": {
+    "cmd": [
+      "/root/anaconda3/envs/infinigen/bin/python",
+      "experiments/mint/mint_drawer_v1/scripts/harness/agent_task_preflight.py",
+      "--spec",
+      "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_visual_topology_realism_and_action_replay_repair_v2.yaml",
+      "--dry-run"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "\n======================================================================\n  Agent Task Pre-flight\n======================================================================\n  campaign_root: /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1\n  task_spec:    /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_visual_topology_realism_and_action_replay_repair_v2.yaml\n  dry_run:      True\n\n  [LOCK] Production lock enforcement\n  [PASS] Production lock valid: status=production_ready, generated_by=validate_harness_production_lock.py, validators_intact=5 files, task_spec_bound=experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_visual_topology_realism_and_action_replay_repair_v2.yaml, task_spec_hash_verified=True, attestation_verified=True, lock_format=V3\n\n  [V01] validate_task_authority (S0 gate)\n  [PASS] V01 validate_task_authority\n\n  [V02] validate_diff_scope\n  [PASS] V02 validate_diff_scope\n\n======================================================================\n  Pre-flight Summary\n======================================================================\n  Passed: 2\n  Failed: 0\n  Task spec: v11_g4_goc_v4_visual_topology_realism_and_action_replay_repair_v2.yaml\n  Pre-flight callable: True\n  Production lock: verified (always required \u2014 no bypass)\n\n  ALL PRE-FLIGHT VALIDATORS PASSED.\n  Agent may proceed with execution.\n  Next: run V03 during execution, V04 at closeout.\n"
+  },
+  "prior_defect_histogram": {},
+  "prior_files": {
+    "candidate_admission_report.json": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/candidate_admission_report.json",
+    "candidate_oracle_results.jsonl": {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/candidate_oracle_results.jsonl",
+      "rows": 28
+    },
+    "final_closeout.json": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/final_closeout.json",
+    "trace_hash_manifest.json": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/trace_hash_manifest.json"
+  },
+  "prior_run": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z",
+  "pwd": "/mnt/afs2/zhuhaowu/infinigen",
+  "remote_v": "my-origin\tgit@github.com:lqzhw520/infinigen.git (fetch)\nmy-origin\tgit@github.com:lqzhw520/infinigen.git (push)\norigin\thttps://github.com/princeton-vl/infinigen.git (fetch)\norigin\thttps://github.com/princeton-vl/infinigen.git (push)",
+  "task_id": "V11_G4_GOC_V4_VISUAL_TOPOLOGY_REALISM_AND_ACTION_REPLAY_REPAIR_V2",
+  "task_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_visual_topology_realism_and_action_replay_repair_v2.yaml",
+  "task_spec_lock_bound": true
+}

@@ -1,0 +1,32 @@
+{
+  "cases_failed": 1,
+  "cases_passed": 6,
+  "cases_total": 7,
+  "cycle": 1,
+  "direct_qpos_drawer_opening": false,
+  "drawer_motor_command_used": false,
+  "failure_histogram": {
+    "max_drawer_fraction_lt_0p80": 1,
+    "pull_phase_two_pad_target_contact_frames_lt_30": 1
+  },
+  "forbidden_contact_frames_max": 0,
+  "generated_at_utc": "2026-05-05T20:18:32Z",
+  "handle_nonlegal_contact_frames_max": 0,
+  "matrix_passed": false,
+  "max_drawer_fraction_max": 0.9884184440236916,
+  "max_drawer_fraction_min": 0.23949443066649453,
+  "max_force_n": 34.728980583186065,
+  "max_penetration_m": 0.001039935788357,
+  "name": "targeted_shard",
+  "pull_phase_target_contact_frames_min": 299,
+  "pull_phase_two_pad_target_contact_frames_min": 0,
+  "structural_label_histogram": {
+    "AXIS_FORCE_INSUFFICIENT": 1,
+    "FORCE_PRESENT_BUT_DRAWER_NONMONOTONIC": 7,
+    "HANDLE_FRAME_TRACKING_ERROR": 1,
+    "TWO_PAD_PULL_CONTACT_LOSS": 1
+  },
+  "target_contact_consecutive_min": 203,
+  "target_contact_frames_min": 379,
+  "targeted_shard_passed": false
+}

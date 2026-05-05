@@ -1,0 +1,2383 @@
+{
+  "audited_count": 30,
+  "audits": [
+    {
+      "anti_floating_support_passed": false,
+      "candidate_id": "dh_c1_admitted_island_densify_25",
+      "connector_collision_counterpart": true,
+      "connector_length_to_knob_diameter_ratio": 5.304347826086956,
+      "connector_lengths_m": [
+        0.01200000000000001,
+        0.244
+      ],
+      "connector_to_front_gap_m": 0.0,
+      "connector_visual_counterpart": true,
+      "defect_histogram_labels": {
+        "connector-too-long / knob-too-detached": 1,
+        "unsupported-open-drawer": 1
+      },
+      "defects": [
+        "CONNECTOR_TOO_LONG_LONG_ROD_FORBIDDEN",
+        "UNSUPPORTED_OPEN_DRAWER_RAIL_GUIDE_MISSING"
+      ],
+      "drawer_box_completeness_passed": true,
+      "drawer_box_tray_invariant_passed": true,
+      "drawer_front_geoms": [
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_front_bottom_panel_collision"
+      ],
+      "drawer_slider_joint_name": "drawer_slider_0",
+      "drawer_tray_side_bottom_back_geoms": [
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_back_collision"
+      ],
+      "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+      "generated_at_utc": "2026-05-05T20:11:45Z",
+      "handle_connector_geoms": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision"
+      ],
+      "handle_connector_invariant_passed": true,
+      "handle_geoms": [
+        "drawer_handle_collision_0"
+      ],
+      "handle_kind": "sphere_knob",
+      "handle_to_connector_gap_m": 0.0,
+      "knob_connector_realism_passed": false,
+      "knob_diameter_m": 0.046,
+      "knob_radius_m": 0.023,
+      "knob_to_front_gap_m": 0.0,
+      "long_rod_connector_forbidden_passed": false,
+      "max_connector_length_m": 0.244,
+      "max_unsupported_gap_m": 0.0,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_25/model.xml",
+      "moving_body_geom_names": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision",
+        "drawer_front_bottom_panel_collision",
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_handle_collision_0",
+        "drawer_tray_back_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision"
+      ],
+      "moving_drawer_body_name": "link_1",
+      "stub_length_lte_0p35_knob_diameter": false,
+      "stub_length_preferred_range_0p10_to_0p25": false,
+      "support_anti_floating_invariant_passed": false,
+      "support_geoms": [],
+      "topology_realism_passed": false,
+      "tray_collision_counterpart": true,
+      "tray_visual_counterpart": true,
+      "visible_support_geoms": [],
+      "visual_physical_topology_invariant_passed": false,
+      "visual_topology_v2_audit": true
+    },
+    {
+      "anti_floating_support_passed": false,
+      "candidate_id": "dh_c1_admitted_island_densify_25",
+      "connector_collision_counterpart": true,
+      "connector_length_to_knob_diameter_ratio": 5.304347826086956,
+      "connector_lengths_m": [
+        0.01200000000000001,
+        0.244
+      ],
+      "connector_to_front_gap_m": 0.0,
+      "connector_visual_counterpart": true,
+      "defect_histogram_labels": {
+        "connector-too-long / knob-too-detached": 1,
+        "unsupported-open-drawer": 1
+      },
+      "defects": [
+        "CONNECTOR_TOO_LONG_LONG_ROD_FORBIDDEN",
+        "UNSUPPORTED_OPEN_DRAWER_RAIL_GUIDE_MISSING"
+      ],
+      "drawer_box_completeness_passed": true,
+      "drawer_box_tray_invariant_passed": true,
+      "drawer_front_geoms": [
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_front_bottom_panel_collision"
+      ],
+      "drawer_slider_joint_name": "drawer_slider_0",
+      "drawer_tray_side_bottom_back_geoms": [
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_back_collision"
+      ],
+      "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+      "generated_at_utc": "2026-05-05T20:11:45Z",
+      "handle_connector_geoms": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision"
+      ],
+      "handle_connector_invariant_passed": true,
+      "handle_geoms": [
+        "drawer_handle_collision_0"
+      ],
+      "handle_kind": "sphere_knob",
+      "handle_to_connector_gap_m": 0.0,
+      "knob_connector_realism_passed": false,
+      "knob_diameter_m": 0.046,
+      "knob_radius_m": 0.023,
+      "knob_to_front_gap_m": 0.0,
+      "long_rod_connector_forbidden_passed": false,
+      "max_connector_length_m": 0.244,
+      "max_unsupported_gap_m": 0.0,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_25/model.xml",
+      "moving_body_geom_names": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision",
+        "drawer_front_bottom_panel_collision",
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_handle_collision_0",
+        "drawer_tray_back_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision"
+      ],
+      "moving_drawer_body_name": "link_1",
+      "stub_length_lte_0p35_knob_diameter": false,
+      "stub_length_preferred_range_0p10_to_0p25": false,
+      "support_anti_floating_invariant_passed": false,
+      "support_geoms": [],
+      "topology_realism_passed": false,
+      "tray_collision_counterpart": true,
+      "tray_visual_counterpart": true,
+      "visible_support_geoms": [],
+      "visual_physical_topology_invariant_passed": false,
+      "visual_topology_v2_audit": true
+    },
+    {
+      "anti_floating_support_passed": false,
+      "candidate_id": "dh_c1_admitted_island_densify_25",
+      "connector_collision_counterpart": true,
+      "connector_length_to_knob_diameter_ratio": 5.304347826086956,
+      "connector_lengths_m": [
+        0.01200000000000001,
+        0.244
+      ],
+      "connector_to_front_gap_m": 0.0,
+      "connector_visual_counterpart": true,
+      "defect_histogram_labels": {
+        "connector-too-long / knob-too-detached": 1,
+        "unsupported-open-drawer": 1
+      },
+      "defects": [
+        "CONNECTOR_TOO_LONG_LONG_ROD_FORBIDDEN",
+        "UNSUPPORTED_OPEN_DRAWER_RAIL_GUIDE_MISSING"
+      ],
+      "drawer_box_completeness_passed": true,
+      "drawer_box_tray_invariant_passed": true,
+      "drawer_front_geoms": [
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_front_bottom_panel_collision"
+      ],
+      "drawer_slider_joint_name": "drawer_slider_0",
+      "drawer_tray_side_bottom_back_geoms": [
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_back_collision"
+      ],
+      "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+      "generated_at_utc": "2026-05-05T20:11:45Z",
+      "handle_connector_geoms": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision"
+      ],
+      "handle_connector_invariant_passed": true,
+      "handle_geoms": [
+        "drawer_handle_collision_0"
+      ],
+      "handle_kind": "sphere_knob",
+      "handle_to_connector_gap_m": 0.0,
+      "knob_connector_realism_passed": false,
+      "knob_diameter_m": 0.046,
+      "knob_radius_m": 0.023,
+      "knob_to_front_gap_m": 0.0,
+      "long_rod_connector_forbidden_passed": false,
+      "max_connector_length_m": 0.244,
+      "max_unsupported_gap_m": 0.0,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_25/model.xml",
+      "moving_body_geom_names": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision",
+        "drawer_front_bottom_panel_collision",
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_handle_collision_0",
+        "drawer_tray_back_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision"
+      ],
+      "moving_drawer_body_name": "link_1",
+      "stub_length_lte_0p35_knob_diameter": false,
+      "stub_length_preferred_range_0p10_to_0p25": false,
+      "support_anti_floating_invariant_passed": false,
+      "support_geoms": [],
+      "topology_realism_passed": false,
+      "tray_collision_counterpart": true,
+      "tray_visual_counterpart": true,
+      "visible_support_geoms": [],
+      "visual_physical_topology_invariant_passed": false,
+      "visual_topology_v2_audit": true
+    },
+    {
+      "anti_floating_support_passed": false,
+      "candidate_id": "dh_c1_admitted_island_densify_25",
+      "connector_collision_counterpart": true,
+      "connector_length_to_knob_diameter_ratio": 5.304347826086956,
+      "connector_lengths_m": [
+        0.01200000000000001,
+        0.244
+      ],
+      "connector_to_front_gap_m": 0.0,
+      "connector_visual_counterpart": true,
+      "defect_histogram_labels": {
+        "connector-too-long / knob-too-detached": 1,
+        "unsupported-open-drawer": 1
+      },
+      "defects": [
+        "CONNECTOR_TOO_LONG_LONG_ROD_FORBIDDEN",
+        "UNSUPPORTED_OPEN_DRAWER_RAIL_GUIDE_MISSING"
+      ],
+      "drawer_box_completeness_passed": true,
+      "drawer_box_tray_invariant_passed": true,
+      "drawer_front_geoms": [
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_front_bottom_panel_collision"
+      ],
+      "drawer_slider_joint_name": "drawer_slider_0",
+      "drawer_tray_side_bottom_back_geoms": [
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_back_collision"
+      ],
+      "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+      "generated_at_utc": "2026-05-05T20:11:45Z",
+      "handle_connector_geoms": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision"
+      ],
+      "handle_connector_invariant_passed": true,
+      "handle_geoms": [
+        "drawer_handle_collision_0"
+      ],
+      "handle_kind": "sphere_knob",
+      "handle_to_connector_gap_m": 0.0,
+      "knob_connector_realism_passed": false,
+      "knob_diameter_m": 0.046,
+      "knob_radius_m": 0.023,
+      "knob_to_front_gap_m": 0.0,
+      "long_rod_connector_forbidden_passed": false,
+      "max_connector_length_m": 0.244,
+      "max_unsupported_gap_m": 0.0,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_25/model.xml",
+      "moving_body_geom_names": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision",
+        "drawer_front_bottom_panel_collision",
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_handle_collision_0",
+        "drawer_tray_back_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision"
+      ],
+      "moving_drawer_body_name": "link_1",
+      "stub_length_lte_0p35_knob_diameter": false,
+      "stub_length_preferred_range_0p10_to_0p25": false,
+      "support_anti_floating_invariant_passed": false,
+      "support_geoms": [],
+      "topology_realism_passed": false,
+      "tray_collision_counterpart": true,
+      "tray_visual_counterpart": true,
+      "visible_support_geoms": [],
+      "visual_physical_topology_invariant_passed": false,
+      "visual_topology_v2_audit": true
+    },
+    {
+      "anti_floating_support_passed": false,
+      "candidate_id": "dh_c1_admitted_island_densify_25",
+      "connector_collision_counterpart": true,
+      "connector_length_to_knob_diameter_ratio": 5.304347826086956,
+      "connector_lengths_m": [
+        0.01200000000000001,
+        0.244
+      ],
+      "connector_to_front_gap_m": 0.0,
+      "connector_visual_counterpart": true,
+      "defect_histogram_labels": {
+        "connector-too-long / knob-too-detached": 1,
+        "unsupported-open-drawer": 1
+      },
+      "defects": [
+        "CONNECTOR_TOO_LONG_LONG_ROD_FORBIDDEN",
+        "UNSUPPORTED_OPEN_DRAWER_RAIL_GUIDE_MISSING"
+      ],
+      "drawer_box_completeness_passed": true,
+      "drawer_box_tray_invariant_passed": true,
+      "drawer_front_geoms": [
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_front_bottom_panel_collision"
+      ],
+      "drawer_slider_joint_name": "drawer_slider_0",
+      "drawer_tray_side_bottom_back_geoms": [
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_back_collision"
+      ],
+      "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+      "generated_at_utc": "2026-05-05T20:11:45Z",
+      "handle_connector_geoms": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision"
+      ],
+      "handle_connector_invariant_passed": true,
+      "handle_geoms": [
+        "drawer_handle_collision_0"
+      ],
+      "handle_kind": "sphere_knob",
+      "handle_to_connector_gap_m": 0.0,
+      "knob_connector_realism_passed": false,
+      "knob_diameter_m": 0.046,
+      "knob_radius_m": 0.023,
+      "knob_to_front_gap_m": 0.0,
+      "long_rod_connector_forbidden_passed": false,
+      "max_connector_length_m": 0.244,
+      "max_unsupported_gap_m": 0.0,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_25/model.xml",
+      "moving_body_geom_names": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision",
+        "drawer_front_bottom_panel_collision",
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_handle_collision_0",
+        "drawer_tray_back_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision"
+      ],
+      "moving_drawer_body_name": "link_1",
+      "stub_length_lte_0p35_knob_diameter": false,
+      "stub_length_preferred_range_0p10_to_0p25": false,
+      "support_anti_floating_invariant_passed": false,
+      "support_geoms": [],
+      "topology_realism_passed": false,
+      "tray_collision_counterpart": true,
+      "tray_visual_counterpart": true,
+      "visible_support_geoms": [],
+      "visual_physical_topology_invariant_passed": false,
+      "visual_topology_v2_audit": true
+    },
+    {
+      "anti_floating_support_passed": false,
+      "candidate_id": "dh_c1_admitted_island_densify_25",
+      "connector_collision_counterpart": true,
+      "connector_length_to_knob_diameter_ratio": 5.304347826086956,
+      "connector_lengths_m": [
+        0.01200000000000001,
+        0.244
+      ],
+      "connector_to_front_gap_m": 0.0,
+      "connector_visual_counterpart": true,
+      "defect_histogram_labels": {
+        "connector-too-long / knob-too-detached": 1,
+        "unsupported-open-drawer": 1
+      },
+      "defects": [
+        "CONNECTOR_TOO_LONG_LONG_ROD_FORBIDDEN",
+        "UNSUPPORTED_OPEN_DRAWER_RAIL_GUIDE_MISSING"
+      ],
+      "drawer_box_completeness_passed": true,
+      "drawer_box_tray_invariant_passed": true,
+      "drawer_front_geoms": [
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_front_bottom_panel_collision"
+      ],
+      "drawer_slider_joint_name": "drawer_slider_0",
+      "drawer_tray_side_bottom_back_geoms": [
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_back_collision"
+      ],
+      "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+      "generated_at_utc": "2026-05-05T20:11:45Z",
+      "handle_connector_geoms": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision"
+      ],
+      "handle_connector_invariant_passed": true,
+      "handle_geoms": [
+        "drawer_handle_collision_0"
+      ],
+      "handle_kind": "sphere_knob",
+      "handle_to_connector_gap_m": 0.0,
+      "knob_connector_realism_passed": false,
+      "knob_diameter_m": 0.046,
+      "knob_radius_m": 0.023,
+      "knob_to_front_gap_m": 0.0,
+      "long_rod_connector_forbidden_passed": false,
+      "max_connector_length_m": 0.244,
+      "max_unsupported_gap_m": 0.0,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_25/model.xml",
+      "moving_body_geom_names": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision",
+        "drawer_front_bottom_panel_collision",
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_handle_collision_0",
+        "drawer_tray_back_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision"
+      ],
+      "moving_drawer_body_name": "link_1",
+      "stub_length_lte_0p35_knob_diameter": false,
+      "stub_length_preferred_range_0p10_to_0p25": false,
+      "support_anti_floating_invariant_passed": false,
+      "support_geoms": [],
+      "topology_realism_passed": false,
+      "tray_collision_counterpart": true,
+      "tray_visual_counterpart": true,
+      "visible_support_geoms": [],
+      "visual_physical_topology_invariant_passed": false,
+      "visual_topology_v2_audit": true
+    },
+    {
+      "anti_floating_support_passed": false,
+      "candidate_id": "dh_c1_admitted_island_densify_21",
+      "connector_collision_counterpart": true,
+      "connector_length_to_knob_diameter_ratio": 5.282608695652174,
+      "connector_lengths_m": [
+        0.01200000000000001,
+        0.243
+      ],
+      "connector_to_front_gap_m": 0.0,
+      "connector_visual_counterpart": true,
+      "defect_histogram_labels": {
+        "connector-too-long / knob-too-detached": 1,
+        "unsupported-open-drawer": 1
+      },
+      "defects": [
+        "CONNECTOR_TOO_LONG_LONG_ROD_FORBIDDEN",
+        "UNSUPPORTED_OPEN_DRAWER_RAIL_GUIDE_MISSING"
+      ],
+      "drawer_box_completeness_passed": true,
+      "drawer_box_tray_invariant_passed": true,
+      "drawer_front_geoms": [
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_front_bottom_panel_collision"
+      ],
+      "drawer_slider_joint_name": "drawer_slider_0",
+      "drawer_tray_side_bottom_back_geoms": [
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_back_collision"
+      ],
+      "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+      "generated_at_utc": "2026-05-05T20:11:45Z",
+      "handle_connector_geoms": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision"
+      ],
+      "handle_connector_invariant_passed": true,
+      "handle_geoms": [
+        "drawer_handle_collision_0"
+      ],
+      "handle_kind": "sphere_knob",
+      "handle_to_connector_gap_m": 0.0,
+      "knob_connector_realism_passed": false,
+      "knob_diameter_m": 0.046,
+      "knob_radius_m": 0.023,
+      "knob_to_front_gap_m": 0.0,
+      "long_rod_connector_forbidden_passed": false,
+      "max_connector_length_m": 0.243,
+      "max_unsupported_gap_m": 0.0,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_21/model.xml",
+      "moving_body_geom_names": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision",
+        "drawer_front_bottom_panel_collision",
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_handle_collision_0",
+        "drawer_tray_back_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision"
+      ],
+      "moving_drawer_body_name": "link_1",
+      "stub_length_lte_0p35_knob_diameter": false,
+      "stub_length_preferred_range_0p10_to_0p25": false,
+      "support_anti_floating_invariant_passed": false,
+      "support_geoms": [],
+      "topology_realism_passed": false,
+      "tray_collision_counterpart": true,
+      "tray_visual_counterpart": true,
+      "visible_support_geoms": [],
+      "visual_physical_topology_invariant_passed": false,
+      "visual_topology_v2_audit": true
+    },
+    {
+      "anti_floating_support_passed": false,
+      "candidate_id": "dh_c1_admitted_island_densify_21",
+      "connector_collision_counterpart": true,
+      "connector_length_to_knob_diameter_ratio": 5.282608695652174,
+      "connector_lengths_m": [
+        0.01200000000000001,
+        0.243
+      ],
+      "connector_to_front_gap_m": 0.0,
+      "connector_visual_counterpart": true,
+      "defect_histogram_labels": {
+        "connector-too-long / knob-too-detached": 1,
+        "unsupported-open-drawer": 1
+      },
+      "defects": [
+        "CONNECTOR_TOO_LONG_LONG_ROD_FORBIDDEN",
+        "UNSUPPORTED_OPEN_DRAWER_RAIL_GUIDE_MISSING"
+      ],
+      "drawer_box_completeness_passed": true,
+      "drawer_box_tray_invariant_passed": true,
+      "drawer_front_geoms": [
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_front_bottom_panel_collision"
+      ],
+      "drawer_slider_joint_name": "drawer_slider_0",
+      "drawer_tray_side_bottom_back_geoms": [
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_back_collision"
+      ],
+      "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+      "generated_at_utc": "2026-05-05T20:11:45Z",
+      "handle_connector_geoms": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision"
+      ],
+      "handle_connector_invariant_passed": true,
+      "handle_geoms": [
+        "drawer_handle_collision_0"
+      ],
+      "handle_kind": "sphere_knob",
+      "handle_to_connector_gap_m": 0.0,
+      "knob_connector_realism_passed": false,
+      "knob_diameter_m": 0.046,
+      "knob_radius_m": 0.023,
+      "knob_to_front_gap_m": 0.0,
+      "long_rod_connector_forbidden_passed": false,
+      "max_connector_length_m": 0.243,
+      "max_unsupported_gap_m": 0.0,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_21/model.xml",
+      "moving_body_geom_names": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision",
+        "drawer_front_bottom_panel_collision",
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_handle_collision_0",
+        "drawer_tray_back_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision"
+      ],
+      "moving_drawer_body_name": "link_1",
+      "stub_length_lte_0p35_knob_diameter": false,
+      "stub_length_preferred_range_0p10_to_0p25": false,
+      "support_anti_floating_invariant_passed": false,
+      "support_geoms": [],
+      "topology_realism_passed": false,
+      "tray_collision_counterpart": true,
+      "tray_visual_counterpart": true,
+      "visible_support_geoms": [],
+      "visual_physical_topology_invariant_passed": false,
+      "visual_topology_v2_audit": true
+    },
+    {
+      "anti_floating_support_passed": false,
+      "candidate_id": "dh_c1_admitted_island_densify_21",
+      "connector_collision_counterpart": true,
+      "connector_length_to_knob_diameter_ratio": 5.282608695652174,
+      "connector_lengths_m": [
+        0.01200000000000001,
+        0.243
+      ],
+      "connector_to_front_gap_m": 0.0,
+      "connector_visual_counterpart": true,
+      "defect_histogram_labels": {
+        "connector-too-long / knob-too-detached": 1,
+        "unsupported-open-drawer": 1
+      },
+      "defects": [
+        "CONNECTOR_TOO_LONG_LONG_ROD_FORBIDDEN",
+        "UNSUPPORTED_OPEN_DRAWER_RAIL_GUIDE_MISSING"
+      ],
+      "drawer_box_completeness_passed": true,
+      "drawer_box_tray_invariant_passed": true,
+      "drawer_front_geoms": [
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_front_bottom_panel_collision"
+      ],
+      "drawer_slider_joint_name": "drawer_slider_0",
+      "drawer_tray_side_bottom_back_geoms": [
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_back_collision"
+      ],
+      "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+      "generated_at_utc": "2026-05-05T20:11:45Z",
+      "handle_connector_geoms": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision"
+      ],
+      "handle_connector_invariant_passed": true,
+      "handle_geoms": [
+        "drawer_handle_collision_0"
+      ],
+      "handle_kind": "sphere_knob",
+      "handle_to_connector_gap_m": 0.0,
+      "knob_connector_realism_passed": false,
+      "knob_diameter_m": 0.046,
+      "knob_radius_m": 0.023,
+      "knob_to_front_gap_m": 0.0,
+      "long_rod_connector_forbidden_passed": false,
+      "max_connector_length_m": 0.243,
+      "max_unsupported_gap_m": 0.0,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_21/model.xml",
+      "moving_body_geom_names": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision",
+        "drawer_front_bottom_panel_collision",
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_handle_collision_0",
+        "drawer_tray_back_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision"
+      ],
+      "moving_drawer_body_name": "link_1",
+      "stub_length_lte_0p35_knob_diameter": false,
+      "stub_length_preferred_range_0p10_to_0p25": false,
+      "support_anti_floating_invariant_passed": false,
+      "support_geoms": [],
+      "topology_realism_passed": false,
+      "tray_collision_counterpart": true,
+      "tray_visual_counterpart": true,
+      "visible_support_geoms": [],
+      "visual_physical_topology_invariant_passed": false,
+      "visual_topology_v2_audit": true
+    },
+    {
+      "anti_floating_support_passed": false,
+      "candidate_id": "dh_c1_admitted_island_densify_21",
+      "connector_collision_counterpart": true,
+      "connector_length_to_knob_diameter_ratio": 5.282608695652174,
+      "connector_lengths_m": [
+        0.01200000000000001,
+        0.243
+      ],
+      "connector_to_front_gap_m": 0.0,
+      "connector_visual_counterpart": true,
+      "defect_histogram_labels": {
+        "connector-too-long / knob-too-detached": 1,
+        "unsupported-open-drawer": 1
+      },
+      "defects": [
+        "CONNECTOR_TOO_LONG_LONG_ROD_FORBIDDEN",
+        "UNSUPPORTED_OPEN_DRAWER_RAIL_GUIDE_MISSING"
+      ],
+      "drawer_box_completeness_passed": true,
+      "drawer_box_tray_invariant_passed": true,
+      "drawer_front_geoms": [
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_front_bottom_panel_collision"
+      ],
+      "drawer_slider_joint_name": "drawer_slider_0",
+      "drawer_tray_side_bottom_back_geoms": [
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_back_collision"
+      ],
+      "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+      "generated_at_utc": "2026-05-05T20:11:45Z",
+      "handle_connector_geoms": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision"
+      ],
+      "handle_connector_invariant_passed": true,
+      "handle_geoms": [
+        "drawer_handle_collision_0"
+      ],
+      "handle_kind": "sphere_knob",
+      "handle_to_connector_gap_m": 0.0,
+      "knob_connector_realism_passed": false,
+      "knob_diameter_m": 0.046,
+      "knob_radius_m": 0.023,
+      "knob_to_front_gap_m": 0.0,
+      "long_rod_connector_forbidden_passed": false,
+      "max_connector_length_m": 0.243,
+      "max_unsupported_gap_m": 0.0,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_21/model.xml",
+      "moving_body_geom_names": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision",
+        "drawer_front_bottom_panel_collision",
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_handle_collision_0",
+        "drawer_tray_back_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision"
+      ],
+      "moving_drawer_body_name": "link_1",
+      "stub_length_lte_0p35_knob_diameter": false,
+      "stub_length_preferred_range_0p10_to_0p25": false,
+      "support_anti_floating_invariant_passed": false,
+      "support_geoms": [],
+      "topology_realism_passed": false,
+      "tray_collision_counterpart": true,
+      "tray_visual_counterpart": true,
+      "visible_support_geoms": [],
+      "visual_physical_topology_invariant_passed": false,
+      "visual_topology_v2_audit": true
+    },
+    {
+      "anti_floating_support_passed": false,
+      "candidate_id": "dh_c1_admitted_island_densify_21",
+      "connector_collision_counterpart": true,
+      "connector_length_to_knob_diameter_ratio": 5.282608695652174,
+      "connector_lengths_m": [
+        0.01200000000000001,
+        0.243
+      ],
+      "connector_to_front_gap_m": 0.0,
+      "connector_visual_counterpart": true,
+      "defect_histogram_labels": {
+        "connector-too-long / knob-too-detached": 1,
+        "unsupported-open-drawer": 1
+      },
+      "defects": [
+        "CONNECTOR_TOO_LONG_LONG_ROD_FORBIDDEN",
+        "UNSUPPORTED_OPEN_DRAWER_RAIL_GUIDE_MISSING"
+      ],
+      "drawer_box_completeness_passed": true,
+      "drawer_box_tray_invariant_passed": true,
+      "drawer_front_geoms": [
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_front_bottom_panel_collision"
+      ],
+      "drawer_slider_joint_name": "drawer_slider_0",
+      "drawer_tray_side_bottom_back_geoms": [
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_back_collision"
+      ],
+      "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+      "generated_at_utc": "2026-05-05T20:11:45Z",
+      "handle_connector_geoms": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision"
+      ],
+      "handle_connector_invariant_passed": true,
+      "handle_geoms": [
+        "drawer_handle_collision_0"
+      ],
+      "handle_kind": "sphere_knob",
+      "handle_to_connector_gap_m": 0.0,
+      "knob_connector_realism_passed": false,
+      "knob_diameter_m": 0.046,
+      "knob_radius_m": 0.023,
+      "knob_to_front_gap_m": 0.0,
+      "long_rod_connector_forbidden_passed": false,
+      "max_connector_length_m": 0.243,
+      "max_unsupported_gap_m": 0.0,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_21/model.xml",
+      "moving_body_geom_names": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision",
+        "drawer_front_bottom_panel_collision",
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_handle_collision_0",
+        "drawer_tray_back_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision"
+      ],
+      "moving_drawer_body_name": "link_1",
+      "stub_length_lte_0p35_knob_diameter": false,
+      "stub_length_preferred_range_0p10_to_0p25": false,
+      "support_anti_floating_invariant_passed": false,
+      "support_geoms": [],
+      "topology_realism_passed": false,
+      "tray_collision_counterpart": true,
+      "tray_visual_counterpart": true,
+      "visible_support_geoms": [],
+      "visual_physical_topology_invariant_passed": false,
+      "visual_topology_v2_audit": true
+    },
+    {
+      "anti_floating_support_passed": false,
+      "candidate_id": "dh_c1_admitted_island_densify_21",
+      "connector_collision_counterpart": true,
+      "connector_length_to_knob_diameter_ratio": 5.282608695652174,
+      "connector_lengths_m": [
+        0.01200000000000001,
+        0.243
+      ],
+      "connector_to_front_gap_m": 0.0,
+      "connector_visual_counterpart": true,
+      "defect_histogram_labels": {
+        "connector-too-long / knob-too-detached": 1,
+        "unsupported-open-drawer": 1
+      },
+      "defects": [
+        "CONNECTOR_TOO_LONG_LONG_ROD_FORBIDDEN",
+        "UNSUPPORTED_OPEN_DRAWER_RAIL_GUIDE_MISSING"
+      ],
+      "drawer_box_completeness_passed": true,
+      "drawer_box_tray_invariant_passed": true,
+      "drawer_front_geoms": [
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_front_bottom_panel_collision"
+      ],
+      "drawer_slider_joint_name": "drawer_slider_0",
+      "drawer_tray_side_bottom_back_geoms": [
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_back_collision"
+      ],
+      "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+      "generated_at_utc": "2026-05-05T20:11:45Z",
+      "handle_connector_geoms": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision"
+      ],
+      "handle_connector_invariant_passed": true,
+      "handle_geoms": [
+        "drawer_handle_collision_0"
+      ],
+      "handle_kind": "sphere_knob",
+      "handle_to_connector_gap_m": 0.0,
+      "knob_connector_realism_passed": false,
+      "knob_diameter_m": 0.046,
+      "knob_radius_m": 0.023,
+      "knob_to_front_gap_m": 0.0,
+      "long_rod_connector_forbidden_passed": false,
+      "max_connector_length_m": 0.243,
+      "max_unsupported_gap_m": 0.0,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_21/model.xml",
+      "moving_body_geom_names": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision",
+        "drawer_front_bottom_panel_collision",
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_handle_collision_0",
+        "drawer_tray_back_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision"
+      ],
+      "moving_drawer_body_name": "link_1",
+      "stub_length_lte_0p35_knob_diameter": false,
+      "stub_length_preferred_range_0p10_to_0p25": false,
+      "support_anti_floating_invariant_passed": false,
+      "support_geoms": [],
+      "topology_realism_passed": false,
+      "tray_collision_counterpart": true,
+      "tray_visual_counterpart": true,
+      "visible_support_geoms": [],
+      "visual_physical_topology_invariant_passed": false,
+      "visual_topology_v2_audit": true
+    },
+    {
+      "anti_floating_support_passed": false,
+      "candidate_id": "dh_c1_admitted_island_densify_26",
+      "connector_collision_counterpart": true,
+      "connector_length_to_knob_diameter_ratio": 5.304347826086956,
+      "connector_lengths_m": [
+        0.01200000000000001,
+        0.244
+      ],
+      "connector_to_front_gap_m": 0.0,
+      "connector_visual_counterpart": true,
+      "defect_histogram_labels": {
+        "connector-too-long / knob-too-detached": 1,
+        "unsupported-open-drawer": 1
+      },
+      "defects": [
+        "CONNECTOR_TOO_LONG_LONG_ROD_FORBIDDEN",
+        "UNSUPPORTED_OPEN_DRAWER_RAIL_GUIDE_MISSING"
+      ],
+      "drawer_box_completeness_passed": true,
+      "drawer_box_tray_invariant_passed": true,
+      "drawer_front_geoms": [
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_front_bottom_panel_collision"
+      ],
+      "drawer_slider_joint_name": "drawer_slider_0",
+      "drawer_tray_side_bottom_back_geoms": [
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_back_collision"
+      ],
+      "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+      "generated_at_utc": "2026-05-05T20:11:45Z",
+      "handle_connector_geoms": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision"
+      ],
+      "handle_connector_invariant_passed": true,
+      "handle_geoms": [
+        "drawer_handle_collision_0"
+      ],
+      "handle_kind": "sphere_knob",
+      "handle_to_connector_gap_m": 0.0,
+      "knob_connector_realism_passed": false,
+      "knob_diameter_m": 0.046,
+      "knob_radius_m": 0.023,
+      "knob_to_front_gap_m": 0.0,
+      "long_rod_connector_forbidden_passed": false,
+      "max_connector_length_m": 0.244,
+      "max_unsupported_gap_m": 0.0,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_26/model.xml",
+      "moving_body_geom_names": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision",
+        "drawer_front_bottom_panel_collision",
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_handle_collision_0",
+        "drawer_tray_back_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision"
+      ],
+      "moving_drawer_body_name": "link_1",
+      "stub_length_lte_0p35_knob_diameter": false,
+      "stub_length_preferred_range_0p10_to_0p25": false,
+      "support_anti_floating_invariant_passed": false,
+      "support_geoms": [],
+      "topology_realism_passed": false,
+      "tray_collision_counterpart": true,
+      "tray_visual_counterpart": true,
+      "visible_support_geoms": [],
+      "visual_physical_topology_invariant_passed": false,
+      "visual_topology_v2_audit": true
+    },
+    {
+      "anti_floating_support_passed": false,
+      "candidate_id": "dh_c1_admitted_island_densify_26",
+      "connector_collision_counterpart": true,
+      "connector_length_to_knob_diameter_ratio": 5.304347826086956,
+      "connector_lengths_m": [
+        0.01200000000000001,
+        0.244
+      ],
+      "connector_to_front_gap_m": 0.0,
+      "connector_visual_counterpart": true,
+      "defect_histogram_labels": {
+        "connector-too-long / knob-too-detached": 1,
+        "unsupported-open-drawer": 1
+      },
+      "defects": [
+        "CONNECTOR_TOO_LONG_LONG_ROD_FORBIDDEN",
+        "UNSUPPORTED_OPEN_DRAWER_RAIL_GUIDE_MISSING"
+      ],
+      "drawer_box_completeness_passed": true,
+      "drawer_box_tray_invariant_passed": true,
+      "drawer_front_geoms": [
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_front_bottom_panel_collision"
+      ],
+      "drawer_slider_joint_name": "drawer_slider_0",
+      "drawer_tray_side_bottom_back_geoms": [
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_back_collision"
+      ],
+      "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+      "generated_at_utc": "2026-05-05T20:11:45Z",
+      "handle_connector_geoms": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision"
+      ],
+      "handle_connector_invariant_passed": true,
+      "handle_geoms": [
+        "drawer_handle_collision_0"
+      ],
+      "handle_kind": "sphere_knob",
+      "handle_to_connector_gap_m": 0.0,
+      "knob_connector_realism_passed": false,
+      "knob_diameter_m": 0.046,
+      "knob_radius_m": 0.023,
+      "knob_to_front_gap_m": 0.0,
+      "long_rod_connector_forbidden_passed": false,
+      "max_connector_length_m": 0.244,
+      "max_unsupported_gap_m": 0.0,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_26/model.xml",
+      "moving_body_geom_names": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision",
+        "drawer_front_bottom_panel_collision",
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_handle_collision_0",
+        "drawer_tray_back_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision"
+      ],
+      "moving_drawer_body_name": "link_1",
+      "stub_length_lte_0p35_knob_diameter": false,
+      "stub_length_preferred_range_0p10_to_0p25": false,
+      "support_anti_floating_invariant_passed": false,
+      "support_geoms": [],
+      "topology_realism_passed": false,
+      "tray_collision_counterpart": true,
+      "tray_visual_counterpart": true,
+      "visible_support_geoms": [],
+      "visual_physical_topology_invariant_passed": false,
+      "visual_topology_v2_audit": true
+    },
+    {
+      "anti_floating_support_passed": false,
+      "candidate_id": "dh_c1_admitted_island_densify_26",
+      "connector_collision_counterpart": true,
+      "connector_length_to_knob_diameter_ratio": 5.304347826086956,
+      "connector_lengths_m": [
+        0.01200000000000001,
+        0.244
+      ],
+      "connector_to_front_gap_m": 0.0,
+      "connector_visual_counterpart": true,
+      "defect_histogram_labels": {
+        "connector-too-long / knob-too-detached": 1,
+        "unsupported-open-drawer": 1
+      },
+      "defects": [
+        "CONNECTOR_TOO_LONG_LONG_ROD_FORBIDDEN",
+        "UNSUPPORTED_OPEN_DRAWER_RAIL_GUIDE_MISSING"
+      ],
+      "drawer_box_completeness_passed": true,
+      "drawer_box_tray_invariant_passed": true,
+      "drawer_front_geoms": [
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_front_bottom_panel_collision"
+      ],
+      "drawer_slider_joint_name": "drawer_slider_0",
+      "drawer_tray_side_bottom_back_geoms": [
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_back_collision"
+      ],
+      "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+      "generated_at_utc": "2026-05-05T20:11:45Z",
+      "handle_connector_geoms": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision"
+      ],
+      "handle_connector_invariant_passed": true,
+      "handle_geoms": [
+        "drawer_handle_collision_0"
+      ],
+      "handle_kind": "sphere_knob",
+      "handle_to_connector_gap_m": 0.0,
+      "knob_connector_realism_passed": false,
+      "knob_diameter_m": 0.046,
+      "knob_radius_m": 0.023,
+      "knob_to_front_gap_m": 0.0,
+      "long_rod_connector_forbidden_passed": false,
+      "max_connector_length_m": 0.244,
+      "max_unsupported_gap_m": 0.0,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_26/model.xml",
+      "moving_body_geom_names": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision",
+        "drawer_front_bottom_panel_collision",
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_handle_collision_0",
+        "drawer_tray_back_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision"
+      ],
+      "moving_drawer_body_name": "link_1",
+      "stub_length_lte_0p35_knob_diameter": false,
+      "stub_length_preferred_range_0p10_to_0p25": false,
+      "support_anti_floating_invariant_passed": false,
+      "support_geoms": [],
+      "topology_realism_passed": false,
+      "tray_collision_counterpart": true,
+      "tray_visual_counterpart": true,
+      "visible_support_geoms": [],
+      "visual_physical_topology_invariant_passed": false,
+      "visual_topology_v2_audit": true
+    },
+    {
+      "anti_floating_support_passed": false,
+      "candidate_id": "dh_c1_admitted_island_densify_26",
+      "connector_collision_counterpart": true,
+      "connector_length_to_knob_diameter_ratio": 5.304347826086956,
+      "connector_lengths_m": [
+        0.01200000000000001,
+        0.244
+      ],
+      "connector_to_front_gap_m": 0.0,
+      "connector_visual_counterpart": true,
+      "defect_histogram_labels": {
+        "connector-too-long / knob-too-detached": 1,
+        "unsupported-open-drawer": 1
+      },
+      "defects": [
+        "CONNECTOR_TOO_LONG_LONG_ROD_FORBIDDEN",
+        "UNSUPPORTED_OPEN_DRAWER_RAIL_GUIDE_MISSING"
+      ],
+      "drawer_box_completeness_passed": true,
+      "drawer_box_tray_invariant_passed": true,
+      "drawer_front_geoms": [
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_front_bottom_panel_collision"
+      ],
+      "drawer_slider_joint_name": "drawer_slider_0",
+      "drawer_tray_side_bottom_back_geoms": [
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_back_collision"
+      ],
+      "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+      "generated_at_utc": "2026-05-05T20:11:45Z",
+      "handle_connector_geoms": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision"
+      ],
+      "handle_connector_invariant_passed": true,
+      "handle_geoms": [
+        "drawer_handle_collision_0"
+      ],
+      "handle_kind": "sphere_knob",
+      "handle_to_connector_gap_m": 0.0,
+      "knob_connector_realism_passed": false,
+      "knob_diameter_m": 0.046,
+      "knob_radius_m": 0.023,
+      "knob_to_front_gap_m": 0.0,
+      "long_rod_connector_forbidden_passed": false,
+      "max_connector_length_m": 0.244,
+      "max_unsupported_gap_m": 0.0,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_26/model.xml",
+      "moving_body_geom_names": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision",
+        "drawer_front_bottom_panel_collision",
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_handle_collision_0",
+        "drawer_tray_back_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision"
+      ],
+      "moving_drawer_body_name": "link_1",
+      "stub_length_lte_0p35_knob_diameter": false,
+      "stub_length_preferred_range_0p10_to_0p25": false,
+      "support_anti_floating_invariant_passed": false,
+      "support_geoms": [],
+      "topology_realism_passed": false,
+      "tray_collision_counterpart": true,
+      "tray_visual_counterpart": true,
+      "visible_support_geoms": [],
+      "visual_physical_topology_invariant_passed": false,
+      "visual_topology_v2_audit": true
+    },
+    {
+      "anti_floating_support_passed": false,
+      "candidate_id": "dh_c1_admitted_island_densify_26",
+      "connector_collision_counterpart": true,
+      "connector_length_to_knob_diameter_ratio": 5.304347826086956,
+      "connector_lengths_m": [
+        0.01200000000000001,
+        0.244
+      ],
+      "connector_to_front_gap_m": 0.0,
+      "connector_visual_counterpart": true,
+      "defect_histogram_labels": {
+        "connector-too-long / knob-too-detached": 1,
+        "unsupported-open-drawer": 1
+      },
+      "defects": [
+        "CONNECTOR_TOO_LONG_LONG_ROD_FORBIDDEN",
+        "UNSUPPORTED_OPEN_DRAWER_RAIL_GUIDE_MISSING"
+      ],
+      "drawer_box_completeness_passed": true,
+      "drawer_box_tray_invariant_passed": true,
+      "drawer_front_geoms": [
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_front_bottom_panel_collision"
+      ],
+      "drawer_slider_joint_name": "drawer_slider_0",
+      "drawer_tray_side_bottom_back_geoms": [
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_back_collision"
+      ],
+      "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+      "generated_at_utc": "2026-05-05T20:11:45Z",
+      "handle_connector_geoms": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision"
+      ],
+      "handle_connector_invariant_passed": true,
+      "handle_geoms": [
+        "drawer_handle_collision_0"
+      ],
+      "handle_kind": "sphere_knob",
+      "handle_to_connector_gap_m": 0.0,
+      "knob_connector_realism_passed": false,
+      "knob_diameter_m": 0.046,
+      "knob_radius_m": 0.023,
+      "knob_to_front_gap_m": 0.0,
+      "long_rod_connector_forbidden_passed": false,
+      "max_connector_length_m": 0.244,
+      "max_unsupported_gap_m": 0.0,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_26/model.xml",
+      "moving_body_geom_names": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision",
+        "drawer_front_bottom_panel_collision",
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_handle_collision_0",
+        "drawer_tray_back_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision"
+      ],
+      "moving_drawer_body_name": "link_1",
+      "stub_length_lte_0p35_knob_diameter": false,
+      "stub_length_preferred_range_0p10_to_0p25": false,
+      "support_anti_floating_invariant_passed": false,
+      "support_geoms": [],
+      "topology_realism_passed": false,
+      "tray_collision_counterpart": true,
+      "tray_visual_counterpart": true,
+      "visible_support_geoms": [],
+      "visual_physical_topology_invariant_passed": false,
+      "visual_topology_v2_audit": true
+    },
+    {
+      "anti_floating_support_passed": false,
+      "candidate_id": "dh_c1_admitted_island_densify_26",
+      "connector_collision_counterpart": true,
+      "connector_length_to_knob_diameter_ratio": 5.304347826086956,
+      "connector_lengths_m": [
+        0.01200000000000001,
+        0.244
+      ],
+      "connector_to_front_gap_m": 0.0,
+      "connector_visual_counterpart": true,
+      "defect_histogram_labels": {
+        "connector-too-long / knob-too-detached": 1,
+        "unsupported-open-drawer": 1
+      },
+      "defects": [
+        "CONNECTOR_TOO_LONG_LONG_ROD_FORBIDDEN",
+        "UNSUPPORTED_OPEN_DRAWER_RAIL_GUIDE_MISSING"
+      ],
+      "drawer_box_completeness_passed": true,
+      "drawer_box_tray_invariant_passed": true,
+      "drawer_front_geoms": [
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_front_bottom_panel_collision"
+      ],
+      "drawer_slider_joint_name": "drawer_slider_0",
+      "drawer_tray_side_bottom_back_geoms": [
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_back_collision"
+      ],
+      "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+      "generated_at_utc": "2026-05-05T20:11:45Z",
+      "handle_connector_geoms": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision"
+      ],
+      "handle_connector_invariant_passed": true,
+      "handle_geoms": [
+        "drawer_handle_collision_0"
+      ],
+      "handle_kind": "sphere_knob",
+      "handle_to_connector_gap_m": 0.0,
+      "knob_connector_realism_passed": false,
+      "knob_diameter_m": 0.046,
+      "knob_radius_m": 0.023,
+      "knob_to_front_gap_m": 0.0,
+      "long_rod_connector_forbidden_passed": false,
+      "max_connector_length_m": 0.244,
+      "max_unsupported_gap_m": 0.0,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_26/model.xml",
+      "moving_body_geom_names": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision",
+        "drawer_front_bottom_panel_collision",
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_handle_collision_0",
+        "drawer_tray_back_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision"
+      ],
+      "moving_drawer_body_name": "link_1",
+      "stub_length_lte_0p35_knob_diameter": false,
+      "stub_length_preferred_range_0p10_to_0p25": false,
+      "support_anti_floating_invariant_passed": false,
+      "support_geoms": [],
+      "topology_realism_passed": false,
+      "tray_collision_counterpart": true,
+      "tray_visual_counterpart": true,
+      "visible_support_geoms": [],
+      "visual_physical_topology_invariant_passed": false,
+      "visual_topology_v2_audit": true
+    },
+    {
+      "anti_floating_support_passed": false,
+      "candidate_id": "dh_c1_admitted_island_densify_22",
+      "connector_collision_counterpart": true,
+      "connector_length_to_knob_diameter_ratio": 5.282608695652174,
+      "connector_lengths_m": [
+        0.01200000000000001,
+        0.243
+      ],
+      "connector_to_front_gap_m": 0.0,
+      "connector_visual_counterpart": true,
+      "defect_histogram_labels": {
+        "connector-too-long / knob-too-detached": 1,
+        "unsupported-open-drawer": 1
+      },
+      "defects": [
+        "CONNECTOR_TOO_LONG_LONG_ROD_FORBIDDEN",
+        "UNSUPPORTED_OPEN_DRAWER_RAIL_GUIDE_MISSING"
+      ],
+      "drawer_box_completeness_passed": true,
+      "drawer_box_tray_invariant_passed": true,
+      "drawer_front_geoms": [
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_front_bottom_panel_collision"
+      ],
+      "drawer_slider_joint_name": "drawer_slider_0",
+      "drawer_tray_side_bottom_back_geoms": [
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_back_collision"
+      ],
+      "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+      "generated_at_utc": "2026-05-05T20:11:45Z",
+      "handle_connector_geoms": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision"
+      ],
+      "handle_connector_invariant_passed": true,
+      "handle_geoms": [
+        "drawer_handle_collision_0"
+      ],
+      "handle_kind": "sphere_knob",
+      "handle_to_connector_gap_m": 0.0,
+      "knob_connector_realism_passed": false,
+      "knob_diameter_m": 0.046,
+      "knob_radius_m": 0.023,
+      "knob_to_front_gap_m": 0.0,
+      "long_rod_connector_forbidden_passed": false,
+      "max_connector_length_m": 0.243,
+      "max_unsupported_gap_m": 0.0,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_22/model.xml",
+      "moving_body_geom_names": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision",
+        "drawer_front_bottom_panel_collision",
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_handle_collision_0",
+        "drawer_tray_back_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision"
+      ],
+      "moving_drawer_body_name": "link_1",
+      "stub_length_lte_0p35_knob_diameter": false,
+      "stub_length_preferred_range_0p10_to_0p25": false,
+      "support_anti_floating_invariant_passed": false,
+      "support_geoms": [],
+      "topology_realism_passed": false,
+      "tray_collision_counterpart": true,
+      "tray_visual_counterpart": true,
+      "visible_support_geoms": [],
+      "visual_physical_topology_invariant_passed": false,
+      "visual_topology_v2_audit": true
+    },
+    {
+      "anti_floating_support_passed": false,
+      "candidate_id": "dh_c1_admitted_island_densify_22",
+      "connector_collision_counterpart": true,
+      "connector_length_to_knob_diameter_ratio": 5.282608695652174,
+      "connector_lengths_m": [
+        0.01200000000000001,
+        0.243
+      ],
+      "connector_to_front_gap_m": 0.0,
+      "connector_visual_counterpart": true,
+      "defect_histogram_labels": {
+        "connector-too-long / knob-too-detached": 1,
+        "unsupported-open-drawer": 1
+      },
+      "defects": [
+        "CONNECTOR_TOO_LONG_LONG_ROD_FORBIDDEN",
+        "UNSUPPORTED_OPEN_DRAWER_RAIL_GUIDE_MISSING"
+      ],
+      "drawer_box_completeness_passed": true,
+      "drawer_box_tray_invariant_passed": true,
+      "drawer_front_geoms": [
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_front_bottom_panel_collision"
+      ],
+      "drawer_slider_joint_name": "drawer_slider_0",
+      "drawer_tray_side_bottom_back_geoms": [
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_back_collision"
+      ],
+      "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+      "generated_at_utc": "2026-05-05T20:11:45Z",
+      "handle_connector_geoms": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision"
+      ],
+      "handle_connector_invariant_passed": true,
+      "handle_geoms": [
+        "drawer_handle_collision_0"
+      ],
+      "handle_kind": "sphere_knob",
+      "handle_to_connector_gap_m": 0.0,
+      "knob_connector_realism_passed": false,
+      "knob_diameter_m": 0.046,
+      "knob_radius_m": 0.023,
+      "knob_to_front_gap_m": 0.0,
+      "long_rod_connector_forbidden_passed": false,
+      "max_connector_length_m": 0.243,
+      "max_unsupported_gap_m": 0.0,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_22/model.xml",
+      "moving_body_geom_names": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision",
+        "drawer_front_bottom_panel_collision",
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_handle_collision_0",
+        "drawer_tray_back_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision"
+      ],
+      "moving_drawer_body_name": "link_1",
+      "stub_length_lte_0p35_knob_diameter": false,
+      "stub_length_preferred_range_0p10_to_0p25": false,
+      "support_anti_floating_invariant_passed": false,
+      "support_geoms": [],
+      "topology_realism_passed": false,
+      "tray_collision_counterpart": true,
+      "tray_visual_counterpart": true,
+      "visible_support_geoms": [],
+      "visual_physical_topology_invariant_passed": false,
+      "visual_topology_v2_audit": true
+    },
+    {
+      "anti_floating_support_passed": false,
+      "candidate_id": "dh_c1_admitted_island_densify_22",
+      "connector_collision_counterpart": true,
+      "connector_length_to_knob_diameter_ratio": 5.282608695652174,
+      "connector_lengths_m": [
+        0.01200000000000001,
+        0.243
+      ],
+      "connector_to_front_gap_m": 0.0,
+      "connector_visual_counterpart": true,
+      "defect_histogram_labels": {
+        "connector-too-long / knob-too-detached": 1,
+        "unsupported-open-drawer": 1
+      },
+      "defects": [
+        "CONNECTOR_TOO_LONG_LONG_ROD_FORBIDDEN",
+        "UNSUPPORTED_OPEN_DRAWER_RAIL_GUIDE_MISSING"
+      ],
+      "drawer_box_completeness_passed": true,
+      "drawer_box_tray_invariant_passed": true,
+      "drawer_front_geoms": [
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_front_bottom_panel_collision"
+      ],
+      "drawer_slider_joint_name": "drawer_slider_0",
+      "drawer_tray_side_bottom_back_geoms": [
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_back_collision"
+      ],
+      "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+      "generated_at_utc": "2026-05-05T20:11:45Z",
+      "handle_connector_geoms": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision"
+      ],
+      "handle_connector_invariant_passed": true,
+      "handle_geoms": [
+        "drawer_handle_collision_0"
+      ],
+      "handle_kind": "sphere_knob",
+      "handle_to_connector_gap_m": 0.0,
+      "knob_connector_realism_passed": false,
+      "knob_diameter_m": 0.046,
+      "knob_radius_m": 0.023,
+      "knob_to_front_gap_m": 0.0,
+      "long_rod_connector_forbidden_passed": false,
+      "max_connector_length_m": 0.243,
+      "max_unsupported_gap_m": 0.0,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_22/model.xml",
+      "moving_body_geom_names": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision",
+        "drawer_front_bottom_panel_collision",
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_handle_collision_0",
+        "drawer_tray_back_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision"
+      ],
+      "moving_drawer_body_name": "link_1",
+      "stub_length_lte_0p35_knob_diameter": false,
+      "stub_length_preferred_range_0p10_to_0p25": false,
+      "support_anti_floating_invariant_passed": false,
+      "support_geoms": [],
+      "topology_realism_passed": false,
+      "tray_collision_counterpart": true,
+      "tray_visual_counterpart": true,
+      "visible_support_geoms": [],
+      "visual_physical_topology_invariant_passed": false,
+      "visual_topology_v2_audit": true
+    },
+    {
+      "anti_floating_support_passed": false,
+      "candidate_id": "dh_c1_admitted_island_densify_22",
+      "connector_collision_counterpart": true,
+      "connector_length_to_knob_diameter_ratio": 5.282608695652174,
+      "connector_lengths_m": [
+        0.01200000000000001,
+        0.243
+      ],
+      "connector_to_front_gap_m": 0.0,
+      "connector_visual_counterpart": true,
+      "defect_histogram_labels": {
+        "connector-too-long / knob-too-detached": 1,
+        "unsupported-open-drawer": 1
+      },
+      "defects": [
+        "CONNECTOR_TOO_LONG_LONG_ROD_FORBIDDEN",
+        "UNSUPPORTED_OPEN_DRAWER_RAIL_GUIDE_MISSING"
+      ],
+      "drawer_box_completeness_passed": true,
+      "drawer_box_tray_invariant_passed": true,
+      "drawer_front_geoms": [
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_front_bottom_panel_collision"
+      ],
+      "drawer_slider_joint_name": "drawer_slider_0",
+      "drawer_tray_side_bottom_back_geoms": [
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_back_collision"
+      ],
+      "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+      "generated_at_utc": "2026-05-05T20:11:45Z",
+      "handle_connector_geoms": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision"
+      ],
+      "handle_connector_invariant_passed": true,
+      "handle_geoms": [
+        "drawer_handle_collision_0"
+      ],
+      "handle_kind": "sphere_knob",
+      "handle_to_connector_gap_m": 0.0,
+      "knob_connector_realism_passed": false,
+      "knob_diameter_m": 0.046,
+      "knob_radius_m": 0.023,
+      "knob_to_front_gap_m": 0.0,
+      "long_rod_connector_forbidden_passed": false,
+      "max_connector_length_m": 0.243,
+      "max_unsupported_gap_m": 0.0,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_22/model.xml",
+      "moving_body_geom_names": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision",
+        "drawer_front_bottom_panel_collision",
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_handle_collision_0",
+        "drawer_tray_back_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision"
+      ],
+      "moving_drawer_body_name": "link_1",
+      "stub_length_lte_0p35_knob_diameter": false,
+      "stub_length_preferred_range_0p10_to_0p25": false,
+      "support_anti_floating_invariant_passed": false,
+      "support_geoms": [],
+      "topology_realism_passed": false,
+      "tray_collision_counterpart": true,
+      "tray_visual_counterpart": true,
+      "visible_support_geoms": [],
+      "visual_physical_topology_invariant_passed": false,
+      "visual_topology_v2_audit": true
+    },
+    {
+      "anti_floating_support_passed": false,
+      "candidate_id": "dh_c1_admitted_island_densify_22",
+      "connector_collision_counterpart": true,
+      "connector_length_to_knob_diameter_ratio": 5.282608695652174,
+      "connector_lengths_m": [
+        0.01200000000000001,
+        0.243
+      ],
+      "connector_to_front_gap_m": 0.0,
+      "connector_visual_counterpart": true,
+      "defect_histogram_labels": {
+        "connector-too-long / knob-too-detached": 1,
+        "unsupported-open-drawer": 1
+      },
+      "defects": [
+        "CONNECTOR_TOO_LONG_LONG_ROD_FORBIDDEN",
+        "UNSUPPORTED_OPEN_DRAWER_RAIL_GUIDE_MISSING"
+      ],
+      "drawer_box_completeness_passed": true,
+      "drawer_box_tray_invariant_passed": true,
+      "drawer_front_geoms": [
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_front_bottom_panel_collision"
+      ],
+      "drawer_slider_joint_name": "drawer_slider_0",
+      "drawer_tray_side_bottom_back_geoms": [
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_back_collision"
+      ],
+      "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+      "generated_at_utc": "2026-05-05T20:11:45Z",
+      "handle_connector_geoms": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision"
+      ],
+      "handle_connector_invariant_passed": true,
+      "handle_geoms": [
+        "drawer_handle_collision_0"
+      ],
+      "handle_kind": "sphere_knob",
+      "handle_to_connector_gap_m": 0.0,
+      "knob_connector_realism_passed": false,
+      "knob_diameter_m": 0.046,
+      "knob_radius_m": 0.023,
+      "knob_to_front_gap_m": 0.0,
+      "long_rod_connector_forbidden_passed": false,
+      "max_connector_length_m": 0.243,
+      "max_unsupported_gap_m": 0.0,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_22/model.xml",
+      "moving_body_geom_names": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision",
+        "drawer_front_bottom_panel_collision",
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_handle_collision_0",
+        "drawer_tray_back_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision"
+      ],
+      "moving_drawer_body_name": "link_1",
+      "stub_length_lte_0p35_knob_diameter": false,
+      "stub_length_preferred_range_0p10_to_0p25": false,
+      "support_anti_floating_invariant_passed": false,
+      "support_geoms": [],
+      "topology_realism_passed": false,
+      "tray_collision_counterpart": true,
+      "tray_visual_counterpart": true,
+      "visible_support_geoms": [],
+      "visual_physical_topology_invariant_passed": false,
+      "visual_topology_v2_audit": true
+    },
+    {
+      "anti_floating_support_passed": false,
+      "candidate_id": "dh_c1_admitted_island_densify_22",
+      "connector_collision_counterpart": true,
+      "connector_length_to_knob_diameter_ratio": 5.282608695652174,
+      "connector_lengths_m": [
+        0.01200000000000001,
+        0.243
+      ],
+      "connector_to_front_gap_m": 0.0,
+      "connector_visual_counterpart": true,
+      "defect_histogram_labels": {
+        "connector-too-long / knob-too-detached": 1,
+        "unsupported-open-drawer": 1
+      },
+      "defects": [
+        "CONNECTOR_TOO_LONG_LONG_ROD_FORBIDDEN",
+        "UNSUPPORTED_OPEN_DRAWER_RAIL_GUIDE_MISSING"
+      ],
+      "drawer_box_completeness_passed": true,
+      "drawer_box_tray_invariant_passed": true,
+      "drawer_front_geoms": [
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_front_bottom_panel_collision"
+      ],
+      "drawer_slider_joint_name": "drawer_slider_0",
+      "drawer_tray_side_bottom_back_geoms": [
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_back_collision"
+      ],
+      "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+      "generated_at_utc": "2026-05-05T20:11:45Z",
+      "handle_connector_geoms": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision"
+      ],
+      "handle_connector_invariant_passed": true,
+      "handle_geoms": [
+        "drawer_handle_collision_0"
+      ],
+      "handle_kind": "sphere_knob",
+      "handle_to_connector_gap_m": 0.0,
+      "knob_connector_realism_passed": false,
+      "knob_diameter_m": 0.046,
+      "knob_radius_m": 0.023,
+      "knob_to_front_gap_m": 0.0,
+      "long_rod_connector_forbidden_passed": false,
+      "max_connector_length_m": 0.243,
+      "max_unsupported_gap_m": 0.0,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_22/model.xml",
+      "moving_body_geom_names": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision",
+        "drawer_front_bottom_panel_collision",
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_handle_collision_0",
+        "drawer_tray_back_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision"
+      ],
+      "moving_drawer_body_name": "link_1",
+      "stub_length_lte_0p35_knob_diameter": false,
+      "stub_length_preferred_range_0p10_to_0p25": false,
+      "support_anti_floating_invariant_passed": false,
+      "support_geoms": [],
+      "topology_realism_passed": false,
+      "tray_collision_counterpart": true,
+      "tray_visual_counterpart": true,
+      "visible_support_geoms": [],
+      "visual_physical_topology_invariant_passed": false,
+      "visual_topology_v2_audit": true
+    },
+    {
+      "anti_floating_support_passed": false,
+      "candidate_id": "dh_c1_admitted_island_densify_06",
+      "connector_collision_counterpart": true,
+      "connector_length_to_knob_diameter_ratio": 5.260869565217392,
+      "connector_lengths_m": [
+        0.01200000000000001,
+        0.242
+      ],
+      "connector_to_front_gap_m": 0.0,
+      "connector_visual_counterpart": true,
+      "defect_histogram_labels": {
+        "connector-too-long / knob-too-detached": 1,
+        "unsupported-open-drawer": 1
+      },
+      "defects": [
+        "CONNECTOR_TOO_LONG_LONG_ROD_FORBIDDEN",
+        "UNSUPPORTED_OPEN_DRAWER_RAIL_GUIDE_MISSING"
+      ],
+      "drawer_box_completeness_passed": true,
+      "drawer_box_tray_invariant_passed": true,
+      "drawer_front_geoms": [
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_front_bottom_panel_collision"
+      ],
+      "drawer_slider_joint_name": "drawer_slider_0",
+      "drawer_tray_side_bottom_back_geoms": [
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_back_collision"
+      ],
+      "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+      "generated_at_utc": "2026-05-05T20:11:45Z",
+      "handle_connector_geoms": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision"
+      ],
+      "handle_connector_invariant_passed": true,
+      "handle_geoms": [
+        "drawer_handle_collision_0"
+      ],
+      "handle_kind": "sphere_knob",
+      "handle_to_connector_gap_m": 0.0,
+      "knob_connector_realism_passed": false,
+      "knob_diameter_m": 0.046,
+      "knob_radius_m": 0.023,
+      "knob_to_front_gap_m": 0.0,
+      "long_rod_connector_forbidden_passed": false,
+      "max_connector_length_m": 0.242,
+      "max_unsupported_gap_m": 0.0,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_06/model.xml",
+      "moving_body_geom_names": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision",
+        "drawer_front_bottom_panel_collision",
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_handle_collision_0",
+        "drawer_tray_back_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision"
+      ],
+      "moving_drawer_body_name": "link_1",
+      "stub_length_lte_0p35_knob_diameter": false,
+      "stub_length_preferred_range_0p10_to_0p25": false,
+      "support_anti_floating_invariant_passed": false,
+      "support_geoms": [],
+      "topology_realism_passed": false,
+      "tray_collision_counterpart": true,
+      "tray_visual_counterpart": true,
+      "visible_support_geoms": [],
+      "visual_physical_topology_invariant_passed": false,
+      "visual_topology_v2_audit": true
+    },
+    {
+      "anti_floating_support_passed": false,
+      "candidate_id": "dh_c1_admitted_island_densify_06",
+      "connector_collision_counterpart": true,
+      "connector_length_to_knob_diameter_ratio": 5.260869565217392,
+      "connector_lengths_m": [
+        0.01200000000000001,
+        0.242
+      ],
+      "connector_to_front_gap_m": 0.0,
+      "connector_visual_counterpart": true,
+      "defect_histogram_labels": {
+        "connector-too-long / knob-too-detached": 1,
+        "unsupported-open-drawer": 1
+      },
+      "defects": [
+        "CONNECTOR_TOO_LONG_LONG_ROD_FORBIDDEN",
+        "UNSUPPORTED_OPEN_DRAWER_RAIL_GUIDE_MISSING"
+      ],
+      "drawer_box_completeness_passed": true,
+      "drawer_box_tray_invariant_passed": true,
+      "drawer_front_geoms": [
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_front_bottom_panel_collision"
+      ],
+      "drawer_slider_joint_name": "drawer_slider_0",
+      "drawer_tray_side_bottom_back_geoms": [
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_back_collision"
+      ],
+      "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+      "generated_at_utc": "2026-05-05T20:11:45Z",
+      "handle_connector_geoms": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision"
+      ],
+      "handle_connector_invariant_passed": true,
+      "handle_geoms": [
+        "drawer_handle_collision_0"
+      ],
+      "handle_kind": "sphere_knob",
+      "handle_to_connector_gap_m": 0.0,
+      "knob_connector_realism_passed": false,
+      "knob_diameter_m": 0.046,
+      "knob_radius_m": 0.023,
+      "knob_to_front_gap_m": 0.0,
+      "long_rod_connector_forbidden_passed": false,
+      "max_connector_length_m": 0.242,
+      "max_unsupported_gap_m": 0.0,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_06/model.xml",
+      "moving_body_geom_names": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision",
+        "drawer_front_bottom_panel_collision",
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_handle_collision_0",
+        "drawer_tray_back_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision"
+      ],
+      "moving_drawer_body_name": "link_1",
+      "stub_length_lte_0p35_knob_diameter": false,
+      "stub_length_preferred_range_0p10_to_0p25": false,
+      "support_anti_floating_invariant_passed": false,
+      "support_geoms": [],
+      "topology_realism_passed": false,
+      "tray_collision_counterpart": true,
+      "tray_visual_counterpart": true,
+      "visible_support_geoms": [],
+      "visual_physical_topology_invariant_passed": false,
+      "visual_topology_v2_audit": true
+    },
+    {
+      "anti_floating_support_passed": false,
+      "candidate_id": "dh_c1_admitted_island_densify_06",
+      "connector_collision_counterpart": true,
+      "connector_length_to_knob_diameter_ratio": 5.260869565217392,
+      "connector_lengths_m": [
+        0.01200000000000001,
+        0.242
+      ],
+      "connector_to_front_gap_m": 0.0,
+      "connector_visual_counterpart": true,
+      "defect_histogram_labels": {
+        "connector-too-long / knob-too-detached": 1,
+        "unsupported-open-drawer": 1
+      },
+      "defects": [
+        "CONNECTOR_TOO_LONG_LONG_ROD_FORBIDDEN",
+        "UNSUPPORTED_OPEN_DRAWER_RAIL_GUIDE_MISSING"
+      ],
+      "drawer_box_completeness_passed": true,
+      "drawer_box_tray_invariant_passed": true,
+      "drawer_front_geoms": [
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_front_bottom_panel_collision"
+      ],
+      "drawer_slider_joint_name": "drawer_slider_0",
+      "drawer_tray_side_bottom_back_geoms": [
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_back_collision"
+      ],
+      "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+      "generated_at_utc": "2026-05-05T20:11:45Z",
+      "handle_connector_geoms": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision"
+      ],
+      "handle_connector_invariant_passed": true,
+      "handle_geoms": [
+        "drawer_handle_collision_0"
+      ],
+      "handle_kind": "sphere_knob",
+      "handle_to_connector_gap_m": 0.0,
+      "knob_connector_realism_passed": false,
+      "knob_diameter_m": 0.046,
+      "knob_radius_m": 0.023,
+      "knob_to_front_gap_m": 0.0,
+      "long_rod_connector_forbidden_passed": false,
+      "max_connector_length_m": 0.242,
+      "max_unsupported_gap_m": 0.0,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_06/model.xml",
+      "moving_body_geom_names": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision",
+        "drawer_front_bottom_panel_collision",
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_handle_collision_0",
+        "drawer_tray_back_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision"
+      ],
+      "moving_drawer_body_name": "link_1",
+      "stub_length_lte_0p35_knob_diameter": false,
+      "stub_length_preferred_range_0p10_to_0p25": false,
+      "support_anti_floating_invariant_passed": false,
+      "support_geoms": [],
+      "topology_realism_passed": false,
+      "tray_collision_counterpart": true,
+      "tray_visual_counterpart": true,
+      "visible_support_geoms": [],
+      "visual_physical_topology_invariant_passed": false,
+      "visual_topology_v2_audit": true
+    },
+    {
+      "anti_floating_support_passed": false,
+      "candidate_id": "dh_c1_admitted_island_densify_06",
+      "connector_collision_counterpart": true,
+      "connector_length_to_knob_diameter_ratio": 5.260869565217392,
+      "connector_lengths_m": [
+        0.01200000000000001,
+        0.242
+      ],
+      "connector_to_front_gap_m": 0.0,
+      "connector_visual_counterpart": true,
+      "defect_histogram_labels": {
+        "connector-too-long / knob-too-detached": 1,
+        "unsupported-open-drawer": 1
+      },
+      "defects": [
+        "CONNECTOR_TOO_LONG_LONG_ROD_FORBIDDEN",
+        "UNSUPPORTED_OPEN_DRAWER_RAIL_GUIDE_MISSING"
+      ],
+      "drawer_box_completeness_passed": true,
+      "drawer_box_tray_invariant_passed": true,
+      "drawer_front_geoms": [
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_front_bottom_panel_collision"
+      ],
+      "drawer_slider_joint_name": "drawer_slider_0",
+      "drawer_tray_side_bottom_back_geoms": [
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_back_collision"
+      ],
+      "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+      "generated_at_utc": "2026-05-05T20:11:45Z",
+      "handle_connector_geoms": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision"
+      ],
+      "handle_connector_invariant_passed": true,
+      "handle_geoms": [
+        "drawer_handle_collision_0"
+      ],
+      "handle_kind": "sphere_knob",
+      "handle_to_connector_gap_m": 0.0,
+      "knob_connector_realism_passed": false,
+      "knob_diameter_m": 0.046,
+      "knob_radius_m": 0.023,
+      "knob_to_front_gap_m": 0.0,
+      "long_rod_connector_forbidden_passed": false,
+      "max_connector_length_m": 0.242,
+      "max_unsupported_gap_m": 0.0,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_06/model.xml",
+      "moving_body_geom_names": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision",
+        "drawer_front_bottom_panel_collision",
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_handle_collision_0",
+        "drawer_tray_back_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision"
+      ],
+      "moving_drawer_body_name": "link_1",
+      "stub_length_lte_0p35_knob_diameter": false,
+      "stub_length_preferred_range_0p10_to_0p25": false,
+      "support_anti_floating_invariant_passed": false,
+      "support_geoms": [],
+      "topology_realism_passed": false,
+      "tray_collision_counterpart": true,
+      "tray_visual_counterpart": true,
+      "visible_support_geoms": [],
+      "visual_physical_topology_invariant_passed": false,
+      "visual_topology_v2_audit": true
+    },
+    {
+      "anti_floating_support_passed": false,
+      "candidate_id": "dh_c1_admitted_island_densify_06",
+      "connector_collision_counterpart": true,
+      "connector_length_to_knob_diameter_ratio": 5.260869565217392,
+      "connector_lengths_m": [
+        0.01200000000000001,
+        0.242
+      ],
+      "connector_to_front_gap_m": 0.0,
+      "connector_visual_counterpart": true,
+      "defect_histogram_labels": {
+        "connector-too-long / knob-too-detached": 1,
+        "unsupported-open-drawer": 1
+      },
+      "defects": [
+        "CONNECTOR_TOO_LONG_LONG_ROD_FORBIDDEN",
+        "UNSUPPORTED_OPEN_DRAWER_RAIL_GUIDE_MISSING"
+      ],
+      "drawer_box_completeness_passed": true,
+      "drawer_box_tray_invariant_passed": true,
+      "drawer_front_geoms": [
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_front_bottom_panel_collision"
+      ],
+      "drawer_slider_joint_name": "drawer_slider_0",
+      "drawer_tray_side_bottom_back_geoms": [
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_back_collision"
+      ],
+      "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+      "generated_at_utc": "2026-05-05T20:11:45Z",
+      "handle_connector_geoms": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision"
+      ],
+      "handle_connector_invariant_passed": true,
+      "handle_geoms": [
+        "drawer_handle_collision_0"
+      ],
+      "handle_kind": "sphere_knob",
+      "handle_to_connector_gap_m": 0.0,
+      "knob_connector_realism_passed": false,
+      "knob_diameter_m": 0.046,
+      "knob_radius_m": 0.023,
+      "knob_to_front_gap_m": 0.0,
+      "long_rod_connector_forbidden_passed": false,
+      "max_connector_length_m": 0.242,
+      "max_unsupported_gap_m": 0.0,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_06/model.xml",
+      "moving_body_geom_names": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision",
+        "drawer_front_bottom_panel_collision",
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_handle_collision_0",
+        "drawer_tray_back_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision"
+      ],
+      "moving_drawer_body_name": "link_1",
+      "stub_length_lte_0p35_knob_diameter": false,
+      "stub_length_preferred_range_0p10_to_0p25": false,
+      "support_anti_floating_invariant_passed": false,
+      "support_geoms": [],
+      "topology_realism_passed": false,
+      "tray_collision_counterpart": true,
+      "tray_visual_counterpart": true,
+      "visible_support_geoms": [],
+      "visual_physical_topology_invariant_passed": false,
+      "visual_topology_v2_audit": true
+    },
+    {
+      "anti_floating_support_passed": false,
+      "candidate_id": "dh_c1_admitted_island_densify_06",
+      "connector_collision_counterpart": true,
+      "connector_length_to_knob_diameter_ratio": 5.260869565217392,
+      "connector_lengths_m": [
+        0.01200000000000001,
+        0.242
+      ],
+      "connector_to_front_gap_m": 0.0,
+      "connector_visual_counterpart": true,
+      "defect_histogram_labels": {
+        "connector-too-long / knob-too-detached": 1,
+        "unsupported-open-drawer": 1
+      },
+      "defects": [
+        "CONNECTOR_TOO_LONG_LONG_ROD_FORBIDDEN",
+        "UNSUPPORTED_OPEN_DRAWER_RAIL_GUIDE_MISSING"
+      ],
+      "drawer_box_completeness_passed": true,
+      "drawer_box_tray_invariant_passed": true,
+      "drawer_front_geoms": [
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_front_bottom_panel_collision"
+      ],
+      "drawer_slider_joint_name": "drawer_slider_0",
+      "drawer_tray_side_bottom_back_geoms": [
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_back_collision"
+      ],
+      "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+      "generated_at_utc": "2026-05-05T20:11:45Z",
+      "handle_connector_geoms": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision"
+      ],
+      "handle_connector_invariant_passed": true,
+      "handle_geoms": [
+        "drawer_handle_collision_0"
+      ],
+      "handle_kind": "sphere_knob",
+      "handle_to_connector_gap_m": 0.0,
+      "knob_connector_realism_passed": false,
+      "knob_diameter_m": 0.046,
+      "knob_radius_m": 0.023,
+      "knob_to_front_gap_m": 0.0,
+      "long_rod_connector_forbidden_passed": false,
+      "max_connector_length_m": 0.242,
+      "max_unsupported_gap_m": 0.0,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_06/model.xml",
+      "moving_body_geom_names": [
+        "drawer_connector_plate_collision",
+        "drawer_connector_stem_collision",
+        "drawer_front_bottom_panel_collision",
+        "drawer_front_left_panel_collision",
+        "drawer_front_right_panel_collision",
+        "drawer_front_top_panel_collision",
+        "drawer_handle_collision_0",
+        "drawer_tray_back_collision",
+        "drawer_tray_bottom_collision",
+        "drawer_tray_left_side_collision",
+        "drawer_tray_right_side_collision"
+      ],
+      "moving_drawer_body_name": "link_1",
+      "stub_length_lte_0p35_knob_diameter": false,
+      "stub_length_preferred_range_0p10_to_0p25": false,
+      "support_anti_floating_invariant_passed": false,
+      "support_geoms": [],
+      "topology_realism_passed": false,
+      "tray_collision_counterpart": true,
+      "tray_visual_counterpart": true,
+      "visible_support_geoms": [],
+      "visual_physical_topology_invariant_passed": false,
+      "visual_topology_v2_audit": true
+    }
+  ],
+  "defect_histogram": {
+    "CONNECTOR_TOO_LONG_LONG_ROD_FORBIDDEN": 30,
+    "UNSUPPORTED_OPEN_DRAWER_RAIL_GUIDE_MISSING": 30
+  },
+  "generated_at_utc": "2026-05-05T20:11:45Z",
+  "old_pool_modified": false,
+  "old_pool_used_only_as_baseline": true,
+  "prior_run": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z"
+}

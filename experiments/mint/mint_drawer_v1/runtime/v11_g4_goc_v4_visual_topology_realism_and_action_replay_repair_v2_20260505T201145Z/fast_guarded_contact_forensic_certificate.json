@@ -1,0 +1,180 @@
+{
+  "best_returned_variant": "v2_fast_axis_work_keepout_semiclose",
+  "classification": "FAST_GUARDED_CONTACT_MIXED_CONTROLLER_STRUCTURE_DEFECT",
+  "direct_qpos_drawer_opening": false,
+  "drawer_motor_command_used": false,
+  "failing_candidate_id": "v2_short_stub_island_densify_05",
+  "failing_perturbation": "fast_guarded_contact",
+  "failure_reasons": [
+    "pull_phase_two_pad_target_contact_frames_lt_30",
+    "max_drawer_fraction_lt_0p80"
+  ],
+  "forbidden_contact_frames": 0,
+  "generated_at_utc": "2026-05-05T20:24:04Z",
+  "goc_v4_authority_modified": false,
+  "handle_nonlegal_contact_frames": 0,
+  "interpretation": "Topology-realistic candidates and low-friction runner dynamics produced admitted candidates, but fast_guarded_contact still cannot simultaneously satisfy drawer_fraction>=0.80, two-pad retention, and forbidden_contact_frames=0. Opening-capable variants retain residual forbidden contact or two-pad loss; fully keepout-legal variants under-open.",
+  "max_drawer_fraction": 0.23949443066649453,
+  "old_accepted_pool_modified": false,
+  "pull_phase_two_pad_target_contact_frames": 0,
+  "targeted_shard_passed": false,
+  "thresholds_modified": false,
+  "variant_attempts": [
+    {
+      "failure_reasons": [
+        "pull_phase_two_pad_target_contact_frames_lt_30",
+        "forbidden_contact_present",
+        "max_drawer_fraction_lt_0p80"
+      ],
+      "forbidden_contact_frames": 6,
+      "handle_nonlegal_contact_frames": 0,
+      "max_drawer_fraction": 0.46816787844449015,
+      "passed": false,
+      "pull_phase_two_pad_target_contact_frames": 19,
+      "variant_name": "v2_fast_balanced_semiclose_null008"
+    },
+    {
+      "failure_reasons": [
+        "forbidden_contact_present",
+        "max_drawer_fraction_lt_0p80"
+      ],
+      "forbidden_contact_frames": 12,
+      "handle_nonlegal_contact_frames": 0,
+      "max_drawer_fraction": 0.533784082373489,
+      "passed": false,
+      "pull_phase_two_pad_target_contact_frames": 41,
+      "variant_name": "v2_fast_balanced_semiclose_null004"
+    },
+    {
+      "failure_reasons": [
+        "max_drawer_fraction_lt_0p80"
+      ],
+      "forbidden_contact_frames": 0,
+      "handle_nonlegal_contact_frames": 0,
+      "max_drawer_fraction": 0.030835700110513443,
+      "passed": false,
+      "pull_phase_two_pad_target_contact_frames": 1404,
+      "variant_name": "v2_fast_balanced_binary_null006"
+    },
+    {
+      "failure_reasons": [
+        "pull_phase_two_pad_target_contact_frames_lt_30",
+        "max_drawer_fraction_lt_0p80"
+      ],
+      "forbidden_contact_frames": 0,
+      "handle_nonlegal_contact_frames": 0,
+      "max_drawer_fraction": 0.23949443066649453,
+      "passed": false,
+      "pull_phase_two_pad_target_contact_frames": 0,
+      "variant_name": "v2_fast_axis_work_keepout_semiclose"
+    },
+    {
+      "failure_reasons": [
+        "forbidden_contact_present",
+        "max_drawer_fraction_lt_0p80"
+      ],
+      "forbidden_contact_frames": 21,
+      "handle_nonlegal_contact_frames": 0,
+      "max_drawer_fraction": 0.515877700501019,
+      "passed": false,
+      "pull_phase_two_pad_target_contact_frames": 805,
+      "variant_name": "pf04_firm_press_slow_axis_work_binary_close"
+    },
+    {
+      "failure_reasons": [
+        "max_drawer_fraction_lt_0p80"
+      ],
+      "forbidden_contact_frames": 0,
+      "handle_nonlegal_contact_frames": 0,
+      "max_drawer_fraction": 0.10850819843460867,
+      "passed": false,
+      "pull_phase_two_pad_target_contact_frames": 926,
+      "variant_name": "dh_solver_axis_work_moderate_press"
+    },
+    {
+      "failure_reasons": [
+        "forbidden_contact_present"
+      ],
+      "forbidden_contact_frames": 83,
+      "handle_nonlegal_contact_frames": 0,
+      "max_drawer_fraction": 1.0,
+      "passed": false,
+      "pull_phase_two_pad_target_contact_frames": 55,
+      "variant_name": "pc02_micro_lead_high_damping_semi_close"
+    },
+    {
+      "failure_reasons": [
+        "pull_phase_target_contact_frames_lt_80",
+        "pull_phase_two_pad_target_contact_frames_lt_30",
+        "max_drawer_fraction_lt_0p80"
+      ],
+      "forbidden_contact_frames": 0,
+      "handle_nonlegal_contact_frames": 0,
+      "max_drawer_fraction": 0.11948449756382451,
+      "passed": false,
+      "pull_phase_two_pad_target_contact_frames": 0,
+      "variant_name": "cd_keepout_micro_pull_low_press_ik_hold"
+    },
+    {
+      "failure_reasons": [
+        "max_drawer_fraction_lt_0p80"
+      ],
+      "forbidden_contact_frames": 0,
+      "handle_nonlegal_contact_frames": 0,
+      "max_drawer_fraction": 0.05003186195069993,
+      "passed": false,
+      "pull_phase_two_pad_target_contact_frames": 30,
+      "variant_name": "cd_keepout_slow_binary_close_low_gain"
+    },
+    {
+      "failure_reasons": [
+        "pull_phase_two_pad_target_contact_frames_lt_30",
+        "max_drawer_fraction_lt_0p80"
+      ],
+      "forbidden_contact_frames": 0,
+      "handle_nonlegal_contact_frames": 0,
+      "max_drawer_fraction": 0.17675608778735485,
+      "passed": false,
+      "pull_phase_two_pad_target_contact_frames": 0,
+      "variant_name": "dh_solver_bar_retention_semi_close"
+    },
+    {
+      "failure_reasons": [
+        "pull_phase_two_pad_target_contact_frames_lt_30",
+        "forbidden_contact_present"
+      ],
+      "forbidden_contact_frames": 6,
+      "handle_nonlegal_contact_frames": 0,
+      "max_drawer_fraction": 0.8236212453611446,
+      "passed": false,
+      "pull_phase_two_pad_target_contact_frames": 0,
+      "variant_name": "pf03_low_press_axis_work_ik_hold"
+    },
+    {
+      "failure_reasons": [
+        "pull_phase_target_contact_frames_lt_80",
+        "pull_phase_two_pad_target_contact_frames_lt_30",
+        "max_drawer_fraction_lt_0p80"
+      ],
+      "forbidden_contact_frames": 0,
+      "handle_nonlegal_contact_frames": 0,
+      "max_drawer_fraction": 0.0036206532427323804,
+      "passed": false,
+      "pull_phase_two_pad_target_contact_frames": 0,
+      "variant_name": "dh_solver_smooth_monotonic_ik_hold"
+    },
+    {
+      "failure_reasons": [
+        "pull_phase_target_contact_frames_lt_80",
+        "pull_phase_two_pad_target_contact_frames_lt_30",
+        "max_drawer_fraction_lt_0p80"
+      ],
+      "forbidden_contact_frames": 0,
+      "handle_nonlegal_contact_frames": 0,
+      "max_drawer_fraction": 0.05985957420493132,
+      "passed": false,
+      "pull_phase_two_pad_target_contact_frames": 0,
+      "variant_name": "dh_solver_keepout_micro_lead_semi"
+    }
+  ]
+}

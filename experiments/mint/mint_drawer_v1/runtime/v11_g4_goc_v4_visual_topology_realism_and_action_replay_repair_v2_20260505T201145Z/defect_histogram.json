@@ -1,0 +1,11 @@
+{
+  "defect_histogram": {
+    "ADMITTED": 7,
+    "APPROACH_CORRIDOR_BLOCKED": 1,
+    "CONTACT_HOLD_IK_INFEASIBLE": 1,
+    "TWO_PAD_RETENTION_FAILED": 1,
+    "max_drawer_fraction_lt_0p80": 1,
+    "pull_phase_two_pad_target_contact_frames_lt_30": 1
+  },
+  "generated_at_utc": "2026-05-05T20:24:04Z"
+}

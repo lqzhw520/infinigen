@@ -1,10 +1,10 @@
 {
   "current_truth_json_modified": false,
   "dataset_admission_review_ready": false,
-  "generated_at_utc": "2026-05-05T16:06:19Z",
+  "generated_at_utc": "2026-05-05T20:24:04Z",
   "next_actions_json_modified": false,
   "previous_physics_replay_success_preserved": true,
   "previous_success_not_relabelled_as_v2_dataset_ready": true,
   "proposal_id": "proposed_current_truth_delta_visual_topology_realism_action_replay_v2",
-  "v2_closeout_classification": "VISUAL_TOPOLOGY_REALISM_REPAIR_FAILED"
+  "v2_closeout_classification": "TOPOLOGY_REALISTIC_TARGETED_SHARD_FAILED"
 }

@@ -1,0 +1,72 @@
+{
+  "candidate_ids": [
+    "v2_short_stub_island_densify_15",
+    "v2_short_stub_island_densify_02",
+    "v2_short_stub_island_densify_04",
+    "v2_short_stub_island_densify_10",
+    "v2_short_stub_island_densify_05",
+    "v2_short_stub_island_densify_16",
+    "v2_short_stub_island_densify_18"
+  ],
+  "case_count": 7,
+  "controller_variant_by_case": [
+    {
+      "candidate_id": "v2_short_stub_island_densify_15",
+      "fast_keepout_override": false,
+      "perturbation": "nominal",
+      "variant_name": "pc02_micro_lead_high_damping_semi_close"
+    },
+    {
+      "candidate_id": "v2_short_stub_island_densify_02",
+      "fast_keepout_override": false,
+      "perturbation": "slow_guarded_contact",
+      "variant_name": "pc02_micro_lead_high_damping_semi_close"
+    },
+    {
+      "candidate_id": "v2_short_stub_island_densify_04",
+      "fast_keepout_override": false,
+      "perturbation": "qpos_small_plus",
+      "variant_name": "pc02_micro_lead_high_damping_semi_close"
+    },
+    {
+      "candidate_id": "v2_short_stub_island_densify_10",
+      "fast_keepout_override": false,
+      "perturbation": "qpos_small_minus",
+      "variant_name": "pc02_micro_lead_high_damping_semi_close"
+    },
+    {
+      "candidate_id": "v2_short_stub_island_densify_05",
+      "fast_keepout_override": true,
+      "perturbation": "fast_guarded_contact",
+      "variant_name": "v2_fast_balanced_semiclose_null008"
+    },
+    {
+      "candidate_id": "v2_short_stub_island_densify_16",
+      "fast_keepout_override": false,
+      "perturbation": "late_close",
+      "variant_name": "pc02_micro_lead_high_damping_semi_close"
+    },
+    {
+      "candidate_id": "v2_short_stub_island_densify_18",
+      "fast_keepout_override": false,
+      "perturbation": "nominal",
+      "variant_name": "pc02_micro_lead_high_damping_semi_close"
+    }
+  ],
+  "cycle": 1,
+  "generated_at_utc": "2026-05-05T20:13:45Z",
+  "hard_fail_reasons": [],
+  "source_mix": {
+    "generated_variant": 3,
+    "repaired_layout": 4
+  },
+  "supported_perturbations_used": [
+    "nominal",
+    "slow_guarded_contact",
+    "qpos_small_plus",
+    "qpos_small_minus",
+    "fast_guarded_contact",
+    "late_close"
+  ],
+  "v2_fast_keepout_controller_override": true
+}

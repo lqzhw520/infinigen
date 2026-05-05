@@ -1,7 +1,7 @@
 {
-  "generated_at_utc": "2026-05-05T16:06:19Z",
+  "generated_at_utc": "2026-05-05T20:24:04Z",
   "manual_visual_and_science_review_required": false,
   "mint_train_eval_allowed": false,
   "proposal_id": "proposed_next_actions_visual_topology_realism_action_replay_v2",
-  "recommended_next_gate": "VISUAL_DRAWER_TOPOLOGY_GENERATOR_REDESIGN"
+  "recommended_next_gate": "FAST_GUARDED_CONTACT_TOPOLOGY_REALISTIC_CONTROLLER_STRUCTURE_CO_DESIGN_REPAIR"
 }

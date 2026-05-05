@@ -1,0 +1,10 @@
+{
+  "cycle": 1,
+  "failure_histogram": {
+    "max_drawer_fraction_lt_0p80": 1,
+    "pull_phase_two_pad_target_contact_frames_lt_30": 1
+  },
+  "feed_back_to_operator_map": true,
+  "generated_at_utc": "2026-05-05T20:18:32Z",
+  "targeted_shard_passed": false
+}

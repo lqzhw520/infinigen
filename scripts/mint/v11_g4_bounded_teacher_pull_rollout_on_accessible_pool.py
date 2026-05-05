@@ -306,7 +306,6 @@ def run_pull_segment(env: Any, binding: dict[str, Any], candidate: dict[str, Any
     _, pull_start_fraction = drawer_qpos_and_fraction(env)
     total_steps = int(variant["pull_steps"]) + int(variant.get("post_pull_hold_steps", 0))
     include_replay_state = trace_path.name.startswith("variant_8") or "full30" in str(trace_path)
-    write_trace = include_replay_state or trace_path.name.startswith("variant_7") or "targeted" in str(trace_path)
     for step in range(total_steps):
         active = min(step, int(variant["pull_steps"]))
         raw_pull_offset = min(float(variant["pull_distance_m"]), float(variant["pull_velocity_m_per_step"]) * float(active))
@@ -321,8 +320,7 @@ def run_pull_segment(env: Any, binding: dict[str, Any], candidate: dict[str, Any
         rec["lead_cap_m"] = float(lead_cap) if lead_cap is not None else None
         rec["effective_pull_lead_m"] = float(pull_offset)
         records.append(rec)
-        if write_trace:
-            append_jsonl(trace_path, compact_trace_record(rec))
+        append_jsonl(trace_path, compact_trace_record(rec))
         prev_centers = report["centers"]
     return prev_centers
 

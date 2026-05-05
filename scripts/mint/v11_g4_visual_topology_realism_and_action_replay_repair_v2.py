@@ -48,13 +48,13 @@ ORIGINAL_SELECT_TARGETED_CANDIDATES = dh.select_targeted_candidates
 ORIGINAL_SELECT_CERTIFICATION_CANDIDATES = dh.select_certification_candidates
 
 CURATED_TARGETED_IDS = [
-    "v2_short_stub_island_densify_11",
     "v2_short_stub_island_densify_05",
     "v2_short_stub_island_densify_02",
     "v2_short_stub_island_densify_04",
-    "v2_short_stub_island_densify_08",
     "v2_short_stub_island_densify_10",
+    "v2_short_stub_island_densify_11",
     "v2_short_stub_island_densify_06",
+    "v2_short_stub_island_densify_08",
 ]
 CURATED_FULL30_IDS = [
     "v2_short_stub_island_densify_11",

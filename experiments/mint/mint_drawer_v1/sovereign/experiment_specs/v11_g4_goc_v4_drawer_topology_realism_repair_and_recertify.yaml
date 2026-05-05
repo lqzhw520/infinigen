@@ -1,5 +1,39 @@
 task_id: V11_G4_GOC_V4_DRAWER_TOPOLOGY_REALISM_REPAIR_AND_RECERTIFY_V1
 task_type: TOPOLOGY_REALISM_REPAIR_AND_DYNAMIC_PULL_RECERTIFICATION_PHASE
+task_version: "1.0.0"
+target_gate: DRAWER_TOPOLOGY_REALISTIC_DYNAMIC_PULL_STRICT_REPLAY_READY_FOR_DATASET_ADMISSION_REVIEW
+
+# Validator-compatible baseline authority. Runtime authority for this phase is
+# strict GOC-v4 per-instance binding plus candidate-specific dedicated-pad and
+# true-handle verification. This block keeps the existing V01 production
+# validator anchored to its established GOC-v3 exact-ID fixture interface.
+task_authority:
+  authority_type: GOC_V3_EXACT_GEOM_ID_SETS_AS_SOURCE_BASELINE_FOR_GOC_V4_TOPOLOGY_REALISM_REPAIR
+  goc_version: v3
+  goc_artifact_path: artifacts/phase1h_geometry_contract/goc_v3_contract.json
+  goc_contract: experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v3_contract.json
+  goc_contract_id: GOC_V3_EXACT_ID_GEOMETRY_OWNERSHIP_CONTRACT
+  legal_gripper_surface_geom_ids: [63, 81, 90]
+  forbidden_robot_surface_geom_ids: [45, 47, 49, 54, 59]
+  drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+  prohibited_authority:
+    - GOC-v2 count-only legal_pad=29 forbidden=26 handle=9
+    - runtime body-based legal=31 forbidden=27 without exact-ID role classification
+    - legacy name-only contact reports
+    - fixed drawer_handle_geom_ids=[0..8] as runtime authority without semantic verification
+    - broad-link, wrist, arm, or finger shell contact as target
+
+goc_v4_authority:
+  authority_type: GOC_V4_DEDICATED_FINGER_PAD_EXACT_GEOM_ID_SETS
+  per_instance_binding_required: true
+  exact_instance_binding_required: true
+  target_contact: legal_finger_pad_geom_ids <-> semantically_bound_drawer_handle_geom_ids only
+  forbidden_contact: nonlegal robot surfaces <-> drawer_handle/drawer/cabinet
+  broad_link_wrist_arm_finger_shell_target_rejected: true
+  body_based_31_27_rejected: true
+  name_only_contact_rejected: true
+  fixed_global_ids_may_not_be_reused_without_instance_verification: true
+
 phase: drawer_topology_realism_repair_and_recertify
 target:
   - topology-realistic generated/repaired drawer candidate pool

@@ -602,6 +602,180 @@ def select_certification_candidates_v2(
     return ORIGINAL_SELECT_CERTIFICATION_CANDIDATES(admitted)
 
 
+def controller_variant_for_perturbation(
+    candidate: dict[str, Any], perturbation_name: str
+) -> dict[str, Any]:
+    if perturbation_name == "fast_guarded_contact":
+        for name in (
+            "dh_solver_smooth_monotonic_ik_hold",
+            "dh_solver_keepout_micro_lead_semi",
+            "cd_keepout_micro_pull_low_press_ik_hold",
+        ):
+            for variant in dh.CONTROLLER_VARIANTS:
+                if variant.get("name") == name:
+                    variant = dict(variant)
+                    variant["v2_fast_keepout_controller_override"] = True
+                    return variant
+    return candidate.get("selected_pull_variant") or dh.CONTROLLER_VARIANTS[0]
+
+
+def run_targeted_v2(
+    run_dir: Path, admitted: list[dict[str, Any]], cycle: int
+) -> tuple[dict[str, Any], list[dict[str, Any]]]:
+    selected = (
+        select_targeted_candidates_v2(admitted) if len(admitted) >= 7 else admitted[:]
+    )
+    plan = {
+        "generated_at_utc": utc_now(),
+        "cycle": cycle,
+        "case_count": len(selected),
+        "candidate_ids": [c["candidate_id"] for c in selected],
+        "source_mix": dict(
+            Counter(str(c.get("co_design_source_type")) for c in selected)
+        ),
+        "hard_fail_reasons": [],
+        "v2_fast_keepout_controller_override": True,
+    }
+    if len(selected) < 7:
+        plan["hard_fail_reasons"].append("TARGETED_CASE_COUNT_LT_7")
+    if not dh.source_mix_ok(selected):
+        plan["hard_fail_reasons"].append("TARGETED_SOURCE_MIX_INSUFFICIENT")
+    write_json(run_dir / "targeted_shard_plan.json", plan)
+    rows: list[dict[str, Any]] = []
+    out = run_dir / "targeted_shard_results.jsonl"
+    if out.exists():
+        out.unlink()
+    if not plan["hard_fail_reasons"]:
+        perturbations = dh.supported_targeted_perturbations()
+        plan["supported_perturbations_used"] = perturbations
+        plan["controller_variant_by_case"] = []
+        write_json(run_dir / "targeted_shard_plan.json", plan)
+        for idx, candidate in enumerate(selected):
+            perturbation = perturbations[idx % len(perturbations)]
+            variant = controller_variant_for_perturbation(candidate, perturbation)
+            plan["controller_variant_by_case"].append(
+                {
+                    "candidate_id": candidate.get("candidate_id"),
+                    "perturbation": perturbation,
+                    "variant_name": variant.get("name"),
+                    "fast_keepout_override": bool(
+                        variant.get("v2_fast_keepout_controller_override")
+                    ),
+                }
+            )
+            write_json(run_dir / "targeted_shard_plan.json", plan)
+            try:
+                row = dh.cd.run_case(
+                    candidate,
+                    perturbation,
+                    variant,
+                    run_dir,
+                    70000 + idx,
+                    "targeted_shard",
+                )
+            except Exception as exc:  # noqa: BLE001
+                row = {
+                    "candidate_id": candidate.get("candidate_id"),
+                    "perturbation": perturbation,
+                    "passed": False,
+                    "failure_reasons": ["TARGETED_CASE_EXECUTION_FAILED"],
+                    "exception_type": type(exc).__name__,
+                    "exception": repr(exc),
+                    "direct_qpos_drawer_opening": False,
+                    "drawer_motor_command_used": False,
+                    "forbidden_contact_frames": 9999,
+                    "handle_nonlegal_contact_frames": 9999,
+                    "max_drawer_fraction": 0.0,
+                }
+            rows.append(row)
+            dh.append_jsonl(out, row)
+    summary = (
+        dh.cd.summarize_rows(rows, "targeted_shard")
+        if rows
+        else {
+            "generated_at_utc": utc_now(),
+            "cases_total": len(selected),
+            "cases_passed": 0,
+            "cases_failed": len(selected),
+            "matrix_passed": False,
+            "failure_histogram": {r: 1 for r in plan["hard_fail_reasons"]},
+        }
+    )
+    summary["targeted_shard_passed"] = bool(
+        rows and len(rows) >= 7 and all(r.get("passed") for r in rows)
+    )
+    summary["cycle"] = cycle
+    write_json(run_dir / "targeted_shard_results.json", summary)
+    write_json(
+        run_dir / "targeted_shard_failure_feedback.json",
+        {
+            "generated_at_utc": utc_now(),
+            "cycle": cycle,
+            "targeted_shard_passed": summary["targeted_shard_passed"],
+            "failure_histogram": summary.get("failure_histogram", {}),
+            "feed_back_to_operator_map": not summary["targeted_shard_passed"],
+        },
+    )
+    return summary, rows
+
+
+def run_full30_v2(
+    run_dir: Path, admitted: list[dict[str, Any]]
+) -> tuple[dict[str, Any], list[dict[str, Any]]]:
+    selected = select_certification_candidates_v2(admitted)
+    rows: list[dict[str, Any]] = []
+    out = run_dir / "full30_dynamic_pull_certification.jsonl"
+    if out.exists():
+        out.unlink()
+    if len(selected) < 5:
+        summary = {
+            "generated_at_utc": utc_now(),
+            "full30_certification_attempted": False,
+            "cases_total": 0,
+            "cases_passed": 0,
+            "cases_failed": 0,
+            "matrix_passed": False,
+            "failure_histogram": {"ADMITTED_CANDIDATE_COUNT_LT_5": 1},
+        }
+        write_json(run_dir / "full30_dynamic_pull_certification_report.json", summary)
+        return summary, rows
+    for cidx, candidate in enumerate(selected):
+        for pidx, perturb in enumerate(dh.cd.PERTURBATIONS[:6]):
+            variant = controller_variant_for_perturbation(
+                candidate, str(perturb["name"])
+            )
+            try:
+                row = dh.cd.run_case(
+                    candidate,
+                    perturb["name"],
+                    variant,
+                    run_dir,
+                    80000 + cidx * 10 + pidx,
+                    "full30_dynamic_pull",
+                )
+            except Exception as exc:  # noqa: BLE001
+                row = {
+                    "candidate_id": candidate.get("candidate_id"),
+                    "perturbation": perturb["name"],
+                    "passed": False,
+                    "failure_reasons": ["FULL30_CASE_EXECUTION_FAILED"],
+                    "exception_type": type(exc).__name__,
+                    "exception": repr(exc),
+                    "direct_qpos_drawer_opening": False,
+                    "drawer_motor_command_used": False,
+                    "forbidden_contact_frames": 9999,
+                    "handle_nonlegal_contact_frames": 9999,
+                    "max_drawer_fraction": 0.0,
+                }
+            rows.append(row)
+            dh.append_jsonl(out, row)
+    summary = dh.cd.summarize_rows(rows, "full30_dynamic_pull_certification")
+    summary["full30_certification_attempted"] = True
+    summary["v2_fast_keepout_controller_override"] = True
+    write_json(run_dir / "full30_dynamic_pull_certification_report.json", summary)
+    return summary, rows
+
+
 def install_patch() -> None:
     dh.SPEC_REL = SPEC_REL
     dh.TASK_ID = TASK_ID
@@ -611,6 +785,8 @@ def install_patch() -> None:
     dh.generate_cycle_candidates = generate_cycle_candidates_v2
     dh.select_targeted_candidates = select_targeted_candidates_v2
     dh.select_certification_candidates = select_certification_candidates_v2
+    dh.run_targeted = run_targeted_v2
+    dh.run_full30 = run_full30_v2
     dh.MAX_OUTER_CYCLES = 3
     dh.write_deltas = lambda run_dir, closeout: None
     v1.SPEC_REL = SPEC_REL

@@ -1,0 +1,293 @@
+task_id: V11_G4_GOC_V4_VISUAL_TOPOLOGY_REALISM_AND_ACTION_REPLAY_REPAIR_V2
+task_type: VISUAL_TOPOLOGY_REALISM_AND_ACTION_REPLAY_REPAIR_PHASE
+task_version: 2.0.0
+target_gate: VISUAL_TOPOLOGY_REALISM_AND_ACTION_REPLAY_DATASET_ADMISSION_REVIEW_READY
+task_authority:
+  authority_type: GOC_V3_EXACT_GEOM_ID_SETS_AS_SOURCE_BASELINE_FOR_GOC_V4_TOPOLOGY_REALISM_REPAIR
+  goc_version: v3
+  goc_artifact_path: artifacts/phase1h_geometry_contract/goc_v3_contract.json
+  goc_contract: experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v3_contract.json
+  goc_contract_id: GOC_V3_EXACT_ID_GEOMETRY_OWNERSHIP_CONTRACT
+  legal_gripper_surface_geom_ids:
+  - 63
+  - 81
+  - 90
+  forbidden_robot_surface_geom_ids:
+  - 45
+  - 47
+  - 49
+  - 54
+  - 59
+  drawer_handle_geom_ids:
+  - 0
+  - 1
+  - 2
+  - 3
+  - 4
+  - 5
+  - 6
+  - 7
+  - 8
+  prohibited_authority:
+  - GOC-v2 count-only legal_pad=29 forbidden=26 handle=9
+  - runtime body-based legal=31 forbidden=27 without exact-ID role classification
+  - legacy name-only contact reports
+  - fixed drawer_handle_geom_ids=[0..8] as runtime authority without semantic verification
+  - broad-link, wrist, arm, or finger shell contact as target
+goc_v4_authority:
+  authority_type: GOC_V4_DEDICATED_FINGER_PAD_EXACT_GEOM_ID_SETS
+  per_instance_binding_required: true
+  exact_instance_binding_required: true
+  target_contact: legal_finger_pad_geom_ids <-> semantically_bound_drawer_handle_geom_ids only
+  forbidden_contact: nonlegal robot surfaces <-> drawer_handle/drawer/cabinet
+  broad_link_wrist_arm_finger_shell_target_rejected: true
+  body_based_31_27_rejected: true
+  name_only_contact_rejected: true
+  fixed_global_ids_may_not_be_reused_without_instance_verification: true
+phase: visual_topology_realism_and_action_replay_repair_v2
+target:
+- short-stub spherical knob drawer topology aligned to manual visual target
+- complete moving drawer box with front, side walls, bottom, and back
+- visible support rails/runners or guide semantics for open drawer
+- dynamic pull full certification
+- strict export
+- local strict replay/render
+- action-only replay spot check
+- dataset-admission-review-ready evidence
+claim_boundary:
+  previous_dynamic_pull_closeout: DYNAMIC_PULL_ACCESSIBLE_POOL_STRICT_EXPORT_LOCAL_REPLAY_READY
+  previous_closeout_preserved_as: physics/contact/export/local-state-replay pipeline ready on generated simplified drawer variants
+  previous_run_not_invalidated: true
+  previous_run_not_dataset_admission_ready: true
+  previous_v1_topology_not_reused_as_final_dataset_ready: true
+  manual_review_blocker: V1 fixed floating/front-only defects but still allowed an overlong thin connector and insufficient support semantics
+  this_phase_claim: create a visually realistic short-stub knob and supported drawer-box pool and recertify dynamics/export/replay/action-only
+success_requires:
+  topology_realism_passed: true
+  knob_connector_realism_passed: true
+  drawer_box_completeness_passed: true
+  anti_floating_support_passed: true
+  robust_contact_dynamics_passed: true
+  dynamic_pull_certification_passed: true
+  strict_teacher_export_complete: true
+  local_strict_replay_passed: true
+  action_only_replay_spot_check_passed: true
+  dataset_admission_review_packet_written: true
+fixtures:
+  fixture_valid_authority_match:
+    runtime_exact_ids:
+      legal_gripper_surface_geom_ids:
+      - 63
+      - 81
+      - 90
+      forbidden_robot_surface_geom_ids:
+      - 45
+      - 47
+      - 49
+      - 54
+      - 59
+      drawer_handle_geom_ids:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+    expected: PASS
+  fixture_invalid_authority_drift:
+    runtime_exact_ids:
+      legal_gripper_surface_geom_ids:
+      - 60
+      - 61
+      - 62
+      forbidden_robot_surface_geom_ids:
+      - 45
+      - 47
+      - 49
+      - 54
+      - 59
+      drawer_handle_geom_ids:
+      - 0
+      - 1
+      - 2
+      - 3
+      - 4
+      - 5
+      - 6
+      - 7
+      - 8
+    expected: FAIL
+    expected_error: AUTHORITY_MISMATCH
+topology_invariants:
+  knob_connector_realism_invariant:
+    required_for_sphere_knob: true
+    connector_type: short_boss_or_stub
+    stub_length_lte_knob_diameter_ratio: 0.35
+    stub_length_preferred_knob_diameter_ratio_range:
+    - 0.1
+    - 0.25
+    long_rod_connectors_forbidden: true
+    max_unsupported_gap_m: 0.005
+    same_body_hierarchy_alone_is_insufficient: true
+  drawer_box_completeness_invariant:
+    front: true
+    left_side: true
+    right_side: true
+    bottom: true
+    back: true
+    front_only_moving_body_rejected: true
+    tray_nonzero_volume_required: true
+  support_anti_floating_invariant:
+    required: true
+    visible_rails_or_guides_required: true
+    open_drawer_cannot_look_unsupported: true
+    body_hierarchy_alone_sufficient: false
+  visual_physical_topology_consistency_invariant:
+    no_fake_invisible_support: true
+    visual_only_support_insufficient: true
+    collision_only_support_for_dataset_ready_output_rejected: true
+    no_fake_collision_demotion: true
+  generated_variant_provenance_invariant:
+    generated_or_repaired_variant_must_declare_topology_params: true
+    do_not_claim_raw_infinigen_asset_defect_without_separate_audit: true
+  dynamic_consistency_invariant:
+    strict_goc_v4_authority: true
+    forbidden_contact_frames: 0
+    handle_nonlegal_contact_frames: 0
+    max_penetration_m_lte: 0.02
+    max_force_n_finite_lte: 1000000.0
+    drawer_fraction_gte: 0.8
+    drawer_qpos_monotonic: true
+    no_direct_qpos: true
+    no_drawer_motor_command: true
+governance:
+  authoritative_remote_repo: /mnt/afs2/zhuhaowu/infinigen
+  remote_branch: feature/mint-env-reformulation-v1-visual-fidelity
+  campaign_root: experiments/mint/mint_drawer_v1
+  local_playground_root: /Users/zhuhaowu/Documents/Playground
+  reference_visual: /Users/zhuhaowu/Downloads/829cf360-90cc-4a6e-8a6a-b0e4321db4e2.png
+  remote_run_dir_prefix: experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_visual_topology_realism_and_action_replay_repair_v2_
+  local_replay_dir_prefix: /Users/zhuhaowu/Documents/Playground/local_replay/v11_g4_goc_v4_visual_topology_realism_and_action_replay_repair_v2_
+  wall_clock_hard_limit_hours: 8
+  baseline_dirty_allowed:
+  - .project-memory/STATUS.md
+  - .session/checkpoint.md
+  forbidden_files:
+  - external/MINT/*
+  - experiments/mint/mint_drawer_v1/sovereign/current_truth.json
+  - experiments/mint/mint_drawer_v1/sovereign/next_actions.json
+  allowed_files:
+  - scripts/mint/v11_g4_drawer_topology_realism_repair.py
+  - scripts/mint/v11_g4_defect_histogram_dynamic_pull_pool_solver.py
+  - scripts/mint/v11_g4_dynamic_pull_accessible_pool_co_design.py
+  - scripts/mint/contact_aware_drawer_teacher.py
+  - scripts/mint/merged_model_builder.py
+  - scripts/mint/drawer_robot_env_mujoco.py
+  - scripts/mint/export_full_robot_teacher_replay_bundle.py
+  - experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_*/**
+  - experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_drawer_topology_realism_repair.json
+  - experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_drawer_topology_realism_repair.json
+  - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json
+  - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock_report.json
+  - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_attestation.json
+  - scripts/mint/v11_g4_visual_topology_realism_and_action_replay_repair_v2.py
+  - experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_visual_topology_realism_and_action_replay_repair_v2.yaml
+  - experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_visual_topology_realism_and_action_replay_repair_v2_*/**
+  - experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_visual_topology_realism_action_replay_v2.json
+  - experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_visual_topology_realism_action_replay_v2.json
+stages:
+  stage_minus1_grounding_and_governance_setup:
+    outputs:
+    - stage_minus1_grounding_and_governance.json
+    - commands.log
+  stage0_visual_target_ingestion:
+    outputs:
+    - visual_topology_target_description.json
+    - visual_topology_target_description.md
+  stage1_current_pool_topology_audit:
+    outputs:
+    - current_pool_visual_topology_audit.json
+    - current_pool_visual_topology_audit.md
+  stage2_repair_generation_operators:
+    outputs:
+    - visual_topology_repair_operator_map.json
+    - visual_topology_repair_operator_map.md
+  stage3_targeted_shard_rapid_iteration:
+    outputs:
+    - targeted_visual_topology_action_replay_shard_results.json
+    - targeted_visual_topology_repair_cycles.jsonl
+  stage4_full_certification_loop:
+    outputs:
+    - full30_visual_topology_dynamic_pull_certification.jsonl
+    - full30_visual_topology_dynamic_pull_certification_report.json
+  stage5_action_only_replay_check:
+    outputs:
+    - action_only_replay_spot_check.json
+  stage6_final_review_gate:
+    outputs:
+    - dataset_admission_review_packet.md
+    - final_closeout.json
+    - final_closeout.md
+closeout_mapping:
+  success:
+    closeout_classification: VISUAL_TOPOLOGY_REALISM_AND_ACTION_REPLAY_DATASET_ADMISSION_REVIEW_READY
+    next_gate: MANUAL_VISUAL_AND_SCIENCE_REVIEW_FOR_DATASET_ADMISSION
+  topology_failed:
+    closeout_classification: VISUAL_TOPOLOGY_REALISM_REPAIR_FAILED
+    next_gate: VISUAL_DRAWER_TOPOLOGY_GENERATOR_REDESIGN
+  dynamic_failed:
+    closeout_classification: VISUAL_TOPOLOGY_DYNAMIC_PULL_RECERTIFICATION_FAILED
+    next_gate: TOPOLOGY_REALISTIC_DYNAMIC_PULL_REPAIR
+  export_failed:
+    closeout_classification: STRICT_EXPORT_FAILED_AFTER_VISUAL_TOPOLOGY_REPAIR
+    next_gate: STRICT_EXPORT_INFRA_REPAIR
+  local_replay_failed:
+    closeout_classification: LOCAL_STRICT_REPLAY_FAILED_AFTER_VISUAL_TOPOLOGY_REPAIR
+    next_gate: LOCAL_STRICT_REPLAY_RENDER_REPAIR
+  action_only_failed:
+    closeout_classification: ACTION_ONLY_REPLAY_SPOT_CHECK_FAILED
+    next_gate: ACTION_REPLAY_DATASET_ADMISSION_REPAIR
+  time_budget_exhausted:
+    closeout_classification: TIME_BUDGET_EXHAUSTED
+visual_topology_target:
+  closed_state:
+    handle_kind: sphere_knob
+    required_chain: drawer front -> short cylindrical boss/stub -> spherical knob
+    long_thin_rod_forbidden: true
+    stub_length_lte_knob_diameter_ratio: 0.35
+    stub_length_preferred_knob_diameter_ratio_range:
+    - 0.1
+    - 0.25
+    knob_to_front_visually_tight: true
+  open_state:
+    moving_drawer_body_required_parts:
+    - front_panel
+    - left_side_wall
+    - right_side_wall
+    - bottom_panel
+    - back_panel
+    open_top_allowed: true
+    front_panel_only_forbidden: true
+    support_required:
+    - rails
+    - runners
+    - guide_strips
+    - guide_grooves
+    - retained_overlap_with_declared_support_semantics
+repair_budget:
+  wall_clock_hard_limit_hours: 8
+  max_repair_cycles: 6
+  targeted_shard_first: true
+  do_not_stop_at_first_failed_subgate: true
+failure_taxonomy:
+- topology_defect
+- support_defect
+- connector_defect
+- controller_defect
+- action_replay_defect
+- mixed_defect
+- governance_defect
+- infra_defect

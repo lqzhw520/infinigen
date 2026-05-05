@@ -1,0 +1,13 @@
+{
+  "admitted_candidate_ids": [],
+  "admitted_count": 0,
+  "candidate_count": 68,
+  "dominant_failure_histogram": {
+    "APPROACH_CORRIDOR_BLOCKED": 2,
+    "CONTACT_HOLD_IK_INFEASIBLE": 2,
+    "GUARDED_IK_INFEASIBLE": 3,
+    "PREGRASP_IK_INFEASIBLE": 38,
+    "VISUAL_PHYSICAL_CONSISTENCY_FAILED": 23
+  },
+  "generated_at_utc": "2026-05-05T16:05:16Z"
+}

@@ -1,0 +1,28 @@
+{
+  "admitted_count": 0,
+  "best_legal_candidate_id": null,
+  "best_legal_drawer_fraction": 0.0,
+  "best_legal_max_penetration_m": 0.0,
+  "best_legal_target_contact_frames": 0,
+  "best_legal_two_pad_retention_frames": 0,
+  "best_overall_candidate_id": null,
+  "best_overall_drawer_fraction": 0.0,
+  "best_overall_forbidden_contact_frames": 0,
+  "candidate_count": 8,
+  "cumulative_admitted_count": 0,
+  "cycle": 3,
+  "defect_label_histogram": {
+    "STRUCTURE_DEFECT": 8
+  },
+  "dominant_failure_histogram": {
+    "PREGRASP_IK_INFEASIBLE": 5,
+    "VISUAL_PHYSICAL_CONSISTENCY_FAILED": 3
+  },
+  "generated_at_utc": "2026-05-05T16:04:45Z",
+  "operator_progress_metric": [
+    0,
+    0.0,
+    0,
+    0
+  ]
+}

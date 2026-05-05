@@ -1,0 +1,8 @@
+{
+  "attestation_passed": true,
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "generated_at_utc": "2026-05-05T16:06:15Z",
+  "harness_preflight_passed": false,
+  "head": "dd9fb44ca9443bf1060853a5e7f53d51d3d155dd",
+  "production_lock_bound_to_spec": true
+}

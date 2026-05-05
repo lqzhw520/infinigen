@@ -1,0 +1,13 @@
+{
+  "body_hierarchy_alone_support_insufficient": true,
+  "closed_state": "drawer front -> short cylindrical boss/stub -> spherical knob",
+  "front_only_drawer_forbidden": true,
+  "generated_at_utc": "2026-05-05T16:03:39Z",
+  "long_rod_forbidden": true,
+  "open_state": "complete open-top drawer box with visible runners/guide strips",
+  "preferred_stub_ratio_range": [
+    0.1,
+    0.25
+  ],
+  "stub_length_lte_knob_diameter_ratio": 0.35
+}

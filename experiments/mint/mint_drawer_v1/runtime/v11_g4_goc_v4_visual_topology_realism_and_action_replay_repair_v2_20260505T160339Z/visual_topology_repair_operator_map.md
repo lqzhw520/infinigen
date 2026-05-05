@@ -1,0 +1,9 @@
+# Visual Topology Repair Operator Map
+
+- connector-too-long / knob-too-detached: move drawer front plane near knob rear surface, replace long stem with short boss/stub, reject stub_length/knob_diameter > 0.35
+- front-only drawer body: add moving left/right sides, add bottom panel, add back panel
+- unsupported-open-drawer: add visible cabinet runners, add moving guide strips
+- repaired topology breaks legal contact: shrink boss/plate within visual bounds, adjust local clearance without invisible geometry
+- repaired topology breaks keepout: move rails away from wrist corridor, adjust side clearance
+- repaired topology breaks dynamic pull: recover previous strict controller variant, retune within strict thresholds
+- repaired topology breaks replay consistency: verify qpos/qvel/ctrl/action traces, rerun state replay and velocity-servo action spot check

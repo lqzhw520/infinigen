@@ -243,7 +243,7 @@ class V2ShortStubSupportedDrawerBuilder(ORIGINAL_BUILDER):
             v.get("cabinet_half_width", max(0.31, tray_half_width + 0.14))
         )
         cabinet_half_height = float(v.get("cabinet_half_height", 0.28))
-        cabinet_x = float(v.get("cabinet_x_v2", door_x + cabinet_depth * 0.55))
+        cabinet_x = float(v.get("cabinet_x", 0.18))
         damping = float(v.get("drawer_damping", 8.0))
         cutout_half_width = min(
             float(v.get("cutout_half_width", door_half_width * 0.62)),

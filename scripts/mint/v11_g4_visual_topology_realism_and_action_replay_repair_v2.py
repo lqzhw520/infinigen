@@ -223,7 +223,7 @@ class V2ShortStubSupportedDrawerBuilder(ORIGINAL_BUILDER):
         radius = float(v.get("handle_radius", 0.023))
         stub_len = float(v.get("stub_length", 0.18 * (2.0 * radius)))
         stub_len = min(max(stub_len, 0.10 * (2.0 * radius)), 0.25 * (2.0 * radius))
-        stub_radius = float(v.get("stub_radius", min(radius * 0.48, 0.011)))
+        stub_radius = float(v.get("stub_radius", min(radius * 0.35, 0.008)))
         pull_axis_s = " ".join(str(float(x)) for x in v.get("pull_axis", [-1, 0, 0]))
         front_half_thickness = float(v.get("front_half_thickness", 0.018))
         front_face_x = hx + radius + stub_len
@@ -267,14 +267,41 @@ class V2ShortStubSupportedDrawerBuilder(ORIGINAL_BUILDER):
         stem_start_x = hx + radius
         stem_end_x = front_face_x
         plate_x = front_face_x + 0.004
-        plate_half_y = max(radius * 1.55, 0.036)
-        plate_half_z = max(radius * 1.55, 0.036)
-        front_xml = f"""
-    <geom name="drawer_front_left_panel_collision" type="box" pos="{door_x:.4f} {cabinet_y - side_y:.4f} {cabinet_z:.4f}" size="{front_half_thickness:.4f} {side_width:.4f} {door_half_height:.4f}" contype="1" conaffinity="1" rgba="0.90 0.88 0.84 1"/>
-    <geom name="drawer_front_right_panel_collision" type="box" pos="{door_x:.4f} {cabinet_y + side_y:.4f} {cabinet_z:.4f}" size="{front_half_thickness:.4f} {side_width:.4f} {door_half_height:.4f}" contype="1" conaffinity="1" rgba="0.90 0.88 0.84 1"/>
-    <geom name="drawer_front_top_panel_collision" type="box" pos="{door_x:.4f} {cabinet_y:.4f} {cabinet_z + top_z:.4f}" size="{front_half_thickness:.4f} {cutout_half_width:.4f} {top_height:.4f}" contype="1" conaffinity="1" rgba="0.90 0.88 0.84 1"/>
-    <geom name="drawer_front_bottom_panel_collision" type="box" pos="{door_x:.4f} {cabinet_y:.4f} {cabinet_z - top_z:.4f}" size="{front_half_thickness:.4f} {cutout_half_width:.4f} {top_height:.4f}" contype="1" conaffinity="1" rgba="0.90 0.88 0.84 1"/>
-    <geom name="drawer_front_mounting_plate_collision" type="box" pos="{plate_x:.4f} {hy:.4f} {hz:.4f}" size="0.0045 {plate_half_y:.4f} {plate_half_z:.4f}" contype="1" conaffinity="1" rgba="0.82 0.79 0.73 1"/>"""
+        plate_half_y = max(radius * 1.05, 0.024)
+        plate_half_z = max(radius * 1.05, 0.024)
+        front_parts = []
+        side_segments = 6
+        side_seg_half_h = door_half_height / (side_segments * 1.35)
+        side_start_z = cabinet_z - door_half_height + side_seg_half_h * 1.15
+        side_step_z = (2.0 * door_half_height - 2.3 * side_seg_half_h) / max(
+            1, side_segments - 1
+        )
+        for j in range(side_segments):
+            z = side_start_z + j * side_step_z
+            front_parts.append(
+                f'<geom name="drawer_front_left_panel_{j}_collision" type="box" pos="{door_x:.4f} {cabinet_y - side_y:.4f} {z:.4f}" size="{front_half_thickness:.4f} {side_width:.4f} {side_seg_half_h:.4f}" contype="1" conaffinity="1" rgba="0.90 0.88 0.84 1"/>'
+            )
+            front_parts.append(
+                f'<geom name="drawer_front_right_panel_{j}_collision" type="box" pos="{door_x:.4f} {cabinet_y + side_y:.4f} {z:.4f}" size="{front_half_thickness:.4f} {side_width:.4f} {side_seg_half_h:.4f}" contype="1" conaffinity="1" rgba="0.90 0.88 0.84 1"/>'
+            )
+        cap_segments = 6
+        cap_seg_half_w = cutout_half_width / (cap_segments * 1.30)
+        cap_start_y = cabinet_y - cutout_half_width + cap_seg_half_w * 1.10
+        cap_step_y = (2.0 * cutout_half_width - 2.2 * cap_seg_half_w) / max(
+            1, cap_segments - 1
+        )
+        for j in range(cap_segments):
+            y = cap_start_y + j * cap_step_y
+            front_parts.append(
+                f'<geom name="drawer_front_top_panel_{j}_collision" type="box" pos="{door_x:.4f} {y:.4f} {cabinet_z + top_z:.4f}" size="{front_half_thickness:.4f} {cap_seg_half_w:.4f} {top_height:.4f}" contype="1" conaffinity="1" rgba="0.90 0.88 0.84 1"/>'
+            )
+            front_parts.append(
+                f'<geom name="drawer_front_bottom_panel_{j}_collision" type="box" pos="{door_x:.4f} {y:.4f} {cabinet_z - top_z:.4f}" size="{front_half_thickness:.4f} {cap_seg_half_w:.4f} {top_height:.4f}" contype="1" conaffinity="1" rgba="0.90 0.88 0.84 1"/>'
+            )
+        front_parts.append(
+            f'<geom name="drawer_front_mounting_plate_collision" type="box" pos="{plate_x:.4f} {hy:.4f} {hz:.4f}" size="0.0045 {plate_half_y:.4f} {plate_half_z:.4f}" contype="1" conaffinity="1" rgba="0.82 0.79 0.73 1"/>'
+        )
+        front_xml = "\n    ".join(front_parts)
         tray_xml = f"""
     <geom name="drawer_tray_bottom_collision" type="box" pos="{tray_center_x:.4f} {cabinet_y:.4f} {tray_bottom_z:.4f}" size="{tray_depth / 2.0:.4f} {tray_half_width:.4f} {tray_wall:.4f}" contype="1" conaffinity="1" rgba="0.76 0.72 0.66 1"/>
     <geom name="drawer_tray_left_side_collision" type="box" pos="{tray_center_x:.4f} {cabinet_y - tray_half_width:.4f} {cabinet_z - tray_wall_height / 2.0:.4f}" size="{tray_depth / 2.0:.4f} {tray_wall:.4f} {tray_wall_height:.4f}" contype="1" conaffinity="1" rgba="0.76 0.72 0.66 1"/>

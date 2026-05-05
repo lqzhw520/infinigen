@@ -54,7 +54,7 @@ CURATED_TARGETED_IDS = [
     "v2_short_stub_island_densify_10",
     "v2_short_stub_island_densify_05",
     "v2_short_stub_island_densify_16",
-    "v2_short_stub_island_densify_17",
+    "v2_short_stub_island_densify_18",
 ]
 CURATED_FULL30_IDS = [
     "v2_short_stub_island_densify_05",
@@ -530,9 +530,10 @@ def generate_cycle_candidates_v2(cycle: int) -> list[dict[str, Any]]:
         ("generated_variant", -0.652, -0.091, -0.180, -0.071, 0.402, -26, 0.024),
         ("generated_variant", -0.651, -0.092, -0.179, -0.072, 0.403, -27, 0.024),
         ("repaired_layout", -0.649, -0.089, -0.177, -0.069, 0.402, -25, 0.024),
+        ("repaired_layout", -0.654, -0.093, -0.181, -0.073, 0.403, -28, 0.024),
     ]
     out = []
-    keep_indices = {2, 4, 5, 10, 15, 16, 17}
+    keep_indices = {2, 4, 5, 10, 15, 16, 18}
     for i, (source, base_x, base_y, hx, hy, hz, yaw, radius) in enumerate(
         grid, start=1
     ):

@@ -603,19 +603,89 @@ def select_certification_candidates_v2(
 
 
 def fast_controller_variants_v2() -> list[dict[str, Any]]:
+    custom_variants: list[dict[str, Any]] = [
+        {
+            "name": "v2_fast_balanced_semiclose_null008",
+            "pull_steps": 6000,
+            "post_pull_hold_steps": 0,
+            "pull_velocity_m_per_step": 0.00008,
+            "pull_distance_m": 0.35,
+            "lead_cap_m": 0.018,
+            "pull_press_m": 0.004,
+            "op_gain": 14.0,
+            "op_vel_limit": 0.095,
+            "q_vel_limit": 2.20,
+            "null_gain": 0.08,
+            "servo_kp": 380.0,
+            "servo_kd": 120.0,
+            "finger_mode": "semi_close",
+        },
+        {
+            "name": "v2_fast_balanced_semiclose_null004",
+            "pull_steps": 6000,
+            "post_pull_hold_steps": 0,
+            "pull_velocity_m_per_step": 0.00008,
+            "pull_distance_m": 0.35,
+            "lead_cap_m": 0.018,
+            "pull_press_m": 0.004,
+            "op_gain": 15.0,
+            "op_vel_limit": 0.105,
+            "q_vel_limit": 2.45,
+            "null_gain": 0.04,
+            "servo_kp": 405.0,
+            "servo_kd": 116.0,
+            "finger_mode": "semi_close",
+        },
+        {
+            "name": "v2_fast_balanced_binary_null006",
+            "pull_steps": 5800,
+            "post_pull_hold_steps": 0,
+            "pull_velocity_m_per_step": 0.000085,
+            "pull_distance_m": 0.35,
+            "lead_cap_m": 0.020,
+            "pull_press_m": 0.0045,
+            "op_gain": 13.0,
+            "op_vel_limit": 0.095,
+            "q_vel_limit": 2.30,
+            "null_gain": 0.06,
+            "servo_kp": 370.0,
+            "servo_kd": 112.0,
+            "finger_mode": "binary_close",
+        },
+        {
+            "name": "v2_fast_axis_work_keepout_semiclose",
+            "pull_steps": 6200,
+            "post_pull_hold_steps": 0,
+            "pull_velocity_m_per_step": 0.000075,
+            "pull_distance_m": 0.35,
+            "lead_cap_m": 0.026,
+            "pull_press_m": 0.003,
+            "op_gain": 11.5,
+            "op_vel_limit": 0.085,
+            "q_vel_limit": 2.00,
+            "null_gain": 0.12,
+            "servo_kp": 330.0,
+            "servo_kd": 118.0,
+            "finger_mode": "semi_close",
+        },
+    ]
     names = (
+        "pf04_firm_press_slow_axis_work_binary_close",
+        "dh_solver_axis_work_moderate_press",
+        "pc02_micro_lead_high_damping_semi_close",
         "cd_keepout_micro_pull_low_press_ik_hold",
         "cd_keepout_slow_binary_close_low_gain",
         "dh_solver_bar_retention_semi_close",
         "pf03_low_press_axis_work_ik_hold",
-        "pf04_firm_press_slow_axis_work_binary_close",
-        "dh_solver_axis_work_moderate_press",
-        "pc02_micro_lead_high_damping_semi_close",
         "dh_solver_smooth_monotonic_ik_hold",
         "dh_solver_keepout_micro_lead_semi",
     )
     by_name = {str(v.get("name")): v for v in dh.CONTROLLER_VARIANTS}
     variants: list[dict[str, Any]] = []
+    for variant in custom_variants:
+        variant = dict(variant)
+        variant["v2_fast_keepout_controller_override"] = True
+        variants.append(variant)
     for name in names:
         if name in by_name:
             variant = dict(by_name[name])

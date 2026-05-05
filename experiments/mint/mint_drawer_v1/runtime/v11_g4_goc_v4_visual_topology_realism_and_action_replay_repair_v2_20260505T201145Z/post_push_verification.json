@@ -1,5 +1,5 @@
 {
-  "all_visible": false,
+  "all_visible": true,
   "checks": [
     {
       "origin_visible_at_head": true,
@@ -26,19 +26,19 @@
       "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_visual_topology_realism_and_action_replay_repair_v2_20260505T201145Z/topology_realistic_admission_report.json"
     },
     {
-      "origin_visible_at_head": false,
+      "origin_visible_at_head": true,
       "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_visual_topology_realism_and_action_replay_repair_v2_20260505T201145Z/targeted_visual_topology_action_replay_shard_results.json"
     },
     {
-      "origin_visible_at_head": false,
+      "origin_visible_at_head": true,
       "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_visual_topology_realism_and_action_replay_repair_v2_20260505T201145Z/full30_visual_topology_dynamic_pull_certification_report.json"
     },
     {
-      "origin_visible_at_head": false,
+      "origin_visible_at_head": true,
       "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_visual_topology_realism_and_action_replay_repair_v2_20260505T201145Z/strict_teacher_export_manifest.json"
     },
     {
-      "origin_visible_at_head": false,
+      "origin_visible_at_head": true,
       "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_visual_topology_realism_and_action_replay_repair_v2_20260505T201145Z/local_replay_handoff_manifest.json"
     },
     {
@@ -54,8 +54,8 @@
       "path": "experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_visual_topology_realism_action_replay_v2.json"
     }
   ],
-  "generated_at_utc": "2026-05-05T20:25:13Z",
-  "head": "af79aff50b9ab82e1f1d1cb800d8371ece627615",
+  "generated_at_utc": "2026-05-05T20:26:04Z",
+  "head": "63c2f41eeffb3ea242b68f7f81b98ab44d89818e",
   "head_matches_origin": true,
-  "origin_branch_head": "af79aff50b9ab82e1f1d1cb800d8371ece627615"
+  "origin_branch_head": "63c2f41eeffb3ea242b68f7f81b98ab44d89818e"
 }

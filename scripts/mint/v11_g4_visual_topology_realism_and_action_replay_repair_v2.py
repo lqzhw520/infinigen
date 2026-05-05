@@ -549,6 +549,10 @@ def generate_cycle_candidates_v2(cycle: int) -> list[dict[str, Any]]:
             cabinet_depth=0.16,
         )
         params["door_half_width"] = 0.30
+        params["drawer_damping"] = 2.0
+        params["drawer_damping_policy"] = (
+            "low-friction rail-supported drawer runner for V2 fast legal pull"
+        )
         params["visual_topology_v2_densified_from_admitted_island"] = True
         out.append(
             dh.make_candidate(

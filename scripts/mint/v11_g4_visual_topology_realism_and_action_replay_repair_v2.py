@@ -529,9 +529,12 @@ def generate_cycle_candidates_v2(cycle: int) -> list[dict[str, Any]]:
         ("repaired_layout", -0.653, -0.089, -0.179, -0.069, 0.398, -25, 0.024),
     ]
     out = []
+    keep_indices = {2, 4, 5, 6, 8, 10, 11}
     for i, (source, base_x, base_y, hx, hy, hz, yaw, radius) in enumerate(
         grid, start=1
     ):
+        if i not in keep_indices:
+            continue
         params = dh.base_params(
             [base_x, base_y, 0.025],
             hx,

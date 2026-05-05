@@ -378,7 +378,7 @@ def topology_audit(
     fronts = [
         g
         for g in geoms
-        if g.attrib.get("name", "").startswith("drawer_front_panel")
+        if g.attrib.get("name", "").startswith("drawer_front_")
         or g.attrib.get("name", "").startswith("drawer_door")
     ]
     tray_left = [

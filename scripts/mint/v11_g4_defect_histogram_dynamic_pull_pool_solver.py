@@ -320,6 +320,14 @@ def generate_cycle_candidates(cycle: int) -> list[dict[str, Any]]:
             ("repaired_layout", -0.635, -0.072, -0.164, -0.052, 0.390, -18, 0.023),
             ("generated_variant", -0.650, -0.090, -0.178, -0.070, 0.402, -26, 0.024),
             ("repaired_layout", -0.650, -0.090, -0.178, -0.070, 0.402, -26, 0.024),
+            ("generated_variant", -0.637, -0.057, -0.159, -0.049, 0.384, -18, 0.023),
+            ("repaired_layout", -0.637, -0.057, -0.159, -0.049, 0.384, -18, 0.023),
+            ("generated_variant", -0.633, -0.059, -0.157, -0.047, 0.382, -17, 0.023),
+            ("repaired_layout", -0.633, -0.059, -0.157, -0.047, 0.382, -17, 0.023),
+            ("generated_variant", -0.640, -0.060, -0.160, -0.050, 0.385, -19, 0.023),
+            ("repaired_layout", -0.640, -0.060, -0.160, -0.050, 0.385, -19, 0.023),
+            ("generated_variant", -0.632, -0.056, -0.156, -0.046, 0.381, -16, 0.022),
+            ("repaired_layout", -0.632, -0.056, -0.156, -0.046, 0.381, -16, 0.022),
         ]
         for i, (src, base_x, base_y, hx, hy, hz, yaw, radius) in enumerate(grid, start=1):
             params = base_params([base_x, base_y, 0.025], hx, hy, hz, handle_kind="sphere", handle_radius=radius, robot_yaw_deg=yaw, cutout_w=0.270, cutout_h=0.225, cabinet_half_width=0.33, cabinet_depth=0.16)

@@ -1,0 +1,362 @@
+task_id: V11_G4_GOC_V4_DEFECT_HISTOGRAM_DYNAMIC_PULL_POOL_SOLVER_TO_EXPORT_REPLAY_V1
+task_type: DEFECT_HISTOGRAM_DRIVEN_STRUCTURE_CONTROL_CO_DESIGN_PHASE
+task_version: "1.0.0"
+phase: defect_histogram_dynamic_pull_pool_solver_to_export_replay
+target_gate: DYNAMIC_PULL_ACCESSIBLE_POOL_SOLVER_TO_STRICT_EXPORT_REPLAY
+
+target: admitted dynamic-pull-accessible pool -> targeted shard pass -> full30 pass -> strict export -> local replay
+
+objective:
+  summary: >-
+    Convert the prior dynamic-pull co-design defect histogram into explicit repair
+    operators, run a bounded structure-control joint solver, and advance only if
+    newly admitted dynamic-pull-accessible candidates pass targeted shard, full30
+    Layer4R plus pull certification, strict teacher export, and local strict
+    replay/render.
+  previous_closeout: TARGETED_DYNAMIC_PULL_POOL_SHARD_FAILED
+  previous_run_prefix: experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_
+  claim_boundary: >-
+    This phase does not certify all possible Infinigen drawers. It does not run
+    MINT train, fine-tune, or eval. It does not treat old fixed accepted-pool
+    instances as strict export input. It may claim strict export or local visual
+    replay only after the corresponding hard evidence exists.
+
+success_requires:
+  candidate_pool_admitted_count_min: 5
+  targeted_shard_passed: true
+  full30_certification_passed: true
+  strict_teacher_export_complete: true
+  local_strict_replay_render_passed: true
+
+negative_baseline_policy:
+  old_fixed_accepted_pool_immutable: true
+  old_fixed_accepted_pool_used_only_as_negative_baseline: true
+  old_fixed_accepted_pool_may_not_be_strict_export_input: true
+  prior_boundary_cases:
+    high_opening_illegal_candidate:
+      candidate_id: dynamic_generated_low_y_offset_003
+      max_drawer_fraction_approx: 0.9866
+      forbidden_contact_frames: 33
+    keepout_legal_insufficient_candidate:
+      candidate_id: dynamic_keepout_old002_yneg
+      max_drawer_fraction_approx: 0.5253
+      forbidden_contact_frames: 0
+      handle_nonlegal_contact_frames: 0
+      max_penetration_m_approx: 0.00116
+      target_contact_frames: 1302
+      dominant_failure: TWO_PAD_RETENTION_FAILED
+
+prior_defect_histogram_required:
+  FULL_BODY_KEEP_OUT_FAILED: 4
+  GUARDED_IK_INFEASIBLE: 5
+  APPROACH_CORRIDOR_BLOCKED: 4
+  PULL_WRENCH_INSUFFICIENT: 3
+  TWO_PAD_RETENTION_FAILED: 13
+  DRAWER_QPOS_NONMONOTONIC: 3
+
+# Validator-compatible baseline authority. Runtime authority for this phase is
+# strict GOC-v4 per-instance binding plus candidate-specific dedicated-pad and
+# true-handle verification. This block keeps the existing V01 production
+# validator anchored to its established GOC-v3 exact-ID fixture interface.
+task_authority:
+  authority_type: GOC_V3_EXACT_GEOM_ID_SETS_AS_SOURCE_BASELINE_FOR_GOC_V4_DEFECT_HISTOGRAM_SOLVER
+  goc_version: v3
+  goc_artifact_path: artifacts/phase1h_geometry_contract/goc_v3_contract.json
+  goc_contract: experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v3_contract.json
+  goc_contract_id: GOC_V3_EXACT_ID_GEOMETRY_OWNERSHIP_CONTRACT
+  legal_gripper_surface_geom_ids: [63, 81, 90]
+  forbidden_robot_surface_geom_ids: [45, 47, 49, 54, 59]
+  drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+  prohibited_authority:
+    - GOC-v2 count-only legal_pad=29 forbidden=26 handle=9
+    - runtime body-based legal=31 forbidden=27 without exact-ID role classification
+    - legacy name-only contact reports
+    - fixed drawer_handle_geom_ids=[0..8] as runtime authority without semantic verification
+    - broad-link, wrist, arm, or finger shell contact as target
+
+goc_v4_authority:
+  authority_type: GOC_V4_DEDICATED_FINGER_PAD_EXACT_GEOM_ID_SETS
+  per_instance_binding_required: true
+  exact_instance_binding_required: true
+  target_contact: legal_finger_pad_geom_ids <-> semantically_bound_drawer_handle_geom_ids only
+  forbidden_contact: nonlegal robot surfaces <-> drawer_handle/drawer/cabinet
+  broad_link_wrist_arm_finger_shell_target_rejected: true
+  body_based_31_27_rejected: true
+  name_only_contact_rejected: true
+  fixed_global_ids_may_not_be_reused_without_instance_verification: true
+
+acceptance_invariants:
+  physical_accessibility_invariant: true
+  pull_wrench_accessibility_invariant: true
+  two_pad_contact_retention_invariant: true
+  full_body_keepout_during_pull: true
+  drawer_qpos_monotonicity: true
+  strict_goc_v4_authority: true
+  no_direct_qpos: true
+  no_drawer_motor_command: true
+  no_forbidden_contact: true
+  no_handle_nonlegal_contact: true
+  max_penetration_m: 0.02
+  max_force_n: 1000000.0
+  drawer_fraction: 0.80
+
+repair_budget:
+  max_wall_clock_hours: 8
+  max_outer_cycles: 6
+  max_candidates_per_cycle: 32
+  max_controller_variants_per_candidate: 12
+  no_progress_cycles_before_stop: 2
+
+progress_metrics:
+  - admitted_count
+  - targeted_shard_cases_passed
+  - best_keepout_legal_drawer_fraction
+  - best_two_pad_retention_frames
+  - forbidden_contact_frames_min
+  - nonmonotonic_failures_count
+  - full_body_keepout_failures_count
+  - two_pad_retention_failures_count
+  - pull_wrench_failures_count
+
+defect_to_repair_operator_map_required: true
+repair_operator_families:
+  FULL_BODY_KEEP_OUT_FAILED:
+    - increase cabinet side clearance envelope
+    - change approach topology side/top/front
+    - modify robot mount side/yaw/height
+    - add nullspace keepout around link5/link6/link7/hand
+    - reject candidate if keepout impossible
+  GUARDED_IK_INFEASIBLE:
+    - adjust handle exposure
+    - adjust handle height/depth
+    - adjust robot mount height/yaw
+    - generate handle pose within Panda two-pad IK reachable shell
+    - reject if constrained IK infeasible
+  APPROACH_CORRIDOR_BLOCKED:
+    - widen approach corridor
+    - select alternate active handle/drawer
+    - change pregrasp side
+    - add corridor signed-clearance oracle
+    - reject narrow-cabinet candidate
+  PULL_WRENCH_INSUFFICIENT:
+    - align pull direction with drawer prismatic axis
+    - adjust handle frame / pad contact normal
+    - increase contact hold before pull
+    - adjust gripper close schedule
+    - select handle geometry with better pull lever / exposure
+    - reject if wrench projection insufficient
+  TWO_PAD_RETENTION_FAILED:
+    - adjust gripper span / pad separation
+    - adjust pad target points on handle
+    - adjust handle bar width/pose in generated variant
+    - add reseat / regrasp mode
+    - add normal compliance / tangential pull decoupling
+  DRAWER_QPOS_NONMONOTONIC:
+    - smooth pull velocity
+    - reduce normal force oscillation
+    - add drawer-axis velocity controller
+    - extend contact hold before pull
+    - reject unstable mechanism dynamics candidate
+
+search_space:
+  structure_variables:
+    - source_type
+    - active drawer/handle selection
+    - handle height
+    - handle horizontal exposure
+    - handle depth from drawer front
+    - handle bar width / graspable region
+    - cabinet side clearance
+    - cabinet front clearance
+    - drawer front depth
+    - robot mount x/y/z/yaw
+    - approach topology
+  controller_variables:
+    - pregrasp offset
+    - guarded approach speed
+    - contact hold duration
+    - gripper close timing
+    - gripper close target
+    - pull axis blend
+    - pull speed
+    - pull duration
+    - impedance damping
+    - reseat enable/disable
+    - reseat threshold
+    - keepout gain
+    - nullspace keepout weight
+  defect_directed_not_random: true
+
+stages:
+  stage0_authority_and_prior_evidence_ingestion:
+    outputs:
+      - stage0_authority_and_prior_evidence.json
+      - prior_defect_histogram_report.md
+  stage1_defect_histogram_to_repair_operator_map:
+    outputs:
+      - defect_to_repair_operator_map.json
+      - defect_to_repair_operator_map.md
+  stage2_parameterized_codesign_search_space:
+    outputs:
+      - codesign_search_space.json
+  stage3_outer_loop_defect_directed_candidate_generation:
+    max_outer_cycles: 6
+    max_candidates_per_cycle: 32
+    max_controller_variants_per_candidate: 12
+    outputs:
+      - cycle_<N>_candidate_generation.json
+      - cycle_<N>_oracle_results.jsonl
+      - cycle_<N>_repair_summary.json
+  stage4_joint_oracle_and_admission:
+    oracles:
+      - O1_physical_accessibility
+      - O2_pull_wrench_accessibility
+      - O3_two_pad_contact_retention
+      - O4_full_body_keepout_during_pull
+      - O5_drawer_qpos_monotonicity
+      - O6_strict_goc_v4_authority
+    outputs:
+      - candidate_oracle_results.jsonl
+      - candidate_admission_report.json
+  stage5_targeted_shard:
+    enter_when_admitted_candidates_gte: 7
+    fallback_enter_when_cycle_budget_ending_with_admitted_candidates_gte: 5
+    outputs:
+      - targeted_shard_results.json
+      - targeted_shard_failure_feedback.json
+  stage6_full30_certification:
+    enter_only_if_targeted_shard_passes: true
+    cases: 30
+    outputs:
+      - full30_dynamic_pull_certification.jsonl
+      - full30_dynamic_pull_certification_report.json
+  stage7_strict_teacher_export:
+    enter_only_if_full30_passes: true
+    outputs:
+      - strict_teacher_export_manifest.json
+  stage8_local_strict_replay_render:
+    enter_only_if_export_passes: true
+    local_playground_root: /Users/zhuhaowu/Documents/Playground
+    reference_visual: /Users/zhuhaowu/Downloads/829cf360-90cc-4a6e-8a6a-b0e4321db4e2.png
+    outputs:
+      - local_replay_handoff_manifest.json
+  stage9_final_checks:
+    outputs:
+      - stage9_final_checks.json
+  stage10_commit_push_verify:
+    outputs:
+      - post_push_verification.json
+
+hard_forbidden:
+  - new branch
+  - force push
+  - external/MINT mutation
+  - current_truth.json mutation
+  - next_actions.json mutation
+  - MINT train/fine-tune/eval
+  - old fixed accepted pool as strict export input
+  - threshold lowering
+  - direct drawer qpos opening
+  - drawer motor command
+  - forbidden contact acceptance
+  - broad shell/link/wrist/arm/finger-shell contact counted as target
+  - GOC-v4 authority broadening
+  - fake collision demotion
+
+remote:
+  approved_files:
+    - scripts/mint/v11_g4_defect_histogram_dynamic_pull_pool_solver.py
+    - scripts/mint/v11_g4_dynamic_pull_accessible_pool_co_design.py
+    - scripts/mint/contact_aware_drawer_teacher.py
+    - scripts/mint/merged_model_builder.py
+    - scripts/mint/drawer_robot_env_mujoco.py
+    - scripts/mint/export_full_robot_teacher_replay_bundle.py
+    - experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay.yaml
+    - experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_*
+    - experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_defect_histogram_dynamic_pull_pool_solver.json
+    - experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_defect_histogram_dynamic_pull_pool_solver.json
+    - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json
+    - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock_report.json
+    - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_attestation.json
+  forbidden_files:
+    - experiments/mint/mint_drawer_v1/sovereign/current_truth.json
+    - experiments/mint/mint_drawer_v1/sovereign/next_actions.json
+    - external/MINT
+    - external/MINT/*
+
+terminal_outcomes:
+  success:
+    - DYNAMIC_PULL_ACCESSIBLE_POOL_STRICT_EXPORT_LOCAL_REPLAY_READY
+  non_success:
+    - DEFECT_HISTOGRAM_SOLVER_TARGETED_SHARD_FAILED
+    - DEFECT_HISTOGRAM_SOLVER_FULL30_FAILED
+    - DEFECT_HISTOGRAM_SOLVER_NO_ADMITTED_CANDIDATES
+    - STRICT_TEACHER_EXPORT_FAILED
+    - LOCAL_STRICT_REPLAY_RENDER_FAILED
+    - TIME_BUDGET_EXHAUSTED
+    - HARNESS_PREFLIGHT_FAILED
+    - TASK_SPEC_LOCK_BINDING_FAILED
+    - DIRTY_FORBIDDEN_SCOPE
+    - EXECUTION_FAILED
+
+next_gate_rules:
+  if_success: MANUAL_VISUAL_AND_SCIENCE_REVIEW_BEFORE_MINT_DATASET_ADMISSION
+  if_no_admitted_candidates: STRUCTURAL_GENERATOR_OR_CONTROLLER_SEARCH_SPACE_EXPANSION
+  if_targeted_shard_fails: TARGETED_DYNAMIC_PULL_DEFECT_REPAIR
+  if_full30_fails: ROBUST_DYNAMIC_PULL_GENERALIZATION_REPAIR
+  if_export_fails: STRICT_EXPORT_INFRA_REPAIR
+  if_local_replay_fails: LOCAL_STRICT_REPLAY_RENDER_REPAIR
+
+fixtures:
+  fixture_valid_authority_match:
+    runtime_exact_ids:
+      legal_gripper_surface_geom_ids: [63, 81, 90]
+      forbidden_robot_surface_geom_ids: [45, 47, 49, 54, 59]
+      drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    expected: PASS
+  fixture_invalid_authority_drift:
+    runtime_exact_ids:
+      legal_gripper_surface_geom_ids: [60, 61, 62]
+      forbidden_robot_surface_geom_ids: [45, 47, 49, 54, 59]
+      drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    expected: FAIL
+    expected_error: AUTHORITY_MISMATCH
+
+final_closeout_required_fields:
+  - closeout_classification
+  - harness_preflight_passed
+  - task_spec_lock_bound
+  - old_fixed_pool_modified
+  - fixed_pool_used_only_as_negative_baseline
+  - defect_histogram_ingested
+  - repair_operator_map_written
+  - outer_cycles_run
+  - candidate_pool_total
+  - candidate_pool_admitted_count
+  - targeted_shard_passed
+  - targeted_shard_cases_total
+  - targeted_shard_cases_passed
+  - full30_certification_attempted
+  - full30_cases_passed
+  - full30_cases_failed
+  - strict_teacher_export_attempted
+  - strict_teacher_export_complete
+  - local_strict_replay_attempted
+  - local_strict_replay_render_passed
+  - controller_defect_count
+  - structure_defect_count
+  - mixed_defect_count
+  - best_overall_drawer_fraction
+  - best_legal_drawer_fraction
+  - best_candidate_forbidden_contact_frames
+  - best_candidate_handle_nonlegal_contact_frames
+  - best_candidate_max_penetration_m
+  - best_candidate_qpos_monotonic
+  - current_truth_modified
+  - next_actions_modified
+  - runtime_patch_applied
+  - runtime_patch_files
+  - committed
+  - pushed_to_origin
+  - remote_commit_hash
+  - next_gate

@@ -706,6 +706,7 @@ def run_segment(
         finger_targets = np.asarray([0.0, 0.0], dtype=float) if mode in {"contact_seat", "contact_hold"} else np.asarray([0.04, -0.04], dtype=float)
     two_pad_frame = candidate.get("two_pad_frame", {})
     include_replay_state = trace_path.name.startswith("variant_8") or "full30" in str(trace_path)
+    write_trace = include_replay_state or trace_path.name.startswith("variant_7") or "targeted" in str(trace_path)
     for _ in range(int(steps)):
         if config.mode == "two_pad_opspace" and target_key is not None:
             robot_vel = stacked_two_pad_velocity(env, binding, two_pad_frame, target_key, q_ref, config)
@@ -715,7 +716,8 @@ def run_segment(
         report = contact_report(env, binding, prev_centers)
         rec = trace_record(env, binding, report, mode, finger_targets, q_ref, drawer_motor_abs, robot_vel, include_replay_state)
         records.append(rec)
-        append_jsonl(trace_path, compact_trace_record(rec))
+        if write_trace:
+            append_jsonl(trace_path, compact_trace_record(rec))
         prev_centers = report["centers"]
     return prev_centers
 

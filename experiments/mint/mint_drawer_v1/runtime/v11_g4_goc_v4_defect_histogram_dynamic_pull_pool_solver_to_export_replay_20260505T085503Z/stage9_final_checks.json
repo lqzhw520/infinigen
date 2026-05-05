@@ -1,0 +1,61 @@
+{
+  "changed_python": [
+    "scripts/mint/v11_g4_defect_histogram_dynamic_pull_pool_solver.py",
+    "scripts/mint/v11_g4_bounded_teacher_pull_rollout_on_accessible_pool.py",
+    "scripts/mint/v11_g4_contact_mode_policy_repair_on_accessible_pool.py"
+  ],
+  "current_truth_modified": false,
+  "external_mint_modified": false,
+  "final_checks_passed": true,
+  "generated_at_utc": "2026-05-05T09:17:46Z",
+  "git_status_short": "M .project-memory/STATUS.md\n M .session/checkpoint.md\n M experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_defect_histogram_dynamic_pull_pool_solver.json\n M experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_defect_histogram_dynamic_pull_pool_solver.json",
+  "harness_preflight_passed": true,
+  "json_errors": [],
+  "json_parse_passed": true,
+  "local_replay_handoff_manifest": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/local_replay_handoff_manifest.json",
+  "local_replay_post_hoc_verified": true,
+  "local_strict_replay_render_passed": true,
+  "next_actions_modified": false,
+  "preflight": {
+    "cmd": [
+      "/root/anaconda3/envs/infinigen/bin/python",
+      "experiments/mint/mint_drawer_v1/scripts/harness/agent_task_preflight.py",
+      "--spec",
+      "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay.yaml",
+      "--dry-run"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "\n======================================================================\n  Agent Task Pre-flight\n======================================================================\n  campaign_root: /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1\n  task_spec:    /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay.yaml\n  dry_run:      True\n\n  [LOCK] Production lock enforcement\n  [PASS] Production lock valid: status=production_ready, generated_by=validate_harness_production_lock.py, validators_intact=5 files, task_spec_bound=experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay.yaml, task_spec_hash_verified=True, attestation_verified=True, lock_format=V3\n\n  [V01] validate_task_authority (S0 gate)\n  [PASS] V01 validate_task_authority\n\n  [V02] validate_diff_scope\n  [PASS] V02 validate_diff_scope\n\n======================================================================\n  Pre-flight Summary\n======================================================================\n  Passed: 2\n  Failed: 0\n  Task spec: v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay.yaml\n  Pre-flight callable: True\n  Production lock: verified (always required \u2014 no bypass)\n\n  ALL PRE-FLIGHT VALIDATORS PASSED.\n  Agent may proceed with execution.\n  Next: run V03 during execution, V04 at closeout.\n"
+  },
+  "py_compile": {
+    "cmd": [
+      "/root/anaconda3/envs/infinigen/bin/python",
+      "-m",
+      "py_compile",
+      "scripts/mint/v11_g4_defect_histogram_dynamic_pull_pool_solver.py",
+      "scripts/mint/v11_g4_bounded_teacher_pull_rollout_on_accessible_pool.py",
+      "scripts/mint/v11_g4_contact_mode_policy_repair_on_accessible_pool.py"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": ""
+  },
+  "py_compile_passed": true,
+  "ruff": {
+    "cmd": [
+      "/root/anaconda3/envs/infinigen/bin/python",
+      "-m",
+      "ruff",
+      "check",
+      "scripts/mint/v11_g4_defect_histogram_dynamic_pull_pool_solver.py",
+      "scripts/mint/v11_g4_bounded_teacher_pull_rollout_on_accessible_pool.py",
+      "scripts/mint/v11_g4_contact_mode_policy_repair_on_accessible_pool.py"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "All checks passed!\n"
+  },
+  "ruff_passed": true,
+  "task_spec_lock_bound": true
+}

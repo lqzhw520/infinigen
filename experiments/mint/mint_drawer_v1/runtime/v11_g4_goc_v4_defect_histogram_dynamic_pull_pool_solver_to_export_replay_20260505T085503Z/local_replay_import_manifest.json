@@ -1,0 +1,7 @@
+{
+  "candidate_count": 5,
+  "local_root": "/Users/zhuhaowu/Documents/Playground/local_replay/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z",
+  "source_run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z",
+  "strict_teacher_export_manifest_sha256": "08cc16a6ccc802a49b7b2cc56fa10b8420abbda030cb553694ec7713fd3af902",
+  "trace_count": 30
+}

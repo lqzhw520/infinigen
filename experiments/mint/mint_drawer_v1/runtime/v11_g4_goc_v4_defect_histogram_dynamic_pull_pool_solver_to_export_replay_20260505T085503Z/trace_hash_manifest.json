@@ -1,0 +1,502 @@
+{
+  "file_count": 82,
+  "files": [
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_10000_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_01__nominal.jsonl",
+      "relative_path": "traces/variant_10000_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_01__nominal.jsonl",
+      "sha256": "2864af65e7b5d02bedbddf0e0762bb8b26f4509cb3c907cbba93447527f93927",
+      "size_bytes": 9855225
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_10100_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_02__nominal.jsonl",
+      "relative_path": "traces/variant_10100_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_02__nominal.jsonl",
+      "sha256": "2864af65e7b5d02bedbddf0e0762bb8b26f4509cb3c907cbba93447527f93927",
+      "size_bytes": 9855225
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_10200_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_03__nominal.jsonl",
+      "relative_path": "traces/variant_10200_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_03__nominal.jsonl",
+      "sha256": "bd56c4b9c91acb534f1387486b5e7f11e1483a01128b3a19840dadf63a6b79c2",
+      "size_bytes": 10234401
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_10300_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_04__nominal.jsonl",
+      "relative_path": "traces/variant_10300_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_04__nominal.jsonl",
+      "sha256": "bd56c4b9c91acb534f1387486b5e7f11e1483a01128b3a19840dadf63a6b79c2",
+      "size_bytes": 10234401
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_10400_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_05__nominal.jsonl",
+      "relative_path": "traces/variant_10400_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_05__nominal.jsonl",
+      "sha256": "789cd13e765b7b2e7de0020ba9a9dbd6f6715d1b5fa8035d5fa06084eac40847",
+      "size_bytes": 7874749
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_10401_pf03_low_press_axis_work_ik_hold__dh_c1_admitted_island_densify_05__nominal.jsonl",
+      "relative_path": "traces/variant_10401_pf03_low_press_axis_work_ik_hold__dh_c1_admitted_island_densify_05__nominal.jsonl",
+      "sha256": "e690eada2f311cf5bedc0cc76049d9fc16161b85686e3bec31efa21a0488c5bd",
+      "size_bytes": 6765187
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_10402_pf04_firm_press_slow_axis_work_binary_close__dh_c1_admitted_island_densify_05__nominal.jsonl",
+      "relative_path": "traces/variant_10402_pf04_firm_press_slow_axis_work_binary_close__dh_c1_admitted_island_densify_05__nominal.jsonl",
+      "sha256": "1c2104e7b55563de47934cb75d808b56b6d0d18f60b5e20f98f5bdecf66d5c2d",
+      "size_bytes": 14459072
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_10403_cd_keepout_micro_pull_low_press_ik_hold__dh_c1_admitted_island_densify_05__nominal.jsonl",
+      "relative_path": "traces/variant_10403_cd_keepout_micro_pull_low_press_ik_hold__dh_c1_admitted_island_densify_05__nominal.jsonl",
+      "sha256": "a46cb0ca63d8550cbb42e11943a1a49cc56c62a367c14701768777b2056f5250",
+      "size_bytes": 7268521
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_10404_cd_keepout_slow_binary_close_low_gain__dh_c1_admitted_island_densify_05__nominal.jsonl",
+      "relative_path": "traces/variant_10404_cd_keepout_slow_binary_close_low_gain__dh_c1_admitted_island_densify_05__nominal.jsonl",
+      "sha256": "ab0ccc22f32ccab4262cf5b121cfb55e209b247735750f17994fa156c292307b",
+      "size_bytes": 17839294
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_10405_dh_solver_bar_retention_low_press_binary__dh_c1_admitted_island_densify_05__nominal.jsonl",
+      "relative_path": "traces/variant_10405_dh_solver_bar_retention_low_press_binary__dh_c1_admitted_island_densify_05__nominal.jsonl",
+      "sha256": "fb64c3abd6eecd73257d0c787de2277406858585bbba5801a980251e094c0c63",
+      "size_bytes": 18117198
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_10406_dh_solver_bar_retention_semi_close__dh_c1_admitted_island_densify_05__nominal.jsonl",
+      "relative_path": "traces/variant_10406_dh_solver_bar_retention_semi_close__dh_c1_admitted_island_densify_05__nominal.jsonl",
+      "sha256": "a8919c6bbfeb46e28da53d168fedc2bdba76136ea893379cc378455614383c75",
+      "size_bytes": 7723864
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_10407_dh_solver_smooth_monotonic_ik_hold__dh_c1_admitted_island_densify_05__nominal.jsonl",
+      "relative_path": "traces/variant_10407_dh_solver_smooth_monotonic_ik_hold__dh_c1_admitted_island_densify_05__nominal.jsonl",
+      "sha256": "852750cd30c17920f70dfa6dd40889cbc37164d2706eb96daed1fb9f90b572cb",
+      "size_bytes": 9245976
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_10408_dh_solver_axis_work_moderate_press__dh_c1_admitted_island_densify_05__nominal.jsonl",
+      "relative_path": "traces/variant_10408_dh_solver_axis_work_moderate_press__dh_c1_admitted_island_densify_05__nominal.jsonl",
+      "sha256": "755c1c95afe302c5aa2c4b4229de5586eee7ce4015ef313facb9543b02de7b80",
+      "size_bytes": 14372832
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_10409_dh_solver_keepout_micro_lead_semi__dh_c1_admitted_island_densify_05__nominal.jsonl",
+      "relative_path": "traces/variant_10409_dh_solver_keepout_micro_lead_semi__dh_c1_admitted_island_densify_05__nominal.jsonl",
+      "sha256": "3400ee5d795ce47413042196c23acce7ff2b9affa177c7737108e667f9eb5c86",
+      "size_bytes": 9016755
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_10500_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_06__nominal.jsonl",
+      "relative_path": "traces/variant_10500_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_06__nominal.jsonl",
+      "sha256": "0396e71d8897e4066343d9dacbe9343ecac918922532ca7a0a32dd2b86e154b2",
+      "size_bytes": 9821771
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_10600_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_07__nominal.jsonl",
+      "relative_path": "traces/variant_10600_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_07__nominal.jsonl",
+      "sha256": "abbbc5812be57abc9ac68c15a2a9b1b2cb3dd9524a39c130554eade65e4e0102",
+      "size_bytes": 10179289
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_10601_pf03_low_press_axis_work_ik_hold__dh_c1_admitted_island_densify_07__nominal.jsonl",
+      "relative_path": "traces/variant_10601_pf03_low_press_axis_work_ik_hold__dh_c1_admitted_island_densify_07__nominal.jsonl",
+      "sha256": "d2b89e4c7cf97f45ebf5070390ecf4c11bcd371d70889fbe89da6054396711e3",
+      "size_bytes": 7098340
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_10602_pf04_firm_press_slow_axis_work_binary_close__dh_c1_admitted_island_densify_07__nominal.jsonl",
+      "relative_path": "traces/variant_10602_pf04_firm_press_slow_axis_work_binary_close__dh_c1_admitted_island_densify_07__nominal.jsonl",
+      "sha256": "bbf827422e00073bb88be634a3f81462f6f486aaa45c78413be399fcf6eaef32",
+      "size_bytes": 13963967
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_10603_cd_keepout_micro_pull_low_press_ik_hold__dh_c1_admitted_island_densify_07__nominal.jsonl",
+      "relative_path": "traces/variant_10603_cd_keepout_micro_pull_low_press_ik_hold__dh_c1_admitted_island_densify_07__nominal.jsonl",
+      "sha256": "e433a40f07139701a4dae3ebf672aa770d6a1d415f770965b9944e342f4094c3",
+      "size_bytes": 7590549
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_10604_cd_keepout_slow_binary_close_low_gain__dh_c1_admitted_island_densify_07__nominal.jsonl",
+      "relative_path": "traces/variant_10604_cd_keepout_slow_binary_close_low_gain__dh_c1_admitted_island_densify_07__nominal.jsonl",
+      "sha256": "18a24f19974bba4d294c7bce24737864b6a500c3fd259c92fdb2919580b68e3c",
+      "size_bytes": 19038985
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_10605_dh_solver_bar_retention_low_press_binary__dh_c1_admitted_island_densify_07__nominal.jsonl",
+      "relative_path": "traces/variant_10605_dh_solver_bar_retention_low_press_binary__dh_c1_admitted_island_densify_07__nominal.jsonl",
+      "sha256": "faef2f7bbaa96ab3344218e8fa7ee82e95b7bc378158f4742f9f96f2fcc59bcb",
+      "size_bytes": 19217363
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_10606_dh_solver_bar_retention_semi_close__dh_c1_admitted_island_densify_07__nominal.jsonl",
+      "relative_path": "traces/variant_10606_dh_solver_bar_retention_semi_close__dh_c1_admitted_island_densify_07__nominal.jsonl",
+      "sha256": "17d7c8a82e3334916dc0753b291439a5da490e58e425d3b468cea3ffb035e0c5",
+      "size_bytes": 8041966
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_10607_dh_solver_smooth_monotonic_ik_hold__dh_c1_admitted_island_densify_07__nominal.jsonl",
+      "relative_path": "traces/variant_10607_dh_solver_smooth_monotonic_ik_hold__dh_c1_admitted_island_densify_07__nominal.jsonl",
+      "sha256": "7da72e15b4025cce95c11a465036a75a636694ddb0a06f442fb75bd644eb254f",
+      "size_bytes": 9851579
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_10608_dh_solver_axis_work_moderate_press__dh_c1_admitted_island_densify_07__nominal.jsonl",
+      "relative_path": "traces/variant_10608_dh_solver_axis_work_moderate_press__dh_c1_admitted_island_densify_07__nominal.jsonl",
+      "sha256": "bdfe7caf62543324c067f1ee36720b8f6a879ccd9358b8cba1b449af502c72e3",
+      "size_bytes": 15505457
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_10609_dh_solver_keepout_micro_lead_semi__dh_c1_admitted_island_densify_07__nominal.jsonl",
+      "relative_path": "traces/variant_10609_dh_solver_keepout_micro_lead_semi__dh_c1_admitted_island_densify_07__nominal.jsonl",
+      "sha256": "d0b35e1401e99c3720b8d697440fe140a98340eaf1583e857b6174551abd0d42",
+      "size_bytes": 9272137
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_10700_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_08__nominal.jsonl",
+      "relative_path": "traces/variant_10700_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_08__nominal.jsonl",
+      "sha256": "3efb370015f827c436a161bfb2a00f9838baaf4cf65abbcc633624a9b1c3e90e",
+      "size_bytes": 10378980
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_10900_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_10__nominal.jsonl",
+      "relative_path": "traces/variant_10900_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_10__nominal.jsonl",
+      "sha256": "6692bfa2733af353cc8e55064b4b5097c11d438858c6747162ffd91942573c0c",
+      "size_bytes": 9046662
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_11000_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_11__nominal.jsonl",
+      "relative_path": "traces/variant_11000_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_11__nominal.jsonl",
+      "sha256": "0fa5d1a87ab994b081e657057f2a2eddb18c8f7eb8f70219e1f4f23039455af9",
+      "size_bytes": 9955414
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_11100_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_12__nominal.jsonl",
+      "relative_path": "traces/variant_11100_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_12__nominal.jsonl",
+      "sha256": "c10b7cf7af34941fbd719882ec5ce6532c1f5783f73d986b75f2faf7088013ea",
+      "size_bytes": 10320983
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_11200_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_13__nominal.jsonl",
+      "relative_path": "traces/variant_11200_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_13__nominal.jsonl",
+      "sha256": "0396e71d8897e4066343d9dacbe9343ecac918922532ca7a0a32dd2b86e154b2",
+      "size_bytes": 9821771
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_11300_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_14__nominal.jsonl",
+      "relative_path": "traces/variant_11300_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_14__nominal.jsonl",
+      "sha256": "0396e71d8897e4066343d9dacbe9343ecac918922532ca7a0a32dd2b86e154b2",
+      "size_bytes": 9821771
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_11400_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_15__nominal.jsonl",
+      "relative_path": "traces/variant_11400_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_15__nominal.jsonl",
+      "sha256": "6692bfa2733af353cc8e55064b4b5097c11d438858c6747162ffd91942573c0c",
+      "size_bytes": 9046662
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_11500_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_16__nominal.jsonl",
+      "relative_path": "traces/variant_11500_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_16__nominal.jsonl",
+      "sha256": "6692bfa2733af353cc8e55064b4b5097c11d438858c6747162ffd91942573c0c",
+      "size_bytes": 9046662
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_11600_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_17__nominal.jsonl",
+      "relative_path": "traces/variant_11600_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_17__nominal.jsonl",
+      "sha256": "0fa5d1a87ab994b081e657057f2a2eddb18c8f7eb8f70219e1f4f23039455af9",
+      "size_bytes": 9955414
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_11700_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_18__nominal.jsonl",
+      "relative_path": "traces/variant_11700_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_18__nominal.jsonl",
+      "sha256": "0fa5d1a87ab994b081e657057f2a2eddb18c8f7eb8f70219e1f4f23039455af9",
+      "size_bytes": 9955414
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_11800_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_19__nominal.jsonl",
+      "relative_path": "traces/variant_11800_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_19__nominal.jsonl",
+      "sha256": "c10b7cf7af34941fbd719882ec5ce6532c1f5783f73d986b75f2faf7088013ea",
+      "size_bytes": 10320983
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_11900_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_20__nominal.jsonl",
+      "relative_path": "traces/variant_11900_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_20__nominal.jsonl",
+      "sha256": "c10b7cf7af34941fbd719882ec5ce6532c1f5783f73d986b75f2faf7088013ea",
+      "size_bytes": 10320983
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_12000_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_21__nominal.jsonl",
+      "relative_path": "traces/variant_12000_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_21__nominal.jsonl",
+      "sha256": "1a4cf8c0ca3855e04f6c70cfd2007dfbbb1d8ae7524f5548938fe158ae4612b0",
+      "size_bytes": 9661659
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_12100_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_22__nominal.jsonl",
+      "relative_path": "traces/variant_12100_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_22__nominal.jsonl",
+      "sha256": "1a4cf8c0ca3855e04f6c70cfd2007dfbbb1d8ae7524f5548938fe158ae4612b0",
+      "size_bytes": 9661659
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_12200_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_23__nominal.jsonl",
+      "relative_path": "traces/variant_12200_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_23__nominal.jsonl",
+      "sha256": "900189984a7f941f855e0839ccd9367066cf69352aca31b5d6c4c62302072723",
+      "size_bytes": 9655237
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_12300_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_24__nominal.jsonl",
+      "relative_path": "traces/variant_12300_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_24__nominal.jsonl",
+      "sha256": "900189984a7f941f855e0839ccd9367066cf69352aca31b5d6c4c62302072723",
+      "size_bytes": 9655237
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_12400_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_25__nominal.jsonl",
+      "relative_path": "traces/variant_12400_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_25__nominal.jsonl",
+      "sha256": "4c1e0a44422cbec0808fb4e4adf0a91ee744cbebf2cb5ce1ae76c24a76aa6d7f",
+      "size_bytes": 9251774
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_12500_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_26__nominal.jsonl",
+      "relative_path": "traces/variant_12500_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_26__nominal.jsonl",
+      "sha256": "4c1e0a44422cbec0808fb4e4adf0a91ee744cbebf2cb5ce1ae76c24a76aa6d7f",
+      "size_bytes": 9251774
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_12600_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_27__nominal.jsonl",
+      "relative_path": "traces/variant_12600_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_27__nominal.jsonl",
+      "sha256": "486146327cea220a5605e9c0d0a93f87a1ee746c7c4fc77dcd55c1fe977fb871",
+      "size_bytes": 9706937
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_12700_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_28__nominal.jsonl",
+      "relative_path": "traces/variant_12700_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_28__nominal.jsonl",
+      "sha256": "486146327cea220a5605e9c0d0a93f87a1ee746c7c4fc77dcd55c1fe977fb871",
+      "size_bytes": 9706937
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_70000_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_25__nominal.jsonl",
+      "relative_path": "traces/variant_70000_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_25__nominal.jsonl",
+      "sha256": "4c1e0a44422cbec0808fb4e4adf0a91ee744cbebf2cb5ce1ae76c24a76aa6d7f",
+      "size_bytes": 9251774
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_70001_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_21__slow_guarded_contact.jsonl",
+      "relative_path": "traces/variant_70001_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_21__slow_guarded_contact.jsonl",
+      "sha256": "2f1855039aa77919dc3a2c63f80555c90b48869227f814f2ecd0329489e801d2",
+      "size_bytes": 9826666
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_70002_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_26__qpos_small_plus.jsonl",
+      "relative_path": "traces/variant_70002_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_26__qpos_small_plus.jsonl",
+      "sha256": "55c7e6b2c58a7a5be2208bfea31e47033bd26698529564bf6c96225ae2b6d108",
+      "size_bytes": 9256612
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_70003_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_22__qpos_small_minus.jsonl",
+      "relative_path": "traces/variant_70003_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_22__qpos_small_minus.jsonl",
+      "sha256": "03d2ce48ce793f97943c9ff5e105fea5ca0e7f9353dee0090f7a0bf4c40501a6",
+      "size_bytes": 9623585
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_70004_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_06__fast_guarded_contact.jsonl",
+      "relative_path": "traces/variant_70004_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_06__fast_guarded_contact.jsonl",
+      "sha256": "f11f8324704452a43d2ce8bfb1e0205e71a63529f7c975d8059f5aff69584846",
+      "size_bytes": 9480899
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_70005_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_13__late_close.jsonl",
+      "relative_path": "traces/variant_70005_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_13__late_close.jsonl",
+      "sha256": "363af10c02e168e7d18335fbe221eb02327517c66628df14e581e6d33a9683df",
+      "size_bytes": 10076841
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_70006_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_14__nominal.jsonl",
+      "relative_path": "traces/variant_70006_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_14__nominal.jsonl",
+      "sha256": "0396e71d8897e4066343d9dacbe9343ecac918922532ca7a0a32dd2b86e154b2",
+      "size_bytes": 9821771
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_80000_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_25__nominal.jsonl",
+      "relative_path": "traces/variant_80000_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_25__nominal.jsonl",
+      "sha256": "d58e00a7a587584590adb928491bbabd28cef753ee067f3660ddf3f689827cdd",
+      "size_bytes": 18732068
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_80001_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_25__qpos_small_plus.jsonl",
+      "relative_path": "traces/variant_80001_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_25__qpos_small_plus.jsonl",
+      "sha256": "f2cd8c1984861c75b612ed7a65396119730504c0cc358d63c3eb84e7609c4067",
+      "size_bytes": 18734091
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_80002_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_25__qpos_small_minus.jsonl",
+      "relative_path": "traces/variant_80002_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_25__qpos_small_minus.jsonl",
+      "sha256": "8674d800b206a53692f5c9d6b8f58df659b3de4e2ac89cfda670c996bfd1ac9b",
+      "size_bytes": 18715599
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_80003_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_25__slow_guarded_contact.jsonl",
+      "relative_path": "traces/variant_80003_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_25__slow_guarded_contact.jsonl",
+      "sha256": "30ecfc086a74a33ea8f3a133b26d9b049a7732f8d6c6a4e4cb58fb67e4958a14",
+      "size_bytes": 19437409
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_80004_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_25__fast_guarded_contact.jsonl",
+      "relative_path": "traces/variant_80004_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_25__fast_guarded_contact.jsonl",
+      "sha256": "88c778093cb1e5a9308d2bbe354d7c8827326c61d1cffd10172f9a71275b19ed",
+      "size_bytes": 17918642
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_80005_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_25__late_close.jsonl",
+      "relative_path": "traces/variant_80005_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_25__late_close.jsonl",
+      "sha256": "47259a418a1e67a06a865dfd713554f5456242e3230b790aae4bf6a39306fef8",
+      "size_bytes": 19217652
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_80010_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_21__nominal.jsonl",
+      "relative_path": "traces/variant_80010_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_21__nominal.jsonl",
+      "sha256": "55f18f65503a2187a254baeb925105aa4edf03d235f76b8e311155d784657cbe",
+      "size_bytes": 19109562
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_80011_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_21__qpos_small_plus.jsonl",
+      "relative_path": "traces/variant_80011_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_21__qpos_small_plus.jsonl",
+      "sha256": "68cf8d64af9490c8a5d50ad942e0fa5e108f518f3f7374ef795dfe4126ca8fc3",
+      "size_bytes": 19114156
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_80012_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_21__qpos_small_minus.jsonl",
+      "relative_path": "traces/variant_80012_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_21__qpos_small_minus.jsonl",
+      "sha256": "945e94108baf2c69dae77be3bf5b6bbfeec30c9b6d071c6478774e36ef956070",
+      "size_bytes": 19072254
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_80013_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_21__slow_guarded_contact.jsonl",
+      "relative_path": "traces/variant_80013_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_21__slow_guarded_contact.jsonl",
+      "sha256": "6897a99d56b991bf54a6dccb85e2aa900320c4dd110f3af39179aaea59f0528a",
+      "size_bytes": 19647579
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_80014_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_21__fast_guarded_contact.jsonl",
+      "relative_path": "traces/variant_80014_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_21__fast_guarded_contact.jsonl",
+      "sha256": "1eff436fb1edc38a029e7b588abd83360d1bf7797a7eee98da39b8249d2023e5",
+      "size_bytes": 18100669
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_80015_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_21__late_close.jsonl",
+      "relative_path": "traces/variant_80015_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_21__late_close.jsonl",
+      "sha256": "b3966a6928819c341ff8f5ac208ee35ea0337d3b51a6c207d6dd8ac9396708cd",
+      "size_bytes": 19556229
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_80020_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_26__nominal.jsonl",
+      "relative_path": "traces/variant_80020_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_26__nominal.jsonl",
+      "sha256": "d58e00a7a587584590adb928491bbabd28cef753ee067f3660ddf3f689827cdd",
+      "size_bytes": 18732068
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_80021_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_26__qpos_small_plus.jsonl",
+      "relative_path": "traces/variant_80021_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_26__qpos_small_plus.jsonl",
+      "sha256": "f2cd8c1984861c75b612ed7a65396119730504c0cc358d63c3eb84e7609c4067",
+      "size_bytes": 18734091
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_80022_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_26__qpos_small_minus.jsonl",
+      "relative_path": "traces/variant_80022_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_26__qpos_small_minus.jsonl",
+      "sha256": "8674d800b206a53692f5c9d6b8f58df659b3de4e2ac89cfda670c996bfd1ac9b",
+      "size_bytes": 18715599
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_80023_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_26__slow_guarded_contact.jsonl",
+      "relative_path": "traces/variant_80023_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_26__slow_guarded_contact.jsonl",
+      "sha256": "30ecfc086a74a33ea8f3a133b26d9b049a7732f8d6c6a4e4cb58fb67e4958a14",
+      "size_bytes": 19437409
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_80024_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_26__fast_guarded_contact.jsonl",
+      "relative_path": "traces/variant_80024_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_26__fast_guarded_contact.jsonl",
+      "sha256": "88c778093cb1e5a9308d2bbe354d7c8827326c61d1cffd10172f9a71275b19ed",
+      "size_bytes": 17918642
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_80025_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_26__late_close.jsonl",
+      "relative_path": "traces/variant_80025_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_26__late_close.jsonl",
+      "sha256": "47259a418a1e67a06a865dfd713554f5456242e3230b790aae4bf6a39306fef8",
+      "size_bytes": 19217652
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_80030_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_22__nominal.jsonl",
+      "relative_path": "traces/variant_80030_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_22__nominal.jsonl",
+      "sha256": "55f18f65503a2187a254baeb925105aa4edf03d235f76b8e311155d784657cbe",
+      "size_bytes": 19109562
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_80031_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_22__qpos_small_plus.jsonl",
+      "relative_path": "traces/variant_80031_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_22__qpos_small_plus.jsonl",
+      "sha256": "68cf8d64af9490c8a5d50ad942e0fa5e108f518f3f7374ef795dfe4126ca8fc3",
+      "size_bytes": 19114156
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_80032_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_22__qpos_small_minus.jsonl",
+      "relative_path": "traces/variant_80032_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_22__qpos_small_minus.jsonl",
+      "sha256": "945e94108baf2c69dae77be3bf5b6bbfeec30c9b6d071c6478774e36ef956070",
+      "size_bytes": 19072254
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_80033_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_22__slow_guarded_contact.jsonl",
+      "relative_path": "traces/variant_80033_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_22__slow_guarded_contact.jsonl",
+      "sha256": "6897a99d56b991bf54a6dccb85e2aa900320c4dd110f3af39179aaea59f0528a",
+      "size_bytes": 19647579
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_80034_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_22__fast_guarded_contact.jsonl",
+      "relative_path": "traces/variant_80034_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_22__fast_guarded_contact.jsonl",
+      "sha256": "1eff436fb1edc38a029e7b588abd83360d1bf7797a7eee98da39b8249d2023e5",
+      "size_bytes": 18100669
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_80035_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_22__late_close.jsonl",
+      "relative_path": "traces/variant_80035_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_22__late_close.jsonl",
+      "sha256": "b3966a6928819c341ff8f5ac208ee35ea0337d3b51a6c207d6dd8ac9396708cd",
+      "size_bytes": 19556229
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_80040_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_06__nominal.jsonl",
+      "relative_path": "traces/variant_80040_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_06__nominal.jsonl",
+      "sha256": "d633eb19a319bd0030e73ba5ee83545f355c04bcb1a132924818766f782deb76",
+      "size_bytes": 19238824
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_80041_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_06__qpos_small_plus.jsonl",
+      "relative_path": "traces/variant_80041_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_06__qpos_small_plus.jsonl",
+      "sha256": "d18a24500292d8cc944a85a7176236f35c525fba18b02b426f4f062d97233cd7",
+      "size_bytes": 19229620
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_80042_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_06__qpos_small_minus.jsonl",
+      "relative_path": "traces/variant_80042_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_06__qpos_small_minus.jsonl",
+      "sha256": "3c0074896ecc551c9204bb95b227b58cf3538fbcee9af2103896db291639b00b",
+      "size_bytes": 19219347
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_80043_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_06__slow_guarded_contact.jsonl",
+      "relative_path": "traces/variant_80043_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_06__slow_guarded_contact.jsonl",
+      "sha256": "b4566b23a7f69caf7428fd355a3b576f7d45a601efefa822810bc721b43d3edc",
+      "size_bytes": 19739245
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_80044_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_06__fast_guarded_contact.jsonl",
+      "relative_path": "traces/variant_80044_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_06__fast_guarded_contact.jsonl",
+      "sha256": "42425d4c58511c85d3336fcffe15573f9eeac69389b593a04adebf955c8ef231",
+      "size_bytes": 18653817
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/traces/variant_80045_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_06__late_close.jsonl",
+      "relative_path": "traces/variant_80045_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_06__late_close.jsonl",
+      "sha256": "f6c406a61f5e5ff8feb625c4220c82999482fa7fc90c5ac9aea598c7774d1139",
+      "size_bytes": 19681039
+    }
+  ],
+  "generated_at_utc": "2026-05-05T09:17:14Z",
+  "raw_files_committed": false,
+  "run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z",
+  "total_size_bytes": 1114798876,
+  "tree": "traces"
+}

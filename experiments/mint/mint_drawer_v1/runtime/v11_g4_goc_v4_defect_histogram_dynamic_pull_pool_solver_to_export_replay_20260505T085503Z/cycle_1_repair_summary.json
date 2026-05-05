@@ -1,0 +1,30 @@
+{
+  "admitted_count": 25,
+  "best_legal_candidate_id": "dh_c1_admitted_island_densify_01",
+  "best_legal_drawer_fraction": 1.0,
+  "best_legal_max_penetration_m": 0.0016301962182954412,
+  "best_legal_target_contact_frames": 4856,
+  "best_legal_two_pad_retention_frames": 101,
+  "best_overall_candidate_id": "dh_c1_admitted_island_densify_01",
+  "best_overall_drawer_fraction": 1.0,
+  "best_overall_forbidden_contact_frames": 0,
+  "candidate_count": 28,
+  "cumulative_admitted_count": 25,
+  "cycle": 1,
+  "defect_label_histogram": {
+    "MIXED_DEFECT": 2,
+    "STRUCTURE_DEFECT": 1
+  },
+  "dominant_failure_histogram": {
+    "ADMITTED": 25,
+    "APPROACH_CORRIDOR_BLOCKED": 1,
+    "DRAWER_QPOS_NONMONOTONIC": 2
+  },
+  "generated_at_utc": "2026-05-05T09:07:18Z",
+  "operator_progress_metric": [
+    25,
+    1.0,
+    101,
+    0
+  ]
+}

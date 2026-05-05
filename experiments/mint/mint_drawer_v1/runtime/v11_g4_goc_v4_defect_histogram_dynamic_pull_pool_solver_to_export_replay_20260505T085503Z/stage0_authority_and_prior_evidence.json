@@ -1,0 +1,61 @@
+{
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "defect_histogram_ingested": true,
+  "fixed_pool_used_only_as_negative_baseline": true,
+  "generated_at_utc": "2026-05-05T08:55:07Z",
+  "git_status_short": "M .project-memory/STATUS.md\n M .session/checkpoint.md\n M experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_defect_histogram_dynamic_pull_pool_solver.json\n M experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_defect_histogram_dynamic_pull_pool_solver.json",
+  "harness_preflight_passed": true,
+  "head": "1de91c62ef9dbc3f2934cb045a15dfbb1d45a0db",
+  "old_fixed_pool_modified": false,
+  "preflight": {
+    "cmd": [
+      "/root/anaconda3/envs/infinigen/bin/python",
+      "experiments/mint/mint_drawer_v1/scripts/harness/agent_task_preflight.py",
+      "--spec",
+      "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay.yaml",
+      "--dry-run"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "\n======================================================================\n  Agent Task Pre-flight\n======================================================================\n  campaign_root: /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1\n  task_spec:    /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay.yaml\n  dry_run:      True\n\n  [LOCK] Production lock enforcement\n  [PASS] Production lock valid: status=production_ready, generated_by=validate_harness_production_lock.py, validators_intact=5 files, task_spec_bound=experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay.yaml, task_spec_hash_verified=True, attestation_verified=True, lock_format=V3\n\n  [V01] validate_task_authority (S0 gate)\n  [PASS] V01 validate_task_authority\n\n  [V02] validate_diff_scope\n  [PASS] V02 validate_diff_scope\n\n======================================================================\n  Pre-flight Summary\n======================================================================\n  Passed: 2\n  Failed: 0\n  Task spec: v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay.yaml\n  Pre-flight callable: True\n  Production lock: verified (always required \u2014 no bypass)\n\n  ALL PRE-FLIGHT VALIDATORS PASSED.\n  Agent may proceed with execution.\n  Next: run V03 during execution, V04 at closeout.\n"
+  },
+  "prior_defect_histogram": {
+    "APPROACH_CORRIDOR_BLOCKED": 4,
+    "DRAWER_QPOS_NONMONOTONIC": 3,
+    "FULL_BODY_KEEP_OUT_FAILED": 4,
+    "GUARDED_IK_INFEASIBLE": 5,
+    "PULL_WRENCH_INSUFFICIENT": 3,
+    "TWO_PAD_RETENTION_FAILED": 13
+  },
+  "prior_files": {
+    "candidate_admission_report.json": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/candidate_admission_report.json",
+    "candidate_admission_report_repair_cycle_1.json": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/candidate_admission_report_repair_cycle_1.json",
+    "candidate_admission_report_repair_cycle_2.json": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/candidate_admission_report_repair_cycle_2.json",
+    "candidate_admission_report_repair_cycle_3.json": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/candidate_admission_report_repair_cycle_3.json",
+    "candidate_defect_aggregate_summary.json": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/candidate_defect_aggregate_summary.json",
+    "candidate_oracle_results.jsonl": {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/candidate_oracle_results.jsonl",
+      "rows": 9
+    },
+    "candidate_oracle_results_repair_cycle_1.jsonl": {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/candidate_oracle_results_repair_cycle_1.jsonl",
+      "rows": 9
+    },
+    "candidate_oracle_results_repair_cycle_2.jsonl": {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/candidate_oracle_results_repair_cycle_2.jsonl",
+      "rows": 7
+    },
+    "candidate_oracle_results_repair_cycle_3.jsonl": {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/candidate_oracle_results_repair_cycle_3.jsonl",
+      "rows": 7
+    },
+    "final_closeout.json": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/final_closeout.json",
+    "trace_hash_manifest.json": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/trace_hash_manifest.json"
+  },
+  "prior_run": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z",
+  "pwd": "/mnt/afs2/zhuhaowu/infinigen",
+  "remote_v": "my-origin\tgit@github.com:lqzhw520/infinigen.git (fetch)\nmy-origin\tgit@github.com:lqzhw520/infinigen.git (push)\norigin\thttps://github.com/princeton-vl/infinigen.git (fetch)\norigin\thttps://github.com/princeton-vl/infinigen.git (push)",
+  "task_id": "V11_G4_GOC_V4_DEFECT_HISTOGRAM_DYNAMIC_PULL_POOL_SOLVER_TO_EXPORT_REPLAY_V1",
+  "task_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay.yaml",
+  "task_spec_lock_bound": true
+}

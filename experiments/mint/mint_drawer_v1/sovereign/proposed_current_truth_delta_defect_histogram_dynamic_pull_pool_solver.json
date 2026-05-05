@@ -1,13 +1,14 @@
 {
-  "candidate_pool_admitted_count": 9,
-  "closeout_classification": "DEFECT_HISTOGRAM_SOLVER_FULL30_FAILED",
+  "candidate_pool_admitted_count": 25,
+  "closeout_classification": "DYNAMIC_PULL_ACCESSIBLE_POOL_STRICT_EXPORT_LOCAL_REPLAY_READY",
+  "full30_cases_passed": 30,
   "full30_certification_attempted": true,
-  "generated_at_utc": "2026-05-05T07:42:31Z",
-  "local_strict_replay_render_passed": false,
-  "next_gate": "ROBUST_DYNAMIC_PULL_GENERALIZATION_REPAIR",
+  "generated_at_utc": "2026-05-05T09:26:00Z",
+  "local_strict_replay_render_passed": true,
+  "next_gate": "MANUAL_VISUAL_AND_SCIENCE_REVIEW_BEFORE_MINT_DATASET_ADMISSION",
   "proposal_id": "proposed_current_truth_delta_defect_histogram_dynamic_pull_pool_solver",
-  "source_run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T072519Z",
-  "strict_teacher_export_complete": false,
+  "source_run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z",
+  "strict_teacher_export_complete": true,
   "targeted_shard_passed": true,
-  "teacher_rollout_remains_blocked": true
+  "teacher_rollout_remains_blocked": false
 }

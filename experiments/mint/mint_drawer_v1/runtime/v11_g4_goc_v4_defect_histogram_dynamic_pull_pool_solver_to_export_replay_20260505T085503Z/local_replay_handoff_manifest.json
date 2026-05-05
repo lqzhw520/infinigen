@@ -1,0 +1,82 @@
+{
+  "claim_boundary": "Local artifacts remain in Playground local_replay; this remote handoff records hashes and strict replay/render pass metrics.",
+  "generated_at_utc": "2026-05-05T09:26:00Z",
+  "local_artifact_hashes": [
+    {
+      "exists": true,
+      "path": "/Users/zhuhaowu/Documents/Playground/local_replay/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/import_manifest.json",
+      "sha256": "2e09de334cc9545352f6ed63dd21d5ddc4c518699ee3e3dbfbec4fc6addf0d23",
+      "size_bytes": 471
+    },
+    {
+      "exists": true,
+      "path": "/Users/zhuhaowu/Documents/Playground/local_replay/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/strict_replay_metrics.json",
+      "sha256": "7405f90c3531744e5f9f1696712a325aafeb9db5378daa154804c4395d3607c7",
+      "size_bytes": 39655
+    },
+    {
+      "exists": true,
+      "path": "/Users/zhuhaowu/Documents/Playground/local_replay/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/render_manifest.json",
+      "sha256": "acb652d439f0f6828c722c31f9b09e3d06f65dbcedd0e532cde8191270b3c494",
+      "size_bytes": 1135
+    },
+    {
+      "exists": true,
+      "path": "/Users/zhuhaowu/Documents/Playground/local_replay/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/visual_review_packet.md",
+      "sha256": "7130fb609aa31bfbc0f8dfb6f63bce7387a67cd4d3514ac235f89838a62f3fa0",
+      "size_bytes": 430
+    },
+    {
+      "exists": true,
+      "path": "/Users/zhuhaowu/Documents/Playground/local_replay/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/render/strict_replay_preview.mp4",
+      "sha256": "10b5877b40f9f8773df996811b364db110fcf67e362ffcf34f8e7a5b4f83822b",
+      "size_bytes": 136960
+    },
+    {
+      "exists": true,
+      "path": "/Users/zhuhaowu/Documents/Playground/local_replay/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/render/keyframe_00000.png",
+      "sha256": "c3ee51820181af5c2b4d90fa14ee5314e5ae9fb92298a24ad0b1b043a2e1a052",
+      "size_bytes": 21515
+    },
+    {
+      "exists": true,
+      "path": "/Users/zhuhaowu/Documents/Playground/local_replay/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/render/keyframe_03445.png",
+      "sha256": "1b939f835ba3674fc2e0bda5a85ef50a7b94cba9a7d757c9c6d545d024248440",
+      "size_bytes": 17484
+    },
+    {
+      "exists": true,
+      "path": "/Users/zhuhaowu/Documents/Playground/local_replay/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/render/keyframe_04156.png",
+      "sha256": "fd474d028c0e608ab65c450a1f210976b201b1bf5d211fb5e1bcc9c4591a2bb1",
+      "size_bytes": 17925
+    },
+    {
+      "exists": true,
+      "path": "/Users/zhuhaowu/Documents/Playground/local_replay/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/render/keyframe_06889.png",
+      "sha256": "60903683bf8da337cc75e0674fb10298dd01070037dd2df32a1e5064f74a8644",
+      "size_bytes": 19035
+    }
+  ],
+  "local_metrics_summary": {
+    "cases_passed": 30,
+    "cases_total": 30,
+    "drawer_qpos_abs_mismatch_max": 0.0,
+    "forbidden_contact_frame_count_max": 0,
+    "handle_nonlegal_contact_frame_count_max": 0,
+    "local_strict_replay_passed": true,
+    "max_penetration_local_m": 0.0019089582744510683
+  },
+  "local_replay_dir": "/Users/zhuhaowu/Documents/Playground/local_replay/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z",
+  "local_strict_replay_attempted": true,
+  "local_strict_replay_render_passed": true,
+  "render_summary": {
+    "keyframe_count": 4,
+    "local_strict_replay_render_passed": true,
+    "render_case": {
+      "candidate_id": "dh_c1_admitted_island_densify_25",
+      "perturbation": "nominal"
+    },
+    "video_exists": true,
+    "video_size_bytes": 136960
+  }
+}

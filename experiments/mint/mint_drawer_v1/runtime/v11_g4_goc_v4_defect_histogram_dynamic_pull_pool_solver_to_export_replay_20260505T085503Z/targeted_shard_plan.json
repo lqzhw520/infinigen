@@ -1,0 +1,27 @@
+{
+  "candidate_ids": [
+    "dh_c1_admitted_island_densify_25",
+    "dh_c1_admitted_island_densify_21",
+    "dh_c1_admitted_island_densify_26",
+    "dh_c1_admitted_island_densify_22",
+    "dh_c1_admitted_island_densify_06",
+    "dh_c1_admitted_island_densify_13",
+    "dh_c1_admitted_island_densify_14"
+  ],
+  "case_count": 7,
+  "cycle": 1,
+  "generated_at_utc": "2026-05-05T09:07:18Z",
+  "hard_fail_reasons": [],
+  "source_mix": {
+    "generated_variant": 3,
+    "repaired_layout": 4
+  },
+  "supported_perturbations_used": [
+    "nominal",
+    "slow_guarded_contact",
+    "qpos_small_plus",
+    "qpos_small_minus",
+    "fast_guarded_contact",
+    "late_close"
+  ]
+}

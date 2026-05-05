@@ -1,7 +1,7 @@
 {
-  "closeout_classification": "DEFECT_HISTOGRAM_SOLVER_FULL30_FAILED",
-  "generated_at_utc": "2026-05-05T07:42:31Z",
+  "closeout_classification": "DYNAMIC_PULL_ACCESSIBLE_POOL_STRICT_EXPORT_LOCAL_REPLAY_READY",
+  "generated_at_utc": "2026-05-05T09:26:00Z",
   "proposal_id": "proposed_next_actions_defect_histogram_dynamic_pull_pool_solver",
-  "recommended_next_gate": "ROBUST_DYNAMIC_PULL_GENERALIZATION_REPAIR",
-  "required_action": "use exhausted operator certificate to decide whether to expand structural generator or controller search space"
+  "recommended_next_gate": "MANUAL_VISUAL_AND_SCIENCE_REVIEW_BEFORE_MINT_DATASET_ADMISSION",
+  "required_action": "manual visual and science review before MINT dataset admission; do not start MINT train/eval from this phase alone"
 }

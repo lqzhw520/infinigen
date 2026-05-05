@@ -1,0 +1,26 @@
+{
+  "cases_failed": 0,
+  "cases_passed": 7,
+  "cases_total": 7,
+  "cycle": 1,
+  "direct_qpos_drawer_opening": false,
+  "drawer_motor_command_used": false,
+  "failure_histogram": {},
+  "forbidden_contact_frames_max": 0,
+  "generated_at_utc": "2026-05-05T09:09:03Z",
+  "handle_nonlegal_contact_frames_max": 0,
+  "matrix_passed": true,
+  "max_drawer_fraction_max": 1.0,
+  "max_drawer_fraction_min": 1.0,
+  "max_force_n": 65.19432183594245,
+  "max_penetration_m": 0.0018950247400055173,
+  "name": "targeted_shard",
+  "pull_phase_target_contact_frames_min": 2808,
+  "pull_phase_two_pad_target_contact_frames_min": 486,
+  "structural_label_histogram": {
+    "FORCE_PRESENT_BUT_DRAWER_NONMONOTONIC": 7
+  },
+  "target_contact_consecutive_min": 1187,
+  "target_contact_frames_min": 3018,
+  "targeted_shard_passed": true
+}

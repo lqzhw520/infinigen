@@ -1,0 +1,44 @@
+# Defect To Repair Operator Map
+
+## FULL_BODY_KEEP_OUT_FAILED
+- increase cabinet side clearance envelope
+- change approach topology side/top/front
+- modify robot mount side/yaw/height
+- add nullspace keepout around link5/link6/link7/hand
+- reject candidate if keepout impossible
+
+## GUARDED_IK_INFEASIBLE
+- adjust handle exposure
+- adjust handle height/depth
+- adjust robot mount height/yaw
+- generate handle pose within Panda two-pad IK reachable shell
+- reject if constrained IK infeasible
+
+## APPROACH_CORRIDOR_BLOCKED
+- widen approach corridor
+- select alternate active handle/drawer
+- change pregrasp side
+- add corridor signed-clearance oracle
+- reject narrow-cabinet candidate
+
+## PULL_WRENCH_INSUFFICIENT
+- align pull direction with drawer prismatic axis
+- adjust handle frame / pad contact normal
+- increase contact hold before pull
+- adjust gripper close schedule
+- select handle geometry with better pull lever / exposure
+- reject if wrench projection insufficient
+
+## TWO_PAD_RETENTION_FAILED
+- adjust gripper span / pad separation
+- adjust pad target points on handle
+- adjust handle bar width/pose in generated variant
+- add reseat / regrasp mode
+- add normal compliance / tangential pull decoupling
+
+## DRAWER_QPOS_NONMONOTONIC
+- smooth pull velocity
+- reduce normal force oscillation
+- add drawer-axis velocity controller
+- extend contact hold before pull
+- reject unstable mechanism dynamics candidate

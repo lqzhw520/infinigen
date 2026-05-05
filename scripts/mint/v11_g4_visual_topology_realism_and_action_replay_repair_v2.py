@@ -230,7 +230,7 @@ class V2ShortStubSupportedDrawerBuilder(ORIGINAL_BUILDER):
         door_x = front_face_x + front_half_thickness
         cabinet_y = hy
         cabinet_z = float(v.get("cabinet_z", max(0.34, hz - 0.045)))
-        door_half_width = float(v.get("door_half_width", 0.19))
+        door_half_width = float(v.get("door_half_width", 0.30))
         door_half_height = float(v.get("door_half_height", 0.23))
         tray_depth = float(v.get("tray_depth", 0.165))
         tray_half_width = float(

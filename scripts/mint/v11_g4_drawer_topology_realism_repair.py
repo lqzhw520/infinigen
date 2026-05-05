@@ -708,13 +708,26 @@ def postprocess_outputs(run_dir: Path, prior: Path | None) -> dict[str, Any]:
         item["topology_audit"] = by_id.get(item.get("candidate_id"), {}).get(
             "topology_audit"
         ) or topology_audit(item.get("model_xml"), item.get("candidate_id"))
+        refusals = [
+            r
+            for r in (item.get("strict_refusals") or [])
+            if r != "topology_realism_audit_failed"
+        ]
         if not item["topology_audit"].get("topology_realism_passed"):
-            item.setdefault("strict_refusals", []).append(
-                "topology_realism_audit_failed"
-            )
+            refusals.append("topology_realism_audit_failed")
+        item["strict_refusals"] = sorted(set(refusals))
     if export:
+        incomplete_reasons = []
+        for item in export.get("trace_items", []) or []:
+            if item.get("strict_refusals"):
+                incomplete_reasons.extend(
+                    f"{item.get('candidate_id')}:{item.get('perturbation')}:{reason}"
+                    for reason in item["strict_refusals"]
+                )
+        export["incomplete_reasons"] = incomplete_reasons
         export["strict_teacher_export_complete"] = bool(
-            export.get("strict_teacher_export_complete")
+            export.get("trace_items")
+            and not incomplete_reasons
             and all(
                 i.get("topology_audit", {}).get("topology_realism_passed")
                 for i in export.get("trace_items", []) or []

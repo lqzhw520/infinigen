@@ -274,6 +274,14 @@ def controller_variants() -> list[dict[str, Any]]:
         if name not in seen:
             seen.add(name)
             unique.append(v)
+    priority = {
+        "pc02_micro_lead_high_damping_semi_close": 0,
+        "pf03_low_press_axis_work_ik_hold": 1,
+        "pf04_firm_press_slow_axis_work_binary_close": 2,
+        "cd_keepout_micro_pull_low_press_ik_hold": 3,
+        "cd_keepout_slow_binary_close_low_gain": 4,
+    }
+    unique.sort(key=lambda v: priority.get(str(v.get("name")), 100))
     return unique[:12]
 
 
@@ -460,6 +468,8 @@ def evaluate_cycle(run_dir: Path, cycle: int, candidates: list[dict[str, Any]]) 
                 for off, variant in enumerate(variants):
                     row = cd.run_case(physical, "nominal", variant, run_dir, cycle * 10000 + idx * 100 + off, f"cycle_{cycle}_probe")
                     probe_rows.append(row)
+                    if row.get("passed"):
+                        break
                 probe_best = max(probe_rows, key=row_rank, default={})
             result = cd.oracle_result(candidate, physical, probe_best, probe_rows)
         except Exception as exc:
@@ -490,6 +500,7 @@ def evaluate_cycle(run_dir: Path, cycle: int, candidates: list[dict[str, Any]]) 
             physical["parent_instance_id"] = candidate.get("parent_instance_id")
             physical["selected_pull_variant"] = selected_variant
             physical["selected_pull_variant_name"] = selected_variant["name"]
+            physical["admission_best_probe_row"] = probe_best
             admitted.append(physical)
     summary = summarize_cycle(results, cycle)
     summary["repair_operators_applied"] = sorted({c.get("targeted_defect_cluster") for c in candidates})
@@ -551,8 +562,40 @@ def source_mix_ok(admitted: list[dict[str, Any]]) -> bool:
     return counts.get("generated_variant", 0) >= 2 and counts.get("repaired_layout", 0) >= 2
 
 
+def admitted_rank(candidate: dict[str, Any]) -> tuple[float, ...]:
+    row = candidate.get("admission_best_probe_row")
+    row = row if isinstance(row, dict) else {}
+    return (
+        float(row.get("max_drawer_fraction", 0.0) or 0.0),
+        float(row.get("pull_phase_two_pad_target_contact_frames", 0) or 0),
+        -float(row.get("forbidden_contact_frames", 9999) or 9999),
+        -float(row.get("handle_nonlegal_contact_frames", 9999) or 9999),
+        -float(row.get("max_penetration_m", 9999.0) or 9999.0),
+    )
+
+
+def select_targeted_candidates(admitted: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    ranked = sorted(admitted, key=admitted_rank, reverse=True)
+    selected: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    for source in ("generated_variant", "repaired_layout"):
+        for candidate in [c for c in ranked if c.get("co_design_source_type") == source][:2]:
+            cid = str(candidate.get("candidate_id"))
+            if cid not in seen:
+                selected.append(candidate)
+                seen.add(cid)
+    for candidate in ranked:
+        cid = str(candidate.get("candidate_id"))
+        if cid not in seen:
+            selected.append(candidate)
+            seen.add(cid)
+        if len(selected) >= 7:
+            break
+    return selected[:7]
+
+
 def run_targeted(run_dir: Path, admitted: list[dict[str, Any]], cycle: int) -> tuple[dict[str, Any], list[dict[str, Any]]]:
-    selected = admitted[:7] if len(admitted) >= 7 else admitted[:]
+    selected = select_targeted_candidates(admitted) if len(admitted) >= 7 else admitted[:]
     plan = {"generated_at_utc": utc_now(), "cycle": cycle, "case_count": len(selected), "candidate_ids": [c["candidate_id"] for c in selected], "source_mix": dict(Counter(str(c.get("co_design_source_type")) for c in selected)), "hard_fail_reasons": []}
     if len(selected) < 7:
         plan["hard_fail_reasons"].append("TARGETED_CASE_COUNT_LT_7")
@@ -567,7 +610,22 @@ def run_targeted(run_dir: Path, admitted: list[dict[str, Any]], cycle: int) -> t
         perturbations = cd.DEFAULT_TARGETED_PERTURBATIONS
         for idx, candidate in enumerate(selected):
             variant = candidate.get("selected_pull_variant") or CONTROLLER_VARIANTS[0]
-            row = cd.run_case(candidate, perturbations[idx % len(perturbations)], variant, run_dir, 70000 + idx, "targeted_shard")
+            try:
+                row = cd.run_case(candidate, perturbations[idx % len(perturbations)], variant, run_dir, 70000 + idx, "targeted_shard")
+            except Exception as exc:
+                row = {
+                    "candidate_id": candidate.get("candidate_id"),
+                    "perturbation": perturbations[idx % len(perturbations)],
+                    "passed": False,
+                    "failure_reasons": ["TARGETED_CASE_EXECUTION_FAILED"],
+                    "exception_type": type(exc).__name__,
+                    "exception": repr(exc),
+                    "direct_qpos_drawer_opening": False,
+                    "drawer_motor_command_used": False,
+                    "forbidden_contact_frames": 9999,
+                    "handle_nonlegal_contact_frames": 9999,
+                    "max_drawer_fraction": 0.0,
+                }
             rows.append(row)
             append_jsonl(out, row)
     summary = cd.summarize_rows(rows, "targeted_shard") if rows else {"generated_at_utc": utc_now(), "cases_total": len(selected), "cases_passed": 0, "cases_failed": len(selected), "matrix_passed": False, "failure_histogram": {r: 1 for r in plan["hard_fail_reasons"]}}
@@ -591,7 +649,22 @@ def run_full30(run_dir: Path, admitted: list[dict[str, Any]]) -> tuple[dict[str,
     for cidx, candidate in enumerate(selected):
         variant = candidate.get("selected_pull_variant") or CONTROLLER_VARIANTS[0]
         for pidx, perturb in enumerate(cd.PERTURBATIONS[:6]):
-            row = cd.run_case(candidate, perturb["name"], variant, run_dir, 80000 + cidx * 10 + pidx, "full30_dynamic_pull")
+            try:
+                row = cd.run_case(candidate, perturb["name"], variant, run_dir, 80000 + cidx * 10 + pidx, "full30_dynamic_pull")
+            except Exception as exc:
+                row = {
+                    "candidate_id": candidate.get("candidate_id"),
+                    "perturbation": perturb["name"],
+                    "passed": False,
+                    "failure_reasons": ["FULL30_CASE_EXECUTION_FAILED"],
+                    "exception_type": type(exc).__name__,
+                    "exception": repr(exc),
+                    "direct_qpos_drawer_opening": False,
+                    "drawer_motor_command_used": False,
+                    "forbidden_contact_frames": 9999,
+                    "handle_nonlegal_contact_frames": 9999,
+                    "max_drawer_fraction": 0.0,
+                }
             rows.append(row)
             append_jsonl(out, row)
     summary = cd.summarize_rows(rows, "full30_dynamic_pull_certification")

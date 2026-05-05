@@ -193,7 +193,26 @@ class TopologyRealisticDrawerBuilder(ORIGINAL_BUILDER):
         stem_start_x = front_face_x - 0.003
         stem_end_x = hx + radius
         stem_radius = float(v.get("connector_radius", min(0.012, radius * 0.55)))
-        front_xml = f"""
+        if bool(v.get("front_cutout", True)):
+            raw_cutout_w = float(v.get("cutout_half_width", door_half_width * 0.66))
+            raw_cutout_h = float(v.get("cutout_half_height", door_half_height * 0.52))
+            cutout_half_width = min(
+                max(raw_cutout_w, 0.070), max(door_half_width - 0.040, 0.070)
+            )
+            cutout_half_height = min(
+                max(raw_cutout_h, 0.070), max(door_half_height - 0.040, 0.070)
+            )
+            side_width = max((door_half_width - cutout_half_width) / 2.0, 0.020)
+            top_height = max((door_half_height - cutout_half_height) / 2.0, 0.020)
+            side_y = cutout_half_width + side_width
+            top_z = cutout_half_height + top_height
+            front_xml = f"""
+    <geom name="drawer_front_left_panel_collision" type="box" pos="{door_x:.4f} {cabinet_y - side_y:.4f} {cabinet_z:.4f}" size="0.025 {side_width:.4f} {door_half_height:.4f}" contype="1" conaffinity="1" rgba="0.90 0.88 0.85 1"/>
+    <geom name="drawer_front_right_panel_collision" type="box" pos="{door_x:.4f} {cabinet_y + side_y:.4f} {cabinet_z:.4f}" size="0.025 {side_width:.4f} {door_half_height:.4f}" contype="1" conaffinity="1" rgba="0.90 0.88 0.85 1"/>
+    <geom name="drawer_front_top_panel_collision" type="box" pos="{door_x:.4f} {cabinet_y:.4f} {cabinet_z + top_z:.4f}" size="0.025 {cutout_half_width:.4f} {top_height:.4f}" contype="1" conaffinity="1" rgba="0.90 0.88 0.85 1"/>
+    <geom name="drawer_front_bottom_panel_collision" type="box" pos="{door_x:.4f} {cabinet_y:.4f} {cabinet_z - top_z:.4f}" size="0.025 {cutout_half_width:.4f} {top_height:.4f}" contype="1" conaffinity="1" rgba="0.90 0.88 0.85 1"/>"""
+        else:
+            front_xml = f"""
     <geom name="drawer_front_panel_collision" type="box" pos="{door_x:.4f} {cabinet_y:.4f} {cabinet_z:.4f}" size="0.025 {door_half_width:.4f} {door_half_height:.4f}" contype="1" conaffinity="1" rgba="0.90 0.88 0.85 1"/>"""
         tray_xml = f"""
     <geom name="drawer_tray_bottom_collision" type="box" pos="{tray_center_x:.4f} {cabinet_y:.4f} {tray_bottom_z:.4f}" size="{tray_depth / 2.0:.4f} {tray_half_width:.4f} {tray_wall:.4f}" contype="1" conaffinity="1" rgba="0.78 0.74 0.68 1"/>

@@ -8,11 +8,14 @@
 - full30_attempted: `False`
 - strict_export_complete: `False`
 - local_replay_render_passed: `False`
+- committed: `True`
+- pushed_to_origin: `True`
+- evidence_remote_commit_hash: `810775d72b3a5ec58789dbc88c416bd4997ee89e`
 
 Best overall dynamic opening was `0.986625089646256` on `dynamic_generated_low_y_offset_003`, but it failed strict admission with `33` forbidden-contact frames.
 
 Best keepout-legal opening was `0.5253545174648184` on `dynamic_keepout_old002_yneg`, but it still failed strict admission as `TWO_PAD_RETENTION_FAILED`.
 
-Dominant candidate failure histogram: `{'FULL_BODY_KEEP_OUT_FAILED': 4, 'GUARDED_IK_INFEASIBLE': 5, 'APPROACH_CORRIDOR_BLOCKED': 4, 'PULL_WRENCH_INSUFFICIENT': 3, 'TWO_PAD_RETENTION_FAILED': 13, 'DRAWER_QPOS_NONMONOTONIC': 3}`.
+Dominant candidate failure histogram: `{'APPROACH_CORRIDOR_BLOCKED': 4, 'DRAWER_QPOS_NONMONOTONIC': 3, 'FULL_BODY_KEEP_OUT_FAILED': 4, 'GUARDED_IK_INFEASIBLE': 5, 'PULL_WRENCH_INSUFFICIENT': 3, 'TWO_PAD_RETENTION_FAILED': 13}`.
 
 The prior fixed pool was used only as a negative baseline; it was not modified and was not promoted to strict export.

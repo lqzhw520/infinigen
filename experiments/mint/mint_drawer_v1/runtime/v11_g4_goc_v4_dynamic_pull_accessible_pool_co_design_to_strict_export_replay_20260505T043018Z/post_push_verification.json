@@ -1,0 +1,42 @@
+{
+  "all_paths_origin_visible": true,
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "generated_at_utc": "2026-05-05T05:01:13Z",
+  "local_head": "810775d72b3a5ec58789dbc88c416bd4997ee89e",
+  "origin_head_matches_local": true,
+  "path_checks": [
+    {
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_overnight.yaml"
+    },
+    {
+      "origin_visible": true,
+      "path": "scripts/mint/v11_g4_dynamic_pull_accessible_pool_co_design.py"
+    },
+    {
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/final_closeout.json"
+    },
+    {
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/candidate_oracle_results.jsonl"
+    },
+    {
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/targeted_shard_results.json"
+    },
+    {
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/stage9_final_checks.json"
+    },
+    {
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_dynamic_pull_accessible_pool_co_design.json"
+    },
+    {
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_dynamic_pull_accessible_pool_co_design.json"
+    }
+  ],
+  "remote_head": "810775d72b3a5ec58789dbc88c416bd4997ee89e"
+}

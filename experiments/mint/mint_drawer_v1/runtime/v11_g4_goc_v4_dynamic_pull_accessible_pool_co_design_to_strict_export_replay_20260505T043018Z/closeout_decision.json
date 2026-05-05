@@ -31,7 +31,7 @@
   "candidate_pool_total": 32,
   "candidate_rows_total": 32,
   "closeout_classification": "TARGETED_DYNAMIC_PULL_POOL_SHARD_FAILED",
-  "committed": false,
+  "committed": true,
   "controller_defect_count": 0,
   "current_truth_modified": false,
   "final_checks_passed": true,
@@ -51,10 +51,13 @@
   "next_actions_modified": false,
   "next_gate": "ANALYZE_DYNAMIC_PULL_POOL_CO_DESIGN_DEFECT_CERTIFICATES",
   "old_fixed_pool_modified": false,
-  "pushed_to_origin": false,
+  "post_push_verification_file": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/post_push_verification.json",
+  "post_push_verification_remote_head": "810775d72b3a5ec58789dbc88c416bd4997ee89e",
+  "post_push_verified": true,
+  "pushed_to_origin": true,
   "raw_generated_instances_committed": false,
   "raw_traces_committed": false,
-  "remote_commit_hash": null,
+  "remote_commit_hash": "810775d72b3a5ec58789dbc88c416bd4997ee89e",
   "runtime_patch_applied": true,
   "runtime_patch_files": [
     "scripts/mint/v11_g4_dynamic_pull_accessible_pool_co_design.py"
@@ -74,5 +77,6 @@
   "task_id": "V11_G4_GOC_V4_DYNAMIC_PULL_ACCESSIBLE_POOL_CO_DESIGN_TO_STRICT_EXPORT_REPLAY_OVERNIGHT_V1",
   "task_spec_lock_bound": true,
   "trace_hash_manifest": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/trace_hash_manifest.json",
-  "updated_at_utc": "2026-05-05T04:59:52Z"
+  "updated_at_utc": "2026-05-05T05:01:32Z",
+  "verification_note": "post_push_verification.json verifies the main evidence commit; the later closeout-verification commit makes this verification artifact origin-visible."
 }

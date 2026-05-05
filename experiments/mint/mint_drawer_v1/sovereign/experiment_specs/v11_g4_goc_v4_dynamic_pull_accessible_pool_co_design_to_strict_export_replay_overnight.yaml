@@ -1,0 +1,250 @@
+task_id: V11_G4_GOC_V4_DYNAMIC_PULL_ACCESSIBLE_POOL_CO_DESIGN_TO_STRICT_EXPORT_REPLAY_OVERNIGHT_V1
+task_type: STRUCTURE_CONTROL_CO_DESIGN_TO_STRICT_EXPORT_REPLAY_SCIENCE_PHASE
+task_version: "1.0.0"
+phase: dynamic_pull_accessible_pool_co_design_to_strict_export_replay
+target_gate: DYNAMIC_PULL_ACCESSIBLE_POOL_CO_DESIGN_AND_CERTIFICATION
+
+objective:
+  summary: >-
+    Generate, select, and/or repair a new dynamic-pull-accessible GOC-v4 drawer
+    candidate pool, then certify the new pool through physical accessibility,
+    pull-wrench accessibility, two-pad contact retention, full-body keepout,
+    drawer qpos monotonicity, strict GOC-v4 authority, targeted shard, full
+    30-case Layer4R plus pull certification, strict teacher export, and local
+    strict replay/render if and only if all preceding hard gates pass.
+  previous_closeout: DYNAMIC_PULL_INFEASIBLE_FIXED_POOL_CERTIFICATE
+  previous_next_gate: DYNAMIC_PULL_ACCESSIBLE_POOL_REDESIGN
+  upgraded_gate: DYNAMIC_PULL_ACCESSIBLE_POOL_CO_DESIGN_AND_CERTIFICATION
+  success_next_gate: MANUAL_VISUAL_AND_SCIENCE_REVIEW_BEFORE_MINT_DATASET_ADMISSION
+  claim_boundary: >-
+    This phase may certify a newly generated or repaired dynamic-pull-accessible
+    pool. It may certify strict teacher export and local replay only if all hard
+    gates pass. It does not certify all possible Infinigen drawers. It does not
+    run MINT train or evaluation. The previous fixed accepted pool is a negative
+    baseline and evidence source only.
+
+negative_baseline:
+  fixed_accepted_pool_remains_unchanged: true
+  fixed_accepted_pool_used_only_as_evidence: true
+  fixed_accepted_pool_not_used_as_strict_export_input: true
+  prior_run: experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z
+  required_prior_closeout: DYNAMIC_PULL_INFEASIBLE_FIXED_POOL_CERTIFICATE
+  required_prior_next_gate: DYNAMIC_PULL_ACCESSIBLE_POOL_REDESIGN
+  required_prior_layer4r_cases_total: 30
+  required_prior_layer4r_cases_passed: 30
+  required_prior_targeted_cases_total: 7
+  required_prior_best_targeted_cases_passed: 2
+
+# Validator-compatible baseline authority. Runtime authority for this phase is
+# strict GOC-v4 per-instance binding plus candidate-specific dedicated-pad and
+# true-handle verification. This block keeps the existing V01 production
+# validator anchored to its established GOC-v3 exact-ID fixture interface.
+task_authority:
+  authority_type: GOC_V3_EXACT_GEOM_ID_SETS_AS_SOURCE_BASELINE_FOR_GOC_V4_DYNAMIC_PULL_POOL_CO_DESIGN
+  goc_version: v3
+  goc_artifact_path: artifacts/phase1h_geometry_contract/goc_v3_contract.json
+  goc_contract: experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v3_contract.json
+  goc_contract_id: GOC_V3_EXACT_ID_GEOMETRY_OWNERSHIP_CONTRACT
+  legal_gripper_surface_geom_ids: [63, 81, 90]
+  forbidden_robot_surface_geom_ids: [45, 47, 49, 54, 59]
+  drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+  prohibited_authority:
+    - GOC-v2 count-only legal_pad=29 forbidden=26 handle=9
+    - runtime body-based legal=31 forbidden=27 without exact-ID role classification
+    - legacy name-only contact reports
+    - fixed drawer_handle_geom_ids=[0..8] as runtime authority without semantic verification
+    - broad-link, wrist, arm, or finger shell contact as target
+
+goc_v4_authority:
+  authority_type: GOC_V4_DEDICATED_FINGER_PAD_EXACT_GEOM_ID_SETS
+  per_instance_binding_required: true
+  exact_instance_binding_required: true
+  target_contact: legal_finger_pad_geom_ids <-> semantically_bound_drawer_handle_geom_ids only
+  forbidden_contact: nonlegal robot surfaces <-> drawer_handle/drawer/cabinet
+  broad_link_wrist_arm_finger_shell_target_rejected: true
+  body_based_31_27_rejected: true
+  name_only_contact_rejected: true
+  fixed_global_ids_may_not_be_reused_without_instance_verification: true
+
+success_requires:
+  candidate_dynamic_pull_accessible_pool_created: true
+  targeted_shard_passed: true
+  full_30_case_layer4r_and_pull_certification_passed: true
+  strict_teacher_export_complete: true
+  local_strict_replay_render_passed: true
+
+pool_admission_invariants:
+  physical_accessibility_invariant: true
+  pull_wrench_accessibility_invariant: true
+  two_pad_contact_retention_invariant: true
+  full_body_keepout_during_pull: true
+  drawer_qpos_monotonicity: true
+  strict_goc_v4_authority: true
+  no_direct_qpos: true
+  no_drawer_motor_command: true
+  no_forbidden_contact: true
+  no_handle_nonlegal_contact: true
+  max_penetration_m: 0.02
+  max_force_n: 1000000.0
+
+minimum_pool:
+  accepted_candidate_count_min: 5
+  targeted_shard_count_min: 7
+  full_certification_cases: 30
+  perturbations_per_candidate: 6
+
+stages:
+  stage0_authority_and_previous_evidence_ingestion:
+    outputs:
+      - stage0_authority_and_prior_evidence.json
+      - fixed_pool_negative_baseline_summary.md
+    must_record:
+      - old fixed accepted pool is not modified
+      - old pool is not used as strict export input
+      - old pool is used only to derive defect constraints
+  stage1_defect_certificate_from_fixed_pool:
+    classifications:
+      - CONTROLLER_DEFECT
+      - STRUCTURE_DEFECT
+      - MIXED_DEFECT
+      - EXPORT_INFRA_DEFECT
+      - UNKNOWN_DEFECT
+    outputs:
+      - fixed_pool_per_instance_defect_certificate.json
+      - fixed_pool_defect_summary.md
+  stage2_candidate_dynamic_pull_accessible_pool_generation:
+    sources:
+      - old_variant
+      - existing_asset
+      - generated_variant
+      - repaired_layout
+    forbidden_repairs:
+      - moving handle only to match robot without declaring generated variant
+      - shrinking or removing obstacles to fake access
+      - disabling robot collision
+      - demoting visible robot arm or hand collision
+      - deleting cabinet, door, or handle semantics
+    outputs:
+      - candidate_dynamic_pull_pool.json
+  stage3_joint_oracle_structure_control_admission:
+    oracles:
+      - O1_physical_accessibility
+      - O2_pull_wrench_accessibility
+      - O3_two_pad_contact_retention
+      - O4_full_body_keepout_during_pull
+      - O5_drawer_qpos_monotonicity
+      - O6_strict_goc_v4_authority
+    rejection_reasons:
+      - PHYSICAL_ACCESSIBILITY_FAILED
+      - PULL_WRENCH_INSUFFICIENT
+      - TWO_PAD_RETENTION_FAILED
+      - FULL_BODY_KEEP_OUT_FAILED
+      - DRAWER_QPOS_NONMONOTONIC
+      - STRICT_AUTHORITY_FAILED
+      - MIXED_STRUCTURE_CONTROL_DEFECT
+      - MODEL_LOAD_FAILED
+    outputs:
+      - candidate_oracle_results.jsonl
+      - candidate_admission_report.json
+  stage4_targeted_shard_first:
+    targeted_cases_min: 7
+    source_mix_minimums:
+      generated_variant: 2
+      repaired_layout: 2
+      old_variant: 1
+    max_targeted_repair_cycles: 3
+    pass_criteria:
+      target_contact_total_frames: 80
+      two_pad_contact_frames: 30
+      forbidden_contact_frames: 0
+      handle_nonlegal_contact_frames: 0
+      max_penetration_m: 0.02
+      max_force_n: 1000000.0
+      drawer_fraction: 0.80
+      drawer_qpos_monotonic: true
+      no_direct_qpos: true
+      no_drawer_motor_command: true
+    outputs:
+      - targeted_shard_results.json
+      - targeted_shard_repair_cycles.jsonl
+  stage5_full_30_case_layer4r_plus_pull_certification:
+    enter_only_if_targeted_shard_passes: true
+    matrix_cases: 30
+    all_cases_must_pass: true
+    outputs:
+      - full30_dynamic_pull_certification.jsonl
+      - full30_dynamic_pull_certification_report.json
+      - full30_dynamic_pull_certification_report.md
+  stage6_strict_teacher_export:
+    enter_only_if_full30_passes: true
+    outputs:
+      - strict_teacher_export_manifest.json
+      - strict_teacher_export_report.md
+  stage7_local_strict_replay_render:
+    enter_only_if_export_passes: true
+    local_playground_root: /Users/zhuhaowu/Documents/Playground
+    reference_visual: /Users/zhuhaowu/Downloads/829cf360-90cc-4a6e-8a6a-b0e4321db4e2.png
+    outputs:
+      - local_replay_handoff_manifest.json
+  stage8_proposed_sovereign_deltas:
+    outputs:
+      - experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_dynamic_pull_accessible_pool_co_design.json
+      - experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_dynamic_pull_accessible_pool_co_design.json
+
+hard_forbidden:
+  - new branch
+  - force push
+  - external/MINT mutation
+  - current_truth.json mutation
+  - next_actions.json mutation
+  - MINT train or eval
+  - threshold lowering
+  - direct drawer qpos opening
+  - drawer motor command
+  - forbidden contact acceptance
+  - broad shell/link/wrist/arm/finger-shell contact counted as target
+  - GOC-v4 authority broadening
+  - fake collision demotion
+
+remote:
+  approved_files:
+    - scripts/mint/v11_g4_dynamic_pull_accessible_pool_co_design.py
+    - scripts/mint/contact_aware_drawer_teacher.py
+    - scripts/mint/merged_model_builder.py
+    - scripts/mint/drawer_robot_env_mujoco.py
+    - scripts/mint/export_full_robot_teacher_replay_bundle.py
+    - scripts/mint/run_full_robot_teacher_probe.py
+    - experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_overnight.yaml
+    - experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_*
+    - experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_dynamic_pull_accessible_pool_co_design.json
+    - experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_dynamic_pull_accessible_pool_co_design.json
+    - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json
+    - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock_report.json
+    - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_attestation.json
+  forbidden_files:
+    - experiments/mint/mint_drawer_v1/sovereign/current_truth.json
+    - experiments/mint/mint_drawer_v1/sovereign/next_actions.json
+    - external/MINT
+    - external/MINT/*
+
+terminal_outcomes:
+  success:
+    - DYNAMIC_PULL_ACCESSIBLE_POOL_STRICT_EXPORT_LOCAL_REPLAY_READY
+  non_success:
+    - TARGETED_DYNAMIC_PULL_POOL_SHARD_FAILED
+    - FULL_DYNAMIC_PULL_CERTIFICATION_FAILED
+    - STRICT_TEACHER_EXPORT_FAILED
+    - LOCAL_STRICT_REPLAY_RENDER_FAILED
+    - ACCESSIBLE_POOL_CO_DESIGN_INSUFFICIENT
+    - TIME_BUDGET_EXHAUSTED
+    - HARNESS_PREFLIGHT_FAILED
+    - TASK_SPEC_LOCK_BINDING_FAILED
+    - DIRTY_FORBIDDEN_SCOPE
+    - EXECUTION_FAILED
+
+next_gate_rules:
+  if_success: MANUAL_VISUAL_AND_SCIENCE_REVIEW_BEFORE_MINT_DATASET_ADMISSION
+  if_targeted_shard_fails: ANALYZE_DYNAMIC_PULL_POOL_CO_DESIGN_DEFECT_CERTIFICATES
+  if_full30_fails: REPAIR_DYNAMIC_PULL_POOL_CERTIFICATION_DEFECTS
+  if_export_fails: STRICT_EXPORT_INFRA_REPAIR
+  if_local_replay_fails: LOCAL_STRICT_REPLAY_RENDER_REPAIR

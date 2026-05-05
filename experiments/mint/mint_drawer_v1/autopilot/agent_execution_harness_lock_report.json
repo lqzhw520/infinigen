@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-05-05T05:27:04Z",
+  "generated_at_utc": "2026-05-05T05:28:17Z",
   "harness_status": "production_ready",
   "checks": {
     "task_spec_binding": {
@@ -84,7 +84,7 @@
       "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_closeout.py": "00876f159f540a8c00f4f86df560fa77788535c2",
       "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml": "a9b30267254f281224a0285466bce873c0e698e2",
       "experiments/mint/mint_drawer_v1/autopilot/v11_hard_goal_contract.json": "13b699b3e23a99929c591ec08ae7c859172988e5",
-      "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json": "f01496c757a070985af7a39c4252bb374c09a717",
+      "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json": "8597f0dcb53dcdde8f278b309b12744c3fa2bf3d",
       "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay.yaml": "8add5e1a307948203431252fee89eed5c60a6790"
     },
     "hash_integrity": {
@@ -195,11 +195,11 @@
     "lock_id": "CAMPAIGN_NATIVE_HARNESS_PRODUCTION_LOCK_V3",
     "version": "3.0.0",
     "generated_by": "validate_harness_production_lock.py",
-    "generated_at_utc": "2026-05-05T05:27:04Z",
+    "generated_at_utc": "2026-05-05T05:28:17Z",
     "harness_status": "production_ready",
     "campaign_root": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1",
     "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
-    "local_head": "bf2ae400d76cb6202a5aa5222380912affcfe9f7",
+    "local_head": "602740d9ab99a310ff509619f83b23252cb1cfa7",
     "remote": "git@github.com:lqzhw520/infinigen.git",
     "lock_inputs": {
       "task_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay.yaml",
@@ -230,7 +230,7 @@
       "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_closeout.py": "00876f159f540a8c00f4f86df560fa77788535c2",
       "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml": "a9b30267254f281224a0285466bce873c0e698e2",
       "experiments/mint/mint_drawer_v1/autopilot/v11_hard_goal_contract.json": "13b699b3e23a99929c591ec08ae7c859172988e5",
-      "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json": "f01496c757a070985af7a39c4252bb374c09a717",
+      "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json": "8597f0dcb53dcdde8f278b309b12744c3fa2bf3d",
       "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay.yaml": "8add5e1a307948203431252fee89eed5c60a6790"
     },
     "validator_hashes": {
@@ -363,9 +363,9 @@
     "post_push_attestation": {
       "required": true,
       "path": "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_attestation.json",
-      "blob": "53d8526652348558153ad50c895ef5f9582420ab",
+      "blob": "578fe675809123bed82f98eecd214e6842bec3dc",
       "origin_verified": true,
-      "origin_head": "4cf0f8eab8c49a66d10a874bfee62a559d7453e9",
+      "origin_head": "3ea301a9188cf891f6321d23b5d860a4f171ae18",
       "required_file_blobs_verified": true,
       "regressions_verified_after_publication": true
     }

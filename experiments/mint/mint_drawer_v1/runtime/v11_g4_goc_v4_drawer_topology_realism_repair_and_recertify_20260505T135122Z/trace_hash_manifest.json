@@ -1,0 +1,406 @@
+{
+  "file_count": 66,
+  "files": [
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_10000_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_01__nominal.jsonl",
+      "relative_path": "traces/variant_10000_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_01__nominal.jsonl",
+      "sha256": "a73d8dca0d039b4ce540fa52b9b99d9cf95b99c1cdc7c0db6fff14bcb8a9c0b1",
+      "size_bytes": 9568839
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_10100_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_02__nominal.jsonl",
+      "relative_path": "traces/variant_10100_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_02__nominal.jsonl",
+      "sha256": "a73d8dca0d039b4ce540fa52b9b99d9cf95b99c1cdc7c0db6fff14bcb8a9c0b1",
+      "size_bytes": 9568839
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_10400_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_05__nominal.jsonl",
+      "relative_path": "traces/variant_10400_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_05__nominal.jsonl",
+      "sha256": "80a467356529562eeefb2e36ebc8dd9180b30570f521184a18a23c82fe3dd2b4",
+      "size_bytes": 7887399
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_10401_pf03_low_press_axis_work_ik_hold__dh_c1_admitted_island_densify_05__nominal.jsonl",
+      "relative_path": "traces/variant_10401_pf03_low_press_axis_work_ik_hold__dh_c1_admitted_island_densify_05__nominal.jsonl",
+      "sha256": "c4061eaec51c034e0f556cba84d976da9c4fd1a8973228dee9b7a415f42e62e2",
+      "size_bytes": 6765451
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_10402_pf04_firm_press_slow_axis_work_binary_close__dh_c1_admitted_island_densify_05__nominal.jsonl",
+      "relative_path": "traces/variant_10402_pf04_firm_press_slow_axis_work_binary_close__dh_c1_admitted_island_densify_05__nominal.jsonl",
+      "sha256": "a50bed3e9df69265a731d67649ca54d6e16ae76b4423cca1f21679fb2c3e92ea",
+      "size_bytes": 14423789
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_10403_cd_keepout_micro_pull_low_press_ik_hold__dh_c1_admitted_island_densify_05__nominal.jsonl",
+      "relative_path": "traces/variant_10403_cd_keepout_micro_pull_low_press_ik_hold__dh_c1_admitted_island_densify_05__nominal.jsonl",
+      "sha256": "f5bdb06858fd1e6a07587fec29896c6a357078281a8c06372fdf826e26ab3e9e",
+      "size_bytes": 7570935
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_10404_cd_keepout_slow_binary_close_low_gain__dh_c1_admitted_island_densify_05__nominal.jsonl",
+      "relative_path": "traces/variant_10404_cd_keepout_slow_binary_close_low_gain__dh_c1_admitted_island_densify_05__nominal.jsonl",
+      "sha256": "ee2a040984353725ae63312d24f18a2eb92c6d235a14d86833a516b13556b4c0",
+      "size_bytes": 17847128
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_10405_dh_solver_bar_retention_low_press_binary__dh_c1_admitted_island_densify_05__nominal.jsonl",
+      "relative_path": "traces/variant_10405_dh_solver_bar_retention_low_press_binary__dh_c1_admitted_island_densify_05__nominal.jsonl",
+      "sha256": "ec6cecc4506dcadcbc333fafe7d5dc3467f74919199511fe5903a991e33af651",
+      "size_bytes": 18118092
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_10406_dh_solver_bar_retention_semi_close__dh_c1_admitted_island_densify_05__nominal.jsonl",
+      "relative_path": "traces/variant_10406_dh_solver_bar_retention_semi_close__dh_c1_admitted_island_densify_05__nominal.jsonl",
+      "sha256": "4c0d10f44c91de666f34336dac63cdb3690fb02dbf567065db2c03da5c5fcb89",
+      "size_bytes": 7726770
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_10407_dh_solver_smooth_monotonic_ik_hold__dh_c1_admitted_island_densify_05__nominal.jsonl",
+      "relative_path": "traces/variant_10407_dh_solver_smooth_monotonic_ik_hold__dh_c1_admitted_island_densify_05__nominal.jsonl",
+      "sha256": "651c76ba5a9c25602f8caceddada7ca7ba95353aafcf012b542523a152e81c80",
+      "size_bytes": 9269870
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_10408_dh_solver_axis_work_moderate_press__dh_c1_admitted_island_densify_05__nominal.jsonl",
+      "relative_path": "traces/variant_10408_dh_solver_axis_work_moderate_press__dh_c1_admitted_island_densify_05__nominal.jsonl",
+      "sha256": "46bb8a56019ab8607438e84d08fbcfe47e8a5dbc640b66022e40c225006c3324",
+      "size_bytes": 14343772
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_10409_dh_solver_keepout_micro_lead_semi__dh_c1_admitted_island_densify_05__nominal.jsonl",
+      "relative_path": "traces/variant_10409_dh_solver_keepout_micro_lead_semi__dh_c1_admitted_island_densify_05__nominal.jsonl",
+      "sha256": "92c8f439c6b4b2ffdd3ad374cd40674fa641e8f54d820dd12fa012c73ce1977b",
+      "size_bytes": 9029787
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_10500_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_06__nominal.jsonl",
+      "relative_path": "traces/variant_10500_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_06__nominal.jsonl",
+      "sha256": "d6138e0587240f1ad9a80932461fac289713e5bade600d8a4310d97c144174e1",
+      "size_bytes": 9724611
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_10900_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_10__nominal.jsonl",
+      "relative_path": "traces/variant_10900_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_10__nominal.jsonl",
+      "sha256": "04bfc9cd4537de8f0b98346172cd178deb53f6022d719c79819ec1b750287570",
+      "size_bytes": 8942787
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_11100_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_12__nominal.jsonl",
+      "relative_path": "traces/variant_11100_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_12__nominal.jsonl",
+      "sha256": "4af2726b242cdf9d68cec6ec33239debd2483dd4b21e6dbc60c1fa06d401412d",
+      "size_bytes": 10203697
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_11200_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_13__nominal.jsonl",
+      "relative_path": "traces/variant_11200_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_13__nominal.jsonl",
+      "sha256": "d6138e0587240f1ad9a80932461fac289713e5bade600d8a4310d97c144174e1",
+      "size_bytes": 9724611
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_11300_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_14__nominal.jsonl",
+      "relative_path": "traces/variant_11300_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_14__nominal.jsonl",
+      "sha256": "d6138e0587240f1ad9a80932461fac289713e5bade600d8a4310d97c144174e1",
+      "size_bytes": 9724611
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_11400_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_15__nominal.jsonl",
+      "relative_path": "traces/variant_11400_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_15__nominal.jsonl",
+      "sha256": "04bfc9cd4537de8f0b98346172cd178deb53f6022d719c79819ec1b750287570",
+      "size_bytes": 8942787
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_11500_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_16__nominal.jsonl",
+      "relative_path": "traces/variant_11500_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_16__nominal.jsonl",
+      "sha256": "04bfc9cd4537de8f0b98346172cd178deb53f6022d719c79819ec1b750287570",
+      "size_bytes": 8942787
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_11800_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_19__nominal.jsonl",
+      "relative_path": "traces/variant_11800_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_19__nominal.jsonl",
+      "sha256": "4af2726b242cdf9d68cec6ec33239debd2483dd4b21e6dbc60c1fa06d401412d",
+      "size_bytes": 10203697
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_11900_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_20__nominal.jsonl",
+      "relative_path": "traces/variant_11900_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_20__nominal.jsonl",
+      "sha256": "4af2726b242cdf9d68cec6ec33239debd2483dd4b21e6dbc60c1fa06d401412d",
+      "size_bytes": 10203697
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_12000_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_21__nominal.jsonl",
+      "relative_path": "traces/variant_12000_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_21__nominal.jsonl",
+      "sha256": "f1c81b938f5c7055bbd5d2a91e507de01bd02e50b88a930ce13e221f9fcc469d",
+      "size_bytes": 9611609
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_12100_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_22__nominal.jsonl",
+      "relative_path": "traces/variant_12100_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_22__nominal.jsonl",
+      "sha256": "f1c81b938f5c7055bbd5d2a91e507de01bd02e50b88a930ce13e221f9fcc469d",
+      "size_bytes": 9611609
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_12200_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_23__nominal.jsonl",
+      "relative_path": "traces/variant_12200_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_23__nominal.jsonl",
+      "sha256": "8b0a9bb484d0cd098fcc6b525c237155df658a7f03fa16770e63258b4bdbd19e",
+      "size_bytes": 9552530
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_12300_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_24__nominal.jsonl",
+      "relative_path": "traces/variant_12300_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_24__nominal.jsonl",
+      "sha256": "8b0a9bb484d0cd098fcc6b525c237155df658a7f03fa16770e63258b4bdbd19e",
+      "size_bytes": 9552530
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_12400_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_25__nominal.jsonl",
+      "relative_path": "traces/variant_12400_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_25__nominal.jsonl",
+      "sha256": "63efd795c450a946d7eabf88f16a33e6969b58ee21d57c90c43902bd8bd54440",
+      "size_bytes": 9191446
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_12500_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_26__nominal.jsonl",
+      "relative_path": "traces/variant_12500_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_26__nominal.jsonl",
+      "sha256": "63efd795c450a946d7eabf88f16a33e6969b58ee21d57c90c43902bd8bd54440",
+      "size_bytes": 9191446
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_12600_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_27__nominal.jsonl",
+      "relative_path": "traces/variant_12600_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_27__nominal.jsonl",
+      "sha256": "15aed3dcddd4fbfa8256d604f9ffc1e996eb6635d1f75065e95830f59b0a5040",
+      "size_bytes": 9448929
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_12700_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_28__nominal.jsonl",
+      "relative_path": "traces/variant_12700_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_28__nominal.jsonl",
+      "sha256": "15aed3dcddd4fbfa8256d604f9ffc1e996eb6635d1f75065e95830f59b0a5040",
+      "size_bytes": 9448929
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_70000_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_25__nominal.jsonl",
+      "relative_path": "traces/variant_70000_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_25__nominal.jsonl",
+      "sha256": "63efd795c450a946d7eabf88f16a33e6969b58ee21d57c90c43902bd8bd54440",
+      "size_bytes": 9191446
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_70001_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_21__slow_guarded_contact.jsonl",
+      "relative_path": "traces/variant_70001_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_21__slow_guarded_contact.jsonl",
+      "sha256": "508790fea3f0231847ac179fdf14a7e2254df5e850f1ff163846e26a9f8cc780",
+      "size_bytes": 9715394
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_70002_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_26__qpos_small_plus.jsonl",
+      "relative_path": "traces/variant_70002_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_26__qpos_small_plus.jsonl",
+      "sha256": "2c7e23286b0c7cf52009886e82b729281f761f391ab6dbaf6ac29ed90269ebf3",
+      "size_bytes": 9206162
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_70003_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_22__qpos_small_minus.jsonl",
+      "relative_path": "traces/variant_70003_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_22__qpos_small_minus.jsonl",
+      "sha256": "76148aa75e7f3ef552aeb542eae76cd2054ed0e6297184086e8f1f003d052ae0",
+      "size_bytes": 9589528
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_70004_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_06__fast_guarded_contact.jsonl",
+      "relative_path": "traces/variant_70004_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_06__fast_guarded_contact.jsonl",
+      "sha256": "38eb335f99cea8df89d574b9f5fb98114e8463966334b391715d3b3e2cb7eb22",
+      "size_bytes": 9466464
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_70005_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_13__late_close.jsonl",
+      "relative_path": "traces/variant_70005_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_13__late_close.jsonl",
+      "sha256": "97fd9343bf57fac4f4bc7fa7baf35a30c44754bae36742ff6aa6e6e8704098af",
+      "size_bytes": 9976555
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_70006_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_14__nominal.jsonl",
+      "relative_path": "traces/variant_70006_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_14__nominal.jsonl",
+      "sha256": "d6138e0587240f1ad9a80932461fac289713e5bade600d8a4310d97c144174e1",
+      "size_bytes": 9724611
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80000_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_25__nominal.jsonl",
+      "relative_path": "traces/variant_80000_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_25__nominal.jsonl",
+      "sha256": "2db1c21ee96a05f990e56418cd16c0f0ae0abcb0a361461949adcf7141d2f431",
+      "size_bytes": 18673970
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80001_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_25__qpos_small_plus.jsonl",
+      "relative_path": "traces/variant_80001_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_25__qpos_small_plus.jsonl",
+      "sha256": "ef9e285ce9192d1698dadbd4ac3f4c2aa9b908839f70be66a93feec31e2e7f26",
+      "size_bytes": 18682725
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80002_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_25__qpos_small_minus.jsonl",
+      "relative_path": "traces/variant_80002_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_25__qpos_small_minus.jsonl",
+      "sha256": "66c4fc65b68c9f31a6a0d133910a77aaf4bc21d66be31fed56ce12ae564467d3",
+      "size_bytes": 18641516
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80003_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_25__slow_guarded_contact.jsonl",
+      "relative_path": "traces/variant_80003_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_25__slow_guarded_contact.jsonl",
+      "sha256": "8cfdfdbb49423427681f3e2be2fec197f5564f2cadf0f1907eba9fac5245a4a0",
+      "size_bytes": 19337540
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80004_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_25__fast_guarded_contact.jsonl",
+      "relative_path": "traces/variant_80004_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_25__fast_guarded_contact.jsonl",
+      "sha256": "38dfd7f18544aca6f436d45dee98e7e57660854a909dc895d99ed2f8f65cf9a5",
+      "size_bytes": 17833354
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80005_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_25__late_close.jsonl",
+      "relative_path": "traces/variant_80005_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_25__late_close.jsonl",
+      "sha256": "5a05619f85ded26d301bccf0466f316dee3d72390be634678431d942f9628c78",
+      "size_bytes": 19085469
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80010_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_21__nominal.jsonl",
+      "relative_path": "traces/variant_80010_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_21__nominal.jsonl",
+      "sha256": "093ba805a377f750bab66d144062bf0c5a6a4c8062869a15c55001ee07424ffe",
+      "size_bytes": 19061980
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80011_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_21__qpos_small_plus.jsonl",
+      "relative_path": "traces/variant_80011_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_21__qpos_small_plus.jsonl",
+      "sha256": "87457e2b011c5558345523884f492ef9620b5da99b9ab9788d3a17bd29c97068",
+      "size_bytes": 19038351
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80012_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_21__qpos_small_minus.jsonl",
+      "relative_path": "traces/variant_80012_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_21__qpos_small_minus.jsonl",
+      "sha256": "e64989ac6bd06cdaa997e9f91f9b6aeb4bc12def734eb2b3399e5ad1707ed2e1",
+      "size_bytes": 19043638
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80013_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_21__slow_guarded_contact.jsonl",
+      "relative_path": "traces/variant_80013_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_21__slow_guarded_contact.jsonl",
+      "sha256": "9d93d894a20bdef46ead2acf60d38f289e4e71a907025a0e4129154b20f65bc8",
+      "size_bytes": 19541460
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80014_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_21__fast_guarded_contact.jsonl",
+      "relative_path": "traces/variant_80014_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_21__fast_guarded_contact.jsonl",
+      "sha256": "dc0b83ac0e950045db2e7f5ad9d1a69b50b8a78bc45dc3609b4e13e6e4e4e7f5",
+      "size_bytes": 18331958
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80015_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_21__late_close.jsonl",
+      "relative_path": "traces/variant_80015_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_21__late_close.jsonl",
+      "sha256": "ef495d5b9e064c862957381e5099f05f012b54897452c8929c5e5da81008482f",
+      "size_bytes": 19469550
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80020_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_26__nominal.jsonl",
+      "relative_path": "traces/variant_80020_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_26__nominal.jsonl",
+      "sha256": "2db1c21ee96a05f990e56418cd16c0f0ae0abcb0a361461949adcf7141d2f431",
+      "size_bytes": 18673970
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80021_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_26__qpos_small_plus.jsonl",
+      "relative_path": "traces/variant_80021_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_26__qpos_small_plus.jsonl",
+      "sha256": "ef9e285ce9192d1698dadbd4ac3f4c2aa9b908839f70be66a93feec31e2e7f26",
+      "size_bytes": 18682725
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80022_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_26__qpos_small_minus.jsonl",
+      "relative_path": "traces/variant_80022_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_26__qpos_small_minus.jsonl",
+      "sha256": "66c4fc65b68c9f31a6a0d133910a77aaf4bc21d66be31fed56ce12ae564467d3",
+      "size_bytes": 18641516
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80023_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_26__slow_guarded_contact.jsonl",
+      "relative_path": "traces/variant_80023_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_26__slow_guarded_contact.jsonl",
+      "sha256": "8cfdfdbb49423427681f3e2be2fec197f5564f2cadf0f1907eba9fac5245a4a0",
+      "size_bytes": 19337540
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80024_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_26__fast_guarded_contact.jsonl",
+      "relative_path": "traces/variant_80024_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_26__fast_guarded_contact.jsonl",
+      "sha256": "38dfd7f18544aca6f436d45dee98e7e57660854a909dc895d99ed2f8f65cf9a5",
+      "size_bytes": 17833354
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80025_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_26__late_close.jsonl",
+      "relative_path": "traces/variant_80025_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_26__late_close.jsonl",
+      "sha256": "5a05619f85ded26d301bccf0466f316dee3d72390be634678431d942f9628c78",
+      "size_bytes": 19085469
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80030_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_22__nominal.jsonl",
+      "relative_path": "traces/variant_80030_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_22__nominal.jsonl",
+      "sha256": "093ba805a377f750bab66d144062bf0c5a6a4c8062869a15c55001ee07424ffe",
+      "size_bytes": 19061980
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80031_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_22__qpos_small_plus.jsonl",
+      "relative_path": "traces/variant_80031_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_22__qpos_small_plus.jsonl",
+      "sha256": "87457e2b011c5558345523884f492ef9620b5da99b9ab9788d3a17bd29c97068",
+      "size_bytes": 19038351
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80032_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_22__qpos_small_minus.jsonl",
+      "relative_path": "traces/variant_80032_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_22__qpos_small_minus.jsonl",
+      "sha256": "e64989ac6bd06cdaa997e9f91f9b6aeb4bc12def734eb2b3399e5ad1707ed2e1",
+      "size_bytes": 19043638
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80033_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_22__slow_guarded_contact.jsonl",
+      "relative_path": "traces/variant_80033_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_22__slow_guarded_contact.jsonl",
+      "sha256": "9d93d894a20bdef46ead2acf60d38f289e4e71a907025a0e4129154b20f65bc8",
+      "size_bytes": 19541460
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80034_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_22__fast_guarded_contact.jsonl",
+      "relative_path": "traces/variant_80034_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_22__fast_guarded_contact.jsonl",
+      "sha256": "dc0b83ac0e950045db2e7f5ad9d1a69b50b8a78bc45dc3609b4e13e6e4e4e7f5",
+      "size_bytes": 18331958
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80035_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_22__late_close.jsonl",
+      "relative_path": "traces/variant_80035_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_22__late_close.jsonl",
+      "sha256": "ef495d5b9e064c862957381e5099f05f012b54897452c8929c5e5da81008482f",
+      "size_bytes": 19469550
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80040_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_06__nominal.jsonl",
+      "relative_path": "traces/variant_80040_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_06__nominal.jsonl",
+      "sha256": "0c4d1d0c8ad3324e78aa7410e4d10b6d0610275dd1c4dffc8b9d738a1b30537e",
+      "size_bytes": 19139010
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80041_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_06__qpos_small_plus.jsonl",
+      "relative_path": "traces/variant_80041_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_06__qpos_small_plus.jsonl",
+      "sha256": "60d6bf466d8dbdf8335cf08ae139f6df5ae2d3a5decc0f7073c04688b8280191",
+      "size_bytes": 19124494
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80042_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_06__qpos_small_minus.jsonl",
+      "relative_path": "traces/variant_80042_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_06__qpos_small_minus.jsonl",
+      "sha256": "f3e5a2970da4ac50236948fd11c767d6f276ddaad75e9b59a32bd92ea48d4b81",
+      "size_bytes": 19122794
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80043_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_06__slow_guarded_contact.jsonl",
+      "relative_path": "traces/variant_80043_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_06__slow_guarded_contact.jsonl",
+      "sha256": "91daec454472cb51b8f79170246a6330e54d3d58e0a2282eaf9d5922661ddafa",
+      "size_bytes": 19612202
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80044_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_06__fast_guarded_contact.jsonl",
+      "relative_path": "traces/variant_80044_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_06__fast_guarded_contact.jsonl",
+      "sha256": "ca68a82fb9476db7ecb528fac17e1ae0863d2caf332467cb79241f5ca3fca857",
+      "size_bytes": 18640547
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80045_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_06__late_close.jsonl",
+      "relative_path": "traces/variant_80045_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_06__late_close.jsonl",
+      "sha256": "5075cc49efce680366f6db655646b87d9acee8011153ab69d4a3157b73436036",
+      "size_bytes": 19578600
+    }
+  ],
+  "generated_at_utc": "2026-05-05T14:09:17Z",
+  "raw_files_committed": false,
+  "run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z",
+  "total_size_bytes": 929913813,
+  "tree": "traces"
+}

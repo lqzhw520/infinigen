@@ -1,0 +1,19 @@
+{
+  "keyframe_count": 4,
+  "keyframes": [
+    "/Users/zhuhaowu/Documents/Playground/local_replay/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/render/keyframe_00000.png",
+    "/Users/zhuhaowu/Documents/Playground/local_replay/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/render/keyframe_03445.png",
+    "/Users/zhuhaowu/Documents/Playground/local_replay/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/render/keyframe_04086.png",
+    "/Users/zhuhaowu/Documents/Playground/local_replay/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/render/keyframe_06889.png"
+  ],
+  "local_strict_replay_render_passed": true,
+  "mp4_video_created": true,
+  "png_keyframes_created": true,
+  "render_case": {
+    "candidate_id": "dh_c1_admitted_island_densify_25",
+    "perturbation": "nominal"
+  },
+  "video": "/Users/zhuhaowu/Documents/Playground/local_replay/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/render/strict_replay_preview.mp4",
+  "video_exists": true,
+  "video_size_bytes": 136624
+}

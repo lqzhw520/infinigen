@@ -1,0 +1,32 @@
+{
+  "admitted_candidate_ids": [
+    "dh_c1_admitted_island_densify_01",
+    "dh_c1_admitted_island_densify_02",
+    "dh_c1_admitted_island_densify_06",
+    "dh_c1_admitted_island_densify_10",
+    "dh_c1_admitted_island_densify_12",
+    "dh_c1_admitted_island_densify_13",
+    "dh_c1_admitted_island_densify_14",
+    "dh_c1_admitted_island_densify_15",
+    "dh_c1_admitted_island_densify_16",
+    "dh_c1_admitted_island_densify_19",
+    "dh_c1_admitted_island_densify_20",
+    "dh_c1_admitted_island_densify_21",
+    "dh_c1_admitted_island_densify_22",
+    "dh_c1_admitted_island_densify_23",
+    "dh_c1_admitted_island_densify_24",
+    "dh_c1_admitted_island_densify_25",
+    "dh_c1_admitted_island_densify_26",
+    "dh_c1_admitted_island_densify_27",
+    "dh_c1_admitted_island_densify_28"
+  ],
+  "candidate_count": 28,
+  "dominant_failure_histogram": {
+    "ADMITTED": 19,
+    "APPROACH_CORRIDOR_BLOCKED": 1,
+    "DRAWER_QPOS_NONMONOTONIC": 1,
+    "VISUAL_PHYSICAL_CONSISTENCY_FAILED": 7
+  },
+  "generated_at_utc": "2026-05-05T14:26:41Z",
+  "topology_realistic_admitted_count": 19
+}

@@ -1,0 +1,2569 @@
+{
+  "generated_at_utc": "2026-05-05T14:09:14Z",
+  "incomplete_reasons": [],
+  "required_trace_fields": [
+    "qpos",
+    "qvel",
+    "ctrl",
+    "action",
+    "robot_qpos",
+    "drawer_qpos"
+  ],
+  "schema_version": "topology_realistic_strict_dynamic_pull_replay_bundle_v1",
+  "source_committed_head": "cc29350bf56c7b858432817fa1f90190a07e70f0",
+  "strict_teacher_export_attempted": true,
+  "strict_teacher_export_complete": true,
+  "trace_count": 30,
+  "trace_items": [
+    {
+      "asset_count": 123,
+      "candidate_id": "dh_c1_admitted_island_densify_25",
+      "exists": true,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_25/model.xml",
+      "model_xml_exists": true,
+      "model_xml_sha256": "3b1343c3069e017230f903fa1fd9bae6f59f63625410055e320108f30ef43277",
+      "perturbation": "nominal",
+      "replay_state_audit": {
+        "ctrl_width": 10,
+        "first_step": 1,
+        "last_step": 6890,
+        "line_count": 6890,
+        "missing_field_counts": {},
+        "parse_error": null,
+        "qpos_width": 10,
+        "qvel_width": 10,
+        "replay_state_complete": true,
+        "required_fields": [
+          "qpos",
+          "qvel",
+          "ctrl",
+          "action",
+          "robot_qpos",
+          "drawer_qpos"
+        ],
+        "trace_exists": true
+      },
+      "sha256": "2db1c21ee96a05f990e56418cd16c0f0ae0abcb0a361461949adcf7141d2f431",
+      "size_bytes": 18673970,
+      "strict_refusals": [],
+      "topology_audit": {
+        "candidate_id": "dh_c1_admitted_island_densify_25",
+        "connector_collision_counterpart": true,
+        "connector_to_front_gap_m": 0.0,
+        "connector_visual_counterpart": true,
+        "defects": [],
+        "drawer_box_tray_invariant_passed": true,
+        "drawer_front_geoms": [
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_front_bottom_panel_collision"
+        ],
+        "drawer_slider_joint_name": "drawer_slider_0",
+        "drawer_tray_side_bottom_back_geoms": [
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_back_collision"
+        ],
+        "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+        "generated_at_utc": "2026-05-05T14:26:41Z",
+        "handle_connector_geoms": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision"
+        ],
+        "handle_connector_invariant_passed": true,
+        "handle_geoms": [
+          "drawer_handle_collision_0"
+        ],
+        "handle_to_connector_gap_m": 0.0,
+        "max_unsupported_gap_m": 0.0,
+        "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_25/model.xml",
+        "moving_body_geom_names": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision",
+          "drawer_front_bottom_panel_collision",
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_handle_collision_0",
+          "drawer_tray_back_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision"
+        ],
+        "moving_drawer_body_name": "link_1",
+        "topology_realism_passed": true,
+        "tray_collision_counterpart": true,
+        "tray_visual_counterpart": true,
+        "visual_physical_topology_invariant_passed": true
+      },
+      "trace_jsonl": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80000_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_25__nominal.jsonl"
+    },
+    {
+      "asset_count": 123,
+      "candidate_id": "dh_c1_admitted_island_densify_25",
+      "exists": true,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_25/model.xml",
+      "model_xml_exists": true,
+      "model_xml_sha256": "3b1343c3069e017230f903fa1fd9bae6f59f63625410055e320108f30ef43277",
+      "perturbation": "qpos_small_plus",
+      "replay_state_audit": {
+        "ctrl_width": 10,
+        "first_step": 1,
+        "last_step": 6890,
+        "line_count": 6890,
+        "missing_field_counts": {},
+        "parse_error": null,
+        "qpos_width": 10,
+        "qvel_width": 10,
+        "replay_state_complete": true,
+        "required_fields": [
+          "qpos",
+          "qvel",
+          "ctrl",
+          "action",
+          "robot_qpos",
+          "drawer_qpos"
+        ],
+        "trace_exists": true
+      },
+      "sha256": "ef9e285ce9192d1698dadbd4ac3f4c2aa9b908839f70be66a93feec31e2e7f26",
+      "size_bytes": 18682725,
+      "strict_refusals": [],
+      "topology_audit": {
+        "candidate_id": "dh_c1_admitted_island_densify_25",
+        "connector_collision_counterpart": true,
+        "connector_to_front_gap_m": 0.0,
+        "connector_visual_counterpart": true,
+        "defects": [],
+        "drawer_box_tray_invariant_passed": true,
+        "drawer_front_geoms": [
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_front_bottom_panel_collision"
+        ],
+        "drawer_slider_joint_name": "drawer_slider_0",
+        "drawer_tray_side_bottom_back_geoms": [
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_back_collision"
+        ],
+        "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+        "generated_at_utc": "2026-05-05T14:26:41Z",
+        "handle_connector_geoms": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision"
+        ],
+        "handle_connector_invariant_passed": true,
+        "handle_geoms": [
+          "drawer_handle_collision_0"
+        ],
+        "handle_to_connector_gap_m": 0.0,
+        "max_unsupported_gap_m": 0.0,
+        "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_25/model.xml",
+        "moving_body_geom_names": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision",
+          "drawer_front_bottom_panel_collision",
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_handle_collision_0",
+          "drawer_tray_back_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision"
+        ],
+        "moving_drawer_body_name": "link_1",
+        "topology_realism_passed": true,
+        "tray_collision_counterpart": true,
+        "tray_visual_counterpart": true,
+        "visual_physical_topology_invariant_passed": true
+      },
+      "trace_jsonl": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80001_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_25__qpos_small_plus.jsonl"
+    },
+    {
+      "asset_count": 123,
+      "candidate_id": "dh_c1_admitted_island_densify_25",
+      "exists": true,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_25/model.xml",
+      "model_xml_exists": true,
+      "model_xml_sha256": "3b1343c3069e017230f903fa1fd9bae6f59f63625410055e320108f30ef43277",
+      "perturbation": "qpos_small_minus",
+      "replay_state_audit": {
+        "ctrl_width": 10,
+        "first_step": 1,
+        "last_step": 6890,
+        "line_count": 6890,
+        "missing_field_counts": {},
+        "parse_error": null,
+        "qpos_width": 10,
+        "qvel_width": 10,
+        "replay_state_complete": true,
+        "required_fields": [
+          "qpos",
+          "qvel",
+          "ctrl",
+          "action",
+          "robot_qpos",
+          "drawer_qpos"
+        ],
+        "trace_exists": true
+      },
+      "sha256": "66c4fc65b68c9f31a6a0d133910a77aaf4bc21d66be31fed56ce12ae564467d3",
+      "size_bytes": 18641516,
+      "strict_refusals": [],
+      "topology_audit": {
+        "candidate_id": "dh_c1_admitted_island_densify_25",
+        "connector_collision_counterpart": true,
+        "connector_to_front_gap_m": 0.0,
+        "connector_visual_counterpart": true,
+        "defects": [],
+        "drawer_box_tray_invariant_passed": true,
+        "drawer_front_geoms": [
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_front_bottom_panel_collision"
+        ],
+        "drawer_slider_joint_name": "drawer_slider_0",
+        "drawer_tray_side_bottom_back_geoms": [
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_back_collision"
+        ],
+        "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+        "generated_at_utc": "2026-05-05T14:26:41Z",
+        "handle_connector_geoms": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision"
+        ],
+        "handle_connector_invariant_passed": true,
+        "handle_geoms": [
+          "drawer_handle_collision_0"
+        ],
+        "handle_to_connector_gap_m": 0.0,
+        "max_unsupported_gap_m": 0.0,
+        "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_25/model.xml",
+        "moving_body_geom_names": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision",
+          "drawer_front_bottom_panel_collision",
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_handle_collision_0",
+          "drawer_tray_back_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision"
+        ],
+        "moving_drawer_body_name": "link_1",
+        "topology_realism_passed": true,
+        "tray_collision_counterpart": true,
+        "tray_visual_counterpart": true,
+        "visual_physical_topology_invariant_passed": true
+      },
+      "trace_jsonl": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80002_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_25__qpos_small_minus.jsonl"
+    },
+    {
+      "asset_count": 123,
+      "candidate_id": "dh_c1_admitted_island_densify_25",
+      "exists": true,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_25/model.xml",
+      "model_xml_exists": true,
+      "model_xml_sha256": "3b1343c3069e017230f903fa1fd9bae6f59f63625410055e320108f30ef43277",
+      "perturbation": "slow_guarded_contact",
+      "replay_state_audit": {
+        "ctrl_width": 10,
+        "first_step": 1,
+        "last_step": 7172,
+        "line_count": 7172,
+        "missing_field_counts": {},
+        "parse_error": null,
+        "qpos_width": 10,
+        "qvel_width": 10,
+        "replay_state_complete": true,
+        "required_fields": [
+          "qpos",
+          "qvel",
+          "ctrl",
+          "action",
+          "robot_qpos",
+          "drawer_qpos"
+        ],
+        "trace_exists": true
+      },
+      "sha256": "8cfdfdbb49423427681f3e2be2fec197f5564f2cadf0f1907eba9fac5245a4a0",
+      "size_bytes": 19337540,
+      "strict_refusals": [],
+      "topology_audit": {
+        "candidate_id": "dh_c1_admitted_island_densify_25",
+        "connector_collision_counterpart": true,
+        "connector_to_front_gap_m": 0.0,
+        "connector_visual_counterpart": true,
+        "defects": [],
+        "drawer_box_tray_invariant_passed": true,
+        "drawer_front_geoms": [
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_front_bottom_panel_collision"
+        ],
+        "drawer_slider_joint_name": "drawer_slider_0",
+        "drawer_tray_side_bottom_back_geoms": [
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_back_collision"
+        ],
+        "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+        "generated_at_utc": "2026-05-05T14:26:41Z",
+        "handle_connector_geoms": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision"
+        ],
+        "handle_connector_invariant_passed": true,
+        "handle_geoms": [
+          "drawer_handle_collision_0"
+        ],
+        "handle_to_connector_gap_m": 0.0,
+        "max_unsupported_gap_m": 0.0,
+        "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_25/model.xml",
+        "moving_body_geom_names": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision",
+          "drawer_front_bottom_panel_collision",
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_handle_collision_0",
+          "drawer_tray_back_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision"
+        ],
+        "moving_drawer_body_name": "link_1",
+        "topology_realism_passed": true,
+        "tray_collision_counterpart": true,
+        "tray_visual_counterpart": true,
+        "visual_physical_topology_invariant_passed": true
+      },
+      "trace_jsonl": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80003_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_25__slow_guarded_contact.jsonl"
+    },
+    {
+      "asset_count": 123,
+      "candidate_id": "dh_c1_admitted_island_densify_25",
+      "exists": true,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_25/model.xml",
+      "model_xml_exists": true,
+      "model_xml_sha256": "3b1343c3069e017230f903fa1fd9bae6f59f63625410055e320108f30ef43277",
+      "perturbation": "fast_guarded_contact",
+      "replay_state_audit": {
+        "ctrl_width": 10,
+        "first_step": 1,
+        "last_step": 6707,
+        "line_count": 6707,
+        "missing_field_counts": {},
+        "parse_error": null,
+        "qpos_width": 10,
+        "qvel_width": 10,
+        "replay_state_complete": true,
+        "required_fields": [
+          "qpos",
+          "qvel",
+          "ctrl",
+          "action",
+          "robot_qpos",
+          "drawer_qpos"
+        ],
+        "trace_exists": true
+      },
+      "sha256": "38dfd7f18544aca6f436d45dee98e7e57660854a909dc895d99ed2f8f65cf9a5",
+      "size_bytes": 17833354,
+      "strict_refusals": [],
+      "topology_audit": {
+        "candidate_id": "dh_c1_admitted_island_densify_25",
+        "connector_collision_counterpart": true,
+        "connector_to_front_gap_m": 0.0,
+        "connector_visual_counterpart": true,
+        "defects": [],
+        "drawer_box_tray_invariant_passed": true,
+        "drawer_front_geoms": [
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_front_bottom_panel_collision"
+        ],
+        "drawer_slider_joint_name": "drawer_slider_0",
+        "drawer_tray_side_bottom_back_geoms": [
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_back_collision"
+        ],
+        "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+        "generated_at_utc": "2026-05-05T14:26:41Z",
+        "handle_connector_geoms": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision"
+        ],
+        "handle_connector_invariant_passed": true,
+        "handle_geoms": [
+          "drawer_handle_collision_0"
+        ],
+        "handle_to_connector_gap_m": 0.0,
+        "max_unsupported_gap_m": 0.0,
+        "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_25/model.xml",
+        "moving_body_geom_names": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision",
+          "drawer_front_bottom_panel_collision",
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_handle_collision_0",
+          "drawer_tray_back_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision"
+        ],
+        "moving_drawer_body_name": "link_1",
+        "topology_realism_passed": true,
+        "tray_collision_counterpart": true,
+        "tray_visual_counterpart": true,
+        "visual_physical_topology_invariant_passed": true
+      },
+      "trace_jsonl": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80004_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_25__fast_guarded_contact.jsonl"
+    },
+    {
+      "asset_count": 123,
+      "candidate_id": "dh_c1_admitted_island_densify_25",
+      "exists": true,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_25/model.xml",
+      "model_xml_exists": true,
+      "model_xml_sha256": "3b1343c3069e017230f903fa1fd9bae6f59f63625410055e320108f30ef43277",
+      "perturbation": "late_close",
+      "replay_state_audit": {
+        "ctrl_width": 10,
+        "first_step": 1,
+        "last_step": 7030,
+        "line_count": 7030,
+        "missing_field_counts": {},
+        "parse_error": null,
+        "qpos_width": 10,
+        "qvel_width": 10,
+        "replay_state_complete": true,
+        "required_fields": [
+          "qpos",
+          "qvel",
+          "ctrl",
+          "action",
+          "robot_qpos",
+          "drawer_qpos"
+        ],
+        "trace_exists": true
+      },
+      "sha256": "5a05619f85ded26d301bccf0466f316dee3d72390be634678431d942f9628c78",
+      "size_bytes": 19085469,
+      "strict_refusals": [],
+      "topology_audit": {
+        "candidate_id": "dh_c1_admitted_island_densify_25",
+        "connector_collision_counterpart": true,
+        "connector_to_front_gap_m": 0.0,
+        "connector_visual_counterpart": true,
+        "defects": [],
+        "drawer_box_tray_invariant_passed": true,
+        "drawer_front_geoms": [
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_front_bottom_panel_collision"
+        ],
+        "drawer_slider_joint_name": "drawer_slider_0",
+        "drawer_tray_side_bottom_back_geoms": [
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_back_collision"
+        ],
+        "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+        "generated_at_utc": "2026-05-05T14:26:41Z",
+        "handle_connector_geoms": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision"
+        ],
+        "handle_connector_invariant_passed": true,
+        "handle_geoms": [
+          "drawer_handle_collision_0"
+        ],
+        "handle_to_connector_gap_m": 0.0,
+        "max_unsupported_gap_m": 0.0,
+        "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_25/model.xml",
+        "moving_body_geom_names": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision",
+          "drawer_front_bottom_panel_collision",
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_handle_collision_0",
+          "drawer_tray_back_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision"
+        ],
+        "moving_drawer_body_name": "link_1",
+        "topology_realism_passed": true,
+        "tray_collision_counterpart": true,
+        "tray_visual_counterpart": true,
+        "visual_physical_topology_invariant_passed": true
+      },
+      "trace_jsonl": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80005_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_25__late_close.jsonl"
+    },
+    {
+      "asset_count": 123,
+      "candidate_id": "dh_c1_admitted_island_densify_21",
+      "exists": true,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_21/model.xml",
+      "model_xml_exists": true,
+      "model_xml_sha256": "4bec6735c64c8d623f5c2f1dd73ec6477d4be35ed42ba353462843123e70c4ca",
+      "perturbation": "nominal",
+      "replay_state_audit": {
+        "ctrl_width": 10,
+        "first_step": 1,
+        "last_step": 6890,
+        "line_count": 6890,
+        "missing_field_counts": {},
+        "parse_error": null,
+        "qpos_width": 10,
+        "qvel_width": 10,
+        "replay_state_complete": true,
+        "required_fields": [
+          "qpos",
+          "qvel",
+          "ctrl",
+          "action",
+          "robot_qpos",
+          "drawer_qpos"
+        ],
+        "trace_exists": true
+      },
+      "sha256": "093ba805a377f750bab66d144062bf0c5a6a4c8062869a15c55001ee07424ffe",
+      "size_bytes": 19061980,
+      "strict_refusals": [],
+      "topology_audit": {
+        "candidate_id": "dh_c1_admitted_island_densify_21",
+        "connector_collision_counterpart": true,
+        "connector_to_front_gap_m": 0.0,
+        "connector_visual_counterpart": true,
+        "defects": [],
+        "drawer_box_tray_invariant_passed": true,
+        "drawer_front_geoms": [
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_front_bottom_panel_collision"
+        ],
+        "drawer_slider_joint_name": "drawer_slider_0",
+        "drawer_tray_side_bottom_back_geoms": [
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_back_collision"
+        ],
+        "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+        "generated_at_utc": "2026-05-05T14:26:41Z",
+        "handle_connector_geoms": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision"
+        ],
+        "handle_connector_invariant_passed": true,
+        "handle_geoms": [
+          "drawer_handle_collision_0"
+        ],
+        "handle_to_connector_gap_m": 0.0,
+        "max_unsupported_gap_m": 0.0,
+        "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_21/model.xml",
+        "moving_body_geom_names": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision",
+          "drawer_front_bottom_panel_collision",
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_handle_collision_0",
+          "drawer_tray_back_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision"
+        ],
+        "moving_drawer_body_name": "link_1",
+        "topology_realism_passed": true,
+        "tray_collision_counterpart": true,
+        "tray_visual_counterpart": true,
+        "visual_physical_topology_invariant_passed": true
+      },
+      "trace_jsonl": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80010_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_21__nominal.jsonl"
+    },
+    {
+      "asset_count": 123,
+      "candidate_id": "dh_c1_admitted_island_densify_21",
+      "exists": true,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_21/model.xml",
+      "model_xml_exists": true,
+      "model_xml_sha256": "4bec6735c64c8d623f5c2f1dd73ec6477d4be35ed42ba353462843123e70c4ca",
+      "perturbation": "qpos_small_plus",
+      "replay_state_audit": {
+        "ctrl_width": 10,
+        "first_step": 1,
+        "last_step": 6890,
+        "line_count": 6890,
+        "missing_field_counts": {},
+        "parse_error": null,
+        "qpos_width": 10,
+        "qvel_width": 10,
+        "replay_state_complete": true,
+        "required_fields": [
+          "qpos",
+          "qvel",
+          "ctrl",
+          "action",
+          "robot_qpos",
+          "drawer_qpos"
+        ],
+        "trace_exists": true
+      },
+      "sha256": "87457e2b011c5558345523884f492ef9620b5da99b9ab9788d3a17bd29c97068",
+      "size_bytes": 19038351,
+      "strict_refusals": [],
+      "topology_audit": {
+        "candidate_id": "dh_c1_admitted_island_densify_21",
+        "connector_collision_counterpart": true,
+        "connector_to_front_gap_m": 0.0,
+        "connector_visual_counterpart": true,
+        "defects": [],
+        "drawer_box_tray_invariant_passed": true,
+        "drawer_front_geoms": [
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_front_bottom_panel_collision"
+        ],
+        "drawer_slider_joint_name": "drawer_slider_0",
+        "drawer_tray_side_bottom_back_geoms": [
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_back_collision"
+        ],
+        "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+        "generated_at_utc": "2026-05-05T14:26:41Z",
+        "handle_connector_geoms": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision"
+        ],
+        "handle_connector_invariant_passed": true,
+        "handle_geoms": [
+          "drawer_handle_collision_0"
+        ],
+        "handle_to_connector_gap_m": 0.0,
+        "max_unsupported_gap_m": 0.0,
+        "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_21/model.xml",
+        "moving_body_geom_names": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision",
+          "drawer_front_bottom_panel_collision",
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_handle_collision_0",
+          "drawer_tray_back_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision"
+        ],
+        "moving_drawer_body_name": "link_1",
+        "topology_realism_passed": true,
+        "tray_collision_counterpart": true,
+        "tray_visual_counterpart": true,
+        "visual_physical_topology_invariant_passed": true
+      },
+      "trace_jsonl": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80011_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_21__qpos_small_plus.jsonl"
+    },
+    {
+      "asset_count": 123,
+      "candidate_id": "dh_c1_admitted_island_densify_21",
+      "exists": true,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_21/model.xml",
+      "model_xml_exists": true,
+      "model_xml_sha256": "4bec6735c64c8d623f5c2f1dd73ec6477d4be35ed42ba353462843123e70c4ca",
+      "perturbation": "qpos_small_minus",
+      "replay_state_audit": {
+        "ctrl_width": 10,
+        "first_step": 1,
+        "last_step": 6890,
+        "line_count": 6890,
+        "missing_field_counts": {},
+        "parse_error": null,
+        "qpos_width": 10,
+        "qvel_width": 10,
+        "replay_state_complete": true,
+        "required_fields": [
+          "qpos",
+          "qvel",
+          "ctrl",
+          "action",
+          "robot_qpos",
+          "drawer_qpos"
+        ],
+        "trace_exists": true
+      },
+      "sha256": "e64989ac6bd06cdaa997e9f91f9b6aeb4bc12def734eb2b3399e5ad1707ed2e1",
+      "size_bytes": 19043638,
+      "strict_refusals": [],
+      "topology_audit": {
+        "candidate_id": "dh_c1_admitted_island_densify_21",
+        "connector_collision_counterpart": true,
+        "connector_to_front_gap_m": 0.0,
+        "connector_visual_counterpart": true,
+        "defects": [],
+        "drawer_box_tray_invariant_passed": true,
+        "drawer_front_geoms": [
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_front_bottom_panel_collision"
+        ],
+        "drawer_slider_joint_name": "drawer_slider_0",
+        "drawer_tray_side_bottom_back_geoms": [
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_back_collision"
+        ],
+        "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+        "generated_at_utc": "2026-05-05T14:26:41Z",
+        "handle_connector_geoms": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision"
+        ],
+        "handle_connector_invariant_passed": true,
+        "handle_geoms": [
+          "drawer_handle_collision_0"
+        ],
+        "handle_to_connector_gap_m": 0.0,
+        "max_unsupported_gap_m": 0.0,
+        "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_21/model.xml",
+        "moving_body_geom_names": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision",
+          "drawer_front_bottom_panel_collision",
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_handle_collision_0",
+          "drawer_tray_back_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision"
+        ],
+        "moving_drawer_body_name": "link_1",
+        "topology_realism_passed": true,
+        "tray_collision_counterpart": true,
+        "tray_visual_counterpart": true,
+        "visual_physical_topology_invariant_passed": true
+      },
+      "trace_jsonl": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80012_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_21__qpos_small_minus.jsonl"
+    },
+    {
+      "asset_count": 123,
+      "candidate_id": "dh_c1_admitted_island_densify_21",
+      "exists": true,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_21/model.xml",
+      "model_xml_exists": true,
+      "model_xml_sha256": "4bec6735c64c8d623f5c2f1dd73ec6477d4be35ed42ba353462843123e70c4ca",
+      "perturbation": "slow_guarded_contact",
+      "replay_state_audit": {
+        "ctrl_width": 10,
+        "first_step": 1,
+        "last_step": 7172,
+        "line_count": 7172,
+        "missing_field_counts": {},
+        "parse_error": null,
+        "qpos_width": 10,
+        "qvel_width": 10,
+        "replay_state_complete": true,
+        "required_fields": [
+          "qpos",
+          "qvel",
+          "ctrl",
+          "action",
+          "robot_qpos",
+          "drawer_qpos"
+        ],
+        "trace_exists": true
+      },
+      "sha256": "9d93d894a20bdef46ead2acf60d38f289e4e71a907025a0e4129154b20f65bc8",
+      "size_bytes": 19541460,
+      "strict_refusals": [],
+      "topology_audit": {
+        "candidate_id": "dh_c1_admitted_island_densify_21",
+        "connector_collision_counterpart": true,
+        "connector_to_front_gap_m": 0.0,
+        "connector_visual_counterpart": true,
+        "defects": [],
+        "drawer_box_tray_invariant_passed": true,
+        "drawer_front_geoms": [
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_front_bottom_panel_collision"
+        ],
+        "drawer_slider_joint_name": "drawer_slider_0",
+        "drawer_tray_side_bottom_back_geoms": [
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_back_collision"
+        ],
+        "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+        "generated_at_utc": "2026-05-05T14:26:41Z",
+        "handle_connector_geoms": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision"
+        ],
+        "handle_connector_invariant_passed": true,
+        "handle_geoms": [
+          "drawer_handle_collision_0"
+        ],
+        "handle_to_connector_gap_m": 0.0,
+        "max_unsupported_gap_m": 0.0,
+        "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_21/model.xml",
+        "moving_body_geom_names": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision",
+          "drawer_front_bottom_panel_collision",
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_handle_collision_0",
+          "drawer_tray_back_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision"
+        ],
+        "moving_drawer_body_name": "link_1",
+        "topology_realism_passed": true,
+        "tray_collision_counterpart": true,
+        "tray_visual_counterpart": true,
+        "visual_physical_topology_invariant_passed": true
+      },
+      "trace_jsonl": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80013_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_21__slow_guarded_contact.jsonl"
+    },
+    {
+      "asset_count": 123,
+      "candidate_id": "dh_c1_admitted_island_densify_21",
+      "exists": true,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_21/model.xml",
+      "model_xml_exists": true,
+      "model_xml_sha256": "4bec6735c64c8d623f5c2f1dd73ec6477d4be35ed42ba353462843123e70c4ca",
+      "perturbation": "fast_guarded_contact",
+      "replay_state_audit": {
+        "ctrl_width": 10,
+        "first_step": 1,
+        "last_step": 6707,
+        "line_count": 6707,
+        "missing_field_counts": {},
+        "parse_error": null,
+        "qpos_width": 10,
+        "qvel_width": 10,
+        "replay_state_complete": true,
+        "required_fields": [
+          "qpos",
+          "qvel",
+          "ctrl",
+          "action",
+          "robot_qpos",
+          "drawer_qpos"
+        ],
+        "trace_exists": true
+      },
+      "sha256": "dc0b83ac0e950045db2e7f5ad9d1a69b50b8a78bc45dc3609b4e13e6e4e4e7f5",
+      "size_bytes": 18331958,
+      "strict_refusals": [],
+      "topology_audit": {
+        "candidate_id": "dh_c1_admitted_island_densify_21",
+        "connector_collision_counterpart": true,
+        "connector_to_front_gap_m": 0.0,
+        "connector_visual_counterpart": true,
+        "defects": [],
+        "drawer_box_tray_invariant_passed": true,
+        "drawer_front_geoms": [
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_front_bottom_panel_collision"
+        ],
+        "drawer_slider_joint_name": "drawer_slider_0",
+        "drawer_tray_side_bottom_back_geoms": [
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_back_collision"
+        ],
+        "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+        "generated_at_utc": "2026-05-05T14:26:41Z",
+        "handle_connector_geoms": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision"
+        ],
+        "handle_connector_invariant_passed": true,
+        "handle_geoms": [
+          "drawer_handle_collision_0"
+        ],
+        "handle_to_connector_gap_m": 0.0,
+        "max_unsupported_gap_m": 0.0,
+        "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_21/model.xml",
+        "moving_body_geom_names": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision",
+          "drawer_front_bottom_panel_collision",
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_handle_collision_0",
+          "drawer_tray_back_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision"
+        ],
+        "moving_drawer_body_name": "link_1",
+        "topology_realism_passed": true,
+        "tray_collision_counterpart": true,
+        "tray_visual_counterpart": true,
+        "visual_physical_topology_invariant_passed": true
+      },
+      "trace_jsonl": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80014_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_21__fast_guarded_contact.jsonl"
+    },
+    {
+      "asset_count": 123,
+      "candidate_id": "dh_c1_admitted_island_densify_21",
+      "exists": true,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_21/model.xml",
+      "model_xml_exists": true,
+      "model_xml_sha256": "4bec6735c64c8d623f5c2f1dd73ec6477d4be35ed42ba353462843123e70c4ca",
+      "perturbation": "late_close",
+      "replay_state_audit": {
+        "ctrl_width": 10,
+        "first_step": 1,
+        "last_step": 7030,
+        "line_count": 7030,
+        "missing_field_counts": {},
+        "parse_error": null,
+        "qpos_width": 10,
+        "qvel_width": 10,
+        "replay_state_complete": true,
+        "required_fields": [
+          "qpos",
+          "qvel",
+          "ctrl",
+          "action",
+          "robot_qpos",
+          "drawer_qpos"
+        ],
+        "trace_exists": true
+      },
+      "sha256": "ef495d5b9e064c862957381e5099f05f012b54897452c8929c5e5da81008482f",
+      "size_bytes": 19469550,
+      "strict_refusals": [],
+      "topology_audit": {
+        "candidate_id": "dh_c1_admitted_island_densify_21",
+        "connector_collision_counterpart": true,
+        "connector_to_front_gap_m": 0.0,
+        "connector_visual_counterpart": true,
+        "defects": [],
+        "drawer_box_tray_invariant_passed": true,
+        "drawer_front_geoms": [
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_front_bottom_panel_collision"
+        ],
+        "drawer_slider_joint_name": "drawer_slider_0",
+        "drawer_tray_side_bottom_back_geoms": [
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_back_collision"
+        ],
+        "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+        "generated_at_utc": "2026-05-05T14:26:41Z",
+        "handle_connector_geoms": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision"
+        ],
+        "handle_connector_invariant_passed": true,
+        "handle_geoms": [
+          "drawer_handle_collision_0"
+        ],
+        "handle_to_connector_gap_m": 0.0,
+        "max_unsupported_gap_m": 0.0,
+        "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_21/model.xml",
+        "moving_body_geom_names": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision",
+          "drawer_front_bottom_panel_collision",
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_handle_collision_0",
+          "drawer_tray_back_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision"
+        ],
+        "moving_drawer_body_name": "link_1",
+        "topology_realism_passed": true,
+        "tray_collision_counterpart": true,
+        "tray_visual_counterpart": true,
+        "visual_physical_topology_invariant_passed": true
+      },
+      "trace_jsonl": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80015_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_21__late_close.jsonl"
+    },
+    {
+      "asset_count": 123,
+      "candidate_id": "dh_c1_admitted_island_densify_26",
+      "exists": true,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_26/model.xml",
+      "model_xml_exists": true,
+      "model_xml_sha256": "3b1343c3069e017230f903fa1fd9bae6f59f63625410055e320108f30ef43277",
+      "perturbation": "nominal",
+      "replay_state_audit": {
+        "ctrl_width": 10,
+        "first_step": 1,
+        "last_step": 6890,
+        "line_count": 6890,
+        "missing_field_counts": {},
+        "parse_error": null,
+        "qpos_width": 10,
+        "qvel_width": 10,
+        "replay_state_complete": true,
+        "required_fields": [
+          "qpos",
+          "qvel",
+          "ctrl",
+          "action",
+          "robot_qpos",
+          "drawer_qpos"
+        ],
+        "trace_exists": true
+      },
+      "sha256": "2db1c21ee96a05f990e56418cd16c0f0ae0abcb0a361461949adcf7141d2f431",
+      "size_bytes": 18673970,
+      "strict_refusals": [],
+      "topology_audit": {
+        "candidate_id": "dh_c1_admitted_island_densify_26",
+        "connector_collision_counterpart": true,
+        "connector_to_front_gap_m": 0.0,
+        "connector_visual_counterpart": true,
+        "defects": [],
+        "drawer_box_tray_invariant_passed": true,
+        "drawer_front_geoms": [
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_front_bottom_panel_collision"
+        ],
+        "drawer_slider_joint_name": "drawer_slider_0",
+        "drawer_tray_side_bottom_back_geoms": [
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_back_collision"
+        ],
+        "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+        "generated_at_utc": "2026-05-05T14:26:41Z",
+        "handle_connector_geoms": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision"
+        ],
+        "handle_connector_invariant_passed": true,
+        "handle_geoms": [
+          "drawer_handle_collision_0"
+        ],
+        "handle_to_connector_gap_m": 0.0,
+        "max_unsupported_gap_m": 0.0,
+        "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_26/model.xml",
+        "moving_body_geom_names": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision",
+          "drawer_front_bottom_panel_collision",
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_handle_collision_0",
+          "drawer_tray_back_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision"
+        ],
+        "moving_drawer_body_name": "link_1",
+        "topology_realism_passed": true,
+        "tray_collision_counterpart": true,
+        "tray_visual_counterpart": true,
+        "visual_physical_topology_invariant_passed": true
+      },
+      "trace_jsonl": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80020_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_26__nominal.jsonl"
+    },
+    {
+      "asset_count": 123,
+      "candidate_id": "dh_c1_admitted_island_densify_26",
+      "exists": true,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_26/model.xml",
+      "model_xml_exists": true,
+      "model_xml_sha256": "3b1343c3069e017230f903fa1fd9bae6f59f63625410055e320108f30ef43277",
+      "perturbation": "qpos_small_plus",
+      "replay_state_audit": {
+        "ctrl_width": 10,
+        "first_step": 1,
+        "last_step": 6890,
+        "line_count": 6890,
+        "missing_field_counts": {},
+        "parse_error": null,
+        "qpos_width": 10,
+        "qvel_width": 10,
+        "replay_state_complete": true,
+        "required_fields": [
+          "qpos",
+          "qvel",
+          "ctrl",
+          "action",
+          "robot_qpos",
+          "drawer_qpos"
+        ],
+        "trace_exists": true
+      },
+      "sha256": "ef9e285ce9192d1698dadbd4ac3f4c2aa9b908839f70be66a93feec31e2e7f26",
+      "size_bytes": 18682725,
+      "strict_refusals": [],
+      "topology_audit": {
+        "candidate_id": "dh_c1_admitted_island_densify_26",
+        "connector_collision_counterpart": true,
+        "connector_to_front_gap_m": 0.0,
+        "connector_visual_counterpart": true,
+        "defects": [],
+        "drawer_box_tray_invariant_passed": true,
+        "drawer_front_geoms": [
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_front_bottom_panel_collision"
+        ],
+        "drawer_slider_joint_name": "drawer_slider_0",
+        "drawer_tray_side_bottom_back_geoms": [
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_back_collision"
+        ],
+        "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+        "generated_at_utc": "2026-05-05T14:26:41Z",
+        "handle_connector_geoms": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision"
+        ],
+        "handle_connector_invariant_passed": true,
+        "handle_geoms": [
+          "drawer_handle_collision_0"
+        ],
+        "handle_to_connector_gap_m": 0.0,
+        "max_unsupported_gap_m": 0.0,
+        "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_26/model.xml",
+        "moving_body_geom_names": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision",
+          "drawer_front_bottom_panel_collision",
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_handle_collision_0",
+          "drawer_tray_back_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision"
+        ],
+        "moving_drawer_body_name": "link_1",
+        "topology_realism_passed": true,
+        "tray_collision_counterpart": true,
+        "tray_visual_counterpart": true,
+        "visual_physical_topology_invariant_passed": true
+      },
+      "trace_jsonl": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80021_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_26__qpos_small_plus.jsonl"
+    },
+    {
+      "asset_count": 123,
+      "candidate_id": "dh_c1_admitted_island_densify_26",
+      "exists": true,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_26/model.xml",
+      "model_xml_exists": true,
+      "model_xml_sha256": "3b1343c3069e017230f903fa1fd9bae6f59f63625410055e320108f30ef43277",
+      "perturbation": "qpos_small_minus",
+      "replay_state_audit": {
+        "ctrl_width": 10,
+        "first_step": 1,
+        "last_step": 6890,
+        "line_count": 6890,
+        "missing_field_counts": {},
+        "parse_error": null,
+        "qpos_width": 10,
+        "qvel_width": 10,
+        "replay_state_complete": true,
+        "required_fields": [
+          "qpos",
+          "qvel",
+          "ctrl",
+          "action",
+          "robot_qpos",
+          "drawer_qpos"
+        ],
+        "trace_exists": true
+      },
+      "sha256": "66c4fc65b68c9f31a6a0d133910a77aaf4bc21d66be31fed56ce12ae564467d3",
+      "size_bytes": 18641516,
+      "strict_refusals": [],
+      "topology_audit": {
+        "candidate_id": "dh_c1_admitted_island_densify_26",
+        "connector_collision_counterpart": true,
+        "connector_to_front_gap_m": 0.0,
+        "connector_visual_counterpart": true,
+        "defects": [],
+        "drawer_box_tray_invariant_passed": true,
+        "drawer_front_geoms": [
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_front_bottom_panel_collision"
+        ],
+        "drawer_slider_joint_name": "drawer_slider_0",
+        "drawer_tray_side_bottom_back_geoms": [
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_back_collision"
+        ],
+        "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+        "generated_at_utc": "2026-05-05T14:26:41Z",
+        "handle_connector_geoms": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision"
+        ],
+        "handle_connector_invariant_passed": true,
+        "handle_geoms": [
+          "drawer_handle_collision_0"
+        ],
+        "handle_to_connector_gap_m": 0.0,
+        "max_unsupported_gap_m": 0.0,
+        "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_26/model.xml",
+        "moving_body_geom_names": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision",
+          "drawer_front_bottom_panel_collision",
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_handle_collision_0",
+          "drawer_tray_back_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision"
+        ],
+        "moving_drawer_body_name": "link_1",
+        "topology_realism_passed": true,
+        "tray_collision_counterpart": true,
+        "tray_visual_counterpart": true,
+        "visual_physical_topology_invariant_passed": true
+      },
+      "trace_jsonl": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80022_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_26__qpos_small_minus.jsonl"
+    },
+    {
+      "asset_count": 123,
+      "candidate_id": "dh_c1_admitted_island_densify_26",
+      "exists": true,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_26/model.xml",
+      "model_xml_exists": true,
+      "model_xml_sha256": "3b1343c3069e017230f903fa1fd9bae6f59f63625410055e320108f30ef43277",
+      "perturbation": "slow_guarded_contact",
+      "replay_state_audit": {
+        "ctrl_width": 10,
+        "first_step": 1,
+        "last_step": 7172,
+        "line_count": 7172,
+        "missing_field_counts": {},
+        "parse_error": null,
+        "qpos_width": 10,
+        "qvel_width": 10,
+        "replay_state_complete": true,
+        "required_fields": [
+          "qpos",
+          "qvel",
+          "ctrl",
+          "action",
+          "robot_qpos",
+          "drawer_qpos"
+        ],
+        "trace_exists": true
+      },
+      "sha256": "8cfdfdbb49423427681f3e2be2fec197f5564f2cadf0f1907eba9fac5245a4a0",
+      "size_bytes": 19337540,
+      "strict_refusals": [],
+      "topology_audit": {
+        "candidate_id": "dh_c1_admitted_island_densify_26",
+        "connector_collision_counterpart": true,
+        "connector_to_front_gap_m": 0.0,
+        "connector_visual_counterpart": true,
+        "defects": [],
+        "drawer_box_tray_invariant_passed": true,
+        "drawer_front_geoms": [
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_front_bottom_panel_collision"
+        ],
+        "drawer_slider_joint_name": "drawer_slider_0",
+        "drawer_tray_side_bottom_back_geoms": [
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_back_collision"
+        ],
+        "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+        "generated_at_utc": "2026-05-05T14:26:41Z",
+        "handle_connector_geoms": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision"
+        ],
+        "handle_connector_invariant_passed": true,
+        "handle_geoms": [
+          "drawer_handle_collision_0"
+        ],
+        "handle_to_connector_gap_m": 0.0,
+        "max_unsupported_gap_m": 0.0,
+        "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_26/model.xml",
+        "moving_body_geom_names": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision",
+          "drawer_front_bottom_panel_collision",
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_handle_collision_0",
+          "drawer_tray_back_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision"
+        ],
+        "moving_drawer_body_name": "link_1",
+        "topology_realism_passed": true,
+        "tray_collision_counterpart": true,
+        "tray_visual_counterpart": true,
+        "visual_physical_topology_invariant_passed": true
+      },
+      "trace_jsonl": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80023_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_26__slow_guarded_contact.jsonl"
+    },
+    {
+      "asset_count": 123,
+      "candidate_id": "dh_c1_admitted_island_densify_26",
+      "exists": true,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_26/model.xml",
+      "model_xml_exists": true,
+      "model_xml_sha256": "3b1343c3069e017230f903fa1fd9bae6f59f63625410055e320108f30ef43277",
+      "perturbation": "fast_guarded_contact",
+      "replay_state_audit": {
+        "ctrl_width": 10,
+        "first_step": 1,
+        "last_step": 6707,
+        "line_count": 6707,
+        "missing_field_counts": {},
+        "parse_error": null,
+        "qpos_width": 10,
+        "qvel_width": 10,
+        "replay_state_complete": true,
+        "required_fields": [
+          "qpos",
+          "qvel",
+          "ctrl",
+          "action",
+          "robot_qpos",
+          "drawer_qpos"
+        ],
+        "trace_exists": true
+      },
+      "sha256": "38dfd7f18544aca6f436d45dee98e7e57660854a909dc895d99ed2f8f65cf9a5",
+      "size_bytes": 17833354,
+      "strict_refusals": [],
+      "topology_audit": {
+        "candidate_id": "dh_c1_admitted_island_densify_26",
+        "connector_collision_counterpart": true,
+        "connector_to_front_gap_m": 0.0,
+        "connector_visual_counterpart": true,
+        "defects": [],
+        "drawer_box_tray_invariant_passed": true,
+        "drawer_front_geoms": [
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_front_bottom_panel_collision"
+        ],
+        "drawer_slider_joint_name": "drawer_slider_0",
+        "drawer_tray_side_bottom_back_geoms": [
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_back_collision"
+        ],
+        "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+        "generated_at_utc": "2026-05-05T14:26:41Z",
+        "handle_connector_geoms": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision"
+        ],
+        "handle_connector_invariant_passed": true,
+        "handle_geoms": [
+          "drawer_handle_collision_0"
+        ],
+        "handle_to_connector_gap_m": 0.0,
+        "max_unsupported_gap_m": 0.0,
+        "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_26/model.xml",
+        "moving_body_geom_names": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision",
+          "drawer_front_bottom_panel_collision",
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_handle_collision_0",
+          "drawer_tray_back_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision"
+        ],
+        "moving_drawer_body_name": "link_1",
+        "topology_realism_passed": true,
+        "tray_collision_counterpart": true,
+        "tray_visual_counterpart": true,
+        "visual_physical_topology_invariant_passed": true
+      },
+      "trace_jsonl": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80024_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_26__fast_guarded_contact.jsonl"
+    },
+    {
+      "asset_count": 123,
+      "candidate_id": "dh_c1_admitted_island_densify_26",
+      "exists": true,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_26/model.xml",
+      "model_xml_exists": true,
+      "model_xml_sha256": "3b1343c3069e017230f903fa1fd9bae6f59f63625410055e320108f30ef43277",
+      "perturbation": "late_close",
+      "replay_state_audit": {
+        "ctrl_width": 10,
+        "first_step": 1,
+        "last_step": 7030,
+        "line_count": 7030,
+        "missing_field_counts": {},
+        "parse_error": null,
+        "qpos_width": 10,
+        "qvel_width": 10,
+        "replay_state_complete": true,
+        "required_fields": [
+          "qpos",
+          "qvel",
+          "ctrl",
+          "action",
+          "robot_qpos",
+          "drawer_qpos"
+        ],
+        "trace_exists": true
+      },
+      "sha256": "5a05619f85ded26d301bccf0466f316dee3d72390be634678431d942f9628c78",
+      "size_bytes": 19085469,
+      "strict_refusals": [],
+      "topology_audit": {
+        "candidate_id": "dh_c1_admitted_island_densify_26",
+        "connector_collision_counterpart": true,
+        "connector_to_front_gap_m": 0.0,
+        "connector_visual_counterpart": true,
+        "defects": [],
+        "drawer_box_tray_invariant_passed": true,
+        "drawer_front_geoms": [
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_front_bottom_panel_collision"
+        ],
+        "drawer_slider_joint_name": "drawer_slider_0",
+        "drawer_tray_side_bottom_back_geoms": [
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_back_collision"
+        ],
+        "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+        "generated_at_utc": "2026-05-05T14:26:41Z",
+        "handle_connector_geoms": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision"
+        ],
+        "handle_connector_invariant_passed": true,
+        "handle_geoms": [
+          "drawer_handle_collision_0"
+        ],
+        "handle_to_connector_gap_m": 0.0,
+        "max_unsupported_gap_m": 0.0,
+        "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_26/model.xml",
+        "moving_body_geom_names": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision",
+          "drawer_front_bottom_panel_collision",
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_handle_collision_0",
+          "drawer_tray_back_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision"
+        ],
+        "moving_drawer_body_name": "link_1",
+        "topology_realism_passed": true,
+        "tray_collision_counterpart": true,
+        "tray_visual_counterpart": true,
+        "visual_physical_topology_invariant_passed": true
+      },
+      "trace_jsonl": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80025_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_26__late_close.jsonl"
+    },
+    {
+      "asset_count": 123,
+      "candidate_id": "dh_c1_admitted_island_densify_22",
+      "exists": true,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_22/model.xml",
+      "model_xml_exists": true,
+      "model_xml_sha256": "4bec6735c64c8d623f5c2f1dd73ec6477d4be35ed42ba353462843123e70c4ca",
+      "perturbation": "nominal",
+      "replay_state_audit": {
+        "ctrl_width": 10,
+        "first_step": 1,
+        "last_step": 6890,
+        "line_count": 6890,
+        "missing_field_counts": {},
+        "parse_error": null,
+        "qpos_width": 10,
+        "qvel_width": 10,
+        "replay_state_complete": true,
+        "required_fields": [
+          "qpos",
+          "qvel",
+          "ctrl",
+          "action",
+          "robot_qpos",
+          "drawer_qpos"
+        ],
+        "trace_exists": true
+      },
+      "sha256": "093ba805a377f750bab66d144062bf0c5a6a4c8062869a15c55001ee07424ffe",
+      "size_bytes": 19061980,
+      "strict_refusals": [],
+      "topology_audit": {
+        "candidate_id": "dh_c1_admitted_island_densify_22",
+        "connector_collision_counterpart": true,
+        "connector_to_front_gap_m": 0.0,
+        "connector_visual_counterpart": true,
+        "defects": [],
+        "drawer_box_tray_invariant_passed": true,
+        "drawer_front_geoms": [
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_front_bottom_panel_collision"
+        ],
+        "drawer_slider_joint_name": "drawer_slider_0",
+        "drawer_tray_side_bottom_back_geoms": [
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_back_collision"
+        ],
+        "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+        "generated_at_utc": "2026-05-05T14:26:41Z",
+        "handle_connector_geoms": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision"
+        ],
+        "handle_connector_invariant_passed": true,
+        "handle_geoms": [
+          "drawer_handle_collision_0"
+        ],
+        "handle_to_connector_gap_m": 0.0,
+        "max_unsupported_gap_m": 0.0,
+        "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_22/model.xml",
+        "moving_body_geom_names": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision",
+          "drawer_front_bottom_panel_collision",
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_handle_collision_0",
+          "drawer_tray_back_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision"
+        ],
+        "moving_drawer_body_name": "link_1",
+        "topology_realism_passed": true,
+        "tray_collision_counterpart": true,
+        "tray_visual_counterpart": true,
+        "visual_physical_topology_invariant_passed": true
+      },
+      "trace_jsonl": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80030_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_22__nominal.jsonl"
+    },
+    {
+      "asset_count": 123,
+      "candidate_id": "dh_c1_admitted_island_densify_22",
+      "exists": true,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_22/model.xml",
+      "model_xml_exists": true,
+      "model_xml_sha256": "4bec6735c64c8d623f5c2f1dd73ec6477d4be35ed42ba353462843123e70c4ca",
+      "perturbation": "qpos_small_plus",
+      "replay_state_audit": {
+        "ctrl_width": 10,
+        "first_step": 1,
+        "last_step": 6890,
+        "line_count": 6890,
+        "missing_field_counts": {},
+        "parse_error": null,
+        "qpos_width": 10,
+        "qvel_width": 10,
+        "replay_state_complete": true,
+        "required_fields": [
+          "qpos",
+          "qvel",
+          "ctrl",
+          "action",
+          "robot_qpos",
+          "drawer_qpos"
+        ],
+        "trace_exists": true
+      },
+      "sha256": "87457e2b011c5558345523884f492ef9620b5da99b9ab9788d3a17bd29c97068",
+      "size_bytes": 19038351,
+      "strict_refusals": [],
+      "topology_audit": {
+        "candidate_id": "dh_c1_admitted_island_densify_22",
+        "connector_collision_counterpart": true,
+        "connector_to_front_gap_m": 0.0,
+        "connector_visual_counterpart": true,
+        "defects": [],
+        "drawer_box_tray_invariant_passed": true,
+        "drawer_front_geoms": [
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_front_bottom_panel_collision"
+        ],
+        "drawer_slider_joint_name": "drawer_slider_0",
+        "drawer_tray_side_bottom_back_geoms": [
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_back_collision"
+        ],
+        "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+        "generated_at_utc": "2026-05-05T14:26:41Z",
+        "handle_connector_geoms": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision"
+        ],
+        "handle_connector_invariant_passed": true,
+        "handle_geoms": [
+          "drawer_handle_collision_0"
+        ],
+        "handle_to_connector_gap_m": 0.0,
+        "max_unsupported_gap_m": 0.0,
+        "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_22/model.xml",
+        "moving_body_geom_names": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision",
+          "drawer_front_bottom_panel_collision",
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_handle_collision_0",
+          "drawer_tray_back_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision"
+        ],
+        "moving_drawer_body_name": "link_1",
+        "topology_realism_passed": true,
+        "tray_collision_counterpart": true,
+        "tray_visual_counterpart": true,
+        "visual_physical_topology_invariant_passed": true
+      },
+      "trace_jsonl": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80031_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_22__qpos_small_plus.jsonl"
+    },
+    {
+      "asset_count": 123,
+      "candidate_id": "dh_c1_admitted_island_densify_22",
+      "exists": true,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_22/model.xml",
+      "model_xml_exists": true,
+      "model_xml_sha256": "4bec6735c64c8d623f5c2f1dd73ec6477d4be35ed42ba353462843123e70c4ca",
+      "perturbation": "qpos_small_minus",
+      "replay_state_audit": {
+        "ctrl_width": 10,
+        "first_step": 1,
+        "last_step": 6890,
+        "line_count": 6890,
+        "missing_field_counts": {},
+        "parse_error": null,
+        "qpos_width": 10,
+        "qvel_width": 10,
+        "replay_state_complete": true,
+        "required_fields": [
+          "qpos",
+          "qvel",
+          "ctrl",
+          "action",
+          "robot_qpos",
+          "drawer_qpos"
+        ],
+        "trace_exists": true
+      },
+      "sha256": "e64989ac6bd06cdaa997e9f91f9b6aeb4bc12def734eb2b3399e5ad1707ed2e1",
+      "size_bytes": 19043638,
+      "strict_refusals": [],
+      "topology_audit": {
+        "candidate_id": "dh_c1_admitted_island_densify_22",
+        "connector_collision_counterpart": true,
+        "connector_to_front_gap_m": 0.0,
+        "connector_visual_counterpart": true,
+        "defects": [],
+        "drawer_box_tray_invariant_passed": true,
+        "drawer_front_geoms": [
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_front_bottom_panel_collision"
+        ],
+        "drawer_slider_joint_name": "drawer_slider_0",
+        "drawer_tray_side_bottom_back_geoms": [
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_back_collision"
+        ],
+        "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+        "generated_at_utc": "2026-05-05T14:26:41Z",
+        "handle_connector_geoms": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision"
+        ],
+        "handle_connector_invariant_passed": true,
+        "handle_geoms": [
+          "drawer_handle_collision_0"
+        ],
+        "handle_to_connector_gap_m": 0.0,
+        "max_unsupported_gap_m": 0.0,
+        "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_22/model.xml",
+        "moving_body_geom_names": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision",
+          "drawer_front_bottom_panel_collision",
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_handle_collision_0",
+          "drawer_tray_back_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision"
+        ],
+        "moving_drawer_body_name": "link_1",
+        "topology_realism_passed": true,
+        "tray_collision_counterpart": true,
+        "tray_visual_counterpart": true,
+        "visual_physical_topology_invariant_passed": true
+      },
+      "trace_jsonl": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80032_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_22__qpos_small_minus.jsonl"
+    },
+    {
+      "asset_count": 123,
+      "candidate_id": "dh_c1_admitted_island_densify_22",
+      "exists": true,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_22/model.xml",
+      "model_xml_exists": true,
+      "model_xml_sha256": "4bec6735c64c8d623f5c2f1dd73ec6477d4be35ed42ba353462843123e70c4ca",
+      "perturbation": "slow_guarded_contact",
+      "replay_state_audit": {
+        "ctrl_width": 10,
+        "first_step": 1,
+        "last_step": 7172,
+        "line_count": 7172,
+        "missing_field_counts": {},
+        "parse_error": null,
+        "qpos_width": 10,
+        "qvel_width": 10,
+        "replay_state_complete": true,
+        "required_fields": [
+          "qpos",
+          "qvel",
+          "ctrl",
+          "action",
+          "robot_qpos",
+          "drawer_qpos"
+        ],
+        "trace_exists": true
+      },
+      "sha256": "9d93d894a20bdef46ead2acf60d38f289e4e71a907025a0e4129154b20f65bc8",
+      "size_bytes": 19541460,
+      "strict_refusals": [],
+      "topology_audit": {
+        "candidate_id": "dh_c1_admitted_island_densify_22",
+        "connector_collision_counterpart": true,
+        "connector_to_front_gap_m": 0.0,
+        "connector_visual_counterpart": true,
+        "defects": [],
+        "drawer_box_tray_invariant_passed": true,
+        "drawer_front_geoms": [
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_front_bottom_panel_collision"
+        ],
+        "drawer_slider_joint_name": "drawer_slider_0",
+        "drawer_tray_side_bottom_back_geoms": [
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_back_collision"
+        ],
+        "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+        "generated_at_utc": "2026-05-05T14:26:41Z",
+        "handle_connector_geoms": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision"
+        ],
+        "handle_connector_invariant_passed": true,
+        "handle_geoms": [
+          "drawer_handle_collision_0"
+        ],
+        "handle_to_connector_gap_m": 0.0,
+        "max_unsupported_gap_m": 0.0,
+        "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_22/model.xml",
+        "moving_body_geom_names": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision",
+          "drawer_front_bottom_panel_collision",
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_handle_collision_0",
+          "drawer_tray_back_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision"
+        ],
+        "moving_drawer_body_name": "link_1",
+        "topology_realism_passed": true,
+        "tray_collision_counterpart": true,
+        "tray_visual_counterpart": true,
+        "visual_physical_topology_invariant_passed": true
+      },
+      "trace_jsonl": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80033_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_22__slow_guarded_contact.jsonl"
+    },
+    {
+      "asset_count": 123,
+      "candidate_id": "dh_c1_admitted_island_densify_22",
+      "exists": true,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_22/model.xml",
+      "model_xml_exists": true,
+      "model_xml_sha256": "4bec6735c64c8d623f5c2f1dd73ec6477d4be35ed42ba353462843123e70c4ca",
+      "perturbation": "fast_guarded_contact",
+      "replay_state_audit": {
+        "ctrl_width": 10,
+        "first_step": 1,
+        "last_step": 6707,
+        "line_count": 6707,
+        "missing_field_counts": {},
+        "parse_error": null,
+        "qpos_width": 10,
+        "qvel_width": 10,
+        "replay_state_complete": true,
+        "required_fields": [
+          "qpos",
+          "qvel",
+          "ctrl",
+          "action",
+          "robot_qpos",
+          "drawer_qpos"
+        ],
+        "trace_exists": true
+      },
+      "sha256": "dc0b83ac0e950045db2e7f5ad9d1a69b50b8a78bc45dc3609b4e13e6e4e4e7f5",
+      "size_bytes": 18331958,
+      "strict_refusals": [],
+      "topology_audit": {
+        "candidate_id": "dh_c1_admitted_island_densify_22",
+        "connector_collision_counterpart": true,
+        "connector_to_front_gap_m": 0.0,
+        "connector_visual_counterpart": true,
+        "defects": [],
+        "drawer_box_tray_invariant_passed": true,
+        "drawer_front_geoms": [
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_front_bottom_panel_collision"
+        ],
+        "drawer_slider_joint_name": "drawer_slider_0",
+        "drawer_tray_side_bottom_back_geoms": [
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_back_collision"
+        ],
+        "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+        "generated_at_utc": "2026-05-05T14:26:41Z",
+        "handle_connector_geoms": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision"
+        ],
+        "handle_connector_invariant_passed": true,
+        "handle_geoms": [
+          "drawer_handle_collision_0"
+        ],
+        "handle_to_connector_gap_m": 0.0,
+        "max_unsupported_gap_m": 0.0,
+        "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_22/model.xml",
+        "moving_body_geom_names": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision",
+          "drawer_front_bottom_panel_collision",
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_handle_collision_0",
+          "drawer_tray_back_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision"
+        ],
+        "moving_drawer_body_name": "link_1",
+        "topology_realism_passed": true,
+        "tray_collision_counterpart": true,
+        "tray_visual_counterpart": true,
+        "visual_physical_topology_invariant_passed": true
+      },
+      "trace_jsonl": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80034_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_22__fast_guarded_contact.jsonl"
+    },
+    {
+      "asset_count": 123,
+      "candidate_id": "dh_c1_admitted_island_densify_22",
+      "exists": true,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_22/model.xml",
+      "model_xml_exists": true,
+      "model_xml_sha256": "4bec6735c64c8d623f5c2f1dd73ec6477d4be35ed42ba353462843123e70c4ca",
+      "perturbation": "late_close",
+      "replay_state_audit": {
+        "ctrl_width": 10,
+        "first_step": 1,
+        "last_step": 7030,
+        "line_count": 7030,
+        "missing_field_counts": {},
+        "parse_error": null,
+        "qpos_width": 10,
+        "qvel_width": 10,
+        "replay_state_complete": true,
+        "required_fields": [
+          "qpos",
+          "qvel",
+          "ctrl",
+          "action",
+          "robot_qpos",
+          "drawer_qpos"
+        ],
+        "trace_exists": true
+      },
+      "sha256": "ef495d5b9e064c862957381e5099f05f012b54897452c8929c5e5da81008482f",
+      "size_bytes": 19469550,
+      "strict_refusals": [],
+      "topology_audit": {
+        "candidate_id": "dh_c1_admitted_island_densify_22",
+        "connector_collision_counterpart": true,
+        "connector_to_front_gap_m": 0.0,
+        "connector_visual_counterpart": true,
+        "defects": [],
+        "drawer_box_tray_invariant_passed": true,
+        "drawer_front_geoms": [
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_front_bottom_panel_collision"
+        ],
+        "drawer_slider_joint_name": "drawer_slider_0",
+        "drawer_tray_side_bottom_back_geoms": [
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_back_collision"
+        ],
+        "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+        "generated_at_utc": "2026-05-05T14:26:41Z",
+        "handle_connector_geoms": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision"
+        ],
+        "handle_connector_invariant_passed": true,
+        "handle_geoms": [
+          "drawer_handle_collision_0"
+        ],
+        "handle_to_connector_gap_m": 0.0,
+        "max_unsupported_gap_m": 0.0,
+        "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_22/model.xml",
+        "moving_body_geom_names": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision",
+          "drawer_front_bottom_panel_collision",
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_handle_collision_0",
+          "drawer_tray_back_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision"
+        ],
+        "moving_drawer_body_name": "link_1",
+        "topology_realism_passed": true,
+        "tray_collision_counterpart": true,
+        "tray_visual_counterpart": true,
+        "visual_physical_topology_invariant_passed": true
+      },
+      "trace_jsonl": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80035_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_22__late_close.jsonl"
+    },
+    {
+      "asset_count": 123,
+      "candidate_id": "dh_c1_admitted_island_densify_06",
+      "exists": true,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_06/model.xml",
+      "model_xml_exists": true,
+      "model_xml_sha256": "7cde5f9dbcb5bb9070227cbf63395e107df9bbd40ba8019f24f14702356a23a0",
+      "perturbation": "nominal",
+      "replay_state_audit": {
+        "ctrl_width": 10,
+        "first_step": 1,
+        "last_step": 6890,
+        "line_count": 6890,
+        "missing_field_counts": {},
+        "parse_error": null,
+        "qpos_width": 10,
+        "qvel_width": 10,
+        "replay_state_complete": true,
+        "required_fields": [
+          "qpos",
+          "qvel",
+          "ctrl",
+          "action",
+          "robot_qpos",
+          "drawer_qpos"
+        ],
+        "trace_exists": true
+      },
+      "sha256": "0c4d1d0c8ad3324e78aa7410e4d10b6d0610275dd1c4dffc8b9d738a1b30537e",
+      "size_bytes": 19139010,
+      "strict_refusals": [],
+      "topology_audit": {
+        "candidate_id": "dh_c1_admitted_island_densify_06",
+        "connector_collision_counterpart": true,
+        "connector_to_front_gap_m": 0.0,
+        "connector_visual_counterpart": true,
+        "defects": [],
+        "drawer_box_tray_invariant_passed": true,
+        "drawer_front_geoms": [
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_front_bottom_panel_collision"
+        ],
+        "drawer_slider_joint_name": "drawer_slider_0",
+        "drawer_tray_side_bottom_back_geoms": [
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_back_collision"
+        ],
+        "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+        "generated_at_utc": "2026-05-05T14:26:41Z",
+        "handle_connector_geoms": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision"
+        ],
+        "handle_connector_invariant_passed": true,
+        "handle_geoms": [
+          "drawer_handle_collision_0"
+        ],
+        "handle_to_connector_gap_m": 0.0,
+        "max_unsupported_gap_m": 0.0,
+        "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_06/model.xml",
+        "moving_body_geom_names": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision",
+          "drawer_front_bottom_panel_collision",
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_handle_collision_0",
+          "drawer_tray_back_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision"
+        ],
+        "moving_drawer_body_name": "link_1",
+        "topology_realism_passed": true,
+        "tray_collision_counterpart": true,
+        "tray_visual_counterpart": true,
+        "visual_physical_topology_invariant_passed": true
+      },
+      "trace_jsonl": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80040_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_06__nominal.jsonl"
+    },
+    {
+      "asset_count": 123,
+      "candidate_id": "dh_c1_admitted_island_densify_06",
+      "exists": true,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_06/model.xml",
+      "model_xml_exists": true,
+      "model_xml_sha256": "7cde5f9dbcb5bb9070227cbf63395e107df9bbd40ba8019f24f14702356a23a0",
+      "perturbation": "qpos_small_plus",
+      "replay_state_audit": {
+        "ctrl_width": 10,
+        "first_step": 1,
+        "last_step": 6890,
+        "line_count": 6890,
+        "missing_field_counts": {},
+        "parse_error": null,
+        "qpos_width": 10,
+        "qvel_width": 10,
+        "replay_state_complete": true,
+        "required_fields": [
+          "qpos",
+          "qvel",
+          "ctrl",
+          "action",
+          "robot_qpos",
+          "drawer_qpos"
+        ],
+        "trace_exists": true
+      },
+      "sha256": "60d6bf466d8dbdf8335cf08ae139f6df5ae2d3a5decc0f7073c04688b8280191",
+      "size_bytes": 19124494,
+      "strict_refusals": [],
+      "topology_audit": {
+        "candidate_id": "dh_c1_admitted_island_densify_06",
+        "connector_collision_counterpart": true,
+        "connector_to_front_gap_m": 0.0,
+        "connector_visual_counterpart": true,
+        "defects": [],
+        "drawer_box_tray_invariant_passed": true,
+        "drawer_front_geoms": [
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_front_bottom_panel_collision"
+        ],
+        "drawer_slider_joint_name": "drawer_slider_0",
+        "drawer_tray_side_bottom_back_geoms": [
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_back_collision"
+        ],
+        "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+        "generated_at_utc": "2026-05-05T14:26:41Z",
+        "handle_connector_geoms": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision"
+        ],
+        "handle_connector_invariant_passed": true,
+        "handle_geoms": [
+          "drawer_handle_collision_0"
+        ],
+        "handle_to_connector_gap_m": 0.0,
+        "max_unsupported_gap_m": 0.0,
+        "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_06/model.xml",
+        "moving_body_geom_names": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision",
+          "drawer_front_bottom_panel_collision",
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_handle_collision_0",
+          "drawer_tray_back_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision"
+        ],
+        "moving_drawer_body_name": "link_1",
+        "topology_realism_passed": true,
+        "tray_collision_counterpart": true,
+        "tray_visual_counterpart": true,
+        "visual_physical_topology_invariant_passed": true
+      },
+      "trace_jsonl": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80041_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_06__qpos_small_plus.jsonl"
+    },
+    {
+      "asset_count": 123,
+      "candidate_id": "dh_c1_admitted_island_densify_06",
+      "exists": true,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_06/model.xml",
+      "model_xml_exists": true,
+      "model_xml_sha256": "7cde5f9dbcb5bb9070227cbf63395e107df9bbd40ba8019f24f14702356a23a0",
+      "perturbation": "qpos_small_minus",
+      "replay_state_audit": {
+        "ctrl_width": 10,
+        "first_step": 1,
+        "last_step": 6890,
+        "line_count": 6890,
+        "missing_field_counts": {},
+        "parse_error": null,
+        "qpos_width": 10,
+        "qvel_width": 10,
+        "replay_state_complete": true,
+        "required_fields": [
+          "qpos",
+          "qvel",
+          "ctrl",
+          "action",
+          "robot_qpos",
+          "drawer_qpos"
+        ],
+        "trace_exists": true
+      },
+      "sha256": "f3e5a2970da4ac50236948fd11c767d6f276ddaad75e9b59a32bd92ea48d4b81",
+      "size_bytes": 19122794,
+      "strict_refusals": [],
+      "topology_audit": {
+        "candidate_id": "dh_c1_admitted_island_densify_06",
+        "connector_collision_counterpart": true,
+        "connector_to_front_gap_m": 0.0,
+        "connector_visual_counterpart": true,
+        "defects": [],
+        "drawer_box_tray_invariant_passed": true,
+        "drawer_front_geoms": [
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_front_bottom_panel_collision"
+        ],
+        "drawer_slider_joint_name": "drawer_slider_0",
+        "drawer_tray_side_bottom_back_geoms": [
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_back_collision"
+        ],
+        "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+        "generated_at_utc": "2026-05-05T14:26:41Z",
+        "handle_connector_geoms": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision"
+        ],
+        "handle_connector_invariant_passed": true,
+        "handle_geoms": [
+          "drawer_handle_collision_0"
+        ],
+        "handle_to_connector_gap_m": 0.0,
+        "max_unsupported_gap_m": 0.0,
+        "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_06/model.xml",
+        "moving_body_geom_names": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision",
+          "drawer_front_bottom_panel_collision",
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_handle_collision_0",
+          "drawer_tray_back_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision"
+        ],
+        "moving_drawer_body_name": "link_1",
+        "topology_realism_passed": true,
+        "tray_collision_counterpart": true,
+        "tray_visual_counterpart": true,
+        "visual_physical_topology_invariant_passed": true
+      },
+      "trace_jsonl": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80042_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_06__qpos_small_minus.jsonl"
+    },
+    {
+      "asset_count": 123,
+      "candidate_id": "dh_c1_admitted_island_densify_06",
+      "exists": true,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_06/model.xml",
+      "model_xml_exists": true,
+      "model_xml_sha256": "7cde5f9dbcb5bb9070227cbf63395e107df9bbd40ba8019f24f14702356a23a0",
+      "perturbation": "slow_guarded_contact",
+      "replay_state_audit": {
+        "ctrl_width": 10,
+        "first_step": 1,
+        "last_step": 7172,
+        "line_count": 7172,
+        "missing_field_counts": {},
+        "parse_error": null,
+        "qpos_width": 10,
+        "qvel_width": 10,
+        "replay_state_complete": true,
+        "required_fields": [
+          "qpos",
+          "qvel",
+          "ctrl",
+          "action",
+          "robot_qpos",
+          "drawer_qpos"
+        ],
+        "trace_exists": true
+      },
+      "sha256": "91daec454472cb51b8f79170246a6330e54d3d58e0a2282eaf9d5922661ddafa",
+      "size_bytes": 19612202,
+      "strict_refusals": [],
+      "topology_audit": {
+        "candidate_id": "dh_c1_admitted_island_densify_06",
+        "connector_collision_counterpart": true,
+        "connector_to_front_gap_m": 0.0,
+        "connector_visual_counterpart": true,
+        "defects": [],
+        "drawer_box_tray_invariant_passed": true,
+        "drawer_front_geoms": [
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_front_bottom_panel_collision"
+        ],
+        "drawer_slider_joint_name": "drawer_slider_0",
+        "drawer_tray_side_bottom_back_geoms": [
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_back_collision"
+        ],
+        "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+        "generated_at_utc": "2026-05-05T14:26:41Z",
+        "handle_connector_geoms": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision"
+        ],
+        "handle_connector_invariant_passed": true,
+        "handle_geoms": [
+          "drawer_handle_collision_0"
+        ],
+        "handle_to_connector_gap_m": 0.0,
+        "max_unsupported_gap_m": 0.0,
+        "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_06/model.xml",
+        "moving_body_geom_names": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision",
+          "drawer_front_bottom_panel_collision",
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_handle_collision_0",
+          "drawer_tray_back_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision"
+        ],
+        "moving_drawer_body_name": "link_1",
+        "topology_realism_passed": true,
+        "tray_collision_counterpart": true,
+        "tray_visual_counterpart": true,
+        "visual_physical_topology_invariant_passed": true
+      },
+      "trace_jsonl": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80043_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_06__slow_guarded_contact.jsonl"
+    },
+    {
+      "asset_count": 123,
+      "candidate_id": "dh_c1_admitted_island_densify_06",
+      "exists": true,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_06/model.xml",
+      "model_xml_exists": true,
+      "model_xml_sha256": "7cde5f9dbcb5bb9070227cbf63395e107df9bbd40ba8019f24f14702356a23a0",
+      "perturbation": "fast_guarded_contact",
+      "replay_state_audit": {
+        "ctrl_width": 10,
+        "first_step": 1,
+        "last_step": 6707,
+        "line_count": 6707,
+        "missing_field_counts": {},
+        "parse_error": null,
+        "qpos_width": 10,
+        "qvel_width": 10,
+        "replay_state_complete": true,
+        "required_fields": [
+          "qpos",
+          "qvel",
+          "ctrl",
+          "action",
+          "robot_qpos",
+          "drawer_qpos"
+        ],
+        "trace_exists": true
+      },
+      "sha256": "ca68a82fb9476db7ecb528fac17e1ae0863d2caf332467cb79241f5ca3fca857",
+      "size_bytes": 18640547,
+      "strict_refusals": [],
+      "topology_audit": {
+        "candidate_id": "dh_c1_admitted_island_densify_06",
+        "connector_collision_counterpart": true,
+        "connector_to_front_gap_m": 0.0,
+        "connector_visual_counterpart": true,
+        "defects": [],
+        "drawer_box_tray_invariant_passed": true,
+        "drawer_front_geoms": [
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_front_bottom_panel_collision"
+        ],
+        "drawer_slider_joint_name": "drawer_slider_0",
+        "drawer_tray_side_bottom_back_geoms": [
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_back_collision"
+        ],
+        "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+        "generated_at_utc": "2026-05-05T14:26:41Z",
+        "handle_connector_geoms": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision"
+        ],
+        "handle_connector_invariant_passed": true,
+        "handle_geoms": [
+          "drawer_handle_collision_0"
+        ],
+        "handle_to_connector_gap_m": 0.0,
+        "max_unsupported_gap_m": 0.0,
+        "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_06/model.xml",
+        "moving_body_geom_names": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision",
+          "drawer_front_bottom_panel_collision",
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_handle_collision_0",
+          "drawer_tray_back_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision"
+        ],
+        "moving_drawer_body_name": "link_1",
+        "topology_realism_passed": true,
+        "tray_collision_counterpart": true,
+        "tray_visual_counterpart": true,
+        "visual_physical_topology_invariant_passed": true
+      },
+      "trace_jsonl": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80044_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_06__fast_guarded_contact.jsonl"
+    },
+    {
+      "asset_count": 123,
+      "candidate_id": "dh_c1_admitted_island_densify_06",
+      "exists": true,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_06/model.xml",
+      "model_xml_exists": true,
+      "model_xml_sha256": "7cde5f9dbcb5bb9070227cbf63395e107df9bbd40ba8019f24f14702356a23a0",
+      "perturbation": "late_close",
+      "replay_state_audit": {
+        "ctrl_width": 10,
+        "first_step": 1,
+        "last_step": 7030,
+        "line_count": 7030,
+        "missing_field_counts": {},
+        "parse_error": null,
+        "qpos_width": 10,
+        "qvel_width": 10,
+        "replay_state_complete": true,
+        "required_fields": [
+          "qpos",
+          "qvel",
+          "ctrl",
+          "action",
+          "robot_qpos",
+          "drawer_qpos"
+        ],
+        "trace_exists": true
+      },
+      "sha256": "5075cc49efce680366f6db655646b87d9acee8011153ab69d4a3157b73436036",
+      "size_bytes": 19578600,
+      "strict_refusals": [],
+      "topology_audit": {
+        "candidate_id": "dh_c1_admitted_island_densify_06",
+        "connector_collision_counterpart": true,
+        "connector_to_front_gap_m": 0.0,
+        "connector_visual_counterpart": true,
+        "defects": [],
+        "drawer_box_tray_invariant_passed": true,
+        "drawer_front_geoms": [
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_front_bottom_panel_collision"
+        ],
+        "drawer_slider_joint_name": "drawer_slider_0",
+        "drawer_tray_side_bottom_back_geoms": [
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_back_collision"
+        ],
+        "drawer_tray_volume_proxy_m3": 0.011760000000000001,
+        "generated_at_utc": "2026-05-05T14:26:41Z",
+        "handle_connector_geoms": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision"
+        ],
+        "handle_connector_invariant_passed": true,
+        "handle_geoms": [
+          "drawer_handle_collision_0"
+        ],
+        "handle_to_connector_gap_m": 0.0,
+        "max_unsupported_gap_m": 0.0,
+        "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/generated_instances/dh_c1_admitted_island_densify_06/model.xml",
+        "moving_body_geom_names": [
+          "drawer_connector_plate_collision",
+          "drawer_connector_stem_collision",
+          "drawer_front_bottom_panel_collision",
+          "drawer_front_left_panel_collision",
+          "drawer_front_right_panel_collision",
+          "drawer_front_top_panel_collision",
+          "drawer_handle_collision_0",
+          "drawer_tray_back_collision",
+          "drawer_tray_bottom_collision",
+          "drawer_tray_left_side_collision",
+          "drawer_tray_right_side_collision"
+        ],
+        "moving_drawer_body_name": "link_1",
+        "topology_realism_passed": true,
+        "tray_collision_counterpart": true,
+        "tray_visual_counterpart": true,
+        "visual_physical_topology_invariant_passed": true
+      },
+      "trace_jsonl": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/traces/variant_80045_pc02_micro_lead_high_damping_semi_close__dh_c1_admitted_island_densify_06__late_close.jsonl"
+    }
+  ]
+}

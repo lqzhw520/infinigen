@@ -1,0 +1,520 @@
+{
+  "audited_candidate_count": 10,
+  "candidate_audits": [
+    {
+      "candidate_id": "dh_c1_admitted_island_densify_25",
+      "connector_collision_counterpart": false,
+      "connector_to_front_gap_m": 999.0,
+      "connector_visual_counterpart": false,
+      "defects": [
+        "HANDLE_NO_CONNECTOR",
+        "FLOATING_HANDLE",
+        "NO_DRAWER_TRAY_OR_BOX",
+        "FRONT_PANEL_ONLY_DRAWER"
+      ],
+      "detected_defects": [
+        "FLOATING_HANDLE",
+        "FRONT_PANEL_ONLY_DRAWER",
+        "HANDLE_NO_CONNECTOR",
+        "NO_DRAWER_TRAY_OR_BOX"
+      ],
+      "drawer_box_tray_invariant_passed": false,
+      "drawer_front_geoms": [
+        "drawer_door_left_panel_collision",
+        "drawer_door_right_panel_collision",
+        "drawer_door_top_panel_collision",
+        "drawer_door_bottom_panel_collision"
+      ],
+      "drawer_slider_joint_name": "drawer_slider_0",
+      "drawer_tray_side_bottom_back_geoms": [],
+      "drawer_tray_volume_proxy_m3": 0.0,
+      "generated_at_utc": "2026-05-05T14:26:41Z",
+      "handle_connector_geoms": [],
+      "handle_connector_invariant_passed": false,
+      "handle_geoms": [
+        "drawer_handle_collision_0"
+      ],
+      "handle_to_connector_gap_m": 999.0,
+      "max_unsupported_gap_m": 999.0,
+      "may_reuse_as_dataset_admission_candidate": false,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/generated_instances/dh_c1_admitted_island_densify_25/model.xml",
+      "moving_body_geom_names": [
+        "drawer_door_bottom_panel_collision",
+        "drawer_door_left_panel_collision",
+        "drawer_door_right_panel_collision",
+        "drawer_door_top_panel_collision",
+        "drawer_handle_collision_0"
+      ],
+      "moving_drawer_body_name": "link_1",
+      "topology_realism_passed": false,
+      "tray_collision_counterpart": false,
+      "tray_visual_counterpart": false,
+      "visual_physical_topology_invariant_passed": false
+    },
+    {
+      "candidate_id": "dh_c1_admitted_island_densify_25",
+      "connector_collision_counterpart": false,
+      "connector_to_front_gap_m": 999.0,
+      "connector_visual_counterpart": false,
+      "defects": [
+        "HANDLE_NO_CONNECTOR",
+        "FLOATING_HANDLE",
+        "NO_DRAWER_TRAY_OR_BOX",
+        "FRONT_PANEL_ONLY_DRAWER"
+      ],
+      "detected_defects": [
+        "FLOATING_HANDLE",
+        "FRONT_PANEL_ONLY_DRAWER",
+        "HANDLE_NO_CONNECTOR",
+        "NO_DRAWER_TRAY_OR_BOX"
+      ],
+      "drawer_box_tray_invariant_passed": false,
+      "drawer_front_geoms": [
+        "drawer_door_left_panel_collision",
+        "drawer_door_right_panel_collision",
+        "drawer_door_top_panel_collision",
+        "drawer_door_bottom_panel_collision"
+      ],
+      "drawer_slider_joint_name": "drawer_slider_0",
+      "drawer_tray_side_bottom_back_geoms": [],
+      "drawer_tray_volume_proxy_m3": 0.0,
+      "generated_at_utc": "2026-05-05T14:26:41Z",
+      "handle_connector_geoms": [],
+      "handle_connector_invariant_passed": false,
+      "handle_geoms": [
+        "drawer_handle_collision_0"
+      ],
+      "handle_to_connector_gap_m": 999.0,
+      "max_unsupported_gap_m": 999.0,
+      "may_reuse_as_dataset_admission_candidate": false,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/generated_instances/dh_c1_admitted_island_densify_25/model.xml",
+      "moving_body_geom_names": [
+        "drawer_door_bottom_panel_collision",
+        "drawer_door_left_panel_collision",
+        "drawer_door_right_panel_collision",
+        "drawer_door_top_panel_collision",
+        "drawer_handle_collision_0"
+      ],
+      "moving_drawer_body_name": "link_1",
+      "topology_realism_passed": false,
+      "tray_collision_counterpart": false,
+      "tray_visual_counterpart": false,
+      "visual_physical_topology_invariant_passed": false
+    },
+    {
+      "candidate_id": "dh_c1_admitted_island_densify_25",
+      "connector_collision_counterpart": false,
+      "connector_to_front_gap_m": 999.0,
+      "connector_visual_counterpart": false,
+      "defects": [
+        "HANDLE_NO_CONNECTOR",
+        "FLOATING_HANDLE",
+        "NO_DRAWER_TRAY_OR_BOX",
+        "FRONT_PANEL_ONLY_DRAWER"
+      ],
+      "detected_defects": [
+        "FLOATING_HANDLE",
+        "FRONT_PANEL_ONLY_DRAWER",
+        "HANDLE_NO_CONNECTOR",
+        "NO_DRAWER_TRAY_OR_BOX"
+      ],
+      "drawer_box_tray_invariant_passed": false,
+      "drawer_front_geoms": [
+        "drawer_door_left_panel_collision",
+        "drawer_door_right_panel_collision",
+        "drawer_door_top_panel_collision",
+        "drawer_door_bottom_panel_collision"
+      ],
+      "drawer_slider_joint_name": "drawer_slider_0",
+      "drawer_tray_side_bottom_back_geoms": [],
+      "drawer_tray_volume_proxy_m3": 0.0,
+      "generated_at_utc": "2026-05-05T14:26:41Z",
+      "handle_connector_geoms": [],
+      "handle_connector_invariant_passed": false,
+      "handle_geoms": [
+        "drawer_handle_collision_0"
+      ],
+      "handle_to_connector_gap_m": 999.0,
+      "max_unsupported_gap_m": 999.0,
+      "may_reuse_as_dataset_admission_candidate": false,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/generated_instances/dh_c1_admitted_island_densify_25/model.xml",
+      "moving_body_geom_names": [
+        "drawer_door_bottom_panel_collision",
+        "drawer_door_left_panel_collision",
+        "drawer_door_right_panel_collision",
+        "drawer_door_top_panel_collision",
+        "drawer_handle_collision_0"
+      ],
+      "moving_drawer_body_name": "link_1",
+      "topology_realism_passed": false,
+      "tray_collision_counterpart": false,
+      "tray_visual_counterpart": false,
+      "visual_physical_topology_invariant_passed": false
+    },
+    {
+      "candidate_id": "dh_c1_admitted_island_densify_25",
+      "connector_collision_counterpart": false,
+      "connector_to_front_gap_m": 999.0,
+      "connector_visual_counterpart": false,
+      "defects": [
+        "HANDLE_NO_CONNECTOR",
+        "FLOATING_HANDLE",
+        "NO_DRAWER_TRAY_OR_BOX",
+        "FRONT_PANEL_ONLY_DRAWER"
+      ],
+      "detected_defects": [
+        "FLOATING_HANDLE",
+        "FRONT_PANEL_ONLY_DRAWER",
+        "HANDLE_NO_CONNECTOR",
+        "NO_DRAWER_TRAY_OR_BOX"
+      ],
+      "drawer_box_tray_invariant_passed": false,
+      "drawer_front_geoms": [
+        "drawer_door_left_panel_collision",
+        "drawer_door_right_panel_collision",
+        "drawer_door_top_panel_collision",
+        "drawer_door_bottom_panel_collision"
+      ],
+      "drawer_slider_joint_name": "drawer_slider_0",
+      "drawer_tray_side_bottom_back_geoms": [],
+      "drawer_tray_volume_proxy_m3": 0.0,
+      "generated_at_utc": "2026-05-05T14:26:41Z",
+      "handle_connector_geoms": [],
+      "handle_connector_invariant_passed": false,
+      "handle_geoms": [
+        "drawer_handle_collision_0"
+      ],
+      "handle_to_connector_gap_m": 999.0,
+      "max_unsupported_gap_m": 999.0,
+      "may_reuse_as_dataset_admission_candidate": false,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/generated_instances/dh_c1_admitted_island_densify_25/model.xml",
+      "moving_body_geom_names": [
+        "drawer_door_bottom_panel_collision",
+        "drawer_door_left_panel_collision",
+        "drawer_door_right_panel_collision",
+        "drawer_door_top_panel_collision",
+        "drawer_handle_collision_0"
+      ],
+      "moving_drawer_body_name": "link_1",
+      "topology_realism_passed": false,
+      "tray_collision_counterpart": false,
+      "tray_visual_counterpart": false,
+      "visual_physical_topology_invariant_passed": false
+    },
+    {
+      "candidate_id": "dh_c1_admitted_island_densify_25",
+      "connector_collision_counterpart": false,
+      "connector_to_front_gap_m": 999.0,
+      "connector_visual_counterpart": false,
+      "defects": [
+        "HANDLE_NO_CONNECTOR",
+        "FLOATING_HANDLE",
+        "NO_DRAWER_TRAY_OR_BOX",
+        "FRONT_PANEL_ONLY_DRAWER"
+      ],
+      "detected_defects": [
+        "FLOATING_HANDLE",
+        "FRONT_PANEL_ONLY_DRAWER",
+        "HANDLE_NO_CONNECTOR",
+        "NO_DRAWER_TRAY_OR_BOX"
+      ],
+      "drawer_box_tray_invariant_passed": false,
+      "drawer_front_geoms": [
+        "drawer_door_left_panel_collision",
+        "drawer_door_right_panel_collision",
+        "drawer_door_top_panel_collision",
+        "drawer_door_bottom_panel_collision"
+      ],
+      "drawer_slider_joint_name": "drawer_slider_0",
+      "drawer_tray_side_bottom_back_geoms": [],
+      "drawer_tray_volume_proxy_m3": 0.0,
+      "generated_at_utc": "2026-05-05T14:26:41Z",
+      "handle_connector_geoms": [],
+      "handle_connector_invariant_passed": false,
+      "handle_geoms": [
+        "drawer_handle_collision_0"
+      ],
+      "handle_to_connector_gap_m": 999.0,
+      "max_unsupported_gap_m": 999.0,
+      "may_reuse_as_dataset_admission_candidate": false,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/generated_instances/dh_c1_admitted_island_densify_25/model.xml",
+      "moving_body_geom_names": [
+        "drawer_door_bottom_panel_collision",
+        "drawer_door_left_panel_collision",
+        "drawer_door_right_panel_collision",
+        "drawer_door_top_panel_collision",
+        "drawer_handle_collision_0"
+      ],
+      "moving_drawer_body_name": "link_1",
+      "topology_realism_passed": false,
+      "tray_collision_counterpart": false,
+      "tray_visual_counterpart": false,
+      "visual_physical_topology_invariant_passed": false
+    },
+    {
+      "candidate_id": "dh_c1_admitted_island_densify_25",
+      "connector_collision_counterpart": false,
+      "connector_to_front_gap_m": 999.0,
+      "connector_visual_counterpart": false,
+      "defects": [
+        "HANDLE_NO_CONNECTOR",
+        "FLOATING_HANDLE",
+        "NO_DRAWER_TRAY_OR_BOX",
+        "FRONT_PANEL_ONLY_DRAWER"
+      ],
+      "detected_defects": [
+        "FLOATING_HANDLE",
+        "FRONT_PANEL_ONLY_DRAWER",
+        "HANDLE_NO_CONNECTOR",
+        "NO_DRAWER_TRAY_OR_BOX"
+      ],
+      "drawer_box_tray_invariant_passed": false,
+      "drawer_front_geoms": [
+        "drawer_door_left_panel_collision",
+        "drawer_door_right_panel_collision",
+        "drawer_door_top_panel_collision",
+        "drawer_door_bottom_panel_collision"
+      ],
+      "drawer_slider_joint_name": "drawer_slider_0",
+      "drawer_tray_side_bottom_back_geoms": [],
+      "drawer_tray_volume_proxy_m3": 0.0,
+      "generated_at_utc": "2026-05-05T14:26:41Z",
+      "handle_connector_geoms": [],
+      "handle_connector_invariant_passed": false,
+      "handle_geoms": [
+        "drawer_handle_collision_0"
+      ],
+      "handle_to_connector_gap_m": 999.0,
+      "max_unsupported_gap_m": 999.0,
+      "may_reuse_as_dataset_admission_candidate": false,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/generated_instances/dh_c1_admitted_island_densify_25/model.xml",
+      "moving_body_geom_names": [
+        "drawer_door_bottom_panel_collision",
+        "drawer_door_left_panel_collision",
+        "drawer_door_right_panel_collision",
+        "drawer_door_top_panel_collision",
+        "drawer_handle_collision_0"
+      ],
+      "moving_drawer_body_name": "link_1",
+      "topology_realism_passed": false,
+      "tray_collision_counterpart": false,
+      "tray_visual_counterpart": false,
+      "visual_physical_topology_invariant_passed": false
+    },
+    {
+      "candidate_id": "dh_c1_admitted_island_densify_21",
+      "connector_collision_counterpart": false,
+      "connector_to_front_gap_m": 999.0,
+      "connector_visual_counterpart": false,
+      "defects": [
+        "HANDLE_NO_CONNECTOR",
+        "FLOATING_HANDLE",
+        "NO_DRAWER_TRAY_OR_BOX",
+        "FRONT_PANEL_ONLY_DRAWER"
+      ],
+      "detected_defects": [
+        "FLOATING_HANDLE",
+        "FRONT_PANEL_ONLY_DRAWER",
+        "HANDLE_NO_CONNECTOR",
+        "NO_DRAWER_TRAY_OR_BOX"
+      ],
+      "drawer_box_tray_invariant_passed": false,
+      "drawer_front_geoms": [
+        "drawer_door_left_panel_collision",
+        "drawer_door_right_panel_collision",
+        "drawer_door_top_panel_collision",
+        "drawer_door_bottom_panel_collision"
+      ],
+      "drawer_slider_joint_name": "drawer_slider_0",
+      "drawer_tray_side_bottom_back_geoms": [],
+      "drawer_tray_volume_proxy_m3": 0.0,
+      "generated_at_utc": "2026-05-05T14:26:41Z",
+      "handle_connector_geoms": [],
+      "handle_connector_invariant_passed": false,
+      "handle_geoms": [
+        "drawer_handle_collision_0"
+      ],
+      "handle_to_connector_gap_m": 999.0,
+      "max_unsupported_gap_m": 999.0,
+      "may_reuse_as_dataset_admission_candidate": false,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/generated_instances/dh_c1_admitted_island_densify_21/model.xml",
+      "moving_body_geom_names": [
+        "drawer_door_bottom_panel_collision",
+        "drawer_door_left_panel_collision",
+        "drawer_door_right_panel_collision",
+        "drawer_door_top_panel_collision",
+        "drawer_handle_collision_0"
+      ],
+      "moving_drawer_body_name": "link_1",
+      "topology_realism_passed": false,
+      "tray_collision_counterpart": false,
+      "tray_visual_counterpart": false,
+      "visual_physical_topology_invariant_passed": false
+    },
+    {
+      "candidate_id": "dh_c1_admitted_island_densify_21",
+      "connector_collision_counterpart": false,
+      "connector_to_front_gap_m": 999.0,
+      "connector_visual_counterpart": false,
+      "defects": [
+        "HANDLE_NO_CONNECTOR",
+        "FLOATING_HANDLE",
+        "NO_DRAWER_TRAY_OR_BOX",
+        "FRONT_PANEL_ONLY_DRAWER"
+      ],
+      "detected_defects": [
+        "FLOATING_HANDLE",
+        "FRONT_PANEL_ONLY_DRAWER",
+        "HANDLE_NO_CONNECTOR",
+        "NO_DRAWER_TRAY_OR_BOX"
+      ],
+      "drawer_box_tray_invariant_passed": false,
+      "drawer_front_geoms": [
+        "drawer_door_left_panel_collision",
+        "drawer_door_right_panel_collision",
+        "drawer_door_top_panel_collision",
+        "drawer_door_bottom_panel_collision"
+      ],
+      "drawer_slider_joint_name": "drawer_slider_0",
+      "drawer_tray_side_bottom_back_geoms": [],
+      "drawer_tray_volume_proxy_m3": 0.0,
+      "generated_at_utc": "2026-05-05T14:26:41Z",
+      "handle_connector_geoms": [],
+      "handle_connector_invariant_passed": false,
+      "handle_geoms": [
+        "drawer_handle_collision_0"
+      ],
+      "handle_to_connector_gap_m": 999.0,
+      "max_unsupported_gap_m": 999.0,
+      "may_reuse_as_dataset_admission_candidate": false,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/generated_instances/dh_c1_admitted_island_densify_21/model.xml",
+      "moving_body_geom_names": [
+        "drawer_door_bottom_panel_collision",
+        "drawer_door_left_panel_collision",
+        "drawer_door_right_panel_collision",
+        "drawer_door_top_panel_collision",
+        "drawer_handle_collision_0"
+      ],
+      "moving_drawer_body_name": "link_1",
+      "topology_realism_passed": false,
+      "tray_collision_counterpart": false,
+      "tray_visual_counterpart": false,
+      "visual_physical_topology_invariant_passed": false
+    },
+    {
+      "candidate_id": "dh_c1_admitted_island_densify_21",
+      "connector_collision_counterpart": false,
+      "connector_to_front_gap_m": 999.0,
+      "connector_visual_counterpart": false,
+      "defects": [
+        "HANDLE_NO_CONNECTOR",
+        "FLOATING_HANDLE",
+        "NO_DRAWER_TRAY_OR_BOX",
+        "FRONT_PANEL_ONLY_DRAWER"
+      ],
+      "detected_defects": [
+        "FLOATING_HANDLE",
+        "FRONT_PANEL_ONLY_DRAWER",
+        "HANDLE_NO_CONNECTOR",
+        "NO_DRAWER_TRAY_OR_BOX"
+      ],
+      "drawer_box_tray_invariant_passed": false,
+      "drawer_front_geoms": [
+        "drawer_door_left_panel_collision",
+        "drawer_door_right_panel_collision",
+        "drawer_door_top_panel_collision",
+        "drawer_door_bottom_panel_collision"
+      ],
+      "drawer_slider_joint_name": "drawer_slider_0",
+      "drawer_tray_side_bottom_back_geoms": [],
+      "drawer_tray_volume_proxy_m3": 0.0,
+      "generated_at_utc": "2026-05-05T14:26:41Z",
+      "handle_connector_geoms": [],
+      "handle_connector_invariant_passed": false,
+      "handle_geoms": [
+        "drawer_handle_collision_0"
+      ],
+      "handle_to_connector_gap_m": 999.0,
+      "max_unsupported_gap_m": 999.0,
+      "may_reuse_as_dataset_admission_candidate": false,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/generated_instances/dh_c1_admitted_island_densify_21/model.xml",
+      "moving_body_geom_names": [
+        "drawer_door_bottom_panel_collision",
+        "drawer_door_left_panel_collision",
+        "drawer_door_right_panel_collision",
+        "drawer_door_top_panel_collision",
+        "drawer_handle_collision_0"
+      ],
+      "moving_drawer_body_name": "link_1",
+      "topology_realism_passed": false,
+      "tray_collision_counterpart": false,
+      "tray_visual_counterpart": false,
+      "visual_physical_topology_invariant_passed": false
+    },
+    {
+      "candidate_id": "dh_c1_admitted_island_densify_21",
+      "connector_collision_counterpart": false,
+      "connector_to_front_gap_m": 999.0,
+      "connector_visual_counterpart": false,
+      "defects": [
+        "HANDLE_NO_CONNECTOR",
+        "FLOATING_HANDLE",
+        "NO_DRAWER_TRAY_OR_BOX",
+        "FRONT_PANEL_ONLY_DRAWER"
+      ],
+      "detected_defects": [
+        "FLOATING_HANDLE",
+        "FRONT_PANEL_ONLY_DRAWER",
+        "HANDLE_NO_CONNECTOR",
+        "NO_DRAWER_TRAY_OR_BOX"
+      ],
+      "drawer_box_tray_invariant_passed": false,
+      "drawer_front_geoms": [
+        "drawer_door_left_panel_collision",
+        "drawer_door_right_panel_collision",
+        "drawer_door_top_panel_collision",
+        "drawer_door_bottom_panel_collision"
+      ],
+      "drawer_slider_joint_name": "drawer_slider_0",
+      "drawer_tray_side_bottom_back_geoms": [],
+      "drawer_tray_volume_proxy_m3": 0.0,
+      "generated_at_utc": "2026-05-05T14:26:41Z",
+      "handle_connector_geoms": [],
+      "handle_connector_invariant_passed": false,
+      "handle_geoms": [
+        "drawer_handle_collision_0"
+      ],
+      "handle_to_connector_gap_m": 999.0,
+      "max_unsupported_gap_m": 999.0,
+      "may_reuse_as_dataset_admission_candidate": false,
+      "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/generated_instances/dh_c1_admitted_island_densify_21/model.xml",
+      "moving_body_geom_names": [
+        "drawer_door_bottom_panel_collision",
+        "drawer_door_left_panel_collision",
+        "drawer_door_right_panel_collision",
+        "drawer_door_top_panel_collision",
+        "drawer_handle_collision_0"
+      ],
+      "moving_drawer_body_name": "link_1",
+      "topology_realism_passed": false,
+      "tray_collision_counterpart": false,
+      "tray_visual_counterpart": false,
+      "visual_physical_topology_invariant_passed": false
+    }
+  ],
+  "generated_at_utc": "2026-05-05T14:26:41Z",
+  "known_observed_case": {
+    "candidate_id": "dh_c1_admitted_island_densify_25",
+    "center_to_front_gap_m": 0.295,
+    "drawer_front_plane_x": 0.135,
+    "observed_defects": [
+      "FLOATING_HANDLE",
+      "HANDLE_NO_CONNECTOR",
+      "FRONT_PANEL_ONLY_DRAWER",
+      "NO_DRAWER_TRAY_OR_BOX"
+    ],
+    "sphere_handle_center_x": -0.16,
+    "sphere_radius_m": 0.023
+  },
+  "prior_run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z"
+}

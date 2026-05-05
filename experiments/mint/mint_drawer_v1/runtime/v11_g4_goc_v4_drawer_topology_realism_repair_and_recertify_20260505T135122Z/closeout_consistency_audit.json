@@ -1,0 +1,7 @@
+{
+  "best_legal_candidate_id_null_with_strict_candidates": false,
+  "best_legal_drawer_fraction_matches_best_strict_candidate": true,
+  "deprecated_fields_labeled": true,
+  "generated_at_utc": "2026-05-05T14:26:48Z",
+  "remote_commit_hash_distinction": "remote_branch_head is current HEAD; evidence_commit_hash/final_closeout_commit_hash are populated after commit/push verification."
+}

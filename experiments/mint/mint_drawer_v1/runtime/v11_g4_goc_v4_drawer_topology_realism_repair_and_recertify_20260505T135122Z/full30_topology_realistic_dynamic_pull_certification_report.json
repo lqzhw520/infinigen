@@ -1,0 +1,26 @@
+{
+  "cases_failed": 0,
+  "cases_passed": 30,
+  "cases_total": 30,
+  "direct_qpos_drawer_opening": false,
+  "drawer_motor_command_used": false,
+  "failure_histogram": {},
+  "forbidden_contact_frames_max": 0,
+  "full30_certification_attempted": true,
+  "full30_certification_passed": true,
+  "generated_at_utc": "2026-05-05T14:09:05Z",
+  "handle_nonlegal_contact_frames_max": 0,
+  "matrix_passed": true,
+  "max_drawer_fraction_max": 1.0,
+  "max_drawer_fraction_min": 1.0,
+  "max_force_n": 67.68005874491881,
+  "max_penetration_m": 0.0018900472169803804,
+  "name": "full30_dynamic_pull_certification",
+  "pull_phase_target_contact_frames_min": 2637,
+  "pull_phase_two_pad_target_contact_frames_min": 79,
+  "structural_label_histogram": {
+    "FORCE_PRESENT_BUT_DRAWER_NONMONOTONIC": 30
+  },
+  "target_contact_consecutive_min": 1089,
+  "target_contact_frames_min": 2834
+}

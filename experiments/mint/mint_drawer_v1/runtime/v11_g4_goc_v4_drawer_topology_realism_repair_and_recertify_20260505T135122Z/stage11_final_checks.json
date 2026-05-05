@@ -1,0 +1,18 @@
+{
+  "current_truth_modified": false,
+  "external_mint_modified": false,
+  "generated_at_utc": "2026-05-05T14:27:23Z",
+  "git_status_short": [
+    "M .project-memory/STATUS.md",
+    " M .session/checkpoint.md",
+    "?? experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_drawer_topology_realism_repair.json",
+    "?? experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_drawer_topology_realism_repair.json"
+  ],
+  "json_parse_errors": [],
+  "next_actions_modified": false,
+  "preflight_passed": false,
+  "preflight_returncode": 1,
+  "previous_success_run_modified": false,
+  "py_compile_returncode": 0,
+  "yaml_parse_returncode": 0
+}

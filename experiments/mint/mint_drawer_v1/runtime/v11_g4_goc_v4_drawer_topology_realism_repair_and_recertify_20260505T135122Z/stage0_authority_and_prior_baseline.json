@@ -1,0 +1,20 @@
+{
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "generated_at_utc": "2026-05-05T14:26:37Z",
+  "git_status_short": [
+    "M .project-memory/STATUS.md",
+    " M .session/checkpoint.md",
+    "?? experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_drawer_topology_realism_repair.json",
+    "?? experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_drawer_topology_realism_repair.json"
+  ],
+  "head": "13af55564c8c58dbc8e72c66866d513c4058202e",
+  "manual_review_failed_due_topology_defect": true,
+  "previous_closeout_not_dataset_admission_ready": true,
+  "previous_closeout_retained_as_physics_replay_pipeline_success": true,
+  "previous_success_run_modified": false,
+  "prior_closeout_classification": "DYNAMIC_PULL_ACCESSIBLE_POOL_STRICT_EXPORT_LOCAL_REPLAY_READY",
+  "prior_success_run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z",
+  "pwd": "/mnt/afs2/zhuhaowu/infinigen",
+  "remote_v": "my-origin\tgit@github.com:lqzhw520/infinigen.git (fetch)\nmy-origin\tgit@github.com:lqzhw520/infinigen.git (push)\norigin\thttps://github.com/princeton-vl/infinigen.git (fetch)\norigin\thttps://github.com/princeton-vl/infinigen.git (push)",
+  "task_id": "V11_G4_GOC_V4_DRAWER_TOPOLOGY_REALISM_REPAIR_AND_RECERTIFY_V1"
+}

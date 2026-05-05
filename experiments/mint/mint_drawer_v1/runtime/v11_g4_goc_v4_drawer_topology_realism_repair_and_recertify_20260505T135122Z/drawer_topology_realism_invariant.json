@@ -1,0 +1,30 @@
+{
+  "drawer_box_tray_invariant": {
+    "back_or_equivalent": true,
+    "bottom": true,
+    "front": true,
+    "front_panel_only_rejected": true,
+    "left_side": true,
+    "right_side": true
+  },
+  "dynamic_consistency_invariant": {
+    "forbidden_keepout": true,
+    "no_direct_qpos": true,
+    "no_drawer_motor": true,
+    "strict_goc_v4": true
+  },
+  "generated_at_utc": "2026-05-05T14:26:41Z",
+  "generated_variant_provenance_invariant": {
+    "declared_generated_or_repaired_variant": true,
+    "not_raw_infinigen_claim": true
+  },
+  "handle_connector_invariant": {
+    "max_unsupported_gap_m": 0.005,
+    "required": true,
+    "same_body_hierarchy_alone_sufficient": false
+  },
+  "visual_physical_topology_invariant": {
+    "invisible_topology_support_rejected": true,
+    "visual_only_support_insufficient": true
+  }
+}

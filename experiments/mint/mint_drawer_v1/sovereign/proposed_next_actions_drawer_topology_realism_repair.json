@@ -1,0 +1,7 @@
+{
+  "generated_at_utc": "2026-05-05T14:27:23Z",
+  "manual_visual_and_science_review_required": true,
+  "mint_train_eval_allowed": false,
+  "proposal_id": "proposed_next_actions_drawer_topology_realism_repair",
+  "recommended_next_gate": "MANUAL_VISUAL_AND_SCIENCE_REVIEW_FOR_DATASET_ADMISSION"
+}

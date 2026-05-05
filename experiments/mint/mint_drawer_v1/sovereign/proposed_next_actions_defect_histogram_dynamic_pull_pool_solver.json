@@ -1,0 +1,7 @@
+{
+  "closeout_classification": "DEFECT_HISTOGRAM_SOLVER_FULL30_FAILED",
+  "generated_at_utc": "2026-05-05T07:42:31Z",
+  "proposal_id": "proposed_next_actions_defect_histogram_dynamic_pull_pool_solver",
+  "recommended_next_gate": "ROBUST_DYNAMIC_PULL_GENERALIZATION_REPAIR",
+  "required_action": "use exhausted operator certificate to decide whether to expand structural generator or controller search space"
+}

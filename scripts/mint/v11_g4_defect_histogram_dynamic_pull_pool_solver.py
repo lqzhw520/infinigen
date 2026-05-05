@@ -288,6 +288,14 @@ def controller_variants() -> list[dict[str, Any]]:
 CONTROLLER_VARIANTS = controller_variants()
 
 
+def as_int(value: Any, default: int = 9999) -> int:
+    return default if value is None else int(value)
+
+
+def as_float(value: Any, default: float = 0.0) -> float:
+    return default if value is None else float(value)
+
+
 def generate_cycle_candidates(cycle: int) -> list[dict[str, Any]]:
     specs: list[tuple[str, str, int, dict[str, Any], str, str | None]] = []
     if cycle == 1:
@@ -303,6 +311,14 @@ def generate_cycle_candidates(cycle: int) -> list[dict[str, Any]]:
             ("generated_variant", -0.630, -0.050, -0.150, -0.040, 0.382, -12, 0.022),
             ("repaired_layout", -0.650, -0.062, -0.162, -0.050, 0.386, -19, 0.023),
             ("generated_variant", -0.635, -0.072, -0.164, -0.052, 0.390, -18, 0.023),
+            ("repaired_layout", -0.650, -0.090, -0.178, -0.070, 0.402, -26, 0.024),
+            ("generated_variant", -0.635, -0.058, -0.158, -0.048, 0.383, -18, 0.023),
+            ("repaired_layout", -0.635, -0.058, -0.158, -0.048, 0.383, -18, 0.023),
+            ("generated_variant", -0.650, -0.062, -0.162, -0.050, 0.386, -19, 0.023),
+            ("repaired_layout", -0.650, -0.062, -0.162, -0.050, 0.386, -19, 0.023),
+            ("generated_variant", -0.635, -0.072, -0.164, -0.052, 0.390, -18, 0.023),
+            ("repaired_layout", -0.635, -0.072, -0.164, -0.052, 0.390, -18, 0.023),
+            ("generated_variant", -0.650, -0.090, -0.178, -0.070, 0.402, -26, 0.024),
             ("repaired_layout", -0.650, -0.090, -0.178, -0.070, 0.402, -26, 0.024),
         ]
         for i, (src, base_x, base_y, hx, hy, hz, yaw, radius) in enumerate(grid, start=1):
@@ -379,11 +395,11 @@ def row_rank(row: dict[str, Any]) -> tuple[float, ...]:
     reasons = set(row.get("failure_reasons") or [])
     return (
         1.0 if row.get("passed") else 0.0,
-        1.0 if int(row.get("forbidden_contact_frames", 9999) or 9999) == 0 else 0.0,
-        1.0 if int(row.get("handle_nonlegal_contact_frames", 9999) or 9999) == 0 else 0.0,
-        float(row.get("max_drawer_fraction", 0.0) or 0.0),
-        float(row.get("pull_phase_two_pad_target_contact_frames", 0) or 0),
-        float(row.get("pull_phase_target_contact_frames", 0) or 0),
+        1.0 if as_int(row.get("forbidden_contact_frames")) == 0 else 0.0,
+        1.0 if as_int(row.get("handle_nonlegal_contact_frames")) == 0 else 0.0,
+        as_float(row.get("max_drawer_fraction")),
+        as_float(row.get("pull_phase_two_pad_target_contact_frames")),
+        as_float(row.get("pull_phase_target_contact_frames")),
         -float(len(reasons)),
     )
 
@@ -424,9 +440,9 @@ def summarize_cycle(results: list[dict[str, Any]], cycle: int) -> dict[str, Any]
     hist = Counter(r.get("dominant_failure") or "ADMITTED" for r in results)
     defect_hist = Counter(defect_label(r.get("dominant_failure")) for r in results if not r.get("admitted"))
     probes = [row for r in results for row in best_rows_from_result(r)]
-    legal = [r for r in probes if int(r.get("forbidden_contact_frames", 9999) or 9999) == 0 and int(r.get("handle_nonlegal_contact_frames", 9999) or 9999) == 0]
-    best_overall = max(probes, key=lambda r: float(r.get("max_drawer_fraction", 0.0) or 0.0), default={})
-    best_legal = max(legal, key=lambda r: float(r.get("max_drawer_fraction", 0.0) or 0.0), default={})
+    legal = [r for r in probes if as_int(r.get("forbidden_contact_frames")) == 0 and as_int(r.get("handle_nonlegal_contact_frames")) == 0]
+    best_overall = max(probes, key=lambda r: as_float(r.get("max_drawer_fraction")), default={})
+    best_legal = max(legal, key=lambda r: as_float(r.get("max_drawer_fraction")), default={})
     return {
         "generated_at_utc": utc_now(),
         "cycle": cycle,
@@ -444,7 +460,7 @@ def summarize_cycle(results: list[dict[str, Any]], cycle: int) -> dict[str, Any]
         "best_legal_max_penetration_m": float(best_legal.get("max_penetration_m", 0.0) or 0.0),
         "operator_progress_metric": [
             sum(1 for r in results if r.get("admitted")),
-            float(best_legal.get("max_drawer_fraction", 0.0) or 0.0),
+            as_float(best_legal.get("max_drawer_fraction")),
             int(best_legal.get("pull_phase_two_pad_target_contact_frames", 0) or 0),
             -int(best_overall.get("forbidden_contact_frames", 0) or 0),
         ],
@@ -566,11 +582,11 @@ def admitted_rank(candidate: dict[str, Any]) -> tuple[float, ...]:
     row = candidate.get("admission_best_probe_row")
     row = row if isinstance(row, dict) else {}
     return (
-        float(row.get("max_drawer_fraction", 0.0) or 0.0),
-        float(row.get("pull_phase_two_pad_target_contact_frames", 0) or 0),
-        -float(row.get("forbidden_contact_frames", 9999) or 9999),
-        -float(row.get("handle_nonlegal_contact_frames", 9999) or 9999),
-        -float(row.get("max_penetration_m", 9999.0) or 9999.0),
+        as_float(row.get("max_drawer_fraction")),
+        as_float(row.get("pull_phase_two_pad_target_contact_frames")),
+        -float(as_int(row.get("forbidden_contact_frames"))),
+        -float(as_int(row.get("handle_nonlegal_contact_frames"))),
+        -as_float(row.get("max_penetration_m"), 9999.0),
     )
 
 
@@ -592,6 +608,26 @@ def select_targeted_candidates(admitted: list[dict[str, Any]]) -> list[dict[str,
         if len(selected) >= 7:
             break
     return selected[:7]
+
+
+def select_certification_candidates(admitted: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    ranked = sorted(admitted, key=admitted_rank, reverse=True)
+    selected: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    for source in ("generated_variant", "repaired_layout"):
+        for candidate in [c for c in ranked if c.get("co_design_source_type") == source][:2]:
+            cid = str(candidate.get("candidate_id"))
+            if cid not in seen:
+                selected.append(candidate)
+                seen.add(cid)
+    for candidate in ranked:
+        cid = str(candidate.get("candidate_id"))
+        if cid not in seen:
+            selected.append(candidate)
+            seen.add(cid)
+        if len(selected) >= 5:
+            break
+    return selected[:5]
 
 
 def supported_targeted_perturbations() -> list[str]:
@@ -648,7 +684,7 @@ def run_targeted(run_dir: Path, admitted: list[dict[str, Any]], cycle: int) -> t
 
 
 def run_full30(run_dir: Path, admitted: list[dict[str, Any]]) -> tuple[dict[str, Any], list[dict[str, Any]]]:
-    selected = admitted[:5]
+    selected = select_certification_candidates(admitted)
     rows: list[dict[str, Any]] = []
     out = run_dir / "full30_dynamic_pull_certification.jsonl"
     if out.exists():

@@ -1,0 +1,13 @@
+{
+  "candidate_pool_admitted_count": 9,
+  "closeout_classification": "DEFECT_HISTOGRAM_SOLVER_FULL30_FAILED",
+  "full30_certification_attempted": true,
+  "generated_at_utc": "2026-05-05T07:42:31Z",
+  "local_strict_replay_render_passed": false,
+  "next_gate": "ROBUST_DYNAMIC_PULL_GENERALIZATION_REPAIR",
+  "proposal_id": "proposed_current_truth_delta_defect_histogram_dynamic_pull_pool_solver",
+  "source_run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T072519Z",
+  "strict_teacher_export_complete": false,
+  "targeted_shard_passed": true,
+  "teacher_rollout_remains_blocked": true
+}

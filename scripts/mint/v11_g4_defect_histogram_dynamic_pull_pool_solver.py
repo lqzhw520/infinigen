@@ -594,6 +594,15 @@ def select_targeted_candidates(admitted: list[dict[str, Any]]) -> list[dict[str,
     return selected[:7]
 
 
+def supported_targeted_perturbations() -> list[str]:
+    supported = [str(p["name"]) for p in cd.PERTURBATIONS]
+    selected = [p for p in cd.DEFAULT_TARGETED_PERTURBATIONS if p in supported]
+    for name in supported:
+        if name not in selected:
+            selected.append(name)
+    return selected or ["nominal"]
+
+
 def run_targeted(run_dir: Path, admitted: list[dict[str, Any]], cycle: int) -> tuple[dict[str, Any], list[dict[str, Any]]]:
     selected = select_targeted_candidates(admitted) if len(admitted) >= 7 else admitted[:]
     plan = {"generated_at_utc": utc_now(), "cycle": cycle, "case_count": len(selected), "candidate_ids": [c["candidate_id"] for c in selected], "source_mix": dict(Counter(str(c.get("co_design_source_type")) for c in selected)), "hard_fail_reasons": []}
@@ -607,7 +616,9 @@ def run_targeted(run_dir: Path, admitted: list[dict[str, Any]], cycle: int) -> t
     if out.exists():
         out.unlink()
     if not plan["hard_fail_reasons"]:
-        perturbations = cd.DEFAULT_TARGETED_PERTURBATIONS
+        perturbations = supported_targeted_perturbations()
+        plan["supported_perturbations_used"] = perturbations
+        write_json(run_dir / "targeted_shard_plan.json", plan)
         for idx, candidate in enumerate(selected):
             variant = candidate.get("selected_pull_variant") or CONTROLLER_VARIANTS[0]
             try:

@@ -43,6 +43,7 @@ import v11_g4_drawer_topology_realism_repair as v1  # noqa: E402
 
 BASE_TOPOLOGY_AUDIT = v1.topology_audit
 ORIGINAL_BUILDER = v1.ORIGINAL_BUILDER
+ORIGINAL_GENERATE_CANDIDATES = dh.generate_cycle_candidates
 
 
 def utc_now() -> str:
@@ -488,12 +489,66 @@ def latest_run(prefix: str) -> Path | None:
     return dirs[-1] if dirs else None
 
 
+def generate_cycle_candidates_v2(cycle: int) -> list[dict[str, Any]]:
+    """Densify the proven short-stub admitted island before broad fallback."""
+    if cycle != 1:
+        return ORIGINAL_GENERATE_CANDIDATES(cycle)
+    grid = [
+        ("generated_variant", -0.650, -0.090, -0.178, -0.070, 0.402, -26, 0.024),
+        ("repaired_layout", -0.650, -0.090, -0.178, -0.070, 0.402, -26, 0.024),
+        ("generated_variant", -0.648, -0.088, -0.176, -0.068, 0.401, -25, 0.024),
+        ("repaired_layout", -0.648, -0.092, -0.176, -0.072, 0.403, -27, 0.024),
+        ("generated_variant", -0.652, -0.091, -0.180, -0.071, 0.402, -26, 0.024),
+        ("repaired_layout", -0.652, -0.089, -0.180, -0.069, 0.404, -25, 0.024),
+        ("generated_variant", -0.649, -0.090, -0.177, -0.070, 0.400, -26, 0.0235),
+        ("repaired_layout", -0.651, -0.090, -0.179, -0.070, 0.405, -27, 0.0245),
+        ("generated_variant", -0.646, -0.087, -0.175, -0.067, 0.401, -24, 0.024),
+        ("repaired_layout", -0.654, -0.093, -0.181, -0.073, 0.403, -28, 0.024),
+        ("generated_variant", -0.650, -0.086, -0.178, -0.066, 0.402, -24, 0.024),
+        ("repaired_layout", -0.650, -0.094, -0.178, -0.074, 0.402, -28, 0.024),
+        ("generated_variant", -0.647, -0.091, -0.177, -0.071, 0.406, -27, 0.024),
+        ("repaired_layout", -0.653, -0.089, -0.179, -0.069, 0.398, -25, 0.024),
+    ]
+    out = []
+    for i, (source, base_x, base_y, hx, hy, hz, yaw, radius) in enumerate(
+        grid, start=1
+    ):
+        params = dh.base_params(
+            [base_x, base_y, 0.025],
+            hx,
+            hy,
+            hz,
+            handle_kind="sphere",
+            handle_radius=radius,
+            robot_yaw_deg=yaw,
+            cutout_w=0.270,
+            cutout_h=0.225,
+            cabinet_half_width=0.33,
+            cabinet_depth=0.16,
+        )
+        params["door_half_width"] = 0.30
+        params["visual_topology_v2_densified_from_admitted_island"] = True
+        out.append(
+            dh.make_candidate(
+                f"v2_short_stub_island_densify_{i:02d}",
+                source,
+                21000 + i,
+                params,
+                "V2_SHORT_STUB_ADMITTED_ISLAND_DENSIFICATION",
+                "dh_c1_admitted_island_densify_12_19_20",
+            )
+        )
+    return out
+
+
 def install_patch() -> None:
     dh.SPEC_REL = SPEC_REL
     dh.TASK_ID = TASK_ID
     dh.RUN_PREFIX = RUN_PREFIX
     dh.PREV_PREFIX = PREV_TOPOLOGY_PREFIX
     dh.SolverDrawerBuilder = V2ShortStubSupportedDrawerBuilder
+    dh.generate_cycle_candidates = generate_cycle_candidates_v2
+    dh.MAX_OUTER_CYCLES = 3
     dh.write_deltas = lambda run_dir, closeout: None
     v1.SPEC_REL = SPEC_REL
     v1.TASK_ID = TASK_ID

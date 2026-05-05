@@ -1,0 +1,188 @@
+task_id: V11_G4_GOC_V4_DRAWER_TOPOLOGY_REALISM_REPAIR_AND_RECERTIFY_V1
+task_type: TOPOLOGY_REALISM_REPAIR_AND_DYNAMIC_PULL_RECERTIFICATION_PHASE
+phase: drawer_topology_realism_repair_and_recertify
+target:
+  - topology-realistic generated/repaired drawer candidate pool
+  - dynamic pull full30 certification
+  - strict export
+  - local strict replay/render
+  - dataset-admission-review-ready evidence
+claim_boundary:
+  previous_dynamic_pull_closeout: DYNAMIC_PULL_ACCESSIBLE_POOL_STRICT_EXPORT_LOCAL_REPLAY_READY
+  previous_closeout_preserved_as: physics/contact/export/local-state-replay pipeline ready on generated simplified drawer variants
+  previous_run_not_invalidated: true
+  previous_run_not_dataset_admission_ready: true
+  previous_run_not_mutated_in_place: true
+  manual_review_blocker: generated drawer topology realism defect
+  this_phase_claim: create a new topology-realistic pool and recertify it
+success_requires:
+  topology_realism_repaired: true
+  topology_audit_passed: true
+  targeted_shard_passed: true
+  full30_certification_passed: true
+  strict_teacher_export_complete: true
+  local_strict_replay_render_passed: true
+  action_only_replay_spot_check_passed: true
+  dataset_admission_review_packet_written: true
+topology_invariants:
+  handle_connector_invariant:
+    required: true
+    max_unsupported_gap_m: 0.005
+    same_body_hierarchy_alone_is_insufficient: true
+    allowed_connectors:
+      - stem
+      - mounting_boss
+      - plate
+      - bracket
+      - bar_support
+  drawer_box_tray_invariant:
+    required: true
+    required_moving_parts:
+      - drawer_front
+      - left_side_wall
+      - right_side_wall
+      - bottom_panel
+      - back_panel_or_equivalent_tray_closure
+    front_panel_only_drawer_rejected: true
+    tray_nonzero_volume_required: true
+  visual_physical_topology_invariant:
+    required: true
+    no_floating_handle: true
+    no_invisible_topology_support: true
+    no_fake_collision_demotion: true
+    collision_only_support_for_dataset_ready_output_rejected: true
+  generated_variant_provenance_invariant:
+    generated_or_repaired_variant_must_declare_topology_params: true
+    raw_infinigen_asset_topology_audit_is_separate: true
+    do_not_claim_original_infinigen_urdf_defect_without_separate_audit: true
+  dynamic_consistency_invariant:
+    strict_goc_v4_authority: true
+    forbidden_contact_frames: 0
+    handle_nonlegal_contact_frames: 0
+    max_penetration_m_lte: 0.02
+    max_force_n_finite_lte: 1000000.0
+    drawer_fraction_gte: 0.80
+    no_direct_qpos: true
+    no_drawer_motor_command: true
+governance:
+  authoritative_remote_repo: /mnt/afs2/zhuhaowu/infinigen
+  remote_branch: feature/mint-env-reformulation-v1-visual-fidelity
+  campaign_root: experiments/mint/mint_drawer_v1
+  local_playground_root: /Users/zhuhaowu/Documents/Playground
+  reference_visual: /Users/zhuhaowu/Downloads/829cf360-90cc-4a6e-8a6a-b0e4321db4e2.png
+  remote_run_dir_prefix: experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_
+  local_replay_dir_prefix: /Users/zhuhaowu/Documents/Playground/local_replay/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_
+  wall_clock_hard_limit_hours: 8
+  baseline_dirty_allowed:
+    - .project-memory/STATUS.md
+    - .session/checkpoint.md
+  forbidden_files:
+    - external/MINT/*
+    - experiments/mint/mint_drawer_v1/sovereign/current_truth.json
+    - experiments/mint/mint_drawer_v1/sovereign/next_actions.json
+  allowed_files:
+    - scripts/mint/v11_g4_drawer_topology_realism_repair.py
+    - scripts/mint/v11_g4_defect_histogram_dynamic_pull_pool_solver.py
+    - scripts/mint/v11_g4_dynamic_pull_accessible_pool_co_design.py
+    - scripts/mint/contact_aware_drawer_teacher.py
+    - scripts/mint/merged_model_builder.py
+    - scripts/mint/drawer_robot_env_mujoco.py
+    - scripts/mint/export_full_robot_teacher_replay_bundle.py
+    - experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify.yaml
+    - experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_*/**
+    - experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_drawer_topology_realism_repair.json
+    - experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_drawer_topology_realism_repair.json
+    - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json
+    - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock_report.json
+    - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_attestation.json
+stages:
+  stage0_authority_and_prior_success_boundary:
+    outputs:
+      - stage0_authority_and_prior_baseline.json
+      - prior_success_claim_boundary.md
+    must_not_modify_previous_run_dir: true
+  stage1_topology_defect_audit_of_prior_candidates:
+    outputs:
+      - prior_candidate_topology_audit.json
+      - prior_candidate_topology_audit.md
+    known_observed_defects:
+      - FLOATING_HANDLE
+      - HANDLE_NO_CONNECTOR
+      - FRONT_PANEL_ONLY_DRAWER
+      - NO_DRAWER_TRAY_OR_BOX
+      - GENERATED_SIMPLIFIED_VARIANT_NOT_DATASET_ADMISSIBLE
+  stage2_define_dataset_admissible_drawer_topology_invariant:
+    outputs:
+      - drawer_topology_realism_invariant.json
+      - drawer_topology_realism_invariant.md
+  stage3_topology_realistic_candidate_generation_repair:
+    outputs:
+      - topology_realistic_candidate_pool.json
+  stage4_automated_topology_realism_oracle:
+    helper: scripts/mint/v11_g4_drawer_topology_realism_repair.py
+    outputs:
+      - topology_realism_oracle_results.jsonl
+      - topology_realistic_admission_report.json
+  stage5_targeted_dynamic_pull_shard:
+    minimum_cases: 7
+    outputs:
+      - targeted_topology_dynamic_shard_results.json
+      - targeted_topology_dynamic_repair_cycles.jsonl
+  stage6_full30_recertification:
+    minimum_candidates: 5
+    perturbations_per_candidate: 6
+    outputs:
+      - full30_topology_realistic_dynamic_pull_certification.jsonl
+      - full30_topology_realistic_dynamic_pull_certification_report.json
+      - full30_topology_realistic_dynamic_pull_certification_report.md
+  stage7_strict_export_with_replay_state_audit:
+    outputs:
+      - strict_teacher_export_manifest.json
+      - trace_hash_manifest.json
+  stage8_local_strict_replay_render:
+    modes:
+      - state_replay
+      - action_only_spot_check
+    outputs:
+      - local_replay_handoff_manifest.json
+      - local_topology_visual_review_summary.json
+  stage9_closeout_consistency_audit:
+    outputs:
+      - closeout_consistency_audit.json
+  stage10_proposed_sovereign_deltas_only:
+    outputs:
+      - experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_drawer_topology_realism_repair.json
+      - experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_drawer_topology_realism_repair.json
+  stage11_final_checks:
+    outputs:
+      - stage11_final_checks.json
+  stage12_commit_push_postpush_verify:
+    commit_message: "chore(mint): repair drawer topology realism and recertify dynamic pull replay"
+    outputs:
+      - post_push_verification.json
+      - final_closeout.json
+      - final_closeout.md
+closeout_mapping:
+  success:
+    closeout_classification: DRAWER_TOPOLOGY_REALISTIC_DYNAMIC_PULL_STRICT_REPLAY_READY_FOR_DATASET_ADMISSION_REVIEW
+    next_gate: MANUAL_VISUAL_AND_SCIENCE_REVIEW_FOR_DATASET_ADMISSION
+  topology_repair_failed:
+    closeout_classification: DRAWER_TOPOLOGY_REALISM_REPAIR_FAILED
+    next_gate: DRAWER_SCENE_GENERATOR_TOPOLOGY_REDESIGN
+  targeted_failed:
+    closeout_classification: TOPOLOGY_REALISTIC_TARGETED_SHARD_FAILED
+    next_gate: TOPOLOGY_REALISTIC_DYNAMIC_PULL_REPAIR
+  full30_failed:
+    closeout_classification: TOPOLOGY_REALISTIC_DYNAMIC_PULL_CERTIFICATION_FAILED
+    next_gate: TOPOLOGY_REALISTIC_DYNAMIC_PULL_REPAIR
+  export_failed:
+    closeout_classification: STRICT_EXPORT_REPLAY_STATE_AUDIT_FAILED
+    next_gate: STRICT_EXPORT_INFRA_REPAIR
+  local_replay_failed:
+    closeout_classification: LOCAL_TOPOLOGY_STRICT_REPLAY_RENDER_FAILED
+    next_gate: LOCAL_STRICT_REPLAY_RENDER_REPAIR
+  action_only_failed:
+    closeout_classification: ACTION_ONLY_REPLAY_SPOT_CHECK_FAILED
+    next_gate: ACTION_REPLAY_DATASET_ADMISSION_REPAIR
+  time_budget_exhausted:
+    closeout_classification: TIME_BUDGET_EXHAUSTED

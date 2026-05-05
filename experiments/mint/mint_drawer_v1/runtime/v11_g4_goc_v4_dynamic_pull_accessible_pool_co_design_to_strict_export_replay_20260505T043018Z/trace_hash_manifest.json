@@ -1,0 +1,651 @@
+{
+  "file_count": 107,
+  "files": [
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_10000_pf01_capped_lead_0p04_no_post_hold_binary_close__dynamic_old_variant_from_001_centered_clearance__nominal.jsonl",
+      "relative_path": "traces/variant_10000_pf01_capped_lead_0p04_no_post_hold_binary_close__dynamic_old_variant_from_001_centered_clearance__nominal.jsonl",
+      "sha256": "99038fc6a5603fb061bb45191f44b8e433c0c7d21d9bf9e2bf919110e9a9fedb",
+      "size_bytes": 13780238
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_10001_pf02_capped_lead_0p06_no_post_hold_semi_close__dynamic_old_variant_from_001_centered_clearance__nominal.jsonl",
+      "relative_path": "traces/variant_10001_pf02_capped_lead_0p06_no_post_hold_semi_close__dynamic_old_variant_from_001_centered_clearance__nominal.jsonl",
+      "sha256": "68a831422823ea5d312c863470a7e4ad30a5211ed404f886a261634bbca46fc2",
+      "size_bytes": 6120401
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_10002_pc01_short_lead_contact_retention_binary_close__dynamic_old_variant_from_001_centered_clearance__nominal.jsonl",
+      "relative_path": "traces/variant_10002_pc01_short_lead_contact_retention_binary_close__dynamic_old_variant_from_001_centered_clearance__nominal.jsonl",
+      "sha256": "d0c7a0d279dba263395683c6874e5396cf0c671725460d5f105717cb3e69a241",
+      "size_bytes": 18140869
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_10030_pf01_capped_lead_0p04_no_post_hold_binary_close__dynamic_generated_center_pull_002__nominal.jsonl",
+      "relative_path": "traces/variant_10030_pf01_capped_lead_0p04_no_post_hold_binary_close__dynamic_generated_center_pull_002__nominal.jsonl",
+      "sha256": "a74fffd33c936965249e7e26945c8bb8e77b08441d89a0229f62215796ceefd3",
+      "size_bytes": 16527689
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_10031_pf02_capped_lead_0p06_no_post_hold_semi_close__dynamic_generated_center_pull_002__nominal.jsonl",
+      "relative_path": "traces/variant_10031_pf02_capped_lead_0p06_no_post_hold_semi_close__dynamic_generated_center_pull_002__nominal.jsonl",
+      "sha256": "eca9a43725b603c952dcad06cf6b7001439da82c694fcdddde10eef47d6b33f4",
+      "size_bytes": 6125116
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_10032_pc01_short_lead_contact_retention_binary_close__dynamic_generated_center_pull_002__nominal.jsonl",
+      "relative_path": "traces/variant_10032_pc01_short_lead_contact_retention_binary_close__dynamic_generated_center_pull_002__nominal.jsonl",
+      "sha256": "d72b8df224e781ff700d8434564f3a7264a758d58a3bdfc0f6eb550d85de89eb",
+      "size_bytes": 18127573
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_10040_pf01_capped_lead_0p04_no_post_hold_binary_close__dynamic_generated_low_y_offset_003__nominal.jsonl",
+      "relative_path": "traces/variant_10040_pf01_capped_lead_0p04_no_post_hold_binary_close__dynamic_generated_low_y_offset_003__nominal.jsonl",
+      "sha256": "bdab3983d43ab81fd72b63f8805ef6c9a3b9828440a02f8ac09b2580b81d4c9e",
+      "size_bytes": 11571081
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_10041_pf02_capped_lead_0p06_no_post_hold_semi_close__dynamic_generated_low_y_offset_003__nominal.jsonl",
+      "relative_path": "traces/variant_10041_pf02_capped_lead_0p06_no_post_hold_semi_close__dynamic_generated_low_y_offset_003__nominal.jsonl",
+      "sha256": "2fa908343d310353d2dee6b6d9c17c9f34b0fc0f4b4d019add781c3a36e64cf9",
+      "size_bytes": 7061239
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_10042_pc01_short_lead_contact_retention_binary_close__dynamic_generated_low_y_offset_003__nominal.jsonl",
+      "relative_path": "traces/variant_10042_pc01_short_lead_contact_retention_binary_close__dynamic_generated_low_y_offset_003__nominal.jsonl",
+      "sha256": "1d2025168fca0a7ad1f5e0413a51631ef1f40350eec77377122913b72872026e",
+      "size_bytes": 16893373
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_10050_pf01_capped_lead_0p04_no_post_hold_binary_close__dynamic_generated_high_y_offset_004__nominal.jsonl",
+      "relative_path": "traces/variant_10050_pf01_capped_lead_0p04_no_post_hold_binary_close__dynamic_generated_high_y_offset_004__nominal.jsonl",
+      "sha256": "5942e2689b795b7dea663778de8c29f8f67466f15d63cd3abcf3f5bac9f76ab1",
+      "size_bytes": 13866563
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_10051_pf02_capped_lead_0p06_no_post_hold_semi_close__dynamic_generated_high_y_offset_004__nominal.jsonl",
+      "relative_path": "traces/variant_10051_pf02_capped_lead_0p06_no_post_hold_semi_close__dynamic_generated_high_y_offset_004__nominal.jsonl",
+      "sha256": "d4dd2c99b0029490f46db275f5f375494e187ffd9f3867f47d3ae92a83d5a2c0",
+      "size_bytes": 6942321
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_10052_pc01_short_lead_contact_retention_binary_close__dynamic_generated_high_y_offset_004__nominal.jsonl",
+      "relative_path": "traces/variant_10052_pc01_short_lead_contact_retention_binary_close__dynamic_generated_high_y_offset_004__nominal.jsonl",
+      "sha256": "6734b709edec5c3a0723b25d48afad3c324bba2b7125fc61e1ec6d9042e9c226",
+      "size_bytes": 16840433
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_11010_pf03_low_press_axis_work_ik_hold__dynamic_keepout_ypos_generated_002__nominal.jsonl",
+      "relative_path": "traces/variant_11010_pf03_low_press_axis_work_ik_hold__dynamic_keepout_ypos_generated_002__nominal.jsonl",
+      "sha256": "332a4651e80b05197aef8ac06d88efb8c40f726303dedcf3251de3be7c546425",
+      "size_bytes": 6274786
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_11011_pf04_firm_press_slow_axis_work_binary_close__dynamic_keepout_ypos_generated_002__nominal.jsonl",
+      "relative_path": "traces/variant_11011_pf04_firm_press_slow_axis_work_binary_close__dynamic_keepout_ypos_generated_002__nominal.jsonl",
+      "sha256": "324e60ff9ada7faa9cbba6c53ad8d9a33e123125ac32fd1f879287a960eb6fc0",
+      "size_bytes": 15557598
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_11012_pc02_micro_lead_high_damping_semi_close__dynamic_keepout_ypos_generated_002__nominal.jsonl",
+      "relative_path": "traces/variant_11012_pc02_micro_lead_high_damping_semi_close__dynamic_keepout_ypos_generated_002__nominal.jsonl",
+      "sha256": "f5a3f0b305b4ceedf3ce7b3d6eb62fe919ccd9d4091082d11dffb1b5b0655820",
+      "size_bytes": 6895435
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_11013_cd_keepout_micro_pull_low_press_ik_hold__dynamic_keepout_ypos_generated_002__nominal.jsonl",
+      "relative_path": "traces/variant_11013_cd_keepout_micro_pull_low_press_ik_hold__dynamic_keepout_ypos_generated_002__nominal.jsonl",
+      "sha256": "f0ec490f07c6c0d1a3f2f7b50be8a8bc76fb471b53fde49b87b12d27db194ec9",
+      "size_bytes": 6693775
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_11014_cd_keepout_slow_binary_close_low_gain__dynamic_keepout_ypos_generated_002__nominal.jsonl",
+      "relative_path": "traces/variant_11014_cd_keepout_slow_binary_close_low_gain__dynamic_keepout_ypos_generated_002__nominal.jsonl",
+      "sha256": "8945b44e9e123cb4141330fef5d3d3eadec441b3cfe8b028e2c3deb3149d9183",
+      "size_bytes": 19678085
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_11030_pf03_low_press_axis_work_ik_hold__dynamic_keepout_yneg_generated_004__nominal.jsonl",
+      "relative_path": "traces/variant_11030_pf03_low_press_axis_work_ik_hold__dynamic_keepout_yneg_generated_004__nominal.jsonl",
+      "sha256": "678f3b52cb51241481c59a14c86e04918f8aeeec301849c827236edebff37b7e",
+      "size_bytes": 6311990
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_11031_pf04_firm_press_slow_axis_work_binary_close__dynamic_keepout_yneg_generated_004__nominal.jsonl",
+      "relative_path": "traces/variant_11031_pf04_firm_press_slow_axis_work_binary_close__dynamic_keepout_yneg_generated_004__nominal.jsonl",
+      "sha256": "927828ec783214dfb86fdc930ee57ff51942530b01229d1546b21cc3aabd259e",
+      "size_bytes": 15703588
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_11032_pc02_micro_lead_high_damping_semi_close__dynamic_keepout_yneg_generated_004__nominal.jsonl",
+      "relative_path": "traces/variant_11032_pc02_micro_lead_high_damping_semi_close__dynamic_keepout_yneg_generated_004__nominal.jsonl",
+      "sha256": "6e041e897a7db0f79434516aebdb67f61b0addd5463a8b3c2c3689d9ffff192c",
+      "size_bytes": 6922109
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_11033_cd_keepout_micro_pull_low_press_ik_hold__dynamic_keepout_yneg_generated_004__nominal.jsonl",
+      "relative_path": "traces/variant_11033_cd_keepout_micro_pull_low_press_ik_hold__dynamic_keepout_yneg_generated_004__nominal.jsonl",
+      "sha256": "c304d7592862c5ca705bea8a3e7e40bb809ff9250d66ffbce8960f6824069ebf",
+      "size_bytes": 6731797
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_11034_cd_keepout_slow_binary_close_low_gain__dynamic_keepout_yneg_generated_004__nominal.jsonl",
+      "relative_path": "traces/variant_11034_cd_keepout_slow_binary_close_low_gain__dynamic_keepout_yneg_generated_004__nominal.jsonl",
+      "sha256": "ee45d516d03a318516751cf583ea466762af37fc29a94aeaa3f9e12203c3393d",
+      "size_bytes": 19755785
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_11040_pf03_low_press_axis_work_ik_hold__dynamic_keepout_old001_ypos__nominal.jsonl",
+      "relative_path": "traces/variant_11040_pf03_low_press_axis_work_ik_hold__dynamic_keepout_old001_ypos__nominal.jsonl",
+      "sha256": "eba8c75a98d440ac9ef0a57891ba5a309e36b7d125a558f62e5afc8da3705785",
+      "size_bytes": 6636637
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_11041_pf04_firm_press_slow_axis_work_binary_close__dynamic_keepout_old001_ypos__nominal.jsonl",
+      "relative_path": "traces/variant_11041_pf04_firm_press_slow_axis_work_binary_close__dynamic_keepout_old001_ypos__nominal.jsonl",
+      "sha256": "77866f45ca74303bec98814918ec6529435a056e33eae4bf2a6d8a4cb3b8c0ca",
+      "size_bytes": 14793665
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_11042_pc02_micro_lead_high_damping_semi_close__dynamic_keepout_old001_ypos__nominal.jsonl",
+      "relative_path": "traces/variant_11042_pc02_micro_lead_high_damping_semi_close__dynamic_keepout_old001_ypos__nominal.jsonl",
+      "sha256": "1922de76ac4684c4f3a039b7e78c642ef6f68b0694afdb44c0e91da12705369b",
+      "size_bytes": 7593587
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_11043_cd_keepout_micro_pull_low_press_ik_hold__dynamic_keepout_old001_ypos__nominal.jsonl",
+      "relative_path": "traces/variant_11043_cd_keepout_micro_pull_low_press_ik_hold__dynamic_keepout_old001_ypos__nominal.jsonl",
+      "sha256": "93a76f2e4e769c5ccb30b07a9b2f64f2b4df21149d676b62c5591893d52e4162",
+      "size_bytes": 7133600
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_11044_cd_keepout_slow_binary_close_low_gain__dynamic_keepout_old001_ypos__nominal.jsonl",
+      "relative_path": "traces/variant_11044_cd_keepout_slow_binary_close_low_gain__dynamic_keepout_old001_ypos__nominal.jsonl",
+      "sha256": "c8b55ae83cc34505021d3c21e396773b422e81170d17de12ea9a295adbf69fba",
+      "size_bytes": 20886755
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_11050_pf03_low_press_axis_work_ik_hold__dynamic_keepout_old002_yneg__nominal.jsonl",
+      "relative_path": "traces/variant_11050_pf03_low_press_axis_work_ik_hold__dynamic_keepout_old002_yneg__nominal.jsonl",
+      "sha256": "903fd1f4ecf425d3e84143fc1202502905ed567ca894de0ccc8256b68f86849f",
+      "size_bytes": 6664120
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_11051_pf04_firm_press_slow_axis_work_binary_close__dynamic_keepout_old002_yneg__nominal.jsonl",
+      "relative_path": "traces/variant_11051_pf04_firm_press_slow_axis_work_binary_close__dynamic_keepout_old002_yneg__nominal.jsonl",
+      "sha256": "affa64fe2985aec967ace2c376f898f36c58bb2447cff73eaa43d150cba2c4e5",
+      "size_bytes": 14689459
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_11052_pc02_micro_lead_high_damping_semi_close__dynamic_keepout_old002_yneg__nominal.jsonl",
+      "relative_path": "traces/variant_11052_pc02_micro_lead_high_damping_semi_close__dynamic_keepout_old002_yneg__nominal.jsonl",
+      "sha256": "6cd0639efcf9d5aa3a4ce2e92a6031e19f4e02c3c288b3f77e91109bae50f81c",
+      "size_bytes": 7629115
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_11053_cd_keepout_micro_pull_low_press_ik_hold__dynamic_keepout_old002_yneg__nominal.jsonl",
+      "relative_path": "traces/variant_11053_cd_keepout_micro_pull_low_press_ik_hold__dynamic_keepout_old002_yneg__nominal.jsonl",
+      "sha256": "27d38d93edb8384b6f54d639b60ca5e1929854dd119645cacdb7eb05528c9af0",
+      "size_bytes": 7157264
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_11054_cd_keepout_slow_binary_close_low_gain__dynamic_keepout_old002_yneg__nominal.jsonl",
+      "relative_path": "traces/variant_11054_cd_keepout_slow_binary_close_low_gain__dynamic_keepout_old002_yneg__nominal.jsonl",
+      "sha256": "2bae39c86e59cc5ac867239319ab2ac1b3d24862d7c7b80dfed4706069f0251b",
+      "size_bytes": 20888421
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_11080_pf03_low_press_axis_work_ik_hold__dynamic_keepout_repaired_center_far__nominal.jsonl",
+      "relative_path": "traces/variant_11080_pf03_low_press_axis_work_ik_hold__dynamic_keepout_repaired_center_far__nominal.jsonl",
+      "sha256": "ab20a758d69d51bbe3249b4bfb877802f3b8b1bcdfebfa07cf7d38716529dca4",
+      "size_bytes": 6285460
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_11081_pf04_firm_press_slow_axis_work_binary_close__dynamic_keepout_repaired_center_far__nominal.jsonl",
+      "relative_path": "traces/variant_11081_pf04_firm_press_slow_axis_work_binary_close__dynamic_keepout_repaired_center_far__nominal.jsonl",
+      "sha256": "7d0dc573d6acccefea5422fe840593b600c0d01eeb5f562386f54a4322429ea8",
+      "size_bytes": 15704428
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_11082_pc02_micro_lead_high_damping_semi_close__dynamic_keepout_repaired_center_far__nominal.jsonl",
+      "relative_path": "traces/variant_11082_pc02_micro_lead_high_damping_semi_close__dynamic_keepout_repaired_center_far__nominal.jsonl",
+      "sha256": "e001fc5caeb666654df0cda82036cd6f38dfcd12c7622d1735fcb27e090c2432",
+      "size_bytes": 7487538
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_11083_cd_keepout_micro_pull_low_press_ik_hold__dynamic_keepout_repaired_center_far__nominal.jsonl",
+      "relative_path": "traces/variant_11083_cd_keepout_micro_pull_low_press_ik_hold__dynamic_keepout_repaired_center_far__nominal.jsonl",
+      "sha256": "8c115bf6b4c5a992e1bb21cf21a1f4ff449a6d0208ee2ba0775244bf0dd4ad80",
+      "size_bytes": 6718160
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_11084_cd_keepout_slow_binary_close_low_gain__dynamic_keepout_repaired_center_far__nominal.jsonl",
+      "relative_path": "traces/variant_11084_cd_keepout_slow_binary_close_low_gain__dynamic_keepout_repaired_center_far__nominal.jsonl",
+      "sha256": "7f7880b93162c9c7f02de6163bb5091bb5527cad23169c31906e0978adedddd8",
+      "size_bytes": 20011511
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_12000_pf03_low_press_axis_work_ik_hold__dynamic_high_handle_generated_001__nominal.jsonl",
+      "relative_path": "traces/variant_12000_pf03_low_press_axis_work_ik_hold__dynamic_high_handle_generated_001__nominal.jsonl",
+      "sha256": "e7cd8bebb477e989a850415a6b1a77e891f87a7855a638329c486d59e0f8cbdb",
+      "size_bytes": 6742362
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_12001_pf04_firm_press_slow_axis_work_binary_close__dynamic_high_handle_generated_001__nominal.jsonl",
+      "relative_path": "traces/variant_12001_pf04_firm_press_slow_axis_work_binary_close__dynamic_high_handle_generated_001__nominal.jsonl",
+      "sha256": "0694fa6f03f8773175c0b9d59d48434de655f4e1d69c22408618dc662ee473e9",
+      "size_bytes": 13988740
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_12002_pc02_micro_lead_high_damping_semi_close__dynamic_high_handle_generated_001__nominal.jsonl",
+      "relative_path": "traces/variant_12002_pc02_micro_lead_high_damping_semi_close__dynamic_high_handle_generated_001__nominal.jsonl",
+      "sha256": "557d74dc721401fbf848066888822512d1bfd2f455e7c09bd8b49ab697fa9ac3",
+      "size_bytes": 7472006
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_12003_cd_keepout_micro_pull_low_press_ik_hold__dynamic_high_handle_generated_001__nominal.jsonl",
+      "relative_path": "traces/variant_12003_cd_keepout_micro_pull_low_press_ik_hold__dynamic_high_handle_generated_001__nominal.jsonl",
+      "sha256": "3959f8d7a00b6b3afbca045983494ad87bac2298d42ebcd0b98b3b4df2cc64cd",
+      "size_bytes": 7190807
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_12004_cd_keepout_slow_binary_close_low_gain__dynamic_high_handle_generated_001__nominal.jsonl",
+      "relative_path": "traces/variant_12004_cd_keepout_slow_binary_close_low_gain__dynamic_high_handle_generated_001__nominal.jsonl",
+      "sha256": "091a6e26b840c6628380e41dc04db8213edbdf2cc395b5f0f4ad55f532d3c1b5",
+      "size_bytes": 20435461
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_12010_pf03_low_press_axis_work_ik_hold__dynamic_high_handle_generated_002__nominal.jsonl",
+      "relative_path": "traces/variant_12010_pf03_low_press_axis_work_ik_hold__dynamic_high_handle_generated_002__nominal.jsonl",
+      "sha256": "99b1f2eb1d4cf8e2bec9ce6d9ba137b048b27c12da8870f1351276e8b69af29e",
+      "size_bytes": 6434409
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_12011_pf04_firm_press_slow_axis_work_binary_close__dynamic_high_handle_generated_002__nominal.jsonl",
+      "relative_path": "traces/variant_12011_pf04_firm_press_slow_axis_work_binary_close__dynamic_high_handle_generated_002__nominal.jsonl",
+      "sha256": "dd052c1ee7b04276c39798b2b3f0bf683623ad9d7e4f0815b44daf4a47d81561",
+      "size_bytes": 13608071
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_12012_pc02_micro_lead_high_damping_semi_close__dynamic_high_handle_generated_002__nominal.jsonl",
+      "relative_path": "traces/variant_12012_pc02_micro_lead_high_damping_semi_close__dynamic_high_handle_generated_002__nominal.jsonl",
+      "sha256": "abc31e25d61f92ea59c73936e6cfc704b618820ea251e144b70ed32298ec8af4",
+      "size_bytes": 7236424
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_12013_cd_keepout_micro_pull_low_press_ik_hold__dynamic_high_handle_generated_002__nominal.jsonl",
+      "relative_path": "traces/variant_12013_cd_keepout_micro_pull_low_press_ik_hold__dynamic_high_handle_generated_002__nominal.jsonl",
+      "sha256": "cef31a216a167d6eacfabc52609caa2948b41d2f2d6bf7433963117918f94212",
+      "size_bytes": 6841409
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_12014_cd_keepout_slow_binary_close_low_gain__dynamic_high_handle_generated_002__nominal.jsonl",
+      "relative_path": "traces/variant_12014_cd_keepout_slow_binary_close_low_gain__dynamic_high_handle_generated_002__nominal.jsonl",
+      "sha256": "ca6c101faa2f03e4fcdbbb37dd193b8ea9de3dbad55de26e6dde994a531c20d5",
+      "size_bytes": 19019630
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_12020_pf03_low_press_axis_work_ik_hold__dynamic_high_handle_generated_003__nominal.jsonl",
+      "relative_path": "traces/variant_12020_pf03_low_press_axis_work_ik_hold__dynamic_high_handle_generated_003__nominal.jsonl",
+      "sha256": "680f20470f86730516b716a37f4346e242e0635d50cd01398f35ed6bdf8340e9",
+      "size_bytes": 6518279
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_12021_pf04_firm_press_slow_axis_work_binary_close__dynamic_high_handle_generated_003__nominal.jsonl",
+      "relative_path": "traces/variant_12021_pf04_firm_press_slow_axis_work_binary_close__dynamic_high_handle_generated_003__nominal.jsonl",
+      "sha256": "1cdc8097afa696592e0049fb0d632897a2358ea3c5ccf2207c5c4f2ac9368523",
+      "size_bytes": 14570155
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_12022_pc02_micro_lead_high_damping_semi_close__dynamic_high_handle_generated_003__nominal.jsonl",
+      "relative_path": "traces/variant_12022_pc02_micro_lead_high_damping_semi_close__dynamic_high_handle_generated_003__nominal.jsonl",
+      "sha256": "1bd04657b83afd9c8b11ed88f85839d0d2cb8a84b86981f9ea8654e45c014657",
+      "size_bytes": 7239630
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_12023_cd_keepout_micro_pull_low_press_ik_hold__dynamic_high_handle_generated_003__nominal.jsonl",
+      "relative_path": "traces/variant_12023_cd_keepout_micro_pull_low_press_ik_hold__dynamic_high_handle_generated_003__nominal.jsonl",
+      "sha256": "6f6181316c3d479390eaaf58da9522a94005a1f27190aa006859a3ce93a3efec",
+      "size_bytes": 6964989
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_12024_cd_keepout_slow_binary_close_low_gain__dynamic_high_handle_generated_003__nominal.jsonl",
+      "relative_path": "traces/variant_12024_cd_keepout_slow_binary_close_low_gain__dynamic_high_handle_generated_003__nominal.jsonl",
+      "sha256": "c9099c87c8b7d695206b8270870de143181caf9b20b6edbdfc89398ae14fde6f",
+      "size_bytes": 20304318
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_12030_pf03_low_press_axis_work_ik_hold__dynamic_mid_high_old001__nominal.jsonl",
+      "relative_path": "traces/variant_12030_pf03_low_press_axis_work_ik_hold__dynamic_mid_high_old001__nominal.jsonl",
+      "sha256": "04baafe47d73dd01969c0a4b9649193c08c405f0fc4a3e978593ee62eeb39aac",
+      "size_bytes": 6510374
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_12031_pf04_firm_press_slow_axis_work_binary_close__dynamic_mid_high_old001__nominal.jsonl",
+      "relative_path": "traces/variant_12031_pf04_firm_press_slow_axis_work_binary_close__dynamic_mid_high_old001__nominal.jsonl",
+      "sha256": "4bf204f93c4d485124a252c1ef05e236a3eea2e2234687f2dd9ef2d1a63adb1a",
+      "size_bytes": 14750523
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_12032_pc02_micro_lead_high_damping_semi_close__dynamic_mid_high_old001__nominal.jsonl",
+      "relative_path": "traces/variant_12032_pc02_micro_lead_high_damping_semi_close__dynamic_mid_high_old001__nominal.jsonl",
+      "sha256": "f31c0755970a4195bbe6d3d076c16dd96fa8d4b3fdac0f08b0784b044231b3ae",
+      "size_bytes": 7230885
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_12033_cd_keepout_micro_pull_low_press_ik_hold__dynamic_mid_high_old001__nominal.jsonl",
+      "relative_path": "traces/variant_12033_cd_keepout_micro_pull_low_press_ik_hold__dynamic_mid_high_old001__nominal.jsonl",
+      "sha256": "581011937b9ae3bcb6a5c62155aa50bed7521af7f6d2ed34d8e6d9ff7c44fb18",
+      "size_bytes": 6955029
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_12034_cd_keepout_slow_binary_close_low_gain__dynamic_mid_high_old001__nominal.jsonl",
+      "relative_path": "traces/variant_12034_cd_keepout_slow_binary_close_low_gain__dynamic_mid_high_old001__nominal.jsonl",
+      "sha256": "50d7a05f4cdbd5c1ce44b52d7f102943d588865b13c1b118ae36d933d38e09e1",
+      "size_bytes": 19949647
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_12040_pf03_low_press_axis_work_ik_hold__dynamic_mid_high_old002__nominal.jsonl",
+      "relative_path": "traces/variant_12040_pf03_low_press_axis_work_ik_hold__dynamic_mid_high_old002__nominal.jsonl",
+      "sha256": "09f67494d9c1b652895d9eadde5f843a23d4be98a9b0fd5b3dc58cdff028b0da",
+      "size_bytes": 6807782
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_12041_pf04_firm_press_slow_axis_work_binary_close__dynamic_mid_high_old002__nominal.jsonl",
+      "relative_path": "traces/variant_12041_pf04_firm_press_slow_axis_work_binary_close__dynamic_mid_high_old002__nominal.jsonl",
+      "sha256": "275338fa489e38886a36f7bc93e06d9dc4f89f5cc4f2512b10f3c2a0ec236940",
+      "size_bytes": 15089225
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_12042_pc02_micro_lead_high_damping_semi_close__dynamic_mid_high_old002__nominal.jsonl",
+      "relative_path": "traces/variant_12042_pc02_micro_lead_high_damping_semi_close__dynamic_mid_high_old002__nominal.jsonl",
+      "sha256": "1f195c77e810ae618424c4b966df6b0fc4ddd4ae3e180e8156322b265c031eb1",
+      "size_bytes": 7704538
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_12043_cd_keepout_micro_pull_low_press_ik_hold__dynamic_mid_high_old002__nominal.jsonl",
+      "relative_path": "traces/variant_12043_cd_keepout_micro_pull_low_press_ik_hold__dynamic_mid_high_old002__nominal.jsonl",
+      "sha256": "4652e7c26cd22e943a7b685eaebacc78cc1c8fa07333491dab80ab15e4a70cd0",
+      "size_bytes": 7272180
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_12044_cd_keepout_slow_binary_close_low_gain__dynamic_mid_high_old002__nominal.jsonl",
+      "relative_path": "traces/variant_12044_cd_keepout_slow_binary_close_low_gain__dynamic_mid_high_old002__nominal.jsonl",
+      "sha256": "4ede4c5ee837120f529e182ad676e25ad6cdaa9d112bb306146158c9005946a9",
+      "size_bytes": 21165488
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_12050_pf03_low_press_axis_work_ik_hold__dynamic_high_repaired_ypos__nominal.jsonl",
+      "relative_path": "traces/variant_12050_pf03_low_press_axis_work_ik_hold__dynamic_high_repaired_ypos__nominal.jsonl",
+      "sha256": "dcad74a77be4af34332e96404ce2de76371026077c685235afb6a3275a9c800b",
+      "size_bytes": 5942232
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_12051_pf04_firm_press_slow_axis_work_binary_close__dynamic_high_repaired_ypos__nominal.jsonl",
+      "relative_path": "traces/variant_12051_pf04_firm_press_slow_axis_work_binary_close__dynamic_high_repaired_ypos__nominal.jsonl",
+      "sha256": "1a64735762fa77433e1a75daec4b6faa52a4c410d4aa483f420cf6089e9ba2c6",
+      "size_bytes": 15560797
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_12052_pc02_micro_lead_high_damping_semi_close__dynamic_high_repaired_ypos__nominal.jsonl",
+      "relative_path": "traces/variant_12052_pc02_micro_lead_high_damping_semi_close__dynamic_high_repaired_ypos__nominal.jsonl",
+      "sha256": "185b6b81a37d02585f4b07c550b8d5dac43015ae5276ae9e3bf42c2548d3999e",
+      "size_bytes": 6945891
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_12053_cd_keepout_micro_pull_low_press_ik_hold__dynamic_high_repaired_ypos__nominal.jsonl",
+      "relative_path": "traces/variant_12053_cd_keepout_micro_pull_low_press_ik_hold__dynamic_high_repaired_ypos__nominal.jsonl",
+      "sha256": "edb4fdfa8f8a597d70e147ea802f1405bcfd7072ea51c259d492cc55478a06ed",
+      "size_bytes": 6360613
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_12054_cd_keepout_slow_binary_close_low_gain__dynamic_high_repaired_ypos__nominal.jsonl",
+      "relative_path": "traces/variant_12054_cd_keepout_slow_binary_close_low_gain__dynamic_high_repaired_ypos__nominal.jsonl",
+      "sha256": "b8152cbbe9bb86d497cca4868b9d8f1c91d2b6b675817a3d9561c0c92bbd2b71",
+      "size_bytes": 19379079
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_12060_pf03_low_press_axis_work_ik_hold__dynamic_high_repaired_yneg__nominal.jsonl",
+      "relative_path": "traces/variant_12060_pf03_low_press_axis_work_ik_hold__dynamic_high_repaired_yneg__nominal.jsonl",
+      "sha256": "88ff9a291677daf732da41e0028cc2a421601fca4130a9634238fbeef2620e5c",
+      "size_bytes": 6182347
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_12061_pf04_firm_press_slow_axis_work_binary_close__dynamic_high_repaired_yneg__nominal.jsonl",
+      "relative_path": "traces/variant_12061_pf04_firm_press_slow_axis_work_binary_close__dynamic_high_repaired_yneg__nominal.jsonl",
+      "sha256": "81e3e9fa304fd85c7a0e63f7cc750327b20f32bc759c82b2bb2178dc314a1ce0",
+      "size_bytes": 14590288
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_12062_pc02_micro_lead_high_damping_semi_close__dynamic_high_repaired_yneg__nominal.jsonl",
+      "relative_path": "traces/variant_12062_pc02_micro_lead_high_damping_semi_close__dynamic_high_repaired_yneg__nominal.jsonl",
+      "sha256": "8ec33e58b5aad4404a8def3416d09f82e5696d1ec433f29a6daa268935a027f9",
+      "size_bytes": 6914200
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_12063_cd_keepout_micro_pull_low_press_ik_hold__dynamic_high_repaired_yneg__nominal.jsonl",
+      "relative_path": "traces/variant_12063_cd_keepout_micro_pull_low_press_ik_hold__dynamic_high_repaired_yneg__nominal.jsonl",
+      "sha256": "89d83b61ca372f4c8a2bf8888099fc59ea6d407ff7f8355fb26eeca6ef6b8ced",
+      "size_bytes": 6629355
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_12064_cd_keepout_slow_binary_close_low_gain__dynamic_high_repaired_yneg__nominal.jsonl",
+      "relative_path": "traces/variant_12064_cd_keepout_slow_binary_close_low_gain__dynamic_high_repaired_yneg__nominal.jsonl",
+      "sha256": "79cf580f832ee1d2e627b6f9d89c25ee71738ad7a176fe069dd95ea633c0ea36",
+      "size_bytes": 19727085
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_13000_pf03_low_press_axis_work_ik_hold__dynamic_far_mount_center_generated_001__nominal.jsonl",
+      "relative_path": "traces/variant_13000_pf03_low_press_axis_work_ik_hold__dynamic_far_mount_center_generated_001__nominal.jsonl",
+      "sha256": "4ec84cf4e7511e5483047cef935f5117eaaa6ae05d7bc25323229183d548a3af",
+      "size_bytes": 7007472
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_13001_pf04_firm_press_slow_axis_work_binary_close__dynamic_far_mount_center_generated_001__nominal.jsonl",
+      "relative_path": "traces/variant_13001_pf04_firm_press_slow_axis_work_binary_close__dynamic_far_mount_center_generated_001__nominal.jsonl",
+      "sha256": "7bc72a3c9c02c71465bd7e730f8f7645f352904553e510c4ce6c9b95c5d3a726",
+      "size_bytes": 16890485
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_13002_pc02_micro_lead_high_damping_semi_close__dynamic_far_mount_center_generated_001__nominal.jsonl",
+      "relative_path": "traces/variant_13002_pc02_micro_lead_high_damping_semi_close__dynamic_far_mount_center_generated_001__nominal.jsonl",
+      "sha256": "dcbf9b1e9e9e939a95144a43420c1810d5a5a722e1f1ff031479bd67845cee1f",
+      "size_bytes": 7688304
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_13003_cd_keepout_micro_pull_low_press_ik_hold__dynamic_far_mount_center_generated_001__nominal.jsonl",
+      "relative_path": "traces/variant_13003_cd_keepout_micro_pull_low_press_ik_hold__dynamic_far_mount_center_generated_001__nominal.jsonl",
+      "sha256": "d0a687ec9a6290eaa274e31137da36c628a773c749c5a6229a245be6605a3157",
+      "size_bytes": 7683379
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_13004_cd_keepout_slow_binary_close_low_gain__dynamic_far_mount_center_generated_001__nominal.jsonl",
+      "relative_path": "traces/variant_13004_cd_keepout_slow_binary_close_low_gain__dynamic_far_mount_center_generated_001__nominal.jsonl",
+      "sha256": "a1f5d5f7f5c3fa98793e6aaa06b7c0476179f2cc8c758b3ec424dd465fc34b93",
+      "size_bytes": 20352375
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_13010_pf03_low_press_axis_work_ik_hold__dynamic_far_mount_ypos_generated_002__nominal.jsonl",
+      "relative_path": "traces/variant_13010_pf03_low_press_axis_work_ik_hold__dynamic_far_mount_ypos_generated_002__nominal.jsonl",
+      "sha256": "289f4ef9aa08a60e04a8c01e9f3fd71d2575e4e6409f634a4907af2a06f9164f",
+      "size_bytes": 6472964
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_13011_pf04_firm_press_slow_axis_work_binary_close__dynamic_far_mount_ypos_generated_002__nominal.jsonl",
+      "relative_path": "traces/variant_13011_pf04_firm_press_slow_axis_work_binary_close__dynamic_far_mount_ypos_generated_002__nominal.jsonl",
+      "sha256": "33d79c2f7f1d58c773a1c4b308e34b00a6c6b098c8a80732e4974481646fa901",
+      "size_bytes": 15710861
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_13012_pc02_micro_lead_high_damping_semi_close__dynamic_far_mount_ypos_generated_002__nominal.jsonl",
+      "relative_path": "traces/variant_13012_pc02_micro_lead_high_damping_semi_close__dynamic_far_mount_ypos_generated_002__nominal.jsonl",
+      "sha256": "3d3a36acb71c26d96ff71530c3cac00dadb6a2d72c4078be19a22f75dc8ca510",
+      "size_bytes": 7507194
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_13013_cd_keepout_micro_pull_low_press_ik_hold__dynamic_far_mount_ypos_generated_002__nominal.jsonl",
+      "relative_path": "traces/variant_13013_cd_keepout_micro_pull_low_press_ik_hold__dynamic_far_mount_ypos_generated_002__nominal.jsonl",
+      "sha256": "fcb42ac9651c2c4109f5a52c757193ea0d51df7e036dc44b1434e0485e34a8a7",
+      "size_bytes": 6919374
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_13014_cd_keepout_slow_binary_close_low_gain__dynamic_far_mount_ypos_generated_002__nominal.jsonl",
+      "relative_path": "traces/variant_13014_cd_keepout_slow_binary_close_low_gain__dynamic_far_mount_ypos_generated_002__nominal.jsonl",
+      "sha256": "5a8dc7b036f7850e6f32ed66a1e60958bbd25c3e27f2b7be4b6a93c8653f5f90",
+      "size_bytes": 20088293
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_13020_pf03_low_press_axis_work_ik_hold__dynamic_far_mount_yneg_generated_003__nominal.jsonl",
+      "relative_path": "traces/variant_13020_pf03_low_press_axis_work_ik_hold__dynamic_far_mount_yneg_generated_003__nominal.jsonl",
+      "sha256": "65fc6a9425aeec9e9d7893c4c79b672bb0c776f5eac77f11c6548ab596fd5569",
+      "size_bytes": 6482321
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_13021_pf04_firm_press_slow_axis_work_binary_close__dynamic_far_mount_yneg_generated_003__nominal.jsonl",
+      "relative_path": "traces/variant_13021_pf04_firm_press_slow_axis_work_binary_close__dynamic_far_mount_yneg_generated_003__nominal.jsonl",
+      "sha256": "fb201a10851d5e4cda9a248ffe67d6a95a0ba9d586fb102de659d61eb1b2fe30",
+      "size_bytes": 15761136
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_13022_pc02_micro_lead_high_damping_semi_close__dynamic_far_mount_yneg_generated_003__nominal.jsonl",
+      "relative_path": "traces/variant_13022_pc02_micro_lead_high_damping_semi_close__dynamic_far_mount_yneg_generated_003__nominal.jsonl",
+      "sha256": "8bc9235ef3eccbf3aac8c08727d04475d566751363f56114b03d04634e4f1930",
+      "size_bytes": 7528556
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_13023_cd_keepout_micro_pull_low_press_ik_hold__dynamic_far_mount_yneg_generated_003__nominal.jsonl",
+      "relative_path": "traces/variant_13023_cd_keepout_micro_pull_low_press_ik_hold__dynamic_far_mount_yneg_generated_003__nominal.jsonl",
+      "sha256": "b2350e3f6d29878c332d236ac6b031db757798322cd1b83f46768f1b4a275fa1",
+      "size_bytes": 6928884
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_13024_cd_keepout_slow_binary_close_low_gain__dynamic_far_mount_yneg_generated_003__nominal.jsonl",
+      "relative_path": "traces/variant_13024_cd_keepout_slow_binary_close_low_gain__dynamic_far_mount_yneg_generated_003__nominal.jsonl",
+      "sha256": "5e4314c2d4909c0fbe42df3527be2ac8720c331d155421fc841dc69f8e43a2a2",
+      "size_bytes": 20151882
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_13030_pf03_low_press_axis_work_ik_hold__dynamic_far_mount_old001__nominal.jsonl",
+      "relative_path": "traces/variant_13030_pf03_low_press_axis_work_ik_hold__dynamic_far_mount_old001__nominal.jsonl",
+      "sha256": "208dab7275f2c34c2cabe575db620001a848b1ac1415e7e481ab4a7bb48ed633",
+      "size_bytes": 6872660
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_13031_pf04_firm_press_slow_axis_work_binary_close__dynamic_far_mount_old001__nominal.jsonl",
+      "relative_path": "traces/variant_13031_pf04_firm_press_slow_axis_work_binary_close__dynamic_far_mount_old001__nominal.jsonl",
+      "sha256": "719693a0cfcb95e1dfc50d23a5ed65b382c5ca59bc95acb5c681e35a4a22808d",
+      "size_bytes": 15312619
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_13032_pc02_micro_lead_high_damping_semi_close__dynamic_far_mount_old001__nominal.jsonl",
+      "relative_path": "traces/variant_13032_pc02_micro_lead_high_damping_semi_close__dynamic_far_mount_old001__nominal.jsonl",
+      "sha256": "c1cc00684f6723973c8380198159c2719eb68976f059526a68ee602f217be4ba",
+      "size_bytes": 7729520
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_13033_cd_keepout_micro_pull_low_press_ik_hold__dynamic_far_mount_old001__nominal.jsonl",
+      "relative_path": "traces/variant_13033_cd_keepout_micro_pull_low_press_ik_hold__dynamic_far_mount_old001__nominal.jsonl",
+      "sha256": "e13c69b17087430ed7d3ab0aecbc66f78416063846b724a918a60474eca0fba4",
+      "size_bytes": 7320804
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_13034_cd_keepout_slow_binary_close_low_gain__dynamic_far_mount_old001__nominal.jsonl",
+      "relative_path": "traces/variant_13034_cd_keepout_slow_binary_close_low_gain__dynamic_far_mount_old001__nominal.jsonl",
+      "sha256": "cda4f23f7aed5f06516286cfdf722673a02824d4b5a0990ff9cee1bc5768773e",
+      "size_bytes": 20510676
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_13040_pf03_low_press_axis_work_ik_hold__dynamic_far_mount_old002__nominal.jsonl",
+      "relative_path": "traces/variant_13040_pf03_low_press_axis_work_ik_hold__dynamic_far_mount_old002__nominal.jsonl",
+      "sha256": "8b83000aa446efdc47d342f3b2229fdedeb7e93a9d9df2084a582a7fa9910b2b",
+      "size_bytes": 6884343
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_13041_pf04_firm_press_slow_axis_work_binary_close__dynamic_far_mount_old002__nominal.jsonl",
+      "relative_path": "traces/variant_13041_pf04_firm_press_slow_axis_work_binary_close__dynamic_far_mount_old002__nominal.jsonl",
+      "sha256": "9d068ca9abdecd3de9b4d1f20c1bb4d51b93e2f9bd9d4041913cdfbeec54efd0",
+      "size_bytes": 15239213
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_13042_pc02_micro_lead_high_damping_semi_close__dynamic_far_mount_old002__nominal.jsonl",
+      "relative_path": "traces/variant_13042_pc02_micro_lead_high_damping_semi_close__dynamic_far_mount_old002__nominal.jsonl",
+      "sha256": "89d477912b878ac183d85631d124abd6ea0550130c34b2f0ff5ee5b62b9a84b0",
+      "size_bytes": 7743499
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_13043_cd_keepout_micro_pull_low_press_ik_hold__dynamic_far_mount_old002__nominal.jsonl",
+      "relative_path": "traces/variant_13043_cd_keepout_micro_pull_low_press_ik_hold__dynamic_far_mount_old002__nominal.jsonl",
+      "sha256": "561becbe2cb9b0e2218f6c5e140757d3ce88ac314cc0323c9b0e7a1c039b51a6",
+      "size_bytes": 7334640
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_13044_cd_keepout_slow_binary_close_low_gain__dynamic_far_mount_old002__nominal.jsonl",
+      "relative_path": "traces/variant_13044_cd_keepout_slow_binary_close_low_gain__dynamic_far_mount_old002__nominal.jsonl",
+      "sha256": "e45ffb197e06f783ebdf9d40ad138cf86e68245faa4f3516de3efb1050ddc789",
+      "size_bytes": 20400073
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_13050_pf03_low_press_axis_work_ik_hold__dynamic_far_mount_repaired_ypos__nominal.jsonl",
+      "relative_path": "traces/variant_13050_pf03_low_press_axis_work_ik_hold__dynamic_far_mount_repaired_ypos__nominal.jsonl",
+      "sha256": "384ad2fe8fab9ca28dad9fae2fefb873d634d5eec559c2912de56d65d45cf114",
+      "size_bytes": 6348721
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_13051_pf04_firm_press_slow_axis_work_binary_close__dynamic_far_mount_repaired_ypos__nominal.jsonl",
+      "relative_path": "traces/variant_13051_pf04_firm_press_slow_axis_work_binary_close__dynamic_far_mount_repaired_ypos__nominal.jsonl",
+      "sha256": "439c51d6fc9eb0d9f2359519046303543748ce55e7a2488aeb5ccaec6dff783f",
+      "size_bytes": 15700238
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_13052_pc02_micro_lead_high_damping_semi_close__dynamic_far_mount_repaired_ypos__nominal.jsonl",
+      "relative_path": "traces/variant_13052_pc02_micro_lead_high_damping_semi_close__dynamic_far_mount_repaired_ypos__nominal.jsonl",
+      "sha256": "cbdb65f0a17e75c3b4e44c0d56804dfbc7908b8138fb2ef7cc58470cebdd629f",
+      "size_bytes": 7506356
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_13053_cd_keepout_micro_pull_low_press_ik_hold__dynamic_far_mount_repaired_ypos__nominal.jsonl",
+      "relative_path": "traces/variant_13053_cd_keepout_micro_pull_low_press_ik_hold__dynamic_far_mount_repaired_ypos__nominal.jsonl",
+      "sha256": "5956d56f7a6a13231050277f224226674a3b60c9b23c8698dd86195265d7b30b",
+      "size_bytes": 6768206
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_13054_cd_keepout_slow_binary_close_low_gain__dynamic_far_mount_repaired_ypos__nominal.jsonl",
+      "relative_path": "traces/variant_13054_cd_keepout_slow_binary_close_low_gain__dynamic_far_mount_repaired_ypos__nominal.jsonl",
+      "sha256": "c039bf2cb5c8b1f66e87d165b7bd5e7bb0afc0ebc555a7b505843597784e610e",
+      "size_bytes": 19794665
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_13060_pf03_low_press_axis_work_ik_hold__dynamic_far_mount_repaired_yneg__nominal.jsonl",
+      "relative_path": "traces/variant_13060_pf03_low_press_axis_work_ik_hold__dynamic_far_mount_repaired_yneg__nominal.jsonl",
+      "sha256": "48c1f38f6fb5f7ebf300a33cf0fb5b1c2c858d91df8d2975bf54eab389894682",
+      "size_bytes": 6373293
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_13061_pf04_firm_press_slow_axis_work_binary_close__dynamic_far_mount_repaired_yneg__nominal.jsonl",
+      "relative_path": "traces/variant_13061_pf04_firm_press_slow_axis_work_binary_close__dynamic_far_mount_repaired_yneg__nominal.jsonl",
+      "sha256": "93094384cc6d3a0fb44cec9ed0bcbefc33c492e3380a426ec13333ecb0bd2106",
+      "size_bytes": 15795472
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_13062_pc02_micro_lead_high_damping_semi_close__dynamic_far_mount_repaired_yneg__nominal.jsonl",
+      "relative_path": "traces/variant_13062_pc02_micro_lead_high_damping_semi_close__dynamic_far_mount_repaired_yneg__nominal.jsonl",
+      "sha256": "8dc4c265dbea21e5c15c93bc2e054068536fc308fbe66eecc3a14fd25d103e3e",
+      "size_bytes": 7532956
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_13063_cd_keepout_micro_pull_low_press_ik_hold__dynamic_far_mount_repaired_yneg__nominal.jsonl",
+      "relative_path": "traces/variant_13063_cd_keepout_micro_pull_low_press_ik_hold__dynamic_far_mount_repaired_yneg__nominal.jsonl",
+      "sha256": "9193fe4ee2ffbbb5d3485614ae28bf312098a704bcad2cbfb9a3763a02767081",
+      "size_bytes": 6793900
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/traces/variant_13064_cd_keepout_slow_binary_close_low_gain__dynamic_far_mount_repaired_yneg__nominal.jsonl",
+      "relative_path": "traces/variant_13064_cd_keepout_slow_binary_close_low_gain__dynamic_far_mount_repaired_yneg__nominal.jsonl",
+      "sha256": "ac6bcae22493a4677c7d9eb5e1588bb8741d57c430d7d944e123afbc25ffd3c5",
+      "size_bytes": 19926601
+    }
+  ],
+  "raw_files_committed": false,
+  "run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z",
+  "total_size_bytes": 1220097747,
+  "tree": "traces"
+}

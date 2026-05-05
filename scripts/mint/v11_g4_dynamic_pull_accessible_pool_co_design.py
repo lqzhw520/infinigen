@@ -69,6 +69,38 @@ REPAIR_VARIANTS = [
     prior_pull.PRIMARY_VARIANTS[2],
     prior_pull.PRIMARY_VARIANTS[3],
     prior_pull.CONTINUATION_VARIANTS[1],
+    {
+        "name": "cd_keepout_micro_pull_low_press_ik_hold",
+        "pull_steps": 5200,
+        "post_pull_hold_steps": 0,
+        "pull_velocity_m_per_step": 0.000075,
+        "pull_distance_m": 0.34,
+        "lead_cap_m": 0.018,
+        "pull_press_m": 0.0005,
+        "op_gain": 8.0,
+        "op_vel_limit": 0.060,
+        "q_vel_limit": 1.60,
+        "null_gain": 0.22,
+        "servo_kp": 260.0,
+        "servo_kd": 92.0,
+        "finger_mode": "ik_hold",
+    },
+    {
+        "name": "cd_keepout_slow_binary_close_low_gain",
+        "pull_steps": 6200,
+        "post_pull_hold_steps": 0,
+        "pull_velocity_m_per_step": 0.00006,
+        "pull_distance_m": 0.34,
+        "lead_cap_m": 0.016,
+        "pull_press_m": 0.0015,
+        "op_gain": 7.0,
+        "op_vel_limit": 0.055,
+        "q_vel_limit": 1.45,
+        "null_gain": 0.25,
+        "servo_kp": 240.0,
+        "servo_kd": 98.0,
+        "finger_mode": "binary_close",
+    },
 ]
 
 
@@ -87,6 +119,11 @@ def ready(value: Any) -> Any:
         return {str(k): ready(v) for k, v in value.items() if not str(k).startswith("_")}
     if isinstance(value, (list, tuple, set)):
         return [ready(v) for v in value]
+    if hasattr(value, "tolist"):
+        try:
+            return ready(value.tolist())
+        except Exception:
+            pass
     if hasattr(value, "item"):
         try:
             return value.item()
@@ -298,6 +335,8 @@ def stage1_defect_certificate(run_dir: Path) -> dict[str, Any]:
     rows = all_prior_oracle_rows()
     by_instance: dict[str, list[dict[str, Any]]] = defaultdict(list)
     for row in rows:
+        if not isinstance(row, dict):
+            continue
         cid = str(row.get("candidate_id"))
         if cid and cid != "None":
             by_instance[cid].append(row)
@@ -385,26 +424,58 @@ def make_candidate(candidate_id: str, co_source: str, seed: int, params: dict[st
 
 
 def stage2_candidate_pool(run_dir: Path, repair_cycle: int = 0) -> list[dict[str, Any]]:
-    # Wider cabinet cutouts and centered/near-centered handles are deliberate structure-control co-design variables:
-    # they preserve real drawer/cabinet/handle collision but increase hand keepout during pull.
-    offset = 0.015 * repair_cycle
-    candidates = [
-        make_candidate("dynamic_old_variant_from_001_centered_clearance", "old_variant", 9101 + repair_cycle, base_params([-0.60 + offset, 0.0, 0.0], -0.18, 0.00, door_x=0.145, cutout_w=0.18, cutout_h=0.16), "generated_knob_drawer_accessible_001"),
-        make_candidate("dynamic_old_variant_from_002_forward_clearance", "old_variant", 9102 + repair_cycle, base_params([-0.52 + offset, 0.0, 0.0], -0.12, 0.00, door_x=0.135, cutout_w=0.19, cutout_h=0.17), "generated_knob_drawer_accessible_002"),
-        make_candidate("dynamic_generated_center_pull_001", "generated_variant", 9201 + repair_cycle, base_params([-0.50 + offset, 0.0, 0.0], -0.10, 0.00, door_x=0.130, cutout_w=0.20, cutout_h=0.18)),
-        make_candidate("dynamic_generated_center_pull_002", "generated_variant", 9202 + repair_cycle, base_params([-0.56 + offset, 0.0, 0.0], -0.14, 0.00, door_x=0.135, cutout_w=0.20, cutout_h=0.18)),
-        make_candidate("dynamic_generated_low_y_offset_003", "generated_variant", 9203 + repair_cycle, base_params([-0.56 + offset, -0.02, 0.0], -0.14, -0.035, door_x=0.135, cutout_w=0.20, cutout_h=0.18)),
-        make_candidate("dynamic_generated_high_y_offset_004", "generated_variant", 9204 + repair_cycle, base_params([-0.56 + offset, 0.02, 0.0], -0.14, 0.035, door_x=0.135, cutout_w=0.20, cutout_h=0.18)),
-        make_candidate("dynamic_repaired_layout_side_clearance_001", "repaired_layout", 9301 + repair_cycle, base_params([-0.48 + offset, -0.04, 0.0], -0.10, -0.02, door_x=0.125, cutout_w=0.21, cutout_h=0.18), "generated_knob_drawer_accessible_003"),
-        make_candidate("dynamic_repaired_layout_side_clearance_002", "repaired_layout", 9302 + repair_cycle, base_params([-0.48 + offset, 0.04, 0.0], -0.10, 0.02, door_x=0.125, cutout_w=0.21, cutout_h=0.18), "generated_knob_drawer_accessible_004"),
-        make_candidate("dynamic_repaired_layout_near_axis_003", "repaired_layout", 9303 + repair_cycle, base_params([-0.44 + offset, 0.0, 0.0], -0.08, 0.00, door_x=0.120, cutout_w=0.215, cutout_h=0.18), "generated_knob_drawer_accessible_005"),
-    ]
-    if repair_cycle > 0:
-        for c in candidates:
-            c["candidate_id"] = f"{c['candidate_id']}_repair{repair_cycle}"
+    # All candidates are declared generated/repaired variants with real drawer/cabinet/handle collision.
+    # Repair cycles deliberately explore keepout, not target-authority broadening.
+    if repair_cycle == 0:
+        specs = [
+            ("dynamic_old_variant_from_001_centered_clearance", "old_variant", 9101, [-0.60, 0.0, 0.0], -0.18, 0.00, 0.36, 0.145, 0.18, 0.16, "generated_knob_drawer_accessible_001"),
+            ("dynamic_old_variant_from_002_forward_clearance", "old_variant", 9102, [-0.52, 0.0, 0.0], -0.12, 0.00, 0.36, 0.135, 0.19, 0.17, "generated_knob_drawer_accessible_002"),
+            ("dynamic_generated_center_pull_001", "generated_variant", 9201, [-0.50, 0.0, 0.0], -0.10, 0.00, 0.36, 0.130, 0.20, 0.18, None),
+            ("dynamic_generated_center_pull_002", "generated_variant", 9202, [-0.56, 0.0, 0.0], -0.14, 0.00, 0.36, 0.135, 0.20, 0.18, None),
+            ("dynamic_generated_low_y_offset_003", "generated_variant", 9203, [-0.56, -0.02, 0.0], -0.14, -0.035, 0.36, 0.135, 0.20, 0.18, None),
+            ("dynamic_generated_high_y_offset_004", "generated_variant", 9204, [-0.56, 0.02, 0.0], -0.14, 0.035, 0.36, 0.135, 0.20, 0.18, None),
+            ("dynamic_repaired_layout_side_clearance_001", "repaired_layout", 9301, [-0.48, -0.04, 0.0], -0.10, -0.02, 0.36, 0.125, 0.21, 0.18, "generated_knob_drawer_accessible_003"),
+            ("dynamic_repaired_layout_side_clearance_002", "repaired_layout", 9302, [-0.48, 0.04, 0.0], -0.10, 0.02, 0.36, 0.125, 0.21, 0.18, "generated_knob_drawer_accessible_004"),
+            ("dynamic_repaired_layout_near_axis_003", "repaired_layout", 9303, [-0.44, 0.0, 0.0], -0.08, 0.00, 0.36, 0.120, 0.215, 0.18, "generated_knob_drawer_accessible_005"),
+        ]
+    elif repair_cycle == 1:
+        specs = [
+            ("dynamic_keepout_ypos_generated_001", "generated_variant", 9401, [-0.64, 0.075, 0.0], -0.14, 0.085, 0.36, 0.130, 0.23, 0.19, None),
+            ("dynamic_keepout_ypos_generated_002", "generated_variant", 9402, [-0.70, 0.095, 0.0], -0.18, 0.095, 0.36, 0.140, 0.23, 0.19, None),
+            ("dynamic_keepout_yneg_generated_003", "generated_variant", 9403, [-0.64, -0.075, 0.0], -0.14, -0.085, 0.36, 0.130, 0.23, 0.19, None),
+            ("dynamic_keepout_yneg_generated_004", "generated_variant", 9404, [-0.70, -0.095, 0.0], -0.18, -0.095, 0.36, 0.140, 0.23, 0.19, None),
+            ("dynamic_keepout_old001_ypos", "old_variant", 9405, [-0.66, 0.075, 0.0], -0.18, 0.080, 0.36, 0.140, 0.23, 0.19, "generated_knob_drawer_accessible_001"),
+            ("dynamic_keepout_old002_yneg", "old_variant", 9406, [-0.62, -0.075, 0.0], -0.14, -0.080, 0.36, 0.135, 0.23, 0.19, "generated_knob_drawer_accessible_002"),
+            ("dynamic_keepout_repaired_ypos", "repaired_layout", 9407, [-0.66, 0.10, 0.0], -0.16, 0.10, 0.36, 0.135, 0.24, 0.19, "generated_knob_drawer_accessible_004"),
+            ("dynamic_keepout_repaired_yneg", "repaired_layout", 9408, [-0.66, -0.10, 0.0], -0.16, -0.10, 0.36, 0.135, 0.24, 0.19, "generated_knob_drawer_accessible_003"),
+            ("dynamic_keepout_repaired_center_far", "repaired_layout", 9409, [-0.74, 0.0, 0.0], -0.20, 0.00, 0.36, 0.150, 0.24, 0.19, "generated_knob_drawer_accessible_005"),
+        ]
+    elif repair_cycle == 2:
+        specs = [
+            ("dynamic_high_handle_generated_001", "generated_variant", 9501, [-0.62, 0.04, 0.0], -0.14, 0.055, 0.42, 0.130, 0.23, 0.21, None),
+            ("dynamic_high_handle_generated_002", "generated_variant", 9502, [-0.66, -0.04, 0.0], -0.14, -0.055, 0.42, 0.130, 0.23, 0.21, None),
+            ("dynamic_high_handle_generated_003", "generated_variant", 9503, [-0.72, 0.0, 0.0], -0.20, 0.00, 0.42, 0.145, 0.24, 0.21, None),
+            ("dynamic_mid_high_old001", "old_variant", 9504, [-0.68, 0.04, 0.0], -0.18, 0.055, 0.40, 0.145, 0.23, 0.20, "generated_knob_drawer_accessible_001"),
+            ("dynamic_mid_high_old002", "old_variant", 9505, [-0.60, -0.04, 0.0], -0.14, -0.055, 0.40, 0.135, 0.23, 0.20, "generated_knob_drawer_accessible_002"),
+            ("dynamic_high_repaired_ypos", "repaired_layout", 9506, [-0.70, 0.09, 0.0], -0.18, 0.095, 0.40, 0.145, 0.24, 0.20, "generated_knob_drawer_accessible_004"),
+            ("dynamic_high_repaired_yneg", "repaired_layout", 9507, [-0.70, -0.09, 0.0], -0.18, -0.095, 0.40, 0.145, 0.24, 0.20, "generated_knob_drawer_accessible_003"),
+        ]
+    else:
+        specs = [
+            ("dynamic_far_mount_center_generated_001", "generated_variant", 9601, [-0.78, 0.00, 0.0], -0.22, 0.00, 0.36, 0.150, 0.25, 0.20, None),
+            ("dynamic_far_mount_ypos_generated_002", "generated_variant", 9602, [-0.78, 0.10, 0.0], -0.22, 0.10, 0.38, 0.150, 0.25, 0.20, None),
+            ("dynamic_far_mount_yneg_generated_003", "generated_variant", 9603, [-0.78, -0.10, 0.0], -0.22, -0.10, 0.38, 0.150, 0.25, 0.20, None),
+            ("dynamic_far_mount_old001", "old_variant", 9604, [-0.76, 0.08, 0.0], -0.22, 0.08, 0.38, 0.150, 0.25, 0.20, "generated_knob_drawer_accessible_001"),
+            ("dynamic_far_mount_old002", "old_variant", 9605, [-0.72, -0.08, 0.0], -0.18, -0.08, 0.38, 0.145, 0.25, 0.20, "generated_knob_drawer_accessible_002"),
+            ("dynamic_far_mount_repaired_ypos", "repaired_layout", 9606, [-0.80, 0.12, 0.0], -0.22, 0.12, 0.38, 0.150, 0.25, 0.20, "generated_knob_drawer_accessible_004"),
+            ("dynamic_far_mount_repaired_yneg", "repaired_layout", 9607, [-0.80, -0.12, 0.0], -0.22, -0.12, 0.38, 0.150, 0.25, 0.20, "generated_knob_drawer_accessible_003"),
+        ]
+    candidates = [make_candidate(cid, src, seed, base_params(base, hx, hy, hz, door_x=door, cutout_w=cw, cutout_h=ch), parent) for cid, src, seed, base, hx, hy, hz, door, cw, ch, parent in specs]
+    for c in candidates:
+        if repair_cycle:
             c["repair_cycle"] = repair_cycle
-            c["model_builder_parameters"]["repair_cycle_note"] = f"targeted_repair_cycle_{repair_cycle}"
-    write_json(run_dir / ("candidate_dynamic_pull_pool.json" if repair_cycle == 0 else f"candidate_dynamic_pull_pool_repair_cycle_{repair_cycle}.json"), {"generated_at_utc": utc_now(), "candidate_count": len(candidates), "candidates": candidates})
+            c["model_builder_parameters"]["repair_cycle_note"] = f"keepout_or_ik_repair_cycle_{repair_cycle}"
+    write_json(run_dir / ("candidate_dynamic_pull_pool.json" if repair_cycle == 0 else f"candidate_dynamic_pull_pool_repair_cycle_{repair_cycle}.json"), {"generated_at_utc": utc_now(), "candidate_count": len(candidates), "repair_cycle": repair_cycle, "candidates": candidates})
     return candidates
 
 

@@ -1,0 +1,7 @@
+{
+  "closeout_classification": "TARGETED_DYNAMIC_PULL_POOL_SHARD_FAILED",
+  "generated_at_utc": "2026-05-05T04:56:51Z",
+  "proposal_id": "proposed_next_actions_dynamic_pull_accessible_pool_co_design",
+  "recommended_next_gate": "ANALYZE_DYNAMIC_PULL_POOL_CO_DESIGN_DEFECT_CERTIFICATES",
+  "required_action": "review co-design defect certificates before widening all-seed scope"
+}

@@ -1,0 +1,13 @@
+{
+  "case_count": 0,
+  "cases": [],
+  "generated_at_utc": "2026-05-05T04:56:27Z",
+  "hard_fail_reasons": [
+    "TARGETED_CASE_COUNT_LT_7",
+    "GENERATED_VARIANT_COVERAGE_LT_2",
+    "REPAIRED_LAYOUT_COVERAGE_LT_2",
+    "OLD_VARIANT_COVERAGE_LT_1"
+  ],
+  "repair_cycle": 3,
+  "source_mix": {}
+}

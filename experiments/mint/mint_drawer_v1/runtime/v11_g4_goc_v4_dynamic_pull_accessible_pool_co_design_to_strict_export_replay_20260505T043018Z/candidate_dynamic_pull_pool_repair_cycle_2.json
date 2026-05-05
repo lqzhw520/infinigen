@@ -1,0 +1,217 @@
+{
+  "candidate_count": 7,
+  "candidates": [
+    {
+      "candidate_id": "dynamic_high_handle_generated_001",
+      "co_design_source_type": "generated_variant",
+      "declared_generated_or_repaired_variant": true,
+      "fixed_pool_original_mutated": false,
+      "model_builder_parameters": {
+        "cutout_half_height": 0.21,
+        "cutout_half_width": 0.23,
+        "door_x": 0.13,
+        "drawer_kind": "simple_knob_drawer_with_cabinet_envelope",
+        "front_cutout": true,
+        "generation_policy": "dynamic_pull_accessible_pool_co_design_declared_generated_or_repaired_variant",
+        "handle_radius": 0.025,
+        "handle_x": -0.14,
+        "handle_y": 0.055,
+        "handle_z": 0.42,
+        "repair_cycle_note": "keepout_or_ik_repair_cycle_2",
+        "robot_base_pos": [
+          -0.62,
+          0.04,
+          0.0
+        ]
+      },
+      "parent_instance_id": null,
+      "repair_cycle": 2,
+      "source_type": "generated_accessible_variant",
+      "source_type_for_spec": "generated_variant",
+      "status": "pending",
+      "synthetic_seed": 9501
+    },
+    {
+      "candidate_id": "dynamic_high_handle_generated_002",
+      "co_design_source_type": "generated_variant",
+      "declared_generated_or_repaired_variant": true,
+      "fixed_pool_original_mutated": false,
+      "model_builder_parameters": {
+        "cutout_half_height": 0.21,
+        "cutout_half_width": 0.23,
+        "door_x": 0.13,
+        "drawer_kind": "simple_knob_drawer_with_cabinet_envelope",
+        "front_cutout": true,
+        "generation_policy": "dynamic_pull_accessible_pool_co_design_declared_generated_or_repaired_variant",
+        "handle_radius": 0.025,
+        "handle_x": -0.14,
+        "handle_y": -0.055,
+        "handle_z": 0.42,
+        "repair_cycle_note": "keepout_or_ik_repair_cycle_2",
+        "robot_base_pos": [
+          -0.66,
+          -0.04,
+          0.0
+        ]
+      },
+      "parent_instance_id": null,
+      "repair_cycle": 2,
+      "source_type": "generated_accessible_variant",
+      "source_type_for_spec": "generated_variant",
+      "status": "pending",
+      "synthetic_seed": 9502
+    },
+    {
+      "candidate_id": "dynamic_high_handle_generated_003",
+      "co_design_source_type": "generated_variant",
+      "declared_generated_or_repaired_variant": true,
+      "fixed_pool_original_mutated": false,
+      "model_builder_parameters": {
+        "cutout_half_height": 0.21,
+        "cutout_half_width": 0.24,
+        "door_x": 0.145,
+        "drawer_kind": "simple_knob_drawer_with_cabinet_envelope",
+        "front_cutout": true,
+        "generation_policy": "dynamic_pull_accessible_pool_co_design_declared_generated_or_repaired_variant",
+        "handle_radius": 0.025,
+        "handle_x": -0.2,
+        "handle_y": 0.0,
+        "handle_z": 0.42,
+        "repair_cycle_note": "keepout_or_ik_repair_cycle_2",
+        "robot_base_pos": [
+          -0.72,
+          0.0,
+          0.0
+        ]
+      },
+      "parent_instance_id": null,
+      "repair_cycle": 2,
+      "source_type": "generated_accessible_variant",
+      "source_type_for_spec": "generated_variant",
+      "status": "pending",
+      "synthetic_seed": 9503
+    },
+    {
+      "candidate_id": "dynamic_mid_high_old001",
+      "co_design_source_type": "old_variant",
+      "declared_generated_or_repaired_variant": true,
+      "fixed_pool_original_mutated": false,
+      "model_builder_parameters": {
+        "cutout_half_height": 0.2,
+        "cutout_half_width": 0.23,
+        "door_x": 0.145,
+        "drawer_kind": "simple_knob_drawer_with_cabinet_envelope",
+        "front_cutout": true,
+        "generation_policy": "dynamic_pull_accessible_pool_co_design_declared_generated_or_repaired_variant",
+        "handle_radius": 0.025,
+        "handle_x": -0.18,
+        "handle_y": 0.055,
+        "handle_z": 0.4,
+        "repair_cycle_note": "keepout_or_ik_repair_cycle_2",
+        "robot_base_pos": [
+          -0.68,
+          0.04,
+          0.0
+        ]
+      },
+      "parent_instance_id": "generated_knob_drawer_accessible_001",
+      "repair_cycle": 2,
+      "source_type": "generated_accessible_variant",
+      "source_type_for_spec": "old_variant",
+      "status": "pending",
+      "synthetic_seed": 9504
+    },
+    {
+      "candidate_id": "dynamic_mid_high_old002",
+      "co_design_source_type": "old_variant",
+      "declared_generated_or_repaired_variant": true,
+      "fixed_pool_original_mutated": false,
+      "model_builder_parameters": {
+        "cutout_half_height": 0.2,
+        "cutout_half_width": 0.23,
+        "door_x": 0.135,
+        "drawer_kind": "simple_knob_drawer_with_cabinet_envelope",
+        "front_cutout": true,
+        "generation_policy": "dynamic_pull_accessible_pool_co_design_declared_generated_or_repaired_variant",
+        "handle_radius": 0.025,
+        "handle_x": -0.14,
+        "handle_y": -0.055,
+        "handle_z": 0.4,
+        "repair_cycle_note": "keepout_or_ik_repair_cycle_2",
+        "robot_base_pos": [
+          -0.6,
+          -0.04,
+          0.0
+        ]
+      },
+      "parent_instance_id": "generated_knob_drawer_accessible_002",
+      "repair_cycle": 2,
+      "source_type": "generated_accessible_variant",
+      "source_type_for_spec": "old_variant",
+      "status": "pending",
+      "synthetic_seed": 9505
+    },
+    {
+      "candidate_id": "dynamic_high_repaired_ypos",
+      "co_design_source_type": "repaired_layout",
+      "declared_generated_or_repaired_variant": true,
+      "fixed_pool_original_mutated": false,
+      "model_builder_parameters": {
+        "cutout_half_height": 0.2,
+        "cutout_half_width": 0.24,
+        "door_x": 0.145,
+        "drawer_kind": "simple_knob_drawer_with_cabinet_envelope",
+        "front_cutout": true,
+        "generation_policy": "dynamic_pull_accessible_pool_co_design_declared_generated_or_repaired_variant",
+        "handle_radius": 0.025,
+        "handle_x": -0.18,
+        "handle_y": 0.095,
+        "handle_z": 0.4,
+        "repair_cycle_note": "keepout_or_ik_repair_cycle_2",
+        "robot_base_pos": [
+          -0.7,
+          0.09,
+          0.0
+        ]
+      },
+      "parent_instance_id": "generated_knob_drawer_accessible_004",
+      "repair_cycle": 2,
+      "source_type": "generated_accessible_variant",
+      "source_type_for_spec": "repaired_layout",
+      "status": "pending",
+      "synthetic_seed": 9506
+    },
+    {
+      "candidate_id": "dynamic_high_repaired_yneg",
+      "co_design_source_type": "repaired_layout",
+      "declared_generated_or_repaired_variant": true,
+      "fixed_pool_original_mutated": false,
+      "model_builder_parameters": {
+        "cutout_half_height": 0.2,
+        "cutout_half_width": 0.24,
+        "door_x": 0.145,
+        "drawer_kind": "simple_knob_drawer_with_cabinet_envelope",
+        "front_cutout": true,
+        "generation_policy": "dynamic_pull_accessible_pool_co_design_declared_generated_or_repaired_variant",
+        "handle_radius": 0.025,
+        "handle_x": -0.18,
+        "handle_y": -0.095,
+        "handle_z": 0.4,
+        "repair_cycle_note": "keepout_or_ik_repair_cycle_2",
+        "robot_base_pos": [
+          -0.7,
+          -0.09,
+          0.0
+        ]
+      },
+      "parent_instance_id": "generated_knob_drawer_accessible_003",
+      "repair_cycle": 2,
+      "source_type": "generated_accessible_variant",
+      "source_type_for_spec": "repaired_layout",
+      "status": "pending",
+      "synthetic_seed": 9507
+    }
+  ],
+  "generated_at_utc": "2026-05-05T04:39:17Z",
+  "repair_cycle": 2
+}

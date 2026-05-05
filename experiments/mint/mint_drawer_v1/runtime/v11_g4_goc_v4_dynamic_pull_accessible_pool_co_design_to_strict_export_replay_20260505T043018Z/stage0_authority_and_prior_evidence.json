@@ -1,0 +1,35 @@
+{
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "fixed_pool_used_only_as_negative_baseline": true,
+  "generated_at_utc": "2026-05-05T04:30:18Z",
+  "git_status_short": "M .project-memory/STATUS.md\n M .session/checkpoint.md\n M scripts/mint/v11_g4_dynamic_pull_accessible_pool_co_design.py",
+  "harness_preflight_passed": true,
+  "head": "b51870f94804357806774ab564bc8796cb2eec09",
+  "old_fixed_pool_modified": false,
+  "old_pool_used_as_strict_export_input": false,
+  "preflight": {
+    "cmd": [
+      "/root/anaconda3/envs/infinigen/bin/python",
+      "experiments/mint/mint_drawer_v1/scripts/harness/agent_task_preflight.py",
+      "--spec",
+      "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_overnight.yaml",
+      "--dry-run"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "\n======================================================================\n  Agent Task Pre-flight\n======================================================================\n  campaign_root: /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1\n  task_spec:    /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_overnight.yaml\n  dry_run:      True\n\n  [LOCK] Production lock enforcement\n  [PASS] Production lock valid: status=production_ready, generated_by=validate_harness_production_lock.py, validators_intact=5 files, task_spec_bound=experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_overnight.yaml, task_spec_hash_verified=True, attestation_verified=True, lock_format=V3\n\n  [V01] validate_task_authority (S0 gate)\n  [PASS] V01 validate_task_authority\n\n  [V02] validate_diff_scope\n  [PASS] V02 validate_diff_scope\n\n======================================================================\n  Pre-flight Summary\n======================================================================\n  Passed: 2\n  Failed: 0\n  Task spec: v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_overnight.yaml\n  Pre-flight callable: True\n  Production lock: verified (always required \u2014 no bypass)\n\n  ALL PRE-FLIGHT VALIDATORS PASSED.\n  Agent may proceed with execution.\n  Next: run V03 during execution, V04 at closeout.\n"
+  },
+  "prior_files": {
+    "dynamic_pull_forensic_certificate.md": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/dynamic_pull_forensic_certificate.md",
+    "dynamic_pull_forensic_decision.json": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/dynamic_pull_forensic_decision.json",
+    "final_closeout.json": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/final_closeout.json",
+    "post_push_verification.json": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/post_push_verification.json",
+    "pull_wrench_oracle_results.jsonl": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/pull_wrench_oracle_results.jsonl",
+    "trace_hash_manifest.json": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z/trace_hash_manifest.json"
+  },
+  "prior_fixed_pool_run": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_pull_force_impedance_axis_alignment_repair_to_strict_export_local_replay_overnight_20260504T161312Z",
+  "pwd": "/mnt/afs2/zhuhaowu/infinigen",
+  "remote_v": "my-origin\tgit@github.com:lqzhw520/infinigen.git (fetch)\nmy-origin\tgit@github.com:lqzhw520/infinigen.git (push)\norigin\thttps://github.com/princeton-vl/infinigen.git (fetch)\norigin\thttps://github.com/princeton-vl/infinigen.git (push)",
+  "task_id": "V11_G4_GOC_V4_DYNAMIC_PULL_ACCESSIBLE_POOL_CO_DESIGN_TO_STRICT_EXPORT_REPLAY_OVERNIGHT_V1",
+  "task_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_overnight.yaml"
+}

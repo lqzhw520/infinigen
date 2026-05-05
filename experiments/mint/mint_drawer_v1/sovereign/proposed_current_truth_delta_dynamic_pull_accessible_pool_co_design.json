@@ -1,0 +1,15 @@
+{
+  "candidate_pool_admitted_count": 0,
+  "candidate_pool_total": 32,
+  "fixed_pool_used_only_as_negative_baseline": true,
+  "full30_certification_attempted": false,
+  "generated_at_utc": "2026-05-05T04:56:51Z",
+  "local_strict_replay_render_passed": false,
+  "next_gate": "ANALYZE_DYNAMIC_PULL_POOL_CO_DESIGN_DEFECT_CERTIFICATES",
+  "old_fixed_pool_modified": false,
+  "proposal_id": "proposed_current_truth_delta_dynamic_pull_accessible_pool_co_design",
+  "source_run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z",
+  "strict_teacher_export_complete": false,
+  "targeted_shard_passed": false,
+  "teacher_rollout_remains_blocked": true
+}

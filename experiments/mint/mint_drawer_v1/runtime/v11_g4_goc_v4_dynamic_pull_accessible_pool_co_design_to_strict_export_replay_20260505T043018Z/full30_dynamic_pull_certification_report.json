@@ -1,0 +1,11 @@
+{
+  "cases_failed": 0,
+  "cases_passed": 0,
+  "cases_total": 0,
+  "failure_histogram": {
+    "targeted_shard_not_passed": 1
+  },
+  "full30_certification_attempted": false,
+  "generated_at_utc": "2026-05-05T04:56:27Z",
+  "matrix_passed": false
+}

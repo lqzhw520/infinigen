@@ -1,0 +1,15 @@
+{
+  "cases_failed": 0,
+  "cases_passed": 0,
+  "cases_total": 0,
+  "failure_histogram": {
+    "GENERATED_VARIANT_COVERAGE_LT_2": 1,
+    "OLD_VARIANT_COVERAGE_LT_1": 1,
+    "REPAIRED_LAYOUT_COVERAGE_LT_2": 1,
+    "TARGETED_CASE_COUNT_LT_7": 1
+  },
+  "generated_at_utc": "2026-05-05T04:47:49Z",
+  "matrix_passed": false,
+  "repair_cycle": 2,
+  "targeted_shard_passed": false
+}

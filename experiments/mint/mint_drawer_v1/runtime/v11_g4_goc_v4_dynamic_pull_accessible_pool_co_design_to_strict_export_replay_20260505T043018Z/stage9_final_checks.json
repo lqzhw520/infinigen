@@ -1,0 +1,58 @@
+{
+  "current_truth_modified": false,
+  "external_mint_modified": false,
+  "final_checks_passed": true,
+  "forbidden_staged_paths": [],
+  "generated_at_utc": "2026-05-05T05:00:24Z",
+  "git_status_short": " M .project-memory/STATUS.md\n M .session/checkpoint.md\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/candidate_admission_report.json\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/candidate_admission_report_repair_cycle_1.json\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/candidate_admission_report_repair_cycle_2.json\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/candidate_admission_report_repair_cycle_3.json\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/candidate_defect_aggregate_summary.json\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/candidate_dynamic_pull_pool.json\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/candidate_dynamic_pull_pool_repair_cycle_1.json\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/candidate_dynamic_pull_pool_repair_cycle_2.json\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/candidate_dynamic_pull_pool_repair_cycle_3.json\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/candidate_oracle_results.jsonl\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/candidate_oracle_results_repair_cycle_1.jsonl\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/candidate_oracle_results_repair_cycle_2.jsonl\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/candidate_oracle_results_repair_cycle_3.jsonl\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/closeout_decision.json\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/commands.log\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/final_closeout.json\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/final_closeout.md\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/final_report.md\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/fixed_pool_defect_summary.md\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/fixed_pool_negative_baseline_summary.md\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/fixed_pool_per_instance_defect_certificate.json\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/full30_dynamic_pull_certification_report.json\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/full30_dynamic_pull_certification_report.md\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/generated_instance_hash_manifest.json\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/local_replay_handoff_manifest.json\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/stage0_authority_and_prior_evidence.json\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/stage9_final_checks.json\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/strict_teacher_export_manifest.json\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/strict_teacher_export_report.md\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/targeted_shard_plan.json\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/targeted_shard_plan_repair_cycle_1.json\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/targeted_shard_plan_repair_cycle_2.json\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/targeted_shard_plan_repair_cycle_3.json\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/targeted_shard_repair_cycles.jsonl\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/targeted_shard_results.json\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/targeted_shard_results_repair_cycle_1.json\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/targeted_shard_results_repair_cycle_2.json\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/targeted_shard_results_repair_cycle_3.json\nA  experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_20260505T043018Z/trace_hash_manifest.json\nA  experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_dynamic_pull_accessible_pool_co_design.json\nA  experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_dynamic_pull_accessible_pool_co_design.json\nM  scripts/mint/v11_g4_dynamic_pull_accessible_pool_co_design.py\n",
+  "harness_preflight_passed": true,
+  "json_errors": [],
+  "json_parse_passed": true,
+  "next_actions_modified": false,
+  "preflight": {
+    "cmd": [
+      "/root/anaconda3/envs/infinigen/bin/python",
+      "experiments/mint/mint_drawer_v1/scripts/harness/agent_task_preflight.py",
+      "--spec",
+      "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_overnight.yaml",
+      "--dry-run"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "\n======================================================================\n  Agent Task Pre-flight\n======================================================================\n  campaign_root: /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1\n  task_spec:    /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_overnight.yaml\n  dry_run:      True\n\n  [LOCK] Production lock enforcement\n  [PASS] Production lock valid: status=production_ready, generated_by=validate_harness_production_lock.py, validators_intact=5 files, task_spec_bound=experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_overnight.yaml, task_spec_hash_verified=True, attestation_verified=True, lock_format=V3\n\n  [V01] validate_task_authority (S0 gate)\n  [PASS] V01 validate_task_authority\n\n  [V02] validate_diff_scope\n  [PASS] V02 validate_diff_scope\n\n======================================================================\n  Pre-flight Summary\n======================================================================\n  Passed: 2\n  Failed: 0\n  Task spec: v11_g4_goc_v4_dynamic_pull_accessible_pool_co_design_to_strict_export_replay_overnight.yaml\n  Pre-flight callable: True\n  Production lock: verified (always required \u2014 no bypass)\n\n  ALL PRE-FLIGHT VALIDATORS PASSED.\n  Agent may proceed with execution.\n  Next: run V03 during execution, V04 at closeout.\n"
+  },
+  "py_compile": {
+    "cmd": [
+      "/root/anaconda3/envs/infinigen/bin/python",
+      "-m",
+      "py_compile",
+      "scripts/mint/v11_g4_dynamic_pull_accessible_pool_co_design.py"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": ""
+  },
+  "py_compile_passed": true,
+  "raw_trace_or_generated_instance_paths_staged": [],
+  "raw_trace_or_generated_instance_paths_staged_count": 0,
+  "ruff": {
+    "cmd": [
+      "/root/anaconda3/envs/infinigen/bin/python",
+      "-m",
+      "ruff",
+      "check",
+      "scripts/mint/v11_g4_dynamic_pull_accessible_pool_co_design.py"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "All checks passed!\n"
+  },
+  "ruff_passed": true,
+  "staged_paths_count": 42,
+  "task_spec_lock_bound": true,
+  "yaml_parse": {
+    "available": true,
+    "error": null,
+    "passed": true
+  }
+}

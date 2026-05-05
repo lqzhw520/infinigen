@@ -630,6 +630,7 @@ def trace_record(
     q_ref: np.ndarray,
     drawer_motor_abs: float,
     robot_vel: np.ndarray | None = None,
+    include_replay_state: bool = False,
 ) -> dict[str, Any]:
     rec = record_step(env, binding, contact, mode, 1.0)
     qcur = env.data.qpos[env._robot_qpos_addrs].astype(float)
@@ -638,25 +639,27 @@ def trace_record(
     rec["finger_targets"] = np.asarray(finger_targets, dtype=float).tolist()
     rec["finger_qpos"] = env.data.qpos[getattr(env, "_gripper_qpos_addrs", [])].astype(float).tolist()
     rec["drawer_motor_command_abs"] = float(drawer_motor_abs)
-    rec["qpos"] = env.data.qpos.astype(float).tolist()
-    rec["qvel"] = env.data.qvel.astype(float).tolist()
-    rec["ctrl"] = env.data.ctrl.astype(float).tolist()
-    rec["robot_qpos"] = env.data.qpos[getattr(env, "_robot_qpos_addrs", [])].astype(float).tolist()
-    rec["robot_qvel"] = env.data.qvel[getattr(env, "_robot_qvel_addrs", [])].astype(float).tolist()
-    rec["gripper_qpos"] = env.data.qpos[getattr(env, "_gripper_qpos_addrs", [])].astype(float).tolist()
-    rec["gripper_qvel"] = env.data.qvel[getattr(env, "_gripper_qvel_addrs", [])].astype(float).tolist()
-    rec["action"] = {
-        "control_mode": "velocity_servo_torque_ctrl",
-        "robot_velocity_command": None if robot_vel is None else np.asarray(robot_vel, dtype=float).tolist(),
-        "finger_target_command": np.asarray(finger_targets, dtype=float).tolist(),
-        "drawer_motor_command": 0.0,
-        "drawer_motor_command_abs": float(drawer_motor_abs),
-    }
+    rec["include_replay_state"] = bool(include_replay_state)
+    if include_replay_state:
+        rec["qpos"] = env.data.qpos.astype(float).tolist()
+        rec["qvel"] = env.data.qvel.astype(float).tolist()
+        rec["ctrl"] = env.data.ctrl.astype(float).tolist()
+        rec["robot_qpos"] = env.data.qpos[getattr(env, "_robot_qpos_addrs", [])].astype(float).tolist()
+        rec["robot_qvel"] = env.data.qvel[getattr(env, "_robot_qvel_addrs", [])].astype(float).tolist()
+        rec["gripper_qpos"] = env.data.qpos[getattr(env, "_gripper_qpos_addrs", [])].astype(float).tolist()
+        rec["gripper_qvel"] = env.data.qvel[getattr(env, "_gripper_qvel_addrs", [])].astype(float).tolist()
+        rec["action"] = {
+            "control_mode": "velocity_servo_torque_ctrl",
+            "robot_velocity_command": None if robot_vel is None else np.asarray(robot_vel, dtype=float).tolist(),
+            "finger_target_command": np.asarray(finger_targets, dtype=float).tolist(),
+            "drawer_motor_command": 0.0,
+            "drawer_motor_command_abs": float(drawer_motor_abs),
+        }
     return rec
 
 
 def compact_trace_record(record: dict[str, Any]) -> dict[str, Any]:
-    return {
+    compact = {
         "step": record.get("step"),
         "mode": record.get("mode"),
         "distance": record.get("distance"),
@@ -669,15 +672,20 @@ def compact_trace_record(record: dict[str, Any]) -> dict[str, Any]:
         "finger_targets": record.get("finger_targets"),
         "finger_qpos": record.get("finger_qpos"),
         "drawer_motor_command_abs": record.get("drawer_motor_command_abs"),
-        "qpos": record.get("qpos"),
-        "qvel": record.get("qvel"),
-        "ctrl": record.get("ctrl"),
-        "robot_qpos": record.get("robot_qpos"),
-        "robot_qvel": record.get("robot_qvel"),
-        "gripper_qpos": record.get("gripper_qpos"),
-        "gripper_qvel": record.get("gripper_qvel"),
-        "action": record.get("action"),
+        "include_replay_state": record.get("include_replay_state", False),
     }
+    if record.get("include_replay_state"):
+        compact.update({
+            "qpos": record.get("qpos"),
+            "qvel": record.get("qvel"),
+            "ctrl": record.get("ctrl"),
+            "robot_qpos": record.get("robot_qpos"),
+            "robot_qvel": record.get("robot_qvel"),
+            "gripper_qpos": record.get("gripper_qpos"),
+            "gripper_qvel": record.get("gripper_qvel"),
+            "action": record.get("action"),
+        })
+    return compact
 
 
 def run_segment(
@@ -697,6 +705,7 @@ def run_segment(
     if config.gripper_mode == "binary_close":
         finger_targets = np.asarray([0.0, 0.0], dtype=float) if mode in {"contact_seat", "contact_hold"} else np.asarray([0.04, -0.04], dtype=float)
     two_pad_frame = candidate.get("two_pad_frame", {})
+    include_replay_state = trace_path.name.startswith("variant_8") or "full30" in str(trace_path)
     for _ in range(int(steps)):
         if config.mode == "two_pad_opspace" and target_key is not None:
             robot_vel = stacked_two_pad_velocity(env, binding, two_pad_frame, target_key, q_ref, config)
@@ -704,7 +713,7 @@ def run_segment(
             robot_vel = target_arm_velocity(env, q_ref, config.q_gain, config.q_vel_limit)
         drawer_motor_abs = apply_velocity_servo(env, robot_vel, finger_targets, config)
         report = contact_report(env, binding, prev_centers)
-        rec = trace_record(env, binding, report, mode, finger_targets, q_ref, drawer_motor_abs, robot_vel)
+        rec = trace_record(env, binding, report, mode, finger_targets, q_ref, drawer_motor_abs, robot_vel, include_replay_state)
         records.append(rec)
         append_jsonl(trace_path, compact_trace_record(rec))
         prev_centers = report["centers"]

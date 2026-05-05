@@ -278,8 +278,9 @@ def trace_record(
     pull_offset: float | None = None,
     pull_start_fraction: float | None = None,
     robot_vel: np.ndarray | None = None,
+    include_replay_state: bool = False,
 ) -> dict[str, Any]:
-    rec = cp.trace_record(env, binding, contact, mode, finger_targets, q_ref, drawer_motor_abs, robot_vel)
+    rec = cp.trace_record(env, binding, contact, mode, finger_targets, q_ref, drawer_motor_abs, robot_vel, include_replay_state)
     dq, df = drawer_qpos_and_fraction(env)
     rec["drawer_qpos"] = dq
     rec["drawer_fraction"] = df
@@ -304,6 +305,7 @@ def run_pull_segment(env: Any, binding: dict[str, Any], candidate: dict[str, Any
     finger_targets = finger_targets_for_pull(candidate, variant)
     _, pull_start_fraction = drawer_qpos_and_fraction(env)
     total_steps = int(variant["pull_steps"]) + int(variant.get("post_pull_hold_steps", 0))
+    include_replay_state = trace_path.name.startswith("variant_8") or "full30" in str(trace_path)
     for step in range(total_steps):
         active = min(step, int(variant["pull_steps"]))
         raw_pull_offset = min(float(variant["pull_distance_m"]), float(variant["pull_velocity_m_per_step"]) * float(active))
@@ -314,7 +316,7 @@ def run_pull_segment(env: Any, binding: dict[str, Any], candidate: dict[str, Any
         drawer_motor_abs = cp.apply_velocity_servo(env, robot_vel, finger_targets, config)
         report = contact_report(env, binding, prev_centers)
         mode = "bounded_teacher_pull" if step < int(variant["pull_steps"]) else "post_pull_hold"
-        rec = trace_record(env, binding, report, mode, finger_targets, q_ref, drawer_motor_abs, raw_pull_offset, pull_start_fraction, robot_vel)
+        rec = trace_record(env, binding, report, mode, finger_targets, q_ref, drawer_motor_abs, raw_pull_offset, pull_start_fraction, robot_vel, include_replay_state)
         rec["lead_cap_m"] = float(lead_cap) if lead_cap is not None else None
         rec["effective_pull_lead_m"] = float(pull_offset)
         records.append(rec)

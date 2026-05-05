@@ -248,3 +248,48 @@ next_gate_rules:
   if_full30_fails: REPAIR_DYNAMIC_PULL_POOL_CERTIFICATION_DEFECTS
   if_export_fails: STRICT_EXPORT_INFRA_REPAIR
   if_local_replay_fails: LOCAL_STRICT_REPLAY_RENDER_REPAIR
+
+
+fixtures:
+  fixture_valid_authority_match:
+    runtime_exact_ids:
+      legal_gripper_surface_geom_ids: [63, 81, 90]
+      forbidden_robot_surface_geom_ids: [45, 47, 49, 54, 59]
+      drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    expected: PASS
+  fixture_invalid_authority_drift:
+    runtime_exact_ids:
+      legal_gripper_surface_geom_ids: [60, 61, 62]
+      forbidden_robot_surface_geom_ids: [45, 47, 49, 54, 59]
+      drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+    expected: FAIL
+    expected_error: AUTHORITY_MISMATCH
+
+final_closeout_required_fields:
+  - closeout_classification
+  - harness_preflight_passed
+  - task_spec_lock_bound
+  - fixed_pool_used_only_as_negative_baseline
+  - old_fixed_pool_modified
+  - candidate_pool_generated
+  - candidate_pool_total
+  - candidate_pool_admitted_count
+  - targeted_shard_passed
+  - targeted_shard_cases_total
+  - targeted_shard_cases_passed
+  - full30_certification_attempted
+  - full30_cases_passed
+  - full30_cases_failed
+  - strict_teacher_export_attempted
+  - strict_teacher_export_complete
+  - local_strict_replay_attempted
+  - local_strict_replay_render_passed
+  - controller_defect_count
+  - structure_defect_count
+  - mixed_defect_count
+  - current_truth_modified
+  - next_actions_modified
+  - committed
+  - pushed_to_origin
+  - remote_commit_hash
+  - next_gate

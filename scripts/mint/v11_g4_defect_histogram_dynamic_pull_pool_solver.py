@@ -284,6 +284,24 @@ def generate_cycle_candidates(cycle: int) -> list[dict[str, Any]]:
     specs: list[tuple[str, str, int, dict[str, Any], str, str | None]] = []
     if cycle == 1:
         grid = [
+            ("generated_variant", -0.640, -0.055, -0.155, -0.045, 0.380, -16, 0.023),
+            ("repaired_layout", -0.640, -0.055, -0.155, -0.045, 0.380, -16, 0.023),
+            ("generated_variant", -0.640, -0.080, -0.170, -0.060, 0.395, -22, 0.023),
+            ("repaired_layout", -0.640, -0.080, -0.170, -0.060, 0.395, -22, 0.023),
+            ("generated_variant", -0.635, -0.052, -0.152, -0.042, 0.378, -14, 0.022),
+            ("repaired_layout", -0.635, -0.058, -0.158, -0.048, 0.383, -18, 0.023),
+            ("generated_variant", -0.645, -0.074, -0.166, -0.055, 0.392, -20, 0.023),
+            ("repaired_layout", -0.645, -0.086, -0.174, -0.066, 0.398, -24, 0.024),
+            ("generated_variant", -0.630, -0.050, -0.150, -0.040, 0.382, -12, 0.022),
+            ("repaired_layout", -0.650, -0.062, -0.162, -0.050, 0.386, -19, 0.023),
+            ("generated_variant", -0.635, -0.072, -0.164, -0.052, 0.390, -18, 0.023),
+            ("repaired_layout", -0.650, -0.090, -0.178, -0.070, 0.402, -26, 0.024),
+        ]
+        for i, (src, base_x, base_y, hx, hy, hz, yaw, radius) in enumerate(grid, start=1):
+            params = base_params([base_x, base_y, 0.025], hx, hy, hz, handle_kind="sphere", handle_radius=radius, robot_yaw_deg=yaw, cutout_w=0.270, cutout_h=0.225, cabinet_half_width=0.33, cabinet_depth=0.16)
+            specs.append((f"dh_c1_admitted_island_densify_{i:02d}", src, 11100 + i, params, "ADMITTED_ISLAND_DENSIFICATION_FROM_PRIOR_RUN", "dh_c2_keepout_yaw_height_02" if i <= 6 else "dh_c2_keepout_yaw_height_03"))
+    elif cycle == 2:
+        grid = [
             (-0.080, 0.360, 0.014, 0.035, 0), (-0.080, 0.380, 0.016, 0.040, 0),
             (-0.075, 0.400, 0.018, 0.045, -6), (-0.060, 0.380, 0.020, 0.035, 6),
             (0.080, 0.360, 0.014, 0.035, 0), (0.080, 0.380, 0.016, 0.040, 0),
@@ -292,7 +310,7 @@ def generate_cycle_candidates(cycle: int) -> list[dict[str, Any]]:
         for i, (hy, hz, radius, half, yaw) in enumerate(grid, start=1):
             params = base_params([-0.62, hy * 0.85, 0.0], -0.14, hy, hz, handle_kind="bar_y", handle_radius=radius, handle_half_length=half, robot_yaw_deg=yaw, cutout_w=0.255, cutout_h=0.215)
             specs.append((f"dh_c1_two_pad_bar_{i:02d}", "repaired_layout", 11000 + i, params, "TWO_PAD_RETENTION_FAILED", "dynamic_keepout_old002_yneg"))
-    elif cycle == 2:
+    elif cycle == 3:
         grid = [
             (-0.030, -0.035, -10, 0.365, -0.145), (-0.055, -0.045, -16, 0.380, -0.155),
             (-0.080, -0.060, -22, 0.395, -0.170), (0.030, 0.035, 10, 0.365, -0.145),
@@ -302,7 +320,7 @@ def generate_cycle_candidates(cycle: int) -> list[dict[str, Any]]:
         for i, (base_y, hy, yaw, hz, hx) in enumerate(grid, start=1):
             params = base_params([-0.64, base_y, 0.025], hx, hy, hz, handle_kind="sphere", handle_radius=0.023, robot_yaw_deg=yaw, cutout_w=0.270, cutout_h=0.225, cabinet_half_width=0.33, cabinet_depth=0.16)
             specs.append((f"dh_c2_keepout_yaw_height_{i:02d}", "generated_variant", 12000 + i, params, "FULL_BODY_KEEP_OUT_FAILED", "dynamic_generated_low_y_offset_003"))
-    elif cycle == 3:
+    elif cycle == 4:
         grid = [
             (-0.58, -0.115, -0.060, 0.420, -8, "bar_y"), (-0.58, -0.115, 0.060, 0.420, 8, "bar_y"),
             (-0.52, -0.095, -0.040, 0.435, -6, "sphere"), (-0.52, -0.095, 0.040, 0.435, 6, "sphere"),
@@ -312,7 +330,7 @@ def generate_cycle_candidates(cycle: int) -> list[dict[str, Any]]:
         for i, (base_x, hx, hy, hz, yaw, kind) in enumerate(grid, start=1):
             params = base_params([base_x, hy * 0.75, 0.035], hx, hy, hz, handle_kind=kind, handle_radius=0.016 if kind == "bar_y" else 0.022, handle_half_length=0.038, robot_yaw_deg=yaw, cutout_w=0.285, cutout_h=0.235, cabinet_half_width=0.34, cabinet_depth=0.15)
             specs.append((f"dh_c3_corridor_high_exposure_{i:02d}", "generated_variant", 13000 + i, params, "APPROACH_CORRIDOR_BLOCKED", None))
-    elif cycle == 4:
+    elif cycle == 5:
         grid = [
             (-0.210, -0.055, 0.360, 0.018, 0.030, -8), (-0.230, -0.075, 0.375, 0.016, 0.035, -12),
             (-0.250, -0.095, 0.390, 0.014, 0.040, -16), (-0.210, 0.055, 0.360, 0.018, 0.030, 8),
@@ -322,7 +340,7 @@ def generate_cycle_candidates(cycle: int) -> list[dict[str, Any]]:
         for i, (hx, hy, hz, radius, half, yaw) in enumerate(grid, start=1):
             params = base_params([-0.72, hy * 0.70, 0.02], hx, hy, hz, handle_kind="bar_y", handle_radius=radius, handle_half_length=half, robot_yaw_deg=yaw, door_x=0.145, cutout_w=0.275, cutout_h=0.225, cabinet_depth=0.145)
             specs.append((f"dh_c4_pull_wrench_exposed_{i:02d}", "repaired_layout", 14000 + i, params, "PULL_WRENCH_INSUFFICIENT", None))
-    elif cycle == 5:
+    elif cycle == 6:
         grid = [
             ("dual_knob_y", -0.165, -0.055, 0.380, 0.014, 0.032, -8, -0.64),
             ("dual_knob_y", -0.165, 0.055, 0.380, 0.014, 0.032, 8, -0.64),
@@ -368,13 +386,30 @@ def best_rows_from_result(result: dict[str, Any]) -> list[dict[str, Any]]:
 
 
 def defect_label(dominant: str | None) -> str:
-    if dominant in {"FULL_BODY_KEEP_OUT_FAILED", "GUARDED_IK_INFEASIBLE", "APPROACH_CORRIDOR_BLOCKED", "PULL_WRENCH_INSUFFICIENT", "PHYSICAL_ACCESSIBILITY_FAILED", "PULL_CORRIDOR_BLOCKED"}:
+    if dominant in {"FULL_BODY_KEEP_OUT_FAILED", "GUARDED_IK_INFEASIBLE", "PREGRASP_IK_INFEASIBLE", "APPROACH_CORRIDOR_BLOCKED", "PULL_WRENCH_INSUFFICIENT", "PHYSICAL_ACCESSIBILITY_FAILED", "PULL_CORRIDOR_BLOCKED", "VISUAL_PHYSICAL_CONSISTENCY_FAILED"}:
         return "STRUCTURE_DEFECT"
     if dominant in {"TWO_PAD_RETENTION_FAILED", "DRAWER_QPOS_NONMONOTONIC", "MIXED_STRUCTURE_CONTROL_DEFECT"}:
         return "MIXED_DEFECT"
     if dominant == "CONTROLLER_DEFECT":
         return "CONTROLLER_DEFECT"
     return "UNKNOWN_DEFECT"
+
+
+def variant_for_probe(row: dict[str, Any], variants: list[dict[str, Any]]) -> dict[str, Any]:
+    oracle = row.get("oracle") if isinstance(row.get("oracle"), dict) else {}
+    names = [
+        oracle.get("controller_mode"),
+        row.get("controller_mode"),
+        row.get("selected_variant"),
+        row.get("contact_policy_name"),
+    ]
+    for name in names:
+        if not name:
+            continue
+        for variant in variants:
+            if variant.get("name") == name:
+                return variant
+    return variants[0]
 
 
 def summarize_cycle(results: list[dict[str, Any]], cycle: int) -> dict[str, Any]:
@@ -416,15 +451,33 @@ def evaluate_cycle(run_dir: Path, cycle: int, candidates: list[dict[str, Any]]) 
     results: list[dict[str, Any]] = []
     variants = CONTROLLER_VARIANTS
     for idx, candidate in enumerate(candidates):
-        physical = pool.evaluate_generated_candidate(candidate, run_dir)
+        physical: dict[str, Any]
         probe_best: dict[str, Any] | None = None
         probe_rows: list[dict[str, Any]] = []
-        if cd.physical_pass(physical):
-            for off, variant in enumerate(variants):
-                row = cd.run_case(physical, "nominal", variant, run_dir, cycle * 10000 + idx * 100 + off, f"cycle_{cycle}_probe")
-                probe_rows.append(row)
-            probe_best = max(probe_rows, key=row_rank, default={})
-        result = cd.oracle_result(candidate, physical, probe_best, probe_rows)
+        try:
+            physical = pool.evaluate_generated_candidate(candidate, run_dir)
+            if cd.physical_pass(physical):
+                for off, variant in enumerate(variants):
+                    row = cd.run_case(physical, "nominal", variant, run_dir, cycle * 10000 + idx * 100 + off, f"cycle_{cycle}_probe")
+                    probe_rows.append(row)
+                probe_best = max(probe_rows, key=row_rank, default={})
+            result = cd.oracle_result(candidate, physical, probe_best, probe_rows)
+        except Exception as exc:
+            physical = {"candidate_id": candidate.get("candidate_id"), "co_design_source_type": candidate.get("co_design_source_type"), "source_type_for_spec": candidate.get("source_type_for_spec"), "parent_instance_id": candidate.get("parent_instance_id"), "selected_pull_variant": variants[0], "fixed_pool_original_mutated": False}
+            result = {
+                "candidate_id": candidate.get("candidate_id"),
+                "source_type": candidate.get("source_type_for_spec"),
+                "admitted": False,
+                "dominant_failure": "EXECUTION_FAILED",
+                "defect_label": "UNKNOWN_DEFECT",
+                "exception_type": type(exc).__name__,
+                "exception": repr(exc),
+                "controller_variants_evaluated": [],
+                "best_probe_row": {},
+                "probe_summary": {},
+            }
+        selected_variant = variant_for_probe(probe_best or {}, variants)
+        result["selected_variant"] = selected_variant["name"]
         result["cycle"] = cycle
         result["controller_variants_evaluated"] = [v["name"] for v in variants] if cd.physical_pass(physical) else []
         result["defect_label"] = "ADMITTED" if result.get("admitted") else defect_label(result.get("dominant_failure"))
@@ -435,7 +488,8 @@ def evaluate_cycle(run_dir: Path, cycle: int, candidates: list[dict[str, Any]]) 
             physical["co_design_source_type"] = candidate.get("co_design_source_type")
             physical["source_type_for_spec"] = candidate.get("source_type_for_spec")
             physical["parent_instance_id"] = candidate.get("parent_instance_id")
-            physical["selected_pull_variant"] = result.get("selected_variant") or variants[0]
+            physical["selected_pull_variant"] = selected_variant
+            physical["selected_pull_variant_name"] = selected_variant["name"]
             admitted.append(physical)
     summary = summarize_cycle(results, cycle)
     summary["repair_operators_applied"] = sorted({c.get("targeted_defect_cluster") for c in candidates})

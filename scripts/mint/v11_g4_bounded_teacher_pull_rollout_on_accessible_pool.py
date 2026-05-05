@@ -30,7 +30,12 @@ SOURCE_CONTACT_RUN = CAMPAIGN / "runtime/v11_g4_goc_v4_contact_mode_operational_
 
 sys.path.insert(0, str(ROOT / "scripts/mint"))
 import v11_g4_contact_mode_policy_repair_on_accessible_pool as cp  # noqa: E402
-from contact_aware_drawer_teacher import classify_instance, contact_report, geom_centers, summarize_records  # noqa: E402
+from contact_aware_drawer_teacher import (  # noqa: E402
+    classify_instance,
+    contact_report,
+    geom_centers,
+    summarize_records,
+)
 
 EXPECTED_ACCEPTED_IDS = cp.EXPECTED_ACCEPTED_IDS
 PERTURBATIONS = cp.PERTURBATIONS
@@ -262,8 +267,19 @@ def finger_targets_for_pull(candidate: dict[str, Any], variant: dict[str, Any]) 
     return np.asarray([0.0, 0.0], dtype=float)
 
 
-def trace_record(env: Any, binding: dict[str, Any], contact: dict[str, Any], mode: str, finger_targets: np.ndarray, q_ref: np.ndarray, drawer_motor_abs: float, pull_offset: float | None = None, pull_start_fraction: float | None = None) -> dict[str, Any]:
-    rec = cp.trace_record(env, binding, contact, mode, finger_targets, q_ref, drawer_motor_abs)
+def trace_record(
+    env: Any,
+    binding: dict[str, Any],
+    contact: dict[str, Any],
+    mode: str,
+    finger_targets: np.ndarray,
+    q_ref: np.ndarray,
+    drawer_motor_abs: float,
+    pull_offset: float | None = None,
+    pull_start_fraction: float | None = None,
+    robot_vel: np.ndarray | None = None,
+) -> dict[str, Any]:
+    rec = cp.trace_record(env, binding, contact, mode, finger_targets, q_ref, drawer_motor_abs, robot_vel)
     dq, df = drawer_qpos_and_fraction(env)
     rec["drawer_qpos"] = dq
     rec["drawer_fraction"] = df
@@ -298,7 +314,7 @@ def run_pull_segment(env: Any, binding: dict[str, Any], candidate: dict[str, Any
         drawer_motor_abs = cp.apply_velocity_servo(env, robot_vel, finger_targets, config)
         report = contact_report(env, binding, prev_centers)
         mode = "bounded_teacher_pull" if step < int(variant["pull_steps"]) else "post_pull_hold"
-        rec = trace_record(env, binding, report, mode, finger_targets, q_ref, drawer_motor_abs, raw_pull_offset, pull_start_fraction)
+        rec = trace_record(env, binding, report, mode, finger_targets, q_ref, drawer_motor_abs, raw_pull_offset, pull_start_fraction, robot_vel)
         rec["lead_cap_m"] = float(lead_cap) if lead_cap is not None else None
         rec["effective_pull_lead_m"] = float(pull_offset)
         records.append(rec)

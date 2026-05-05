@@ -134,6 +134,73 @@ def sha256_file(path: Path) -> str:
     return h.hexdigest()
 
 
+REPLAY_REQUIRED_TRACE_FIELDS = ("qpos", "qvel", "ctrl", "action", "robot_qpos", "drawer_qpos")
+
+
+def audit_replay_state_trace(path: Path) -> dict[str, Any]:
+    missing_counts: Counter[str] = Counter()
+    line_count = 0
+    first_step = None
+    last_step = None
+    qpos_width = None
+    qvel_width = None
+    ctrl_width = None
+    parse_error = None
+    try:
+        with path.open() as fh:
+            for line_no, line in enumerate(fh, start=1):
+                if not line.strip():
+                    continue
+                line_count += 1
+                try:
+                    rec = json.loads(line)
+                except Exception as exc:  # noqa: BLE001
+                    parse_error = {"line": line_no, "error": repr(exc)}
+                    break
+                first_step = rec.get("step") if first_step is None else first_step
+                last_step = rec.get("step")
+                for field in REPLAY_REQUIRED_TRACE_FIELDS:
+                    value = rec.get(field)
+                    if value is None or value == []:
+                        missing_counts[field] += 1
+                if qpos_width is None and isinstance(rec.get("qpos"), list):
+                    qpos_width = len(rec["qpos"])
+                if qvel_width is None and isinstance(rec.get("qvel"), list):
+                    qvel_width = len(rec["qvel"])
+                if ctrl_width is None and isinstance(rec.get("ctrl"), list):
+                    ctrl_width = len(rec["ctrl"])
+    except FileNotFoundError:
+        return {"trace_exists": False, "line_count": 0, "replay_state_complete": False, "missing_field_counts": dict(missing_counts), "parse_error": "trace_missing"}
+    complete = bool(line_count > 0 and parse_error is None and not missing_counts and qpos_width and qvel_width and ctrl_width)
+    return {
+        "trace_exists": True,
+        "line_count": line_count,
+        "first_step": first_step,
+        "last_step": last_step,
+        "qpos_width": qpos_width,
+        "qvel_width": qvel_width,
+        "ctrl_width": ctrl_width,
+        "required_fields": list(REPLAY_REQUIRED_TRACE_FIELDS),
+        "missing_field_counts": dict(sorted(missing_counts.items())),
+        "parse_error": parse_error,
+        "replay_state_complete": complete,
+    }
+
+
+def admitted_physical_by_candidate(run_dir: Path) -> dict[str, dict[str, Any]]:
+    out: dict[str, dict[str, Any]] = {}
+    path = run_dir / "candidate_oracle_results.jsonl"
+    if not path.exists():
+        return out
+    for row in read_jsonl(path):
+        if not row.get("admitted"):
+            continue
+        physical = row.get("physical_accessibility")
+        if isinstance(physical, dict):
+            out[str(row.get("candidate_id"))] = physical
+    return out
+
+
 class SolverDrawerBuilder(ORIGINAL_BUILDER):
     """Generated drawer builder with declared bar/knob handle variants."""
 
@@ -733,21 +800,79 @@ def strict_export(run_dir: Path, rows: list[dict[str, Any]]) -> dict[str, Any]:
         payload = {"generated_at_utc": utc_now(), "strict_teacher_export_attempted": False, "strict_teacher_export_complete": False, "reason": "full30_not_certified"}
         write_json(run_dir / "strict_teacher_export_manifest.json", payload)
         return payload
+    physical_by_candidate = admitted_physical_by_candidate(run_dir)
     items = []
     for row in rows:
         trace = ROOT / str(row.get("trace_jsonl"))
-        items.append({"trace_jsonl": rel(trace), "exists": trace.exists(), "sha256": sha256_file(trace) if trace.exists() else None, "size_bytes": trace.stat().st_size if trace.exists() else 0, "candidate_id": row.get("candidate_id"), "perturbation": row.get("perturbation")})
-    complete = bool(items and all(i["exists"] for i in items))
-    payload = {"generated_at_utc": utc_now(), "strict_teacher_export_attempted": True, "strict_teacher_export_complete": complete, "source_committed_head": run_git(["rev-parse", "HEAD"]), "trace_count": len(items), "trace_items": items}
+        candidate_id = str(row.get("candidate_id"))
+        physical = physical_by_candidate.get(candidate_id, {})
+        model_manifest = physical.get("model_manifest", {}) if isinstance(physical, dict) else {}
+        model_xml = ROOT / str(model_manifest.get("model_xml")) if model_manifest.get("model_xml") else None
+        audit = audit_replay_state_trace(trace)
+        row_refusals = []
+        if bool(row.get("direct_qpos_drawer_opening")):
+            row_refusals.append("direct_qpos_drawer_opening_true")
+        if bool(row.get("drawer_motor_command_used")):
+            row_refusals.append("drawer_motor_command_used_true")
+        if not audit.get("replay_state_complete"):
+            row_refusals.append("trace_missing_replay_state_fields")
+        if model_xml is None or not model_xml.exists():
+            row_refusals.append("model_xml_missing")
+        items.append({
+            "trace_jsonl": rel(trace),
+            "exists": trace.exists(),
+            "sha256": sha256_file(trace) if trace.exists() else None,
+            "size_bytes": trace.stat().st_size if trace.exists() else 0,
+            "candidate_id": candidate_id,
+            "perturbation": row.get("perturbation"),
+            "model_xml": rel(model_xml) if model_xml is not None else None,
+            "model_xml_exists": bool(model_xml is not None and model_xml.exists()),
+            "model_xml_sha256": sha256_file(model_xml) if model_xml is not None and model_xml.exists() else None,
+            "asset_count": int(model_manifest.get("asset_count", 0) or 0),
+            "replay_state_audit": audit,
+            "strict_refusals": row_refusals,
+        })
+    incomplete_reasons = []
+    for item in items:
+        if not item["exists"]:
+            incomplete_reasons.append(f"{item['candidate_id']}:{item['perturbation']}:trace_missing")
+        if item["strict_refusals"]:
+            incomplete_reasons.extend(f"{item['candidate_id']}:{item['perturbation']}:{reason}" for reason in item["strict_refusals"])
+    complete = bool(items and not incomplete_reasons)
+    payload = {
+        "generated_at_utc": utc_now(),
+        "schema_version": "strict_dynamic_pull_replay_bundle_v1",
+        "strict_teacher_export_attempted": True,
+        "strict_teacher_export_complete": complete,
+        "source_committed_head": run_git(["rev-parse", "HEAD"]),
+        "trace_count": len(items),
+        "trace_items": items,
+        "required_trace_fields": list(REPLAY_REQUIRED_TRACE_FIELDS),
+        "incomplete_reasons": incomplete_reasons,
+    }
     write_json(run_dir / "strict_teacher_export_manifest.json", payload)
+    bundle = run_dir / "strict_teacher_bundle"
+    bundle.mkdir(parents=True, exist_ok=True)
+    write_json(bundle / "strict_teacher_bundle_hashes.json", payload)
+    write_md(
+        run_dir / "strict_teacher_export_report.md",
+        "\n".join([
+            "# Strict Teacher Export",
+            "",
+            f"- complete: `{complete}`",
+            f"- trace_count: `{len(items)}`",
+            f"- incomplete_reasons_count: `{len(incomplete_reasons)}`",
+            "- required_trace_fields: `qpos`, `qvel`, `ctrl`, `action`, `robot_qpos`, `drawer_qpos`",
+        ]),
+    )
     return payload
 
 
 def local_replay_handoff(run_dir: Path, export: dict[str, Any]) -> dict[str, Any]:
     if not export.get("strict_teacher_export_complete"):
-        payload = {"generated_at_utc": utc_now(), "local_strict_replay_attempted": False, "local_strict_replay_render_passed": False, "reason": "strict_export_not_complete"}
+        payload = {"generated_at_utc": utc_now(), "local_strict_replay_attempted": False, "local_strict_replay_render_passed": False, "reason": "strict_export_not_complete", "strict_export_incomplete_reasons": export.get("incomplete_reasons", [])}
     else:
-        payload = {"generated_at_utc": utc_now(), "local_strict_replay_attempted": False, "local_strict_replay_render_passed": False, "reason": "remote_export_complete_local_render_not_invoked_by_remote_helper", "local_replay_dir": str(LOCAL_PLAYGROUND_ROOT / "local_replay" / f"v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_{utc_stamp()}")}
+        payload = {"generated_at_utc": utc_now(), "local_strict_replay_attempted": False, "local_strict_replay_render_passed": False, "reason": "strict_export_complete_but_local_replay_render_not_invoked_by_remote_helper", "local_replay_dir": str(LOCAL_PLAYGROUND_ROOT / "local_replay" / f"v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_{utc_stamp()}")}
     write_json(run_dir / "local_replay_handoff_manifest.json", payload)
     return payload
 
@@ -776,8 +901,13 @@ def aggregate_best(all_results: list[dict[str, Any]]) -> dict[str, Any]:
 
 def final_checks(run_dir: Path) -> dict[str, Any]:
     preflight = run_cmd(["/root/anaconda3/envs/infinigen/bin/python", "experiments/mint/mint_drawer_v1/scripts/harness/agent_task_preflight.py", "--spec", SPEC_REL, "--dry-run"])
-    pyc = run_cmd(["/root/anaconda3/envs/infinigen/bin/python", "-m", "py_compile", "scripts/mint/v11_g4_defect_histogram_dynamic_pull_pool_solver.py"])
-    ruff = run_cmd(["/root/anaconda3/envs/infinigen/bin/python", "-m", "ruff", "check", "scripts/mint/v11_g4_defect_histogram_dynamic_pull_pool_solver.py"])
+    changed_python = [
+        "scripts/mint/v11_g4_defect_histogram_dynamic_pull_pool_solver.py",
+        "scripts/mint/v11_g4_bounded_teacher_pull_rollout_on_accessible_pool.py",
+        "scripts/mint/v11_g4_contact_mode_policy_repair_on_accessible_pool.py",
+    ]
+    pyc = run_cmd(["/root/anaconda3/envs/infinigen/bin/python", "-m", "py_compile", *changed_python])
+    ruff = run_cmd(["/root/anaconda3/envs/infinigen/bin/python", "-m", "ruff", "check", *changed_python])
     json_errors = []
     for path in list(run_dir.rglob("*.json")) + list(run_dir.rglob("*.jsonl")):
         try:
@@ -790,7 +920,7 @@ def final_checks(run_dir: Path) -> dict[str, Any]:
         except Exception as exc:
             json_errors.append({"path": rel(path), "error": repr(exc), "line": locals().get("n")})
     status = run_git(["status", "--short"])
-    payload = {"generated_at_utc": utc_now(), "preflight": preflight, "harness_preflight_passed": preflight["returncode"] == 0, "task_spec_lock_bound": "task_spec_hash_verified=True" in preflight.get("stdout", ""), "py_compile": pyc, "py_compile_passed": pyc["returncode"] == 0, "ruff": ruff, "ruff_passed": ruff["returncode"] == 0, "json_errors": json_errors, "json_parse_passed": not json_errors, "current_truth_modified": "sovereign/current_truth.json" in status, "next_actions_modified": "sovereign/next_actions.json" in status, "external_mint_modified": "external/MINT" in status, "git_status_short": status}
+    payload = {"generated_at_utc": utc_now(), "preflight": preflight, "harness_preflight_passed": preflight["returncode"] == 0, "task_spec_lock_bound": "task_spec_hash_verified=True" in preflight.get("stdout", ""), "changed_python": changed_python, "py_compile": pyc, "py_compile_passed": pyc["returncode"] == 0, "ruff": ruff, "ruff_passed": ruff["returncode"] == 0, "json_errors": json_errors, "json_parse_passed": not json_errors, "current_truth_modified": "sovereign/current_truth.json" in status, "next_actions_modified": "sovereign/next_actions.json" in status, "external_mint_modified": "external/MINT" in status, "git_status_short": status}
     payload["final_checks_passed"] = bool(payload["harness_preflight_passed"] and payload["py_compile_passed"] and payload["ruff_passed"] and payload["json_parse_passed"] and not payload["current_truth_modified"] and not payload["next_actions_modified"] and not payload["external_mint_modified"])
     write_json(run_dir / "stage9_final_checks.json", payload)
     return payload
@@ -858,7 +988,11 @@ def build_closeout(run_dir: Path, stage0: dict[str, Any], operator_map: dict[str
         "current_truth_modified": bool(checks.get("current_truth_modified", False)),
         "next_actions_modified": bool(checks.get("next_actions_modified", False)),
         "runtime_patch_applied": True,
-        "runtime_patch_files": ["scripts/mint/v11_g4_defect_histogram_dynamic_pull_pool_solver.py"],
+        "runtime_patch_files": [
+            "scripts/mint/v11_g4_defect_histogram_dynamic_pull_pool_solver.py",
+            "scripts/mint/v11_g4_bounded_teacher_pull_rollout_on_accessible_pool.py",
+            "scripts/mint/v11_g4_contact_mode_policy_repair_on_accessible_pool.py",
+        ],
         "committed": False,
         "pushed_to_origin": False,
         "remote_commit_hash": None,
@@ -876,7 +1010,7 @@ def post_push_verify(run_dir: Path) -> dict[str, Any]:
     local_head = run_git(["rev-parse", "HEAD"])
     remote_line = run_git(["ls-remote", "my-origin", f"refs/heads/{branch}"])
     remote_head = remote_line.split()[0] if remote_line else ""
-    paths = [SPEC_REL, "scripts/mint/v11_g4_defect_histogram_dynamic_pull_pool_solver.py", rel(run_dir / "final_closeout.json"), rel(run_dir / "candidate_admission_report.json"), rel(run_dir / "targeted_shard_results.json"), rel(run_dir / "stage9_final_checks.json"), rel(run_dir / "trace_hash_manifest.json"), "experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_defect_histogram_dynamic_pull_pool_solver.json", "experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_defect_histogram_dynamic_pull_pool_solver.json"]
+    paths = [SPEC_REL, "scripts/mint/v11_g4_defect_histogram_dynamic_pull_pool_solver.py", "scripts/mint/v11_g4_bounded_teacher_pull_rollout_on_accessible_pool.py", "scripts/mint/v11_g4_contact_mode_policy_repair_on_accessible_pool.py", rel(run_dir / "final_closeout.json"), rel(run_dir / "candidate_admission_report.json"), rel(run_dir / "targeted_shard_results.json"), rel(run_dir / "stage9_final_checks.json"), rel(run_dir / "trace_hash_manifest.json"), "experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_defect_histogram_dynamic_pull_pool_solver.json", "experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_defect_histogram_dynamic_pull_pool_solver.json"]
     checks = []
     for path in paths:
         exists = subprocess.run(["git", "cat-file", "-e", f"{remote_head}:{path}"], cwd=ROOT).returncode == 0 if remote_head and path else False

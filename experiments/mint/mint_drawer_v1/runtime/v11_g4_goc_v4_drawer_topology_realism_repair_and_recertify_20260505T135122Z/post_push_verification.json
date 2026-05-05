@@ -1,0 +1,53 @@
+{
+  "all_visible": true,
+  "checks": [
+    {
+      "origin_visible_at_head": true,
+      "path": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify.yaml"
+    },
+    {
+      "origin_visible_at_head": true,
+      "path": "scripts/mint/v11_g4_drawer_topology_realism_repair.py"
+    },
+    {
+      "origin_visible_at_head": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/final_closeout.json"
+    },
+    {
+      "origin_visible_at_head": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/topology_realistic_admission_report.json"
+    },
+    {
+      "origin_visible_at_head": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/targeted_topology_dynamic_shard_results.json"
+    },
+    {
+      "origin_visible_at_head": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/full30_topology_realistic_dynamic_pull_certification_report.json"
+    },
+    {
+      "origin_visible_at_head": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/strict_teacher_export_manifest.json"
+    },
+    {
+      "origin_visible_at_head": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/local_replay_handoff_manifest.json"
+    },
+    {
+      "origin_visible_at_head": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z/local_topology_visual_review_summary.json"
+    },
+    {
+      "origin_visible_at_head": true,
+      "path": "experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_drawer_topology_realism_repair.json"
+    },
+    {
+      "origin_visible_at_head": true,
+      "path": "experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_drawer_topology_realism_repair.json"
+    }
+  ],
+  "generated_at_utc": "2026-05-05T14:29:23Z",
+  "head": "fb777ac10c9d2299047b52291085200b95ce09d7",
+  "head_matches_origin": true,
+  "origin_branch_head": "fb777ac10c9d2299047b52291085200b95ce09d7"
+}

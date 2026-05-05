@@ -48,20 +48,20 @@ ORIGINAL_SELECT_TARGETED_CANDIDATES = dh.select_targeted_candidates
 ORIGINAL_SELECT_CERTIFICATION_CANDIDATES = dh.select_certification_candidates
 
 CURATED_TARGETED_IDS = [
-    "v2_short_stub_island_densify_05",
+    "v2_short_stub_island_densify_15",
     "v2_short_stub_island_densify_02",
     "v2_short_stub_island_densify_04",
     "v2_short_stub_island_densify_10",
-    "v2_short_stub_island_densify_11",
-    "v2_short_stub_island_densify_06",
-    "v2_short_stub_island_densify_08",
+    "v2_short_stub_island_densify_05",
+    "v2_short_stub_island_densify_16",
+    "v2_short_stub_island_densify_17",
 ]
 CURATED_FULL30_IDS = [
-    "v2_short_stub_island_densify_11",
     "v2_short_stub_island_densify_05",
     "v2_short_stub_island_densify_02",
     "v2_short_stub_island_densify_04",
     "v2_short_stub_island_densify_10",
+    "v2_short_stub_island_densify_15",
 ]
 
 
@@ -527,9 +527,12 @@ def generate_cycle_candidates_v2(cycle: int) -> list[dict[str, Any]]:
         ("repaired_layout", -0.650, -0.094, -0.178, -0.074, 0.402, -28, 0.024),
         ("generated_variant", -0.647, -0.091, -0.177, -0.071, 0.406, -27, 0.024),
         ("repaired_layout", -0.653, -0.089, -0.179, -0.069, 0.398, -25, 0.024),
+        ("generated_variant", -0.652, -0.091, -0.180, -0.071, 0.402, -26, 0.024),
+        ("generated_variant", -0.651, -0.092, -0.179, -0.072, 0.403, -27, 0.024),
+        ("repaired_layout", -0.649, -0.089, -0.177, -0.069, 0.402, -25, 0.024),
     ]
     out = []
-    keep_indices = {2, 4, 5, 6, 8, 10, 11}
+    keep_indices = {2, 4, 5, 10, 15, 16, 17}
     for i, (source, base_x, base_y, hx, hy, hz, yaw, radius) in enumerate(
         grid, start=1
     ):

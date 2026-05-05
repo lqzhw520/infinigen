@@ -10,7 +10,7 @@
   "candidate_pool_admitted_count": 7,
   "candidate_pool_total": 10,
   "closeout_classification": "TOPOLOGY_REALISTIC_TARGETED_SHARD_FAILED",
-  "committed": false,
+  "committed": true,
   "current_truth_modified": false,
   "dataset_admission_review_ready": false,
   "defect_histogram": {
@@ -25,6 +25,7 @@
   "drawer_box_tray_invariant_passed": true,
   "drawer_qpos_abs_mismatch_max": 0.0,
   "dynamic_pull_certification_passed": false,
+  "evidence_commit_hash": "af79aff50b9ab82e1f1d1cb800d8371ece627615",
   "failure_taxonomy": {
     "action_replay_defect": 0,
     "connector_defect": 0,
@@ -36,6 +37,7 @@
     "topology_defect": 0
   },
   "fast_guarded_forensic_certificate_written": true,
+  "final_closeout_commit_hash": "af79aff50b9ab82e1f1d1cb800d8371ece627615",
   "forbidden_contact_frame_count_max": 0,
   "full30_cases_failed": 0,
   "full30_cases_passed": 0,
@@ -58,8 +60,9 @@
   "prior_dataset_admission_blocked_by_topology_review": true,
   "prior_dynamic_pull_closeout_preserved": true,
   "production_lock_bound_to_spec": true,
-  "pushed_to_origin": false,
-  "remote_commit_hash": null,
+  "pushed_to_origin": true,
+  "remote_branch_head": "af79aff50b9ab82e1f1d1cb800d8371ece627615",
+  "remote_commit_hash": "af79aff50b9ab82e1f1d1cb800d8371ece627615",
   "robust_contact_dynamics_passed": false,
   "runtime_patch_applied": true,
   "runtime_patch_files": [

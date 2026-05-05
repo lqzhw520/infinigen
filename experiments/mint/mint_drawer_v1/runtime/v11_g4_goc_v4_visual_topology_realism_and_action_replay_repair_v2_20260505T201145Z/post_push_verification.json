@@ -1,0 +1,61 @@
+{
+  "all_visible": false,
+  "checks": [
+    {
+      "origin_visible_at_head": true,
+      "path": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_visual_topology_realism_and_action_replay_repair_v2.yaml"
+    },
+    {
+      "origin_visible_at_head": true,
+      "path": "scripts/mint/v11_g4_visual_topology_realism_and_action_replay_repair_v2.py"
+    },
+    {
+      "origin_visible_at_head": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_visual_topology_realism_and_action_replay_repair_v2_20260505T201145Z/final_closeout.json"
+    },
+    {
+      "origin_visible_at_head": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_visual_topology_realism_and_action_replay_repair_v2_20260505T201145Z/visual_topology_target_description.json"
+    },
+    {
+      "origin_visible_at_head": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_visual_topology_realism_and_action_replay_repair_v2_20260505T201145Z/current_pool_visual_topology_audit.json"
+    },
+    {
+      "origin_visible_at_head": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_visual_topology_realism_and_action_replay_repair_v2_20260505T201145Z/topology_realistic_admission_report.json"
+    },
+    {
+      "origin_visible_at_head": false,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_visual_topology_realism_and_action_replay_repair_v2_20260505T201145Z/targeted_visual_topology_action_replay_shard_results.json"
+    },
+    {
+      "origin_visible_at_head": false,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_visual_topology_realism_and_action_replay_repair_v2_20260505T201145Z/full30_visual_topology_dynamic_pull_certification_report.json"
+    },
+    {
+      "origin_visible_at_head": false,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_visual_topology_realism_and_action_replay_repair_v2_20260505T201145Z/strict_teacher_export_manifest.json"
+    },
+    {
+      "origin_visible_at_head": false,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_visual_topology_realism_and_action_replay_repair_v2_20260505T201145Z/local_replay_handoff_manifest.json"
+    },
+    {
+      "origin_visible_at_head": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_visual_topology_realism_and_action_replay_repair_v2_20260505T201145Z/dataset_admission_review_packet.md"
+    },
+    {
+      "origin_visible_at_head": true,
+      "path": "experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_visual_topology_realism_action_replay_v2.json"
+    },
+    {
+      "origin_visible_at_head": true,
+      "path": "experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_visual_topology_realism_action_replay_v2.json"
+    }
+  ],
+  "generated_at_utc": "2026-05-05T20:25:13Z",
+  "head": "af79aff50b9ab82e1f1d1cb800d8371ece627615",
+  "head_matches_origin": true,
+  "origin_branch_head": "af79aff50b9ab82e1f1d1cb800d8371ece627615"
+}

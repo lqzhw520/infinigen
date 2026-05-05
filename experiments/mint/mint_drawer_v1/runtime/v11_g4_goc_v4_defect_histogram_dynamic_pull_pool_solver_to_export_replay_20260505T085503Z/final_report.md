@@ -14,3 +14,6 @@
 - local_render_video_exists: `True`
 
 The old fixed accepted pool was not modified and was not used as strict export input.
+- committed: `True`
+- pushed_to_origin: `True`
+- remote_commit_hash: `c3139166d244d49eefbfd13aa5e66fbd4ee45acf`

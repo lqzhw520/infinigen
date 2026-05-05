@@ -1,0 +1,54 @@
+{
+  "all_paths_origin_visible": true,
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "generated_at_utc": "2026-05-05T09:33:33Z",
+  "local_head": "c3139166d244d49eefbfd13aa5e66fbd4ee45acf",
+  "origin_head_matches_local": true,
+  "path_checks": [
+    {
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay.yaml"
+    },
+    {
+      "origin_visible": true,
+      "path": "scripts/mint/v11_g4_defect_histogram_dynamic_pull_pool_solver.py"
+    },
+    {
+      "origin_visible": true,
+      "path": "scripts/mint/v11_g4_bounded_teacher_pull_rollout_on_accessible_pool.py"
+    },
+    {
+      "origin_visible": true,
+      "path": "scripts/mint/v11_g4_contact_mode_policy_repair_on_accessible_pool.py"
+    },
+    {
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/final_closeout.json"
+    },
+    {
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/candidate_admission_report.json"
+    },
+    {
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/targeted_shard_results.json"
+    },
+    {
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/stage9_final_checks.json"
+    },
+    {
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z/trace_hash_manifest.json"
+    },
+    {
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_defect_histogram_dynamic_pull_pool_solver.json"
+    },
+    {
+      "origin_visible": true,
+      "path": "experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_defect_histogram_dynamic_pull_pool_solver.json"
+    }
+  ],
+  "remote_head": "c3139166d244d49eefbfd13aa5e66fbd4ee45acf"
+}

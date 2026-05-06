@@ -262,7 +262,17 @@ def base_candidate_and_variant(prior: Path) -> tuple[dict[str, Any], dict[str, A
 def synthesize(base: dict[str, Any]) -> list[dict[str, Any]]:
     p0 = deepcopy(base.get("model_builder_parameters") or {})
     hx = float(p0.get("handle_x", -0.18)); hy = float(p0.get("handle_y", -0.067)); hz = float(p0.get("handle_z", 0.402)); radius = float(p0.get("handle_radius", 0.024))
-    specs = [("c00", .14, .012, .195, .145, .175), ("c01", .18, .012, .205, .150, .185), ("c02", .22, .014, .215, .155, .195), ("c03", .18, .010, .190, .145, .185), ("c04", .14, .014, .205, .150, .180), ("c05", .22, .012, .200, .148, .190)]
+    specs = [
+        ("c00", .14, .010, .060, .040, .165),
+        ("c01", .18, .010, .065, .043, .175),
+        ("c02", .22, .012, .070, .046, .185),
+        ("c03", .14, .012, .075, .050, .175),
+        ("c04", .18, .012, .080, .054, .185),
+        ("c05", .22, .014, .085, .058, .195),
+        ("c06", .14, .010, .055, .038, .160),
+        ("c07", .18, .010, .058, .040, .170),
+        ("c08", .22, .010, .062, .042, .180),
+    ]
     out = []
     for i, (name, stub_ratio, ft, dhw, thw, depth) in enumerate(specs):
         p = deepcopy(p0)

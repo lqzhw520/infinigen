@@ -327,10 +327,21 @@ def main():
         manifest = export_model(c, run_dir / "generated_instances"); c["model_manifest"] = manifest
         a = topology_oracle(ROOT / manifest["model_xml"], c); audits.append(a); manifest_rows.append({"candidate_id": c.get("candidate_id"), "model_manifest": manifest, "topology_audit": a}); append_jsonl(run_dir / "reference_aligned_topology_candidates.jsonl", {"candidate": c, "model_manifest": manifest, "topology_audit": a})
         if not a.get("topology_oracle_passed"): continue
-        if selected is None: selected, audit = c, a
-        row = run_fast(c, variant, run_dir, idx); append_jsonl(run_dir / "reference_aligned_fast_results.jsonl", row)
-        if v3.targeted_row_pass(row): selected, audit, fast = c, a, row; break
-        if fast is None or v3.row_drawer_fraction(row) > v3.row_drawer_fraction(fast): selected, audit, fast = c, a, row
+        # Recompute per-instance binding, handle frame, two-pad frame, and IK on the
+        # repaired topology. This preserves the controller algorithm while avoiding
+        # stale frame/cutout waypoints from the topology-invalid ancestor model.
+        physical = pool.evaluate_generated_candidate(c, run_dir)
+        physical["reference_aligned_topology_oracle"] = a
+        append_jsonl(run_dir / "reference_aligned_physical_accessibility_results.jsonl", physical)
+        if not physical.get("accepted"):
+            if selected is None:
+                selected, audit = physical, a
+            continue
+        physical["model_manifest"] = physical.get("model_manifest") or manifest
+        if selected is None: selected, audit = physical, a
+        row = run_fast(physical, variant, run_dir, idx); append_jsonl(run_dir / "reference_aligned_fast_results.jsonl", row)
+        if v3.targeted_row_pass(row): selected, audit, fast = physical, a, row; break
+        if fast is None or v3.row_drawer_fraction(row) > v3.row_drawer_fraction(fast): selected, audit, fast = physical, a, row
     write_json(run_dir / "reference_aligned_topology_candidate_manifest.json", {"generated_at_utc": utc_now(), "candidates": manifest_rows})
     write_json(run_dir / "reference_aligned_topology_oracle_report.json", {"generated_at_utc": utc_now(), "audits": audits, "topology_candidates_total": len(candidates), "topology_oracle_passed_count": sum(1 for a in audits if a.get("topology_oracle_passed")), "selected_candidate_id": selected.get("candidate_id") if selected else None, "selected_audit": audit})
     write_json(run_dir / "canonical_topology_render_manifest.json", {"generated_at_utc": utc_now(), "render_attempted": False, "reason": "remote XML/topology oracle stage only; claim-bearing local render follows strict export", "selected_model_xml": (audit or {}).get("model_xml")})

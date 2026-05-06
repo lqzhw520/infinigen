@@ -119,6 +119,9 @@ class ReferenceAlignedSolidFrontDrawerBuilder(ORIGINAL_BUILDER):
         cabinet_half_width = float(p.get("cabinet_half_width", max(0.245, tray_half_width + 0.095)))
         cabinet_half_height = float(p.get("cabinet_half_height", 0.285)); cabinet_x = float(p.get("cabinet_x", 0.175))
         damping = float(p.get("drawer_damping", 0.9)); axis = " ".join(str(float(x)) for x in p.get("pull_axis", [-1, 0, 0]))
+        drawer_density = float(p.get("drawer_density", 520.0))
+        drawer_friction = float(p.get("drawer_geom_friction", 0.9))
+        knob_friction = float(p.get("knob_friction", 1.6))
         tray_center_x = door_x + front_half_thickness + tray_depth / 2.0
         tray_back_x = door_x + front_half_thickness + tray_depth
         tray_bottom_z = cabinet_z - tray_wall_height; tray_side_z = cabinet_z - tray_wall_height / 2.0
@@ -138,16 +141,16 @@ class ReferenceAlignedSolidFrontDrawerBuilder(ORIGINAL_BUILDER):
   <geom name="cabinet_right_runner_collision" type="box" pos="{cabinet_x:.4f} {runner_y_right:.4f} {support_z:.4f}" size="{support_half_x:.4f} 0.009 0.012" contype="1" conaffinity="1" rgba="0.34 0.34 0.35 1"/>
   <body name="link_1" pos="0 0 0">
     <joint name="drawer_slider_0" type="slide" axis="{axis}" range="0 0.35" damping="{damping:.4f}"/>
-    <geom name="drawer_front_panel_collision" type="box" pos="{door_x:.4f} {cabinet_y:.4f} {cabinet_z:.4f}" size="{front_half_thickness:.4f} {door_half_width:.4f} {door_half_height:.4f}" contype="1" conaffinity="1" rgba="0.91 0.88 0.82 1"/>
-    <geom name="drawer_front_knob_boss_plate_collision" type="box" pos="{plate_x:.4f} {hy:.4f} {hz:.4f}" size="0.0035 {plate_y:.4f} {plate_z:.4f}" contype="1" conaffinity="1" rgba="0.80 0.76 0.69 1"/>
-    <geom name="drawer_tray_bottom_collision" type="box" pos="{tray_center_x:.4f} {cabinet_y:.4f} {tray_bottom_z:.4f}" size="{tray_depth / 2.0:.4f} {tray_half_width:.4f} {tray_wall:.4f}" contype="1" conaffinity="1" rgba="0.78 0.73 0.66 1"/>
-    <geom name="drawer_tray_left_side_collision" type="box" pos="{tray_center_x:.4f} {cabinet_y - tray_half_width:.4f} {tray_side_z:.4f}" size="{tray_depth / 2.0:.4f} {tray_wall:.4f} {tray_wall_height:.4f}" contype="1" conaffinity="1" rgba="0.78 0.73 0.66 1"/>
-    <geom name="drawer_tray_right_side_collision" type="box" pos="{tray_center_x:.4f} {cabinet_y + tray_half_width:.4f} {tray_side_z:.4f}" size="{tray_depth / 2.0:.4f} {tray_wall:.4f} {tray_wall_height:.4f}" contype="1" conaffinity="1" rgba="0.78 0.73 0.66 1"/>
-    <geom name="drawer_tray_back_collision" type="box" pos="{tray_back_x:.4f} {cabinet_y:.4f} {tray_side_z:.4f}" size="{tray_wall:.4f} {tray_half_width:.4f} {tray_wall_height:.4f}" contype="1" conaffinity="1" rgba="0.78 0.73 0.66 1"/>
-    <geom name="drawer_left_guide_strip_collision" type="box" pos="{tray_center_x:.4f} {runner_y_left + 0.010:.4f} {support_z:.4f}" size="{tray_depth / 2.0:.4f} 0.006 0.008" contype="1" conaffinity="1" rgba="0.40 0.40 0.41 1"/>
-    <geom name="drawer_right_guide_strip_collision" type="box" pos="{tray_center_x:.4f} {runner_y_right - 0.010:.4f} {support_z:.4f}" size="{tray_depth / 2.0:.4f} 0.006 0.008" contype="1" conaffinity="1" rgba="0.40 0.40 0.41 1"/>
-    <geom name="drawer_connector_short_boss_collision" type="capsule" fromto="{stem_start_x:.4f} {hy:.4f} {hz:.4f} {stem_end_x:.4f} {hy:.4f} {hz:.4f}" size="{stub_radius:.4f}" contype="1" conaffinity="1" rgba="0.20 0.20 0.22 1"/>
-    <geom name="drawer_handle_collision_0" type="sphere" pos="{hx:.4f} {hy:.4f} {hz:.4f}" size="{radius:.4f}" contype="1" conaffinity="1" rgba="0.92 0.90 0.86 1"/>
+    <geom name="drawer_front_panel_collision" type="box" pos="{door_x:.4f} {cabinet_y:.4f} {cabinet_z:.4f}" size="{front_half_thickness:.4f} {door_half_width:.4f} {door_half_height:.4f}" contype="1" conaffinity="1" density="{drawer_density:.4f}" friction="{drawer_friction:.4f} 0.005 0.0001" rgba="0.91 0.88 0.82 1"/>
+    <geom name="drawer_front_knob_boss_plate_collision" type="box" pos="{plate_x:.4f} {hy:.4f} {hz:.4f}" size="0.0035 {plate_y:.4f} {plate_z:.4f}" contype="1" conaffinity="1" density="{drawer_density:.4f}" friction="{drawer_friction:.4f} 0.005 0.0001" rgba="0.80 0.76 0.69 1"/>
+    <geom name="drawer_tray_bottom_collision" type="box" pos="{tray_center_x:.4f} {cabinet_y:.4f} {tray_bottom_z:.4f}" size="{tray_depth / 2.0:.4f} {tray_half_width:.4f} {tray_wall:.4f}" contype="1" conaffinity="1" density="{drawer_density:.4f}" friction="{drawer_friction:.4f} 0.005 0.0001" rgba="0.78 0.73 0.66 1"/>
+    <geom name="drawer_tray_left_side_collision" type="box" pos="{tray_center_x:.4f} {cabinet_y - tray_half_width:.4f} {tray_side_z:.4f}" size="{tray_depth / 2.0:.4f} {tray_wall:.4f} {tray_wall_height:.4f}" contype="1" conaffinity="1" density="{drawer_density:.4f}" friction="{drawer_friction:.4f} 0.005 0.0001" rgba="0.78 0.73 0.66 1"/>
+    <geom name="drawer_tray_right_side_collision" type="box" pos="{tray_center_x:.4f} {cabinet_y + tray_half_width:.4f} {tray_side_z:.4f}" size="{tray_depth / 2.0:.4f} {tray_wall:.4f} {tray_wall_height:.4f}" contype="1" conaffinity="1" density="{drawer_density:.4f}" friction="{drawer_friction:.4f} 0.005 0.0001" rgba="0.78 0.73 0.66 1"/>
+    <geom name="drawer_tray_back_collision" type="box" pos="{tray_back_x:.4f} {cabinet_y:.4f} {tray_side_z:.4f}" size="{tray_wall:.4f} {tray_half_width:.4f} {tray_wall_height:.4f}" contype="1" conaffinity="1" density="{drawer_density:.4f}" friction="{drawer_friction:.4f} 0.005 0.0001" rgba="0.78 0.73 0.66 1"/>
+    <geom name="drawer_left_guide_strip_collision" type="box" pos="{tray_center_x:.4f} {runner_y_left + 0.010:.4f} {support_z:.4f}" size="{tray_depth / 2.0:.4f} 0.006 0.008" contype="1" conaffinity="1" density="{drawer_density:.4f}" friction="{drawer_friction:.4f} 0.005 0.0001" rgba="0.40 0.40 0.41 1"/>
+    <geom name="drawer_right_guide_strip_collision" type="box" pos="{tray_center_x:.4f} {runner_y_right - 0.010:.4f} {support_z:.4f}" size="{tray_depth / 2.0:.4f} 0.006 0.008" contype="1" conaffinity="1" density="{drawer_density:.4f}" friction="{drawer_friction:.4f} 0.005 0.0001" rgba="0.40 0.40 0.41 1"/>
+    <geom name="drawer_connector_short_boss_collision" type="capsule" fromto="{stem_start_x:.4f} {hy:.4f} {hz:.4f} {stem_end_x:.4f} {hy:.4f} {hz:.4f}" size="{stub_radius:.4f}" contype="1" conaffinity="1" density="{drawer_density:.4f}" friction="{knob_friction:.4f} 0.005 0.0001" rgba="0.20 0.20 0.22 1"/>
+    <geom name="drawer_handle_collision_0" type="sphere" pos="{hx:.4f} {hy:.4f} {hz:.4f}" size="{radius:.4f}" contype="1" conaffinity="1" density="{drawer_density:.4f}" friction="{knob_friction:.4f} 0.005 0.0001" rgba="0.92 0.90 0.86 1"/>
   </body>
 </body>'''
 
@@ -365,6 +368,22 @@ def synthesize(base: dict[str, Any]) -> list[dict[str, Any]]:
         ("c30", .30, .005, .034, .020, .150),
         ("c31", .30, .006, .038, .022, .155),
         ("c32", .30, .006, .038, .022, .155),
+        ("c33", .20, .004, .030, .018, .145),
+        ("c34", .18, .004, .030, .018, .145),
+        ("c35", .20, .005, .034, .020, .150),
+        ("c36", .18, .006, .038, .022, .155),
+        ("c37", .20, .006, .080, .060, .170),
+        ("c38", .18, .006, .080, .060, .170),
+        ("c39", .20, .008, .120, .090, .180),
+        ("c40", .18, .008, .120, .090, .180),
+        ("c41", .20, .006, .060, .040, .165),
+        ("c42", .18, .006, .060, .040, .165),
+        ("c43", .20, .007, .100, .075, .175),
+        ("c44", .18, .007, .100, .075, .175),
+        ("c45", .20, .006, .070, .050, .170),
+        ("c46", .18, .006, .070, .050, .170),
+        ("c47", .20, .008, .140, .105, .185),
+        ("c48", .18, .008, .140, .105, .185),
     ]
     out = []
     for i, (name, stub_ratio, ft, dhw, thw, depth) in enumerate(specs):
@@ -384,6 +403,26 @@ def synthesize(base: dict[str, Any]) -> list[dict[str, Any]]:
             "c31": ([-0.720, -0.120, 0.025], -28),
             "c32": ([-0.680, -0.210, 0.025], -48),
         }
+        topology_overrides = {
+            "c33": {"robot_base_pos": [-0.700, -0.020, 0.025], "robot_yaw_deg": -16, "drawer_damping": 0.12, "drawer_density": 360.0, "drawer_geom_friction": 0.55, "knob_friction": 1.9, "handle_radius": 0.028, "stub_length": 0.0112, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c34": {"robot_base_pos": [-0.700, -0.020, 0.025], "robot_yaw_deg": -16, "drawer_damping": 0.04, "drawer_density": 320.0, "drawer_geom_friction": 0.45, "knob_friction": 2.1, "handle_radius": 0.028, "stub_length": 0.0101, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c35": {"robot_base_pos": [-0.600, -0.130, 0.025], "robot_yaw_deg": -32, "drawer_damping": 0.10, "drawer_density": 360.0, "drawer_geom_friction": 0.55, "knob_friction": 1.9, "handle_radius": 0.028, "stub_length": 0.0112, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c36": {"robot_base_pos": [-0.680, -0.210, 0.025], "robot_yaw_deg": -48, "drawer_damping": 0.06, "drawer_density": 340.0, "drawer_geom_friction": 0.50, "knob_friction": 2.0, "handle_radius": 0.028, "stub_length": 0.0101, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c37": {"robot_base_pos": [-0.700, -0.020, 0.025], "robot_yaw_deg": -16, "drawer_damping": 0.08, "drawer_density": 300.0, "drawer_geom_friction": 0.45, "knob_friction": 2.0, "handle_radius": 0.028, "stub_length": 0.0112, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c38": {"robot_base_pos": [-0.600, -0.130, 0.025], "robot_yaw_deg": -32, "drawer_damping": 0.08, "drawer_density": 300.0, "drawer_geom_friction": 0.45, "knob_friction": 2.0, "handle_radius": 0.028, "stub_length": 0.0101, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c39": {"robot_base_pos": [-0.700, -0.020, 0.025], "robot_yaw_deg": -16, "drawer_damping": 0.05, "drawer_density": 280.0, "drawer_geom_friction": 0.40, "knob_friction": 2.2, "handle_radius": 0.030, "stub_length": 0.0120, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c40": {"robot_base_pos": [-0.680, -0.210, 0.025], "robot_yaw_deg": -48, "drawer_damping": 0.05, "drawer_density": 280.0, "drawer_geom_friction": 0.40, "knob_friction": 2.2, "handle_radius": 0.030, "stub_length": 0.0108, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c41": {"robot_base_pos": [-0.640, -0.180, 0.025], "robot_yaw_deg": -42, "drawer_damping": 0.08, "drawer_density": 330.0, "drawer_geom_friction": 0.50, "knob_friction": 2.0, "handle_radius": 0.028, "stub_length": 0.0112, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c42": {"robot_base_pos": [-0.720, -0.120, 0.025], "robot_yaw_deg": -28, "drawer_damping": 0.08, "drawer_density": 330.0, "drawer_geom_friction": 0.50, "knob_friction": 2.0, "handle_radius": 0.028, "stub_length": 0.0101, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c43": {"robot_base_pos": [-0.700, -0.020, 0.025], "robot_yaw_deg": -16, "drawer_damping": 0.06, "drawer_density": 300.0, "drawer_geom_friction": 0.45, "knob_friction": 2.1, "handle_radius": 0.030, "stub_length": 0.0120, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c44": {"robot_base_pos": [-0.600, -0.130, 0.025], "robot_yaw_deg": -32, "drawer_damping": 0.06, "drawer_density": 300.0, "drawer_geom_friction": 0.45, "knob_friction": 2.1, "handle_radius": 0.030, "stub_length": 0.0108, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c45": {"robot_base_pos": [-0.690, -0.060, 0.025], "robot_yaw_deg": -22, "drawer_damping": 0.05, "drawer_density": 300.0, "drawer_geom_friction": 0.45, "knob_friction": 2.2, "handle_radius": 0.030, "stub_length": 0.0120, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c46": {"robot_base_pos": [-0.660, -0.160, 0.025], "robot_yaw_deg": -38, "drawer_damping": 0.05, "drawer_density": 300.0, "drawer_geom_friction": 0.45, "knob_friction": 2.2, "handle_radius": 0.030, "stub_length": 0.0108, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c47": {"robot_base_pos": [-0.700, -0.020, 0.025], "robot_yaw_deg": -16, "drawer_damping": 0.04, "drawer_density": 260.0, "drawer_geom_friction": 0.40, "knob_friction": 2.3, "handle_radius": 0.030, "stub_length": 0.0120, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c48": {"robot_base_pos": [-0.600, -0.130, 0.025], "robot_yaw_deg": -32, "drawer_damping": 0.04, "drawer_density": 260.0, "drawer_geom_friction": 0.40, "knob_friction": 2.3, "handle_radius": 0.030, "stub_length": 0.0108, "layout_micro_adjustment_for_solid_front_clearance": True},
+        }
+        if name in topology_overrides:
+            p.update(topology_overrides[name])
         if name in layout_overrides:
             base_pos, yaw = layout_overrides[name]
             p["robot_base_pos"] = base_pos

@@ -1,0 +1,207 @@
+task_id: V11_G4_REFERENCE_ALIGNED_DRAWER_TOPOLOGY_SYNTHESIS_CONTROLLER_PRESERVING_RECERTIFICATION_V1
+task_type: autonomous_science_repair_and_recertification
+task_version: 1
+target_gate: REFERENCE_ALIGNED_TOPOLOGY_LOCKED_ROUND_KNOB_CONTROLLER_RECERTIFIED_READY_FOR_MANUAL_REVIEW
+phase: reference_aligned_drawer_topology_synthesis_controller_preserving_recertification
+
+claim_boundary:
+  previous_controller_success_preserved_as_algorithmic_baseline: true
+  previous_topology_invalid_visual_replay_not_dataset_admissible: true
+  this_phase_first_repairs_topology_without_controller_algorithm_change: true
+  controller_recertification_requires_reference_aligned_topology_lock: true
+  dataset_admission_not_claimed_without_manual_visual_review: true
+
+authority:
+  repo: /mnt/afs2/zhuhaowu/infinigen
+  branch: feature/mint-env-reformulation-v1-visual-fidelity
+  campaign_root: experiments/mint/mint_drawer_v1
+  local_playground_root: /Users/zhuhaowu/Documents/Playground
+  reference_visuals:
+    - /Users/zhuhaowu/Downloads/knob-handler.png
+    - /Users/zhuhaowu/Downloads/ChatGPT Image 2026年5月5日 23_07_48 (2).png
+  prior_controller_success_run: experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_keepout_v3_continuation_targeted_progress_repair_20260506T123821Z
+
+hard_manual_review_findings:
+  rejected_latest_replay_closeout: STATE_REPLAY_RENDER_READY_ACTION_ONLY_REPAIR_REQUIRED
+  downgrade_classification: STATE_REPLAY_METRICS_PASS_BUT_VISUAL_TOPOLOGY_REVIEW_FAILED
+  topology_defects:
+    - drawer_front_frame_like_or_hollow
+    - moving_body_not_complete_drawer_box_or_tray
+    - knob_attached_to_invalid_frame_like_front
+    - support_or_guide_semantics_not_visually_acceptable
+  rejected_prior_baseline_candidate: dh_c1_admitted_island_densify_25
+  rejected_prior_baseline_reasons:
+    - knob_connector_too_long_not_nearly_flush
+    - front_not_single_solid_drawer_front_panel
+    - open_drawer_tray_not_reference_aligned
+    - support_semantics_not_sufficiently_approved
+
+reference_aligned_topology_contract:
+  solid_drawer_front_panel:
+    required: true
+    single_solid_front_geom_required: true
+    frame_only_front_rejected: true
+    segmented_edge_frame_rejected: true
+  short_stub_spherical_knob:
+    required: true
+    knob_kind: spherical
+    boss_or_stub_required: true
+    stub_length_max_ratio_of_knob_diameter: 0.35
+    preferred_stub_length_ratio_range: [0.10, 0.25]
+    nearly_flush_to_front_required: true
+    long_rod_rejected: true
+  moving_drawer_box_tray:
+    required: true
+    required_moving_parts:
+      - front_panel
+      - left_side_wall
+      - right_side_wall
+      - bottom_panel
+      - back_panel
+    open_top_allowed: true
+    front_only_or_frame_only_body_rejected: true
+  support_guide_semantics:
+    required: true
+    visible_support_or_guide_geometry_required: true
+    invisible_support_only_rejected: true
+  visual_physical_consistency:
+    required: true
+    topology_oracle_must_parse_model_xml: true
+    claim_render_must_show_reference_semantics: true
+
+controller_preservation:
+  preserve_round_knob_exact_latch_pull_controller_algorithm: true
+  allowed_controller_action: migrate_existing_successful_controller_to_repaired_topology
+  forbidden_controller_actions:
+    - change_controller_algorithm
+    - lower_thresholds
+    - direct_qpos_open_drawer
+    - drawer_motor_command
+    - accept_forbidden_contact
+    - use_geometric_proxy_as_success
+    - count_broad_shell_link_wrist_arm_or_finger_shell_as_target
+  required_recertification:
+    - fast_guarded_contact
+    - targeted_7_of_7
+    - full30
+    - strict_export
+    - local_state_replay_render
+    - action_only_spot_check
+
+allowed_files:
+  helpers:
+    - scripts/mint/v11_g4_reference_aligned_drawer_topology_synthesis_controller_preserving_recertification.py
+  existing_controller_sources_read_or_runtime_reuse_only:
+    - scripts/mint/v11_g4_exact_latch_pull_wrench_keepout_trajectory_optimization.py
+    - scripts/mint/v11_g4_round_knob_exact_contact_patch_latch_pull_synthesis.py
+    - scripts/mint/v11_g4_round_knob_grasp_latch_pull_controller.py
+    - scripts/mint/v11_g4_handle_affordance_strategy_registry.py
+    - scripts/mint/v11_g4_visual_topology_realism_and_action_replay_repair_v2.py
+    - scripts/mint/v11_g4_fast_guarded_contact_topology_realistic_codesign_repair.py
+  sovereign_outputs:
+    - experiments/mint/mint_drawer_v1/sovereign/approved_drawer_topology_lock.json
+    - experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_reference_aligned_topology.json
+    - experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_reference_aligned_topology.json
+  harness:
+    - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json
+    - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_attestation.json
+  runtime: experiments/mint/mint_drawer_v1/runtime/v11_g4_reference_aligned_drawer_topology_synthesis_controller_preserving_recertification_*/
+
+forbidden_files:
+  - experiments/mint/mint_drawer_v1/sovereign/current_truth.json
+  - experiments/mint/mint_drawer_v1/sovereign/next_actions.json
+  - external/MINT
+
+stages:
+  - id: stage_minus_1_governance
+    requires:
+      - task_spec_committed_and_pushed_first
+      - production_lock_bound_to_this_spec
+      - post_push_attestation
+      - no_bypass_preflight_passed
+  - id: stage_0_ingest_manual_visual_review
+    outputs:
+      - stage0_manual_visual_review_ingestion.json
+      - stage0_manual_visual_review_report.md
+  - id: stage_1_reference_topology_synthesis
+    objective: synthesize candidate topology matching the reference visual contract while preserving knob affordance and controller-relevant handle frame
+    outputs:
+      - reference_aligned_topology_candidates.jsonl
+      - reference_aligned_topology_candidate_manifest.json
+  - id: stage_2_topology_oracle_and_render_gate
+    pass_requires:
+      - solid_drawer_front_panel
+      - short_stub_spherical_knob_nearly_flush
+      - complete_moving_drawer_box_tray
+      - visible_support_guide_semantics
+      - no_frame_only_front
+      - no_long_rod_connector
+    outputs:
+      - reference_aligned_topology_oracle_report.json
+      - canonical_topology_render_manifest.json
+      - visual_topology_review_packet.md
+  - id: stage_3_topology_lock
+    outputs:
+      - experiments/mint/mint_drawer_v1/sovereign/approved_drawer_topology_lock.json
+    notes:
+      - manual_visual_review_passed_must_remain_false_until_human_review
+      - machine_reference_contract_passed_may_gate_controller_recertification
+  - id: stage_4_controller_preserving_fast_recertification
+    pass_requires:
+      - fast_guarded_contact_passed
+      - exact_pad_group_bilateral_contact
+      - forbidden_zero
+      - handle_nonlegal_zero
+      - max_penetration_le_0p02
+  - id: stage_5_targeted_7_of_7
+    enter_only_if: stage_4_passed
+  - id: stage_6_full30
+    enter_only_if: targeted_7_of_7_passed
+  - id: stage_7_strict_export
+    enter_only_if: full30_passed
+  - id: stage_8_local_state_replay_render
+    enter_only_if: strict_export_complete
+  - id: stage_9_action_only_spot_check
+    enter_only_if: local_state_replay_render_passed
+  - id: stage_10_final_checks_commit_push
+
+success_closeout: REFERENCE_ALIGNED_TOPOLOGY_ROUND_KNOB_CONTROLLER_STRICT_REPLAY_READY_FOR_MANUAL_REVIEW
+non_success_closeouts:
+  - HARNESS_PREFLIGHT_FAILED
+  - TASK_SPEC_LOCK_BINDING_FAILED
+  - REFERENCE_ALIGNED_TOPOLOGY_SYNTHESIS_FAILED
+  - REFERENCE_ALIGNED_TOPOLOGY_ORACLE_FAILED
+  - TOPOLOGY_LOCK_NOT_READY
+  - CONTROLLER_PRESERVING_FAST_RECERTIFICATION_FAILED
+  - TARGETED_FAILED_ON_REFERENCE_ALIGNED_TOPOLOGY
+  - FULL30_FAILED_ON_REFERENCE_ALIGNED_TOPOLOGY
+  - STRICT_EXPORT_FAILED_ON_REFERENCE_ALIGNED_TOPOLOGY
+  - LOCAL_REPLAY_RENDER_FAILED_ON_REFERENCE_ALIGNED_TOPOLOGY
+  - ACTION_ONLY_SPOT_CHECK_FAILED_ON_REFERENCE_ALIGNED_TOPOLOGY
+  - TIME_BUDGET_EXHAUSTED
+
+final_output_fields:
+  - closeout_classification
+  - topology_repair_first
+  - controller_algorithm_modified
+  - solid_drawer_front_panel_passed
+  - short_stub_spherical_knob_passed
+  - complete_moving_drawer_box_tray_passed
+  - support_guide_semantics_passed
+  - topology_lock_written
+  - topology_lock_manual_visual_review_passed
+  - fast_guarded_contact_passed
+  - targeted_shard_passed
+  - targeted_cases_passed
+  - targeted_cases_total
+  - full30_passed
+  - strict_export_complete
+  - local_state_replay_passed
+  - visual_review_packet_written
+  - action_only_spot_check_passed
+  - current_truth_modified
+  - next_actions_modified
+  - committed
+  - pushed_to_origin
+  - remote_commit_hash
+  - next_gate

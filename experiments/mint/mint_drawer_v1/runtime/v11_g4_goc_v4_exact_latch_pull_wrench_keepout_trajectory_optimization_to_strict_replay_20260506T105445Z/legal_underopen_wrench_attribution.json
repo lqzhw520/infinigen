@@ -1,0 +1,33 @@
+{
+  "bilateral_exact_pull_frames": 3989,
+  "classifications": [
+    "PULL_AXIS_WORK_TOO_SMALL",
+    "NULLSPACE_KEEP_OUT_SUPPRESSES_PULL_WORK"
+  ],
+  "drawer_fraction": 0.4782998612270174,
+  "generated_at_utc": "2026-05-06T11:08:33Z",
+  "gripper_closure_aperture_or_press_proxy": 0.0024,
+  "latch_frames": 7330,
+  "left_group_exact_contact_frames": 4536,
+  "modes": {
+    "bounded_teacher_pull": 6600,
+    "contact_hold": 730,
+    "contact_seat": 185,
+    "free_space_pregrasp": 96,
+    "guarded_approach": 96
+  },
+  "primary_classification": "PULL_AXIS_WORK_TOO_SMALL",
+  "pull_axis_commanded_distance_proxy_m": 0.35,
+  "pull_axis_wrist_velocity_proxy_m_per_step": 0.000105,
+  "pull_frames": 6600,
+  "qpos_delta_observed": 0.16149339556044154,
+  "qpos_delta_span": 0.16749220442880866,
+  "qpos_end": 0.16149339556044154,
+  "qpos_start": 0.0,
+  "right_group_exact_contact_frames": 4738,
+  "source_candidate_id": "fg_cycle2_05_d1p6_04_padpatch_09_enlarged_inner_pad_no_margin",
+  "source_trace": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_920037_patch_locked_pull_reseat_like_semiclose__fg_cycle2_05_d1p6_04_padpatch_09_enlarged_inner_pad_no_margin__fast_guarded_contact.jsonl",
+  "source_variant_name": "patch_locked_pull_reseat_like_semiclose",
+  "target_contact_force_max_proxy_n": 34.98956590413965,
+  "target_contact_force_mean_proxy_n": 7.473354221304865
+}

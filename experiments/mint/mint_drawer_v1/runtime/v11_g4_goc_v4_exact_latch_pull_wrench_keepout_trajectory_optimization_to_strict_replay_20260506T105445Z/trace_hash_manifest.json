@@ -1,0 +1,51 @@
+{
+  "generated_at_utc": "2026-05-06T11:10:50Z",
+  "trace_count": 9,
+  "traces": [
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_wrench_keepout_trajectory_optimization_to_strict_replay_20260506T105445Z/traces/variant_940000_v3_pull_trajectory_shaping_c00_s00_v3_anchor_best_opening_forbidden_row__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00__fast_guarded_contact.jsonl",
+      "sha256": "7213628f0ca7820cd259596426c9201fdccdaa3bf85899c07d391fe9b9a60a34",
+      "size_bytes": 10542086
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_wrench_keepout_trajectory_optimization_to_strict_replay_20260506T105445Z/traces/variant_950000_v3_pull_trajectory_shaping_c00_s00_v3_anchor_best_opening_forbidden_row__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00__nominal.jsonl",
+      "sha256": "054501770387328e848d9379006d3cb39962ea333f6b335cade7c5a291a278ff",
+      "size_bytes": 11322719
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_wrench_keepout_trajectory_optimization_to_strict_replay_20260506T105445Z/traces/variant_950001_v3_pull_trajectory_shaping_c00_s00_v3_anchor_best_opening_forbidden_row__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00__qpos_small_plus.jsonl",
+      "sha256": "39d2c8e17f87664cf99d8c59b3459c913b18c7163227f0712eeca4e8fe861c9a",
+      "size_bytes": 11323796
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_wrench_keepout_trajectory_optimization_to_strict_replay_20260506T105445Z/traces/variant_950001_v3_pull_trajectory_shaping_c00_s00_v3_anchor_best_opening_forbidden_row__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00__slow_guarded_contact.jsonl",
+      "sha256": "e52f89ce1181135c9f9704358ef771dc7696c5ab6f084468010bdf67c556a9ea",
+      "size_bytes": 12437500
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_wrench_keepout_trajectory_optimization_to_strict_replay_20260506T105445Z/traces/variant_950002_v3_pull_trajectory_shaping_c00_s00_v3_anchor_best_opening_forbidden_row__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00__qpos_small_minus.jsonl",
+      "sha256": "22286f75bbf1835d72803ffb121249329420ad9f2f2d349a97bb4214e156bf88",
+      "size_bytes": 11311132
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_wrench_keepout_trajectory_optimization_to_strict_replay_20260506T105445Z/traces/variant_950003_v3_pull_trajectory_shaping_c00_s00_v3_anchor_best_opening_forbidden_row__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00__slow_guarded_contact.jsonl",
+      "sha256": "e52f89ce1181135c9f9704358ef771dc7696c5ab6f084468010bdf67c556a9ea",
+      "size_bytes": 12437500
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_wrench_keepout_trajectory_optimization_to_strict_replay_20260506T105445Z/traces/variant_950004_v3_pull_trajectory_shaping_c00_s00_v3_anchor_best_opening_forbidden_row__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00__fast_guarded_contact.jsonl",
+      "sha256": "7213628f0ca7820cd259596426c9201fdccdaa3bf85899c07d391fe9b9a60a34",
+      "size_bytes": 10542086
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_wrench_keepout_trajectory_optimization_to_strict_replay_20260506T105445Z/traces/variant_950005_v3_pull_trajectory_shaping_c00_s00_v3_anchor_best_opening_forbidden_row__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00__late_close.jsonl",
+      "sha256": "2b4edb854c1c65c7823f0c5f678ba6bb9528d15a1d5f1d54d9f5de591d3278f1",
+      "size_bytes": 11849462
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_wrench_keepout_trajectory_optimization_to_strict_replay_20260506T105445Z/traces/variant_950006_v3_pull_trajectory_shaping_c00_s00_v3_anchor_best_opening_forbidden_row__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00__fast_guarded_contact.jsonl",
+      "sha256": "7213628f0ca7820cd259596426c9201fdccdaa3bf85899c07d391fe9b9a60a34",
+      "size_bytes": 10542086
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "previous_run": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z",
+  "run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_wrench_keepout_trajectory_optimization_to_strict_replay_20260506T105445Z",
+  "spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_exact_latch_pull_wrench_keepout_trajectory_optimization_to_strict_replay.yaml",
+  "task_id": "V11_G4_GOC_V4_EXACT_LATCH_PULL_WRENCH_KEEP_OUT_TRAJECTORY_OPTIMIZATION_TO_STRICT_REPLAY_V3"
+}

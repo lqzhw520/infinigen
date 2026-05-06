@@ -1,0 +1,10 @@
+{
+  "dataset_admission_review_ready": false,
+  "do_not_apply_without_manual_review": true,
+  "generated_at_utc": "2026-05-06T11:10:53Z",
+  "mint_train_eval_remains_blocked_unless_manual_review_approves": true,
+  "new_closeout_classification": "TARGETED_FAILED_AFTER_FAST_PASS",
+  "previous_exact_latch_pull_underopened_closeout_not_final_failure": true,
+  "previous_physics_replay_success_preserved": true,
+  "proposal_id": "proposed_current_truth_delta_exact_latch_pull_wrench_keepout_trajectory_optimization"
+}

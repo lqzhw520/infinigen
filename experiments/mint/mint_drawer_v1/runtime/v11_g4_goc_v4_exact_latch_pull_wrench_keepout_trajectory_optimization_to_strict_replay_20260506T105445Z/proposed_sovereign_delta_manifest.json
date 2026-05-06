@@ -1,0 +1,4 @@
+{
+  "current_truth_delta": "experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_exact_latch_pull_wrench_keepout_trajectory_optimization.json",
+  "next_actions_delta": "experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_exact_latch_pull_wrench_keepout_trajectory_optimization.json"
+}

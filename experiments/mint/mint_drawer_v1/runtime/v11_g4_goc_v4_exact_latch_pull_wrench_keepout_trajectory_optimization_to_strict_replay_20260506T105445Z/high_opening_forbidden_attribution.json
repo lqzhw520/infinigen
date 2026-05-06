@@ -1,0 +1,37 @@
+{
+  "bilateral_exact_frames": 1527,
+  "classification_histogram": {
+    "BAD_APPROACH_ORIENTATION": 502,
+    "FINGER_SHELL_KEEP_OUT_VIOLATION": 502
+  },
+  "classifications": [
+    "FINGER_SHELL_KEEP_OUT_VIOLATION",
+    "BAD_APPROACH_ORIENTATION"
+  ],
+  "drawer_fraction": 1.0,
+  "forbidden_contact_frames": 502,
+  "forbidden_contact_pairs_by_geom": {
+    "drawer_handle_collision_0<->hand_collision": 502
+  },
+  "forbidden_frames_by_controller_phase": {
+    "bounded_teacher_pull": 502
+  },
+  "forbidden_frames_by_drawer_qpos_interval": {
+    "0.80-1.00": 502
+  },
+  "forbidden_phase_relation": "during_or_after_drawer_opening",
+  "generated_at_utc": "2026-05-06T11:08:33Z",
+  "max_forbidden_force_n": 66.08242779661676,
+  "max_forbidden_penetration_m": 0.0003170986357462838,
+  "primary_classification": "FINGER_SHELL_KEEP_OUT_VIOLATION",
+  "robot_link_body_responsible_histogram": {
+    "FINGER_SHELL_KEEP_OUT_VIOLATION": 502
+  },
+  "scene_geom_responsible_histogram": {
+    "BAD_APPROACH_ORIENTATION": 502
+  },
+  "source_candidate_id": "fg_cycle2_05_d0p9_02_padpatch_02_enlarged_inner_pad_margin_1m",
+  "source_trace": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_920016_pc02_micro_lead_high_damping_semi_close__fg_cycle2_05_d0p9_02_padpatch_02_enlarged_inner_pad_margin_1m__fast_guarded_contact.jsonl",
+  "source_variant_name": "pc02_micro_lead_high_damping_semi_close",
+  "trace_frames": 6707
+}

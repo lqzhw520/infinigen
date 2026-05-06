@@ -1,0 +1,60 @@
+{
+  "algorithm": "anchor_conditioned_coordinate_search_with_hard_keepout_rejection",
+  "anchor_a_high_opening_forbidden": {
+    "candidate_id": "fg_cycle2_05_d0p9_02_padpatch_02_enlarged_inner_pad_margin_1m",
+    "drawer_fraction": 1.0,
+    "forbidden_frames": 502,
+    "variant_name": "pc02_micro_lead_high_damping_semi_close"
+  },
+  "anchor_b_legal_underopen": {
+    "candidate_id": "fg_cycle2_05_d1p6_04_padpatch_09_enlarged_inner_pad_no_margin",
+    "drawer_fraction": 0.4782998612270174,
+    "forbidden_frames": 0,
+    "variant_name": "patch_locked_pull_reseat_like_semiclose"
+  },
+  "contact_latch_variables": [
+    "gripper_aperture_target_proxy",
+    "closure_force_pd",
+    "closure_relaxation_during_pull",
+    "pad_group_contact_margin",
+    "pad_group_friction",
+    "condim",
+    "solref_solimp"
+  ],
+  "drawer_dynamics_variables": [
+    "drawer_damping",
+    "rail_friction_policy_proxy"
+  ],
+  "generated_at_utc": "2026-05-06T11:08:33Z",
+  "hard_constraints": [
+    "topology_realism_preserved",
+    "left_and_right_exact_pad_group_contact",
+    "forbidden_contact_frames == 0",
+    "handle_nonlegal_contact_frames == 0",
+    "max_penetration_m <= 0.02",
+    "no_direct_qpos",
+    "no_drawer_motor",
+    "geometric_proxy_not_success"
+  ],
+  "micro_structure_variables": [
+    "rail_clearance",
+    "front_clearance",
+    "knob_y_micro_offset",
+    "knob_z_micro_offset"
+  ],
+  "nullspace_keepout_variables": [
+    "null_gain",
+    "keepout_weight_proxy",
+    "hand_cabinet_clearance_weight_proxy",
+    "link5_link6_link7_avoidance_proxy"
+  ],
+  "trajectory_variables": [
+    "pull_path_waypoint_count",
+    "pull_path_curvature_or_yz_offset",
+    "pull_axis_velocity_schedule",
+    "pull_duration",
+    "pre_pull_latch_hold_time",
+    "reseat_frequency",
+    "wrist_orientation"
+  ]
+}

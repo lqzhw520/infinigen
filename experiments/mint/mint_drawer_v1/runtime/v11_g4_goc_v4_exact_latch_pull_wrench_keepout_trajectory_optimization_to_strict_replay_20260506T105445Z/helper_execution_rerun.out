@@ -1,0 +1,5 @@
+{
+  "closeout_classification": "TARGETED_FAILED_AFTER_FAST_PASS",
+  "next_gate": "TARGETED_KEEPOUT_GENERALIZATION_REPAIR",
+  "run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_wrench_keepout_trajectory_optimization_to_strict_replay_20260506T105445Z"
+}

@@ -284,11 +284,42 @@ def synthesize(base: dict[str, Any]) -> list[dict[str, Any]]:
         ("c18", .30, .004, .030, .018, .145),
         ("c19", .30, .005, .034, .020, .150),
         ("c20", .30, .006, .038, .022, .155),
+        ("c21", .34, .004, .030, .018, .145),
+        ("c22", .34, .004, .030, .018, .145),
+        ("c23", .34, .005, .034, .020, .150),
+        ("c24", .34, .005, .034, .020, .150),
+        ("c25", .34, .006, .038, .022, .155),
+        ("c26", .34, .006, .038, .022, .155),
+        ("c27", .30, .004, .030, .018, .145),
+        ("c28", .30, .004, .030, .018, .145),
+        ("c29", .30, .005, .034, .020, .150),
+        ("c30", .30, .005, .034, .020, .150),
+        ("c31", .30, .006, .038, .022, .155),
+        ("c32", .30, .006, .038, .022, .155),
     ]
     out = []
     for i, (name, stub_ratio, ft, dhw, thw, depth) in enumerate(specs):
         p = deepcopy(p0)
         p.update({"drawer_kind": "reference_aligned_solid_front_short_stub_round_knob_drawer", "reference_aligned_topology_v1": True, "front_cutout": False, "solid_front_panel": True, "frame_only_front_rejected": True, "visual_topology_v2_preserved": False, "handle_kind": "sphere", "handle_x": hx, "handle_y": hy, "handle_z": hz, "handle_radius": radius, "stub_length": stub_ratio * 2.0 * radius, "stub_radius": min(radius * .34, .008), "front_half_thickness": ft, "door_half_width": dhw, "door_half_height": .235, "tray_half_width": thw, "tray_depth": depth, "tray_wall_height": .115, "tray_wall_thickness": .010, "cabinet_half_width": max(.245, thw + .095), "cabinet_depth": max(.18, depth), "cabinet_z": max(.34, hz - .050), "support_guide_semantics": True, "complete_moving_drawer_box_tray": True, "short_stub_spherical_knob_nearly_flush": True, "controller_algorithm_modified": False})
+        layout_overrides = {
+            "c21": ([-0.700, -0.160, 0.025], -36),
+            "c22": ([-0.700, -0.020, 0.025], -16),
+            "c23": ([-0.640, -0.180, 0.025], -42),
+            "c24": ([-0.600, -0.130, 0.025], -32),
+            "c25": ([-0.720, -0.120, 0.025], -28),
+            "c26": ([-0.680, -0.210, 0.025], -48),
+            "c27": ([-0.700, -0.160, 0.025], -36),
+            "c28": ([-0.700, -0.020, 0.025], -16),
+            "c29": ([-0.640, -0.180, 0.025], -42),
+            "c30": ([-0.600, -0.130, 0.025], -32),
+            "c31": ([-0.720, -0.120, 0.025], -28),
+            "c32": ([-0.680, -0.210, 0.025], -48),
+        }
+        if name in layout_overrides:
+            base_pos, yaw = layout_overrides[name]
+            p["robot_base_pos"] = base_pos
+            p["robot_yaw_deg"] = yaw
+            p["layout_micro_adjustment_for_solid_front_clearance"] = True
         c = deepcopy(base); c["candidate_id"] = f"reference_aligned_solid_front_{name}_{base.get('candidate_id','seed')}"; c["synthetic_seed"] = int(base.get("synthetic_seed", 9001) or 9001) + i; c["model_builder_parameters"] = p; c["source_type"] = "generated_repaired_reference_aligned_variant"; c["source_type_for_spec"] = c["source_type"]; c["declared_generated_or_repaired_variant"] = True; c["reference_aligned_topology_v1"] = True; c["controller_algorithm_modified"] = False
         out.append(c)
     return out

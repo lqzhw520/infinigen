@@ -2,11 +2,11 @@
   "lock_id": "CAMPAIGN_NATIVE_HARNESS_PRODUCTION_LOCK_V3",
   "version": "3.0.0",
   "generated_by": "validate_harness_production_lock.py",
-  "generated_at_utc": "2026-05-06T15:11:02Z",
+  "generated_at_utc": "2026-05-06T15:12:17Z",
   "harness_status": "production_ready",
   "campaign_root": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1",
   "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
-  "local_head": "26d4a5af257e44838487583fb7c1ae7c51fd9203",
+  "local_head": "a6f6e4697e720a5cdc8e394379dfe3f59ab7f2c7",
   "remote": "git@github.com:lqzhw520/infinigen.git",
   "lock_inputs": {
     "task_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_reference_aligned_drawer_topology_synthesis_controller_preserving_recertification.yaml",
@@ -170,9 +170,9 @@
   "post_push_attestation": {
     "required": true,
     "path": "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_attestation.json",
-    "blob": "3a3d0cb2c915ed91abf1af78556a1bc10a13b447",
+    "blob": "53846556bba4a4d5e7aee65bd485d781982caaa6",
     "origin_verified": true,
-    "origin_head": "b601bb7a862d45bc06b237502268edfaa844f5c5",
+    "origin_head": "2ea2c1d95af4233894e89be4ab05afae3577fc94",
     "required_file_blobs_verified": true,
     "regressions_verified_after_publication": true
   }

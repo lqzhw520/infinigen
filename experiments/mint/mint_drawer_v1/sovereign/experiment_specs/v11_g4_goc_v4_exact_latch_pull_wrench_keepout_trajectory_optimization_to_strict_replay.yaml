@@ -1,0 +1,284 @@
+task_id: V11_G4_GOC_V4_EXACT_LATCH_PULL_WRENCH_KEEP_OUT_TRAJECTORY_OPTIMIZATION_TO_STRICT_REPLAY_V3
+task_type: EXACT_LATCH_PULL_WRENCH_KEEP_OUT_TRAJECTORY_OPTIMIZATION_PHASE
+task_version: 3.0.0
+target_gate: EXACT_LATCH_PULL_WRENCH_KEEP_OUT_STRICT_REPLAY_TEXTURED_REVIEW_READY
+phase: exact_latch_pull_wrench_keepout_trajectory_optimization_to_strict_replay
+
+root_case: EXACT_BILATERAL_LATCH_EXISTS_BUT_PULL_WRENCH_TRANSMISSION_UNDER_FULL_BODY_KEEP_OUT_IS_NOT_SYNTHESIZED
+previous_closeout_classification: EXACT_LATCH_PULL_UNDER_OPENED
+previous_next_gate: PULL_WRENCH_TRANSMISSION_UNDER_LATCH_REPAIR
+
+claim_boundary:
+  previous_dynamic_pull_closeout_preserved_as_physics_replay_baseline: true
+  previous_exact_contact_patch_phase_is_not_final_failure: true
+  exact_latch_only_is_solved: true
+  exact_latch_and_opening_can_coexist_but_previous_best_was_forbidden: true
+  exact_latch_and_legality_can_coexist_but_previous_best_under_opened: true
+  this_phase_must_combine_opening_legality_and_exact_bilateral_pad_group_latch: true
+  geometric_bilateral_proxy_is_diagnostic_only: true
+  topology_realism_must_be_preserved: true
+  dataset_admission_ready_claim_requires_strict_export_local_replay_action_spot_and_textured_review: true
+  mint_train_eval_claimed: false
+
+task_authority:
+  authority_type: GOC_V4_PATCH_GROUP_EXACT_GEOM_ID_SETS_WITH_GOC_V3_BASELINE
+  goc_version: v3
+  goc_artifact_path: artifacts/phase1h_geometry_contract/goc_v3_contract.json
+  goc_contract: experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v3_contract.json
+  goc_contract_id: GOC_V3_EXACT_ID_GEOMETRY_OWNERSHIP_CONTRACT
+  legal_gripper_surface_geom_ids:
+    - 63
+    - 81
+    - 90
+  forbidden_robot_surface_geom_ids:
+    - 45
+    - 47
+    - 49
+    - 54
+    - 59
+  drawer_handle_geom_ids:
+    - 0
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    - 8
+  prohibited_authority:
+    - GOC-v2 count-only legal_pad=29 forbidden=26 handle=9
+    - runtime body-based authority mutation
+    - legacy name-only contact reports
+    - broad-link, wrist, arm, or finger shell contact as target
+    - geometric bilateral proxy as success criterion
+    - long connector or front-only drawer topology as dataset output
+
+patch_group_authority:
+  authority_type: FINITE_FINGER_PAD_GROUP_EXACT_CONTACT_AUTHORITY
+  inherited_from_task: V11_G4_GOC_V4_ROUND_KNOB_EXACT_CONTACT_PATCH_AND_LATCH_PULL_SYNTHESIS_TO_STRICT_REPLAY_TEXTURED_REVIEW_V2
+  per_instance_binding_required: true
+  strict_target_contact: left_finger_pad_group <-> true_knob_handle AND right_finger_pad_group <-> true_knob_handle
+  left_finger_pad_group_non_empty_required: true
+  right_finger_pad_group_non_empty_required: true
+  true_knob_handle_group_non_empty_required: true
+  left_right_groups_disjoint_required: true
+  robot_forbidden_disjoint_from_target_groups_required: true
+  true_knob_handle_disjoint_from_robot_required: true
+  unknown_contact_relevant_geoms_forbidden: true
+  broad_shell_link_wrist_arm_finger_shell_target_rejected: true
+  geometric_proxy_rejected_as_success: true
+  finite_surface_pad_model_upgrade_not_threshold_downgrade: true
+
+fixtures:
+  fixture_valid_authority_match:
+    runtime_exact_ids:
+      legal_gripper_surface_geom_ids:
+        - 63
+        - 81
+        - 90
+      forbidden_robot_surface_geom_ids:
+        - 45
+        - 47
+        - 49
+        - 54
+        - 59
+      drawer_handle_geom_ids:
+        - 0
+        - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+        - 7
+        - 8
+    expected: PASS
+  fixture_invalid_authority_drift:
+    runtime_exact_ids:
+      legal_gripper_surface_geom_ids:
+        - 60
+        - 61
+        - 62
+      forbidden_robot_surface_geom_ids:
+        - 45
+        - 47
+        - 49
+        - 54
+        - 59
+      drawer_handle_geom_ids:
+        - 0
+        - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+        - 7
+        - 8
+    expected: FAIL
+    expected_error: AUTHORITY_MISMATCH
+
+authority:
+  repo: /mnt/afs2/zhuhaowu/infinigen
+  branch: feature/mint-env-reformulation-v1-visual-fidelity
+  campaign_root: experiments/mint/mint_drawer_v1
+  local_playground_root: /Users/zhuhaowu/Documents/Playground
+  baseline_dirty_allowed:
+    - .project-memory/STATUS.md
+    - .session/checkpoint.md
+
+governance:
+  task_spec_bound_lock_required: true
+  post_push_attestation_required: true
+  no_bypass_preflight_required: true
+  preflight_command: >-
+    python experiments/mint/mint_drawer_v1/scripts/harness/agent_task_preflight.py
+    --spec experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_exact_latch_pull_wrench_keepout_trajectory_optimization_to_strict_replay.yaml
+    --dry-run
+
+hard_stop_only_for:
+  - WRONG_WORKTREE
+  - WRONG_BRANCH
+  - REMOTE_NOT_CONFIGURED
+  - TASK_SPEC_LOCK_BINDING_FAILED
+  - HARNESS_PREFLIGHT_FAILED
+  - DIRTY_FORBIDDEN_SCOPE
+
+previous_evidence:
+  required_latest_patch_group_prefix: v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_
+  expected_previous_closeout: EXACT_LATCH_PULL_UNDER_OPENED
+  expected_previous_next_gate: PULL_WRENCH_TRANSMISSION_UNDER_LATCH_REPAIR
+  exact_latch_only_passed_required: true
+  best_opening_forbidden_row_required: true
+  best_legal_underopen_row_required: true
+  trace_hash_manifest_required: true
+  raw_trace_commit_policy_required: true
+
+anchor_rows:
+  high_opening_forbidden_row:
+    drawer_fraction: 1.0
+    bilateral_exact_contact_pull_frames: 1527
+    left_group_exact_contact_frames: 5602
+    right_group_exact_contact_frames: 1557
+    forbidden_contact_frames: 502
+    handle_nonlegal_contact_frames: 0
+    max_penetration_m: 0.0022
+  legal_underopen_row:
+    drawer_fraction: 0.269
+    bilateral_exact_contact_pull_frames: 5133
+    forbidden_contact_frames: 0
+    handle_nonlegal_contact_frames: 0
+    max_penetration_m: 0.0064
+
+success_requires:
+  stage0_evidence_ingestion_written: true
+  forbidden_attribution_done: true
+  underopen_wrench_attribution_done: true
+  constrained_solver_cycles_written: true
+  fast_guarded_contact_passed: true
+  targeted_shard_passed: true
+  targeted_shard_cases_passed: 7
+  full30_passed: true
+  strict_export_complete: true
+  local_state_replay_passed: true
+  textured_claim_render_passed: true
+  action_only_spot_check_passed: true
+  proposed_sovereign_deltas_only: true
+
+strict_invariants:
+  strict_goc_patch_group_authority: true
+  exact_left_and_right_group_contact_required_for_success: true
+  geometric_bilateral_proxy_success_forbidden: true
+  no_forbidden_contact: true
+  no_handle_nonlegal_contact: true
+  no_broad_shell_link_wrist_arm_finger_shell_target_contact: true
+  no_direct_qpos_drawer_opening: true
+  no_drawer_motor_command: true
+  no_threshold_lowering: true
+  max_penetration_m: 0.02
+  max_force_n: 1000000.0
+  drawer_fraction_min: 0.80
+  drawer_qpos_monotonicity_required: true
+
+topology_invariants:
+  topology_realism_preserved: true
+  short_stub_spherical_knob_required: true
+  knob_connector_no_long_rod: true
+  complete_drawer_box_required: true
+  anti_floating_support_required: true
+  support_rails_or_guide_semantics_visible: true
+  no_front_only_drawer: true
+  no_invisible_support_claim: true
+  no_topology_defective_prior_pool_as_dataset_output: true
+  textured_review_packet_required: true
+
+allowed_repair_families:
+  - pull_trajectory_shaping
+  - nullspace_keepout_shaping
+  - gripper_closure_latch_schedule
+  - contact_parameters_friction_condim_solref_solimp
+  - drawer_rail_friction_damping_within_realistic_bounds
+  - topology_preserving_micro_structure_offsets
+  - combined_anchor_a_b_hybrid_schedules
+
+forbidden_repair_families:
+  - broad_random_variant_sweep
+  - threshold_lowering
+  - geometric_proxy_success
+  - direct_qpos_drawer_opening
+  - drawer_motor_command
+  - broad_shell_target
+  - arm_wrist_link_target
+  - invisible_giant_catcher_geom
+  - hidden_fake_collision
+  - topology_regression_to_long_connector_front_only_or_unsupported_drawer
+
+stage_plan:
+  stage0_evidence_ingestion:
+    write:
+      - stage0_evidence_ingestion.json
+      - stage0_evidence_report.md
+  stage1_high_opening_forbidden_attribution:
+    write:
+      - high_opening_forbidden_attribution.json
+      - high_opening_forbidden_attribution.md
+  stage2_legal_underopen_wrench_attribution:
+    write:
+      - legal_underopen_wrench_attribution.json
+      - legal_underopen_wrench_attribution.md
+  stage3_codesign_parameterization:
+    write:
+      - codesign_parameterization.json
+  stage4_fast_constrained_solver_loop:
+    max_outer_cycles: 6
+    max_samples_per_cycle: 48
+    no_progress_cycles_before_stop: 2
+    pass_requires:
+      drawer_fraction_min: 0.80
+      left_group_exact_contact_frames_min: 30
+      right_group_exact_contact_frames_min: 30
+      bilateral_exact_pull_frames_min: 30
+      forbidden_contact_frames: 0
+      handle_nonlegal_contact_frames: 0
+      max_penetration_m: 0.02
+      max_force_n: 1000000.0
+      drawer_qpos_monotonic: true
+      no_direct_qpos: true
+      no_drawer_motor: true
+    write:
+      - fast_constrained_solver_cycles.jsonl
+      - fast_constrained_solver_pareto.json
+      - fast_guarded_contact_rec_certification.json
+  downstream_stages:
+    targeted_7_of_7: targeted_shard_results.json
+    full30: full30_exact_latch_pull_keepout_certification.jsonl and full30_report.json
+    strict_export: strict_teacher_export_manifest.json and trace_hash_manifest.json
+    local_state_replay_render: local_replay_handoff_manifest.json, strict_replay_metrics.json, render_manifest.json, visual_review_packet.md
+    action_only_spot_check: action_only_replay_spot_check.json and action_only_replay_spot_check.md
+
+closeout_classes:
+  success: EXACT_LATCH_PULL_WRENCH_KEEP_OUT_STRICT_REPLAY_TEXTURED_REVIEW_READY
+  non_success:
+    - FAST_CONSTRAINED_SOLVER_EXHAUSTED
+    - HIGH_OPENING_FORBIDDEN_UNRESOLVED

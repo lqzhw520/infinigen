@@ -1,0 +1,191 @@
+task_id: V11_G4_GOC_V4_FAST_GUARDED_CONTACT_TOPOLOGY_REALISTIC_CO_DESIGN_REPAIR_V1
+task_type: FAST_GUARDED_CONTACT_TOPOLOGY_REALISTIC_CONTROLLER_STRUCTURE_CO_DESIGN_REPAIR_PHASE
+phase: fast_guarded_contact_topology_realistic_codesign_repair
+target: >-
+  Repair the fast_guarded_contact topology-realistic controller/structure boundary
+  while preserving V2 visual topology realism and strict GOC-v4 gates, then continue
+  to targeted shard, full30 certification, strict export, local state replay/render,
+  and action-only spot check if gates pass.
+claim_boundary:
+  previous_dynamic_pull_success_preserved_as_physics_replay_baseline: true
+  previous_v2_topology_progress_preserved: true
+  previous_v2_targeted_failure_not_relabelled: true
+  this_phase_may_certify_fast_guarded_repair_only_with_new_origin_visible_evidence: true
+  all_seed_generalization_claimed: false
+  mint_train_eval_claimed: false
+authority:
+  repo: /mnt/afs2/zhuhaowu/infinigen
+  branch: feature/mint-env-reformulation-v1-visual-fidelity
+  campaign_root: experiments/mint/mint_drawer_v1
+  baseline_dirty_allowed:
+    - .project-memory/STATUS.md
+    - .session/checkpoint.md
+governance:
+  task_spec_bound_lock_required: true
+  post_push_attestation_required: true
+  no_bypass_preflight_required: true
+  preflight_command: >-
+    python experiments/mint/mint_drawer_v1/scripts/harness/agent_task_preflight.py
+    --spec experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_fast_guarded_contact_topology_realistic_codesign_repair.yaml
+    --dry-run
+hard_stop_only_for:
+  - WRONG_WORKTREE
+  - WRONG_BRANCH
+  - REMOTE_NOT_CONFIGURED
+  - TASK_SPEC_LOCK_BINDING_FAILED
+  - HARNESS_PREFLIGHT_FAILED
+  - DIRTY_FORBIDDEN_SCOPE
+previous_evidence:
+  required_latest_v2_prefix: v11_g4_goc_v4_visual_topology_realism_and_action_replay_repair_v2_
+  expected_v2_closeout: TOPOLOGY_REALISTIC_TARGETED_SHARD_FAILED
+  expected_v2_next_gate: FAST_GUARDED_CONTACT_TOPOLOGY_REALISTIC_CONTROLLER_STRUCTURE_CO_DESIGN_REPAIR
+  expected_v2_targeted_cases_passed: 6
+  expected_v2_targeted_cases_total: 7
+  only_blocking_targeted_case: fast_guarded_contact
+success_requires:
+  previous_success_baseline_preserved: true
+  topology_realism_preserved: true
+  knob_connector_realism_passed: true
+  drawer_box_completeness_passed: true
+  anti_floating_support_passed: true
+  targeted_shard_passed: true
+  targeted_shard_cases_passed: 7
+  fast_guarded_contact_passed: true
+  full30_certification_passed: true
+  strict_export_complete: true
+  local_state_replay_render_passed: true
+  action_only_spot_check_passed: true
+strict_invariants:
+  strict_goc_v4_authority: true
+  no_forbidden_contact: true
+  no_handle_nonlegal_contact: true
+  no_broad_shell_link_wrist_arm_finger_shell_target_contact: true
+  no_direct_qpos_drawer_opening: true
+  no_drawer_motor_command: true
+  no_threshold_lowering: true
+  max_penetration_m: 0.02
+  max_force_n: 1000000.0
+  drawer_fraction_min: 0.80
+  two_pad_retention_required: true
+  drawer_qpos_monotonicity_required: true
+topology_invariants:
+  no_long_connector: true
+  no_front_only_drawer: true
+  no_unsupported_drawer: true
+  short_stub_spherical_knob_required: true
+  complete_drawer_box_required: true
+  anti_floating_support_required: true
+  no_invisible_support_claim: true
+  no_topology_defective_prior_pool_as_dataset_output: true
+allowed_repair_variables:
+  controller_only:
+    - controller_variant
+    - guarded_approach_speed
+    - pull_velocity
+    - pull_distance
+    - lead_cap
+    - pull_press
+    - damping
+    - gripper_close_timing
+    - reseat_hold_duration
+    - nullspace_keepout_weight
+  drawer_dynamics:
+    - rail_friction_within_realistic_low_friction_drawer_range
+    - slider_damping_within_realistic_low_friction_drawer_range
+  micro_structure:
+    - slight_handle_y_micro_adjustment
+    - slight_handle_z_micro_adjustment
+    - slight_front_clearance_micro_adjustment
+    - rail_placement_micro_adjustment
+  selection:
+    - choose_topology_realistic_candidates_passing_fast_without_gate_changes
+forbidden_actions:
+  - create_new_branch
+  - force_push
+  - mutate_external_MINT
+  - mutate_current_truth_json
+  - mutate_next_actions_json
+  - train_or_eval_MINT
+  - lower_thresholds
+  - direct_qpos_open_drawer
+  - drawer_motor_command
+  - accept_forbidden_contact
+  - count_broad_robot_contact_as_target
+  - demote_real_collision_to_fake_pass
+  - reintroduce_long_connector
+  - reintroduce_front_only_drawer
+  - reintroduce_unsupported_drawer
+  - mutate_previous_success_run_dirs
+stages:
+  stage0_ingest_v2_failure_evidence:
+    writes:
+      - fast_failure_ingestion.json
+      - fast_failure_report.md
+  stage1_report_consistency_patch:
+    writes:
+      - report_consistency_patch.json
+    required_fields:
+      - selected_targeted_forbidden_contact_frame_count_max
+      - fast_forensic_forbidden_contact_frame_count_max
+      - fast_forensic_best_opening_drawer_fraction
+      - fast_forensic_best_legal_drawer_fraction
+      - fast_blocking_failure_reasons
+  stage2_fast_perturbation_pareto_front:
+    scope: topology_realistic_candidates_from_v2_near_admitted_island_only
+    writes:
+      - fast_guarded_contact_pareto_sweep.jsonl
+      - fast_guarded_contact_pareto_report.json
+  stage3_fast_repair_operators:
+    one_repair_family_at_a_time: true
+    writes:
+      - fast_repair_cycles.jsonl
+  stage4_targeted_shard_recertification:
+    pass_requires_cases_passed: 7
+    writes:
+      - targeted_shard_results.json
+  stage5_full30_recertification:
+    enter_only_if_targeted_passes: true
+    pass_requires_cases_passed: 30
+    writes:
+      - full30_topology_realistic_dynamic_pull_certification.jsonl
+      - full30_report.json
+  stage6_strict_export:
+    enter_only_if_full30_passes: true
+    replay_state_fields_required:
+      - qpos
+      - qvel
+      - ctrl
+      - action
+      - robot_qpos
+      - drawer_qpos
+      - exact_goc_v4_contact_sequence
+      - forbidden_trace
+      - handle_nonlegal_trace
+      - penetration_force_trace
+  stage7_local_state_replay_render:
+    enter_only_if_export_passes: true
+    claim_render_requirements:
+      - no_green_debug_overlay
+      - short_stub_spherical_knob_visible
+      - drawer_box_tray_visible
+      - rails_or_support_semantics_visible
+      - gripper_pads_contact_handle_visible
+  stage8_action_only_spot_check:
+    mandatory: true
+    spot_check_must_be_labeled_if_not_full_pool: true
+closeout_mapping:
+  success: VISUAL_TOPOLOGY_REALISTIC_FAST_GUARDED_DYNAMIC_PULL_STRICT_REPLAY_READY
+  targeted_failed: FAST_GUARDED_CONTACT_TARGETED_REPAIR_FAILED
+  full30_failed: FAST_REPAIR_FULL30_GENERALIZATION_FAILED
+  export_failed: STRICT_EXPORT_FAILED_AFTER_FAST_REPAIR
+  local_replay_failed: LOCAL_REPLAY_RENDER_FAILED_AFTER_FAST_REPAIR
+  action_only_failed: ACTION_ONLY_SPOT_CHECK_FAILED_AFTER_FAST_REPAIR
+  time_exhausted: TIME_BUDGET_EXHAUSTED
+  execution_failed: EXECUTION_FAILED
+next_gate_mapping:
+  success: MANUAL_VISUAL_AND_SCIENCE_REVIEW_FOR_DATASET_ADMISSION
+  targeted_failed: FAST_GUARDED_CONTACT_REPAIR_CONTINUATION
+  full30_failed: TOPOLOGY_REALISTIC_FAST_GENERALIZATION_REPAIR
+  export_failed: STRICT_EXPORT_INFRA_REPAIR
+  local_replay_failed: LOCAL_STRICT_REPLAY_RENDER_REPAIR
+  action_only_failed: ACTION_REPLAY_DATASET_ADMISSION_REPAIR

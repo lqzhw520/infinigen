@@ -1,11 +1,11 @@
 {
   "attestation_id": "POST_PUSH_ATTESTATION_V3",
   "version": "1.0.0",
-  "generated_at_utc": "2026-05-06T09:46:44Z",
+  "generated_at_utc": "2026-05-06T10:55:36Z",
   "generated_by": "validate_harness_production_lock.py",
   "attestation_type": "post_push_verification",
-  "lock_commit": "8e613dba710d1f11f3b4a5a6d9a09ff76c775306",
-  "origin_head": "8e613dba710d1f11f3b4a5a6d9a09ff76c775306",
+  "lock_commit": "d511816bc21d681ce4009f34cccd5d6f3c267c22",
+  "origin_head": "d511816bc21d681ce4009f34cccd5d6f3c267c22",
   "origin_verified": true,
   "lock_status": "production_ready",
   "lock_blob_on_origin": "verified_via_merge_base_ancestor_chain",
@@ -17,13 +17,13 @@
     "lock_generated_by": "validate_harness_production_lock.py",
     "lock_version": "3.0.0",
     "task_spec_binding": {
-      "requested_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review.yaml",
-      "lock_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review.yaml",
-      "lock_hash": "53582e9290916c80bbe2a7e7ec215d035de378bc",
-      "current_hash": "53582e9290916c80bbe2a7e7ec215d035de378bc",
+      "requested_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_exact_latch_pull_wrench_keepout_trajectory_optimization_to_strict_replay.yaml",
+      "lock_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_exact_latch_pull_wrench_keepout_trajectory_optimization_to_strict_replay.yaml",
+      "lock_hash": "12383743d5a17c5b4db1fd192f4b0729cf9ed73c",
+      "current_hash": "12383743d5a17c5b4db1fd192f4b0729cf9ed73c",
       "passed": true
     },
-    "origin_head": "8e613dba710d1f11f3b4a5a6d9a09ff76c775306",
+    "origin_head": "d511816bc21d681ce4009f34cccd5d6f3c267c22",
     "git_ls_remote_ok": true,
     "origin_contains_lock_commit": true,
     "lock_commit_is_ancestor_of_origin": true,
@@ -82,9 +82,9 @@
         "origin": "13b699b3e23a99929c591ec08ae7c859172988e5",
         "matches": true
       },
-      "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review.yaml": {
-        "expected": "53582e9290916c80bbe2a7e7ec215d035de378bc",
-        "origin": "53582e9290916c80bbe2a7e7ec215d035de378bc",
+      "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_exact_latch_pull_wrench_keepout_trajectory_optimization_to_strict_replay.yaml": {
+        "expected": "12383743d5a17c5b4db1fd192f4b0729cf9ed73c",
+        "origin": "12383743d5a17c5b4db1fd192f4b0729cf9ed73c",
         "matches": true
       }
     },
@@ -158,7 +158,7 @@
         "passed": true,
         "fixture": "task_spec_mismatch_must_fail",
         "expected": "FAIL(non-zero) with requested-vs-lock spec mismatch",
-        "active_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review.yaml",
+        "active_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_exact_latch_pull_wrench_keepout_trajectory_optimization_to_strict_replay.yaml",
         "mismatch_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml",
         "actual_exit_code": 2,
         "output_excerpt": "\n======================================================================\n  Agent Task Pre-flight\n======================================================================\n  campaign_root: /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1\n  task_spec:    /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml\n  dry_run:      True\n\n  [LOCK] Production lock enforcement\n\n  FATAL: Requested task spec does not match production loc"
@@ -181,5 +181,5 @@
   },
   "origin_url": "git@github.com:lqzhw520/infinigen.git",
   "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
-  "attestation_blob": "555c9d4cd147f88b7ddfad06ae228a49d0d6b315"
+  "attestation_blob": "97ef7e03d33452d062032b2ea534f255886d6979"
 }

@@ -179,14 +179,22 @@ def fast_variants() -> list[dict[str, Any]]:
         variant("fg_semiclose_contact_ramp_midpress", pull_steps=7600, post_pull_hold_steps=0, pull_velocity_m_per_step=0.000095, pull_distance_m=0.35, lead_cap_m=0.032, pull_press_m=0.0020, op_gain=11.0, op_vel_limit=0.070, q_vel_limit=1.60, null_gain=0.22, servo_kp=295.0, servo_kd=154.0, finger_mode="semi_close"),
         variant("fg_binary_high_two_pad_axiswork", pull_steps=6800, post_pull_hold_steps=0, pull_velocity_m_per_step=0.000130, pull_distance_m=0.35, lead_cap_m=0.050, pull_press_m=0.0042, op_gain=16.0, op_vel_limit=0.100, q_vel_limit=2.10, null_gain=0.10, servo_kp=390.0, servo_kd=125.0, finger_mode="binary_close"),
     ]
-    seen: set[str] = set()
-    out: list[dict[str, Any]] = []
+    by_name: dict[str, dict[str, Any]] = {}
     for item in custom + base:
-        name = str(item.get("name"))
-        if name not in seen:
-            seen.add(name)
-            out.append(item)
-    return out
+        by_name.setdefault(str(item.get("name")), item)
+    priority = [
+        "pc02_micro_lead_high_damping_semi_close",
+        "pf04_firm_press_slow_axis_work_binary_close",
+        "v2_fast_balanced_binary_null006",
+        "fg_binary_low_damping_pull_through",
+        "fg_binary_high_two_pad_axiswork",
+        "fg_binary_axiswork_null014_lead032",
+        "fg_binary_axiswork_null018_lead038",
+        "fg_binary_axiswork_null022_soft",
+        "fg_semiclose_keepout_axiswork_null016",
+        "pf03_low_press_axis_work_ik_hold",
+    ]
+    return [by_name[name] for name in priority if name in by_name]
 
 
 def original_candidates_by_id() -> dict[str, dict[str, Any]]:
@@ -290,7 +298,21 @@ def run_fast_attempts(candidate: dict[str, Any], run_dir: Path, base_idx: int, s
 def pareto_sweep(run_dir: Path, admitted: list[dict[str, Any]], cycle: int) -> dict[str, Any]:
     global FAST_PASS_BY_CANDIDATE, FAST_BEST_BY_CANDIDATE, PARETO_ROWS
     rows: list[dict[str, Any]] = []
-    for idx, candidate in enumerate(admitted[:18]):
+    by_id = {str(c.get("candidate_id")): c for c in admitted}
+    if cycle == 1:
+        preferred = BASE_TARGETED_IDS
+    else:
+        prefix = f"fg_cycle{cycle}_"
+        preferred = [cid for cid in by_id if cid.startswith(prefix)] + ["v2_short_stub_island_densify_15", "v2_short_stub_island_densify_05"]
+    fast_candidates = []
+    seen_ids: set[str] = set()
+    for cid in preferred:
+        if cid in by_id and cid not in seen_ids:
+            fast_candidates.append(by_id[cid])
+            seen_ids.add(cid)
+    if not fast_candidates:
+        fast_candidates = admitted[:8]
+    for idx, candidate in enumerate(fast_candidates[:8]):
         best, attempts = run_fast_attempts(candidate, run_dir, 510000 + cycle * 100000 + idx * 100, "fast_pareto", cycle)
         rows.extend(attempts)
         cid = str(candidate.get("candidate_id"))
@@ -316,7 +338,7 @@ def pareto_sweep(run_dir: Path, admitted: list[dict[str, Any]], cycle: int) -> d
         "generated_at_utc": utc_now(),
         "cycle": cycle,
         "attempts_total": len(rows),
-        "candidate_count": min(len(admitted), 18),
+        "candidate_count": min(len(fast_candidates), 8),
         "strictly_passing_candidates": sorted(FAST_PASS_BY_CANDIDATE.keys()),
         "strictly_passing_candidate_count": len(FAST_PASS_BY_CANDIDATE),
         "opening_capable_attempts": len(opening),

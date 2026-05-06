@@ -289,6 +289,126 @@ class MergedModelBuilder:
 
         return assets, metadata, semantic_hash
 
+    @staticmethod
+    def _fmt_vec(values: list[float] | tuple[float, ...]) -> str:
+        return " ".join(f"{float(v):.6g}" for v in values)
+
+    @staticmethod
+    def _patch_float_list(
+        patch: dict[str, Any], key: str, default: tuple[float, ...]
+    ) -> tuple[float, ...]:
+        raw = patch.get(key, default)
+        if not isinstance(raw, (list, tuple)):
+            return default
+        try:
+            vals = tuple(float(v) for v in raw)
+        except Exception:
+            return default
+        return vals if len(vals) == len(default) else default
+
+    def _apply_finger_pad_contact_patch(self, gripper_tree: ET.Element) -> None:
+        """Apply an explicitly requested finite fingertip contact patch model.
+
+        The default robot/gripper XML is unchanged. Generated candidates can opt
+        in through ``model_builder_parameters.finger_pad_contact_patch``. Added
+        geoms remain small, named finger pad surfaces; they are not arm, wrist,
+        hand shell, or hidden broad-catcher target geometry.
+        """
+
+        variant = getattr(self, "variant", {}) or {}
+        patch = variant.get("finger_pad_contact_patch") or {}
+        if not isinstance(patch, dict) or not patch.get("kind"):
+            return
+        if patch.get("enabled", True) is False:
+            return
+
+        kind = str(patch.get("kind", "")).lower()
+        if kind in {"baseline", "current_single_pad_baseline"}:
+            return
+
+        base_size = self._patch_float_list(patch, "base_size", (0.008, 0.004, 0.008))
+        if "enlarged" in kind or "subpatch" in kind or "rounded" in kind:
+            base_size = self._patch_float_list(
+                patch, "base_size", (0.010, 0.0055, 0.010)
+            )
+        base_size = tuple(
+            min(max(v, lo), hi)
+            for v, lo, hi in zip(
+                base_size, (0.004, 0.0025, 0.004), (0.014, 0.007, 0.014)
+            )
+        )
+        margin = min(max(float(patch.get("margin", 0.0) or 0.0), 0.0), 0.003)
+        friction = self._patch_float_list(patch, "friction", (3.0, 0.06, 0.0002))
+        solref = self._patch_float_list(patch, "solref", (0.008, 0.45))
+        solimp = self._patch_float_list(patch, "solimp", (0.90, 0.95, 0.001))
+        condim = str(int(patch.get("condim", 4) or 4))
+
+        base_attrs = {
+            "size": self._fmt_vec(base_size),
+            "friction": self._fmt_vec(friction),
+            "solref": self._fmt_vec(solref),
+            "solimp": self._fmt_vec(solimp),
+            "condim": condim,
+            "priority": str(int(patch.get("priority", 2) or 2)),
+        }
+        if margin > 0.0:
+            base_attrs["margin"] = f"{margin:.6g}"
+        for name in ("finger1_pad_collision", "finger2_pad_collision"):
+            geom = gripper_tree.find(f".//geom[@name='{name}']")
+            if geom is not None:
+                for attr, value in base_attrs.items():
+                    geom.set(attr, value)
+
+        if "subpatch" not in kind and int(patch.get("subpatch_count", 0) or 0) <= 0:
+            return
+
+        subpatch_size = self._patch_float_list(
+            patch, "subpatch_size", (0.0065, 0.0035, 0.0065)
+        )
+        subpatch_size = tuple(
+            min(max(v, lo), hi)
+            for v, lo, hi in zip(
+                subpatch_size, (0.003, 0.002, 0.003), (0.010, 0.005, 0.010)
+            )
+        )
+        offsets = patch.get("subpatch_offsets") or [
+            [0.0, 0.0, -0.006],
+            [0.0, 0.0, 0.006],
+        ]
+        if not isinstance(offsets, list):
+            offsets = []
+        finger_specs = [
+            ("finger_joint1_tip", "finger1", [0.0, -0.005, -0.015]),
+            ("finger_joint2_tip", "finger2", [0.0, 0.005, -0.015]),
+        ]
+        for body_name, prefix, base_pos in finger_specs:
+            body = gripper_tree.find(f".//body[@name='{body_name}']")
+            if body is None:
+                continue
+            for idx, raw_offset in enumerate(offsets[:3]):
+                if not isinstance(raw_offset, (list, tuple)) or len(raw_offset) != 3:
+                    continue
+                pos = [base_pos[i] + float(raw_offset[i]) for i in range(3)]
+                attrs = {
+                    "name": f"{prefix}_pad_collision_patch_{idx}",
+                    "type": "box",
+                    "group": "0",
+                    "contype": "1",
+                    "conaffinity": "1",
+                    "size": self._fmt_vec(subpatch_size),
+                    "pos": self._fmt_vec(pos),
+                    "quat": "0 0 0 1",
+                    "friction": self._fmt_vec(friction),
+                    "solref": self._fmt_vec(solref),
+                    "solimp": self._fmt_vec(solimp),
+                    "condim": condim,
+                    "priority": str(int(patch.get("priority", 2) or 2)),
+                    "rgba": str(patch.get("rgba", "0.04 0.04 0.04 0.55")),
+                }
+                if margin > 0.0:
+                    attrs["margin"] = f"{margin:.6g}"
+                ET.SubElement(body, "geom", attrs)
+
     def _get_robot_xml_inner(self) -> tuple[str, str, str]:
         """Extract robot XML and insert the real Panda gripper subtree."""
         robot_xml = Path(ROBOT_XML_PATH).read_text()
@@ -305,8 +425,10 @@ class MergedModelBuilder:
         # and the small finger*_pad_collision boxes as the only active finger
         # contact patches for GOC-v4.
         for collision_name in ("finger1_collision", "finger2_collision"):
-            pattern = rf'(<geom[^>]*name="{collision_name}"[^>]*conaffinity=")1("[^>]*/>)'
-            gripper_xml = re.sub(pattern, rf'\g<1>0\2', gripper_xml)
+            pattern = (
+                rf'(<geom[^>]*name="{collision_name}"[^>]*conaffinity=")1("[^>]*/>)'
+            )
+            gripper_xml = re.sub(pattern, r"\g<1>0\2", gripper_xml)
         # Simplify gripper mesh paths (meshes/panda_gripper/finger.stl -> finger.stl).
         gripper_xml = re.sub(
             r'file="meshes/panda_gripper/([^"]+)"', r'file="\1"', gripper_xml
@@ -316,6 +438,7 @@ class MergedModelBuilder:
             if geom.get("name") in {"finger1_collision", "finger2_collision"}:
                 geom.set("contype", "0")
                 geom.set("conaffinity", "0")
+        self._apply_finger_pad_contact_patch(gripper_tree)
         gripper_worldbody_inner = inner(gripper_tree.find("worldbody"))
         gripper_actuator_inner = inner(gripper_tree.find("actuator"))
         gripper_asset_inner = inner(gripper_tree.find("asset"))
@@ -323,10 +446,14 @@ class MergedModelBuilder:
         gripper_marker = "<!-- to add gripper -->"
         if "finger_joint1" not in simplified:
             if gripper_marker not in simplified:
-                raise RuntimeError("Panda right_hand gripper insertion marker not found")
+                raise RuntimeError(
+                    "Panda right_hand gripper insertion marker not found"
+                )
             simplified = simplified.replace(
                 gripper_marker,
-                gripper_worldbody_inner + "\n                                                " + gripper_marker,
+                gripper_worldbody_inner
+                + "\n                                                "
+                + gripper_marker,
                 1,
             )
 
@@ -464,7 +591,9 @@ class MergedModelBuilder:
         # Add drawer actuators only for slider joints that exist in this instance.
         drawer_actuator_xml = "\n".join(
             f'  <motor ctrllimited="true" ctrlrange="-10 10" joint="{joint}" name="drawer{i}"/>'
-            for i, joint in enumerate(getattr(self, "_drawer_slide_joints", ["drawer_slider_0"]))
+            for i, joint in enumerate(
+                getattr(self, "_drawer_slide_joints", ["drawer_slider_0"])
+            )
         )
 
         # Lighting: LIBERO-style three-point lighting

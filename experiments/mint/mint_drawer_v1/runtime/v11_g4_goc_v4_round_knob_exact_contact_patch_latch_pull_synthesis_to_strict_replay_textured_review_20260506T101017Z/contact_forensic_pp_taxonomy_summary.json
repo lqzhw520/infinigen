@@ -1,0 +1,9 @@
+{
+  "final_closeout_classification": "EXACT_LATCH_PULL_UNDER_OPENED",
+  "forensic_histogram": {
+    "EXACT_LATCH_EXISTS_BUT_PULL_WORK_INSUFFICIENT": 2,
+    "TRUE_CONTACT_PATCH_DISCRETIZATION": 1
+  },
+  "generated_at_utc": "2026-05-06T10:27:24Z",
+  "latch_pull_classification": "EXACT_LATCH_PULL_UNDER_OPENED"
+}

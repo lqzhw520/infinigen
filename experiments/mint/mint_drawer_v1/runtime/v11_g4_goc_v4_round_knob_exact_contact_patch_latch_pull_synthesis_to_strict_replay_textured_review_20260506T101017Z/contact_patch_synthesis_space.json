@@ -1,0 +1,263 @@
+{
+  "forbidden": [
+    "broad_shell_target",
+    "arm_wrist_link_target",
+    "invisible_giant_catcher_geom",
+    "geometric_proxy_as_success"
+  ],
+  "generated_at_utc": "2026-05-06T10:10:27Z",
+  "modeling_principle": "finger pad is a finite surface; success still requires left group AND right group exact knob contact",
+  "patch_candidates": [
+    {
+      "description": "unchanged single exact pad per finger",
+      "kind": "current_single_pad_baseline"
+    },
+    {
+      "base_size": [
+        0.01,
+        0.0055,
+        0.01
+      ],
+      "friction": [
+        3.0,
+        0.06,
+        0.0002
+      ],
+      "kind": "enlarged_inner_pad",
+      "margin": 0.0005
+    },
+    {
+      "base_size": [
+        0.011,
+        0.006,
+        0.011
+      ],
+      "friction": [
+        3.5,
+        0.08,
+        0.0002
+      ],
+      "kind": "enlarged_inner_pad_margin_1mm",
+      "margin": 0.001
+    },
+    {
+      "base_size": [
+        0.009,
+        0.005,
+        0.009
+      ],
+      "friction": [
+        3.2,
+        0.07,
+        0.0002
+      ],
+      "kind": "two_subpatches_z",
+      "margin": 0.0005,
+      "subpatch_count": 2,
+      "subpatch_offsets": [
+        [
+          0,
+          0,
+          -0.006
+        ],
+        [
+          0,
+          0,
+          0.006
+        ]
+      ]
+    },
+    {
+      "base_size": [
+        0.01,
+        0.0055,
+        0.01
+      ],
+      "friction": [
+        3.8,
+        0.08,
+        0.0002
+      ],
+      "kind": "two_subpatches_z_margin_1mm",
+      "margin": 0.001,
+      "subpatch_count": 2,
+      "subpatch_offsets": [
+        [
+          0,
+          0,
+          -0.0065
+        ],
+        [
+          0,
+          0,
+          0.0065
+        ]
+      ]
+    },
+    {
+      "base_size": [
+        0.009,
+        0.005,
+        0.009
+      ],
+      "friction": [
+        3.4,
+        0.07,
+        0.0002
+      ],
+      "kind": "three_subpatches_vertical",
+      "margin": 0.0008,
+      "subpatch_count": 3,
+      "subpatch_offsets": [
+        [
+          0,
+          0,
+          -0.007
+        ],
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0,
+          0,
+          0.007
+        ]
+      ]
+    },
+    {
+      "base_size": [
+        0.012,
+        0.0065,
+        0.012
+      ],
+      "friction": [
+        4.0,
+        0.1,
+        0.0002
+      ],
+      "kind": "rounded_box_oriented_pad",
+      "margin": 0.0015,
+      "solref": [
+        0.006,
+        0.4
+      ]
+    },
+    {
+      "base_size": [
+        0.01,
+        0.0055,
+        0.01
+      ],
+      "friction": [
+        4.5,
+        0.1,
+        0.0003
+      ],
+      "kind": "two_subpatches_high_friction_soft",
+      "margin": 0.001,
+      "solref": [
+        0.01,
+        0.55
+      ],
+      "subpatch_count": 2
+    },
+    {
+      "base_size": [
+        0.01,
+        0.005,
+        0.01
+      ],
+      "friction": [
+        3.5,
+        0.08,
+        0.0002
+      ],
+      "kind": "two_subpatches_low_margin_stiff",
+      "margin": 0.00025,
+      "solref": [
+        0.004,
+        0.35
+      ],
+      "subpatch_count": 2
+    },
+    {
+      "base_size": [
+        0.012,
+        0.0065,
+        0.012
+      ],
+      "friction": [
+        4.2,
+        0.1,
+        0.0002
+      ],
+      "kind": "enlarged_inner_pad_no_margin_high_friction",
+      "margin": 0.0
+    },
+    {
+      "base_size": [
+        0.0095,
+        0.0055,
+        0.0095
+      ],
+      "friction": [
+        3.8,
+        0.08,
+        0.0002
+      ],
+      "kind": "two_subpatches_xz",
+      "margin": 0.001,
+      "subpatch_count": 2,
+      "subpatch_offsets": [
+        [
+          -0.003,
+          0,
+          -0.0055
+        ],
+        [
+          0.003,
+          0,
+          0.0055
+        ]
+      ]
+    },
+    {
+      "base_size": [
+        0.009,
+        0.0055,
+        0.009
+      ],
+      "friction": [
+        4.0,
+        0.09,
+        0.0003
+      ],
+      "kind": "three_subpatches_xz_soft",
+      "margin": 0.0012,
+      "solref": [
+        0.01,
+        0.6
+      ],
+      "subpatch_count": 3,
+      "subpatch_offsets": [
+        [
+          -0.003,
+          0,
+          -0.006
+        ],
+        [
+          0,
+          0,
+          0
+        ],
+        [
+          0.003,
+          0,
+          0.006
+        ]
+      ]
+    }
+  ]
+}

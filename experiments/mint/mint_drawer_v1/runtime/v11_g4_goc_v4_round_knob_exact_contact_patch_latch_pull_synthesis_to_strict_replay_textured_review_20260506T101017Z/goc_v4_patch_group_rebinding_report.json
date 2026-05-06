@@ -1,0 +1,1019 @@
+{
+  "candidate_count": 12,
+  "generated_at_utc": "2026-05-06T10:10:31Z",
+  "goc_v4_patch_group_rebound": true,
+  "passed_count": 12,
+  "rows": [
+    {
+      "candidate_id": "fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline",
+      "contract": {
+        "broad_shell_link_wrist_arm_finger_shell_target_rejected": true,
+        "drawer_or_cabinet_geom_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "forbidden_robot_geom_ids": [
+          22,
+          24,
+          26,
+          31,
+          36,
+          40,
+          58,
+          67,
+          69
+        ],
+        "geometric_proxy_rejected_as_success": true,
+        "handle_disjoint_from_robot": true,
+        "left_finger_pad_group_geom_ids": [
+          72
+        ],
+        "left_finger_pad_group_geom_names": [
+          "finger1_pad_collision"
+        ],
+        "left_group_non_empty": true,
+        "left_right_disjoint": true,
+        "patch_kind": "current_single_pad_baseline",
+        "right_finger_pad_group_geom_ids": [
+          75
+        ],
+        "right_finger_pad_group_geom_names": [
+          "finger2_pad_collision"
+        ],
+        "right_group_non_empty": true,
+        "target_groups_disjoint_from_forbidden": true,
+        "true_knob_handle_geom_ids": [
+          9
+        ],
+        "true_knob_handle_geom_names": [
+          "drawer_handle_collision_0"
+        ],
+        "true_knob_handle_non_empty": true,
+        "unknown_contact_relevant_geom_ids": [],
+        "unknown_contact_relevant_geoms_absent": true
+      },
+      "parent_instance_id": "fg_cycle2_05_d0p9_02",
+      "passed": true,
+      "patch": {
+        "description": "unchanged single exact pad per finger",
+        "kind": "current_single_pad_baseline"
+      }
+    },
+    {
+      "candidate_id": "fg_cycle2_05_d1p6_04_padpatch_01_enlarged_inner_pad",
+      "contract": {
+        "broad_shell_link_wrist_arm_finger_shell_target_rejected": true,
+        "drawer_or_cabinet_geom_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "forbidden_robot_geom_ids": [
+          22,
+          24,
+          26,
+          31,
+          36,
+          40,
+          58,
+          67,
+          69
+        ],
+        "geometric_proxy_rejected_as_success": true,
+        "handle_disjoint_from_robot": true,
+        "left_finger_pad_group_geom_ids": [
+          72
+        ],
+        "left_finger_pad_group_geom_names": [
+          "finger1_pad_collision"
+        ],
+        "left_group_non_empty": true,
+        "left_right_disjoint": true,
+        "patch_kind": "enlarged_inner_pad",
+        "right_finger_pad_group_geom_ids": [
+          75
+        ],
+        "right_finger_pad_group_geom_names": [
+          "finger2_pad_collision"
+        ],
+        "right_group_non_empty": true,
+        "target_groups_disjoint_from_forbidden": true,
+        "true_knob_handle_geom_ids": [
+          9
+        ],
+        "true_knob_handle_geom_names": [
+          "drawer_handle_collision_0"
+        ],
+        "true_knob_handle_non_empty": true,
+        "unknown_contact_relevant_geom_ids": [],
+        "unknown_contact_relevant_geoms_absent": true
+      },
+      "parent_instance_id": "fg_cycle2_05_d1p6_04",
+      "passed": true,
+      "patch": {
+        "base_size": [
+          0.01,
+          0.0055,
+          0.01
+        ],
+        "friction": [
+          3.0,
+          0.06,
+          0.0002
+        ],
+        "kind": "enlarged_inner_pad",
+        "margin": 0.0005
+      }
+    },
+    {
+      "candidate_id": "fg_cycle2_05_d0p9_02_padpatch_02_enlarged_inner_pad_margin_1m",
+      "contract": {
+        "broad_shell_link_wrist_arm_finger_shell_target_rejected": true,
+        "drawer_or_cabinet_geom_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "forbidden_robot_geom_ids": [
+          22,
+          24,
+          26,
+          31,
+          36,
+          40,
+          58,
+          67,
+          69
+        ],
+        "geometric_proxy_rejected_as_success": true,
+        "handle_disjoint_from_robot": true,
+        "left_finger_pad_group_geom_ids": [
+          72
+        ],
+        "left_finger_pad_group_geom_names": [
+          "finger1_pad_collision"
+        ],
+        "left_group_non_empty": true,
+        "left_right_disjoint": true,
+        "patch_kind": "enlarged_inner_pad_margin_1mm",
+        "right_finger_pad_group_geom_ids": [
+          75
+        ],
+        "right_finger_pad_group_geom_names": [
+          "finger2_pad_collision"
+        ],
+        "right_group_non_empty": true,
+        "target_groups_disjoint_from_forbidden": true,
+        "true_knob_handle_geom_ids": [
+          9
+        ],
+        "true_knob_handle_geom_names": [
+          "drawer_handle_collision_0"
+        ],
+        "true_knob_handle_non_empty": true,
+        "unknown_contact_relevant_geom_ids": [],
+        "unknown_contact_relevant_geoms_absent": true
+      },
+      "parent_instance_id": "fg_cycle2_05_d0p9_02",
+      "passed": true,
+      "patch": {
+        "base_size": [
+          0.011,
+          0.006,
+          0.011
+        ],
+        "friction": [
+          3.5,
+          0.08,
+          0.0002
+        ],
+        "kind": "enlarged_inner_pad_margin_1mm",
+        "margin": 0.001
+      }
+    },
+    {
+      "candidate_id": "fg_cycle2_05_d1p6_04_padpatch_03_two_subpatches_z",
+      "contract": {
+        "broad_shell_link_wrist_arm_finger_shell_target_rejected": true,
+        "drawer_or_cabinet_geom_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "forbidden_robot_geom_ids": [
+          22,
+          24,
+          26,
+          31,
+          36,
+          40,
+          58,
+          67,
+          69
+        ],
+        "geometric_proxy_rejected_as_success": true,
+        "handle_disjoint_from_robot": true,
+        "left_finger_pad_group_geom_ids": [
+          72,
+          73,
+          74
+        ],
+        "left_finger_pad_group_geom_names": [
+          "finger1_pad_collision",
+          "finger1_pad_collision_patch_0",
+          "finger1_pad_collision_patch_1"
+        ],
+        "left_group_non_empty": true,
+        "left_right_disjoint": true,
+        "patch_kind": "two_subpatches_z",
+        "right_finger_pad_group_geom_ids": [
+          77,
+          78,
+          79
+        ],
+        "right_finger_pad_group_geom_names": [
+          "finger2_pad_collision",
+          "finger2_pad_collision_patch_0",
+          "finger2_pad_collision_patch_1"
+        ],
+        "right_group_non_empty": true,
+        "target_groups_disjoint_from_forbidden": true,
+        "true_knob_handle_geom_ids": [
+          9
+        ],
+        "true_knob_handle_geom_names": [
+          "drawer_handle_collision_0"
+        ],
+        "true_knob_handle_non_empty": true,
+        "unknown_contact_relevant_geom_ids": [],
+        "unknown_contact_relevant_geoms_absent": true
+      },
+      "parent_instance_id": "fg_cycle2_05_d1p6_04",
+      "passed": true,
+      "patch": {
+        "base_size": [
+          0.009,
+          0.005,
+          0.009
+        ],
+        "friction": [
+          3.2,
+          0.07,
+          0.0002
+        ],
+        "kind": "two_subpatches_z",
+        "margin": 0.0005,
+        "subpatch_count": 2,
+        "subpatch_offsets": [
+          [
+            0,
+            0,
+            -0.006
+          ],
+          [
+            0,
+            0,
+            0.006
+          ]
+        ]
+      }
+    },
+    {
+      "candidate_id": "fg_cycle2_05_d0p9_02_padpatch_04_two_subpatches_z_margin_1mm",
+      "contract": {
+        "broad_shell_link_wrist_arm_finger_shell_target_rejected": true,
+        "drawer_or_cabinet_geom_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "forbidden_robot_geom_ids": [
+          22,
+          24,
+          26,
+          31,
+          36,
+          40,
+          58,
+          67,
+          69
+        ],
+        "geometric_proxy_rejected_as_success": true,
+        "handle_disjoint_from_robot": true,
+        "left_finger_pad_group_geom_ids": [
+          72,
+          73,
+          74
+        ],
+        "left_finger_pad_group_geom_names": [
+          "finger1_pad_collision",
+          "finger1_pad_collision_patch_0",
+          "finger1_pad_collision_patch_1"
+        ],
+        "left_group_non_empty": true,
+        "left_right_disjoint": true,
+        "patch_kind": "two_subpatches_z_margin_1mm",
+        "right_finger_pad_group_geom_ids": [
+          77,
+          78,
+          79
+        ],
+        "right_finger_pad_group_geom_names": [
+          "finger2_pad_collision",
+          "finger2_pad_collision_patch_0",
+          "finger2_pad_collision_patch_1"
+        ],
+        "right_group_non_empty": true,
+        "target_groups_disjoint_from_forbidden": true,
+        "true_knob_handle_geom_ids": [
+          9
+        ],
+        "true_knob_handle_geom_names": [
+          "drawer_handle_collision_0"
+        ],
+        "true_knob_handle_non_empty": true,
+        "unknown_contact_relevant_geom_ids": [],
+        "unknown_contact_relevant_geoms_absent": true
+      },
+      "parent_instance_id": "fg_cycle2_05_d0p9_02",
+      "passed": true,
+      "patch": {
+        "base_size": [
+          0.01,
+          0.0055,
+          0.01
+        ],
+        "friction": [
+          3.8,
+          0.08,
+          0.0002
+        ],
+        "kind": "two_subpatches_z_margin_1mm",
+        "margin": 0.001,
+        "subpatch_count": 2,
+        "subpatch_offsets": [
+          [
+            0,
+            0,
+            -0.0065
+          ],
+          [
+            0,
+            0,
+            0.0065
+          ]
+        ]
+      }
+    },
+    {
+      "candidate_id": "fg_cycle2_05_d1p6_04_padpatch_05_three_subpatches_vertical",
+      "contract": {
+        "broad_shell_link_wrist_arm_finger_shell_target_rejected": true,
+        "drawer_or_cabinet_geom_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "forbidden_robot_geom_ids": [
+          22,
+          24,
+          26,
+          31,
+          36,
+          40,
+          58,
+          67,
+          69
+        ],
+        "geometric_proxy_rejected_as_success": true,
+        "handle_disjoint_from_robot": true,
+        "left_finger_pad_group_geom_ids": [
+          72,
+          73,
+          74,
+          75
+        ],
+        "left_finger_pad_group_geom_names": [
+          "finger1_pad_collision",
+          "finger1_pad_collision_patch_0",
+          "finger1_pad_collision_patch_1",
+          "finger1_pad_collision_patch_2"
+        ],
+        "left_group_non_empty": true,
+        "left_right_disjoint": true,
+        "patch_kind": "three_subpatches_vertical",
+        "right_finger_pad_group_geom_ids": [
+          78,
+          79,
+          80,
+          81
+        ],
+        "right_finger_pad_group_geom_names": [
+          "finger2_pad_collision",
+          "finger2_pad_collision_patch_0",
+          "finger2_pad_collision_patch_1",
+          "finger2_pad_collision_patch_2"
+        ],
+        "right_group_non_empty": true,
+        "target_groups_disjoint_from_forbidden": true,
+        "true_knob_handle_geom_ids": [
+          9
+        ],
+        "true_knob_handle_geom_names": [
+          "drawer_handle_collision_0"
+        ],
+        "true_knob_handle_non_empty": true,
+        "unknown_contact_relevant_geom_ids": [],
+        "unknown_contact_relevant_geoms_absent": true
+      },
+      "parent_instance_id": "fg_cycle2_05_d1p6_04",
+      "passed": true,
+      "patch": {
+        "base_size": [
+          0.009,
+          0.005,
+          0.009
+        ],
+        "friction": [
+          3.4,
+          0.07,
+          0.0002
+        ],
+        "kind": "three_subpatches_vertical",
+        "margin": 0.0008,
+        "subpatch_count": 3,
+        "subpatch_offsets": [
+          [
+            0,
+            0,
+            -0.007
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            0.007
+          ]
+        ]
+      }
+    },
+    {
+      "candidate_id": "fg_cycle2_05_d0p9_02_padpatch_06_rounded_box_oriented_pad",
+      "contract": {
+        "broad_shell_link_wrist_arm_finger_shell_target_rejected": true,
+        "drawer_or_cabinet_geom_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "forbidden_robot_geom_ids": [
+          22,
+          24,
+          26,
+          31,
+          36,
+          40,
+          58,
+          67,
+          69
+        ],
+        "geometric_proxy_rejected_as_success": true,
+        "handle_disjoint_from_robot": true,
+        "left_finger_pad_group_geom_ids": [
+          72
+        ],
+        "left_finger_pad_group_geom_names": [
+          "finger1_pad_collision"
+        ],
+        "left_group_non_empty": true,
+        "left_right_disjoint": true,
+        "patch_kind": "rounded_box_oriented_pad",
+        "right_finger_pad_group_geom_ids": [
+          75
+        ],
+        "right_finger_pad_group_geom_names": [
+          "finger2_pad_collision"
+        ],
+        "right_group_non_empty": true,
+        "target_groups_disjoint_from_forbidden": true,
+        "true_knob_handle_geom_ids": [
+          9
+        ],
+        "true_knob_handle_geom_names": [
+          "drawer_handle_collision_0"
+        ],
+        "true_knob_handle_non_empty": true,
+        "unknown_contact_relevant_geom_ids": [],
+        "unknown_contact_relevant_geoms_absent": true
+      },
+      "parent_instance_id": "fg_cycle2_05_d0p9_02",
+      "passed": true,
+      "patch": {
+        "base_size": [
+          0.012,
+          0.0065,
+          0.012
+        ],
+        "friction": [
+          4.0,
+          0.1,
+          0.0002
+        ],
+        "kind": "rounded_box_oriented_pad",
+        "margin": 0.0015,
+        "solref": [
+          0.006,
+          0.4
+        ]
+      }
+    },
+    {
+      "candidate_id": "fg_cycle2_05_d1p6_04_padpatch_07_two_subpatches_high_friction",
+      "contract": {
+        "broad_shell_link_wrist_arm_finger_shell_target_rejected": true,
+        "drawer_or_cabinet_geom_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "forbidden_robot_geom_ids": [
+          22,
+          24,
+          26,
+          31,
+          36,
+          40,
+          58,
+          67,
+          69
+        ],
+        "geometric_proxy_rejected_as_success": true,
+        "handle_disjoint_from_robot": true,
+        "left_finger_pad_group_geom_ids": [
+          72,
+          73,
+          74
+        ],
+        "left_finger_pad_group_geom_names": [
+          "finger1_pad_collision",
+          "finger1_pad_collision_patch_0",
+          "finger1_pad_collision_patch_1"
+        ],
+        "left_group_non_empty": true,
+        "left_right_disjoint": true,
+        "patch_kind": "two_subpatches_high_friction_soft",
+        "right_finger_pad_group_geom_ids": [
+          77,
+          78,
+          79
+        ],
+        "right_finger_pad_group_geom_names": [
+          "finger2_pad_collision",
+          "finger2_pad_collision_patch_0",
+          "finger2_pad_collision_patch_1"
+        ],
+        "right_group_non_empty": true,
+        "target_groups_disjoint_from_forbidden": true,
+        "true_knob_handle_geom_ids": [
+          9
+        ],
+        "true_knob_handle_geom_names": [
+          "drawer_handle_collision_0"
+        ],
+        "true_knob_handle_non_empty": true,
+        "unknown_contact_relevant_geom_ids": [],
+        "unknown_contact_relevant_geoms_absent": true
+      },
+      "parent_instance_id": "fg_cycle2_05_d1p6_04",
+      "passed": true,
+      "patch": {
+        "base_size": [
+          0.01,
+          0.0055,
+          0.01
+        ],
+        "friction": [
+          4.5,
+          0.1,
+          0.0003
+        ],
+        "kind": "two_subpatches_high_friction_soft",
+        "margin": 0.001,
+        "solref": [
+          0.01,
+          0.55
+        ],
+        "subpatch_count": 2
+      }
+    },
+    {
+      "candidate_id": "fg_cycle2_05_d0p9_02_padpatch_08_two_subpatches_low_margin_st",
+      "contract": {
+        "broad_shell_link_wrist_arm_finger_shell_target_rejected": true,
+        "drawer_or_cabinet_geom_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "forbidden_robot_geom_ids": [
+          22,
+          24,
+          26,
+          31,
+          36,
+          40,
+          58,
+          67,
+          69
+        ],
+        "geometric_proxy_rejected_as_success": true,
+        "handle_disjoint_from_robot": true,
+        "left_finger_pad_group_geom_ids": [
+          72,
+          73,
+          74
+        ],
+        "left_finger_pad_group_geom_names": [
+          "finger1_pad_collision",
+          "finger1_pad_collision_patch_0",
+          "finger1_pad_collision_patch_1"
+        ],
+        "left_group_non_empty": true,
+        "left_right_disjoint": true,
+        "patch_kind": "two_subpatches_low_margin_stiff",
+        "right_finger_pad_group_geom_ids": [
+          77,
+          78,
+          79
+        ],
+        "right_finger_pad_group_geom_names": [
+          "finger2_pad_collision",
+          "finger2_pad_collision_patch_0",
+          "finger2_pad_collision_patch_1"
+        ],
+        "right_group_non_empty": true,
+        "target_groups_disjoint_from_forbidden": true,
+        "true_knob_handle_geom_ids": [
+          9
+        ],
+        "true_knob_handle_geom_names": [
+          "drawer_handle_collision_0"
+        ],
+        "true_knob_handle_non_empty": true,
+        "unknown_contact_relevant_geom_ids": [],
+        "unknown_contact_relevant_geoms_absent": true
+      },
+      "parent_instance_id": "fg_cycle2_05_d0p9_02",
+      "passed": true,
+      "patch": {
+        "base_size": [
+          0.01,
+          0.005,
+          0.01
+        ],
+        "friction": [
+          3.5,
+          0.08,
+          0.0002
+        ],
+        "kind": "two_subpatches_low_margin_stiff",
+        "margin": 0.00025,
+        "solref": [
+          0.004,
+          0.35
+        ],
+        "subpatch_count": 2
+      }
+    },
+    {
+      "candidate_id": "fg_cycle2_05_d1p6_04_padpatch_09_enlarged_inner_pad_no_margin",
+      "contract": {
+        "broad_shell_link_wrist_arm_finger_shell_target_rejected": true,
+        "drawer_or_cabinet_geom_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "forbidden_robot_geom_ids": [
+          22,
+          24,
+          26,
+          31,
+          36,
+          40,
+          58,
+          67,
+          69
+        ],
+        "geometric_proxy_rejected_as_success": true,
+        "handle_disjoint_from_robot": true,
+        "left_finger_pad_group_geom_ids": [
+          72
+        ],
+        "left_finger_pad_group_geom_names": [
+          "finger1_pad_collision"
+        ],
+        "left_group_non_empty": true,
+        "left_right_disjoint": true,
+        "patch_kind": "enlarged_inner_pad_no_margin_high_friction",
+        "right_finger_pad_group_geom_ids": [
+          75
+        ],
+        "right_finger_pad_group_geom_names": [
+          "finger2_pad_collision"
+        ],
+        "right_group_non_empty": true,
+        "target_groups_disjoint_from_forbidden": true,
+        "true_knob_handle_geom_ids": [
+          9
+        ],
+        "true_knob_handle_geom_names": [
+          "drawer_handle_collision_0"
+        ],
+        "true_knob_handle_non_empty": true,
+        "unknown_contact_relevant_geom_ids": [],
+        "unknown_contact_relevant_geoms_absent": true
+      },
+      "parent_instance_id": "fg_cycle2_05_d1p6_04",
+      "passed": true,
+      "patch": {
+        "base_size": [
+          0.012,
+          0.0065,
+          0.012
+        ],
+        "friction": [
+          4.2,
+          0.1,
+          0.0002
+        ],
+        "kind": "enlarged_inner_pad_no_margin_high_friction",
+        "margin": 0.0
+      }
+    },
+    {
+      "candidate_id": "fg_cycle2_05_d0p9_02_padpatch_10_two_subpatches_xz",
+      "contract": {
+        "broad_shell_link_wrist_arm_finger_shell_target_rejected": true,
+        "drawer_or_cabinet_geom_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "forbidden_robot_geom_ids": [
+          22,
+          24,
+          26,
+          31,
+          36,
+          40,
+          58,
+          67,
+          69
+        ],
+        "geometric_proxy_rejected_as_success": true,
+        "handle_disjoint_from_robot": true,
+        "left_finger_pad_group_geom_ids": [
+          72,
+          73,
+          74
+        ],
+        "left_finger_pad_group_geom_names": [
+          "finger1_pad_collision",
+          "finger1_pad_collision_patch_0",
+          "finger1_pad_collision_patch_1"
+        ],
+        "left_group_non_empty": true,
+        "left_right_disjoint": true,
+        "patch_kind": "two_subpatches_xz",
+        "right_finger_pad_group_geom_ids": [
+          77,
+          78,
+          79
+        ],
+        "right_finger_pad_group_geom_names": [
+          "finger2_pad_collision",
+          "finger2_pad_collision_patch_0",
+          "finger2_pad_collision_patch_1"
+        ],
+        "right_group_non_empty": true,
+        "target_groups_disjoint_from_forbidden": true,
+        "true_knob_handle_geom_ids": [
+          9
+        ],
+        "true_knob_handle_geom_names": [
+          "drawer_handle_collision_0"
+        ],
+        "true_knob_handle_non_empty": true,
+        "unknown_contact_relevant_geom_ids": [],
+        "unknown_contact_relevant_geoms_absent": true
+      },
+      "parent_instance_id": "fg_cycle2_05_d0p9_02",
+      "passed": true,
+      "patch": {
+        "base_size": [
+          0.0095,
+          0.0055,
+          0.0095
+        ],
+        "friction": [
+          3.8,
+          0.08,
+          0.0002
+        ],
+        "kind": "two_subpatches_xz",
+        "margin": 0.001,
+        "subpatch_count": 2,
+        "subpatch_offsets": [
+          [
+            -0.003,
+            0,
+            -0.0055
+          ],
+          [
+            0.003,
+            0,
+            0.0055
+          ]
+        ]
+      }
+    },
+    {
+      "candidate_id": "fg_cycle2_05_d1p6_04_padpatch_11_three_subpatches_xz_soft",
+      "contract": {
+        "broad_shell_link_wrist_arm_finger_shell_target_rejected": true,
+        "drawer_or_cabinet_geom_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "forbidden_robot_geom_ids": [
+          22,
+          24,
+          26,
+          31,
+          36,
+          40,
+          58,
+          67,
+          69
+        ],
+        "geometric_proxy_rejected_as_success": true,
+        "handle_disjoint_from_robot": true,
+        "left_finger_pad_group_geom_ids": [
+          72,
+          73,
+          74,
+          75
+        ],
+        "left_finger_pad_group_geom_names": [
+          "finger1_pad_collision",
+          "finger1_pad_collision_patch_0",
+          "finger1_pad_collision_patch_1",
+          "finger1_pad_collision_patch_2"
+        ],
+        "left_group_non_empty": true,
+        "left_right_disjoint": true,
+        "patch_kind": "three_subpatches_xz_soft",
+        "right_finger_pad_group_geom_ids": [
+          78,
+          79,
+          80,
+          81
+        ],
+        "right_finger_pad_group_geom_names": [
+          "finger2_pad_collision",
+          "finger2_pad_collision_patch_0",
+          "finger2_pad_collision_patch_1",
+          "finger2_pad_collision_patch_2"
+        ],
+        "right_group_non_empty": true,
+        "target_groups_disjoint_from_forbidden": true,
+        "true_knob_handle_geom_ids": [
+          9
+        ],
+        "true_knob_handle_geom_names": [
+          "drawer_handle_collision_0"
+        ],
+        "true_knob_handle_non_empty": true,
+        "unknown_contact_relevant_geom_ids": [],
+        "unknown_contact_relevant_geoms_absent": true
+      },
+      "parent_instance_id": "fg_cycle2_05_d1p6_04",
+      "passed": true,
+      "patch": {
+        "base_size": [
+          0.009,
+          0.0055,
+          0.009
+        ],
+        "friction": [
+          4.0,
+          0.09,
+          0.0003
+        ],
+        "kind": "three_subpatches_xz_soft",
+        "margin": 0.0012,
+        "solref": [
+          0.01,
+          0.6
+        ],
+        "subpatch_count": 3,
+        "subpatch_offsets": [
+          [
+            -0.003,
+            0,
+            -0.006
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0.003,
+            0,
+            0.006
+          ]
+        ]
+      }
+    }
+  ]
+}

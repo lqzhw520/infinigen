@@ -1,0 +1,53 @@
+{
+  "broad_shell_link_wrist_arm_finger_shell_target_rejected": true,
+  "drawer_or_cabinet_geom_ids": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "forbidden_robot_geom_ids": [
+    22,
+    24,
+    26,
+    31,
+    36,
+    40,
+    58,
+    67,
+    69
+  ],
+  "geometric_proxy_rejected_as_success": true,
+  "handle_disjoint_from_robot": true,
+  "left_finger_pad_group_geom_ids": [
+    72
+  ],
+  "left_finger_pad_group_geom_names": [
+    "finger1_pad_collision"
+  ],
+  "left_group_non_empty": true,
+  "left_right_disjoint": true,
+  "patch_kind": "current_single_pad_baseline",
+  "right_finger_pad_group_geom_ids": [
+    75
+  ],
+  "right_finger_pad_group_geom_names": [
+    "finger2_pad_collision"
+  ],
+  "right_group_non_empty": true,
+  "target_groups_disjoint_from_forbidden": true,
+  "true_knob_handle_geom_ids": [
+    9
+  ],
+  "true_knob_handle_geom_names": [
+    "drawer_handle_collision_0"
+  ],
+  "true_knob_handle_non_empty": true,
+  "unknown_contact_relevant_geom_ids": [],
+  "unknown_contact_relevant_geoms_absent": true
+}

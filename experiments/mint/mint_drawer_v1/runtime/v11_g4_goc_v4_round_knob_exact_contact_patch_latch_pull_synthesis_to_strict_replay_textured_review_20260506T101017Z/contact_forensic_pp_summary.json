@@ -1,0 +1,233 @@
+{
+  "classification_histogram": {
+    "EXACT_LATCH_EXISTS_BUT_PULL_WORK_INSUFFICIENT": 2,
+    "TRUE_CONTACT_PATCH_DISCRETIZATION": 1
+  },
+  "contact_forensic_pp_attempted": true,
+  "do_not_promote_geometric_proxy": true,
+  "generated_at_utc": "2026-05-06T10:10:27Z",
+  "summaries": [
+    {
+      "bilateral_exact_group_contact_frames": 6,
+      "bilateral_exact_group_contact_latch_frames": 0,
+      "bilateral_exact_group_contact_max_consecutive_frames": 6,
+      "bilateral_exact_group_contact_pull_frames": 6,
+      "bilateral_exact_group_contact_pull_max_consecutive_frames": 6,
+      "classification": "TRUE_CONTACT_PATCH_DISCRETIZATION",
+      "contract": {
+        "broad_shell_link_wrist_arm_finger_shell_target_rejected": true,
+        "drawer_or_cabinet_geom_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "forbidden_robot_geom_ids": [
+          22,
+          24,
+          26,
+          31,
+          36,
+          40,
+          58,
+          67,
+          69
+        ],
+        "geometric_proxy_rejected_as_success": true,
+        "handle_disjoint_from_robot": true,
+        "left_finger_pad_group_geom_ids": [
+          72
+        ],
+        "left_finger_pad_group_geom_names": [
+          "finger1_pad_collision"
+        ],
+        "left_group_non_empty": true,
+        "left_right_disjoint": true,
+        "patch_kind": "baseline",
+        "right_finger_pad_group_geom_ids": [
+          75
+        ],
+        "right_finger_pad_group_geom_names": [
+          "finger2_pad_collision"
+        ],
+        "right_group_non_empty": true,
+        "target_groups_disjoint_from_forbidden": true,
+        "true_knob_handle_geom_ids": [
+          9
+        ],
+        "true_knob_handle_geom_names": [
+          "drawer_handle_collision_0"
+        ],
+        "true_knob_handle_non_empty": true,
+        "unknown_contact_relevant_geom_ids": [],
+        "unknown_contact_relevant_geoms_absent": true
+      },
+      "drawer_fraction_max": 0.956438122722968,
+      "forbidden_contact_frames": 0,
+      "geometric_bilateral_frames": 525,
+      "geometric_bilateral_proxy_is_diagnostic_only": true,
+      "handle_nonlegal_contact_frames": 0,
+      "label": "high_opening_legal_low_exact",
+      "left_group_exact_contact_frames": 4203,
+      "max_force_n": 26.613678198870588,
+      "max_penetration_m": 0.0008894877799913922,
+      "pull_axis_wrench_projection_proxy_max_n": 15.670478269898718,
+      "right_group_exact_contact_frames": 198,
+      "trace_frames": 6707,
+      "trace_path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_821000_pc02_micro_lead_high_damping_semi_close__fg_cycle2_05_d0p9_02__fast_guarded_contact.jsonl"
+    },
+    {
+      "bilateral_exact_group_contact_frames": 6212,
+      "bilateral_exact_group_contact_latch_frames": 160,
+      "bilateral_exact_group_contact_max_consecutive_frames": 4082,
+      "bilateral_exact_group_contact_pull_frames": 6212,
+      "bilateral_exact_group_contact_pull_max_consecutive_frames": 4082,
+      "classification": "EXACT_LATCH_EXISTS_BUT_PULL_WORK_INSUFFICIENT",
+      "contract": {
+        "broad_shell_link_wrist_arm_finger_shell_target_rejected": true,
+        "drawer_or_cabinet_geom_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "forbidden_robot_geom_ids": [
+          22,
+          24,
+          26,
+          31,
+          36,
+          40,
+          58,
+          67,
+          69
+        ],
+        "geometric_proxy_rejected_as_success": true,
+        "handle_disjoint_from_robot": true,
+        "left_finger_pad_group_geom_ids": [
+          72
+        ],
+        "left_finger_pad_group_geom_names": [
+          "finger1_pad_collision"
+        ],
+        "left_group_non_empty": true,
+        "left_right_disjoint": true,
+        "patch_kind": "baseline",
+        "right_finger_pad_group_geom_ids": [
+          75
+        ],
+        "right_finger_pad_group_geom_names": [
+          "finger2_pad_collision"
+        ],
+        "right_group_non_empty": true,
+        "target_groups_disjoint_from_forbidden": true,
+        "true_knob_handle_geom_ids": [
+          9
+        ],
+        "true_knob_handle_geom_names": [
+          "drawer_handle_collision_0"
+        ],
+        "true_knob_handle_non_empty": true,
+        "unknown_contact_relevant_geom_ids": [],
+        "unknown_contact_relevant_geoms_absent": true
+      },
+      "drawer_fraction_max": 0.10350721415549896,
+      "forbidden_contact_frames": 0,
+      "geometric_bilateral_frames": 6958,
+      "geometric_bilateral_proxy_is_diagnostic_only": true,
+      "handle_nonlegal_contact_frames": 0,
+      "label": "high_exact_under_opening",
+      "left_group_exact_contact_frames": 6255,
+      "max_force_n": 94.91902843349908,
+      "max_penetration_m": 0.002690832081660502,
+      "pull_axis_wrench_projection_proxy_max_n": 46.2020020243272,
+      "right_group_exact_contact_frames": 6718,
+      "trace_frames": 7867,
+      "trace_path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_830100_rk_latch_binary_high_preload_tight_lead__fg_cycle2_05_d1p6_04__fast_guarded_contact.jsonl"
+    },
+    {
+      "bilateral_exact_group_contact_frames": 175,
+      "bilateral_exact_group_contact_latch_frames": 0,
+      "bilateral_exact_group_contact_max_consecutive_frames": 106,
+      "bilateral_exact_group_contact_pull_frames": 175,
+      "bilateral_exact_group_contact_pull_max_consecutive_frames": 106,
+      "classification": "EXACT_LATCH_EXISTS_BUT_PULL_WORK_INSUFFICIENT",
+      "contract": {
+        "broad_shell_link_wrist_arm_finger_shell_target_rejected": true,
+        "drawer_or_cabinet_geom_ids": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ],
+        "forbidden_robot_geom_ids": [
+          22,
+          24,
+          26,
+          31,
+          36,
+          40,
+          58,
+          67,
+          69
+        ],
+        "geometric_proxy_rejected_as_success": true,
+        "handle_disjoint_from_robot": true,
+        "left_finger_pad_group_geom_ids": [
+          72
+        ],
+        "left_finger_pad_group_geom_names": [
+          "finger1_pad_collision"
+        ],
+        "left_group_non_empty": true,
+        "left_right_disjoint": true,
+        "patch_kind": "baseline",
+        "right_finger_pad_group_geom_ids": [
+          75
+        ],
+        "right_finger_pad_group_geom_names": [
+          "finger2_pad_collision"
+        ],
+        "right_group_non_empty": true,
+        "target_groups_disjoint_from_forbidden": true,
+        "true_knob_handle_geom_ids": [
+          9
+        ],
+        "true_knob_handle_geom_names": [
+          "drawer_handle_collision_0"
+        ],
+        "true_knob_handle_non_empty": true,
+        "unknown_contact_relevant_geom_ids": [],
+        "unknown_contact_relevant_geoms_absent": true
+      },
+      "drawer_fraction_max": 0.7728833915004549,
+      "forbidden_contact_frames": 0,
+      "geometric_bilateral_frames": 724,
+      "geometric_bilateral_proxy_is_diagnostic_only": true,
+      "handle_nonlegal_contact_frames": 0,
+      "label": "balanced",
+      "left_group_exact_contact_frames": 3141,
+      "max_force_n": 36.39457704300712,
+      "max_penetration_m": 0.0010620989873297432,
+      "pull_axis_wrench_projection_proxy_max_n": 15.741999312969153,
+      "right_group_exact_contact_frames": 444,
+      "trace_frames": 6707,
+      "trace_path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_831000_pc02_micro_lead_high_damping_semi_close__fg_cycle2_05_d1p6_04__fast_guarded_contact.jsonl"
+    }
+  ]
+}

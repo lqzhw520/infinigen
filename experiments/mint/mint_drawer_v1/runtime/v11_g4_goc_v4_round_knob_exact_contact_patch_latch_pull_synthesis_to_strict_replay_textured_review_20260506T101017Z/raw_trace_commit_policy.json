@@ -1,0 +1,9 @@
+{
+  "generated_at_utc": "2026-05-06T10:27:24Z",
+  "not_a_success_claim": true,
+  "raw_trace_count": 101,
+  "raw_trace_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces",
+  "raw_trace_dir_size_policy": "local_only_not_staged",
+  "reason": "101 raw rollout traces total about 927M; final origin-visible evidence commits reports, summaries, manifests, and hashes but not raw heavy JSONL traces.",
+  "trace_hash_manifest_committed": true
+}

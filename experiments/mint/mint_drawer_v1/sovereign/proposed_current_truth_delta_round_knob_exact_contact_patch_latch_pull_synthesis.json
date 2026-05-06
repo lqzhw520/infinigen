@@ -1,0 +1,10 @@
+{
+  "dataset_admission_review_ready": false,
+  "do_not_apply_without_manual_review": true,
+  "generated_at_utc": "2026-05-06T10:27:24Z",
+  "mint_train_eval_remains_blocked_unless_manual_review_approves": true,
+  "new_closeout_classification": "EXACT_LATCH_PULL_UNDER_OPENED",
+  "previous_contact_discretization_closeout_not_final_failure": true,
+  "previous_physics_replay_success_preserved": true,
+  "proposal_id": "proposed_current_truth_delta_round_knob_exact_contact_patch_latch_pull_synthesis"
+}

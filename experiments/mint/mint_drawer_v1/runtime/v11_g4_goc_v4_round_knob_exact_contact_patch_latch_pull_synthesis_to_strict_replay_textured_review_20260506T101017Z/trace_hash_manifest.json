@@ -1,0 +1,511 @@
+{
+  "generated_at_utc": "2026-05-06T10:27:20Z",
+  "trace_count": 101,
+  "traces": [
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910000_exact_latch_only_binary_close_low_press__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline__fast_guarded_contact.jsonl",
+      "sha256": "1ee0808e6bc9cf991f89c43e514daba49ec9b8f3cfa547be6c05646277c69102",
+      "size_bytes": 2619450
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910000_exact_latch_only_binary_close_low_press__fg_cycle2_05_d0p9_02_padpatch_02_enlarged_inner_pad_margin_1m__fast_guarded_contact.jsonl",
+      "sha256": "4bb8aa317b5195426cd5153c64b022f2f07ec0b43eba3477b024a48102c9cca2",
+      "size_bytes": 3688272
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910000_exact_latch_only_binary_close_low_press__fg_cycle2_05_d1p6_04_padpatch_01_enlarged_inner_pad__fast_guarded_contact.jsonl",
+      "sha256": "f4d28bde46041311d6fdf9c84bcffe125d9c0045064ef99c956d81b3048d2c9a",
+      "size_bytes": 3460281
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910000_exact_latch_only_binary_close_low_press__fg_cycle2_05_d1p6_04_padpatch_03_two_subpatches_z__fast_guarded_contact.jsonl",
+      "sha256": "0ce44082368d6161e6ecc90be07f2782eaf7e6c00bff7d51af500e5eb238c700",
+      "size_bytes": 3300519
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910001_exact_latch_only_binary_close_firm__fg_cycle2_05_d1p6_04_padpatch_03_two_subpatches_z__fast_guarded_contact.jsonl",
+      "sha256": "2a6cd54be954b35967a47cddad6e94dee89c98b49ea419ec80c90fb9cac4723d",
+      "size_bytes": 3300191
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910002_exact_latch_only_semiclose__fg_cycle2_05_d1p6_04_padpatch_03_two_subpatches_z__fast_guarded_contact.jsonl",
+      "sha256": "f077645b9104ae6f1a48cdf6a67158fb10403b08a8b6dd9a78141db56c9aea91",
+      "size_bytes": 2778333
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910003_exact_latch_only_ikhold__fg_cycle2_05_d1p6_04_padpatch_03_two_subpatches_z__fast_guarded_contact.jsonl",
+      "sha256": "5ca17336edf39cfaf0041461ce487be71da0d6158152208092972f3354ba548c",
+      "size_bytes": 2801195
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910004_exact_latch_only_high_friction_hold__fg_cycle2_05_d1p6_04_padpatch_03_two_subpatches_z__fast_guarded_contact.jsonl",
+      "sha256": "282ad3b983fe00706a21ce5dc0c22f203904c5ee34b95011cc40ce6d29d1d4bc",
+      "size_bytes": 3299502
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910005_exact_latch_only_soft_hold__fg_cycle2_05_d1p6_04_padpatch_03_two_subpatches_z__fast_guarded_contact.jsonl",
+      "sha256": "32ed5a91bd1bd94fade9f77c27ab6c6de5367c7b22a731779913475412efa3d8",
+      "size_bytes": 3298781
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910006_exact_latch_only_null_low__fg_cycle2_05_d1p6_04_padpatch_03_two_subpatches_z__fast_guarded_contact.jsonl",
+      "sha256": "259b2dee494f27b7f1a18ca9d285cac1d5e72ca31033fce8d55b81a193091803",
+      "size_bytes": 3299364
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910007_exact_latch_only_null_zero__fg_cycle2_05_d1p6_04_padpatch_03_two_subpatches_z__fast_guarded_contact.jsonl",
+      "sha256": "dce4577425d93c41157ea4ee38ff35ecbe68d51d471405b8cd15585fc7636d9d",
+      "size_bytes": 3300229
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910008_exact_latch_only_binary_close_low_press__fg_cycle2_05_d0p9_02_padpatch_04_two_subpatches_z_margin_1mm__fast_guarded_contact.jsonl",
+      "sha256": "b96f342716cd6951dd9929ad3ee0e0af8f36c95d794f01905868768c5731385c",
+      "size_bytes": 3553033
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910009_exact_latch_only_binary_close_firm__fg_cycle2_05_d0p9_02_padpatch_04_two_subpatches_z_margin_1mm__fast_guarded_contact.jsonl",
+      "sha256": "7a0832f8ba0b2823a42fdad984f885a588b01d5d25a90943725f7ed75c6a8f28",
+      "size_bytes": 3539971
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910010_exact_latch_only_semiclose__fg_cycle2_05_d0p9_02_padpatch_04_two_subpatches_z_margin_1mm__fast_guarded_contact.jsonl",
+      "sha256": "d428f9dbf7a27676314e53bf4fef3904475cfea02c78d3ff8929f7b0f60ba4ff",
+      "size_bytes": 2979074
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910011_exact_latch_only_ikhold__fg_cycle2_05_d0p9_02_padpatch_04_two_subpatches_z_margin_1mm__fast_guarded_contact.jsonl",
+      "sha256": "bfa419054bbe56dc60af62554dd2c446e8cb6dc8725cff0491d647ada681e275",
+      "size_bytes": 2998485
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910012_exact_latch_only_high_friction_hold__fg_cycle2_05_d0p9_02_padpatch_04_two_subpatches_z_margin_1mm__fast_guarded_contact.jsonl",
+      "sha256": "fc9f74515617f840951a995a2949287673b5c82b78cc9704d95caeb4200fa2bd",
+      "size_bytes": 3534330
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910013_exact_latch_only_soft_hold__fg_cycle2_05_d0p9_02_padpatch_04_two_subpatches_z_margin_1mm__fast_guarded_contact.jsonl",
+      "sha256": "8fb95ab8248b378677aef487ac25a7157202668ea40bdef597b42d510592e825",
+      "size_bytes": 3550793
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910014_exact_latch_only_null_low__fg_cycle2_05_d0p9_02_padpatch_04_two_subpatches_z_margin_1mm__fast_guarded_contact.jsonl",
+      "sha256": "ba3c7c5108680e0c1e915b3b59e8a896767047966b7c142271002d8a9ae2aef6",
+      "size_bytes": 3555451
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910015_exact_latch_only_null_zero__fg_cycle2_05_d0p9_02_padpatch_04_two_subpatches_z_margin_1mm__fast_guarded_contact.jsonl",
+      "sha256": "19b187d0ae4ce6be90e0fed63506e58e98d6d0b028fb16be033546c7dca625d4",
+      "size_bytes": 3552218
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910016_exact_latch_only_binary_close_low_press__fg_cycle2_05_d1p6_04_padpatch_05_three_subpatches_vertical__fast_guarded_contact.jsonl",
+      "sha256": "91869c7d1d17f6e0e3dcd585f04267721600dce6410b904cd6911897c72d8440",
+      "size_bytes": 3250784
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910017_exact_latch_only_binary_close_firm__fg_cycle2_05_d1p6_04_padpatch_05_three_subpatches_vertical__fast_guarded_contact.jsonl",
+      "sha256": "712e0c635ef558768db29db5c88e719b31a73d12ac1cdbe5a33a0159b135d832",
+      "size_bytes": 3252374
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910018_exact_latch_only_semiclose__fg_cycle2_05_d1p6_04_padpatch_05_three_subpatches_vertical__fast_guarded_contact.jsonl",
+      "sha256": "21073806243dbfd5e4ea8086e48cd0f78a32a74e9b37176e49270297d4df4f58",
+      "size_bytes": 2615161
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910019_exact_latch_only_ikhold__fg_cycle2_05_d1p6_04_padpatch_05_three_subpatches_vertical__fast_guarded_contact.jsonl",
+      "sha256": "d67c7b41939c19a5d5f522fc243f8d9aaaeef269d547c821c2768ffeda1177a9",
+      "size_bytes": 2625007
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910020_exact_latch_only_high_friction_hold__fg_cycle2_05_d1p6_04_padpatch_05_three_subpatches_vertical__fast_guarded_contact.jsonl",
+      "sha256": "6e22d1e6149e0fdba469eaf568ff94b2d008c6343f214ada7bb481f80b697333",
+      "size_bytes": 3252925
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910021_exact_latch_only_soft_hold__fg_cycle2_05_d1p6_04_padpatch_05_three_subpatches_vertical__fast_guarded_contact.jsonl",
+      "sha256": "00a09095ecb985d290374f888f11d3b4c6b106386d7a278fc345ba93700a6bc2",
+      "size_bytes": 3251444
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910022_exact_latch_only_null_low__fg_cycle2_05_d1p6_04_padpatch_05_three_subpatches_vertical__fast_guarded_contact.jsonl",
+      "sha256": "42d9487643d48643d5ff60631bc4e04b7fe6c34c5fe8cbcc8bcd53fd814b47d3",
+      "size_bytes": 3252299
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910023_exact_latch_only_null_zero__fg_cycle2_05_d1p6_04_padpatch_05_three_subpatches_vertical__fast_guarded_contact.jsonl",
+      "sha256": "550df2680e1f72e217314cfb6910c8e929265adbbe5cc0a20e8d9c4c15e69f1e",
+      "size_bytes": 3251789
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910024_exact_latch_only_binary_close_low_press__fg_cycle2_05_d0p9_02_padpatch_06_rounded_box_oriented_pad__fast_guarded_contact.jsonl",
+      "sha256": "526746d89cbddb60ea9250bad40c5178bdd9a71eb1dd1e28c0c7ed69b25ac843",
+      "size_bytes": 3650159
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910024_exact_latch_only_binary_close_low_press__fg_cycle2_05_d1p6_04_padpatch_07_two_subpatches_high_friction__fast_guarded_contact.jsonl",
+      "sha256": "f632b5d68acd8efa628759efcfe3e8aacf982af20d4cf2c73403247db7b02a38",
+      "size_bytes": 3667801
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910025_exact_latch_only_binary_close_firm__fg_cycle2_05_d1p6_04_padpatch_07_two_subpatches_high_friction__fast_guarded_contact.jsonl",
+      "sha256": "63ee2d735ede56b8cba9450e5ad35294fd60912906df2f918650969b14e9d35f",
+      "size_bytes": 3662138
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910026_exact_latch_only_semiclose__fg_cycle2_05_d1p6_04_padpatch_07_two_subpatches_high_friction__fast_guarded_contact.jsonl",
+      "sha256": "47332eb8d571133a3ee2cadddba16e09c8317592bb2888a854c24379110e1106",
+      "size_bytes": 3154922
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910027_exact_latch_only_ikhold__fg_cycle2_05_d1p6_04_padpatch_07_two_subpatches_high_friction__fast_guarded_contact.jsonl",
+      "sha256": "cc43bb8c759064ae3babc1d7ddb398df1be5ce96c6fa5852e0cb5ae3f9ebc113",
+      "size_bytes": 3169628
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910028_exact_latch_only_high_friction_hold__fg_cycle2_05_d1p6_04_padpatch_07_two_subpatches_high_friction__fast_guarded_contact.jsonl",
+      "sha256": "39884010133371e2af66729b51b12701a9520512c43ece5a8e3283c652ea229d",
+      "size_bytes": 3666896
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910029_exact_latch_only_soft_hold__fg_cycle2_05_d1p6_04_padpatch_07_two_subpatches_high_friction__fast_guarded_contact.jsonl",
+      "sha256": "8a02e0ced6684c34f86b93cd79edfb3e785af348ae8ba6f813247460feaa2285",
+      "size_bytes": 3666327
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910030_exact_latch_only_null_low__fg_cycle2_05_d1p6_04_padpatch_07_two_subpatches_high_friction__fast_guarded_contact.jsonl",
+      "sha256": "dca12f9eda65ba32d1cc45495a2d9641683ad01c476be02749056e29d1c73601",
+      "size_bytes": 3666246
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910031_exact_latch_only_null_zero__fg_cycle2_05_d1p6_04_padpatch_07_two_subpatches_high_friction__fast_guarded_contact.jsonl",
+      "sha256": "861101d913bb9af2aabcaf2900bd497d9aa8fbc9317b68df86779676d25db424",
+      "size_bytes": 3669275
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910032_exact_latch_only_binary_close_low_press__fg_cycle2_05_d0p9_02_padpatch_08_two_subpatches_low_margin_st__fast_guarded_contact.jsonl",
+      "sha256": "59311b3db39269db1243cb4192043c817be2bb7eaaf2770a7f581e568ef7caa3",
+      "size_bytes": 3524469
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910033_exact_latch_only_binary_close_firm__fg_cycle2_05_d0p9_02_padpatch_08_two_subpatches_low_margin_st__fast_guarded_contact.jsonl",
+      "sha256": "7e4056131716fce55c8142cea0b615cc43388f044da35ff01acbc0723d875f45",
+      "size_bytes": 3517538
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910034_exact_latch_only_semiclose__fg_cycle2_05_d0p9_02_padpatch_08_two_subpatches_low_margin_st__fast_guarded_contact.jsonl",
+      "sha256": "b7c4263d43517fdd853f9720e1ef9cf395cace35cf243d58c67a686d6e6e4d64",
+      "size_bytes": 2906556
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910035_exact_latch_only_ikhold__fg_cycle2_05_d0p9_02_padpatch_08_two_subpatches_low_margin_st__fast_guarded_contact.jsonl",
+      "sha256": "97dbc9cbd5e29b96fc13acb16628d15e8631cf21881d14727c7f14ab559de207",
+      "size_bytes": 2904278
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910036_exact_latch_only_high_friction_hold__fg_cycle2_05_d0p9_02_padpatch_08_two_subpatches_low_margin_st__fast_guarded_contact.jsonl",
+      "sha256": "2abe1b3864a5442f6dc45bcf0e29b92f7d005c023eeb58be241f5331c779c03c",
+      "size_bytes": 3519372
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910037_exact_latch_only_soft_hold__fg_cycle2_05_d0p9_02_padpatch_08_two_subpatches_low_margin_st__fast_guarded_contact.jsonl",
+      "sha256": "7113f1908e8d3e8eb6452e003e1edbf5bbf33d527af1cb573a169d548b11f73f",
+      "size_bytes": 3516360
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910038_exact_latch_only_null_low__fg_cycle2_05_d0p9_02_padpatch_08_two_subpatches_low_margin_st__fast_guarded_contact.jsonl",
+      "sha256": "2e8456db1cdef908e752fcf3594567994288652dee832443629bb4df2658fb76",
+      "size_bytes": 3516975
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910039_exact_latch_only_null_zero__fg_cycle2_05_d0p9_02_padpatch_08_two_subpatches_low_margin_st__fast_guarded_contact.jsonl",
+      "sha256": "5765e95f3112aec664f229ff4e694b20d9a4a02558f57293db6d0e7f7f59029f",
+      "size_bytes": 3517319
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910040_exact_latch_only_binary_close_low_press__fg_cycle2_05_d0p9_02_padpatch_10_two_subpatches_xz__fast_guarded_contact.jsonl",
+      "sha256": "017a47bba4d534337f91e986f91f25cf7f9ece8d2e9cbf98485d2dd4e0ce7469",
+      "size_bytes": 3549982
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910040_exact_latch_only_binary_close_low_press__fg_cycle2_05_d1p6_04_padpatch_09_enlarged_inner_pad_no_margin__fast_guarded_contact.jsonl",
+      "sha256": "770c197e4c452de70cb06ce920912125132586c73ac3dc11a1d5eaf990482e11",
+      "size_bytes": 3930501
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910041_exact_latch_only_binary_close_firm__fg_cycle2_05_d0p9_02_padpatch_10_two_subpatches_xz__fast_guarded_contact.jsonl",
+      "sha256": "95a89738756d70d84eb065565f675b9114a42a8e8aa7b2197c85be46bc568281",
+      "size_bytes": 3538561
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910042_exact_latch_only_semiclose__fg_cycle2_05_d0p9_02_padpatch_10_two_subpatches_xz__fast_guarded_contact.jsonl",
+      "sha256": "c2954472d48c4319f061e42715adebb00c18cff5fd735a1ba84b3ad702462f77",
+      "size_bytes": 2965795
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910043_exact_latch_only_ikhold__fg_cycle2_05_d0p9_02_padpatch_10_two_subpatches_xz__fast_guarded_contact.jsonl",
+      "sha256": "5c8631c6b96170f56fc14680c3a0d49c9ff0ea315833285e097564d3789c1e2a",
+      "size_bytes": 2983773
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910044_exact_latch_only_high_friction_hold__fg_cycle2_05_d0p9_02_padpatch_10_two_subpatches_xz__fast_guarded_contact.jsonl",
+      "sha256": "0a95c7f33f5bfab9b80551e07ae779d9fa9446b7ffb1683745e1879a76ca1384",
+      "size_bytes": 3533190
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910045_exact_latch_only_soft_hold__fg_cycle2_05_d0p9_02_padpatch_10_two_subpatches_xz__fast_guarded_contact.jsonl",
+      "sha256": "815dfcb654c4c79b10db15926bb069052e5bd517d74af2925e79b639daa900f0",
+      "size_bytes": 3548984
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910046_exact_latch_only_null_low__fg_cycle2_05_d0p9_02_padpatch_10_two_subpatches_xz__fast_guarded_contact.jsonl",
+      "sha256": "5e97c91089c36826637e4e7ec36738339b370c00a63eff89b6b7761e50dd3376",
+      "size_bytes": 3553210
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910047_exact_latch_only_null_zero__fg_cycle2_05_d0p9_02_padpatch_10_two_subpatches_xz__fast_guarded_contact.jsonl",
+      "sha256": "31f3aab29fa56cd84be608c304926aee4ff6c49ea51f8bb64d80d295bb414e0a",
+      "size_bytes": 3550722
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910048_exact_latch_only_binary_close_low_press__fg_cycle2_05_d1p6_04_padpatch_11_three_subpatches_xz_soft__fast_guarded_contact.jsonl",
+      "sha256": "e1eafdf0b4b942e84d1c39995dfc2355a4cc11a51932c7d8ca2aea8427f5532b",
+      "size_bytes": 3601609
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910049_exact_latch_only_binary_close_firm__fg_cycle2_05_d1p6_04_padpatch_11_three_subpatches_xz_soft__fast_guarded_contact.jsonl",
+      "sha256": "b0274cb8013103de0bd61baf77a11c0e49bda3c80c60d78387d55f9c1bcd4c34",
+      "size_bytes": 3668632
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910050_exact_latch_only_semiclose__fg_cycle2_05_d1p6_04_padpatch_11_three_subpatches_xz_soft__fast_guarded_contact.jsonl",
+      "sha256": "70d1e7e794a382714c7a099227fda46dc49f64eb22e8ec9d7c76ffc8da73172a",
+      "size_bytes": 3000112
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910051_exact_latch_only_ikhold__fg_cycle2_05_d1p6_04_padpatch_11_three_subpatches_xz_soft__fast_guarded_contact.jsonl",
+      "sha256": "4be102039039351681e4c0162caa555a672533b402b6cf301928eb0b7188c685",
+      "size_bytes": 3037218
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910052_exact_latch_only_high_friction_hold__fg_cycle2_05_d1p6_04_padpatch_11_three_subpatches_xz_soft__fast_guarded_contact.jsonl",
+      "sha256": "c199615ba0e7056be450b647e6c422a852d383823103242578f422110e676e14",
+      "size_bytes": 3678983
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910053_exact_latch_only_soft_hold__fg_cycle2_05_d1p6_04_padpatch_11_three_subpatches_xz_soft__fast_guarded_contact.jsonl",
+      "sha256": "04f89c94abe08a48fc209056f8f4f39085440ad81d0a3daabbcc2ee0499a3ee5",
+      "size_bytes": 3556951
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910054_exact_latch_only_null_low__fg_cycle2_05_d1p6_04_padpatch_11_three_subpatches_xz_soft__fast_guarded_contact.jsonl",
+      "sha256": "6e9081f298097ae01c7a020fb9e21736c15c5f6aa3dd9d8de89d775b57c25b09",
+      "size_bytes": 3659414
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_910055_exact_latch_only_null_zero__fg_cycle2_05_d1p6_04_padpatch_11_three_subpatches_xz_soft__fast_guarded_contact.jsonl",
+      "sha256": "1338322af20e69aed08f92c1d5c2f03afea891fe381ce05e77c67122724ab8b2",
+      "size_bytes": 3671095
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_920000_pc02_micro_lead_high_damping_semi_close__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline__fast_guarded_contact.jsonl",
+      "sha256": "1ea4828fef72df6930d65d5c4b583de718eb8b62a1a99781d83cb79b57056cf1",
+      "size_bytes": 9244435
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_920001_rk_latch_binary_high_preload_tight_lead__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline__fast_guarded_contact.jsonl",
+      "sha256": "f5c0daf320d519f26142cb83e0c0d68c02686ce131a5194173463179829a1367",
+      "size_bytes": 19700375
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_920002_patch_locked_pull_high_open_low_press__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline__fast_guarded_contact.jsonl",
+      "sha256": "237715b0a0ecee6e4922545aef4d809d06a5806d07b00b3969e977e6b699764c",
+      "size_bytes": 20391253
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_920003_patch_locked_pull_firm_latch_axis_work__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline__fast_guarded_contact.jsonl",
+      "sha256": "0cb4160fe23aa8655d85d1d5543071a91e214c1e89787afef92d38287313d660",
+      "size_bytes": 19475816
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_920004_patch_locked_pull_slow_high_friction__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline__fast_guarded_contact.jsonl",
+      "sha256": "76b6a0017bea8fb6d7116e08e573a2b30dcf2e14e9e118eeacc9930865c08fea",
+      "size_bytes": 22800283
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_920005_patch_locked_pull_reseat_like_semiclose__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline__fast_guarded_contact.jsonl",
+      "sha256": "a75cde5115050af27236b649119e4b8330a481fa14a2535460710f7655039ac6",
+      "size_bytes": 8298302
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_920006_patch_locked_pull_ikhold_axis_work__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline__fast_guarded_contact.jsonl",
+      "sha256": "2966a0b9ec82238bb6d7505f6f1383e9435ce76bf202aeb59204b63c8584208b",
+      "size_bytes": 8407002
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_920007_patch_locked_pull_long_duration_low_slip__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline__fast_guarded_contact.jsonl",
+      "sha256": "c247faddd9ae9ad68e1e65d84694e6f0a6aaf955e393afe7208c6c1a622e2c58",
+      "size_bytes": 24436701
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_920008_pc02_micro_lead_high_damping_semi_close__fg_cycle2_05_d1p6_04_padpatch_01_enlarged_inner_pad__fast_guarded_contact.jsonl",
+      "sha256": "4d019e45c4ad372e2f715e0711cb7b0dd4196f0d052b14e57f9fae59a20953b7",
+      "size_bytes": 12080140
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_920009_rk_latch_binary_high_preload_tight_lead__fg_cycle2_05_d1p6_04_padpatch_01_enlarged_inner_pad__fast_guarded_contact.jsonl",
+      "sha256": "0519763e0d84f7703d4ba3b6cd6163fd9f1ca3a89e6a18bfba1cea7a8b99b1bc",
+      "size_bytes": 17915559
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_920010_patch_locked_pull_high_open_low_press__fg_cycle2_05_d1p6_04_padpatch_01_enlarged_inner_pad__fast_guarded_contact.jsonl",
+      "sha256": "892c7c74cebb12d886002236d7eb05d57fbb186557e46a67d7feef27e29002e4",
+      "size_bytes": 18317960
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_920011_patch_locked_pull_firm_latch_axis_work__fg_cycle2_05_d1p6_04_padpatch_01_enlarged_inner_pad__fast_guarded_contact.jsonl",
+      "sha256": "42115cd611e66687e840313c4661c0adfcdbd81052eaebdd82d0e7e1f63637c1",
+      "size_bytes": 20121522
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_920012_patch_locked_pull_slow_high_friction__fg_cycle2_05_d1p6_04_padpatch_01_enlarged_inner_pad__fast_guarded_contact.jsonl",
+      "sha256": "82607f852086feac81671036de6a1da7ec319405d49ef97b522f1c21cb05d767",
+      "size_bytes": 21386704
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_920013_patch_locked_pull_reseat_like_semiclose__fg_cycle2_05_d1p6_04_padpatch_01_enlarged_inner_pad__fast_guarded_contact.jsonl",
+      "sha256": "2c3ff6dd8644701fd56a01e22dcbc6c8a6f61a7f0914deafeb97e366e27048ce",
+      "size_bytes": 11967490
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_920014_patch_locked_pull_ikhold_axis_work__fg_cycle2_05_d1p6_04_padpatch_01_enlarged_inner_pad__fast_guarded_contact.jsonl",
+      "sha256": "a3ad5204d8a8bbe12e26e053f704b36286fe53ee9eafbffb01a6a88cdf15593b",
+      "size_bytes": 9876840
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_920015_patch_locked_pull_long_duration_low_slip__fg_cycle2_05_d1p6_04_padpatch_01_enlarged_inner_pad__fast_guarded_contact.jsonl",
+      "sha256": "617115ab8052c775acef5ba2f2819b7ffc0a95d612b2eaf3800128b2940eab56",
+      "size_bytes": 22235735
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_920016_pc02_micro_lead_high_damping_semi_close__fg_cycle2_05_d0p9_02_padpatch_02_enlarged_inner_pad_margin_1m__fast_guarded_contact.jsonl",
+      "sha256": "a417be3fba81776769f28ec6c1befa26c0c57493df04672efdc9fd4bba325867",
+      "size_bytes": 12580587
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_920017_rk_latch_binary_high_preload_tight_lead__fg_cycle2_05_d0p9_02_padpatch_02_enlarged_inner_pad_margin_1m__fast_guarded_contact.jsonl",
+      "sha256": "8b59321a01ef5a4a2c3f7e1e6e14756b39b9101bd187b0b44bc2046a975166f2",
+      "size_bytes": 23577042
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_920018_patch_locked_pull_high_open_low_press__fg_cycle2_05_d0p9_02_padpatch_02_enlarged_inner_pad_margin_1m__fast_guarded_contact.jsonl",
+      "sha256": "919d17240be2f2f5fdf05882ba0c9a88c3e61235df311920ff35ebf7a848dadd",
+      "size_bytes": 23020865
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_920019_patch_locked_pull_firm_latch_axis_work__fg_cycle2_05_d0p9_02_padpatch_02_enlarged_inner_pad_margin_1m__fast_guarded_contact.jsonl",
+      "sha256": "7f6a32878e06c7672993f2776569399aa51ea47f5562507d29afe9b4f73029ba",
+      "size_bytes": 23962619
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_920020_patch_locked_pull_slow_high_friction__fg_cycle2_05_d0p9_02_padpatch_02_enlarged_inner_pad_margin_1m__fast_guarded_contact.jsonl",
+      "sha256": "22906b49c0336c4194e4b48289300b0f8828b74e22f4d38eed203a8d8e23bfa8",
+      "size_bytes": 27042359
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_920021_patch_locked_pull_reseat_like_semiclose__fg_cycle2_05_d0p9_02_padpatch_02_enlarged_inner_pad_margin_1m__fast_guarded_contact.jsonl",
+      "sha256": "7d42f2aae9aa684ed5778eb57dffb4f27a0997df03bea4c30d0960820d3323cd",
+      "size_bytes": 12066176
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_920022_patch_locked_pull_ikhold_axis_work__fg_cycle2_05_d0p9_02_padpatch_02_enlarged_inner_pad_margin_1m__fast_guarded_contact.jsonl",
+      "sha256": "901628bb950dc6771f75660cb283afdb5c4e5ecde7fc0a49838267f4fdfb27c9",
+      "size_bytes": 11548108
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_920023_patch_locked_pull_long_duration_low_slip__fg_cycle2_05_d0p9_02_padpatch_02_enlarged_inner_pad_margin_1m__fast_guarded_contact.jsonl",
+      "sha256": "4350231a87b2d0d362fd345715551860088368bf6b4a46c069647eef21f2ffae",
+      "size_bytes": 28978353
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_920024_pc02_micro_lead_high_damping_semi_close__fg_cycle2_05_d0p9_02_padpatch_06_rounded_box_oriented_pad__fast_guarded_contact.jsonl",
+      "sha256": "fc12c8ff00233ca6457f74dc3d594866c2a872afb3f114a829fb4f0098c0db16",
+      "size_bytes": 11396687
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_920025_rk_latch_binary_high_preload_tight_lead__fg_cycle2_05_d0p9_02_padpatch_06_rounded_box_oriented_pad__fast_guarded_contact.jsonl",
+      "sha256": "da4a5cf89ed091ae616ff8a26b8452e9149e70a5f950bd88a570d1e1745d7cba",
+      "size_bytes": 22060430
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_920026_patch_locked_pull_high_open_low_press__fg_cycle2_05_d0p9_02_padpatch_06_rounded_box_oriented_pad__fast_guarded_contact.jsonl",
+      "sha256": "99a1f51d94449338f56bbb19aaca1495fe0778d9150234d5644021a8674fcb77",
+      "size_bytes": 23927788
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_920027_patch_locked_pull_firm_latch_axis_work__fg_cycle2_05_d0p9_02_padpatch_06_rounded_box_oriented_pad__fast_guarded_contact.jsonl",
+      "sha256": "6c18b6039c5a897537445a4a7ebbf93a7ae049ffe0e5dde04f910a51d9e3b72e",
+      "size_bytes": 23402798
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_920028_patch_locked_pull_slow_high_friction__fg_cycle2_05_d0p9_02_padpatch_06_rounded_box_oriented_pad__fast_guarded_contact.jsonl",
+      "sha256": "e06a3f9ae19d8c77894f6a8ee9d8e89ad6eedb46fb96725249ddf1b29d0d37d5",
+      "size_bytes": 26326565
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_920029_patch_locked_pull_reseat_like_semiclose__fg_cycle2_05_d0p9_02_padpatch_06_rounded_box_oriented_pad__fast_guarded_contact.jsonl",
+      "sha256": "ef562d794d91aec75d7509da09236c44e2b0b717cc4b4ef3466f5b9ffb077e7c",
+      "size_bytes": 12203257
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_920030_patch_locked_pull_ikhold_axis_work__fg_cycle2_05_d0p9_02_padpatch_06_rounded_box_oriented_pad__fast_guarded_contact.jsonl",
+      "sha256": "0e7a4bf6f28f7ef27c823ede04a813917fb1701256b4334bdc31e4257c74f880",
+      "size_bytes": 11444000
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_920031_patch_locked_pull_long_duration_low_slip__fg_cycle2_05_d0p9_02_padpatch_06_rounded_box_oriented_pad__fast_guarded_contact.jsonl",
+      "sha256": "349b9225919260b757f62765d34bfb22192fcd8eb5603074603112af3bf065b1",
+      "size_bytes": 27824187
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_920032_pc02_micro_lead_high_damping_semi_close__fg_cycle2_05_d1p6_04_padpatch_09_enlarged_inner_pad_no_margin__fast_guarded_contact.jsonl",
+      "sha256": "a16bc79fc88b9a363cf841c98e1a2f9ad65401297649f59c529000b69e959b47",
+      "size_bytes": 12973763
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_920033_rk_latch_binary_high_preload_tight_lead__fg_cycle2_05_d1p6_04_padpatch_09_enlarged_inner_pad_no_margin__fast_guarded_contact.jsonl",
+      "sha256": "186137cedbd662ab9292d3b41950e4c15d64817bb636d3fa07415bf4892c5869",
+      "size_bytes": 20500611
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_920034_patch_locked_pull_high_open_low_press__fg_cycle2_05_d1p6_04_padpatch_09_enlarged_inner_pad_no_margin__fast_guarded_contact.jsonl",
+      "sha256": "71e8d25944d5d2fad8cc4fbcafd7bf3ce1362c02a90ad4adff5ff9f1a61252fd",
+      "size_bytes": 21669313
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_920035_patch_locked_pull_firm_latch_axis_work__fg_cycle2_05_d1p6_04_padpatch_09_enlarged_inner_pad_no_margin__fast_guarded_contact.jsonl",
+      "sha256": "5afad972664d6d37c73fce78c470615bb31abb4bbc7e96966c7893af565635f2",
+      "size_bytes": 20234193
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_920036_patch_locked_pull_slow_high_friction__fg_cycle2_05_d1p6_04_padpatch_09_enlarged_inner_pad_no_margin__fast_guarded_contact.jsonl",
+      "sha256": "1630359246a5c68af4dc03300149b18733ac6174445b2da5af83c859c6430f95",
+      "size_bytes": 23860847
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_920037_patch_locked_pull_reseat_like_semiclose__fg_cycle2_05_d1p6_04_padpatch_09_enlarged_inner_pad_no_margin__fast_guarded_contact.jsonl",
+      "sha256": "6fe1ea5a64c812a7047ec6e787dfbc39db7e6ff19ceae589bf20eb1ee662657a",
+      "size_bytes": 13611524
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_920038_patch_locked_pull_ikhold_axis_work__fg_cycle2_05_d1p6_04_padpatch_09_enlarged_inner_pad_no_margin__fast_guarded_contact.jsonl",
+      "sha256": "6353c8e1c85b8961202baa4c22d4d06acf3a199e37f742052e963b1bb3d3cdc5",
+      "size_bytes": 12546135
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_round_knob_exact_contact_patch_latch_pull_synthesis_to_strict_replay_textured_review_20260506T101017Z/traces/variant_920039_patch_locked_pull_long_duration_low_slip__fg_cycle2_05_d1p6_04_padpatch_09_enlarged_inner_pad_no_margin__fast_guarded_contact.jsonl",
+      "sha256": "4657ee12a0fbe35f4b86742967ca3e9b18c903ae425dbcb81167ad6cd4cbeafe",
+      "size_bytes": 23626490
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "all_visible": true,
+  "checks": [
+    {
+      "origin_visible_at_head": true,
+      "path": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_fast_guarded_contact_topology_realistic_codesign_repair.yaml"
+    },
+    {
+      "origin_visible_at_head": true,
+      "path": "scripts/mint/v11_g4_fast_guarded_contact_topology_realistic_codesign_repair.py"
+    },
+    {
+      "origin_visible_at_head": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_fast_guarded_contact_topology_realistic_codesign_repair_20260506T042730Z/final_closeout.json"
+    },
+    {
+      "origin_visible_at_head": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_fast_guarded_contact_topology_realistic_codesign_repair_20260506T042730Z/fast_failure_ingestion.json"
+    },
+    {
+      "origin_visible_at_head": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_fast_guarded_contact_topology_realistic_codesign_repair_20260506T042730Z/report_consistency_patch.json"
+    },
+    {
+      "origin_visible_at_head": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_fast_guarded_contact_topology_realistic_codesign_repair_20260506T042730Z/fast_guarded_contact_pareto_report.json"
+    },
+    {
+      "origin_visible_at_head": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_fast_guarded_contact_topology_realistic_codesign_repair_20260506T042730Z/fast_repair_cycles.jsonl"
+    },
+    {
+      "origin_visible_at_head": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_fast_guarded_contact_topology_realistic_codesign_repair_20260506T042730Z/targeted_shard_results.json"
+    },
+    {
+      "origin_visible_at_head": true,
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_fast_guarded_contact_topology_realistic_codesign_repair_20260506T042730Z/full30_report.json"
+    },
+    {
+      "origin_visible_at_head": true,
+      "path": "experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_fast_guarded_contact_topology_realistic_codesign_repair.json"
+    },
+    {
+      "origin_visible_at_head": true,
+      "path": "experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_fast_guarded_contact_topology_realistic_codesign_repair.json"
+    }
+  ],
+  "generated_at_utc": "2026-05-06T06:09:29Z",
+  "head": "621bec1098ae4f7a76f84442e55beb0efd808297",
+  "head_matches_origin": true,
+  "remote_head": "621bec1098ae4f7a76f84442e55beb0efd808297"
+}

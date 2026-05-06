@@ -1,0 +1,20 @@
+{
+  "forbidden_next_actions": [
+    "lower thresholds",
+    "direct drawer qpos",
+    "drawer motor command",
+    "long-rod knob regression",
+    "front-only drawer regression",
+    "accept forbidden contact"
+  ],
+  "generated_at_utc": "2026-05-06T06:08:22Z",
+  "next_gate": "FAST_GUARDED_CONTACT_REPAIR_CONTINUATION",
+  "proposed_delta_only": true,
+  "reason": "Targeted topology-realistic shard remains 6/7 because fast_guarded_contact can open legally but loses strict two-pad retention under fast pull.",
+  "recommended_focus": [
+    "contact-mode gripper retention under fast pull",
+    "handle/pad contact geometry or compliant reseat that preserves short-stub topology",
+    "do not rerun full30/export/local until targeted fast_guarded_contact reaches strict pass"
+  ],
+  "task_id": "V11_G4_GOC_V4_FAST_GUARDED_CONTACT_TOPOLOGY_REALISTIC_CO_DESIGN_REPAIR_V1"
+}

@@ -256,11 +256,18 @@ def row_pass(row: dict[str, Any]) -> bool:
     return bool(row.get("passed"))
 
 
+def metric_int(row: dict[str, Any], key: str, default: int = 9999) -> int:
+    value = row.get(key)
+    if value is None:
+        return default
+    return int(value)
+
+
 def strict_fast_pass(row: dict[str, Any]) -> bool:
     return bool(
         row.get("passed")
-        and int(row.get("forbidden_contact_frames", 9999) or 9999) == 0
-        and int(row.get("handle_nonlegal_contact_frames", 9999) or 9999) == 0
+        and metric_int(row, "forbidden_contact_frames") == 0
+        and metric_int(row, "handle_nonlegal_contact_frames") == 0
         and float(row.get("max_drawer_fraction", 0.0) or 0.0) >= STRICT_DRAWER_FRACTION
         and int(row.get("pull_phase_two_pad_target_contact_frames", 0) or 0) >= 30
         and not row.get("direct_qpos_drawer_opening")
@@ -332,7 +339,7 @@ def pareto_sweep(run_dir: Path, admitted: list[dict[str, Any]], cycle: int) -> d
         else:
             candidate["_fast_selected_variant"] = None
     PARETO_ROWS.extend(rows)
-    legal = [r for r in rows if int(r.get("forbidden_contact_frames", 9999) or 9999) == 0 and int(r.get("handle_nonlegal_contact_frames", 9999) or 9999) == 0]
+    legal = [r for r in rows if metric_int(r, "forbidden_contact_frames") == 0 and metric_int(r, "handle_nonlegal_contact_frames") == 0]
     strict = [r for r in rows if strict_fast_pass(r)]
     opening = [r for r in rows if float(r.get("max_drawer_fraction", 0.0) or 0.0) >= STRICT_DRAWER_FRACTION]
     best_open = max(rows, key=lambda r: float(r.get("max_drawer_fraction", 0.0) or 0.0), default={})
@@ -352,7 +359,7 @@ def pareto_sweep(run_dir: Path, admitted: list[dict[str, Any]], cycle: int) -> d
         "best_legal": best_legal,
         "best_balanced": best_balanced,
         "pareto_classes": {
-            "opening_capable_illegal": [r for r in rows if float(r.get("max_drawer_fraction", 0.0) or 0.0) >= STRICT_DRAWER_FRACTION and int(r.get("forbidden_contact_frames", 0) or 0) > 0][:10],
+            "opening_capable_illegal": [r for r in rows if float(r.get("max_drawer_fraction", 0.0) or 0.0) >= STRICT_DRAWER_FRACTION and metric_int(r, "forbidden_contact_frames", 0) > 0][:10],
             "legal_under_opening": [r for r in legal if float(r.get("max_drawer_fraction", 0.0) or 0.0) < STRICT_DRAWER_FRACTION][:10],
             "strictly_passing": strict[:10],
         },
@@ -535,7 +542,7 @@ def write_report_consistency_patch(run_dir: Path, ingestion: dict[str, Any]) -> 
     targeted = ingestion.get("targeted_shard_results.json") or {}
     forensic = ingestion.get("fast_guarded_contact_forensic_certificate.json") or {}
     attempts = forensic.get("variant_attempts") or []
-    legal = [a for a in attempts if int(a.get("forbidden_contact_frames", 9999) or 9999) == 0 and int(a.get("handle_nonlegal_contact_frames", 9999) or 9999) == 0]
+    legal = [a for a in attempts if metric_int(a, "forbidden_contact_frames") == 0 and metric_int(a, "handle_nonlegal_contact_frames") == 0]
     best_open = max(attempts, key=lambda a: float(a.get("max_drawer_fraction", 0.0) or 0.0), default={})
     best_legal = max(legal, key=lambda a: float(a.get("max_drawer_fraction", 0.0) or 0.0), default={})
     patch = {
@@ -560,7 +567,7 @@ def write_candidate_pool(run_dir: Path, candidates: list[dict[str, Any]]) -> Non
 def final_checks(run_dir: Path) -> dict[str, Any]:
     preflight = run_cmd(["/root/anaconda3/envs/infinigen/bin/python", "experiments/mint/mint_drawer_v1/scripts/harness/agent_task_preflight.py", "--spec", SPEC_REL, "--dry-run"])
     pyc = run_cmd(["/root/anaconda3/envs/infinigen/bin/python", "-m", "py_compile", "scripts/mint/v11_g4_fast_guarded_contact_topology_realistic_codesign_repair.py"])
-    yaml_parse = run_cmd(["/root/anaconda3/envs/infinigen/bin/python", "-c", f"import yaml; yaml.safe_load(open({SPEC_REL})); print(yaml_ok)"])
+    yaml_parse = run_cmd(["/root/anaconda3/envs/infinigen/bin/python", "-c", f"import yaml; yaml.safe_load(open({SPEC_REL!r})); print('yaml_ok')"])
     json_errors = []
     for p in sorted(run_dir.glob("*.json")) + sorted(run_dir.glob("*.jsonl")):
         try:
@@ -609,7 +616,7 @@ def build_closeout(run_dir: Path, ingestion: dict[str, Any], consistency: dict[s
     if not rows:
         rows = read_jsonl(run_dir / "targeted_shard_results.jsonl")
     fast_rows = [r for r in PARETO_ROWS if r.get("perturbation") == "fast_guarded_contact"]
-    legal_fast = [r for r in fast_rows if int(r.get("forbidden_contact_frames", 9999) or 9999) == 0 and int(r.get("handle_nonlegal_contact_frames", 9999) or 9999) == 0]
+    legal_fast = [r for r in fast_rows if metric_int(r, "forbidden_contact_frames") == 0 and metric_int(r, "handle_nonlegal_contact_frames") == 0]
     best_open = max(fast_rows, key=lambda r: float(r.get("max_drawer_fraction", 0.0) or 0.0), default={})
     best_legal = max(legal_fast, key=lambda r: float(r.get("max_drawer_fraction", 0.0) or 0.0), default={})
     closeout = {
@@ -666,13 +673,13 @@ def build_closeout(run_dir: Path, ingestion: dict[str, Any], consistency: dict[s
         "# Fast Guarded Contact Topology-Realistic Repair Closeout",
         "",
         f"- closeout_classification: `{classification}`",
-        f"- targeted_shard: `{closeout[targeted_shard_cases_passed]}/{closeout[targeted_shard_cases_total]}`",
-        f"- fast_guarded_contact_passed: `{closeout[fast_guarded_contact_passed]}`",
+        f"- targeted_shard: `{closeout['targeted_shard_cases_passed']}/{closeout['targeted_shard_cases_total']}`",
+        f"- fast_guarded_contact_passed: `{closeout['fast_guarded_contact_passed']}`",
         f"- fast_strict_candidate_count: `{len(FAST_PASS_BY_CANDIDATE)}`",
-        f"- full30_certification_passed: `{closeout[full30_certification_passed]}`",
-        f"- strict_export_complete: `{closeout[strict_export_complete]}`",
-        f"- local_state_replay_render_passed: `{closeout[local_state_replay_render_passed]}`",
-        f"- action_only_spot_check_passed: `{closeout[action_only_spot_check_passed]}`",
+        f"- full30_certification_passed: `{closeout['full30_certification_passed']}`",
+        f"- strict_export_complete: `{closeout['strict_export_complete']}`",
+        f"- local_state_replay_render_passed: `{closeout['local_state_replay_render_passed']}`",
+        f"- action_only_spot_check_passed: `{closeout['action_only_spot_check_passed']}`",
         f"- next_gate: `{next_gate}`",
     ]))
     return closeout

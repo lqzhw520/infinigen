@@ -1,0 +1,24 @@
+{
+  "candidate_ids": [
+    "v2_short_stub_island_densify_15",
+    "v2_short_stub_island_densify_02",
+    "v2_short_stub_island_densify_04",
+    "v2_short_stub_island_densify_10",
+    "v2_short_stub_island_densify_05",
+    "v2_short_stub_island_densify_16",
+    "v2_short_stub_island_densify_18"
+  ],
+  "case_count": 7,
+  "cycle": 3,
+  "fast_pass_candidates_available": [],
+  "generated_at_utc": "2026-05-06T05:53:41Z",
+  "hard_fail_reasons": [],
+  "supported_perturbations_used": [
+    "nominal",
+    "slow_guarded_contact",
+    "qpos_small_plus",
+    "qpos_small_minus",
+    "fast_guarded_contact",
+    "late_close"
+  ]
+}

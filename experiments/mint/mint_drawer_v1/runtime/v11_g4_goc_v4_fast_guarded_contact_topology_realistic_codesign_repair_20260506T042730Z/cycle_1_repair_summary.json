@@ -1,0 +1,25 @@
+{
+  "admitted_count": 7,
+  "best_legal_candidate_id": "v2_short_stub_island_densify_02",
+  "best_legal_drawer_fraction": 0.9228157048040843,
+  "best_legal_max_penetration_m": 0.0009216451118245206,
+  "best_legal_target_contact_frames": 5004,
+  "best_legal_two_pad_retention_frames": 215,
+  "best_overall_candidate_id": "v2_short_stub_island_densify_02",
+  "best_overall_drawer_fraction": 0.9228157048040843,
+  "best_overall_forbidden_contact_frames": 0,
+  "candidate_count": 7,
+  "cumulative_admitted_count": 7,
+  "cycle": 1,
+  "defect_label_histogram": {},
+  "dominant_failure_histogram": {
+    "ADMITTED": 7
+  },
+  "generated_at_utc": "2026-05-06T04:29:31Z",
+  "operator_progress_metric": [
+    7,
+    0.9228157048040843,
+    215,
+    0
+  ]
+}

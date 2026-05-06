@@ -1,0 +1,16 @@
+{
+  "fast_blocking_failure_reasons": {
+    "pull_phase_two_pad_target_contact_frames_lt_30": 1
+  },
+  "fast_forensic_best_legal_candidate_id": "fg_cycle2_05_d0p9_02",
+  "fast_forensic_best_legal_drawer_fraction": 0.956438122722968,
+  "fast_forensic_best_legal_two_pad_target_frames": 6,
+  "fast_forensic_best_legal_variant": "pc02_micro_lead_high_damping_semi_close",
+  "fast_forensic_best_opening_candidate_id": "fg_cycle2_05_d0p9_02",
+  "fast_forensic_best_opening_drawer_fraction": 0.956438122722968,
+  "fast_forensic_best_opening_variant": "pc02_micro_lead_high_damping_semi_close",
+  "fast_forensic_forbidden_contact_frame_count_max": 0,
+  "generated_at_utc": "2026-05-06T06:08:15Z",
+  "selected_targeted_forbidden_contact_frame_count_max": 0,
+  "why_needed": "Separate legal fast opening from strict two-pad retention. Zero forbidden frames are valid legality evidence, not missing data."
+}

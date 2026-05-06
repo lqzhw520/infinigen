@@ -1,0 +1,17 @@
+{
+  "current_truth_modified": false,
+  "external_mint_modified": false,
+  "generated_at_utc": "2026-05-06T06:08:22Z",
+  "git_status_short": [
+    " M .project-memory/STATUS.md",
+    " M .session/checkpoint.md",
+    " M scripts/mint/v11_g4_fast_guarded_contact_topology_realistic_codesign_repair.py"
+  ],
+  "harness_preflight_passed": true,
+  "json_parse_errors": [],
+  "next_actions_modified": false,
+  "py_compile_returncode": 0,
+  "task_spec_lock_bound": true,
+  "yaml_parse_returncode": 0,
+  "yaml_parse_stdout": "yaml_ok"
+}

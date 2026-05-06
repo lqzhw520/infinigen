@@ -1,0 +1,7 @@
+{
+  "generated_at_utc": "2026-05-06T05:55:28Z",
+  "local_strict_replay_attempted": false,
+  "local_strict_replay_render_passed": false,
+  "reason": "strict_export_not_complete",
+  "strict_export_incomplete_reasons": []
+}

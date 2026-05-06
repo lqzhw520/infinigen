@@ -1,0 +1,211 @@
+{
+  "generated_at_utc": "2026-05-06T12:53:05Z",
+  "trace_count": 41,
+  "traces": [
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_keepout_v3_continuation_targeted_progress_repair_20260506T123821Z/traces/variant_1010000_v3_cont_targeted_progress_c00_s00__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00__nominal.jsonl",
+      "sha256": "252e53cdebb9d66bd63f13a1559cf69812f0cd0d055727b7a784377552643c6e",
+      "size_bytes": 23953911
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_keepout_v3_continuation_targeted_progress_repair_20260506T123821Z/traces/variant_1010001_v3_cont_targeted_progress_c00_s00__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00__qpos_small_plus.jsonl",
+      "sha256": "1c0bce32f89c22fd54af7670c57a1c90d245d47f011608a4013405262b88ec24",
+      "size_bytes": 23951528
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_keepout_v3_continuation_targeted_progress_repair_20260506T123821Z/traces/variant_1010002_v3_cont_targeted_progress_c00_s00__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00__qpos_small_minus.jsonl",
+      "sha256": "a55d6597ea41e383d80af0d01e06dfcf3751c767001cc0020c0afa4553e6e020",
+      "size_bytes": 23943068
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_keepout_v3_continuation_targeted_progress_repair_20260506T123821Z/traces/variant_1010003_v3_cont_targeted_progress_c00_s00__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00__slow_guarded_contact.jsonl",
+      "sha256": "679f4c9c2b221675d09a98d1996a22435fc734388304d3d414d2262599a67899",
+      "size_bytes": 25399773
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_keepout_v3_continuation_targeted_progress_repair_20260506T123821Z/traces/variant_1010004_v3_cont_targeted_progress_c00_s00__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00__fast_guarded_contact.jsonl",
+      "sha256": "f5219db8561005f9397393601e81442c75ae52d802b5b9a2ab6109747ce11f84",
+      "size_bytes": 22552406
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_keepout_v3_continuation_targeted_progress_repair_20260506T123821Z/traces/variant_1010005_v3_cont_targeted_progress_c00_s00__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00__late_close.jsonl",
+      "sha256": "9c1c09293e734e3021dc38f8f02c33c1f9c744c3ae85860dfbb63469d721562a",
+      "size_bytes": 24691209
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_keepout_v3_continuation_targeted_progress_repair_20260506T123821Z/traces/variant_1010100_v3_cont_targeted_progress_c00_s00__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00__nominal.jsonl",
+      "sha256": "252e53cdebb9d66bd63f13a1559cf69812f0cd0d055727b7a784377552643c6e",
+      "size_bytes": 23953911
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_keepout_v3_continuation_targeted_progress_repair_20260506T123821Z/traces/variant_1010101_v3_cont_targeted_progress_c00_s00__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00__qpos_small_plus.jsonl",
+      "sha256": "1c0bce32f89c22fd54af7670c57a1c90d245d47f011608a4013405262b88ec24",
+      "size_bytes": 23951528
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_keepout_v3_continuation_targeted_progress_repair_20260506T123821Z/traces/variant_1010102_v3_cont_targeted_progress_c00_s00__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00__qpos_small_minus.jsonl",
+      "sha256": "a55d6597ea41e383d80af0d01e06dfcf3751c767001cc0020c0afa4553e6e020",
+      "size_bytes": 23943068
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_keepout_v3_continuation_targeted_progress_repair_20260506T123821Z/traces/variant_1010103_v3_cont_targeted_progress_c00_s00__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00__slow_guarded_contact.jsonl",
+      "sha256": "679f4c9c2b221675d09a98d1996a22435fc734388304d3d414d2262599a67899",
+      "size_bytes": 25399773
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_keepout_v3_continuation_targeted_progress_repair_20260506T123821Z/traces/variant_1010104_v3_cont_targeted_progress_c00_s00__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00__fast_guarded_contact.jsonl",
+      "sha256": "f5219db8561005f9397393601e81442c75ae52d802b5b9a2ab6109747ce11f84",
+      "size_bytes": 22552406
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_keepout_v3_continuation_targeted_progress_repair_20260506T123821Z/traces/variant_1010105_v3_cont_targeted_progress_c00_s00__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00__late_close.jsonl",
+      "sha256": "9c1c09293e734e3021dc38f8f02c33c1f9c744c3ae85860dfbb63469d721562a",
+      "size_bytes": 24691209
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_keepout_v3_continuation_targeted_progress_repair_20260506T123821Z/traces/variant_1010200_v3_cont_targeted_progress_c00_s00__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00__nominal.jsonl",
+      "sha256": "252e53cdebb9d66bd63f13a1559cf69812f0cd0d055727b7a784377552643c6e",
+      "size_bytes": 23953911
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_keepout_v3_continuation_targeted_progress_repair_20260506T123821Z/traces/variant_1010201_v3_cont_targeted_progress_c00_s00__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00__qpos_small_plus.jsonl",
+      "sha256": "1c0bce32f89c22fd54af7670c57a1c90d245d47f011608a4013405262b88ec24",
+      "size_bytes": 23951528
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_keepout_v3_continuation_targeted_progress_repair_20260506T123821Z/traces/variant_1010202_v3_cont_targeted_progress_c00_s00__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00__qpos_small_minus.jsonl",
+      "sha256": "a55d6597ea41e383d80af0d01e06dfcf3751c767001cc0020c0afa4553e6e020",
+      "size_bytes": 23943068
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_keepout_v3_continuation_targeted_progress_repair_20260506T123821Z/traces/variant_1010203_v3_cont_targeted_progress_c00_s00__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00__slow_guarded_contact.jsonl",
+      "sha256": "679f4c9c2b221675d09a98d1996a22435fc734388304d3d414d2262599a67899",
+      "size_bytes": 25399773
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_keepout_v3_continuation_targeted_progress_repair_20260506T123821Z/traces/variant_1010204_v3_cont_targeted_progress_c00_s00__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00__fast_guarded_contact.jsonl",
+      "sha256": "f5219db8561005f9397393601e81442c75ae52d802b5b9a2ab6109747ce11f84",
+      "size_bytes": 22552406
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_keepout_v3_continuation_targeted_progress_repair_20260506T123821Z/traces/variant_1010205_v3_cont_targeted_progress_c00_s00__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00__late_close.jsonl",
+      "sha256": "9c1c09293e734e3021dc38f8f02c33c1f9c744c3ae85860dfbb63469d721562a",
+      "size_bytes": 24691209
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_keepout_v3_continuation_targeted_progress_repair_20260506T123821Z/traces/variant_1010300_v3_cont_targeted_progress_c00_s00__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00__nominal.jsonl",
+      "sha256": "252e53cdebb9d66bd63f13a1559cf69812f0cd0d055727b7a784377552643c6e",
+      "size_bytes": 23953911
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_keepout_v3_continuation_targeted_progress_repair_20260506T123821Z/traces/variant_1010301_v3_cont_targeted_progress_c00_s00__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00__qpos_small_plus.jsonl",
+      "sha256": "1c0bce32f89c22fd54af7670c57a1c90d245d47f011608a4013405262b88ec24",
+      "size_bytes": 23951528
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_keepout_v3_continuation_targeted_progress_repair_20260506T123821Z/traces/variant_1010302_v3_cont_targeted_progress_c00_s00__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00__qpos_small_minus.jsonl",
+      "sha256": "a55d6597ea41e383d80af0d01e06dfcf3751c767001cc0020c0afa4553e6e020",
+      "size_bytes": 23943068
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_keepout_v3_continuation_targeted_progress_repair_20260506T123821Z/traces/variant_1010303_v3_cont_targeted_progress_c00_s00__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00__slow_guarded_contact.jsonl",
+      "sha256": "679f4c9c2b221675d09a98d1996a22435fc734388304d3d414d2262599a67899",
+      "size_bytes": 25399773
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_keepout_v3_continuation_targeted_progress_repair_20260506T123821Z/traces/variant_1010304_v3_cont_targeted_progress_c00_s00__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00__fast_guarded_contact.jsonl",
+      "sha256": "f5219db8561005f9397393601e81442c75ae52d802b5b9a2ab6109747ce11f84",
+      "size_bytes": 22552406
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_keepout_v3_continuation_targeted_progress_repair_20260506T123821Z/traces/variant_1010305_v3_cont_targeted_progress_c00_s00__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00__late_close.jsonl",
+      "sha256": "9c1c09293e734e3021dc38f8f02c33c1f9c744c3ae85860dfbb63469d721562a",
+      "size_bytes": 24691209
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_keepout_v3_continuation_targeted_progress_repair_20260506T123821Z/traces/variant_1010400_v3_cont_targeted_progress_c00_s00__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00__nominal.jsonl",
+      "sha256": "252e53cdebb9d66bd63f13a1559cf69812f0cd0d055727b7a784377552643c6e",
+      "size_bytes": 23953911
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_keepout_v3_continuation_targeted_progress_repair_20260506T123821Z/traces/variant_1010401_v3_cont_targeted_progress_c00_s00__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00__qpos_small_plus.jsonl",
+      "sha256": "1c0bce32f89c22fd54af7670c57a1c90d245d47f011608a4013405262b88ec24",
+      "size_bytes": 23951528
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_keepout_v3_continuation_targeted_progress_repair_20260506T123821Z/traces/variant_1010402_v3_cont_targeted_progress_c00_s00__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00__qpos_small_minus.jsonl",
+      "sha256": "a55d6597ea41e383d80af0d01e06dfcf3751c767001cc0020c0afa4553e6e020",
+      "size_bytes": 23943068
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_keepout_v3_continuation_targeted_progress_repair_20260506T123821Z/traces/variant_1010403_v3_cont_targeted_progress_c00_s00__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00__slow_guarded_contact.jsonl",
+      "sha256": "679f4c9c2b221675d09a98d1996a22435fc734388304d3d414d2262599a67899",
+      "size_bytes": 25399773
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_keepout_v3_continuation_targeted_progress_repair_20260506T123821Z/traces/variant_1010404_v3_cont_targeted_progress_c00_s00__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00__fast_guarded_contact.jsonl",
+      "sha256": "f5219db8561005f9397393601e81442c75ae52d802b5b9a2ab6109747ce11f84",
+      "size_bytes": 22552406
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_keepout_v3_continuation_targeted_progress_repair_20260506T123821Z/traces/variant_1010405_v3_cont_targeted_progress_c00_s00__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00__late_close.jsonl",
+      "sha256": "9c1c09293e734e3021dc38f8f02c33c1f9c744c3ae85860dfbb63469d721562a",
+      "size_bytes": 24691209
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_keepout_v3_continuation_targeted_progress_repair_20260506T123821Z/traces/variant_970000_v3_cont_targeted_progress_c00_s00__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00__late_close.jsonl",
+      "sha256": "9c1c09293e734e3021dc38f8f02c33c1f9c744c3ae85860dfbb63469d721562a",
+      "size_bytes": 24691209
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_keepout_v3_continuation_targeted_progress_repair_20260506T123821Z/traces/variant_970001_v3_cont_targeted_progress_c00_s00__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00__nominal.jsonl",
+      "sha256": "252e53cdebb9d66bd63f13a1559cf69812f0cd0d055727b7a784377552643c6e",
+      "size_bytes": 23953911
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_keepout_v3_continuation_targeted_progress_repair_20260506T123821Z/traces/variant_970002_v3_cont_targeted_progress_c00_s00__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00__slow_guarded_contact.jsonl",
+      "sha256": "679f4c9c2b221675d09a98d1996a22435fc734388304d3d414d2262599a67899",
+      "size_bytes": 25399773
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_keepout_v3_continuation_targeted_progress_repair_20260506T123821Z/traces/variant_970003_v3_cont_targeted_progress_c00_s00__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00__fast_guarded_contact.jsonl",
+      "sha256": "f5219db8561005f9397393601e81442c75ae52d802b5b9a2ab6109747ce11f84",
+      "size_bytes": 22552406
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_keepout_v3_continuation_targeted_progress_repair_20260506T123821Z/traces/variant_980000_v3_cont_targeted_progress_c00_s00__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00__nominal.jsonl",
+      "sha256": "252e53cdebb9d66bd63f13a1559cf69812f0cd0d055727b7a784377552643c6e",
+      "size_bytes": 23953911
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_keepout_v3_continuation_targeted_progress_repair_20260506T123821Z/traces/variant_980001_v3_cont_targeted_progress_c00_s00__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00__qpos_small_plus.jsonl",
+      "sha256": "1c0bce32f89c22fd54af7670c57a1c90d245d47f011608a4013405262b88ec24",
+      "size_bytes": 23951528
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_keepout_v3_continuation_targeted_progress_repair_20260506T123821Z/traces/variant_980002_v3_cont_targeted_progress_c00_s00__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00__qpos_small_minus.jsonl",
+      "sha256": "a55d6597ea41e383d80af0d01e06dfcf3751c767001cc0020c0afa4553e6e020",
+      "size_bytes": 23943068
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_keepout_v3_continuation_targeted_progress_repair_20260506T123821Z/traces/variant_980003_v3_cont_targeted_progress_c00_s00__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00__slow_guarded_contact.jsonl",
+      "sha256": "679f4c9c2b221675d09a98d1996a22435fc734388304d3d414d2262599a67899",
+      "size_bytes": 25399773
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_keepout_v3_continuation_targeted_progress_repair_20260506T123821Z/traces/variant_980004_v3_cont_targeted_progress_c00_s00__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00__fast_guarded_contact.jsonl",
+      "sha256": "f5219db8561005f9397393601e81442c75ae52d802b5b9a2ab6109747ce11f84",
+      "size_bytes": 22552406
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_keepout_v3_continuation_targeted_progress_repair_20260506T123821Z/traces/variant_980005_v3_cont_targeted_progress_c00_s00__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00__late_close.jsonl",
+      "sha256": "9c1c09293e734e3021dc38f8f02c33c1f9c744c3ae85860dfbb63469d721562a",
+      "size_bytes": 24691209
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_keepout_v3_continuation_targeted_progress_repair_20260506T123821Z/traces/variant_980006_v3_cont_targeted_progress_c00_s00__fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00__fast_guarded_contact.jsonl",
+      "sha256": "f5219db8561005f9397393601e81442c75ae52d802b5b9a2ab6109747ce11f84",
+      "size_bytes": 22552406
+    }
+  ]
+}

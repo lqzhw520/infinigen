@@ -1,0 +1,139 @@
+{
+  "cases": [
+    {
+      "bilateral_exact_frames": 213,
+      "classifications": [
+        "LATCH_SAFE_BUT_PROGRESS_UNDEROPEN",
+        "PULL_DISPLACEMENT_CAP_TOO_LOW",
+        "PULL_DURATION_TOO_SHORT",
+        "PULL_VELOCITY_TOO_LOW",
+        "QPOS_PROGRESS_CONTROLLER_MISSING"
+      ],
+      "contact_loss_events_proxy": 6,
+      "drawer_fraction": 0.70290016848435,
+      "forbidden": 0,
+      "handle_nonlegal": 0,
+      "keepout_suppressions_proxy": 0,
+      "latch_frames": 283,
+      "left_group_exact_frames": 5663,
+      "max_penetration": 0.0008768718267198293,
+      "perturbation": "nominal",
+      "pull_displacement_cap_m": 0.02,
+      "pull_duration_steps": 6200,
+      "pull_velocity_m_per_step": 8.5e-05,
+      "qpos_derivative_proxy_fraction_per_step": 0.00011338928351094532,
+      "right_group_exact_frames": 625,
+      "underopen_reason": "LATCH_SAFE_BUT_PROGRESS_UNDEROPEN"
+    },
+    {
+      "bilateral_exact_frames": 212,
+      "classifications": [
+        "LATCH_SAFE_BUT_PROGRESS_UNDEROPEN",
+        "PULL_DISPLACEMENT_CAP_TOO_LOW",
+        "PULL_DURATION_TOO_SHORT",
+        "PULL_VELOCITY_TOO_LOW",
+        "QPOS_PROGRESS_CONTROLLER_MISSING"
+      ],
+      "contact_loss_events_proxy": 5,
+      "drawer_fraction": 0.7067185938117581,
+      "forbidden": 0,
+      "handle_nonlegal": 0,
+      "keepout_suppressions_proxy": 0,
+      "latch_frames": 284,
+      "left_group_exact_frames": 5669,
+      "max_penetration": 0.0008725080334516487,
+      "perturbation": "qpos_small_plus",
+      "pull_displacement_cap_m": 0.02,
+      "pull_duration_steps": 6200,
+      "pull_velocity_m_per_step": 8.5e-05,
+      "qpos_derivative_proxy_fraction_per_step": 0.00011400525791446331,
+      "right_group_exact_frames": 623,
+      "underopen_reason": "LATCH_SAFE_BUT_PROGRESS_UNDEROPEN"
+    },
+    {
+      "bilateral_exact_frames": 214,
+      "classifications": [
+        "LATCH_SAFE_BUT_PROGRESS_UNDEROPEN",
+        "PULL_DISPLACEMENT_CAP_TOO_LOW",
+        "PULL_DURATION_TOO_SHORT",
+        "PULL_VELOCITY_TOO_LOW",
+        "QPOS_PROGRESS_CONTROLLER_MISSING"
+      ],
+      "contact_loss_events_proxy": 9,
+      "drawer_fraction": 0.7014103115112039,
+      "forbidden": 0,
+      "handle_nonlegal": 0,
+      "keepout_suppressions_proxy": 0,
+      "latch_frames": 281,
+      "left_group_exact_frames": 5653,
+      "max_penetration": 0.000882610278968049,
+      "perturbation": "qpos_small_minus",
+      "pull_displacement_cap_m": 0.02,
+      "pull_duration_steps": 6200,
+      "pull_velocity_m_per_step": 8.5e-05,
+      "qpos_derivative_proxy_fraction_per_step": 0.00011314894523490949,
+      "right_group_exact_frames": 628,
+      "underopen_reason": "LATCH_SAFE_BUT_PROGRESS_UNDEROPEN"
+    },
+    {
+      "bilateral_exact_frames": 278,
+      "classifications": [
+        "LATCH_SAFE_BUT_PROGRESS_UNDEROPEN",
+        "PULL_DISPLACEMENT_CAP_TOO_LOW",
+        "PULL_DURATION_TOO_SHORT",
+        "PULL_VELOCITY_TOO_LOW",
+        "QPOS_PROGRESS_CONTROLLER_MISSING"
+      ],
+      "contact_loss_events_proxy": 4,
+      "drawer_fraction": 0.7605713069966261,
+      "forbidden": 0,
+      "handle_nonlegal": 0,
+      "keepout_suppressions_proxy": 0,
+      "latch_frames": 653,
+      "left_group_exact_frames": 6023,
+      "max_penetration": 0.0010150927681377535,
+      "perturbation": "slow_guarded_contact",
+      "pull_displacement_cap_m": 0.02,
+      "pull_duration_steps": 6200,
+      "pull_velocity_m_per_step": 8.5e-05,
+      "qpos_derivative_proxy_fraction_per_step": 0.00012269258057696824,
+      "right_group_exact_frames": 913,
+      "underopen_reason": "LATCH_SAFE_BUT_PROGRESS_UNDEROPEN"
+    },
+    {
+      "bilateral_exact_frames": 200,
+      "classifications": [
+        "LATCH_SAFE_BUT_PROGRESS_UNDEROPEN",
+        "PULL_DISPLACEMENT_CAP_TOO_LOW",
+        "PULL_DURATION_TOO_SHORT",
+        "PULL_VELOCITY_TOO_LOW",
+        "QPOS_PROGRESS_CONTROLLER_MISSING"
+      ],
+      "contact_loss_events_proxy": 3,
+      "drawer_fraction": 0.6859201442314822,
+      "forbidden": 0,
+      "handle_nonlegal": 0,
+      "keepout_suppressions_proxy": 0,
+      "latch_frames": 410,
+      "left_group_exact_frames": 5811,
+      "max_penetration": 0.0008717610993961011,
+      "perturbation": "late_close",
+      "pull_displacement_cap_m": 0.02,
+      "pull_duration_steps": 6200,
+      "pull_velocity_m_per_step": 8.5e-05,
+      "qpos_derivative_proxy_fraction_per_step": 0.00011065012812251689,
+      "right_group_exact_frames": 746,
+      "underopen_reason": "LATCH_SAFE_BUT_PROGRESS_UNDEROPEN"
+    }
+  ],
+  "classification_histogram": {
+    "LATCH_SAFE_BUT_PROGRESS_UNDEROPEN": 5,
+    "PULL_DISPLACEMENT_CAP_TOO_LOW": 5,
+    "PULL_DURATION_TOO_SHORT": 5,
+    "PULL_VELOCITY_TOO_LOW": 5,
+    "QPOS_PROGRESS_CONTROLLER_MISSING": 5
+  },
+  "failed_case_count": 5,
+  "generated_at_utc": "2026-05-06T12:38:26Z",
+  "prior_run": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_wrench_keepout_trajectory_optimization_to_strict_replay_20260506T105445Z"
+}

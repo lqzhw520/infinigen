@@ -1,0 +1,7 @@
+{
+  "closeout_classification": "LOCAL_REPLAY_RENDER_FAILED",
+  "next_gate": "LOCAL_STRICT_REPLAY_RENDER_AFTER_TARGETED_PROGRESS_PASS",
+  "run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_keepout_v3_continuation_targeted_progress_repair_20260506T123821Z",
+  "targeted_cases_passed": 7,
+  "targeted_cases_total": 7
+}

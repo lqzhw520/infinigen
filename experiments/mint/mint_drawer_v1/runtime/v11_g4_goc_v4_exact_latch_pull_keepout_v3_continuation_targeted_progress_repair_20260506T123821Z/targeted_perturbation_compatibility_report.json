@@ -1,0 +1,57 @@
+{
+  "canonical_cd_perturbations": [
+    "nominal",
+    "qpos_small_plus",
+    "qpos_small_minus",
+    "slow_guarded_contact",
+    "fast_guarded_contact",
+    "late_close"
+  ],
+  "cd_perturb_by_name": [
+    "fast_guarded_contact",
+    "late_close",
+    "nominal",
+    "qpos_small_minus",
+    "qpos_small_plus",
+    "slow_guarded_contact"
+  ],
+  "duplicate_fast_guarded_contact_reason": "cd exposes six canonical perturbations; the seventh row preserves the fast blocker as an explicit regression sentinel",
+  "duplicate_fast_guarded_contact_used": true,
+  "generated_at_utc": "2026-05-06T12:38:25Z",
+  "legacy_default_missing_from_current_cd": [
+    "pregrasp_offset_plus_y",
+    "pregrasp_offset_minus_y",
+    "low_contact_hold",
+    "long_contact_hold",
+    "guarded_offset_z_up"
+  ],
+  "legacy_default_targeted_perturbations": [
+    "nominal",
+    "slow_guarded_contact",
+    "pregrasp_offset_plus_y",
+    "pregrasp_offset_minus_y",
+    "low_contact_hold",
+    "long_contact_hold",
+    "guarded_offset_z_up"
+  ],
+  "prior_names_all_bound": true,
+  "prior_targeted_perturbations": [
+    "nominal",
+    "qpos_small_plus",
+    "qpos_small_minus",
+    "slow_guarded_contact",
+    "fast_guarded_contact",
+    "late_close",
+    "fast_guarded_contact"
+  ],
+  "selected_names_all_bound": true,
+  "selected_targeted_perturbations": [
+    "nominal",
+    "qpos_small_plus",
+    "qpos_small_minus",
+    "slow_guarded_contact",
+    "fast_guarded_contact",
+    "late_close",
+    "fast_guarded_contact"
+  ]
+}

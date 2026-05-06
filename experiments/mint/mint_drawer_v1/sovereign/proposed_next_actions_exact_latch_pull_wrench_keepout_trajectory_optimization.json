@@ -1,7 +1,7 @@
 {
   "do_not_apply_without_manual_review": true,
-  "generated_at_utc": "2026-05-06T11:10:53Z",
-  "next_gate": "TARGETED_KEEPOUT_GENERALIZATION_REPAIR",
+  "generated_at_utc": "2026-05-06T12:53:08Z",
+  "next_gate": "LOCAL_STRICT_REPLAY_RENDER_AFTER_TARGETED_PROGRESS_PASS",
   "proposal_id": "proposed_next_actions_exact_latch_pull_wrench_keepout_trajectory_optimization",
-  "recommended_action": "TARGETED_KEEPOUT_GENERALIZATION_REPAIR"
+  "recommended_action": "LOCAL_STRICT_REPLAY_RENDER_AFTER_TARGETED_PROGRESS_PASS"
 }

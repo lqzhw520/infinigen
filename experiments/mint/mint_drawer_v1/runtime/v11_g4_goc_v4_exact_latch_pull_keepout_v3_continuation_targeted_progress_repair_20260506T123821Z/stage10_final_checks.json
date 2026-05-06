@@ -1,0 +1,19 @@
+{
+  "current_truth_modified": false,
+  "external_MINT_modified": false,
+  "generated_at_utc": "2026-05-06T12:53:08Z",
+  "geometric_proxy_used_as_success": false,
+  "git_status_short": [
+    "M .project-memory/STATUS.md",
+    " M .session/checkpoint.md",
+    " M experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_exact_latch_pull_wrench_keepout_trajectory_optimization.json",
+    " M experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_exact_latch_pull_wrench_keepout_trajectory_optimization.json",
+    " M scripts/mint/v11_g4_exact_latch_pull_wrench_keepout_trajectory_optimization.py"
+  ],
+  "goc_patch_group_widened_to_broad_shell": false,
+  "next_actions_modified": false,
+  "preflight_command": "python experiments/mint/mint_drawer_v1/scripts/harness/agent_task_preflight.py --spec experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_exact_latch_pull_wrench_keepout_trajectory_optimization_to_strict_replay.yaml --dry-run",
+  "previous_run_dir_modified": false,
+  "raw_heavy_traces_staged_without_manifest": false,
+  "topology_regressed": false
+}

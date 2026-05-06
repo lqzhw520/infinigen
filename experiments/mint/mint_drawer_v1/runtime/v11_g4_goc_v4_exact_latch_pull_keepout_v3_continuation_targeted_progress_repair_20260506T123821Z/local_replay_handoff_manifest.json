@@ -1,0 +1,11 @@
+{
+  "closeout_if_stopped_here": "LOCAL_REPLAY_RENDER_FAILED",
+  "generated_at_utc": "2026-05-06T12:53:02Z",
+  "local_replay_dir": "/Users/zhuhaowu/Documents/Playground/local_replay/v11_g4_goc_v4_exact_latch_pull_keepout_v3_continuation_targeted_progress_repair_20260506T125302Z",
+  "local_state_replay_attempted": false,
+  "local_state_replay_passed": false,
+  "reason": "strict export complete; local state replay/render requires local runner invocation and is not claimed by this remote helper",
+  "strict_export_manifest": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_keepout_v3_continuation_targeted_progress_repair_20260506T123821Z/strict_teacher_export_manifest.json",
+  "strict_teacher_bundle": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_keepout_v3_continuation_targeted_progress_repair_20260506T123821Z/strict_teacher_bundle",
+  "textured_claim_render_passed": false
+}

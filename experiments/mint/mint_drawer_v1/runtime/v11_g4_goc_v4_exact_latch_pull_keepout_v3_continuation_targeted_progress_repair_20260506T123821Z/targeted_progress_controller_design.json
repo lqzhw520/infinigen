@@ -1,0 +1,32 @@
+{
+  "allowed_repair_variables": [
+    "pull duration",
+    "pull velocity schedule",
+    "base/dynamic pull displacement cap",
+    "gripper closure target",
+    "latch hold duration",
+    "target-contact drop lead pause",
+    "nullspace keepout weight",
+    "qpos-progress gain"
+  ],
+  "controller": "TargetedProgressFeedbackLatchedPullController",
+  "generated_at_utc": "2026-05-06T12:38:26Z",
+  "hard_constraints": [
+    "left/right exact pad-group contact required",
+    "forbidden_contact_frames == 0",
+    "handle_nonlegal_contact_frames == 0",
+    "max_penetration_m <= 0.02",
+    "qpos monotonic",
+    "no direct qpos",
+    "no drawer motor",
+    "geometric proxy not success"
+  ],
+  "logic": [
+    "latch first using exact pad-group policy inherited from V3 patch-group model",
+    "during pull, read drawer fraction every control step",
+    "if drawer fraction is below progress target, increase the dynamic pull lead cap within a bounded physical range",
+    "if target contact count drops, pause lead growth slightly and keep closure",
+    "do not command drawer qpos or drawer motor"
+  ],
+  "topology_or_pad_patch_repair_used": false
+}

@@ -1,0 +1,8 @@
+{
+  "continued_task_id": "V11_G4_GOC_V4_EXACT_LATCH_PULL_WRENCH_KEEP_OUT_TRAJECTORY_OPTIMIZATION_TO_STRICT_REPLAY_V3",
+  "new_scientific_reset": false,
+  "prior_v3_run": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_wrench_keepout_trajectory_optimization_to_strict_replay_20260506T105445Z",
+  "run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_keepout_v3_continuation_targeted_progress_repair_20260506T123821Z",
+  "spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_exact_latch_pull_wrench_keepout_trajectory_optimization_to_strict_replay.yaml",
+  "task_id": "V11_G4_GOC_V4_EXACT_LATCH_PULL_KEEP_OUT_V3_CONTINUATION_TARGETED_PROGRESS_REPAIR"
+}

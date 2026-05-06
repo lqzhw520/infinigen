@@ -1,0 +1,13 @@
+{
+  "classification": "INCOMPLETE_TARGETED_FEEDBACK_LOOP",
+  "continue_v3": true,
+  "fast_guarded_contact_passed": true,
+  "generated_at_utc": "2026-05-06T12:38:25Z",
+  "outer_cycles_run": 1,
+  "prior_closeout_classification": "TARGETED_FAILED_AFTER_FAST_PASS",
+  "prior_run": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_wrench_keepout_trajectory_optimization_to_strict_replay_20260506T105445Z",
+  "repair_families_exhausted": false,
+  "targeted_cases_passed": 2,
+  "targeted_cases_total": 7,
+  "targeted_shard_passed": false
+}

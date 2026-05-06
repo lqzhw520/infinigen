@@ -1,0 +1,6 @@
+{
+  "generated_at_utc": "2026-05-06T12:53:05Z",
+  "raw_traces_committed": false,
+  "reason": "raw rollout traces are large; trace_hash_manifest plus summaries are origin-visible evidence",
+  "trace_count": 41
+}

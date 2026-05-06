@@ -1,11 +1,11 @@
 {
   "attestation_id": "POST_PUSH_ATTESTATION_V3",
   "version": "1.0.0",
-  "generated_at_utc": "2026-05-06T14:51:49Z",
+  "generated_at_utc": "2026-05-06T14:55:40Z",
   "generated_by": "validate_harness_production_lock.py",
   "attestation_type": "post_push_verification",
-  "lock_commit": "84a199705464080f1403464ebe18b9ae596fb44e",
-  "origin_head": "84a199705464080f1403464ebe18b9ae596fb44e",
+  "lock_commit": "ba57967683f78c42cab3e3c6616ace0fdabfdfca",
+  "origin_head": "ba57967683f78c42cab3e3c6616ace0fdabfdfca",
   "origin_verified": true,
   "lock_status": "production_ready",
   "lock_blob_on_origin": "verified_via_merge_base_ancestor_chain",
@@ -23,7 +23,7 @@
       "current_hash": "eeef7611cdfd7b490987224a55e75f8865e1926e",
       "passed": true
     },
-    "origin_head": "84a199705464080f1403464ebe18b9ae596fb44e",
+    "origin_head": "ba57967683f78c42cab3e3c6616ace0fdabfdfca",
     "git_ls_remote_ok": true,
     "origin_contains_lock_commit": true,
     "lock_commit_is_ancestor_of_origin": true,
@@ -181,5 +181,5 @@
   },
   "origin_url": "git@github.com:lqzhw520/infinigen.git",
   "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
-  "attestation_blob": "b57281075bc72852c45877fba53d3fb3ceed635c"
+  "attestation_blob": "cd401dd1a887bd2aab4d92c819635268baa083f9"
 }

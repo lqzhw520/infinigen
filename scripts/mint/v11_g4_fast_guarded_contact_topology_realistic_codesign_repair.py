@@ -168,6 +168,10 @@ def variant(name: str, **kwargs: Any) -> dict[str, Any]:
 def fast_variants() -> list[dict[str, Any]]:
     base = [dict(v) for v in v2.fast_controller_variants_v2()]
     custom = [
+        variant("fg_pc02_binary_same_axis", pull_steps=5600, post_pull_hold_steps=0, pull_velocity_m_per_step=0.00008, pull_distance_m=0.35, lead_cap_m=0.018, pull_press_m=0.0040, op_gain=16.0, op_vel_limit=0.125, q_vel_limit=3.00, null_gain=0.00, servo_kp=430.0, servo_kd=112.0, finger_mode="binary_close"),
+        variant("fg_pc02_binary_null004", pull_steps=5800, post_pull_hold_steps=0, pull_velocity_m_per_step=0.00008, pull_distance_m=0.35, lead_cap_m=0.020, pull_press_m=0.0040, op_gain=15.5, op_vel_limit=0.115, q_vel_limit=2.70, null_gain=0.04, servo_kp=410.0, servo_kd=120.0, finger_mode="binary_close"),
+        variant("fg_pc02_binary_soft_hold", pull_steps=6200, post_pull_hold_steps=0, pull_velocity_m_per_step=0.000075, pull_distance_m=0.35, lead_cap_m=0.022, pull_press_m=0.0032, op_gain=14.0, op_vel_limit=0.100, q_vel_limit=2.35, null_gain=0.06, servo_kp=380.0, servo_kd=130.0, finger_mode="binary_close"),
+        variant("fg_pc02_semiclose_lower_span_proxy", pull_steps=6000, post_pull_hold_steps=0, pull_velocity_m_per_step=0.00008, pull_distance_m=0.35, lead_cap_m=0.019, pull_press_m=0.0036, op_gain=15.0, op_vel_limit=0.105, q_vel_limit=2.45, null_gain=0.03, servo_kp=395.0, servo_kd=126.0, finger_mode="semi_close"),
         variant("fg_binary_axiswork_null014_lead032", pull_steps=6400, post_pull_hold_steps=0, pull_velocity_m_per_step=0.000115, pull_distance_m=0.35, lead_cap_m=0.032, pull_press_m=0.0030, op_gain=13.5, op_vel_limit=0.090, q_vel_limit=2.00, null_gain=0.14, servo_kp=340.0, servo_kd=128.0, finger_mode="binary_close"),
         variant("fg_binary_axiswork_null018_lead038", pull_steps=6600, post_pull_hold_steps=0, pull_velocity_m_per_step=0.000120, pull_distance_m=0.35, lead_cap_m=0.038, pull_press_m=0.0032, op_gain=14.5, op_vel_limit=0.085, q_vel_limit=1.90, null_gain=0.18, servo_kp=350.0, servo_kd=135.0, finger_mode="binary_close"),
         variant("fg_binary_axiswork_null022_soft", pull_steps=7000, post_pull_hold_steps=0, pull_velocity_m_per_step=0.000100, pull_distance_m=0.35, lead_cap_m=0.036, pull_press_m=0.0025, op_gain=12.0, op_vel_limit=0.075, q_vel_limit=1.70, null_gain=0.22, servo_kp=315.0, servo_kd=145.0, finger_mode="binary_close"),
@@ -183,15 +187,15 @@ def fast_variants() -> list[dict[str, Any]]:
     for item in custom + base:
         by_name.setdefault(str(item.get("name")), item)
     priority = [
+        "fg_pc02_binary_same_axis",
+        "fg_pc02_binary_null004",
+        "fg_pc02_binary_soft_hold",
+        "fg_pc02_semiclose_lower_span_proxy",
         "pc02_micro_lead_high_damping_semi_close",
         "pf04_firm_press_slow_axis_work_binary_close",
         "v2_fast_balanced_binary_null006",
         "fg_binary_low_damping_pull_through",
-        "fg_binary_high_two_pad_axiswork",
         "fg_binary_axiswork_null014_lead032",
-        "fg_binary_axiswork_null018_lead038",
-        "fg_binary_axiswork_null022_soft",
-        "fg_semiclose_keepout_axiswork_null016",
         "pf03_low_press_axis_work_ik_hold",
     ]
     return [by_name[name] for name in priority if name in by_name]

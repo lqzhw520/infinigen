@@ -1,0 +1,153 @@
+{
+  "generated_at_utc": "2026-05-06T08:47:00Z",
+  "per_instance_certificates": [
+    {
+      "best_balanced": {
+        "drawer_fraction": 0.3406126139848121,
+        "exact_two_pad": 799,
+        "failure_reasons": [
+          "max_drawer_fraction_lt_0p80"
+        ],
+        "forbidden": 0,
+        "geometric_bilateral": 1279,
+        "handle_nonlegal": 0,
+        "variant_name": "pf04_firm_press_slow_axis_work_binary_close"
+      },
+      "best_exact_latch": {
+        "drawer_fraction": 0.22226602835633952,
+        "exact_two_pad": 4335,
+        "failure_reasons": [
+          "max_drawer_fraction_lt_0p80"
+        ],
+        "forbidden": 0,
+        "geometric_bilateral": 5714,
+        "handle_nonlegal": 0,
+        "variant_name": "fg_pc02_binary_same_axis"
+      },
+      "best_opening": {
+        "drawer_fraction": 0.956438122722968,
+        "exact_two_pad": 6,
+        "failure_reasons": [
+          "pull_phase_two_pad_target_contact_frames_lt_30"
+        ],
+        "forbidden": 0,
+        "geometric_bilateral": 5565,
+        "handle_nonlegal": 0,
+        "variant_name": "pc02_micro_lead_high_damping_semi_close"
+      },
+      "candidate_id": "fg_cycle2_05_d0p9_02",
+      "certificate_label": "controller-defect-contact-discretization-or-pad-patch"
+    },
+    {
+      "best_balanced": {
+        "drawer_fraction": 0.7728833915004549,
+        "exact_two_pad": 175,
+        "failure_reasons": [
+          "max_drawer_fraction_lt_0p80"
+        ],
+        "forbidden": 0,
+        "geometric_bilateral": 4053,
+        "handle_nonlegal": 0,
+        "variant_name": "pc02_micro_lead_high_damping_semi_close"
+      },
+      "best_exact_latch": {
+        "drawer_fraction": 0.10350721415549896,
+        "exact_two_pad": 6211,
+        "failure_reasons": [
+          "max_drawer_fraction_lt_0p80"
+        ],
+        "forbidden": 0,
+        "geometric_bilateral": 6843,
+        "handle_nonlegal": 0,
+        "variant_name": "rk_latch_binary_high_preload_tight_lead"
+      },
+      "best_opening": {
+        "drawer_fraction": 0.7728833915004549,
+        "exact_two_pad": 175,
+        "failure_reasons": [
+          "max_drawer_fraction_lt_0p80"
+        ],
+        "forbidden": 0,
+        "geometric_bilateral": 4053,
+        "handle_nonlegal": 0,
+        "variant_name": "pc02_micro_lead_high_damping_semi_close"
+      },
+      "candidate_id": "fg_cycle2_05_d1p6_04",
+      "certificate_label": "mixed-defect"
+    },
+    {
+      "best_balanced": {
+        "drawer_fraction": 0.35698309846602516,
+        "exact_two_pad": 803,
+        "failure_reasons": [
+          "max_drawer_fraction_lt_0p80"
+        ],
+        "forbidden": 0,
+        "geometric_bilateral": 1262,
+        "handle_nonlegal": 0,
+        "variant_name": "pf04_firm_press_slow_axis_work_binary_close"
+      },
+      "best_exact_latch": {
+        "drawer_fraction": 0.040690697202798845,
+        "exact_two_pad": 1812,
+        "failure_reasons": [
+          "max_drawer_fraction_lt_0p80"
+        ],
+        "forbidden": 0,
+        "geometric_bilateral": 2778,
+        "handle_nonlegal": 0,
+        "variant_name": "fg_pc02_binary_same_axis"
+      },
+      "best_opening": {
+        "drawer_fraction": 0.941906411052427,
+        "exact_two_pad": 5,
+        "failure_reasons": [
+          "pull_phase_two_pad_target_contact_frames_lt_30"
+        ],
+        "forbidden": 0,
+        "geometric_bilateral": 5529,
+        "handle_nonlegal": 0,
+        "variant_name": "pc02_micro_lead_high_damping_semi_close"
+      },
+      "candidate_id": "v2_short_stub_island_densify_05",
+      "certificate_label": "controller-defect-contact-discretization-or-pad-patch"
+    },
+    {
+      "best_balanced": {
+        "drawer_fraction": 0.35698309846602516,
+        "exact_two_pad": 803,
+        "failure_reasons": [
+          "max_drawer_fraction_lt_0p80"
+        ],
+        "forbidden": 0,
+        "geometric_bilateral": 1262,
+        "handle_nonlegal": 0,
+        "variant_name": "pf04_firm_press_slow_axis_work_binary_close"
+      },
+      "best_exact_latch": {
+        "drawer_fraction": 0.040690697202798845,
+        "exact_two_pad": 1812,
+        "failure_reasons": [
+          "max_drawer_fraction_lt_0p80"
+        ],
+        "forbidden": 0,
+        "geometric_bilateral": 2778,
+        "handle_nonlegal": 0,
+        "variant_name": "fg_pc02_binary_same_axis"
+      },
+      "best_opening": {
+        "drawer_fraction": 0.941906411052427,
+        "exact_two_pad": 5,
+        "failure_reasons": [
+          "pull_phase_two_pad_target_contact_frames_lt_30"
+        ],
+        "forbidden": 0,
+        "geometric_bilateral": 5529,
+        "handle_nonlegal": 0,
+        "variant_name": "pc02_micro_lead_high_damping_semi_close"
+      },
+      "candidate_id": "v2_short_stub_island_densify_15",
+      "certificate_label": "controller-defect-contact-discretization-or-pad-patch"
+    }
+  ]
+}

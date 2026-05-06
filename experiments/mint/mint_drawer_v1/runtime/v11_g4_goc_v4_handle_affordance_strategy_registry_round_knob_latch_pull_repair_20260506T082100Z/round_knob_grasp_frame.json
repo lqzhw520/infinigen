@@ -1,0 +1,245 @@
+{
+  "frames": [
+    {
+      "approach_axis": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "candidate_id": "fg_cycle2_05_d0p9_02",
+      "capture_pose_position_m": [
+        -0.18,
+        -0.08199999999999999,
+        0.402
+      ],
+      "drawer_pull_axis": [
+        -1.0,
+        0.0,
+        0.0
+      ],
+      "gripper_closing_axis": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "knob_center_m": [
+        -0.18,
+        -0.06699999999999999,
+        0.402
+      ],
+      "knob_radius_m": 0.024,
+      "latch_pose_position_m": [
+        -0.18,
+        -0.06699999999999999,
+        0.402
+      ],
+      "one_pad_hook_forbidden": true,
+      "pad1_target_point_m": [
+        -0.18,
+        -0.04299999999999999,
+        0.402
+      ],
+      "pad2_target_point_m": [
+        -0.18,
+        -0.091,
+        0.402
+      ],
+      "pregrasp_pose_position_m": [
+        -0.18,
+        -0.142,
+        0.402
+      ],
+      "pull_end_pose_position_m": [
+        -0.53,
+        -0.06699999999999999,
+        0.402
+      ],
+      "pull_start_pose_position_m": [
+        -0.18,
+        -0.06699999999999999,
+        0.402
+      ]
+    },
+    {
+      "approach_axis": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "candidate_id": "fg_cycle2_05_d1p6_04",
+      "capture_pose_position_m": [
+        -0.18,
+        -0.086,
+        0.406
+      ],
+      "drawer_pull_axis": [
+        -1.0,
+        0.0,
+        0.0
+      ],
+      "gripper_closing_axis": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "knob_center_m": [
+        -0.18,
+        -0.071,
+        0.406
+      ],
+      "knob_radius_m": 0.024,
+      "latch_pose_position_m": [
+        -0.18,
+        -0.071,
+        0.406
+      ],
+      "one_pad_hook_forbidden": true,
+      "pad1_target_point_m": [
+        -0.18,
+        -0.04699999999999999,
+        0.406
+      ],
+      "pad2_target_point_m": [
+        -0.18,
+        -0.095,
+        0.406
+      ],
+      "pregrasp_pose_position_m": [
+        -0.18,
+        -0.146,
+        0.406
+      ],
+      "pull_end_pose_position_m": [
+        -0.53,
+        -0.071,
+        0.406
+      ],
+      "pull_start_pose_position_m": [
+        -0.18,
+        -0.071,
+        0.406
+      ]
+    },
+    {
+      "approach_axis": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "candidate_id": "v2_short_stub_island_densify_05",
+      "capture_pose_position_m": [
+        -0.18,
+        -0.086,
+        0.402
+      ],
+      "drawer_pull_axis": [
+        -1.0,
+        0.0,
+        0.0
+      ],
+      "gripper_closing_axis": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "knob_center_m": [
+        -0.18,
+        -0.071,
+        0.402
+      ],
+      "knob_radius_m": 0.024,
+      "latch_pose_position_m": [
+        -0.18,
+        -0.071,
+        0.402
+      ],
+      "one_pad_hook_forbidden": true,
+      "pad1_target_point_m": [
+        -0.18,
+        -0.04699999999999999,
+        0.402
+      ],
+      "pad2_target_point_m": [
+        -0.18,
+        -0.095,
+        0.402
+      ],
+      "pregrasp_pose_position_m": [
+        -0.18,
+        -0.146,
+        0.402
+      ],
+      "pull_end_pose_position_m": [
+        -0.53,
+        -0.071,
+        0.402
+      ],
+      "pull_start_pose_position_m": [
+        -0.18,
+        -0.071,
+        0.402
+      ]
+    },
+    {
+      "approach_axis": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "candidate_id": "v2_short_stub_island_densify_15",
+      "capture_pose_position_m": [
+        -0.18,
+        -0.086,
+        0.402
+      ],
+      "drawer_pull_axis": [
+        -1.0,
+        0.0,
+        0.0
+      ],
+      "gripper_closing_axis": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "knob_center_m": [
+        -0.18,
+        -0.071,
+        0.402
+      ],
+      "knob_radius_m": 0.024,
+      "latch_pose_position_m": [
+        -0.18,
+        -0.071,
+        0.402
+      ],
+      "one_pad_hook_forbidden": true,
+      "pad1_target_point_m": [
+        -0.18,
+        -0.04699999999999999,
+        0.402
+      ],
+      "pad2_target_point_m": [
+        -0.18,
+        -0.095,
+        0.402
+      ],
+      "pregrasp_pose_position_m": [
+        -0.18,
+        -0.146,
+        0.402
+      ],
+      "pull_end_pose_position_m": [
+        -0.53,
+        -0.071,
+        0.402
+      ],
+      "pull_start_pose_position_m": [
+        -0.18,
+        -0.071,
+        0.402
+      ]
+    }
+  ],
+  "generated_at_utc": "2026-05-06T08:21:04Z"
+}

@@ -1,0 +1,392 @@
+{
+  "generated_at_utc": "2026-05-06T08:45:00Z",
+  "raw_trace_directory": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces",
+  "raw_traces_committed": false,
+  "trace_count": 64,
+  "traces": [
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_820000_rk_latch_binary_preload_slow_pull__fg_cycle2_05_d0p9_02__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "5e608d794691cc98e5fdbb619f745d605e5015b7293afb1b021845eb614e2bb6",
+      "size_bytes": 29299541
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_820100_rk_latch_binary_high_preload_tight_lead__fg_cycle2_05_d0p9_02__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "091622b08f8258fdf6f89d8ecd58fecc0e79b017945c9f91449bc5ad6acda675",
+      "size_bytes": 30460572
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_820200_rk_latch_binary_lowpress_reseat_like__fg_cycle2_05_d0p9_02__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "a658376be9fcea49a24f4c7b648d5c1a2235fde9a77c39a24153e55d437e9900",
+      "size_bytes": 35280382
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_820300_rk_latch_semiclose_capture_then_pull__fg_cycle2_05_d0p9_02__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "d97568eb6a5d322acc95bc041df03a05321bce010de48ed6a7d477d99a8835d2",
+      "size_bytes": 19862456
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_820400_rk_latch_binary_axiswork_high_gain__fg_cycle2_05_d0p9_02__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "d88ca18f6982096e54c5350d544f9a03a941c124d6e4daf78b52fc0090424fad",
+      "size_bytes": 26144558
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_820500_rk_latch_ikhold_diagnostic__fg_cycle2_05_d0p9_02__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "474e297c54409b5ca79e4fc0e3fe52423a8f158b91ee2d4f781c3a9b0681f11d",
+      "size_bytes": 19269541
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_820600_fg_pc02_binary_same_axis__fg_cycle2_05_d0p9_02__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "4e149978d203adee68d6865d95a354d11c03d1542d3d8aaa42eff9a7c9c4a71d",
+      "size_bytes": 20943881
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_820700_fg_pc02_binary_null004__fg_cycle2_05_d0p9_02__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "c781aff0f2d810540d05ef39068e834f2db75e1eb0161ce1e9c1fb4b6bce70fe",
+      "size_bytes": 25106533
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_820800_fg_pc02_binary_soft_hold__fg_cycle2_05_d0p9_02__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "28152e1193409e1c2b64e205600e5138e311d3655c38fcaba8fa5025b9bddded",
+      "size_bytes": 27850075
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_820900_fg_pc02_semiclose_lower_span_proxy__fg_cycle2_05_d0p9_02__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "61f7ee0814fc8fd8eb31e733ea88238338c8c6e9b1552f1ce0199e2fbcf24a53",
+      "size_bytes": 18642878
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_821000_pc02_micro_lead_high_damping_semi_close__fg_cycle2_05_d0p9_02__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "1ef6d3fe1e8e8f15a3f420b350b8c6aa1e249a04cf3791510a97982d25ddd9dc",
+      "size_bytes": 18455971
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_821100_pf04_firm_press_slow_axis_work_binary_close__fg_cycle2_05_d0p9_02__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "00bce0bced954cb1a3c9e69ab27fa0a69f6a59a232c9fa43dde02e3a04ffd769",
+      "size_bytes": 22625563
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_821200_v2_fast_balanced_binary_null006__fg_cycle2_05_d0p9_02__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "6811d896d61611526c85c0303242e605aed6319381ffdbf0384171f98c951459",
+      "size_bytes": 25067171
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_821300_fg_binary_low_damping_pull_through__fg_cycle2_05_d0p9_02__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "fdd31b3dee623df59cb3d81e8555d8e836af008e0fb1f0b6d0cd2d11550fceeb",
+      "size_bytes": 33417646
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_821400_fg_binary_axiswork_null014_lead032__fg_cycle2_05_d0p9_02__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "f26839ad8f7002fd037ec66f9eb7db277325e9eb5317454eedc8aeb550e659b4",
+      "size_bytes": 29654881
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_821500_pf03_low_press_axis_work_ik_hold__fg_cycle2_05_d0p9_02__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "80581843865b8829748760134f46bbfc5041fc9a4cc7d1a9ddb4f3598449bfb7",
+      "size_bytes": 14941530
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_830000_rk_latch_binary_preload_slow_pull__fg_cycle2_05_d1p6_04__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "b06a78e62d24418f630ae09ea41e6d1f79e8ad96f2052f94f903ceb6e3a758bc",
+      "size_bytes": 26981581
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_830100_rk_latch_binary_high_preload_tight_lead__fg_cycle2_05_d1p6_04__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "c6b9c022911a8fa383f2018d66e42b40b5fe14ee36c3aa58ee0c5abb8d745b53",
+      "size_bytes": 25194097
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_830200_rk_latch_binary_lowpress_reseat_like__fg_cycle2_05_d1p6_04__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "2b734101a73b3eb40864ee3bbe2013ad88411dce29fb5364df7f1f77cc8f23f8",
+      "size_bytes": 27640703
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_830300_rk_latch_semiclose_capture_then_pull__fg_cycle2_05_d1p6_04__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "c3208858d9b5e851b7df035a74c53ca1ee90cdd4b2abe83985226de8f673dc8d",
+      "size_bytes": 19905455
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_830400_rk_latch_binary_axiswork_high_gain__fg_cycle2_05_d1p6_04__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "add1167107b6294034fe65492fe74ee70d380d3e11d0fab78e7345b5b02eece5",
+      "size_bytes": 22213672
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_830500_rk_latch_ikhold_diagnostic__fg_cycle2_05_d1p6_04__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "aa30bbc4bfb11bbced3a81cb901520b34103d8228118b06dbc319e8d2e6d417e",
+      "size_bytes": 19288908
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_830600_fg_pc02_binary_same_axis__fg_cycle2_05_d1p6_04__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "70a3e3616b3e90b7b4d8c5638cb3464b2cbac862cf8524539da1c1962d9f9a55",
+      "size_bytes": 22995809
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_830700_fg_pc02_binary_null004__fg_cycle2_05_d1p6_04__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "0c2fa3cf941d32189b79b717e140e8d4437bf04829fac52df941ce30fddc05d9",
+      "size_bytes": 22854810
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_830800_fg_pc02_binary_soft_hold__fg_cycle2_05_d1p6_04__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "dd322276ab27f6c97453517826d9c9df6ab736105799d677098ee8f4420204f1",
+      "size_bytes": 23272279
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_830900_fg_pc02_semiclose_lower_span_proxy__fg_cycle2_05_d1p6_04__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "016f2df2f50cf1290bccc1982034c2b953e1a267587bce194e4a80c5b2631561",
+      "size_bytes": 17998402
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_831000_pc02_micro_lead_high_damping_semi_close__fg_cycle2_05_d1p6_04__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "d966623e8071ad058026e7ab9787482acac9cd163a90634dfda85b59ac959127",
+      "size_bytes": 18098262
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_831100_pf04_firm_press_slow_axis_work_binary_close__fg_cycle2_05_d1p6_04__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "fa8b0b8e17702b913e5434dc13383498684e801c40a4d88968d0f3c4f60ff3ac",
+      "size_bytes": 21238011
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_831200_v2_fast_balanced_binary_null006__fg_cycle2_05_d1p6_04__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "20b206701b4830c1a3ab893c354fcf1e4394950c48fa44569206001504acf19e",
+      "size_bytes": 22141887
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_831300_fg_binary_low_damping_pull_through__fg_cycle2_05_d1p6_04__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "dd085eacb4e09cdab2f6bd5fbc5abc28a3fd4bf2898836b32d6f125a51ee0af4",
+      "size_bytes": 33553208
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_831400_fg_binary_axiswork_null014_lead032__fg_cycle2_05_d1p6_04__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "b2ce7115b2ef9557a3c33199ab0e5e360dbf2df648fa32ab584c581776258e8f",
+      "size_bytes": 24383026
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_831500_pf03_low_press_axis_work_ik_hold__fg_cycle2_05_d1p6_04__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "b71511e301defc70ac801870d870be973593521b3348ffdab144704e4cdc237b",
+      "size_bytes": 15021331
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_840000_rk_latch_binary_preload_slow_pull__v2_short_stub_island_densify_05__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "34d7376edb9346fa709aa7c64ae67dc2054cd2e4d26ee94fdca02241d149d1b1",
+      "size_bytes": 29200372
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_840100_rk_latch_binary_high_preload_tight_lead__v2_short_stub_island_densify_05__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "606c67a6f6ca0282140ff86cce11dc57838c3dd7a54e0b1a0916582935c14692",
+      "size_bytes": 30489610
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_840200_rk_latch_binary_lowpress_reseat_like__v2_short_stub_island_densify_05__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "b9aaf28d0956f224c708923c5b80242f2c2027216b91274901652e1f9642c553",
+      "size_bytes": 34644586
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_840300_rk_latch_semiclose_capture_then_pull__v2_short_stub_island_densify_05__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "5539d0771f7b5b49ce4dc3ff37e45967546c9fd01ca4b32b22b8c779a6ff35fd",
+      "size_bytes": 19886159
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_840400_rk_latch_binary_axiswork_high_gain__v2_short_stub_island_densify_05__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "d140ac671cb28ec3c315075ca704f6f5521f5a60cf7717bb147ae112bca7152c",
+      "size_bytes": 26129443
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_840500_rk_latch_ikhold_diagnostic__v2_short_stub_island_densify_05__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "24583cea96f777620055be79ced3e4ebe0a531bae15dfe07a265e067a84f3d01",
+      "size_bytes": 19308260
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_840600_fg_pc02_binary_same_axis__v2_short_stub_island_densify_05__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "3d82463b419ed069fca01782d0e486cea47d7098ee90b6599d5e437958655f5c",
+      "size_bytes": 23652391
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_840700_fg_pc02_binary_null004__v2_short_stub_island_densify_05__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "afc07600d18b3deb2bf328d74a9e75e39889474aa59b142da2012977ac882508",
+      "size_bytes": 25899461
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_840800_fg_pc02_binary_soft_hold__v2_short_stub_island_densify_05__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "99a357975ec169d2a6b718a84ff72a681fbdf223c4d94405b8f309112f8fae34",
+      "size_bytes": 27915864
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_840900_fg_pc02_semiclose_lower_span_proxy__v2_short_stub_island_densify_05__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "c8c2290b81f38c0583cfd9298d0bae468b9310b887213b02a40a8f044a513ea1",
+      "size_bytes": 18514327
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_841000_pc02_micro_lead_high_damping_semi_close__v2_short_stub_island_densify_05__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "db6e6c5c2fcafbf5ee549790d07800fa4733d33fc06074893022315f7693fbca",
+      "size_bytes": 18374289
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_841100_pf04_firm_press_slow_axis_work_binary_close__v2_short_stub_island_densify_05__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "dafe48bed6bae70f1a5ab496df60b927ede64ade9b39bba9b06988231eec473a",
+      "size_bytes": 22676380
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_841200_v2_fast_balanced_binary_null006__v2_short_stub_island_densify_05__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "3430f2bf2e72502be659d8b2189b7f0e2da5fbf736f15d592d8bf18af5ea7040",
+      "size_bytes": 25182521
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_841300_fg_binary_low_damping_pull_through__v2_short_stub_island_densify_05__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "d9690d8f226b073322896adb2cfb6bbfc89107f958528fbe31842e3e19859b7f",
+      "size_bytes": 33448598
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_841400_fg_binary_axiswork_null014_lead032__v2_short_stub_island_densify_05__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "696253d3ae6e7326753aa8c5dbfb484b63cd635e4236bc3bfc4bba0491f630a3",
+      "size_bytes": 29663999
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_841500_pf03_low_press_axis_work_ik_hold__v2_short_stub_island_densify_05__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "5f92bc1e02fb08aa86b9bbb9981f5853a11503484cbf8b50ea73ad36b576fd22",
+      "size_bytes": 14984777
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_850000_rk_latch_binary_preload_slow_pull__v2_short_stub_island_densify_15__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "34d7376edb9346fa709aa7c64ae67dc2054cd2e4d26ee94fdca02241d149d1b1",
+      "size_bytes": 29200372
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_850100_rk_latch_binary_high_preload_tight_lead__v2_short_stub_island_densify_15__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "606c67a6f6ca0282140ff86cce11dc57838c3dd7a54e0b1a0916582935c14692",
+      "size_bytes": 30489610
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_850200_rk_latch_binary_lowpress_reseat_like__v2_short_stub_island_densify_15__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "b9aaf28d0956f224c708923c5b80242f2c2027216b91274901652e1f9642c553",
+      "size_bytes": 34644586
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_850300_rk_latch_semiclose_capture_then_pull__v2_short_stub_island_densify_15__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "5539d0771f7b5b49ce4dc3ff37e45967546c9fd01ca4b32b22b8c779a6ff35fd",
+      "size_bytes": 19886159
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_850400_rk_latch_binary_axiswork_high_gain__v2_short_stub_island_densify_15__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "d140ac671cb28ec3c315075ca704f6f5521f5a60cf7717bb147ae112bca7152c",
+      "size_bytes": 26129443
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_850500_rk_latch_ikhold_diagnostic__v2_short_stub_island_densify_15__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "24583cea96f777620055be79ced3e4ebe0a531bae15dfe07a265e067a84f3d01",
+      "size_bytes": 19308260
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_850600_fg_pc02_binary_same_axis__v2_short_stub_island_densify_15__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "3d82463b419ed069fca01782d0e486cea47d7098ee90b6599d5e437958655f5c",
+      "size_bytes": 23652391
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_850700_fg_pc02_binary_null004__v2_short_stub_island_densify_15__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "afc07600d18b3deb2bf328d74a9e75e39889474aa59b142da2012977ac882508",
+      "size_bytes": 25899461
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_850800_fg_pc02_binary_soft_hold__v2_short_stub_island_densify_15__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "99a357975ec169d2a6b718a84ff72a681fbdf223c4d94405b8f309112f8fae34",
+      "size_bytes": 27915864
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_850900_fg_pc02_semiclose_lower_span_proxy__v2_short_stub_island_densify_15__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "c8c2290b81f38c0583cfd9298d0bae468b9310b887213b02a40a8f044a513ea1",
+      "size_bytes": 18514327
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_851000_pc02_micro_lead_high_damping_semi_close__v2_short_stub_island_densify_15__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "db6e6c5c2fcafbf5ee549790d07800fa4733d33fc06074893022315f7693fbca",
+      "size_bytes": 18374289
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_851100_pf04_firm_press_slow_axis_work_binary_close__v2_short_stub_island_densify_15__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "dafe48bed6bae70f1a5ab496df60b927ede64ade9b39bba9b06988231eec473a",
+      "size_bytes": 22676380
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_851200_v2_fast_balanced_binary_null006__v2_short_stub_island_densify_15__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "3430f2bf2e72502be659d8b2189b7f0e2da5fbf736f15d592d8bf18af5ea7040",
+      "size_bytes": 25182521
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_851300_fg_binary_low_damping_pull_through__v2_short_stub_island_densify_15__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "d9690d8f226b073322896adb2cfb6bbfc89107f958528fbe31842e3e19859b7f",
+      "size_bytes": 33448598
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_851400_fg_binary_axiswork_null014_lead032__v2_short_stub_island_densify_15__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "696253d3ae6e7326753aa8c5dbfb484b63cd635e4236bc3bfc4bba0491f630a3",
+      "size_bytes": 29663999
+    },
+    {
+      "path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_20260506T082100Z/traces/variant_851500_pf03_low_press_axis_work_ik_hold__v2_short_stub_island_densify_15__fast_guarded_contact.jsonl",
+      "raw_trace_committed": false,
+      "sha256": "5f92bc1e02fb08aa86b9bbb9981f5853a11503484cbf8b50ea73ad36b576fd22",
+      "size_bytes": 14984777
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "action_only_replay_spot_check_attempted": false,
+  "action_only_replay_spot_check_passed": false,
+  "generated_at_utc": "2026-05-06T08:40:05Z",
+  "local_state_replay_render_attempted": false,
+  "local_state_replay_render_passed": false,
+  "skip_reason": "strict_export_not_complete"
+}

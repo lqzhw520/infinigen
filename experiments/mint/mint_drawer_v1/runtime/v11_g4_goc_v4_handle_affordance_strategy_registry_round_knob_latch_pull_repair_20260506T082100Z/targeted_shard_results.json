@@ -1,0 +1,8 @@
+{
+  "cases_passed": 0,
+  "cases_total": 0,
+  "generated_at_utc": "2026-05-06T08:40:05Z",
+  "skip_reason": "fast_guarded_contact_latch_pull_solver_not_strictly_passing",
+  "targeted_shard_attempted": false,
+  "targeted_shard_passed": false
+}

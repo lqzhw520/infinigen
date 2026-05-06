@@ -1,0 +1,23 @@
+{
+  "candidate_id": "fg_cycle2_05_d0p9_02",
+  "diagnostic_classification": "CONTACT_DISCRETIZATION_OR_PAD_PATCH_ISSUE",
+  "exact_two_pad_contact_frames": 6,
+  "exact_two_pad_contact_max_consecutive_frames": 6,
+  "generated_at_utc": "2026-05-06T08:21:04Z",
+  "geometric_bilateral_grasp_frames": 5565,
+  "geometric_bilateral_grasp_max_consecutive_frames": 4938,
+  "geometric_proxy_is_diagnostic_not_gate": true,
+  "latch_hold_frames_exact": 0,
+  "latch_hold_frames_geometric_proxy": 159,
+  "max_drawer_fraction_trace": 0.956438122722968,
+  "pull_with_latch_frames_exact": 6,
+  "pull_with_latch_frames_geometric_proxy": 5406,
+  "row_drawer_fraction": 0.956438122722968,
+  "row_exact_two_pad_pull_frames": 6,
+  "row_forbidden_contact_frames": 0,
+  "row_handle_nonlegal_contact_frames": 0,
+  "source": "latest_fast_repair_best_high_opening_legal_attempt",
+  "trace_frames": 6707,
+  "trace_path": "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_fast_guarded_contact_topology_realistic_codesign_repair_20260506T042730Z/traces/variant_714100_pc02_micro_lead_high_damping_semi_close__fg_cycle2_05_d0p9_02__fast_guarded_contact.jsonl",
+  "variant_name": "pc02_micro_lead_high_damping_semi_close"
+}

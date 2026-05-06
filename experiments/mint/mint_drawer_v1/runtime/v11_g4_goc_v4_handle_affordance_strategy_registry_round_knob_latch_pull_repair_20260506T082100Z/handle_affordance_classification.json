@@ -1,0 +1,1414 @@
+{
+  "candidate_count": 39,
+  "classifications": [
+    {
+      "branch_implemented": true,
+      "candidate_id": "v2_short_stub_island_densify_15",
+      "confidence": 0.95,
+      "geometry": {
+        "compactness_proxy": 0.48,
+        "elongation_ratio_proxy": 2.0833333333333335,
+        "handle_center_m": [
+          -0.18,
+          -0.071,
+          0.402
+        ],
+        "handle_half_length_m": 0.05,
+        "handle_kind": "sphere",
+        "handle_radius_m": 0.024,
+        "knob_diameter_m": 0.048,
+        "pca_axis_lengths_proxy_m": [
+          0.1,
+          0.048,
+          0.048
+        ],
+        "preferred_stub_ratio_range_passed": true,
+        "short_stub_invariant_passed": true,
+        "stub_length_m": 0.00864,
+        "stub_length_to_knob_diameter": 0.18,
+        "topology_repair_provenance": null
+      },
+      "handle_class": "ROUND_KNOB",
+      "reasons": [
+        "semantic_round_knob_handle_kind",
+        "short_stub_connector_present",
+        "round_knob_semantics_override_bar_elongation_proxy"
+      ],
+      "selected_strategy": "RoundKnobBilateralPinchLatchStrategy",
+      "unsupported_closeout": null
+    },
+    {
+      "branch_implemented": true,
+      "candidate_id": "v2_short_stub_island_densify_02",
+      "confidence": 0.95,
+      "geometry": {
+        "compactness_proxy": 0.48,
+        "elongation_ratio_proxy": 2.0833333333333335,
+        "handle_center_m": [
+          -0.178,
+          -0.07,
+          0.402
+        ],
+        "handle_half_length_m": 0.05,
+        "handle_kind": "sphere",
+        "handle_radius_m": 0.024,
+        "knob_diameter_m": 0.048,
+        "pca_axis_lengths_proxy_m": [
+          0.1,
+          0.048,
+          0.048
+        ],
+        "preferred_stub_ratio_range_passed": true,
+        "short_stub_invariant_passed": true,
+        "stub_length_m": 0.00864,
+        "stub_length_to_knob_diameter": 0.18,
+        "topology_repair_provenance": null
+      },
+      "handle_class": "ROUND_KNOB",
+      "reasons": [
+        "semantic_round_knob_handle_kind",
+        "short_stub_connector_present",
+        "round_knob_semantics_override_bar_elongation_proxy"
+      ],
+      "selected_strategy": "RoundKnobBilateralPinchLatchStrategy",
+      "unsupported_closeout": null
+    },
+    {
+      "branch_implemented": true,
+      "candidate_id": "v2_short_stub_island_densify_04",
+      "confidence": 0.95,
+      "geometry": {
+        "compactness_proxy": 0.48,
+        "elongation_ratio_proxy": 2.0833333333333335,
+        "handle_center_m": [
+          -0.176,
+          -0.072,
+          0.403
+        ],
+        "handle_half_length_m": 0.05,
+        "handle_kind": "sphere",
+        "handle_radius_m": 0.024,
+        "knob_diameter_m": 0.048,
+        "pca_axis_lengths_proxy_m": [
+          0.1,
+          0.048,
+          0.048
+        ],
+        "preferred_stub_ratio_range_passed": true,
+        "short_stub_invariant_passed": true,
+        "stub_length_m": 0.00864,
+        "stub_length_to_knob_diameter": 0.18,
+        "topology_repair_provenance": null
+      },
+      "handle_class": "ROUND_KNOB",
+      "reasons": [
+        "semantic_round_knob_handle_kind",
+        "short_stub_connector_present",
+        "round_knob_semantics_override_bar_elongation_proxy"
+      ],
+      "selected_strategy": "RoundKnobBilateralPinchLatchStrategy",
+      "unsupported_closeout": null
+    },
+    {
+      "branch_implemented": true,
+      "candidate_id": "v2_short_stub_island_densify_10",
+      "confidence": 0.95,
+      "geometry": {
+        "compactness_proxy": 0.48,
+        "elongation_ratio_proxy": 2.0833333333333335,
+        "handle_center_m": [
+          -0.181,
+          -0.073,
+          0.403
+        ],
+        "handle_half_length_m": 0.05,
+        "handle_kind": "sphere",
+        "handle_radius_m": 0.024,
+        "knob_diameter_m": 0.048,
+        "pca_axis_lengths_proxy_m": [
+          0.1,
+          0.048,
+          0.048
+        ],
+        "preferred_stub_ratio_range_passed": true,
+        "short_stub_invariant_passed": true,
+        "stub_length_m": 0.00864,
+        "stub_length_to_knob_diameter": 0.18,
+        "topology_repair_provenance": null
+      },
+      "handle_class": "ROUND_KNOB",
+      "reasons": [
+        "semantic_round_knob_handle_kind",
+        "short_stub_connector_present",
+        "round_knob_semantics_override_bar_elongation_proxy"
+      ],
+      "selected_strategy": "RoundKnobBilateralPinchLatchStrategy",
+      "unsupported_closeout": null
+    },
+    {
+      "branch_implemented": true,
+      "candidate_id": "v2_short_stub_island_densify_05",
+      "confidence": 0.95,
+      "geometry": {
+        "compactness_proxy": 0.48,
+        "elongation_ratio_proxy": 2.0833333333333335,
+        "handle_center_m": [
+          -0.18,
+          -0.071,
+          0.402
+        ],
+        "handle_half_length_m": 0.05,
+        "handle_kind": "sphere",
+        "handle_radius_m": 0.024,
+        "knob_diameter_m": 0.048,
+        "pca_axis_lengths_proxy_m": [
+          0.1,
+          0.048,
+          0.048
+        ],
+        "preferred_stub_ratio_range_passed": true,
+        "short_stub_invariant_passed": true,
+        "stub_length_m": 0.00864,
+        "stub_length_to_knob_diameter": 0.18,
+        "topology_repair_provenance": null
+      },
+      "handle_class": "ROUND_KNOB",
+      "reasons": [
+        "semantic_round_knob_handle_kind",
+        "short_stub_connector_present",
+        "round_knob_semantics_override_bar_elongation_proxy"
+      ],
+      "selected_strategy": "RoundKnobBilateralPinchLatchStrategy",
+      "unsupported_closeout": null
+    },
+    {
+      "branch_implemented": true,
+      "candidate_id": "v2_short_stub_island_densify_16",
+      "confidence": 0.95,
+      "geometry": {
+        "compactness_proxy": 0.48,
+        "elongation_ratio_proxy": 2.0833333333333335,
+        "handle_center_m": [
+          -0.179,
+          -0.072,
+          0.403
+        ],
+        "handle_half_length_m": 0.05,
+        "handle_kind": "sphere",
+        "handle_radius_m": 0.024,
+        "knob_diameter_m": 0.048,
+        "pca_axis_lengths_proxy_m": [
+          0.1,
+          0.048,
+          0.048
+        ],
+        "preferred_stub_ratio_range_passed": true,
+        "short_stub_invariant_passed": true,
+        "stub_length_m": 0.00864,
+        "stub_length_to_knob_diameter": 0.18,
+        "topology_repair_provenance": null
+      },
+      "handle_class": "ROUND_KNOB",
+      "reasons": [
+        "semantic_round_knob_handle_kind",
+        "short_stub_connector_present",
+        "round_knob_semantics_override_bar_elongation_proxy"
+      ],
+      "selected_strategy": "RoundKnobBilateralPinchLatchStrategy",
+      "unsupported_closeout": null
+    },
+    {
+      "branch_implemented": true,
+      "candidate_id": "v2_short_stub_island_densify_18",
+      "confidence": 0.95,
+      "geometry": {
+        "compactness_proxy": 0.48,
+        "elongation_ratio_proxy": 2.0833333333333335,
+        "handle_center_m": [
+          -0.181,
+          -0.073,
+          0.403
+        ],
+        "handle_half_length_m": 0.05,
+        "handle_kind": "sphere",
+        "handle_radius_m": 0.024,
+        "knob_diameter_m": 0.048,
+        "pca_axis_lengths_proxy_m": [
+          0.1,
+          0.048,
+          0.048
+        ],
+        "preferred_stub_ratio_range_passed": true,
+        "short_stub_invariant_passed": true,
+        "stub_length_m": 0.00864,
+        "stub_length_to_knob_diameter": 0.18,
+        "topology_repair_provenance": null
+      },
+      "handle_class": "ROUND_KNOB",
+      "reasons": [
+        "semantic_round_knob_handle_kind",
+        "short_stub_connector_present",
+        "round_knob_semantics_override_bar_elongation_proxy"
+      ],
+      "selected_strategy": "RoundKnobBilateralPinchLatchStrategy",
+      "unsupported_closeout": null
+    },
+    {
+      "branch_implemented": true,
+      "candidate_id": "fg_cycle2_05_d0p65_01",
+      "confidence": 0.95,
+      "geometry": {
+        "compactness_proxy": 0.48,
+        "elongation_ratio_proxy": 2.0833333333333335,
+        "handle_center_m": [
+          -0.18,
+          -0.075,
+          0.402
+        ],
+        "handle_half_length_m": 0.05,
+        "handle_kind": "sphere",
+        "handle_radius_m": 0.024,
+        "knob_diameter_m": 0.048,
+        "pca_axis_lengths_proxy_m": [
+          0.1,
+          0.048,
+          0.048
+        ],
+        "preferred_stub_ratio_range_passed": true,
+        "short_stub_invariant_passed": true,
+        "stub_length_m": 0.00864,
+        "stub_length_to_knob_diameter": 0.18,
+        "topology_repair_provenance": "drawer_dynamics_plus_handle_micro_adjust"
+      },
+      "handle_class": "ROUND_KNOB",
+      "reasons": [
+        "semantic_round_knob_handle_kind",
+        "short_stub_connector_present",
+        "round_knob_semantics_override_bar_elongation_proxy"
+      ],
+      "selected_strategy": "RoundKnobBilateralPinchLatchStrategy",
+      "unsupported_closeout": null
+    },
+    {
+      "branch_implemented": true,
+      "candidate_id": "fg_cycle2_05_d0p9_02",
+      "confidence": 0.95,
+      "geometry": {
+        "compactness_proxy": 0.48,
+        "elongation_ratio_proxy": 2.0833333333333335,
+        "handle_center_m": [
+          -0.18,
+          -0.06699999999999999,
+          0.402
+        ],
+        "handle_half_length_m": 0.05,
+        "handle_kind": "sphere",
+        "handle_radius_m": 0.024,
+        "knob_diameter_m": 0.048,
+        "pca_axis_lengths_proxy_m": [
+          0.1,
+          0.048,
+          0.048
+        ],
+        "preferred_stub_ratio_range_passed": true,
+        "short_stub_invariant_passed": true,
+        "stub_length_m": 0.00864,
+        "stub_length_to_knob_diameter": 0.18,
+        "topology_repair_provenance": "drawer_dynamics_plus_handle_micro_adjust"
+      },
+      "handle_class": "ROUND_KNOB",
+      "reasons": [
+        "semantic_round_knob_handle_kind",
+        "short_stub_connector_present",
+        "round_knob_semantics_override_bar_elongation_proxy"
+      ],
+      "selected_strategy": "RoundKnobBilateralPinchLatchStrategy",
+      "unsupported_closeout": null
+    },
+    {
+      "branch_implemented": true,
+      "candidate_id": "fg_cycle2_05_d1p2_03",
+      "confidence": 0.95,
+      "geometry": {
+        "compactness_proxy": 0.48,
+        "elongation_ratio_proxy": 2.0833333333333335,
+        "handle_center_m": [
+          -0.18,
+          -0.071,
+          0.398
+        ],
+        "handle_half_length_m": 0.05,
+        "handle_kind": "sphere",
+        "handle_radius_m": 0.024,
+        "knob_diameter_m": 0.048,
+        "pca_axis_lengths_proxy_m": [
+          0.1,
+          0.048,
+          0.048
+        ],
+        "preferred_stub_ratio_range_passed": true,
+        "short_stub_invariant_passed": true,
+        "stub_length_m": 0.00864,
+        "stub_length_to_knob_diameter": 0.18,
+        "topology_repair_provenance": "drawer_dynamics_plus_handle_micro_adjust"
+      },
+      "handle_class": "ROUND_KNOB",
+      "reasons": [
+        "semantic_round_knob_handle_kind",
+        "short_stub_connector_present",
+        "round_knob_semantics_override_bar_elongation_proxy"
+      ],
+      "selected_strategy": "RoundKnobBilateralPinchLatchStrategy",
+      "unsupported_closeout": null
+    },
+    {
+      "branch_implemented": true,
+      "candidate_id": "fg_cycle2_05_d1p6_04",
+      "confidence": 0.95,
+      "geometry": {
+        "compactness_proxy": 0.48,
+        "elongation_ratio_proxy": 2.0833333333333335,
+        "handle_center_m": [
+          -0.18,
+          -0.071,
+          0.406
+        ],
+        "handle_half_length_m": 0.05,
+        "handle_kind": "sphere",
+        "handle_radius_m": 0.024,
+        "knob_diameter_m": 0.048,
+        "pca_axis_lengths_proxy_m": [
+          0.1,
+          0.048,
+          0.048
+        ],
+        "preferred_stub_ratio_range_passed": true,
+        "short_stub_invariant_passed": true,
+        "stub_length_m": 0.00864,
+        "stub_length_to_knob_diameter": 0.18,
+        "topology_repair_provenance": "drawer_dynamics_plus_handle_micro_adjust"
+      },
+      "handle_class": "ROUND_KNOB",
+      "reasons": [
+        "semantic_round_knob_handle_kind",
+        "short_stub_connector_present",
+        "round_knob_semantics_override_bar_elongation_proxy"
+      ],
+      "selected_strategy": "RoundKnobBilateralPinchLatchStrategy",
+      "unsupported_closeout": null
+    },
+    {
+      "branch_implemented": true,
+      "candidate_id": "fg_cycle2_15_d0p65_05",
+      "confidence": 0.95,
+      "geometry": {
+        "compactness_proxy": 0.48,
+        "elongation_ratio_proxy": 2.0833333333333335,
+        "handle_center_m": [
+          -0.18,
+          -0.075,
+          0.402
+        ],
+        "handle_half_length_m": 0.05,
+        "handle_kind": "sphere",
+        "handle_radius_m": 0.024,
+        "knob_diameter_m": 0.048,
+        "pca_axis_lengths_proxy_m": [
+          0.1,
+          0.048,
+          0.048
+        ],
+        "preferred_stub_ratio_range_passed": true,
+        "short_stub_invariant_passed": true,
+        "stub_length_m": 0.00864,
+        "stub_length_to_knob_diameter": 0.18,
+        "topology_repair_provenance": "drawer_dynamics_plus_handle_micro_adjust"
+      },
+      "handle_class": "ROUND_KNOB",
+      "reasons": [
+        "semantic_round_knob_handle_kind",
+        "short_stub_connector_present",
+        "round_knob_semantics_override_bar_elongation_proxy"
+      ],
+      "selected_strategy": "RoundKnobBilateralPinchLatchStrategy",
+      "unsupported_closeout": null
+    },
+    {
+      "branch_implemented": true,
+      "candidate_id": "fg_cycle2_15_d0p9_06",
+      "confidence": 0.95,
+      "geometry": {
+        "compactness_proxy": 0.48,
+        "elongation_ratio_proxy": 2.0833333333333335,
+        "handle_center_m": [
+          -0.18,
+          -0.06699999999999999,
+          0.402
+        ],
+        "handle_half_length_m": 0.05,
+        "handle_kind": "sphere",
+        "handle_radius_m": 0.024,
+        "knob_diameter_m": 0.048,
+        "pca_axis_lengths_proxy_m": [
+          0.1,
+          0.048,
+          0.048
+        ],
+        "preferred_stub_ratio_range_passed": true,
+        "short_stub_invariant_passed": true,
+        "stub_length_m": 0.00864,
+        "stub_length_to_knob_diameter": 0.18,
+        "topology_repair_provenance": "drawer_dynamics_plus_handle_micro_adjust"
+      },
+      "handle_class": "ROUND_KNOB",
+      "reasons": [
+        "semantic_round_knob_handle_kind",
+        "short_stub_connector_present",
+        "round_knob_semantics_override_bar_elongation_proxy"
+      ],
+      "selected_strategy": "RoundKnobBilateralPinchLatchStrategy",
+      "unsupported_closeout": null
+    },
+    {
+      "branch_implemented": true,
+      "candidate_id": "fg_cycle2_15_d1p2_07",
+      "confidence": 0.95,
+      "geometry": {
+        "compactness_proxy": 0.48,
+        "elongation_ratio_proxy": 2.0833333333333335,
+        "handle_center_m": [
+          -0.18,
+          -0.071,
+          0.398
+        ],
+        "handle_half_length_m": 0.05,
+        "handle_kind": "sphere",
+        "handle_radius_m": 0.024,
+        "knob_diameter_m": 0.048,
+        "pca_axis_lengths_proxy_m": [
+          0.1,
+          0.048,
+          0.048
+        ],
+        "preferred_stub_ratio_range_passed": true,
+        "short_stub_invariant_passed": true,
+        "stub_length_m": 0.00864,
+        "stub_length_to_knob_diameter": 0.18,
+        "topology_repair_provenance": "drawer_dynamics_plus_handle_micro_adjust"
+      },
+      "handle_class": "ROUND_KNOB",
+      "reasons": [
+        "semantic_round_knob_handle_kind",
+        "short_stub_connector_present",
+        "round_knob_semantics_override_bar_elongation_proxy"
+      ],
+      "selected_strategy": "RoundKnobBilateralPinchLatchStrategy",
+      "unsupported_closeout": null
+    },
+    {
+      "branch_implemented": true,
+      "candidate_id": "fg_cycle2_15_d1p6_08",
+      "confidence": 0.95,
+      "geometry": {
+        "compactness_proxy": 0.48,
+        "elongation_ratio_proxy": 2.0833333333333335,
+        "handle_center_m": [
+          -0.18,
+          -0.071,
+          0.406
+        ],
+        "handle_half_length_m": 0.05,
+        "handle_kind": "sphere",
+        "handle_radius_m": 0.024,
+        "knob_diameter_m": 0.048,
+        "pca_axis_lengths_proxy_m": [
+          0.1,
+          0.048,
+          0.048
+        ],
+        "preferred_stub_ratio_range_passed": true,
+        "short_stub_invariant_passed": true,
+        "stub_length_m": 0.00864,
+        "stub_length_to_knob_diameter": 0.18,
+        "topology_repair_provenance": "drawer_dynamics_plus_handle_micro_adjust"
+      },
+      "handle_class": "ROUND_KNOB",
+      "reasons": [
+        "semantic_round_knob_handle_kind",
+        "short_stub_connector_present",
+        "round_knob_semantics_override_bar_elongation_proxy"
+      ],
+      "selected_strategy": "RoundKnobBilateralPinchLatchStrategy",
+      "unsupported_closeout": null
+    },
+    {
+      "branch_implemented": true,
+      "candidate_id": "fg_cycle2_02_d0p65_09",
+      "confidence": 0.95,
+      "geometry": {
+        "compactness_proxy": 0.48,
+        "elongation_ratio_proxy": 2.0833333333333335,
+        "handle_center_m": [
+          -0.178,
+          -0.07400000000000001,
+          0.402
+        ],
+        "handle_half_length_m": 0.05,
+        "handle_kind": "sphere",
+        "handle_radius_m": 0.024,
+        "knob_diameter_m": 0.048,
+        "pca_axis_lengths_proxy_m": [
+          0.1,
+          0.048,
+          0.048
+        ],
+        "preferred_stub_ratio_range_passed": true,
+        "short_stub_invariant_passed": true,
+        "stub_length_m": 0.00864,
+        "stub_length_to_knob_diameter": 0.18,
+        "topology_repair_provenance": "drawer_dynamics_plus_handle_micro_adjust"
+      },
+      "handle_class": "ROUND_KNOB",
+      "reasons": [
+        "semantic_round_knob_handle_kind",
+        "short_stub_connector_present",
+        "round_knob_semantics_override_bar_elongation_proxy"
+      ],
+      "selected_strategy": "RoundKnobBilateralPinchLatchStrategy",
+      "unsupported_closeout": null
+    },
+    {
+      "branch_implemented": true,
+      "candidate_id": "fg_cycle2_02_d0p9_10",
+      "confidence": 0.95,
+      "geometry": {
+        "compactness_proxy": 0.48,
+        "elongation_ratio_proxy": 2.0833333333333335,
+        "handle_center_m": [
+          -0.178,
+          -0.066,
+          0.402
+        ],
+        "handle_half_length_m": 0.05,
+        "handle_kind": "sphere",
+        "handle_radius_m": 0.024,
+        "knob_diameter_m": 0.048,
+        "pca_axis_lengths_proxy_m": [
+          0.1,
+          0.048,
+          0.048
+        ],
+        "preferred_stub_ratio_range_passed": true,
+        "short_stub_invariant_passed": true,
+        "stub_length_m": 0.00864,
+        "stub_length_to_knob_diameter": 0.18,
+        "topology_repair_provenance": "drawer_dynamics_plus_handle_micro_adjust"
+      },
+      "handle_class": "ROUND_KNOB",
+      "reasons": [
+        "semantic_round_knob_handle_kind",
+        "short_stub_connector_present",
+        "round_knob_semantics_override_bar_elongation_proxy"
+      ],
+      "selected_strategy": "RoundKnobBilateralPinchLatchStrategy",
+      "unsupported_closeout": null
+    },
+    {
+      "branch_implemented": true,
+      "candidate_id": "fg_cycle2_02_d1p2_11",
+      "confidence": 0.95,
+      "geometry": {
+        "compactness_proxy": 0.48,
+        "elongation_ratio_proxy": 2.0833333333333335,
+        "handle_center_m": [
+          -0.178,
+          -0.07,
+          0.398
+        ],
+        "handle_half_length_m": 0.05,
+        "handle_kind": "sphere",
+        "handle_radius_m": 0.024,
+        "knob_diameter_m": 0.048,
+        "pca_axis_lengths_proxy_m": [
+          0.1,
+          0.048,
+          0.048
+        ],
+        "preferred_stub_ratio_range_passed": true,
+        "short_stub_invariant_passed": true,
+        "stub_length_m": 0.00864,
+        "stub_length_to_knob_diameter": 0.18,
+        "topology_repair_provenance": "drawer_dynamics_plus_handle_micro_adjust"
+      },
+      "handle_class": "ROUND_KNOB",
+      "reasons": [
+        "semantic_round_knob_handle_kind",
+        "short_stub_connector_present",
+        "round_knob_semantics_override_bar_elongation_proxy"
+      ],
+      "selected_strategy": "RoundKnobBilateralPinchLatchStrategy",
+      "unsupported_closeout": null
+    },
+    {
+      "branch_implemented": true,
+      "candidate_id": "fg_cycle2_02_d1p6_12",
+      "confidence": 0.95,
+      "geometry": {
+        "compactness_proxy": 0.48,
+        "elongation_ratio_proxy": 2.0833333333333335,
+        "handle_center_m": [
+          -0.178,
+          -0.07,
+          0.406
+        ],
+        "handle_half_length_m": 0.05,
+        "handle_kind": "sphere",
+        "handle_radius_m": 0.024,
+        "knob_diameter_m": 0.048,
+        "pca_axis_lengths_proxy_m": [
+          0.1,
+          0.048,
+          0.048
+        ],
+        "preferred_stub_ratio_range_passed": true,
+        "short_stub_invariant_passed": true,
+        "stub_length_m": 0.00864,
+        "stub_length_to_knob_diameter": 0.18,
+        "topology_repair_provenance": "drawer_dynamics_plus_handle_micro_adjust"
+      },
+      "handle_class": "ROUND_KNOB",
+      "reasons": [
+        "semantic_round_knob_handle_kind",
+        "short_stub_connector_present",
+        "round_knob_semantics_override_bar_elongation_proxy"
+      ],
+      "selected_strategy": "RoundKnobBilateralPinchLatchStrategy",
+      "unsupported_closeout": null
+    },
+    {
+      "branch_implemented": true,
+      "candidate_id": "fg_cycle2_04_d0p65_13",
+      "confidence": 0.95,
+      "geometry": {
+        "compactness_proxy": 0.48,
+        "elongation_ratio_proxy": 2.0833333333333335,
+        "handle_center_m": [
+          -0.176,
+          -0.076,
+          0.403
+        ],
+        "handle_half_length_m": 0.05,
+        "handle_kind": "sphere",
+        "handle_radius_m": 0.024,
+        "knob_diameter_m": 0.048,
+        "pca_axis_lengths_proxy_m": [
+          0.1,
+          0.048,
+          0.048
+        ],
+        "preferred_stub_ratio_range_passed": true,
+        "short_stub_invariant_passed": true,
+        "stub_length_m": 0.00864,
+        "stub_length_to_knob_diameter": 0.18,
+        "topology_repair_provenance": "drawer_dynamics_plus_handle_micro_adjust"
+      },
+      "handle_class": "ROUND_KNOB",
+      "reasons": [
+        "semantic_round_knob_handle_kind",
+        "short_stub_connector_present",
+        "round_knob_semantics_override_bar_elongation_proxy"
+      ],
+      "selected_strategy": "RoundKnobBilateralPinchLatchStrategy",
+      "unsupported_closeout": null
+    },
+    {
+      "branch_implemented": true,
+      "candidate_id": "fg_cycle2_04_d0p9_14",
+      "confidence": 0.95,
+      "geometry": {
+        "compactness_proxy": 0.48,
+        "elongation_ratio_proxy": 2.0833333333333335,
+        "handle_center_m": [
+          -0.176,
+          -0.06799999999999999,
+          0.403
+        ],
+        "handle_half_length_m": 0.05,
+        "handle_kind": "sphere",
+        "handle_radius_m": 0.024,
+        "knob_diameter_m": 0.048,
+        "pca_axis_lengths_proxy_m": [
+          0.1,
+          0.048,
+          0.048
+        ],
+        "preferred_stub_ratio_range_passed": true,
+        "short_stub_invariant_passed": true,
+        "stub_length_m": 0.00864,
+        "stub_length_to_knob_diameter": 0.18,
+        "topology_repair_provenance": "drawer_dynamics_plus_handle_micro_adjust"
+      },
+      "handle_class": "ROUND_KNOB",
+      "reasons": [
+        "semantic_round_knob_handle_kind",
+        "short_stub_connector_present",
+        "round_knob_semantics_override_bar_elongation_proxy"
+      ],
+      "selected_strategy": "RoundKnobBilateralPinchLatchStrategy",
+      "unsupported_closeout": null
+    },
+    {
+      "branch_implemented": true,
+      "candidate_id": "fg_cycle2_04_d1p2_15",
+      "confidence": 0.95,
+      "geometry": {
+        "compactness_proxy": 0.48,
+        "elongation_ratio_proxy": 2.0833333333333335,
+        "handle_center_m": [
+          -0.176,
+          -0.072,
+          0.399
+        ],
+        "handle_half_length_m": 0.05,
+        "handle_kind": "sphere",
+        "handle_radius_m": 0.024,
+        "knob_diameter_m": 0.048,
+        "pca_axis_lengths_proxy_m": [
+          0.1,
+          0.048,
+          0.048
+        ],
+        "preferred_stub_ratio_range_passed": true,
+        "short_stub_invariant_passed": true,
+        "stub_length_m": 0.00864,
+        "stub_length_to_knob_diameter": 0.18,
+        "topology_repair_provenance": "drawer_dynamics_plus_handle_micro_adjust"
+      },
+      "handle_class": "ROUND_KNOB",
+      "reasons": [
+        "semantic_round_knob_handle_kind",
+        "short_stub_connector_present",
+        "round_knob_semantics_override_bar_elongation_proxy"
+      ],
+      "selected_strategy": "RoundKnobBilateralPinchLatchStrategy",
+      "unsupported_closeout": null
+    },
+    {
+      "branch_implemented": true,
+      "candidate_id": "fg_cycle2_04_d1p6_16",
+      "confidence": 0.95,
+      "geometry": {
+        "compactness_proxy": 0.48,
+        "elongation_ratio_proxy": 2.0833333333333335,
+        "handle_center_m": [
+          -0.176,
+          -0.072,
+          0.40700000000000003
+        ],
+        "handle_half_length_m": 0.05,
+        "handle_kind": "sphere",
+        "handle_radius_m": 0.024,
+        "knob_diameter_m": 0.048,
+        "pca_axis_lengths_proxy_m": [
+          0.1,
+          0.048,
+          0.048
+        ],
+        "preferred_stub_ratio_range_passed": true,
+        "short_stub_invariant_passed": true,
+        "stub_length_m": 0.00864,
+        "stub_length_to_knob_diameter": 0.18,
+        "topology_repair_provenance": "drawer_dynamics_plus_handle_micro_adjust"
+      },
+      "handle_class": "ROUND_KNOB",
+      "reasons": [
+        "semantic_round_knob_handle_kind",
+        "short_stub_connector_present",
+        "round_knob_semantics_override_bar_elongation_proxy"
+      ],
+      "selected_strategy": "RoundKnobBilateralPinchLatchStrategy",
+      "unsupported_closeout": null
+    },
+    {
+      "branch_implemented": true,
+      "candidate_id": "fg_cycle3_05_m01",
+      "confidence": 0.95,
+      "geometry": {
+        "compactness_proxy": 0.48,
+        "elongation_ratio_proxy": 2.0833333333333335,
+        "handle_center_m": [
+          -0.18,
+          -0.075,
+          0.402
+        ],
+        "handle_half_length_m": 0.05,
+        "handle_kind": "sphere",
+        "handle_radius_m": 0.024,
+        "knob_diameter_m": 0.048,
+        "pca_axis_lengths_proxy_m": [
+          0.1,
+          0.048,
+          0.048
+        ],
+        "preferred_stub_ratio_range_passed": true,
+        "short_stub_invariant_passed": true,
+        "stub_length_m": 0.00864,
+        "stub_length_to_knob_diameter": 0.18,
+        "topology_repair_provenance": "micro_structure_clearance_plus_low_friction"
+      },
+      "handle_class": "ROUND_KNOB",
+      "reasons": [
+        "semantic_round_knob_handle_kind",
+        "short_stub_connector_present",
+        "round_knob_semantics_override_bar_elongation_proxy"
+      ],
+      "selected_strategy": "RoundKnobBilateralPinchLatchStrategy",
+      "unsupported_closeout": null
+    },
+    {
+      "branch_implemented": true,
+      "candidate_id": "fg_cycle3_05_m02",
+      "confidence": 0.95,
+      "geometry": {
+        "compactness_proxy": 0.48,
+        "elongation_ratio_proxy": 2.0833333333333335,
+        "handle_center_m": [
+          -0.18,
+          -0.06699999999999999,
+          0.402
+        ],
+        "handle_half_length_m": 0.05,
+        "handle_kind": "sphere",
+        "handle_radius_m": 0.024,
+        "knob_diameter_m": 0.048,
+        "pca_axis_lengths_proxy_m": [
+          0.1,
+          0.048,
+          0.048
+        ],
+        "preferred_stub_ratio_range_passed": true,
+        "short_stub_invariant_passed": true,
+        "stub_length_m": 0.00864,
+        "stub_length_to_knob_diameter": 0.18,
+        "topology_repair_provenance": "micro_structure_clearance_plus_low_friction"
+      },
+      "handle_class": "ROUND_KNOB",
+      "reasons": [
+        "semantic_round_knob_handle_kind",
+        "short_stub_connector_present",
+        "round_knob_semantics_override_bar_elongation_proxy"
+      ],
+      "selected_strategy": "RoundKnobBilateralPinchLatchStrategy",
+      "unsupported_closeout": null
+    },
+    {
+      "branch_implemented": true,
+      "candidate_id": "fg_cycle3_05_m03",
+      "confidence": 0.95,
+      "geometry": {
+        "compactness_proxy": 0.48,
+        "elongation_ratio_proxy": 2.0833333333333335,
+        "handle_center_m": [
+          -0.18,
+          -0.071,
+          0.402
+        ],
+        "handle_half_length_m": 0.05,
+        "handle_kind": "sphere",
+        "handle_radius_m": 0.024,
+        "knob_diameter_m": 0.048,
+        "pca_axis_lengths_proxy_m": [
+          0.1,
+          0.048,
+          0.048
+        ],
+        "preferred_stub_ratio_range_passed": true,
+        "short_stub_invariant_passed": true,
+        "stub_length_m": 0.00864,
+        "stub_length_to_knob_diameter": 0.18,
+        "topology_repair_provenance": "micro_structure_clearance_plus_low_friction"
+      },
+      "handle_class": "ROUND_KNOB",
+      "reasons": [
+        "semantic_round_knob_handle_kind",
+        "short_stub_connector_present",
+        "round_knob_semantics_override_bar_elongation_proxy"
+      ],
+      "selected_strategy": "RoundKnobBilateralPinchLatchStrategy",
+      "unsupported_closeout": null
+    },
+    {
+      "branch_implemented": true,
+      "candidate_id": "fg_cycle3_05_m04",
+      "confidence": 0.95,
+      "geometry": {
+        "compactness_proxy": 0.48,
+        "elongation_ratio_proxy": 2.0833333333333335,
+        "handle_center_m": [
+          -0.18,
+          -0.073,
+          0.402
+        ],
+        "handle_half_length_m": 0.05,
+        "handle_kind": "sphere",
+        "handle_radius_m": 0.024,
+        "knob_diameter_m": 0.048,
+        "pca_axis_lengths_proxy_m": [
+          0.1,
+          0.048,
+          0.048
+        ],
+        "preferred_stub_ratio_range_passed": true,
+        "short_stub_invariant_passed": true,
+        "stub_length_m": 0.00864,
+        "stub_length_to_knob_diameter": 0.18,
+        "topology_repair_provenance": "micro_structure_clearance_plus_low_friction"
+      },
+      "handle_class": "ROUND_KNOB",
+      "reasons": [
+        "semantic_round_knob_handle_kind",
+        "short_stub_connector_present",
+        "round_knob_semantics_override_bar_elongation_proxy"
+      ],
+      "selected_strategy": "RoundKnobBilateralPinchLatchStrategy",
+      "unsupported_closeout": null
+    },
+    {
+      "branch_implemented": true,
+      "candidate_id": "fg_cycle3_15_m05",
+      "confidence": 0.95,
+      "geometry": {
+        "compactness_proxy": 0.48,
+        "elongation_ratio_proxy": 2.0833333333333335,
+        "handle_center_m": [
+          -0.18,
+          -0.075,
+          0.402
+        ],
+        "handle_half_length_m": 0.05,
+        "handle_kind": "sphere",
+        "handle_radius_m": 0.024,
+        "knob_diameter_m": 0.048,
+        "pca_axis_lengths_proxy_m": [
+          0.1,
+          0.048,
+          0.048
+        ],
+        "preferred_stub_ratio_range_passed": true,
+        "short_stub_invariant_passed": true,
+        "stub_length_m": 0.00864,
+        "stub_length_to_knob_diameter": 0.18,
+        "topology_repair_provenance": "micro_structure_clearance_plus_low_friction"
+      },
+      "handle_class": "ROUND_KNOB",
+      "reasons": [
+        "semantic_round_knob_handle_kind",
+        "short_stub_connector_present",
+        "round_knob_semantics_override_bar_elongation_proxy"
+      ],
+      "selected_strategy": "RoundKnobBilateralPinchLatchStrategy",
+      "unsupported_closeout": null
+    },
+    {
+      "branch_implemented": true,
+      "candidate_id": "fg_cycle3_15_m06",
+      "confidence": 0.95,
+      "geometry": {
+        "compactness_proxy": 0.48,
+        "elongation_ratio_proxy": 2.0833333333333335,
+        "handle_center_m": [
+          -0.18,
+          -0.06699999999999999,
+          0.402
+        ],
+        "handle_half_length_m": 0.05,
+        "handle_kind": "sphere",
+        "handle_radius_m": 0.024,
+        "knob_diameter_m": 0.048,
+        "pca_axis_lengths_proxy_m": [
+          0.1,
+          0.048,
+          0.048
+        ],
+        "preferred_stub_ratio_range_passed": true,
+        "short_stub_invariant_passed": true,
+        "stub_length_m": 0.00864,
+        "stub_length_to_knob_diameter": 0.18,
+        "topology_repair_provenance": "micro_structure_clearance_plus_low_friction"
+      },
+      "handle_class": "ROUND_KNOB",
+      "reasons": [
+        "semantic_round_knob_handle_kind",
+        "short_stub_connector_present",
+        "round_knob_semantics_override_bar_elongation_proxy"
+      ],
+      "selected_strategy": "RoundKnobBilateralPinchLatchStrategy",
+      "unsupported_closeout": null
+    },
+    {
+      "branch_implemented": true,
+      "candidate_id": "fg_cycle3_15_m07",
+      "confidence": 0.95,
+      "geometry": {
+        "compactness_proxy": 0.48,
+        "elongation_ratio_proxy": 2.0833333333333335,
+        "handle_center_m": [
+          -0.18,
+          -0.071,
+          0.402
+        ],
+        "handle_half_length_m": 0.05,
+        "handle_kind": "sphere",
+        "handle_radius_m": 0.024,
+        "knob_diameter_m": 0.048,
+        "pca_axis_lengths_proxy_m": [
+          0.1,
+          0.048,
+          0.048
+        ],
+        "preferred_stub_ratio_range_passed": true,
+        "short_stub_invariant_passed": true,
+        "stub_length_m": 0.00864,
+        "stub_length_to_knob_diameter": 0.18,
+        "topology_repair_provenance": "micro_structure_clearance_plus_low_friction"
+      },
+      "handle_class": "ROUND_KNOB",
+      "reasons": [
+        "semantic_round_knob_handle_kind",
+        "short_stub_connector_present",
+        "round_knob_semantics_override_bar_elongation_proxy"
+      ],
+      "selected_strategy": "RoundKnobBilateralPinchLatchStrategy",
+      "unsupported_closeout": null
+    },
+    {
+      "branch_implemented": true,
+      "candidate_id": "fg_cycle3_15_m08",
+      "confidence": 0.95,
+      "geometry": {
+        "compactness_proxy": 0.48,
+        "elongation_ratio_proxy": 2.0833333333333335,
+        "handle_center_m": [
+          -0.18,
+          -0.073,
+          0.402
+        ],
+        "handle_half_length_m": 0.05,
+        "handle_kind": "sphere",
+        "handle_radius_m": 0.024,
+        "knob_diameter_m": 0.048,
+        "pca_axis_lengths_proxy_m": [
+          0.1,
+          0.048,
+          0.048
+        ],
+        "preferred_stub_ratio_range_passed": true,
+        "short_stub_invariant_passed": true,
+        "stub_length_m": 0.00864,
+        "stub_length_to_knob_diameter": 0.18,
+        "topology_repair_provenance": "micro_structure_clearance_plus_low_friction"
+      },
+      "handle_class": "ROUND_KNOB",
+      "reasons": [
+        "semantic_round_knob_handle_kind",
+        "short_stub_connector_present",
+        "round_knob_semantics_override_bar_elongation_proxy"
+      ],
+      "selected_strategy": "RoundKnobBilateralPinchLatchStrategy",
+      "unsupported_closeout": null
+    },
+    {
+      "branch_implemented": true,
+      "candidate_id": "fg_cycle3_02_m09",
+      "confidence": 0.95,
+      "geometry": {
+        "compactness_proxy": 0.48,
+        "elongation_ratio_proxy": 2.0833333333333335,
+        "handle_center_m": [
+          -0.178,
+          -0.07400000000000001,
+          0.402
+        ],
+        "handle_half_length_m": 0.05,
+        "handle_kind": "sphere",
+        "handle_radius_m": 0.024,
+        "knob_diameter_m": 0.048,
+        "pca_axis_lengths_proxy_m": [
+          0.1,
+          0.048,
+          0.048
+        ],
+        "preferred_stub_ratio_range_passed": true,
+        "short_stub_invariant_passed": true,
+        "stub_length_m": 0.00864,
+        "stub_length_to_knob_diameter": 0.18,
+        "topology_repair_provenance": "micro_structure_clearance_plus_low_friction"
+      },
+      "handle_class": "ROUND_KNOB",
+      "reasons": [
+        "semantic_round_knob_handle_kind",
+        "short_stub_connector_present",
+        "round_knob_semantics_override_bar_elongation_proxy"
+      ],
+      "selected_strategy": "RoundKnobBilateralPinchLatchStrategy",
+      "unsupported_closeout": null
+    },
+    {
+      "branch_implemented": true,
+      "candidate_id": "fg_cycle3_02_m10",
+      "confidence": 0.95,
+      "geometry": {
+        "compactness_proxy": 0.48,
+        "elongation_ratio_proxy": 2.0833333333333335,
+        "handle_center_m": [
+          -0.178,
+          -0.066,
+          0.402
+        ],
+        "handle_half_length_m": 0.05,
+        "handle_kind": "sphere",
+        "handle_radius_m": 0.024,
+        "knob_diameter_m": 0.048,
+        "pca_axis_lengths_proxy_m": [
+          0.1,
+          0.048,
+          0.048
+        ],
+        "preferred_stub_ratio_range_passed": true,
+        "short_stub_invariant_passed": true,
+        "stub_length_m": 0.00864,
+        "stub_length_to_knob_diameter": 0.18,
+        "topology_repair_provenance": "micro_structure_clearance_plus_low_friction"
+      },
+      "handle_class": "ROUND_KNOB",
+      "reasons": [
+        "semantic_round_knob_handle_kind",
+        "short_stub_connector_present",
+        "round_knob_semantics_override_bar_elongation_proxy"
+      ],
+      "selected_strategy": "RoundKnobBilateralPinchLatchStrategy",
+      "unsupported_closeout": null
+    },
+    {
+      "branch_implemented": true,
+      "candidate_id": "fg_cycle3_02_m11",
+      "confidence": 0.95,
+      "geometry": {
+        "compactness_proxy": 0.48,
+        "elongation_ratio_proxy": 2.0833333333333335,
+        "handle_center_m": [
+          -0.178,
+          -0.07,
+          0.402
+        ],
+        "handle_half_length_m": 0.05,
+        "handle_kind": "sphere",
+        "handle_radius_m": 0.024,
+        "knob_diameter_m": 0.048,
+        "pca_axis_lengths_proxy_m": [
+          0.1,
+          0.048,
+          0.048
+        ],
+        "preferred_stub_ratio_range_passed": true,
+        "short_stub_invariant_passed": true,
+        "stub_length_m": 0.00864,
+        "stub_length_to_knob_diameter": 0.18,
+        "topology_repair_provenance": "micro_structure_clearance_plus_low_friction"
+      },
+      "handle_class": "ROUND_KNOB",
+      "reasons": [
+        "semantic_round_knob_handle_kind",
+        "short_stub_connector_present",
+        "round_knob_semantics_override_bar_elongation_proxy"
+      ],
+      "selected_strategy": "RoundKnobBilateralPinchLatchStrategy",
+      "unsupported_closeout": null
+    },
+    {
+      "branch_implemented": true,
+      "candidate_id": "fg_cycle3_02_m12",
+      "confidence": 0.95,
+      "geometry": {
+        "compactness_proxy": 0.48,
+        "elongation_ratio_proxy": 2.0833333333333335,
+        "handle_center_m": [
+          -0.178,
+          -0.07200000000000001,
+          0.402
+        ],
+        "handle_half_length_m": 0.05,
+        "handle_kind": "sphere",
+        "handle_radius_m": 0.024,
+        "knob_diameter_m": 0.048,
+        "pca_axis_lengths_proxy_m": [
+          0.1,
+          0.048,
+          0.048
+        ],
+        "preferred_stub_ratio_range_passed": true,
+        "short_stub_invariant_passed": true,
+        "stub_length_m": 0.00864,
+        "stub_length_to_knob_diameter": 0.18,
+        "topology_repair_provenance": "micro_structure_clearance_plus_low_friction"
+      },
+      "handle_class": "ROUND_KNOB",
+      "reasons": [
+        "semantic_round_knob_handle_kind",
+        "short_stub_connector_present",
+        "round_knob_semantics_override_bar_elongation_proxy"
+      ],
+      "selected_strategy": "RoundKnobBilateralPinchLatchStrategy",
+      "unsupported_closeout": null
+    },
+    {
+      "branch_implemented": true,
+      "candidate_id": "fg_cycle3_04_m13",
+      "confidence": 0.95,
+      "geometry": {
+        "compactness_proxy": 0.48,
+        "elongation_ratio_proxy": 2.0833333333333335,
+        "handle_center_m": [
+          -0.176,
+          -0.076,
+          0.403
+        ],
+        "handle_half_length_m": 0.05,
+        "handle_kind": "sphere",
+        "handle_radius_m": 0.024,
+        "knob_diameter_m": 0.048,
+        "pca_axis_lengths_proxy_m": [
+          0.1,
+          0.048,
+          0.048
+        ],
+        "preferred_stub_ratio_range_passed": true,
+        "short_stub_invariant_passed": true,
+        "stub_length_m": 0.00864,
+        "stub_length_to_knob_diameter": 0.18,
+        "topology_repair_provenance": "micro_structure_clearance_plus_low_friction"
+      },
+      "handle_class": "ROUND_KNOB",
+      "reasons": [
+        "semantic_round_knob_handle_kind",
+        "short_stub_connector_present",
+        "round_knob_semantics_override_bar_elongation_proxy"
+      ],
+      "selected_strategy": "RoundKnobBilateralPinchLatchStrategy",
+      "unsupported_closeout": null
+    },
+    {
+      "branch_implemented": true,
+      "candidate_id": "fg_cycle3_04_m14",
+      "confidence": 0.95,
+      "geometry": {
+        "compactness_proxy": 0.48,
+        "elongation_ratio_proxy": 2.0833333333333335,
+        "handle_center_m": [
+          -0.176,
+          -0.06799999999999999,
+          0.403
+        ],
+        "handle_half_length_m": 0.05,
+        "handle_kind": "sphere",
+        "handle_radius_m": 0.024,
+        "knob_diameter_m": 0.048,
+        "pca_axis_lengths_proxy_m": [
+          0.1,
+          0.048,
+          0.048
+        ],
+        "preferred_stub_ratio_range_passed": true,
+        "short_stub_invariant_passed": true,
+        "stub_length_m": 0.00864,
+        "stub_length_to_knob_diameter": 0.18,
+        "topology_repair_provenance": "micro_structure_clearance_plus_low_friction"
+      },
+      "handle_class": "ROUND_KNOB",
+      "reasons": [
+        "semantic_round_knob_handle_kind",
+        "short_stub_connector_present",
+        "round_knob_semantics_override_bar_elongation_proxy"
+      ],
+      "selected_strategy": "RoundKnobBilateralPinchLatchStrategy",
+      "unsupported_closeout": null
+    },
+    {
+      "branch_implemented": true,
+      "candidate_id": "fg_cycle3_04_m15",
+      "confidence": 0.95,
+      "geometry": {
+        "compactness_proxy": 0.48,
+        "elongation_ratio_proxy": 2.0833333333333335,
+        "handle_center_m": [
+          -0.176,
+          -0.072,
+          0.403
+        ],
+        "handle_half_length_m": 0.05,
+        "handle_kind": "sphere",
+        "handle_radius_m": 0.024,
+        "knob_diameter_m": 0.048,
+        "pca_axis_lengths_proxy_m": [
+          0.1,
+          0.048,
+          0.048
+        ],
+        "preferred_stub_ratio_range_passed": true,
+        "short_stub_invariant_passed": true,
+        "stub_length_m": 0.00864,
+        "stub_length_to_knob_diameter": 0.18,
+        "topology_repair_provenance": "micro_structure_clearance_plus_low_friction"
+      },
+      "handle_class": "ROUND_KNOB",
+      "reasons": [
+        "semantic_round_knob_handle_kind",
+        "short_stub_connector_present",
+        "round_knob_semantics_override_bar_elongation_proxy"
+      ],
+      "selected_strategy": "RoundKnobBilateralPinchLatchStrategy",
+      "unsupported_closeout": null
+    },
+    {
+      "branch_implemented": true,
+      "candidate_id": "fg_cycle3_04_m16",
+      "confidence": 0.95,
+      "geometry": {
+        "compactness_proxy": 0.48,
+        "elongation_ratio_proxy": 2.0833333333333335,
+        "handle_center_m": [
+          -0.176,
+          -0.074,
+          0.403
+        ],
+        "handle_half_length_m": 0.05,
+        "handle_kind": "sphere",
+        "handle_radius_m": 0.024,
+        "knob_diameter_m": 0.048,
+        "pca_axis_lengths_proxy_m": [
+          0.1,
+          0.048,
+          0.048
+        ],
+        "preferred_stub_ratio_range_passed": true,
+        "short_stub_invariant_passed": true,
+        "stub_length_m": 0.00864,
+        "stub_length_to_knob_diameter": 0.18,
+        "topology_repair_provenance": "micro_structure_clearance_plus_low_friction"
+      },
+      "handle_class": "ROUND_KNOB",
+      "reasons": [
+        "semantic_round_knob_handle_kind",
+        "short_stub_connector_present",
+        "round_knob_semantics_override_bar_elongation_proxy"
+      ],
+      "selected_strategy": "RoundKnobBilateralPinchLatchStrategy",
+      "unsupported_closeout": null
+    }
+  ],
+  "generated_at_utc": "2026-05-06T08:21:04Z",
+  "hard_rule_round_knob_only_for_this_phase": true,
+  "non_knob_candidate_count": 0,
+  "non_knob_candidate_ids": [],
+  "round_knob_candidate_count": 39
+}

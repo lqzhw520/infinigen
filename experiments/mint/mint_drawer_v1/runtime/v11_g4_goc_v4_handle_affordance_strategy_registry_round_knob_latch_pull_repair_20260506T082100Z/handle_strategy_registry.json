@@ -1,0 +1,53 @@
+{
+  "generated_at_note": "static registry definition; run artifact records timestamp",
+  "generated_at_utc": "2026-05-06T08:21:04Z",
+  "hard_dispatch_rule": "Non-ROUND_KNOB handles must not use the round-knob strategy unless separately implemented and certified.",
+  "strategies": [
+    {
+      "claim_boundary": "Certified only for short-stub spherical/round knob branches in this phase.",
+      "contact_mode": [
+        "ALIGN",
+        "CAPTURE",
+        "BILATERAL_LATCH",
+        "LOCKED_PULL",
+        "RESEAT"
+      ],
+      "handle_class": "ROUND_KNOB",
+      "implemented": true,
+      "strategy": "RoundKnobBilateralPinchLatchStrategy"
+    },
+    {
+      "handle_class": "LINE_BAR_HANDLE",
+      "implemented": false,
+      "required_future_mode": "bar-axis hook-or-pinch pull",
+      "strategy": "LineBarHookOrPinchStrategy",
+      "unsupported_closeout": "HANDLE_AFFORDANCE_BRANCH_NOT_IMPLEMENTED"
+    },
+    {
+      "handle_class": "ARC_OR_C_HANDLE",
+      "implemented": false,
+      "required_future_mode": "inner-gap hook insertion and pull",
+      "strategy": "ArcHandleHookStrategy",
+      "unsupported_closeout": "HANDLE_AFFORDANCE_BRANCH_NOT_IMPLEMENTED"
+    },
+    {
+      "handle_class": "RECESSED_GROOVE_OR_LIP",
+      "implemented": false,
+      "required_future_mode": "finger insertion or lip hook pull",
+      "strategy": "RecessedLipInsertionStrategy",
+      "unsupported_closeout": "HANDLE_AFFORDANCE_BRANCH_NOT_IMPLEMENTED"
+    },
+    {
+      "handle_class": "FLAT_FRONT_NO_GRASPABLE_HANDLE",
+      "implemented": false,
+      "strategy": "UnsupportedHandleStrategy",
+      "unsupported_closeout": "HANDLE_AFFORDANCE_BRANCH_NOT_IMPLEMENTED"
+    },
+    {
+      "handle_class": "UNKNOWN_OR_UNSUPPORTED",
+      "implemented": false,
+      "strategy": "UnsupportedHandleStrategy",
+      "unsupported_closeout": "HANDLE_AFFORDANCE_BRANCH_NOT_IMPLEMENTED"
+    }
+  ]
+}

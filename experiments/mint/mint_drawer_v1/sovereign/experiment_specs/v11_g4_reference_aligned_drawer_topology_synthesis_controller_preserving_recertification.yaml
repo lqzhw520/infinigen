@@ -14,7 +14,7 @@ claim_boundary:
 
 task_authority:
   authority_type: GOC_V4_PATCH_GROUP_EXACT_GEOM_ID_SETS_WITH_REFERENCE_ALIGNED_TOPOLOGY_LOCK
-  goc_version: v4_patch_group
+  goc_version: v3
   goc_artifact_path: artifacts/phase1h_geometry_contract/goc_v3_contract.json
   goc_contract: experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v3_contract.json
   goc_contract_id: GOC_V3_EXACT_ID_GEOMETRY_OWNERSHIP_CONTRACT
@@ -41,6 +41,22 @@ authority:
     - /Users/zhuhaowu/Downloads/knob-handler.png
     - /Users/zhuhaowu/Downloads/ChatGPT Image 2026年5月5日 23_07_48 (2).png
   prior_controller_success_run: experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_keepout_v3_continuation_targeted_progress_repair_20260506T123821Z
+
+
+fixtures:
+  fixture_invalid_authority_drift:
+    expected: FAIL
+    expected_error: AUTHORITY_MISMATCH
+    runtime_exact_ids:
+      legal_gripper_surface_geom_ids: [60, 61, 62]
+      forbidden_robot_surface_geom_ids: [45, 47, 49, 54, 59]
+      drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+  fixture_valid_authority_match:
+    expected: PASS
+    runtime_exact_ids:
+      legal_gripper_surface_geom_ids: [63, 81, 90]
+      forbidden_robot_surface_geom_ids: [45, 47, 49, 54, 59]
+      drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
 
 hard_manual_review_findings:
   rejected_latest_replay_closeout: STATE_REPLAY_RENDER_READY_ACTION_ONLY_REPAIR_REQUIRED

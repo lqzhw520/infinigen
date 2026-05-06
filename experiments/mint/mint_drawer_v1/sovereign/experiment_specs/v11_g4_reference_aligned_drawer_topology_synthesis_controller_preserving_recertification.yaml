@@ -11,6 +11,27 @@ claim_boundary:
   controller_recertification_requires_reference_aligned_topology_lock: true
   dataset_admission_not_claimed_without_manual_visual_review: true
 
+
+task_authority:
+  authority_type: GOC_V4_PATCH_GROUP_EXACT_GEOM_ID_SETS_WITH_REFERENCE_ALIGNED_TOPOLOGY_LOCK
+  goc_version: v4_patch_group
+  goc_artifact_path: artifacts/phase1h_geometry_contract/goc_v3_contract.json
+  goc_contract: experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v3_contract.json
+  goc_contract_id: GOC_V3_EXACT_ID_GEOMETRY_OWNERSHIP_CONTRACT
+  legal_gripper_surface_geom_ids: [63, 81, 90]
+  drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+  forbidden_robot_surface_geom_ids: [45, 47, 49, 54, 59]
+  target_authority_upgrade: left_and_right_finite_finger_pad_group_exact_contacts_to_true_round_knob
+  topology_authority: reference_aligned_drawer_topology_lock_required_before_controller_recertification
+  prohibited_authority:
+    - GOC-v2 count-only legal_pad=29 forbidden=26 handle=9
+    - runtime body-based authority mutation
+    - legacy name-only contact reports
+    - broad-link, wrist, arm, or finger shell contact as target
+    - geometric bilateral proxy as success criterion
+    - long connector or front-only drawer topology as dataset output
+    - frame-like front panel or incomplete moving drawer tray as claim-bearing output
+
 authority:
   repo: /mnt/afs2/zhuhaowu/infinigen
   branch: feature/mint-env-reformulation-v1-visual-fidelity

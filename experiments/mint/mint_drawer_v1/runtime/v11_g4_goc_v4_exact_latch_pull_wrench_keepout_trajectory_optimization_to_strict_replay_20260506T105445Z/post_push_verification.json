@@ -1,0 +1,29 @@
+{
+  "all_required_paths_origin_visible": true,
+  "blocked_paths_committed": [],
+  "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
+  "current_truth_modified": false,
+  "evidence_commit_hash": "cfaae88a52bf7019594ffb82ab21baf3441367a8",
+  "external_mint_modified": false,
+  "generated_at_utc": "2026-05-06T11:16:42Z",
+  "next_actions_modified": false,
+  "note": "This verifies the first evidence commit pushed before writing this post-push verification artifact. The final response reports the verification commit hash after this artifact is committed and pushed.",
+  "origin_visible_paths": {
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_wrench_keepout_trajectory_optimization_to_strict_replay_20260506T105445Z/action_only_replay_spot_check.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_wrench_keepout_trajectory_optimization_to_strict_replay_20260506T105445Z/fast_guarded_contact_rec_certification.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_wrench_keepout_trajectory_optimization_to_strict_replay_20260506T105445Z/final_closeout.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_wrench_keepout_trajectory_optimization_to_strict_replay_20260506T105445Z/full30_report.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_wrench_keepout_trajectory_optimization_to_strict_replay_20260506T105445Z/local_replay_handoff_manifest.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_wrench_keepout_trajectory_optimization_to_strict_replay_20260506T105445Z/raw_trace_commit_policy.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_wrench_keepout_trajectory_optimization_to_strict_replay_20260506T105445Z/strict_teacher_export_manifest.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_wrench_keepout_trajectory_optimization_to_strict_replay_20260506T105445Z/targeted_shard_results.json": true,
+    "experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_wrench_keepout_trajectory_optimization_to_strict_replay_20260506T105445Z/trace_hash_manifest.json": true,
+    "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_exact_latch_pull_wrench_keepout_trajectory_optimization_to_strict_replay.yaml": true,
+    "experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_exact_latch_pull_wrench_keepout_trajectory_optimization.json": true,
+    "experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_exact_latch_pull_wrench_keepout_trajectory_optimization.json": true,
+    "scripts/mint/v11_g4_exact_latch_pull_wrench_keepout_trajectory_optimization.py": true
+  },
+  "raw_trace_files_committed": [],
+  "remote_branch_head_after_evidence_push": "cfaae88a52bf7019594ffb82ab21baf3441367a8",
+  "remote_head_matches_evidence_commit": true
+}

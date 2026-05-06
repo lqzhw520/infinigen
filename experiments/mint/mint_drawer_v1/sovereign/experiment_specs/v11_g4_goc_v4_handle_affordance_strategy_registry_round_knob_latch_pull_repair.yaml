@@ -1,0 +1,379 @@
+task_id: V11_G4_GOC_V4_HANDLE_AFFORDANCE_STRATEGY_REGISTRY_AND_ROUND_KNOB_GRASP_LATCH_PULL_REPAIR_V1
+task_type: HANDLE_AFFORDANCE_CONDITIONED_CONTACT_MODE_DISPATCH_AND_ROUND_KNOB_LATCH_REPAIR_PHASE
+task_version: 1.0.0
+target_gate: ROUND_KNOB_BILATERAL_GRASP_LATCH_PULL_STRICT_REPLAY_READY
+phase: handle_affordance_strategy_registry_round_knob_latch_pull_repair
+
+general_root_case: HANDLE_AFFORDANCE_CONDITIONED_CONTACT_MODE_DISPATCH_MISSING
+current_local_root_case: ROUND_KNOB_BILATERAL_GRASP_LATCH_PULL_MODE_MISSING
+
+task_authority:
+  authority_type: GOC_V3_EXACT_GEOM_ID_SETS_AS_SOURCE_BASELINE_FOR_GOC_V4_HANDLE_AFFORDANCE_DISPATCH
+  goc_version: v3
+  goc_artifact_path: artifacts/phase1h_geometry_contract/goc_v3_contract.json
+  goc_contract: experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v3_contract.json
+  goc_contract_id: GOC_V3_EXACT_ID_GEOMETRY_OWNERSHIP_CONTRACT
+  legal_gripper_surface_geom_ids:
+    - 63
+    - 81
+    - 90
+  forbidden_robot_surface_geom_ids:
+    - 45
+    - 47
+    - 49
+    - 54
+    - 59
+  drawer_handle_geom_ids:
+    - 0
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+    - 6
+    - 7
+    - 8
+  prohibited_authority:
+    - GOC-v2 count-only legal_pad=29 forbidden=26 handle=9
+    - runtime body-based legal=31 forbidden=27 without exact-ID role classification
+    - legacy name-only contact reports
+    - fixed drawer_handle_geom_ids=[0..8] as runtime authority without semantic verification
+    - broad-link, wrist, arm, or finger shell contact as target
+
+goc_v4_authority:
+  authority_type: GOC_V4_DEDICATED_FINGER_PAD_EXACT_GEOM_ID_SETS
+  per_instance_binding_required: true
+  exact_instance_binding_required: true
+  target_contact: legal_finger_pad_geom_ids <-> semantically_bound_drawer_handle_geom_ids only
+  forbidden_contact: nonlegal robot surfaces <-> drawer_handle/drawer/cabinet
+  broad_link_wrist_arm_finger_shell_target_rejected: true
+  body_based_31_27_rejected: true
+  name_only_contact_rejected: true
+  fixed_global_ids_may_not_be_reused_without_instance_verification: true
+
+fixtures:
+  fixture_valid_authority_match:
+    runtime_exact_ids:
+      legal_gripper_surface_geom_ids:
+        - 63
+        - 81
+        - 90
+      forbidden_robot_surface_geom_ids:
+        - 45
+        - 47
+        - 49
+        - 54
+        - 59
+      drawer_handle_geom_ids:
+        - 0
+        - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+        - 7
+        - 8
+    expected: PASS
+  fixture_invalid_authority_drift:
+    runtime_exact_ids:
+      legal_gripper_surface_geom_ids:
+        - 60
+        - 61
+        - 62
+      forbidden_robot_surface_geom_ids:
+        - 45
+        - 47
+        - 49
+        - 54
+        - 59
+      drawer_handle_geom_ids:
+        - 0
+        - 1
+        - 2
+        - 3
+        - 4
+        - 5
+        - 6
+        - 7
+        - 8
+    expected: FAIL
+    expected_error: AUTHORITY_MISMATCH
+
+claim_boundary:
+  certifies_round_spherical_knob_strategy_only: true
+  creates_handle_affordance_strategy_registry: true
+  bar_arc_recessed_success_claimed: false
+  non_knob_handles_may_not_use_round_knob_strategy: true
+  unsupported_non_knob_closeout_required: HANDLE_AFFORDANCE_BRANCH_NOT_IMPLEMENTED
+  previous_fast_guarded_failure_not_relabelled: true
+  previous_physics_replay_baseline_preserved: true
+  previous_topology_realism_progress_preserved: true
+  all_seed_generalization_claimed: false
+  mint_train_eval_claimed: false
+
+authority:
+  repo: /mnt/afs2/zhuhaowu/infinigen
+  branch: feature/mint-env-reformulation-v1-visual-fidelity
+  campaign_root: experiments/mint/mint_drawer_v1
+  baseline_dirty_allowed:
+    - .project-memory/STATUS.md
+    - .session/checkpoint.md
+
+governance:
+  task_spec_bound_lock_required: true
+  post_push_attestation_required: true
+  no_bypass_preflight_required: true
+  preflight_command: >-
+    python experiments/mint/mint_drawer_v1/scripts/harness/agent_task_preflight.py
+    --spec experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair.yaml
+    --dry-run
+
+hard_stop_only_for:
+  - WRONG_WORKTREE
+  - WRONG_BRANCH
+  - REMOTE_NOT_CONFIGURED
+  - TASK_SPEC_LOCK_BINDING_FAILED
+  - HARNESS_PREFLIGHT_FAILED
+  - DIRTY_FORBIDDEN_SCOPE
+
+previous_evidence:
+  required_latest_fast_prefix: v11_g4_goc_v4_fast_guarded_contact_topology_realistic_codesign_repair_
+  expected_previous_closeout: FAST_GUARDED_CONTACT_TARGETED_REPAIR_FAILED
+  expected_previous_next_gate: FAST_GUARDED_CONTACT_REPAIR_CONTINUATION
+  expected_previous_targeted_cases_passed: 6
+  expected_previous_targeted_cases_total: 7
+  expected_fast_best_legal_opening_high: true
+  expected_fast_best_legal_two_pad_insufficient: true
+
+handle_affordance_classes:
+  - ROUND_KNOB
+  - LINE_BAR_HANDLE
+  - ARC_OR_C_HANDLE
+  - RECESSED_GROOVE_OR_LIP
+  - FLAT_FRONT_NO_GRASPABLE_HANDLE
+  - UNKNOWN_OR_UNSUPPORTED
+
+handle_strategy_registry:
+  fully_implemented_this_phase:
+    - RoundKnobBilateralPinchLatchStrategy
+  interface_or_stub_only:
+    - LineBarHookOrPinchStrategy
+    - ArcHandleHookStrategy
+    - RecessedLipInsertionStrategy
+    - UnsupportedHandleStrategy
+  unsupported_branch_closeout: HANDLE_AFFORDANCE_BRANCH_NOT_IMPLEMENTED
+
+success_requires:
+  handle_affordance_classifier_written: true
+  handle_strategy_registry_written: true
+  current_claim_bearing_candidates_classified_round_knob: true
+  round_knob_grasp_frame_written: true
+  round_knob_latch_pull_controller_written: true
+  fast_guarded_contact_passed: true
+  exact_two_pad_contact_frames_fast_min: 30
+  forbidden_contact_frames_fast: 0
+  handle_nonlegal_contact_frames_fast: 0
+  drawer_fraction_fast_min: 0.80
+  targeted_shard_passed: true
+  targeted_shard_cases_passed: 7
+  full30_certification_passed: true
+  strict_export_complete: true
+  local_state_replay_render_passed: true
+  action_only_spot_check_passed: true
+
+strict_invariants:
+  strict_goc_v4_authority: true
+  exact_dedicated_two_pad_target_required_for_success: true
+  geometric_bilateral_grasp_is_diagnostic_only: true
+  no_forbidden_contact: true
+  no_handle_nonlegal_contact: true
+  no_broad_shell_link_wrist_arm_finger_shell_target_contact: true
+  no_direct_qpos_drawer_opening: true
+  no_drawer_motor_command: true
+  no_threshold_lowering: true
+  max_penetration_m: 0.02
+  max_force_n: 1000000.0
+  drawer_fraction_min: 0.80
+  drawer_qpos_monotonicity_required: true
+
+topology_invariants:
+  topology_realism_preserved: true
+  short_stub_spherical_knob_required: true
+  knob_connector_no_long_rod: true
+  complete_drawer_box_required: true
+  anti_floating_support_required: true
+  no_front_only_drawer: true
+  no_invisible_support_claim: true
+  no_topology_defective_prior_pool_as_dataset_output: true
+
+round_knob_contact_mode_sequence:
+  - ALIGN
+  - CAPTURE
+  - BILATERAL_LATCH
+  - LOCKED_PULL
+  - RESEAT
+
+forbidden_actions:
+  - create_new_branch
+  - force_push
+  - mutate_external_MINT
+  - mutate_current_truth_json
+  - mutate_next_actions_json
+  - mutate_previous_success_run_dirs
+  - train_or_eval_MINT
+  - lower_thresholds
+  - direct_qpos_open_drawer
+  - drawer_motor_command
+  - accept_forbidden_contact
+  - count_broad_robot_contact_as_target
+  - demote_real_collision_to_fake_pass
+  - reintroduce_long_connector
+  - reintroduce_front_only_drawer
+  - reintroduce_unsupported_drawer
+  - apply_round_knob_strategy_to_non_knob_handle
+
+allowed_files:
+  - scripts/mint/v11_g4_handle_affordance_strategy_registry.py
+  - scripts/mint/v11_g4_round_knob_grasp_latch_pull_controller.py
+  - scripts/mint/v11_g4_fast_guarded_contact_topology_realistic_codesign_repair.py
+  - scripts/mint/v11_g4_visual_topology_realism_and_action_replay_repair_v2.py
+  - scripts/mint/v11_g4_defect_histogram_dynamic_pull_pool_solver.py
+  - scripts/mint/v11_g4_dynamic_pull_accessible_pool_co_design.py
+  - scripts/mint/contact_aware_drawer_teacher.py
+  - scripts/mint/merged_model_builder.py
+  - scripts/mint/drawer_robot_env_mujoco.py
+  - scripts/mint/export_full_robot_teacher_replay_bundle.py
+  - experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair.yaml
+  - experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_handle_affordance_round_knob_latch_pull_repair.json
+  - experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_handle_affordance_round_knob_latch_pull_repair.json
+  - experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_handle_affordance_strategy_registry_round_knob_latch_pull_repair_*/**
+  - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json
+  - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock_report.json
+  - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_attestation.json
+
+stages:
+  stage0_ingest_fast_failure_evidence:
+    reads:
+      - final_closeout.json
+      - fast_guarded_contact_pareto_sweep.jsonl
+      - fast_guarded_contact_pareto_report.json
+      - fast_repair_cycles.jsonl
+      - targeted_shard_results.json
+    writes:
+      - fast_failure_ingestion.json
+      - fast_failure_report.md
+  stage1_handle_affordance_classifier:
+    writes:
+      - handle_affordance_classification.json
+  stage2_handle_strategy_registry:
+    writes:
+      - handle_strategy_registry.json
+      - handle_strategy_registry.md
+  stage3_exact_vs_geometric_bilateral_grasp_forensic:
+    writes:
+      - fast_grasp_forensic_timeseries.jsonl
+      - fast_grasp_forensic_summary.json
+  stage4_round_knob_grasp_frame:
+    writes:
+      - round_knob_grasp_frame.json
+  stage5_grasp_latch_pull_controller:
+    writes:
+      - round_knob_grasp_latch_pull_controller_design.json
+      - controller_patch_summary.md
+  stage6_fast_case_solver:
+    max_controller_samples: 64
+    writes:
+      - fast_case_latch_pull_solver_results.jsonl
+      - fast_case_latch_pull_solver_report.json
+  stage7_targeted_7of7_recertification:
+    enter_only_if_stage6_passes: true
+    writes:
+      - targeted_shard_results.json
+  stage8_full30_recertification:
+    enter_only_if_targeted_passes: true
+    writes:
+      - full30_topology_realistic_dynamic_pull_certification.jsonl
+      - full30_report.json
+  stage9_strict_export:
+    enter_only_if_full30_passes: true
+    writes:
+      - strict_teacher_export_manifest.json
+      - trace_hash_manifest.json
+  stage10_local_state_replay_render:
+    enter_only_if_export_passes: true
+    writes:
+      - local_replay_handoff_manifest.json
+  stage11_action_only_spot_check:
+    enter_only_if_local_state_replay_passes: true
+    writes:
+      - action_only_spot_check.json
+
+final_closeout_fields:
+  - closeout_classification
+  - general_root_case
+  - current_local_root_case
+  - handle_affordance_class
+  - handle_strategy_selected
+  - non_knob_handles_detected
+  - unsupported_handle_branches
+  - topology_realism_preserved
+  - knob_connector_realism_passed
+  - drawer_box_completeness_passed
+  - fast_guarded_contact_passed
+  - exact_two_pad_contact_frames_fast
+  - geometric_bilateral_grasp_frames_fast
+  - latch_hold_frames_fast
+  - pull_with_latch_frames_fast
+  - drawer_fraction_fast
+  - forbidden_contact_frames_fast
+  - handle_nonlegal_contact_frames_fast
+  - targeted_shard_passed
+  - full30_certification_passed
+  - strict_export_complete
+  - local_state_replay_render_passed
+  - action_only_spot_check_passed
+  - current_truth_modified
+  - next_actions_modified
+  - committed
+  - pushed_to_origin
+  - remote_commit_hash
+  - next_gate
+
+closeout_mapping:
+  success:
+    closeout_classification: ROUND_KNOB_BILATERAL_GRASP_LATCH_PULL_STRICT_REPLAY_READY
+    next_gate: MANUAL_VISUAL_AND_SCIENCE_REVIEW_FOR_DATASET_ADMISSION
+  unsupported_handle:
+    closeout_classification: HANDLE_AFFORDANCE_BRANCH_NOT_IMPLEMENTED
+    next_gate: IMPLEMENT_HANDLE_AFFORDANCE_BRANCH
+  contact_discretization:
+    closeout_classification: CONTACT_DISCRETIZATION_OR_PAD_PATCH_REPAIR_REQUIRED
+    next_gate: DEDICATED_PAD_PATCH_OR_CONTACT_MODEL_REPAIR
+  true_latch_missing:
+    closeout_classification: TRUE_GRASP_LATCH_MODE_MISSING
+    next_gate: ROUND_KNOB_LATCH_CONTROLLER_REPAIR_CONTINUATION
+  pull_under_latch_insufficient:
+    closeout_classification: PULL_AXIS_WORK_INSUFFICIENT_UNDER_LATCH
+    next_gate: PULL_AXIS_WORK_UNDER_LATCH_REPAIR
+  fast_solver_failed:
+    closeout_classification: FAST_GRASP_LATCH_SOLVER_FAILED
+    next_gate: ROUND_KNOB_LATCH_CONTROLLER_REPAIR_CONTINUATION
+  targeted_failed:
+    closeout_classification: TARGETED_SHARD_FAILED_AFTER_LATCH_REPAIR
+    next_gate: TARGETED_ROUND_KNOB_LATCH_REPAIR
+  full30_failed:
+    closeout_classification: FULL30_FAILED_AFTER_LATCH_REPAIR
+    next_gate: ROUND_KNOB_LATCH_FULL30_GENERALIZATION_REPAIR
+  export_failed:
+    closeout_classification: STRICT_EXPORT_FAILED
+    next_gate: STRICT_EXPORT_INFRA_REPAIR
+  replay_failed:
+    closeout_classification: LOCAL_REPLAY_RENDER_FAILED
+    next_gate: LOCAL_STRICT_REPLAY_RENDER_REPAIR
+  action_only_failed:
+    closeout_classification: ACTION_ONLY_SPOT_CHECK_FAILED
+    next_gate: ACTION_REPLAY_DATASET_ADMISSION_REPAIR
+  timeout:
+    closeout_classification: TIME_BUDGET_EXHAUSTED
+    next_gate: latest_forensic_decision

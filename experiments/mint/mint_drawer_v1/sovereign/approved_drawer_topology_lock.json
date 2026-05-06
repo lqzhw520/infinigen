@@ -1,0 +1,60 @@
+{
+  "approved_candidate_id": "reference_aligned_solid_front_c03_fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00",
+  "approved_model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_reference_aligned_drawer_topology_synthesis_controller_preserving_recertification_20260506T143606Z/generated_instances/reference_aligned_solid_front_c03_fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00/model.xml",
+  "approved_model_xml_sha256": "20d78186c5af890e383c5e8cca24424796ab8748f9521fa6a54134c7651f3e6d",
+  "audit": {
+    "candidate_id": "reference_aligned_solid_front_c03_fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00",
+    "complete_moving_drawer_box_tray_passed": true,
+    "defects": [],
+    "drawer_box_parts": {
+      "back_panel": true,
+      "bottom_panel": true,
+      "front_panel": true,
+      "left_side_wall": true,
+      "right_side_wall": true
+    },
+    "frame_like_front_geoms": [],
+    "knob_radius_m": 0.024,
+    "knob_stub_length_m": 0.01150000000000001,
+    "knob_stub_length_ratio_of_diameter": 0.23958333333333354,
+    "model_xml": "experiments/mint/mint_drawer_v1/runtime/v11_g4_reference_aligned_drawer_topology_synthesis_controller_preserving_recertification_20260506T143606Z/generated_instances/reference_aligned_solid_front_c03_fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00/model.xml",
+    "model_xml_sha256": "20d78186c5af890e383c5e8cca24424796ab8748f9521fa6a54134c7651f3e6d",
+    "moving_drawer_geoms": [
+      "drawer_front_panel_collision",
+      "drawer_front_knob_boss_plate_collision",
+      "drawer_tray_bottom_collision",
+      "drawer_tray_left_side_collision",
+      "drawer_tray_right_side_collision",
+      "drawer_tray_back_collision",
+      "drawer_left_guide_strip_collision",
+      "drawer_right_guide_strip_collision",
+      "drawer_connector_short_boss_collision",
+      "drawer_handle_collision_0"
+    ],
+    "short_stub_spherical_knob_passed": true,
+    "solid_drawer_front_panel_passed": true,
+    "support_guide_geoms": [
+      "cabinet_left_runner_collision",
+      "cabinet_right_runner_collision",
+      "drawer_left_guide_strip_collision",
+      "drawer_right_guide_strip_collision"
+    ],
+    "support_guide_semantics_passed": true,
+    "topology_oracle_passed": true
+  },
+  "controller_algorithm_hash_changed": false,
+  "frame_only_front_rejected": true,
+  "full_drawer_box_tray_required": true,
+  "generated_at_utc": "2026-05-06T14:38:29Z",
+  "machine_reference_contract_passed": true,
+  "manual_visual_review_passed": false,
+  "reference_visuals": [
+    "/Users/zhuhaowu/Downloads/knob-handler.png",
+    "/Users/zhuhaowu/Downloads/ChatGPT Image 2026\u5e745\u67085\u65e5 23_07_48 (2).png"
+  ],
+  "short_boss_knob_required": true,
+  "solid_front_panel_required": true,
+  "status": "MACHINE_REFERENCE_CONTRACT_LOCKED_PENDING_MANUAL_VISUAL_REVIEW",
+  "support_rails_guides_required": true,
+  "task_id": "V11_G4_REFERENCE_ALIGNED_DRAWER_TOPOLOGY_SYNTHESIS_CONTROLLER_PRESERVING_RECERTIFICATION_V1"
+}

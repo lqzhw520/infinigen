@@ -1133,14 +1133,77 @@ def evaluate_candidate_physical(candidate: dict[str, Any], run_dir: Path) -> dic
 def migration_variants_scale(seed_variant: dict[str, Any], fast_rows: list[dict[str, Any]], max_samples: int) -> list[dict[str, Any]]:
     rows = list(fast_rows)
     rows.insert(0, {'variant': deepcopy(seed_variant), 'max_drawer_fraction': 1.0, 'bilateral_exact_contact_pull_frames': 100})
-    variants = migration_variants(rows, max_samples)
+    base = base_controller_variant()
+
+    def clean_visible(name: str, overrides: dict[str, Any]) -> dict[str, Any]:
+        v = {k: deepcopy(val) for k, val in base.items() if not str(k).startswith('_')}
+        v.update({
+            'name': name,
+            'targeted_progress_feedback_controller': True,
+            'controller_algorithm_family_preserved': True,
+            'controller_algorithm_modified': False,
+            'controller_migration_parameters_modified': True,
+            'scale_visible_latch_migration': True,
+            'visible_latch_preserving_migration': True,
+            'reference_topology_scale_visible_latch_v1': True,
+            'no_direct_qpos_drawer_opening': True,
+            'no_drawer_motor_command': True,
+            'pull_distance_m': 0.35,
+            'progress_target_fraction': 0.85,
+            # Keep the target near the knob. Large lead caps caused exact contact
+            # during latch followed by visible separation while the drawer kept
+            # moving. These are migration schedule parameters, not a new state
+            # machine.
+            'progress_start_step': 999999,
+            'qpos_progress_gain': 0.0,
+            'stagnation_lead_boost_m': 0.0,
+            'contact_drop_lead_pause_m': 0.0,
+            'progress_min_fraction_delta': 0.010,
+            'progress_check_window': 120,
+            'post_pull_hold_steps': 0,
+            'finger_mode': 'ik_hold',
+            'null_gain': 0.0,
+        })
+        v.update(overrides)
+        return v
+
+    visible_first: list[dict[str, Any]] = []
+    lead_caps = [0.006, 0.010, 0.014, 0.020, 0.028, 0.040]
+    velocities = [0.000045, 0.000065, 0.000085, 0.000110]
+    pull_steps = [9000, 13000, 18000, 24000]
+    presses = [0.0040, 0.0065, 0.0090, 0.0120]
+    op_gains = [18.0, 22.0, 26.0, 30.0]
+    op_vels = [0.055, 0.075, 0.095, 0.120]
+    servos = [(460.0, 150.0), (520.0, 165.0), (600.0, 185.0)]
+    modes = ['ik_hold', 'semi_close', 'binary_close']
+    for idx in range(min(max_samples, 48)):
+        kp, kd = servos[(idx // 5) % len(servos)]
+        lead = lead_caps[idx % len(lead_caps)]
+        visible_first.append(clean_visible('scale_visible_latch_preserve_%04d' % idx, {
+            'lead_cap_m': lead,
+            'progress_base_lead_cap_m': lead,
+            'progress_max_lead_cap_m': lead,
+            'pull_velocity_m_per_step': velocities[(idx // 2) % len(velocities)],
+            'pull_steps': pull_steps[(idx // 3) % len(pull_steps)],
+            'pull_press_m': presses[(idx // 4) % len(presses)],
+            'op_gain': op_gains[(idx // 3) % len(op_gains)],
+            'op_vel_limit': op_vels[(idx // 4) % len(op_vels)],
+            'q_vel_limit': 1.6 + 0.25 * (idx % 5),
+            'servo_kp': kp,
+            'servo_kd': kd,
+            'pre_pull_latch_hold_steps': 160 + 40 * (idx % 4),
+            'finger_mode': modes[(idx // 8) % len(modes)],
+        }))
+
+    fallback = migration_variants(rows, max(0, max_samples - len(visible_first)))
+    variants = visible_first + fallback
     for v in variants:
         v['controller_algorithm_family_preserved'] = True
         v['controller_algorithm_modified'] = False
         v['scale_visible_latch_migration'] = True
         v['no_direct_qpos_drawer_opening'] = True
         v['no_drawer_motor_command'] = True
-    return variants
+    return variants[:max_samples]
 
 
 def run_fast_solver_scale(run_dir: Path, candidates: list[dict[str, Any]], seed_variant: dict[str, Any], prior_fast_rows: list[dict[str, Any]], max_samples: int) -> tuple[dict[str, Any], list[dict[str, Any]], dict[str, Any], dict[str, Any]]:

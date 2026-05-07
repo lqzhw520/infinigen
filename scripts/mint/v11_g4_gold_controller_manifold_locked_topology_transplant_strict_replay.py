@@ -6,6 +6,7 @@ import hashlib
 import json
 import math
 import os
+import re
 import subprocess
 import sys
 from copy import deepcopy
@@ -686,6 +687,9 @@ def reconstruct_gold_anchor(
                             '<compiler meshdir="' + str(assets_dir) + '" ',
                             1,
                         )
+                    text = re.sub(
+                        r'file="obj_meshes/[^"]+/([^/"]+)"', r'file="\1"', text
+                    )
                     loader_xml.write_text(text)
                     m = mujoco.MjModel.from_xml_path(str(loader_xml))
                     model_load = {

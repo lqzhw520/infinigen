@@ -15,7 +15,7 @@ claim_boundary:
 
 task_authority:
   authority_type: GOC_V4_PATCH_GROUP_EXACT_GEOM_ID_SETS_WITH_REFERENCE_TOPOLOGY_SCALE_AND_VISIBLE_LATCH_LOCK
-  goc_version: v4_patch_group
+  goc_version: v3
   goc_artifact_path: artifacts/phase1h_geometry_contract/goc_v3_contract.json
   goc_contract: experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v3_contract.json
   goc_contract_id: GOC_V3_EXACT_ID_GEOMETRY_OWNERSHIP_CONTRACT

@@ -968,6 +968,43 @@ def install_gold_runtime(gold_variant: dict[str, Any]) -> None:
             idx += 1
         return variants[:max_samples]
 
+    original_build_handle_frame = scale.ref.pool.hfp.build_handle_frame
+
+    def gold_front_safe_build_handle_frame(
+        env: Any, binding: dict[str, Any]
+    ) -> dict[str, Any]:
+        out = original_build_handle_frame(env, binding)
+        if out.get("quality") != "ok" or "_frame" not in out:
+            return out
+        geom_names = set(out.get("handle_geom_names") or [])
+        if "drawer_handle_collision_0" not in geom_names:
+            return out
+        np = scale.v3.cp.np
+        frame = out["_frame"]
+        pull = np.asarray(frame.pull_axis, dtype=float)
+        pull = pull / max(float(np.linalg.norm(pull)), 1e-9)
+        pinch = np.asarray(frame.pinch_axis, dtype=float)
+        # Solid-front topology makes the historical PCA pinch unsafe because one
+        # pad target can land behind the front panel. Preserve the same handle
+        # center/radius/controller, but constrain the pinch to the exposed knob
+        # hemisphere by removing pull-axis depth from the pad span.
+        pinch = pinch - float(np.dot(pinch, pull)) * pull
+        if float(np.linalg.norm(pinch)) < 1e-9:
+            fallback = np.asarray([0.0, 0.0, 1.0], dtype=float)
+            pinch = fallback - float(np.dot(fallback, pull)) * pull
+        pinch = pinch / max(float(np.linalg.norm(pinch)), 1e-9)
+        if pinch[2] < 0:
+            pinch = -pinch
+        frame.pinch_axis = pinch
+        frame.bar_axis = pinch
+        out["pinch_axis"] = pinch
+        out["handle_bar_axis"] = pinch
+        out.setdefault("notes", []).append(
+            "gold_front_safe_pinch_axis_projected_off_pull_axis"
+        )
+        return out
+
+    scale.ref.pool.hfp.build_handle_frame = gold_front_safe_build_handle_frame
     scale.base_controller_variant = base_controller_variant
     scale.migration_variants_scale = gold_locked_variants
 

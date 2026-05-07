@@ -1034,11 +1034,99 @@ def strict_visible_pass(row: dict[str, Any]) -> bool:
     return bool(strict_fast_pass(row) and row.get('visible_latch_contact_passed'))
 
 
+
+def _arr3(value: Any, default: list[float]) -> Any:
+    np = v3.cp.np
+    value = normalize_serialized_arrays(value)
+    try:
+        arr = np.asarray(value, dtype=float).reshape(-1)
+        if arr.size >= 3 and np.all(np.isfinite(arr[:3])):
+            return arr[:3]
+    except Exception:
+        pass
+    return np.asarray(default, dtype=float)
+
+
+def _unit(value: Any, default: list[float]) -> Any:
+    np = v3.cp.np
+    vec = _arr3(value, default)
+    n = float(np.linalg.norm(vec))
+    if n < 1e-9:
+        vec = np.asarray(default, dtype=float)
+        n = max(float(np.linalg.norm(vec)), 1e-9)
+    return vec / n
+
+
+def apply_round_knob_visible_latch_rebinding(physical: dict[str, Any]) -> dict[str, Any]:
+    """Rebind ROUND_KNOB pad targets to visible bilateral sphere pinch geometry."""
+    np = v3.cp.np
+    hf = normalize_serialized_arrays(physical.get('handle_frame') or {})
+    tpf = normalize_serialized_arrays(physical.get('two_pad_frame') or {})
+    scale = physical.get('reference_topology_scale_oracle') or {}
+    if not hf or not tpf:
+        physical['round_knob_visible_latch_rebinding'] = {'applied': False, 'reason': 'MISSING_HANDLE_OR_TWO_PAD_FRAME'}
+        return physical
+    legal = list(tpf.get('legal_pad_ids') or [])
+    assignment = list(tpf.get('pad_assignment') or [])
+    if len(legal) < 2 or len(assignment) < 2:
+        physical['round_knob_visible_latch_rebinding'] = {'applied': False, 'reason': 'MISSING_LEGAL_PAD_ASSIGNMENT'}
+        return physical
+    center = _arr3(hf.get('handle_center'), [0.0, 0.0, 0.0])
+    approach = _unit(hf.get('approach_normal'), [-1.0, 0.0, 0.0])
+    pinch = _unit(hf.get('pinch_axis'), [0.0, 1.0, 0.0])
+    pinch = pinch - float(np.dot(pinch, approach)) * approach
+    pinch = pinch / max(float(np.linalg.norm(pinch)), 1e-9)
+    knob_radius = float(scale.get('knob_radius_m') or hf.get('handle_radius_pinch_m') or hf.get('handle_radius_normal_m') or 0.03)
+    pad_radius = float(tpf.get('pad_radius_m') or 0.008)
+    normal_offset = min(0.008, max(0.0035, 0.16 * knob_radius))
+    surface_press = min(0.0025, max(0.0010, 0.035 * knob_radius))
+    center_distance = max(knob_radius + pad_radius - surface_press, knob_radius + 0.45 * pad_radius)
+    half_width = (max(center_distance * center_distance - normal_offset * normal_offset, 1e-8)) ** 0.5
+    half_width = min(max(half_width, knob_radius + 0.25 * pad_radius), knob_radius + pad_radius + 0.002)
+    centerline = center + approach * normal_offset
+    contact = np.stack([centerline + pinch * half_width, centerline - pinch * half_width], axis=0)
+    pregrasp = contact + approach[None, :] * 0.055
+    guarded = contact + approach[None, :] * 0.018
+    hold = contact.copy()
+    before = {k: ready(tpf.get(k)) for k in ['contact_targets', 'hold_targets', 'pinch_half_width_m', 'pad_radius_m']}
+    tpf.update({
+        'quality': 'ok',
+        'contact_targets': contact.tolist(),
+        'pregrasp_targets': pregrasp.tolist(),
+        'guarded_targets': guarded.tolist(),
+        'hold_targets': hold.tolist(),
+        'pinch_half_width_m': float(half_width),
+        'pad_radius_m': float(pad_radius),
+        'round_knob_visible_latch_rebinding_applied': True,
+        'round_knob_visible_latch_binding_model': 'sphere_bilateral_surface_pinch_with_small_front_offset',
+    })
+    hf['round_knob_visible_latch_rebinding_applied'] = True
+    physical['handle_frame'] = hf
+    physical['two_pad_frame'] = tpf
+    physical['controller_algorithm_modified'] = False
+    physical['controller_migration_parameters_modified'] = True
+    physical['round_knob_visible_latch_rebinding'] = {
+        'applied': True,
+        'controller_algorithm_modified': False,
+        'binding_change_only': True,
+        'before': before,
+        'after': {k: ready(tpf.get(k)) for k in ['contact_targets', 'hold_targets', 'pinch_half_width_m', 'pad_radius_m']},
+        'knob_radius_m': knob_radius,
+        'pad_radius_m': pad_radius,
+        'normal_offset_m': float(normal_offset),
+        'surface_press_m': float(surface_press),
+        'pad_center_distance_from_knob_center_m': float(center_distance),
+        'expected_surface_gap_m': float(center_distance - knob_radius - pad_radius),
+    }
+    return physical
+
 def evaluate_candidate_physical(candidate: dict[str, Any], run_dir: Path) -> dict[str, Any]:
     physical = ref.pool.evaluate_generated_candidate(candidate, run_dir)
     physical = ref.promote_reference_aligned_physical_if_proxy_only(physical)
     physical['source_type_for_spec'] = 'generated_repaired_reference_aligned_variant'
     physical['declared_generated_or_repaired_variant'] = True
+    if physical.get('accepted') and (candidate.get('model_builder_parameters') or {}).get('handle_kind') == 'sphere':
+        physical = apply_round_knob_visible_latch_rebinding(physical)
     return physical
 
 

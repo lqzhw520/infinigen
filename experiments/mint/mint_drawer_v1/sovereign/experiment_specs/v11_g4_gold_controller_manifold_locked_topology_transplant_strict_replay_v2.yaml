@@ -1,0 +1,406 @@
+task_id: V11_G4_GOLD_CONTROLLER_MANIFOLD_LOCKED_TOPOLOGY_TRANSPLANT_STRICT_REPLAY_V2
+task_type: autonomous_science_repair_and_recertification
+task_version: 2
+target_gate: GOLD_CONTROLLER_MANIFOLD_LOCKED_REFERENCE_TOPOLOGY_VISIBLE_LATCH_STRICT_REPLAY_READY_FOR_MANUAL_REVIEW
+phase: gold_controller_manifold_locked_topology_transplant_strict_replay_v2
+
+claim_boundary:
+  historical_round_knob_controller_affordance_evidence_exists: true
+  historical_positive_visual_anchor_must_be_validated_before_repair: true
+  controller_algorithm_family_frozen: true
+  preserve_gold_controller_affordance_manifold: true
+  repair_only_topology_defects_after_gold_anchor_lock: true
+  controller_migration_failure_label_forbidden_without_anchor_invalidation: true
+  dataset_admission_not_claimed_without_manual_visual_and_science_review: true
+  raw_infinigen_not_blamed_without_raw_model_audit: true
+
+# Preflight authority must match the committed GOC-v3 exact set contract.
+task_authority:
+  authority_type: GOC_V4_PATCH_GROUP_EXACT_GEOM_ID_SETS_WITH_GOLD_CONTROLLER_MANIFOLD_AND_REFERENCE_TOPOLOGY_LOCK
+  goc_version: v3
+  goc_artifact_path: artifacts/phase1h_geometry_contract/goc_v3_contract.json
+  goc_contract: experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v3_contract.json
+  goc_contract_id: GOC_V3_EXACT_ID_GEOMETRY_OWNERSHIP_CONTRACT
+  legal_gripper_surface_geom_ids: [63, 81, 90]
+  drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+  forbidden_robot_surface_geom_ids: [45, 47, 49, 54, 59]
+  target_authority: exact_left_and_right_finger_pad_group_contacts_to_true_round_knob_handle
+  legal_target_contact_required: true
+  visible_latch_contact_required: true
+  topology_authority: gold_anchor_topology_defect_isolation_plus_reference_topology_scale_oracle
+  controller_authority: historical_gold_round_knob_affordance_manifold
+  prohibited_authority:
+    - direct_qpos_open_drawer
+    - drawer_motor_command
+    - geometric_bilateral_proxy_as_success
+    - broad_link_wrist_arm_or_finger_shell_contact_as_target
+    - invisible_catcher_geom
+    - long_rod_knob_connector
+    - frame_like_front_panel
+    - front_only_moving_body
+    - tiny_tray_hidden_behind_front
+    - oversized_knob_compensation
+    - controller_algorithm_replacement
+    - raw_infinigen_generator_blame_without_raw_audit
+
+fixtures:
+  fixture_invalid_authority_drift:
+    expected: FAIL
+    expected_error: AUTHORITY_MISMATCH
+    runtime_exact_ids:
+      legal_gripper_surface_geom_ids: [60, 61, 62]
+      forbidden_robot_surface_geom_ids: [45, 47, 49, 54, 59]
+      drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+  fixture_valid_authority_match:
+    expected: PASS
+    runtime_exact_ids:
+      legal_gripper_surface_geom_ids: [63, 81, 90]
+      forbidden_robot_surface_geom_ids: [45, 47, 49, 54, 59]
+      drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+
+authority:
+  repo: /mnt/afs2/zhuhaowu/infinigen
+  branch: feature/mint-env-reformulation-v1-visual-fidelity
+  campaign_root: experiments/mint/mint_drawer_v1
+  local_playground_root: /Users/zhuhaowu/Documents/Playground
+  reference_visuals:
+    - path: /Users/zhuhaowu/Downloads/knob-handler.png
+      sha256: 0717400d3bbe76258d64993513bcd6e8eae66493e289c9d29923b1db3ac17580
+    - path: /Users/zhuhaowu/Downloads/ChatGPT Image 2026年5月5日 23_07_48 (2).png
+      sha256: 58b55a62765bee57500efa8127c86f8366c9f3e8bc64e9e7d7373860d732ce56
+  positive_controller_affordance_evidence:
+    - local_replay: /Users/zhuhaowu/Documents/Playground/local_replay/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z
+      remote_run: experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_defect_histogram_dynamic_pull_pool_solver_to_export_replay_20260505T085503Z
+    - local_replay: /Users/zhuhaowu/Documents/Playground/local_replay/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z
+      remote_run: experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z
+      preferred_gold_candidate_id: dh_c1_admitted_island_densify_25
+      preferred_gold_controller_variant: pc02_micro_lead_high_damping_semi_close
+  negative_topology_or_control_evidence:
+    - local_replay: /Users/zhuhaowu/Documents/Playground/local_replay/v11_g4_goc_v4_exact_latch_pull_keepout_v3_continuation_targeted_progress_repair_20260506T123821Z
+      remote_run: experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_keepout_v3_continuation_targeted_progress_repair_20260506T123821Z
+    - local_replay: /Users/zhuhaowu/Documents/Playground/local_replay/v11_g4_reference_topology_controller_pull_work_repair_20260507T064437Z
+      remote_run: experiments/mint/mint_drawer_v1/runtime/v11_g4_reference_topology_controller_pull_work_repair_20260507T064437Z
+
+reference_visual_contract_required_outputs:
+  - reference_visual_contract.json
+  - reference_visual_contract.md
+  - historical_render_keyframe_index.json
+  - stage0_historical_evidence_lock.json
+  - stage0_historical_evidence_lock.md
+
+closed_state_visual_target:
+  solid_front_panel: true
+  knob_kind: small_medium_spherical
+  knob_almost_flush_to_front: true
+  very_short_boss_stub: true
+  long_rod_rejected: true
+  front_panel_visibly_supports_knob: true
+
+open_state_visual_target:
+  complete_drawer_box_tray_moves_with_front: true
+  tray_occupies_plausible_front_portion: true
+  side_walls_visible: true
+  bottom_visible: true
+  back_panel_visible: true
+  support_rails_or_guides_visible: true
+  unsupported_or_floating_drawer_rejected: true
+
+manipulation_visual_target:
+  gripper_fingers_visibly_contact_knob_before_pull: true
+  gripper_remains_visibly_latched_during_opening: true
+  open_while_fingers_float_artifact_rejected: true
+  final_claim_render_has_no_debug_overlay: true
+
+gold_anchor_contract:
+  preferred_anchor_run: experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_drawer_topology_realism_repair_and_recertify_20260505T135122Z
+  preferred_anchor_candidate_id: dh_c1_admitted_island_densify_25
+  preferred_controller_variant: pc02_micro_lead_high_damping_semi_close
+  knob_radius_source: historical_anchor_model_builder_parameters.handle_radius
+  knob_radius_preferred_deviation_max: 0.10
+  knob_radius_hard_deviation_max: 0.15
+  handle_center_must_remain_within_m: 0.012
+  robot_base_yaw_must_remain_locked: true
+  controller_algorithm_modified_allowed: false
+  controller_schedule_parameter_micro_variants_allowed: true
+  direct_qpos_drawer_opening_allowed: false
+  drawer_motor_command_allowed: false
+
+reference_topology_scale_contract:
+  knob:
+    radius_target: gold_anchor_knob_radius
+    preferred_deviation_max_fraction: 0.10
+    hard_deviation_max_fraction: 0.15
+    diameter_to_front_width_preferred_max: 0.22
+    diameter_to_front_width_hard_max: 0.28
+    if_ratio_too_high_increase_or_restore_front_size_not_knob: true
+  stub:
+    length_to_knob_diameter_preferred_min: 0.10
+    length_to_knob_diameter_preferred_max: 0.25
+    length_to_knob_diameter_hard_max: 0.35
+    boss_stub_visible_and_attached: true
+    long_rod_rejected: true
+  front:
+    solid_panel_required: true
+    cutout_rejected: true
+    hollow_frame_rejected: true
+    size_must_visually_match_reference: true
+  tray:
+    tray_width_to_front_width_min: 0.75
+    tray_height_to_front_height_min: 0.45
+    side_walls_bottom_back_required: true
+    not_tiny_or_hidden: true
+  support:
+    visible_rails_or_guides_required: true
+    invisible_collision_only_support_insufficient: true
+
+controller_manifold_preservation_oracle:
+  max_knob_radius_error_fraction: 0.15
+  max_knob_center_error_m: 0.012
+  max_robot_base_pos_error_m: 0.004
+  max_robot_yaw_error_deg: 1.0
+  max_handle_frame_error_m: 0.012
+  gripper_front_clearance_required: true
+  gripper_tray_clearance_required: true
+  visible_latch_required_at_pull_fractions: [0.2, 0.5, 0.8]
+
+micro_roll_ladder:
+  required_rungs:
+    - static_load
+    - pregrasp
+    - capture
+    - latch_only
+    - tiny_pull
+    - half_pull
+    - full_fast_pull
+  no_skipping_failed_rungs: true
+
+overnight_scheduler:
+  minimum_attempt_hours_unless_success: 5
+  max_wall_clock_hours: 8
+  max_outer_cycles: 10
+  max_candidates_per_cycle: 24
+  max_micro_candidates_per_failed_substage: 12
+  no_progress_stop_only_after_all_repair_families_attempted: true
+  forbidden_spin_behavior: true
+  repair_families:
+    - R1_provenance_anchor_recovery
+    - R2_anchor_extraction
+    - R3_connector_transplant
+    - R4_solid_front_transplant
+    - R5_tray_transplant
+    - R6_support_transplant
+    - R7_manifold_preserving_clearance
+    - R8_binding_repair_without_controller_algorithm_change
+    - R9_visible_exact_contact_alignment
+    - R10_physical_dynamics_bounds
+
+certification_ladder:
+  fast_guarded_contact:
+    enter_only_after:
+      - topology_scale_oracle_passed
+      - controller_manifold_preserved
+      - visible_contact_authority_aligned
+      - micro_roll_ladder_passed
+    drawer_fraction_min: 0.80
+    bilateral_exact_pull_frames_min: 30
+    forbidden_contact_frames_max: 0
+    handle_nonlegal_contact_frames_max: 0
+    max_penetration_m: 0.02
+  targeted_7of7:
+    cases_total: 7
+    require_all_pass: true
+  full30:
+    cases_total: 30
+    require_all_pass: true
+  strict_export:
+    required_trace_fields: [qpos, qvel, ctrl, action, robot_qpos, drawer_qpos]
+  local_strict_replay_render:
+    cases_total: 30
+    require_claim_render_packet: true
+  action_only_spot_check:
+    selected_spot_cases_required: true
+
+remote:
+  approved_files:
+    - experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_gold_controller_manifold_locked_topology_transplant_strict_replay_v2.yaml
+    - scripts/mint/v11_g4_gold_controller_manifold_locked_topology_transplant_strict_replay.py
+    - scripts/mint/merged_model_builder.py
+    - scripts/mint/drawer_robot_env_mujoco.py
+    - scripts/mint/contact_aware_drawer_teacher.py
+    - scripts/mint/v11_g4_handle_affordance_strategy_registry.py
+    - scripts/mint/v11_g4_round_knob_grasp_latch_pull_controller.py
+    - scripts/mint/v11_g4_round_knob_exact_contact_patch_latch_pull_synthesis.py
+    - scripts/mint/v11_g4_exact_latch_pull_wrench_keepout_trajectory_optimization.py
+    - scripts/mint/export_full_robot_teacher_replay_bundle.py
+    - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json
+    - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_attestation.json
+  forbidden_files:
+    - experiments/mint/mint_drawer_v1/sovereign/current_truth.json
+    - experiments/mint/mint_drawer_v1/sovereign/next_actions.json
+    - external/MINT
+
+allowed_files:
+  new_task_spec:
+    - experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_gold_controller_manifold_locked_topology_transplant_strict_replay_v2.yaml
+  new_helper:
+    - scripts/mint/v11_g4_gold_controller_manifold_locked_topology_transplant_strict_replay.py
+  existing_helpers:
+    - scripts/mint/merged_model_builder.py
+    - scripts/mint/drawer_robot_env_mujoco.py
+    - scripts/mint/contact_aware_drawer_teacher.py
+    - scripts/mint/v11_g4_handle_affordance_strategy_registry.py
+    - scripts/mint/v11_g4_round_knob_grasp_latch_pull_controller.py
+    - scripts/mint/v11_g4_round_knob_exact_contact_patch_latch_pull_synthesis.py
+    - scripts/mint/v11_g4_exact_latch_pull_wrench_keepout_trajectory_optimization.py
+    - scripts/mint/export_full_robot_teacher_replay_bundle.py
+  runtime: experiments/mint/mint_drawer_v1/runtime/v11_g4_gold_controller_manifold_locked_topology_transplant_*/
+  harness:
+    - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json
+    - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_attestation.json
+
+forbidden_files:
+  - experiments/mint/mint_drawer_v1/sovereign/current_truth.json
+  - experiments/mint/mint_drawer_v1/sovereign/next_actions.json
+  - external/MINT
+
+stages:
+  - id: stage_0_historical_evidence_lock
+    enter_first: true
+    outputs:
+      - reference_visual_contract.json
+      - reference_visual_contract.md
+      - stage0_historical_evidence_lock.json
+      - stage0_historical_evidence_lock.md
+      - historical_render_keyframe_index.json
+  - id: stage_1_positive_anchor_validation
+    outputs: [positive_anchor_validation.jsonl, positive_anchor_validation_report.md]
+  - id: stage_2_gold_manifold_extraction
+    outputs: [gold_controller_manifold.json, gold_controller_manifold_report.md, gold_controller_manifold_keyframes.json]
+  - id: stage_3_gold_reconstruction
+    outputs: [gold_anchor_reconstruction_results.json, gold_anchor_reconstruction_report.md, gold_anchor_reconstruction_render_manifest.json]
+  - id: stage_4_topology_defect_isolation
+    outputs: [gold_anchor_topology_defect_isolation.json, gold_anchor_topology_defect_isolation.md]
+  - id: stage_5_surgical_topology_transplant
+    substages: [5A_connector, 5B_solid_front, 5C_tray, 5D_support, 5E_combined]
+  - id: stage_6_topology_scale_contract
+    outputs: [topology_scale_contract.json, topology_scale_oracle_results.jsonl, topology_scale_oracle_report.json]
+  - id: stage_7_controller_manifold_preservation_oracle
+    outputs: [controller_manifold_preservation_oracle.jsonl, controller_manifold_preservation_report.json]
+  - id: stage_8_visible_contact_authority_alignment
+    outputs: [visible_contact_authority_alignment.jsonl, visible_contact_authority_alignment_report.json]
+  - id: stage_9_micro_roll_ladder
+    outputs: [micro_roll_ladder_results.jsonl, micro_roll_ladder_report.json]
+  - id: stage_10_overnight_iterative_repair_scheduler
+    outputs: [overnight_cycle_log.jsonl, overnight_progress_state.json, overnight_failure_taxonomy.json, overnight_best_candidate_table.json, overnight_repair_decisions.md]
+  - id: stage_11_fast_guarded_contact_certification
+    outputs: [fast_guarded_contact_certification.json, fast_guarded_contact_timeseries.jsonl, fast_visible_latch_keyframes.json]
+  - id: stage_12_targeted_7of7
+    outputs: [targeted_shard_results.json, targeted_visible_latch_audit.json, targeted_case_certificates.jsonl]
+  - id: stage_13_full30
+    outputs: [full30_gold_manifold_topology_transplant_certification.jsonl, full30_report.json, full30_visible_latch_sample_audit.json]
+  - id: stage_14_strict_export
+    outputs: [strict_teacher_export_manifest.json, trace_hash_manifest.json, export_integrity_audit.json]
+  - id: stage_15_local_strict_replay_claim_render
+    outputs: [strict_replay_metrics.json, render_manifest.json, visual_review_packet.md, visible_latch_render_audit.json, canonical_keyframe_manifest.json, local_replay_handoff_manifest.json]
+  - id: stage_16_action_only_spot_check
+    outputs: [action_only_replay_spot_check.json, action_only_replay_spot_check.md]
+  - id: stage_17_final_governance_push
+    outputs: [post_push_verification.json, final_closeout.json]
+
+success_closeout: GOLD_CONTROLLER_MANIFOLD_LOCKED_REFERENCE_TOPOLOGY_VISIBLE_LATCH_STRICT_REPLAY_READY_FOR_MANUAL_REVIEW
+allowed_non_success_closeouts:
+  - GOVERNANCE_BLOCKED
+  - GOLD_CONTROLLER_ANCHOR_NOT_FOUND
+  - GOLD_CONTROLLER_MANIFOLD_RECONSTRUCTION_FAILED
+  - HISTORICAL_POSITIVE_ANCHOR_INVALIDATED
+  - TOPOLOGY_TRANSPLANT_FAILED_WITH_ANCHOR_PRESERVED
+  - ANCHOR_DRIFT_REPAIR_EXHAUSTED
+  - VISIBLE_CONTACT_AUTHORITY_ALIGNMENT_FAILED
+  - FAST_GATE_FAILED_AFTER_MICRO_LADDER_PASS
+  - TARGETED_FAILED_AFTER_FAST_PASS
+  - FULL30_FAILED_AFTER_TARGETED_PASS
+  - STRICT_EXPORT_FAILED
+  - LOCAL_REPLAY_RENDER_FAILED
+  - ACTION_ONLY_SPOT_CHECK_FAILED
+  - TIME_BUDGET_EXHAUSTED_WITH_EVIDENCE
+  - EXECUTION_FAILED
+forbidden_non_success_closeouts:
+  - CONTROLLER_MIGRATION_FAILED_ON_REALISTIC_TOPOLOGY
+  - ROUND_KNOB_SIZE_REALISTIC_GRIPPER_AFFORDANCE_CONFLICT
+  - CONTROLLER_CANNOT_USE_REALISTIC_KNOB
+  - CONTROLLER_CANNOT_OPEN_REALISTIC_KNOB
+  - REALISTIC_TOPOLOGY_INCOMPATIBLE_WITH_CONTROLLER
+
+final_output_fields:
+  - closeout_classification
+  - governance_preflight_passed
+  - production_lock_bound_to_spec
+  - attestation_passed
+  - reference_visual_contract_written
+  - reference_image_hashes
+  - historical_positive_anchor_validated
+  - gold_anchor_run_id
+  - gold_anchor_candidate_id
+  - gold_anchor_model_xml_sha256
+  - gold_anchor_knob_radius
+  - gold_anchor_knob_diameter
+  - gold_anchor_robot_base_pos
+  - gold_anchor_robot_yaw
+  - gold_controller_manifold_reconstructed
+  - historical_positive_anchor_invalidated
+  - controller_algorithm_modified
+  - topology_defect_isolation_done
+  - connector_transplant_passed
+  - solid_front_transplant_passed
+  - tray_transplant_passed
+  - support_transplant_passed
+  - knob_size_realistic_passed
+  - knob_diameter_front_width_ratio
+  - short_stub_passed
+  - drawer_box_complete_passed
+  - tray_front_width_ratio
+  - tray_front_height_ratio
+  - visible_support_guide_passed
+  - topology_scale_oracle_passed
+  - controller_manifold_preserved
+  - max_knob_center_error_m
+  - max_handle_frame_error_m
+  - max_pad_to_knob_transform_error_m
+  - visible_contact_authority_aligned
+  - visible_latch_pull_keyframes_passed
+  - exact_pad_group_contact_passed
+  - micro_roll_ladder_passed
+  - fast_guarded_contact_passed
+  - targeted_shard_passed
+  - targeted_cases_passed
+  - targeted_cases_total
+  - full30_passed
+  - full30_cases_passed
+  - full30_cases_total
+  - strict_export_complete
+  - local_state_replay_passed
+  - local_render_passed
+  - action_only_spot_check_passed
+  - best_fast_drawer_fraction
+  - best_fast_bilateral_exact_pull_frames
+  - best_fast_visible_latch_frames
+  - forbidden_contact_frame_count_max
+  - handle_nonlegal_contact_frame_count_max
+  - max_penetration_m
+  - drawer_qpos_abs_mismatch_max
+  - outer_cycles_run
+  - repair_families_attempted
+  - repair_families_exhausted
+  - no_progress_cycles
+  - provenance_mismatch_found
+  - raw_infinigen_generator_defect_confirmed
+  - downstream_topology_repair_defect_confirmed
+  - current_truth_modified
+  - next_actions_modified
+  - previous_run_dirs_modified
+  - committed
+  - pushed_to_origin
+  - remote_commit_hash
+  - local_replay_dir
+  - visual_review_packet
+  - next_gate

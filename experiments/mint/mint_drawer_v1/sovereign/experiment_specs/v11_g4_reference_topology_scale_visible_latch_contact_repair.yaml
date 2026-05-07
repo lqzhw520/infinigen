@@ -1,0 +1,206 @@
+task_id: V11_G4_REFERENCE_TOPOLOGY_SCALE_AND_VISIBLE_LATCH_CONTACT_REPAIR_V1
+task_type: autonomous_science_repair_and_recertification
+task_version: 1
+target_gate: REFERENCE_TOPOLOGY_REALISTIC_VISIBLE_LATCH_PULL_STRICT_REPLAY_READY_FOR_MANUAL_REVIEW
+phase: reference_topology_scale_and_visible_latch_contact_repair
+
+claim_boundary:
+  previous_physics_replay_baseline_preserved: true
+  previous_reference_topology_metrics_pass_downgraded_by_manual_visual_review: true
+  downgrade_classification: VISUAL_REVIEW_FAILED_TOPOLOGY_SCALE_AND_VISIBLE_GRASP_CONTACT
+  raw_infinigen_not_blamed_without_raw_model_audit: true
+  controller_algorithm_family_frozen: true
+  per_instance_binding_and_migration_parameters_allowed: true
+  dataset_admission_not_claimed_without_manual_review: true
+
+task_authority:
+  authority_type: GOC_V4_PATCH_GROUP_EXACT_GEOM_ID_SETS_WITH_REFERENCE_TOPOLOGY_SCALE_AND_VISIBLE_LATCH_LOCK
+  goc_version: v4_patch_group
+  target_authority: left_and_right_finite_finger_pad_group_exact_contacts_to_true_round_knob
+  legal_target_contact_required: true
+  visible_latch_contact_required: true
+  topology_authority: reference_topology_scale_oracle_and_visible_latch_contact_oracle
+  prohibited_authority:
+    - direct_qpos_open_drawer
+    - drawer_motor_command
+    - geometric_bilateral_proxy_as_success
+    - broad_link_wrist_arm_or_finger_shell_contact_as_target
+    - invisible_catcher_geom
+    - long_rod_knob_connector
+    - frame_like_front_panel
+    - front_only_moving_body
+    - raw_infinigen_generator_blame_without_raw_audit
+
+authority:
+  repo: /mnt/afs2/zhuhaowu/infinigen
+  branch: feature/mint-env-reformulation-v1-visual-fidelity
+  campaign_root: experiments/mint/mint_drawer_v1
+  local_playground_root: /Users/zhuhaowu/Documents/Playground
+  reference_visuals:
+    - /Users/zhuhaowu/Downloads/knob-handler.png
+    - /Users/zhuhaowu/Downloads/ChatGPT Image 2026年5月5日 23_07_48 (2).png
+  rejected_local_replay_dir: /Users/zhuhaowu/Documents/Playground/local_replay/v11_g4_reference_topology_controller_pull_work_repair_20260507T064437Z
+  rejected_remote_run: experiments/mint/mint_drawer_v1/runtime/v11_g4_reference_topology_controller_pull_work_repair_20260507T064437Z
+
+manual_review_findings:
+  topology_scale_blocker:
+    knob_too_large: true
+    drawer_tray_too_small_relative_to_front: true
+    current_source_type: generated_repaired_reference_aligned_variant
+    current_knob_radius_m: 0.048
+    current_knob_diameter_to_front_width_ratio_observed: 0.40
+  manipulation_visual_physical_consistency_blocker:
+    gripper_visibly_not_latched_during_pull: true
+    state_replay_metrics_alone_insufficient: true
+
+reference_topology_scale_contract:
+  source_type_required:
+    generated_or_repaired_variants_must_be_labeled: true
+    raw_infinigen_only_if_raw_manifest_verified: true
+  solid_front_panel:
+    required: true
+    frame_or_cutout_rejected: true
+    single_solid_front_geom_required: true
+  spherical_knob:
+    required: true
+    short_stub_required: true
+    knob_diameter_to_front_width_target_max: 0.22
+    knob_diameter_to_front_width_hard_max: 0.28
+    stub_length_to_knob_diameter_min: 0.10
+    stub_length_to_knob_diameter_max: 0.25
+    long_rod_rejected: true
+  moving_drawer_box_tray:
+    required: true
+    required_parts: [front_panel, left_side_wall, right_side_wall, bottom_panel, back_panel]
+    tray_width_to_front_width_min: 0.75
+    tray_height_to_front_height_min: 0.45
+    upper_blank_front_gap_ratio_max: 0.32
+    open_top_allowed: true
+  support_guide_semantics:
+    required: true
+    visible_rails_or_guides_required: true
+    guides_do_not_replace_tray: true
+
+visible_latch_contact_contract:
+  latch_only_visible_contact_required: true
+  latch_pull_visible_contact_required: true
+  exact_collision_contact_required: true
+  visible_pad_to_knob_surface_distance_max_m: 0.015
+  required_key_pull_fractions: [0.2, 0.5, 0.8]
+  each_required_key_fraction_must_show_latch: true
+  knob_between_left_and_right_pad_surfaces_required: true
+  invisible_or_offset_collision_pad_mismatch_closeout: VISIBLE_CONTACT_GEOMETRY_MISMATCH
+
+controller_migration_scope:
+  controller_family: round_knob_exact_bilateral_latch_pull_progress_feedback
+  controller_state_machine_algorithm_must_remain_same: true
+  allowed_migration_parameters:
+    - per_instance_handle_frame
+    - per_instance_pad_target_frame
+    - ik_seed
+    - pull_steps
+    - pull_velocity_m_per_step
+    - pull_distance_m
+    - lead_cap_m
+    - progress_max_lead_cap_m
+    - qpos_progress_gain
+    - pull_press_m
+    - latch_hold_duration
+    - gripper_closure_target
+    - nullspace_keepout_weight
+    - camera_render_evidence
+  forbidden_controller_actions:
+    - replace_controller_algorithm
+    - direct_qpos_drawer_opening
+    - drawer_motor_command
+    - lower_thresholds
+    - accept_forbidden_contact
+    - use_geometric_proxy_as_success
+
+allowed_files:
+  new_helper:
+    - scripts/mint/v11_g4_reference_topology_scale_visible_latch_contact_repair.py
+  topology_and_existing_runtime_helpers:
+    - scripts/mint/v11_g4_reference_aligned_drawer_topology_synthesis_controller_preserving_recertification.py
+    - scripts/mint/v11_g4_reference_topology_controller_pull_work_repair.py
+    - scripts/mint/v11_g4_exact_latch_pull_wrench_keepout_trajectory_optimization.py
+    - scripts/mint/v11_g4_round_knob_exact_contact_patch_latch_pull_synthesis.py
+    - scripts/mint/v11_g4_round_knob_grasp_latch_pull_controller.py
+    - scripts/mint/v11_g4_handle_affordance_strategy_registry.py
+    - scripts/mint/merged_model_builder.py
+    - scripts/mint/drawer_robot_env_mujoco.py
+  sovereign_outputs:
+    - experiments/mint/mint_drawer_v1/sovereign/approved_drawer_topology_lock.json
+    - experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_reference_topology_scale_visible_latch.json
+    - experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_reference_topology_scale_visible_latch.json
+  harness:
+    - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json
+    - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_attestation.json
+  runtime: experiments/mint/mint_drawer_v1/runtime/v11_g4_reference_topology_scale_visible_latch_contact_repair_*/
+
+forbidden_files:
+  - experiments/mint/mint_drawer_v1/sovereign/current_truth.json
+  - experiments/mint/mint_drawer_v1/sovereign/next_actions.json
+  - external/MINT
+
+stages:
+  - id: stage_minus_1_governance
+    requires:
+      - task_spec_committed_and_pushed_first
+      - production_lock_bound_to_this_spec
+      - post_push_attestation
+      - no_bypass_preflight_passed
+  - id: stage_1_topology_provenance_audit
+    outputs:
+      - topology_provenance_attribution.json
+      - topology_provenance_attribution.md
+  - id: stage_2_reference_topology_scale_repair
+    outputs:
+      - reference_topology_scale_oracle.json
+      - reference_topology_scale_candidate_manifest.json
+  - id: stage_3_visible_latch_contact_oracle
+    outputs:
+      - visible_latch_contact_oracle.json
+      - visible_latch_contact_oracle_timeseries.jsonl
+  - id: stage_4_frozen_controller_migration_fast_targeted_full30_export
+    enter_only_if:
+      - topology_scale_oracle_passed
+      - visible_latch_fast_passed
+  - id: stage_5_local_replay_render_action_spot
+    enter_only_if: strict_export_complete
+
+success_closeout: REFERENCE_TOPOLOGY_REALISTIC_VISIBLE_LATCH_PULL_STRICT_REPLAY_READY_FOR_MANUAL_REVIEW
+non_success_closeouts:
+  - RAW_INFINIGEN_DRAWER_TOPOLOGY_GENERATOR_DEFECT_CONFIRMED
+  - DOWNSTREAM_TOPOLOGY_REPAIR_SCALE_DEFECT_CONFIRMED
+  - VISIBLE_CONTACT_GEOMETRY_MISMATCH
+  - ROUND_KNOB_SIZE_REALISTIC_GRIPPER_AFFORDANCE_CONFLICT
+  - CONTROLLER_MIGRATION_FAILED_ON_REALISTIC_TOPOLOGY
+  - STRICT_EXPORT_OR_LOCAL_REPLAY_FAILED
+  - HARNESS_PREFLIGHT_FAILED
+  - TASK_SPEC_LOCK_BINDING_FAILED
+  - TIME_BUDGET_EXHAUSTED
+
+final_output_fields:
+  - closeout_classification
+  - topology_provenance_attribution
+  - raw_infinigen_generator_defect_confirmed
+  - downstream_topology_repair_scale_defect_confirmed
+  - topology_scale_oracle_passed
+  - knob_diameter_to_front_width_ratio
+  - tray_width_to_front_width_ratio
+  - tray_height_to_front_height_ratio
+  - visible_latch_contact_passed
+  - visible_pull_keyframes_passed
+  - fast_guarded_contact_passed
+  - targeted_shard_passed
+  - full30_passed
+  - strict_export_complete
+  - local_state_replay_passed
+  - action_only_spot_check_passed
+  - current_truth_modified
+  - next_actions_modified
+  - committed
+  - pushed_to_origin
+  - remote_commit_hash
+  - next_gate

@@ -782,7 +782,7 @@ def reference_topology_scale_oracle(xml_path: Path, candidate: dict[str, Any]) -
     knob_radius = knob_size[0] if knob_size else 0.0
     knob_diameter = 2.0 * knob_radius
     boss_len = abs(boss_fromto[3] - boss_fromto[0]) if len(boss_fromto) == 6 else 0.0
-    tray_half_width = side_size[1] if len(side_size) >= 2 else (bottom_size[1] if len(bottom_size) >= 2 else 0.0)
+    tray_half_width = bottom_size[1] if len(bottom_size) >= 2 else (side_size[1] if len(side_size) >= 2 else 0.0)
     tray_wall_height = side_size[2] if len(side_size) >= 3 else 0.0
     tray_width = 2.0 * tray_half_width
     tray_height = 2.0 * tray_wall_height

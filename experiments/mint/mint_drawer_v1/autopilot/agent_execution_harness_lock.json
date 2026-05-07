@@ -2,11 +2,11 @@
   "lock_id": "CAMPAIGN_NATIVE_HARNESS_PRODUCTION_LOCK_V3",
   "version": "3.0.0",
   "generated_by": "validate_harness_production_lock.py",
-  "generated_at_utc": "2026-05-07T03:16:26Z",
+  "generated_at_utc": "2026-05-07T03:17:31Z",
   "harness_status": "production_ready",
   "campaign_root": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1",
   "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
-  "local_head": "101a5f1abe7502264061ee473fab52536acc2a29",
+  "local_head": "e3837896c9c52f0fab6fba12880f60dee56a5ceb",
   "remote": "git@github.com:lqzhw520/infinigen.git",
   "lock_inputs": {
     "task_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_reference_topology_controller_pull_work_repair_under_topology_lock.yaml",
@@ -37,7 +37,7 @@
     "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_closeout.py": "00876f159f540a8c00f4f86df560fa77788535c2",
     "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml": "a9b30267254f281224a0285466bce873c0e698e2",
     "experiments/mint/mint_drawer_v1/autopilot/v11_hard_goal_contract.json": "13b699b3e23a99929c591ec08ae7c859172988e5",
-    "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json": "d5b94e505c3367e26408cb12f82979199100864c",
+    "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json": "8cec122a85afa44a5d75fc276b7048218dad4d74",
     "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_reference_topology_controller_pull_work_repair_under_topology_lock.yaml": "4fac1ddfcca46bcf171c240114156b37c8185def"
   },
   "validator_hashes": {
@@ -170,9 +170,9 @@
   "post_push_attestation": {
     "required": true,
     "path": "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_attestation.json",
-    "blob": "5bce6fff2629c465194c41ad07794f8500fc23ea",
+    "blob": "e7714d92129ac61709180f440f759ba010380b27",
     "origin_verified": true,
-    "origin_head": "e9d3a49a0dc7401d9df821e2ceae54d33b6a9959",
+    "origin_head": "97ebb2969b6169529c2b1d3ba89b15570f46b217",
     "required_file_blobs_verified": true,
     "regressions_verified_after_publication": true
   }

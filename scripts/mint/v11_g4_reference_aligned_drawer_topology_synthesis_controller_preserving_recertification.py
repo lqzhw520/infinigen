@@ -125,8 +125,14 @@ class ReferenceAlignedSolidFrontDrawerBuilder(ORIGINAL_BUILDER):
         tray_center_x = door_x + front_half_thickness + tray_depth / 2.0
         tray_back_x = door_x + front_half_thickness + tray_depth
         tray_bottom_z = cabinet_z - tray_wall_height; tray_side_z = cabinet_z - tray_wall_height / 2.0
-        support_z = tray_bottom_z + 0.030
-        runner_y_left = cabinet_y - tray_half_width - 0.018; runner_y_right = cabinet_y + tray_half_width + 0.018
+        support_z = tray_bottom_z + float(p.get("support_z_offset", 0.030))
+        runner_lateral_offset = float(p.get("runner_lateral_offset", 0.018))
+        guide_lateral_inset = float(p.get("guide_lateral_inset", 0.010))
+        runner_half_y = float(p.get("runner_half_y", 0.009))
+        runner_half_z = float(p.get("runner_half_z", 0.012))
+        guide_half_y = float(p.get("guide_half_y", 0.006))
+        guide_half_z = float(p.get("guide_half_z", 0.008))
+        runner_y_left = cabinet_y - tray_half_width - runner_lateral_offset; runner_y_right = cabinet_y + tray_half_width + runner_lateral_offset
         support_half_x = max(0.14, tray_depth * 0.82)
         stem_start_x = hx + radius * 0.94; stem_end_x = front_face_x + 0.0015
         plate_x = front_face_x + 0.0025; plate_y = max(radius * 0.75, 0.018); plate_z = max(radius * 0.75, 0.018)
@@ -137,8 +143,8 @@ class ReferenceAlignedSolidFrontDrawerBuilder(ORIGINAL_BUILDER):
   <geom name="cabinet_top_collision" type="box" pos="{cabinet_x:.4f} {cabinet_y:.4f} {cabinet_z + cabinet_half_height:.4f}" size="{cabinet_depth:.4f} {cabinet_half_width:.4f} 0.025" contype="1" conaffinity="1" rgba="0.86 0.83 0.78 1"/>
   <geom name="cabinet_left_collision" type="box" pos="{cabinet_x:.4f} {cabinet_y - cabinet_half_width:.4f} {cabinet_z:.4f}" size="{cabinet_depth:.4f} 0.025 {cabinet_half_height:.4f}" contype="1" conaffinity="1" rgba="0.86 0.83 0.78 1"/>
   <geom name="cabinet_right_collision" type="box" pos="{cabinet_x:.4f} {cabinet_y + cabinet_half_width:.4f} {cabinet_z:.4f}" size="{cabinet_depth:.4f} 0.025 {cabinet_half_height:.4f}" contype="1" conaffinity="1" rgba="0.86 0.83 0.78 1"/>
-  <geom name="cabinet_left_runner_collision" type="box" pos="{cabinet_x:.4f} {runner_y_left:.4f} {support_z:.4f}" size="{support_half_x:.4f} 0.009 0.012" contype="1" conaffinity="1" rgba="0.34 0.34 0.35 1"/>
-  <geom name="cabinet_right_runner_collision" type="box" pos="{cabinet_x:.4f} {runner_y_right:.4f} {support_z:.4f}" size="{support_half_x:.4f} 0.009 0.012" contype="1" conaffinity="1" rgba="0.34 0.34 0.35 1"/>
+  <geom name="cabinet_left_runner_collision" type="box" pos="{cabinet_x:.4f} {runner_y_left:.4f} {support_z:.4f}" size="{support_half_x:.4f} {runner_half_y:.4f} {runner_half_z:.4f}" contype="1" conaffinity="1" friction="0.05 0.002 0.0001" rgba="0.34 0.34 0.35 1"/>
+  <geom name="cabinet_right_runner_collision" type="box" pos="{cabinet_x:.4f} {runner_y_right:.4f} {support_z:.4f}" size="{support_half_x:.4f} {runner_half_y:.4f} {runner_half_z:.4f}" contype="1" conaffinity="1" friction="0.05 0.002 0.0001" rgba="0.34 0.34 0.35 1"/>
   <body name="link_1" pos="0 0 0">
     <joint name="drawer_slider_0" type="slide" axis="{axis}" range="0 0.35" damping="{damping:.4f}"/>
     <geom name="drawer_front_panel_collision" type="box" pos="{door_x:.4f} {cabinet_y:.4f} {cabinet_z:.4f}" size="{front_half_thickness:.4f} {door_half_width:.4f} {door_half_height:.4f}" contype="1" conaffinity="1" density="{drawer_density:.4f}" friction="{drawer_friction:.4f} 0.005 0.0001" rgba="0.91 0.88 0.82 1"/>
@@ -147,8 +153,8 @@ class ReferenceAlignedSolidFrontDrawerBuilder(ORIGINAL_BUILDER):
     <geom name="drawer_tray_left_side_collision" type="box" pos="{tray_center_x:.4f} {cabinet_y - tray_half_width:.4f} {tray_side_z:.4f}" size="{tray_depth / 2.0:.4f} {tray_wall:.4f} {tray_wall_height:.4f}" contype="1" conaffinity="1" density="{drawer_density:.4f}" friction="{drawer_friction:.4f} 0.005 0.0001" rgba="0.78 0.73 0.66 1"/>
     <geom name="drawer_tray_right_side_collision" type="box" pos="{tray_center_x:.4f} {cabinet_y + tray_half_width:.4f} {tray_side_z:.4f}" size="{tray_depth / 2.0:.4f} {tray_wall:.4f} {tray_wall_height:.4f}" contype="1" conaffinity="1" density="{drawer_density:.4f}" friction="{drawer_friction:.4f} 0.005 0.0001" rgba="0.78 0.73 0.66 1"/>
     <geom name="drawer_tray_back_collision" type="box" pos="{tray_back_x:.4f} {cabinet_y:.4f} {tray_side_z:.4f}" size="{tray_wall:.4f} {tray_half_width:.4f} {tray_wall_height:.4f}" contype="1" conaffinity="1" density="{drawer_density:.4f}" friction="{drawer_friction:.4f} 0.005 0.0001" rgba="0.78 0.73 0.66 1"/>
-    <geom name="drawer_left_guide_strip_collision" type="box" pos="{tray_center_x:.4f} {runner_y_left + 0.010:.4f} {support_z:.4f}" size="{tray_depth / 2.0:.4f} 0.006 0.008" contype="1" conaffinity="1" density="{drawer_density:.4f}" friction="{drawer_friction:.4f} 0.005 0.0001" rgba="0.40 0.40 0.41 1"/>
-    <geom name="drawer_right_guide_strip_collision" type="box" pos="{tray_center_x:.4f} {runner_y_right - 0.010:.4f} {support_z:.4f}" size="{tray_depth / 2.0:.4f} 0.006 0.008" contype="1" conaffinity="1" density="{drawer_density:.4f}" friction="{drawer_friction:.4f} 0.005 0.0001" rgba="0.40 0.40 0.41 1"/>
+    <geom name="drawer_left_guide_strip_collision" type="box" pos="{tray_center_x:.4f} {runner_y_left + guide_lateral_inset:.4f} {support_z:.4f}" size="{tray_depth / 2.0:.4f} {guide_half_y:.4f} {guide_half_z:.4f}" contype="1" conaffinity="1" density="{drawer_density:.4f}" friction="0.05 0.002 0.0001" rgba="0.40 0.40 0.41 1"/>
+    <geom name="drawer_right_guide_strip_collision" type="box" pos="{tray_center_x:.4f} {runner_y_right - guide_lateral_inset:.4f} {support_z:.4f}" size="{tray_depth / 2.0:.4f} {guide_half_y:.4f} {guide_half_z:.4f}" contype="1" conaffinity="1" density="{drawer_density:.4f}" friction="0.05 0.002 0.0001" rgba="0.40 0.40 0.41 1"/>
     <geom name="drawer_connector_short_boss_collision" type="capsule" fromto="{stem_start_x:.4f} {hy:.4f} {hz:.4f} {stem_end_x:.4f} {hy:.4f} {hz:.4f}" size="{stub_radius:.4f}" contype="1" conaffinity="1" density="{drawer_density:.4f}" friction="{knob_friction:.4f} 0.005 0.0001" rgba="0.20 0.20 0.22 1"/>
     <geom name="drawer_handle_collision_0" type="sphere" pos="{hx:.4f} {hy:.4f} {hz:.4f}" size="{radius:.4f}" contype="1" conaffinity="1" density="{drawer_density:.4f}" friction="{knob_friction:.4f} 0.005 0.0001" rgba="0.92 0.90 0.86 1"/>
   </body>
@@ -419,6 +425,16 @@ def synthesize(base: dict[str, Any]) -> list[dict[str, Any]]:
         ("c71", .10, .008, .140, .110, .200),
         ("c72", .12, .008, .150, .120, .205),
     ]
+    specs.extend([
+        ("c73", .10, .006, .120, .095, .190), ("c74", .10, .006, .120, .095, .190),
+        ("c75", .12, .006, .130, .100, .195), ("c76", .12, .006, .130, .100, .195),
+        ("c77", .14, .008, .140, .110, .200), ("c78", .14, .008, .140, .110, .200),
+        ("c79", .10, .006, .120, .095, .190), ("c80", .12, .006, .130, .100, .195),
+        ("c81", .14, .008, .140, .110, .200), ("c82", .10, .006, .120, .095, .190),
+        ("c83", .12, .006, .130, .100, .195), ("c84", .14, .008, .140, .110, .200),
+        ("c85", .10, .006, .120, .095, .190), ("c86", .12, .006, .130, .100, .195),
+        ("c87", .14, .008, .140, .110, .200), ("c88", .10, .006, .120, .095, .190),
+    ])
     out = []
     for i, (name, stub_ratio, ft, dhw, thw, depth) in enumerate(specs):
         p = deepcopy(p0)
@@ -479,6 +495,24 @@ def synthesize(base: dict[str, Any]) -> list[dict[str, Any]]:
             "c71": {"robot_base_pos": [-0.680, -0.045, 0.025], "robot_yaw_deg": -20, "drawer_damping": 0.010, "drawer_density": 235.0, "drawer_geom_friction": 0.30, "knob_friction": 3.1, "handle_radius": 0.048, "stub_length": 0.0096, "layout_micro_adjustment_for_solid_front_clearance": True},
             "c72": {"robot_base_pos": [-0.655, -0.080, 0.025], "robot_yaw_deg": -24, "drawer_damping": 0.010, "drawer_density": 230.0, "drawer_geom_friction": 0.30, "knob_friction": 3.2, "handle_radius": 0.048, "stub_length": 0.0115, "layout_micro_adjustment_for_solid_front_clearance": True},
         }
+        topology_overrides.update({
+            "c73": {"robot_base_pos": [-0.700, 0.000, 0.025], "robot_yaw_deg": -14, "drawer_damping": 0.004, "drawer_density": 160.0, "drawer_geom_friction": 0.18, "knob_friction": 3.4, "handle_radius": 0.048, "stub_length": 0.0096, "runner_lateral_offset": 0.034, "guide_lateral_inset": 0.020, "runner_half_y": 0.006, "guide_half_y": 0.004, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c74": {"robot_base_pos": [-0.680, -0.045, 0.025], "robot_yaw_deg": -20, "drawer_damping": 0.004, "drawer_density": 150.0, "drawer_geom_friction": 0.16, "knob_friction": 3.5, "handle_radius": 0.048, "stub_length": 0.0096, "runner_lateral_offset": 0.036, "guide_lateral_inset": 0.022, "runner_half_y": 0.006, "guide_half_y": 0.004, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c75": {"robot_base_pos": [-0.670, -0.070, 0.025], "robot_yaw_deg": -22, "drawer_damping": 0.004, "drawer_density": 150.0, "drawer_geom_friction": 0.16, "knob_friction": 3.5, "handle_radius": 0.048, "stub_length": 0.0115, "runner_lateral_offset": 0.038, "guide_lateral_inset": 0.024, "runner_half_y": 0.006, "guide_half_y": 0.004, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c76": {"robot_base_pos": [-0.655, -0.080, 0.025], "robot_yaw_deg": -24, "drawer_damping": 0.004, "drawer_density": 140.0, "drawer_geom_friction": 0.14, "knob_friction": 3.6, "handle_radius": 0.048, "stub_length": 0.0115, "runner_lateral_offset": 0.040, "guide_lateral_inset": 0.026, "runner_half_y": 0.005, "guide_half_y": 0.0035, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c77": {"robot_base_pos": [-0.650, -0.090, 0.025], "robot_yaw_deg": -26, "drawer_damping": 0.004, "drawer_density": 140.0, "drawer_geom_friction": 0.14, "knob_friction": 3.6, "handle_radius": 0.048, "stub_length": 0.0134, "runner_lateral_offset": 0.040, "guide_lateral_inset": 0.026, "runner_half_y": 0.005, "guide_half_y": 0.0035, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c78": {"robot_base_pos": [-0.640, -0.105, 0.025], "robot_yaw_deg": -28, "drawer_damping": 0.004, "drawer_density": 130.0, "drawer_geom_friction": 0.12, "knob_friction": 3.7, "handle_radius": 0.048, "stub_length": 0.0134, "runner_lateral_offset": 0.044, "guide_lateral_inset": 0.028, "runner_half_y": 0.005, "guide_half_y": 0.0035, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c79": {"robot_base_pos": [-0.700, 0.000, 0.025], "robot_yaw_deg": -14, "drawer_damping": 0.001, "drawer_density": 120.0, "drawer_geom_friction": 0.10, "knob_friction": 3.8, "handle_radius": 0.052, "stub_length": 0.0104, "runner_lateral_offset": 0.040, "guide_lateral_inset": 0.026, "runner_half_y": 0.005, "guide_half_y": 0.0035, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c80": {"robot_base_pos": [-0.670, -0.070, 0.025], "robot_yaw_deg": -22, "drawer_damping": 0.001, "drawer_density": 110.0, "drawer_geom_friction": 0.09, "knob_friction": 4.0, "handle_radius": 0.052, "stub_length": 0.0125, "runner_lateral_offset": 0.044, "guide_lateral_inset": 0.028, "runner_half_y": 0.005, "guide_half_y": 0.0035, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c81": {"robot_base_pos": [-0.640, -0.105, 0.025], "robot_yaw_deg": -28, "drawer_damping": 0.001, "drawer_density": 100.0, "drawer_geom_friction": 0.08, "knob_friction": 4.0, "handle_radius": 0.052, "stub_length": 0.0146, "runner_lateral_offset": 0.046, "guide_lateral_inset": 0.030, "runner_half_y": 0.005, "guide_half_y": 0.0035, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c82": {"robot_base_pos": [-0.700, 0.000, 0.025], "robot_yaw_deg": -14, "drawer_damping": 0.0, "drawer_density": 90.0, "drawer_geom_friction": 0.07, "knob_friction": 4.2, "handle_radius": 0.055, "stub_length": 0.0110, "runner_lateral_offset": 0.044, "guide_lateral_inset": 0.028, "runner_half_y": 0.0045, "guide_half_y": 0.003, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c83": {"robot_base_pos": [-0.670, -0.070, 0.025], "robot_yaw_deg": -22, "drawer_damping": 0.0, "drawer_density": 85.0, "drawer_geom_friction": 0.06, "knob_friction": 4.3, "handle_radius": 0.055, "stub_length": 0.0132, "runner_lateral_offset": 0.046, "guide_lateral_inset": 0.030, "runner_half_y": 0.0045, "guide_half_y": 0.003, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c84": {"robot_base_pos": [-0.640, -0.105, 0.025], "robot_yaw_deg": -28, "drawer_damping": 0.0, "drawer_density": 80.0, "drawer_geom_friction": 0.05, "knob_friction": 4.4, "handle_radius": 0.055, "stub_length": 0.0154, "runner_lateral_offset": 0.048, "guide_lateral_inset": 0.032, "runner_half_y": 0.0045, "guide_half_y": 0.003, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c85": {"robot_base_pos": [-0.710, 0.020, 0.025], "robot_yaw_deg": -10, "drawer_damping": 0.0, "drawer_density": 85.0, "drawer_geom_friction": 0.06, "knob_friction": 4.3, "handle_radius": 0.055, "stub_length": 0.0110, "runner_lateral_offset": 0.046, "guide_lateral_inset": 0.030, "runner_half_y": 0.0045, "guide_half_y": 0.003, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c86": {"robot_base_pos": [-0.690, -0.025, 0.025], "robot_yaw_deg": -16, "drawer_damping": 0.0, "drawer_density": 80.0, "drawer_geom_friction": 0.05, "knob_friction": 4.4, "handle_radius": 0.055, "stub_length": 0.0132, "runner_lateral_offset": 0.048, "guide_lateral_inset": 0.032, "runner_half_y": 0.0045, "guide_half_y": 0.003, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c87": {"robot_base_pos": [-0.660, -0.070, 0.025], "robot_yaw_deg": -22, "drawer_damping": 0.0, "drawer_density": 75.0, "drawer_geom_friction": 0.05, "knob_friction": 4.5, "handle_radius": 0.055, "stub_length": 0.0154, "runner_lateral_offset": 0.050, "guide_lateral_inset": 0.034, "runner_half_y": 0.004, "guide_half_y": 0.003, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c88": {"robot_base_pos": [-0.720, 0.035, 0.025], "robot_yaw_deg": -8, "drawer_damping": 0.0, "drawer_density": 75.0, "drawer_geom_friction": 0.05, "knob_friction": 4.5, "handle_radius": 0.055, "stub_length": 0.0110, "runner_lateral_offset": 0.050, "guide_lateral_inset": 0.034, "runner_half_y": 0.004, "guide_half_y": 0.003, "layout_micro_adjustment_for_solid_front_clearance": True},
+        })
         if name in topology_overrides:
             p.update(topology_overrides[name])
         if name in layout_overrides:

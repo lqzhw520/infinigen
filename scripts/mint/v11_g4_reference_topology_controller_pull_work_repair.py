@@ -469,10 +469,10 @@ def run_fast_solver(run_dir: Path, candidates: list[dict[str, Any]], fast_rows: 
             best_variant = variant
         if row['strict_fast_passed']:
             strict_passes.append(row)
-            best_row = row
-            best_candidate = cand
-            best_variant = variant
-            break
+            # Do not stop at the first fast pass. Reference-topology targeted cases
+            # have shown under-opening when the first fast pass has too little
+            # margin, so continue collecting strict fast rows and let the best-row
+            # scoring choose the highest-opening legal migration variant.
     pareto = {
         'generated_at_utc': utc_now(),
         'samples_run': len(rows),

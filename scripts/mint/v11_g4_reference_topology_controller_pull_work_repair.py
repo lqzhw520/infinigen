@@ -265,9 +265,74 @@ def migration_variants(fast_rows: list[dict[str, Any]], max_variants: int) -> li
         v = variant_from_row(row)
         if v:
             seeds.append(v)
-    # Deterministic controller-family migration grid. This tunes parameters only;
-    # the progress-feedback latch-pull algorithm path remains the same.
-    grids = []
+
+    def clean_variant(base: dict[str, Any], name: str, overrides: dict[str, Any]) -> dict[str, Any]:
+        v = {k: deepcopy(val) for k, val in base.items() if not str(k).startswith('_')}
+        v.update({
+            'name': name,
+            'targeted_progress_feedback_controller': True,
+            'controller_algorithm_family_preserved': True,
+            'controller_migration_parameters_modified': True,
+            'reference_topology_pull_work_focused_continuation': True,
+            'focus_source': 'legal_exact_contact_underopen_basin_c89_c90_c93_c73',
+            'no_direct_qpos_drawer_opening': True,
+            'no_drawer_motor_command': True,
+            'post_pull_hold_steps': 0,
+            'pull_distance_m': 0.35,
+            'progress_target_fraction': 0.90,
+            'v3_repair_family': 'pull_work_progress_gain_focus_under_reference_topology',
+        })
+        v.update(overrides)
+        return v
+
+    grids: list[dict[str, Any]] = []
+    base_focus = deepcopy(seeds[0])
+    # Focused continuation from the previous complete 96-sample run:
+    # best legal exact-contact fast row reached ~0.535 fraction with c89, forbidden=0,
+    # bilateral exact pull >= 30. These variants increase pull-work authority while
+    # keeping the same progress-feedback latch-pull algorithm and strict keepout gates.
+    pull_steps_focus = [15000, 18000, 22000, 26000]
+    velocities_focus = [0.000135, 0.00017, 0.00022, 0.00028]
+    lead_caps_focus = [0.080, 0.100, 0.120, 0.145]
+    qpos_gains_focus = [0.110, 0.145, 0.185, 0.235]
+    boosts_focus = [0.008, 0.012, 0.016, 0.022]
+    presses_focus = [0.0028, 0.0040, 0.0060, 0.0080, 0.0100]
+    nulls_focus = [0.0, 0.015, 0.035, 0.060]
+    op_gains_focus = [18.0, 21.0, 24.0, 27.0]
+    op_vel_focus = [0.120, 0.145, 0.170, 0.200]
+    q_vel_focus = [2.5, 3.0, 3.5, 4.0]
+    servo_focus = [(460.0, 140.0), (500.0, 150.0), (560.0, 165.0), (620.0, 185.0)]
+    windows_focus = [45, 60, 80, 105]
+    deltas_focus = [0.0008, 0.0012, 0.0018, 0.0025]
+    pauses_focus = [0.0, 0.0001, 0.0002]
+    holds_focus = [90, 130, 170]
+    focus_count = min(max_variants, 96)
+    for idx in range(focus_count):
+        kp, kd = servo_focus[(idx // 7) % len(servo_focus)]
+        grids.append(clean_variant(base_focus, 'ref_topology_pull_work_focus_%04d' % idx, {
+            'pull_steps': pull_steps_focus[idx % len(pull_steps_focus)],
+            'pull_velocity_m_per_step': velocities_focus[(idx // 2) % len(velocities_focus)],
+            'lead_cap_m': lead_caps_focus[(idx // 3) % len(lead_caps_focus)],
+            'progress_base_lead_cap_m': lead_caps_focus[(idx // 3) % len(lead_caps_focus)],
+            'progress_max_lead_cap_m': max(lead_caps_focus[(idx // 3) % len(lead_caps_focus)], 0.090 + 0.012 * (idx % 6)),
+            'qpos_progress_gain': qpos_gains_focus[(idx // 5) % len(qpos_gains_focus)],
+            'stagnation_lead_boost_m': boosts_focus[(idx // 4) % len(boosts_focus)],
+            'progress_check_window': windows_focus[(idx // 3) % len(windows_focus)],
+            'progress_min_fraction_delta': deltas_focus[(idx // 6) % len(deltas_focus)],
+            'pull_press_m': presses_focus[(idx // 9) % len(presses_focus)],
+            'pre_pull_latch_hold_steps': holds_focus[(idx // 8) % len(holds_focus)],
+            'contact_drop_lead_pause_m': pauses_focus[(idx // 10) % len(pauses_focus)],
+            'servo_kp': kp,
+            'servo_kd': kd,
+            'finger_mode': 'ik_hold',
+            'null_gain': nulls_focus[(idx // 11) % len(nulls_focus)],
+            'op_gain': op_gains_focus[(idx // 6) % len(op_gains_focus)],
+            'op_vel_limit': op_vel_focus[(idx // 5) % len(op_vel_focus)],
+            'q_vel_limit': q_vel_focus[(idx // 4) % len(q_vel_focus)],
+        }))
+
+    # Deterministic coarse fallback grid. This is intentionally retained after the
+    # focused basin so a failed focus pass still leaves a broader audit trail.
     pull_steps = [8200, 9800, 11800, 14000]
     velocities = [0.000105, 0.000135, 0.00017, 0.00022]
     lead_caps = [0.032, 0.045, 0.060, 0.080]
@@ -279,18 +344,10 @@ def migration_variants(fast_rows: list[dict[str, Any]], max_variants: int) -> li
     while len(grids) < max_variants:
         base = deepcopy(seeds[idx % len(seeds)])
         p = idx
-        v = {k: deepcopy(val) for k, val in base.items() if not str(k).startswith('_')}
-        v.update({
-            'name': 'ref_topology_pull_work_migration_%04d' % idx,
-            'targeted_progress_feedback_controller': True,
-            'controller_algorithm_family_preserved': True,
-            'controller_migration_parameters_modified': True,
-            'no_direct_qpos_drawer_opening': True,
-            'no_drawer_motor_command': True,
+        grids.append(clean_variant(base, 'ref_topology_pull_work_migration_%04d' % idx, {
+            'reference_topology_pull_work_focused_continuation': False,
             'pull_steps': pull_steps[p % len(pull_steps)],
-            'post_pull_hold_steps': 0,
             'pull_velocity_m_per_step': velocities[(p // 2) % len(velocities)],
-            'pull_distance_m': 0.35,
             'lead_cap_m': lead_caps[(p // 3) % len(lead_caps)],
             'progress_base_lead_cap_m': lead_caps[(p // 3) % len(lead_caps)],
             'progress_max_lead_cap_m': max(lead_caps[(p // 3) % len(lead_caps)], 0.050 + 0.010 * (p % 4)),
@@ -309,11 +366,9 @@ def migration_variants(fast_rows: list[dict[str, Any]], max_variants: int) -> li
             'op_gain': 12.0 + 1.5 * (p % 6),
             'op_vel_limit': 0.080 + 0.012 * (p % 5),
             'q_vel_limit': 1.5 + 0.25 * (p % 6),
-        })
-        grids.append(v)
+        }))
         idx += 1
     return grids
-
 
 def candidate_snapshot(candidate: dict[str, Any], run_dir: Path, index: int) -> tuple[dict[str, Any], dict[str, Any]]:
     c = deepcopy(candidate)
@@ -360,6 +415,20 @@ def run_fast_solver(run_dir: Path, candidates: list[dict[str, Any]], fast_rows: 
         cert = {'fast_guarded_contact_passed': False, 'classification': 'REFERENCE_TOPOLOGY_LOCK_OR_ORACLE_FAILED'}
         write_json(run_dir / 'fast_guarded_contact_rec_certification.json', cert)
         return cert, [], {}, {}
+    focus_markers = ('_c89_', '_c90_', '_c93_', '_c73_')
+    focus_candidates = [
+        c for c in accepted_candidates
+        if any(marker in str(c.get('candidate_id') or '') for marker in focus_markers)
+    ]
+    sampling_candidates = focus_candidates or accepted_candidates
+    write_json(run_dir / 'focused_candidate_sampling_manifest.json', {
+        'generated_at_utc': utc_now(),
+        'focus_markers': list(focus_markers),
+        'focused_candidate_count': len(focus_candidates),
+        'sampling_candidate_count': len(sampling_candidates),
+        'focused_candidate_ids': [c.get('candidate_id') for c in focus_candidates],
+        'all_accepted_candidate_ids': [c.get('candidate_id') for c in accepted_candidates],
+    })
     best_row: dict[str, Any] = {}
     best_candidate: dict[str, Any] = {}
     best_variant: dict[str, Any] = {}
@@ -367,7 +436,7 @@ def run_fast_solver(run_dir: Path, candidates: list[dict[str, Any]], fast_rows: 
     rows = []
     start = time.monotonic()
     for sample in range(max_samples):
-        cand = accepted_candidates[sample % len(accepted_candidates)]
+        cand = sampling_candidates[sample % len(sampling_candidates)]
         variant = variants[sample % len(variants)]
         row = patch.run_case_with_group_metrics(cand, 'fast_guarded_contact', variant, run_dir, 1300000 + sample, 'reference_topology_pull_work_fast')
         row['sample'] = sample

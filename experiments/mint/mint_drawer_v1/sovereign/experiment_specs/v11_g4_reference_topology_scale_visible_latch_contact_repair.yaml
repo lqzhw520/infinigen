@@ -31,6 +31,22 @@ task_authority:
     - front_only_moving_body
     - raw_infinigen_generator_blame_without_raw_audit
 
+
+fixtures:
+  fixture_invalid_authority_drift:
+    expected: FAIL
+    expected_error: AUTHORITY_MISMATCH
+    runtime_exact_ids:
+      legal_gripper_surface_geom_ids: [60, 61, 62]
+      forbidden_robot_surface_geom_ids: [45, 47, 49, 54, 59]
+      drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+  fixture_valid_authority_match:
+    expected: PASS
+    runtime_exact_ids:
+      legal_gripper_surface_geom_ids: [63, 81, 90]
+      forbidden_robot_surface_geom_ids: [45, 47, 49, 54, 59]
+      drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+
 authority:
   repo: /mnt/afs2/zhuhaowu/infinigen
   branch: feature/mint-env-reformulation-v1-visual-fidelity

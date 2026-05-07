@@ -173,6 +173,10 @@ def parse_vec(s: str | None) -> list[float]:
     return [] if not s else [float(x) for x in str(s).split()]
 
 
+def parse_size(s: str | None) -> list[float]:
+    return [] if not s else [float(x) for x in str(s).split()]
+
+
 def all_geoms(xml_path: Path) -> list[dict[str, Any]]:
     root = ET.parse(xml_path).getroot()
     out = []
@@ -206,12 +210,18 @@ def topology_oracle(xml_path: Path, candidate: dict[str, Any]) -> dict[str, Any]
     handle = next((g for g in moving if g.get("name") == "drawer_handle_collision_0"), None)
     boss = next((g for g in moving if g.get("name") == "drawer_connector_short_boss_collision"), None)
     radius = float((handle or {}).get("size", "0").split()[0]) if handle else 0.0
+    front_size = parse_size((front or {}).get("size"))
+    front_half_thickness = front_size[0] if len(front_size) >= 1 else 0.0
+    front_half_width = front_size[1] if len(front_size) >= 2 else 0.0
+    front_half_height = front_size[2] if len(front_size) >= 3 else 0.0
+    reference_sized_front = front_half_width >= 0.075 and front_half_height >= 0.180 and front_half_thickness >= 0.004
     ft = (boss or {}).get("fromto_vec", []); boss_len = abs(ft[3] - ft[0]) if len(ft) == 6 else 0.0
     ratio = boss_len / (2.0 * radius) if radius else 999.0
     parts = {"front_panel": bool(front), "left_side_wall": "drawer_tray_left_side_collision" in moving_names, "right_side_wall": "drawer_tray_right_side_collision" in moving_names, "bottom_panel": "drawer_tray_bottom_collision" in moving_names, "back_panel": "drawer_tray_back_collision" in moving_names}
     supports = [n for n in names if any(k in n for k in ["runner", "guide_strip", "rail", "guide"])]
     defects = []
     if not front: defects.append("SOLID_FRONT_PANEL_MISSING")
+    if front and not reference_sized_front: defects.append("FRONT_PANEL_TOO_SMALL_FOR_REFERENCE_TARGET")
     if frame_like: defects.append("FRAME_LIKE_SEGMENTED_FRONT_PRESENT")
     if not handle: defects.append("SPHERICAL_KNOB_MISSING")
     if not boss: defects.append("SHORT_STUB_BOSS_MISSING")
@@ -219,7 +229,7 @@ def topology_oracle(xml_path: Path, candidate: dict[str, Any]) -> dict[str, Any]
     if not all(parts.values()): defects.append("MOVING_DRAWER_BOX_INCOMPLETE")
     if len(supports) < 4: defects.append("VISIBLE_SUPPORT_GUIDE_GEOMS_INSUFFICIENT")
     if candidate.get("model_builder_parameters", {}).get("front_cutout"): defects.append("FRONT_CUTOUT_FLAG_TRUE")
-    return {"candidate_id": candidate.get("candidate_id"), "model_xml": rel(xml_path), "model_xml_sha256": sha256_file(xml_path), "solid_drawer_front_panel_passed": front is not None and not frame_like, "short_stub_spherical_knob_passed": bool(handle and boss and ratio <= 0.35), "knob_stub_length_m": boss_len, "knob_radius_m": radius, "knob_stub_length_ratio_of_diameter": ratio, "complete_moving_drawer_box_tray_passed": all(parts.values()), "drawer_box_parts": parts, "support_guide_semantics_passed": len(supports) >= 4, "support_guide_geoms": supports, "moving_drawer_geoms": moving_names, "frame_like_front_geoms": frame_like, "topology_oracle_passed": not defects, "defects": defects}
+    return {"candidate_id": candidate.get("candidate_id"), "model_xml": rel(xml_path), "model_xml_sha256": sha256_file(xml_path), "solid_drawer_front_panel_passed": front is not None and not frame_like and reference_sized_front, "reference_sized_front_panel_passed": reference_sized_front, "front_panel_half_width_m": front_half_width, "front_panel_half_height_m": front_half_height, "front_panel_half_thickness_m": front_half_thickness, "short_stub_spherical_knob_passed": bool(handle and boss and ratio <= 0.35), "knob_stub_length_m": boss_len, "knob_radius_m": radius, "knob_stub_length_ratio_of_diameter": ratio, "complete_moving_drawer_box_tray_passed": all(parts.values()), "drawer_box_parts": parts, "support_guide_semantics_passed": len(supports) >= 4, "support_guide_geoms": supports, "moving_drawer_geoms": moving_names, "frame_like_front_geoms": frame_like, "topology_oracle_passed": not defects, "defects": defects}
 
 
 
@@ -384,6 +394,30 @@ def synthesize(base: dict[str, Any]) -> list[dict[str, Any]]:
         ("c46", .18, .006, .070, .050, .170),
         ("c47", .20, .008, .140, .105, .185),
         ("c48", .18, .008, .140, .105, .185),
+        ("c49", .12, .006, .100, .080, .180),
+        ("c50", .12, .006, .120, .095, .190),
+        ("c51", .14, .006, .120, .095, .190),
+        ("c52", .14, .008, .140, .110, .200),
+        ("c53", .16, .008, .140, .110, .200),
+        ("c54", .16, .006, .100, .080, .180),
+        ("c55", .12, .006, .100, .080, .180),
+        ("c56", .12, .006, .120, .095, .190),
+        ("c57", .14, .006, .120, .095, .190),
+        ("c58", .14, .008, .140, .110, .200),
+        ("c59", .16, .008, .140, .110, .200),
+        ("c60", .16, .006, .100, .080, .180),
+        ("c61", .12, .006, .110, .085, .185),
+        ("c62", .14, .006, .130, .100, .195),
+        ("c63", .16, .008, .150, .120, .205),
+        ("c64", .12, .006, .110, .085, .185),
+        ("c65", .14, .006, .130, .100, .195),
+        ("c66", .16, .008, .150, .120, .205),
+        ("c67", .10, .006, .120, .095, .190),
+        ("c68", .10, .008, .140, .110, .200),
+        ("c69", .12, .008, .150, .120, .205),
+        ("c70", .10, .006, .120, .095, .190),
+        ("c71", .10, .008, .140, .110, .200),
+        ("c72", .12, .008, .150, .120, .205),
     ]
     out = []
     for i, (name, stub_ratio, ft, dhw, thw, depth) in enumerate(specs):
@@ -420,6 +454,30 @@ def synthesize(base: dict[str, Any]) -> list[dict[str, Any]]:
             "c46": {"robot_base_pos": [-0.660, -0.160, 0.025], "robot_yaw_deg": -38, "drawer_damping": 0.05, "drawer_density": 300.0, "drawer_geom_friction": 0.45, "knob_friction": 2.2, "handle_radius": 0.030, "stub_length": 0.0108, "layout_micro_adjustment_for_solid_front_clearance": True},
             "c47": {"robot_base_pos": [-0.700, -0.020, 0.025], "robot_yaw_deg": -16, "drawer_damping": 0.04, "drawer_density": 260.0, "drawer_geom_friction": 0.40, "knob_friction": 2.3, "handle_radius": 0.030, "stub_length": 0.0120, "layout_micro_adjustment_for_solid_front_clearance": True},
             "c48": {"robot_base_pos": [-0.600, -0.130, 0.025], "robot_yaw_deg": -32, "drawer_damping": 0.04, "drawer_density": 260.0, "drawer_geom_friction": 0.40, "knob_friction": 2.3, "handle_radius": 0.030, "stub_length": 0.0108, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c49": {"robot_base_pos": [-0.700, -0.020, 0.025], "robot_yaw_deg": -16, "drawer_damping": 0.025, "drawer_density": 300.0, "drawer_geom_friction": 0.42, "knob_friction": 2.3, "handle_radius": 0.036, "stub_length": 0.0086, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c50": {"robot_base_pos": [-0.680, -0.050, 0.025], "robot_yaw_deg": -20, "drawer_damping": 0.025, "drawer_density": 300.0, "drawer_geom_friction": 0.42, "knob_friction": 2.3, "handle_radius": 0.036, "stub_length": 0.0086, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c51": {"robot_base_pos": [-0.660, -0.080, 0.025], "robot_yaw_deg": -24, "drawer_damping": 0.025, "drawer_density": 290.0, "drawer_geom_friction": 0.40, "knob_friction": 2.4, "handle_radius": 0.036, "stub_length": 0.0101, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c52": {"robot_base_pos": [-0.640, -0.100, 0.025], "robot_yaw_deg": -28, "drawer_damping": 0.025, "drawer_density": 280.0, "drawer_geom_friction": 0.38, "knob_friction": 2.4, "handle_radius": 0.036, "stub_length": 0.0101, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c53": {"robot_base_pos": [-0.620, -0.120, 0.025], "robot_yaw_deg": -30, "drawer_damping": 0.025, "drawer_density": 280.0, "drawer_geom_friction": 0.38, "knob_friction": 2.5, "handle_radius": 0.036, "stub_length": 0.0115, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c54": {"robot_base_pos": [-0.600, -0.130, 0.025], "robot_yaw_deg": -32, "drawer_damping": 0.025, "drawer_density": 270.0, "drawer_geom_friction": 0.36, "knob_friction": 2.5, "handle_radius": 0.036, "stub_length": 0.0115, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c55": {"robot_base_pos": [-0.700, -0.020, 0.025], "robot_yaw_deg": -16, "drawer_damping": 0.020, "drawer_density": 280.0, "drawer_geom_friction": 0.38, "knob_friction": 2.6, "handle_radius": 0.040, "stub_length": 0.0096, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c56": {"robot_base_pos": [-0.680, -0.050, 0.025], "robot_yaw_deg": -20, "drawer_damping": 0.020, "drawer_density": 280.0, "drawer_geom_friction": 0.38, "knob_friction": 2.6, "handle_radius": 0.040, "stub_length": 0.0096, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c57": {"robot_base_pos": [-0.660, -0.080, 0.025], "robot_yaw_deg": -24, "drawer_damping": 0.020, "drawer_density": 270.0, "drawer_geom_friction": 0.36, "knob_friction": 2.7, "handle_radius": 0.040, "stub_length": 0.0112, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c58": {"robot_base_pos": [-0.640, -0.100, 0.025], "robot_yaw_deg": -28, "drawer_damping": 0.020, "drawer_density": 260.0, "drawer_geom_friction": 0.35, "knob_friction": 2.7, "handle_radius": 0.040, "stub_length": 0.0112, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c59": {"robot_base_pos": [-0.620, -0.120, 0.025], "robot_yaw_deg": -30, "drawer_damping": 0.020, "drawer_density": 260.0, "drawer_geom_friction": 0.35, "knob_friction": 2.8, "handle_radius": 0.040, "stub_length": 0.0128, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c60": {"robot_base_pos": [-0.600, -0.130, 0.025], "robot_yaw_deg": -32, "drawer_damping": 0.020, "drawer_density": 250.0, "drawer_geom_friction": 0.34, "knob_friction": 2.8, "handle_radius": 0.040, "stub_length": 0.0128, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c61": {"robot_base_pos": [-0.690, -0.035, 0.025], "robot_yaw_deg": -18, "drawer_damping": 0.018, "drawer_density": 270.0, "drawer_geom_friction": 0.36, "knob_friction": 2.7, "handle_radius": 0.042, "stub_length": 0.0101, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c62": {"robot_base_pos": [-0.670, -0.070, 0.025], "robot_yaw_deg": -22, "drawer_damping": 0.018, "drawer_density": 260.0, "drawer_geom_friction": 0.35, "knob_friction": 2.8, "handle_radius": 0.042, "stub_length": 0.0118, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c63": {"robot_base_pos": [-0.640, -0.105, 0.025], "robot_yaw_deg": -28, "drawer_damping": 0.018, "drawer_density": 250.0, "drawer_geom_friction": 0.34, "knob_friction": 2.8, "handle_radius": 0.042, "stub_length": 0.0134, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c64": {"robot_base_pos": [-0.690, -0.035, 0.025], "robot_yaw_deg": -18, "drawer_damping": 0.015, "drawer_density": 250.0, "drawer_geom_friction": 0.34, "knob_friction": 2.9, "handle_radius": 0.045, "stub_length": 0.0108, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c65": {"robot_base_pos": [-0.670, -0.070, 0.025], "robot_yaw_deg": -22, "drawer_damping": 0.015, "drawer_density": 245.0, "drawer_geom_friction": 0.33, "knob_friction": 2.9, "handle_radius": 0.045, "stub_length": 0.0126, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c66": {"robot_base_pos": [-0.640, -0.105, 0.025], "robot_yaw_deg": -28, "drawer_damping": 0.015, "drawer_density": 240.0, "drawer_geom_friction": 0.32, "knob_friction": 3.0, "handle_radius": 0.045, "stub_length": 0.0144, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c67": {"robot_base_pos": [-0.700, 0.000, 0.025], "robot_yaw_deg": -14, "drawer_damping": 0.012, "drawer_density": 250.0, "drawer_geom_friction": 0.32, "knob_friction": 3.0, "handle_radius": 0.045, "stub_length": 0.0090, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c68": {"robot_base_pos": [-0.680, -0.045, 0.025], "robot_yaw_deg": -20, "drawer_damping": 0.012, "drawer_density": 240.0, "drawer_geom_friction": 0.31, "knob_friction": 3.0, "handle_radius": 0.045, "stub_length": 0.0090, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c69": {"robot_base_pos": [-0.655, -0.080, 0.025], "robot_yaw_deg": -24, "drawer_damping": 0.012, "drawer_density": 235.0, "drawer_geom_friction": 0.30, "knob_friction": 3.1, "handle_radius": 0.045, "stub_length": 0.0108, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c70": {"robot_base_pos": [-0.700, 0.000, 0.025], "robot_yaw_deg": -14, "drawer_damping": 0.010, "drawer_density": 240.0, "drawer_geom_friction": 0.30, "knob_friction": 3.1, "handle_radius": 0.048, "stub_length": 0.0096, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c71": {"robot_base_pos": [-0.680, -0.045, 0.025], "robot_yaw_deg": -20, "drawer_damping": 0.010, "drawer_density": 235.0, "drawer_geom_friction": 0.30, "knob_friction": 3.1, "handle_radius": 0.048, "stub_length": 0.0096, "layout_micro_adjustment_for_solid_front_clearance": True},
+            "c72": {"robot_base_pos": [-0.655, -0.080, 0.025], "robot_yaw_deg": -24, "drawer_damping": 0.010, "drawer_density": 230.0, "drawer_geom_friction": 0.30, "knob_friction": 3.2, "handle_radius": 0.048, "stub_length": 0.0115, "layout_micro_adjustment_for_solid_front_clearance": True},
         }
         if name in topology_overrides:
             p.update(topology_overrides[name])

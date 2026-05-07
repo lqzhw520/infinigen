@@ -1,0 +1,670 @@
+{
+  "claim_boundary": {
+    "controller_algorithm_modified": false,
+    "controller_preserving_phase_exhausted": true,
+    "current_truth_modified": false,
+    "direct_qpos_drawer_opening_used": false,
+    "drawer_motor_command_used": false,
+    "geometric_proxy_used_as_success": false,
+    "next_actions_modified": false,
+    "topology_repair_target": [
+      "solid_drawer_front_panel",
+      "short_stub_spherical_knob_nearly_flush",
+      "complete_moving_drawer_box_tray",
+      "visible_support_guide_semantics"
+    ]
+  },
+  "conclusion": {
+    "controller_preserving_fast_status": "failed",
+    "do_not_continue_as_action_only": true,
+    "do_not_continue_topology_only_random_sweep": true,
+    "next_gate": "REFERENCE_TOPOLOGY_CONTROLLER_PULL_WORK_REPAIR_UNDER_TOPOLOGY_LOCK",
+    "root_case": "ROUND_KNOB_EXACT_LATCH_PULL_CONTROLLER_PULL_WORK_AND_KEEP_OUT_MIGRATION_NOT_SYNTHESIZED_ON_REFERENCE_TOPOLOGY",
+    "topology_oracle_status": "reference_aligned_topology_oracle_passed_for_selected_candidates"
+  },
+  "current_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_reference_aligned_drawer_topology_synthesis_controller_preserving_recertification.yaml",
+  "evidence_rows": {
+    "best_latest_exact_pull_legal": {
+      "bilateral_exact_contact_frames": 588,
+      "bilateral_exact_contact_pull_frames": 155,
+      "candidate_id": "reference_aligned_solid_front_c73_fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00",
+      "drawer_fraction_patch_group": 0.10201934319190892,
+      "failure_reasons": [
+        "max_drawer_fraction_lt_0p80"
+      ],
+      "forbidden_contact_frames": 0,
+      "handle_nonlegal_contact_frames": 0,
+      "max_drawer_fraction": 0.10201934319190892,
+      "max_force_n": 12.597119898922468,
+      "max_penetration_m": 0.004413283460008466,
+      "reference_aligned_fast_passed": false
+    },
+    "best_latest_legal_opening": {
+      "bilateral_exact_contact_frames": 152,
+      "bilateral_exact_contact_pull_frames": 0,
+      "candidate_id": "reference_aligned_solid_front_c43_fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00",
+      "drawer_fraction_patch_group": 0.10804562958860969,
+      "failure_reasons": [
+        "pull_phase_two_pad_target_contact_frames_lt_30",
+        "max_drawer_fraction_lt_0p80"
+      ],
+      "forbidden_contact_frames": 0,
+      "handle_nonlegal_contact_frames": 0,
+      "max_drawer_fraction": 0.10804562958860969,
+      "max_force_n": 21.30893072168525,
+      "max_penetration_m": 0.001031794098186073,
+      "reference_aligned_fast_passed": false
+    },
+    "high_opening_but_forbidden": {
+      "bilateral_exact_contact_frames": 0,
+      "bilateral_exact_contact_pull_frames": 0,
+      "candidate_id": "reference_aligned_solid_front_c35_fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00",
+      "drawer_fraction_patch_group": 0.938685986006102,
+      "failure_reasons": [
+        "pull_phase_two_pad_target_contact_frames_lt_30",
+        "forbidden_contact_present"
+      ],
+      "forbidden_contact_frames": 1334,
+      "handle_nonlegal_contact_frames": 0,
+      "max_drawer_fraction": 0.938685986006102,
+      "max_force_n": 217.20268467817323,
+      "max_penetration_m": 0.0056358686336666595,
+      "reference_aligned_fast_passed": false
+    }
+  },
+  "latest_closeout": {
+    "best_fast_drawer_fraction": 0.10804562958860969,
+    "best_fast_forbidden_frames": 0,
+    "closeout_classification": "CONTROLLER_PRESERVING_FAST_RECERTIFICATION_FAILED",
+    "controller_algorithm_modified": false,
+    "fast_rows": 17,
+    "run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_reference_aligned_drawer_topology_synthesis_controller_preserving_recertification_20260507T025037Z",
+    "selected_candidate_id": "reference_aligned_solid_front_c43_fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00",
+    "top_by_opening": [
+      {
+        "bilateral_exact_contact_frames": 152,
+        "bilateral_exact_contact_pull_frames": 0,
+        "candidate_id": "reference_aligned_solid_front_c43_fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00",
+        "drawer_fraction_patch_group": 0.10804562958860969,
+        "failure_reasons": [
+          "pull_phase_two_pad_target_contact_frames_lt_30",
+          "max_drawer_fraction_lt_0p80"
+        ],
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.10804562958860969,
+        "max_force_n": 21.30893072168525,
+        "max_penetration_m": 0.001031794098186073,
+        "reference_aligned_fast_passed": false
+      },
+      {
+        "bilateral_exact_contact_frames": 163,
+        "bilateral_exact_contact_pull_frames": 0,
+        "candidate_id": "reference_aligned_solid_front_c47_fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00",
+        "drawer_fraction_patch_group": 0.10519911255641394,
+        "failure_reasons": [
+          "pull_phase_two_pad_target_contact_frames_lt_30",
+          "max_drawer_fraction_lt_0p80"
+        ],
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.10519911255641394,
+        "max_force_n": 20.467136896051308,
+        "max_penetration_m": 0.0013176452949796441,
+        "reference_aligned_fast_passed": false
+      },
+      {
+        "bilateral_exact_contact_frames": 157,
+        "bilateral_exact_contact_pull_frames": 0,
+        "candidate_id": "reference_aligned_solid_front_c39_fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00",
+        "drawer_fraction_patch_group": 0.10508183752955963,
+        "failure_reasons": [
+          "pull_phase_two_pad_target_contact_frames_lt_30",
+          "max_drawer_fraction_lt_0p80"
+        ],
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.10508183752955963,
+        "max_force_n": 20.92613721420248,
+        "max_penetration_m": 0.0011584674619974158,
+        "reference_aligned_fast_passed": false
+      }
+    ],
+    "top_legal": [
+      {
+        "bilateral_exact_contact_frames": 152,
+        "bilateral_exact_contact_pull_frames": 0,
+        "candidate_id": "reference_aligned_solid_front_c43_fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00",
+        "drawer_fraction_patch_group": 0.10804562958860969,
+        "failure_reasons": [
+          "pull_phase_two_pad_target_contact_frames_lt_30",
+          "max_drawer_fraction_lt_0p80"
+        ],
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.10804562958860969,
+        "max_force_n": 21.30893072168525,
+        "max_penetration_m": 0.001031794098186073,
+        "reference_aligned_fast_passed": false
+      },
+      {
+        "bilateral_exact_contact_frames": 163,
+        "bilateral_exact_contact_pull_frames": 0,
+        "candidate_id": "reference_aligned_solid_front_c47_fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00",
+        "drawer_fraction_patch_group": 0.10519911255641394,
+        "failure_reasons": [
+          "pull_phase_two_pad_target_contact_frames_lt_30",
+          "max_drawer_fraction_lt_0p80"
+        ],
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.10519911255641394,
+        "max_force_n": 20.467136896051308,
+        "max_penetration_m": 0.0013176452949796441,
+        "reference_aligned_fast_passed": false
+      },
+      {
+        "bilateral_exact_contact_frames": 157,
+        "bilateral_exact_contact_pull_frames": 0,
+        "candidate_id": "reference_aligned_solid_front_c39_fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00",
+        "drawer_fraction_patch_group": 0.10508183752955963,
+        "failure_reasons": [
+          "pull_phase_two_pad_target_contact_frames_lt_30",
+          "max_drawer_fraction_lt_0p80"
+        ],
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.10508183752955963,
+        "max_force_n": 20.92613721420248,
+        "max_penetration_m": 0.0011584674619974158,
+        "reference_aligned_fast_passed": false
+      },
+      {
+        "bilateral_exact_contact_frames": 0,
+        "bilateral_exact_contact_pull_frames": 0,
+        "candidate_id": "reference_aligned_solid_front_c49_fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00",
+        "drawer_fraction_patch_group": 0.10320945370622611,
+        "failure_reasons": [
+          "pull_phase_two_pad_target_contact_frames_lt_30",
+          "max_drawer_fraction_lt_0p80"
+        ],
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.10320945370622611,
+        "max_force_n": 12.477645672661854,
+        "max_penetration_m": 0.0008785538470542156,
+        "reference_aligned_fast_passed": false
+      },
+      {
+        "bilateral_exact_contact_frames": 588,
+        "bilateral_exact_contact_pull_frames": 155,
+        "candidate_id": "reference_aligned_solid_front_c73_fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00",
+        "drawer_fraction_patch_group": 0.10201934319190892,
+        "failure_reasons": [
+          "max_drawer_fraction_lt_0p80"
+        ],
+        "forbidden_contact_frames": 0,
+        "handle_nonlegal_contact_frames": 0,
+        "max_drawer_fraction": 0.10201934319190892,
+        "max_force_n": 12.597119898922468,
+        "max_penetration_m": 0.004413283460008466,
+        "reference_aligned_fast_passed": false
+      }
+    ],
+    "topology_flags": {
+      "complete_moving_drawer_box_tray_passed": true,
+      "short_stub_spherical_knob_passed": true,
+      "solid_drawer_front_panel_passed": true,
+      "visible_support_guide_semantics_passed": null
+    }
+  },
+  "report_type": "controller_preserving_reference_topology_boundary",
+  "run_summaries": [
+    {
+      "best_fast_drawer_fraction": 0.938685986006102,
+      "best_fast_forbidden_frames": 1334,
+      "closeout_classification": "CONTROLLER_PRESERVING_FAST_RECERTIFICATION_FAILED",
+      "controller_algorithm_modified": false,
+      "fast_rows": 21,
+      "run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_reference_aligned_drawer_topology_synthesis_controller_preserving_recertification_20260506T153817Z",
+      "selected_candidate_id": "reference_aligned_solid_front_c35_fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00",
+      "top_by_opening": [
+        {
+          "bilateral_exact_contact_frames": 0,
+          "bilateral_exact_contact_pull_frames": 0,
+          "candidate_id": "reference_aligned_solid_front_c35_fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00",
+          "drawer_fraction_patch_group": 0.938685986006102,
+          "failure_reasons": [
+            "pull_phase_two_pad_target_contact_frames_lt_30",
+            "forbidden_contact_present"
+          ],
+          "forbidden_contact_frames": 1334,
+          "handle_nonlegal_contact_frames": 0,
+          "max_drawer_fraction": 0.938685986006102,
+          "max_force_n": 217.20268467817323,
+          "max_penetration_m": 0.0056358686336666595,
+          "reference_aligned_fast_passed": false
+        },
+        {
+          "bilateral_exact_contact_frames": 0,
+          "bilateral_exact_contact_pull_frames": 0,
+          "candidate_id": "reference_aligned_solid_front_c21_fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00",
+          "drawer_fraction_patch_group": 0.15273795700776324,
+          "failure_reasons": [
+            "pull_phase_two_pad_target_contact_frames_lt_30",
+            "forbidden_contact_present",
+            "max_drawer_fraction_lt_0p80",
+            "drawer_qpos_not_nondecreasing_during_pull",
+            "drawer_opening_not_tied_to_target_contact"
+          ],
+          "forbidden_contact_frames": 4635,
+          "handle_nonlegal_contact_frames": 0,
+          "max_drawer_fraction": 0.15273795700776324,
+          "max_force_n": 256.96944217189247,
+          "max_penetration_m": 0.006425138507650238,
+          "reference_aligned_fast_passed": false
+        },
+        {
+          "bilateral_exact_contact_frames": 0,
+          "bilateral_exact_contact_pull_frames": 0,
+          "candidate_id": "reference_aligned_solid_front_c27_fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00",
+          "drawer_fraction_patch_group": 0.15273795700776324,
+          "failure_reasons": [
+            "pull_phase_two_pad_target_contact_frames_lt_30",
+            "forbidden_contact_present",
+            "max_drawer_fraction_lt_0p80",
+            "drawer_qpos_not_nondecreasing_during_pull",
+            "drawer_opening_not_tied_to_target_contact"
+          ],
+          "forbidden_contact_frames": 4635,
+          "handle_nonlegal_contact_frames": 0,
+          "max_drawer_fraction": 0.15273795700776324,
+          "max_force_n": 256.96944217189247,
+          "max_penetration_m": 0.006425138507650238,
+          "reference_aligned_fast_passed": false
+        }
+      ],
+      "top_legal": [
+        {
+          "bilateral_exact_contact_frames": 188,
+          "bilateral_exact_contact_pull_frames": 0,
+          "candidate_id": "reference_aligned_solid_front_c34_fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00",
+          "drawer_fraction_patch_group": 0.13494345037468636,
+          "failure_reasons": [
+            "pull_phase_two_pad_target_contact_frames_lt_30",
+            "max_drawer_fraction_lt_0p80"
+          ],
+          "forbidden_contact_frames": 0,
+          "handle_nonlegal_contact_frames": 0,
+          "max_drawer_fraction": 0.13494345037468636,
+          "max_force_n": 22.405749181388853,
+          "max_penetration_m": 0.001528490192686683,
+          "reference_aligned_fast_passed": false
+        },
+        {
+          "bilateral_exact_contact_frames": 152,
+          "bilateral_exact_contact_pull_frames": 0,
+          "candidate_id": "reference_aligned_solid_front_c43_fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00",
+          "drawer_fraction_patch_group": 0.10804562958860969,
+          "failure_reasons": [
+            "pull_phase_two_pad_target_contact_frames_lt_30",
+            "max_drawer_fraction_lt_0p80"
+          ],
+          "forbidden_contact_frames": 0,
+          "handle_nonlegal_contact_frames": 0,
+          "max_drawer_fraction": 0.10804562958860969,
+          "max_force_n": 21.30893072168525,
+          "max_penetration_m": 0.001031794098186073,
+          "reference_aligned_fast_passed": false
+        },
+        {
+          "bilateral_exact_contact_frames": 163,
+          "bilateral_exact_contact_pull_frames": 0,
+          "candidate_id": "reference_aligned_solid_front_c47_fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00",
+          "drawer_fraction_patch_group": 0.10519911255641394,
+          "failure_reasons": [
+            "pull_phase_two_pad_target_contact_frames_lt_30",
+            "max_drawer_fraction_lt_0p80"
+          ],
+          "forbidden_contact_frames": 0,
+          "handle_nonlegal_contact_frames": 0,
+          "max_drawer_fraction": 0.10519911255641394,
+          "max_force_n": 20.467136896051308,
+          "max_penetration_m": 0.0013176452949796441,
+          "reference_aligned_fast_passed": false
+        },
+        {
+          "bilateral_exact_contact_frames": 157,
+          "bilateral_exact_contact_pull_frames": 0,
+          "candidate_id": "reference_aligned_solid_front_c39_fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00",
+          "drawer_fraction_patch_group": 0.10508183752955963,
+          "failure_reasons": [
+            "pull_phase_two_pad_target_contact_frames_lt_30",
+            "max_drawer_fraction_lt_0p80"
+          ],
+          "forbidden_contact_frames": 0,
+          "handle_nonlegal_contact_frames": 0,
+          "max_drawer_fraction": 0.10508183752955963,
+          "max_force_n": 20.92613721420248,
+          "max_penetration_m": 0.0011584674619974158,
+          "reference_aligned_fast_passed": false
+        },
+        {
+          "bilateral_exact_contact_frames": 179,
+          "bilateral_exact_contact_pull_frames": 0,
+          "candidate_id": "reference_aligned_solid_front_c37_fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00",
+          "drawer_fraction_patch_group": 0.092619572730811,
+          "failure_reasons": [
+            "pull_phase_two_pad_target_contact_frames_lt_30",
+            "max_drawer_fraction_lt_0p80"
+          ],
+          "forbidden_contact_frames": 0,
+          "handle_nonlegal_contact_frames": 0,
+          "max_drawer_fraction": 0.092619572730811,
+          "max_force_n": 25.444249865939586,
+          "max_penetration_m": 0.0011136513482121538,
+          "reference_aligned_fast_passed": false
+        }
+      ],
+      "topology_flags": {
+        "complete_moving_drawer_box_tray_passed": true,
+        "short_stub_spherical_knob_passed": true,
+        "solid_drawer_front_panel_passed": true,
+        "visible_support_guide_semantics_passed": null
+      }
+    },
+    {
+      "best_fast_drawer_fraction": 0.10804562958860969,
+      "best_fast_forbidden_frames": 0,
+      "closeout_classification": "CONTROLLER_PRESERVING_FAST_RECERTIFICATION_FAILED",
+      "controller_algorithm_modified": false,
+      "fast_rows": 11,
+      "run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_reference_aligned_drawer_topology_synthesis_controller_preserving_recertification_20260507T024005Z",
+      "selected_candidate_id": "reference_aligned_solid_front_c43_fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00",
+      "top_by_opening": [
+        {
+          "bilateral_exact_contact_frames": 152,
+          "bilateral_exact_contact_pull_frames": 0,
+          "candidate_id": "reference_aligned_solid_front_c43_fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00",
+          "drawer_fraction_patch_group": 0.10804562958860969,
+          "failure_reasons": [
+            "pull_phase_two_pad_target_contact_frames_lt_30",
+            "max_drawer_fraction_lt_0p80"
+          ],
+          "forbidden_contact_frames": 0,
+          "handle_nonlegal_contact_frames": 0,
+          "max_drawer_fraction": 0.10804562958860969,
+          "max_force_n": 21.30893072168525,
+          "max_penetration_m": 0.001031794098186073,
+          "reference_aligned_fast_passed": false
+        },
+        {
+          "bilateral_exact_contact_frames": 163,
+          "bilateral_exact_contact_pull_frames": 0,
+          "candidate_id": "reference_aligned_solid_front_c47_fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00",
+          "drawer_fraction_patch_group": 0.10519911255641394,
+          "failure_reasons": [
+            "pull_phase_two_pad_target_contact_frames_lt_30",
+            "max_drawer_fraction_lt_0p80"
+          ],
+          "forbidden_contact_frames": 0,
+          "handle_nonlegal_contact_frames": 0,
+          "max_drawer_fraction": 0.10519911255641394,
+          "max_force_n": 20.467136896051308,
+          "max_penetration_m": 0.0013176452949796441,
+          "reference_aligned_fast_passed": false
+        },
+        {
+          "bilateral_exact_contact_frames": 157,
+          "bilateral_exact_contact_pull_frames": 0,
+          "candidate_id": "reference_aligned_solid_front_c39_fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00",
+          "drawer_fraction_patch_group": 0.10508183752955963,
+          "failure_reasons": [
+            "pull_phase_two_pad_target_contact_frames_lt_30",
+            "max_drawer_fraction_lt_0p80"
+          ],
+          "forbidden_contact_frames": 0,
+          "handle_nonlegal_contact_frames": 0,
+          "max_drawer_fraction": 0.10508183752955963,
+          "max_force_n": 20.92613721420248,
+          "max_penetration_m": 0.0011584674619974158,
+          "reference_aligned_fast_passed": false
+        }
+      ],
+      "top_legal": [
+        {
+          "bilateral_exact_contact_frames": 152,
+          "bilateral_exact_contact_pull_frames": 0,
+          "candidate_id": "reference_aligned_solid_front_c43_fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00",
+          "drawer_fraction_patch_group": 0.10804562958860969,
+          "failure_reasons": [
+            "pull_phase_two_pad_target_contact_frames_lt_30",
+            "max_drawer_fraction_lt_0p80"
+          ],
+          "forbidden_contact_frames": 0,
+          "handle_nonlegal_contact_frames": 0,
+          "max_drawer_fraction": 0.10804562958860969,
+          "max_force_n": 21.30893072168525,
+          "max_penetration_m": 0.001031794098186073,
+          "reference_aligned_fast_passed": false
+        },
+        {
+          "bilateral_exact_contact_frames": 163,
+          "bilateral_exact_contact_pull_frames": 0,
+          "candidate_id": "reference_aligned_solid_front_c47_fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00",
+          "drawer_fraction_patch_group": 0.10519911255641394,
+          "failure_reasons": [
+            "pull_phase_two_pad_target_contact_frames_lt_30",
+            "max_drawer_fraction_lt_0p80"
+          ],
+          "forbidden_contact_frames": 0,
+          "handle_nonlegal_contact_frames": 0,
+          "max_drawer_fraction": 0.10519911255641394,
+          "max_force_n": 20.467136896051308,
+          "max_penetration_m": 0.0013176452949796441,
+          "reference_aligned_fast_passed": false
+        },
+        {
+          "bilateral_exact_contact_frames": 157,
+          "bilateral_exact_contact_pull_frames": 0,
+          "candidate_id": "reference_aligned_solid_front_c39_fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00",
+          "drawer_fraction_patch_group": 0.10508183752955963,
+          "failure_reasons": [
+            "pull_phase_two_pad_target_contact_frames_lt_30",
+            "max_drawer_fraction_lt_0p80"
+          ],
+          "forbidden_contact_frames": 0,
+          "handle_nonlegal_contact_frames": 0,
+          "max_drawer_fraction": 0.10508183752955963,
+          "max_force_n": 20.92613721420248,
+          "max_penetration_m": 0.0011584674619974158,
+          "reference_aligned_fast_passed": false
+        },
+        {
+          "bilateral_exact_contact_frames": 0,
+          "bilateral_exact_contact_pull_frames": 0,
+          "candidate_id": "reference_aligned_solid_front_c49_fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00",
+          "drawer_fraction_patch_group": 0.10320945370622611,
+          "failure_reasons": [
+            "pull_phase_two_pad_target_contact_frames_lt_30",
+            "max_drawer_fraction_lt_0p80"
+          ],
+          "forbidden_contact_frames": 0,
+          "handle_nonlegal_contact_frames": 0,
+          "max_drawer_fraction": 0.10320945370622611,
+          "max_force_n": 12.477645672661854,
+          "max_penetration_m": 0.0008785538470542156,
+          "reference_aligned_fast_passed": false
+        },
+        {
+          "bilateral_exact_contact_frames": 588,
+          "bilateral_exact_contact_pull_frames": 155,
+          "candidate_id": "reference_aligned_solid_front_c73_fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00",
+          "drawer_fraction_patch_group": 0.10201934319190892,
+          "failure_reasons": [
+            "max_drawer_fraction_lt_0p80"
+          ],
+          "forbidden_contact_frames": 0,
+          "handle_nonlegal_contact_frames": 0,
+          "max_drawer_fraction": 0.10201934319190892,
+          "max_force_n": 12.597119898922468,
+          "max_penetration_m": 0.004413283460008466,
+          "reference_aligned_fast_passed": false
+        }
+      ],
+      "topology_flags": {
+        "complete_moving_drawer_box_tray_passed": true,
+        "short_stub_spherical_knob_passed": true,
+        "solid_drawer_front_panel_passed": true,
+        "visible_support_guide_semantics_passed": null
+      }
+    },
+    {
+      "best_fast_drawer_fraction": 0.10804562958860969,
+      "best_fast_forbidden_frames": 0,
+      "closeout_classification": "CONTROLLER_PRESERVING_FAST_RECERTIFICATION_FAILED",
+      "controller_algorithm_modified": false,
+      "fast_rows": 17,
+      "run_dir": "experiments/mint/mint_drawer_v1/runtime/v11_g4_reference_aligned_drawer_topology_synthesis_controller_preserving_recertification_20260507T025037Z",
+      "selected_candidate_id": "reference_aligned_solid_front_c43_fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00",
+      "top_by_opening": [
+        {
+          "bilateral_exact_contact_frames": 152,
+          "bilateral_exact_contact_pull_frames": 0,
+          "candidate_id": "reference_aligned_solid_front_c43_fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00",
+          "drawer_fraction_patch_group": 0.10804562958860969,
+          "failure_reasons": [
+            "pull_phase_two_pad_target_contact_frames_lt_30",
+            "max_drawer_fraction_lt_0p80"
+          ],
+          "forbidden_contact_frames": 0,
+          "handle_nonlegal_contact_frames": 0,
+          "max_drawer_fraction": 0.10804562958860969,
+          "max_force_n": 21.30893072168525,
+          "max_penetration_m": 0.001031794098186073,
+          "reference_aligned_fast_passed": false
+        },
+        {
+          "bilateral_exact_contact_frames": 163,
+          "bilateral_exact_contact_pull_frames": 0,
+          "candidate_id": "reference_aligned_solid_front_c47_fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00",
+          "drawer_fraction_patch_group": 0.10519911255641394,
+          "failure_reasons": [
+            "pull_phase_two_pad_target_contact_frames_lt_30",
+            "max_drawer_fraction_lt_0p80"
+          ],
+          "forbidden_contact_frames": 0,
+          "handle_nonlegal_contact_frames": 0,
+          "max_drawer_fraction": 0.10519911255641394,
+          "max_force_n": 20.467136896051308,
+          "max_penetration_m": 0.0013176452949796441,
+          "reference_aligned_fast_passed": false
+        },
+        {
+          "bilateral_exact_contact_frames": 157,
+          "bilateral_exact_contact_pull_frames": 0,
+          "candidate_id": "reference_aligned_solid_front_c39_fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00",
+          "drawer_fraction_patch_group": 0.10508183752955963,
+          "failure_reasons": [
+            "pull_phase_two_pad_target_contact_frames_lt_30",
+            "max_drawer_fraction_lt_0p80"
+          ],
+          "forbidden_contact_frames": 0,
+          "handle_nonlegal_contact_frames": 0,
+          "max_drawer_fraction": 0.10508183752955963,
+          "max_force_n": 20.92613721420248,
+          "max_penetration_m": 0.0011584674619974158,
+          "reference_aligned_fast_passed": false
+        }
+      ],
+      "top_legal": [
+        {
+          "bilateral_exact_contact_frames": 152,
+          "bilateral_exact_contact_pull_frames": 0,
+          "candidate_id": "reference_aligned_solid_front_c43_fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00",
+          "drawer_fraction_patch_group": 0.10804562958860969,
+          "failure_reasons": [
+            "pull_phase_two_pad_target_contact_frames_lt_30",
+            "max_drawer_fraction_lt_0p80"
+          ],
+          "forbidden_contact_frames": 0,
+          "handle_nonlegal_contact_frames": 0,
+          "max_drawer_fraction": 0.10804562958860969,
+          "max_force_n": 21.30893072168525,
+          "max_penetration_m": 0.001031794098186073,
+          "reference_aligned_fast_passed": false
+        },
+        {
+          "bilateral_exact_contact_frames": 163,
+          "bilateral_exact_contact_pull_frames": 0,
+          "candidate_id": "reference_aligned_solid_front_c47_fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00",
+          "drawer_fraction_patch_group": 0.10519911255641394,
+          "failure_reasons": [
+            "pull_phase_two_pad_target_contact_frames_lt_30",
+            "max_drawer_fraction_lt_0p80"
+          ],
+          "forbidden_contact_frames": 0,
+          "handle_nonlegal_contact_frames": 0,
+          "max_drawer_fraction": 0.10519911255641394,
+          "max_force_n": 20.467136896051308,
+          "max_penetration_m": 0.0013176452949796441,
+          "reference_aligned_fast_passed": false
+        },
+        {
+          "bilateral_exact_contact_frames": 157,
+          "bilateral_exact_contact_pull_frames": 0,
+          "candidate_id": "reference_aligned_solid_front_c39_fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00",
+          "drawer_fraction_patch_group": 0.10508183752955963,
+          "failure_reasons": [
+            "pull_phase_two_pad_target_contact_frames_lt_30",
+            "max_drawer_fraction_lt_0p80"
+          ],
+          "forbidden_contact_frames": 0,
+          "handle_nonlegal_contact_frames": 0,
+          "max_drawer_fraction": 0.10508183752955963,
+          "max_force_n": 20.92613721420248,
+          "max_penetration_m": 0.0011584674619974158,
+          "reference_aligned_fast_passed": false
+        },
+        {
+          "bilateral_exact_contact_frames": 0,
+          "bilateral_exact_contact_pull_frames": 0,
+          "candidate_id": "reference_aligned_solid_front_c49_fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00",
+          "drawer_fraction_patch_group": 0.10320945370622611,
+          "failure_reasons": [
+            "pull_phase_two_pad_target_contact_frames_lt_30",
+            "max_drawer_fraction_lt_0p80"
+          ],
+          "forbidden_contact_frames": 0,
+          "handle_nonlegal_contact_frames": 0,
+          "max_drawer_fraction": 0.10320945370622611,
+          "max_force_n": 12.477645672661854,
+          "max_penetration_m": 0.0008785538470542156,
+          "reference_aligned_fast_passed": false
+        },
+        {
+          "bilateral_exact_contact_frames": 588,
+          "bilateral_exact_contact_pull_frames": 155,
+          "candidate_id": "reference_aligned_solid_front_c73_fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00",
+          "drawer_fraction_patch_group": 0.10201934319190892,
+          "failure_reasons": [
+            "max_drawer_fraction_lt_0p80"
+          ],
+          "forbidden_contact_frames": 0,
+          "handle_nonlegal_contact_frames": 0,
+          "max_drawer_fraction": 0.10201934319190892,
+          "max_force_n": 12.597119898922468,
+          "max_penetration_m": 0.004413283460008466,
+          "reference_aligned_fast_passed": false
+        }
+      ],
+      "topology_flags": {
+        "complete_moving_drawer_box_tray_passed": true,
+        "short_stub_spherical_knob_passed": true,
+        "solid_drawer_front_panel_passed": true,
+        "visible_support_guide_semantics_passed": null
+      }
+    }
+  ],
+  "source_head": "259388bb8ee565b3d1e5c703f96438f6b619440d"
+}

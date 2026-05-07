@@ -839,6 +839,27 @@ def install_gold_runtime(gold_variant: dict[str, Any]) -> None:
     scale.v3.SPEC_REL = SPEC_REL
     scale.v3.RUN_PREFIX = RUN_PREFIX
     scale.install_runtime()
+    original_trace_record = scale.patch.cd.bp.trace_record
+
+    def gold_strict_replay_trace_record(*args: Any, **kwargs: Any) -> dict[str, Any]:
+        if len(args) >= 11:
+            args = (*args[:10], True, *args[11:])
+        else:
+            kwargs["include_replay_state"] = True
+        return original_trace_record(*args, **kwargs)
+
+    scale.patch.cd.bp.trace_record = gold_strict_replay_trace_record
+    original_finger_targets_for_pull = scale.patch.cd.bp.finger_targets_for_pull
+
+    def gold_finger_targets_for_pull(
+        candidate: dict[str, Any], variant: dict[str, Any]
+    ) -> Any:
+        custom = variant.get("finger_target_command")
+        if custom is not None:
+            return scale.v3.cp.np.asarray(custom, dtype=float)
+        return original_finger_targets_for_pull(candidate, variant)
+
+    scale.patch.cd.bp.finger_targets_for_pull = gold_finger_targets_for_pull
 
     def base_controller_variant() -> dict[str, Any]:
         return deepcopy(gold_variant)
@@ -849,13 +870,33 @@ def install_gold_runtime(gold_variant: dict[str, Any]) -> None:
         base = deepcopy(seed_variant or gold_variant)
         variants = []
         schedules = [
-            ("gold_pc02_anchor_exact", {}),
+            ("gold_pc02_anchor_exact", {"pull_press_m": 0.0}),
             (
-                "gold_pc02_latch_hold_6400",
+                "gold_pc02_binary_close_zero_press",
                 {
+                    "finger_mode": "binary_close",
+                    "pull_press_m": 0.0,
+                    "pull_steps": 6400,
+                    "pull_velocity_m_per_step": 0.000075,
+                },
+            ),
+            (
+                "gold_pc02_binary_close_micro_press",
+                {
+                    "finger_mode": "binary_close",
+                    "pull_press_m": 0.0005,
+                    "pull_steps": 7600,
+                    "pull_velocity_m_per_step": 0.000070,
+                },
+            ),
+            (
+                "gold_pc02_ik_hold_latch_6400",
+                {
+                    "finger_mode": "ik_hold",
                     "pull_steps": 6400,
                     "pull_velocity_m_per_step": 0.000075,
                     "pre_pull_latch_hold_steps": 180,
+                    "pull_press_m": 0.0005,
                 },
             ),
             (
@@ -864,33 +905,35 @@ def install_gold_runtime(gold_variant: dict[str, Any]) -> None:
                     "pull_steps": 7600,
                     "pull_velocity_m_per_step": 0.000070,
                     "pre_pull_latch_hold_steps": 220,
+                    "pull_press_m": 0.0010,
                 },
             ),
             (
-                "gold_pc02_slow_press_9000",
+                "gold_pc02_palm_clear_slow_9000",
                 {
                     "pull_steps": 9000,
                     "pull_velocity_m_per_step": 0.000060,
-                    "pull_press_m": 0.0055,
+                    "pull_press_m": 0.0015,
                     "lead_cap_m": 0.016,
                 },
             ),
             (
-                "gold_pc02_firm_press_8200",
+                "gold_pc02_zero_press_8200",
                 {
                     "pull_steps": 8200,
                     "pull_velocity_m_per_step": 0.000070,
-                    "pull_press_m": 0.0070,
+                    "pull_press_m": 0.0020,
                     "lead_cap_m": 0.018,
                 },
             ),
             (
-                "gold_pc02_low_lead_visible",
+                "gold_pc02_ik_hold_low_lead_visible",
                 {
+                    "finger_mode": "ik_hold",
                     "lead_cap_m": 0.012,
                     "pull_steps": 9000,
                     "pull_velocity_m_per_step": 0.000055,
-                    "pull_press_m": 0.006,
+                    "pull_press_m": 0.0005,
                 },
             ),
             (
@@ -899,7 +942,7 @@ def install_gold_runtime(gold_variant: dict[str, Any]) -> None:
                     "lead_cap_m": 0.020,
                     "pull_steps": 7800,
                     "pull_velocity_m_per_step": 0.000070,
-                    "pull_press_m": 0.0065,
+                    "pull_press_m": 0.0010,
                 },
             ),
             (
@@ -937,7 +980,7 @@ def install_gold_runtime(gold_variant: dict[str, Any]) -> None:
                     "pull_steps": 12000,
                     "pull_velocity_m_per_step": 0.000050,
                     "lead_cap_m": 0.014,
-                    "pull_press_m": 0.006,
+                    "pull_press_m": 0.0,
                 },
             ),
         ]
@@ -962,6 +1005,7 @@ def install_gold_runtime(gold_variant: dict[str, Any]) -> None:
                     "finger_mode": v.get("finger_mode", "semi_close"),
                     "post_pull_hold_steps": 0,
                     "pull_distance_m": 0.35,
+                    "pull_press_m": min(float(v.get("pull_press_m", 0.004)), 0.002),
                 }
             )
             variants.append(v)
@@ -1034,14 +1078,28 @@ def install_gold_runtime(gold_variant: dict[str, Any]) -> None:
             or 0.023
         )
         pad_radius = float(tpf.get("pad_radius_m") or 0.008)
-        normal_offset = min(0.018, max(0.011, 0.55 * knob_radius))
-        half_width = knob_radius + pad_radius + 0.006
-        centerline = center + approach * normal_offset
-        contact = np.stack(
-            [centerline + pinch * half_width, centerline - pinch * half_width], axis=0
-        )
-        pregrasp = contact + approach[None, :] * 0.060
-        guarded = contact + approach[None, :] * 0.022
+        prior_contact = np.asarray(tpf.get("contact_targets", []), dtype=float)
+        if prior_contact.shape == (2, 3):
+            contact = prior_contact.copy()
+            centerline = np.mean(contact, axis=0)
+            span = contact[0] - contact[1]
+            half_width = 0.5 * float(np.linalg.norm(span))
+            if half_width > 1e-9:
+                pinch = span / (2.0 * half_width)
+                pinch = pinch - float(np.dot(pinch, pull)) * pull
+                pinch = pinch / max(float(np.linalg.norm(pinch)), 1e-9)
+                if pinch[2] < 0:
+                    pinch = -pinch
+        else:
+            half_width = knob_radius + pad_radius + 0.0035
+            centerline = center + approach * min(0.032, max(0.026, 1.20 * knob_radius))
+            contact = np.stack(
+                [centerline + pinch * half_width, centerline - pinch * half_width],
+                axis=0,
+            )
+        normal_offset = float(np.dot(centerline - center, approach))
+        pregrasp = contact + approach[None, :] * 0.070
+        guarded = contact + approach[None, :] * 0.035
         hold = contact.copy()
         before = {
             k: scale.ready(tpf.get(k))
@@ -1089,7 +1147,11 @@ def install_gold_runtime(gold_variant: dict[str, Any]) -> None:
             "pad_radius_m": pad_radius,
             "normal_offset_m": float(normal_offset),
             "pinch_half_width_m": float(half_width),
-            "expected_surface_gap_m": float(half_width - knob_radius - pad_radius),
+            "expected_surface_gap_m": float(
+                (normal_offset * normal_offset + half_width * half_width) ** 0.5
+                - knob_radius
+                - pad_radius
+            ),
             "repair_family": "R9_visible_exact_contact_alignment_palm_clearance",
         }
         return physical

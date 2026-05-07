@@ -658,9 +658,50 @@ def reconstruct_gold_anchor(
                 "nq": int(m.nq),
                 "nv": int(m.nv),
                 "ngeom": int(m.ngeom),
+                "load_path": rel(model_xml),
             }
         except Exception as exc:
             model_load = {"attempted": True, "passed": False, "error": str(exc)}
+            # Historical exported XMLs in this campaign keep robot meshes under an
+            # adjacent assets/ directory while the XML uses bare mesh filenames.
+            # Build a temporary loader XML in this run_dir; do not mutate the
+            # historical run being audited.
+            assets_dir = model_xml.parent / "assets"
+            if assets_dir.exists():
+                try:
+                    import mujoco  # type: ignore
+
+                    load_dir = run_dir / "gold_anchor_reconstruction_model_load"
+                    load_dir.mkdir(parents=True, exist_ok=True)
+                    loader_xml = load_dir / "model_with_meshdir.xml"
+                    text = model_xml.read_text()
+                    compiler_head = (
+                        text.split("<compiler", 1)[1].split("/>", 1)[0]
+                        if "<compiler" in text
+                        else ""
+                    )
+                    if "<compiler" in text and "meshdir=" not in compiler_head:
+                        text = text.replace(
+                            "<compiler ",
+                            '<compiler meshdir="' + str(assets_dir) + '" ',
+                            1,
+                        )
+                    loader_xml.write_text(text)
+                    m = mujoco.MjModel.from_xml_path(str(loader_xml))
+                    model_load = {
+                        "attempted": True,
+                        "passed": True,
+                        "nq": int(m.nq),
+                        "nv": int(m.nv),
+                        "ngeom": int(m.ngeom),
+                        "load_path": rel(loader_xml),
+                        "archived_assets_dir": rel(assets_dir),
+                        "original_error_recovered": str(exc),
+                        "reconstruction_asset_path_recovery": True,
+                    }
+                except Exception as exc2:
+                    model_load["asset_path_recovery_attempted"] = True
+                    model_load["asset_path_recovery_error"] = str(exc2)
     trace_audit = {"attempted": False, "passed": False}
     if trace and trace.exists():
         required = {"qpos", "qvel", "ctrl", "action", "robot_qpos", "drawer_qpos"}

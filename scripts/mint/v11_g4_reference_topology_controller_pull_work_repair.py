@@ -101,12 +101,83 @@ def run_git(args: list[str]) -> str:
     return proc.stdout.strip() if proc.returncode == 0 else proc.stderr.strip()
 
 
+def install_reference_replay_state_patch() -> None:
+    previous_run_segment = v3.cp.run_segment
+
+    def reference_replay_state_run_segment(
+        env: Any,
+        binding: dict[str, Any],
+        candidate: dict[str, Any],
+        config: Any,
+        mode: str,
+        waypoint_key: str,
+        target_key: str | None,
+        steps: int,
+        records: list[dict[str, Any]],
+        trace_path: Path,
+        prev_centers: dict[int, Any],
+    ) -> dict[int, Any]:
+        path_text = str(trace_path)
+        if RUN_PREFIX not in path_text:
+            return previous_run_segment(
+                env,
+                binding,
+                candidate,
+                config,
+                mode,
+                waypoint_key,
+                target_key,
+                steps,
+                records,
+                trace_path,
+                prev_centers,
+            )
+        q_ref, finger_targets = v3.cp.waypoint_parts(candidate, waypoint_key)
+        if getattr(config, 'gripper_mode', None) == 'binary_close':
+            finger_targets = (
+                v3.cp.np.asarray([0.0, 0.0], dtype=float)
+                if mode in {'contact_seat', 'contact_hold'}
+                else v3.cp.np.asarray([0.04, -0.04], dtype=float)
+            )
+        two_pad_frame = candidate.get('two_pad_frame', {})
+        for _ in range(int(steps)):
+            if getattr(config, 'mode', None) == 'two_pad_opspace' and target_key is not None:
+                robot_vel = v3.cp.stacked_two_pad_velocity(
+                    env, binding, two_pad_frame, target_key, q_ref, config
+                )
+            else:
+                robot_vel = v3.cp.target_arm_velocity(
+                    env, q_ref, config.q_gain, config.q_vel_limit
+                )
+            drawer_motor_abs = v3.cp.apply_velocity_servo(
+                env, robot_vel, finger_targets, config
+            )
+            report = v3.cp.contact_report(env, binding, prev_centers)
+            rec = v3.cp.trace_record(
+                env,
+                binding,
+                report,
+                mode,
+                finger_targets,
+                q_ref,
+                drawer_motor_abs,
+                robot_vel,
+                True,
+            )
+            records.append(rec)
+            v3.cp.append_jsonl(trace_path, v3.cp.compact_trace_record(rec))
+            prev_centers = report['centers']
+        return prev_centers
+
+    v3.cp.run_segment = reference_replay_state_run_segment
+
 def install_runtime() -> None:
     ref.install_controller_runtime()
     for mod in [ref, patch, v3]:
         mod.TASK_ID = TASK_ID
         mod.SPEC_REL = SPEC_REL
         mod.RUN_PREFIX = RUN_PREFIX
+    install_reference_replay_state_patch()
 
 
 def latest_reference_runs(limit: int = 5) -> list[Path]:

@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 import subprocess
 import sys
 import time
@@ -114,6 +115,34 @@ def latest_reference_runs(limit: int = 5) -> list[Path]:
     return runs[-limit:]
 
 
+
+
+def parse_numeric_array_string(text: str, key: str = '') -> Any:
+    stripped = text.strip()
+    if not (stripped.startswith('[') and stripped.endswith(']')):
+        return text
+    nums = re.findall(r'[-+]?\d*\.\d+(?:[eE][-+]?\d+)?|[-+]?\d+(?:[eE][-+]?\d+)?', stripped)
+    if not nums:
+        return text
+    vals = [float(x) for x in nums]
+    matrix_keys = {
+        'contact_targets', 'guarded_targets', 'hold_targets',
+        'pad_current_centers', 'pregrasp_targets',
+    }
+    if key in matrix_keys and len(vals) % 3 == 0:
+        return [vals[i:i + 3] for i in range(0, len(vals), 3)]
+    return vals
+
+
+def normalize_serialized_arrays(obj: Any, key: str = '') -> Any:
+    if isinstance(obj, dict):
+        return {k: normalize_serialized_arrays(v, str(k)) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [normalize_serialized_arrays(v, key) for v in obj]
+    if isinstance(obj, str):
+        return parse_numeric_array_string(obj, key)
+    return obj
+
 def row_fraction(row: dict[str, Any]) -> float:
     return float(row.get('max_drawer_fraction') or row.get('drawer_fraction_patch_group') or row.get('drawer_fraction') or 0.0)
 
@@ -160,7 +189,7 @@ def load_reference_candidates(run_dirs: list[Path]) -> tuple[list[dict[str, Any]
             cid = str(row.get('candidate_id') or '')
             audit = row.get('reference_aligned_topology_oracle') or {}
             if cid and row.get('accepted') and audit.get('topology_oracle_passed'):
-                row = deepcopy(row)
+                row = normalize_serialized_arrays(deepcopy(row))
                 row['reference_source_run'] = rel(run)
                 candidates[cid] = row
         for row in read_jsonl(run / 'reference_aligned_fast_results.jsonl'):

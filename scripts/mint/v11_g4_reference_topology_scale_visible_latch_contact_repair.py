@@ -875,7 +875,7 @@ def generate_scale_candidates(base: dict[str, Any], max_candidates: int) -> list
     hx = float(p0.get('handle_x', -0.18)); hy = float(p0.get('handle_y', -0.067)); hz0 = float(p0.get('handle_z', 0.402))
     poses = [([-0.700, 0.000, 0.025], -14), ([-0.690, -0.025, 0.025], -16), ([-0.680, -0.045, 0.025], -20), ([-0.660, -0.080, 0.025], -24), ([-0.640, -0.105, 0.025], -28), ([-0.620, -0.120, 0.025], -30)]
     specs = []
-    for radius in [0.024, 0.026, 0.028, 0.030]:
+    for radius in [0.034, 0.032, 0.030, 0.028, 0.026, 0.024]:
         for front_hw in [0.120, 0.130, 0.140, 0.150]:
             if (2.0 * radius) / (2.0 * front_hw) > KNOB_FRONT_HARD_MAX:
                 continue

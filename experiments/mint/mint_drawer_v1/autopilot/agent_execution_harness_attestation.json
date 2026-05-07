@@ -1,11 +1,11 @@
 {
   "attestation_id": "POST_PUSH_ATTESTATION_V3",
   "version": "1.0.0",
-  "generated_at_utc": "2026-05-07T06:43:21Z",
+  "generated_at_utc": "2026-05-07T10:49:23Z",
   "generated_by": "validate_harness_production_lock.py",
   "attestation_type": "post_push_verification",
-  "lock_commit": "c243dcd0e8f58ee1a10ff30816990070c2b1084c",
-  "origin_head": "c243dcd0e8f58ee1a10ff30816990070c2b1084c",
+  "lock_commit": "d5e20f31bc2b06148aed6b35fbb1196d6f3ea189",
+  "origin_head": "d5e20f31bc2b06148aed6b35fbb1196d6f3ea189",
   "origin_verified": true,
   "lock_status": "production_ready",
   "lock_blob_on_origin": "verified_via_merge_base_ancestor_chain",
@@ -17,13 +17,13 @@
     "lock_generated_by": "validate_harness_production_lock.py",
     "lock_version": "3.0.0",
     "task_spec_binding": {
-      "requested_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_reference_topology_controller_pull_work_repair_under_topology_lock.yaml",
-      "lock_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_reference_topology_controller_pull_work_repair_under_topology_lock.yaml",
-      "lock_hash": "4fac1ddfcca46bcf171c240114156b37c8185def",
-      "current_hash": "4fac1ddfcca46bcf171c240114156b37c8185def",
+      "requested_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_reference_topology_scale_visible_latch_contact_repair.yaml",
+      "lock_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_reference_topology_scale_visible_latch_contact_repair.yaml",
+      "lock_hash": "5e16b2278ae5918787ff281470ecde98ec40ce2f",
+      "current_hash": "5e16b2278ae5918787ff281470ecde98ec40ce2f",
       "passed": true
     },
-    "origin_head": "c243dcd0e8f58ee1a10ff30816990070c2b1084c",
+    "origin_head": "d5e20f31bc2b06148aed6b35fbb1196d6f3ea189",
     "git_ls_remote_ok": true,
     "origin_contains_lock_commit": true,
     "lock_commit_is_ancestor_of_origin": true,
@@ -82,9 +82,9 @@
         "origin": "13b699b3e23a99929c591ec08ae7c859172988e5",
         "matches": true
       },
-      "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_reference_topology_controller_pull_work_repair_under_topology_lock.yaml": {
-        "expected": "4fac1ddfcca46bcf171c240114156b37c8185def",
-        "origin": "4fac1ddfcca46bcf171c240114156b37c8185def",
+      "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_reference_topology_scale_visible_latch_contact_repair.yaml": {
+        "expected": "5e16b2278ae5918787ff281470ecde98ec40ce2f",
+        "origin": "5e16b2278ae5918787ff281470ecde98ec40ce2f",
         "matches": true
       }
     },
@@ -158,7 +158,7 @@
         "passed": true,
         "fixture": "task_spec_mismatch_must_fail",
         "expected": "FAIL(non-zero) with requested-vs-lock spec mismatch",
-        "active_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_reference_topology_controller_pull_work_repair_under_topology_lock.yaml",
+        "active_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_reference_topology_scale_visible_latch_contact_repair.yaml",
         "mismatch_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml",
         "actual_exit_code": 2,
         "output_excerpt": "\n======================================================================\n  Agent Task Pre-flight\n======================================================================\n  campaign_root: /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1\n  task_spec:    /mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml\n  dry_run:      True\n\n  [LOCK] Production lock enforcement\n\n  FATAL: Requested task spec does not match production loc"
@@ -181,5 +181,5 @@
   },
   "origin_url": "git@github.com:lqzhw520/infinigen.git",
   "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
-  "attestation_blob": "5510fbda8ab770284358842f28c81f5592c85357"
+  "attestation_blob": "232ad0e73a5913d8e013704d61564015db66c7fc"
 }

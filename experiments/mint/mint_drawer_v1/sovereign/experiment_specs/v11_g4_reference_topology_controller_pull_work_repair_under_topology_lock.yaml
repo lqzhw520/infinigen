@@ -1,0 +1,250 @@
+task_id: V11_G4_REFERENCE_TOPOLOGY_CONTROLLER_PULL_WORK_REPAIR_UNDER_TOPOLOGY_LOCK_V1
+task_type: autonomous_science_repair_and_recertification
+task_version: 1
+target_gate: REFERENCE_ALIGNED_TOPOLOGY_ROUND_KNOB_EXACT_LATCH_PULL_STRICT_REPLAY_READY_FOR_MANUAL_REVIEW
+phase: reference_topology_controller_pull_work_repair_under_topology_lock
+
+claim_boundary:
+  previous_dynamic_pull_export_replay_success_preserved_as_physics_replay_baseline: true
+  latest_visual_topology_invalid_replay_rejected_by_manual_review: true
+  reference_aligned_topology_oracle_now_required: true
+  controller_preserving_reference_topology_phase_boundary_recorded: true
+  this_phase_preserves_controller_algorithm_family_but_allows_migration_parameters: true
+  dataset_admission_not_claimed_without_manual_visual_review: true
+
+task_authority:
+  authority_type: GOC_V4_PATCH_GROUP_EXACT_GEOM_ID_SETS_WITH_REFERENCE_ALIGNED_TOPOLOGY_LOCK
+  goc_version: v3
+  goc_artifact_path: artifacts/phase1h_geometry_contract/goc_v3_contract.json
+  goc_contract: experiments/mint/mint_drawer_v1/artifacts/phase1h_geometry_contract/goc_v3_contract.json
+  goc_contract_id: GOC_V3_EXACT_ID_GEOMETRY_OWNERSHIP_CONTRACT
+  legal_gripper_surface_geom_ids: [63, 81, 90]
+  drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+  forbidden_robot_surface_geom_ids: [45, 47, 49, 54, 59]
+  target_authority_upgrade: left_and_right_finite_finger_pad_group_exact_contacts_to_true_round_knob
+  topology_authority: reference_aligned_drawer_topology_oracle_and_machine_lock_required_before_controller_recertification
+  prohibited_authority:
+    - GOC-v2 count-only legal_pad=29 forbidden=26 handle=9
+    - runtime body-based authority mutation
+    - legacy name-only contact reports
+    - broad-link, wrist, arm, or finger shell contact as target
+    - geometric bilateral proxy as success criterion
+    - long connector or front-only drawer topology as dataset output
+    - frame-like front panel or incomplete moving drawer tray as claim-bearing output
+
+authority:
+  repo: /mnt/afs2/zhuhaowu/infinigen
+  branch: feature/mint-env-reformulation-v1-visual-fidelity
+  campaign_root: experiments/mint/mint_drawer_v1
+  local_playground_root: /Users/zhuhaowu/Documents/Playground
+  reference_visuals:
+    - /Users/zhuhaowu/Downloads/knob-handler.png
+    - /Users/zhuhaowu/Downloads/ChatGPT Image 2026年5月5日 23_07_48 (2).png
+  prior_controller_success_run: experiments/mint/mint_drawer_v1/runtime/v11_g4_goc_v4_exact_latch_pull_keepout_v3_continuation_targeted_progress_repair_20260506T123821Z
+  controller_preserving_boundary_run: experiments/mint/mint_drawer_v1/runtime/v11_g4_reference_aligned_drawer_topology_synthesis_controller_preserving_recertification_20260507T025037Z
+
+fixtures:
+  fixture_invalid_authority_drift:
+    expected: FAIL
+    expected_error: AUTHORITY_MISMATCH
+    runtime_exact_ids:
+      legal_gripper_surface_geom_ids: [60, 61, 62]
+      forbidden_robot_surface_geom_ids: [45, 47, 49, 54, 59]
+      drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+  fixture_valid_authority_match:
+    expected: PASS
+    runtime_exact_ids:
+      legal_gripper_surface_geom_ids: [63, 81, 90]
+      forbidden_robot_surface_geom_ids: [45, 47, 49, 54, 59]
+      drawer_handle_geom_ids: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+
+manual_review_target:
+  solid_drawer_front_panel: true
+  short_stub_spherical_knob_nearly_flush_to_front: true
+  complete_moving_drawer_box_tray: true
+  visible_support_guide_semantics: true
+  frame_only_front_rejected: true
+  long_rod_connector_rejected: true
+  front_only_moving_body_rejected: true
+
+reference_aligned_topology_contract:
+  solid_drawer_front_panel:
+    required: true
+    single_solid_front_geom_required: true
+    reference_sized_front_required: true
+    frame_only_front_rejected: true
+    segmented_edge_frame_rejected: true
+  short_stub_spherical_knob:
+    required: true
+    knob_kind: spherical
+    boss_or_stub_required: true
+    stub_length_max_ratio_of_knob_diameter: 0.35
+    nearly_flush_to_front_required: true
+    long_rod_rejected: true
+  moving_drawer_box_tray:
+    required: true
+    required_moving_parts:
+      - front_panel
+      - left_side_wall
+      - right_side_wall
+      - bottom_panel
+      - back_panel
+    open_top_allowed: true
+    front_only_or_frame_only_body_rejected: true
+  support_guide_semantics:
+    required: true
+    visible_support_or_guide_geometry_required: true
+    invisible_support_only_rejected: true
+  visual_physical_consistency:
+    required: true
+    topology_oracle_must_parse_model_xml: true
+    claim_render_must_show_reference_semantics: true
+
+controller_migration_scope:
+  controller_family: round_knob_exact_bilateral_latch_pull_progress_feedback
+  algorithm_family_must_remain_same: true
+  allowed_migration_parameters:
+    - pull_steps
+    - pull_velocity_m_per_step
+    - pull_distance_m
+    - lead_cap_m
+    - progress_max_lead_cap_m
+    - qpos_progress_gain
+    - stagnation_lead_boost_m
+    - pull_press_m
+    - pre_pull_latch_hold_steps
+    - contact_drop_lead_pause_m
+    - servo_kp
+    - servo_kd
+    - null_gain
+    - op_gain
+    - op_vel_limit
+    - q_vel_limit
+    - finger_mode
+    - gripper closure target / latch schedule parameters
+  allowed_topology_actions:
+    - select_reference_oracle_passing_candidate_from_previous_phase
+    - preserve_reference_topology_contract
+    - regenerate per-instance handle frame / two-pad frame / GOC exact groups for selected model
+  forbidden_controller_actions:
+    - replace_controller_algorithm
+    - direct_qpos_open_drawer
+    - drawer_motor_command
+    - lower_thresholds
+    - accept_forbidden_contact
+    - use_geometric_proxy_as_success
+    - count_broad_shell_link_wrist_arm_or_finger_shell_as_target
+  forbidden_topology_actions:
+    - front_cutout_or_frame_front
+    - long_rod_knob_connector
+    - front_only_moving_body
+    - invisible_support_only
+    - topology_defective_prior_pool_as_dataset_output
+
+allowed_files:
+  helpers:
+    - scripts/mint/v11_g4_reference_topology_controller_pull_work_repair.py
+    - scripts/mint/v11_g4_reference_aligned_drawer_topology_synthesis_controller_preserving_recertification.py
+  existing_controller_sources_read_or_runtime_reuse_only:
+    - scripts/mint/v11_g4_exact_latch_pull_wrench_keepout_trajectory_optimization.py
+    - scripts/mint/v11_g4_round_knob_exact_contact_patch_latch_pull_synthesis.py
+    - scripts/mint/v11_g4_round_knob_grasp_latch_pull_controller.py
+    - scripts/mint/v11_g4_handle_affordance_strategy_registry.py
+  sovereign_outputs:
+    - experiments/mint/mint_drawer_v1/sovereign/approved_drawer_topology_lock.json
+    - experiments/mint/mint_drawer_v1/sovereign/proposed_current_truth_delta_reference_topology_controller_pull_work.json
+    - experiments/mint/mint_drawer_v1/sovereign/proposed_next_actions_reference_topology_controller_pull_work.json
+  harness:
+    - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json
+    - experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_attestation.json
+  runtime: experiments/mint/mint_drawer_v1/runtime/v11_g4_reference_topology_controller_pull_work_repair_*/
+
+forbidden_files:
+  - experiments/mint/mint_drawer_v1/sovereign/current_truth.json
+  - experiments/mint/mint_drawer_v1/sovereign/next_actions.json
+  - external/MINT
+
+stages:
+  - id: stage_minus_1_governance
+    requires:
+      - task_spec_committed_and_pushed_first
+      - production_lock_bound_to_this_spec
+      - post_push_attestation
+      - no_bypass_preflight_passed
+  - id: stage_0_ingest_controller_preserving_boundary
+    inputs:
+      - controller_preserving_reference_topology_boundary_report.json
+      - reference_aligned_fast_results.jsonl
+      - reference_aligned_topology_oracle_report.json
+  - id: stage_1_select_reference_topology_candidates
+    pass_requires:
+      - solid_drawer_front_panel
+      - short_stub_spherical_knob_nearly_flush
+      - complete_moving_drawer_box_tray
+      - visible_support_guide_semantics
+      - no_frame_only_front
+  - id: stage_2_pull_work_migration_solver_fast
+    objective: tune only migration parameters of the existing round-knob latch-pull controller family on the locked reference topology
+    pass_requires:
+      - fast_guarded_contact_passed
+      - drawer_fraction_ge_0p80
+      - exact_bilateral_pad_group_contact_during_pull_ge_30
+      - forbidden_zero
+      - handle_nonlegal_zero
+      - max_penetration_le_0p02
+      - no_direct_qpos
+      - no_drawer_motor
+  - id: stage_3_targeted_7_of_7
+    enter_only_if: stage_2_passed
+  - id: stage_4_full30
+    enter_only_if: targeted_7_of_7_passed
+  - id: stage_5_strict_export
+    enter_only_if: full30_passed
+  - id: stage_6_local_state_replay_render
+    enter_only_if: strict_export_complete
+  - id: stage_7_action_only_spot_check
+    enter_only_if: local_state_replay_render_passed
+  - id: stage_8_final_checks_commit_push
+
+success_closeout: REFERENCE_TOPOLOGY_CONTROLLER_PULL_WORK_STRICT_REPLAY_READY_FOR_MANUAL_REVIEW
+non_success_closeouts:
+  - HARNESS_PREFLIGHT_FAILED
+  - TASK_SPEC_LOCK_BINDING_FAILED
+  - REFERENCE_TOPOLOGY_LOCK_OR_ORACLE_FAILED
+  - FAST_PULL_WORK_MIGRATION_FAILED
+  - TARGETED_FAILED_AFTER_REFERENCE_TOPOLOGY_FAST_PASS
+  - FULL30_FAILED_AFTER_REFERENCE_TOPOLOGY_TARGETED_PASS
+  - STRICT_EXPORT_FAILED_ON_REFERENCE_TOPOLOGY
+  - LOCAL_REPLAY_RENDER_FAILED_ON_REFERENCE_TOPOLOGY
+  - ACTION_ONLY_SPOT_CHECK_FAILED_ON_REFERENCE_TOPOLOGY
+  - TIME_BUDGET_EXHAUSTED
+
+final_output_fields:
+  - closeout_classification
+  - reference_topology_lock_preserved
+  - controller_algorithm_family_preserved
+  - controller_migration_parameters_modified
+  - solid_drawer_front_panel_passed
+  - short_stub_spherical_knob_passed
+  - complete_moving_drawer_box_tray_passed
+  - support_guide_semantics_passed
+  - fast_guarded_contact_passed
+  - best_fast_drawer_fraction
+  - best_fast_bilateral_exact_pull_frames
+  - best_fast_forbidden_frames
+  - best_fast_handle_nonlegal_frames
+  - best_fast_max_penetration_m
+  - targeted_shard_passed
+  - targeted_cases_passed
+  - targeted_cases_total
+  - full30_passed
+  - strict_export_complete
+  - local_state_replay_passed
+  - textured_claim_render_passed
+  - action_only_spot_check_passed
+  - current_truth_modified
+  - next_actions_modified
+  - committed
+  - pushed_to_origin
+  - remote_commit_hash
+  - next_gate

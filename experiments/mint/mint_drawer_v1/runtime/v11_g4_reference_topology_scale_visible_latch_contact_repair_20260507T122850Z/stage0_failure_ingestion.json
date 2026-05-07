@@ -1,0 +1,11 @@
+{
+  "bad_candidate_id": "reference_aligned_solid_front_c73_fg_cycle2_05_d0p9_02_padpatch_00_current_single_pad_baseline_v3_pull_trajectory_sh_c00_s00",
+  "candidate_count": 48,
+  "generated_at_utc": "2026-05-07T12:28:50Z",
+  "manual_review_blockers": [
+    "knob_too_large",
+    "drawer_tray_too_small",
+    "visible_gripper_not_latched_during_pull"
+  ],
+  "prior_run": "experiments/mint/mint_drawer_v1/runtime/v11_g4_reference_topology_controller_pull_work_repair_20260507T064437Z"
+}

@@ -1005,6 +1005,98 @@ def install_gold_runtime(gold_variant: dict[str, Any]) -> None:
         return out
 
     scale.ref.pool.hfp.build_handle_frame = gold_front_safe_build_handle_frame
+
+    def gold_palm_clear_visible_latch_rebinding(
+        physical: dict[str, Any],
+    ) -> dict[str, Any]:
+        np = scale.v3.cp.np
+        hf = scale.normalize_serialized_arrays(physical.get("handle_frame") or {})
+        tpf = scale.normalize_serialized_arrays(physical.get("two_pad_frame") or {})
+        oracle = physical.get("reference_topology_scale_oracle") or {}
+        if not hf or not tpf:
+            physical["round_knob_visible_latch_rebinding"] = {
+                "applied": False,
+                "reason": "MISSING_HANDLE_OR_TWO_PAD_FRAME",
+            }
+            return physical
+        center = scale._arr3(hf.get("handle_center"), [0.0, 0.0, 0.0])
+        approach = scale._unit(hf.get("approach_normal"), [-1.0, 0.0, 0.0])
+        pull = scale._unit(hf.get("pull_axis"), [-1.0, 0.0, 0.0])
+        pinch = scale._unit(hf.get("pinch_axis"), [0.0, 0.0, 1.0])
+        pinch = pinch - float(np.dot(pinch, pull)) * pull
+        pinch = pinch / max(float(np.linalg.norm(pinch)), 1e-9)
+        if pinch[2] < 0:
+            pinch = -pinch
+        knob_radius = float(
+            oracle.get("knob_radius_m")
+            or hf.get("handle_radius_pinch_m")
+            or hf.get("handle_radius_normal_m")
+            or 0.023
+        )
+        pad_radius = float(tpf.get("pad_radius_m") or 0.008)
+        normal_offset = min(0.018, max(0.011, 0.55 * knob_radius))
+        half_width = knob_radius + pad_radius + 0.006
+        centerline = center + approach * normal_offset
+        contact = np.stack(
+            [centerline + pinch * half_width, centerline - pinch * half_width], axis=0
+        )
+        pregrasp = contact + approach[None, :] * 0.060
+        guarded = contact + approach[None, :] * 0.022
+        hold = contact.copy()
+        before = {
+            k: scale.ready(tpf.get(k))
+            for k in [
+                "contact_targets",
+                "hold_targets",
+                "pinch_half_width_m",
+                "pad_radius_m",
+            ]
+        }
+        tpf.update(
+            {
+                "quality": "ok",
+                "contact_targets": contact.tolist(),
+                "pregrasp_targets": pregrasp.tolist(),
+                "guarded_targets": guarded.tolist(),
+                "hold_targets": hold.tolist(),
+                "pinch_half_width_m": float(half_width),
+                "pad_radius_m": float(pad_radius),
+                "round_knob_visible_latch_rebinding_applied": True,
+                "round_knob_visible_latch_binding_model": "gold_front_safe_palm_clear_sphere_pinch",
+            }
+        )
+        hf["pinch_axis"] = pinch.tolist()
+        hf["round_knob_visible_latch_rebinding_applied"] = True
+        physical["handle_frame"] = hf
+        physical["two_pad_frame"] = tpf
+        physical["controller_algorithm_modified"] = False
+        physical["controller_migration_parameters_modified"] = True
+        physical["round_knob_visible_latch_rebinding"] = {
+            "applied": True,
+            "binding_change_only": True,
+            "controller_algorithm_modified": False,
+            "before": before,
+            "after": {
+                k: scale.ready(tpf.get(k))
+                for k in [
+                    "contact_targets",
+                    "hold_targets",
+                    "pinch_half_width_m",
+                    "pad_radius_m",
+                ]
+            },
+            "knob_radius_m": knob_radius,
+            "pad_radius_m": pad_radius,
+            "normal_offset_m": float(normal_offset),
+            "pinch_half_width_m": float(half_width),
+            "expected_surface_gap_m": float(half_width - knob_radius - pad_radius),
+            "repair_family": "R9_visible_exact_contact_alignment_palm_clearance",
+        }
+        return physical
+
+    scale.apply_round_knob_visible_latch_rebinding = (
+        gold_palm_clear_visible_latch_rebinding
+    )
     scale.base_controller_variant = base_controller_variant
     scale.migration_variants_scale = gold_locked_variants
 

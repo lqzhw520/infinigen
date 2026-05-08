@@ -860,6 +860,123 @@ def install_gold_runtime(gold_variant: dict[str, Any]) -> None:
         return original_finger_targets_for_pull(candidate, variant)
 
     scale.patch.cd.bp.finger_targets_for_pull = gold_finger_targets_for_pull
+    original_run_pull_segment = scale.patch.cd.bp.run_pull_segment
+
+    def gold_actual_latch_offset_run_pull_segment(
+        env: Any,
+        binding: dict[str, Any],
+        candidate: dict[str, Any],
+        config: Any,
+        variant: dict[str, Any],
+        records: list[dict[str, Any]],
+        trace_path: Path,
+        prev_centers: dict[int, Any],
+    ) -> dict[int, Any]:
+        if not variant.get("use_actual_latch_offsets"):
+            return original_run_pull_segment(
+                env,
+                binding,
+                candidate,
+                config,
+                variant,
+                records,
+                trace_path,
+                prev_centers,
+            )
+        bp = scale.patch.cd.bp
+        np = scale.v3.cp.np
+        q_ref, _ = bp.waypoint_parts(candidate, "pull_precheck")
+        finger_targets = bp.finger_targets_for_pull(candidate, variant)
+        _, pull_start_fraction = bp.drawer_qpos_and_fraction(env)
+        handle_ids = [int(x) for x in binding.get("drawer_handle_geom_ids", [])]
+        assignments = (candidate.get("two_pad_frame") or {}).get("pad_assignment") or []
+        if not handle_ids or len(assignments) < 2:
+            return original_run_pull_segment(
+                env,
+                binding,
+                candidate,
+                config,
+                variant,
+                records,
+                trace_path,
+                prev_centers,
+            )
+        ordered = sorted((int(tidx), int(gid)) for gid, tidx in assignments)[:2]
+        pad_ids = [gid for _tidx, gid in ordered]
+        handle_center0 = np.mean(env.data.geom_xpos[handle_ids].astype(float), axis=0)
+        latch_offsets = [
+            env.data.geom_xpos[gid].astype(float).copy() - handle_center0
+            for gid in pad_ids
+        ]
+        hf = scale.normalize_serialized_arrays(candidate.get("handle_frame") or {})
+        pull = np.asarray(hf.get("pull_axis", [-1.0, 0.0, 0.0]), dtype=float)
+        pull = pull / max(float(np.linalg.norm(pull)), 1e-9)
+        approach = np.asarray(hf.get("approach_normal", [-1.0, 0.0, 0.0]), dtype=float)
+        approach = approach / max(float(np.linalg.norm(approach)), 1e-9)
+        total_steps = int(variant["pull_steps"]) + int(
+            variant.get("post_pull_hold_steps", 0)
+        )
+        include_replay_state = True
+        press_scale = float(variant.get("actual_latch_offset_press_scale", 0.0))
+        for step in range(total_steps):
+            active = min(step, int(variant["pull_steps"]))
+            raw_pull_offset = min(
+                float(variant["pull_distance_m"]),
+                float(variant["pull_velocity_m_per_step"]) * float(active),
+            )
+            lead_cap = variant.get("lead_cap_m")
+            pull_offset = (
+                min(raw_pull_offset, float(lead_cap))
+                if lead_cap is not None
+                else raw_pull_offset
+            )
+            handle_center = np.mean(
+                env.data.geom_xpos[handle_ids].astype(float), axis=0
+            )
+            targets = np.stack(
+                [
+                    handle_center
+                    + latch_offsets[i]
+                    + pull * float(pull_offset)
+                    - approach * float(variant["pull_press_m"]) * press_scale
+                    for i in range(2)
+                ],
+                axis=0,
+            )
+            robot_vel = bp.two_pad_velocity_to_targets(
+                env, candidate, targets, q_ref, config
+            )
+            drawer_motor_abs = bp.cp.apply_velocity_servo(
+                env, robot_vel, finger_targets, config
+            )
+            report = bp.contact_report(env, binding, prev_centers)
+            mode = (
+                "bounded_teacher_pull"
+                if step < int(variant["pull_steps"])
+                else "post_pull_hold"
+            )
+            rec = bp.trace_record(
+                env,
+                binding,
+                report,
+                mode,
+                finger_targets,
+                q_ref,
+                drawer_motor_abs,
+                raw_pull_offset,
+                pull_start_fraction,
+                robot_vel,
+                include_replay_state,
+            )
+            rec["lead_cap_m"] = float(lead_cap) if lead_cap is not None else None
+            rec["effective_pull_lead_m"] = float(pull_offset)
+            rec["actual_latch_offset_pull_target"] = True
+            records.append(rec)
+            bp.append_jsonl(trace_path, bp.compact_trace_record(rec))
+            prev_centers = report["centers"]
+        return prev_centers
+
+    scale.patch.cd.bp.run_pull_segment = gold_actual_latch_offset_run_pull_segment
 
     def base_controller_variant() -> dict[str, Any]:
         return deepcopy(gold_variant)
@@ -1060,6 +1177,7 @@ def install_gold_runtime(gold_variant: dict[str, Any]) -> None:
             11: (
                 "gold_pc02_c011_binary_visible_high_track",
                 {
+                    "use_actual_latch_offsets": True,
                     "finger_mode": "binary_close",
                     "pull_press_m": 0.0005,
                     "pull_steps": 12000,
@@ -1077,6 +1195,7 @@ def install_gold_runtime(gold_variant: dict[str, Any]) -> None:
             23: (
                 "gold_pc02_c023_binary_visible_high_track",
                 {
+                    "use_actual_latch_offsets": True,
                     "finger_mode": "binary_close",
                     "pull_press_m": 0.0005,
                     "pull_steps": 12000,
@@ -1111,6 +1230,7 @@ def install_gold_runtime(gold_variant: dict[str, Any]) -> None:
             29: (
                 "gold_pc02_c005_binary_slow_visible_latch",
                 {
+                    "use_actual_latch_offsets": True,
                     "finger_mode": "binary_close",
                     "pull_press_m": 0.0005,
                     "pull_steps": 18000,
@@ -1128,6 +1248,7 @@ def install_gold_runtime(gold_variant: dict[str, Any]) -> None:
             35: (
                 "gold_pc02_c011_ik_hold_slow_visible_latch",
                 {
+                    "use_actual_latch_offsets": True,
                     "finger_mode": "custom_aperture",
                     "finger_target_command": [0.012, -0.012],
                     "pull_press_m": 0.0005,
@@ -1146,6 +1267,7 @@ def install_gold_runtime(gold_variant: dict[str, Any]) -> None:
             47: (
                 "gold_pc02_c023_ik_hold_slow_visible_latch",
                 {
+                    "use_actual_latch_offsets": True,
                     "finger_mode": "custom_aperture",
                     "finger_target_command": [0.012, -0.012],
                     "pull_press_m": 0.0005,
@@ -1164,6 +1286,7 @@ def install_gold_runtime(gold_variant: dict[str, Any]) -> None:
             59: (
                 "gold_pc02_c011_binary_ultra_track_low_lead",
                 {
+                    "use_actual_latch_offsets": True,
                     "finger_mode": "custom_aperture",
                     "finger_target_command": [0.008, -0.008],
                     "pull_press_m": 0.0005,
@@ -1182,6 +1305,7 @@ def install_gold_runtime(gold_variant: dict[str, Any]) -> None:
             71: (
                 "gold_pc02_c023_binary_ultra_track_low_lead",
                 {
+                    "use_actual_latch_offsets": True,
                     "finger_mode": "custom_aperture",
                     "finger_target_command": [0.008, -0.008],
                     "pull_press_m": 0.0005,

@@ -1291,27 +1291,30 @@ def install_gold_runtime(gold_variant: dict[str, Any]) -> None:
         )
         pad_radius = float(tpf.get("pad_radius_m") or 0.008)
         prior_contact = np.asarray(tpf.get("contact_targets", []), dtype=float)
-        if prior_contact.shape == (2, 3):
-            contact = prior_contact.copy()
-            centerline = np.mean(contact, axis=0)
-            span = contact[0] - contact[1]
-            half_width = 0.5 * float(np.linalg.norm(span))
-            if half_width > 1e-9:
-                pinch = span / (2.0 * half_width)
-                pinch = pinch - float(np.dot(pinch, pull)) * pull
-                pinch = pinch / max(float(np.linalg.norm(pinch)), 1e-9)
-                if pinch[2] < 0:
-                    pinch = -pinch
-        else:
-            half_width = knob_radius + pad_radius + 0.0035
-            centerline = center + approach * min(0.032, max(0.026, 1.20 * knob_radius))
-            contact = np.stack(
-                [centerline + pinch * half_width, centerline - pinch * half_width],
-                axis=0,
+        prior_contact_valid = bool(prior_contact.shape == (2, 3))
+        # The historical pad span can be too wide after the solid-front
+        # transplant: it produced a positive ~1.5 cm visible surface gap even
+        # before pulling. Preserve the gold handle frame, but place the two
+        # visible pad targets on the sphere contact shell so exact contact and
+        # rendered latch authority describe the same geometry.
+        contact_shell = max(knob_radius + pad_radius - 0.0010, knob_radius + 0.004)
+        normal_offset_target = min(0.020, max(0.014, 0.68 * contact_shell))
+        normal_offset_target = min(normal_offset_target, contact_shell * 0.86)
+        half_width = math.sqrt(
+            max(
+                (contact_shell * contact_shell)
+                - (normal_offset_target * normal_offset_target),
+                (0.48 * knob_radius) * (0.48 * knob_radius),
             )
+        )
+        centerline = center + approach * normal_offset_target
+        contact = np.stack(
+            [centerline + pinch * half_width, centerline - pinch * half_width],
+            axis=0,
+        )
         normal_offset = float(np.dot(centerline - center, approach))
-        pregrasp = contact + approach[None, :] * 0.070
-        guarded = contact + approach[None, :] * 0.035
+        pregrasp = contact + approach[None, :] * 0.060
+        guarded = contact + approach[None, :] * 0.030
         hold = contact.copy()
         before = {
             k: scale.ready(tpf.get(k))
@@ -1346,6 +1349,9 @@ def install_gold_runtime(gold_variant: dict[str, Any]) -> None:
             "binding_change_only": True,
             "controller_algorithm_modified": False,
             "before": before,
+            "prior_contact_valid": prior_contact_valid,
+            "contact_shell_m": float(contact_shell),
+            "normal_offset_target_m": float(normal_offset_target),
             "after": {
                 k: scale.ready(tpf.get(k))
                 for k in [

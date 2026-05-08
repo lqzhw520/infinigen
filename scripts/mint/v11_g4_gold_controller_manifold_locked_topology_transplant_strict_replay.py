@@ -872,12 +872,42 @@ def install_gold_runtime(gold_variant: dict[str, Any]) -> None:
         schedules = [
             ("gold_pc02_anchor_exact", {"pull_press_m": 0.0}),
             (
+                "gold_pc02_binary_high_track_zero_press",
+                {
+                    "finger_mode": "binary_close",
+                    "pull_press_m": 0.0,
+                    "pull_steps": 7200,
+                    "pull_velocity_m_per_step": 0.000085,
+                    "lead_cap_m": 0.034,
+                    "op_gain": 28.0,
+                    "op_vel_limit": 0.220,
+                    "q_vel_limit": 5.0,
+                    "servo_kp": 520.0,
+                    "servo_kd": 150.0,
+                },
+            ),
+            (
                 "gold_pc02_binary_close_zero_press",
                 {
                     "finger_mode": "binary_close",
                     "pull_press_m": 0.0,
                     "pull_steps": 6400,
                     "pull_velocity_m_per_step": 0.000075,
+                },
+            ),
+            (
+                "gold_pc02_ik_hold_high_track_micro_press",
+                {
+                    "finger_mode": "ik_hold",
+                    "pull_press_m": 0.0005,
+                    "pull_steps": 7600,
+                    "pull_velocity_m_per_step": 0.000070,
+                    "lead_cap_m": 0.034,
+                    "op_gain": 28.0,
+                    "op_vel_limit": 0.220,
+                    "q_vel_limit": 5.0,
+                    "servo_kp": 520.0,
+                    "servo_kd": 150.0,
                 },
             ),
             (

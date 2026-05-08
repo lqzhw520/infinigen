@@ -924,12 +924,7 @@ def install_gold_runtime(gold_variant: dict[str, Any]) -> None:
                 np.asarray(hold_targets, dtype=float) - base_center[None, :]
             )
             target_norm = variant.get("visible_latch_reseat_offset_norm_m")
-            if variant.get("visible_latch_reseat_use_pinch_offsets"):
-                pinch = np.asarray(hf.get("pinch_axis", [0.0, 1.0, 0.0]), dtype=float)
-                pinch = pinch / max(float(np.linalg.norm(pinch)), 1e-9)
-                norm = float(target_norm) if target_norm is not None else 0.038
-                desired_offsets = np.stack([-pinch * norm, pinch * norm], axis=0)
-            elif target_norm is not None:
+            if target_norm is not None:
                 norms = np.linalg.norm(desired_offsets, axis=1)
                 desired_offsets = np.stack(
                     [
@@ -1225,7 +1220,6 @@ def install_gold_runtime(gold_variant: dict[str, Any]) -> None:
                     "visible_latch_reseat_after_fraction": 0.16,
                     "visible_latch_reseat_finger_targets": [0.015, -0.015],
                     "visible_latch_reseat_offset_norm_m": 0.038,
-                    "visible_latch_reseat_use_pinch_offsets": True,
                     "finger_mode": "binary_close",
                     "pull_press_m": 0.0005,
                     "pull_steps": 12000,
@@ -1247,7 +1241,6 @@ def install_gold_runtime(gold_variant: dict[str, Any]) -> None:
                     "visible_latch_reseat_after_fraction": 0.16,
                     "visible_latch_reseat_finger_targets": [0.015, -0.015],
                     "visible_latch_reseat_offset_norm_m": 0.038,
-                    "visible_latch_reseat_use_pinch_offsets": True,
                     "finger_mode": "binary_close",
                     "pull_press_m": 0.0005,
                     "pull_steps": 12000,
@@ -1286,7 +1279,6 @@ def install_gold_runtime(gold_variant: dict[str, Any]) -> None:
                     "visible_latch_reseat_after_fraction": 0.16,
                     "visible_latch_reseat_finger_targets": [0.015, -0.015],
                     "visible_latch_reseat_offset_norm_m": 0.038,
-                    "visible_latch_reseat_use_pinch_offsets": True,
                     "finger_mode": "binary_close",
                     "pull_press_m": 0.0005,
                     "pull_steps": 18000,
@@ -1308,7 +1300,6 @@ def install_gold_runtime(gold_variant: dict[str, Any]) -> None:
                     "visible_latch_reseat_after_fraction": 0.16,
                     "visible_latch_reseat_finger_targets": [0.015, -0.015],
                     "visible_latch_reseat_offset_norm_m": 0.038,
-                    "visible_latch_reseat_use_pinch_offsets": True,
                     "finger_mode": "binary_close",
                     "pull_press_m": 0.0005,
                     "pull_steps": 18000,
@@ -1330,7 +1321,6 @@ def install_gold_runtime(gold_variant: dict[str, Any]) -> None:
                     "visible_latch_reseat_after_fraction": 0.16,
                     "visible_latch_reseat_finger_targets": [0.015, -0.015],
                     "visible_latch_reseat_offset_norm_m": 0.038,
-                    "visible_latch_reseat_use_pinch_offsets": True,
                     "finger_mode": "binary_close",
                     "pull_press_m": 0.0005,
                     "pull_steps": 18000,
@@ -1352,7 +1342,6 @@ def install_gold_runtime(gold_variant: dict[str, Any]) -> None:
                     "visible_latch_reseat_after_fraction": 0.16,
                     "visible_latch_reseat_finger_targets": [0.015, -0.015],
                     "visible_latch_reseat_offset_norm_m": 0.038,
-                    "visible_latch_reseat_use_pinch_offsets": True,
                     "finger_mode": "binary_close",
                     "pull_press_m": 0.0005,
                     "pull_steps": 22000,
@@ -1374,7 +1363,6 @@ def install_gold_runtime(gold_variant: dict[str, Any]) -> None:
                     "visible_latch_reseat_after_fraction": 0.16,
                     "visible_latch_reseat_finger_targets": [0.015, -0.015],
                     "visible_latch_reseat_offset_norm_m": 0.038,
-                    "visible_latch_reseat_use_pinch_offsets": True,
                     "finger_mode": "binary_close",
                     "pull_press_m": 0.0005,
                     "pull_steps": 22000,

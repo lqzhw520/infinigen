@@ -1014,9 +1014,191 @@ def install_gold_runtime(gold_variant: dict[str, Any]) -> None:
                 },
             ),
         ]
+        # Deterministic pair focus: accepted candidates are evaluated as
+        # sample % len(accepted). Earlier runs showed c011/c023/c002/c005 can
+        # preserve topology and exact contact, but the useful high-track variants
+        # were not paired with them inside the short fast run. Pin those variant
+        # slots to the corresponding candidate slots before falling back to the
+        # round-robin schedule. This changes migration parameters only; it does
+        # not alter topology, the controller state machine, target authority, or
+        # success thresholds.
+        targeted_by_sample_index = {
+            2: (
+                "gold_pc02_c002_binary_visible_high_track",
+                {
+                    "finger_mode": "binary_close",
+                    "pull_press_m": 0.0005,
+                    "pull_steps": 12000,
+                    "pull_velocity_m_per_step": 0.000045,
+                    "lead_cap_m": 0.010,
+                    "op_gain": 34.0,
+                    "op_vel_limit": 0.180,
+                    "q_vel_limit": 6.0,
+                    "servo_kp": 620.0,
+                    "servo_kd": 190.0,
+                    "null_gain": 0.0,
+                    "pre_pull_latch_hold_steps": 260,
+                },
+            ),
+            5: (
+                "gold_pc02_c005_ik_hold_visible_high_track",
+                {
+                    "finger_mode": "ik_hold",
+                    "pull_press_m": 0.0005,
+                    "pull_steps": 14000,
+                    "pull_velocity_m_per_step": 0.000040,
+                    "lead_cap_m": 0.008,
+                    "op_gain": 36.0,
+                    "op_vel_limit": 0.190,
+                    "q_vel_limit": 6.5,
+                    "servo_kp": 660.0,
+                    "servo_kd": 210.0,
+                    "null_gain": 0.0,
+                    "pre_pull_latch_hold_steps": 320,
+                },
+            ),
+            11: (
+                "gold_pc02_c011_binary_visible_high_track",
+                {
+                    "finger_mode": "binary_close",
+                    "pull_press_m": 0.0005,
+                    "pull_steps": 12000,
+                    "pull_velocity_m_per_step": 0.000045,
+                    "lead_cap_m": 0.010,
+                    "op_gain": 36.0,
+                    "op_vel_limit": 0.190,
+                    "q_vel_limit": 6.5,
+                    "servo_kp": 660.0,
+                    "servo_kd": 210.0,
+                    "null_gain": 0.0,
+                    "pre_pull_latch_hold_steps": 320,
+                },
+            ),
+            23: (
+                "gold_pc02_c023_binary_visible_high_track",
+                {
+                    "finger_mode": "binary_close",
+                    "pull_press_m": 0.0005,
+                    "pull_steps": 12000,
+                    "pull_velocity_m_per_step": 0.000045,
+                    "lead_cap_m": 0.010,
+                    "op_gain": 36.0,
+                    "op_vel_limit": 0.190,
+                    "q_vel_limit": 6.5,
+                    "servo_kp": 660.0,
+                    "servo_kd": 210.0,
+                    "null_gain": 0.0,
+                    "pre_pull_latch_hold_steps": 320,
+                },
+            ),
+            26: (
+                "gold_pc02_c002_slow_visible_latch",
+                {
+                    "finger_mode": "semi_close",
+                    "pull_press_m": 0.0010,
+                    "pull_steps": 18000,
+                    "pull_velocity_m_per_step": 0.000032,
+                    "lead_cap_m": 0.006,
+                    "op_gain": 34.0,
+                    "op_vel_limit": 0.170,
+                    "q_vel_limit": 6.0,
+                    "servo_kp": 620.0,
+                    "servo_kd": 200.0,
+                    "null_gain": 0.0,
+                    "pre_pull_latch_hold_steps": 380,
+                },
+            ),
+            29: (
+                "gold_pc02_c005_binary_slow_visible_latch",
+                {
+                    "finger_mode": "binary_close",
+                    "pull_press_m": 0.0005,
+                    "pull_steps": 18000,
+                    "pull_velocity_m_per_step": 0.000032,
+                    "lead_cap_m": 0.006,
+                    "op_gain": 34.0,
+                    "op_vel_limit": 0.170,
+                    "q_vel_limit": 6.0,
+                    "servo_kp": 620.0,
+                    "servo_kd": 200.0,
+                    "null_gain": 0.0,
+                    "pre_pull_latch_hold_steps": 380,
+                },
+            ),
+            35: (
+                "gold_pc02_c011_ik_hold_slow_visible_latch",
+                {
+                    "finger_mode": "ik_hold",
+                    "pull_press_m": 0.0005,
+                    "pull_steps": 18000,
+                    "pull_velocity_m_per_step": 0.000032,
+                    "lead_cap_m": 0.006,
+                    "op_gain": 38.0,
+                    "op_vel_limit": 0.200,
+                    "q_vel_limit": 7.0,
+                    "servo_kp": 700.0,
+                    "servo_kd": 230.0,
+                    "null_gain": 0.0,
+                    "pre_pull_latch_hold_steps": 420,
+                },
+            ),
+            47: (
+                "gold_pc02_c023_ik_hold_slow_visible_latch",
+                {
+                    "finger_mode": "ik_hold",
+                    "pull_press_m": 0.0005,
+                    "pull_steps": 18000,
+                    "pull_velocity_m_per_step": 0.000032,
+                    "lead_cap_m": 0.006,
+                    "op_gain": 38.0,
+                    "op_vel_limit": 0.200,
+                    "q_vel_limit": 7.0,
+                    "servo_kp": 700.0,
+                    "servo_kd": 230.0,
+                    "null_gain": 0.0,
+                    "pre_pull_latch_hold_steps": 420,
+                },
+            ),
+            59: (
+                "gold_pc02_c011_binary_ultra_track_low_lead",
+                {
+                    "finger_mode": "binary_close",
+                    "pull_press_m": 0.0005,
+                    "pull_steps": 22000,
+                    "pull_velocity_m_per_step": 0.000026,
+                    "lead_cap_m": 0.004,
+                    "op_gain": 42.0,
+                    "op_vel_limit": 0.220,
+                    "q_vel_limit": 8.0,
+                    "servo_kp": 760.0,
+                    "servo_kd": 250.0,
+                    "null_gain": 0.0,
+                    "pre_pull_latch_hold_steps": 500,
+                },
+            ),
+            71: (
+                "gold_pc02_c023_binary_ultra_track_low_lead",
+                {
+                    "finger_mode": "binary_close",
+                    "pull_press_m": 0.0005,
+                    "pull_steps": 22000,
+                    "pull_velocity_m_per_step": 0.000026,
+                    "lead_cap_m": 0.004,
+                    "op_gain": 42.0,
+                    "op_vel_limit": 0.220,
+                    "q_vel_limit": 8.0,
+                    "servo_kp": 760.0,
+                    "servo_kd": 250.0,
+                    "null_gain": 0.0,
+                    "pre_pull_latch_hold_steps": 500,
+                },
+            ),
+        }
         idx = 0
         while len(variants) < max_samples:
-            name, overrides = schedules[idx % len(schedules)]
+            name, overrides = targeted_by_sample_index.get(
+                idx, schedules[idx % len(schedules)]
+            )
             v = {
                 k: deepcopy(val)
                 for k, val in base.items()

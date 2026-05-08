@@ -1177,8 +1177,7 @@ def install_gold_runtime(gold_variant: dict[str, Any]) -> None:
             11: (
                 "gold_pc02_c011_binary_visible_high_track",
                 {
-                    "use_actual_latch_offsets": True,
-                    "finger_mode": "binary_close",
+                    "finger_mode": "ik_hold",
                     "pull_press_m": 0.0005,
                     "pull_steps": 12000,
                     "pull_velocity_m_per_step": 0.000045,
@@ -1195,8 +1194,7 @@ def install_gold_runtime(gold_variant: dict[str, Any]) -> None:
             23: (
                 "gold_pc02_c023_binary_visible_high_track",
                 {
-                    "use_actual_latch_offsets": True,
-                    "finger_mode": "binary_close",
+                    "finger_mode": "ik_hold",
                     "pull_press_m": 0.0005,
                     "pull_steps": 12000,
                     "pull_velocity_m_per_step": 0.000045,
@@ -1230,8 +1228,7 @@ def install_gold_runtime(gold_variant: dict[str, Any]) -> None:
             29: (
                 "gold_pc02_c005_binary_slow_visible_latch",
                 {
-                    "use_actual_latch_offsets": True,
-                    "finger_mode": "binary_close",
+                    "finger_mode": "ik_hold",
                     "pull_press_m": 0.0005,
                     "pull_steps": 18000,
                     "pull_velocity_m_per_step": 0.000032,
@@ -1248,9 +1245,7 @@ def install_gold_runtime(gold_variant: dict[str, Any]) -> None:
             35: (
                 "gold_pc02_c011_ik_hold_slow_visible_latch",
                 {
-                    "use_actual_latch_offsets": True,
-                    "finger_mode": "custom_aperture",
-                    "finger_target_command": [0.012, -0.012],
+                    "finger_mode": "ik_hold",
                     "pull_press_m": 0.0005,
                     "pull_steps": 18000,
                     "pull_velocity_m_per_step": 0.000032,
@@ -1267,9 +1262,7 @@ def install_gold_runtime(gold_variant: dict[str, Any]) -> None:
             47: (
                 "gold_pc02_c023_ik_hold_slow_visible_latch",
                 {
-                    "use_actual_latch_offsets": True,
-                    "finger_mode": "custom_aperture",
-                    "finger_target_command": [0.012, -0.012],
+                    "finger_mode": "ik_hold",
                     "pull_press_m": 0.0005,
                     "pull_steps": 18000,
                     "pull_velocity_m_per_step": 0.000032,
@@ -1286,9 +1279,7 @@ def install_gold_runtime(gold_variant: dict[str, Any]) -> None:
             59: (
                 "gold_pc02_c011_binary_ultra_track_low_lead",
                 {
-                    "use_actual_latch_offsets": True,
-                    "finger_mode": "custom_aperture",
-                    "finger_target_command": [0.008, -0.008],
+                    "finger_mode": "ik_hold",
                     "pull_press_m": 0.0005,
                     "pull_steps": 22000,
                     "pull_velocity_m_per_step": 0.000026,
@@ -1305,9 +1296,7 @@ def install_gold_runtime(gold_variant: dict[str, Any]) -> None:
             71: (
                 "gold_pc02_c023_binary_ultra_track_low_lead",
                 {
-                    "use_actual_latch_offsets": True,
-                    "finger_mode": "custom_aperture",
-                    "finger_target_command": [0.008, -0.008],
+                    "finger_mode": "ik_hold",
                     "pull_press_m": 0.0005,
                     "pull_steps": 22000,
                     "pull_velocity_m_per_step": 0.000026,

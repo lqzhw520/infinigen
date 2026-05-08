@@ -1,5 +1,5 @@
 {
-  "generated_at_utc": "2026-05-08T03:12:07Z",
+  "generated_at_utc": "2026-05-08T03:35:24Z",
   "harness_status": "production_ready",
   "checks": {
     "task_spec_binding": {
@@ -84,7 +84,7 @@
       "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_closeout.py": "00876f159f540a8c00f4f86df560fa77788535c2",
       "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml": "a9b30267254f281224a0285466bce873c0e698e2",
       "experiments/mint/mint_drawer_v1/autopilot/v11_hard_goal_contract.json": "13b699b3e23a99929c591ec08ae7c859172988e5",
-      "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json": "95151183478a45054317308865d31adfccdf576c",
+      "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json": "f8a45badd55aeee0b5e6fbf94c9d281047aaf694",
       "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_gold_controller_manifold_locked_topology_transplant_strict_replay_v2.yaml": "5350ca0e6a7e707a248e1f970126fcee4a980833"
     },
     "hash_integrity": {
@@ -94,8 +94,8 @@
     "origin": {
       "remote_url": "git@github.com:lqzhw520/infinigen.git",
       "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
-      "local_head": "758cd4d256cab9549625bd35a72572c3e14505c4",
-      "origin_head": "758cd4d256cab9549625bd35a72572c3e14505c4",
+      "local_head": "68927ca2e2b6e9f42f36e8b4d49ba85dba9e5046",
+      "origin_head": "68927ca2e2b6e9f42f36e8b4d49ba85dba9e5046",
       "git_ls_remote_ok": true,
       "origin_has_our_commit": true,
       "origin_is_descendant_of_local": true,
@@ -160,8 +160,8 @@
         "exists_on_origin": true
       },
       "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json": {
-        "expected_blob": "95151183478a45054317308865d31adfccdf576c",
-        "origin_blob": "95151183478a45054317308865d31adfccdf576c",
+        "expected_blob": "f8a45badd55aeee0b5e6fbf94c9d281047aaf694",
+        "origin_blob": "f8a45badd55aeee0b5e6fbf94c9d281047aaf694",
         "matches": true,
         "exists_on_origin": true
       },
@@ -276,11 +276,11 @@
     "lock_id": "CAMPAIGN_NATIVE_HARNESS_PRODUCTION_LOCK_V3",
     "version": "3.0.0",
     "generated_by": "validate_harness_production_lock.py",
-    "generated_at_utc": "2026-05-08T03:12:07Z",
+    "generated_at_utc": "2026-05-08T03:35:24Z",
     "harness_status": "production_ready",
     "campaign_root": "/mnt/afs2/zhuhaowu/infinigen/experiments/mint/mint_drawer_v1",
     "branch": "feature/mint-env-reformulation-v1-visual-fidelity",
-    "local_head": "758cd4d256cab9549625bd35a72572c3e14505c4",
+    "local_head": "68927ca2e2b6e9f42f36e8b4d49ba85dba9e5046",
     "remote": "git@github.com:lqzhw520/infinigen.git",
     "lock_inputs": {
       "task_spec": "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_gold_controller_manifold_locked_topology_transplant_strict_replay_v2.yaml",
@@ -311,7 +311,7 @@
       "experiments/mint/mint_drawer_v1/scripts/harness/validators/validate_closeout.py": "00876f159f540a8c00f4f86df560fa77788535c2",
       "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_phase1h_contact_test.yaml": "a9b30267254f281224a0285466bce873c0e698e2",
       "experiments/mint/mint_drawer_v1/autopilot/v11_hard_goal_contract.json": "13b699b3e23a99929c591ec08ae7c859172988e5",
-      "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json": "95151183478a45054317308865d31adfccdf576c",
+      "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_lock.json": "f8a45badd55aeee0b5e6fbf94c9d281047aaf694",
       "experiments/mint/mint_drawer_v1/sovereign/experiment_specs/v11_g4_gold_controller_manifold_locked_topology_transplant_strict_replay_v2.yaml": "5350ca0e6a7e707a248e1f970126fcee4a980833"
     },
     "validator_hashes": {
@@ -444,9 +444,9 @@
     "post_push_attestation": {
       "required": true,
       "path": "experiments/mint/mint_drawer_v1/autopilot/agent_execution_harness_attestation.json",
-      "blob": "f5ab1d643e0ce999f968a4c525a4e387b1503c1c",
+      "blob": "3e3f681e0bcdd1c188e6233c9a1e1e68ba72b3ab",
       "origin_verified": true,
-      "origin_head": "0ff1086b0ab9fbd40d35058a8cd831556313aaa9",
+      "origin_head": "a4c6523074986ed2e2baa29fd494f1882565cdc2",
       "required_file_blobs_verified": true,
       "regressions_verified_after_publication": true
     }

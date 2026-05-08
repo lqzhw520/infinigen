@@ -913,6 +913,32 @@ def install_gold_runtime(gold_variant: dict[str, Any]) -> None:
         pull = pull / max(float(np.linalg.norm(pull)), 1e-9)
         approach = np.asarray(hf.get("approach_normal", [-1.0, 0.0, 0.0]), dtype=float)
         approach = approach / max(float(np.linalg.norm(approach)), 1e-9)
+        tpf = candidate.get("two_pad_frame") or {}
+        desired_offsets = None
+        hold_targets = tpf.get("hold_targets") or tpf.get("contact_targets")
+        if hold_targets is not None:
+            base_center = np.asarray(
+                hf.get("handle_center", handle_center0), dtype=float
+            )
+            desired_offsets = (
+                np.asarray(hold_targets, dtype=float) - base_center[None, :]
+            )
+            target_norm = variant.get("visible_latch_reseat_offset_norm_m")
+            if target_norm is not None:
+                norms = np.linalg.norm(desired_offsets, axis=1)
+                desired_offsets = np.stack(
+                    [
+                        desired_offsets[i]
+                        / max(float(norms[i]), 1e-9)
+                        * float(target_norm)
+                        for i in range(min(2, desired_offsets.shape[0]))
+                    ],
+                    axis=0,
+                )
+        reseat_fraction = variant.get("visible_latch_reseat_after_fraction")
+        reseat_finger_targets = variant.get("visible_latch_reseat_finger_targets")
+        if reseat_finger_targets is not None:
+            reseat_finger_targets = np.asarray(reseat_finger_targets, dtype=float)
         total_steps = int(variant["pull_steps"]) + int(
             variant.get("post_pull_hold_steps", 0)
         )
@@ -933,10 +959,22 @@ def install_gold_runtime(gold_variant: dict[str, Any]) -> None:
             handle_center = np.mean(
                 env.data.geom_xpos[handle_ids].astype(float), axis=0
             )
+            _, current_fraction = bp.drawer_qpos_and_fraction(env)
+            reseat_active = bool(
+                reseat_fraction is not None
+                and desired_offsets is not None
+                and float(current_fraction) >= float(reseat_fraction)
+            )
+            offsets = desired_offsets if reseat_active else latch_offsets
+            active_finger_targets = (
+                reseat_finger_targets
+                if reseat_active and reseat_finger_targets is not None
+                else finger_targets
+            )
             targets = np.stack(
                 [
                     handle_center
-                    + latch_offsets[i]
+                    + offsets[i]
                     + pull * float(pull_offset)
                     - approach * float(variant["pull_press_m"]) * press_scale
                     for i in range(2)
@@ -947,7 +985,7 @@ def install_gold_runtime(gold_variant: dict[str, Any]) -> None:
                 env, candidate, targets, q_ref, config
             )
             drawer_motor_abs = bp.cp.apply_velocity_servo(
-                env, robot_vel, finger_targets, config
+                env, robot_vel, active_finger_targets, config
             )
             report = bp.contact_report(env, binding, prev_centers)
             mode = (
@@ -960,7 +998,7 @@ def install_gold_runtime(gold_variant: dict[str, Any]) -> None:
                 binding,
                 report,
                 mode,
-                finger_targets,
+                active_finger_targets,
                 q_ref,
                 drawer_motor_abs,
                 raw_pull_offset,
@@ -971,6 +1009,7 @@ def install_gold_runtime(gold_variant: dict[str, Any]) -> None:
             rec["lead_cap_m"] = float(lead_cap) if lead_cap is not None else None
             rec["effective_pull_lead_m"] = float(pull_offset)
             rec["actual_latch_offset_pull_target"] = True
+            rec["visible_latch_reseat_active"] = bool(reseat_active)
             records.append(rec)
             bp.append_jsonl(trace_path, bp.compact_trace_record(rec))
             prev_centers = report["centers"]
@@ -1178,7 +1217,10 @@ def install_gold_runtime(gold_variant: dict[str, Any]) -> None:
                 "gold_pc02_c011_binary_visible_high_track",
                 {
                     "use_actual_latch_offsets": True,
-                    "finger_mode": "semi_close",
+                    "visible_latch_reseat_after_fraction": 0.16,
+                    "visible_latch_reseat_finger_targets": [0.015, -0.015],
+                    "visible_latch_reseat_offset_norm_m": 0.038,
+                    "finger_mode": "binary_close",
                     "pull_press_m": 0.0005,
                     "pull_steps": 12000,
                     "pull_velocity_m_per_step": 0.000045,
@@ -1196,7 +1238,10 @@ def install_gold_runtime(gold_variant: dict[str, Any]) -> None:
                 "gold_pc02_c023_binary_visible_high_track",
                 {
                     "use_actual_latch_offsets": True,
-                    "finger_mode": "semi_close",
+                    "visible_latch_reseat_after_fraction": 0.16,
+                    "visible_latch_reseat_finger_targets": [0.015, -0.015],
+                    "visible_latch_reseat_offset_norm_m": 0.038,
+                    "finger_mode": "binary_close",
                     "pull_press_m": 0.0005,
                     "pull_steps": 12000,
                     "pull_velocity_m_per_step": 0.000045,
@@ -1231,7 +1276,10 @@ def install_gold_runtime(gold_variant: dict[str, Any]) -> None:
                 "gold_pc02_c005_binary_slow_visible_latch",
                 {
                     "use_actual_latch_offsets": True,
-                    "finger_mode": "semi_close",
+                    "visible_latch_reseat_after_fraction": 0.16,
+                    "visible_latch_reseat_finger_targets": [0.015, -0.015],
+                    "visible_latch_reseat_offset_norm_m": 0.038,
+                    "finger_mode": "binary_close",
                     "pull_press_m": 0.0005,
                     "pull_steps": 18000,
                     "pull_velocity_m_per_step": 0.000032,
@@ -1249,7 +1297,10 @@ def install_gold_runtime(gold_variant: dict[str, Any]) -> None:
                 "gold_pc02_c011_ik_hold_slow_visible_latch",
                 {
                     "use_actual_latch_offsets": True,
-                    "finger_mode": "semi_close",
+                    "visible_latch_reseat_after_fraction": 0.16,
+                    "visible_latch_reseat_finger_targets": [0.015, -0.015],
+                    "visible_latch_reseat_offset_norm_m": 0.038,
+                    "finger_mode": "binary_close",
                     "pull_press_m": 0.0005,
                     "pull_steps": 18000,
                     "pull_velocity_m_per_step": 0.000032,
@@ -1267,7 +1318,10 @@ def install_gold_runtime(gold_variant: dict[str, Any]) -> None:
                 "gold_pc02_c023_ik_hold_slow_visible_latch",
                 {
                     "use_actual_latch_offsets": True,
-                    "finger_mode": "semi_close",
+                    "visible_latch_reseat_after_fraction": 0.16,
+                    "visible_latch_reseat_finger_targets": [0.015, -0.015],
+                    "visible_latch_reseat_offset_norm_m": 0.038,
+                    "finger_mode": "binary_close",
                     "pull_press_m": 0.0005,
                     "pull_steps": 18000,
                     "pull_velocity_m_per_step": 0.000032,
@@ -1285,7 +1339,10 @@ def install_gold_runtime(gold_variant: dict[str, Any]) -> None:
                 "gold_pc02_c011_binary_ultra_track_low_lead",
                 {
                     "use_actual_latch_offsets": True,
-                    "finger_mode": "semi_close",
+                    "visible_latch_reseat_after_fraction": 0.16,
+                    "visible_latch_reseat_finger_targets": [0.015, -0.015],
+                    "visible_latch_reseat_offset_norm_m": 0.038,
+                    "finger_mode": "binary_close",
                     "pull_press_m": 0.0005,
                     "pull_steps": 22000,
                     "pull_velocity_m_per_step": 0.000026,
@@ -1303,7 +1360,10 @@ def install_gold_runtime(gold_variant: dict[str, Any]) -> None:
                 "gold_pc02_c023_binary_ultra_track_low_lead",
                 {
                     "use_actual_latch_offsets": True,
-                    "finger_mode": "semi_close",
+                    "visible_latch_reseat_after_fraction": 0.16,
+                    "visible_latch_reseat_finger_targets": [0.015, -0.015],
+                    "visible_latch_reseat_offset_norm_m": 0.038,
+                    "finger_mode": "binary_close",
                     "pull_press_m": 0.0005,
                     "pull_steps": 22000,
                     "pull_velocity_m_per_step": 0.000026,

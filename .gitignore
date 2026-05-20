@@ -117,3 +117,11 @@ experiments/mint/mint_drawer_v1/autopilot/resets/
 scripts/mint/vendor/**/._*
 docs/paper/2602.08602v1.pdf
 external/LIBERO/
+
+# === C057 experiment data (large, untracked) ===
+experiments/mint/mint_drawer_v1/c057_overfit_smoke/
+experiments/mint/mint_drawer_v1/c057_overfit_smoke/**
+
+# === Agent session state ===
+.project-memory/
+.session/

@@ -333,6 +333,15 @@ def run() -> bool:
         f"--batch_size={batch_size}",
         "--policy.device=cuda",
     ]
+    a2_sidecar_path = plan.get("a2_sidecar_path")
+    if a2_sidecar_path:
+        cmd.extend(
+            [
+                "--use_a2_sidecar_weights=true",
+                f"--a2_sidecar_path={a2_sidecar_path}",
+                "--a2_fail_closed=true",
+            ]
+        )
 
     start = time.time()
     env = os.environ.copy()
